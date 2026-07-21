@@ -2,7 +2,7 @@ export function mdToHtml(md) {
   if (md.startsWith('<!') || md.startsWith('<html')) {
     return '<p style="color:var(--color-error)">Failed to load lesson content. The file may not be available yet.</p>'
   }
-  let html = md
+  let html = md.replace(/\r\n/g, '\n')
 
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>')
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>')
