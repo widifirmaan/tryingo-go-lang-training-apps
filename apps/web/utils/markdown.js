@@ -10,12 +10,12 @@ export function mdToHtml(md) {
 
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>')
-  html = html.replace(/`(.+?)`/g, '<code>$1</code>')
-
   html = html.replace(/^```(\w*)\n([\s\S]*?)^```$/gm, (_, lang, code) => {
     const langClass = lang ? ` class="language-${lang}"` : ''
     return `<pre><code${langClass}>${escapeHtml(code.trim())}</code></pre>`
   })
+
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
 
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
 
