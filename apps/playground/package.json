@@ -1,0 +1,14 @@
+{
+  "name": "tryngo-playground-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tryngo Playground Code Execution Worker",
+  "scripts": {
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
+    "tail": "npx wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

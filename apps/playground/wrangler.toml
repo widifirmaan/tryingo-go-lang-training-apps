@@ -1,0 +1,7 @@
+name = "tryngo-playground"
+main = "src/index.js"
+compatibility_date = "2026-07-21"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+routes = [{ pattern = "playground.tryngo.workers.dev/*", zone_id = "" }]

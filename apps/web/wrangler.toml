@@ -1,0 +1,7 @@
+name = "tryngo-web"
+pages_output_dir = "."
+compatibility_date = "2026-07-21"
+compatibility_flags = ["nodejs_compat"]
+
+[pages]
+route = "tryngo.pages.dev/*"

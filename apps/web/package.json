@@ -1,0 +1,14 @@
+{
+  "name": "tryngo-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tryngo - Interactive Programming Learning Platform",
+  "scripts": {
+    "dev": "npx wrangler pages dev . --bindings",
+    "deploy": "npx wrangler pages deploy . --project-name=tryngo-web",
+    "preview": "npx wrangler pages dev . --local"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
