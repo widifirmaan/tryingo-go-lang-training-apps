@@ -91,7 +91,7 @@ export function mdToHtml(md) {
     .replace(/<p><h(\d)/g, '<h$1')
     .replace(/<\/h(\d)><\/p>/g, '</h$1>')
     .replace(/<p><(ul|ol|li|pre|blockquote|table|hr)/g, '<$1')
-    .replace(<\/(ul|ol|li|pre|blockquote|table)><\/p>/g, '</$1>')
+    .replace(/<\/(ul|ol|li|pre|blockquote|table)><\/p>/g, '</$1>')
     .replace(/<p><\/p>/g, '')
     .replace(/<\/pre><\/p>/g, '</pre>')
     .replace(/<pre><code/g, '<pre><code')
