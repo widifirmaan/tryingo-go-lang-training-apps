@@ -1,4 +1,5 @@
 import { mdToHtml } from '/utils/markdown.js'
+import { curriculum } from '/data/curriculum.js'
 
 const lessonCache = new Map()
 
@@ -8,31 +9,56 @@ export async function getLessonContent(language, moduleId, lessonId) {
     return lessonCache.get(cacheKey)
   }
 
-  const level = getLevelFromModuleId(language, moduleId)
-  if (!level) {
-    return getDefaultContent(lessonId)
+  const moduleInfo = findModule(language, moduleId)
+  if (!moduleInfo) {
+    const fallback = getDefaultContent(lessonId)
+    lessonCache.set(cacheKey, fallback)
+    return fallback
   }
 
-  const paths = [
-    `/materials/${language}/${level}/${moduleId}/${lessonId}.md`,
-    `/materials/${language}/${level}/${moduleId}/${lessonId.replace(/-/g, '-')}.md`
-  ]
+  const dirName = moduleIdToDir(moduleId, moduleInfo.title)
+  const path = `/materials/${language}/${moduleInfo.level}/${dirName}/${lessonId}.md`
 
-  for (const path of paths) {
-    try {
-      const res = await fetch(path)
-      if (res.ok) {
-        const md = await res.text()
-        const html = mdToHtml(md)
+  try {
+    const res = await fetch(path)
+    if (res.ok) {
+      const text = await res.text()
+      if (!text.startsWith('<!')) {
+        const html = mdToHtml(text)
         lessonCache.set(cacheKey, html)
         return html
       }
-    } catch {}
-  }
+    }
+  } catch {}
 
   const fallback = getDefaultContent(lessonId)
   lessonCache.set(cacheKey, fallback)
   return fallback
+}
+
+function findModule(language, moduleId) {
+  const lang = curriculum[language]
+  if (!lang) return null
+
+  for (const level of lang.levels) {
+    for (const mod of level.modules) {
+      if (mod.id === moduleId) {
+        return { ...mod, level: level.id }
+      }
+    }
+  }
+  return null
+}
+
+function moduleIdToDir(moduleId, title) {
+  const slug = title
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+  return `${moduleId}-${slug}`
 }
 
 function getLevelFromModuleId(language, moduleId) {
@@ -60,8 +86,4 @@ function getDefaultContent(lessonId) {
   <p><strong>Tip:</strong> Open the Playground to practice what you've learned so far!</p>
   <a href="/playground/go" class="try-it-button">Open Playground</a>
 </div>`
-}
-
-function makeUrlSafe(str) {
-  return str.replace(/[^a-zA-Z0-9\-_]/g, '').toLowerCase()
 }
