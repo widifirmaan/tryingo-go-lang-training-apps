@@ -29,7 +29,7 @@ export class Router {
   }
 
   async resolve(path) {
-    const pathname = path.replace(/^#\/?/, '').replace(/\/$/, '')
+    const pathname = path.replace(/^\//, '').replace(/\/$/, '')
     const main = document.getElementById('main-content')
     if (!main) return
 
@@ -57,5 +57,10 @@ export class Router {
       if (this.onChange) this.onChange('/')
       await this.fallback()
     }
+  }
+
+  navigate(path) {
+    history.pushState(null, '', path)
+    this.resolve(path)
   }
 }

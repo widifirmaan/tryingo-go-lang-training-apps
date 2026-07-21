@@ -16,9 +16,9 @@ function renderHero() {
           master the fundamentals, and build real-world projects at your own pace.
         </p>
         <div class="hero-actions">
-          <a href="#/learn/golang" class="btn btn-primary">Start Learning Go</a>
-          <a href="#/learn/html" class="btn btn-secondary">Learn HTML5</a>
-          <a href="#/playground/go" class="btn btn-secondary">Try Playground</a>
+          <a href="/learn/golang" class="btn btn-primary">Start Learning Go</a>
+          <a href="/learn/html" class="btn btn-secondary">Learn HTML5</a>
+          <a href="/playground/go" class="btn btn-secondary">Try Playground</a>
         </div>
       </div>
     </section>`
@@ -68,7 +68,7 @@ function renderCard(lang) {
     : `<span>${lang.modules} modules</span><span>${lang.lessons} lessons</span>`
 
   return `
-    <a href="${lang.comingSoon ? '#' : `#/learn/${lang.id}`}" class="language-card" data-level="${lang.level}" style="${lang.comingSoon ? 'opacity:0.6;cursor:default;' : ''}">
+    <a href="${lang.comingSoon ? '#' : `/learn/${lang.id}`}" class="language-card" data-level="${lang.level}" style="${lang.comingSoon ? 'opacity:0.6;cursor:default;' : ''}">
       <div class="language-card-icon">${lang.icon}</div>
       <h3 class="language-card-name">${lang.name}</h3>
       <p class="language-card-desc">${lang.description}</p>

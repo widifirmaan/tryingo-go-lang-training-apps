@@ -11,7 +11,7 @@ function renderSidebar(langData, currentModule, currentLesson) {
       <div class="sidebar-list">
         ${level.modules.map(mod => {
           const isActive = mod.id === currentModule
-          const modulePath = `#/learn/${lang === 'Go (Golang)' ? 'golang' : 'html'}/${mod.id}`
+          const modulePath = `/learn/${lang === 'Go (Golang)' ? 'golang' : 'html'}/${mod.id}`
           return `
             <a href="${modulePath}" class="sidebar-item ${isActive ? 'active' : ''}">
               <span>${mod.title}</span>
@@ -35,7 +35,7 @@ function renderModuleContent(langSlug, level, mod) {
   return `
     <div class="lesson-header">
       <div class="lesson-breadcrumb">
-        <a href="#/learn/${langSlug}">${level.name}</a>
+        <a href="/learn/${langSlug}">${level.name}</a>
         <span>›</span>
         <span>${mod.title}</span>
       </div>
@@ -51,7 +51,7 @@ function renderModuleContent(langSlug, level, mod) {
         ${mod.lessons.map((lesson, idx) => `
           <li style="margin-bottom:var(--spacing-sm);padding:var(--spacing-md);background:var(--color-bg-alt);border-radius:var(--radius-md);border:1px solid var(--color-border-light);display:flex;align-items:center;gap:var(--spacing-md)">
             <span style="width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;background:var(--color-primary);color:white;border-radius:50%;font-size:var(--font-size-sm);font-weight:600;flex-shrink:0">${idx + 1}</span>
-            <a href="#/learn/${langSlug}/${mod.id}/${lesson.id}" style="flex:1;font-weight:500;text-decoration:none;color:var(--color-text)">
+            <a href="/learn/${langSlug}/${mod.id}/${lesson.id}" style="flex:1;font-weight:500;text-decoration:none;color:var(--color-text)">
               ${lesson.title}
             </a>
             <span style="font-size:var(--font-size-sm);color:var(--color-text-muted)">&#x2192;</span>
@@ -61,7 +61,7 @@ function renderModuleContent(langSlug, level, mod) {
       <div style="margin-top:var(--spacing-xl);padding:var(--spacing-lg);background:var(--color-primary-light);border-radius:var(--radius-lg);border:1px solid var(--color-primary)">
         <h3 style="margin-top:0">Try It Now</h3>
         <p>Open the playground to practice what you've learned:</p>
-        <a href="#/playground/${langSlug === 'golang' ? 'go' : 'html'}" class="try-it-button">
+        <a href="/playground/${langSlug === 'golang' ? 'go' : 'html'}" class="try-it-button">
           Open Playground
         </a>
       </div>
@@ -78,7 +78,7 @@ export default async function learnPage(params) {
   const langInfo = languages.find(l => l.id === langSlug)
 
   if (!langData) {
-    main.innerHTML = `<div class="error-state"><h2>Language not found</h2><p>We don't have materials for "${langSlug}" yet.</p><a href="#/" class="btn btn-primary">Go Home</a></div>`
+    main.innerHTML = `<div class="error-state"><h2>Language not found</h2><p>We don't have materials for "${langSlug}" yet.</p><a href="/" class="btn btn-primary">Go Home</a></div>`
     return
   }
 

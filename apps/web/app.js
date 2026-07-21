@@ -22,38 +22,44 @@ function initNavbar() {
   })
 
   document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
       links.classList.remove('open')
       toggle.setAttribute('aria-expanded', 'false')
       document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'))
       link.classList.add('active')
+      router.navigate(link.getAttribute('href'))
+      e.preventDefault()
     })
   })
 }
 
 function updateActiveNavLink(path) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'))
-  const segment = path.split('/')[0]
-  let selector = '[href="#/"]'
-  if (segment === 'learn') selector = `[href="#/learn/${path.split('/')[1] || 'golang'}"]`
-  else if (segment === 'playground') selector = '[href*="playground"]'
-  const activeLink = document.querySelector(`.nav-link${selector === '[href="#/"]' ? '' : ''}`)
-  const link = document.querySelector(selector) || document.querySelector('[href="#/"]')
+
+  const link = document.querySelector(`.nav-link[href="/${path}"]`)
+    || document.querySelector(`.nav-link[href^="/${path.split('/')[0]}"]`)
+    || document.querySelector('.nav-link[href="/"]')
   if (link) link.classList.add('active')
+}
+
+function handleNavigation(path) {
+  router.resolve(path)
+  updateActiveNavLink(path)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar()
+  handleNavigation(window.location.pathname)
+})
 
-  const main = document.getElementById('main-content')
+window.addEventListener('popstate', () => {
+  handleNavigation(window.location.pathname)
+})
 
-  router.onChange = (path) => {
-    updateActiveNavLink(path)
-  }
-
-  router.resolve(window.location.hash.slice(1) || '/')
-
-  window.addEventListener('hashchange', () => {
-    router.resolve(window.location.hash.slice(1) || '/')
-  })
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('a[href^="/"]')
+  if (!link || link.hasAttribute('target') || link.getAttribute('href').startsWith('//')) return
+  e.preventDefault()
+  const href = link.getAttribute('href')
+  router.navigate(href)
 })

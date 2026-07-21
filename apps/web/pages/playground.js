@@ -127,7 +127,7 @@ func main() {
     preview.style.display = 'none'
     htmlNotice.style.display = isHtml ? 'block' : 'none'
     goNotice.style.display = isHtml ? 'none' : 'block'
-    window.location.hash = `#/playground/${tabId}`
+    window.location.hash = `/playground/${tabId}`
   }
 
   tabsContainer.addEventListener('click', (e) => {

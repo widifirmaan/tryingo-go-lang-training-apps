@@ -58,7 +58,7 @@ function getDefaultContent(lessonId) {
 <p>If you're seeing this message, the markdown file may not be available yet.</p>
 <div style="background:var(--color-primary-light);padding:var(--spacing-md);border-radius:var(--radius-md);margin-top:var(--spacing-lg)">
   <p><strong>Tip:</strong> Open the Playground to practice what you've learned so far!</p>
-  <a href="#/playground/go" class="try-it-button">Open Playground</a>
+  <a href="/playground/go" class="try-it-button">Open Playground</a>
 </div>`
 }
 

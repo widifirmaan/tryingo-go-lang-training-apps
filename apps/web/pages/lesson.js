@@ -34,7 +34,7 @@ export default async function lessonPage(params) {
   }
 
   if (!foundLesson) {
-    main.innerHTML = `<div class="error-state"><h2>Lesson not found</h2><a href="#/learn/${language}" class="btn btn-primary">Back to Course</a></div>`
+    main.innerHTML = `<div class="error-state"><h2>Lesson not found</h2><a href="/learn/${language}" class="btn btn-primary">Back to Course</a></div>`
     return
   }
 
@@ -43,7 +43,7 @@ export default async function lessonPage(params) {
     renderExercises(language, moduleId, lessonId)
   ])
 
-  const playgroundLink = language === 'golang' ? '#/playground/go' : '#/playground/html'
+  const playgroundLink = language === 'golang' ? '/playground/go' : '/playground/html'
 
   const prevNextNav = getPrevNextNav(langData, moduleId, lessonId, language)
 
@@ -62,7 +62,7 @@ export default async function lessonPage(params) {
               <div class="sidebar-section-title">${level.name}</div>
               <div class="sidebar-list">
                 ${level.modules.map(mod => `
-                  <a href="#/learn/${language}/${mod.id}" class="sidebar-item ${mod.id === moduleId ? 'active' : ''}">
+                  <a href="/learn/${language}/${mod.id}" class="sidebar-item ${mod.id === moduleId ? 'active' : ''}">
                     <span>${mod.title}</span>
                     <span class="week-badge">${mod.lessons.length}</span>
                   </a>
@@ -78,9 +78,9 @@ export default async function lessonPage(params) {
         </button>
         <div class="lesson-header">
           <div class="lesson-breadcrumb">
-            <a href="#/learn/${language}">${foundLevel.name}</a>
+            <a href="/learn/${language}">${foundLevel.name}</a>
             <span>›</span>
-            <a href="#/learn/${language}/${moduleId}">${foundModule.title}</a>
+            <a href="/learn/${language}/${moduleId}">${foundModule.title}</a>
             <span>›</span>
             <span>${foundLesson.title}</span>
           </div>
@@ -156,14 +156,14 @@ function getPrevNextNav(langData, currentModuleId, currentLessonId, language) {
 
   return `
     <div style="display:flex;justify-content:space-between;margin-top:var(--spacing-2xl);gap:var(--spacing-md);flex-wrap:wrap">
-      ${prev ? `<a href="#/learn/${language}/${prev.moduleId}/${prev.id}" style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-md) var(--spacing-lg);background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);transition:all var(--transition-fast)">
+      ${prev ? `<a href="/learn/${language}/${prev.moduleId}/${prev.id}" style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-md) var(--spacing-lg);background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);transition:all var(--transition-fast)">
         <span style="font-size:var(--font-size-lg)">&#x2190;</span>
         <div>
           <div style="font-size:var(--font-size-xs);color:var(--color-text-muted)">Previous</div>
           <div style="font-size:var(--font-size-sm);font-weight:500">${prev.title}</div>
         </div>
       </a>` : '<div></div>'}
-      ${next ? `<a href="#/learn/${language}/${next.moduleId}/${next.id}" style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-md) var(--spacing-lg);background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);text-align:right;transition:all var(--transition-fast)">
+      ${next ? `<a href="/learn/${language}/${next.moduleId}/${next.id}" style="display:flex;align-items:center;gap:var(--spacing-sm);padding:var(--spacing-md) var(--spacing-lg);background:var(--color-bg);border:1px solid var(--color-border);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);text-align:right;transition:all var(--transition-fast)">
         <div>
           <div style="font-size:var(--font-size-xs);color:var(--color-text-muted)">Next</div>
           <div style="font-size:var(--font-size-sm);font-weight:500">${next.title}</div>
