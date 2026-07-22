@@ -279,6 +279,8 @@ export default async function landingPage() {
         width: 70px !important;
         height: 70px !important;
         font-size: 0.75rem !important;
+        flex-shrink: 0 !important;
+        align-self: center !important;
       }
     }
     @media (max-width: 768px) {
@@ -325,10 +327,8 @@ export default async function landingPage() {
         width: 60px !important;
         height: 60px !important;
         font-size: 0.7rem !important;
-        margin: 0 auto !important;
-      }
-      .flpcart-hero-center {
-        padding-bottom: 12px !important;
+        flex-shrink: 0 !important;
+        align-self: center !important;
       }
     }
     @media (max-width: 480px) {
