@@ -157,7 +157,7 @@ export default async function landingPage() {
     .flpcart-main-hero {
       background: linear-gradient(135deg, #00ADD8 0%, #0096b8 100%) !important;
       border-radius: 24px !important;
-      min-height: 480px !important;
+      min-height: 580px !important;
       box-shadow: 0 20px 45px rgba(0, 173, 216, 0.25) !important;
     }
     .flpcart-hero-center {
@@ -257,7 +257,7 @@ export default async function landingPage() {
         gap: 16px !important;
       }
       .flpcart-main-hero {
-        min-height: 380px !important;
+        min-height: 400px !important;
         padding: 20px !important;
       }
       .flpcart-sidebar {
@@ -266,7 +266,7 @@ export default async function landingPage() {
       }
       .flpcart-sidebar .flpcart-product-card {
         flex: 1;
-        min-height: 240px;
+        min-height: 180px;
       }
       .flpcart-hero-nav {
         flex-wrap: wrap;
@@ -292,7 +292,7 @@ export default async function landingPage() {
         gap: 12px !important;
       }
       .flpcart-main-hero {
-        min-height: 30vh !important;
+        min-height: 420px !important;
         padding: 16px !important;
         border-radius: 16px !important;
       }
@@ -309,7 +309,7 @@ export default async function landingPage() {
         flex-direction: column !important;
       }
       .flpcart-sidebar .flpcart-product-card {
-        min-height: 200px;
+        min-height: 180px;
       }
       .flpcart-sale-tag {
         font-size: 0.75rem !important;
@@ -341,7 +341,7 @@ export default async function landingPage() {
       }
       .flpcart-main-hero {
         padding: 12px !important;
-        min-height: 25vh !important;
+        min-height: 360px !important;
       }
       .flpcart-main-title {
         font-size: clamp(2rem, 12vw, 2.5rem) !important;
