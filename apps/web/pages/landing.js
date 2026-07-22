@@ -324,23 +324,25 @@ export default async function landingPage() {
       margin-top: 12px;
     }
 
-    /* Explore Panel */
-    .flpcart-explore-panel {
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .flpcart-grid.explore-open .flpcart-explore-panel {
-      display: flex;
-    }
-    .flpcart-grid.explore-open .flpcart-sidebar {
-      display: none !important;
-    }
-    .flpcart-grid.explore-open {
-      grid-template-columns: 1fr 1fr !important;
-    }
-    .flpcart-grid.explore-open .flpcart-main-hero {
-      min-height: 100% !important;
+    /* Explore Panel (Desktop only) */
+    @media (min-width: 1121px) {
+      .flpcart-explore-panel {
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .flpcart-grid.explore-open .flpcart-explore-panel {
+        display: flex;
+      }
+      .flpcart-grid.explore-open .flpcart-sidebar {
+        display: none !important;
+      }
+      .flpcart-grid.explore-open {
+        grid-template-columns: 1fr 1fr !important;
+      }
+      .flpcart-grid.explore-open .flpcart-main-hero {
+        min-height: 100% !important;
+      }
     }
     .explore-header {
       padding: 8px 0 12px;
@@ -552,9 +554,10 @@ export default async function landingPage() {
 
   if (exploreBtn && explorePanel && grid) {
     exploreBtn.addEventListener('click', () => {
+      if (window.innerWidth <= 1120) return
       exploreOpen = !exploreOpen
       grid.classList.toggle('explore-open', exploreOpen)
-      exploreBtn.textContent = exploreOpen ? '\u2715' : translate('landing.explore')
+      exploreBtn.textContent = exploreOpen ? '\u2715' : 'GO \u2192'
     })
   }
 
