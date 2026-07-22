@@ -1,4 +1,4 @@
-import { translate, applyTranslations } from '/utils/i18n.js'
+import { translate, applyTranslations, setLang, getLang } from '/utils/i18n.js'
 
 export default async function landingPage() {
   const main = document.getElementById('main-content')
@@ -13,7 +13,12 @@ export default async function landingPage() {
         <!-- MAIN HERO -->
         <div class="flpcart-main-hero">
           <div class="flpcart-hero-nav">
-            <div class="flpcart-nav-left"></div>
+            <div class="flpcart-nav-left">
+              <div class="flpcart-lang-switcher">
+                <button type="button" class="flpcart-lang-btn landing-lang-btn" data-lang="en">EN</button>
+                <button type="button" class="flpcart-lang-btn landing-lang-btn" data-lang="id">ID</button>
+              </div>
+            </div>
             <div class="flpcart-nav-center">
               <a href="/learn/golang" class="flpcart-pill-btn" data-i18n="landing.startLearning">📖 Start Learning</a>
               <a href="/playground/go" class="flpcart-pill-btn" data-i18n="landing.playground">🎮 Playground</a>
@@ -190,8 +195,41 @@ export default async function landingPage() {
       height: auto;
       flex: 1;
     }
-    .flpcart-nav-left {
-      width: 0;
+    .flpcart-lang-switcher {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50px;
+      padding: 3px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .flpcart-lang-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.7);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .flpcart-lang-btn.active {
+      background: #ffffff;
+      color: #0096b8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .flpcart-lang-btn:hover:not(.active) {
+      color: rgba(255,255,255,0.95);
     }
     @media (max-width: 1120px) {
       .flpcart-fullscreen .flpcart-grid {
@@ -206,6 +244,16 @@ export default async function landingPage() {
   document.head.appendChild(style)
 
   applyTranslations(main)
+
+  const currentLang = getLang()
+  main.querySelectorAll('.landing-lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === currentLang)
+    btn.addEventListener('click', () => {
+      setLang(btn.dataset.lang)
+      main.querySelectorAll('.landing-lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === btn.dataset.lang))
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === btn.dataset.lang))
+    })
+  })
 
   main.querySelectorAll('.tryngo-like-btn').forEach(btn => {
     btn.addEventListener('click', () => {
