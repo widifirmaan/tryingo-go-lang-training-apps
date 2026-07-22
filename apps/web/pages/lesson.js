@@ -50,7 +50,7 @@ export default async function lessonPage(params) {
   main.innerHTML = `
     <div class="dashboard">
       <aside class="dashboard-sidebar" id="dashboardSidebar">
-        <button class="sidebar-toggle-mobile" id="sidebarClose" style="display:none;margin-bottom:var(--spacing-md)">
+        <button class="sidebar-toggle-mobile" id="sidebarClose">
           &#x2715; Close Menu
         </button>
         <div class="sidebar-section">
@@ -119,12 +119,16 @@ export default async function lessonPage(params) {
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.add('open')
       overlay.classList.add('open')
+      toggleBtn.style.display = 'none'
+      if (closeBtn) closeBtn.style.display = 'flex'
       document.body.style.overflow = 'hidden'
     })
 
     const closeSidebar = () => {
       sidebar.classList.remove('open')
       overlay.classList.remove('open')
+      toggleBtn.style.display = ''
+      if (closeBtn) closeBtn.style.display = 'none'
       document.body.style.overflow = ''
     }
 
