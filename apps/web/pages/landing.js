@@ -94,12 +94,23 @@ function renderLanguages() {
     </section>`
 }
 
+function scrollToHash() {
+  const hash = window.location.hash
+  if (!hash) return
+  const el = document.getElementById(hash.slice(1))
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
 export default async function landingPage() {
   const main = document.getElementById('main-content')
   main.innerHTML = `
     ${renderHero()}
     ${renderLanguages()}
     ${renderFeatures()}`
+
+  document.body.style.overflow = ''
+  scrollToHash()
+  window.addEventListener('hashchange', scrollToHash)
 
   const searchInput = document.getElementById('languageSearch')
   if (searchInput) {
