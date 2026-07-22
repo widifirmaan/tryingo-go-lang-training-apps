@@ -178,10 +178,6 @@ export default async function landingPage() {
       display: grid;
       grid-template-columns: 1fr 390px;
       gap: 24px;
-      transition: grid-template-columns 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .flpcart-fullscreen .flpcart-grid > * {
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .tryngo-card-go {
       background: linear-gradient(145deg, #e6f7fc 0%, #d0eff9 100%) !important;
@@ -331,24 +327,18 @@ export default async function landingPage() {
     /* Explore Panel (Desktop only) */
     @media (min-width: 1121px) {
       .flpcart-explore-panel {
-        display: flex;
+        display: none;
         flex-direction: column;
         overflow: hidden;
-        opacity: 0;
-        transform: translateX(30px);
-        pointer-events: none;
-        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       }
       .flpcart-grid.explore-open .flpcart-explore-panel {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
+        display: flex;
       }
       .flpcart-grid.explore-open .flpcart-sidebar {
         display: none !important;
       }
       .flpcart-grid.explore-open {
-        grid-template-columns: 1fr 3fr !important;
+        grid-template-columns: 1fr 1fr !important;
       }
       .flpcart-grid.explore-open .flpcart-main-hero {
         min-height: 100% !important;
