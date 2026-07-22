@@ -1,4 +1,5 @@
 import { Router } from '/utils/router.js'
+import { getLang, setLang, onLangChange, applyTranslations } from '/utils/i18n.js'
 
 const router = new Router()
 
@@ -33,6 +34,17 @@ function initNavbar() {
   })
 }
 
+function initLangSwitcher() {
+  const currentLang = getLang()
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === currentLang)
+    btn.addEventListener('click', () => {
+      setLang(btn.dataset.lang)
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === btn.dataset.lang))
+    })
+  })
+}
+
 function updateActiveNavLink(path) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'))
 
@@ -57,10 +69,27 @@ function handleNavigation(path) {
   cleanupPage()
   router.resolve(path)
   updateActiveNavLink(path)
+  applyTranslations(document)
 }
+
+function reapplyTranslations() {
+  const main = document.getElementById('main-content')
+  if (main) {
+    applyTranslations(main)
+    applyTranslations(document.getElementById('navbar'))
+    applyTranslations(document.getElementById('footer'))
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === getLang())
+  })
+}
+
+onLangChange(reapplyTranslations)
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar()
+  initLangSwitcher()
+  applyTranslations(document)
   handleNavigation(window.location.pathname)
 })
 

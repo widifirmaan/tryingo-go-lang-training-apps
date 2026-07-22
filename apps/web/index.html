@@ -24,14 +24,17 @@
           <span class="brand-icon">&#x1F680;</span>
           <span class="brand-text">Tryngo</span>
         </a>
-        <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <button class="navbar-toggle" id="navbarToggle" data-i18n-aria="nav.toggleMenu" aria-label="Toggle navigation menu" aria-expanded="false">
           <span class="hamburger"></span>
         </button>
         <ul class="navbar-links" id="navbarLinks" role="menubar">
-          <li role="none"><a href="/" role="menuitem" class="nav-link active">Home</a></li>
-          <li role="none"><a href="/learn/golang" role="menuitem" class="nav-link">Learn Go</a></li>
-
-          <li role="none"><a href="/playground/go" role="menuitem" class="nav-link">Playground</a></li>
+          <li role="none"><a href="/" role="menuitem" class="nav-link active" data-i18n="nav.home">Home</a></li>
+          <li role="none"><a href="/learn/golang" role="menuitem" class="nav-link" data-i18n="nav.learnGo">Learn Go</a></li>
+          <li role="none"><a href="/playground/go" role="menuitem" class="nav-link" data-i18n="nav.playground">Playground</a></li>
+          <li role="none" class="nav-lang-switcher">
+            <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
+            <button type="button" class="lang-btn" data-lang="id" aria-label="Bahasa Indonesia">ID</button>
+          </li>
         </ul>
       </div>
     </nav>
@@ -42,36 +45,36 @@
         <div class="footer-brand">
           <span class="brand-icon">&#x1F680;</span>
           <span class="brand-text">Tryngo</span>
-          <p class="footer-tagline">Interactive programming education platform</p>
+          <p class="footer-tagline" data-i18n="footer.tagline">Interactive programming education platform</p>
         </div>
         <div class="footer-links">
           <div class="footer-column">
-            <h4>Languages</h4>
+            <h4 data-i18n="footer.languages">Languages</h4>
             <ul>
-              <li><a href="/learn/golang">Go (Golang)</a></li>
-              <li><a href="/learn/html">HTML5</a></li>
-              <li><a href="/">More coming soon</a></li>
+              <li><a href="/learn/golang" data-i18n="footer.go">Go (Golang)</a></li>
+              <li><a href="/learn/html" data-i18n="footer.html">HTML5</a></li>
+              <li><a href="/" data-i18n="footer.more">More coming soon</a></li>
             </ul>
           </div>
           <div class="footer-column">
-            <h4>Resources</h4>
+            <h4 data-i18n="footer.resources">Resources</h4>
             <ul>
-              <li><a href="/playground/go">Code Playground</a></li>
-              <li><a href="https://go.dev/doc/" target="_blank" rel="noopener">Go Docs</a></li>
-              <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener">MDN Web Docs</a></li>
+              <li><a href="/playground/go" data-i18n="footer.codePlayground">Code Playground</a></li>
+              <li><a href="https://go.dev/doc/" target="_blank" rel="noopener" data-i18n="footer.goDocs">Go Docs</a></li>
+              <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener" data-i18n="footer.mdnDocs">MDN Web Docs</a></li>
             </ul>
           </div>
           <div class="footer-column">
-            <h4>Company</h4>
+            <h4 data-i18n="footer.company">Company</h4>
             <ul>
-              <li><a href="/">About</a></li>
-              <li><a href="/">GitHub</a></li>
-              <li><a href="/">Contact</a></li>
+              <li><a href="/" data-i18n="footer.about">About</a></li>
+              <li><a href="/" data-i18n="footer.github">GitHub</a></li>
+              <li><a href="/" data-i18n="footer.contact">Contact</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 Tryngo. Built with &#x2764; for developers worldwide.</p>
+          <p data-i18n="footer.copyright">&copy; 2026 Tryngo. Built with &#x2764; for developers worldwide.</p>
         </div>
       </div>
     </footer>
