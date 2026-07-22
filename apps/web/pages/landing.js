@@ -178,7 +178,7 @@ export default async function landingPage() {
     }
     .flpcart-sidebar .flpcart-product-card {
       flex: 1;
-      min-height: 0;
+      min-height: 200px;
     }
     .flpcart-sidebar .flpcart-card-body {
       height: auto;
