@@ -42,7 +42,19 @@ function updateActiveNavLink(path) {
   if (link) link.classList.add('active')
 }
 
+function cleanupPage() {
+  document.body.classList.remove('landing-active')
+  document.body.style.overflow = ''
+  const footer = document.getElementById('footer')
+  if (footer) footer.style.display = ''
+  const navbar = document.getElementById('navbar')
+  if (navbar) navbar.style.display = ''
+  const style = document.getElementById('tryngo-landing-style')
+  if (style) style.remove()
+}
+
 function handleNavigation(path) {
+  cleanupPage()
   router.resolve(path)
   updateActiveNavLink(path)
 }

@@ -1,184 +1,208 @@
-import { languages } from '/data/languages.js'
-
-function renderStars() {
-  return Array.from({ length: 8 }, (_, i) =>
-    `<div class="ghibli-star" style="animation-delay:${i * 0.4}s"></div>`
-  ).join('')
-}
-
-function renderClouds() {
-  return `
-    <div class="ghibli-cloud ghibli-cloud-1"></div>
-    <div class="ghibli-cloud ghibli-cloud-2"></div>
-    <div class="ghibli-cloud ghibli-cloud-3"></div>`
-}
-
-function renderSparkles() {
-  const emojis = ['✨', '🌟', '⭐', '💫', '🌸']
-  return emojis.map((e, i) =>
-    `<span class="ghibli-sparkle" style="animation-delay:${i * 0.5}s">${e}</span>`
-  ).join('')
-}
-
-function renderTrees() {
-  return `
-    <div class="ghibli-tree ghibli-tree-1">
-      <div class="ghibli-tree-top"></div>
-      <div class="ghibli-tree-trunk"></div>
-    </div>
-    <div class="ghibli-tree ghibli-tree-2">
-      <div class="ghibli-tree-top"></div>
-      <div class="ghibli-tree-trunk"></div>
-    </div>`
-}
-
-function renderTotoro() {
-  return `
-    <div class="ghibli-totoro">
-      <div class="ghibli-totoro-ear-left"></div>
-      <div class="ghibli-totoro-ear-right"></div>
-      <div class="ghibli-totoro-leaf"></div>
-      <div class="ghibli-totoro-body">
-        <div class="ghibli-totoro-belly"></div>
-        <div class="ghibli-totoro-eye-left"></div>
-        <div class="ghibli-totoro-eye-right"></div>
-        <div class="ghibli-totoro-nose"></div>
-        <div class="ghibli-totoro-whisker-left"></div>
-        <div class="ghibli-totoro-whisker-right"></div>
-      </div>
-      <div class="ghibli-totoro-arm-left"></div>
-      <div class="ghibli-totoro-arm-right"></div>
-    </div>`
-}
-
-function renderHero() {
-  return `
-    <section class="ghibli-hero">
-      <div class="ghibli-stars">${renderStars()}</div>
-      ${renderClouds()}
-      ${renderSparkles()}
-      <div class="ghibli-hills"></div>
-      ${renderTrees()}
-      ${renderTotoro()}
-      <div class="ghibli-content">
-        <div class="ghibli-badge">&#x1F680; Interactive Learning Platform</div>
-        <h1 class="ghibli-title">
-          Learn to Code<br/>
-          <span class="highlight">From Zero to Professional</span>
-        </h1>
-        <p class="ghibli-subtitle">
-          Interactive coding tutorials with built-in playground. Start with Go and HTML5,
-          master the fundamentals, and build real-world projects at your own pace.
-        </p>
-        <div class="ghibli-actions">
-          <a href="#languages" class="btn-ghibli-primary">Start Learning</a>
-          <a href="/playground/go" class="btn-ghibli-secondary">Try Playground</a>
-        </div>
-      </div>
-    </section>`
-}
-
-function renderCard(lang) {
-  const badge = lang.comingSoon
-    ? '<span class="ghibli-card-badge coming-soon">Coming Soon</span>'
-    : `<span class="ghibli-card-badge">${lang.modules} modules · ${lang.lessons} lessons</span>`
-
-  return `
-    <a href="${lang.comingSoon ? '#' : `/learn/${lang.id}`}" class="ghibli-card" ${lang.comingSoon ? 'style="opacity:0.7;cursor:default;"' : ''}>
-      <span class="ghibli-card-icon">${lang.icon}</span>
-      <h3 class="ghibli-card-name">${lang.name}</h3>
-      <p class="ghibli-card-desc">${lang.description}</p>
-      ${badge}
-    </a>`
-}
-
-function renderLanguages() {
-  return `
-    <section class="ghibli-languages" id="languages">
-      <div class="ghibli-section-header">
-        <div class="ghibli-section-icon">&#x1F31F;</div>
-        <h2 class="ghibli-section-title">Choose Your Language</h2>
-        <p class="ghibli-section-subtitle">Start your programming journey with one of our available courses</p>
-        <div class="ghibli-search">
-          <span class="ghibli-search-icon">&#x1F50D;</span>
-          <input type="search" class="ghibli-search-input" id="languageSearch" placeholder="Search languages..." aria-label="Search languages" />
-        </div>
-      </div>
-      <div class="ghibli-cards" id="languageCards">
-        ${languages.map(renderCard).join('')}
-      </div>
-    </section>`
-}
-
-function renderFeatures() {
-  return `
-    <section class="ghibli-features">
-      <div class="ghibli-section-header">
-        <h2 class="ghibli-section-title">Why Learn With Us?</h2>
-        <p class="ghibli-section-subtitle">Everything you need to go from beginner to professional</p>
-      </div>
-      <div class="ghibli-features-grid">
-        <div class="ghibli-feature-card">
-          <div class="ghibli-feature-icon">&#x1F4DA;</div>
-          <h3 class="ghibli-feature-title">Structured Curriculum</h3>
-          <p class="ghibli-feature-desc">Bootcamp-quality content organized from beginner to professional. 52 weeks of Go, 24 weeks of HTML5.</p>
-        </div>
-        <div class="ghibli-feature-card">
-          <div class="ghibli-feature-icon">&#x1F3AD;</div>
-          <h3 class="ghibli-feature-title">Interactive Playground</h3>
-          <p class="ghibli-feature-desc">Write, run, and test code directly in your browser. No setup required.</p>
-        </div>
-        <div class="ghibli-feature-card">
-          <div class="ghibli-feature-icon">&#x1F4BB;</div>
-          <h3 class="ghibli-feature-title">Project-Based Learning</h3>
-          <p class="ghibli-feature-desc">Build real projects at every level. From CLI tools to microservices, portfolio to production.</p>
-        </div>
-        <div class="ghibli-feature-card">
-          <div class="ghibli-feature-icon">&#x1F30D;</div>
-          <h3 class="ghibli-feature-title">Multi-Language Support</h3>
-          <p class="ghibli-feature-desc">Start with Go and HTML5. Python, JavaScript, TypeScript, and Rust coming soon.</p>
-        </div>
-        <div class="ghibli-feature-card">
-          <div class="ghibli-feature-icon">&#x1F512;</div>
-          <h3 class="ghibli-feature-title">Progress Tracking</h3>
-          <p class="ghibli-feature-desc">Track your learning journey, bookmark lessons, and earn achievements. (Coming soon)</p>
-        </div>
-        <div class="ghibli-feature-card">
-          <div class="ghibli-feature-icon">&#x1F310;</div>
-          <h3 class="ghibli-feature-title">Fully Responsive</h3>
-          <p class="ghibli-feature-desc">Learn on any device — desktop, tablet, or mobile. Optimized for all screen sizes.</p>
-        </div>
-      </div>
-    </section>`
-}
-
-function scrollToHash() {
-  const hash = window.location.hash
-  if (!hash) return
-  const el = document.getElementById(hash.slice(1))
-  if (el) el.scrollIntoView({ behavior: 'smooth' })
-}
-
 export default async function landingPage() {
   const main = document.getElementById('main-content')
-  document.body.style.overflow = ''
+  const footer = document.getElementById('footer')
+  document.body.classList.add('landing-active')
+  document.body.style.overflow = 'hidden'
+  if (footer) footer.style.display = 'none'
+
   main.innerHTML = `
-    ${renderHero()}
-    ${renderLanguages()}
-    ${renderFeatures()}`
+    <div class="flpcart-page-wrapper">
+      <div class="flpcart-mac-frame">
+        <div class="flpcart-mac-bar">
+          <span class="flpcart-mac-title">tryngo.app</span>
+          <div class="flpcart-mac-controls">
+            <span class="flpcart-mac-code-btn">&#x1F680;</span>
+          </div>
+        </div>
+        <div class="flpcart-app-canvas">
+          <div class="flpcart-grid">
+            <!-- MAIN HERO -->
+            <div class="flpcart-main-hero">
+              <!-- Floating Nav -->
+              <div class="flpcart-hero-nav">
+                <div class="flpcart-grid-btn" aria-label="Menu">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="flpcart-nav-center">
+                  <a href="/learn/golang" class="flpcart-pill-btn">&#x1F4D6; Start Learning</a>
+                  <a href="/playground/go" class="flpcart-pill-btn">&#x1F3AE; Playground</a>
+                  <button type="button" class="flpcart-share-btn" aria-label="Search">&#x1F50D;</button>
+                </div>
+              </div>
 
-  scrollToHash()
-  window.addEventListener('hashchange', scrollToHash)
+              <!-- Dots decoration -->
+              <div class="flpcart-dots-top">
+                ${Array.from({ length: 18 }, () => '<div class="flpcart-dot"></div>').join('')}
+              </div>
 
-  const searchInput = document.getElementById('languageSearch')
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase()
-      document.querySelectorAll('.ghibli-card').forEach((card, index) => {
-        const name = languages[index].name.toLowerCase()
-        const desc = languages[index].description.toLowerCase()
-        card.style.display = name.includes(query) || desc.includes(query) ? 'flex' : 'none'
+              <!-- Center Headline -->
+              <div class="flpcart-hero-center">
+                <div class="flpcart-sale-tag">
+                  <span>&#x26A1;</span> Interactive Learning Platform
+                </div>
+                <div class="flpcart-main-title">Tryngo</div>
+                <div class="flpcart-hero-sub">From Zero to Professional &mdash; Interactive coding tutorials with built-in playground. Start with Go and HTML5.</div>
+              </div>
+
+              <!-- Inset card bottom right -->
+              <div class="flpcart-inset-card-wrapper">
+                <div class="flpcart-inset-card">
+                  <button type="button" class="flpcart-collection-pill">
+                    <span>&#x1F30D;</span> Explore Courses &rarr;
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT SIDEBAR -->
+            <div class="flpcart-sidebar">
+              <!-- Product Card 1: Go -->
+              <div class="flpcart-product-card tryngo-card-go">
+                <div class="flpcart-card-top">
+                  <div class="flpcart-icon-actions">
+                    <button type="button" class="flpcart-icon-btn tryngo-like-btn" aria-label="Like">&#x2661;</button>
+                    <button type="button" class="flpcart-icon-btn" aria-label="Share">&#x2197;</button>
+                  </div>
+                  <div class="flpcart-size-box">
+                    <span class="flpcart-size-label">LEVEL</span>
+                    <div class="flpcart-size-chips tryngo-level-chips">
+                      <button type="button" class="flpcart-size-chip active" data-level="beginner">B</button>
+                      <button type="button" class="flpcart-size-chip" data-level="intermediate">I</button>
+                      <button type="button" class="flpcart-size-chip" data-level="advanced">A</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flpcart-card-body">
+                  <div class="flpcart-card-character tryngo-go-character">
+                    <div class="tryngo-lang-icon">&#x1F40E;</div>
+                  </div>
+                  <div class="flpcart-card-info">
+                    <h3 style="font-size:1.2rem;font-weight:800;color:#2b1d19;">Go (Golang)</h3>
+                    <div class="flpcart-color-swatches">
+                      <span class="flpcart-swatch active" style="background:#00ADD8;"></span>
+                      <span class="flpcart-swatch" style="background:#00b894;"></span>
+                      <span class="flpcart-swatch" style="background:#6c5ce7;"></span>
+                    </div>
+                    <p class="flpcart-card-desc">52 weeks of Go from beginner to professional. Build CLI tools, APIs, microservices, and more.</p>
+                  </div>
+                </div>
+
+                <div class="flpcart-card-bottom">
+                  <a href="/learn/golang" class="flpcart-arrow-btn">&#x2192;</a>
+                  <div class="flpcart-stocks-badge">
+                    <span class="flpcart-stocks-number">52</span>
+                    <span class="flpcart-stocks-text">WEEKS</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Product Card 2: HTML5 -->
+              <div class="flpcart-product-card tryngo-card-html">
+                <div class="flpcart-card-top">
+                  <div class="flpcart-icon-actions">
+                    <button type="button" class="flpcart-icon-btn tryngo-like-btn" aria-label="Like">&#x2661;</button>
+                    <button type="button" class="flpcart-icon-btn" aria-label="Share">&#x2197;</button>
+                  </div>
+                  <div class="flpcart-size-box">
+                    <span class="flpcart-size-label">LEVEL</span>
+                    <div class="flpcart-size-chips tryngo-level-chips">
+                      <button type="button" class="flpcart-size-chip active" data-level="beginner">B</button>
+                      <button type="button" class="flpcart-size-chip" data-level="advanced">A</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flpcart-card-body">
+                  <div class="flpcart-card-character tryngo-html-character">
+                    <div class="tryngo-lang-icon" style="font-size:3rem;">&#x1F310;</div>
+                  </div>
+                  <div class="flpcart-card-info">
+                    <h3 style="font-size:1.2rem;font-weight:800;color:#2b1d19;">HTML5</h3>
+                    <div class="flpcart-color-swatches">
+                      <span class="flpcart-swatch active" style="background:#E44D26;"></span>
+                      <span class="flpcart-swatch" style="background:#fdcb6e;"></span>
+                    </div>
+                    <p class="flpcart-card-desc">24 weeks of HTML5 from basics to advanced. Master semantic markup, forms, multimedia, and APIs.</p>
+                  </div>
+                </div>
+
+                <div class="flpcart-card-bottom">
+                  <a href="/learn/html" class="flpcart-arrow-btn">&#x2192;</a>
+                  <div class="flpcart-stocks-badge">
+                    <span class="flpcart-stocks-number">24</span>
+                    <span class="flpcart-stocks-text">WEEKS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`
+
+  const style = document.createElement('style')
+  style.id = 'tryngo-landing-style'
+  style.textContent = `
+    .tryngo-card-go {
+      background: linear-gradient(145deg, #e6f7fc 0%, #d0eff9 100%) !important;
+    }
+    .tryngo-card-html {
+      background: linear-gradient(145deg, #fef3e7 0%, #fde8d8 100%) !important;
+    }
+    .tryngo-go-character, .tryngo-html-character {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tryngo-lang-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
+    }
+    .flpcart-main-hero {
+      background: linear-gradient(135deg, #00ADD8 0%, #0096b8 100%) !important;
+    }
+    .flpcart-inset-card-wrapper {
+      background: #ffffff;
+    }
+    .flpcart-inset-card {
+      background: linear-gradient(135deg, #e6f7fc 0%, #d0eff9 100%) !important;
+    }
+    .flpcart-hero-center {
+      padding-left: 0 !important;
+    }
+    .flpcart-card-character {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      left: 5px !important;
+      width: 100px !important;
+    }
+    .flpcart-card-info {
+      margin-left: 100px !important;
+    }
+    @media (max-width: 1120px) {
+      .flpcart-main-hero {
+        min-height: 380px;
+      }
+    }
+  `
+  document.head.appendChild(style)
+
+  main.querySelectorAll('.tryngo-like-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('liked')
+      btn.innerHTML = btn.classList.contains('liked') ? '&#x2764;' : '&#x2661;'
+    })
+  })
+
+  main.querySelectorAll('.tryngo-level-chips').forEach(container => {
+    container.querySelectorAll('.flpcart-size-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        container.querySelectorAll('.flpcart-size-chip').forEach(c => c.classList.remove('active'))
+        chip.classList.add('active')
       })
     })
-  }
+  })
 }
