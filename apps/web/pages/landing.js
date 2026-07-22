@@ -33,8 +33,14 @@ export default async function landingPage() {
             <div class="flpcart-sale-tag" data-i18n="landing.badge">&#x26A1; Interactive Learning Platform</div>
             <div class="flpcart-main-title" data-i18n="landing.title">Tryngo</div>
             <div class="flpcart-hero-sub" data-i18n="landing.subtitle">From Zero to Professional &mdash; Interactive coding tutorials with built-in playground. Start with Go and HTML5.</div>
+            <button type="button" class="flpcart-circle-btn-hero-mobile" data-i18n="landing.explore">GO &rarr;</button>
           </div>
-          <button type="button" class="flpcart-circle-btn-hero" data-i18n="landing.explore">GO &rarr;</button>
+
+          <div class="flpcart-inset-card-wrapper">
+            <div class="flpcart-inset-card">
+              <button type="button" class="flpcart-inset-circle-btn" data-i18n="landing.explore">GO &rarr;</button>
+            </div>
+          </div>
         </div>
 
         <!-- RIGHT SIDEBAR -->
@@ -136,7 +142,6 @@ export default async function landingPage() {
       display: grid;
       grid-template-columns: 1fr 390px;
       gap: 24px;
-      overflow: hidden;
     }
     .tryngo-card-go {
       background: linear-gradient(145deg, #e6f7fc 0%, #d0eff9 100%) !important;
@@ -220,15 +225,32 @@ export default async function landingPage() {
     .flpcart-lang-btn:hover:not(.active) {
       color: rgba(255,255,255,0.95);
     }
-    .flpcart-circle-btn-hero {
+    .flpcart-inset-card-wrapper {
       position: absolute;
-      right: 36px;
-      bottom: 40px;
+      right: 0;
+      bottom: 0;
+      width: 200px;
+      height: 160px;
+      background: #ffffff;
+      border-radius: 36px 0 0 0;
+      padding: 12px 0 0 12px;
+      z-index: 8;
+    }
+    .flpcart-inset-card {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #e6f7fc 0%, #d0eff9 100%) !important;
+      border-radius: 28px 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .flpcart-inset-circle-btn {
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #ffffff;
-      color: #0096b8;
+      background: #00ADD8;
+      color: #ffffff;
       border: none;
       font-size: 0.85rem;
       font-weight: 800;
@@ -238,13 +260,32 @@ export default async function landingPage() {
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 173, 216, 0.35);
+      letter-spacing: 0.5px;
+    }
+    .flpcart-inset-circle-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 30px rgba(0, 173, 216, 0.5);
+    }
+    .flpcart-circle-btn-hero-mobile {
+      display: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #0096b8;
+      border: none;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      align-items: center;
+      justify-content: center;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
       letter-spacing: 0.5px;
-      z-index: 10;
-    }
-    .flpcart-circle-btn-hero:hover {
-      transform: scale(1.1);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+      align-self: center;
+      margin-top: 12px;
     }
     @media (max-width: 1120px) {
       .flpcart-fullscreen {
@@ -275,12 +316,14 @@ export default async function landingPage() {
       .flpcart-dots-top {
         display: none !important;
       }
-      .flpcart-circle-btn-hero {
+      .flpcart-inset-card-wrapper {
+        width: 170px !important;
+        height: 130px !important;
+      }
+      .flpcart-inset-circle-btn {
         width: 70px !important;
         height: 70px !important;
         font-size: 0.75rem !important;
-        flex-shrink: 0 !important;
-        align-self: center !important;
       }
     }
     @media (max-width: 768px) {
@@ -322,13 +365,11 @@ export default async function landingPage() {
         padding: 0 12px !important;
         font-size: 0.8rem !important;
       }
-      .flpcart-circle-btn-hero {
-        position: static !important;
-        width: 60px !important;
-        height: 60px !important;
-        font-size: 0.7rem !important;
-        flex-shrink: 0 !important;
-        align-self: center !important;
+      .flpcart-inset-card-wrapper {
+        display: none !important;
+      }
+      .flpcart-circle-btn-hero-mobile {
+        display: flex !important;
       }
     }
     @media (max-width: 480px) {
