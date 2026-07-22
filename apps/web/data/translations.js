@@ -28,7 +28,7 @@ export const translations = {
     'landing.subtitle': 'From Zero to Professional \u2014 Interactive coding tutorials with built-in playground. Start with Go and HTML5.',
     'landing.startLearning': '\uD83D\uDCD6 Start Learning',
     'landing.playground': '\uD83C\uDFAE Playground',
-    'landing.explore': '🌍 Explore Courses →',
+    'landing.explore': 'GO →',
 
     // Landing Cards
     'landing.level': 'LEVEL',
@@ -135,7 +135,7 @@ export const translations = {
     'landing.subtitle': 'Dari Nol hingga Profesional \u2014 Tutorial coding interaktif dengan panggung kode bawaan. Mulai dengan Go dan HTML5.',
     'landing.startLearning': '\uD83D\uDCD6 Mulai Belajar',
     'landing.playground': '\uD83C\uDFAE Panggung',
-    'landing.explore': '🌍 Jelajahi Kursus →',
+    'landing.explore': 'MULAI →',
 
     // Landing Cards
     'landing.level': 'LEVEL',

@@ -37,7 +37,7 @@ export default async function landingPage() {
 
           <div class="flpcart-inset-card-wrapper">
             <div class="flpcart-inset-card">
-              <button type="button" class="flpcart-collection-pill" data-i18n="landing.explore">&#x1F30D; Explore Courses &rarr;</button>
+              <button type="button" class="flpcart-inset-circle-btn" data-i18n="landing.explore">GO &rarr;</button>
             </div>
           </div>
         </div>
@@ -230,6 +230,34 @@ export default async function landingPage() {
     }
     .flpcart-lang-btn:hover:not(.active) {
       color: rgba(255,255,255,0.95);
+    }
+    .flpcart-inset-circle-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #00ADD8;
+      color: #ffffff;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(0, 173, 216, 0.35);
+      margin: auto;
+      letter-spacing: 0.5px;
+    }
+    .flpcart-inset-circle-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 30px rgba(0, 173, 216, 0.5);
+    }
+    .flpcart-inset-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     @media (max-width: 1120px) {
       .flpcart-fullscreen .flpcart-grid {
