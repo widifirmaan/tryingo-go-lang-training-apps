@@ -260,12 +260,110 @@ export default async function landingPage() {
       justify-content: center;
     }
     @media (max-width: 1120px) {
+      .flpcart-fullscreen {
+        padding: 16px !important;
+        gap: 16px !important;
+      }
       .flpcart-fullscreen .flpcart-grid {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
+        gap: 16px !important;
       }
       .flpcart-main-hero {
-        min-height: 50vh !important;
+        min-height: 40vh !important;
+        padding: 20px !important;
+      }
+      .flpcart-sidebar {
+        flex-direction: row !important;
+        gap: 16px !important;
+      }
+      .flpcart-sidebar .flpcart-product-card {
+        flex: 1;
+        min-height: 240px;
+      }
+      .flpcart-hero-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .flpcart-dots-top {
+        display: none !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .flpcart-fullscreen {
+        padding: 12px !important;
+        gap: 12px !important;
+      }
+      .flpcart-fullscreen .flpcart-grid {
+        gap: 12px !important;
+      }
+      .flpcart-main-hero {
+        min-height: 30vh !important;
+        padding: 16px !important;
+        border-radius: 16px !important;
+      }
+      .flpcart-hero-center {
+        margin-top: 10px;
+      }
+      .flpcart-main-title {
+        font-size: clamp(2.5rem, 10vw, 4rem) !important;
+      }
+      .flpcart-hero-sub {
+        font-size: 0.75rem !important;
+      }
+      .flpcart-sidebar {
+        flex-direction: column !important;
+      }
+      .flpcart-sidebar .flpcart-product-card {
+        min-height: 200px;
+      }
+      .flpcart-sale-tag {
+        font-size: 0.75rem !important;
+      }
+      .flpcart-nav-center {
+        gap: 6px !important;
+      }
+      .flpcart-pill-btn {
+        height: 36px !important;
+        padding: 0 12px !important;
+        font-size: 0.8rem !important;
+      }
+      .flpcart-inset-circle-btn {
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 0.7rem !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .flpcart-fullscreen {
+        padding: 8px !important;
+        gap: 8px !important;
+      }
+      .flpcart-fullscreen .flpcart-grid {
+        gap: 8px !important;
+      }
+      .flpcart-main-hero {
+        padding: 12px !important;
+        min-height: 25vh !important;
+      }
+      .flpcart-main-title {
+        font-size: clamp(2rem, 12vw, 2.5rem) !important;
+      }
+      .flpcart-hero-nav {
+        justify-content: center !important;
+      }
+      .flpcart-pill-btn {
+        height: 30px !important;
+        padding: 0 8px !important;
+        font-size: 0.7rem !important;
+      }
+      .flpcart-lang-btn {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.6rem !important;
+      }
+      .flpcart-lang-switcher {
+        padding: 2px !important;
       }
     }
   `
