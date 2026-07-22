@@ -157,7 +157,7 @@ export default async function landingPage() {
     .flpcart-main-hero {
       background: linear-gradient(135deg, #00ADD8 0%, #0096b8 100%) !important;
       border-radius: 24px !important;
-      min-height: 0 !important;
+      min-height: 480px !important;
       box-shadow: 0 20px 45px rgba(0, 173, 216, 0.25) !important;
     }
     .flpcart-hero-center {
@@ -257,7 +257,7 @@ export default async function landingPage() {
         gap: 16px !important;
       }
       .flpcart-main-hero {
-        min-height: 40vh !important;
+        min-height: 380px !important;
         padding: 20px !important;
       }
       .flpcart-sidebar {
