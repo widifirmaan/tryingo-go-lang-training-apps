@@ -134,11 +134,15 @@ export default async function landingPage() {
       align-items: stretch;
       background: #ffffff;
     }
+    .flpcart-fullscreen {
+      padding: 24px;
+      gap: 24px;
+    }
     .flpcart-fullscreen .flpcart-grid {
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 390px;
-      gap: 0;
+      gap: 24px;
       overflow: hidden;
     }
     .tryngo-card-go {
@@ -159,7 +163,7 @@ export default async function landingPage() {
     }
     .flpcart-main-hero {
       background: linear-gradient(135deg, #00ADD8 0%, #0096b8 100%) !important;
-      border-radius: 0 !important;
+      border-radius: 24px !important;
     }
     .flpcart-inset-card-wrapper {
       background: #ffffff;
@@ -183,8 +187,8 @@ export default async function landingPage() {
     .flpcart-main-hero {
       min-height: 0 !important;
     }
-    .flpcart-main-hero {
-      box-shadow: none !important;
+    .flpcart-sidebar {
+      gap: 24px;
     }
     @media (max-width: 1120px) {
       .flpcart-fullscreen .flpcart-grid {
