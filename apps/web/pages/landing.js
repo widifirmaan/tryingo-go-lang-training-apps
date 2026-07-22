@@ -16,8 +16,7 @@ function renderHero() {
           master the fundamentals, and build real-world projects at your own pace.
         </p>
         <div class="hero-actions">
-          <a href="/learn/golang" class="btn btn-primary">Start Learning Go</a>
-          <a href="/learn/html" class="btn btn-secondary">Learn HTML5</a>
+          <a href="#languages" class="btn btn-primary">Start Learning</a>
           <a href="/playground/go" class="btn btn-secondary">Try Playground</a>
         </div>
       </div>
@@ -80,7 +79,7 @@ function renderCard(lang) {
 
 function renderLanguages() {
   return `
-    <section class="languages-section">
+    <section class="languages-section" id="languages">
       <div class="section-header">
         <h2 class="section-title">Choose Your Language</h2>
         <p class="section-subtitle">Start your programming journey with one of our available courses</p>
