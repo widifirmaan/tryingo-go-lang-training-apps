@@ -34,12 +34,7 @@ export default async function landingPage() {
             <div class="flpcart-main-title" data-i18n="landing.title">Tryngo</div>
             <div class="flpcart-hero-sub" data-i18n="landing.subtitle">From Zero to Professional &mdash; Interactive coding tutorials with built-in playground. Start with Go and HTML5.</div>
           </div>
-
-          <div class="flpcart-inset-card-wrapper">
-            <div class="flpcart-inset-card">
-              <button type="button" class="flpcart-inset-circle-btn" data-i18n="landing.explore">GO &rarr;</button>
-            </div>
-          </div>
+          <button type="button" class="flpcart-circle-btn-hero" data-i18n="landing.explore">GO &rarr;</button>
         </div>
 
         <!-- RIGHT SIDEBAR -->
@@ -165,12 +160,6 @@ export default async function landingPage() {
       min-height: 0 !important;
       box-shadow: 0 20px 45px rgba(0, 173, 216, 0.25) !important;
     }
-    .flpcart-inset-card-wrapper {
-      background: #ffffff;
-    }
-    .flpcart-inset-card {
-      background: linear-gradient(135deg, #e6f7fc 0%, #d0eff9 100%) !important;
-    }
     .flpcart-hero-center {
       padding-left: 0 !important;
     }
@@ -231,12 +220,15 @@ export default async function landingPage() {
     .flpcart-lang-btn:hover:not(.active) {
       color: rgba(255,255,255,0.95);
     }
-    .flpcart-inset-circle-btn {
+    .flpcart-circle-btn-hero {
+      position: absolute;
+      right: 36px;
+      bottom: 40px;
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #00ADD8;
-      color: #ffffff;
+      background: #ffffff;
+      color: #0096b8;
       border: none;
       font-size: 0.85rem;
       font-weight: 800;
@@ -246,18 +238,13 @@ export default async function landingPage() {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 20px rgba(0, 173, 216, 0.35);
-      margin: auto;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
       letter-spacing: 0.5px;
+      z-index: 10;
     }
-    .flpcart-inset-circle-btn:hover {
+    .flpcart-circle-btn-hero:hover {
       transform: scale(1.1);
-      box-shadow: 0 10px 30px rgba(0, 173, 216, 0.5);
-    }
-    .flpcart-inset-card {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     }
     @media (max-width: 1120px) {
       .flpcart-fullscreen {
@@ -287,6 +274,11 @@ export default async function landingPage() {
       }
       .flpcart-dots-top {
         display: none !important;
+      }
+      .flpcart-circle-btn-hero {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 0.75rem !important;
       }
     }
     @media (max-width: 768px) {
@@ -328,10 +320,15 @@ export default async function landingPage() {
         padding: 0 12px !important;
         font-size: 0.8rem !important;
       }
-      .flpcart-inset-circle-btn {
+      .flpcart-circle-btn-hero {
+        position: static !important;
         width: 60px !important;
         height: 60px !important;
         font-size: 0.7rem !important;
+        margin: 0 auto !important;
+      }
+      .flpcart-hero-center {
+        padding-bottom: 12px !important;
       }
     }
     @media (max-width: 480px) {
