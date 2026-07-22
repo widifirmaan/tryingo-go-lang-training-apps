@@ -11,9 +11,10 @@ export default async function landingPage() {
         <!-- MAIN HERO -->
         <div class="flpcart-main-hero">
           <div class="flpcart-hero-nav">
-            <div class="flpcart-grid-btn" aria-label="Menu">
-              <span></span><span></span><span></span><span></span>
-            </div>
+                <div class="flpcart-lang-switcher">
+                  <button type="button" class="flpcart-lang-btn active" data-lang="en">EN</button>
+                  <button type="button" class="flpcart-lang-btn" data-lang="id">ID</button>
+                </div>
             <div class="flpcart-nav-center">
               <a href="/learn/golang" class="flpcart-pill-btn">&#x1F4D6; Start Learning</a>
               <a href="/playground/go" class="flpcart-pill-btn">&#x1F3AE; Playground</a>
@@ -198,6 +199,37 @@ export default async function landingPage() {
       height: auto;
       flex: 1;
     }
+    .flpcart-lang-switcher {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50px;
+      padding: 3px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .flpcart-lang-btn {
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.7);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+    }
+    .flpcart-lang-btn.active {
+      background: #ffffff;
+      color: #0096b8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .flpcart-lang-btn:hover:not(.active) {
+      color: rgba(255,255,255,0.95);
+    }
     @media (max-width: 1120px) {
       .flpcart-fullscreen .flpcart-grid {
         grid-template-columns: 1fr;
@@ -209,6 +241,13 @@ export default async function landingPage() {
     }
   `
   document.head.appendChild(style)
+
+  main.querySelectorAll('.flpcart-lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.flpcart-lang-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+    })
+  })
 
   main.querySelectorAll('.tryngo-like-btn').forEach(btn => {
     btn.addEventListener('click', () => {
