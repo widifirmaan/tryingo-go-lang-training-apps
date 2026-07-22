@@ -30,7 +30,7 @@ export default async function landingPage() {
               <span>&#x26A1;</span> Interactive Learning Platform
             </div>
             <div class="flpcart-main-title">Tryngo</div>
-            <div class="flpcart-hero-sub">From Zero to Professional &mdash; Interactive coding tutorials with built-in playground. Start with Go and HTML5.</div>
+            <div class="flpcart-hero-sub">From Zero to Professional. Interactive coding tutorials with built-in playground.</div>
           </div>
 
           <div class="flpcart-inset-card-wrapper">
@@ -189,6 +189,14 @@ export default async function landingPage() {
     }
     .flpcart-sidebar {
       gap: 24px;
+    }
+    .flpcart-sidebar .flpcart-product-card {
+      flex: 1;
+      min-height: 0;
+    }
+    .flpcart-sidebar .flpcart-card-body {
+      height: auto;
+      flex: 1;
     }
     @media (max-width: 1120px) {
       .flpcart-fullscreen .flpcart-grid {
