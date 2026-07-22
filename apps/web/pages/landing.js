@@ -1,4 +1,29 @@
 import { translate, applyTranslations, setLang, getLang } from '/utils/i18n.js'
+import { languages } from '/data/languages.js'
+
+const frameworks = [
+  { name: 'React', icon: '\u269B\uFE0F', color: '#61DAFB', desc: 'UI library for web apps' },
+  { name: 'Vue', icon: '\ud83c\udf31', color: '#4FC08D', desc: 'Progressive JS framework' },
+  { name: 'Angular', icon: '\ud83d\udd25', color: '#DD0031', desc: 'Enterprise web framework' },
+  { name: 'Node.js', icon: '\ud83d\udcaa', color: '#339933', desc: 'JS runtime environment' },
+  { name: 'Docker', icon: '\ud83d\udc33', color: '#2496ED', desc: 'Container platform' },
+  { name: 'Kubernetes', icon: '\u2699\uFE0F', color: '#326CE5', desc: 'Container orchestration' },
+  { name: 'PostgreSQL', icon: '\ud83d\uddc4\uFE0F', color: '#4169E1', desc: 'Relational database' },
+  { name: 'Redis', icon: '\ud83d\udd25', color: '#DC382D', desc: 'In-memory data store' },
+]
+
+function renderExploreCard(item) {
+  const badge = item.comingSoon
+    ? '<span style="font-size:0.6rem;background:rgba(255,255,255,0.2);padding:2px 10px;border-radius:50px;">Soon</span>'
+    : ''
+  return `
+    <a href="${item.comingSoon ? '#' : `/learn/${item.id}`}" class="explore-card" style="--card-color:${item.color};${item.comingSoon ? 'opacity:0.6;cursor:default;' : ''}">
+      <span class="explore-card-icon">${item.icon}</span>
+      <span class="explore-card-name">${item.name}</span>
+      <span class="explore-card-desc">${item.desc || item.description}</span>
+      ${badge}
+    </a>`
+}
 
 export default async function landingPage() {
   const main = document.getElementById('main-content')
@@ -38,13 +63,24 @@ export default async function landingPage() {
 
           <div class="flpcart-inset-card-wrapper">
             <div class="flpcart-inset-card">
-              <button type="button" class="flpcart-inset-circle-btn" data-i18n="landing.explore">GO &rarr;</button>
+              <button type="button" class="flpcart-inset-circle-btn" id="exploreBtn" data-i18n="landing.explore">GO &rarr;</button>
             </div>
           </div>
         </div>
 
+        <div class="flpcart-explore-panel" id="explorePanel">
+          <div class="explore-header">
+            <h2 class="explore-title">Explore Languages &amp; Frameworks</h2>
+            <p class="explore-subtitle">Scroll horizontally to discover all available courses</p>
+          </div>
+          <div class="explore-scroll" id="exploreScroll">
+            ${languages.map(renderExploreCard).join('')}
+            ${frameworks.map(renderExploreCard).join('')}
+          </div>
+        </div>
+
         <!-- RIGHT SIDEBAR -->
-        <div class="flpcart-sidebar">
+        <div class="flpcart-sidebar" id="landingSidebar">
           <div class="flpcart-product-card tryngo-card-go">
             <div class="flpcart-card-top">
               <div class="flpcart-icon-actions">
@@ -287,6 +323,95 @@ export default async function landingPage() {
       align-self: center;
       margin-top: 12px;
     }
+
+    /* Explore Panel */
+    .flpcart-explore-panel {
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .flpcart-grid.explore-open .flpcart-explore-panel {
+      display: flex;
+    }
+    .flpcart-grid.explore-open .flpcart-sidebar {
+      display: none !important;
+    }
+    .flpcart-grid.explore-open {
+      grid-template-columns: 1fr 1fr !important;
+    }
+    .flpcart-grid.explore-open .flpcart-main-hero {
+      min-height: 100% !important;
+    }
+    .explore-header {
+      padding: 8px 0 12px;
+    }
+    .explore-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin: 0;
+    }
+    .explore-subtitle {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin: 4px 0 0;
+    }
+    .explore-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      flex: 1;
+      align-items: stretch;
+      scroll-snap-type: x mandatory;
+    }
+    .explore-scroll::-webkit-scrollbar {
+      height: 4px;
+    }
+    .explore-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .explore-card {
+      flex: 0 0 160px;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 14px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, var(--card-color) 0%, color-mix(in srgb, var(--card-color) 80%, white) 100%);
+      text-decoration: none;
+      color: #ffffff;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .explore-card:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    .explore-card-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+    .explore-card-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .explore-card-desc {
+      font-size: 0.6rem;
+      opacity: 0.85;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     @media (max-width: 1120px) {
       .flpcart-fullscreen {
         padding: 16px !important;
@@ -418,6 +543,27 @@ export default async function landingPage() {
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === btn.dataset.lang))
     })
   })
+
+  const exploreBtn = document.getElementById('exploreBtn')
+  const explorePanel = document.getElementById('explorePanel')
+  const grid = document.querySelector('.flpcart-grid')
+  const sidebar = document.getElementById('landingSidebar')
+  let exploreOpen = false
+
+  if (exploreBtn && explorePanel && grid) {
+    exploreBtn.addEventListener('click', () => {
+      exploreOpen = !exploreOpen
+      grid.classList.toggle('explore-open', exploreOpen)
+      exploreBtn.textContent = exploreOpen ? '\u2715' : translate('landing.explore')
+    })
+  }
+
+  document.getElementById('exploreScroll').addEventListener('wheel', (e) => {
+    if (e.deltaY !== 0) {
+      e.currentTarget.scrollLeft += e.deltaY
+      e.preventDefault()
+    }
+  }, { passive: false })
 
   main.querySelectorAll('.tryngo-like-btn').forEach(btn => {
     btn.addEventListener('click', () => {
