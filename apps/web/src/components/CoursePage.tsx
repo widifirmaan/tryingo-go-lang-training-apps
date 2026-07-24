@@ -235,3 +235,5 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     </div>
   );
 };
+
+export default CoursePage;
