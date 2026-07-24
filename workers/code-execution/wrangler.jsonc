@@ -2,6 +2,7 @@
   "name": "tryngo-code-execution",
   "main": "src/worker.ts",
   "compatibility_date": "2026-07-21",
+  "compatibility_flags": ["nodejs_compat"],
   "containers": [
     {
       "class_name": "Sandbox",
@@ -25,6 +26,7 @@
     }
   ],
   "observability": {
+    "enabled": true,
     "head_sampling_rate": 0.5
   }
 }
