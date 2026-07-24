@@ -184,6 +184,10 @@ export default function App() {
 
   const handleBackToHero = () => {
     setIsExploring(false);
+    setActiveCourseId(null);
+    setCourseInitialLevel(undefined);
+    setCourseInitialWeek(undefined);
+    updateHash(null);
   };
 
   const handleResetFilters = () => {
