@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, SlidersHorizontal, Settings, Send, Play, ChevronLeft, Menu, X, BookOpen, Sparkles, Home, ShoppingBag } from 'lucide-react';
+import { Search, SlidersHorizontal, Settings, Share2, Play, ChevronLeft, Menu, X, BookOpen, Sparkles, Home, ShoppingBag } from 'lucide-react';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -676,14 +676,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
 
               <div className="bg-white p-1 sm:p-1.5 rounded-full shadow-md flex items-center justify-center h-10 sm:h-12 lg:h-14 border border-white/40">
-                <motion.button 
+                <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => alert("Tryngo: Shared interactive coding link!")}
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({ title: 'Tryngo', url: window.location.href });
+                    } else {
+                      navigator.clipboard?.writeText(window.location.href);
+                    }
+                  }}
                   className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-[#234735] hover:bg-[#1A382A] text-white rounded-full flex items-center justify-center transition-colors shadow-xs"
                   title="Share"
                 >
-                  <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5] text-white" />
+                  <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5] text-white" />
                 </motion.button>
               </div>
             </nav>
