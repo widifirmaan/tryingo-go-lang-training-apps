@@ -80,6 +80,7 @@ export const translations = {
     searchIndexLoading: 'Memuat indeks pencarian...',
     searchIndexError: 'Indeks pencarian tidak tersedia',
     searchContentCount: 'materi ditemukan',
+    loading: 'Memuat...',
   },
   en: {
     heroTagline: 'From Zero to Professional',
@@ -159,5 +160,6 @@ export const translations = {
     searchIndexLoading: 'Loading search index...',
     searchIndexError: 'Search index unavailable',
     searchContentCount: 'materials found',
+    loading: 'Loading...',
   },
 };
