@@ -41,13 +41,15 @@ interface CoursePageProps {
   lang: Language;
   onBack: () => void;
   onOpenPlayground?: (code: string) => void;
+  initialLevel?: string;
+  initialWeek?: number;
 }
 
-export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground }) => {
+export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [activeLevel, setActiveLevel] = useState('beginer');
-  const [activeWeek, setActiveWeek] = useState(1);
+  const [activeLevel, setActiveLevel] = useState(initialLevel || 'beginer');
+  const [activeWeek, setActiveWeek] = useState(initialWeek || 1);
   const [showLevelPicker, setShowLevelPicker] = useState(false);
 
   const isId = lang === 'id';
