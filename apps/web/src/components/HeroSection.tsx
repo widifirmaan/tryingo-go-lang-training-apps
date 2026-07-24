@@ -63,9 +63,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <motion.div 
+                    <motion.div
                       whileHover={{ scale: 1.08 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowExitModal(true)}
                       className="bg-white p-1 rounded-full shadow-md flex items-center justify-center cursor-pointer"
                     >
                       <div className="w-8 h-8 bg-[#234735] rounded-full flex items-center justify-center">
@@ -357,9 +358,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                   )}
 
-                  <motion.div 
+                  <motion.div
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowExitModal(true)}
                     className="bg-white p-1 rounded-full shadow-xs flex items-center justify-center cursor-pointer"
                   >
                     <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#234735] rounded-full flex items-center justify-center">
