@@ -86,15 +86,23 @@ export default function App() {
     }
   }, []);
 
-  // Dark Mode Class, Lang Sync & localStorage Persist
+  // Dark Mode Class, Lang Sync, Theme-Color & localStorage Persist
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    const isDark = theme === 'dark';
+    document.documentElement.classList.toggle('dark', isDark);
     document.documentElement.lang = lang === 'id' ? 'id' : 'en';
     document.documentElement.setAttribute('data-theme', theme);
+
+    const bgColor = isDark ? '#121417' : '#EFECE6';
+    document.body.style.backgroundColor = bgColor;
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'theme-color');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', bgColor);
+
     try {
       localStorage.setItem('tryngo-lang', lang);
       localStorage.setItem('tryngo-theme', theme);
