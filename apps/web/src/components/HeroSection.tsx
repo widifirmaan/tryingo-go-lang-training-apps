@@ -99,7 +99,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={onBackToHero}
-                      className="w-9 h-9 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors"
+                      className="w-10 h-10 sm:w-11 sm:h-11 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer z-10"
                       title="Expand Hero"
                     >
                       <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
@@ -373,10 +373,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={onBackToHero}
-                      className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition-colors"
+                      className="w-10 h-10 sm:w-11 sm:h-11 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition-colors cursor-pointer z-10"
                       title="Return to Hero"
                     >
-                      <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+                      <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
                     </motion.button>
                   )}
 
