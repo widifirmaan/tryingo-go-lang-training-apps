@@ -116,11 +116,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <motion.button
                     whileHover={{ scale: 1.02, x: 3 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => window.open('https://news.ycombinator.com', '_blank')}
-                    className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
+                    className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors cursor-not-allowed"
                   >
                     <span className="text-base">📰</span>
-                    <span>Tech News</span>
+                    <span>Tech News <span className="text-[9px] opacity-50">(soon)</span></span>
                   </motion.button>
 
                   {/* Materi with submenu */}
@@ -452,11 +451,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
-                      onClick={() => { setIsMobileMenuOpen(false); window.open('https://news.ycombinator.com', '_blank'); }}
-                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
+                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2 cursor-not-allowed"
                     >
                       <span className="text-sm">📰</span>
-                      <span>Tech News</span>
+                      <span>Tech News <span className="text-[9px] opacity-50">(soon)</span></span>
                     </motion.button>
 
                     <motion.button
