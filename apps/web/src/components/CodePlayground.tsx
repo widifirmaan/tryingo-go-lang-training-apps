@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
-import { Play, RotateCcw, Maximize2, Minimize2, X, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 
 interface CodePlaygroundProps {
@@ -264,21 +264,21 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
             title={isId ? 'Reset Kode' : 'Reset Code'}
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setIsFullscreen(!isFullscreen)}
             className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors hidden sm:block"
             title={isFullscreen ? (isId ? 'Keluar Layar Penuh' : 'Exit Fullscreen') : (isId ? 'Layar Penuh' : 'Fullscreen')}
           >
-            {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}
           </button>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
             title={isId ? 'Tutup' : 'Close'}
           >
-            <X className="w-3.5 h-3.5" />
+            <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -345,7 +345,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
               disabled={isRunning}
               className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
             >
-              <Play className={`w-3 h-3 fill-white ${isRunning ? 'animate-pulse' : ''}`} />
+              <FontAwesomeIcon icon={faPlay} className={`w-3 h-3 text-white ${isRunning ? 'animate-pulse' : ''}`} />
               <span className="hidden sm:inline">{isId ? 'Jalankan' : 'Run'}</span>
               <span className="text-[8px] opacity-60 hidden sm:inline">Ctrl+Enter</span>
             </button>
@@ -374,7 +374,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             {output && isWebLanguage && (
               <div className="absolute bottom-0 left-0 right-0 max-h-[40%] overflow-auto bg-black/80 text-green-400 p-3 font-mono text-[11px] leading-relaxed">
                 <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 mb-1 border-b border-zinc-700 pb-1">
-                  <Clock className="w-3 h-3" />
+                  <FontAwesomeIcon icon={faClock} className="w-3 h-3" />
                   <span>{isId ? 'Console Output' : 'Console Output'}</span>
                 </div>
                 <pre className="whitespace-pre-wrap">{output}</pre>
@@ -384,7 +384,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             {error && (
               <div className="absolute bottom-0 left-0 right-0 bg-red-900/90 text-red-200 p-3 font-mono text-[11px]">
                 <div className="flex items-center gap-1.5 text-[10px] text-red-300 mb-1">
-                  <AlertTriangle className="w-3 h-3" />
+                  <FontAwesomeIcon icon={faTriangleExclamation} className="w-3 h-3" />
                   <span>{isId ? 'Error' : 'Error'}</span>
                 </div>
                 <pre className="whitespace-pre-wrap">{error}</pre>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code2 } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 interface WindowHeaderProps {
   title?: string;
@@ -27,7 +27,7 @@ export const WindowHeader: React.FC<WindowHeaderProps> = ({
           className="bg-[#22c55e] hover:bg-[#16a34a] text-zinc-950 p-1 rounded transition-colors flex items-center justify-center font-bold"
           title="Toggle Inspect Code"
         >
-          <Code2 className="w-3.5 h-3.5" />
+          <FontAwesomeIcon icon={faCode} className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>

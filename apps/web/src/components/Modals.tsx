@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Search, ShoppingBag, ArrowRight, Sparkles, Code2, Play, Settings, Globe, Sun, Moon, Check } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faTimes, faSearch, faShoppingBag, faArrowRight, faStar, faCode, faPlay, faGear, faGlobe, faSun, faMoon, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { translations, Language, Theme } from '../utils/translations';
 
 interface CartModalProps {
@@ -42,7 +42,7 @@ export const CartModal: React.FC<CartModalProps> = ({
             <div>
               <div className="flex items-center justify-between border-b border-zinc-200 pb-4 mb-4">
                 <div className="flex items-center gap-2">
-                  <ShoppingBag className="w-5 h-5 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faShoppingBag} className="w-5 h-5 text-[#2E5B44]" />
                   <h2 className="text-xl font-bold font-flpcart text-zinc-900">Enrolled Tutorials</h2>
                   <span className="bg-[#2E5B44] text-white text-xs px-2 py-0.5 rounded-full font-bold">
                     {cartItems.length}
@@ -52,13 +52,13 @@ export const CartModal: React.FC<CartModalProps> = ({
                   onClick={onClose}
                   className="p-2 hover:bg-zinc-200/60 rounded-full text-zinc-500 transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
                 </button>
               </div>
 
               {cartItems.length === 0 ? (
                 <div className="text-center py-16 text-zinc-500">
-                  <Code2 className="w-12 h-12 mx-auto mb-3 opacity-40 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faCode} className="w-12 h-12 mx-auto mb-3 opacity-40 text-[#2E5B44]" />
                   <p className="font-bold text-sm text-zinc-800">No tracks added yet.</p>
                   <p className="text-xs text-zinc-500 mt-1">Explore Tryngo interactive tracks and playgrounds!</p>
                 </div>
@@ -109,7 +109,7 @@ export const CartModal: React.FC<CartModalProps> = ({
                   className="w-full bg-[#2E5B44] hover:bg-[#234735] text-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all active:scale-98"
                 >
                   <span>Start Learning Now</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4" />
                 </button>
               </div>
             )}
@@ -241,7 +241,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             <div className="flex justify-between items-center shrink-0 border-b border-zinc-200/80 pb-3">
               <div className="flex items-center gap-2 text-[#2E5B44]">
                 <div className="w-8 h-8 rounded-full bg-[#2E5B44]/10 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faStar} className="w-4 h-4 text-[#2E5B44]" />
                 </div>
                 <div>
                   <h3 className="font-flpcart font-bold text-base sm:text-lg text-zinc-900 leading-none">
@@ -268,7 +268,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   onClick={onClose} 
                   className="p-1.5 hover:bg-zinc-200/60 rounded-full text-zinc-500 transition-colors"
                 >
-                  <X className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
                 </button>
               </div>
             </div>
@@ -299,7 +299,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
             {/* Input Search Field */}
             <div className="relative shrink-0">
-              <Search className="w-5 h-5 text-[#2E5B44] absolute left-4 top-3.5" />
+              <FontAwesomeIcon icon={faSearch} className="w-5 h-5 text-[#2E5B44] absolute left-4 top-3.5" />
               <input
                 type="text"
                 value={searchQuery}
@@ -313,7 +313,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   onClick={() => setSearchQuery('')}
                   className="absolute right-3.5 top-3.5 text-zinc-400 hover:text-zinc-700"
                 >
-                  <X className="w-4 h-4" />
+                  <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
                 </button>
               )}
             </div>
@@ -391,7 +391,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     className="bg-[#2E5B44] hover:bg-[#234735] text-white text-xs px-4 py-2 rounded-xl font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5"
                   >
                     <span>{t.applyFilters}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </>
@@ -413,7 +413,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               {/* TRACKS results */}
               {searchTab === 'tracks' && tracks.length === 0 && (
                 <div className="text-center py-8 text-zinc-500">
-                  <Code2 className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faCode} className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#2E5B44]" />
                   <p className="font-bold text-xs text-zinc-800">
                     {lang === 'id' ? 'Tidak ada modul yang cocok.' : 'No matching modules.'}
                   </p>
@@ -458,7 +458,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     <span className="text-xs font-black text-[#2E5B44] bg-[#2E5B44]/10 px-2.5 py-1 rounded-full">
                       ${track.price}
                     </span>
-                    <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-[#2E5B44] group-hover:translate-x-0.5 transition-all" />
+                    <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 text-zinc-400 group-hover:text-[#2E5B44] group-hover:translate-x-0.5 transition-all" />
                   </div>
                 </div>
               ))}
@@ -475,7 +475,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
               {searchTab === 'content' && !contentLoading && contentResults.length === 0 && searchQuery && (
                 <div className="text-center py-8 text-zinc-500">
-                  <Search className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faSearch} className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#2E5B44]" />
                   <p className="font-bold text-xs text-zinc-800">
                     {lang === 'id' ? 'Tidak ada hasil untuk' : 'No results for'} "{searchQuery}"
                   </p>
@@ -564,7 +564,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, produ
               onClick={onClose}
               className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-white rounded-full text-zinc-700 shadow-sm"
             >
-              <X className="w-5 h-5" />
+              <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -604,7 +604,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, produ
                     }}
                     className="w-full bg-[#2E5B44] hover:bg-[#234735] text-white py-3 rounded-2xl font-bold shadow-md transition-all flex items-center justify-center gap-2 active:scale-98"
                   >
-                    <Play className="w-4 h-4 fill-white" />
+                    <FontAwesomeIcon icon={faPlay} className="w-4 h-4 text-white" />
                     <span>Launch Interactive Playground</span>
                   </button>
                 </div>
@@ -663,7 +663,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             <div className="flex items-center justify-between border-b pb-4 mb-5 border-zinc-200 dark:border-zinc-700">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-[#2E5B44] text-white flex items-center justify-center shadow-xs">
-                  <Settings className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faGear} className="w-5 h-5" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold font-flpcart leading-tight">
@@ -678,7 +678,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 onClick={onClose}
                 className="p-2 hover:bg-zinc-200/60 dark:hover:bg-zinc-700 rounded-full text-zinc-500 dark:text-zinc-400 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
               </button>
             </div>
 
@@ -686,7 +686,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               {/* 1. Language Option */}
               <div>
                 <label className="text-xs font-black uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2.5 flex items-center gap-1.5">
-                  <Globe className="w-4 h-4 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faGlobe} className="w-4 h-4 text-[#2E5B44]" />
                   <span>{t.languageLabel}</span>
                 </label>
                 
@@ -705,7 +705,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       <span className="text-lg">🇮🇩</span>
                       <span>Bahasa Indonesia</span>
                     </div>
-                    {lang === 'id' && <Check className="w-4 h-4 text-white shrink-0" />}
+                    {lang === 'id' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
                   </button>
 
                   <button
@@ -722,7 +722,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                       <span className="text-lg">🇺🇸</span>
                       <span>English (US)</span>
                     </div>
-                    {lang === 'en' && <Check className="w-4 h-4 text-white shrink-0" />}
+                    {lang === 'en' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
                   </button>
                 </div>
               </div>
@@ -730,7 +730,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               {/* 2. Theme Option */}
               <div>
                 <label className="text-xs font-black uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2.5 flex items-center gap-1.5">
-                  <Sun className="w-4 h-4 text-[#2E5B44]" />
+                  <FontAwesomeIcon icon={faSun} className="w-4 h-4 text-[#2E5B44]" />
                   <span>{t.themeLabel}</span>
                 </label>
 
@@ -744,10 +744,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <Sun className="w-4 h-4 text-amber-400 shrink-0" />
+                      <FontAwesomeIcon icon={faSun} className="w-4 h-4 text-amber-400 shrink-0" />
                       <span>{t.lightMode}</span>
                     </div>
-                    {theme === 'light' && <Check className="w-4 h-4 text-white shrink-0" />}
+                    {theme === 'light' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
                   </button>
 
                   <button
@@ -759,10 +759,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <Moon className="w-4 h-4 text-indigo-400 shrink-0" />
+                      <FontAwesomeIcon icon={faMoon} className="w-4 h-4 text-indigo-400 shrink-0" />
                       <span>{t.darkMode}</span>
                     </div>
-                    {theme === 'dark' && <Check className="w-4 h-4 text-white shrink-0" />}
+                    {theme === 'dark' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
                   </button>
                 </div>
               </div>
@@ -773,7 +773,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   onClick={onClose}
                   className="w-full bg-[#2E5B44] hover:bg-[#234735] text-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg transition-all active:scale-98"
                 >
-                  <Check className="w-4 h-4" />
+                  <FontAwesomeIcon icon={faCheck} className="w-4 h-4" />
                   <span>{t.saveSettings}</span>
                 </button>
               </div>

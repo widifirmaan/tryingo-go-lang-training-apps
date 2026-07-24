@@ -11,6 +11,10 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^7.3.1",
+    "@fortawesome/free-regular-svg-icons": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@fortawesome/react-fontawesome": "^3.5.0",
     "@google/genai": "^2.4.0",
     "@monaco-editor/react": "^4.7.0",
     "@tailwindcss/vite": "^4.1.14",

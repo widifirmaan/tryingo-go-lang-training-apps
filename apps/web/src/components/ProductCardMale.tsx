@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Code, Sparkles } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faStar } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
 import { TECH_LOGOS } from '../assets/techLogos';
 
@@ -40,7 +40,7 @@ export const ProductCardMale: React.FC<ProductCardMaleProps> = ({
       {/* Badge Ribbon */}
       <div className="absolute top-3 right-4 z-20">
         <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xs text-zinc-800 dark:text-zinc-200 shadow-2xs border border-white/60 dark:border-zinc-700">
-          <Sparkles className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400 fill-amber-500" />
+          <FontAwesomeIcon icon={faStar} className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
           HTML5
         </span>
       </div>
@@ -87,7 +87,7 @@ export const ProductCardMale: React.FC<ProductCardMaleProps> = ({
                 className="px-5 py-2 sm:px-6 sm:py-2.5 bg-[#2E5B44] hover:bg-[#234735] text-white text-xs sm:text-sm font-bold rounded-lg flex items-center gap-1.5 transition-all hover:scale-105 shadow-sm"
                 title="Mulai Course"
               >
-                <Play className="w-4 h-4 fill-white" />
+                <FontAwesomeIcon icon={faPlay} className="w-4 h-4 text-white" />
                 <span>Mulai Course</span>
               </button>
               <button 
@@ -95,7 +95,7 @@ export const ProductCardMale: React.FC<ProductCardMaleProps> = ({
                 className="w-10 h-10 sm:w-11 sm:h-11 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-lg flex items-center justify-center shadow-sm transition-transform hover:scale-110 font-mono font-bold text-sm"
                 title="Buka Playground"
               >
-                <Code className="w-5 h-5" />
+                <FontAwesomeIcon icon={faCode} className="w-5 h-5" />
               </button>
             </div>
             <div className="text-right flex flex-col items-end leading-none">
