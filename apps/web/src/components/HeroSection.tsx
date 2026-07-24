@@ -336,11 +336,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
               </motion.div>
 
-              {/* Footer */}
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between">
-                <span className="text-[10px] font-medium text-emerald-200">Tryngo v2.4</span>
-              </div>
-
               {onBackToHero && (
                 <motion.button
                   whileHover={{ scale: 1.1 }}
