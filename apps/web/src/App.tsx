@@ -40,6 +40,8 @@ export default function App() {
 
   // Active course view state
   const [activeCourseId, setActiveCourseId] = useState<string | null>(null);
+  const [courseInitialLevel, setCourseInitialLevel] = useState<string | undefined>();
+  const [courseInitialWeek, setCourseInitialWeek] = useState<number | undefined>();
 
   // Playground state
   const [playgroundCode, setPlaygroundCode] = useState<string | null>(null);
@@ -47,10 +49,20 @@ export default function App() {
 
   const handleStartCourse = (trackId: string) => {
     setActiveCourseId(trackId);
+    setCourseInitialLevel(undefined);
+    setCourseInitialWeek(undefined);
+  };
+
+  const handleNavigateToWeek = (trackId: string, level: string, week: number) => {
+    setActiveCourseId(trackId);
+    setCourseInitialLevel(level);
+    setCourseInitialWeek(week);
   };
 
   const handleBackFromCourse = () => {
     setActiveCourseId(null);
+    setCourseInitialLevel(undefined);
+    setCourseInitialWeek(undefined);
   };
 
   const handleOpenPlayground = (code?: string) => {
@@ -228,6 +240,7 @@ export default function App() {
               onOpenCart={() => setIsCartOpen(true)}
               lang={lang}
               activeCourseId={activeCourseId}
+              onNavigateToWeek={handleNavigateToWeek}
             />
           </motion.div>
 
@@ -252,10 +265,13 @@ export default function App() {
                 >
                   <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
                     <CoursePage
+                      key={`${activeCourseId}-${courseInitialLevel || 'beginer'}-${courseInitialWeek || 1}`}
                       trackId={activeCourseId}
                       lang={lang}
                       onBack={handleBackFromCourse}
                       onOpenPlayground={handleOpenPlayground}
+                      initialLevel={courseInitialLevel}
+                      initialWeek={courseInitialWeek}
                     />
                   </Suspense>
                 </motion.div>

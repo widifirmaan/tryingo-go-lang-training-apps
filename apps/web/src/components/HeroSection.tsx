@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Search, SlidersHorizontal, Settings, Send, Play, ChevronLeft, Menu, X, BookOpen, Sparkles, Home, ShoppingBag } from 'lucide-react';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
+import { TRACKS_COLLECTION } from '../data/tracksData';
+import { CURRICULUM_LEVELS, LEVEL_BADGE_COLORS } from '../data/curriculum';
 
 interface HeroSectionProps {
   onOpenSearch: () => void;
@@ -15,6 +17,7 @@ interface HeroSectionProps {
   onOpenCart?: () => void;
   lang?: Language;
   activeCourseId?: string | null;
+  onNavigateToWeek?: (trackId: string, level: string, week: number) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -28,14 +31,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenCart,
   lang = 'id',
   activeCourseId,
+  onNavigateToWeek,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
   const t = translations[lang];
 
   useEffect(() => {
-    if (activeCourseId) setActiveSubmenu('materi');
+    if (activeCourseId) {
+      setActiveSubmenu('materi');
+      setExpandedTrack(activeCourseId);
+    }
   }, [activeCourseId]);
 
   return (
@@ -147,39 +155,53 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[400px] overflow-y-auto"
                         >
-                          {activeCourseId && (
-                            <div className="px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase tracking-wider mt-1 border border-emerald-500/30">
-                              ▶ {activeCourseId.replace('tryngo-lang-', '').toUpperCase()}
+                          {TRACKS_COLLECTION.map(track => (
+                            <div key={track.id} className="flex flex-col">
+                              <motion.button
+                                whileTap={{ scale: 0.97 }}
+                                onClick={() => setExpandedTrack(expandedTrack === track.id ? null : track.id)}
+                                className="w-full px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-bold flex items-center justify-between transition-colors"
+                              >
+                                <span>{track.name}</span>
+                                <span className="text-[9px] opacity-60">{expandedTrack === track.id ? '▲' : '▼'}</span>
+                              </motion.button>
+                              <AnimatePresence>
+                                {expandedTrack === track.id && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="overflow-hidden flex flex-col ml-2 gap-0.5"
+                                  >
+                                    {CURRICULUM_LEVELS.map(level => (
+                                      <div key={level.levelId} className="flex flex-col">
+                                        <div className="px-3 py-1 text-[10px] text-white/50 uppercase tracking-wider font-bold">
+                                          {lang === 'id' ? level.nameId : level.nameEn}
+                                        </div>
+                                        {level.weeks.map(week => (
+                                          <motion.button
+                                            key={week.week}
+                                            whileTap={{ scale: 0.97 }}
+                                            onClick={() => {
+                                              setExpandedTrack(null);
+                                              onNavigateToWeek?.(track.id, level.levelId, week.week);
+                                            }}
+                                            className="w-full pl-6 pr-3 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/70 text-[10px] font-medium text-left flex items-center gap-1.5 transition-colors"
+                                          >
+                                            <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                                            {lang === 'id' ? week.titleId : week.titleEn}
+                                          </motion.button>
+                                        ))}
+                                      </div>
+                                    ))}
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
                             </div>
-                          )}
-                          <div className="px-3.5 py-2 rounded-xl bg-white/5 text-white/70 text-[10px] font-bold uppercase tracking-wider mt-1">Go (Golang)</div>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                            Beginner (6 Modules)
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                            Intermediate (8 Modules)
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                            Advanced (10 Modules)
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
-                            Professional (26 Modules)
-                          </motion.button>
-                          <div className="px-3.5 py-2 rounded-xl bg-white/5 text-white/70 text-[10px] font-bold uppercase tracking-wider mt-1">HTML5</div>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                            Beginner (8 Modules)
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                            Advanced (16 Modules)
-                          </motion.button>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -467,13 +489,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <AnimatePresence>
                       {activeSubmenu === 'materi-mobile' && (
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
-                          <div className="px-3 py-1.5 text-[10px] text-white/60 uppercase tracking-wider font-bold">Go (Golang)</div>
-                          {['Beginner (6)', 'Intermediate (8)', 'Advanced (10)', 'Professional (26)'].map(l => (
-                            <button key={l} className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left">{l}</button>
-                          ))}
-                          <div className="px-3 py-1.5 text-[10px] text-white/60 uppercase tracking-wider font-bold mt-1">HTML5</div>
-                          {['Beginner (8)', 'Advanced (16)'].map(l => (
-                            <button key={l} className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left">{l}</button>
+                          {TRACKS_COLLECTION.map(track => (
+                            <div key={track.id} className="flex flex-col">
+                              <button
+                                onClick={() => setExpandedTrack(expandedTrack === track.id ? null : track.id)}
+                                className="w-full px-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-bold flex items-center justify-between"
+                              >
+                                <span>{track.name}</span>
+                                <span className="text-[9px]">{expandedTrack === track.id ? '▲' : '▼'}</span>
+                              </button>
+                              {expandedTrack === track.id && (
+                                <div className="flex flex-col ml-2 gap-0.5">
+                                  {CURRICULUM_LEVELS.map(level => (
+                                    <div key={level.levelId}>
+                                      <div className="px-3 py-1 text-[9px] text-white/40 uppercase tracking-wider font-bold">
+                                        {lang === 'id' ? level.nameId : level.nameEn}
+                                      </div>
+                                      {level.weeks.map(week => (
+                                        <button
+                                          key={week.week}
+                                          onClick={() => {
+                                            setExpandedTrack(null);
+                                            onNavigateToWeek?.(track.id, level.levelId, week.week);
+                                          }}
+                                          className="w-full pl-6 pr-3 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/60 text-[10px] font-medium text-left flex items-center gap-1.5"
+                                        >
+                                          <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                                          {lang === 'id' ? week.titleId : week.titleEn}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           ))}
                         </motion.div>
                       )}
