@@ -409,3 +409,5 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     </motion.div>
   );
 };
+
+export default CodePlayground;
