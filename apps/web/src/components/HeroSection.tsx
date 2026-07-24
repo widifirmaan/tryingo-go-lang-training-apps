@@ -66,7 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             className="relative w-full h-full flex flex-col justify-between"
           >
             {/* Desktop/Landscape Sidebar View */}
-            <div className="hidden lg:flex landscape:flex flex-col h-full w-full">
+            <div className="hidden lg:flex landscape:flex flex-col h-full w-full relative">
               <div className="flex flex-col gap-4 flex-shrink-0">
                 {/* Header */}
                 <div className="flex items-center justify-between">
@@ -93,18 +93,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       <span className="text-[9px] text-[#EEDBB2] uppercase tracking-widest font-bold">Playground Sidebar</span>
                     </div>
                   </div>
-
-                  {onBackToHero && (
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={onBackToHero}
-                      className="w-10 h-10 sm:w-11 sm:h-11 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer z-10"
-                      title="Expand Hero"
-                    >
-                      <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
-                    </motion.button>
-                  )}
                 </div>
 
                 <hr className="border-white/10 my-1" />
@@ -351,17 +339,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Footer */}
               <div className="pt-2 border-t border-white/10 flex items-center justify-between">
                 <span className="text-[10px] font-medium text-emerald-200">Tryngo v2.4</span>
-                {onBackToHero && (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={onBackToHero}
-                    className="text-xs text-[#EEDBB2] hover:underline font-bold"
-                  >
-                    Close Sidebar
-                  </motion.button>
-                )}
               </div>
+
+              {onBackToHero && (
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={onBackToHero}
+                  className="absolute bottom-4 right-2 w-10 h-10 sm:w-11 sm:h-11 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-lg backdrop-blur-sm border border-white/20"
+                  title="Expand Hero"
+                >
+                  <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                </motion.button>
+              )}
             </div>
 
             {/* Mobile/Portrait Navbar View */}
