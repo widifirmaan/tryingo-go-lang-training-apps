@@ -5,36 +5,7 @@ import { ArrowLeft, BookOpen, ChevronDown, Code2, Sparkles } from 'lucide-react'
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { CURRICULUM_LEVELS, LEVEL_BADGE_COLORS } from '../data/curriculum';
-
-const SLUG_MAP: Record<string, string> = {
-  'tryngo-lang-html5': 'html5',
-  'tryngo-lang-css3': 'css3',
-  'tryngo-lang-javascript': 'javascript',
-  'tryngo-lang-typescript': 'typescript',
-  'tryngo-lang-golang': 'golang',
-  'tryngo-lang-nextjs': 'nextjs',
-  'tryngo-lang-python': 'python',
-  'tryngo-lang-react': 'react',
-  'tryngo-lang-vue': 'vue',
-  'tryngo-lang-rust': 'rust',
-  'tryngo-lang-docker': 'docker',
-  'tryngo-lang-nodejs': 'nodejs',
-  'tryngo-lang-angular': 'angular',
-  'tryngo-lang-svelte': 'svelte',
-  'tryngo-lang-php': 'php',
-  'tryngo-lang-laravel': 'laravel',
-  'tryngo-lang-rails': 'rails',
-  'tryngo-lang-postgresql': 'postgresql',
-  'tryngo-lang-graphql': 'graphql',
-  'tryngo-lang-csharp': 'csharp',
-  'tryngo-lang-spring': 'spring',
-  'tryngo-lang-codeigniter': 'codeigniter',
-  'tryngo-lang-mysql': 'mysql',
-  'tryngo-lang-mongodb': 'mongodb',
-  'tryngo-lang-redis': 'redis',
-  'tryngo-lang-django': 'django',
-  'tryngo-lang-nestjs': 'nestjs',
-};
+import { SLUG_MAP } from '../data/slugMap';
 
 interface CoursePageProps {
   trackId: string;
@@ -43,9 +14,10 @@ interface CoursePageProps {
   onOpenPlayground?: (code: string) => void;
   initialLevel?: string;
   initialWeek?: number;
+  onNavigate?: (trackId: string, level: string, week: number) => void;
 }
 
-export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek }) => {
+export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [activeLevel, setActiveLevel] = useState(initialLevel || 'beginer');
@@ -101,10 +73,12 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     setActiveLevel(levelId);
     setActiveWeek(1);
     setShowLevelPicker(false);
+    onNavigate?.(trackId, levelId, 1);
   };
 
   const handleWeekChange = (week: number) => {
     setActiveWeek(week);
+    onNavigate?.(trackId, activeLevel, week);
   };
 
   if (!track) {
