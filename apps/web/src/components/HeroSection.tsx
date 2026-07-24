@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, SlidersHorizontal, Settings, Share2, Play, ChevronLeft, Menu, X, BookOpen, Sparkles, Home, ShoppingBag } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faSliders, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -107,16 +108,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       onClick={onBackToHero}
                       className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                     >
-                      <Home className="w-4 h-4 text-[#EEDBB2]" />
+                      <FontAwesomeIcon icon={faHouse} className="w-4 h-4 text-[#EEDBB2]" />
                       <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
                     </motion.button>
                   )}
 
                   {/* Tech News */}
-                  <div className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 text-white/60 text-xs font-bold flex items-center gap-2.5 cursor-not-allowed">
-                    <span className="text-base opacity-60">📰</span>
-                    <span>Tech News <span className="text-[9px] opacity-50 font-medium">(soon)</span></span>
-                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 3 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
+                  >
+                    <span className="text-base">📰</span>
+                    <span>Tech News</span>
+                  </motion.button>
 
                   {/* Materi with submenu */}
                   <div className="flex flex-col">
@@ -126,7 +131,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-between transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
-                        <BookOpen className="w-4 h-4 text-[#EEDBB2]" />
+                        <FontAwesomeIcon icon={faBookOpen} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>Materi</span>
                       </div>
                       <span className="text-[9px] opacity-60">{activeSubmenu === 'materi' ? '▲' : '▼'}</span>
@@ -277,7 +282,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     onClick={onOpenSearch}
                     className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                   >
-                    <Search className="w-4 h-4 text-[#EEDBB2]" />
+                    <FontAwesomeIcon icon={faSearch} className="w-4 h-4 text-[#EEDBB2]" />
                     <span>{lang === 'id' ? 'Cari' : 'Search'}</span>
                   </motion.button>
 
@@ -288,7 +293,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     onClick={onOpenSettings}
                     className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                   >
-                    <Settings className="w-4 h-4 text-[#EEDBB2]" />
+                    <FontAwesomeIcon icon={faGear} className="w-4 h-4 text-[#EEDBB2]" />
                     <span>{lang === 'id' ? 'Pengaturan' : 'Settings'}</span>
                   </motion.button>
 
@@ -324,7 +329,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
                 <div className="flex flex-col items-center text-center">
                   <span className="text-[10px] font-extrabold text-[#EEDBB2] uppercase tracking-wider flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-amber-400 fill-amber-400" /> ACTIVE TRACK
+                    <FontAwesomeIcon icon={faStar} className="w-3 h-3 text-amber-400" /> ACTIVE TRACK
                   </span>
                   <span className="text-xs font-bold text-white line-clamp-1">Zero to Professional</span>
                   <span className="text-[10px] text-emerald-200">6 Interactive Modules</span>
@@ -339,7 +344,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   className="absolute bottom-4 right-2 w-10 h-10 sm:w-11 sm:h-11 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-lg backdrop-blur-sm border border-white/20"
                   title="Expand Hero"
                 >
-                  <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                  <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5" />
                 </motion.button>
               )}
             </div>
@@ -356,7 +361,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-10 h-10 sm:w-11 sm:h-11 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition-colors cursor-pointer z-10"
                       title="Return to Hero"
                     >
-                      <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                      <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5" />
                     </motion.button>
                   )}
 
@@ -390,7 +395,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition-colors"
                     title="Search"
                   >
-                    <Search className="w-4 h-4 stroke-[2.5]" />
+                    <FontAwesomeIcon icon={faSearch} className="w-4 h-4" />
                   </motion.button>
 
                   <motion.button
@@ -400,7 +405,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     className="w-8 h-8 sm:w-9 sm:h-9 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition-colors"
                     title={t.heroSettingsTitle}
                   >
-                    <Settings className="w-4 h-4 stroke-[2.5]" />
+                    <FontAwesomeIcon icon={faGear} className="w-4 h-4" />
                   </motion.button>
 
                   <motion.button
@@ -415,9 +420,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     title="Menu"
                   >
                     {isMobileMenuOpen ? (
-                      <X className="w-5 h-5 stroke-[2.5]" />
+                      <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
                     ) : (
-                      <Menu className="w-5 h-5 stroke-[2.5]" />
+                      <FontAwesomeIcon icon={faBars} className="w-5 h-5" />
                     )}
                   </motion.button>
                 </div>
@@ -439,15 +444,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         onClick={() => { setIsMobileMenuOpen(false); onBackToHero(); }}
                         className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                       >
-                        <Home className="w-4 h-4 text-[#EEDBB2]" />
+                        <FontAwesomeIcon icon={faHouse} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
                       </motion.button>
                     )}
 
-                    <div className="w-full px-3 py-2 rounded-xl bg-white/10 text-white/60 text-xs font-bold flex items-center gap-2 cursor-not-allowed">
-                      <span className="text-sm opacity-60">📰</span>
-                      <span>Tech News <span className="text-[9px] opacity-50 font-medium">(soon)</span></span>
-                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
+                    >
+                      <span className="text-sm">📰</span>
+                      <span>Tech News</span>
+                    </motion.button>
 
                     <motion.button
                       whileHover={{ scale: 1.02 }}
@@ -456,7 +465,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-[#EEDBB2]" />
+                        <FontAwesomeIcon icon={faBookOpen} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>Materi</span>
                       </div>
                       <span className="text-[9px]">{activeSubmenu === 'materi-mobile' ? '▲' : '▼'}</span>
@@ -554,7 +563,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       onClick={() => { setIsMobileMenuOpen(false); onOpenSearch(); }}
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                     >
-                      <Search className="w-4 h-4 text-[#EEDBB2]" />
+                      <FontAwesomeIcon icon={faSearch} className="w-4 h-4 text-[#EEDBB2]" />
                       <span>{lang === 'id' ? 'Cari' : 'Search'}</span>
                     </motion.button>
 
@@ -564,7 +573,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       onClick={() => { setIsMobileMenuOpen(false); onOpenSettings(); }}
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                     >
-                      <Settings className="w-4 h-4 text-[#EEDBB2]" />
+                      <FontAwesomeIcon icon={faGear} className="w-4 h-4 text-[#EEDBB2]" />
                       <span>{lang === 'id' ? 'Pengaturan' : 'Settings'}</span>
                     </motion.button>
 
@@ -586,7 +595,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         className="w-full px-3 py-2 rounded-xl bg-[#EEDBB2] text-[#2E5B44] text-xs font-extrabold flex items-center justify-between"
                       >
                         <div className="flex items-center gap-2">
-                          <ShoppingBag className="w-4 h-4" />
+                          <FontAwesomeIcon icon={faShoppingBag} className="w-4 h-4" />
                           <span>Enrolled Cart</span>
                         </div>
                         <span className="bg-[#2E5B44] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{cartCount}</span>
@@ -636,7 +645,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   className="h-8 sm:h-10 lg:h-11 px-3 sm:px-4 lg:px-5 bg-[#234735] hover:bg-[#1A382A] text-white rounded-full flex items-center justify-center transition-colors shadow-xs"
                   title={t.heroSearchTitle}
                 >
-                  <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+                  <FontAwesomeIcon icon={faSearch} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </motion.button>
                 
                 <motion.button 
@@ -646,7 +655,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   className="h-8 sm:h-10 lg:h-11 px-3 sm:px-4 lg:px-5 bg-[#234735] hover:bg-[#1A382A] text-white rounded-full flex items-center justify-center transition-colors shadow-xs"
                   title={t.heroSettingsTitle}
                 >
-                  <Settings className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+                  <FontAwesomeIcon icon={faGear} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </motion.button>
               </div>
 
@@ -664,7 +673,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-[#234735] hover:bg-[#1A382A] text-white rounded-full flex items-center justify-center transition-colors shadow-xs"
                   title="Share"
                 >
-                  <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5] text-white" />
+                  <FontAwesomeIcon icon={faShareFromSquare} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
                 </motion.button>
               </div>
             </nav>
@@ -724,7 +733,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 title="Go to Playground"
               >
                 <span className="font-flpcart tracking-widest text-xs sm:text-sm lg:text-lg">{t.heroGo}</span>
-                <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 fill-white stroke-none group-hover:translate-x-0.5 transition-transform" />
+                <FontAwesomeIcon icon={faPlay} className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-white group-hover:translate-x-0.5 transition-transform" />
               </motion.button>
             </div>
           </motion.div>

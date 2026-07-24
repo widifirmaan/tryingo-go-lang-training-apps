@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ArrowLeft, BookOpen, ChevronDown, Code2, Sparkles } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faStar } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { CURRICULUM_LEVELS, LEVEL_BADGE_COLORS } from '../data/curriculum';
@@ -102,7 +102,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           onClick={onBack}
           className="p-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 shadow-xs transition-all shrink-0"
         >
-          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300" />
+          <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300" />
         </button>
 
         <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -130,7 +130,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           >
             <span className="hidden sm:inline">{levelName}</span>
             <span className="sm:hidden">Lv.{activeLevel === 'beginer' ? '1' : activeLevel === 'intermediate' ? '2' : activeLevel === 'advanced' ? '3' : '4'}</span>
-            <ChevronDown className="w-3.5 h-3.5" />
+            <FontAwesomeIcon icon={faChevronDown} className="w-3.5 h-3.5" />
           </button>
 
           {showLevelPicker && (
@@ -186,7 +186,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           className="ml-auto px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[10px] sm:text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0"
           title={isId ? 'Coba Sendiri' : 'Try It Yourself'}
         >
-          <Code2 className="w-3.5 h-3.5" />
+          <FontAwesomeIcon icon={faCode} className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">{isId ? 'Coba Sendiri' : 'Try It'}</span>
         </button>
       </div>
@@ -196,7 +196,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         {loading ? (
           <div className="flex items-center justify-center h-40 text-zinc-400">
             <div className="flex flex-col items-center gap-2">
-              <BookOpen className="w-8 h-8 animate-pulse" />
+              <FontAwesomeIcon icon={faBookOpen} className="w-8 h-8 animate-pulse" />
               <span className="text-xs font-medium">{isId ? 'Memuat...' : 'Loading...'}</span>
             </div>
           </div>

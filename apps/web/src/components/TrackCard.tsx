@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Code, BookOpen } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
 import { CURRICULUM_LEVELS } from '../data/curriculum';
 
@@ -45,7 +45,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
       {/* Badge Ribbon */}
       <div className="absolute top-3 right-4 z-20">
         <span className="inline-flex items-center gap-1 text-[10px] font-extrabold tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xs text-zinc-800 dark:text-zinc-200 shadow-2xs border border-white/60 dark:border-zinc-700">
-          <BookOpen className="w-2.5 h-2.5 text-zinc-500 dark:text-zinc-400" />
+          <FontAwesomeIcon icon={faBookOpen} className="w-2.5 h-2.5 text-zinc-500 dark:text-zinc-400" />
           {totalWeeks} {lang === 'id' ? 'Minggu' : 'Weeks'}
         </span>
       </div>
@@ -89,7 +89,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
               className="px-4 py-2 bg-[#2E5B44] hover:bg-[#234735] text-white text-xs font-bold rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-sm"
               title="Mulai Course"
             >
-              <Play className="w-3.5 h-3.5 fill-white" />
+              <FontAwesomeIcon icon={faPlay} className="w-3.5 h-3.5 text-white" />
               <span>Mulai Course</span>
             </button>
 
@@ -98,7 +98,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
               className="w-9 h-9 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
               title="Buka Playground"
             >
-              <Code className="w-4 h-4" />
+              <FontAwesomeIcon icon={faCode} className="w-4 h-4" />
             </button>
           </div>
         </div>
