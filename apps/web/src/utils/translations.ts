@@ -81,6 +81,9 @@ export const translations = {
     searchIndexError: 'Indeks pencarian tidak tersedia',
     searchContentCount: 'materi ditemukan',
     loading: 'Memuat...',
+    visitConfirm: 'Apakah kamu akan mengunjungi website developer?',
+    visitYes: 'Ya',
+    visitNo: 'Tidak',
   },
   en: {
     heroTagline: 'From Zero to Professional',
@@ -161,5 +164,8 @@ export const translations = {
     searchIndexError: 'Search index unavailable',
     searchContentCount: 'materials found',
     loading: 'Loading...',
+    visitConfirm: 'Are you sure you want to visit the developer website?',
+    visitYes: 'Yes',
+    visitNo: 'No',
   },
 };
