@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import React, { useState, useMemo, useEffect, Suspense, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HeroSection } from './components/HeroSection';
 import { TrackCard } from './components/TrackCard';
@@ -6,6 +6,7 @@ import { TRACKS_COLLECTION } from './data/tracksData';
 import { CartModal, SearchModal, DetailModal, SettingsModal } from './components/Modals';
 import { ArrowDown, Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
+import { REVERSE_SLUG_MAP } from './data/slugMap';
 
 const CoursePage = React.lazy(() => import('./components/CoursePage'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
@@ -47,22 +48,37 @@ export default function App() {
   const [playgroundCode, setPlaygroundCode] = useState<string | null>(null);
   const [playgroundLanguage, setPlaygroundLanguage] = useState<string>('html5');
 
+  const updateHash = useCallback((trackId: string | null, level?: string, week?: number) => {
+    if (!trackId) {
+      window.location.hash = '#/';
+      return;
+    }
+    const slug = trackId.replace('tryngo-lang-', '');
+    const parts = ['', slug];
+    if (level) parts.push(level);
+    if (week) parts.push(String(week));
+    window.location.hash = parts.join('/');
+  }, []);
+
   const handleStartCourse = (trackId: string) => {
     setActiveCourseId(trackId);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
+    updateHash(trackId);
   };
 
   const handleNavigateToWeek = (trackId: string, level: string, week: number) => {
     setActiveCourseId(trackId);
     setCourseInitialLevel(level);
     setCourseInitialWeek(week);
+    updateHash(trackId, level, week);
   };
 
   const handleBackFromCourse = () => {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
+    updateHash(null);
   };
 
   const handleOpenPlayground = (code?: string) => {
@@ -117,6 +133,29 @@ export default function App() {
       localStorage.setItem('tryngo-theme', theme);
     } catch {}
   }, [theme, lang]);
+
+  // Hash routing — parse initial hash & listen for changes
+  useEffect(() => {
+    const parseHash = () => {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      if (!hash) return;
+      const parts = hash.split('/').filter(Boolean);
+      if (parts.length > 0) {
+        const slug = parts[0];
+        const trackId = REVERSE_SLUG_MAP[slug];
+        if (trackId) {
+          const level = parts[1] || undefined;
+          const week = parts[2] ? Number(parts[2]) : undefined;
+          setActiveCourseId(trackId);
+          setCourseInitialLevel(level);
+          setCourseInitialWeek(week && !isNaN(week) ? week : undefined);
+        }
+      }
+    };
+    parseHash();
+    window.addEventListener('hashchange', parseHash);
+    return () => window.removeEventListener('hashchange', parseHash);
+  }, []);
 
   // Rotate hero tracks every 5 seconds
   useEffect(() => {
@@ -272,6 +311,7 @@ export default function App() {
                       onOpenPlayground={handleOpenPlayground}
                       initialLevel={courseInitialLevel}
                       initialWeek={courseInitialWeek}
+                      onNavigate={handleNavigateToWeek}
                     />
                   </Suspense>
                 </motion.div>
