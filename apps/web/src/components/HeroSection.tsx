@@ -30,6 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   activeCourseId,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showExitModal, setShowExitModal] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const t = translations[lang];
 
@@ -585,9 +586,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {/* Top Navbar */}
             <nav id="navbar" aria-label="Main Navigation" className="relative z-20 flex items-center justify-between w-full">
               <div className="bg-white p-1 sm:p-1.5 rounded-full shadow-md flex items-center justify-center h-10 sm:h-12 lg:h-14 border border-white/40">
-                <motion.button 
+                <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
+                  onClick={() => setShowExitModal(true)}
                   className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-[#234735] hover:bg-[#1A382A] rounded-full flex items-center justify-center transition-colors shadow-xs"
                   title="Tryngo"
                 >
@@ -693,6 +695,52 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 fill-white stroke-none group-hover:translate-x-0.5 transition-transform" />
               </motion.button>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showExitModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowExitModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl p-6 max-w-sm w-full text-center border border-zinc-200 dark:border-zinc-700"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-12 h-12 mx-auto mb-4 bg-[#234735] rounded-full flex items-center justify-center">
+                <div className="grid grid-cols-2 gap-0.5 w-5 h-5">
+                  <div className="bg-[#A4CBB5] rounded-tl-full rounded-br-sm"></div>
+                  <div className="bg-white rounded-tr-full rounded-bl-sm"></div>
+                  <div className="bg-white rounded-bl-full rounded-tr-sm"></div>
+                  <div className="bg-[#EEDBB2] rounded-br-full rounded-tl-sm"></div>
+                </div>
+              </div>
+              <p className="text-sm sm:text-base font-bold text-zinc-800 dark:text-zinc-100 mb-6">
+                {t.visitConfirm}
+              </p>
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() => setShowExitModal(false)}
+                  className="px-5 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-sm font-bold transition-colors"
+                >
+                  {t.visitNo}
+                </button>
+                <button
+                  onClick={() => window.open('https://widifirmaan.web.id', '_blank')}
+                  className="px-5 py-2.5 rounded-xl bg-[#234735] hover:bg-[#1A382A] text-white text-sm font-bold transition-colors"
+                >
+                  {t.visitYes}
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
