@@ -1,13 +1,17 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HeroSection } from './components/HeroSection';
 import { TrackCard } from './components/TrackCard';
-import { CoursePage } from './components/CoursePage';
-import { CodePlayground } from './components/CodePlayground';
 import { TRACKS_COLLECTION } from './data/tracksData';
-import { CartModal, SearchModal, DetailModal, SettingsModal } from './components/Modals';
 import { ArrowDown, Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
+
+const CoursePage = React.lazy(() => import('./components/CoursePage'));
+const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
+const CartModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.CartModal })));
+const SearchModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SearchModal })));
+const DetailModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.DetailModal })));
+const SettingsModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SettingsModal })));
 
 export default function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -241,12 +245,14 @@ export default function App() {
                   transition={{ duration: 0.25 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
-                  <CoursePage
-                    trackId={activeCourseId}
-                    lang={lang}
-                    onBack={handleBackFromCourse}
-                    onOpenPlayground={handleOpenPlayground}
-                  />
+                  <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
+                    <CoursePage
+                      trackId={activeCourseId}
+                      lang={lang}
+                      onBack={handleBackFromCourse}
+                      onOpenPlayground={handleOpenPlayground}
+                    />
+                  </Suspense>
                 </motion.div>
               ) : isExploring ? (
                 /* MODE A: MULTI-CARD TRACKS SCROLL CONTAINER */
@@ -422,54 +428,64 @@ export default function App() {
       </div>
 
       {/* Interactive Modals */}
-      <CartModal 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onRemoveItem={handleRemoveFromCart}
-      />
+      <Suspense fallback={null}>
+        <CartModal 
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={cartItems}
+          onRemoveItem={handleRemoveFromCart}
+        />
+      </Suspense>
 
-      <SearchModal 
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        tracks={filteredTracks}
-        onSelectTrack={(item) => setSelectedProduct(item)}
-        onApplyFilters={() => setIsExploring(true)}
-        lang={lang}
-        onStartCourse={(id) => handleStartCourse(id)}
-      />
+      <Suspense fallback={null}>
+        <SearchModal 
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          tracks={filteredTracks}
+          onSelectTrack={(item) => setSelectedProduct(item)}
+          onApplyFilters={() => setIsExploring(true)}
+          lang={lang}
+          onStartCourse={(id) => handleStartCourse(id)}
+        />
+      </Suspense>
 
-      <DetailModal 
-        isOpen={!!selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        product={selectedProduct}
-      />
+      <Suspense fallback={null}>
+        <DetailModal 
+          isOpen={!!selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          product={selectedProduct}
+        />
+      </Suspense>
 
-      <SettingsModal 
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        lang={lang}
-        setLang={setLang}
-        theme={theme}
-        setTheme={setTheme}
-      />
+      <Suspense fallback={null}>
+        <SettingsModal 
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          lang={lang}
+          setLang={setLang}
+          theme={theme}
+          setTheme={setTheme}
+        />
+      </Suspense>
 
       {/* Interactive Code Playground */}
       <AnimatePresence>
         {playgroundCode !== null && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm">
-            <CodePlayground
-              lang={lang}
-              initialCode={playgroundCode || undefined}
-              language={playgroundLanguage}
-              onClose={handleClosePlayground}
-            />
+            <Suspense fallback={<div className="text-zinc-400 text-sm">{t.loading}</div>}>
+              <CodePlayground
+                lang={lang}
+                initialCode={playgroundCode || undefined}
+                language={playgroundLanguage}
+                onClose={handleClosePlayground}
+              />
+            </Suspense>
           </div>
         )}
       </AnimatePresence>
