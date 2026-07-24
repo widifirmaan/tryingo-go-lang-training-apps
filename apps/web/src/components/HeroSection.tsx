@@ -290,11 +290,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <motion.button
                     whileHover={{ scale: 1.02, x: 3 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={onOpenFilter}
+                    onClick={onOpenSettings}
                     className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                   >
-                    <SlidersHorizontal className="w-4 h-4 text-[#EEDBB2]" />
-                    <span>Filter</span>
+                    <Settings className="w-4 h-4 text-[#EEDBB2]" />
+                    <span>{lang === 'id' ? 'Pengaturan' : 'Settings'}</span>
                   </motion.button>
 
                   {/* Support */}
@@ -571,11 +571,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
-                      onClick={() => { setIsMobileMenuOpen(false); onOpenFilter(); }}
+                      onClick={() => { setIsMobileMenuOpen(false); onOpenSettings(); }}
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                     >
-                      <SlidersHorizontal className="w-4 h-4 text-[#EEDBB2]" />
-                      <span>Filter</span>
+                      <Settings className="w-4 h-4 text-[#EEDBB2]" />
+                      <span>{lang === 'id' ? 'Pengaturan' : 'Settings'}</span>
                     </motion.button>
 
                     <motion.button
