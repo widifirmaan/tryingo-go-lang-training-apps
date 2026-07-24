@@ -113,14 +113,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   )}
 
                   {/* Tech News */}
-                  <motion.button
-                    whileHover={{ scale: 1.02, x: 3 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors cursor-not-allowed"
-                  >
-                    <span className="text-base">📰</span>
-                    <span>Tech News <span className="text-[9px] opacity-50">(soon)</span></span>
-                  </motion.button>
+                  <div className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 text-white/60 text-xs font-bold flex items-center gap-2.5 cursor-not-allowed">
+                    <span className="text-base opacity-60">📰</span>
+                    <span>Tech News <span className="text-[9px] opacity-50 font-medium">(soon)</span></span>
+                  </div>
 
                   {/* Materi with submenu */}
                   <div className="flex flex-col">
@@ -448,14 +444,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       </motion.button>
                     )}
 
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.97 }}
-                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2 cursor-not-allowed"
-                    >
-                      <span className="text-sm">📰</span>
-                      <span>Tech News <span className="text-[9px] opacity-50">(soon)</span></span>
-                    </motion.button>
+                    <div className="w-full px-3 py-2 rounded-xl bg-white/10 text-white/60 text-xs font-bold flex items-center gap-2 cursor-not-allowed">
+                      <span className="text-sm opacity-60">📰</span>
+                      <span>Tech News <span className="text-[9px] opacity-50 font-medium">(soon)</span></span>
+                    </div>
 
                     <motion.button
                       whileHover={{ scale: 1.02 }}
