@@ -1,84 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Tryngo - Interactive platform to learn Go, HTML5, and more programming languages with built-in playground" />
-  <meta name="keywords" content="learn golang, learn html5, coding bootcamp, programming tutorial, go language" />
-  <meta property="og:title" content="Tryngo - Learn Programming Interactively" />
-  <meta property="og:description" content="Interactive coding platform with built-in playground. Start learning Go and HTML5 today!" />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#00ADD8" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
-  <title>Tryngo - Learn Programming</title>
-</head>
-<body>
-  <div id="app">
-    <nav id="navbar" class="navbar" role="navigation" aria-label="Main navigation">
-      <div class="navbar-container">
-        <a href="/" class="navbar-brand" aria-label="Tryngo Home">
-          <span class="brand-icon">&#x1F680;</span>
-          <span class="brand-text">Tryngo</span>
-        </a>
-        <button class="navbar-toggle" id="navbarToggle" data-i18n-aria="nav.toggleMenu" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span class="hamburger"></span>
-        </button>
-        <ul class="navbar-links" id="navbarLinks" role="menubar">
-          <li role="none"><a href="/" role="menuitem" class="nav-link active" data-i18n="nav.home">Home</a></li>
-          <li role="none"><a href="/learn/golang" role="menuitem" class="nav-link" data-i18n="nav.learnGo">Learn Go</a></li>
-          <li role="none"><a href="/playground/go" role="menuitem" class="nav-link" data-i18n="nav.playground">Playground</a></li>
-          <li role="none" class="nav-lang-switcher">
-            <button type="button" class="lang-btn" data-lang="en" aria-label="English">EN</button>
-            <button type="button" class="lang-btn" data-lang="id" aria-label="Bahasa Indonesia">ID</button>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <main id="main-content" class="main-content" role="main">
-    </main>
-    <footer id="footer" class="footer" role="contentinfo">
-      <div class="footer-container">
-        <div class="footer-brand">
-          <span class="brand-icon">&#x1F680;</span>
-          <span class="brand-text">Tryngo</span>
-          <p class="footer-tagline" data-i18n="footer.tagline">Interactive programming education platform</p>
-        </div>
-        <div class="footer-links">
-          <div class="footer-column">
-            <h4 data-i18n="footer.languages">Languages</h4>
-            <ul>
-              <li><a href="/learn/golang" data-i18n="footer.go">Go (Golang)</a></li>
-              <li><a href="/learn/html" data-i18n="footer.html">HTML5</a></li>
-              <li><a href="/" data-i18n="footer.more">More coming soon</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h4 data-i18n="footer.resources">Resources</h4>
-            <ul>
-              <li><a href="/playground/go" data-i18n="footer.codePlayground">Code Playground</a></li>
-              <li><a href="https://go.dev/doc/" target="_blank" rel="noopener" data-i18n="footer.goDocs">Go Docs</a></li>
-              <li><a href="https://developer.mozilla.org/" target="_blank" rel="noopener" data-i18n="footer.mdnDocs">MDN Web Docs</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h4 data-i18n="footer.company">Company</h4>
-            <ul>
-              <li><a href="/" data-i18n="footer.about">About</a></li>
-              <li><a href="/" data-i18n="footer.github">GitHub</a></li>
-              <li><a href="/" data-i18n="footer.contact">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p data-i18n="footer.copyright">&copy; 2026 Tryngo. Built with &#x2764; for developers worldwide.</p>
-        </div>
-      </div>
-    </footer>
-  </div>
-  <script type="module" src="/app.js"></script>
-</body>
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tryngo — Interactive coding education platform from zero to professional. Learn 27+ programming languages and frameworks with built-in code playground." />
+    <meta name="theme-color" content="#2E5B44" />
+    <title>Tryngo — From Zero to Professional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232E5B44'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='system-ui' font-weight='bold'>T</text></svg>">
+  </head>
+  <body class="bg-[#18181b] antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
+

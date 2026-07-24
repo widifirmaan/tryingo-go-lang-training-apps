@@ -1,0 +1,6 @@
+{
+  "name": "Tryngo",
+  "description": "From Zero to Professional. Interactive coding tutorials with built-in playground.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

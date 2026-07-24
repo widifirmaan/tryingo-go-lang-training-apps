@@ -1,0 +1,30 @@
+{
+  "name": "tryngo-code-execution",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-07-21",
+  "containers": [
+    {
+      "class_name": "Sandbox",
+      "image": "./Dockerfile",
+      "instance_type": "lite",
+      "max_instances": 5
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "class_name": "Sandbox",
+        "name": "Sandbox"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "new_sqlite_classes": ["Sandbox"],
+      "tag": "v1"
+    }
+  ],
+  "observability": {
+    "head_sampling_rate": 0.5
+  }
+}
