@@ -317,7 +317,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <motion.div 
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="flex-1 min-h-0 p-3 bg-black/20 backdrop-blur-xs rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer"
+                className={`flex-1 min-h-0 p-3 bg-black/20 backdrop-blur-xs rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer ${activeSubmenu === 'materi' ? 'hidden' : ''}`}
               >
                 <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/30 shadow-md">
                   <img 
