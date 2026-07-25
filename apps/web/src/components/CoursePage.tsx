@@ -4,7 +4,7 @@ import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
-import { getCurriculum, LEVEL_BADGE_COLORS } from '../data/curriculum';
+import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
@@ -103,8 +103,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
   const levelInfo = levels.find(l => l.levelId === activeLevel);
   const levelName = isId ? levelInfo?.nameId : levelInfo?.nameEn;
-  const levelDesc = isId ? levelInfo?.descId : levelInfo?.descEn;
-  const badgeColor = LEVEL_BADGE_COLORS[activeLevel] || 'bg-zinc-500 text-white';
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden gap-3 px-3 sm:px-0">
@@ -124,9 +122,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
               <h2 className="font-extrabold text-xs sm:text-sm md:text-base leading-none truncate">{track.name}</h2>
-              <span className={`text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2 py-0.5 rounded-full shrink-0 ${badgeColor}`}>
-                {levelName}
-              </span>
             </div>
             <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate mt-0.5">
               {track.category}
