@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
-import { CURRICULUM_LEVELS } from '../data/curriculum';
+import { getCurriculum } from '../data/curriculum';
 
 export interface TrackData {
   id: string;
@@ -25,10 +25,9 @@ interface TrackCardProps {
   onOpenDetails: (item: any) => void;
   isCompact?: boolean;
   onStartCourse?: (trackId: string) => void;
+  onOpenPlayground?: (trackId: string) => void;
   lang?: 'id' | 'en';
 }
-
-const totalWeeks = CURRICULUM_LEVELS.reduce((sum, l) => sum + l.weeks.length, 0);
 
 export const TrackCard: React.FC<TrackCardProps> = ({
   track,
@@ -36,11 +35,13 @@ export const TrackCard: React.FC<TrackCardProps> = ({
   onOpenDetails,
   isCompact = false,
   onStartCourse,
+  onOpenPlayground,
   lang = 'id',
 }) => {
+  const totalWeeks = getCurriculum(track.id.replace('tryngo-lang-', '')).reduce((sum, l) => sum + l.weeks.length, 0);
   return (
     <div 
-      className={`relative w-full h-full flex flex-col justify-between rounded-[28px] p-4 sm:p-5 select-none shadow-md hover:shadow-xl transition-all border ${track.bgClass} ${track.borderColor} dark:bg-zinc-800/90 dark:border-zinc-700/80 dark:text-zinc-100`}
+      className={`relative w-full h-full flex flex-col rounded-[28px] p-3 sm:p-4 select-none shadow-md hover:shadow-xl transition-all border ${track.bgClass} ${track.borderColor} dark:bg-zinc-800/90 dark:border-zinc-700/80 dark:text-zinc-100`}
     >
       {/* Badge Ribbon */}
       <div className="absolute top-3 right-4 z-20">
@@ -51,10 +52,10 @@ export const TrackCard: React.FC<TrackCardProps> = ({
       </div>
 
       {/* --- MIDDLE BODY: MODEL IMAGE + DESCRIPTION --- */}
-      <div className="relative grid grid-cols-12 items-center gap-3 my-auto z-10 pt-4">
+      <div className="relative grid grid-cols-12 items-stretch gap-2 z-10 flex-1 min-h-0">
         {/* Tech Illustration Image */}
-        <div className="col-span-5 relative flex justify-center">
-          <div className="relative w-full max-w-[150px] aspect-[3/4] rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700 shadow-sm bg-white/70 dark:bg-zinc-900/90 backdrop-blur-xs flex items-center justify-center p-3.5 group">
+        <div className="col-span-5 relative min-h-0">
+          <div className="w-full h-full rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700 shadow-sm bg-white/70 dark:bg-zinc-900/90 backdrop-blur-xs flex items-center justify-center p-2 group">
             <div className="absolute inset-0 bg-[radial-gradient(#000_1px,transparent_1px)] dark:bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:10px_10px] opacity-10 pointer-events-none" />
             <img 
               src={track.image} 
@@ -66,39 +67,39 @@ export const TrackCard: React.FC<TrackCardProps> = ({
         </div>
 
         {/* Right Content Area: Description, Stock */}
-        <div className="col-span-7 flex flex-col justify-between h-full pl-1 space-y-2">
+        <div className="col-span-7 flex flex-col justify-between h-full pl-1 space-y-1">
           {/* Track Title */}
           <div>
             <span className="text-[9px] font-black tracking-widest text-zinc-700 dark:text-emerald-400 uppercase">
               {track.category}
             </span>
-            <h3 className="font-bold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 leading-tight line-clamp-1 sm:line-clamp-2">
+            <h3 className="font-bold text-[10px] sm:text-sm text-zinc-900 dark:text-zinc-100 leading-tight line-clamp-1">
               {track.name}
             </h3>
           </div>
 
           {/* Text Description */}
-          <p className="text-[11px] sm:text-xs leading-relaxed text-zinc-800 dark:text-zinc-300 font-medium line-clamp-3">
+          <p className="text-[10px] sm:text-xs leading-relaxed text-zinc-800 dark:text-zinc-300 font-medium min-h-0 overflow-hidden line-clamp-2 sm:line-clamp-3">
             {track.description}
           </p>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-3 pt-2">
+          <div className="flex items-center gap-2">
             <button 
               onClick={() => onStartCourse?.(track.id)}
-              className="px-4 py-2 bg-[#2E5B44] hover:bg-[#234735] text-white text-xs font-bold rounded-xl flex items-center gap-2 transition-all hover:scale-105 shadow-sm"
+              className="px-3 py-1.5 bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all hover:scale-105 shadow-sm"
               title="Mulai Course"
             >
-              <FontAwesomeIcon icon={faPlay} className="w-3.5 h-3.5 text-white" />
+              <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
               <span>Mulai Course</span>
             </button>
 
             <button 
-              onClick={() => onOpenDetails(track)}
-              className="w-9 h-9 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
+              onClick={() => onOpenPlayground?.(track.id)}
+              className="w-8 h-8 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
               title="Buka Playground"
             >
-              <FontAwesomeIcon icon={faCode} className="w-4 h-4" />
+              <FontAwesomeIcon icon={faCode} className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { TECH_LOGOS } from '../assets/techLogos';
 export const TRACKS_COLLECTION: TrackData[] = [
   {
     id: 'tryngo-lang-html5',
-    name: 'HTML5 & Web Fundamentals',
+    name: 'HTML5',
     category: 'Markup & DOM Standard',
     price: 99,
     availableStock: 240,
@@ -24,7 +24,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-css3',
-    name: 'CSS3 & Tailwind UI Design',
+    name: 'CSS3',
     category: 'Styling & Layouts',
     price: 129,
     availableStock: 195,
@@ -44,7 +44,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-javascript',
-    name: 'JavaScript ES6+ & Web Engine',
+    name: 'JavaScript',
     category: 'Web Scripting Core',
     price: 159,
     availableStock: 310,
@@ -64,7 +64,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-typescript',
-    name: 'TypeScript Type-Safe Architecture',
+    name: 'TypeScript',
     category: 'Typed JavaScript',
     price: 179,
     availableStock: 220,
@@ -84,7 +84,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-golang',
-    name: 'Golang Concurrent Microservices',
+    name: 'Go',
     category: 'Backend & Systems',
     price: 189,
     availableStock: 165,
@@ -104,7 +104,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-nextjs',
-    name: 'Next.js 14 App Router Fullstack',
+    name: 'Next.js',
     category: 'Fullstack Framework',
     price: 199,
     availableStock: 180,
@@ -124,7 +124,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-python',
-    name: 'Python & Gemini AI Integration',
+    name: 'Python',
     category: 'Data Science & AI',
     price: 185,
     availableStock: 280,
@@ -144,7 +144,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-react',
-    name: 'React 19 & Component Engineering',
+    name: 'React',
     category: 'Frontend Library',
     price: 169,
     availableStock: 350,
@@ -164,7 +164,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-vue',
-    name: 'Vue 3 Composition API & Pinia',
+    name: 'Vue',
     category: 'Progressive Framework',
     price: 149,
     availableStock: 145,
@@ -184,7 +184,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-rust',
-    name: 'Rust High-Performance Systems',
+    name: 'Rust',
     category: 'Systems Programming',
     price: 209,
     availableStock: 110,
@@ -204,7 +204,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-docker',
-    name: 'Docker Containers & Cloud DevOps',
+    name: 'Docker',
     category: 'Cloud Infrastructure',
     price: 175,
     availableStock: 130,
@@ -224,7 +224,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-nodejs',
-    name: 'Node.js & Express REST API',
+    name: 'Node.js',
     category: 'Server Runtime',
     price: 155,
     availableStock: 205,
@@ -244,7 +244,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-angular',
-    name: 'Angular 17+ Enterprise Apps',
+    name: 'Angular',
     category: 'Enterprise Frontend',
     price: 175,
     availableStock: 160,
@@ -264,7 +264,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-svelte',
-    name: 'Svelte 5 & SvelteKit Fullstack',
+    name: 'Svelte',
     category: 'Compile-Time Framework',
     price: 165,
     availableStock: 140,
@@ -284,7 +284,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-php',
-    name: 'PHP 8.3 & Modern Backend',
+    name: 'PHP',
     category: 'Web Scripting Standard',
     price: 139,
     availableStock: 290,
@@ -304,7 +304,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-laravel',
-    name: 'Laravel 11 Fullstack Framework',
+    name: 'Laravel',
     category: 'PHP Framework',
     price: 189,
     availableStock: 210,
@@ -324,7 +324,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-rails',
-    name: 'Ruby on Rails 7 Convention Web',
+    name: 'Ruby on Rails',
     category: 'Agile Web Framework',
     price: 179,
     availableStock: 115,
@@ -344,7 +344,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-postgresql',
-    name: 'PostgreSQL & Relational DB Arch',
+    name: 'PostgreSQL',
     category: 'Database Systems',
     price: 169,
     availableStock: 180,
@@ -364,7 +364,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-graphql',
-    name: 'GraphQL & Modern API Gateway',
+    name: 'GraphQL',
     category: 'API Specification',
     price: 159,
     availableStock: 150,
@@ -384,7 +384,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-csharp',
-    name: 'C# & .NET 8 Web API Services',
+    name: 'C#',
     category: 'Enterprise Backend',
     price: 195,
     availableStock: 135,
@@ -404,7 +404,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-spring',
-    name: 'Java Spring Boot 3 Enterprise API',
+    name: 'Spring Boot',
     category: 'Enterprise Backend',
     price: 199,
     availableStock: 175,
@@ -424,7 +424,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-codeigniter',
-    name: 'CodeIgniter 4 PHP Web Framework',
+    name: 'CodeIgniter',
     category: 'PHP Framework',
     price: 129,
     availableStock: 240,
@@ -444,7 +444,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-mysql',
-    name: 'MySQL 8 Relational Database',
+    name: 'MySQL',
     category: 'Database Systems',
     price: 145,
     availableStock: 220,
@@ -464,7 +464,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-mongodb',
-    name: 'MongoDB NoSQL & Aggregation',
+    name: 'MongoDB',
     category: 'NoSQL Database',
     price: 155,
     availableStock: 190,
@@ -484,7 +484,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-redis',
-    name: 'Redis In-Memory Cache & PubSub',
+    name: 'Redis',
     category: 'NoSQL Cache',
     price: 149,
     availableStock: 165,
@@ -504,7 +504,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-django',
-    name: 'Django 5 Python Fullstack & ORM',
+    name: 'Django',
     category: 'Python Framework',
     price: 179,
     availableStock: 150,
@@ -524,7 +524,7 @@ export const TRACKS_COLLECTION: TrackData[] = [
   },
   {
     id: 'tryngo-lang-nestjs',
-    name: 'NestJS Enterprise Node.js API',
+    name: 'NestJS',
     category: 'Node.js Framework',
     price: 185,
     availableStock: 140,

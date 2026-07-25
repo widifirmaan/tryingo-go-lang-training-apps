@@ -88,6 +88,11 @@ export default function App() {
     }
   };
 
+  const handleOpenPlaygroundById = (trackId: string) => {
+    setPlaygroundLanguage(trackId);
+    setPlaygroundCode(' ');
+  };
+
   const handleClosePlayground = () => {
     setPlaygroundCode(null);
   };
@@ -424,6 +429,7 @@ export default function App() {
                               onAddToCart={handleAddToCart}
                               onOpenDetails={(item) => setSelectedProduct(item)}
                               onStartCourse={(id) => handleStartCourse(id)}
+                              onOpenPlayground={handleOpenPlaygroundById}
                               lang={lang}
                             />
                           </motion.div>
@@ -439,13 +445,14 @@ export default function App() {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.88 }}
                             transition={{ duration: 0.25, delay: 0.03 * Math.min(idx, 10) }}
-                            className="w-full flex-shrink-0"
+                            className="w-full min-h-0"
                           >
                             <TrackCard 
                               track={track}
                               onAddToCart={handleAddToCart}
                               onOpenDetails={(item) => setSelectedProduct(item)}
                               onStartCourse={(id) => handleStartCourse(id)}
+                              onOpenPlayground={handleOpenPlaygroundById}
                               lang={lang}
                             />
                           </motion.div>
@@ -479,6 +486,7 @@ export default function App() {
                         onAddToCart={handleAddToCart}
                         onOpenDetails={(item) => setSelectedProduct(item)}
                         onStartCourse={(id) => handleStartCourse(id)}
+                        onOpenPlayground={handleOpenPlaygroundById}
                         lang={lang}
                       />
                     </motion.div>

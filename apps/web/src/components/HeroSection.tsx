@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faSliders, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
-import { CURRICULUM_LEVELS, LEVEL_BADGE_COLORS } from '../data/curriculum';
+import { getCurriculum, LEVEL_BADGE_COLORS } from '../data/curriculum';
 
 interface HeroSectionProps {
   onOpenSearch: () => void;
@@ -108,7 +108,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       onClick={onBackToHero}
                       className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                     >
-                      <FontAwesomeIcon icon={faHouse} className="w-4 h-4 text-[#EEDBB2]" />
+                      <FontAwesomeIcon icon={faHome} className="w-4 h-4 text-[#EEDBB2]" />
                       <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
                     </motion.button>
                   )}
@@ -164,7 +164,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                                     transition={{ duration: 0.15 }}
                                     className="overflow-hidden flex flex-col ml-2 gap-0.5"
                                   >
-                                    {CURRICULUM_LEVELS.map(level => (
+                                    {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
                                       <div key={level.levelId} className="flex flex-col">
                                         <div className="px-3 py-1 text-[10px] text-white/50 uppercase tracking-wider font-bold">
                                           {lang === 'id' ? level.nameId : level.nameEn}
@@ -444,7 +444,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         onClick={() => { setIsMobileMenuOpen(false); onBackToHero(); }}
                         className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                       >
-                        <FontAwesomeIcon icon={faHouse} className="w-4 h-4 text-[#EEDBB2]" />
+                        <FontAwesomeIcon icon={faHome} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
                       </motion.button>
                     )}
@@ -484,7 +484,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               </button>
                               {expandedTrack === track.id && (
                                 <div className="flex flex-col ml-2 gap-0.5">
-                                  {CURRICULUM_LEVELS.map(level => (
+                                  {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
                                     <div key={level.levelId}>
                                       <div className="px-3 py-1 text-[9px] text-white/40 uppercase tracking-wider font-bold">
                                         {lang === 'id' ? level.nameId : level.nameEn}

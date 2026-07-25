@@ -1,11 +1,23 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
-import { CURRICULUM_LEVELS, LEVEL_BADGE_COLORS } from '../data/curriculum';
+import { getCurriculum, LEVEL_BADGE_COLORS } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
+
+const InlinePlayground = React.lazy(() => import('./CodePlayground'));
+
+const extractCode = (markdown: string): string => {
+  const regex = /```(?:\w+)?\n([\s\S]*?)```/g;
+  const blocks: string[] = [];
+  let match;
+  while ((match = regex.exec(markdown)) !== null) {
+    blocks.push(match[1].trim());
+  }
+  return blocks.join('\n\n');
+};
 
 interface CoursePageProps {
   trackId: string;
@@ -27,7 +39,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const isId = lang === 'id';
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
-  const levels = CURRICULUM_LEVELS;
+  const levels = getCurriculum(slug);
 
   const currentLevel = levels.find(l => l.levelId === activeLevel);
   const currentWeek = currentLevel?.weeks.find(w => w.week === activeWeek);
@@ -95,7 +107,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
   const badgeColor = LEVEL_BADGE_COLORS[activeLevel] || 'bg-zinc-500 text-white';
 
   return (
-    <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden gap-3">
+    <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden gap-3 px-3 sm:px-0">
       {/* Header */}
       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
         <button
@@ -106,8 +118,8 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         </button>
 
         <div className="flex items-center gap-2 min-w-0 flex-1">
-          <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl ${track.bgClass} ${track.borderColor} border flex items-center justify-center p-1.5 sm:p-2 shrink-0`}>
-            <img src={track.image} alt={track.name} className="track-logo-img w-full h-full object-contain" referrerPolicy="no-referrer" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white border-zinc-200 dark:border-zinc-700 border flex items-center justify-center p-1.5 sm:p-2 shrink-0">
+            <img src={track.image} alt={track.name} className="track-logo-img w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%)' }} referrerPolicy="no-referrer" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
@@ -181,30 +193,41 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </button>
         ))}
 
-        <button
-          onClick={() => onOpenPlayground?.(content)}
-          className="ml-auto px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[10px] sm:text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0"
-          title={isId ? 'Coba Sendiri' : 'Try It Yourself'}
-        >
-          <FontAwesomeIcon icon={faCode} className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">{isId ? 'Coba Sendiri' : 'Try It'}</span>
-        </button>
+
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 p-4 sm:p-6 md:p-8 shadow-md">
-        {loading ? (
-          <div className="flex items-center justify-center h-40 text-zinc-400">
-            <div className="flex flex-col items-center gap-2">
-              <FontAwesomeIcon icon={faBookOpen} className="w-8 h-8 animate-pulse" />
-              <span className="text-xs font-medium">{isId ? 'Memuat...' : 'Loading...'}</span>
+      {/* Content + Inline Playground */}
+      <div className="flex-1 flex flex-col lg:flex-row min-h-0 gap-3">
+        {/* Markdown Content */}
+        <div className="flex-1 min-h-0 overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md">
+          {loading ? (
+            <div className="flex items-center justify-center h-40 text-zinc-400">
+              <div className="flex flex-col items-center gap-2">
+                <FontAwesomeIcon icon={faBookOpen} className="w-8 h-8 animate-pulse" />
+                <span className="text-xs font-medium">{isId ? 'Memuat...' : 'Loading...'}</span>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="lesson-body">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {content}
-            </ReactMarkdown>
+          ) : (
+            <div className="lesson-body">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {content}
+              </ReactMarkdown>
+            </div>
+          )}
+        </div>
+
+        {/* Inline Code Playground */}
+        {content && (
+          <div className="w-full lg:w-[480px] xl:w-[560px] h-dvh lg:h-full min-h-0 shrink-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <React.Suspense fallback={null}>
+              <InlinePlayground
+                lang={lang}
+                initialCode={extractCode(content)}
+                language={slug}
+                onClose={() => {}}
+                inline
+              />
+            </React.Suspense>
           </div>
         )}
       </div>

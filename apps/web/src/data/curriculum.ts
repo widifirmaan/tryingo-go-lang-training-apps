@@ -14,7 +14,7 @@ export interface LevelInfo {
   weeks: WeekInfo[];
 }
 
-export const CURRICULUM_LEVELS: LevelInfo[] = [
+const DEFAULT_CURRICULUM: LevelInfo[] = [
   {
     levelId: 'beginer',
     nameId: 'Pemula',
@@ -68,6 +68,56 @@ export const CURRICULUM_LEVELS: LevelInfo[] = [
     ],
   },
 ];
+
+const HTML5_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Belajar HTML5 dari nol: struktur dokumen, teks, list, link, gambar, semantic HTML, dan proyek pertama.',
+    descEn: 'Learn HTML5 from scratch: document structure, text, lists, links, images, semantic HTML, and first project.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-html', titleId: 'Pengenalan HTML5 & Web', titleEn: 'Introduction to HTML5 & Web' },
+      { week: 2, topicId: 'teks-format', titleId: 'Heading, Paragraf & Format Teks', titleEn: 'Headings, Paragraphs & Text Formatting' },
+      { week: 3, topicId: 'list-link', titleId: 'List, Tautan & Navigasi', titleEn: 'Lists, Links & Navigation' },
+      { week: 4, topicId: 'gambar-figure', titleId: 'Gambar, Figure & Path', titleEn: 'Images, Figures & Paths' },
+      { week: 5, topicId: 'semantic-project', titleId: 'Semantic HTML & Proyek Mini', titleEn: 'Semantic HTML & Mini Project' },
+    ],
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Data tabular, form interaktif, validasi HTML5, dan multimedia.',
+    descEn: 'Tabular data, interactive forms, HTML5 validation, and multimedia.',
+    weeks: [
+      { week: 6, topicId: 'tabel-data', titleId: 'Tabel & Data Tabular', titleEn: 'Tables & Tabular Data' },
+      { week: 7, topicId: 'form-input', titleId: 'Form & Input Elements', titleEn: 'Forms & Input Elements' },
+      { week: 8, topicId: 'validasi-form', titleId: 'Validasi Form HTML5', titleEn: 'HTML5 Form Validation' },
+      { week: 9, topicId: 'multimedia', titleId: 'Multimedia & Embedding', titleEn: 'Multimedia & Embedding' },
+    ],
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Aksesibilitas, SEO, metadata, dan HTML5 APIs modern.',
+    descEn: 'Accessibility, SEO, metadata, and modern HTML5 APIs.',
+    weeks: [
+      { week: 10, topicId: 'aksesibilitas', titleId: 'Aksesibilitas Web & ARIA', titleEn: 'Web Accessibility & ARIA' },
+      { week: 11, topicId: 'seo-metadata', titleId: 'SEO, Metadata & Structured Data', titleEn: 'SEO, Metadata & Structured Data' },
+      { week: 12, topicId: 'html5-apis', titleId: 'HTML5 APIs & Best Practices', titleEn: 'HTML5 APIs & Best Practices' },
+    ],
+  },
+];
+
+const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
+  html5: HTML5_CURRICULUM,
+};
+
+export function getCurriculum(slug: string): LevelInfo[] {
+  return CUSTOM_CURRICULA[slug] || DEFAULT_CURRICULUM;
+}
 
 export const LEVEL_BADGE_COLORS: Record<string, string> = {
   beginer: 'bg-emerald-500 text-white',
