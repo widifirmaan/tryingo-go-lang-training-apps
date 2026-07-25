@@ -84,9 +84,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             className="relative w-full h-full flex flex-col justify-between"
           >
             {/* Desktop/Landscape Sidebar View */}
-            <div ref={sidebarRef} className="hidden lg:flex landscape:flex flex-col h-full w-full relative overflow-y-auto">
-              <div className="flex flex-col gap-4 flex-shrink-0">
-                {/* Header */}
+            <div className="hidden lg:flex landscape:flex flex-col h-full w-full relative">
+              <div ref={sidebarRef} className="flex-1 overflow-y-auto">
+                <div className="flex flex-col gap-4 flex-shrink-0">
+                  {/* Header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
                     <motion.div
@@ -351,6 +352,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <span className="text-[10px] text-emerald-200">6 Interactive Modules</span>
                 </div>
               </motion.div>
+            </div>
 
               {onBackToHero && (
                 <motion.button
