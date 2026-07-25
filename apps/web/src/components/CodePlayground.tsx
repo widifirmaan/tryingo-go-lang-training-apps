@@ -309,7 +309,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       {/* Editor + Preview */}
       <div ref={containerRef} className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
         {/* Editor Panel */}
-        <div className={`flex-1 min-h-[120px] ${isHorizontal ? 'min-h-0 border-r' : 'border-b'} border-zinc-700/50 flex flex-col`}>
+        <div className={`${isHorizontal ? 'w-1/2 min-h-0 border-r' : 'flex-1 min-h-[120px] border-b'} border-zinc-700/50 flex flex-col`}>
           {/* Editor Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
@@ -339,7 +339,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         </div>
 
         {/* Preview / Output Panel */}
-        <div className={`flex-1 ${isHorizontal ? 'min-h-0' : 'min-h-[120px]'} flex flex-col bg-white`}>
+        <div className={`${isHorizontal ? 'w-1/2 min-h-0' : 'flex-1 min-h-[120px]'} flex flex-col bg-white`}>
           {/* Panel Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
