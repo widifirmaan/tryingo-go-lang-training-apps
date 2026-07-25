@@ -149,11 +149,11 @@ export default function App() {
         const slug = parts[0];
         const trackId = REVERSE_SLUG_MAP[slug];
         if (trackId) {
-          const level = parts[1] || undefined;
-          const week = parts[2] ? Number(parts[2]) : undefined;
+          const level = parts[1] || 'beginer';
+          const week = parts[2] ? Number(parts[2]) : 1;
           setActiveCourseId(trackId);
           setCourseInitialLevel(level);
-          setCourseInitialWeek(week && !isNaN(week) ? week : undefined);
+          setCourseInitialWeek(week && !isNaN(week) ? week : 1);
         }
       }
     };
@@ -303,6 +303,8 @@ export default function App() {
               onOpenCart={() => setIsCartOpen(true)}
               lang={lang}
               activeCourseId={activeCourseId}
+              activeLevel={courseInitialLevel}
+              activeWeek={courseInitialWeek}
               onNavigateToWeek={handleNavigateToWeek}
             />
           </motion.div>

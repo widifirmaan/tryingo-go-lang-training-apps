@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag, faFlask, faLaptopCode, faTerminal, faGlobe, faHeart, faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -18,6 +18,8 @@ interface HeroSectionProps {
   onOpenCart?: () => void;
   lang?: Language;
   activeCourseId?: string | null;
+  activeLevel?: string;
+  activeWeek?: number;
   onNavigateToWeek?: (trackId: string, level: string, week: number) => void;
 }
 
@@ -32,18 +34,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenCart,
   lang = 'id',
   activeCourseId,
+  activeLevel,
+  activeWeek,
   onNavigateToWeek,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
+  const [hideBottomCard, setHideBottomCard] = useState(false);
+  const materiRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
+
+  useEffect(() => {
+    const checkHeight = () => setHideBottomCard(window.innerHeight <= 750);
+    checkHeight();
+    window.addEventListener('resize', checkHeight);
+    return () => window.removeEventListener('resize', checkHeight);
+  }, []);
 
   useEffect(() => {
     if (activeCourseId) {
       setActiveSubmenu('materi');
       setExpandedTrack(activeCourseId);
+      setTimeout(() => {
+        materiRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   }, [activeCourseId]);
 
@@ -67,7 +84,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             className="relative w-full h-full flex flex-col justify-between"
           >
             {/* Desktop/Landscape Sidebar View */}
-            <div className="hidden lg:flex landscape:flex flex-col h-full w-full relative">
+            <div ref={sidebarRef} className="hidden lg:flex landscape:flex flex-col h-full w-full relative overflow-y-auto">
               <div className="flex flex-col gap-4 flex-shrink-0">
                 {/* Header */}
                 <div className="flex items-center justify-between">
@@ -119,16 +136,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     whileTap={{ scale: 0.97 }}
                     className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                   >
-                    <span className="text-base">📰</span>
+                    <FontAwesomeIcon icon={faNewspaper} className="w-4 h-4 text-[#EEDBB2]" />
                     <span>Tech News</span>
                   </motion.button>
 
                   {/* Materi with submenu */}
-                  <div className="flex flex-col">
+                  <div className="flex flex-col" ref={materiRef}>
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setActiveSubmenu(activeSubmenu === 'materi' ? null : 'materi')}
-                      className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-between transition-colors"
+                      className={`w-full px-3.5 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center justify-between transition-colors ${activeSubmenu === 'materi' ? 'bg-white/20' : 'bg-white/10 hover:bg-white/20'}`}
                     >
                       <div className="flex items-center gap-2.5">
                         <FontAwesomeIcon icon={faBookOpen} className="w-4 h-4 text-[#EEDBB2]" />
@@ -150,7 +167,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               <motion.button
                                 whileTap={{ scale: 0.97 }}
                                 onClick={() => setExpandedTrack(expandedTrack === track.id ? null : track.id)}
-                                className="w-full px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-bold flex items-center justify-between transition-colors"
+                                className={`w-full px-3.5 py-1.5 rounded-xl text-[11px] font-bold flex items-center justify-between transition-colors ${activeCourseId === track.id ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/80'}`}
                               >
                                 <span>{track.name}</span>
                                 <span className="text-[9px] opacity-60">{expandedTrack === track.id ? '▲' : '▼'}</span>
@@ -165,7 +182,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                                     className="overflow-hidden flex flex-col ml-2 gap-0.5"
                                   >
                                     {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
-                                      <div key={level.levelId} className="flex flex-col">
+                                      <div key={level.levelId} className="flex flex-col gap-0.5">
                                         <div className="px-3 py-1 text-[10px] text-white/50 uppercase tracking-wider font-bold">
                                           {lang === 'id' ? level.nameId : level.nameEn}
                                         </div>
@@ -174,10 +191,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                                             key={week.week}
                                             whileTap={{ scale: 0.97 }}
                                             onClick={() => {
-                                              setExpandedTrack(null);
                                               onNavigateToWeek?.(track.id, level.levelId, week.week);
                                             }}
-                                            className="w-full pl-6 pr-3 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/70 text-[10px] font-medium text-left flex items-center gap-1.5 transition-colors"
+                                             className={`w-full pl-6 pr-3 py-1 rounded-lg text-[10px] font-medium text-left flex items-center gap-2.5 transition-colors ${activeCourseId === track.id && activeLevel === level.levelId && activeWeek === week.week ? 'bg-emerald-400/15 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/70'}`}
                                           >
                                             <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
                                             {lang === 'id' ? week.titleId : week.titleEn}
@@ -203,8 +219,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-between transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
-                        <span className="text-base">🧪</span>
-                        <span>Quiz</span>
+                        <FontAwesomeIcon icon={faFlask} className="w-4 h-4 text-[#EEDBB2]" />
+                        <span>{lang === 'id' ? 'Kuis' : 'Quiz'}</span>
                       </div>
                       <span className="text-[9px] opacity-60">{activeSubmenu === 'quiz' ? '▲' : '▼'}</span>
                     </motion.button>
@@ -246,7 +262,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-between transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
-                        <span className="text-base">💻</span>
+                        <FontAwesomeIcon icon={faLaptopCode} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>Online IDE</span>
                       </div>
                       <span className="text-[9px] opacity-60">{activeSubmenu === 'ide' ? '▲' : '▼'}</span>
@@ -261,11 +277,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
                         >
                           <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="text-sm">🐹</span>
+                            <FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70" />
                             Go Playground
                           </motion.button>
                           <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="text-sm">🌐</span>
+                            <FontAwesomeIcon icon={faGlobe} className="w-3.5 h-3.5 text-white/70" />
                             HTML / CSS Playground
                           </motion.button>
                         </motion.div>
@@ -304,20 +320,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     onClick={() => window.open('https://github.com/anomalyco/tryingo-go-lang-training-apps', '_blank')}
                     className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                   >
-                    <span className="text-base">💚</span>
-                    <span>Support</span>
+<FontAwesomeIcon icon={faHeart} className="w-4 h-4 text-red-400" />
+                    <span>{lang === 'id' ? 'Dukung' : 'Support'}</span>
                   </motion.button>
                 </div>
               </div>
 
               {/* Divider above card */}
-              <hr className="border-white/10 my-1" />
+              <hr className="border-white/10 mt-3 mb-1" />
 
               {/* Bottom Card Preview - fills remaining space */}
               <motion.div 
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className={`flex-1 min-h-0 p-3 bg-black/20 backdrop-blur-xs rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer ${activeSubmenu === 'materi' ? 'hidden' : ''}`}
+                className={`flex-1 min-h-0 p-3 bg-black/20 backdrop-blur-xs rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer ${activeSubmenu === 'materi' || hideBottomCard ? 'hidden' : ''}`}
               >
                 <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/30 shadow-md">
                   <img 
@@ -344,7 +360,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   className="absolute bottom-4 right-2 w-10 h-10 sm:w-11 sm:h-11 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-lg backdrop-blur-sm border border-white/20"
                   title="Expand Hero"
                 >
-                  <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faHome} className="w-5 h-5" />
                 </motion.button>
               )}
             </div>
@@ -361,7 +377,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-10 h-10 sm:w-11 sm:h-11 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition-colors cursor-pointer z-10"
                       title="Return to Hero"
                     >
-                      <FontAwesomeIcon icon={faChevronLeft} className="w-5 h-5" />
+                  <FontAwesomeIcon icon={faHome} className="w-5 h-5" />
                     </motion.button>
                   )}
 
@@ -454,7 +470,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       whileTap={{ scale: 0.97 }}
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                     >
-                      <span className="text-sm">📰</span>
+                      <FontAwesomeIcon icon={faNewspaper} className="w-4 h-4 text-[#EEDBB2]" />
                       <span>Tech News</span>
                     </motion.button>
 
@@ -462,7 +478,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setActiveSubmenu(activeSubmenu === 'materi-mobile' ? null : 'materi-mobile')}
-                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center justify-between"
+                      className={`w-full px-3 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-between ${activeSubmenu === 'materi-mobile' ? 'bg-white/20' : 'bg-white/10'}`}
                     >
                       <div className="flex items-center gap-2">
                         <FontAwesomeIcon icon={faBookOpen} className="w-4 h-4 text-[#EEDBB2]" />
@@ -477,7 +493,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                             <div key={track.id} className="flex flex-col">
                               <button
                                 onClick={() => setExpandedTrack(expandedTrack === track.id ? null : track.id)}
-                                className="w-full px-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-bold flex items-center justify-between"
+                                className={`w-full px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center justify-between ${activeCourseId === track.id ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 text-white/70'}`}
                               >
                                 <span>{track.name}</span>
                                 <span className="text-[9px]">{expandedTrack === track.id ? '▲' : '▼'}</span>
@@ -485,18 +501,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               {expandedTrack === track.id && (
                                 <div className="flex flex-col ml-2 gap-0.5">
                                   {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
-                                    <div key={level.levelId}>
-                                      <div className="px-3 py-1 text-[9px] text-white/40 uppercase tracking-wider font-bold">
-                                        {lang === 'id' ? level.nameId : level.nameEn}
-                                      </div>
-                                      {level.weeks.map(week => (
+                                  <div key={level.levelId} className="flex flex-col gap-0.5">
+                                        <div className="px-3 py-1 text-[9px] text-white/40 uppercase tracking-wider font-bold">
+                                          {lang === 'id' ? level.nameId : level.nameEn}
+                                        </div>
+                                        {level.weeks.map(week => (
                                         <button
                                           key={week.week}
                                           onClick={() => {
-                                            setExpandedTrack(null);
                                             onNavigateToWeek?.(track.id, level.levelId, week.week);
                                           }}
-                                          className="w-full pl-6 pr-3 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-white/60 text-[10px] font-medium text-left flex items-center gap-1.5"
+                                          className={`w-full pl-6 pr-3 py-1 rounded-lg text-[10px] font-medium text-left flex items-center gap-2.5 ${activeCourseId === track.id && activeLevel === level.levelId && activeWeek === week.week ? 'bg-emerald-400/15 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/60'}`}
                                         >
                                           <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
                                           {lang === 'id' ? week.titleId : week.titleEn}
@@ -519,8 +534,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-sm">🧪</span>
-                        <span>Quiz</span>
+                        <FontAwesomeIcon icon={faFlask} className="w-4 h-4 text-[#EEDBB2]" />
+                        <span>{lang === 'id' ? 'Kuis' : 'Quiz'}</span>
                       </div>
                       <span className="text-[9px]">{activeSubmenu === 'quiz-mobile' ? '▲' : '▼'}</span>
                     </motion.button>
@@ -541,7 +556,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-sm">💻</span>
+                        <FontAwesomeIcon icon={faLaptopCode} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>Online IDE</span>
                       </div>
                       <span className="text-[9px]">{activeSubmenu === 'ide-mobile' ? '▲' : '▼'}</span>
@@ -549,8 +564,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <AnimatePresence>
                       {activeSubmenu === 'ide-mobile' && (
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
-                          <button className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2"><span className="text-sm">🐹</span>Go Playground</button>
-                          <button className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2"><span className="text-sm">🌐</span>HTML / CSS Playground</button>
+                          <button className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2"><FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70" />Go Playground</button>
+                          <button className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2"><FontAwesomeIcon icon={faGlobe} className="w-3.5 h-3.5 text-white/70" />HTML / CSS Playground</button>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -583,8 +598,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       onClick={() => { setIsMobileMenuOpen(false); window.open('https://github.com/anomalyco/tryingo-go-lang-training-apps', '_blank'); }}
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                     >
-                      <span className="text-sm">💚</span>
-                      <span>Support</span>
+<FontAwesomeIcon icon={faHeart} className="w-4 h-4 text-red-400" />
+                      <span>{lang === 'id' ? 'Dukung' : 'Support'}</span>
                     </motion.button>
 
                     {onOpenCart && (
@@ -687,7 +702,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Hero Main Content */}
             <div className="relative z-10 my-auto flex-1 flex items-center justify-center py-2 sm:py-3 lg:py-4">
-              <div className="grid grid-cols-1 landscape:grid-cols-12 lg:grid-cols-12 items-center gap-3 sm:gap-4 lg:gap-6 w-full">
+              <div className="grid grid-cols-1 landscape:grid-cols-12 lg:grid-cols-12 items-center gap-3 sm:gap-0.5 lg:gap-6 w-full">
                 {/* Illustration */}
                 <div className="landscape:col-span-5 lg:col-span-5 relative flex justify-center lg:justify-start items-center">
                   <motion.div 
