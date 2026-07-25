@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faCheckCircle, faClock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 
 interface CodePlaygroundProps {
@@ -9,6 +9,7 @@ interface CodePlaygroundProps {
   initialCode?: string;
   language: string;
   onClose: () => void;
+  inline?: boolean;
 }
 
 const DEFAULT_CODE: Record<string, string> = {
@@ -116,6 +117,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   initialCode,
   language,
   onClose,
+  inline,
 }) => {
   const [code, setCode] = useState(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
   const [output, setOutput] = useState('');
@@ -232,61 +234,67 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     : LANGUAGE_MAP[language] === 'python' ? 'python'
     : 'html';
 
+  const Wrapper = inline ? 'div' : motion.div;
+  const wrapperProps = inline ? {} : {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 },
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className={`flex flex-col bg-[#1e1e1e] rounded-[28px] overflow-hidden border border-zinc-700/50 shadow-2xl ${
-        isFullscreen ? 'fixed inset-4 z-50' : 'w-full h-full'
+    <Wrapper
+      {...wrapperProps}
+      className={`flex flex-col bg-[#1e1e1e] rounded-[28px] overflow-hidden border border-zinc-700/50 ${
+        inline ? 'w-full h-full' : isFullscreen ? 'fixed inset-4 z-50' : 'w-full h-full'
       }`}
       onKeyDown={handleKeyDown}
     >
-      {/* Toolbar */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50">
-        <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
+      {!inline && (
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-red-500" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
+            </div>
+            <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
+              {isWebLanguage
+                ? (isId ? '🌐 Bahasa Web — Hasil langsung di preview' : '🌐 Web Language — Live preview')
+                : (isId ? '⚙️ Bahasa Server — Eksekusi via Worker' : '⚙️ Server Language — Execute via Worker')
+              }
+            </span>
           </div>
-          <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
-            {isWebLanguage
-              ? (isId ? '🌐 Bahasa Web — Hasil langsung di preview' : '🌐 Web Language — Live preview')
-              : (isId ? '⚙️ Bahasa Server — Eksekusi via Worker' : '⚙️ Server Language — Execute via Worker')
-            }
-          </span>
-        </div>
 
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={resetCode}
-            className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-            title={isId ? 'Reset Kode' : 'Reset Code'}
-          >
-            <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors hidden sm:block"
-            title={isFullscreen ? (isId ? 'Keluar Layar Penuh' : 'Exit Fullscreen') : (isId ? 'Layar Penuh' : 'Fullscreen')}
-          >
-            {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}
-          </button>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
-            title={isId ? 'Tutup' : 'Close'}
-          >
-            <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={resetCode}
+              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+              title={isId ? 'Reset Kode' : 'Reset Code'}
+            >
+              <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setIsFullscreen(!isFullscreen)}
+              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors hidden sm:block"
+              title={isFullscreen ? (isId ? 'Keluar Layar Penuh' : 'Exit Fullscreen') : (isId ? 'Layar Penuh' : 'Fullscreen')}
+            >
+              {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
+              title={isId ? 'Tutup' : 'Close'}
+            >
+              <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Editor + Preview */}
       <div className="flex-1 flex flex-col sm:flex-row min-h-0">
         {/* Editor Panel */}
-        <div className="flex-1 min-h-[200px] sm:min-h-0 border-b sm:border-b-0 sm:border-r border-zinc-700/50 flex flex-col">
+        <div className="flex-1 min-h-[120px] sm:min-h-0 border-b sm:border-b-0 sm:border-r border-zinc-700/50 flex flex-col">
           {/* Editor Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
@@ -316,38 +324,19 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         </div>
 
         {/* Preview / Output Panel */}
-        <div className="flex-1 min-h-[200px] sm:min-h-0 flex flex-col bg-white">
+        <div className="flex-1 min-h-[120px] sm:min-h-0 flex flex-col bg-white">
           {/* Panel Header */}
-          <div className="flex items-center justify-between px-3 py-1 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setShowConsole(true)}
-                className={`text-[10px] font-bold px-2 py-0.5 rounded transition-colors ${
-                  showConsole ? 'bg-[#2E5B44] text-white' : 'text-zinc-500 hover:text-zinc-800'
-                }`}
-              >
-                {isId ? 'Hasil' : 'Result'}
-              </button>
-              {!isWebLanguage && (
-                <button
-                  onClick={() => setShowConsole(false)}
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded transition-colors ${
-                    !showConsole ? 'bg-[#2E5B44] text-white' : 'text-zinc-500 hover:text-zinc-800'
-                  }`}
-                >
-                  Output
-                </button>
-              )}
-            </div>
-
+          <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
+            <span className="text-[10px] text-zinc-500 font-mono">
+              {isId ? 'Hasil' : 'Result'}
+            </span>
             <button
               onClick={runCode}
               disabled={isRunning}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
+              className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
             >
               <FontAwesomeIcon icon={faPlay} className={`w-3 h-3 text-white ${isRunning ? 'animate-pulse' : ''}`} />
               <span className="hidden sm:inline">{isId ? 'Jalankan' : 'Run'}</span>
-              <span className="text-[8px] opacity-60 hidden sm:inline">Ctrl+Enter</span>
             </button>
           </div>
 
@@ -394,19 +383,22 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         </div>
       </div>
 
-      {/* Footer Hint */}
-      <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between">
-        <span>
-          {isId ? '💡 Tekan Ctrl+Enter untuk menjalankan' : '💡 Press Ctrl+Enter to run'}
-        </span>
-        <span className="hidden sm:inline">
-          {isId
-            ? `Mode: ${isWebLanguage ? 'Live Preview' : 'Server Execution'}`
-            : `Mode: ${isWebLanguage ? 'Live Preview' : 'Server Execution'}`
-          }
-        </span>
-      </div>
-    </motion.div>
+      {!inline && (
+        <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between">
+          <span>
+            Tryngo Powered by{' '}
+            <a
+              href="https://widifirmaan.web.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-300 hover:text-white font-bold transition-colors"
+            >
+              W
+            </a>
+          </span>
+        </div>
+      )}
+    </Wrapper>
   );
 };
 
