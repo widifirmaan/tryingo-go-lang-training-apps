@@ -39,16 +39,8 @@ export const ProductCardFemale: React.FC<ProductCardFemaleProps> = ({
   return (
     <div className="relative w-full h-full bg-[#D2E2EC] dark:bg-zinc-800/90 text-zinc-900 dark:text-zinc-100 rounded-[28px] p-3 sm:p-4 flex flex-col overflow-hidden shadow-md hover:shadow-lg transition-shadow select-none border border-[#BFD4E2] dark:border-zinc-700/80">
       
-      {/* Badge Ribbon */}
-      <div className="absolute top-3 right-4 z-20">
-        <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xs text-zinc-800 dark:text-zinc-200 shadow-2xs border border-white/60 dark:border-zinc-700">
-          <FontAwesomeIcon icon={faStar} className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
-          CSS3 / Tailwind
-        </span>
-      </div>
-
       {/* --- MIDDLE BODY: MODEL IMAGE + DESCRIPTION --- */}
-      <div className="relative grid grid-cols-12 items-stretch gap-2 z-10 flex-1 min-h-0">
+      <div className="grid grid-cols-12 items-stretch gap-2 z-10 flex-1 min-h-0">
         
         {/* Tech Illustration Image */}
         <div className="col-span-5 sm:col-span-6 relative min-h-0">
@@ -57,7 +49,7 @@ export const ProductCardFemale: React.FC<ProductCardFemaleProps> = ({
             <img 
               src={TECH_LOGOS.tailwind} 
               alt="CSS3 & Tailwind CSS"
-              className="track-logo-img w-full h-full object-contain filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10"
+              className="track-logo-img w-full h-full min-w-0 min-h-0 object-contain filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10"
               referrerPolicy="no-referrer"
             />
           </div>
@@ -74,6 +66,10 @@ export const ProductCardFemale: React.FC<ProductCardFemaleProps> = ({
             <h3 className="text-xs sm:text-sm font-extrabold text-blue-950 dark:text-zinc-100 leading-tight">
               {productData.name}
             </h3>
+            <span className="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xs text-zinc-800 dark:text-zinc-200 shadow-2xs border border-white/60 dark:border-zinc-700 mt-1">
+              <FontAwesomeIcon icon={faStar} className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
+              CSS3 / Tailwind
+            </span>
           </div>
 
           {/* Text Description */}

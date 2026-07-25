@@ -162,6 +162,21 @@ export default function App() {
     return () => window.removeEventListener('hashchange', parseHash);
   }, []);
 
+  // Responsive card/row count based on viewport height
+  const [heroCardCount, setHeroCardCount] = useState(3);
+  const [gridRowCount, setGridRowCount] = useState(3);
+  useEffect(() => {
+    const update = () => {
+      const h = window.innerHeight;
+      if (h <= 550) { setHeroCardCount(1); setGridRowCount(1); }
+      else if (h <= 750) { setHeroCardCount(2); setGridRowCount(2); }
+      else { setHeroCardCount(3); setGridRowCount(3); }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   // Rotate hero tracks every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -414,7 +429,7 @@ export default function App() {
                   ) : (
                     <>
                       {/* Desktop / Tablet Landscape: 2-ROW HORIZONTAL SCROLL (Scroll Kanan Kiri) */}
-                      <div className="hidden lg:grid landscape:grid grid-rows-3 grid-flow-col auto-cols-[360px] lg:auto-cols-[380px] xl:auto-cols-[400px] overflow-x-auto gap-3.5 p-1 pb-3 flex-1 h-full min-h-0 snap-x scrollbar-thin scrollbar-thumb-[#2E5B44]/40 scrollbar-track-transparent">
+                      <div className="hidden lg:grid landscape:grid grid-flow-col auto-cols-[360px] lg:auto-cols-[380px] xl:auto-cols-[400px] overflow-x-auto gap-3.5 p-1 pb-3 flex-1 h-full min-h-0 snap-x scrollbar-thin scrollbar-thumb-[#2E5B44]/40 scrollbar-track-transparent" style={{ gridTemplateRows: `repeat(${gridRowCount}, minmax(100px, 1fr))` }}>
                         {filteredTracks.map((track, idx) => (
                           <motion.div 
                             key={track.id} 
@@ -470,16 +485,16 @@ export default function App() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="hidden lg:grid flex-1 grid-cols-1 gap-3 sm:gap-4 md:gap-5 h-full"
+                  className="hidden lg:flex flex-1 flex-col gap-3 sm:gap-4 md:gap-5 h-full overflow-hidden"
                 >
-                  {heroTrackIds.map((idx, i) => (
+                  {heroTrackIds.slice(0, heroCardCount).map((idx, i) => (
                     <motion.div 
                       key={idx}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.25, delay: i * 0.05 }}
-                      className="min-h-0 flex flex-col"
+                      className="flex-1 min-h-0 flex flex-col"
                     >
                       <TrackCard 
                         track={TRACKS_COLLECTION[idx]}

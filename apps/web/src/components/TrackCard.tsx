@@ -43,16 +43,8 @@ export const TrackCard: React.FC<TrackCardProps> = ({
     <div 
       className={`relative w-full h-full flex flex-col rounded-[28px] p-3 sm:p-4 select-none shadow-md hover:shadow-xl transition-all border ${track.bgClass} ${track.borderColor} dark:bg-zinc-800/90 dark:border-zinc-700/80 dark:text-zinc-100`}
     >
-      {/* Badge Ribbon */}
-      <div className="absolute top-3 right-4 z-20">
-        <span className="inline-flex items-center gap-1 text-[10px] font-extrabold tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xs text-zinc-800 dark:text-zinc-200 shadow-2xs border border-white/60 dark:border-zinc-700">
-          <FontAwesomeIcon icon={faBookOpen} className="w-2.5 h-2.5 text-zinc-500 dark:text-zinc-400" />
-          {totalWeeks} {lang === 'id' ? 'Minggu' : 'Weeks'}
-        </span>
-      </div>
-
       {/* --- MIDDLE BODY: MODEL IMAGE + DESCRIPTION --- */}
-      <div className="relative grid grid-cols-12 items-stretch gap-2 z-10 flex-1 min-h-0">
+      <div className="grid grid-cols-12 items-stretch gap-2 z-10 flex-1 min-h-0">
         {/* Tech Illustration Image */}
         <div className="col-span-5 relative min-h-0">
           <div className="w-full h-full rounded-2xl overflow-hidden border border-white/80 dark:border-zinc-700 shadow-sm bg-white/70 dark:bg-zinc-900/90 backdrop-blur-xs flex items-center justify-center p-2 group">
@@ -60,7 +52,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
             <img 
               src={track.image} 
               alt={track.name}
-              className="track-logo-img w-full h-full object-contain filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10"
+              className="track-logo-img w-full h-full min-w-0 min-h-0 object-contain filter drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10"
               referrerPolicy="no-referrer"
             />
           </div>
@@ -76,6 +68,10 @@ export const TrackCard: React.FC<TrackCardProps> = ({
             <h3 className="font-bold text-[10px] sm:text-sm text-zinc-900 dark:text-zinc-100 leading-tight line-clamp-1">
               {track.name}
             </h3>
+            <span className="inline-flex items-center gap-1 text-[10px] font-extrabold tracking-wider px-2.5 py-0.5 rounded-full bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xs text-zinc-800 dark:text-zinc-200 shadow-2xs border border-white/60 dark:border-zinc-700 mt-1">
+              <FontAwesomeIcon icon={faBookOpen} className="w-2.5 h-2.5 text-zinc-500 dark:text-zinc-400" />
+              {totalWeeks} {lang === 'id' ? 'Minggu' : 'Weeks'}
+            </span>
           </div>
 
           {/* Text Description */}
