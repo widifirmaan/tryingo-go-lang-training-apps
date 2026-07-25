@@ -125,6 +125,8 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const [isRunning, setIsRunning] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showConsole, setShowConsole] = useState(true);
+  const [isHorizontal, setIsHorizontal] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const consoleTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isId = lang === 'id';
@@ -228,6 +230,19 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
+  // Detect container width to switch between horizontal/vertical layout
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        setIsHorizontal(entry.contentRect.width >= 500);
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const editorLanguage = LANGUAGE_MAP[language] === 'typescript' ? 'typescript'
     : LANGUAGE_MAP[language] === 'javascript' || LANGUAGE_MAP[language] === 'html' ? 'html'
     : LANGUAGE_MAP[language] === 'go' ? 'go'
@@ -292,9 +307,9 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       )}
 
       {/* Editor + Preview */}
-      <div className="flex-1 flex flex-col sm:flex-row min-h-0">
+      <div ref={containerRef} className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
         {/* Editor Panel */}
-        <div className="flex-1 min-h-[120px] sm:min-h-0 border-b sm:border-b-0 sm:border-r border-zinc-700/50 flex flex-col">
+        <div className={`flex-1 min-h-[120px] ${isHorizontal ? 'min-h-0 border-r' : 'border-b'} border-zinc-700/50 flex flex-col`}>
           {/* Editor Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
@@ -324,7 +339,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         </div>
 
         {/* Preview / Output Panel */}
-        <div className="flex-1 min-h-[120px] sm:min-h-0 flex flex-col bg-white">
+        <div className={`flex-1 ${isHorizontal ? 'min-h-0' : 'min-h-[120px]'} flex flex-col bg-white`}>
           {/* Panel Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
