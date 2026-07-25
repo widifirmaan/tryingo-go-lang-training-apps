@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode } from '@fortawesome/free-solid-svg-icons';
@@ -35,6 +35,9 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const [activeLevel, setActiveLevel] = useState(initialLevel || 'beginer');
   const [activeWeek, setActiveWeek] = useState(initialWeek || 1);
   const [showLevelPicker, setShowLevelPicker] = useState(false);
+  const [leftWidth, setLeftWidth] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const isId = lang === 'id';
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
@@ -103,6 +106,37 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
   const levelInfo = levels.find(l => l.levelId === activeLevel);
   const levelName = isId ? levelInfo?.nameId : levelInfo?.nameEn;
+
+  const [splitRatio, setSplitRatio] = useState(0.5);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    isDragging.current = true;
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const ratio = Math.max(0.2, Math.min(0.8, x / rect.width));
+      setSplitRatio(ratio);
+    };
+
+    const handleMouseUp = () => {
+      isDragging.current = false;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, []);
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden gap-3 px-3 sm:px-0">
@@ -192,9 +226,11 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
       </div>
 
       {/* Content + Inline Playground */}
-      <div className="flex-1 flex flex-col lg:flex-row min-h-0 gap-3">
+      <div ref={containerRef} className="flex-1 flex flex-col lg:flex-row min-h-0 lg:gap-0">
         {/* Markdown Content */}
-        <div className="flex-1 min-h-0 overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md">
+        <div className="min-h-0 overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md"
+          style={{ flex: splitRatio }}
+        >
           {loading ? (
             <div className="flex items-center justify-center h-40 text-zinc-400">
               <div className="flex flex-col items-center gap-2">
@@ -211,9 +247,22 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           )}
         </div>
 
+        {/* Resizable Divider (desktop only) */}
+        <div
+          className="hidden lg:flex items-center justify-center w-2 mx-1 my-1 cursor-col-resize shrink-0 select-none rounded-full transition-colors hover:bg-zinc-300 dark:hover:bg-zinc-600 active:bg-zinc-400 dark:active:bg-zinc-500 bg-transparent"
+          onMouseDown={handleMouseDown}
+        >
+          <div className="w-0.5 h-8 rounded-full bg-zinc-300 dark:bg-zinc-600" />
+        </div>
+
+        {/* Mobile gap divider */}
+        <div className="lg:hidden h-3" />
+
         {/* Inline Code Playground */}
         {content && (
-          <div className="w-full lg:w-[480px] xl:w-[560px] h-dvh lg:h-full min-h-0 shrink-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+          <div className="h-dvh lg:h-full min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md"
+            style={{ flex: 1 - splitRatio }}
+          >
             <React.Suspense fallback={null}>
               <InlinePlayground
                 lang={lang}
