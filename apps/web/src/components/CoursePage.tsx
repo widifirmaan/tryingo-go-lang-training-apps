@@ -107,12 +107,22 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
   const levelInfo = levels.find(l => l.levelId === activeLevel);
   const levelName = isId ? levelInfo?.nameId : levelInfo?.nameEn;
 
-  const [splitRatio, setSplitRatio] = useState(0.5);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     isDragging.current = true;
-  }, []);
+    const container = containerRef.current;
+    if (container && leftWidth === null) {
+      setLeftWidth(container.getBoundingClientRect().width * 0.5);
+    }
+  }, [leftWidth]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -122,8 +132,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
       if (!isDragging.current) return;
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
-      const ratio = Math.max(0.2, Math.min(0.8, x / rect.width));
-      setSplitRatio(ratio);
+      setLeftWidth(Math.max(200, Math.min(rect.width - 400, x)));
     };
 
     const handleMouseUp = () => {
@@ -226,10 +235,10 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
       </div>
 
       {/* Content + Inline Playground */}
-      <div ref={containerRef} className="flex-1 flex flex-col lg:flex-row min-h-0 lg:gap-0">
+      <div ref={containerRef} className="lg:flex lg:flex-row flex-1 min-h-0 lg:gap-0">
         {/* Markdown Content */}
-        <div className="min-h-0 overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md"
-          style={{ flex: splitRatio }}
+        <div className="overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md"
+          style={isDesktop && leftWidth ? { width: leftWidth, flex: 'none' } : {}}
         >
           {loading ? (
             <div className="flex items-center justify-center h-40 text-zinc-400">
@@ -260,9 +269,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
         {/* Inline Code Playground */}
         {content && (
-          <div className="h-dvh lg:h-full min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md"
-            style={{ flex: 1 - splitRatio }}
-          >
+          <div className="h-dvh lg:flex-1 min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <React.Suspense fallback={null}>
               <InlinePlayground
                 lang={lang}
