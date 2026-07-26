@@ -449,10 +449,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <AnimatePresence>
                 {isMobileMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.88 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.88 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    initial={{ opacity: 0, y: -12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: 0.15 }}
                     className="mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[60vh] overflow-y-auto"
                   >
                     {onBackToHero && (
