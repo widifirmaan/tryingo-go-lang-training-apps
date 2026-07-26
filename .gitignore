@@ -2,7 +2,7 @@ node_modules/
 .vscode/
 .idea/
 *.wasm
-wasm/wasm_exec.js
+public/wasm/
 dist/
 .env
 .env.local
