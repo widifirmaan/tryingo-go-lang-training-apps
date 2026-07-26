@@ -449,12 +449,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <AnimatePresence>
                 {isMobileMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.15 }}
-                    className="mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[60vh] overflow-y-auto"
+                    className="relative"
                   >
+                    <div className="fixed inset-0 bg-black/40 z-10" onClick={() => setIsMobileMenuOpen(false)} />
+                    <motion.div
+                      initial={{ y: -12 }}
+                      animate={{ y: 0 }}
+                      exit={{ y: -12 }}
+                      transition={{ duration: 0.15 }}
+                      className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[60vh] overflow-y-auto"
+                    >
                     {onBackToHero && (
                       <motion.button
                         whileHover={{ scale: 1.02 }}
@@ -619,7 +627,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       </motion.button>
                     )}
                   </motion.div>
-                )}
+                </motion.div>
+              )}
               </AnimatePresence>
             </div>
           </motion.div>
