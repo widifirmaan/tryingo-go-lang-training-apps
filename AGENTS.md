@@ -17,8 +17,12 @@ npx wrangler pages deploy dist
 
 ## Key Architecture Decisions
 1. **No router library** — Simple state-based view switching (isExploring, activeCourseId)
-2. **Markdown materials** — Stored in `public/data/course/` for easy editing
-3. **Curriculum generator** — `scripts/generate-full-curriculum.mjs` creates 864 files from templates
+2. **Markdown materials** — Stored in `public/data/course/` for easy editing. Two tracks have custom curriculum: HTML5 (12 weeks), Go (14 weeks). Other tracks use DEFAULT_CURRICULUM.
+3. **Curriculum generator** — `scripts/generate-go-materials.mjs` creates 28 Go course files from templates. Old `generate-full-curriculum.mjs` was deleted with the 864 old template files.
+4. **Monaco Editor** — For interactive code playground
+5. **i18n** — Simple string map in `utils/translations.ts`
+6. **Go client-side execution** — Yaegi interpreter compiled to WASM (`wasm-exec/main.go`). Binary `public/wasm/go-exec.wasm` + runtime `wasm_exec.js` (gitignored). Falls back to Cloudflare Worker when WASM unavailable.
+7. **Playground content matching** — `extractCode()` in CoursePage.tsx extracts code blocks from markdown → passes as `initialCode` to CodePlayground, so each week's playground is pre-filled with that week's examples.
 4. **Monaco Editor** — For interactive code playground
 5. **i18n** — Simple string map in `utils/translations.ts`
 
@@ -34,8 +38,11 @@ npx wrangler pages deploy dist
 
 ### Recently Added (July 2026)
 - **Server-side code execution**: Cloudflare Worker at `workers/code-execution/` using Sandbox SDK — executes Go, Python, JavaScript, TypeScript in isolated containers. Frontend `CodePlayground.tsx` POSTs to the Worker for non-web languages. Requires `VITE_EXECUTION_WORKER_URL` env var.
-- **Full-text search across course materials**: Build-time index (`scripts/build-search-index.mjs`) creates `search-index.json` from all 864 .md files. Fuse.js powers fuzzy search in the SearchModal. Two search tabs: "Modul" (track metadata) and "Materi Kursus" (course content).
+- **Full-text search across course materials**: Build-time index (`scripts/build-search-index.mjs`) creates `search-index.json` from all .md files. Fuse.js powers fuzzy search in the SearchModal. Two search tabs: "Modul" (track metadata) and "Materi Kursus" (course content).
 - **Accessibility**: `lang` attribute syncs with language setting, `role="main"` / `role="application"` landmarks, `focus-visible` keyboard outlines, skip-to-content CSS, meta description + theme color, ARIA labels on navigation.
+- **Go curriculum redesign** (14 weeks, 3 levels): Beginner (6w: syntax → packages), Intermediate (4w: defer → stdlib), Advanced (4w: CLI/HTTP → final project). Based on research from Scaler, LevelUpGo, roadmap.sh, bytesizego, tutorialQ, and official Go docs. Covers the two project shapes 73-74% of Go devs ship: CLI tools + HTTP services.
+- **Client-side Go execution**: Yaegi interpreter compiled to WebAssembly. `public/wasm/go-exec.wasm` (~38MB) + `wasm_exec.js` runtime. Loaded dynamically; auto-falls back to Cloudflare Worker when unavailable. All 28 .md files include runnable code examples pre-loaded in the playground.
+- **Playground content matching**: Each week's playground is pre-filled with code blocks from that week's markdown materials, like w3schools interactive tutorials.
 
 ### Needs Implementation
 - Quiz system with scoring
@@ -46,11 +53,11 @@ npx wrangler pages deploy dist
 
 ## Common AI Commands
 
-### Generate Curriculum
+### Generate Go Curriculum
 ```bash
-node apps/web/scripts/generate-full-curriculum.mjs
+node apps/web/scripts/generate-go-materials.mjs
 ```
-This regenerates all .md files. Each file has consistent structure with objectives, theory, code examples, exercises, and projects.
+Creates 28 Go .md files (14 weeks × 2 languages) from templates with objectives, theory, code examples, and exercises.
 
 ### Add New Language Track
 1. Add SVG logo to `apps/web/src/assets/logos/`
@@ -95,7 +102,9 @@ Each markdown file follows this template:
 ## Playground Architecture
 - **Client-side languages** (HTML/CSS/JS/TS): Monaco Editor → iframe sandbox preview
 - **Server-side languages** (Go, Python, etc.): Monaco Editor → POST to Cloudflare Worker → WASM execution → return output
-- The `CodePlayground.tsx` component detects language type automatically
+- **Go (client-side WASM)**: Monaco Editor → Yaegi interpreter via WebAssembly → execute entirely in browser → return output
+- The `CodePlayground.tsx` component detects language type automatically and prefers WASM for Go when available
+- `src/utils/goWasmLoader.ts` — Lazy-loads `go-exec.wasm` + `wasm_exec.js`, auto-falls back to Worker
 
 ## Design System
 - Primary color: `#2E5B44` (Forest Moss Green)
