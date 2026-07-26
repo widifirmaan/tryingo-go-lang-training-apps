@@ -429,7 +429,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    onClick={() => {
+                      const next = !isMobileMenuOpen;
+                      setIsMobileMenuOpen(next);
+                      if (!next) { setExpandedTrack(null); }
+                      if (activeSubmenu === 'materi-mobile' || activeSubmenu === 'quiz-mobile' || activeSubmenu === 'ide-mobile') {
+                        setActiveSubmenu(null);
+                      }
+                    }}
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white transition-colors border ${
                       isMobileMenuOpen
                         ? 'bg-white text-[#2E5B44] border-white shadow-md'
