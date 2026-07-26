@@ -64,6 +64,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     }
   }, [activeCourseId]);
 
+  useEffect(() => {
+    if (!activeCourseId) {
+      setExpandedTrack(null);
+      setActiveSubmenu(null);
+    }
+  }, [activeCourseId]);
+
   return (
     <motion.div 
       layout
@@ -512,14 +519,35 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
                               <button
-                                onClick={() => {
-                                  onNavigateToWeek?.(track.id, 'beginer', 1);
-                                  setIsMobileMenuOpen(false);
-                                }}
-                                className={`w-full px-3 py-1.5 rounded-lg text-[11px] font-bold text-left ${activeCourseId === track.id ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 text-white/70'}`}
+                                onClick={() => setExpandedTrack(expandedTrack === track.id ? null : track.id)}
+                                className={`w-full px-3 py-1.5 rounded-lg text-[11px] font-bold flex items-center justify-between ${activeCourseId === track.id ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 text-white/70'}`}
                               >
-                                {track.name}
+                                <span>{track.name}</span>
+                                <span className="text-[9px]">{expandedTrack === track.id ? '▲' : '▼'}</span>
                               </button>
+                              {expandedTrack === track.id && (
+                                <div className="flex flex-col ml-2 gap-0.5">
+                                  {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
+                                  <div key={level.levelId} className="flex flex-col gap-0.5">
+                                        <div className="px-3 py-1 text-[9px] text-white/40 uppercase tracking-wider font-bold">
+                                          {lang === 'id' ? level.nameId : level.nameEn}
+                                        </div>
+                                        {level.weeks.map(week => (
+                                        <button
+                                          key={week.week}
+                                          onClick={() => {
+                                            onNavigateToWeek?.(track.id, level.levelId, week.week);
+                                          }}
+                                          className={`w-full pl-6 pr-3 py-1 rounded-lg text-[10px] font-medium text-left flex items-center gap-2.5 ${activeCourseId === track.id && activeLevel === level.levelId && activeWeek === week.week ? 'bg-emerald-400/15 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/60'}`}
+                                        >
+                                          <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
+                                          {lang === 'id' ? week.titleId : week.titleEn}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           ))}
                         </motion.div>
