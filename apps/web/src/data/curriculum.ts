@@ -111,8 +111,53 @@ const HTML5_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const GOLANG_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Belajar Go dari nol: sintaks dasar, tipe data, control flow, fungsi, struct, interface, dan error handling.',
+    descEn: 'Learn Go from scratch: basic syntax, data types, control flow, functions, structs, interfaces, and error handling.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-go', titleId: 'Pengenalan Go & Toolchain', titleEn: 'Introduction to Go & Toolchain' },
+      { week: 2, topicId: 'tipe-data-kontrol', titleId: 'Variabel, Tipe Data & Control Flow', titleEn: 'Variables, Data Types & Control Flow' },
+      { week: 3, topicId: 'fungsi-error', titleId: 'Fungsi & Error Handling', titleEn: 'Functions & Error Handling' },
+      { week: 4, topicId: 'array-slice-map', titleId: 'Array, Slice & Map', titleEn: 'Arrays, Slices & Maps' },
+      { week: 5, topicId: 'struct-pointer', titleId: 'Struct, Method & Pointer', titleEn: 'Structs, Methods & Pointers' },
+      { week: 6, topicId: 'interface-package', titleId: 'Interface & Package', titleEn: 'Interfaces & Packages' },
+    ],
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Go idiomatis: defer/panic/recover, goroutines, channels, context, testing, dan standard library.',
+    descEn: 'Idiomatic Go: defer/panic/recover, goroutines, channels, context, testing, and standard library.',
+    weeks: [
+      { week: 7, topicId: 'defer-file-io', titleId: 'Defer, Panic & File I/O', titleEn: 'Defer, Panic & File I/O' },
+      { week: 8, topicId: 'goroutine-waitgroup', titleId: 'Goroutine & WaitGroup', titleEn: 'Goroutines & WaitGroups' },
+      { week: 9, topicId: 'channel-context', titleId: 'Channel, Select & Context', titleEn: 'Channels, Select & Context' },
+      { week: 10, topicId: 'testing-stdlib', titleId: 'Testing & Standard Library', titleEn: 'Testing & Standard Library' },
+    ],
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Production Go: CLI tools, HTTP services, REST API, database, deployment, dan concurrency patterns.',
+    descEn: 'Production Go: CLI tools, HTTP services, REST API, database, deployment, and concurrency patterns.',
+    weeks: [
+      { week: 11, topicId: 'cli-http-server', titleId: 'CLI Tool & HTTP Server', titleEn: 'CLI Tools & HTTP Server' },
+      { week: 12, topicId: 'rest-api-middleware', titleId: 'REST API & Middleware', titleEn: 'REST API & Middleware' },
+      { week: 13, topicId: 'database-deploy', titleId: 'Database & Deployment', titleEn: 'Database & Deployment' },
+      { week: 14, topicId: 'advanced-final', titleId: 'Pattern Lanjutan & Proyek Akhir', titleEn: 'Advanced Patterns & Final Project' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
+  golang: GOLANG_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {

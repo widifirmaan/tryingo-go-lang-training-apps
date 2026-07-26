@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
+import { initGoWasm, isWasmReady, runGoCode as wasmRunGoCode } from '../utils/goWasmLoader';
 
 interface CodePlaygroundProps {
   lang: Language;
@@ -132,6 +133,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const isId = lang === 'id';
 
   const isWebLanguage = ['html', 'javascript', 'typescript', 'css'].includes(LANGUAGE_MAP[language] || 'html');
+  const isGoLanguage = LANGUAGE_MAP[language] === 'go';
 
   const WORKER_URL = (import.meta as any).env?.VITE_EXECUTION_WORKER_URL || 'https://tryngo-code-execution.REPLACE.workers.dev';
 
@@ -167,6 +169,17 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             }
           } catch {}
         }
+      }
+      setIsRunning(false);
+    } else if (isGoLanguage && isWasmReady()) {
+      // Go: execute via WASM (client-side)
+      try {
+        const result = wasmRunGoCode(code);
+        if (result.error) setError(result.error);
+        if (result.output) setOutput(result.output);
+        if (!result.success) setError(result.error || (isId ? 'Eksekusi gagal' : 'Execution failed'));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
       }
       setIsRunning(false);
     } else {
@@ -209,7 +222,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         setIsRunning(false);
       }
     }
-  }, [code, isWebLanguage, language, isId, WORKER_URL]);
+  }, [code, isWebLanguage, isGoLanguage, language, isId, WORKER_URL]);
 
   const resetCode = () => {
     setCode(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
@@ -229,6 +242,13 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     const timer = setTimeout(() => runCode(), 500);
     return () => clearTimeout(timer);
   }, []);
+
+  // Initialize Go WASM interpreter
+  useEffect(() => {
+    if (isGoLanguage) {
+      initGoWasm();
+    }
+  }, [isGoLanguage]);
 
   // Detect container width to switch between horizontal/vertical layout
   useEffect(() => {
@@ -275,7 +295,9 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
               {isWebLanguage
                 ? (isId ? '🌐 Bahasa Web — Hasil langsung di preview' : '🌐 Web Language — Live preview')
-                : (isId ? '⚙️ Bahasa Server — Eksekusi via Worker' : '⚙️ Server Language — Execute via Worker')
+                : isGoLanguage
+                  ? (isId ? '🐹 Go WASM — Eksekusi di browser' : '🐹 Go WASM — Runs in browser')
+                  : (isId ? '⚙️ Bahasa Server — Eksekusi via Worker' : '⚙️ Server Language — Execute via Worker')
               }
             </span>
           </div>
