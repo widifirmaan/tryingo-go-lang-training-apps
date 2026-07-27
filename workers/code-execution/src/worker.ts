@@ -1,11 +1,3 @@
-import { getSandbox, type Sandbox } from "@cloudflare/sandbox";
-
-export { Sandbox } from "@cloudflare/sandbox";
-
-type Env = {
-  Sandbox: DurableObjectNamespace<Sandbox>;
-};
-
 type ExecuteRequest = {
   code: string;
   language: string;
@@ -19,15 +11,64 @@ type ExecuteResponse = {
   duration: number;
 };
 
-const LANGS_WITH_FILE: Record<string, { ext: string; cmd: (path: string) => string }> = {
-  python: { ext: ".py", cmd: (p) => `python3 ${p}` },
-  go: { ext: ".go", cmd: (p) => `go run ${p}` },
-  javascript: { ext: ".mjs", cmd: (p) => `node ${p}` },
-  typescript: { ext: ".ts", cmd: (p) => `npx tsx ${p}` },
+const NATIVE_EXEC: Record<string, (code: string) => ExecuteResponse> = {
+  javascript: (code) => {
+    try {
+      const fn = new Function(code);
+      const logs: string[] = [];
+      const mockConsole = { log: (...args: unknown[]) => logs.push(args.map(String).join(' ')) };
+      fn.call({ console: mockConsole });
+      return { stdout: logs.join('\n'), stderr: '', exitCode: 0, success: true, duration: 0 };
+    } catch (err) {
+      return { stdout: '', stderr: err instanceof Error ? err.message : String(err), exitCode: 1, success: false, duration: 0 };
+    }
+  },
+  typescript: () => ({ stdout: '', stderr: 'TypeScript execution not available server-side. Use a WASM-capable browser.', exitCode: 1, success: false, duration: 0 }),
+  go: () => ({ stdout: '', stderr: 'Go execution is handled client-side via WebAssembly. Use a modern browser with WASM support.', exitCode: 1, success: false, duration: 0 }),
+  python: () => ({ stdout: '', stderr: 'Python execution not yet available. Coming soon.', exitCode: 1, success: false, duration: 0 }),
 };
 
+async function execRust(code: string): Promise<ExecuteResponse> {
+  const start = performance.now();
+  try {
+    const res = await fetch('https://play.rust-lang.org/execute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        code,
+        crateType: 'bin',
+        edition: '2024',
+        channel: 'stable',
+        mode: 'debug',
+        tests: false,
+      }),
+    });
+    const data = await res.json() as { success: boolean; stdout: string; stderr: string; error?: string };
+    const duration = Math.round((performance.now() - start) * 100) / 100;
+    if (data.error) {
+      return { stdout: '', stderr: data.error, exitCode: 1, success: false, duration };
+    }
+    return {
+      stdout: data.stdout || '',
+      stderr: data.stderr || '',
+      exitCode: data.success ? 0 : 1,
+      success: data.success,
+      duration,
+    };
+  } catch (err) {
+    const duration = Math.round((performance.now() - start) * 100) / 100;
+    return {
+      stdout: '',
+      stderr: err instanceof Error ? err.message : 'Rust Playground API unavailable',
+      exitCode: 1,
+      success: false,
+      duration,
+    };
+  }
+}
+
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request): Promise<Response> {
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -42,9 +83,6 @@ export default {
       return new Response("Method not allowed", { status: 405, headers: corsHeaders });
     }
 
-    const url = new URL(request.url);
-    const sandboxId = url.searchParams.get("sandboxId") || "default";
-
     let body: ExecuteRequest;
     try {
       body = await request.json();
@@ -58,42 +96,21 @@ export default {
       return new Response("Missing 'code' or 'language'", { status: 400, headers: corsHeaders });
     }
 
-    const langConfig = LANGS_WITH_FILE[language];
-    if (!langConfig) {
+    const start = performance.now();
+
+    if (language === 'rust') {
+      const result = await execRust(code);
+      return Response.json(result, { headers: corsHeaders });
+    }
+
+    const execFn = NATIVE_EXEC[language];
+    if (!execFn) {
       return new Response(`Unsupported language: ${language}`, { status: 400, headers: corsHeaders });
     }
 
-    const sandbox = getSandbox(env.Sandbox, sandboxId);
+    const result = execFn(code);
+    result.duration = Math.round((performance.now() - start) * 100) / 100;
 
-    const filename = `/workspace/code${langConfig.ext}`;
-    const start = performance.now();
-
-    try {
-      await sandbox.writeFile(filename, code);
-      const result = await sandbox.exec(langConfig.cmd(filename));
-      const duration = Math.round((performance.now() - start) * 100) / 100;
-
-      const response: ExecuteResponse = {
-        stdout: result.stdout,
-        stderr: result.stderr,
-        exitCode: result.exitCode,
-        success: result.success,
-        duration,
-      };
-
-      return Response.json(response, { headers: corsHeaders });
-    } catch (err) {
-      const duration = Math.round((performance.now() - start) * 100) / 100;
-      return Response.json(
-        {
-          stdout: "",
-          stderr: err instanceof Error ? err.message : "Execution failed",
-          exitCode: 1,
-          success: false,
-          duration,
-        },
-        { status: 200, headers: corsHeaders }
-      );
-    }
+    return Response.json(result, { headers: corsHeaders });
   },
 };

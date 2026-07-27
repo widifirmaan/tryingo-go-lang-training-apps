@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faSpinner, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
-import { initGoWasm, isWasmReady, runGoCode as wasmRunGoCode } from '../utils/goWasmLoader';
+import { initGoWasm, isWasmReady, isTinyGoReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
 
 interface CodePlaygroundProps {
   lang: Language;
@@ -11,6 +11,7 @@ interface CodePlaygroundProps {
   language: string;
   onClose: () => void;
   inline?: boolean;
+  week?: number;
 }
 
 const DEFAULT_CODE: Record<string, string> = {
@@ -81,6 +82,15 @@ for student in students:
 
 # Try modifying the code!
 `,
+  rust: `fn main() {
+    println!("Hello, Tryngo! 🚀");
+    println!("Learning Rust is fun!");
+    
+    let name = "Rustacean";
+    let year = 2015;
+    println!("Name: {}", name);
+    println!("Rust first released: {}", year);
+}`,
 };
 
 const LANGUAGE_MAP: Record<string, string> = {
@@ -100,7 +110,7 @@ const LANGUAGE_MAP: Record<string, string> = {
   laravel: 'html',
   rails: 'html',
   docker: 'html',
-  rust: 'html',
+  rust: 'rust',
   postgresql: 'html',
   graphql: 'html',
   csharp: 'html',
@@ -119,6 +129,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   language,
   onClose,
   inline,
+  week,
 }) => {
   const [code, setCode] = useState(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
   const [output, setOutput] = useState('');
@@ -131,11 +142,31 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const consoleTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isId = lang === 'id';
-
   const isWebLanguage = ['html', 'javascript', 'typescript', 'css'].includes(LANGUAGE_MAP[language] || 'html');
   const isGoLanguage = LANGUAGE_MAP[language] === 'go';
+  const isRustLanguage = LANGUAGE_MAP[language] === 'rust';
 
-  const WORKER_URL = (import.meta as any).env?.VITE_EXECUTION_WORKER_URL || 'https://tryngo-code-execution.REPLACE.workers.dev';
+  // Defer Monaco mount until after first paint
+  const [editorReady, setEditorReady] = useState(false);
+  useEffect(() => {
+    requestAnimationFrame(() => setEditorReady(true));
+  }, []);
+
+  // Sync when initialCode changes (week/level switch) — skip first mount
+  const prevInitialCode = useRef(initialCode);
+  const [editorKey, setEditorKey] = useState(0);
+
+  useEffect(() => {
+    if (!initialCode) return;
+    if (prevInitialCode.current === initialCode) return;
+    prevInitialCode.current = initialCode;
+    setCode(initialCode);
+    setOutput('');
+    setError('');
+    setEditorKey(k => k + 1);
+  }, [initialCode]);
+
+  const WORKER_URL = (import.meta as any).env?.VITE_EXECUTION_WORKER_URL || 'https://tryngo-code-execution.vejoyf.workers.dev';
 
   const runCode = useCallback(async () => {
     setIsRunning(true);
@@ -202,14 +233,13 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
 
         const result = await res.json();
 
-        if (result.stderr) {
-          setError(result.stderr);
-        }
-        if (result.stdout) {
-          setOutput(result.stdout);
-        }
         if (!result.success) {
           setError(result.stderr || (isId ? 'Eksekusi gagal' : 'Execution failed'));
+        } else {
+          let combined = '';
+          if (result.stdout) combined += result.stdout;
+          if (result.stderr) combined += (combined ? '\n' : '') + result.stderr;
+          if (combined) setOutput(combined);
         }
 
         setIsRunning(false);
@@ -237,18 +267,24 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     }
   };
 
-  // Auto-run on mount
+  // Initialize Go WASM interpreters and auto-run TinyGo examples
   useEffect(() => {
-    const timer = setTimeout(() => runCode(), 500);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!isGoLanguage) return;
+    let cancelled = false;
 
-  // Initialize Go WASM interpreter
-  useEffect(() => {
-    if (isGoLanguage) {
-      initGoWasm();
-    }
-  }, [isGoLanguage]);
+    initGoWasm().then(({ tinygo, yaegi }) => {
+      if (cancelled) return;
+      if (tinygo && week) {
+        const result = runTinyGoWeek(week);
+        if (result.output) setOutput(result.output);
+      } else if (yaegi && initialCode) {
+        const result = wasmRunGoCode(initialCode);
+        if (result.output) setOutput(result.output);
+      }
+    });
+
+    return () => { cancelled = true; };
+  }, [isGoLanguage, week, initialCode]);
 
   // Detect container width to switch between horizontal/vertical layout
   useEffect(() => {
@@ -267,6 +303,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     : LANGUAGE_MAP[language] === 'javascript' || LANGUAGE_MAP[language] === 'html' ? 'html'
     : LANGUAGE_MAP[language] === 'go' ? 'go'
     : LANGUAGE_MAP[language] === 'python' ? 'python'
+    : LANGUAGE_MAP[language] === 'rust' ? 'rust'
     : 'html';
 
   const Wrapper = inline ? 'div' : motion.div;
@@ -296,7 +333,9 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
               {isWebLanguage
                 ? (isId ? '🌐 Bahasa Web — Hasil langsung di preview' : '🌐 Web Language — Live preview')
                 : isGoLanguage
-                  ? (isId ? '🐹 Go WASM — Eksekusi di browser' : '🐹 Go WASM — Runs in browser')
+                  ? (isId ? '🐹 Go WASM (TinyGo) — Pre-compiled, instan' : '🐹 Go WASM (TinyGo) — Pre-compiled, instant')
+                : isRustLanguage
+                  ? (isId ? '🦀 Rust — Eksekusi via Rust Playground API' : '🦀 Rust — Execute via Rust Playground API')
                   : (isId ? '⚙️ Bahasa Server — Eksekusi via Worker' : '⚙️ Server Language — Execute via Worker')
               }
             </span>
@@ -340,28 +379,35 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
           </div>
           <div className="flex-1 min-h-0">
-            <Editor
-              height="100%"
-              language={editorLanguage}
-              theme="vs-dark"
-              value={code}
-              onChange={(val) => setCode(val || '')}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 13,
-                lineNumbers: 'on',
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                tabSize: 2,
-                wordWrap: 'on',
-                padding: { top: 8 },
-              }}
-            />
+            {editorReady ? (
+              <Editor
+                key={editorKey}
+                height="100%"
+                language={editorLanguage}
+                theme="vs-dark"
+                value={code}
+                onChange={(val) => setCode(val || '')}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 13,
+                  lineNumbers: 'on',
+                  scrollBeyondLastLine: false,
+                  automaticLayout: true,
+                  tabSize: 2,
+                  wordWrap: 'on',
+                  padding: { top: 8 },
+                }}
+              />
+            ) : (
+              <div className="h-full flex items-center justify-center bg-[#1e1e1e] text-zinc-500 text-xs">
+                {isId ? 'Memuat editor...' : 'Loading editor...'}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Preview / Output Panel */}
-        <div className={`${isHorizontal ? 'w-1/2 min-h-0' : 'flex-1 min-h-[120px]'} flex flex-col bg-white`}>
+        <div className={`${isHorizontal ? 'w-1/2 min-h-0' : 'flex-1 min-h-[120px]'} flex flex-col bg-white dark:bg-zinc-900`}>
           {/* Panel Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
@@ -372,8 +418,12 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
               disabled={isRunning}
               className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
             >
-              <FontAwesomeIcon icon={faPlay} className={`w-3 h-3 text-white ${isRunning ? 'animate-pulse' : ''}`} />
-              <span className="hidden sm:inline">{isId ? 'Jalankan' : 'Run'}</span>
+              {isRunning ? (
+                <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
+              ) : (
+                <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
+              )}
+              <span className="hidden sm:inline">{isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}</span>
             </button>
           </div>
 

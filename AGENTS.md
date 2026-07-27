@@ -37,7 +37,7 @@ npx wrangler pages deploy dist
 - Indonesian + English translations
 
 ### Recently Added (July 2026)
-- **Server-side code execution**: Cloudflare Worker at `workers/code-execution/` using Sandbox SDK — executes Go, Python, JavaScript, TypeScript in isolated containers. Frontend `CodePlayground.tsx` POSTs to the Worker for non-web languages. Requires `VITE_EXECUTION_WORKER_URL` env var.
+- **Server-side code execution (free)**: Cloudflare Worker at `workers/code-execution/` — JavaScript runs via `new Function()`, Go/Python/TypeScript return helpful messages directing to client-side WASM. Go execution is 100% client-side via TinyGo + Yaegi WASM. Requires `VITE_EXECUTION_WORKER_URL` env var.
 - **Full-text search across course materials**: Build-time index (`scripts/build-search-index.mjs`) creates `search-index.json` from all .md files. Fuse.js powers fuzzy search in the SearchModal. Two search tabs: "Modul" (track metadata) and "Materi Kursus" (course content).
 - **Accessibility**: `lang` attribute syncs with language setting, `role="main"` / `role="application"` landmarks, `focus-visible` keyboard outlines, skip-to-content CSS, meta description + theme color, ARIA labels on navigation.
 - **Go curriculum redesign** (14 weeks, 3 levels): Beginner (6w: syntax → packages), Intermediate (4w: defer → stdlib), Advanced (4w: CLI/HTTP → final project). Based on research from Scaler, LevelUpGo, roadmap.sh, bytesizego, tutorialQ, and official Go docs. Covers the two project shapes 73-74% of Go devs ship: CLI tools + HTTP services.
@@ -79,32 +79,53 @@ apps/web/public/data/course/{slug}/{level}/{lang}/week{N}-{topic}.md
 - Sidebar: `apps/web/src/components/HeroSection.tsx`
 
 ## Material Structure
-Each markdown file follows this template:
+Each markdown file follows this template (code-first format for Go):
 ```
 # Title
+
 > Metadata (category, level, week)
 
 ## Learning Objectives
 - ...
 
-## Materials (theory with code blocks)
+---
 
-## Practice Exercises
-- Exercise 1, 2, 3
+## Program: [Name]
 
-## Project Task
-- Build something
+\`\`\`go
+// One complete, runnable Go program demonstrating all concepts for this week
+\`\`\`
+
+---
+
+## Explanation
+Key concepts referencing the code above
+
+---
+
+## Experiments
+Modification ideas for the playground
+
+---
+
+## Challenge
+Build something using the concepts
+
+---
 
 ## Summary
-- Key points + next steps
+Key takeaways + next week preview
 ```
 
 ## Playground Architecture
 - **Client-side languages** (HTML/CSS/JS/TS): Monaco Editor → iframe sandbox preview
 - **Server-side languages** (Go, Python, etc.): Monaco Editor → POST to Cloudflare Worker → WASM execution → return output
-- **Go (client-side WASM)**: Monaco Editor → Yaegi interpreter via WebAssembly → execute entirely in browser → return output
-- The `CodePlayground.tsx` component detects language type automatically and prefers WASM for Go when available
-- `src/utils/goWasmLoader.ts` — Lazy-loads `go-exec.wasm` + `wasm_exec.js`, auto-falls back to Worker
+- **Go (client-side WASM)**: Two-tier WASM approach:
+  1. **TinyGo runner** (pre-compiled, 663KB) — `wasm-exec/examples/tinygo-runner.go` compiles week examples into a single WASM. Auto-runs via `runTinyGoWeek(weekNum)` on mount. Covers basic constructs (vars, loops, functions, structs, interfaces, goroutines, channels). Cannot run `net/http`, `os.File`, `database/sql`, `flag`.
+  2. **Yaegi interpreter** (runtime, 38MB) — `wasm-exec/main.go` interprets arbitrary Go code. Used as fallback when TinyGo can't handle the code (modified/user code).
+  3. Falls back to Cloudflare Worker when neither WASM is available.
+- `src/utils/goWasmLoader.ts` — Lazy-loads both WASM binaries + runtimes, auto-falls back to Worker
+- The `CodePlayground.tsx` receives `week` prop to trigger TinyGo auto-run on mount
 
 ## Design System
 - Primary color: `#2E5B44` (Forest Moss Green)

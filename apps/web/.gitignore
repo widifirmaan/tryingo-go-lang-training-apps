@@ -6,3 +6,5 @@ coverage/
 *.log
 .env*
 !.env.example
+wasm-exec/weeks/*.go
+public/wasm/tiny-wasm_exec.js

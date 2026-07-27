@@ -155,9 +155,54 @@ const GOLANG_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const RUST_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Dari nol: toolchain, ownership, struct, enum, collections, dan error handling — urutan resmi Rust Book.',
+    descEn: 'From scratch: toolchain, ownership, structs, enums, collections, and error handling — official Rust Book order.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-rust', titleId: 'Pengenalan Rust & Toolchain', titleEn: 'Introduction to Rust & Toolchain' },
+      { week: 2, topicId: 'kontrol-ownership', titleId: 'Control Flow & Konsep Ownership', titleEn: 'Control Flow & Ownership Concept' },
+      { week: 3, topicId: 'borrowing-slice', titleId: 'Borrowing, Referensi & Slice', titleEn: 'Borrowing, References & Slices' },
+      { week: 4, topicId: 'struct-method', titleId: 'Struct, Method & Associated Function', titleEn: 'Structs, Methods & Associated Functions' },
+      { week: 5, topicId: 'enum-pattern', titleId: 'Enum & Pattern Matching', titleEn: 'Enums & Pattern Matching' },
+      { week: 6, topicId: 'koleksi-error', titleId: 'Koleksi (Vec, String, HashMap) & Error Handling', titleEn: 'Collections (Vec, String, HashMap) & Error Handling' },
+    ],
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Idiomatic Rust: module, trait, generics, closure, iterator, testing, dan proyek CLI nyata.',
+    descEn: 'Idiomatic Rust: modules, traits, generics, closures, iterators, testing, and a real CLI project.',
+    weeks: [
+      { week: 7, topicId: 'module-test', titleId: 'Module, Crate & Testing', titleEn: 'Modules, Crates & Testing' },
+      { week: 8, topicId: 'generics-trait', titleId: 'Generics & Trait', titleEn: 'Generics & Traits' },
+      { week: 9, topicId: 'closure-iterator', titleId: 'Closure & Iterator', titleEn: 'Closures & Iterators' },
+      { week: 10, topicId: 'cli-project', titleId: 'Proyek CLI: Alat Baris Perintah', titleEn: 'CLI Project: Command-Line Tool' },
+    ],
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Systems-level Rust: smart pointer, concurrency, unsafe, async, dan final project.',
+    descEn: 'Systems-level Rust: smart pointers, concurrency, unsafe, async, and final project.',
+    weeks: [
+      { week: 11, topicId: 'smart-pointer', titleId: 'Smart Pointer: Box, Rc, RefCell', titleEn: 'Smart Pointers: Box, Rc, RefCell' },
+      { week: 12, topicId: 'concurrency', titleId: 'Concurrency: Thread, Arc, Mutex', titleEn: 'Concurrency: Thread, Arc, Mutex' },
+      { week: 13, topicId: 'unsafe-macro', titleId: 'Unsafe Rust & Macro', titleEn: 'Unsafe Rust & Macros' },
+      { week: 14, topicId: 'async-final', titleId: 'Async/Await & Proyek Akhir', titleEn: 'Async/Await & Final Project' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
+  rust: RUST_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {

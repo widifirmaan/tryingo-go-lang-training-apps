@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode } from '@fortawesome/free-solid-svg-icons';
@@ -54,11 +55,16 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
     return `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
   }, [slug, activeLevel, activeWeek, lang, isId, currentWeek]);
 
+  const loadRef = useRef<{ abort: AbortController } | null>(null);
+
   const loadContent = useCallback(() => {
     const path = getFilePath();
     if (!path) return;
+    loadRef.current?.abort.abort();
+    const abort = new AbortController();
+    loadRef.current = { abort };
     setLoading(true);
-    fetch(path)
+    fetch(path, { signal: abort.signal })
       .then(res => {
         if (!res.ok) throw new Error('Not found');
         return res.text();
@@ -67,7 +73,8 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
         setContent(text);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err: Error) => {
+        if (err.name === 'AbortError') return;
         setContent(`# ${track?.name || trackId}
 
 > _${isId ? 'Materi sedang disiapkan. Coba minggu atau level lain!' : 'Material being prepared. Try another week or level!'}_
@@ -82,6 +89,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
   useEffect(() => {
     loadContent();
+    return () => loadRef.current?.abort.abort();
   }, [loadContent]);
 
   const handleLevelChange = (levelId: string) => {
@@ -114,6 +122,15 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  // Initialize 50/50 split on desktop
+  useEffect(() => {
+    if (!isDesktop || leftWidth !== null) return;
+    const container = containerRef.current;
+    if (container) {
+      setLeftWidth(container.getBoundingClientRect().width * 0.5);
+    }
+  }, [isDesktop, content]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -148,7 +165,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden gap-3 px-3 sm:px-0">
+    <div className="flex-1 flex flex-col h-full min-w-0 overflow-y-auto lg:overflow-hidden gap-3 px-3 sm:px-0">
       {/* Header */}
       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
         <button
@@ -235,9 +252,9 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
       </div>
 
       {/* Content + Inline Playground */}
-      <div ref={containerRef} className="lg:flex lg:flex-row flex-1 min-h-0 lg:gap-0">
+      <div ref={containerRef} className="flex flex-col lg:flex-row flex-1 min-h-0 lg:gap-0">
         {/* Markdown Content */}
-        <div className="overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md"
+        <div className="lg:overflow-y-auto rounded-2xl sm:rounded-[28px] bg-white dark:bg-zinc-900/95 border border-zinc-300 dark:border-zinc-700 px-5 py-4 sm:p-6 md:p-8 shadow-md lg:max-h-none"
           style={isDesktop && leftWidth ? { width: leftWidth, flex: 'none' } : {}}
         >
           {loading ? (
@@ -248,11 +265,18 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
               </div>
             </div>
           ) : (
-            <div className="lesson-body">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {content}
-              </ReactMarkdown>
-            </div>
+            <motion.div
+              key={activeWeek}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.12 }}
+            >
+              <div className="lesson-body">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {content}
+                </ReactMarkdown>
+              </div>
+            </motion.div>
           )}
         </div>
 
@@ -269,12 +293,13 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
         {/* Inline Code Playground */}
         {content && (
-          <div className="h-dvh lg:flex-1 min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <React.Suspense fallback={null}>
               <InlinePlayground
                 lang={lang}
                 initialCode={extractCode(content)}
                 language={slug}
+                week={activeWeek}
                 onClose={() => {}}
                 inline
               />
