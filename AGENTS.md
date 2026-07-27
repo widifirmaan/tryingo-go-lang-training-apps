@@ -17,8 +17,8 @@ npx wrangler pages deploy dist
 
 ## Key Architecture Decisions
 1. **No router library** — Simple state-based view switching (isExploring, activeCourseId)
-2. **Markdown materials** — Stored in `public/data/course/` for easy editing. Two tracks have custom curriculum: HTML5 (12 weeks), Go (14 weeks). Other tracks use DEFAULT_CURRICULUM.
-3. **Curriculum generator** — `scripts/generate-go-materials.mjs` creates 28 Go course files from templates. Old `generate-full-curriculum.mjs` was deleted with the 864 old template files.
+2. **Markdown materials** — Stored in `public/data/course/` for easy editing. Four tracks have custom curriculum: HTML5 (12 weeks), CSS3 (14 weeks), Go (14 weeks), Rust (14 weeks). Other tracks use DEFAULT_CURRICULUM.
+3. **Curriculum generators** — `scripts/generate-go-materials.mjs`, `scripts/generate-rust-materials.mjs`, `scripts/generate-css-materials.mjs` each create 28 course files. Old `generate-full-curriculum.mjs` was deleted with the 864 old template files.
 4. **Monaco Editor** — For interactive code playground
 5. **i18n** — Simple string map in `utils/translations.ts`
 6. **Go client-side execution** — Yaegi interpreter compiled to WASM (`wasm-exec/main.go`). Binary `public/wasm/go-exec.wasm` + runtime `wasm_exec.js` (gitignored). Falls back to Cloudflare Worker when WASM unavailable.

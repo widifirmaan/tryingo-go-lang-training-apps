@@ -11,13 +11,9 @@ import { SLUG_MAP } from '../data/slugMap';
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
 const extractCode = (markdown: string): string => {
-  const regex = /```(?:\w+)?\n([\s\S]*?)```/g;
-  const blocks: string[] = [];
-  let match;
-  while ((match = regex.exec(markdown)) !== null) {
-    blocks.push(match[1].trim());
-  }
-  return blocks.join('\n\n');
+  const regex = /```(?:\w+)?\n([\s\S]*?)```/;
+  const match = regex.exec(markdown);
+  return match ? match[1].trim() : '';
 };
 
 interface CoursePageProps {
@@ -33,7 +29,12 @@ interface CoursePageProps {
 export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [activeLevel, setActiveLevel] = useState(initialLevel || 'beginer');
+  const [activeLevel, setActiveLevel] = useState(() => {
+    const s = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
+    const lvls = getCurriculum(s);
+    if (initialLevel && lvls.some(l => l.levelId === initialLevel)) return initialLevel;
+    return lvls[0]?.levelId || 'beginer';
+  });
   const [activeWeek, setActiveWeek] = useState(initialWeek || 1);
   const [showLevelPicker, setShowLevelPicker] = useState(false);
   const [leftWidth, setLeftWidth] = useState<number | null>(null);
@@ -196,7 +197,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
             className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 shadow-xs hover:bg-white dark:hover:bg-zinc-700 transition-all text-xs sm:text-sm font-bold"
           >
             <span className="hidden sm:inline">{levelName}</span>
-            <span className="sm:hidden">Lv.{activeLevel === 'beginer' ? '1' : activeLevel === 'intermediate' ? '2' : activeLevel === 'advanced' ? '3' : '4'}</span>
+            <span className="sm:hidden">{levels.length > 1 ? `Lv.${levels.findIndex(l => l.levelId === activeLevel) + 1}` : levelName}</span>
             <FontAwesomeIcon icon={faChevronDown} className="w-3.5 h-3.5" />
           </button>
 

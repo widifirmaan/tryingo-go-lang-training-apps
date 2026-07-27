@@ -199,10 +199,33 @@ const RUST_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const CSS_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'css',
+    nameId: 'CSS',
+    nameEn: 'CSS',
+    descId: 'Belajar CSS murni — 10 modul progresif tanpa level.',
+    descEn: 'Learn pure CSS — 10 progressive modules with no levels.',
+    weeks: [
+      { week: 1, topicId: 'how-css-works', titleId: 'Cara CSS Bekerja', titleEn: 'How CSS Works' },
+      { week: 2, topicId: 'box-model', titleId: 'Box Model', titleEn: 'Box Model' },
+      { week: 3, topicId: 'text-color', titleId: 'Teks & Warna', titleEn: 'Text & Color' },
+      { week: 4, topicId: 'flow-positioning', titleId: 'Alur & Posisi', titleEn: 'Flow & Positioning' },
+      { week: 5, topicId: 'flexbox', titleId: 'Flexbox', titleEn: 'Flexbox' },
+      { week: 6, topicId: 'css-grid', titleId: 'CSS Grid', titleEn: 'CSS Grid' },
+      { week: 7, topicId: 'responsive-design', titleId: 'Responsif', titleEn: 'Responsive Design' },
+      { week: 8, topicId: 'motion-animation', titleId: 'Motion', titleEn: 'Motion & Animation' },
+      { week: 9, topicId: 'modern-css', titleId: 'CSS Modern', titleEn: 'Modern CSS' },
+      { week: 10, topicId: 'final-project', titleId: 'Proyek Akhir', titleEn: 'Final Project' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
   rust: RUST_CURRICULUM,
+  css3: CSS_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
