@@ -179,8 +179,14 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       if (iframe) {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (iframeDoc) {
+          const baseStyles = '<style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:0}img{max-width:100%}</style>';
+          const styledCode = code.includes('</head>')
+            ? code.replace('</head>', baseStyles + '</head>')
+            : code.includes('<head>')
+              ? code.replace('<head>', '<head>' + baseStyles)
+              : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + code + '</body></html>';
           iframeDoc.open();
-          iframeDoc.write(code);
+          iframeDoc.write(styledCode);
           iframeDoc.close();
 
           // Capture console.log from iframe

@@ -7,6 +7,7 @@ import { CartModal, SearchModal, DetailModal, SettingsModal } from './components
 import { ArrowDown, Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
 import { REVERSE_SLUG_MAP } from './data/slugMap';
+import { getCurriculum } from './data/curriculum';
 
 const CoursePage = React.lazy(() => import('./components/CoursePage'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
@@ -149,7 +150,9 @@ export default function App() {
         const slug = parts[0];
         const trackId = REVERSE_SLUG_MAP[slug];
         if (trackId) {
-          const level = parts[1] || 'beginer';
+          const levels = getCurriculum(slug);
+          const defaultLevel = levels[0]?.levelId || 'beginer';
+          const level = parts[1] || defaultLevel;
           const week = parts[2] ? Number(parts[2]) : 1;
           setActiveCourseId(trackId);
           setCourseInitialLevel(level);
