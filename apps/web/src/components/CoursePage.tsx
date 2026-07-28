@@ -7,6 +7,7 @@ import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
+import NextJsPlayground from './NextJsPlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -29,6 +30,7 @@ interface CoursePageProps {
 export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [projectFiles, setProjectFiles] = useState<Record<string, string> | null>(null);
   const [activeLevel, setActiveLevel] = useState(() => {
     const s = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
     const lvls = getCurriculum(s);
@@ -51,10 +53,11 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
 
   const getFilePath = useCallback(() => {
     if (!currentWeek) return '';
-    const topic = isId ? currentWeek.topicId : currentWeek.topicId;
-    const fileName = `week${activeWeek}-${topic}.md`;
+    const topic = currentWeek.topicId;
+    const prefix = slug === 'nextjs' ? 'lesson' : 'week';
+    const fileName = `${prefix}${activeWeek}-${topic}.md`;
     return `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
-  }, [slug, activeLevel, activeWeek, lang, isId, currentWeek]);
+  }, [slug, activeLevel, activeWeek, lang, currentWeek]);
 
   const loadRef = useRef<{ abort: AbortController } | null>(null);
 
@@ -92,6 +95,20 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     loadContent();
     return () => loadRef.current?.abort.abort();
   }, [loadContent]);
+
+  const isNextjs = slug === 'nextjs';
+
+  // Fetch Next.js project files for WebContainer playground
+  useEffect(() => {
+    if (!isNextjs || !currentWeek) { setProjectFiles(null); return; }
+    const topic = currentWeek.topicId;
+    const fileName = `lesson${activeWeek}-${topic}.json`;
+    const jsonPath = `/data/course/nextjs/${activeLevel}/${lang}/${fileName}`;
+    fetch(jsonPath)
+      .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
+      .then(setProjectFiles)
+      .catch(() => setProjectFiles(null));
+  }, [isNextjs, activeLevel, activeWeek, lang, currentWeek]);
 
   const handleLevelChange = (levelId: string) => {
     setActiveLevel(levelId);
@@ -293,7 +310,16 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         <div className="lg:hidden h-3" />
 
         {/* Inline Code Playground */}
-        {content && (
+        {content && isNextjs && projectFiles ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <NextJsPlayground
+              lang={lang}
+              projectFiles={projectFiles}
+              mainFile="app/page.tsx"
+              inline
+            />
+          </div>
+        ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <React.Suspense fallback={null}>
               <InlinePlayground
