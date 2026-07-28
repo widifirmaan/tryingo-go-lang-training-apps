@@ -143,6 +143,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const consoleTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isId = lang === 'id';
   const isWebLanguage = ['html', 'javascript', 'typescript', 'css'].includes(LANGUAGE_MAP[language] || 'html');
+  const isTypeScript = LANGUAGE_MAP[language] === 'typescript';
   const isGoLanguage = LANGUAGE_MAP[language] === 'go';
   const isRustLanguage = LANGUAGE_MAP[language] === 'rust';
 
@@ -151,6 +152,26 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   useEffect(() => {
     requestAnimationFrame(() => setEditorReady(true));
   }, []);
+
+  // TypeScript compiler ref
+  const tsRef = useRef<any>(null);
+  const [tsReady, setTsReady] = useState(false);
+
+  useEffect(() => {
+    if (!isTypeScript) return;
+    if ((window as any).ts) {
+      tsRef.current = (window as any).ts;
+      setTsReady(true);
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/typescript@5.5.4/lib/typescript.min.js';
+    script.onload = () => {
+      tsRef.current = (window as any).ts;
+      setTsReady(true);
+    };
+    document.head.appendChild(script);
+  }, [isTypeScript]);
 
   // Sync when initialCode changes (week/level switch) — skip first mount
   const prevInitialCode = useRef(initialCode);
@@ -174,17 +195,71 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     setOutput('');
 
     if (isWebLanguage) {
-      // HTML/CSS/JS: render in iframe
+      // HTML/CSS/JS/TS: render in iframe
       const iframe = iframeRef.current;
       if (iframe) {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (iframeDoc) {
+          let finalCode = code;
+
+          // TypeScript: transpile to JavaScript first
+          if (isTypeScript) {
+            const ts = tsRef.current;
+            if (!ts) {
+              setError(isId ? 'TypeScript compiler belum siap. Coba lagi.' : 'TypeScript compiler not ready. Try again.');
+              setIsRunning(false);
+              return;
+            }
+            try {
+              const result = ts.transpileModule(code, {
+                compilerOptions: {
+                  module: ts.ModuleKind.ESNext,
+                  target: ts.ScriptTarget.ES2022,
+                  strict: true,
+                  noEmitHelpers: true,
+                  importHelpers: false,
+                },
+              });
+              const jsCode = result.outputText;
+              finalCode = `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TypeScript Output</title>
+  <style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:16px;line-height:1.6}pre{background:#f5f5f5;padding:8px;border-radius:4px}</style>
+</head>
+<body>
+  <pre id="output"></pre>
+  <script>
+    const _origLog = console.log;
+    const _logs = [];
+    console.log = function(...args) {
+      _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+      document.getElementById('output').textContent = _logs.join('\\n');
+      _origLog.apply(console, args);
+    };
+    console.error = function(...args) {
+      _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+      document.getElementById('output').textContent = _logs.join('\\n');
+    };
+  </script>
+  <script>${jsCode}</script>
+</body>
+</html>`;
+            } catch (err) {
+              setError(err instanceof Error ? err.message : (isId ? 'Gagal kompilasi TypeScript' : 'TypeScript compilation failed'));
+              setIsRunning(false);
+              return;
+            }
+          }
+
           const baseStyles = '<style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:0}img{max-width:100%}</style>';
-          const styledCode = code.includes('</head>')
-            ? code.replace('</head>', baseStyles + '</head>')
-            : code.includes('<head>')
-              ? code.replace('<head>', '<head>' + baseStyles)
-              : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + code + '</body></html>';
+          const styledCode = finalCode.includes('</head>')
+            ? finalCode.replace('</head>', baseStyles + '</head>')
+            : finalCode.includes('<head>')
+              ? finalCode.replace('<head>', '<head>' + baseStyles)
+              : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + finalCode + '</body></html>';
           iframeDoc.open();
           iframeDoc.write(styledCode);
           iframeDoc.close();
@@ -380,7 +455,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
           {/* Editor Header */}
           <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
             <span className="text-[10px] text-zinc-500 font-mono">
-              {language}.{LANGUAGE_MAP[language] === 'html' ? 'html' : LANGUAGE_MAP[language] === 'javascript' ? 'js' : 'ts'}
+              {language}.{LANGUAGE_MAP[language] === 'html' ? 'html' : LANGUAGE_MAP[language] === 'javascript' ? 'js' : LANGUAGE_MAP[language] === 'typescript' ? 'ts' : LANGUAGE_MAP[language]}
             </span>
             <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
           </div>
@@ -440,7 +515,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
                 ref={iframeRef}
                 title="preview"
                 className="w-full h-full border-0"
-                sandbox="allow-scripts allow-modals allow-same-origin"
+                sandbox="allow-scripts allow-modals allow-same-origin allow-forms"
               />
             ) : (
               <div className="p-4 font-mono text-xs text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap overflow-auto h-full">
