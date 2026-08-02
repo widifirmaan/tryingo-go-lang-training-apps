@@ -210,37 +210,35 @@ export default async function ProductsPage() {
 
   'tryngo-lang-python': {
     trackId: 'tryngo-lang-python',
-    weekTitle: 'Beginner Week 1: Python Fundamentals & Pandas',
+    weekTitle: 'Python Lesson 1: Variables & Data Types',
     objectives: [
-      'Menguasai tipe data, list comprehension, dan function',
-      'Memahami Pandas Series dan DataFrame',
-      'Mampu melakukan data cleaning dan filtering',
-      'Mengerti integrasi dasar dengan Gemini SDK',
+      'Memahami variabel sebagai label, bukan kotak',
+      'Menguasai tipe data int, float, str, bool dan casting',
+      'Menulis program dengan print, f-strings, dan komentar',
+      'Membaca error message sederhana (SyntaxError, NameError)',
     ],
     topics: [
-      { title: 'Python Essentials', desc: 'List, tuple, dict, set, list comprehension, lambda, generator, decorator dasar.' },
-      { title: 'Pandas Series & DataFrame', desc: 'Membuat DataFrame dari dict/CSV, head/info/describe, indexing dengan loc/iloc.' },
-      { title: 'Data Cleaning', desc: 'Handling missing values (dropna, fillna), duplicate removal, type conversion, string operations.' },
-      { title: 'Filtering & Grouping', desc: 'Boolean filtering, query method, groupby aggregation, pivot table, merge/join.' },
-      { title: 'Gemini SDK Intro', desc: 'Install google-generativeai, API key setup, text generation, chat session, streaming response.' },
+      { title: 'Variables & Types', desc: 'Variabel = label yang menunjuk nilai; int/float/str/bool; casting; arti tanda kutip; f-strings.' },
+      { title: 'Conditionals & Loops', desc: 'if/elif/else, perbandingan, operator logika; for over range/iterable dulu, while sebagai exception case.' },
+      { title: 'Strings & Lists', desc: 'Indexing, slicing, immutability, string methods (split/join/strip), list methods, iterasi.' },
+      { title: 'Functions & Scope', desc: 'def, parameter vs argument, keyword args, defaults, return vs print, scope/LEGB, lambda.' },
+      { title: 'Dicts, Sets & Comprehensions', desc: 'Key-value mapping, KeyError dan .get(), sets untuk unique/membership, list & dict comprehensions.' },
+      { title: 'Modules & Error Handling', desc: 'import, stdlib (math/random/datetime), membaca traceback, try/except/finally, raising.' },
+      { title: 'File I/O & OOP', desc: 'Membaca/menulis file teks, CSV & JSON; class, __init__, self, encapsulation, inheritance, special methods.' },
+      { title: 'Real-World Python', desc: 'venv & pip, CLI dengan argparse, otomasi os/shutil, pengujian dasar, proyek akhir Library Manager.' },
     ],
-    codeExample: `import pandas as pd
+    codeExample: `# Variabel = label, bukan kotak
+name = "Ayu"
+age = 26
+height = 1.65
+is_student = True
 
-df = pd.read_csv('sales.csv')
-# Clean: drop duplicates, fill missing
-df = df.drop_duplicates()
-df['amount'] = df['amount'].fillna(0)
+print(f"Hi, {name}! You are {age} years old.")
+print(f"Height: {height} m | Student: {is_student}")
+print(f"Next year: {age + 1}")`,
 
-# Analysis by category
-summary = df.groupby('category').agg(
-  total_sales=('amount', 'sum'),
-  avg_price=('amount', 'mean'),
-  count=('id', 'count')
-).reset_index()
-print(summary)`,
-
-    exercise: 'Download dataset CSV sederhana (atau buat manual), lakukan cleaning (hapus duplikat, isi missing values), lalu buat summary groupby untuk analisis kategori. Tampilkan hasil dalam bentuk chart sederhana.',
-    summary: 'Python dengan Pandas memungkinkan data analysis yang efisien, dikombinasikan dengan Gemini SDK untuk integrasi AI capabilities.',
+    exercise: 'Buat profil singkat dengan 4 variabel (string, int, float, bool) dan tampilkan dengan f-strings. Lalu coba ganti nilai variabel dan amati: variabel menyimpan satu nilai pada satu waktu, nilai lama diganti, bukan ditumpuk.',
+    summary: 'Python inti diajarkan stdlib-only dengan urutan berbasis riset: for-first loops, fungsi sebelum OOP, collections sebelum library data. Dilanjutkan otomasi & CLI di phase akhir.',
   },
 
   'tryngo-lang-react': {

@@ -370,6 +370,61 @@ const REACT_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const PYTHON_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'foundations',
+    nameId: 'Foundasi Python',
+    nameEn: 'Python Foundations',
+    descId: 'Variabel, tipe data, kondisi, perulangan for-first, string & list.',
+    descEn: 'Variables, data types, conditionals, for-first loops, strings & lists.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-variabel', titleId: 'Pengenalan Python & Variabel', titleEn: 'Python Intro & Variables' },
+      { week: 2, topicId: 'tipe-data-kondisi', titleId: 'Tipe Data & Kondisi', titleEn: 'Data Types & Conditionals' },
+      { week: 3, topicId: 'perulangan', titleId: 'Perulangan: for-first', titleEn: 'Loops: for-first' },
+      { week: 4, topicId: 'strings-list-proyek', titleId: 'Proyek: Strings, List & Number Guessing', titleEn: 'Project: Strings, Lists & Number Guessing' },
+    ],
+  },
+  {
+    levelId: 'collections-functions',
+    nameId: 'Koleksi & Fungsi',
+    nameEn: 'Collections & Functions',
+    descId: 'Fungsi, scope, dictionary, set, comprehensions, modul & error handling.',
+    descEn: 'Functions, scope, dictionaries, sets, comprehensions, modules & error handling.',
+    weeks: [
+      { week: 5, topicId: 'fungsi-dasar', titleId: 'Fungsi Dasar', titleEn: 'Functions Basics' },
+      { week: 6, topicId: 'fungsi-lanjut', titleId: 'Fungsi Lanjutan & Scope', titleEn: 'Advanced Functions & Scope' },
+      { week: 7, topicId: 'dictionary-set', titleId: 'Dictionary, Set & Comprehensions', titleEn: 'Dictionaries, Sets & Comprehensions' },
+      { week: 8, topicId: 'modul-error-proyek', titleId: 'Proyek: Modul & Error Handling + Contact Book', titleEn: 'Project: Modules & Error Handling + Contact Book' },
+    ],
+  },
+  {
+    levelId: 'oop-io',
+    nameId: 'OOP & I/O',
+    nameEn: 'OOP & I/O',
+    descId: 'File I/O, JSON/CSV, kelas & objek, OOP lanjutan & special methods.',
+    descEn: 'File I/O, JSON/CSV, classes & objects, advanced OOP & special methods.',
+    weeks: [
+      { week: 9, topicId: 'file-io', titleId: 'File I/O & Data', titleEn: 'File I/O & Data' },
+      { week: 10, topicId: 'proyek-expense', titleId: 'Proyek: Expense Tracker', titleEn: 'Project: Expense Tracker' },
+      { week: 11, topicId: 'kelas-dasar', titleId: 'Kelas & Objek', titleEn: 'Classes & Objects' },
+      { week: 12, topicId: 'oop-lanjut', titleId: 'OOP Lanjutan & Special Methods', titleEn: 'Advanced OOP & Special Methods' },
+    ],
+  },
+  {
+    levelId: 'real-world',
+    nameId: 'Dunia Nyata',
+    nameEn: 'Real-World Python',
+    descId: 'venv, pip, CLI & automasi, testing & git, proyek akhir.',
+    descEn: 'venv, pip, CLI & automation, testing & git, final project.',
+    weeks: [
+      { week: 13, topicId: 'lingkungan-paket', titleId: 'venv, pip & Packages', titleEn: 'venv, pip & Packages' },
+      { week: 14, topicId: 'cli-automasi', titleId: 'CLI & Automasi', titleEn: 'CLI & Automation' },
+      { week: 15, topicId: 'testing-git', titleId: 'Testing & Git', titleEn: 'Testing & Git' },
+      { week: 16, topicId: 'proyek-akhir', titleId: 'Proyek Akhir: Library Manager CLI', titleEn: 'Final Project: Library Manager CLI' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -379,6 +434,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   typescript: TYPESCRIPT_CURRICULUM,
   nextjs: NEXTJS_CURRICULUM,
   react: REACT_CURRICULUM,
+  python: PYTHON_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -397,4 +453,5 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   go: 'bg-[#00ADD8] text-white',
   nextjs: 'bg-[#000000] text-white',
   react: 'bg-[#61DAFB] text-zinc-900',
+  python: 'bg-[#3776AB] text-white',
 };

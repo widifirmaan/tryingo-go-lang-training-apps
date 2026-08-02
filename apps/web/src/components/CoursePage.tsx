@@ -46,9 +46,9 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const isId = lang === 'id';
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
-  const isStackBlitz = slug === 'nextjs' || slug === 'react';
-  const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : 'src/App.jsx';
-  const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : 'React Lesson';
+  const isStackBlitz = slug === 'nextjs' || slug === 'react' || slug === 'python';
+  const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : slug === 'python' ? 'index.py' : 'src/App.jsx';
+  const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : slug === 'python' ? 'Python Lesson' : 'React Lesson';
   const levels = getCurriculum(slug);
 
   const currentLevel = levels.find(l => l.levelId === activeLevel);
