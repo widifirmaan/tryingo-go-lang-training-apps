@@ -7,7 +7,7 @@ import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
-import NextJsPlayground from './NextJsPlayground';
+import StackBlitzPlayground from './StackBlitzPlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -46,6 +46,9 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const isId = lang === 'id';
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
+  const isStackBlitz = slug === 'nextjs' || slug === 'react';
+  const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : 'src/App.jsx';
+  const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : 'React Lesson';
   const levels = getCurriculum(slug);
 
   const currentLevel = levels.find(l => l.levelId === activeLevel);
@@ -54,7 +57,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const getFilePath = useCallback(() => {
     if (!currentWeek) return '';
     const topic = currentWeek.topicId;
-    const prefix = slug === 'nextjs' ? 'lesson' : 'week';
+    const prefix = isStackBlitz ? 'lesson' : 'week';
     const fileName = `${prefix}${activeWeek}-${topic}.md`;
     return `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
   }, [slug, activeLevel, activeWeek, lang, currentWeek]);
@@ -96,19 +99,17 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     return () => loadRef.current?.abort.abort();
   }, [loadContent]);
 
-  const isNextjs = slug === 'nextjs';
-
-  // Fetch Next.js project files for WebContainer playground
+  // Fetch project files for StackBlitz playground (Next.js / React)
   useEffect(() => {
-    if (!isNextjs || !currentWeek) { setProjectFiles(null); return; }
+    if (!isStackBlitz || !currentWeek) { setProjectFiles(null); return; }
     const topic = currentWeek.topicId;
     const fileName = `lesson${activeWeek}-${topic}.json`;
-    const jsonPath = `/data/course/nextjs/${activeLevel}/${lang}/${fileName}`;
+    const jsonPath = `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
     fetch(jsonPath)
       .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
       .then(setProjectFiles)
       .catch(() => setProjectFiles(null));
-  }, [isNextjs, activeLevel, activeWeek, lang, currentWeek]);
+  }, [isStackBlitz, slug, activeLevel, activeWeek, lang, currentWeek]);
 
   const handleLevelChange = (levelId: string) => {
     setActiveLevel(levelId);
@@ -310,12 +311,13 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         <div className="lg:hidden h-3" />
 
         {/* Inline Code Playground */}
-        {content && isNextjs && projectFiles ? (
+        {content && isStackBlitz && projectFiles ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <NextJsPlayground
+            <StackBlitzPlayground
               lang={lang}
+              title={stackBlitzTitle}
               projectFiles={projectFiles}
-              mainFile="app/page.tsx"
+              mainFile={stackBlitzMainFile}
               inline
             />
           </div>

@@ -315,6 +315,61 @@ const NEXTJS_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const REACT_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'foundations',
+    nameId: 'Foundasi',
+    nameEn: 'Foundations',
+    descId: 'Setup, JSX, komponen, props, rendering list & kondisi.',
+    descEn: 'Setup, JSX, components, props, lists & conditional rendering.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-react', titleId: 'Pengenalan React & JSX', titleEn: 'React & JSX Introduction' },
+      { week: 2, topicId: 'komponen-props', titleId: 'Komponen & Props', titleEn: 'Components & Props' },
+      { week: 3, topicId: 'rendering-list', titleId: 'Rendering List & Kondisi', titleEn: 'Lists & Conditional Rendering' },
+      { week: 4, topicId: 'proyek-halaman-statis', titleId: 'Proyek: Halaman Produk Statis', titleEn: 'Project: Static Product Page' },
+    ],
+  },
+  {
+    levelId: 'state',
+    nameId: 'State & Interaksi',
+    nameEn: 'State & Interaction',
+    descId: 'useState, event, form terkontrol, lifting state up.',
+    descEn: 'useState, events, controlled forms, lifting state up.',
+    weeks: [
+      { week: 5, topicId: 'state-event', titleId: 'useState & Event', titleEn: 'useState & Events' },
+      { week: 6, topicId: 'form-terkontrol', titleId: 'Form Terkontrol', titleEn: 'Controlled Forms' },
+      { week: 7, topicId: 'lifting-state', titleId: 'Lifting State Up', titleEn: 'Lifting State Up' },
+      { week: 8, topicId: 'proyek-todo', titleId: 'Proyek: Todo App', titleEn: 'Project: Todo App' },
+    ],
+  },
+  {
+    levelId: 'effects-data',
+    nameId: 'Efek & Data',
+    nameEn: 'Effects & Data',
+    descId: 'useEffect, data fetching, loading/error states, React Router.',
+    descEn: 'useEffect, data fetching, loading/error states, React Router.',
+    weeks: [
+      { week: 9, topicId: 'use-effect', titleId: 'useEffect & Side Effects', titleEn: 'useEffect & Side Effects' },
+      { week: 10, topicId: 'data-fetching', titleId: 'Data Fetching', titleEn: 'Data Fetching' },
+      { week: 11, topicId: 'react-router', titleId: 'React Router v6', titleEn: 'React Router v6' },
+      { week: 12, topicId: 'proyek-recipe', titleId: 'Proyek: Recipe App', titleEn: 'Project: Recipe App' },
+    ],
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'State Global & Advanced',
+    nameEn: 'Global State & Advanced',
+    descId: 'Context API, useReducer, custom hooks, testing, performansi.',
+    descEn: 'Context API, useReducer, custom hooks, testing, performance.',
+    weeks: [
+      { week: 13, topicId: 'context-api', titleId: 'Context API', titleEn: 'Context API' },
+      { week: 14, topicId: 'reducer-custom-hooks', titleId: 'useReducer & Custom Hooks', titleEn: 'useReducer & Custom Hooks' },
+      { week: 15, topicId: 'testing-performansi', titleId: 'Testing & Performansi', titleEn: 'Testing & Performance' },
+      { week: 16, topicId: 'proyek-akhir', titleId: 'Proyek Akhir: Shopping Cart', titleEn: 'Final Project: Shopping Cart' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -323,6 +378,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   javascript: JAVASCRIPT_CURRICULUM,
   typescript: TYPESCRIPT_CURRICULUM,
   nextjs: NEXTJS_CURRICULUM,
+  react: REACT_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -340,4 +396,5 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   ts: 'bg-[#3178C6] text-white',
   go: 'bg-[#00ADD8] text-white',
   nextjs: 'bg-[#000000] text-white',
+  react: 'bg-[#61DAFB] text-zinc-900',
 };
