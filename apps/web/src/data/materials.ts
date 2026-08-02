@@ -287,40 +287,39 @@ print(f"Next year: {age + 1}")`,
 
   'tryngo-lang-vue': {
     trackId: 'tryngo-lang-vue',
-    weekTitle: 'Beginner Week 1: Vue 3 Composition API',
+    weekTitle: 'Vue Lesson 1: Intro & Setup',
     objectives: [
-      'Memahami Composition API (ref, reactive, computed)',
-      'Menguasai component props dan emit',
-      'Mampu menggunakan Vue Router untuk navigasi',
-      'Mengerti state management dengan Pinia',
+      'Memahami apa itu Vue dan mengapa Composition API + <script setup>',
+      'Mengenal SFC (Single File Component) dan struktur proyek Vite',
+      'Menguasai interpolasi {{ }} dan createApp().mount()',
+      'Siap menjalankan playground Vue di browser',
     ],
     topics: [
-      { title: 'Composition API', desc: 'ref untuk primitives, reactive untuk objects, computed, watch, watchEffect, lifecycle hooks (onMounted).' },
-      { title: 'Props & Emits', desc: 'defineProps dengan TypeScript, defineEmits, v-model komponen, fallthrough attributes.' },
-      { title: 'Slots & Provide/Inject', desc: 'Named slots, scoped slots, provide/inject untuk dependency injection tanpa props drilling.' },
-      { title: 'Vue Router', desc: 'createRouter, createWebHistory, route params, nested routes, navigation guards, lazy loading.' },
-      { title: 'Pinia State', desc: 'defineStore, setup syntax store, actions, getters, persist plugin, devtools integration.' },
+      { title: 'Progressive Framework', desc: 'Vue = framework progresif: mulai dari satu file, tumbuh tanpa pindah ekosistem. React adalah library, Vue adalah framework.' },
+      { title: 'Composition API', desc: 'ref, computed, watch ditulis dalam <script setup>. Options API hanya disebut sebagai kode legacy.' },
+      { title: 'SFC', desc: '<template> + <script setup> + <style scoped> dalam satu file .vue — komponen, logika, dan gaya dalam satu tempat.' },
+      { title: 'createApp & Mount', desc: 'createApp(App).mount("#app") — entry point render pertama ke DOM.' },
+      { title: 'Interpolasi', desc: '{{ expression }} di template: ekspresi JS apa pun, otomatis reaktif terhadap state.' },
     ],
-    codeExample: `<script setup lang="ts">
-import { ref, computed } from 'vue'
+    codeExample: `<script setup>
+import { ref } from 'vue'
 
+const name = ref('Dunia')
 const count = ref(0)
-const doubled = computed(() => count.value * 2)
-const items = ref<string[]>([])
 
-function addItem(text: string) {
-  items.value.push(text)
+function greet() {
+  alert(\`Halo, \${name.value}!\`)
 }
 </script>
 
 <template>
-  <button @click="count++">Count: {{ count }}</button>
-  <p>Doubled: {{ doubled }}</p>
-  <input @keyup.enter="addItem(($event.target as HTMLInputElement).value)" />
+  <h1>Halo {{ name }}!</h1>
+  <button @click="count++">Klik: {{ count }}</button>
+  <button @click="greet">Sapa</button>
 </template>`,
 
-    exercise: 'Buat komponen todo list dengan Composition API: ref untuk list, computed untuk active/completed count, watch untuk localStorage persist. Tambahkan props untuk filter category.',
-    summary: 'Vue 3 Composition API memberikan fleksibilitas kode yang lebih baik dibandingkan Options API, dengan TypeScript support yang matang.',
+    exercise: 'Buat kartu profil: variabel name, age, city (ref); tampilkan dengan interpolasi; ubah nilainya lewat tombol dan lihat UI bereaksi otomatis.',
+    summary: 'Vue = framework progresif: SFC, Composition API + <script setup>, reaktivitas ref(). Siap lanjut ke rendering deklaratif.',
   },
 
   'tryngo-lang-rust': {

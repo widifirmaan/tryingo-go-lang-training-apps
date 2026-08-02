@@ -425,6 +425,81 @@ const PYTHON_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const VUE_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'foundations',
+    nameId: 'Foundasi Vue',
+    nameEn: 'Vue Foundations',
+    descId: 'Setup, rendering deklaratif, direktif template, list & event, v-model, computed & watchers.',
+    descEn: 'Setup, declarative rendering, template directives, lists & events, v-model, computed & watchers.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-vue', titleId: 'Pengenalan Vue & Setup', titleEn: 'Vue Intro & Setup' },
+      { week: 2, topicId: 'rendering-deklaratif', titleId: 'Rendering Deklaratif & ref()', titleEn: 'Declarative Rendering & ref()' },
+      { week: 3, topicId: 'template-directives', titleId: 'Directive & Binding', titleEn: 'Directives & Bindings' },
+      { week: 4, topicId: 'list-event', titleId: 'List & Event', titleEn: 'Lists & Events' },
+      { week: 5, topicId: 'form-v-model', titleId: 'Form & v-model', titleEn: 'Forms & v-model' },
+      { week: 6, topicId: 'computed-watch', titleId: 'Computed & Watchers', titleEn: 'Computed & Watchers' },
+    ],
+  },
+  {
+    levelId: 'components',
+    nameId: 'Komponen',
+    nameEn: 'Components',
+    descId: 'SFC, props, emits, v-model komponen, slots, provide/inject, proyek komponen.',
+    descEn: 'SFCs, props, emits, component v-model, slots, provide/inject, component project.',
+    weeks: [
+      { week: 7, topicId: 'komponen-sfc', titleId: 'Komponen & SFC', titleEn: 'Components & SFC' },
+      { week: 8, topicId: 'props', titleId: 'Props: Aliran Data Satu Arah', titleEn: 'Props: One-Way Data Flow' },
+      { week: 9, topicId: 'emits', titleId: 'Emits: Anak → Induk', titleEn: 'Emits: Child → Parent' },
+      { week: 10, topicId: 'v-model-komponen', titleId: 'v-model pada Komponen', titleEn: 'v-model on Components' },
+      { week: 11, topicId: 'slots-inject', titleId: 'Slots & Provide/Inject', titleEn: 'Slots & Provide/Inject' },
+      { week: 12, topicId: 'proyek-komponen', titleId: 'Proyek: Modal + Form + Tabs', titleEn: 'Project: Modal + Form + Tabs' },
+    ],
+  },
+  {
+    levelId: 'architecture',
+    nameId: 'Arsitektur',
+    nameEn: 'Architecture',
+    descId: 'Composables, data fetching, Vue Router, guards & lazy loading, Pinia, proyek dashboard.',
+    descEn: 'Composables, data fetching, Vue Router, guards & lazy loading, Pinia, dashboard project.',
+    weeks: [
+      { week: 13, topicId: 'composables', titleId: 'Composables', titleEn: 'Composables' },
+      { week: 14, topicId: 'data-fetching', titleId: 'Data Fetching', titleEn: 'Data Fetching' },
+      { week: 15, topicId: 'router-dasar', titleId: 'Vue Router Dasar', titleEn: 'Vue Router Basics' },
+      { week: 16, topicId: 'router-lanjut', titleId: 'Router Lanjutan', titleEn: 'Advanced Routing' },
+      { week: 17, topicId: 'pinia-state', titleId: 'State Ladder & Pinia', titleEn: 'State Ladder & Pinia' },
+      { week: 18, topicId: 'proyek-dashboard', titleId: 'Proyek: Mini Dashboard', titleEn: 'Project: Mini Dashboard' },
+    ],
+  },
+  {
+    levelId: 'production',
+    nameId: 'Produksi',
+    nameEn: 'Production',
+    descId: 'Validasi form, transisi & teleport, performansi, testing Vitest, proyek e-commerce.',
+    descEn: 'Form validation, transitions & teleport, performance, Vitest testing, e-commerce project.',
+    weeks: [
+      { week: 19, topicId: 'validasi-error', titleId: 'Validasi Form & Error Handling', titleEn: 'Form Validation & Error Handling' },
+      { week: 20, topicId: 'transisi-teleport', titleId: 'Transisi & Teleport', titleEn: 'Transitions & Teleport' },
+      { week: 21, topicId: 'performansi', titleId: 'Performansi', titleEn: 'Performance' },
+      { week: 22, topicId: 'testing', titleId: 'Testing (Vitest)', titleEn: 'Testing (Vitest)' },
+      { week: 23, topicId: 'proyek-ecommerce', titleId: 'Proyek: E-commerce', titleEn: 'Project: E-commerce' },
+    ],
+  },
+  {
+    levelId: 'ecosystem',
+    nameId: 'Ekosistem',
+    nameEn: 'Ecosystem',
+    descId: 'Nuxt, VueUse & i18n, deployment, capstone SaaS starter.',
+    descEn: 'Nuxt, VueUse & i18n, deployment, SaaS starter capstone.',
+    weeks: [
+      { week: 24, topicId: 'nuxt', titleId: 'Pengenalan Nuxt', titleEn: 'Nuxt Introduction' },
+      { week: 25, topicId: 'vueuse-i18n', titleId: 'VueUse & i18n', titleEn: 'VueUse & i18n' },
+      { week: 26, topicId: 'deployment', titleId: 'Deployment', titleEn: 'Deployment' },
+      { week: 27, topicId: 'capstone', titleId: 'Capstone: SaaS Starter', titleEn: 'Capstone: SaaS Starter' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -435,6 +510,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   nextjs: NEXTJS_CURRICULUM,
   react: REACT_CURRICULUM,
   python: PYTHON_CURRICULUM,
+  vue: VUE_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -454,4 +530,5 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   nextjs: 'bg-[#000000] text-white',
   react: 'bg-[#61DAFB] text-zinc-900',
   python: 'bg-[#3776AB] text-white',
+  vue: 'bg-[#42B883] text-white',
 };
