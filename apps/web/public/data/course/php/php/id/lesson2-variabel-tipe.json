@@ -1,0 +1,6 @@
+{
+  "index.php": "<?php\n\n$nama = \"Tryngo\";\n$umur = 25;\n$harga = 19999.50;\n$aktif = true;\n\nvar_dump($nama);\nvar_dump($umur);\nvar_dump($harga);\nvar_dump($aktif);\n",
+  "composer.json": "{\n    \"name\": \"tryngo/variabel-tipe\",\n    \"type\": \"project\",\n    \"require\": { \"php\": \"^8.2\" },\n    \"require-dev\": {\n        \"fakerphp/faker\": \"^1.23\",\n        \"phpunit/phpunit\": \"^11.0\"\n    },\n    \"autoload\": { \"psr-4\": { \"App\\\": \"src/\" } },\n    \"minimum-stability\": \"stable\",\n    \"prefer-stable\": true\n}\n",
+  "package.json": "{\n  \"name\": \"php-lesson-2\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"php -S 0.0.0.0:3000\" }\n}\n",
+  "README.md": "# PHP Lesson 2 - Variables & Types\n\nJalankan: composer install && npm run dev\nCoba: http://localhost:3000\nPerhatikan output var_dump — menunjukkan tipe dan nilai setiap variabel.\n"
+}

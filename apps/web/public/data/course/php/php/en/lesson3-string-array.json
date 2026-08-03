@@ -1,0 +1,6 @@
+{
+  "index.php": "<?php\n\n$nama = \"Tryngo\";\n$pesan = \"Halo, $nama!\";\n$panjang = strlen($nama);\n$upper = strtoupper($nama);\n\n$buah = [\"apel\", \"jeruk\", \"mangga\"];\n$buah[] = \"pisang\";\n\nforeach ($buah as $b) {\n    echo $b . \"\\n\";\n}\n\n$data = [\"nama\" => \"Budi\", \"umur\" => 25];\necho $data[\"nama\"];\n",
+  "composer.json": "{\n    \"name\": \"tryngo/string-array\",\n    \"type\": \"project\",\n    \"require\": { \"php\": \"^8.2\" },\n    \"require-dev\": {\n        \"fakerphp/faker\": \"^1.23\",\n        \"phpunit/phpunit\": \"^11.0\"\n    },\n    \"autoload\": { \"psr-4\": { \"App\\\": \"src/\" } },\n    \"minimum-stability\": \"stable\",\n    \"prefer-stable\": true\n}\n",
+  "package.json": "{\n  \"name\": \"php-lesson-3\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"php -S 0.0.0.0:3000\" }\n}\n",
+  "README.md": "# PHP Lesson 3 - Strings & Arrays\n\nJalankan: composer install && npm run dev\nCoba: http://localhost:3000\n"
+}

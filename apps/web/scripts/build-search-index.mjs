@@ -46,6 +46,17 @@ const LEVEL_MAP = {
   images: 'Images & Containers',
   multicontainer: 'Multi-Container',
   production: 'Production',
+  express: 'Express & Web APIs',
+  databases: 'Databases & Auth',
+  'request-data': 'Request & Data',
+  'auth-advanced': 'Auth & Advanced',
+  'data-features': 'Data & Features',
+  'drf-apis': 'REST APIs & DRF',
+  'testing-security': 'Testing & Security',
+  'data-crud': 'Data & CRUD',
+  'auth-middleware': 'Auth & Middleware',
+  'apis-realtime': 'APIs & Real-time',
+  'php': 'PHP',
 };
 
 function extractTitle(content, slug) {
