@@ -555,6 +555,278 @@ const DOCKER_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const NODEJS_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'foundations',
+    nameId: 'Fondasi Node',
+    nameEn: 'Node Foundations',
+    descId: 'Runtime & V8, event loop & non-blocking I/O, module system & npm, core modules (fs, path, os, events).',
+    descEn: 'Runtime & V8, the event loop & non-blocking I/O, modules & npm, core modules (fs, path, os, events).',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-node', titleId: 'Pengenalan Node.js', titleEn: 'Node.js Intro' },
+      { week: 2, topicId: 'event-loop', titleId: 'Event Loop & Non-Blocking I/O', titleEn: 'The Event Loop & Non-Blocking I/O' },
+      { week: 3, topicId: 'modules-npm', titleId: 'Module System & npm', titleEn: 'Modules & npm' },
+      { week: 4, topicId: 'core-modules', titleId: 'Core Modules', titleEn: 'Core Modules' },
+    ],
+  },
+  {
+    levelId: 'express',
+    nameId: 'Express & Web API',
+    nameEn: 'Express & Web APIs',
+    descId: 'HTTP server, Express routing, middleware pipeline, REST API & arsitektur MVC.',
+    descEn: 'HTTP servers, Express routing, the middleware pipeline, REST APIs & MVC architecture.',
+    weeks: [
+      { week: 5, topicId: 'http-server', titleId: 'HTTP Module & Web Server', titleEn: 'HTTP Module & Web Servers' },
+      { week: 6, topicId: 'express-routing', titleId: 'Express: Routing', titleEn: 'Express: Routing' },
+      { week: 7, topicId: 'express-middleware', titleId: 'Middleware', titleEn: 'Middleware' },
+      { week: 8, topicId: 'rest-api-mvc', titleId: 'REST API & MVC', titleEn: 'REST APIs & MVC' },
+    ],
+  },
+  {
+    levelId: 'databases',
+    nameId: 'Database & Auth',
+    nameEn: 'Databases & Auth',
+    descId: 'MongoDB & Mongoose, PostgreSQL & SQL, autentikasi JWT + bcrypt, keamanan API & error handling.',
+    descEn: 'MongoDB & Mongoose, PostgreSQL & SQL, JWT + bcrypt authentication, API security & error handling.',
+    weeks: [
+      { week: 9, topicId: 'mongodb-mongoose', titleId: 'MongoDB & Mongoose', titleEn: 'MongoDB & Mongoose' },
+      { week: 10, topicId: 'postgresql-sql', titleId: 'PostgreSQL & SQL', titleEn: 'PostgreSQL & SQL' },
+      { week: 11, topicId: 'auth-jwt', titleId: 'Autentikasi: bcrypt & JWT', titleEn: 'Auth: bcrypt & JWT' },
+      { week: 12, topicId: 'security-errors', titleId: 'Keamanan API & Error Handling', titleEn: 'API Security & Error Handling' },
+    ],
+  },
+  {
+    levelId: 'production',
+    nameId: 'Produksi & Capstone',
+    nameEn: 'Production & Capstone',
+    descId: 'File upload & integrasi API, testing Jest + Supertest, performa & skalabilitas, deployment, CI/CD & capstone.',
+    descEn: 'File uploads & API integration, Jest + Supertest testing, performance & scalability, deployment, CI/CD & capstone.',
+    weeks: [
+      { week: 13, topicId: 'upload-integrasi', titleId: 'File Upload & Integrasi API', titleEn: 'File Uploads & API Integration' },
+      { week: 14, topicId: 'testing', titleId: 'Testing API', titleEn: 'API Testing' },
+      { week: 15, topicId: 'performa-skala', titleId: 'Performa & Skalabilitas', titleEn: 'Performance & Scalability' },
+      { week: 16, topicId: 'deploy-capstone', titleId: 'Deployment & Capstone', titleEn: 'Deployment & Capstone' },
+    ],
+  },
+];
+
+const NESTJS_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'fundamentals',
+    nameId: 'Fondasi Nest',
+    nameEn: 'Nest Fundamentals',
+    descId: 'Arsitektur enterprise, controllers & routing, providers & dependency injection, modules & domain boundaries.',
+    descEn: 'Enterprise architecture, controllers & routing, providers & dependency injection, modules & domain boundaries.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-nest', titleId: 'Pengenalan NestJS', titleEn: 'NestJS Intro' },
+      { week: 2, topicId: 'controllers-routing', titleId: 'Controllers & Routing', titleEn: 'Controllers & Routing' },
+      { week: 3, topicId: 'providers-di', titleId: 'Providers & DI', titleEn: 'Providers & DI' },
+      { week: 4, topicId: 'modules', titleId: 'Modules: Organisasi Arsitektur', titleEn: 'Modules: Architecture Organization' },
+    ],
+  },
+  {
+    levelId: 'request-data',
+    nameId: 'Request & Data',
+    nameEn: 'Request & Data',
+    descId: 'Pipes & validasi DTO, exception filters & middleware, TypeORM, Prisma.',
+    descEn: 'Pipes & DTO validation, exception filters & middleware, TypeORM, Prisma.',
+    weeks: [
+      { week: 5, topicId: 'pipes-dto', titleId: 'Pipes & Validasi DTO', titleEn: 'Pipes & DTO Validation' },
+      { week: 6, topicId: 'exception-filters', titleId: 'Exception Filters & Middleware', titleEn: 'Exception Filters & Middleware' },
+      { week: 7, topicId: 'typeorm', titleId: 'TypeORM: Entity, Repository, Relasi', titleEn: 'TypeORM: Entities, Repositories, Relations' },
+      { week: 8, topicId: 'prisma', titleId: 'Prisma: Type-Safe ORM', titleEn: 'Prisma: The Modern Type-Safe ORM' },
+    ],
+  },
+  {
+    levelId: 'auth-advanced',
+    nameId: 'Auth & Lanjutan',
+    nameEn: 'Auth & Advanced',
+    descId: 'Guards & authorization, autentikasi JWT, interceptors, config, Swagger & logging.',
+    descEn: 'Guards & authorization, JWT authentication, interceptors, config, Swagger & logging.',
+    weeks: [
+      { week: 9, topicId: 'guards-authorization', titleId: 'Guards & Authorization', titleEn: 'Guards & Authorization' },
+      { week: 10, topicId: 'auth-jwt', titleId: 'Autentikasi JWT', titleEn: 'JWT Authentication' },
+      { week: 11, topicId: 'interceptors', titleId: 'Interceptors', titleEn: 'Interceptors' },
+      { week: 12, topicId: 'config-swagger-logging', titleId: 'Config, Swagger & Logging', titleEn: 'Config, Swagger & Logging' },
+    ],
+  },
+  {
+    levelId: 'production',
+    nameId: 'Produksi & Capstone',
+    nameEn: 'Production & Capstone',
+    descId: 'Testing unit & e2e, WebSockets realtime, Docker & CI/CD, capstone Notes API.',
+    descEn: 'Unit & e2e testing, real-time WebSockets, Docker & CI/CD, the Notes API capstone.',
+    weeks: [
+      { week: 13, topicId: 'testing', titleId: 'Testing: Unit & E2E', titleEn: 'Testing: Unit & E2E' },
+      { week: 14, topicId: 'websockets', titleId: 'WebSockets: Chat Realtime', titleEn: 'WebSockets: Real-time Chat' },
+      { week: 15, topicId: 'docker-cicd', titleId: 'Docker & CI/CD', titleEn: 'Docker & CI/CD' },
+      { week: 16, topicId: 'capstone', titleId: 'Capstone: Notes API', titleEn: 'Capstone: Protected Notes API' },
+    ],
+  },
+];
+
+const DJANGO_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'fundamentals',
+    nameId: 'Fondasi Django',
+    nameEn: 'Django Fundamentals',
+    descId: 'MVT & request lifecycle, URLs & views, models & migrations, templates.',
+    descEn: 'MVT & the request lifecycle, URLs & views, models & migrations, templates.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-django', titleId: 'Pengenalan Django: MVT & Request Lifecycle', titleEn: 'Django Intro: MVT & the Request Lifecycle' },
+      { week: 2, topicId: 'urls-views', titleId: 'URLs & Views: Dispatcher & Path Converters', titleEn: 'URLs & Views: The Dispatcher & Path Converters' },
+      { week: 3, topicId: 'models-migrations', titleId: 'Models & Migrations: Database Tanpa SQL', titleEn: 'Models & Migrations: The Database Without SQL' },
+      { week: 4, topicId: 'templates', titleId: 'Templates: DTL, Inheritance & Static Files', titleEn: 'Templates: DTL, Inheritance & Static Files' },
+    ],
+  },
+  {
+    levelId: 'data-features',
+    nameId: 'Data & Fitur',
+    nameEn: 'Data & Features',
+    descId: 'QuerySets, forms & validasi, autentikasi & izin, class-based views.',
+    descEn: 'QuerySets, forms & validation, authentication & permissions, class-based views.',
+    weeks: [
+      { week: 5, topicId: 'querysets', titleId: 'QuerySets: Filter, Agregasi & N+1', titleEn: 'QuerySets: Filtering, Aggregation & N+1' },
+      { week: 6, topicId: 'forms', titleId: 'Forms: ModelForm, Validasi & CSRF', titleEn: 'Forms: ModelForms, Validation & CSRF' },
+      { week: 7, topicId: 'auth-users', titleId: 'Authentication: Login, Signup & Permissions', titleEn: 'Authentication: Login, Signup & Permissions' },
+      { week: 8, topicId: 'class-based-views', titleId: 'Class-Based Views & Mixins', titleEn: 'Class-Based Views & Mixins' },
+    ],
+  },
+  {
+    levelId: 'drf-apis',
+    nameId: 'REST API & DRF',
+    nameEn: 'REST APIs & DRF',
+    descId: 'Serializers & APIView, viewsets & routers, JWT, permissions & throttling.',
+    descEn: 'Serializers & APIViews, viewsets & routers, JWT, permissions & throttling.',
+    weeks: [
+      { week: 9, topicId: 'drf-serializers', titleId: 'DRF: Serializers & APIView', titleEn: 'DRF: Serializers & APIView' },
+      { week: 10, topicId: 'drf-viewsets', titleId: 'DRF: ViewSets, Routers & Filtering', titleEn: 'DRF: ViewSets, Routers & Filtering' },
+      { week: 11, topicId: 'drf-auth-jwt', titleId: 'DRF: JWT, Permissions & Throttling', titleEn: 'DRF: JWT, Permissions & Throttling' },
+    ],
+  },
+  {
+    levelId: 'testing-security',
+    nameId: 'Testing & Keamanan',
+    nameEn: 'Testing & Security',
+    descId: 'TestCase & APITestCase, SQLi/XSS/CSRF & headers, caching, Redis & async views.',
+    descEn: 'TestCase & APITestCase, SQLi/XSS/CSRF & headers, caching, Redis & async views.',
+    weeks: [
+      { week: 12, topicId: 'testing', titleId: 'Testing: TestCase, Client & APITestCase', titleEn: 'Testing: TestCase, Client & APITestCase' },
+      { week: 13, topicId: 'security', titleId: 'Security: SQLi, XSS, CSRF & Headers', titleEn: 'Security: SQLi, XSS, CSRF & Headers' },
+      { week: 14, topicId: 'caching-async', titleId: 'Caching, Redis & Async Views', titleEn: 'Caching, Redis & Async Views' },
+    ],
+  },
+  {
+    levelId: 'production',
+    nameId: 'Produksi & Capstone',
+    nameEn: 'Production & Capstone',
+    descId: 'Settings & env & PostgreSQL, Docker & Gunicorn & Nginx, CI/CD, capstone Blog API.',
+    descEn: 'Settings & env & PostgreSQL, Docker & Gunicorn & Nginx, CI/CD, the Blog API capstone.',
+    weeks: [
+      { week: 15, topicId: 'production-settings', titleId: 'Produksi: Settings, Env & PostgreSQL', titleEn: 'Production: Settings, Env & PostgreSQL' },
+      { week: 16, topicId: 'docker-gunicorn', titleId: 'Docker, Gunicorn & Nginx', titleEn: 'Docker, Gunicorn & Nginx' },
+      { week: 17, topicId: 'cicd-deploy', titleId: 'CI/CD & Deployment', titleEn: 'CI/CD & Deployment' },
+      { week: 18, topicId: 'capstone', titleId: 'Capstone: Blog API + Admin', titleEn: 'Capstone: Blog API + Admin' },
+    ],
+  },
+];
+
+const PHP_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'php',
+    nameId: 'PHP',
+    nameEn: 'PHP',
+    descId: 'Belajar PHP murni — 16 modul progresif tanpa level, dari sintaks dasar hingga proyek akhir.',
+    descEn: 'Learn pure PHP — 16 progressive modules with no levels, from basic syntax to a final project.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-php', titleId: 'Pengenalan PHP & Sintaks', titleEn: 'Introduction to PHP & Syntax' },
+      { week: 2, topicId: 'variabel-tipe', titleId: 'Variabel, Tipe Data & Type Casting', titleEn: 'Variables, Types & Type Casting' },
+      { week: 3, topicId: 'string-array', titleId: 'String & Array', titleEn: 'Strings & Arrays' },
+      { week: 4, topicId: 'control-flow', titleId: 'Control Flow: if, Loop, Match', titleEn: 'Control Flow: if, Loops, Match' },
+      { week: 5, topicId: 'fungsi', titleId: 'Fungsi & Parameter', titleEn: 'Functions & Parameters' },
+      { week: 6, topicId: 'array-lanjutan', titleId: 'Array Lanjutan & Callback', titleEn: 'Advanced Arrays & Callbacks' },
+      { week: 7, topicId: 'oop-kelas', titleId: 'OOP: Kelas & Objek', titleEn: 'OOP: Classes & Objects' },
+      { week: 8, topicId: 'oop-lanjutan', titleId: 'OOP: Pewarisan & Interface', titleEn: 'OOP: Inheritance & Interfaces' },
+      { week: 9, topicId: 'exception-error', titleId: 'Exception & Error Handling', titleEn: 'Exception & Error Handling' },
+      { week: 10, topicId: 'file-json', titleId: 'File I/O & JSON', titleEn: 'File I/O & JSON' },
+      { week: 11, topicId: 'pdo-crud', titleId: 'PDO & CRUD Database', titleEn: 'PDO & Database CRUD' },
+      { week: 12, topicId: 'keamanan', titleId: 'Keamanan Aplikasi', titleEn: 'Application Security' },
+      { week: 13, topicId: 'composer-autoload', titleId: 'Composer & Autoloading', titleEn: 'Composer & Autoloading' },
+      { week: 14, topicId: 'php8-fitur', titleId: 'PHP 8: Enum, Match & Attributes', titleEn: 'PHP 8: Enum, Match & Attributes' },
+      { week: 15, topicId: 'testing-phpunit', titleId: 'Testing dengan PHPUnit', titleEn: 'Testing with PHPUnit' },
+      { week: 16, topicId: 'proyek-akhir', titleId: 'Proyek Akhir: Task Manager', titleEn: 'Final Project: Task Manager' },
+    ],
+  },
+];
+
+const LARAVEL_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'fundamentals',
+    nameId: 'Fondasi Laravel',
+    nameEn: 'Laravel Fundamentals',
+    descId: 'Setup & artisan, routing & controllers, Blade, migrations & Eloquent.',
+    descEn: 'Setup & artisan, routing & controllers, Blade, migrations & Eloquent.',
+    weeks: [
+      { week: 1, topicId: 'laravel-setup', titleId: 'Pengenalan Laravel & Artisan', titleEn: 'Laravel Intro & Artisan' },
+      { week: 2, topicId: 'routing-controllers', titleId: 'Routing & Controllers', titleEn: 'Routing & Controllers' },
+      { week: 3, topicId: 'blade-templates', titleId: 'Blade: Template, Layout & Komponen', titleEn: 'Blade: Templates, Layouts & Components' },
+      { week: 4, topicId: 'migrations-eloquent', titleId: 'Migrations & Eloquent Dasar', titleEn: 'Migrations & Eloquent Basics' },
+    ],
+  },
+  {
+    levelId: 'data-crud',
+    nameId: 'Data & CRUD',
+    nameEn: 'Data & CRUD',
+    descId: 'Relationships Eloquent, validasi & FormRequests, proyek CRUD blog, factories & seeders.',
+    descEn: 'Eloquent relationships, validation & FormRequests, a CRUD blog project, factories & seeders.',
+    weeks: [
+      { week: 5, topicId: 'eloquent-relations', titleId: 'Eloquent Relationships: 1-N & N-N', titleEn: 'Eloquent Relationships: 1-N & N-N' },
+      { week: 6, topicId: 'validation-forms', titleId: 'Validasi & Form Requests', titleEn: 'Validation & Form Requests' },
+      { week: 7, topicId: 'crud-blog', titleId: 'Proyek CRUD: Blog Lengkap', titleEn: 'CRUD Project: A Full Blog' },
+      { week: 8, topicId: 'factories-seeders', titleId: 'Factories & Seeders: Data Dummy', titleEn: 'Factories & Seeders: Dummy Data' },
+    ],
+  },
+  {
+    levelId: 'auth-middleware',
+    nameId: 'Auth & Middleware',
+    nameEn: 'Auth & Middleware',
+    descId: 'Autentikasi session, middleware & policies, mail & notifications, file storage.',
+    descEn: 'Session authentication, middleware & policies, mail & notifications, file storage.',
+    weeks: [
+      { week: 9, topicId: 'auth-basics', titleId: 'Autentikasi Session', titleEn: 'Session Authentication' },
+      { week: 10, topicId: 'middleware-policies', titleId: 'Middleware & Policies', titleEn: 'Middleware & Policies' },
+      { week: 11, topicId: 'mail-notifications', titleId: 'Mail & Notifications', titleEn: 'Mail & Notifications' },
+      { week: 12, topicId: 'file-storage', titleId: 'File Storage & Upload', titleEn: 'File Storage & Uploads' },
+    ],
+  },
+  {
+    levelId: 'apis-realtime',
+    nameId: 'API & Realtime',
+    nameEn: 'APIs & Real-time',
+    descId: 'Sanctum API tokens, API resources, queues & jobs, broadcasting & WebSockets.',
+    descEn: 'Sanctum API tokens, API resources, queues & jobs, broadcasting & WebSockets.',
+    weeks: [
+      { week: 13, topicId: 'sanctum-apis', titleId: 'API Token dengan Sanctum', titleEn: 'Sanctum API Tokens' },
+      { week: 14, topicId: 'api-resources', titleId: 'API Resources & Filtering', titleEn: 'API Resources & Filtering' },
+      { week: 15, topicId: 'queues-jobs', titleId: 'Queues & Jobs', titleEn: 'Queues & Jobs' },
+      { week: 16, topicId: 'broadcasting-websockets', titleId: 'Broadcasting & WebSockets', titleEn: 'Broadcasting & WebSockets' },
+    ],
+  },
+  {
+    levelId: 'production',
+    nameId: 'Testing & Produksi',
+    nameEn: 'Testing & Production',
+    descId: 'PHPUnit testing, caching & Redis, Docker & CI/CD, deployment & capstone.',
+    descEn: 'PHPUnit testing, caching & Redis, Docker & CI/CD, deployment & the capstone.',
+    weeks: [
+      { week: 17, topicId: 'phpunit-testing', titleId: 'Testing dengan PHPUnit', titleEn: 'PHPUnit Testing' },
+      { week: 18, topicId: 'caching-redis', titleId: 'Caching & Redis', titleEn: 'Caching & Redis' },
+      { week: 19, topicId: 'docker-cicd', titleId: 'Docker & CI/CD', titleEn: 'Docker & CI/CD' },
+      { week: 20, topicId: 'deployment-capstone', titleId: 'Deployment & Capstone', titleEn: 'Deployment & Capstone' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -567,6 +839,11 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   python: PYTHON_CURRICULUM,
   vue: VUE_CURRICULUM,
   docker: DOCKER_CURRICULUM,
+  nodejs: NODEJS_CURRICULUM,
+  nestjs: NESTJS_CURRICULUM,
+  django: DJANGO_CURRICULUM,
+  laravel: LARAVEL_CURRICULUM,
+  php: PHP_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -588,4 +865,9 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   python: 'bg-[#3776AB] text-white',
   vue: 'bg-[#42B883] text-white',
   docker: 'bg-[#2496ED] text-white',
+  nodejs: 'bg-[#339933] text-white',
+  nestjs: 'bg-[#E0234E] text-white',
+  django: 'bg-[#092E20] text-white',
+  laravel: 'bg-[#FF2D20] text-white',
+  php: 'bg-[#777BB4] text-white',
 };
