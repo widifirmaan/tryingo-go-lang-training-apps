@@ -8,6 +8,7 @@ import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
 import StackBlitzPlayground from './StackBlitzPlayground';
+import { DockerPlayground } from './DockerPlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -47,6 +48,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
   const isStackBlitz = slug === 'nextjs' || slug === 'react' || slug === 'python' || slug === 'vue';
+  const isDocker = slug === 'docker';
   const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : slug === 'python' ? 'index.py' : slug === 'vue' ? 'src/App.vue' : 'src/App.jsx';
   const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : slug === 'python' ? 'Python Lesson' : slug === 'vue' ? 'Vue Lesson' : 'React Lesson';
   const levels = getCurriculum(slug);
@@ -57,7 +59,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const getFilePath = useCallback(() => {
     if (!currentWeek) return '';
     const topic = currentWeek.topicId;
-    const prefix = isStackBlitz ? 'lesson' : 'week';
+    const prefix = isStackBlitz || isDocker ? 'lesson' : 'week';
     const fileName = `${prefix}${activeWeek}-${topic}.md`;
     return `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
   }, [slug, activeLevel, activeWeek, lang, currentWeek]);
@@ -311,7 +313,11 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         <div className="lg:hidden h-3" />
 
         {/* Inline Code Playground */}
-        {content && isStackBlitz && projectFiles ? (
+        {content && isDocker ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <DockerPlayground lang={lang} script={extractCode(content)} />
+          </div>
+        ) : content && isStackBlitz && projectFiles ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <StackBlitzPlayground
               lang={lang}
