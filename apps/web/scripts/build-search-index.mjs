@@ -42,6 +42,10 @@ const LEVEL_MAP = {
   intermediate: 'Intermediate',
   advanced: 'Advanced',
   pro: 'Professional',
+  foundations: 'Foundations',
+  images: 'Images & Containers',
+  multicontainer: 'Multi-Container',
+  production: 'Production',
 };
 
 function extractTitle(content, slug) {

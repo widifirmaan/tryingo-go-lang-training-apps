@@ -500,6 +500,61 @@ const VUE_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const DOCKER_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'foundations',
+    nameId: 'Fondasi',
+    nameEn: 'Foundations',
+    descId: 'Masalah "works on my machine", mental model container = proses, arsitektur Docker & Linux VM, perintah esensial.',
+    descEn: 'The "works on my machine" problem, the container-as-process mental model, Docker architecture & the Linux VM, essential commands.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-docker', titleId: 'Pengenalan Docker', titleEn: 'Docker Intro' },
+      { week: 2, topicId: 'container-adalah-proses', titleId: 'Container Adalah Proses', titleEn: 'A Container Is a Process' },
+      { week: 3, topicId: 'arsitektur-docker', titleId: 'Arsitektur & Linux VM', titleEn: 'Architecture & the Linux VM' },
+      { week: 4, topicId: 'command-esensial', titleId: 'Perintah Esensial', titleEn: 'Essential Commands' },
+    ],
+  },
+  {
+    levelId: 'images',
+    nameId: 'Image & Container',
+    nameEn: 'Images & Containers',
+    descId: 'docker run dalam (port, env, interaktif), image & layer, Dockerfile dasar, debug build dengan layer thinking.',
+    descEn: 'docker run deep dive (ports, env, interactive), images & layers, basic Dockerfiles, debugging builds with layer thinking.',
+    weeks: [
+      { week: 5, topicId: 'docker-run-dalam', titleId: 'docker run Dalam', titleEn: 'docker run Deep Dive' },
+      { week: 6, topicId: 'image-dan-layer', titleId: 'Image & Layer', titleEn: 'Images & Layers' },
+      { week: 7, topicId: 'dockerfile-dasar', titleId: 'Dockerfile Dasar', titleEn: 'Basic Dockerfiles' },
+      { week: 8, topicId: 'debug-build-layer', titleId: 'Debug Build', titleEn: 'Debugging Builds' },
+    ],
+  },
+  {
+    levelId: 'multicontainer',
+    nameId: 'Multi-Container',
+    nameEn: 'Multi-Container',
+    descId: 'Volume & persistensi, networking antar container, Docker Compose, stack nyata web + api + db + redis.',
+    descEn: 'Volumes & persistence, container networking, Docker Compose, a real web + api + db + redis stack.',
+    weeks: [
+      { week: 9, topicId: 'volume-persistensi', titleId: 'Volume & Persistensi', titleEn: 'Volumes & Persistence' },
+      { week: 10, topicId: 'networking-dasar', titleId: 'Networking Dasar', titleEn: 'Basic Networking' },
+      { week: 11, topicId: 'docker-compose', titleId: 'Docker Compose', titleEn: 'Docker Compose' },
+      { week: 12, topicId: 'stack-nyata', titleId: 'Stack Nyata', titleEn: 'A Real Stack' },
+    ],
+  },
+  {
+    levelId: 'production',
+    nameId: 'Produksi',
+    nameEn: 'Production',
+    descId: 'Best practices Dockerfile, image produksi (alpine/slim/distroless/scratch), registry & CI/CD, orkestrasi & capstone.',
+    descEn: 'Dockerfile best practices, production images (alpine/slim/distroless/scratch), registries & CI/CD, orchestration & capstone.',
+    weeks: [
+      { week: 13, topicId: 'best-practices-dockerfile', titleId: 'Best Practices Dockerfile', titleEn: 'Dockerfile Best Practices' },
+      { week: 14, topicId: 'image-produksi', titleId: 'Image Produksi', titleEn: 'Production Images' },
+      { week: 15, topicId: 'registry-cicd-deploy', titleId: 'Registry, CI/CD & Deploy', titleEn: 'Registry, CI/CD & Deploy' },
+      { week: 16, topicId: 'orkestrasi-capstone', titleId: 'Orkestrasi & Capstone', titleEn: 'Orchestration & Capstone' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -511,6 +566,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   react: REACT_CURRICULUM,
   python: PYTHON_CURRICULUM,
   vue: VUE_CURRICULUM,
+  docker: DOCKER_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -531,4 +587,5 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   react: 'bg-[#61DAFB] text-zinc-900',
   python: 'bg-[#3776AB] text-white',
   vue: 'bg-[#42B883] text-white',
+  docker: 'bg-[#2496ED] text-white',
 };
