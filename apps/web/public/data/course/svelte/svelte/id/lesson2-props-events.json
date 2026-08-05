@@ -1,0 +1,7 @@
+{
+  "src/App.svelte": "<script>\n  import Child from \"./Child.svelte\";\n  let count = 0;\n\n  function handleClick() {\n    count += 1;\n  }\n</script>\n\n<h1>Svelte Props & Events</h1>\n<p>Count: {count}</p>\n<button on:click={handleClick}>Tambah</button>\n<Child {count} on:increment={handleClick} />",
+  "src/Child.svelte": "<script>\n  let { count, onincrement } = $props();\n</script>\n\n<p>Child count: {count}</p>\n<button on:click={() => onincrement?.()}>Increment dari Child</button>",
+  "composer.json": "{\n  \"name\": \"svelte-lesson-2\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
+  "package.json": "{\n  \"name\": \"svelte-lesson-2\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
+  "README.md": "# Svelte Lesson 2 - Props & Events\n\nJalankan: npm install && npm run dev\n\nProps: $props(). Events: on:click, on:custom.\n"
+}

@@ -1,0 +1,9 @@
+{
+  "src/App.svelte": "<script>\n  import { goto } from \"$app/navigation\";\n  import { page } from \"$app/stores\";\n</script>\n\n<nav>\n  <a href=\"/\" use:goto>Beranda</a>\n  <a href=\"/about\" use:goto>Tentang</a>\n  <a href=\"/contact\" use:goto>Kontak</a>\n</nav>\n\n<main>\n  {#if $page.url.pathname === \"/\"}\n    <h1>Beranda</h1>\n    <p>Selamat datang di aplikasi Svelte.</p>\n  {:else if $page.url.pathname === \"/about\"}\n    <h1>Tentang</h1>\n    <p>Ini adalah aplikasi Svelte routing demo.</p>\n  {:else if $page.url.pathname === \"/contact\"}\n    <h1>Kontak</h1>\n    <p>Hubungi kami di kontak@example.com</p>\n  {/if}\n</main>",
+  "src/routes/+page.svelte": "<script>\n  export let data;\n</script>\n\n<h1>Home Page</h1>\n<p>Welcome to the Svelte app.</p>",
+  "src/routes/about/+page.svelte": "<h1>About Page</h1>\n<p>About this Svelte app.</p>",
+  "src/routes/contact/+page.svelte": "<h1>Contact Page</h1>\n<p>Contact us.</p>",
+  "composer.json": "{\n  \"name\": \"svelte-lesson-5\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
+  "package.json": "{\n  \"name\": \"svelte-lesson-5\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
+  "README.md": "# Svelte Lesson 5 - Routing & Navigation\n\nJalankan: npm install && npm run dev\n\nRouting: $app/navigation, $app/stores. File-based routing.\n"
+}

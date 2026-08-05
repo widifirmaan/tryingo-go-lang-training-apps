@@ -59,6 +59,15 @@ const LEVEL_MAP = {
   'php': 'PHP',
   'codeigniter4': 'CodeIgniter 4',
   angular: 'Angular',
+  svelte: 'Svelte',
+  rails: 'Ruby on Rails',
+  postgresql: 'PostgreSQL',
+  graphql: 'GraphQL',
+  csharp: 'C#',
+  spring: 'Spring Boot',
+  mysql: 'MySQL',
+  mongodb: 'MongoDB',
+  redis: 'Redis',
 };
 
 function extractTitle(content, slug) {
