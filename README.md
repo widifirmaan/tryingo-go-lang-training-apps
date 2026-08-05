@@ -12,22 +12,26 @@
 
 ## 📸 Application Showcase
 
-**📱 Mobile** — **🖥 Desktop**
+<table>
+<tr>
+<td>
 
-![Index Mobile](/screenshot/Tryngo%20Index%20Mobile.png) — ![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
-**Index Mobile** — **Index Desktop**
+**📱 Mobile**
 
-![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png) — ![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
-**Course Mobile** — **Course Desktop**
+![Index Mobile](/screenshot/Tryngo%20Index%20Mobile.png)
+**Index Mobile**
+
+![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png)
+**Course Mobile**
 
 ![Playground Mobile](/screenshot/Tryngo%20Playground%20Mobile.png)
 **Playground Mobile**
 
-![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png) — ![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
-**Search Mobile** — **Search Desktop**
+![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png)
+**Search Mobile**
 
-![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png) — ![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
-**Settings Mobile** — **Settings Desktop**
+![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png)
+**Settings Mobile**
 
 ![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
 **Grid Mobile**
@@ -35,8 +39,29 @@
 ![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png)
 **Hamburger Mobile**
 
+</td>
+<td>
+
+**🖥 Desktop**
+
+![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
+**Index Desktop**
+
+![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
+**Course Desktop**
+
+![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
+**Search Desktop**
+
+![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
+**Settings Desktop**
+
 ![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png)
 **Index Modal Desktop**
+
+</td>
+</tr>
+</table>
 
 ---
 
