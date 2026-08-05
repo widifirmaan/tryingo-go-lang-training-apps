@@ -58,6 +58,7 @@ const LEVEL_MAP = {
   'apis-realtime': 'APIs & Real-time',
   'php': 'PHP',
   'codeigniter4': 'CodeIgniter 4',
+  angular: 'Angular',
 };
 
 function extractTitle(content, slug) {

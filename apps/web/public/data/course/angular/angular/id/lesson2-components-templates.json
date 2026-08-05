@@ -1,0 +1,7 @@
+{
+  "src/app/app.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: `<div>\n    <h1>{{ title }}</h1>\n    <p>{{ message }}</p>\n    <button (click)=\"onClick()\">Klik Saya</button>\n  </div>`,\n})\nexport class AppComponent {\n  title = 'Angular Components';\n  message = 'Belajar data binding di Angular';\n\n  onClick(): void {\n    this.message = 'Tombol diklik!';\n  }\n}\n",
+  "src/app/app.component.html": "<div>\n  <h1>{{ title }}</h1>\n  <p>{{ message }}</p>\n  <button (click)=\"onClick()\">Klik Saya</button>\n</div>\n",
+  "composer.json": "{\n  \"name\": \"angular-lesson-2\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
+  "package.json": "{\n  \"name\": \"angular-lesson-2\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
+  "README.md": "# Angular Lesson 2 - Components & Templates\n\nJalankan: npm install && npm run dev\n\nTemplate: interpolation {{ }}, event binding (click), property binding.\n"
+}

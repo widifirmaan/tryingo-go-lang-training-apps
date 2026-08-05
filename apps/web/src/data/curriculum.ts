@@ -855,6 +855,34 @@ const CI4_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const ANGULAR_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'angular',
+    nameId: 'Angular',
+    nameEn: 'Angular',
+    descId: 'Belajar Angular — 16 modul progresif tanpa level, dari pengenalan TypeScript hingga proyek akhir.',
+    descEn: 'Learn Angular — 16 progressive modules with no levels, from TypeScript basics to a final project.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-angular', titleId: 'Pengenalan Angular & Setup', titleEn: 'Introduction to Angular & Setup' },
+      { week: 2, topicId: 'components-templates', titleId: 'Components & Templates', titleEn: 'Components & Templates' },
+      { week: 3, topicId: 'data-binding', titleId: 'Data Binding & Interpolation', titleEn: 'Data Binding & Interpolation' },
+      { week: 4, topicId: 'directives', titleId: 'Directives (Structural & Attribute)', titleEn: 'Directives (Structural & Attribute)' },
+      { week: 5, topicId: 'forms', titleId: 'Forms (Template-driven & Reactive)', titleEn: 'Forms (Template-driven & Reactive)' },
+      { week: 6, topicId: 'services-di', titleId: 'Services & Dependency Injection', titleEn: 'Services & Dependency Injection' },
+      { week: 7, topicId: 'routing', titleId: 'Routing & Navigation', titleEn: 'Routing & Navigation' },
+      { week: 8, topicId: 'http-client', titleId: 'HTTP Client & API Integration', titleEn: 'HTTP Client & API Integration' },
+      { week: 9, topicId: 'pipes', titleId: 'Pipes & Data Transformation', titleEn: 'Pipes & Data Transformation' },
+      { week: 10, topicId: 'component-communication', titleId: 'Component Communication (Input/Output)', titleEn: 'Component Communication (Input/Output)' },
+      { week: 11, topicId: 'lifecycle-hooks', titleId: 'Lifecycle Hooks', titleEn: 'Lifecycle Hooks' },
+      { week: 12, topicId: 'rxjs', titleId: 'Reactive Programming with RxJS', titleEn: 'Reactive Programming with RxJS' },
+      { week: 13, topicId: 'route-guards', titleId: 'Route Guards & Resolvers', titleEn: 'Route Guards & Resolvers' },
+      { week: 14, topicId: 'state-management', titleId: 'State Management (Signals & NgRx)', titleEn: 'State Management (Signals & NgRx)' },
+      { week: 15, topicId: 'testing-jasmine', titleId: 'Testing dengan Jasmine & Karma', titleEn: 'Testing with Jasmine & Karma' },
+      { week: 16, topicId: 'capstone-project', titleId: 'Proyek Akhir: Task Manager App', titleEn: 'Final Project: Task Manager App' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -873,6 +901,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   laravel: LARAVEL_CURRICULUM,
   php: PHP_CURRICULUM,
   codeigniter4: CI4_CURRICULUM,
+  angular: ANGULAR_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -900,4 +929,5 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   laravel: 'bg-[#FF2D20] text-white',
   php: 'bg-[#777BB4] text-white',
   codeigniter4: 'bg-[#17A2B8] text-white',
+  angular: 'bg-[#DD0031] text-white',
 };
