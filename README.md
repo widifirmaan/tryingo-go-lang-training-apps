@@ -64,6 +64,45 @@
 
 ### Tracks
 
+<table>
+<tr>
+<td>
+
+**📱 Mobile**
+
+| Track | Lang |
+|-------|------|
+| HTML5 | HTML |
+| CSS3 | CSS |
+| JavaScript | JS |
+| TypeScript | TS |
+| Go | Go |
+| React | JS/TS |
+| Next.js | TS |
+| Vue | JS/TS |
+| Angular | TS |
+| Svelte | JS/TS |
+| Node.js | JS |
+| NestJS | TS |
+| Django | Python |
+| Laravel | PHP |
+| CodeIgniter 4 | PHP |
+| PHP | PHP |
+| Rust | Rust |
+| Spring Boot | Java |
+| C# (.NET) | C# |
+| PostgreSQL | SQL |
+| MySQL | SQL |
+| MongoDB | NoSQL |
+| Redis | NoSQL |
+| GraphQL | Query |
+| Docker | DevOps |
+
+</td>
+<td>
+
+**🖥 Desktop**
+
 | Track | Language | Levels | Weeks | Playground |
 |-------|----------|--------|-------|------------|
 | HTML5 | HTML | — | 12 | Browser |
@@ -91,6 +130,10 @@
 | Redis | NoSQL | — | 16 | Browser |
 | GraphQL | Query | — | 16 | Browser |
 | Docker | DevOps | — | 16 | Browser |
+
+</td>
+</tr>
+</table>
 
 ### UI/UX
 
