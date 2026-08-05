@@ -95,7 +95,8 @@
 </td>
 <td>
 
-—
+![Grid Desktop](/screenshot/Tryngo%20Grid%20Desktop.png)
+**Grid Desktop**
 
 </td>
 </tr>
