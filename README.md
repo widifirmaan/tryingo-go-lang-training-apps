@@ -33,12 +33,6 @@
 ![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png)
 **Settings Mobile**
 
-![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
-**Grid Mobile**
-
-![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png)
-**Hamburger Mobile**
-
 </td>
 <td>
 
