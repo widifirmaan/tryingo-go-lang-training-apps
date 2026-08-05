@@ -57,6 +57,7 @@ const LEVEL_MAP = {
   'auth-middleware': 'Auth & Middleware',
   'apis-realtime': 'APIs & Real-time',
   'php': 'PHP',
+  'codeigniter4': 'CodeIgniter 4',
 };
 
 function extractTitle(content, slug) {
