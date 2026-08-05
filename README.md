@@ -34,6 +34,48 @@
 <tr>
 <td>
 
+![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
+**Grid Mobile**
+
+</td>
+<td>
+
+![Grid Desktop](/screenshot/Tryngo%20Grid%20Desktop.png)
+**Grid Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
+
+![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png)
+**Settings Mobile**
+
+</td>
+<td>
+
+![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
+**Settings Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
+
+![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png)
+**Search Mobile**
+
+</td>
+<td>
+
+![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
+**Search Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
+
 ![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png)
 **Course Mobile**
 
@@ -55,48 +97,6 @@
 <td>
 
 —
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png)
-**Search Mobile**
-
-</td>
-<td>
-
-![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
-**Search Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png)
-**Settings Mobile**
-
-</td>
-<td>
-
-![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
-**Settings Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
-**Grid Mobile**
-
-</td>
-<td>
-
-![Grid Desktop](/screenshot/Tryngo%20Grid%20Desktop.png)
-**Grid Desktop**
 
 </td>
 </tr>
