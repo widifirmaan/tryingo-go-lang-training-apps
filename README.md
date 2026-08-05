@@ -14,8 +14,8 @@
 
 <table>
 <tr>
-<th width="40%">📱 Mobile</th>
-<th width="60%">🖥 Desktop</th>
+<th width="30%">📱 Mobile</th>
+<th width="70%">🖥 Desktop</th>
 </tr>
 <tr>
 <td>
