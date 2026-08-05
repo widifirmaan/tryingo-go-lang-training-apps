@@ -1,0 +1,9 @@
+{
+  "src/App.svelte": "<script>\n  let name = \"Svelte\";\n</script>\n\n<h1>Hello, {name}!</h1>\n<p>Welcome to Svelte 5.</p>",
+  "src/main.ts": "import App from \"./App.svelte\";\n\nconst app = new App({\n  target: document.getElementById(\"app\"),\n});\n\nexport default app;\n",
+  "index.html": "<!DOCTYPE html>\n<html>\n<head><title>Svelte App</title></head>\n<body>\n  <div id=\"app\"></div>\n  <script type=\"module\" src=\"/src/main.ts\"></script>\n</body>\n</html>\n",
+  "package.json": "{\n  \"name\": \"svelte-lesson-1\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
+  "vite.config.ts": "import { defineConfig } from \"vite\";\nimport svelte from \"@sveltejs/vite-plugin-svelte\";\n\nexport default defineConfig({\n  plugins: [svelte()],\n});\n",
+  "composer.json": "{\n  \"name\": \"svelte-lesson-1\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
+  "README.md": "# Svelte Lesson 1 - Introduction\n\nJalankan: npm install && npm run dev\nBuka: http://localhost:5173\n"
+}
