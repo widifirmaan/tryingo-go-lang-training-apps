@@ -1,0 +1,8 @@
+{
+  "public/index.php": "<?php\n\n// CodeIgniter 4 - Front Controller\n// Ini adalah titik masuk utama aplikasi CI4.\n// Semua request HTTP melewati file ini.\n\nrequire_once __DIR__ . '/../system/bootstrap.php';\n\necho \"Hello, CodeIgniter 4!\";\necho \"\\nMVC = Model-View-Controller\";\necho \"\\nRouting: URL -> Controller -> View\";\n",
+  "app/Controllers/Home.php": "<?php\n\nnamespace App\\Controllers;\n\nclass Home extends BaseController\n{\n    public function index(): string\n    {\n        return view('welcome_message');\n    }\n}\n",
+  "app/Views/welcome_message.php": "<!DOCTYPE html>\n<html>\n<head><title>Welcome</title></head>\n<body>\n    <h1>Welcome to CodeIgniter 4!</h1>\n    <p>MVC framework for PHP developers.</p>\n</body>\n</html>\n",
+  "composer.json": "{\n    \"name\": \"tryngo/pengenalan-ci4\",\n    \"type\": \"project\",\n    \"require\": { \"php\": \"^8.2\" },\n    \"require-dev\": {\n        \"fakerphp/faker\": \"^1.23\",\n        \"phpunit/phpunit\": \"^11.0\"\n    },\n    \"autoload\": { \"psr-4\": { \"App\\\": \"app/\" } },\n    \"minimum-stability\": \"stable\",\n    \"prefer-stable\": true\n}\n",
+  "package.json": "{\n  \"name\": \"ci4-lesson-1\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"php -S 0.0.0.0:3000 -t public\" }\n}\n",
+  "README.md": "# CodeIgniter 4 Lesson 1 - Introduction\n\nJalankan: composer install && npm run dev\nBuka: http://localhost:3000\n\nMVC = Model-View-Controller.\nController menerima request, Model mengakses data, View menampilkan output.\n"
+}

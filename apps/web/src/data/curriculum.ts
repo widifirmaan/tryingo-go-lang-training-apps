@@ -827,6 +827,34 @@ const LARAVEL_CURRICULUM: LevelInfo[] = [
   },
 ];
 
+const CI4_CURRICULUM: LevelInfo[] = [
+  {
+    levelId: 'codeigniter4',
+    nameId: 'CodeIgniter 4',
+    nameEn: 'CodeIgniter 4',
+    descId: 'Belajar CodeIgniter 4 — 16 modul progresif tanpa level, dari pengenalan MVC hingga proyek akhir blog lengkap.',
+    descEn: 'Learn CodeIgniter 4 — 16 progressive modules with no levels, from MVC basics to a complete blog capstone project.',
+    weeks: [
+      { week: 1, topicId: 'pengenalan-ci4', titleId: 'Pengenalan CodeIgniter 4 & Instalasi', titleEn: 'Introduction to CodeIgniter 4 & Installation' },
+      { week: 2, topicId: 'routing-controllers', titleId: 'Routing & Controllers', titleEn: 'Routing & Controllers' },
+      { week: 3, topicId: 'views-layouts', titleId: 'Views & Layouts', titleEn: 'Views & Layouts' },
+      { week: 4, topicId: 'assets-spark', titleId: 'Static Assets & Spark CLI', titleEn: 'Static Assets & Spark CLI' },
+      { week: 5, topicId: 'database-migrations', titleId: 'Database Setup & Migrations', titleEn: 'Database Setup & Migrations' },
+      { week: 6, topicId: 'models-querybuilder', titleId: 'Models & Query Builder', titleEn: 'Models & Query Builder' },
+      { week: 7, topicId: 'form-validation', titleId: 'Form Handling & Validation', titleEn: 'Form Handling & Validation' },
+      { week: 8, topicId: 'sessions-flash', titleId: 'Sessions & Flash Data', titleEn: 'Sessions & Flash Data' },
+      { week: 9, topicId: 'security-filters', titleId: 'Security: CSRF, XSS & Filters', titleEn: 'Security: CSRF, XSS & Filters' },
+      { week: 10, topicId: 'authentication', titleId: 'Authentication & Authorization', titleEn: 'Authentication & Authorization' },
+      { week: 11, topicId: 'rest-api', titleId: 'RESTful APIs', titleEn: 'RESTful APIs' },
+      { week: 12, topicId: 'file-upload-pagination', titleId: 'File Uploads & Pagination', titleEn: 'File Uploads & Pagination' },
+      { week: 13, topicId: 'caching-performance', titleId: 'Caching & Performance', titleEn: 'Caching & Performance' },
+      { week: 14, topicId: 'advanced-topics', titleId: 'Advanced Topics: Events, CLI & Generators', titleEn: 'Advanced Topics: Events, CLI & Generators' },
+      { week: 15, topicId: 'testing-phpunit', titleId: 'Testing dengan PHPUnit', titleEn: 'Testing with PHPUnit' },
+      { week: 16, topicId: 'capstone-project', titleId: 'Proyek Akhir: Blog CI4', titleEn: 'Final Project: CI4 Blog' },
+    ],
+  },
+];
+
 const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   html5: HTML5_CURRICULUM,
   golang: GOLANG_CURRICULUM,
@@ -844,6 +872,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   django: DJANGO_CURRICULUM,
   laravel: LARAVEL_CURRICULUM,
   php: PHP_CURRICULUM,
+  codeigniter4: CI4_CURRICULUM,
 };
 
 export function getCurriculum(slug: string): LevelInfo[] {
@@ -870,4 +899,5 @@ export const LEVEL_BADGE_COLORS: Record<string, string> = {
   django: 'bg-[#092E20] text-white',
   laravel: 'bg-[#FF2D20] text-white',
   php: 'bg-[#777BB4] text-white',
+  codeigniter4: 'bg-[#17A2B8] text-white',
 };
