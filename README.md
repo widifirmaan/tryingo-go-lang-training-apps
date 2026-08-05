@@ -12,31 +12,31 @@
 
 ## 📸 Application Showcase
 
-**📱 Mobile** | **🖥 Desktop**
---- | ---
-![Index Mobile](/screenshot/Tryngo%20Index%20Mobile.png) | ![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
-**Index Mobile** | **Index Desktop**
+**📱 Mobile** — **🖥 Desktop**
 
-![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png) | ![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
-**Course Mobile** | **Course Desktop**
+![Index Mobile](/screenshot/Tryngo%20Index%20Mobile.png) — ![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
+**Index Mobile** — **Index Desktop**
 
-![Playground Mobile](/screenshot/Tryngo%20Playground%20Mobile.png) | —
-**Playground Mobile** | —
+![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png) — ![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
+**Course Mobile** — **Course Desktop**
 
-![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png) | ![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
-**Search Mobile** | **Search Desktop**
+![Playground Mobile](/screenshot/Tryngo%20Playground%20Mobile.png)
+**Playground Mobile**
 
-![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png) | ![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
-**Settings Mobile** | **Settings Desktop**
+![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png) — ![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
+**Search Mobile** — **Search Desktop**
 
-![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png) | —
-**Grid Mobile** | —
+![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png) — ![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
+**Settings Mobile** — **Settings Desktop**
 
-![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png) | —
-**Hamburger Mobile** | —
+![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
+**Grid Mobile**
 
-![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png) | —
-**Index Modal Desktop** | —
+![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png)
+**Hamburger Mobile**
+
+![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png)
+**Index Modal Desktop**
 
 ---
 
