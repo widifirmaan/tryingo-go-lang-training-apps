@@ -14,27 +14,93 @@
 
 <table>
 <tr>
+<th>📱 Mobile</th>
+<th>🖥 Desktop</th>
+</tr>
+<tr>
 <td>
-
-**📱 Mobile**
 
 ![Index Mobile](/screenshot/Tryngo%20Index%20Mobile.png)
 **Index Mobile**
 
+</td>
+<td>
+
+![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
+**Index Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
+
 ![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png)
 **Course Mobile**
+
+</td>
+<td>
+
+![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
+**Course Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
 
 ![Playground Mobile](/screenshot/Tryngo%20Playground%20Mobile.png)
 **Playground Mobile**
 
+</td>
+<td>
+
+—
+
+</td>
+</tr>
+<tr>
+<td>
+
 ![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png)
 **Search Mobile**
+
+</td>
+<td>
+
+![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
+**Search Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
 
 ![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png)
 **Settings Mobile**
 
+</td>
+<td>
+
+![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
+**Settings Desktop**
+
+</td>
+</tr>
+<tr>
+<td>
+
 ![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
 **Grid Mobile**
+
+</td>
+<td>
+
+—
+
+</td>
+</tr>
+<tr>
+<td>
 
 ![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png)
 **Hamburger Mobile**
@@ -42,22 +108,20 @@
 </td>
 <td>
 
-**🖥 Desktop**
+—
 
-![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
-**Index Desktop**
-
-![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
-**Course Desktop**
-
-![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
-**Search Desktop**
-
-![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
-**Settings Desktop**
+</td>
+</tr>
+<tr>
+<td>
 
 ![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png)
 **Index Modal Desktop**
+
+</td>
+<td>
+
+—
 
 </td>
 </tr>
