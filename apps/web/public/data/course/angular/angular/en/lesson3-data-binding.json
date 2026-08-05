@@ -1,0 +1,6 @@
+{
+  "src/app/app.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: `<div>\n    <h1>{{ title }}</h1>\n    <p [class.highlight]=\"isHighlighted\">Text dengan class binding</p>\n    <p [style.color]=\"warna\">Text dengan style binding</p>\n    <input [value]=\"nama\" (input)=\"nama = $any($event.target).value\">\n    <p>Halo, {{ nama }}!</p>\n  </div>`,\n})\nexport class AppComponent {\n  title = 'Data Binding';\n  isHighlighted = true;\n  warna = 'blue';\n  nama = 'Dunia';\n}\n",
+  "composer.json": "{\n  \"name\": \"angular-lesson-3\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
+  "package.json": "{\n  \"name\": \"angular-lesson-3\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
+  "README.md": "# Angular Lesson 3 - Data Binding & Interpolation\n\nJalankan: npm install && npm run dev\n\nTypes of binding: interpolation, property, style, class, two-way.\n"
+}

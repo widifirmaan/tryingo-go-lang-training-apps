@@ -47,10 +47,10 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const isId = lang === 'id';
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
-  const isStackBlitz = slug === 'nextjs' || slug === 'react' || slug === 'python' || slug === 'vue' || slug === 'nodejs' || slug === 'nestjs' || slug === 'django' || slug === 'laravel' || slug === 'php' || slug === 'codeigniter4';
+  const isStackBlitz = slug === 'nextjs' || slug === 'react' || slug === 'python' || slug === 'vue' || slug === 'nodejs' || slug === 'nestjs' || slug === 'django' || slug === 'laravel' || slug === 'php' || slug === 'codeigniter4' || slug === 'angular';
   const isDocker = slug === 'docker';
-  const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : slug === 'python' ? 'index.py' : slug === 'vue' ? 'src/App.vue' : slug === 'nodejs' ? 'server.js' : slug === 'nestjs' ? 'src/main.ts' : slug === 'django' ? 'manage.py' : slug === 'laravel' ? 'artisan' : slug === 'php' ? 'index.php' : slug === 'codeigniter4' ? 'index.php' : 'src/App.jsx';
-  const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : slug === 'python' ? 'Python Lesson' : slug === 'vue' ? 'Vue Lesson' : slug === 'nodejs' ? 'Node.js Lesson' : slug === 'nestjs' ? 'NestJS Lesson' : slug === 'django' ? 'Django Lesson' : slug === 'laravel' ? 'Laravel Lesson' : slug === 'php' ? 'PHP Lesson' : slug === 'codeigniter4' ? 'CodeIgniter 4 Lesson' : 'React Lesson';
+  const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : slug === 'python' ? 'index.py' : slug === 'vue' ? 'src/App.vue' : slug === 'nodejs' ? 'server.js' : slug === 'nestjs' ? 'src/main.ts' : slug === 'django' ? 'manage.py' : slug === 'laravel' ? 'artisan' : slug === 'php' ? 'index.php' : slug === 'codeigniter4' ? 'index.php' : slug === 'angular' ? 'src/main.ts' : 'src/App.jsx';
+  const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : slug === 'python' ? 'Python Lesson' : slug === 'vue' ? 'Vue Lesson' : slug === 'nodejs' ? 'Node.js Lesson' : slug === 'nestjs' ? 'NestJS Lesson' : slug === 'django' ? 'Django Lesson' : slug === 'laravel' ? 'Laravel Lesson' : slug === 'php' ? 'PHP Lesson' : slug === 'codeigniter4' ? 'CodeIgniter 4 Lesson' : slug === 'angular' ? 'Angular Lesson' : 'React Lesson';
   const levels = getCurriculum(slug);
 
   const currentLevel = levels.find(l => l.levelId === activeLevel);
