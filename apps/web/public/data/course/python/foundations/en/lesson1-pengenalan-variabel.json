@@ -1,4 +1,0 @@
-{
-  "package.json": "{\n  \"name\": \"python-lesson\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"dev\": \"python3 index.py\"\n  }\n}",
-  "index.py": "# Variabel adalah LABEL yang menunjuk ke sebuah nilai.\n# Variabel BUKAN \"kotak\" yang menampung banyak nilai sekaligus.\n\nname = \"Ayu\"\nage = 26\nheight = 1.65\nis_learner = True\n\nprint(\"Halo,\", name, \"!\")\nprint(f\"Umur: {age} tahun | Tinggi: {height} m | Pelajar: {is_learner}\")\n\n# Ekspresi dievaluasi saat program berjalan\nprint(f\"Tahun depan: {age + 1}\")\nprint(f\"Umur dalam bulan: {age * 12}\")\n\n# Reassignment: nilai lama DIGANTI, bukan ditumpuk\nscore = 10\nprint(f\"Score awal: {score}\")\nscore = 20\nprint(f\"Score baru: {score}\")\n\n# Tipe data: int, float, str, bool\nprint(type(42))     # <class 'int'>\nprint(type(3.14))   # <class 'float'>\nprint(type(\"42\"))   # <class 'str'>  -- tanda kutip = string!\nprint(type(True))   # <class 'bool'>\n"
-}

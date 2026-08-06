@@ -1,125 +1,856 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const BASE = path.resolve(__dirname, '../public/data/course/redis/redis');
+const gen = new BaseGenerator('redis', 'Redis');
 
-const MODULES = [
-  { id: 1, f: 'pengenalan-redis', lid: 'Pengenalan Redis & Setup', len: 'Introduction to Redis & Setup', pid: 'Hello Redis', pen: 'Hello Redis' },
-  { id: 2, f: 'data-types', lid: 'Data Types Overview', len: 'Data Types Overview', pid: 'Key-Value Basics', pen: 'Key-Value Basics' },
-  { id: 3, f: 'strings', lid: 'Strings & Binary Safe Data', len: 'Strings & Binary Safe Data', pid: 'String Operations', pen: 'String Operations' },
-  { id: 4, f: 'hashes', lid: 'Hashes', len: 'Hashes', pid: 'Hash Operations', pen: 'Hash Operations' },
-  { id: 5, f: 'lists', lid: 'Lists & Stack/Queue', len: 'Lists & Stack/Queue', pid: 'List Operations', pen: 'List Operations' },
-  { id: 6, f: 'sets', lid: 'Sets & Unique Collections', len: 'Sets & Unique Collections', pid: 'Set Operations', pen: 'Set Operations' },
-  { id: 7, f: 'sorted-sets', lid: 'Sorted Sets & Rankings', len: 'Sorted Sets & Rankings', pid: 'Ranking Operations', pen: 'Ranking Operations' },
-  { id: 8, f: 'expiration', lid: 'Expiration & TTL', len: 'Expiration & TTL', pid: 'Time-Based Data', pen: 'Time-Based Data' },
-  { id: 9, f: 'pub-sub', lid: 'Pub/Sub Messaging', len: 'Pub/Sub Messaging', pid: 'Real-time Messaging', pen: 'Real-time Messaging' },
-  { id: 10, f: 'transactions', lid: 'Transactions & Pipelining', len: 'Transactions & Pipelining', pid: 'Atomic Operations', pen: 'Atomic Operations' },
-  { id: 11, f: 'lua-scripting', lid: 'Lua Scripting', len: 'Lua Scripting', pid: 'Server-Side Scripts', pen: 'Server-Side Scripts' },
-  { id: 12, f: 'persistence', lid: 'Persistence & RDB/AOF', len: 'Persistence & RDB/AOF', pid: 'Data Durability', pen: 'Data Durability' },
-  { id: 13, f: 'replication', lid: 'Replication & Sentinel', len: 'Replication & Sentinel', pid: 'High Availability', pen: 'High Availability' },
-  { id: 14, f: 'clustering', lid: 'Clustering & Scaling', len: 'Clustering & Scaling', pid: 'Distributed Redis', pen: 'Distributed Redis' },
-  { id: 15, f: 'security', lid: 'Security & ACL', len: 'Security & ACL', pid: 'Access Control', pen: 'Access Control' },
-  { id: 16, f: 'capstone', lid: 'Capstone: Real-time Leaderboard', len: 'Capstone: Real-time Leaderboard', pid: 'Full Project', pen: 'Full Project' },
+const LEVELS = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Dasar Redis: tipe data, string, hash, list, set.',
+    descEn: 'Redis fundamentals: data types, strings, hashes, lists, sets.',
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Redis lanjutan: sorted sets, pub/sub, lua, clustering.',
+    descEn: 'Advanced Redis: sorted sets, pub/sub, lua scripting, clustering.',
+  },
 ];
 
-const OBJ = {
-  1: { id: ['Mengenal Redis sebagai in-memory data store', 'Menginstall Redis dan Redis CLI', 'Memahami konsep key-value store', 'Menjalankan Redis dan melakukan SET/GET pertama'], en: ['Understand Redis as an in-memory data store', 'Install Redis and Redis CLI', 'Understand key-value store concepts', 'Run Redis and perform first SET/GET'] },
-  2: { id: ['Mengenal tipe data dasar Redis', 'Memahami string, hash, list, set, sorted set', 'Menggunakan TYPE dan KEYS commands', 'Memahami TTL dan data expiration'], en: ['Learn Redis basic data types', 'Understand string, hash, list, set, sorted set', 'Use TYPE and KEYS commands', 'Understand TTL and data expiration'] },
-  3: { id: ['Melakukan SET, GET, MSET, MGET', 'Memahami string operations', 'Menggunakan INCR, DECR untuk counter', 'Menggunakan APPEND dan STRLEN'], en: ['Perform SET, GET, MSET, MGET', 'Understand string operations', 'Use INCR, DECR for counters', 'Use APPEND and STRLEN'] },
-  4: { id: ['Membuat hash dengan HSET, HGET', 'Menggunakan HMSET dan HMGET', 'Memahami HGETALL dan HKEYS', 'Menggunakan HINCRBY untuk atomic increment'], en: ['Create hashes with HSET, HGET', 'Use HMSET and HMGET', 'Understand HGETALL and HKEYS', 'Use HINCRBY for atomic increment'] },
-  5: { id: ['Melakukan LPUSH, RPUSH, LRANGE', 'Memahami LPOP, RPOP untuk stack/queue', 'Menggunakan LINSERT untuk insert before/after', 'Menggunakan LREM untuk remove elements'], en: ['Perform LPUSH, RPUSH, LRANGE', 'Understand LPOP, RPOP for stack/queue', 'Use LINSERT for insert before/after', 'Use LREM to remove elements'] },
-  6: { id: ['Melakukan SADD, SREM, SMEMBERS', 'Memahami SINTER, SUNION, SDIFF', 'Menggunakan SISMEMBER untuk membership test', 'Menggunakan SRANDMEMBER untuk random selection'], en: ['Perform SADD, SREM, SMEMBERS', 'Understand SINTER, SUNION, SDIFF', 'Use SISMEMBER for membership test', 'Use SRANDMEMBER for random selection'] },
-  7: { id: ['Melakukan ZADD, ZRANGE, ZREVRANGE', 'Memahami ZSCORE dan ZRANK', 'Menggunakan ZUNIONSTORE dan ZINTERSTORE', 'Menggunakan ZREM untuk remove dari sorted set'], en: ['Perform ZADD, ZRANGE, ZREVRANGE', 'Understand ZSCORE and ZRANK', 'Use ZUNIONSTORE and ZINTERSTORE', 'Use ZREM to remove from sorted set'] },
-  8: { id: ['Memahami TTL dan EXPIRE', 'Menggunakan PERSIST untuk remove expiration', 'Menggunakan SETEX untuk set with expiration', 'Memahami volatile TTL dan data eviction'], en: ['Understand TTL and EXPIRE', 'Use PERSIST to remove expiration', 'Use SETEX for set with expiration', 'Understand volatile TTL and data eviction'] },
-  9: { id: ['Memahami Pub/Sub model', 'Menggunakan PUBLISH, SUBSCRIBE, UNSUBSCRIBE', 'Memahami pattern matching di subscription', 'Membangun real-time notification system'], en: ['Understand Pub/Sub model', 'Use PUBLISH, SUBSCRIBE, UNSUBSCRIBE', 'Understand pattern matching in subscriptions', 'Build real-time notification system'] },
-  10: { id: ['Memahami MULTI, EXEC, DISCARD', 'Menggunakan WATCH untuk optimistic locking', 'Memahami pipelining untuk performance', 'Mengimplementasi atomic counter dengan transactions'], en: ['Understand MULTI, EXEC, DISCARD', 'Use WATCH for optimistic locking', 'Understand pipelining for performance', 'Implement atomic counter with transactions'] },
-  11: { id: ['Memahami Lua scripting di Redis', 'Menggunakan EVAL dan EVALSHA', 'Memahami KEYS dan ARGV', 'Mengimplementasi atomic operations dengan Lua'], en: ['Understand Lua scripting in Redis', 'Use EVAL and EVALSHA', 'Understand KEYS and ARGV', 'Implement atomic operations with Lua'] },
-  12: { id: ['Memahami RDB persistence', 'Menggunakan BGSAVE untuk background save', 'Memahami AOF persistence', 'Mengatur hybrid RDB+AOF untuk durability'], en: ['Understand RDB persistence', 'Use BGSAVE for background save', 'Understand AOF persistence', 'Configure hybrid RDB+AOF for durability'] },
-  13: { id: ['Memahami Redis replication', 'Mengatur master-replica setup', 'Menggunakan Redis Sentinel untuk failover', 'Memahami read replicas dan load balancing'], en: ['Understand Redis replication', 'Configure master-replica setup', 'Use Redis Sentinel for failover', 'Understand read replicas and load balancing'] },
-  14: { id: ['Memahami Redis Cluster', 'Mengatur slot distribution', 'Menggunakan redis-cli untuk cluster management', 'Memahami hash tags untuk key distribution'], en: ['Understand Redis Cluster', 'Configure slot distribution', 'Use redis-cli for cluster management', 'Understand hash tags for key distribution'] },
-  15: { id: ['Memahami Redis ACL', 'Mengatur user authentication', 'Memberikan command permissions', 'Menggunakan TLS untuk encrypted connections'], en: ['Understand Redis ACL', 'Configure user authentication', 'Grant command permissions', 'Use TLS for encrypted connections'] },
-  16: { id: ['Merancang Real-time Leaderboard', 'Menggabungkan semua konsep Redis', 'Mengoptimasi untuk performa tinggi', 'Mempersiapkan deployment Redis'], en: ['Design a Real-time Leaderboard', 'Combine all Redis concepts', 'Optimize for high performance', 'Prepare Redis deployment'] },
-};
+const MODULES = [
+  {
+    week: 1, level: 'beginer', topicId: 'tipe-data-string',
+    titleId: 'Tipe Data & String', titleEn: 'Data Types & Strings',
+    programId: 'Operasi String Redis', programEn: 'Redis String Operations',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'shell',
+    code: `# String: operasi dasar
+SET user:1001 "Budi Santoso"
+GET user:1001
 
-const CODE = {
-  1: `# Connect to Redis\nredis-cli\n\n# Set and Get\nSET mykey "Hello, Redis!"\nGET mykey\n\n# Set with expiration\nSET session:abc123 "user_data" EX 3600\n\n# Check type\nTYPE mykey\n\n# Delete\nDEL mykey`,
-  2: `# List all keys\nKEYS *\n\n# Check type of a key\nTYPE mykey\n\n# Get all string keys\nKEYS string:*\n\n# Get all hash keys\nKEYS hash:*\n\n# Memory usage\nMEMORY USAGE mykey`,
-  3: `# Basic string operations\nSET counter 0\nGET counter\n\n# Increment counter\nINCR counter\nINCR counter\nGET counter\n\n# Decrement\nDECR counter\n\n# Append to string\nSET message "Hello"\nAPPEND message " World"\nGET message\n\n# Get string length\nSTRLEN message\n\n# Multiple set/get\nMSET name1 "Alice" name2 "Bob"\nMGET name1 name2`,
-  4: `# Hash operations\nHSET user:1001 name "Alice" email "alice@example.com" age 25\n\n# Get single field\nHGET user:1001 name\n\n# Get all fields\nHGETALL user:1001\n\n# Get all field names\nHKEYS user:1001\n\n# Get all values\nHVALS user:1001\n\n# Increment hash field\nHINCRBY user:1001 age 1\n\n# Check field exists\nHEXISTS user:1001 email`,
-  5: `# List operations (as queue)\nLPUSH queue:task "task1"\nLPUSH queue:task "task2"\nLPUSH queue:task "task3"\n\n# Pop from right (FIFO)\nRPOP queue:task\n\n# Get range\nLRANGE queue:task 0 -1\n\n# List length\nLLEN queue:task\n\n# Get element by index\nLINDEX queue:task 0\n\n# Insert before/after\nLINSERT queue:task BEFORE "task2" "task1.5"`,
-  6: `# Set operations\nSADD tags:post1 "javascript" "web" "frontend"\nSADD tags:post2 "javascript" "backend" "api"\n\n# Get all members\nSMEMBERS tags:post1\n\n# Set intersection\nSINTER tags:post1 tags:post2\n\n# Set union\nSUNION tags:post1 tags:post2\n\n# Set difference\nSDIFF tags:post1 tags:post2\n\n# Check membership\nSISMEMBER tags:post1 "javascript"\n\n# Random member\nSRANDMEMBER tags:post1 2`,
-  7: `# Sorted set operations\nZADD leaderboard 100 "player1"\nZADD leaderboard 200 "player2"\nZADD leaderboard 150 "player3"\n\n# Get all with scores\nZRANGE leaderboard 0 -1 WITHSCORES\n\n# Get top 3\nZREVRANGE leaderboard 0 2 WITHSCORES\n\n# Get score\nZSCORE leaderboard "player1"\n\n# Get rank (0-based)\nZRANK leaderboard "player1"\n\n# Count in range\nZCOUNT leaderboard 100 200\n\n# Union of sorted sets\nZUNIONSTORE merged 2 leaderboard other_leaderboard`,
-  8: `# Set expiration\nSET temp "data" EX 60\nSET temp2 "data2" PX 5000\n\n# Check remaining TTL\nTTL temp\nPTTL temp2\n\n# Remove expiration\nPERSIST temp\n\n# Set with NX (only if not exists)\nSET lock:resource "locked" NX EX 30\n\n# Set with XX (only if exists)\nSET counter "updated" XX`,
-  9: `# Publish/Subscribe\n# Terminal 1 - Subscribe\nSUBSCRIBE notifications\n\n# Terminal 2 - Publish\nPUBLISH notifications "New user registered!"\nPUBLISH notifications "Order #123 shipped"\n\n# Pattern subscription\nPSUBSCRIBE notifications:*\n\n# Unsubscribe\nUNSUBSCRIBE notifications\nPUNSUBSCRIBE notifications:*`,
-  10: `# Transaction\nMULTI\nSET user:1001 "Alice"\nINCR counter\nSET user:1002 "Bob"\nEXEC\n\n# Watch for optimistic locking\nWATCH balance:account1\nMULTI\nDECRBY balance:account1 500000\nINCRBY balance:account2 500000\nEXEC\n\n# Pipeline for performance\nPING\nPING\nPING\nPING\nPING`,
-  11: `# Lua script\nEVAL "return redis.call('GET', KEYS[1])" 1 mykey\n\n# Script with arguments\nEVAL "local current = tonumber(redis.call('GET', KEYS[1]) or '0'); redis.call('SET', KEYS[1], current + tonumber(ARGV[1])); return current + tonumber(ARGV[1])" 1 counter 10\n\n# Store and reuse script\nSCRIPT LOAD "return redis.call('GET', KEYS[1])"\nSCRIPT EXIST <sha1>\nSCRIPT FLUSH`,
-  12: `# Save RDB snapshot\nSAVE\nBGSAVE\n\n# Check last save time\nLASTSAVE\n\n# Configure RDB in redis.conf\n# save 900 1\n# save 300 10\n# save 60 10000\n\n# Enable AOF\n# appendonly yes\n# appendfilename "appendonly.aof"\n# appendfsync everysec\n\n# Check persistence info\nINFO persistence`,
-  13: `# Configure replication in redis.conf\n# replicaof <masterip> <masterport>\n\n# Check replication info\nINFO replication\n\n# Sentinel configuration\n# sentinel monitor mymaster <masterip> <masterport> 2\n# sentinel down-after-milliseconds mymaster 5000\n# sentinel failover-timeout mymaster 10000\n\n# Check sentinel\nSENTINEL get-master-addr-by-name mymaster`,
-  14: `# Create cluster\nredis-cli --cluster create \
-  127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 \
-  127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \
-  --cluster-replicas 1\n\n# Check cluster info\nredis-cli -c CLUSTER INFO\n\n# Check nodes\nredis-cli -c CLUSTER NODES\n\n# Add slots to node\nredis-cli -c CLUSTER ADDSLOTS 0 1 2 3`,
-  15: `# ACL configuration\nACL SETUSER admin on >mypassword ~* +@all\nACL SETUSER readonly on >readonlypass ~* +@read\n\n# List users\nACL LIST\n\n# Test authentication\nAUTH admin mypassword\n\n# Enable ACL in redis.conf\n# requirepass <master-password>\n# user default on ><password> ~* +@all\n\n# TLS configuration\n# tls-port 6379\n# tls-cert-file redis.crt\n# tls-key-file redis.key`,
-  16: `# Real-time Leaderboard with Redis\n# Features:\n# - ZADD for score updates\n# - ZREVRANGE for top players\n# - ZRANK for player position\n# - Pub/Sub for live updates\n# - Expiration for session management\n# - Lua scripts for atomic score updates\n# - Persistence for data durability\n# - Cluster for horizontal scaling`,
-};
+# SET dengan expiry (TTL)
+SET session:abc123 "active" EX 3600  # 1 jam
+TTL session:abc123
 
-function generateFile(mod, isId) {
-  const lang = isId ? 'id' : 'en';
-  const title = isId ? mod.lid : mod.len;
-  const programTitle = isId ? mod.pid : mod.pen;
-  const obj = OBJ[mod.id];
-  const objectives = (isId ? obj.id : obj.en).map(o => '- ' + o).join('\n');
-  const code = CODE[mod.id];
-  const nextModule = MODULES.find(m => m.id === mod.id + 1);
-  const nextWeek = nextModule
-    ? (isId ? mod.id + 1 + '. ' + nextModule.lid : nextModule.len)
-    : (isId ? 'Selesai! 🎉' : 'Complete! 🎉');
+# Multiple set/get
+MSET product:1 "Laptop" product:2 "Mouse" product:3 "Keyboard"
+MGET product:1 product:2 product:3
 
-  const summary = isId
-    ? `Modul ${mod.id} dari 16: **${mod.lid}**. Redis adalah in-memory data store yang cepat dan fleksibel. Minggu depan: **${nextWeek}**.`
-    : `Module ${mod.id} of 16: **${mod.len}**. Redis is a fast and flexible in-memory data store. Next week: **${nextWeek}**.`;
+# Increment/Decrement
+SET counter:visitors 0
+INCR counter:visitors
+INCRBY counter:visitors 5
+DECR counter:visitors
+DECRBY counter:visitors 2
+GET counter:visitors
 
-  return '# ' + title + '\n\n'
-    + '> Redis | ' + (isId ? 'Modul ' + mod.id : 'Module ' + mod.id) + '\n\n'
-    + '## ' + (isId ? 'Tujuan Pembelajaran' : 'Learning Objectives') + '\n\n'
-    + objectives + '\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Program' : 'Program') + ': ' + programTitle + '\n\n'
-    + '```redis\n' + code + '\n```\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Penjelasan' : 'Explanation') + '\n\n'
-    + (isId
-      ? 'Redis adalah in-memory data store yang digunakan sebagai database, cache, dan message broker.\nRedis mendukung berbagai tipe data: string, hash, list, set, dan sorted set.\nRedis juga mendukung pub/sub messaging, Lua scripting, dan clustering untuk skalabilitas.'
-      : 'Redis is an in-memory data store used as a database, cache, and message broker.\nRedis supports various data types: string, hash, list, set, and sorted set.\nRedis also supports pub/sub messaging, Lua scripting, and clustering for scalability.')
-    + '\n\n---\n\n'
-    + '## ' + (isId ? 'Eksperimen' : 'Experiments') + '\n\n'
-    + '- ' + (isId ? 'Ubah command di atas dan lihat hasilnya' : 'Change the command above and see the results') + '\n'
-    + '- ' + (isId ? 'Coba tipe data lain dan bandingkan performanya' : 'Try another data type and compare performance') + '\n'
-    + '- ' + (isId ? 'Coba gunakan Lua scripting untuk atomic operation' : 'Try using Lua scripting for atomic operations') + '\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Tantangan' : 'Challenge') + '\n\n'
-    + (isId
-      ? 'Buat aplikasi sederhana menggunakan konsep minggu ini.\nJalankan command di redis-cli dan verifikasi hasilnya.'
-      : 'Build a simple application using this weeks concepts.\nRun commands in redis-cli and verify the results.')
-    + '\n\n---\n\n'
-    + '## ' + (isId ? 'Ringkasan' : 'Summary') + '\n\n'
-    + summary + '\n';
+# Append & Strlen
+SET greeting "Hello"
+APPEND greeting " World"
+STRLEN greeting
+
+# Set jika tidak ada (untuk locking)
+SET lock:resource "locked" NX EX 10
+SET lock:resource "locked" NX EX 10  # Gagal, sudah ada
+
+# GETSET (atomic get + SET)
+GETSET counter:visitors 0`,
+    objectivesId: ["SET dan GET","MSET dan MGET","INCR, DECR, INCRBY","SET dengan TTL (EX, PX)","SET NX untuk locking"],
+    objectivesEn: ["SET and GET","MSET and MGET","INCR, DECR, INCRBY","SET with TTL (EX, PX)","SET NX for locking"],
+    explanationId: `### String
+Tipe data dasar Redis. Bisa simpan text, integer, binary.
+
+### SET & GET
+Simpan dan ambil value.
+
+### Multiple
+MSET/MGET untuk operasi batch.
+
+### Increment
+INCR/DECR atomic counter.
+
+### TTL
+EX (detik), PX (milidetik). TTL untuk cek sisa waktu.`,
+    explanationEn: `### Strings
+Basic Redis data type. Store text, integers, binary.
+
+### SET & GET
+Store and retrieve values.
+
+### Multiple
+MSET/MGET for batch operations.
+
+### Increment
+INCR/DECR atomic counters.
+
+### TTL
+EX (seconds), PX (milliseconds). TTL to check remaining time.`,
+    experimentsId: ["SET vs SETNX","BITCOUNT untuk bit","SETRANGE","String sebagai counter rate limiter"],
+    experimentsEn: ["SET vs SETNX","BITCOUNT for bits","SETRANGE","Strings as rate limiter counters"],
+    challengeId: `Session store: simpan session dengan TTL, cek expired.`,
+    challengeEn: `Session store: store sessions with TTL, check expiration.`,
+    summaryId: `Minggu 1 dari 10: **Tipe Data & String** (Pemula).`,
+    summaryEn: `Week 1 of 10: **Data Types & Strings** (Beginner).`,
+  },
+  {
+    week: 2, level: 'beginer', topicId: 'hash',
+    titleId: 'Hash', titleEn: 'Hashes',
+    programId: 'Operasi Hash Redis', programEn: 'Redis Hash Operations',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'shell',
+    code: `# Hash: simpan object
+HSET user:1001 nama "Budi" email "budi@mail.com" umur 25 kota "Jakarta"
+
+# Get single field
+HGET user:1001 nama
+
+# Get multiple field
+HMGET user:1001 nama email kota
+
+# Get all fields
+HGETALL user:1001
+
+# Get only keys
+HKEYS user:1001
+
+# Get only values
+HVALS user:1001
+
+# Increment field
+HINCRBY user:1001 umur 1
+
+# Set jika tidak ada
+HSETNX user:1001 phone "08123456789"
+HSETNX user:1001 phone "08987654321"  # Gagal
+
+# Cek field exists
+HEXISTS user:1001 email
+
+# Hapus field
+HDEL user:1001 phone
+
+# Panjang hash
+HLEN user:1001
+
+# Scan hash (untuk hash besar)
+HSCAN user:1001 0 COUNT 10`,
+    objectivesId: ["HSET dan HGET","HMSET dan HMGET","HGETALL, HKEYS, HVALS","HINCRBY","HSETNX dan HDEL"],
+    objectivesEn: ["HSET and HGET","HMSET and HMGET","HGETALL, HKEYS, HVALS","HINCRBY","HSETNX and HDEL"],
+    explanationId: `### Hash
+Map field-value dalam satu key. Bagus untuk object.
+
+### HSET & HGET
+Simpan dan ambil per field.
+
+### HGETALL
+Ambil semua field dan value.
+
+### HINCRBY
+Increment numeric field.
+
+### HSETNX
+Set hanya jika field belum ada.`,
+    explanationEn: `### Hashes
+Field-value map in one key. Good for objects.
+
+### HSET & HGET
+Store and retrieve per field.
+
+### HGETALL
+Get all fields and values.
+
+### HINCRBY
+Increment numeric field.
+
+### HSETNX
+Set only if field does not exist.`,
+    experimentsId: ["Hash untuk shopping cart","HINCRBY untuk stats","Hash vs String serialized","Scan pattern"],
+    experimentsEn: ["Hashes for shopping carts","HINCRBY for statistics","Hashes vs serialized strings","Scan patterns"],
+    challengeId: `Profil user: simpan, update, ambil field spesifik.`,
+    challengeEn: `User profile: store, update, retrieve specific fields.`,
+    summaryId: `Minggu 2 dari 10: **Hash** (Pemula).`,
+    summaryEn: `Week 2 of 10: **Hashes** (Beginner).`,
+  },
+  {
+    week: 3, level: 'beginer', topicId: 'list',
+    titleId: 'List', titleEn: 'Lists',
+    programId: 'Operasi List Redis', programEn: 'Redis List Operations',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'shell',
+    code: `# List: antrian/linkded list
+LPUSH antrian:tasks "task1" "task2" "task3"
+RPUSH antrian:tasks "task4" "task5"
+
+# Lihat list
+LRANGE antrian:tasks 0 -1
+
+# Pop dari kiri (dequeue)
+LPOP antrian:tasks
+
+# Pop dari kanan
+RPOP antrian:tasks
+
+# Panjang list
+LLEN antrian:tasks
+
+# Blok sampai ada data (untuk queue)
+BLPOP antrian:tasks 30  # Tunggu 30 detik
+
+# Insert sebelum/sesudah
+RPUSH mylist "a" "b" "c"
+LINSERT mylist BEFORE "b" "x"
+LRANGE mylist 0 -1
+
+# Trim list
+LTRIM mylist 0 2
+
+# Set nilai by index
+LSET mylist 0 "z"
+
+# Remove element
+RPUSH mylist "a" "b" "a" "c" "a"
+LREM mylist 1 "a"  # Hapus 1 occurrence "a"
+
+# Index of element
+LINDEX mylist 0`,
+    objectivesId: ["LPUSH, RPUSH, LPOP, RPOP","LRANGE untuk lihat list","BLPOP untuk blocking queue","LINSERT dan LTRIM","LREM dan LINDEX"],
+    objectivesEn: ["LPUSH, RPUSH, LPOP, RPOP","LRANGE to view lists","BLPOP for blocking queues","LINSERT and LTRIM","LREM and LINDEX"],
+    explanationId: `### List
+Linked list. Bisa untuk antrian dan stack.
+
+### LPUSH & RPUSH
+Tambah ke kiri atau kanan.
+
+### BLPOP
+Blocking pop: tunggu sampai ada data.
+
+### LTRIM
+Potong list ke range tertentu.
+
+### LREM
+Hapus element by value.`,
+    explanationEn: `### Lists
+Linked lists. For queues and stacks.
+
+### LPUSH & RPUSH
+Add to left or right.
+
+### BLPOP
+Blocking pop: wait until data available.
+
+### LTRIM
+Trim list to range.
+
+### LREM
+Remove elements by value.`,
+    experimentsId: ["Implementasi stack dengan list","Reliable queue dengan BRPOPLPUSH","Capped list dengan LTRIM","List vs Stream"],
+    experimentsEn: ["Stack with lists","Reliable queue with BRPOPLPUSH","Capped lists with LTRIM","Lists vs Streams"],
+    challengeId: `Message queue: producer-consumer dengan list.`,
+    challengeEn: `Message queue: producer-consumer with lists.`,
+    summaryId: `Minggu 3 dari 10: **List** (Pemula).`,
+    summaryEn: `Week 3 of 10: **Lists** (Beginner).`,
+  },
+  {
+    week: 4, level: 'beginer', topicId: 'set',
+    titleId: 'Set', titleEn: 'Sets',
+    programId: 'Operasi Set Redis', programEn: 'Redis Set Operations',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'shell',
+    code: `# Set: koleksi unik tidak terurut
+SADD tags:produk:1 "elektronik" "laptop" "asus" "gaming"
+SADD tags:produk:2 "aksesoris" "mouse" "logitech"
+SADD tags:produk:3 "elektronik" "monitor" "lg"
+
+# Lihat semua member
+SMEMBERS tags:produk:1
+
+# Cek membership
+SISMEMBER tags:produk:1 "gaming"
+SISMEMBER tags:produk:1 "murah"
+
+# Panjang set
+SCARD tags:produk:1
+
+# Pop random element
+SPOP tags:produk:1
+
+# Hapus member
+SREM tags:produk:1 "asus"
+
+# Set operations
+SADD setA "1" "2" "3" "4"
+SADD setB "3" "4" "5" "6"
+
+# Union (gabungan)
+SUNION setA setB
+
+# Intersection (irisan)
+SINTER setA setB
+
+# Difference (selisih)
+SDIFF setA setB
+
+# Store hasil operasi
+SUNIONSTORE result:set setA setB
+SINTERSTORE result:common setA setB
+
+# Random member tanpa hapus
+SRANDMEMBER tags:produk:1 2`,
+    objectivesId: ["SADD, SMEMBERS, SREM","SISMEMBER untuk cek","SUNION, SINTER, SDIFF","SUNIONSTORE, SINTERSTORE","SRANDMEMBER"],
+    objectivesEn: ["SADD, SMEMBERS, SREM","SISMEMBER for membership","SUNION, SINTER, SDIFF","SUNIONSTORE, SINTERSTORE","SRANDMEMBER"],
+    explanationId: `### Set
+Koleksi unik tidak terurut.
+
+### SADD & SREM
+Tambah dan hapus member.
+
+### Set Operations
+Union, intersection, difference.
+
+### Store
+SUNIONSTORE simpan hasil ke key baru.
+
+### SRANDMEMBER
+Ambil random tanpa hapus.`,
+    explanationEn: `### Sets
+Unordered unique collections.
+
+### SADD & SREM
+Add and remove members.
+
+### Set Operations
+Union, intersection, difference.
+
+### Store
+SUNIONSTORE saves result to new key.
+
+### SRANDMEMBER
+Get random without removing.`,
+    experimentsId: ["Tag system dengan set","Friend recommendations (intersection)","Unique visitors (HyperLogLog)","Set vs Sorted Set"],
+    experimentsEn: ["Tag systems with sets","Friend recommendations (intersection)","Unique visitors (HyperLogLog)","Sets vs Sorted Sets"],
+    challengeId: `Tag system: tambah/hapus tag, cari produk dengan tag yang sama.`,
+    challengeEn: `Tag system: add/remove tags, find products with same tags.`,
+    summaryId: `Minggu 4 dari 10: **Set** (Pemula).`,
+    summaryEn: `Week 4 of 10: **Sets** (Beginner).`,
+  },
+  {
+    week: 5, level: 'beginer', topicId: 'sorted-set',
+    titleId: 'Sorted Set', titleEn: 'Sorted Sets',
+    programId: 'Operasi Sorted Set', programEn: 'Sorted Set Operations',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'shell',
+    code: `# Sorted Set: set dengan score untuk urutan
+ZADD leaderboard 100 "player1" 250 "player2" 180 "player3" 300 "player4" 150 "player5"
+
+# Lihat semua (berdasarkan score)
+ZRANGE leaderboard 0 -1 WITHSCORES
+
+# Lihat reverse (terbesar dulu)
+ZREVRANGE leaderboard 0 -1 WITHSCORES
+
+# Top 3
+ZREVRANGE leaderboard 0 2 WITHSCORES
+
+# Score spesifik
+ZSCORE leaderboard "player2"
+
+# Rank (posisi)
+ZRANK leaderboard "player2"
+ZREVRANK leaderboard "player2"
+
+# Increment score
+ZINCRBY leaderboard 50 "player1"
+
+# Count dalam range
+ZCOUNT leaderboard 100 200
+
+# Range by score
+ZRANGEBYSCORE leaderboard 100 200 WITHSCORES
+
+# Remove by score range
+ZREMRANGEBYSCORE leaderboard 0 100
+
+# Remove by rank
+ZREMRANGEBYRANK leaderboard 0 0
+
+# Intersection sorted sets
+ZADD set1 1 "a" 2 "b" 3 "c"
+ZADD set2 10 "b" 20 "c" 30 "d"
+ZINTERSTORE result 2 set1 set2 WITHSCORES`,
+    objectivesId: ["ZADD dan ZRANGE","ZREVRANGE untuk ranking","ZINCRBY untuk increment score","ZCOUNT dan ZRANGEBYSCORE","ZINTERSTORE dan ZUNIONSTORE"],
+    objectivesEn: ["ZADD and ZRANGE","ZREVRANGE for rankings","ZINCRBY for score increments","ZCOUNT and ZRANGEBYSCORE","ZINTERSTORE and ZUNIONSTORE"],
+    explanationId: `### Sorted Set
+Set dengan score. Otomatis urut by score.
+
+### ZADD
+Tambah member dengan score.
+
+### ZREVRANGE
+Range descending untuk leaderboard.
+
+### ZINCRBY
+Increment score (untuk point system).
+
+### ZCOUNT
+Count member dalam range score.`,
+    explanationEn: `### Sorted Sets
+Sets with scores. Auto-sorted by score.
+
+### ZADD
+Add member with score.
+
+### ZREVRANGE
+Descending range for leaderboards.
+
+### ZINCRBY
+Increment score (for point systems).
+
+### ZCOUNT
+Count members in score range.`,
+    experimentsId: ["Rate limiter dengan sorted set","Leaderboard real-time","Time-based scoring","Sorted set vs list"],
+    experimentsEn: ["Rate limiters with sorted sets","Real-time leaderboards","Time-based scoring","Sorted sets vs lists"],
+    challengeId: `Leaderboard game: tambah skor, lihat top 10, cek rank pemain.`,
+    challengeEn: `Game leaderboard: add scores, view top 10, check player rank.`,
+    summaryId: `Minggu 5 dari 10: **Sorted Set** (Pemula).`,
+    summaryEn: `Week 5 of 10: **Sorted Sets** (Beginner).`,
+  },
+  {
+    week: 6, level: 'intermediate', topicId: 'pub-sub',
+    titleId: 'Pub/Sub & Streams', titleEn: 'Pub/Sub & Streams',
+    programId: 'Messaging Redis', programEn: 'Redis Messaging',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'shell',
+    code: `# Pub/Sub: publish-subscribe
+# Subscriber (terminal 1)
+SUBSCRIBE news:tech news:sports
+PSUBSCRIBE news:*
+
+# Publisher (terminal 2)
+PUBLISH news:tech "AI terbaru 2024"
+PUBLISH news:sports "Hasil pertandingan"
+
+# Unsubscribe
+UNSUBSCRIBE news:tech
+
+# Streams: append-only log
+XADD events * type "login" user "budi" ip "10.0.0.1"
+XADD events * type "purchase" user "budi" amount 12500000
+XADD events * type "logout" user "budi"
+
+# Baca stream
+XRANGE events - +
+
+# Baca dari ID tertentu
+XRANGE events 1700000000000-0 +
+
+# Panjang stream
+XLEN events
+
+# Consumer group
+XGROUP CREATE events mygroup 0
+XREADGROUP GROUP mygroup consumer1 STREAMS events >
+
+# ACK message
+XACK events mygroup 1700000000000-0
+
+# Trim stream
+XTRIM events MAXLEN 1000
+
+# Blocking read
+XREAD BLOCK 5000 STREAMS events $`,
+    objectivesId: ["SUBSCRIBE, PUBLISH, UNSUBSCRIBE","PSUBSCRIBE pattern matching","XADD dan XRANGE streams","Consumer group","XACK dan XTRIM"],
+    objectivesEn: ["SUBSCRIBE, PUBLISH, UNSUBSCRIBE","PSUBSCRIBE pattern matching","XADD and XRANGE streams","Consumer groups","XACK and XTRIM"],
+    explanationId: `### Pub/Sub
+Messaging pattern: publisher kirim, subscriber terima.
+
+### Pattern
+PSUBSCRIBE dengan wildcard pattern.
+
+### Streams
+Append-only log untuk event sourcing.
+
+### Consumer Group
+Multiple consumer baca stream yang sama.
+
+### XACK
+Acknowledge message sudah diproses.`,
+    explanationEn: `### Pub/Sub
+Messaging pattern: publisher sends, subscriber receives.
+
+### Patterns
+PSUBSCRIBE with wildcard patterns.
+
+### Streams
+Append-only log for event sourcing.
+
+### Consumer Groups
+Multiple consumers read same stream.
+
+### XACK
+Acknowledge processed messages.`,
+    experimentsId: ["Chat room dengan pub/sub","Event sourcing dengan streams","Stream processing pipeline","Consumer group failover"],
+    experimentsEn: ["Chat rooms with pub/sub","Event sourcing with streams","Stream processing pipelines","Consumer group failover"],
+    challengeId: `Real-time notification system: pub/sub + streams.`,
+    challengeEn: `Real-time notification system: pub/sub + streams.`,
+    summaryId: `Minggu 6 dari 10: **Pub/Sub & Streams** (Menengah).`,
+    summaryEn: `Week 6 of 10: **Pub/Sub & Streams** (Intermediate).`,
+  },
+  {
+    week: 7, level: 'intermediate', topicId: 'lua-scripting',
+    titleId: 'Lua Scripting', titleEn: 'Lua Scripting',
+    programId: 'Redis Lua Scripts', programEn: 'Redis Lua Scripts',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'shell',
+    code: `# Lua scripting: operasi atomic
+# Rate limiter
+EVAL "
+local current = redis.call('GET', KEYS[1])
+if current and tonumber(current) >= tonumber(ARGV[1]) then
+    return 0
+end
+redis.call('INCR', KEYS[1])
+if redis.call('TTL', KEYS[1]) == -1 then
+    redis.call('EXPIRE', KEYS[1], tonumber(ARGV[2]))
+end
+return 1
+" 1 rate:limit:user:1001 10 60
+
+# Distributed lock
+EVAL "
+if redis.call('SET', KEYS[1], ARGV[1], 'NX', 'PX', ARGV[2]) then
+    return 1
+end
+return 0
+" 1 lock:resource "owner_id" 10000
+
+# Release lock (hanya pemilik)
+EVAL "
+if redis.call('GET', KEYS[1]) == ARGV[1] then
+    return redis.call('DEL', KEYS[1])
+end
+return 0
+" 1 lock:resource "owner_id"
+
+# Atomic transfer
+EVAL "
+local saldo = tonumber(redis.call('GET', KEYS[1]))
+if saldo >= tonumber(ARGV[1]) then
+    redis.call('DECRBY', KEYS[1], ARGV[1])
+    redis.call('INCRBY', KEYS[2], ARGV[1])
+    return 1
+end
+return 0
+" 2 saldo:user:1 saldo:user:2 500000
+
+# Load script untuk reuse
+SCRIPT LOAD "return redis.call('GET', KEYS[1])"
+# EVALSHA <sha> 1 key`,
+    objectivesId: ["EVAL untuk script atomic","Rate limiter dengan Lua","Distributed lock","Release lock aman","SCRIPT LOAD dan EVALSHA"],
+    objectivesEn: ["EVAL for atomic scripts","Rate limiter with Lua","Distributed locks","Safe lock release","SCRIPT LOAD and EVALSHA"],
+    explanationId: `### EVAL
+Jalankan script Lua di Redis. Atomic.
+
+### Rate Limiter
+Cek counter, increment, set TTL.
+
+### Distributed Lock
+SET NX untuk lock, DEL dengan verifikasi pemilik.
+
+### Atomic Transfer
+Cek saldo, debit, credit dalam satu script.
+
+### SCRIPT LOAD
+Cache script untuk reuse dengan SHA.`,
+    explanationEn: `### EVAL
+Run Lua scripts in Redis. Atomic.
+
+### Rate Limiter
+Check counter, increment, set TTL.
+
+### Distributed Lock
+SET NX for locking, DEL with owner verification.
+
+### Atomic Transfer
+Check balance, debit, credit in one script.
+
+### SCRIPT LOAD
+Cache scripts for reuse with SHA.`,
+    experimentsId: ["Token bucket rate limiter","Redlock algorithm","Atomic inventory decrement","Lua script debugging"],
+    experimentsEn: ["Token bucket rate limiter","Redlock algorithm","Atomic inventory decrement","Lua script debugging"],
+    challengeId: `Distributed lock manager: acquire, release, renew.`,
+    challengeEn: `Distributed lock manager: acquire, release, renew.`,
+    summaryId: `Minggu 7 dari 10: **Lua Scripting** (Menengah).`,
+    summaryEn: `Week 7 of 10: **Lua Scripting** (Intermediate).`,
+  },
+  {
+    week: 8, level: 'intermediate', topicId: 'clustering',
+    titleId: 'Redis Cluster', titleEn: 'Redis Cluster',
+    programId: 'Distributed Redis', programEn: 'Distributed Redis',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'shell',
+    code: `# Redis Cluster: distribusi data
+# Konfigurasi (redis.conf)
+# cluster-enabled yes
+# cluster-config-file nodes.conf
+# cluster-node-timeout 5000
+
+# Buat cluster (6 nodes: 3 master, 3 replica)
+# redis-cli --cluster create \\
+#   127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 \\
+#   127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \\
+#   --cluster-replicas 1
+
+# Hash slots: 16384 slots dibagi ke master
+# Master 1: 0-5460
+# Master 2: 5461-10922
+# Master 3: 10923-16383
+
+# Operasi di cluster
+redis-cli -c -p 7000
+SET user:1001 "Budi"  # Auto-redirect ke slot yang benar
+GET user:1001
+
+# Multi-key operations (harus di slot yang sama)
+# Gunah hash tag untuk memastikan slot sama
+SET {user:1001}:profile "data"
+SET {user:1001}:session "active"
+MGET {user:1001}:profile {user:1001}:session
+
+# Cluster info
+CLUSTER INFO
+CLUSTER NODES
+CLUSTER SLOTS
+CLUSTER KEYSLOT user:1001
+
+# Failover
+CLUSTER FAILOVER
+
+# Resharding
+# redis-cli --cluster reshard 127.0.0.1:7000`,
+    objectivesId: ["Cluster setup","Hash slots","Hash tags untuk multi-key","Cluster info dan nodes","Failover dan resharding"],
+    objectivesEn: ["Cluster setup","Hash slots","Hash tags for multi-key","Cluster info and nodes","Failover and resharding"],
+    explanationId: `### Cluster
+Distribusi data ke multiple node.
+
+### Hash Slots
+16384 slots dibagi ke master nodes.
+
+### Hash Tags
+{key} untuk memastikan key di slot yang sama.
+
+### Failover
+Replica otomatis jadi master jika master mati.
+
+### Resharding
+Pindahkan slot antar node.`,
+    explanationEn: `### Cluster
+Distribute data across multiple nodes.
+
+### Hash Slots
+16384 slots divided among master nodes.
+
+### Hash Tags
+{key} to ensure keys in same slot.
+
+### Failover
+Replica auto-promotes if master fails.
+
+### Resharding
+Move slots between nodes.`,
+    experimentsId: ["Cluster dengan Docker","Benchmark cluster vs single","Slot migration","Read replicas"],
+    experimentsEn: ["Cluster with Docker","Benchmark cluster vs single","Slot migration","Read replicas"],
+    challengeId: `Setup Redis Cluster: 3 master + 3 replica + monitoring.`,
+    challengeEn: `Setup Redis Cluster: 3 masters + 3 replicas + monitoring.`,
+    summaryId: `Minggu 8 dari 10: **Redis Cluster** (Menengah).`,
+    summaryEn: `Week 8 of 10: **Redis Cluster** (Intermediate).`,
+  },
+  {
+    week: 9, level: 'intermediate', topicId: 'caching-patterns',
+    titleId: 'Caching Patterns', titleEn: 'Caching Patterns',
+    programId: 'Strategi Caching', programEn: 'Caching Strategies',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'shell',
+    code: `# Cache-Aside Pattern
+# 1. Cek cache
+GET product:123
+# 2. Jika miss, baca dari DB
+# 3. Simpan ke cache
+SET product:123 "{...}" EX 3600
+
+# Write-Through Pattern
+# 1. Tulis ke DB
+# 2. Tulis ke cache
+SET product:123 "{...}" EX 3600
+
+# Write-Behind (Write-Back)
+# 1. Tulis ke cache
+# 2. Async flush ke DB
+
+# Cache invalidation
+DEL product:123
+# Atau pattern-based
+EVAL "
+local keys = redis.call('KEYS', ARGV[1])
+for _, key in ipairs(keys) do
+    redis.call('DEL', key)
+end
+return #keys
+" 0 "product:*"
+
+# Cache stampede prevention
+# Gunakan lock untuk regenerate cache
+EVAL "
+if redis.call('SET', KEYS[1], 'regenerating', 'NX', 'EX', 30) then
+    return 'regenerate'
+end
+return 'wait'
+" 1 cache:lock:product:123
+
+# TTL strategy
+# - Short TTL untuk data sering berubah
+# - Long TTL untuk data statis
+# - Random TTL untuk hindari thundering herd
+
+# Cache warming
+# Pre-populate cache sebelum peak traffic`,
+    objectivesId: ["Cache-aside pattern","Write-through pattern","Cache invalidation","Cache stampede prevention","TTL strategy"],
+    objectivesEn: ["Cache-aside pattern","Write-through pattern","Cache invalidation","Cache stampede prevention","TTL strategies"],
+    explanationId: `### Cache-Aside
+App cek cache, jika miss baca DB, simpan ke cache.
+
+### Write-Through
+Tulis ke DB dan cache bersamaan.
+
+### Invalidation
+Hapus cache saat data berubah.
+
+### Stampede
+Lock untuk mencegah banyak request regenerate cache.
+
+### TTL Strategy
+Random TTL untuk hindari thundering herd.`,
+    explanationEn: `### Cache-Aside
+App checks cache, if miss reads DB, stores in cache.
+
+### Write-Through
+Write to DB and cache simultaneously.
+
+### Invalidation
+Delete cache when data changes.
+
+### Stampede
+Lock to prevent many requests regenerating cache.
+
+### TTL Strategy
+Random TTL to avoid thundering herd.`,
+    experimentsId: ["Cache hit ratio monitoring","LRU eviction policy","Cache warming script","Multi-level cache"],
+    experimentsEn: ["Cache hit ratio monitoring","LRU eviction policy","Cache warming scripts","Multi-level caches"],
+    challengeId: `Cache layer: implement cache-aside dengan stampede prevention.`,
+    challengeEn: `Cache layer: implement cache-aside with stampede prevention.`,
+    summaryId: `Minggu 9 dari 10: **Caching Patterns** (Menengah).`,
+    summaryEn: `Week 9 of 10: **Caching Patterns** (Intermediate).`,
+  },
+  {
+    week: 10, level: 'intermediate', topicId: 'capstone-project',
+    titleId: 'Capstone: Real-time Analytics', titleEn: 'Capstone: Real-time Analytics',
+    programId: 'Sistem Analytics Redis', programEn: 'Redis Analytics System',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'shell',
+    code: `# CAPSTONE: Real-time Analytics dengan Redis
+
+# 1. Page view tracking (HyperLogLog)
+PFADD page:views:2024-01-15 user:1001 user:1002 user:1003
+PFADD page:views:2024-01-15 user:1001 user:1004
+PFCOUNT page:views:2024-01-15  # Unique visitors
+
+# 2. Daily active users (bitmaps)
+SETBIT dau:2024-01-15 1001 1
+SETBIT dau:2024-01-15 1002 1
+SETBIT dau:2024-01-15 1003 1
+BITCOUNT dau:2024-01-15
+BITOP OR dau:week dau:2024-01-15 dau:2024-01-16
+
+# 3. Real-time leaderboard
+ZADD leaderboard:daily 150 "user:1001" 200 "user:1002" 180 "user:1003"
+ZINCRBY leaderboard:daily 50 "user:1001"
+ZREVRANGE leaderboard:daily 0 9 WITHSCORES
+
+# 4. Rate limiter
+EVAL "
+local current = redis.call('GET', KEYS[1])
+if current and tonumber(current) >= 100 then return 0 end
+redis.call('INCR', KEYS[1])
+if redis.call('TTL', KEYS[1]) == -1 then
+    redis.call('EXPIRE', KEYS[1], 60)
+end
+return 1
+" 1 rate:limit:api:user:1001
+
+# 5. Session store
+HSET session:abc123 user_id 1001 login_at "2024-01-15T10:00:00"
+EXPIRE session:abc123 3600
+
+# 6. Event stream
+XADD events * type "page_view" user 1001 page "/products"
+XADD events * type "click" user 1001 element "buy-button"
+XRANGE events - + COUNT 10
+
+# 7. Caching layer
+SET product:top "[{id:1,nama:Laptop,qty:50}]" EX 300
+GET product:top
+
+# 8. Real-time stats
+INCR stats:page_views:today
+INCRBY stats:revenue:today 12500000
+EXPIRE stats:page_views:today 86400`,
+    objectivesId: ["HyperLogLog untuk unique count","Bitmaps untuk DAU","Sorted set leaderboard","Rate limiter","Event stream"],
+    objectivesEn: ["HyperLogLog for unique counts","Bitmaps for DAU","Sorted set leaderboards","Rate limiters","Event streams"],
+    explanationId: `### HyperLogLog
+Count unique dengan memory kecil.
+
+### Bitmaps
+Bit-level operations untuk analytics.
+
+### Sorted Set
+Leaderboard real-time.
+
+### Rate Limiter
+Lua script untuk rate limiting.
+
+### Streams
+Event sourcing untuk analytics.`,
+    explanationEn: `### HyperLogLog
+Count unique with small memory.
+
+### Bitmaps
+Bit-level operations for analytics.
+
+### Sorted Sets
+Real-time leaderboards.
+
+### Rate Limiter
+Lua scripts for rate limiting.
+
+### Streams
+Event sourcing for analytics.`,
+    experimentsId: ["Sliding window rate limiter","HyperLogLog merge","Stream consumer groups","RedisTimeSeries"],
+    experimentsEn: ["Sliding window rate limiters","HyperLogLog merges","Stream consumer groups","RedisTimeSeries"],
+    challengeId: `Deploy analytics system: tracking, leaderboard, rate limiter, caching.`,
+    challengeEn: `Deploy analytics system: tracking, leaderboard, rate limiter, caching.`,
+    summaryId: `Minggu 10 dari 10: **Capstone: Real-time Analytics** (Menengah). Selesai!`,
+    summaryEn: `Week 10 of 10: **Capstone: Real-time Analytics** (Intermediate). Complete!`,
+  },
+];
+
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
 }
 
-if (!fs.existsSync(BASE)) {
-  fs.mkdirSync(path.join(BASE, 'id'), { recursive: true });
-  fs.mkdirSync(path.join(BASE, 'en'), { recursive: true });
-}
-
-for (const mod of MODULES) {
-  const idContent = generateFile(mod, true);
-  const enContent = generateFile(mod, false);
-  fs.writeFileSync(path.join(BASE, 'id', 'week' + mod.id + '-' + mod.f + '.md'), idContent, 'utf8');
-  fs.writeFileSync(path.join(BASE, 'en', 'week' + mod.id + '-' + mod.f + '.md'), enContent, 'utf8');
-  console.log('  ' + mod.id + '. ' + mod.lid + ' / ' + mod.len);
-}
-
-console.log('\n✓ Generated ' + (MODULES.length * 2) + ' Redis curriculum files (' + MODULES.length + ' modules × 2 languages)');
-console.log('  Output: ' + BASE);
+gen.writeFiles(MODULES, LEVELS);

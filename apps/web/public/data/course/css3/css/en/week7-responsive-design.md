@@ -1,144 +1,172 @@
 # Responsive Design
 
-> CSS | Module 7
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 7:** Responsive Design
 
 ## Learning Objectives
 
-- Understand mobile-first principles and progressive enhancement
-- Master media queries for different breakpoints
-- Use relative units: rem, em, vw, vh, %, clamp()
-- Apply container queries for component-level responsiveness
-- Use prefers-color-scheme for dark/light mode
+- Viewport meta tag: width=device-width, initial-scale=1.0
+- Mobile-first media queries: min-width breakpoints
+- Fluid typography: clamp() for responsive font sizes
+- Container queries: styling based on container size
+- Dark mode: prefers-color-scheme media query
 
 ---
 
-## Program: Responsive Page
+## Program: Responsive Layout
 
 ```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Desain Responsif</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <style>
-    * { box-sizing: border-box; margin: 0; }
-    body { font-family: system-ui, sans-serif; background: #f0f4f8; padding: 1rem; color: #333; }
-    h1 { color: #1572B6; text-align: center; font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 1rem; }
-    .card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-    .grid-item { background: #1572B6; color: #fff; padding: 2rem; border-radius: 8px; text-align: center; font-size: 1.2rem; font-weight: 600; }
-    .grid-item:nth-child(2) { background: #e74c3c; }
-    .grid-item:nth-child(3) { background: #2ecc71; }
-    .unit-demo { font-size: 1rem; margin: 0.5rem 0; padding: 0.5rem; background: #e3f0fa; border-radius: 6px; }
-    .unit-vw { font-size: clamp(1rem, 3vw, 2rem); }
-    .unit-rem { font-size: 1.5rem; }
-    .mode-toggle { padding: 0.5rem 1rem; background: #1572B6; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    @media (prefers-color-scheme: dark) {
-      body { background: #1a1a2e; color: #e0e0e0; }
-      .card { background: #16213e; }
-      .unit-demo { background: #1a1a3e; }
-      .grid-item { background: #0f3460; }
-    }
-    @media (min-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } body { padding: 2rem; } }
-    @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr 1fr; } body { padding: 3rem; max-width: 1200px; margin: 0 auto; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { font-family: sans-serif; padding: 20px; }
+
+        /* Mobile-first approach */
+        .container {
+            width: 100%;
+            padding: 0 15px;
+        }
+
+        .card-grid {
+            display: grid;
+            gap: 15px;
+            /* Mobile: 1 column */
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Tablet: 768px+ */
+        @media (min-width: 768px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop: 1024px+ */
+        @media (min-width: 1024px) {
+            .container { max-width: 1200px; margin: 0 auto; }
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Fluid typography */
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Responsive image */
+        .responsive-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Container queries */
+        .card-container {
+            container-type: inline-size;
+        }
+
+        @container (min-width: 400px) {
+            .card {
+                display: flex;
+                gap: 15px;
+                align-items: center;
+            }
+        }
+
+        /* Dark mode */
+        @media (prefers-color-scheme: dark) {
+            body { background: #121417; color: #e0e0e0; }
+            .card { background: #1e1e1e; }
+        }
+    </style>
 </head>
 <body>
-  <h1>Desain Responsif</h1>
-  <div class="card">
-    <h2 style="color:#1572B6;margin-bottom:0.5rem">Grid Responsif</h2>
-    <p style="margin-bottom:0.8rem;font-size:0.9rem;color:#666">Ubah lebar jendela — grid menyesuaikan jumlah kolom.</p>
-    <div class="grid">
-      <div class="grid-item">Mobile: 1 kolom</div>
-      <div class="grid-item">Tablet: 2 kolom</div>
-      <div class="grid-item">Desktop: 3 kolom</div>
+    <div class="container">
+        <h1>Responsive Design</h1>
+        <p>Resize browser untuk melihat perubahan layout.</p>
+
+        <div class="card-grid card-container">
+            <div class="card">
+                <img src="https://picsum.photos/100/100?random=1" alt="Card" class="responsive-img" style="width:80px;height:80px;border-radius:8px;">
+                <div>
+                    <h3>Card 1</h3>
+                    <p>Layout berubah sesuai ukuran layar.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://picsum.photos/100/100?random=2" alt="Card" class="responsive-img" style="width:80px;height:80px;border-radius:8px;">
+                <div>
+                    <h3>Card 2</h3>
+                    <p>Mobile-first approach.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://picsum.photos/100/100?random=3" alt="Card" class="responsive-img" style="width:80px;height:80px;border-radius:8px;">
+                <div>
+                    <h3>Card 3</h3>
+                    <p>Fluid typography dengan clamp().</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="card">
-    <h2 style="color:#1572B6;margin-bottom:0.5rem">Unit Relatif</h2>
-    <div class="unit-demo"><strong>clamp()</strong>: Teks ini ukurannya <span class="unit-vw">3vw (min 1rem, max 2rem)</span></div>
-    <div class="unit-demo"><strong>rem</strong>: Teks ini 1.5rem <span style="font-size:1.5rem">&rarr; relatif ke root font-size</span></div>
-    <div class="unit-demo" style="width:80%"><strong>%</strong>: Lebar 80% dari parent</div>
-  </div>
-  <div class="card">
-    <h2 style="color:#1572B6;margin-bottom:0.5rem">Dark Mode</h2>
-    <p style="margin-bottom:0.5rem;font-size:0.9rem">Halaman otomatis mengikuti preferensi tema sistem Anda melalui <code>prefers-color-scheme</code>.</p>
-    <p style="font-size:0.85rem;color:#666">Jika sistem Anda dalam mode gelap, latar belakang akan berubah menjadi gelap.</p>
-  </div>
 </body>
 </html>
 ```
 
 ---
 
-## Explanation
+## Key Concepts
+
+### Viewport Meta
+`<meta name="viewport" content="width=device-width, initial-scale=1.0">` — required for responsive.
 
 ### Mobile-First
+Mobile first, then add complexity for larger screens. `min-width` breakpoints.
 
-**Mobile-first** means designing for small screens FIRST, then adding media queries for larger screens. This approach:
+### Common Breakpoints
+Mobile: <768px, Tablet: 768-1023px, Desktop: 1024px+.
 
-- Forces focus on essential content
-- Better performance on limited devices
-- Uses `min-width` (not `max-width`) in media queries
-
-### Media Queries
-
-```css
-/* Mobile-first: base style for mobile */
-.grid { grid-template-columns: 1fr; }
-
-/* Tablet: ≥600px */
-@media (min-width: 600px) {
-  .grid { grid-template-columns: 1fr 1fr; }
-}
-
-/* Desktop: ≥900px */
-@media (min-width: 900px) {
-  .grid { grid-template-columns: 1fr 1fr 1fr; }
-}
-```
-
-### Relative Units
-
-- **rem** — relative to root font-size (16px default). Accessible because it respects user font-size preferences.
-- **em** — relative to parent element's font-size. Dangerous for nesting (compounding effect).
-- **vw/vh** — 1% of viewport width/height
-- **%** — relative to parent
-- **clamp()** — `font-size: clamp(1rem, 3vw, 2rem)` = minimum, preferred, maximum
+### Fluid Typography
+`clamp(1.5rem, 4vw, 3rem)` — min 1.5rem, preferred 4vw, max 3rem.
 
 ### Container Queries
-
-Responsiveness based on **container** size, not viewport. `@container (min-width: 400px)`.
-
-### prefers-color-scheme
-
-Media query to detect system theme: `@media (prefers-color-scheme: dark) { ... }`
+`container-type: inline-size` + `@container (min-width: 400px)` — responsive based on container, not viewport.
 
 ---
 
 ## Experiments
 
-1. **Change breakpoints** — change `600px` to `500px` and `900px` to `800px`
-2. **Add new breakpoint** — add a breakpoint for large screens (1200px+) with 4 columns
-3. **Experiment with clamp()** — change clamp values to `clamp(0.8rem, 5vw, 3rem)`
-4. **Try dark mode** — change your system color preference and refresh the page
+- Change breakpoints and observe layout changes
+- Try clamp() for various properties
+- Experiment container queries with cards
+- Create responsive navigation: hamburger on mobile
+- Try prefers-reduced-motion
 
 ---
 
 ## Challenge
 
-Build a fully responsive "Company Profile" page:
-- Mobile: single column, hamburger navigation, smaller text
-- Tablet: two columns, simple horizontal navigation
-- Desktop: three columns, full navigation with dropdown
-- Use rem units for all font sizes
-- Use clamp() for the main heading
-- Include dark mode with prefers-color-scheme
+Create a fully responsive landing page: 1 column mobile, 2 columns tablet, 3 columns desktop, with fluid typography.
 
 ---
 
 ## Summary
 
-Responsive design ensures your pages look good on all devices. Mobile-first, media queries, relative units, container queries, and dark mode are your modern toolkit. Next module: **Motion & Animation** — bringing pages to life with transitions and animations.
+Week 7 of 12: **Responsive Design** (Level: Complete CSS3). Mobile-first. Next week: **Animations & Transitions**.

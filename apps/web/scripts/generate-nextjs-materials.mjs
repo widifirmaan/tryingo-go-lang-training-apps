@@ -1,1231 +1,1293 @@
-import fs from 'fs';
-import path from 'path';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const BASE = new URL('../public/data/course/nextjs', import.meta.url).pathname;
-// On Windows, pathname starts with /C:/ — strip the leading slash
-const BASE_DIR = process.platform === 'win32' ? BASE.slice(1) : BASE;
+// ─────────────────────────────────────────────────────────────────────────────
+// NEXT.JS CURRICULUM — pure research, zero framework influence
+// Sources: Official Next.js Docs, Next.js Learn Course, Vercel Docs,
+//          Roadmap.sh Next.js, Patterns.dev
+// ─────────────────────────────────────────────────────────────────────────────
+// Research consensus: 3 levels, 12 weeks total
+//   Beginner (4w): Setup, Routing, Layouts, Components
+//   Intermediate (4w): Data Fetching, Server Actions, Forms
+//   Advanced (4w): Auth, Database, Deployment, Project
+// Total: 12 weeks (within research range)
+// ─────────────────────────────────────────────────────────────────────────────
 
-const PHASES = [
-  { phase: 1, id: 'foundations', nameId: 'Foundasi Next.js', nameEn: 'Next.js Foundations' },
-  { phase: 2, id: 'rendering-data', nameId: 'Rendering & Data', nameEn: 'Rendering & Data' },
-  { phase: 3, id: 'fullstack', nameId: 'Full-Stack Next.js', nameEn: 'Full-Stack Next.js' },
-  { phase: 4, id: 'production', nameId: 'Production & Optimization', nameEn: 'Production & Optimization' },
-  { phase: 5, id: 'advanced', nameId: 'Lanjutan', nameEn: 'Advanced' },
+const gen = new BaseGenerator('nextjs', 'Next.js');
+
+const LEVELS = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Dasar Next.js: setup, routing, layouts, komponen — membangun web app modern.',
+    descEn: 'Next.js basics: setup, routing, layouts, components — building modern web apps.',
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Next.js tingkat menengah: data fetching, server actions, forms — aplikasi dinamis.',
+    descEn: 'Intermediate Next.js: data fetching, server actions, forms — dynamic applications.',
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Next.js tingkat lanjutan: auth, database, deployment, proyek capstone.',
+    descEn: 'Advanced Next.js: auth, database, deployment, capstone project.',
+  },
 ];
 
-const BASE_PROJECT_FILES = {
-  'package.json': JSON.stringify({
-    name: 'nextjs-lesson',
-    version: '1.0.0',
-    private: true,
-    scripts: { dev: 'next dev', build: 'next build', start: 'next start' },
-    dependencies: { next: '15.4.1', react: '^19.0.0', 'react-dom': '^19.0.0' },
-    devDependencies: { '@types/node': '^22.0.0', '@types/react': '^19.0.0', '@types/react-dom': '^19.0.0', typescript: '^5.7.0' },
-  }, null, 2),
-  'tsconfig.json': JSON.stringify({
-    compilerOptions: { target: 'ES2017', lib: ['dom', 'dom.iterable', 'esnext'], allowJs: true, skipLibCheck: true, strict: true, noEmit: true, esModuleInterop: true, module: 'esnext', moduleResolution: 'bundler', resolveJsonModule: true, isolatedModules: true, jsx: 'preserve', incremental: true, plugins: [{ name: 'next' }], paths: { '@/*': ['./src/*'] } },
-    include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
-    exclude: ['node_modules'],
-  }, null, 2),
-  'next.config.ts': `import type { NextConfig } from 'next';
-const nextConfig: NextConfig = {};
-export default nextConfig;
-`,
-  'app/globals.css': `@tailwind base;
-@tailwind components;
-@tailwind utilities;
-body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
-`,
-  'app/layout.tsx': `import type { Metadata } from 'next';
-export const metadata: Metadata = { title: 'Next.js Lesson', description: 'Tryngo Interactive' };
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en"><body>{children}</body></html>);
-}
-`,
+const MODULES = [
+  // ── BEGINNER (weeks 1-4) ──────────────────────────────────────────────────
+  {
+    week: 1, level: 'beginer', topicId: 'setup-dasar',
+    titleId: 'Setup & Konsep Dasar', titleEn: 'Setup & Core Concepts',
+    programId: 'App Pertama', programEn: 'First App',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'jsx',
+    code: `// Next.js = React framework dengan SSR, routing, dan optimasi built-in
+// create-next-app = boilerplate untuk mulai proyek
+
+// ── Struktur Folder Next.js (App Router) ──
+// app/
+//   layout.js      = Layout wrapper (html, body)
+//   page.js        = Halaman utama (/)
+//   loading.js     = Loading UI
+//   error.js       = Error boundary
+//   not-found.js   = 404 page
+//   about/
+//     page.js      = Halaman /about
+//   blog/
+//     [slug]/
+//       page.js    = Dynamic route /blog/:slug
+
+// ── app/layout.js (Root Layout) ──
+export const metadata = {
+  title: "Tryngo App",
+  description: "Platform pembelajaran Next.js",
 };
 
-function writeFiles(dir, files) {
-  for (const [fp, content] of Object.entries(files)) {
-    const full = path.join(dir, fp);
-    fs.mkdirSync(path.dirname(full), { recursive: true });
-    fs.writeFileSync(full, typeof content === 'string' ? content : JSON.stringify(content, null, 2));
-  }
+export default function RootLayout({ children }) {
+  return (
+    <html lang="id">
+      <body>
+        <header>Tryngo</header>
+        <main>{children}</main>
+        <footer>2026</footer>
+      </body>
+    </html>
+  );
 }
 
-// ===== LESSONS =====
-const LESSONS = [
-  // ===== PHASE 1: FOUNDATIONS =====
-  {
-    phase: 1, num: 1, topicId: 'what-is-nextjs',
-    titleId: 'Apa itu Next.js?', titleEn: 'What is Next.js?',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/page.tsx': `export default function Home() {
+// ── app/page.js (Home Page) ──
+export default function HomePage() {
   return (
     <div>
-      <h1>Welcome to Next.js!</h1>
-      <p>This is a React framework for production.</p>
-      <p>Edit <code>app/page.tsx</code> to see changes.</p>
+      <h1>Selamat Datang di Tryngo</h1>
+      <p>Platform pembelajaran coding interaktif</p>
+      <a href="/about">Tentang Kami</a>
     </div>
   );
-}`,
-      };
-    },
-    objId: ['Memahami peran Next.js sebagai React framework', 'Mengenal App Router dan Pages Router', 'Membuat project Next.js baru', 'Memahami struktur folder project'],
-    objEn: ['Understand Next.js as a React framework', 'Learn App Router vs Pages Router', 'Create a new Next.js project', 'Understand the project folder structure'],
-    expId: `## App Router vs Pages Router
-App Router (direktori \`app/\`) adalah standar baru sejak Next.js 13. Pages Router (\`pages/\`) adalah legacy. Selalu gunakan App Router untuk project baru.
-\n## create-next-app
-Jalankan \`npx create-next-app@latest my-app --typescript --app\` untuk membuat project baru. Pilih TypeScript, App Router, Tailwind CSS jika ditawarkan.
-\n## Struktur Folder
-\`app/layout.tsx\` = layout root. \`app/page.tsx\` = halaman home. \`public/\` = file statis. \`next.config.ts\` = konfigurasi.`,
-    expEn: `## App Router vs Pages Router
-The \`app/\` directory (App Router) is the standard since Next.js 13. The \`pages/\` directory (Pages Router) is legacy. Always use App Router for new projects.
-\n## create-next-app
-Run \`npx create-next-app@latest my-app --typescript --app\` to create a new project. Choose TypeScript, App Router, Tailwind CSS when prompted.
-\n## Folder Structure
-\`app/layout.tsx\` = root layout. \`app/page.tsx\` = home page. \`public/\` = static files. \`next.config.ts\` = configuration.`,
-    chId: 'Buat project Next.js baru dengan App Router. Eksplorasi file layout.tsx dan page.tsx. Coba tambahkan halaman `/about` dengan membuat `app/about/page.tsx`.',
-    chEn: 'Create a new Next.js project with App Router. Explore layout.tsx and page.tsx. Try adding an `/about` page by creating `app/about/page.tsx`.',
-    sumId: 'Next.js adalah React framework untuk production. App Router adalah standar baru dengan file-based routing. Lanjut: Routing & Layout.',
-    sumEn: 'Next.js is a production React framework. The App Router is the new standard with file-based routing. Next: Routing & Layouts.',
-  },
-  {
-    phase: 1, num: 2, topicId: 'routing-layouts',
-    titleId: 'Routing & Layouts', titleEn: 'Routing & Layouts',
-    codeFile: 'app/layout.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': `import type { Metadata } from 'next';
-export const metadata: Metadata = { title: 'My App', description: 'Tryngo' };
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en"><body><nav style={{background:'#333',color:'#fff',padding:'1rem'}}><a href="/" style={{color:'#fff',marginRight:'1rem'}}>Home</a><a href="/about" style={{color:'#fff',marginRight:'1rem'}}>About</a><a href="/blog" style={{color:'#fff'}}>Blog</a></nav><main style={{padding:'1rem'}}>{children}</main></body></html>);
-}`,
-        'app/page.tsx': `export default function Home() { return <h1>Home Page</h1>; }`,
-        'app/about/page.tsx': `export default function About() { return <h1>About Us</h1>; }`,
-        'app/blog/page.tsx': `export default function Blog() { return <h1>Blog</h1>; }`,
-      };
-    },
-    objId: ['Memahami file-based routing di App Router', 'Membuat nested layouts dengan layout.tsx', 'Menggunakan page.tsx untuk route publik', 'Membuat dynamic routes dengan [slug]'],
-    objEn: ['Understand file-based routing in App Router', 'Create nested layouts with layout.tsx', 'Use page.tsx for public routes', 'Create dynamic routes with [slug]'],
-    expId: `## File-based Routing
-Folder di \`app/\` menjadi URL. \`app/dashboard/page.tsx\` = \`/dashboard\`. \`app/blog/[slug]/page.tsx\` = \`/blog/hello-world\`.
-\n## Special Files
-\`layout.tsx\` — wrapper untuk child routes. \`page.tsx\` — route publik. \`loading.tsx\` — loading UI. \`error.tsx\` — error boundary. \`not-found.tsx\` — 404.
-\n## Nested Layouts
-Buat \`app/(marketing)/layout.tsx\` untuk layout marketing, \`app/(dashboard)/layout.tsx\` untuk layout dashboard. Route groups \`()\` tidak mempengaruhi URL.`,
-    expEn: `## File-based Routing
-Folders in \`app/\` become URLs. \`app/dashboard/page.tsx\` = \`/dashboard\`. \`app/blog/[slug]/page.tsx\` = \`/blog/hello-world\`.
-\n## Special Files
-\`layout.tsx\` — wrapper for child routes. \`page.tsx\` — public route. \`loading.tsx\` — loading UI. \`error.tsx\` — error boundary. \`not-found.tsx\` — 404.
-\n## Nested Layouts
-Create \`app/(marketing)/layout.tsx\` for marketing layout, \`app/(dashboard)/layout.tsx\` for dashboard layout. Route groups \`()\` don't affect the URL.`,
-    chId: 'Buat halaman portofolio dengan route: `/`, `/projects`, `/projects/[slug]`, `/contact`. Gunakan layout dengan navigasi.',
-    chEn: 'Build a portfolio site with routes: `/`, `/projects`, `/projects/[slug]`, `/contact`. Use a layout with navigation.',
-    sumId: 'App Router menggunakan file system sebagai router. layout.tsx, page.tsx, loading.tsx, error.tsx adalah special files. Dynamic routes pakai [slug].',
-    sumEn: 'App Router uses the file system as the router. layout.tsx, page.tsx, loading.tsx, error.tsx are special files. Dynamic routes use [slug].',
-  },
-  {
-    phase: 1, num: 3, topicId: 'dynamic-routes',
-    titleId: 'Dynamic Routes & Navigation', titleEn: 'Dynamic Routes & Navigation',
-    codeFile: 'app/blog/[slug]/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `import Link from 'next/link';
-export default function Home() { return (<div><h1>Blog</h1><ul>${[1,2,3].map(i => `<li><Link href="/blog/post-${i}">Post ${i}</Link></li>`).join('')}</ul></div>); }`,
-        'app/blog/[slug]/page.tsx': `import Link from 'next/link';
-export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  return (<div><h1>Post: {slug}</h1><p>This is the content of {slug}.</p><Link href="/">Back</Link></div>);
-}`,
-      };
-    },
-    objId: ['Membuat dynamic routes dengan [slug]', 'Mengakses params di Server Component', 'Menggunakan Link untuk navigasi client-side', 'Memahami catch-all routes'],
-    objEn: ['Create dynamic routes with [slug]', 'Access params in Server Components', 'Use Link for client-side navigation', 'Understand catch-all routes'],
-    expId: `## Dynamic Routes
-\`[slug]\` = satu segmen. \`[...slug]\` = catch-all (satu level). \`[[...slug]]\` = optional catch-all.
-\n## Link Component
-\`<Link href="/blog/post-1">Post 1</Link>\` — navigasi client-side tanpa reload. Prefetch otomatis di viewport.
-\n## useRouter
-\`useRouter()\` dari \`next/navigation\` untuk navigasi programatik: \`router.push('/about')\`, \`router.back()\`.`,
-    expEn: `## Dynamic Routes
-\`[slug]\` = single segment. \`[...slug]\` = catch-all (one level). \`[[...slug]]\` = optional catch-all.
-\n## Link Component
-\`<Link href="/blog/post-1">Post 1</Link>\` — client-side navigation without reload. Auto-prefetch in viewport.
-\n## useRouter
-\`useRouter()\` from \`next/navigation\` for programmatic navigation: \`router.push('/about')\`, \`router.back()\`.`,
-    chId: 'Buat halaman produk dengan dynamic routes. Tampilkan daftar produk di `/products`, dan detail produk di `/products/[id]`. Gunakan Link untuk navigasi.',
-    chEn: 'Create a products page with dynamic routes. Show a product list at `/products` and product details at `/products/[id]`. Use Link for navigation.',
-    sumId: 'Dynamic routes menggunakan [slug] di folder name. Link component untuk navigasi client-side. Catch-all routes dengan [...slug].',
-    sumEn: 'Dynamic routes use [slug] in folder names. Link component for client-side navigation. Catch-all routes with [...slug].',
-  },
-  {
-    phase: 1, num: 4, topicId: 'loading-error',
-    titleId: 'Loading & Error Handling', titleEn: 'Loading & Error Handling',
-    codeFile: 'app/loading.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `async function SlowComponent() { await new Promise(r => setTimeout(r, 2000)); return <p>Loaded after 2s!</p>; }
-export default function Home() { return (<div><h1>Streaming Demo</h1><SlowComponent /></div>); }`,
-        'app/loading.tsx': `export default function Loading() { return <div style={{padding:'2rem',textAlign:'center'}}><p>Loading...</p><div style={{width:40,height:40,border:'4px solid #ccc',borderTopColor:'#000',borderRadius:'50%',animation:'spin 1s linear infinite',margin:'1rem auto'}}></div><style>{'@keyframes spin{to{transform:rotate(360deg)}}'}</style></div>; }`,
-        'app/error.tsx': `'use client';
-export default function Error({error,reset}:{error:Error&{digest?:string};reset:()=>void}) {
-  return (<div style={{padding:'2rem',textAlign:'center'}}><h2>Something went wrong!</h2><p style={{color:'red'}}>{error.message}</p><button onClick={reset} style={{padding:'.5rem 1rem',cursor:'pointer'}}>Try Again</button></div>);
-}`,
-        'app/not-found.tsx': `import Link from 'next/link';
-export default function NotFound() { return (<div style={{padding:'2rem',textAlign:'center'}}><h2>404 - Page Not Found</h2><p>The page you're looking for doesn't exist.</p><Link href="/" style={{color:'blue',textDecoration:'underline'}}>Go Home</Link></div>); }`,
-      };
-    },
-    objId: ['Membuat loading UI dengan loading.tsx', 'Membuat error boundary dengan error.tsx', 'Membuat halaman 404 dengan not-found.tsx', 'Memahami streaming dan Suspense'],
-    objEn: ['Create loading UI with loading.tsx', 'Create error boundary with error.tsx', 'Create 404 page with not-found.tsx', 'Understand streaming and Suspense'],
-    expId: `## loading.tsx
-File \`loading.tsx\` di folder route akan otomatis menjadi Suspense fallback. Tampilkan skeleton atau spinner.
-\n## error.tsx
-\`error.tsx\` harus Client Component ('use client'). Props: \`error\` (object) dan \`reset\` (function untuk retry).
-\n## not-found.tsx
-\`not-found.tsx\` untuk 404. Bisa dipicu dengan fungsi \`notFound()\` dari \`next/navigation\`.
-\n## Streaming
-Server Components otomatis streaming. Wrap komponen lambat di \`<Suspense>\` untuk fallback parsial.`,
-    expEn: `## loading.tsx
-A \`loading.tsx\` file in a route folder automatically becomes a Suspense fallback. Show a skeleton or spinner.
-\n## error.tsx
-\`error.tsx\` must be a Client Component ('use client'). Props: \`error\` (object) and \`reset\` (function to retry).
-\n## not-found.tsx
-\`not-found.tsx\` for 404 pages. Can be triggered with \`notFound()\` from \`next/navigation\`.
-\n## Streaming
-Server Components stream automatically. Wrap slow components in \`<Suspense>\` for partial fallbacks.`,
-    chId: 'Buat halaman dengan data yang lambat (simulasi delay 3 detik). Tambahkan skeleton loading, error boundary, dan halaman 404 kustom.',
-    chEn: 'Create a page with slow data (simulate 3s delay). Add a skeleton loading state, error boundary, and custom 404 page.',
-    sumId: 'loading.tsx untuk loading state, error.tsx untuk error boundary (Client Component), not-found.tsx untuk 404, Suspense untuk streaming partial.',
-    sumEn: 'loading.tsx for loading state, error.tsx for error boundary (Client Component), not-found.tsx for 404, Suspense for partial streaming.',
-  },
-  {
-    phase: 1, num: 5, topicId: 'server-client-components',
-    titleId: 'Server vs Client Components', titleEn: 'Server vs Client Components',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `import Counter from './counter';
-async function DataComponent() {
-  const data = await fetch('https://jsonplaceholder.typicode.com/todos/1').then(r => r.json());
-  return <p>Server data: {data.title}</p>;
 }
-export default function Home() {
-  return (<div><h1>Server vs Client</h1><DataComponent /><Counter /></div>);
-}`,
-        'app/counter.tsx': `'use client';
-import { useState } from 'react';
-export default function Counter() {
-  const [count, setCount] = useState(0);
-  return (<div style={{marginTop:'1rem',padding:'1rem',border:'1px solid #ccc',borderRadius:8}}><p>Client Component</p><p>Count: {count}</p><button onClick={()=>setCount(c=>c+1)} style={{padding:'.5rem 1rem',cursor:'pointer'}}>+</button></div>);
-}`,
-      };
-    },
-    objId: ['Memahami Server Components (default)', 'Memahami Client Components dengan "use client"', 'Mengetahui kapan pakai masing-masing', 'Memahami pola komposisi Server + Client'],
-    objEn: ['Understand Server Components (default)', 'Understand Client Components with "use client"', 'Know when to use each', 'Understand Server + Client composition pattern'],
-    expId: `## Server Components (Default)
-Semua komponen di App Router adalah Server Component. Bisa \`async\`, akses database langsung, zero JavaScript ke browser.
-\n## Client Components
-Tambah \`'use client'\` di baris pertama untuk interaktivitas. Gunakan \`useState\`, \`useEffect\`, \`onClick\`, browser API.
-\n## Composition Pattern
-Simpan Server Component sebagai parent. Ekstrak bagian interaktif ke Client Component kecil. Jangan bungkus seluruh halaman dengan 'use client'.
-\n## Aturan
-Server Component bisa import Client Component. Client Component TIDAK bisa import Server Component (hanya sebagai children/props).`,
-    expEn: `## Server Components (Default)
-All components in App Router are Server Components. Can be \`async\`, access databases directly, zero JS sent to browser.
-\n## Client Components
-Add \`'use client'\` at the top for interactivity. Use \`useState\`, \`useEffect\`, \`onClick\`, browser APIs.
-\n## Composition Pattern
-Keep parent as Server Component. Extract only interactive parts into small Client Components. Don't wrap entire pages with 'use client'.
-\n## Rules
-Server Components CAN import Client Components. Client Components CANNOT import Server Components (only as children/props).`,
-    chId: 'Buat dashboard dengan data dari Server Component (fetch produk) dan filter interaktif dari Client Component. Pisahkan bagian client dan server dengan benar.',
-    chEn: 'Build a dashboard with data from a Server Component (fetch products) and interactive filter from a Client Component. Properly separate client and server parts.',
-    sumId: 'Server Component = default, zero JS, akses data langsung. Client Component = \'use client\', interaktif. Komposisi: Server parent, Client leaf.',
-    sumEn: 'Server Component = default, zero JS, direct data access. Client Component = \'use client\', interactive. Composition: Server parent, Client leaf.',
-  },
-  {
-    phase: 1, num: 6, topicId: 'styling',
-    titleId: 'Styling di Next.js', titleEn: 'Styling in Next.js',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/globals.css': `@tailwind base;@tailwind components;@tailwind utilities;
-body{font-family:system-ui,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.6}
-.btn{background:#333;color:#fff;border:none;padding:.5rem 1rem;border-radius:6px;cursor:pointer}
-.card{border:1px solid #ddd;border-radius:8px;padding:1rem;margin:1rem 0}
-h1{color:#2E5B44}`,
-        'app/layout.tsx': `import type { Metadata } from 'next';
-import './globals.css';
-export const metadata: Metadata = { title: 'Styling Demo' };
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en"><body>{children}</body></html>);
-}`,
-        'app/page.tsx': `import styles from './page.module.css';
-export default function Home() {
-  return (<div><h1 style={{borderBottom:'2px solid #2E5B44',paddingBottom:'.5rem'}}>Inline Styles</h1><div className="card"><h2>Global CSS</h2><p>Styles from globals.css</p><button className="btn">Button</button></div><div className={styles.card}><h2>CSS Module</h2><p>Scoped styles</p></div></div>);
-}`,
-        'app/page.module.css': `.card{background:#f5f5f5;border:2px solid #2E5B44;border-radius:12px;padding:1.5rem;margin:1rem 0;box-shadow:0 2px 8px rgba(0,0,0,.1)}`,
-      };
-    },
-    objId: ['Menggunakan Global CSS dan CSS Modules', 'Mengintegrasikan Tailwind CSS', 'Memahami inline styles', 'Mengelola font dengan next/font'],
-    objEn: ['Use Global CSS and CSS Modules', 'Integrate Tailwind CSS', 'Understand inline styles', 'Manage fonts with next/font'],
-    expId: `## Global CSS
-Import di \`layout.tsx\` atau \`app/globals.css\`. Berlaku global ke seluruh app. Hanya bisa import di root layout.
-\n## CSS Modules
-File \`*.module.css\` — scoped secara otomatis. Nama class di-hash. Import sebagai objek: \`import styles from './page.module.css'\`.
-\n## Tailwind CSS
-Default di create-next-app. Utility classes untuk rapid styling. Konfigurasi di \`tailwind.config.ts\`.
-\n## next/font
-\`import { Inter } from 'next/font/google'\` — optimize fonts. Download di build time, self-host, tanpa external request.`,
-    expEn: `## Global CSS
-Import in \`layout.tsx\` or \`app/globals.css\`. Applies globally. Can only be imported in root layout.
-\n## CSS Modules
-Files \`*.module.css\` — automatically scoped. Class names are hashed. Import as object: \`import styles from './page.module.css'\`.
-\n## Tailwind CSS
-Default in create-next-app. Utility classes for rapid styling. Configure in \`tailwind.config.ts\`.
-\n## next/font
-\`import { Inter } from 'next/font/google'\` — optimized fonts. Downloaded at build time, self-hosted, no external requests.`,
-    chId: 'Buat halaman profil dengan kombinasi: Tailwind untuk layout, CSS Module untuk component card, dan global CSS untuk body styling.',
-    chEn: 'Build a profile page with a combination: Tailwind for layout, CSS Module for component card, and global CSS for body styling.',
-    sumId: 'Tiga cara styling: Global CSS, CSS Modules (scoped), Tailwind CSS. next/font untuk font optimal. Pilih sesuai kebutuhan.',
-    sumEn: 'Three styling methods: Global CSS, CSS Modules (scoped), Tailwind CSS. next/font for optimized fonts. Choose based on need.',
-  },
 
-  // ===== PHASE 2: RENDERING & DATA =====
-  {
-    phase: 2, num: 7, topicId: 'data-fetching',
-    titleId: 'Data Fetching di Server', titleEn: 'Server Data Fetching',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default async function Home() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-  const users = await res.json();
-  return (<div><h1>Users</h1>{users.map(u => <div key={u.id} style={{border:'1px solid #ddd',borderRadius:8,padding:'1rem',margin:'.5rem 0'}}><h3>{u.name}</h3><p>{u.email} | {u.company.name}</p></div>)}</div>);
-}`,
-      };
-    },
-    objId: ['Fetch data langsung di Server Component', 'Memahami caching default Next.js 15+', 'Menggunakan fetch dengan opsi cache dan revalidate', 'Melakukan parallel data fetching'],
-    objEn: ['Fetch data directly in Server Components', 'Understand Next.js 15+ caching defaults', 'Use fetch with cache and revalidate options', 'Do parallel data fetching'],
-    expId: `## Fetch di Server Component
-Server Component bisa \`async\`. Fetch langsung di body komponen. Tidak perlu \`useEffect\` atau \`getServerSideProps\`.
-\n## Caching (Next.js 15+)
-\`fetch()\` TIDAK di-cache secara default. Untuk cache: \`fetch(url, { cache: 'force-cache' })\`. Untuk revalidate: \`{ next: { revalidate: 3600 } }\`.
-\n## Parallel Fetching
-\`const [a, b] = await Promise.all([fetch(url1), fetch(url2)])\` — fetch paralel lebih cepat dari sequential.
-\n## Error Handling
-Bungkus fetch di try/catch. Tampilkan error UI jika gagal. Server Component bisa \`notFound()\` jika data tidak ada.`,
-    expEn: `## Fetch in Server Component
-Server Components can be \`async\`. Fetch directly in the component body. No \`useEffect\` or \`getServerSideProps\` needed.
-\n## Caching (Next.js 15+)
-\`fetch()\` is NOT cached by default. To cache: \`fetch(url, { cache: 'force-cache' })\`. To revalidate: \`{ next: { revalidate: 3600 } }\`.
-\n## Parallel Fetching
-\`const [a, b] = await Promise.all([fetch(url1), fetch(url2)])\` — parallel fetch is faster than sequential.
-\n## Error Handling
-Wrap fetch in try/catch. Show error UI on failure. Server Components can call \`notFound()\` if data is missing.`,
-    chId: 'Buat halaman yang menampilkan posts dan comments dari JSONPlaceholder API. Fetch secara paralel. Tambahkan loading state dan error handling.',
-    chEn: 'Build a page displaying posts and comments from JSONPlaceholder API. Fetch in parallel. Add loading state and error handling.',
-    sumId: 'Server Component async + fetch langsung. Cache dengan force-cache, revalidate dengan next.revalidate. Parallel fetching dengan Promise.all.',
-    sumEn: 'Server Component async + direct fetch. Cache with force-cache, revalidate with next.revalidate. Parallel fetch with Promise.all.',
-  },
-  {
-    phase: 2, num: 8, topicId: 'static-generation',
-    titleId: 'Static Generation & ISR', titleEn: 'Static Generation & ISR',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default async function Home() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts', { next: { revalidate: 60 } });
-  const posts = await res.json();
-  return (<div><h1>Blog Posts (ISR - revalidate every 60s)</h1>{posts.slice(0,10).map(p => <div key={p.id} style={{border:'1px solid #ddd',borderRadius:8,padding:'1rem',margin:'.5rem 0'}}><h3>{p.title}</h3><p>{p.body}</p></div>)}</div>);
-}`,
-      };
-    },
-    objId: ['Memahami SSG (Static Site Generation)', 'Menggunakan ISR (Incremental Static Regeneration)', 'Membuat static params dengan generateStaticParams', 'Memilih strategi rendering yang tepat'],
-    objEn: ['Understand SSG (Static Site Generation)', 'Use ISR (Incremental Static Regeneration)', 'Create static params with generateStaticParams', 'Choose the right rendering strategy'],
-    expId: `## SSG (Static)
-Halaman di-generate saat build. Cepat, bisa di-cache CDN. Cocok untuk blog, dokumentasi. \`cache: 'force-cache'\` atau \`generateStaticParams\`.
-\n## ISR (Incremental Static Regeneration)
-Halaman statis tapi di-revalidate secara periodik. \`{ next: { revalidate: 60 } }\` — revalidate setiap 60 detik.
-\n## generateStaticParams
-Untuk dynamic routes: export \`async function generateStaticParams()\` yang return array params. Halaman di-pre-render saat build.
-\n## Strategi
-Statis jika konten jarang berubah. ISR jika perlu update periodik. Dinamis (no cache) jika data real-time.`,
-    expEn: `## SSG (Static)
-Pages generated at build time. Fast, CDN-cacheable. Good for blogs, docs. \`cache: 'force-cache'\` or \`generateStaticParams\`.
-\n## ISR (Incremental Static Regeneration)
-Static pages revalidated periodically. \`{ next: { revalidate: 60 } }\` — revalidate every 60 seconds.
-\n## generateStaticParams
-For dynamic routes: export \`async function generateStaticParams()\` returning params array. Pages pre-rendered at build.
-\n## Strategy
-Static if content rarely changes. ISR if periodic updates needed. Dynamic (no cache) for real-time data.`,
-    chId: 'Buat blog dengan ISR. Halaman utama menampilkan daftar post (revalidate 60s). Halaman detail post dengan generateStaticParams.',
-    chEn: 'Build a blog with ISR. Main page shows post list (revalidate 60s). Detail post page with generateStaticParams.',
-    sumId: 'SSG = build-time. ISR = static + periodic revalidation. generateStaticParams untuk dynamic SSG. Pilih strategi berdasarkan kebutuhan data.',
-    sumEn: 'SSG = build-time. ISR = static + periodic revalidation. generateStaticParams for dynamic SSG. Choose strategy based on data needs.',
-  },
-  {
-    phase: 2, num: 9, topicId: 'streaming',
-    titleId: 'Streaming & Suspense', titleEn: 'Streaming & Suspense',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `import { Suspense } from 'react';
-async function SlowPosts() { await new Promise(r => setTimeout(r, 2000)); const posts = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5').then(r=>r.json()); return <div>{posts.map(p => <div key={p.id} style={{border:'1px solid #ddd',borderRadius:8,padding:'.8rem',margin:'.5rem 0'}}><h4>{p.title}</h4><p style={{fontSize:'.9em',color:'#666'}}>{p.body}</p></div>)}</div>; }
-async function SlowProfile() { await new Promise(r => setTimeout(r, 1000)); return <div style={{background:'#f0f0f0',padding:'1rem',borderRadius:8}}><h3>User Profile</h3><p>Name: John Doe</p><p>Role: Admin</p></div>; }
-export default function Home() {
-  return (<div><h1>Dashboard</h1><Suspense fallback={<p>Loading profile...</p>}><SlowProfile /></Suspense><Suspense fallback={<p>Loading posts...</p>}><SlowPosts /></Suspense></div>);
-}`,
-      };
-    },
-    objId: ['Memahami streaming HTML di Next.js', 'Menggunakan Suspense boundaries', 'Membuat loading skeletons', 'Prioritaskan konten penting lebih dulu'],
-    objEn: ['Understand HTML streaming in Next.js', 'Use Suspense boundaries', 'Create loading skeletons', 'Prioritize important content first'],
-    expId: `## Streaming
-Next.js otomatis streaming Server Components. HTML dikirim secara progresif begitu data siap. Tidak perlu menunggu semua data.
-\n## Suspense Boundaries
-Wrap komponen lambat di \`<Suspense fallback={...}>\`. Setiap Suspense boundary independen. Satu data lambat tidak memblokir yang lain.
-\n## Priority
-Konten penting (header, navigasi) tanpa Suspense — muncul instan. Konten sekunder di dalam Suspense — muncul saat siap.
-\n## loading.tsx
-\`loading.tsx\` = Suspense boundary otomatis untuk segment. Berguna untuk loading halaman penuh.`,
-    expEn: `## Streaming
-Next.js automatically streams Server Components. HTML is sent progressively as data becomes ready. No need to wait for all data.
-\n## Suspense Boundaries
-Wrap slow components in \`<Suspense fallback={...}>\`. Each Suspense boundary is independent. One slow piece doesn't block others.
-\n## Priority
-Critical content (header, nav) outside Suspense — appears instantly. Secondary content inside Suspense — appears when ready.
-\n## loading.tsx
-\`loading.tsx\` = automatic Suspense boundary for the segment. Useful for full-page loading.`,
-    chId: 'Buat dashboard dengan 3 komponen data: profil (cepat), posts (2 detik), comments (3 detik). Setiap komponen di Suspense sendiri dengan skeleton.',
-    chEn: 'Build a dashboard with 3 data components: profile (fast), posts (2s), comments (3s). Each component in its own Suspense with skeleton.',
-    sumId: 'Streaming = HTML progresif. Suspense = fallback per komponen. loading.tsx = Suspense otomatis untuk route. Prioritaskan konten penting.',
-    sumEn: 'Streaming = progressive HTML. Suspense = per-component fallback. loading.tsx = automatic route Suspense. Prioritize important content.',
-  },
-  {
-    phase: 2, num: 10, topicId: 'server-actions',
-    titleId: 'Server Actions', titleEn: 'Server Actions',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `import { revalidatePath } from 'next/cache';
-const todos: string[] = [];
-async function addTodo(formData: FormData) {
-  'use server';
-  const todo = formData.get('todo');
-  if (typeof todo === 'string' && todo.trim()) todos.push(todo.trim());
-  revalidatePath('/');
+// ── app/about/page.js ──
+export default function AboutPage() {
+  return (
+    <div>
+      <h1>Tentang Kami</h1>
+      <p>Tryngo adalah platform pembelajaran coding dari nol.</p>
+      <a href="/">Kembali</a>
+    </div>
+  );
 }
-export default function Home() {
-  return (<div><h1>Todo App (Server Actions)</h1><form action={addTodo} style={{marginBottom:'1rem'}}><input type="text" name="todo" placeholder="Add todo..." required style={{padding:'.5rem',marginRight:'.5rem',border:'1px solid #ccc',borderRadius:4}} /><button type="submit" style={{padding:'.5rem 1rem',background:'#333',color:'#fff',border:'none',borderRadius:4,cursor:'pointer'}}>Add</button></form><ul>{todos.map((t,i) => <li key={i} style={{padding:'.3rem 0'}}>{t}</li>)}</ul></div>);
-}`,
-      };
-    },
-    objId: ['Memahami Server Actions ("use server")', 'Membuat form dengan action function', 'Menggunakan revalidatePath untuk refresh data', 'Menangani form validation di server'],
-    objEn: ['Understand Server Actions ("use server")', 'Create forms with action functions', 'Use revalidatePath to refresh data', 'Handle server-side form validation'],
-    expId: `## Server Actions
-Fungsi async dengan \`'use server'\` di baris pertama. Jalankan di server. Bisa dipanggil dari form (\`action\` prop) atau dari Client Component.
-\n## Form Action
-\`<form action={myAction}>\` — tanpa JavaScript pun form tetap bisa submit (progressive enhancement). Data diterima sebagai FormData.
-\n## revalidatePath
-\`revalidatePath('/')\` — bersihkan cache untuk path tertentu. \`revalidateTag('posts')\` — revalidate berdasarkan tag. Data langsung fresh.
-\n## Validation
-Gunakan library seperti Zod di Server Action. Return error sebagai object. Tampilkan error di client dengan \`useActionState\`.`,
-    expEn: `## Server Actions
-Async functions with \`'use server'\` at the top. Runs on the server. Can be called from forms (\`action\` prop) or from Client Components.
-\n## Form Action
-\`<form action={myAction}>\` — works even without JavaScript (progressive enhancement). Data received as FormData.
-\n## revalidatePath
-\`revalidatePath('/')\` — clears cache for specific path. \`revalidateTag('posts')\` — revalidate by tag. Data is instantly fresh.
-\n## Validation
-Use a library like Zod in the Server Action. Return errors as an object. Display errors on the client with \`useActionState\`.`,
-    chId: 'Buat form pendaftaran dengan Server Action: nama, email, password. Validasi di server (email format, password min 6 chars). Tampilkan error.',
-    chEn: 'Build a registration form with Server Action: name, email, password. Validate on the server (email format, password min 6 chars). Show errors.',
-    sumId: 'Server Actions = fungsi server dipanggil dari form. revalidatePath untuk refresh cache. Progressive enhancement tanpa JavaScript. Validasi di server.',
-    sumEn: 'Server Actions = server functions called from forms. revalidatePath to refresh cache. Progressive enhancement without JavaScript. Server-side validation.',
-  },
-  {
-    phase: 2, num: 11, topicId: 'forms-validation',
-    titleId: 'Form Validation & useActionState', titleEn: 'Form Validation & useActionState',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `'use client';
-import { useActionState } from 'react';
-async function submitForm(prev: any, formData: FormData) {
-  'use server';
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const errors: Record<string, string> = {};
-  if (!name || typeof name !== 'string' || name.length < 2) errors.name = 'Name must be at least 2 characters';
-  if (!email || typeof email !== 'string' || !email.includes('@')) errors.email = 'Invalid email';
-  if (Object.keys(errors).length) return { errors, success: false };
-  return { success: true, message: 'Form submitted!' };
-}
-export default function Home() {
-  const [state, formAction, pending] = useActionState(submitForm, { errors: {}, success: false });
-  return (<div><h1>Registration</h1><form action={formAction} style={{maxWidth:400}}><p><label>Name:</label><input type="text" name="name" style={{display:'block',width:'100%',padding:'.5rem',border:'1px solid #ccc',borderRadius:4}} />{state.errors?.name && <span style={{color:'red',fontSize:'.85em'}}>{state.errors.name}</span>}</p><p><label>Email:</label><input type="email" name="email" style={{display:'block',width:'100%',padding:'.5rem',border:'1px solid #ccc',borderRadius:4}} />{state.errors?.email && <span style={{color:'red',fontSize:'.85em'}}>{state.errors.email}</span>}</p><button type="submit" disabled={pending} style={{padding:'.5rem 1rem',background:'#333',color:'#fff',border:'none',borderRadius:4,cursor:'pointer'}}>{pending ? 'Submitting...' : 'Submit'}</button>{state.success && <p style={{color:'green'}}>{state.message}</p>}</form></div>);
-}`,
-      };
-    },
-    objId: ['Menggunakan useActionState untuk form state', 'Validasi input di Server Action', 'Menampilkan error message di client', 'Membuat loading state submit'],
-    objEn: ['Use useActionState for form state', 'Validate input in Server Action', 'Display error messages on client', 'Create submit loading state'],
-    expId: `## useActionState
-Hook: \`const [state, formAction, pending] = useActionState(fn, initialState)\`. Mengelola state form, error, dan loading secara otomatis.
-\n## Validasi Server
-Validasi di Server Action. Return object dengan field errors. Client render ulang berdasarkan state.
-\n## Pending State
-Parameter \`pending\` dari useActionState — true saat action berjalan. Disable button, tampilkan spinner.
-\n## Progressive Enhancement
-Form tetap bekerja tanpa JavaScript. Server Action handle submit di server. useActionState hanya enhance UX.`,
-    expEn: `## useActionState
-Hook: \`const [state, formAction, pending] = useActionState(fn, initialState)\`. Manages form state, errors, and loading automatically.
-\n## Server Validation
-Validate in Server Action. Return object with errors field. Client re-renders based on state.
-\n## Pending State
-\`pending\` from useActionState — true while action runs. Disable button, show spinner.
-\n## Progressive Enhancement
-Form still works without JavaScript. Server Action handles submit on server. useActionState only enhances UX.`,
-    chId: 'Buat form kontak (nama, email, pesan) dengan validasi server menggunakan useActionState. Tampilkan error per-field dan loading state.',
-    chEn: 'Build a contact form (name, email, message) with server validation using useActionState. Show per-field errors and loading state.',
-    sumId: 'useActionState = form state management + validation. Server Action untuk validasi. Pending untuk loading. Progressive enhancement bawaan.',
-    sumEn: 'useActionState = form state management + validation. Server Action for validation. Pending for loading. Built-in progressive enhancement.',
-  },
-  {
-    phase: 2, num: 12, topicId: 'route-handlers',
-    titleId: 'Route Handlers & API', titleEn: 'Route Handlers & API',
-    codeFile: 'app/api/hello/route.ts',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `'use client';
-import { useState, useEffect } from 'react';
-export default function Home() {
-  const [data, setData] = useState(null);
-  useEffect(() => { fetch('/api/hello').then(r=>r.json()).then(setData); }, []);
-  return (<div><h1>Route Handler Demo</h1><p>Response from /api/hello:</p><pre style={{background:'#f5f5f5',padding:'1rem',borderRadius:8}}>{JSON.stringify(data, null, 2)}</pre></div>);
-}`,
-        'app/api/hello/route.ts': `import { NextResponse } from 'next/server';
-export async function GET() {
-  return NextResponse.json({ message: 'Hello from Next.js!', timestamp: new Date().toISOString() });
-}`,
-      };
-    },
-    objId: ['Membuat API Route Handler', 'Menangani GET, POST, PUT, DELETE', 'Menggunakan NextResponse', 'Memahami kapan pakai Route Handler vs Server Actions'],
-    objEn: ['Create API Route Handlers', 'Handle GET, POST, PUT, DELETE', 'Use NextResponse', 'Know when to use Route Handler vs Server Actions'],
-    expId: `## Route Handler
-File \`app/api/hello/route.ts\` = \`/api/hello\`. Export fungsi \`GET\`, \`POST\`, \`PUT\`, \`DELETE\`. Menerima \`Request\`, return \`NextResponse\`.
-\n## Request & Response
-\`export async function GET(request: NextRequest) { return NextResponse.json({...}) }\`. Akses query: \`request.nextUrl.searchParams.get('q')\`.
-\n## Route Handler vs Server Actions
-Route Handler: untuk webhooks, third-party callback, atau perlu endpoint URL publik. Server Actions: untuk form dan mutasi internal.
-\n## Edge Runtime
-Route Handler bisa jalan di Edge Runtime untuk latency rendah. Tambahkan \`export const runtime = 'edge'\`. Keterbatasan: tidak ada Node.js API.`,
-    expEn: `## Route Handler
-File \`app/api/hello/route.ts\` = \`/api/hello\`. Export \`GET\`, \`POST\`, \`PUT\`, \`DELETE\` functions. Receives \`Request\`, returns \`NextResponse\`.
-\n## Request & Response
-\`export async function GET(request: NextRequest) { return NextResponse.json({...}) }\`. Access query: \`request.nextUrl.searchParams.get('q')\`.
-\n## Route Handler vs Server Actions
-Route Handler: for webhooks, third-party callbacks, or needing a public endpoint URL. Server Actions: for forms and internal mutations.
-\n## Edge Runtime
-Route Handler can run on Edge Runtime for low latency. Add \`export const runtime = 'edge'\`. Limitations: no Node.js APIs.`,
-    chId: 'Buat API untuk task manager: GET /api/tasks (list), POST /api/tasks (tambah), DELETE /api/tasks/[id] (hapus). Gunakan in-memory storage.',
-    chEn: 'Build a task manager API: GET /api/tasks (list), POST /api/tasks (add), DELETE /api/tasks/[id] (delete). Use in-memory storage.',
-    sumId: 'Route Handler = API endpoint di app/api/. Export GET/POST/PUT/DELETE. NextResponse.json(). Untuk webhooks dan public endpoints.',
-    sumEn: 'Route Handler = API endpoint at app/api/. Export GET/POST/PUT/DELETE. NextResponse.json(). For webhooks and public endpoints.',
-  },
 
-  // ===== PHASE 3: FULL-STACK =====
+console.log("App Next.js siap dijalankan dengan: npm run dev");`,
+    objectivesId: [
+      'Memahami Next.js sebagai React framework (SSR, SSG, routing)',
+      'Setup proyek dengan create-next-app',
+      'Memahami App Router vs Pages Router',
+      'Struktur folder: app/, layout.js, page.js',
+      'Metadata API untuk SEO',
+    ],
+    objectivesEn: [
+      'Understand Next.js as React framework (SSR, SSG, routing)',
+      'Setup project with create-next-app',
+      'Understand App Router vs Pages Router',
+      'Folder structure: app/, layout.js, page.js',
+      'Metadata API for SEO',
+    ],
+    explanationId: '### Next.js\nReact framework dengan server-side rendering, routing built-in, dan optimasi otomatis.\n\n### App Router\nStruktur folder-based routing. app/ folder = root route.\n\n### Layout & Page\nLayout = wrapper (shared UI). Page = halaman spesifik.\n\n### Metadata\nExport metadata object untuk SEO title, description.',
+    explanationEn: '### Next.js\nReact framework with SSR, built-in routing, auto optimization.\n\n### App Router\nFolder-based routing. app/ = root.\n\n### Layout & Page\nLayout = wrapper, Page = specific page.\n\n### Metadata\nExport metadata for SEO.',
+    experimentsId: [
+      'Buat halaman baru dengan route berbeda',
+      'Ubah metadata title dan description',
+      'Tambah global CSS di layout',
+      'Buat nested layout',
+    ],
+    experimentsEn: [
+      'Create new page with different route',
+      'Change metadata title and description',
+      'Add global CSS in layout',
+      'Create nested layout',
+    ],
+    challengeId: 'Buat website portfolio dengan: Home, About, Projects, Contact pages. Gunakan root layout dan masing-masing page.',
+    challengeEn: 'Build a portfolio website with: Home, About, Projects, Contact pages. Use root layout and individual pages.',
+    summaryId: 'Minggu 1 dari 12: **Setup & Konsep Dasar** (Level: Pemula). Fondasi Next.js. Minggu depan: **Routing & Navigation**.',
+    summaryEn: 'Week 1 of 12: **Setup & Core Concepts** (Level: Beginner). Next.js foundations. Next week: **Routing & Navigation**.',
+  },
   {
-    phase: 3, num: 13, topicId: 'middleware',
-    titleId: 'Middleware', titleEn: 'Middleware',
-    codeFile: 'src/middleware.ts',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default function Home() { return (<div><h1>Home</h1><p>This page is public.</p><a href="/dashboard">Go to Dashboard</a></div>); }`,
-        'app/dashboard/page.tsx': `export default function Dashboard() { return (<div><h1>Dashboard</h1><p>You are authenticated!</p></div>); }`,
-        'src/middleware.ts': `import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get('token')?.value;
-  if (request.nextUrl.pathname.startsWith('/dashboard') && !token) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
-  return NextResponse.next();
+    week: 2, level: 'beginer', topicId: 'routing-navigation',
+    titleId: 'Routing & Navigation', titleEn: 'Routing & Navigation',
+    programId: 'Multi-Halaman', programEn: 'Multi-Page App',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'jsx',
+    code: `// Next.js App Router = file-based routing
+// Link component untuk client-side navigation
+
+// ── app/layout.js ──
+export default function RootLayout({ children }) {
+  return (
+    <html lang="id">
+      <body>
+        <nav>
+          <a href="/">Beranda</a>
+          <a href="/products">Produk</a>
+          <a href="/products/1">Detail</a>
+        </nav>
+        <main>{children}</main>
+      </body>
+    </html>
+  );
 }
-export const config = { matcher: ['/dashboard/:path*'] };`,
-      };
-    },
-    objId: ['Memahami middleware dan eksekusi di Edge', 'Membuat middleware untuk auth redirect', 'Menggunakan matcher config', 'Memodifikasi request/response headers'],
-    objEn: ['Understand middleware and Edge execution', 'Create middleware for auth redirects', 'Use matcher config', 'Modify request/response headers'],
-    expId: `## Middleware
-File \`src/middleware.ts\`. Jalan SEBELUM request mencapai route. Bisa redirect, rewrite, atau modify headers. Jalan di Edge Runtime.
-\n## Matcher
-\`export const config = { matcher: ['/dashboard/:path*'] }\\) — tentukan route mana yang diproses middleware. WAJIB untuk performa.
-\n## Auth Redirect
-Cek cookie/token. Jika tidak ada, redirect ke login. \`NextResponse.redirect(new URL('/login', request.url))\`.
-\n## Headers
-\`const response = NextResponse.next(); response.headers.set('x-custom', 'value'); return response;\` — tambahkan header ke response.`,
-    expEn: `## Middleware
-File \`src/middleware.ts\`. Runs BEFORE the request reaches the route. Can redirect, rewrite, or modify headers. Runs on Edge Runtime.
-\n## Matcher
-\`export const config = { matcher: ['/dashboard/:path*'] }\\) — specify which routes the middleware processes. REQUIRED for performance.
-\n## Auth Redirect
-Check cookie/token. If missing, redirect to login. \`NextResponse.redirect(new URL('/login', request.url))\`.
-\n## Headers
-\`const response = NextResponse.next(); response.headers.set('x-custom', 'value'); return response;\` — add headers to response.`,
-    chId: 'Buat middleware yang redirect user ke halaman login jika belum login. Proteksi route /dashboard dan /profile. Tambahkan custom header ke response.',
-    chEn: 'Create middleware that redirects users to login if not authenticated. Protect /dashboard and /profile routes. Add custom header to response.',
-    sumId: 'Middleware = Edge function sebelum request. Matcher filter routes. Redirect, rewrite, headers. Untuk auth, i18n, maintenance mode.',
-    sumEn: 'Middleware = Edge function before request. Matcher filters routes. Redirect, rewrite, headers. For auth, i18n, maintenance mode.',
-  },
-  {
-    phase: 3, num: 14, topicId: 'authentication',
-    titleId: 'Autentikasi & Authorization', titleEn: 'Authentication & Authorization',
-    codeFile: 'app/layout.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default function Home() {
-  return (<div><h1>Auth Demo</h1><div style={{border:'1px solid #ddd',borderRadius:8,padding:'1rem',display:'inline-block'}}><p>You are logged in as <strong>demo_user</strong></p><button onClick={() => alert('Logout clicked')} style={{padding:'.5rem 1rem',cursor:'pointer'}}>Logout</button></div><p style={{marginTop:'1rem'}}>In production, use NextAuth.js, Clerk, or Lucia.</p></div>);
-}`,
-      };
-    },
-    objId: ['Memahami strategi auth di Next.js', 'Mengintegrasikan NextAuth.js/Auth.js', 'Membuat protected routes', 'Mengelola session di Server & Client'],
-    objEn: ['Understand auth strategies in Next.js', 'Integrate NextAuth.js/Auth.js', 'Create protected routes', 'Manage session on Server & Client'],
-    expId: `## Auth Libraries
-**NextAuth.js (Auth.js)** — paling populer. Support banyak providers (Google, GitHub, email). **Clerk** — UI components siap pakai. **Lucia** — lightweight, DIY.
-\n## Server Session
-Di Server Component: \`const session = await auth()\`. \`auth()\` dari NextAuth.js mengembalikan session atau null. Redirect jika null.
-\n## Client Session
-\`'use client'\` — \`import { useSession } from 'next-auth/react'\`. \`<SessionProvider>\` wrapper di layout. Akses \`session.data?.user\`.
-\n## Protected Routes
-Middleware cek session. Jika tidak ada, redirect ke login. Atau Server Component langsung cek dan throw redirect.`,
-    expEn: `## Auth Libraries
-**NextAuth.js (Auth.js)** — most popular. Supports many providers (Google, GitHub, email). **Clerk** — ready-made UI components. **Lucia** — lightweight, DIY.
-\n## Server Session
-In Server Component: \`const session = await auth()\`. \`auth()\` from NextAuth.js returns session or null. Redirect if null.
-\n## Client Session
-\`'use client'\` — \`import { useSession } from 'next-auth/react'\`. \`<SessionProvider>\` wrapper in layout. Access \`session.data?.user\`.
-\n## Protected Routes
-Middleware checks session. If missing, redirect to login. Or Server Component directly checks and throws redirect.`,
-    chId: 'Integrasikan NextAuth.js dengan provider Google. Buat halaman login, protected dashboard, dan tombol logout. Tampilkan user info di halaman.',
-    chEn: 'Integrate NextAuth.js with Google provider. Create login page, protected dashboard, and logout button. Show user info on the page.',
-    sumId: 'Auth.js untuk autentikasi. Server session di Server Component. Client session via useSession. Middleware untuk route protection.',
-    sumEn: 'Auth.js for authentication. Server session in Server Component. Client session via useSession. Middleware for route protection.',
-  },
-  {
-    phase: 3, num: 15, topicId: 'database',
-    titleId: 'Database & ORM', titleEn: 'Database & ORM',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default async function Home() {
-  // In production, use Prisma or Drizzle:
-  // const posts = await db.query.posts.findMany();
-  // For this demo, we simulate database results:
-  const posts = [
-    { id: 1, title: 'Getting Started with Next.js', author: 'Admin', createdAt: '2026-07-01' },
-    { id: 2, title: 'Server Components Explained', author: 'Admin', createdAt: '2026-07-05' },
-    { id: 3, title: 'Why App Router?', author: 'Admin', createdAt: '2026-07-10' },
+
+// ── app/products/page.js ──
+export default function ProductsPage() {
+  const products = [
+    { id: 1, name: "Laptop", price: 15000000 },
+    { id: 2, name: "Mouse", price: 250000 },
+    { id: 3, name: "Keyboard", price: 750000 },
   ];
-  return (<div><h1>Blog (Database Demo)</h1>{posts.map(p => <div key={p.id} style={{border:'1px solid #ddd',borderRadius:8,padding:'1rem',margin:'.5rem 0'}}><h3>{p.title}</h3><p>By {p.author} | {p.createdAt}</p></div>)}</div>);
-}`,
-      };
-    },
-    objId: ['Memilih ORM: Prisma vs Drizzle', 'Setup database client singleton', 'Query data di Server Component', 'Melakukan migrasi database'],
-    objEn: ['Choose ORM: Prisma vs Drizzle', 'Setup database client singleton', 'Query data in Server Component', 'Run database migrations'],
-    expId: `## Prisma
-ORM paling populer. Schema deklaratif. Auto-generate types. Migrations CLI. \`prisma generate\` untuk client.
-\n## Drizzle
-Lebih ringan, lebih dekat ke SQL. Type-safe. Syntax seperti SQL. Performa lebih baik untuk query kompleks.
-\n## Server Component + DB
-Query langsung di Server Component: \`const users = await db.select().from(users)\`. Zero JavaScript ke client. Data langsung dari database.
-\n## Client Singleton
-Buat file \`lib/db.ts\` yang export database client. Gunakan pattern singleton untuk menghindari multiple koneksi di development.`,
-    expEn: `## Prisma
-Most popular ORM. Declarative schema. Auto-generates types. Migration CLI. \`prisma generate\` for client.
-\n## Drizzle
-Lighter, closer to SQL. Type-safe. SQL-like syntax. Better performance for complex queries.
-\n## Server Component + DB
-Query directly in Server Component: \`const users = await db.select().from(users)\`. Zero JavaScript to client. Data straight from database.
-\n## Client Singleton
-Create \`lib/db.ts\` exporting database client. Use singleton pattern to avoid multiple connections in development.`,
-    chId: 'Setup Prisma dengan SQLite. Buat schema User (id, name, email) dan Post (id, title, content, userId). Query posts dengan join user di Server Component.',
-    chEn: 'Setup Prisma with SQLite. Create User (id, name, email) and Post (id, title, content, userId) schema. Query posts with user join in Server Component.',
-    sumId: 'Prisma/Drizzle untuk type-safe database queries. Query langsung di Server Component. Client singleton pattern. Migrations untuk schema changes.',
-    sumEn: 'Prisma/Drizzle for type-safe database queries. Query directly in Server Component. Client singleton pattern. Migrations for schema changes.',
-  },
-  {
-    phase: 3, num: 16, topicId: 'file-uploads',
-    titleId: 'File Upload & Assets', titleEn: 'File Upload & Assets',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `'use client';
-import { useState } from 'react';
-export default function Home() {
-  const [preview, setPreview] = useState('');
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setPreview(URL.createObjectURL(file));
-  };
-  return (<div><h1>File Upload Demo</h1><input type="file" onChange={handleFile} accept="image/*" style={{margin:'1rem 0'}} />{preview && <div><img src={preview} alt="preview" style={{maxWidth:300,borderRadius:8,border:'1px solid #ddd'}} /><p>Preview (client-side only)</p></div>}<p style={{marginTop:'1rem',fontSize:'.85em',color:'#666'}}>Server upload: Server Action menerima FormData dengan file, simpan ke cloud storage (S3, R2, Vercel Blob).</p></div>);
-}`,
-      };
-    },
-    objId: ['Upload file dengan Server Actions atau Route Handlers', 'Menyimpan file ke cloud storage', 'Optimasi gambar dengan next/image', 'Mengelola aset statis'],
-    objEn: ['Upload files with Server Actions or Route Handlers', 'Save files to cloud storage', 'Optimize images with next/image', 'Manage static assets'],
-    expId: `## Server Upload
-Server Action terima FormData dengan file. Validasi type dan ukuran. Upload ke cloud: Vercel Blob, AWS S3, Cloudflare R2.
-\n## next/image
-Optimasi gambar otomatis: WebP/AVIF, responsive sizes, lazy loading, blur placeholder. \`<Image src={url} width={400} height={300} alt="" />\`.
-\n## next/font
-Load Google Fonts di build time, self-host. Tidak ada external request. \`const inter = Inter({ subsets: ['latin'] })\`. Tambahkan ke className.
-\n## Public Folder
-File di \`public/\` bisa diakses langsung: \`/image.png\`. Untuk aset build-time. Jangan untuk user uploads.`,
-    expEn: `## Server Upload
-Server Action receives FormData with file. Validate type and size. Upload to cloud: Vercel Blob, AWS S3, Cloudflare R2.
-\n## next/image
-Automatic image optimization: WebP/AVIF, responsive sizes, lazy loading, blur placeholder. \`<Image src={url} width={400} height={300} alt="" />\`.
-\n## next/font
-Load Google Fonts at build time, self-hosted. No external requests. \`const inter = Inter({ subsets: ['latin'] })\`. Add to className.
-\n## Public Folder
-Files in \`public/\` are directly accessible: \`/image.png\`. For build-time assets. Not for user uploads.`,
-    chId: 'Buat avatar upload: form dengan file input, preview gambar sebelum upload, Server Action untuk upload ke Vercel Blob. Tampilkan avatar dengan next/image.',
-    chEn: 'Build an avatar upload: form with file input, image preview before upload, Server Action to upload to Vercel Blob. Display avatar with next/image.',
-    sumId: 'Server Actions untuk upload file. next/image untuk optimasi. next/font untuk font self-hosted. Public folder untuk aset statis.',
-    sumEn: 'Server Actions for file uploads. next/image for optimization. next/font for self-hosted fonts. Public folder for static assets.',
-  },
-  {
-    phase: 3, num: 17, topicId: 'metadata-seo',
-    titleId: 'Metadata & SEO', titleEn: 'Metadata & SEO',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': `import type { Metadata } from 'next';
-export const metadata: Metadata = { title: { default: 'My Blog', template: '%s | My Blog' }, description: 'A blog about Next.js' };
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en"><body>{children}</body></html>);
-}`,
-        'app/page.tsx': `import type { Metadata } from 'next';
-export const metadata: Metadata = { title: 'Home', description: 'Welcome to my blog' };
-export default function Home() { return (<div><h1>Home</h1><p>Check the page title in the browser tab.</p></div>); }`,
-        'app/about/page.tsx': `import type { Metadata } from 'next';
-export const metadata: Metadata = { title: 'About', description: 'Learn more about us', openGraph: { title: 'About Us', description: 'Our story' } };
-export default function About() { return (<div><h1>About</h1></div>); }`,
-      };
-    },
-    objId: ['Menggunakan Metadata API', 'Membuat dynamic metadata dengan generateMetadata', 'Menambahkan Open Graph tags', 'Membuat sitemap dan robots.txt'],
-    objEn: ['Use the Metadata API', 'Create dynamic metadata with generateMetadata', 'Add Open Graph tags', 'Create sitemap and robots.txt'],
-    expId: `## Metadata API
-Export \`metadata\` object atau \`generateMetadata\` function dari page/layout. \`title\`, \`description\`, \`openGraph\`, \`twitter\`, dll.
-\n## Dynamic Metadata
-\`generateMetadata({ params, searchParams })\` — return metadata berdasarkan data. Fetch data, return object dengan title, description, dll.
-\n## Open Graph
-\`openGraph: { title: '...', description: '...', images: [{ url: '...' }] }\` — untuk preview di sosial media (Facebook, LinkedIn, WhatsApp).
-\n## Sitemap & Robots
-\`app/sitemap.ts\` — export \`async function generateSitemap()\` return array URL. \`app/robots.ts\` — atur crawling.`,
-    expEn: `## Metadata API
-Export \`metadata\` object or \`generateMetadata\` function from page/layout. \`title\`, \`description\`, \`openGraph\`, \`twitter\`, etc.
-\n## Dynamic Metadata
-\`generateMetadata({ params, searchParams })\` — return metadata based on data. Fetch data, return object with title, description, etc.
-\n## Open Graph
-\`openGraph: { title: '...', description: '...', images: [{ url: '...' }] }\` — for social media preview (Facebook, LinkedIn, WhatsApp).
-\n## Sitemap & Robots
-\`app/sitemap.ts\` — export \`async function generateSitemap()\` returning URL array. \`app/robots.ts\` — configure crawling.`,
-    chId: 'Buat blog dengan dynamic metadata. Setiap post memiliki generateMetadata yang fetch data dan return title + description + Open Graph image.',
-    chEn: 'Build a blog with dynamic metadata. Each post has generateMetadata that fetches data and returns title + description + Open Graph image.',
-    sumId: 'Metadata API untuk SEO. Dynamic metadata via generateMetadata. Open Graph untuk social preview. Sitemap + robots untuk search engines.',
-    sumEn: 'Metadata API for SEO. Dynamic metadata via generateMetadata. Open Graph for social preview. Sitemap + robots for search engines.',
-  },
-  {
-    phase: 3, num: 18, topicId: 'error-handling',
-    titleId: 'Error Handling & Debugging', titleEn: 'Error Handling & Debugging',
-    codeFile: 'app/error.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default async function Home() {
-  // Simulate error for demo
-  if (Math.random() > 0.5) throw new Error('Simulated error - refresh to try again');
-  return (<div><h1>Error Handling Demo</h1><p>This page randomly throws an error. The error.tsx will catch it.</p></div>);
-}`,
-        'app/error.tsx': `'use client';
-export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  return (<div style={{padding:'2rem',textAlign:'center'}}><h2>Something went wrong!</h2><p style={{color:'#666',margin:'1rem 0'}}>{error.message}</p><details style={{textAlign:'left',background:'#f5f5f5',padding:'1rem',borderRadius:8,margin:'1rem 0',fontSize:'.85em'}}><summary>Error Details</summary><pre>{error.stack}</pre></details><button onClick={reset} style={{padding:'.5rem 1.5rem',background:'#333',color:'#fff',border:'none',borderRadius:6,cursor:'pointer',fontWeight:600}}>Try Again</button></div>);
-}`,
-        'app/global-error.tsx': `'use client';
-export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  return (<html><body style={{padding:'2rem',textAlign:'center'}}><h2>Fatal Error</h2><p>{error.message}</p><button onClick={reset}>Reload</button></body></html>);
-}`,
-      };
-    },
-    objId: ['Membuat error boundaries dengan error.tsx', 'Menggunakan global-error.tsx', 'Logging error ke monitoring service', 'Debugging di development'],
-    objEn: ['Create error boundaries with error.tsx', 'Use global-error.tsx', 'Log errors to monitoring service', 'Debugging in development'],
-    expId: `## error.tsx
-Client Component ('use client'). Props: \`error\` (Error object + digest) dan \`reset\` (function). Reset mencoba ulang render. Error hanya untuk segment itu.
-\n## global-error.tsx
-Untuk error FATAL di root layout. HARUS define <html> dan <body> sendiri. Jarang diperlukan.
-\n## notFound()
-Panggil \`notFound()\` dari \`next/navigation\` jika data tidak ditemukan. Render \`not-found.tsx\`. \`notFound()\` throws — bungkus di try/catch jika perlu.
-\n## Logging
-Kirim error ke monitoring (Sentry, Datadog, Logtail) di error.tsx. \`useEffect\` untuk side effect logging. Jangan throw dari error.tsx.`,
-    expEn: `## error.tsx
-Client Component ('use client'). Props: \`error\` (Error object + digest) and \`reset\` (function). Reset retries rendering. Error is scoped to that segment.
-\n## global-error.tsx
-For FATAL errors in root layout. MUST define its own <html> and <body>. Rarely needed.
-\n## notFound()
-Call \`notFound()\` from \`next/navigation\` if data is missing. Renders \`not-found.tsx\`. \`notFound()\` throws — wrap in try/catch if needed.
-\n## Logging
-Send errors to monitoring (Sentry, Datadog, Logtail) in error.tsx. \`useEffect\` for side effect logging. Don't throw from error.tsx.`,
-    chId: 'Buat halaman profil user dengan error handling. Jika user tidak ditemukan, panggil notFound(). Jika API error, tampilkan error.tsx dengan retry button.',
-    chEn: 'Build a user profile page with error handling. If user not found, call notFound(). If API fails, show error.tsx with retry button.',
-    sumId: 'error.tsx untuk error per-segment (Client Component). global-error.tsx untuk fatal errors. notFound() untuk missing data. Logging ke monitoring.',
-    sumEn: 'error.tsx for per-segment errors (Client Component). global-error.tsx for fatal errors. notFound() for missing data. Log to monitoring.',
-  },
 
-  // ===== PHASE 4: PRODUCTION =====
-  {
-    phase: 4, num: 19, topicId: 'performance',
-    titleId: 'Performance Optimization', titleEn: 'Performance Optimization',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `import dynamic from 'next/dynamic';
-const HeavyComponent = dynamic(() => import('./heavy'), { loading: () => <p>Loading heavy component...</p> });
-export default function Home() {
-  return (<div><h1>Performance Demo</h1><p>This page loads instantly. The heavy component is lazy-loaded.</p><HeavyComponent /></div>);
-}`,
-        'app/heavy.tsx': `export default function Heavy() {
-  // Simulate a heavy component (large library, chart, etc.)
-  return (<div style={{border:'2px solid #2E5B44',borderRadius:8,padding:'1rem',margin:'1rem 0',background:'#f0faf5'}}><h3>Heavy Component</h3><p>This was lazy-loaded via dynamic import!</p></div>);
-}`,
-      };
-    },
-    objId: ['Lazy loading dengan dynamic imports', 'Optimasi bundle size', 'Menggunakan React Compiler', 'Menganalisa bundle dengan @next/bundle-analyzer'],
-    objEn: ['Lazy loading with dynamic imports', 'Optimize bundle size', 'Use the React Compiler', 'Analyze bundles with @next/bundle-analyzer'],
-    expId: `## Dynamic Imports
-\`const Comp = dynamic(() => import('./Comp'), { loading: () => <p>...</p> })\` — komponen di-load hanya saat di-render. Kurangi bundle size.
-\n## React Compiler
-Next.js 16+ include React Compiler. Otomatis memoize komponen. Tidak perlu manual \`useMemo\` dan \`useCallback\`. Aktifkan di next.config.ts.
-\n## Bundle Analyzer
-\`npm install @next/bundle-analyzer\`. Tambahkan ke next.config.ts. Jalankan \`ANALYZE=true npm run build\`. Visualisasi ukuran bundle.
-\n## Image Optimization
-\`next/image\` otomatis: WebP/AVIF, responsive sizes, lazy loading. \`next/font\` untuk font optimal. \`<Script>\` dengan strategi afterInteractive.`,
-    expEn: `## Dynamic Imports
-\`const Comp = dynamic(() => import('./Comp'), { loading: () => <p>...</p> })\` — component loaded only when rendered. Reduces bundle size.
-\n## React Compiler
-Next.js 16+ includes the React Compiler. Automatically memoizes components. No manual \`useMemo\` and \`useCallback\` needed. Enable in next.config.ts.
-\n## Bundle Analyzer
-\`npm install @next/bundle-analyzer\`. Add to next.config.ts. Run \`ANALYZE=true npm run build\`. Visualize bundle sizes.
-\n## Image Optimization
-\`next/image\` automatically: WebP/AVIF, responsive sizes, lazy loading. \`next/font\` for optimized fonts. \`<Script>\` with afterInteractive strategy.`,
-    chId: 'Analisa bundle project Next.js dengan @next/bundle-analyzer. Temukan komponen terbesar. Implementasi dynamic importing untuk komponen tersebut.',
-    chEn: 'Analyze a Next.js project bundle with @next/bundle-analyzer. Find the largest components. Implement dynamic importing for them.',
-    sumId: 'Dynamic imports untuk code splitting. React Compiler untuk auto-memoization. Bundle analyzer untuk audit. next/image + next/font untuk optimal assets.',
-    sumEn: 'Dynamic imports for code splitting. React Compiler for auto-memoization. Bundle analyzer for audit. next/image + next/font for optimal assets.',
-  },
-  {
-    phase: 4, num: 20, topicId: 'caching',
-    titleId: 'Caching Deep Dive', titleEn: 'Caching Deep Dive',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default async function Home() {
-  // Force-cache: data di-cache sampai revalidate
-  const cached = await fetch('https://jsonplaceholder.typicode.com/posts/1', { cache: 'force-cache' }).then(r => r.json());
-  // No-store: always fresh
-  const fresh = await fetch('https://jsonplaceholder.typicode.com/posts/2', { cache: 'no-store' }).then(r => r.json());
-  return (<div><h1>Caching Demo</h1><div style={{border:'1px solid #ddd',borderRadius:8,padding:'1rem',margin:'.5rem 0'}}><h3>Cached (force-cache)</h3><p>{cached.title}</p></div><div style={{border:'1px solid #ddd',borderRadius:8,padding:'1rem',margin:'.5rem 0'}}><h3>Fresh (no-store)</h3><p>{fresh.title}</p></div></div>);
-}`,
-      };
-    },
-    objId: ['Memahami 4 caching layers di Next.js', 'Mengontrol cache dengan fetch options', 'Menggunakan on-demand revalidation', 'Cache dengan revalidateTag dan revalidatePath'],
-    objEn: ['Understand 4 caching layers in Next.js', 'Control cache with fetch options', 'Use on-demand revalidation', 'Cache with revalidateTag and revalidatePath'],
-    expId: `## 4 Cache Layers
-1. **Request Memoization** — dedupe fetch dalam satu render. 2. **Data Cache** — persist fetch response. 3. **Full Route Cache** — cached HTML. 4. **Router Cache** — client-side cache.
-\n## Fetch Options
-\`cache: 'force-cache'\` — cache. \`cache: 'no-store'\` — no cache (default Next.js 15+). \`next: { revalidate: 60 }\` — ISR. \`next: { tags: ['posts'] }\` — tagged cache.
-\n## On-Demand Revalidation
-\`revalidateTag('posts')\` — revalidate semua fetch dengan tag 'posts'. \`revalidatePath('/blog')\` — revalidate path spesifik. Panggil dari Server Action.
-\n## Full Route Cache
-Halaman statis di-cache di Edge. ISR: generate ulang di background. Pengguna selalu dapat halaman cepat.`,
-    expEn: `## 4 Cache Layers
-1. **Request Memoization** — dedupe fetch in same render. 2. **Data Cache** — persist fetch response. 3. **Full Route Cache** — cached HTML. 4. **Router Cache** — client-side cache.
-\n## Fetch Options
-\`cache: 'force-cache'\` — cache. \`cache: 'no-store'\` — no cache (default Next.js 15+). \`next: { revalidate: 60 }\` — ISR. \`next: { tags: ['posts'] }\` — tagged cache.
-\n## On-Demand Revalidation
-\`revalidateTag('posts')\` — revalidate all fetches with tag 'posts'. \`revalidatePath('/blog')\` — revalidate specific path. Call from Server Action.
-\n## Full Route Cache
-Static pages cached at Edge. ISR: regenerate in background. Users always get fast pages.`,
-    chId: 'Buat halaman blog dengan 3 level cache: data posts di-revalidate setiap 60s, detail post di-cache sampai di-revalidate via tag, comments selalu fresh.',
-    chEn: 'Build a blog page with 3 cache levels: posts revalidated every 60s, post detail cached until revalidated via tag, comments always fresh.',
-    sumId: '4 cache layers: Request Memo, Data Cache, Route Cache, Router Cache. force-cache/no-store. revalidateTag/revalidatePath. On-demand revalidation.',
-    sumEn: '4 cache layers: Request Memo, Data Cache, Route Cache, Router Cache. force-cache/no-store. revalidateTag/revalidatePath. On-demand revalidation.',
-  },
-  {
-    phase: 4, num: 21, topicId: 'environment-config',
-    titleId: 'Environment & Config', titleEn: 'Environment & Config',
-    codeFile: 'next.config.ts',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'next.config.ts': `import type { NextConfig } from 'next';
-const nextConfig: NextConfig = {
-  images: { remotePatterns: [{ protocol: 'https', hostname: '**' }] },
-  experimental: { ppr: true },
-};
-export default nextConfig;`,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default function Home() {
-  return (<div><h1>Config Demo</h1><p>NEXT_PUBLIC_API_URL: {process.env.NEXT_PUBLIC_API_URL || '(not set)'}</p><p>Server-only env (not exposed): {typeof process.env.DATABASE_URL === 'string' ? 'Set' : 'Not set'}</p></div>);
-}`,
-      };
-    },
-    objId: ['Mengelola environment variables', 'Membedakan public dan secret env', 'Konfigurasi next.config.ts', 'Mengatur runtime configuration'],
-    objEn: ['Manage environment variables', 'Distinguish public vs secret env', 'Configure next.config.ts', 'Set up runtime configuration'],
-    expId: `## Environment Variables
-\`.env.local\` — lokal. \`.env.production\` — production. \`NEXT_PUBLIC_*\` — terekspos ke client. Tanpa prefix — hanya server.
-\n## next.config.ts
-\`images.domains\` — izinkan domain untuk next/image. \`redirects()\` — server-side redirects. \`headers()\` — custom headers. \`env\` — public env vars.
-\n## Runtime Config
-Server Component: \`process.env.VAR\` langsung. Client Component: hanya \`NEXT_PUBLIC_*\` yang bisa diakses. Jangan taruh secret di client.
-\n## Type Safety
-Buat \`env.ts\` yang validasi env vars dengan Zod. Export typed env object. Gunakan di seluruh app. Jangan akses process.env langsung.`,
-    expEn: `## Environment Variables
-\`.env.local\` — local. \`.env.production\` — production. \`NEXT_PUBLIC_*\` — exposed to client. Without prefix — server only.
-\n## next.config.ts
-\`images.domains\` — allow domains for next/image. \`redirects()\` — server-side redirects. \`headers()\` — custom headers. \`env\` — public env vars.
-\n## Runtime Config
-Server Component: access \`process.env.VAR\` directly. Client Component: only \`NEXT_PUBLIC_*\` accessible. Don't put secrets in client.
-\n## Type Safety
-Create \`env.ts\` that validates env vars with Zod. Export typed env object. Use throughout the app. Don't access process.env directly.`,
-    chId: 'Setup env vars untuk app: NEXT_PUBLIC_SITE_URL, DATABASE_URL, API_KEY. Buat env.ts dengan validasi Zod. Konfigurasi next.config.ts untuk images dan redirects.',
-    chEn: 'Set up env vars for an app: NEXT_PUBLIC_SITE_URL, DATABASE_URL, API_KEY. Create env.ts with Zod validation. Configure next.config.ts for images and redirects.',
-    sumId: 'NEXT_PUBLIC_ untuk client env. next.config.ts untuk images, redirects, headers. Validasi env dengan Zod. Jangan expose secret ke client.',
-    sumEn: 'NEXT_PUBLIC_ for client env. next.config.ts for images, redirects, headers. Validate env with Zod. Don\'t expose secrets to client.',
-  },
-  {
-    phase: 4, num: 22, topicId: 'deployment',
-    titleId: 'Deployment', titleEn: 'Deployment',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default function Home() {
-  return (<div><h1>Deployment Guide</h1><ol style={{lineHeight:2}}><li>Push to GitHub</li><li>Connect repo to Vercel</li><li>Configure environment variables</li><li>Deploy (automatic on push)</li><li>Set custom domain + SSL</li></ol><p>Alternative platforms: Cloudflare Pages, Netlify, Docker + AWS/GCP.</p></div>);
-}`,
-      };
-    },
-    objId: ['Deploy ke Vercel', 'Deploy ke platform lain (Cloudflare, Docker)', 'Mengelola preview deployments', 'Setup CI/CD pipeline'],
-    objEn: ['Deploy to Vercel', 'Deploy to other platforms (Cloudflare, Docker)', 'Manage preview deployments', 'Set up CI/CD pipeline'],
-    expId: `## Vercel
-Platform optimal untuk Next.js. Zero-config deployment. Preview deployments untuk setiap PR. Analytics + Speed Insights built-in.
-\n## Docker
-\`docker build -t my-app .\` dengan official Next.js Dockerfile. \`next start\` untuk production. Cocok untuk self-hosting di AWS/GCP.
-\n## Environment Variables
-Vercel: set di dashboard per environment (development, preview, production). Jangan commit secrets ke git.
-\n## CI/CD
-GitHub Actions: lint → test → build. Vercel: auto-deploy di setiap push ke main. Preview untuk PR. Custom domain + SSL otomatis.`,
-    expEn: `## Vercel
-Optimal platform for Next.js. Zero-config deployment. Preview deployments for every PR. Built-in Analytics + Speed Insights.
-\n## Docker
-\`docker build -t my-app .\` with official Next.js Dockerfile. \`next start\` for production. Good for self-hosting on AWS/GCP.
-\n## Environment Variables
-Vercel: set in dashboard per environment (development, preview, production). Don't commit secrets to git.
-\n## CI/CD
-GitHub Actions: lint → test → build. Vercel: auto-deploy on every push to main. Preview for PRs. Automatic custom domain + SSL.`,
-    chId: 'Deploy aplikasi Next.js ke Vercel. Setup custom domain. Konfigurasi environment variables untuk production. Aktifkan Analytics.',
-    chEn: 'Deploy a Next.js app to Vercel. Set up a custom domain. Configure environment variables for production. Enable Analytics.',
-    sumId: 'Vercel = platform optimal. Docker untuk self-hosting. Preview deployments untuk PR. CI/CD dengan GitHub Actions. Environment variables per environment.',
-    sumEn: 'Vercel = optimal platform. Docker for self-hosting. Preview deployments for PRs. CI/CD with GitHub Actions. Per-environment env vars.',
-  },
-  {
-    phase: 4, num: 23, topicId: 'testing',
-    titleId: 'Testing', titleEn: 'Testing',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default function Home() {
-  return (<div><h1>Testing Demo</h1><p>Next.js supports:</p><ul><li>Unit tests: Vitest / Jest</li><li>Component tests: React Testing Library</li><li>E2E: Playwright / Cypress</li></ul></div>);
-}`,
-      };
-    },
-    objId: ['Setup Vitest dengan Next.js', 'Menulis unit test untuk Server Components', 'Menulis integration test', 'E2E testing dengan Playwright'],
-    objEn: ['Set up Vitest with Next.js', 'Write unit tests for Server Components', 'Write integration tests', 'E2E testing with Playwright'],
-    expId: `## Vitest Setup
-\`npm install -D vitest @vitejs/plugin-react\`. Konfigurasi di \`vitest.config.ts\`. \`npm run test\` untuk menjalankan.
-\n## Unit Test
-Test fungsi murni: validasi, format, utility. Test Server Component: render dengan data mock. \`render(await Component())\`.
-\n## Component Test
-Client Components: render dengan React Testing Library. Test user interaction: click, type, submit. Assert UI changes.
-\n## Playwright E2E
-Test alur lengkap: navigate → login → create data → verify. \`page.goto('/')\`, \`page.click('button')\`, \`expect(page.locator('h1')).toHaveText('...')\`.`,
-    expEn: `## Vitest Setup
-\`npm install -D vitest @vitejs/plugin-react\`. Configure in \`vitest.config.ts\`. \`npm run test\` to run.
-\n## Unit Test
-Test pure functions: validation, formatting, utilities. Test Server Component: render with mock data. \`render(await Component())\`.
-\n## Component Test
-Client Components: render with React Testing Library. Test user interaction: click, type, submit. Assert UI changes.
-\n## Playwright E2E
-Test full flow: navigate → login → create data → verify. \`page.goto('/')\`, \`page.click('button')\`, \`expect(page.locator('h1')).toHaveText('...')\`.`,
-    chId: 'Setup Vitest untuk project Next.js. Tulis test untuk: fungsi utility, Server Component (render dengan mock), dan komponen Counter (click test).',
-    chEn: 'Set up Vitest for a Next.js project. Write tests for: utility function, Server Component (render with mock), and Counter component (click test).',
-    sumId: 'Vitest untuk unit/integration. React Testing Library untuk komponen. Playwright untuk E2E. Test Server Components dengan async render.',
-    sumEn: 'Vitest for unit/integration. React Testing Library for components. Playwright for E2E. Test Server Components with async render.',
-  },
-
-  // ===== PHASE 5: ADVANCED =====
-  {
-    phase: 5, num: 24, topicId: 'advanced-caching',
-    titleId: 'Advanced Caching (Next.js 16)', titleEn: 'Advanced Caching (Next.js 16)',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/page.tsx': `export default async function Home() {
-  // Next.js 16: \x27use cache\x27 directive at component level
-  // Instead of fetch options, cache the entire component
-  async function CachedSection() {
-    \x27use cache\x27;
-    const data = await fetch('https://jsonplaceholder.typicode.com/posts/1').then(r => r.json());
-    return <div style={{border:'1px solid #2E5B44',borderRadius:8,padding:'1rem',margin:'.5rem 0'}}><h3>{data.title}</h3><p>This component is cached with \x27use cache\x27</p></div>;
-  }
-  return (<div><h1>Next.js 16 Caching</h1><CachedSection /><p>\x27use cache\x27 replaces fetch(url, { cache: 'force-cache' }) at the component level.</p></div>);
-}`,
-      };
-    },
-    objId: ['Memahami "use cache" directive', 'Cache Components di Next.js 16', 'Perbandingan caching Next.js 14 → 15 → 16', 'Strategi caching untuk production'],
-    objEn: ['Understand "use cache" directive', 'Cache Components in Next.js 16', 'Compare caching Next.js 14 → 15 → 16', 'Production caching strategies'],
-    expId: `## \x27use cache\x27 directive
-Next.js 16: tambahkan \`\x27use cache\x27\` di komponen atau fungsi. Seluruh output komponen di-cache. Lebih eksplisit daripada fetch options.
-\n## Cache Components
-Komponen dengan \`\x27use cache\x27\` di-cache berdasarkan props. Revalidate dengan tag atau time-based. Alternatif lebih bersih dari ISR fetch.
-\n## Evolusi Caching
-Next.js 14: cache by default (membingungkan). Next.js 15: no cache by default (opt-in). Next.js 16: \x27use cache\x27 eksplisit di komponen.
-\n## Strategi
-Gunakan \x27use cache\x27 untuk konten yang sama untuk semua user. Gunakan dynamic untuk konten personal. Gabungkan untuk hybrid pages.`,
-    expEn: `## \x27use cache\x27 directive
-Next.js 16: add \`\x27use cache\x27\` at the top of a component or function. The entire component output is cached. More explicit than fetch options.
-\n## Cache Components
-Components with \`\x27use cache\x27\` are cached based on props. Revalidate by tag or time-based. A cleaner alternative to ISR fetch.
-\n## Caching Evolution
-Next.js 14: cache by default (confusing). Next.js 15: no cache by default (opt-in). Next.js 16: \x27use cache\x27 explicit at component level.
-\n## Strategy
-Use \x27use cache\x27 for content that's the same for all users. Use dynamic for personalized content. Combine for hybrid pages.`,
-    chId: 'Refactor halaman blog: gunakan \x27use cache\x27 untuk daftar posts (revalidate 60s), dan dynamic untuk user-specific recommendations.',
-    chEn: 'Refactor a blog page: use \'use cache\' for the post list (revalidate 60s), and dynamic for user-specific recommendations.',
-    sumId: '\'use cache\' = component-level caching di Next.js 16. Lebih eksplisit. Evolusi dari implicit cache (v14) ke explicit (v16). Strategi hybrid.',
-    sumEn: '\'use cache\' = component-level caching in Next.js 16. More explicit. Evolution from implicit (v14) to explicit (v16). Hybrid strategy.',
-  },
-  {
-    phase: 5, num: 25, topicId: 'i18n',
-    titleId: 'Internationalisasi (i18n)', titleEn: 'Internationalization (i18n)',
-    codeFile: 'src/middleware.ts',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': BASE_PROJECT_FILES['app/layout.tsx'],
-        'app/[locale]/page.tsx': `export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  const dict = locale === 'id' ? { title: 'Selamat Datang', desc: 'Ini adalah halaman utama' } : { title: 'Welcome', desc: 'This is the home page' };
-  return (<div><h1>{dict.title}</h1><p>{dict.desc}</p><p>Locale: {locale}</p></div>);
-}`,
-        'app/[locale]/layout.tsx': `export default function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
-  return (<div lang="id" style={{padding:'1rem'}}>{children}</div>);
-}`,
-        'src/middleware.ts': `import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-const locales = ['id', 'en'];
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const hasLocale = locales.some(l => pathname.startsWith('/' + l));
-  if (hasLocale) return NextResponse.next();
-  const locale = request.headers.get('accept-language')?.startsWith('id') ? 'id' : 'en';
-  return NextResponse.redirect(new URL('/' + locale + pathname, request.url));
+  return (
+    <div>
+      <h1>Daftar Produk</h1>
+      <ul>
+        {products.map((p) => (
+          <li key={p.id}>
+            <a href={"/products/" + p.id}>
+              {p.name} — Rp {p.price.toLocaleString("id-ID")}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
-export const config = { matcher: ['/((?!api|_next|.*\\..*).*)'] };`,
-      };
-    },
-    objId: ['Mengatur i18n routing dengan middleware', 'Membuat dictionary translations', 'Menggunakan dynamic segments [locale]', 'Mengelola RTL dan format lokal'],
-    objEn: ['Set up i18n routing with middleware', 'Create dictionary translations', 'Use dynamic segments [locale]', 'Handle RTL and local formats'],
-    expId: `## i18n Routing
-Gunakan \`app/[locale]/\` + middleware untuk deteksi bahasa. Middleware redirect berdasarkan Accept-Language header atau cookie.
-\n## Dictionary
-Buat file \`dictionaries/id.json\` dan \`en.json\`. Import di Server Component berdasarkan params.locale. \`const dict = await getDictionary(locale)\`.
-\n## Date & Number Format
-Gunakan \`Intl.DateTimeFormat\` dan \`Intl.NumberFormat\` untuk format lokal. Jangan hardcode format tanggal.
-\n## RTL
-Untuk bahasa Arab/Ibrani: tambahkan \`dir="rtl"\` di HTML. Gunakan logical CSS properties (\`margin-inline-start\` bukan \`margin-left\`).`,
-    expEn: `## i18n Routing
-Use \`app/[locale]/\` + middleware for language detection. Middleware redirects based on Accept-Language header or cookie.
-\n## Dictionary
-Create \`dictionaries/id.json\` and \`en.json\` files. Import in Server Component based on params.locale. \`const dict = await getDictionary(locale)\`.
-\n## Date & Number Format
-Use \`Intl.DateTimeFormat\` and \`Intl.NumberFormat\` for local formatting. Don't hardcode date formats.
-\n## RTL
-For Arabic/Hebrew: add \`dir="rtl"\` to HTML. Use logical CSS properties (\`margin-inline-start\` instead of \`margin-left\`).`,
-    chId: 'Buat website bilingual (ID/EN) dengan i18n routing. Middleware deteksi bahasa. Dictionary untuk semua teks. Format tanggal lokal.',
-    chEn: 'Build a bilingual (ID/EN) website with i18n routing. Middleware for language detection. Dictionary for all text. Local date formatting.',
-    sumId: 'i18n routing dengan [locale] + middleware. Dictionary JSON. Intl API untuk format lokal. RTL support dengan logical CSS.',
-    sumEn: 'i18n routing with [locale] + middleware. JSON dictionary. Intl API for local formatting. RTL support with logical CSS.',
+
+// ── app/products/[id]/page.js ──
+export default function ProductDetail({ params }) {
+  const { id } = params;
+  const products = {
+    "1": { name: "Laptop", price: 15000000, desc: "Laptop gaming high-end" },
+    "2": { name: "Mouse", price: 250000, desc: "Mouse wireless ergonomis" },
+    "3": { name: "Keyboard", price: 750000, desc: "Keyboard mechanical RGB" },
+  };
+
+  const product = products[id];
+
+  if (!product) return <p>Produk tidak ditemukan</p>;
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>Rp {product.price.toLocaleString("id-ID")}</p>
+      <p>{product.desc}</p>
+      <a href="/products">Kembali</a>
+    </div>
+  );
+}
+
+console.log("Routing & navigation siap digunakan");`,
+    objectivesId: [
+      'File-based routing: app/folder/page.js = /folder route',
+      'Dynamic routes: [id], [slug] untuk parameter',
+      'Link component untuk navigasi tanpa reload',
+      'Nested layouts dan shared UI',
+      'useParams, useSearchParams untuk ambil parameter',
+    ],
+    objectivesEn: [
+      'File-based routing: app/folder/page.js = /folder route',
+      'Dynamic routes: [id], [slug] for parameters',
+      'Link component for navigation without reload',
+      'Nested layouts and shared UI',
+      'useParams, useSearchParams to get parameters',
+    ],
+    explanationId: '### File-based Routing\nFolder = route. page.js = halaman yang dirender.\n\n### Dynamic Routes\n[id] = parameter dinamis. Akses via params prop.\n\n### Link vs <a>\nLink = client-side navigation (SPA). Lebih cepat.\n\n### Layout Nesting\nSetiap folder bisa punya layout.js sendiri.',
+    explanationEn: '### File-based Routing\nFolder = route. page.js = rendered page.\n\n### Dynamic Routes\n[id] = dynamic parameter. Access via params.\n\n### Link vs <a>\nLink = client-side navigation.\n\n### Layout Nesting\nEach folder can have its own layout.',
+    experimentsId: [
+      'Buat catch-all route [...slug]',
+      'Tambah search params filter',
+      'Buat loading.js untuk setiap route',
+      'Implementasikan parallel routes',
+    ],
+    experimentsEn: [
+      'Create catch-all route [...slug]',
+      'Add search params filter',
+      'Create loading.js for each route',
+      'Implement parallel routes',
+    ],
+    challengeId: 'Buat blog dengan routing: Home, Posts, Post Detail (/post/[slug]), Category (/category/[name]). Gunakan dynamic routes.',
+    challengeEn: 'Build a blog with routing: Home, Posts, Post Detail (/post/[slug]), Category (/category/[name]). Use dynamic routes.',
+    summaryId: 'Minggu 2 dari 12: **Routing & Navigation** (Level: Pemula). Navigasi file-based. Minggu depan: **Server & Client Components**.',
+    summaryEn: 'Week 2 of 12: **Routing & Navigation** (Level: Beginner). File-based navigation. Next week: **Server & Client Components**.',
   },
   {
-    phase: 5, num: 26, topicId: 'final-project',
-    titleId: 'Proyek Akhir', titleEn: 'Final Project',
-    codeFile: 'app/page.tsx',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'app/layout.tsx': `import type { Metadata } from 'next';
-export const metadata: Metadata = { title: 'Final Project' };
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang="en"><body style={{fontFamily:'system-ui,sans-serif',maxWidth:900,margin:'2rem auto',padding:'0 1rem'}}>{children}</body></html>);
-}`,
-        'app/page.tsx': `export default function Home() {
-  return (<div><h1>Final Project: Full-Stack App</h1><p>Build a complete application combining everything you've learned.</p><h2>Requirements</h2><ul style={{lineHeight:2}}><li>App Router with multiple routes</li><li>Server Components + Client Components</li><li>Data fetching with caching strategy</li><li>Server Actions for mutations</li><li>Authentication</li><li>Database integration</li><li>Metadata & SEO</li><li>Deployed to production</li></ul></div>);
-}`,
-      };
-    },
-    objId: ['Membangun full-stack app dengan Next.js', 'Menerapkan semua konsep yang dipelajari', 'Deploy ke production', 'Menerima feedback dan iterate'],
-    objEn: ['Build a full-stack app with Next.js', 'Apply all concepts learned', 'Deploy to production', 'Receive feedback and iterate'],
-    expId: `## Project Ideas
-**Blog Platform** — posts, comments, auth, markdown editor. **E-commerce** — products, cart, checkout, orders. **SaaS Dashboard** — analytics, user management, billing.
-\n## Requirements
-App Router, Server/Client Components, data fetching, Server Actions, auth, database, SEO metadata, error handling, deployment.
-\n## Submission
-Push ke GitHub. Deploy ke Vercel. Share URL untuk review. Sertakan README dengan arsitektur dan tech stack.
-\n## Evaluation
-Fungsionalitas (40%), code quality (30%), UI/UX (20%), deployment (10%). Fokus pada production-readiness.`,
-    expEn: `## Project Ideas
-**Blog Platform** — posts, comments, auth, markdown editor. **E-commerce** — products, cart, checkout, orders. **SaaS Dashboard** — analytics, user management, billing.
-\n## Requirements
-App Router, Server/Client Components, data fetching, Server Actions, auth, database, SEO metadata, error handling, deployment.
-\n## Submission
-Push to GitHub. Deploy to Vercel. Share URL for review. Include README with architecture and tech stack.
-\n## Evaluation
-Functionality (40%), code quality (30%), UI/UX (20%), deployment (10%). Focus on production-readiness.`,
-    chId: 'Pilih salah satu project: Blog Platform, E-commerce Store, atau SaaS Dashboard. Implementasikan semua fitur yang dipelajari. Deploy ke Vercel.',
-    chEn: 'Choose one project: Blog Platform, E-commerce Store, or SaaS Dashboard. Implement all features learned. Deploy to Vercel.',
-    sumId: 'Final project menggabungkan semua konsep: routing, RSC, data fetching, Server Actions, auth, database, SEO, deployment. Ready untuk production.',
-    sumEn: 'Final project combines all concepts: routing, RSC, data fetching, Server Actions, auth, database, SEO, deployment. Production-ready.',
+    week: 3, level: 'beginer', topicId: 'server-client',
+    titleId: 'Server & Client Components', titleEn: 'Server & Client Components',
+    programId: 'Kombinasi Komponen', programEn: 'Component Combination',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'jsx',
+    code: `// Next.js App Router: Server Components (default) & Client Components
+// "use client" directive untuk interactive components
+
+// ── Server Component (default) ──
+// Bisa: fetch data, akses filesystem, API keys (aman)
+// Tidak bisa: useState, useEffect, onClick, browser APIs
+
+// ── app/products/page.js (Server Component) ──
+export default async function ProductsPage() {
+  // Fetch langsung di server component (aman, cepat)
+  const products = await fetchProducts();
+
+  return (
+    <div>
+      <h1>Produk</h1>
+      <ProductList products={products} />
+      <SearchBar /> {/* Client Component */}
+    </div>
+  );
+}
+
+async function fetchProducts() {
+  // Simulasi fetch data di server
+  return [
+    { id: 1, name: "Laptop", price: 15000000 },
+    { id: 2, name: "Mouse", price: 250000 },
+  ];
+}
+
+// ── components/ProductList.jsx (Server Component) ──
+function ProductList({ products }) {
+  return (
+    <ul>
+      {products.map((p) => (
+        <li key={p.id}>
+          {p.name} — Rp {p.price.toLocaleString("id-ID")}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// ── components/SearchBar.jsx (Client Component) ──
+"use client";
+
+import { useState } from "react";
+
+function SearchBar() {
+  const [query, setQuery] = useState("");
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Cari produk..."
+      />
+      <p>Mencari: {query || "(kosong)"}</p>
+    </div>
+  );
+}
+
+console.log("Server & Client Components siap digunakan");`,
+    objectivesId: [
+      'Server Components: default di App Router, render di server',
+      'Client Components: "use client" directive, interactive',
+      'Kapan pakai Server vs Client component',
+      'Data fetching langsung di Server Component',
+      'Composition pattern: Server wrapping Client',
+    ],
+    objectivesEn: [
+      'Server Components: default in App Router, render on server',
+      'Client Components: "use client" directive, interactive',
+      'When to use Server vs Client component',
+      'Data fetching directly in Server Component',
+      'Composition pattern: Server wrapping Client',
+    ],
+    explanationId: '### Server Components\nDefault. Render di server. Bundle size lebih kecil. Bisa fetch langsung.\n\n### Client Components\n"use client" directive. Untuk interactive (useState, event handlers).\n\n### Kapan Pakai\n- Server: fetch, read file, tampil statis\n- Client: interactivity, hooks, browser APIs\n\n### Pattern\nServer Component wrap Client Component. Jangan sebaliknya.',
+    explanationEn: '### Server Components\nDefault. Render on server. Smaller bundles. Direct fetch.\n\n### Client Components\n"use client". For interactivity.\n\n### When to Use\n- Server: fetch, read files, static display\n- Client: interactivity, hooks, browser APIs\n\n### Pattern\nServer wraps Client, not vice versa.',
+    experimentsId: [
+      'Buat Server Component yang fetch dari API',
+      'Buat Client Component dengan form interaktif',
+      'Kombinasi keduanya: Server list + Client filter',
+      'Bandingkan ukuran bundle',
+    ],
+    experimentsEn: [
+      'Create Server Component fetching from API',
+      'Create Client Component with interactive form',
+      'Combine both: Server list + Client filter',
+      'Compare bundle sizes',
+    ],
+    challengeId: 'Buat halaman dashboard: Server Component untuk data statis (sidebar, header), Client Component untuk table interaktif dengan search.',
+    challengeEn: 'Build a dashboard page: Server Component for static data (sidebar, header), Client Component for interactive table with search.',
+    summaryId: 'Minggu 3 dari 12: **Server & Client Components** (Level: Pemula). Arsitektur komponen Next.js. Minggu depan: **Styling & Optimasi**.',
+    summaryEn: 'Week 3 of 12: **Server & Client Components** (Level: Beginner). Next.js component architecture. Next week: **Styling & Optimization**.',
+  },
+  {
+    week: 4, level: 'beginer', topicId: 'styling-optimization',
+    titleId: 'Styling & Optimasi', titleEn: 'Styling & Optimization',
+    programId: 'CSS & Image', programEn: 'CSS & Images',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'jsx',
+    code: `// Next.js: styling dan optimasi built-in
+// CSS Modules, Tailwind, Image optimization, Font optimization
+
+// ── CSS Modules (ProductCard.module.css) ──
+// .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; }
+// .title { font-size: 1.25rem; font-weight: bold; }
+// .price { color: #2E5B44; font-weight: 600; }
+
+// ── components/ProductCard.jsx ──
+// import styles from "./ProductCard.module.css";
+
+function ProductCard({ product }) {
+  return (
+    <div className="product-card" style={{ border: "1px solid #ddd", padding: 16, borderRadius: 8 }}>
+      <h3 style={{ fontSize: "1.25rem", fontWeight: "bold" }}>{product.name}</h3>
+      <p style={{ color: "#2E5B44", fontWeight: 600 }}>
+        Rp {product.price.toLocaleString("id-ID")}
+      </p>
+      {/* Next.js Image: auto optimasi, lazy loading */}
+      {/* <Image src={product.image} alt={product.name} width={300} height={200} /> */}
+    </div>
+  );
+}
+
+// ── app/products/page.js ──
+export default function ProductsPage() {
+  const products = [
+    { id: 1, name: "Laptop", price: 15000000 },
+    { id: 2, name: "Mouse", price: 250000 },
+    { id: 3, name: "Keyboard", price: 750000 },
+  ];
+
+  return (
+    <div style={{ padding: 24 }}>
+      <h1>Katalog Produk</h1>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 16 }}>
+        {products.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Font Optimization (app/layout.js) ──
+// import { Inter } from "next/font/google";
+// const inter = Inter({ subsets: ["latin"] });
+// <body className={inter.className}>
+
+console.log("Styling & Optimasi siap digunakan");`,
+    objectivesId: [
+      'CSS Modules untuk scoped styling',
+      'Tailwind CSS integration di Next.js',
+      'next/image: optimasi otomatis (lazy, WebP, responsive)',
+      'next/font: auto optimize Google Fonts',
+      'Global CSS dan CSS-in-JS options',
+    ],
+    objectivesEn: [
+      'CSS Modules for scoped styling',
+      'Tailwind CSS integration in Next.js',
+      'next/image: auto optimization (lazy, WebP, responsive)',
+      'next/font: auto optimize Google Fonts',
+      'Global CSS and CSS-in-JS options',
+    ],
+    explanationId: '### CSS Modules\nFile.module.css → scoped otomatis. Tidak bentrok.\n\n### Tailwind\nBuilt-in support. className langsung di JSX.\n\n### next/image\nAuto: lazy loading, WebP, responsive sizes, blur placeholder.\n\n### next/font\nAuto host Google Fonts. Tidak layout shift.\n\n### Best Practice\n- CSS Modules untuk component-specific\n- Tailwind untuk utility-first',
+    explanationEn: '### CSS Modules\nScoped styles, no conflicts.\n\n### Tailwind\nBuilt-in support.\n\n### next/image\nAuto optimization.\n\n### next/font\nSelf-hosted fonts.\n\n### Best Practice\nCSS Modules for components, Tailwind for utilities.',
+    experimentsId: [
+      'Setup Tailwind CSS di proyek',
+      'Buat CSS Module untuk komponen',
+      'Gunakan next/image dengan remote images',
+      'Implementasikan dark mode dengan Tailwind',
+    ],
+    experimentsEn: [
+      'Setup Tailwind CSS in project',
+      'Create CSS Module for component',
+      'Use next/image with remote images',
+      'Implement dark mode with Tailwind',
+    ],
+    challengeId: 'Buat landing page dengan Tailwind: Hero section, Feature grid, Testimonial cards, Footer. Gunakan next/image untuk gambar.',
+    challengeEn: 'Build a landing page with Tailwind: Hero section, Feature grid, Testimonial cards, Footer. Use next/image for images.',
+    summaryId: 'Minggu 4 dari 12: **Styling & Optimasi** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Data Fetching**.',
+    summaryEn: 'Week 4 of 12: **Styling & Optimization** (Level: Beginner). Beginner phase complete! Next week: **Data Fetching**.',
+  },
+  // ── INTERMEDIATE (weeks 5-8) ──────────────────────────────────────────────
+  {
+    week: 5, level: 'intermediate', topicId: 'data-fetching',
+    titleId: 'Data Fetching', titleEn: 'Data Fetching',
+    programId: 'Fetch & Cache', programEn: 'Fetch & Cache',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'jsx',
+    code: `// Next.js Data Fetching: fetch di Server Component
+// Caching, Revalidation, dan Suspense
+
+// ── app/posts/page.js ──
+export default async function PostsPage() {
+  // Fetch langsung di Server Component (auto cached)
+  const posts = await fetchPosts();
+
+  return (
+    <div>
+      <h1>Blog Posts</h1>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            <a href={"/posts/" + post.id}>{post.title}</a>
+            <span> — {post.date}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// Fetch dengan cache options
+async function fetchPosts() {
+  // Cache options:
+  // - force-cache (default): cache selama build
+  // - no-store: selalu fetch baru
+  // - revalidate: cache + revalidate setelah N detik
+
+  return [
+    { id: 1, title: "Belajar Next.js", date: "2026-01-15" },
+    { id: 2, title: "React Server Components", date: "2026-01-20" },
+    { id: 3, title: "TypeScript di Next.js", date: "2026-01-25" },
+  ];
+}
+
+// ── Fetch dengan revalidate ──
+async function fetchProducts() {
+  const res = await fetch("https://api.example.com/products", {
+    next: { revalidate: 60 }, // revalidate setiap 60 detik
+  });
+  return res.json();
+}
+
+// ── Fetch tanpa cache ──
+async function fetchLiveData() {
+  const res = await fetch("https://api.example.com/live", {
+    cache: "no-store",
+  });
+  return res.json();
+}
+
+// ── Parallel Data Fetching ──
+export default async function Dashboard() {
+  const [users, products] = await Promise.all([
+    fetchUsers(),
+    fetchProducts(),
+  ]);
+  return <DashboardUI users={users} products={products} />;
+}
+
+async function fetchUsers() {
+  return [{ id: 1, name: "Budi" }];
+}
+async function fetchProducts2() {
+  return [{ id: 1, name: "Laptop" }];
+}
+
+console.log("Data fetching siap digunakan");`,
+    objectivesId: [
+      'Fetch data langsung di Server Component',
+      'Cache options: force-cache, no-store, revalidate',
+      'Revalidation: ISR (Incremental Static Regeneration)',
+      'Parallel fetching dengan Promise.all',
+      'Error handling dan not-found untuk data fetching',
+    ],
+    objectivesEn: [
+      'Fetch data directly in Server Component',
+      'Cache options: force-cache, no-store, revalidate',
+      'Revalidation: ISR (Incremental Static Regeneration)',
+      'Parallel fetching with Promise.all',
+      'Error handling and not-found for data fetching',
+    ],
+    explanationId: '### Server Fetch\nAsync Server Component bisa langsung await fetch.\n\n### Cache\n- Default: force-cache (build time)\n- revalidate: N detik (ISR)\n- no-store: selalu baru\n\n### Parallel\nPromise.all untuk fetch bersamaan, lebih cepat.\n\n### Error & 404\nthrow not-found() untuk 404. error.js untuk error boundary.',
+    explanationEn: '### Server Fetch\nAsync Server Components await fetch directly.\n\n### Cache\nforce-cache (default), revalidate (ISR), no-store.\n\n### Parallel\nPromise.all for simultaneous fetching.\n\n### Error & 404\nthrow not-found() for 404, error.js for errors.',
+    experimentsId: [
+      'Setup fetch dengan revalidate 30 detik',
+      'Buat error handling untuk fetch gagal',
+      'Implementasikan not-found untuk data kosong',
+      'Buat loading state dengan Suspense',
+    ],
+    experimentsEn: [
+      'Setup fetch with 30 second revalidation',
+      'Create error handling for failed fetch',
+      'Implement not-found for empty data',
+      'Create loading state with Suspense',
+    ],
+    challengeId: 'Buat blog dengan data fetching: fetch posts dari API, implementasikan ISR (revalidate 60s), loading state, error handling.',
+    challengeEn: 'Build a blog with data fetching: fetch posts from API, implement ISR (revalidate 60s), loading state, error handling.',
+    summaryId: 'Minggu 5 dari 12: **Data Fetching** (Level: Menengah). Fetch di server. Minggu depan: **Server Actions**.',
+    summaryEn: 'Week 5 of 12: **Data Fetching** (Level: Intermediate). Server-side fetching. Next week: **Server Actions**.',
+  },
+  {
+    week: 6, level: 'intermediate', topicId: 'server-actions',
+    titleId: 'Server Actions & Mutations', titleEn: 'Server Actions & Mutations',
+    programId: 'Form & Mutasi', programEn: 'Form & Mutation',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'jsx',
+    code: `// Server Actions = async functions yang jalan di server
+// Untuk form submission, mutations, database operations
+
+// ── Server Action (dalam Server Component) ──
+// "use server";
+// async function createPost(formData) {
+//   const title = formData.get("title");
+//   await db.post.create({ data: { title } });
+//   revalidatePath("/posts");
+// }
+
+// ── app/posts/create/page.js ──
+export default function CreatePostPage() {
+  return (
+    <div>
+      <h1>Tambah Post Baru</h1>
+      <form>
+        <input name="title" placeholder="Judul" />
+        <textarea name="content" placeholder="Konten" />
+        <button type="submit">Simpan</button>
+      </form>
+    </div>
+  );
+}
+
+// ── Client Component dengan Server Action ──
+// "use client";
+// import { useFormStatus } from "react-dom";
+// import { createPost } from "./actions";
+
+// function SubmitButton() {
+//   const { pending } = useFormStatus();
+//   return <button disabled={pending}>{pending ? "Menyimpan..." : "Simpan"}</button>;
+// }
+
+// ── Actions (app/posts/actions.js) ──
+// "use server";
+// import { revalidatePath } from "next/cache";
+// import { redirect } from "next/navigation";
+// export async function createPost(formData) {
+//   const title = formData.get("title");
+//   // Simulasi save
+//   console.log("Menyimpan post:", title);
+//   revalidatePath("/posts");
+//   redirect("/posts");
+// }
+
+// ── Optimistic Update ──
+// "use client";
+// import { useOptimistic } from "react";
+// function Messages({ messages }) {
+//   const [optimisticMessages, addOptimistic] = useOptimistic(
+//     messages,
+//     (state, newMsg) => [...state, { ...newMsg, sending: true }]
+//   );
+//   return <MessageList messages={optimisticMessages} />;
+// }
+
+console.log("Server Actions siap digunakan");`,
+    objectivesId: [
+      'Server Actions: "use server" directive',
+      'Form submission dengan Server Actions',
+      'revalidatePath untuk invalidate cache setelah mutation',
+      'Optimistic updates dengan useOptimistic',
+      'useFormStatus untuk pending state',
+    ],
+    objectivesEn: [
+      'Server Actions: "use server" directive',
+      'Form submission with Server Actions',
+      'revalidatePath to invalidate cache after mutation',
+      'Optimistic updates with useOptimistic',
+      'useFormStatus for pending state',
+    ],
+    explanationId: '### Server Actions\nAsync function dengan "use server". Jalan di server. Bisa dipanggil dari form.\n\n### Form Submission\n<form action={createPost}> → Server Action dipanggil.\n\n### Revalidation\nrevalidatePath("/posts") = invalidate cache halaman /posts.\n\n### Optimistic Updates\nuseOptimistic = tampilkan perubahan langsung sebelum server confirm.',
+    explanationEn: '### Server Actions\nAsync functions with "use server". Run on server.\n\n### Form Submission\n<form action={action}> calls Server Action.\n\n### Revalidation\nrevalidatePath invalidates cache.\n\n### Optimistic Updates\nuseOptimistic shows changes immediately.',
+    experimentsId: [
+      'Buat form dengan Server Action',
+      'Tambah optimistic update',
+      'Implementasikan form validation',
+      'Buat delete action dengan confirm',
+    ],
+    experimentsEn: [
+      'Create form with Server Action',
+      'Add optimistic update',
+      'Implement form validation',
+      'Create delete action with confirm',
+    ],
+    challengeId: 'Buat CRUD app: create, read, update, delete posts. Gunakan Server Actions, revalidatePath, dan optimistic updates.',
+    challengeEn: 'Build a CRUD app: create, read, update, delete posts. Use Server Actions, revalidatePath, and optimistic updates.',
+    summaryId: 'Minggu 6 dari 12: **Server Actions** (Level: Menengah). Mutasi data aman. Minggu depan: **Loading & Error UI**.',
+    summaryEn: 'Week 6 of 12: **Server Actions** (Level: Intermediate). Safe data mutations. Next week: **Loading & Error UI**.',
+  },
+  {
+    week: 7, level: 'intermediate', topicId: 'loading-error',
+    titleId: 'Loading & Error UI', titleEn: 'Loading & Error UI',
+    programId: 'UX Patterns', programEn: 'UX Patterns',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'jsx',
+    code: `// Next.js: Loading UI, Error Handling, Not Found
+// File conventions: loading.js, error.js, not-found.js
+
+// ── app/products/loading.js ──
+// Tampil saat halaman/products loading
+export default function Loading() {
+  return (
+    <div>
+      <div className="skeleton" style={{ height: 40, width: "60%", background: "#eee", marginBottom: 16 }} />
+      <div className="skeleton" style={{ height: 200, background: "#eee", marginBottom: 16 }} />
+      <div className="skeleton" style={{ height: 200, background: "#eee" }} />
+    </div>
+  );
+}
+
+// ── app/products/error.js ──
+// "use client"; // error.js harus Client Component
+// Error boundary untuk halaman
+"use client";
+
+export default function Error({ error, reset }) {
+  return (
+    <div>
+      <h2>Terjadi kesalahan!</h2>
+      <p>{error.message}</p>
+      <button onClick={() => reset()}>Coba Lagi</button>
+    </div>
+  );
+}
+
+// ── app/products/not-found.js ──
+export default function NotFound() {
+  return (
+    <div>
+      <h2>404 — Tidak Ditemukan</h2>
+      <p>Halaman yang Anda cari tidak ada.</p>
+      <a href="/">Kembali ke Beranda</a>
+    </div>
+  );
+}
+
+// ── app/products/[id]/page.js ──
+import { notFound } from "next/navigation";
+
+export default async function ProductDetail({ params }) {
+  const product = await getProduct(params.id);
+
+  if (!product) {
+    notFound(); // Tampilkan not-found.js
+  }
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>Rp {product.price?.toLocaleString("id-ID") || 0}</p>
+    </div>
+  );
+}
+
+async function getProduct(id) {
+  const products = {
+    "1": { id: 1, name: "Laptop", price: 15000000 },
+    "2": { id: 2, name: "Mouse", price: 250000 },
+  };
+  return products[id] || null;
+}
+
+console.log("Loading & Error UI siap digunakan");`,
+    objectivesId: [
+      'loading.js: skeleton/Spinner saat data loading',
+      'error.js: error boundary per route',
+      'not-found.js: 404 halaman custom',
+      'reset function untuk retry error',
+      'Streaming dengan Suspense',
+    ],
+    objectivesEn: [
+      'loading.js: skeleton/spinner during data loading',
+      'error.js: error boundary per route',
+      'not-found.js: custom 404 page',
+      'reset function to retry errors',
+      'Streaming with Suspense',
+    ],
+    explanationId: '### Loading UI\nloading.js = auto tampil saat fetch/streaming. Bisa pakai skeleton.\n\n\n### Error Boundary\nerror.js = catch error di route. reset() untuk retry.\n\n### Not Found\nnot-found.js = 404 page. notFound() untuk trigger.\n\n### Suspense\nWrap component dengan Suspense untuk streaming.',
+    explanationEn: '### Loading UI\nloading.js auto shows during fetch/streaming.\n\n### Error Boundary\nerror.js catches errors, reset() retries.\n\n### Not Found\nnot-found.js = 404 page.\n\n### Suspense\nWrap components for streaming.',
+    experimentsId: [
+      'Buat skeleton UI yang mirip konten asli',
+      'Implementasikan error recovery',
+      'Buat custom 404 page',
+      'Setup Suspense untuk streaming',
+    ],
+    experimentsEn: [
+      'Create skeleton UI matching content',
+      'Implement error recovery',
+      'Create custom 404 page',
+      'Setup Suspense for streaming',
+    ],
+    challengeId: 'Buat produk detail page dengan: loading skeleton, error boundary, 404 handling, dan streaming content.',
+    challengeEn: 'Build a product detail page with: loading skeleton, error boundary, 404 handling, and streaming content.',
+    summaryId: 'Minggu 7 dari 12: **Loading & Error UI** (Level: Menengah). UX yang baik. Minggu depan: **Middleware & Auth**.',
+    summaryEn: 'Week 7 of 12: **Loading & Error UI** (Level: Intermediate). Good UX. Next week: **Middleware & Auth**.',
+  },
+  {
+    week: 8, level: 'intermediate', topicId: 'middleware-auth',
+    titleId: 'Middleware & Auth Dasar', titleEn: 'Middleware & Basic Auth',
+    programId: 'Proteksi Route', programEn: 'Route Protection',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'jsx',
+    code: `// Next.js Middleware = jalan sebelum request selesai
+// Untuk auth, redirect, rewrite, headers
+
+// ── middleware.js (root) ──
+// import { NextResponse } from "next/server";
+// import { cookies } from "next/headers";
+
+// export function middleware(request) {
+//   const token = request.cookies.get("token");
+//   const isAuthPage = request.nextUrl.pathname.startsWith("/login");
+
+//   if (!token && !isAuthPage) {
+//     return NextResponse.redirect(new URL("/login", request.url));
+//   }
+
+//   if (token && isAuthPage) {
+//     return NextResponse.redirect(new URL("/dashboard", request.url));
+//   }
+
+//   return NextResponse.next();
+// }
+
+// export const config = {
+//   matcher: ["/dashboard/:path*", "/profile/:path*", "/login"],
+// };
+
+// ── Auth Context (Client) ──
+"use client";
+
+import { createContext, useContext, useState } from "react";
+
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+
+  function login(email, password) {
+    // Simulasi login
+    setUser({ email, name: "Budi" });
+  }
+
+  function logout() {
+    setUser(null);
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+// ── Protected Component ──
+function ProtectedPage() {
+  const { user } = useAuth();
+
+  if (!user) return <p>Silakan login terlebih dahulu</p>;
+
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <p>Selamat datang, {user.name}!</p>
+    </div>
+  );
+}
+
+console.log("Middleware & Auth siap digunakan");`,
+    objectivesId: [
+      'Middleware: jalan sebelum request, untuk auth/redirect',
+      'matcher config untuk limit middleware routes',
+      'Auth context untuk client-side auth state',
+      'Protected routes pattern',
+      'Login/logout flow',
+    ],
+    objectivesEn: [
+      'Middleware: runs before request, for auth/redirect',
+      'matcher config to limit middleware routes',
+      'Auth context for client-side auth state',
+      'Protected routes pattern',
+      'Login/logout flow',
+    ],
+    explanationId: '### Middleware\nJalan di edge, sebelum request selesai. Untuk auth, redirect, rewrite.\n\n### matcher\nLimit middleware ke specific routes. Jangan jalan di semua.\n\n### Auth Pattern\n- Middleware: redirect jika tidak login\n- Context: state user di client\n- Protected: conditional render',
+    explanationEn: '### Middleware\nRuns at edge before request completes.\n\n### matcher\nLimit to specific routes.\n\n### Auth Pattern\nMiddleware redirect, Context state, Protected render.',
+    experimentsId: [
+      'Buat middleware untuk role-based access',
+      'Implementasikan login form',
+      'Tambah remember me feature',
+      'Buat logout functionality',
+    ],
+    experimentsEn: [
+      'Create middleware for role-based access',
+      'Implement login form',
+      'Add remember me feature',
+      'Create logout functionality',
+    ],
+    challengeId: 'Buat auth system: login, logout, protected routes (dashboard, profile), middleware redirect. Gunakan cookies untuk session.',
+    challengeEn: 'Build an auth system: login, logout, protected routes (dashboard, profile), middleware redirect. Use cookies for session.',
+    summaryId: 'Minggu 8 dari 12: **Middleware & Auth** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Database & ORM**.',
+    summaryEn: 'Week 8 of 12: **Middleware & Auth** (Level: Intermediate). Intermediate phase complete! Next week: **Database & ORM**.',
+  },
+  // ── ADVANCED (weeks 9-12) ────────────────────────────────────────────────
+  {
+    week: 9, level: 'advanced', topicId: 'database-orm',
+    titleId: 'Database & ORM', titleEn: 'Database & ORM',
+    programId: 'Prisma & CRUD', programEn: 'Prisma & CRUD',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'jsx',
+    code: `// Next.js + Database: Prisma ORM
+// Setup, schema, migrations, CRUD operations
+
+// ── prisma/schema.prisma ──
+// generator client {
+//   provider = "prisma-client-js"
+// }
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+// model User {
+//   id        Int      @id @default(autoincrement())
+//   email     String   @unique
+//   name      String?
+//   posts     Post[]
+//   createdAt DateTime @default(now())
+// }
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   content   String?
+//   published Boolean  @default(false)
+//   author    User     @relation(fields: [authorId], references: [id])
+//   authorId  Int
+// }
+
+// ── lib/prisma.js ──
+// import { PrismaClient } from "@prisma/client";
+// const prisma = new PrismaClient();
+// export default prisma;
+
+// ── Server Component dengan Prisma ──
+// import prisma from "@/lib/prisma";
+
+export default async function UsersPage() {
+  // Simulasi data dari database
+  const users = await getUsers();
+
+  return (
+    <div>
+      <h1>Users</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name} ({user.email}) — {user.posts} posts
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+async function getUsers() {
+  // Simulasi: prisma.user.findMany({ include: { posts: true } })
+  return [
+    { id: 1, name: "Budi", email: "budi@tryngo.dev", posts: 5 },
+    { id: 2, name: "Siti", email: "siti@tryngo.dev", posts: 3 },
+  ];
+}
+
+// ── Server Action: Create User ──
+// "use server";
+// export async function createUser(formData) {
+//   const name = formData.get("name");
+//   const email = formData.get("email");
+//   await prisma.user.create({ data: { name, email } });
+//   revalidatePath("/users");
+// }
+
+console.log("Database & ORM siap digunakan");`,
+    objectivesId: [
+      'Setup Prisma dengan Next.js',
+      'Schema definition: models, relations, fields',
+      'CRUD operations: create, read, update, delete',
+      'Relations: one-to-many, many-to-many',
+      'Migrations: prisma migrate, prisma generate',
+    ],
+    objectivesEn: [
+      'Setup Prisma with Next.js',
+      'Schema definition: models, relations, fields',
+      'CRUD operations: create, read, update, delete',
+      'Relations: one-to-many, many-to-many',
+      'Migrations: prisma migrate, prisma generate',
+    ],
+    explanationId: '### Prisma\nORM type-safe untuk Next.js. Schema-first approach.\n\n### Schema\nModel = table. Field = column. Relation = foreign key.\n\n### CRUD\nprisma.user.findMany(), create(), update(), delete().\n\n### Migrations\nprisma migrate dev = buat migration + apply.',
+    explanationEn: '### Prisma\nType-safe ORM for Next.js. Schema-first.\n\n### Schema\nModel = table, Field = column, Relation = FK.\n\n### CRUD\nfindMany, create, update, delete.\n\n### Migrations\nprisma migrate dev creates and applies migrations.',
+    experimentsId: [
+      'Buat schema dengan relations',
+      'Implementasikan pagination',
+      'Tambah search dan filter',
+      'Buat nested create (user + posts)',
+    ],
+    experimentsEn: [
+      'Create schema with relations',
+      'Implement pagination',
+      'Add search and filter',
+      'Create nested create (user + posts)',
+    ],
+    challengeId: 'Buat blog database: User, Post, Comment models. CRUD operations dengan Prisma. Include relations dan pagination.',
+    challengeEn: 'Build a blog database: User, Post, Comment models. CRUD operations with Prisma. Include relations and pagination.',
+    summaryId: 'Minggu 9 dari 12: **Database & ORM** (Level: Lanjutan). Data persistence. Minggu depan: **Advanced Auth**.',
+    summaryEn: 'Week 9 of 12: **Database & ORM** (Level: Advanced). Data persistence. Next week: **Advanced Auth**.',
+  },
+  {
+    week: 10, level: 'advanced', topicId: 'advanced-auth',
+    titleId: 'Advanced Auth & Security', titleEn: 'Advanced Auth & Security',
+    programId: 'NextAuth & OAuth', programEn: 'NextAuth & OAuth',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'jsx',
+    code: `// Advanced Auth: NextAuth.js (Auth.js), OAuth, Sessions
+// Security: CSRF, XSS, rate limiting
+
+// ── Setup NextAuth (app/api/auth/[...nextauth]/route.js) ──
+// import NextAuth from "next-auth";
+// import GoogleProvider from "next-auth/providers/google";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// const handler = NextAuth({
+//   providers: [
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_ID,
+//       clientSecret: process.env.GOOGLE_SECRET,
+//     }),
+//     CredentialsProvider({
+//       async authorize(credentials) {
+//         // Validasi credentials
+//         const user = await validateUser(credentials.email, credentials.password);
+//         return user || null;
+//       },
+//     }),
+//   ],
+//   callbacks: {
+//     async session({ session, token }) {
+//       session.user.id = token.sub;
+//       return session;
+//     },
+//   },
+// });
+// export { handler as GET, handler as POST };
+
+// ── Auth Provider ──
+// "use client";
+// import { SessionProvider } from "next-auth/react";
+// export function Providers({ children }) {
+//   return <SessionProvider>{children}</SessionProvider>;
+// }
+
+// ── Protected Server Component ──
+// import { getServerSession } from "next-auth";
+// import { redirect } from "next/navigation";
+
+export default async function Dashboard() {
+  // const session = await getServerSession();
+  // if (!session) redirect("/login");
+
+  // Simulasi session
+  const session = { user: { name: "Budi", email: "budi@tryngo.dev" } };
+
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <p>Selamat datang, {session.user.name}!</p>
+      <p>Email: {session.user.email}</p>
+    </div>
+  );
+}
+
+// ── Security Headers (next.config.js) ──
+// const securityHeaders = [
+//   { key: "X-Frame-Options", value: "DENY" },
+//   { key: "X-Content-Type-Options", value: "nosniff" },
+//   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+// ];
+
+console.log("Advanced Auth & Security siap digunakan");`,
+    objectivesId: [
+      'NextAuth.js setup dengan providers (Google, GitHub, Credentials)',
+      'Session management: JWT vs Database sessions',
+      'OAuth flow: redirect, callback, token exchange',
+      'Security headers: CSP, X-Frame-Options, HSTS',
+      'Rate limiting dan CSRF protection',
+    ],
+    objectivesEn: [
+      'NextAuth.js setup with providers (Google, GitHub, Credentials)',
+      'Session management: JWT vs Database sessions',
+      'OAuth flow: redirect, callback, token exchange',
+      'Security headers: CSP, X-Frame-Options, HSTS',
+      'Rate limiting and CSRF protection',
+    ],
+    explanationId: '### NextAuth\nAuth library untuk Next.js. Support banyak providers.\n\n### Providers\nOAuth (Google, GitHub), Credentials (email/password), Magic Link.\n\n### Sessions\nJWT (stateless) vs Database (revoke-able).\n\n### Security\nHeaders, CSRF token, rate limiting di middleware.',
+    explanationEn: '### NextAuth\nAuth library for Next.js. Multiple providers.\n\n### Providers\nOAuth, Credentials, Magic Link.\n\n### Sessions\nJWT vs Database.\n\n### Security\nHeaders, CSRF, rate limiting.',
+    experimentsId: [
+      'Setup Google OAuth',
+      'Buat credentials login',
+      'Tambah role-based access',
+      'Implementasikan rate limiting',
+    ],
+    experimentsEn: [
+      'Setup Google OAuth',
+      'Create credentials login',
+      'Add role-based access',
+      'Implement rate limiting',
+    ],
+    challengeId: 'Buat auth system lengkap: Google OAuth, credentials login, protected routes, role-based access (admin/user).',
+    challengeEn: 'Build a complete auth system: Google OAuth, credentials login, protected routes, role-based access (admin/user).',
+    summaryId: 'Minggu 10 dari 12: **Advanced Auth & Security** (Level: Lanjutan). Keamanan aplikasi. Minggu depan: **Deployment & Production**.',
+    summaryEn: 'Week 10 of 12: **Advanced Auth & Security** (Level: Advanced). Application security. Next week: **Deployment & Production**.',
+  },
+  {
+    week: 11, level: 'advanced', topicId: 'deployment-production',
+    titleId: 'Deployment & Production', titleEn: 'Deployment & Production',
+    programId: 'Vercel & CI/CD', programEn: 'Vercel & CI/CD',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'jsx',
+    code: `// Deployment Next.js: Vercel, Docker, self-hosted
+// CI/CD, environment variables, monitoring
+
+// ── Environment Variables ──
+// .env.local (development, gitignored)
+// DATABASE_URL=postgresql://...
+// NEXTAUTH_SECRET=your-secret
+// NEXT_PUBLIC_API_URL=https://api.example.com
+
+// ── next.config.js ──
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Image domains untuk next/image
+  images: {
+    domains: ["images.unsplash.com", "avatars.githubusercontent.com"],
+  },
+  // Headers keamanan
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+        ],
+      },
+    ];
+  },
+  // Redirect
+  async redirects() {
+    return [
+      { source: "/old-page", destination: "/new-page", permanent: true },
+    ];
+  },
+};
+
+export default nextConfig;
+
+// ── Dockerfile ──
+// FROM node:18-alpine AS builder
+// WORKDIR /app
+// COPY package*.json ./
+// RUN npm ci
+// COPY . .
+// RUN npm run build
+// FROM node:18-alpine AS runner
+// WORKDIR /app
+// COPY --from=builder /app/.next ./.next
+// COPY --from=builder /app/node_modules ./node_modules
+// COPY --from=builder /app/package.json ./package.json
+// EXPOSE 3000
+// CMD ["npm", "start"]
+
+// ── Vercel Deployment ──
+// 1. Push ke GitHub
+// 2. Import project di vercel.com
+// 3. Set environment variables
+// 4. Deploy otomatis setiap push
+
+// ── Monitoring ──
+// Vercel Analytics, Sentry untuk error tracking
+
+console.log("Deployment & Production siap digunakan");`,
+    objectivesId: [
+      'Environment variables: .env.local, .env.production',
+      'Deployment ke Vercel: git integration, auto deploy',
+      'Docker: multi-stage build untuk production',
+      'CI/CD: GitHub Actions untuk test dan deploy',
+      'Monitoring: Vercel Analytics, Sentry error tracking',
+    ],
+    objectivesEn: [
+      'Environment variables: .env.local, .env.production',
+      'Deployment to Vercel: git integration, auto deploy',
+      'Docker: multi-stage build for production',
+      'CI/CD: GitHub Actions for test and deploy',
+      'Monitoring: Vercel Analytics, Sentry error tracking',
+    ],
+    explanationId: '### Environment Variables\n.env.local = development. NEXT_PUBLIC_ = exposed ke client.\n\n### Vercel\nDeploy otomatis setiap push. Preview deploy untuk PR.\n\n### Docker\nMulti-stage build: build → runner. Image lebih kecil.\n\n### CI/CD\nGitHub Actions: test → build → deploy.\n\n### Monitoring\nAnalytics untuk performance. Sentry untuk error tracking.',
+    explanationEn: '### Environment Variables\n.env.local for dev. NEXT_PUBLIC_ exposed to client.\n\n### Vercel\nAuto deploy on push. Preview deploys for PRs.\n\n### Docker\nMulti-stage build for smaller images.\n\n### CI/CD\nGitHub Actions: test → build → deploy.\n\n### Monitoring\nAnalytics for performance, Sentry for errors.',
+    experimentsId: [
+      'Setup GitHub Actions CI/CD',
+      'Buat Dockerfile untuk production',
+      'Implementasikan error tracking',
+      'Setup preview deployments',
+    ],
+    experimentsEn: [
+      'Setup GitHub Actions CI/CD',
+      'Create Dockerfile for production',
+      'Implement error tracking',
+      'Setup preview deployments',
+    ],
+    challengeId: 'Deploy aplikasi Next.js ke Vercel: setup env vars, custom domain, monitoring, CI/CD pipeline.',
+    challengeEn: 'Deploy a Next.js app to Vercel: setup env vars, custom domain, monitoring, CI/CD pipeline.',
+    summaryId: 'Minggu 11 dari 12: **Deployment & Production** (Level: Lanjutan). Aplikasi live! Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 11 of 12: **Deployment & Production** (Level: Advanced). App is live! Next week: **Capstone Project**!',
+  },
+  {
+    week: 12, level: 'advanced', topicId: 'capstone',
+    titleId: 'Capstone: SaaS App', titleEn: 'Capstone: SaaS App',
+    programId: 'Platform Kursus', programEn: 'Course Platform',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'jsx',
+    code: `// Capstone: SaaS Course Platform
+// Menggabungkan semua konsep Next.js
+
+// ── Architecture ──
+// - Next.js App Router
+// - Prisma + PostgreSQL
+// - NextAuth (Google + Credentials)
+// - Server Actions untuk mutations
+// - Stripe untuk payments (simulasi)
+// - Vercel deployment
+
+// ── Database Schema ──
+// model User { id, email, name, role, courses[] }
+// model Course { id, title, description, price, lessons[] }
+// model Lesson { id, title, content, courseId, order }
+// model Enrollment { id, userId, courseId, progress }
+
+// ── Routes ──
+// / = Landing page
+// /courses = Course catalog
+// /courses/[id] = Course detail
+// /learn/[id] = Learning interface
+// /dashboard = User dashboard
+// /admin = Admin panel (role-based)
+
+// ── app/page.js (Landing) ──
+export default function LandingPage() {
+  const features = [
+    { title: "Interactive Learning", desc: "Belajar dengan coding langsung" },
+    { title: "Progress Tracking", desc: "Pantau kemajuan belajar" },
+    { title: "Certificate", desc: "Dapatkan sertifikat setelah selesai" },
+  ];
+
+  return (
+    <div>
+      <section className="hero">
+        <h1>Tryngo — Belajar Coding dari Nol</h1>
+        <p>Platform pembelajaran coding interaktif</p>
+        <a href="/courses">Mulai Belajar</a>
+      </section>
+      <section className="features">
+        {features.map((f, i) => (
+          <div key={i}>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+}
+
+// ── Server Action: Enroll Course ──
+// "use server";
+// export async function enrollCourse(courseId) {
+//   const session = await getServerSession();
+//   if (!session) throw new Error("Unauthorized");
+//   await prisma.enrollment.create({
+//     data: { userId: session.user.id, courseId, progress: 0 },
+//   });
+//   revalidatePath("/dashboard");
+// }
+
+console.log("SaaS Course Platform siap digunakan!");`,
+    objectivesId: [
+      'Menggabungkan semua konsep: routing, data fetching, server actions, auth',
+      'SaaS architecture: multi-tenant, role-based access',
+      'Payment integration (Stripe simulasi)',
+      'Admin panel dengan role-based access',
+      'Production-ready: monitoring, error handling, SEO',
+    ],
+    objectivesEn: [
+      'Combine all concepts: routing, data fetching, server actions, auth',
+      'SaaS architecture: multi-tenant, role-based access',
+      'Payment integration (Stripe simulation)',
+      'Admin panel with role-based access',
+      'Production-ready: monitoring, error handling, SEO',
+    ],
+    explanationId: '### Architecture\nFull-stack Next.js: App Router + Prisma + NextAuth.\n\n### SaaS Pattern\nMulti-tenant: user punya data sendiri. Role: admin, user.\n\n### Payments\nStripe: subscription, one-time payment, webhook.\n\n### Production\nMonitoring, error tracking, SEO, performance.',
+    explanationEn: '### Architecture\nFull-stack Next.js: App Router + Prisma + NextAuth.\n\n### SaaS Pattern\nMulti-tenant with role-based access.\n\n### Payments\nStripe for subscriptions and payments.\n\n### Production\nMonitoring, error tracking, SEO, performance.',
+    experimentsId: [
+      'Tambah payment integration',
+      'Buat admin dashboard',
+      'Implementasikan progress tracking',
+      'Tambah search dan filter courses',
+    ],
+    experimentsEn: [
+      'Add payment integration',
+      'Create admin dashboard',
+      'Implement progress tracking',
+      'Add search and filter courses',
+    ],
+    challengeId: 'Buat SaaS app lengkap: course platform dengan auth, payments, admin panel, progress tracking. Deploy ke Vercel.',
+    challengeEn: 'Build a complete SaaS app: course platform with auth, payments, admin panel, progress tracking. Deploy to Vercel.',
+    summaryId: 'Minggu 12 dari 12: **Capstone: SaaS App** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Next.js dari nol hingga production-ready.',
+    summaryEn: 'Week 12 of 12: **Capstone: SaaS App** (Level: Advanced). Complete! 🎉 You\'ve mastered Next.js from scratch to production-ready.',
   },
 ];
 
-// ===== GENERATE =====
-for (const lesson of LESSONS) {
-  const phase = PHASES.find(p => p.phase === lesson.phase);
-  const levelDir = phase.id;
-    const mdDir = path.join(BASE_DIR, levelDir);
-
-  const objListId = lesson.objId.map(o => `- ${o}`).join('\n');
-  const objListEn = lesson.objEn.map(o => `- ${o}`).join('\n');
-
-  for (const lang of ['id', 'en']) {
-    const isId = lang === 'id';
-    const title = isId ? lesson.titleId : lesson.titleEn;
-    const phaseName = isId ? phase.nameId : phase.nameEn;
-    const objList = isId ? objListId : objListEn;
-    const exp = isId ? lesson.expId : lesson.expEn;
-    const ch = isId ? lesson.chId : lesson.chEn;
-    const sum = isId ? lesson.sumId : lesson.sumEn;
-    const lessonLabel = isId ? `Pelajaran ${lesson.num}` : `Lesson ${lesson.num}`;
-
-    const langDir = path.join(mdDir, lang);
-    fs.mkdirSync(langDir, { recursive: true });
-
-    const code = lesson.files[lesson.codeFile] || '';
-    const filename = `lesson${lesson.num}-${lesson.topicId}.md`;
-    const content = `# ${title}
-
-> Next.js | ${phaseName} | ${lessonLabel}
-
-## ${isId ? 'Tujuan Pembelajaran' : 'Learning Objectives'}
-
-${objList}
-
----
-
-## ${isId ? 'Program: ' : 'Program: '}${title}
-
-\`\`\`tsx
-${code}
-\`\`\`
-
----
-
-## ${isId ? 'Penjelasan' : 'Explanation'}
-
-${exp}
-
----
-
-## ${isId ? 'Eksperimen' : 'Experiments'}
-
-${lesson.expId.split('\n').map(l => l.trim()).filter(l => l.startsWith('##')).map((h, i) => `${i + 1}. **${h.replace(/^#+\s*/, '')}**`).join('\n')}
-
----
-
-## ${isId ? 'Tantangan' : 'Challenge'}
-
-${ch}
-
----
-
-## ${isId ? 'Ringkasan' : 'Summary'}
-
-${sum}
-`;
-
-    fs.writeFileSync(path.join(langDir, filename), content);
-
-    // Write project files JSON for WebContainer
-    const filesJson = path.join(langDir, `lesson${lesson.num}-${lesson.topicId}.json`);
-    fs.writeFileSync(filesJson, JSON.stringify(lesson.files, null, 2));
-  }
-
-  console.log(`  ${lesson.num}. ${lesson.titleId} / ${lesson.titleEn}`);
+// Add weeks to levels
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
 }
 
-const total = LESSONS.length * 2;
-console.log(`\n✓ Generated ${total} Next.js curriculum files (${LESSONS.length} lessons × 2 languages)`);
-console.log(`  Output: ${BASE_DIR}`);
+gen.writeFiles(MODULES, LEVELS);

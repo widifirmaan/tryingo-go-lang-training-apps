@@ -69,6 +69,8 @@ func run(week int) string {
 		return week9()
 	case 10:
 		return week10()
+	case 11:
+		return week11()
 	default:
 		return fmt.Sprintf("Week %d not available in TinyGo", week)
 	}
@@ -341,6 +343,51 @@ func week10() string {
 		sum += n
 	}
 	out += fmt.Sprintf("Sum: %d, Count: %d\n", sum, len(nums))
+
+	return out
+}
+
+func week11() string {
+	var out string
+	out += "=== Week 11: Context & Advanced Sync ===\n"
+
+	// Context with timeout
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
+	defer cancel()
+
+	select {
+	case <-time.After(100 * time.Millisecond):
+		out += "Completed on time\n"
+	case <-ctx.Done():
+		out += "Context timeout: " + ctx.Err().Error() + "\n"
+	}
+
+	// WaitGroup
+	var wg sync.WaitGroup
+	for i := 1; i <= 3; i++ {
+		wg.Add(1)
+		go func(id int) {
+			defer wg.Done()
+			out += fmt.Sprintf("Worker %d done\n", id)
+		}(i)
+	}
+	wg.Wait()
+	out += "All workers finished!\n"
+
+	// Mutex
+	akun := &AkunMutex{}
+	var wg2 sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg2.Add(1)
+		go func() {
+			defer wg2.Done()
+			akun.mu.Lock()
+			akun.Saldo += 100
+			akun.mu.Unlock()
+		}()
+	}
+	wg2.Wait()
+	out += fmt.Sprintf("Balance after 10 deposits: %d\n", akun.Saldo)
 
 	return out
 }

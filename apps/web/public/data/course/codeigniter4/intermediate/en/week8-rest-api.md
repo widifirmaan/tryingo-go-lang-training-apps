@@ -1,0 +1,110 @@
+# REST API Development
+
+> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 8:** REST API Development
+
+## Learning Objectives
+
+- Resource routes: $routes->resource() for CRUD APIs
+- JSON responses: setJSON, respond, respondCreated
+- ResourceController: pre-built CRUD controller
+- getJSON: parse JSON request body
+- CORS: configure cross-origin resource sharing
+
+---
+
+## Program: API Endpoints
+
+```php
+<?php
+echo "=== CI4 REST API ===<br><br>";
+
+echo "=== API Routes ===<br>";
+echo "$routes->resource('api/products');<br>";
+echo "$routes->group('api', function($routes) {<br>";
+echo "    $routes->get('products', 'Api\Product::index');<br>";
+echo "    $routes->post('products', 'Api\Product::store');<br>";
+echo "    $routes->put('products/(:num)', 'Api\Product::update/$1');<br>";
+echo "    $routes->delete('products/(:num)', 'Api\Product::delete/$1');<br>";
+echo "});<br><br>";
+
+echo "=== JSON Response ===<br>";
+echo "return $this->response->setJSON([<br>";
+echo "    'status' => 'success',<br>";
+echo "    'data' => $products,<br>";
+echo "]);<br><br>";
+
+echo "=== API Controller ===<br>";
+echo "class Product extends ResourceController {<br>";
+echo "    protected $model = ProductModel::class;<br>";
+echo "    protected $format = 'json';<br><br>";
+echo "    public function index() {<br>";
+echo "        return $this->respond($this->model->findAll());<br>";
+echo "    }<br><br>";
+echo "    public function create() {<br>";
+echo "        $data = $this->request->getJSON(true);<br>";
+echo "        $this->model->insert($data);<br>";
+echo "        return $this->respondCreated($data);<br>";
+echo "    }<br>";
+echo "}<br><br>";
+
+echo "=== API Simulation ===<br>";
+$endpoints = [
+    "GET /api/products" => ["status" => 200, "data" => "List products"],
+    "GET /api/products/1" => ["status" => 200, "data" => "Product #1"],
+    "POST /api/products" => ["status" => 201, "data" => "Created"],
+    "PUT /api/products/1" => ["status" => 200, "data" => "Updated"],
+    "DELETE /api/products/1" => ["status" => 200, "data" => "Deleted"],
+];
+
+foreach ($endpoints as $endpoint => $resp) {
+    echo "$endpoint → {$resp['status']}: {$resp['data']}<br>";
+}
+
+echo "<br>=== CORS & Filters ===<br>";
+echo "// app/Config/Cors.php<br>";
+echo "public $allowedOrigins = ['http://localhost:3000'];<br>";
+echo "public $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE'];<br>";
+echo "public $allowedHeaders = ['Content-Type', 'Authorization'];<br>";
+>
+```
+
+---
+
+## Key Concepts
+
+### Resource Routes
+`$routes->resource()` generates 5 RESTful routes.
+
+### JSON Response
+`$this->respond()`, `$this->respondCreated()`, `setJSON()`.
+
+### ResourceController
+Pre-built CRUD controller.
+
+### getJSON
+`$this->request->getJSON(true)` parses JSON body to array.
+
+### CORS
+`app/Config/Cors.php` configures allowed origins, methods, headers.
+
+---
+
+## Experiments
+
+- Create API resource controller for Post
+- Implement API with JWT auth
+- Try API versioning with route group
+- Create API pagination
+- Implement rate limiting
+
+---
+
+## Challenge
+
+Build a complete REST API for products: CRUD endpoints, validation, JSON responses, CORS.
+
+---
+
+## Summary
+
+Week 8 of 10: **REST API Development** (Level: Intermediate). API-first development. Next week: **Testing**.

@@ -1,7 +1,0 @@
-{
-  "src/App.svelte": "<script>\n  import { countStore, doubleStore } from \"./stores/counter\";\n  import { goto } from \"$app/navigation\";\n</script>\n\n<h1>Svelte State Management</h1>\n\n<p>Count: {$countStore}</p>\n<p>Double: {$doubleStore}</p>\n\n<button on:click={() => countStore.update(n => n + 1)}>+</button>\n<button on:click={() => countStore.update(n => n - 1)}>-</button>\n<button on:click={() => countStore.set(0)}>Reset</button>\n\n<button on:click={() => goto(\"/about\")}>Ke About</button>",
-  "src/stores/counter.js": "import { writable, derived } from \"svelte/store\";\n\nexport const countStore = writable(0);\n\nexport const doubleStore = derived(\n  countStore,\n  $count => $count * 2\n);\n\nexport function increment() {\n  countStore.update(n => n + 1);\n}\n\nexport function decrement() {\n  countStore.update(n => n - 1);\n}\n\nexport function reset() {\n  countStore.set(0);\n}",
-  "composer.json": "{\n  \"name\": \"svelte-lesson-8\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
-  "package.json": "{\n  \"name\": \"svelte-lesson-8\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
-  "README.md": "# Svelte Lesson 8 - State Management & Stores\n\nJalankan: npm install && npm run dev\n\nCustom stores, derived stores, store actions.\n"
-}

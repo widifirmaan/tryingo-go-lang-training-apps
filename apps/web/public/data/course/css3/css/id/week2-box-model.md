@@ -1,131 +1,154 @@
 # Box Model
 
-> CSS | Module 2
+> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 2:** Box Model
 
 ## Tujuan Pembelajaran
 
-- Memahami Box Model: content, padding, border, dan margin
-- Menguasai perbedaan box-sizing: content-box vs border-box
-- Mengatur ukuran elemen dengan width, height, dan overflow
-- Memahami display: block vs inline dan pengaruhnya pada box
-- Mengelola jarak antar elemen dengan margin collapsing
+- Memahami box model: content, padding, border, margin
+- box-sizing: content-box vs border-box
+- Margin collapse: margin vertikal bertumpuk, tidak bertambah
+- Shorthand properties: margin, padding, border
+- Overflow: visible, hidden, scroll, auto
 
 ---
 
-## Program: Visualisasi Box
+## Program: Layout dengan Box Model
 
 ```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Box Model</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; }
-    body { font-family: system-ui, sans-serif; background: #f0f4f8; padding: 2rem; }
-    h1 { color: #1572B6; text-align: center; margin-bottom: 1.5rem; }
-    .card { background: #fff; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .box-viz { margin: 1.5rem auto; width: 300px; }
-    .box-viz .margin { background: #ffd54f; padding: 1.5rem; border-radius: 8px; }
-    .box-viz .border { background: #ff8a65; padding: 1.5rem; border-radius: 4px; }
-    .box-viz .padding { background: #81c784; padding: 1.5rem; }
-    .box-viz .content { background: #64b5f6; padding: 1.5rem; text-align: center; color: #fff; font-weight: bold; border-radius: 2px; }
-    .box-viz .label { text-align: center; font-size: 0.75rem; margin-top: 0.3rem; color: #555; }
-    .row { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    .box { width: 200px; padding: 1.5rem; border: 5px solid #1572B6; margin: 1rem; background: #e3f0fa; text-align: center; }
-    .content-box { box-sizing: content-box; background: #ffebee; }
-    .border-box { box-sizing: border-box; background: #e8f5e9; }
-    .overflow-demo { width: 200px; height: 60px; border: 2px solid #1572B6; padding: 0.5rem; overflow: auto; background: #fff; }
-  </style>
+    <meta charset="UTF-8">
+    <title>CSS Box Model</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        /* Content → Padding → Border → Margin */
+        .box {
+            /* Content */
+            width: 200px;
+            height: 100px;
+
+            /* Padding (inner space) */
+            padding: 20px;
+
+            /* Border */
+            border: 3px solid #2E5B44;
+
+            /* Margin (outer space) */
+            margin: 15px;
+
+            background: #e8f5e9;
+        }
+
+        /* Box-sizing comparison */
+        .content-box {
+            box-sizing: content-box;
+            width: 200px;
+            padding: 20px;
+            border: 5px solid #e74c3c;
+            margin: 10px 0;
+            background: #ffebee;
+        }
+
+        .border-box {
+            box-sizing: border-box;
+            width: 200px;
+            padding: 20px;
+            border: 5px solid #2E5B44;
+            margin: 10px 0;
+            background: #e8f5e9;
+        }
+
+        /* Margin collapse demo */
+        .collapse-a {
+            margin-bottom: 30px;
+            background: #bbdefb;
+            padding: 10px;
+        }
+
+        .collapse-b {
+            margin-top: 20px;
+            background: #c8e6c9;
+            padding: 10px;
+        }
+
+        /* Shorthand */
+        .shorthand {
+            /* top right bottom left */
+            margin: 10px 20px 30px 40px;
+            /* vertical horizontal */
+            padding: 15px 25px;
+            /* width style color */
+            border: 2px dashed #9c27b0;
+            background: #f3e5f5;
+        }
+    </style>
 </head>
 <body>
-  <h1>Box Model</h1>
-  <div class="card">
-    <h2 style="color:#1572B6;margin-bottom:0.8rem">Anatomi Box Model</h2>
-    <div class="box-viz">
-      <div class="margin">
-        <div style="font-size:0.8rem;text-align:center;margin-bottom:0.3rem">Margin</div>
-        <div class="border">
-          <div style="font-size:0.8rem;text-align:center;margin-bottom:0.3rem">Border</div>
-          <div class="padding">
-            <div style="font-size:0.8rem;text-align:center;margin-bottom:0.3rem">Padding</div>
-            <div class="content">Content</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card">
-    <h2 style="color:#1572B6;margin-bottom:0.8rem">content-box vs border-box</h2>
-    <div class="row">
-      <div><div class="box content-box">content-box<br>250px total</div><div class="label" style="text-align:center">width + padding + border</div></div>
-      <div><div class="box border-box">border-box<br>200px total</div><div class="label" style="text-align:center">width = total termasuk border</div></div>
-    </div>
-  </div>
-  <div class="card">
-    <h2 style="color:#1572B6;margin-bottom:0.8rem">Overflow</h2>
-    <div class="overflow-demo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</div>
-    <div class="label" style="margin-top:0.3rem">Gulir untuk melihat konten yang meluap</div>
-  </div>
+    <h1>CSS Box Model</h1>
+
+    <h2>Standard Box</h2>
+    <div class="box">Content 200x100 + padding 20 + border 3 + margin 15</div>
+
+    <h2>Box-Sizing Comparison</h2>
+    <p>content-box (default): total width = 200 + 40 + 10 = 250px</p>
+    <div class="content-box">content-box</div>
+    <p>border-box: total width = 200px (padding & border included)</p>
+    <div class="border-box">border-box</div>
+
+    <h2>Margin Collapse</h2>
+    <p>Margin 30px + 20px = 30px (yang terbesar), bukan 50px!</p>
+    <div class="collapse-A">Collapse A (margin-bottom: 30px)</div>
+    <div class="collapse-B">Collapse B (margin-top: 20px)</div>
+
+    <h2>Shorthand Properties</h2>
+    <div class="shorthand">margin: 10px 20px 30px 40px (TRBL)</div>
 </body>
 </html>
 ```
 
 ---
 
-## Penjelasan
+## Konsep Kunci
 
 ### Box Model
+Setiap elemen adalah kotak: content → padding → border → margin.
 
-Setiap elemen HTML adalah **kotak** yang terdiri dari empat lapisan:
+### Box-Sizing
+`content-box` (default): width = content saja. `border-box`: width = content + padding + border.
 
-1. **Content** — area tempat teks/gambar ditampilkan. Ukurannya diatur oleh `width` dan `height`.
-2. **Padding** — ruang antara konten dan border. Membersihkan area dalam elemen. Transparan terhadap background.
-3. **Border** — garis yang mengelilingi padding. Bisa solid, dashed, dotted, dll.
-4. **Margin** — ruang di luar border. Membersihkan area antar elemen. Transparan.
+### Margin Collapse
+Dua margin vertikal bertumpuk — yang dipakai yang terbesar, bukan jumlah.
 
-### box-sizing
-
-- **content-box** (default): `width` hanya mengukur konten. Total lebar = width + padding + border.
-- **border-box**: `width` mencakup konten + padding + border. Total lebar = width.
-
-Gunakan `box-sizing: border-box` pada semua elemen untuk layout yang lebih mudah diprediksi.
+### Shorthand
+`margin: 10px 20px 30px 40px` = top right bottom left.
 
 ### Overflow
-
-Saat konten lebih besar dari box-nya, `overflow` menentukan perilakunya:
-- `visible` (default) — konten meluap keluar
-- `hidden` — konten terpotong
-- `scroll` — scrollbar selalu muncul
-- `auto` — scrollbar muncul hanya saat diperlukan
-
-### Margin Collapsing
-
-Margin vertikal antar elemen block tidak dijumlahkan — margin terbesar yang menang.
+`overflow: hidden` sembunyikan kelebihan, `scroll` tambah scrollbar.
 
 ---
 
 ## Eksperimen
 
-1. **Ubah padding** — ganti padding box model dari 1.5rem menjadi 3rem, lihat bagaimana ukuran total berubah
-2. **Ganti border** — ubah border solid menjadi `border: 5px dashed #e74c3c` pada box content-box
-3. **Coba negative margin** — tambahkan `margin-top: -20px` pada salah satu box
-4. **box-sizing toggle** — ganti class content-box ke border-box dan perhatikan perbedaan lebar
+- Ubah box-sizing dan lihat perbedaan lebar
+- Coba margin collapse dengan 3 elemen
+- Eksperimen overflow: auto pada div pendek
+- Buat shorthand border dengan 3 properti
+- Coba negative margin
 
 ---
 
 ## Tantangan
 
-Buat halaman "Kartu Harga" (pricing cards) dengan tiga kartu berjajar. Setiap kartu harus memiliki:
-- Padding yang berbeda untuk header, body, dan footer
-- Border yang membedakan kartu unggulan (featured) dari yang biasa
-- Margin antar kartu
-- box-sizing: border-box pada semua elemen
-- Overflow handling untuk deskripsi yang panjang
+Buat 3 card dengan box-sizing: border-box, padding konsisten, dan margin yang tidak collapse.
 
 ---
 
 ## Ringkasan
 
-Box Model adalah konsep paling penting dalam CSS layout. Setiap elemen adalah kotak dengan content, padding, border, dan margin. Pilih box-sizing: border-box untuk layout yang mudah diprediksi. Module selanjutnya: **Teks & Warna** — cara mempercantik tipografi dan menggunakan warna secara efektif.
+Minggu 2 dari 12: **Box Model** (Level: CSS3 Lengkap). Fondasi layout. Minggu depan: **Warna, Teks & Tipografi**.

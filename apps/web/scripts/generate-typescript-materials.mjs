@@ -1,943 +1,1559 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const BASE = path.resolve(__dirname, '../public/data/course/typescript/ts');
+// ─────────────────────────────────────────────────────────────────────────────
+// TYPESCRIPT CURRICULUM — pure research, zero framework influence
+// Sources: Official Handbook, Total TypeScript, TypeScript Deep Dive
+// ─────────────────────────────────────────────────────────────────────────────
+// Research consensus: 1 level, 12 weeks
+// Basics → Types → Functions → Interfaces → Generics → Classes → Utility Types → Config → Testing → Patterns → Project
+// ─────────────────────────────────────────────────────────────────────────────
 
-const MODULES = [
-  { id: 1,  f: 'pengenalan-typescript', lid: 'Pengenalan TypeScript',                         len: 'Introduction to TypeScript',                pid: 'Halo TypeScript',             pen: 'Hello TypeScript' },
-  { id: 2,  f: 'tipe-dasar',             lid: 'Tipe Dasar',                                     len: 'Basic Types',                                pid: 'Demo Tipe Dasar',             pen: 'Basic Types Demo' },
-  { id: 3,  f: 'fungsi',                 lid: 'Fungsi di TypeScript',                           len: 'Functions in TypeScript',                    pid: 'Koleksi Fungsi',              pen: 'Function Collection' },
-  { id: 4,  f: 'objek-interface',        lid: 'Object & Interface',                             len: 'Objects & Interfaces',                       pid: 'Katalog Produk',              pen: 'Product Catalog' },
-  { id: 5,  f: 'union-literal',          lid: 'Union, Intersection & Literal',                  len: 'Union, Intersection & Literal Types',         pid: 'Sistem Status',               pen: 'Status System' },
-  { id: 6,  f: 'type-narrowing',         lid: 'Type Narrowing & Guard',                         len: 'Type Narrowing & Guards',                    pid: 'Validasi Input',              pen: 'Input Validator' },
-  { id: 7,  f: 'generik-dasar',          lid: 'Generik Dasar',                                  len: 'Generics Basics',                            pid: 'Koleksi Aman Tipe',           pen: 'Type-Safe Collections' },
-  { id: 8,  f: 'generik-lanjutan',       lid: 'Generik Lanjutan',                               len: 'Advanced Generics',                          pid: 'Transformasi Tipe',           pen: 'Type Transformations' },
-  { id: 9,  f: 'utility-types',          lid: 'Utility Types',                                  len: 'Utility Types',                              pid: 'Manipulasi Data',             pen: 'Data Manipulation' },
-  { id: 10, f: 'class',                  lid: 'Class di TypeScript',                            len: 'Classes in TypeScript',                      pid: 'Sistem Peminjaman',           pen: 'Library System' },
-  { id: 11, f: 'module-deklarasi',       lid: 'Module & Deklarasi',                             len: 'Modules & Declarations',                     pid: 'Struktur Proyek',             pen: 'Project Structure' },
-  { id: 12, f: 'tipe-lanjutan',          lid: 'Tipe Lanjutan',                                  len: 'Advanced Types',                             pid: 'Validasi Canggih',            pen: 'Advanced Validation' },
-  { id: 13, f: 'konfigurasi-tools',      lid: 'Konfigurasi & Tools',                            len: 'Configuration & Tooling',                    pid: 'Setup Proyek',                pen: 'Project Setup' },
-  { id: 14, f: 'frontend-typescript',    lid: 'TypeScript di Frontend',                         len: 'TypeScript in Frontend',                     pid: 'Komponen Ter-tipe',           pen: 'Typed Components' },
-  { id: 15, f: 'backend-typescript',     lid: 'TypeScript di Backend',                          len: 'TypeScript in Backend',                      pid: 'API Server',                  pen: 'API Server' },
-  { id: 16, f: 'proyek-akhir',           lid: 'Proyek Akhir TypeScript',                        len: 'TypeScript Final Project',                   pid: 'Aplikasi Full-Stack',         pen: 'Full-Stack App' },
+const gen = new BaseGenerator('typescript', 'TypeScript');
+
+const LEVELS = [
+  {
+    levelId: 'beginer',
+    nameId: 'TypeScript Lengkap',
+    nameEn: 'Complete TypeScript',
+    descId: 'Dari nol hingga mahir: tipe data, interface, generics, dan pattern TypeScript production.',
+    descEn: 'From zero to expert: types, interfaces, generics, and production TypeScript patterns.',
+  },
 ];
 
-const OBJ = {
-  1: { id: ['Memahami peran TypeScript sebagai superset JavaScript', 'Menginstall TypeScript dan menjalankan tsc', 'Mengenal type annotation dan type inference', 'Mengkonfigurasi tsconfig.json dasar', 'Mengompilasi .ts ke .js'], en: ['Understand TypeScript as a JavaScript superset', 'Install TypeScript and run tsc', 'Learn type annotations and type inference', 'Configure basic tsconfig.json', 'Compile .ts to .js'] },
-  2: { id: ['Menguasai tipe primitif: string, number, boolean', 'Menggunakan array dan tuple', 'Membedakan any vs unknown vs never', 'Memahami null, undefined, dan void', 'Menerapkan enum untuk konstanta bernama'], en: ['Master primitive types: string, number, boolean', 'Use arrays and tuples', 'Distinguish any vs unknown vs never', 'Understand null, undefined, and void', 'Apply enums for named constants'] },
-  3: { id: ['Menentukan tipe parameter dan return function', 'Menggunakan optional dan default parameter', 'Membuat function overloads', 'Memahami this type pada method', 'Menerapkan rest parameter dan spread'], en: ['Define parameter and return types', 'Use optional and default parameters', 'Create function overloads', 'Understand this type in methods', 'Apply rest parameters and spread'] },
-  4: { id: ['Membuat interface untuk shape objek', 'Menggunakan type alias vs interface', 'Menerapkan readonly dan optional properties', 'Meng-extend interface dan intersection type', 'Menggunakan index signatures'], en: ['Create interfaces for object shapes', 'Use type aliases vs interfaces', 'Apply readonly and optional properties', 'Extend interfaces and intersection types', 'Use index signatures'] },
-  5: { id: ['Membuat union type dari beberapa tipe', 'Menggunakan intersection type', 'Menerapkan literal type untuk nilai spesifik', 'Menggunakan template literal types', 'Menggabungkan union dan intersection'], en: ['Create union types from multiple types', 'Use intersection types', 'Apply literal types for specific values', 'Use template literal types', 'Combine union and intersection'] },
-  6: { id: ['Mempersempit tipe dengan typeof guard', 'Menggunakan instanceof untuk class', 'Menerapkan discriminated union pattern', 'Membuat custom type predicate', 'Menggunakan in operator narrowing'], en: ['Narrow types with typeof guards', 'Use instanceof for classes', 'Apply discriminated union pattern', 'Create custom type predicates', 'Use in operator narrowing'] },
-  7: { id: ['Membuat generic function', 'Menggunakan generic constraint dengan extends', 'Membuat generic interface dan type', 'Menerapkan generic default type', 'Menggunakan multiple type parameters'], en: ['Create generic functions', 'Use generic constraints with extends', 'Create generic interfaces and types', 'Apply generic default types', 'Use multiple type parameters'] },
-  8: { id: ['Menggunakan conditional types', 'Membuat mapped types', 'Menggunakan keyof dan typeof operator', 'Menerapkan indexed access types', 'Menggunakan infer dalam conditional types'], en: ['Use conditional types', 'Create mapped types', 'Use keyof and typeof operators', 'Apply indexed access types', 'Use infer in conditional types'] },
-  9: { id: ['Menguasai Partial, Required, Readonly', 'Menggunakan Pick dan Omit', 'Menerapkan Record untuk dictionary', 'Menggunakan Exclude, Extract, NonNullable', 'Menggunakan ReturnType dan Parameters'], en: ['Master Partial, Required, Readonly', 'Use Pick and Omit', 'Apply Record for dictionaries', 'Use Exclude, Extract, NonNullable', 'Use ReturnType and Parameters'] },
-  10: { id: ['Membuat class dengan typed properties', 'Menggunakan public, private, protected', 'Menerapkan implements untuk contract', 'Membuat abstract class dan method', 'Menggunakan parameter properties'], en: ['Create classes with typed properties', 'Use public, private, protected', 'Apply implements for contracts', 'Create abstract classes and methods', 'Use parameter properties'] },
-  11: { id: ['Mengimpor dan mengekspor tipe', 'Membuat declaration file (.d.ts)', 'Menggunakan @types packages', 'Memahami ambient module declarations', 'Mengatur module resolution'], en: ['Import and export types', 'Create declaration files (.d.ts)', 'Use @types packages', 'Understand ambient module declarations', 'Configure module resolution'] },
-  12: { id: ['Menggunakan satisfies operator', 'Membuat branded types untuk ID', 'Menerapkan assertion function', 'Menggunakan never untuk exhaustive check', 'Mengelola covariance dan contravariance'], en: ['Use the satisfies operator', 'Create branded types for IDs', 'Apply assertion functions', 'Use never for exhaustive checks', 'Manage covariance and contravariance'] },
-  13: { id: ['Menguasai konfigurasi tsconfig strict flags', 'Mengintegrasikan ESLint typescript-eslint', 'Menulis unit test dengan Vitest + TypeScript', 'Menggunakan project references', 'Mengoptimalkan kompilasi dengan isolatedModules'], en: ['Master tsconfig strict flags', 'Integrate ESLint with typescript-eslint', 'Write unit tests with Vitest + TypeScript', 'Use project references', 'Optimize compilation with isolatedModules'] },
-  14: { id: ['Mengetik props dan state React', 'Menggunakan generic components', 'Mengetik event handlers', 'Membuat custom hooks dengan tipe', 'Menggunakan Context dengan TypeScript'], en: ['Type React props and state', 'Use generic components', 'Type event handlers', 'Create custom hooks with types', 'Use Context with TypeScript'] },
-  15: { id: ['Mengetik request dan response Express', 'Membuat middleware dengan tipe', 'Menggunakan Zod untuk validasi runtime', 'Mengetik database query result', 'Menerapkan DTO pattern'], en: ['Type Express request and response', 'Create middleware with types', 'Use Zod for runtime validation', 'Type database query results', 'Apply DTO pattern'] },
-  16: { id: ['Menggabungkan semua konsep TypeScript', 'Mendesain arsitektur type-safe', 'Mengelola state dengan tipe yang ketat', 'Membangun API layer dengan tipe end-to-end', 'Men-deploy project TypeScript'], en: ['Combine all TypeScript concepts', 'Design type-safe architecture', 'Manage state with strict types', 'Build end-to-end typed API layer', 'Deploy a TypeScript project'] },
-};
+const MODULES = [
+  // ── WEEK 1: Pengantar TypeScript ───────────────────────────────────────────
+  {
+    week: 1, level: 'beginer', topicId: 'pengantar-typescript',
+    titleId: 'Pengantar TypeScript', titleEn: 'Introduction to TypeScript',
+    programId: 'Halo TypeScript', programEn: 'Hello TypeScript',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Dasar Tipe Data
+const nama: string = "Budi";
+const umur: number = 25;
+const aktif: boolean = true;
 
-const CODE = {
-  1: `interface Student {
-  name: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
-}
+console.log("Nama:", nama);
+console.log("Umur:", umur);
+console.log("Aktif:", aktif);
 
-const student: Student = {
-  name: 'Budi',
-  level: 'beginner',
-};
+// Type Inference (TypeScript otomatis deteksi tipe)
+const kota = "Jakarta"; // string
+const tinggi = 175.5;  // number
+const setuju = true;   // boolean
 
-// Type inference — TypeScript guesses the type
-const course = 'TypeScript';  // inferred as string
-const duration = 16;          // inferred as number
+// Array
+const angka: number[] = [1, 2, 3, 4, 5];
+const buah: Array<string> = ["apel", "mangga"];
 
-// TypeScript catches type errors at compile time
-function greet(s: Student): string {
-  return \`Halo \${s.name}! Selamat belajar \${course} selama \${duration} minggu.\`;
-}
-
-console.log(greet(student));
-
-// Try changing 'level' to an invalid value!
-`,
-  2: `// Primitive types
-let name: string = 'Budi';
-let age: number = 20;
-let isActive: boolean = true;
-
-// Arrays & Tuples
-let scores: number[] = [85, 90, 78];
-let pair: [string, number] = ['Budi', 20]; // tuple
-
-// any — avoid when possible
-let flexible: any = 'bisa apa saja';
-flexible = 42;
-
-// unknown — safer than any, must narrow
-let input: unknown = 'some data';
-if (typeof input === 'string') {
-  console.log(input.toUpperCase());
-}
-
-// never — function that never returns
-function fail(msg: string): never {
-  throw new Error(msg);
-}
-
-// void — function returns nothing
-function log(msg: string): void {
-  console.log(msg);
-}
-
-// null & undefined
-let nullable: string | null = null;
-let undef: string | undefined = undefined;
+// Tuple
+const koordinat: [number, number] = [106.8, -6.2];
+const userTuple: [string, number, boolean] = ["Budi", 25, true];
 
 // Enum
-enum Color { Red, Green, Blue }
-let c: Color = Color.Green;
+enum Warna {
+    Merah = "red",
+    Hijau = "green",
+    Biru = "blue"
+}
+const favColor: Warna = Warna.Hijau;
 
-console.log('Scores:', scores);
-console.log('Pair:', pair);
-console.log('Color:', c);  // 1
-`,
-  3: `// Parameter & return types
+// Any & Unknown
+let flexible: any = "bisa apa saja";
+flexible = 42;
+flexible = true;
+
+let safeUnknown: unknown = "type-safe any";
+if (typeof safeUnknown === "string") {
+    console.log("String length:", safeUnknown.length);
+}
+
+// Void & Never
+function logMessage(msg: string): void {
+    console.log(msg);
+}
+
+function throwError(msg: string): never {
+    throw new Error(msg);
+}
+
+console.log("\\n=== Enum ===");
+console.log("Warna favorit:", favColor);
+console.log("Koordinat:", koordinat);`,
+    objectivesId: [
+      'Perbedaan TypeScript vs JavaScript: static typing',
+      'Tipe dasar: string, number, boolean, array, tuple',
+      'Type inference: TypeScript otomatis deteksi tipe',
+      'Enum untuk set nilai tetap',
+      'Any, unknown, void, never types',
+    ],
+    objectivesEn: [
+      'Difference between TypeScript and JavaScript: static typing',
+      'Basic types: string, number, boolean, arrays, tuples',
+      'Type inference: TypeScript automatically detects types',
+      'Enums for fixed sets of values',
+      'Any, unknown, void, never types',
+    ],
+    explanationId: '### TypeScript vs JavaScript\nTypeScript = JavaScript + Static Types. Dikompilasi ke JS. Catch errors di compile-time.\n\n### Tipe Dasar\n`string`, `number`, `boolean`, `null`, `undefined`, `symbol`.\n\n### Type Inference\n`const x = 10` otomatis `number`. Tidak perlu selalu explicitly type.\n\n### Array & Tuple\n`number[]` atau `Array<number>`. Tuple `[string, number]` fixed-length.\n\n### Enum\nSet nilai named: `enum Warna { Merah = "red" }`.\n\n### Any vs Unknown\n`any` bypass type checking. `unknown` type-safe — harus cek dulu sebelum pakai.',
+    explanationEn: '### TypeScript vs JavaScript\nTypeScript = JavaScript + Static Types. Compiled to JS. Catch errors at compile-time.\n\n### Basic Types\n`string`, `number`, `boolean`, `null`, `undefined`, `symbol`.\n\n### Type Inference\n`const x = 10` automatically `number`. Don\'t always need explicit types.\n\n### Arrays & Tuples\n`number[]` or `Array<number>`. Tuple `[string, number]` fixed-length.\n\n### Enums\nNamed value sets: `enum Warna { Merah = "red" }`.\n\n### Any vs Unknown\n`any` bypasses type checking. `unknown` is type-safe — must check before use.',
+    experimentsId: [
+      'Coba assign string ke variabel number — lihat error',
+      'Buat enum untuk hari dalam seminggu',
+      'Eksperimen unknown dengan type guard',
+      'Buat tuple dengan 4 elemen berbeda',
+      'Coba union type: string | number',
+    ],
+    experimentsEn: [
+      'Try assigning string to number variable — see the error',
+      'Create enum for days of the week',
+      'Experiment unknown with type guards',
+      'Create tuple with 4 different elements',
+      'Try union type: string | number',
+    ],
+    challengeId: 'Buat program konversi suhu: function dengan typed parameters, enum untuk unit, dan type-safe output.',
+    challengeEn: 'Build a temperature converter: function with typed parameters, enum for units, and type-safe output.',
+    summaryId: 'Minggu 1 dari 12: **Pengantar TypeScript** (Level: TypeScript Lengkap). Fondasi tipe data. Minggu depan: **Advanced Types**.',
+    summaryEn: 'Week 1 of 12: **Introduction to TypeScript** (Level: Complete TypeScript). Type foundation. Next week: **Advanced Types**.',
+  },
+  {
+    week: 2, level: 'beginer', topicId: 'advanced-types',
+    titleId: 'Advanced Types', titleEn: 'Advanced Types',
+    programId: 'Union, Intersection & Literal', programEn: 'Union, Intersection & Literal Types',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Union Types
+function printId(id: string | number) {
+    if (typeof id === "string") {
+        console.log("String ID:", id.toUpperCase());
+    } else {
+        console.log("Number ID:", id.toFixed(2));
+    }
+}
+printId("ABC123");
+printId(42);
+
+// Literal Types
+type Direction = "north" | "south" | "east" | "west";
+function move(dir: Direction) {
+    console.log("Moving:", dir);
+}
+move("north");
+// move("up"); // Error! Bukan valid literal
+
+// Intersection Types
+type Named = { name: string };
+type Aged = { age: number };
+type Person = Named & Aged;
+
+const person: Person = { name: "Budi", age: 25 };
+console.log("\\nPerson:", person);
+
+// Type Narrowing
+function process(value: string | number | boolean) {
+    if (typeof value === "string") {
+        return value.length;
+    } else if (typeof value === "number") {
+        return value * 2;
+    }
+    return value ? 1 : 0;
+}
+console.log("\\nProcess string:", process("hello"));
+console.log("Process number:", process(42));
+console.log("Process boolean:", process(true));
+
+// Discriminated Union
+type Shape =
+    | { kind: "circle"; radius: number }
+    | { kind: "square"; side: number }
+    | { kind: "rectangle"; width: number; height: number };
+
+function area(shape: Shape): number {
+    switch (shape.kind) {
+        case "circle": return Math.PI * shape.radius ** 2;
+        case "square": return shape.side ** 2;
+        case "rectangle": return shape.width * shape.height;
+    }
+}
+
+console.log("\\n=== Discriminated Union ===");
+console.log("Circle area:", area({ kind: "circle", radius: 5 }).toFixed(2));
+console.log("Square area:", area({ kind: "square", side: 4 }));
+console.log("Rectangle area:", area({ kind: "rectangle", width: 3, height: 6 }));
+
+// Type Guards
+function isString(value: unknown): value is string {
+    return typeof value === "string";
+}
+
+const test: unknown = "hello";
+if (isString(test)) {
+    console.log("\\nType guard result:", test.toUpperCase());
+}`,
+    objectivesId: [
+      'Union types: string | number | boolean',
+      'Literal types: specific value sebagai tipe',
+      'Intersection types: typeA & typeB',
+      'Type narrowing dengan typeof, instanceof',
+      'Discriminated unions untuk state handling',
+    ],
+    objectivesEn: [
+      'Union types: string | number | boolean',
+      'Literal types: specific values as types',
+      'Intersection types: typeA & typeB',
+      'Type narrowing with typeof, instanceof',
+      'Discriminated unions for state handling',
+    ],
+    explanationId: '### Union Types\n`string | number` — bisa salah satu. Bisa narrow dengan typeof.\n\n### Literal Types\n`"north" | "south"` — hanya value tertentu yang valid.\n\n### Intersection\n`TypeA & TypeB` — gabung semua property dari kedua type.\n\n### Type Narrowing\nTypeScript otosisasi tipe berdasarkan kondisi (typeof, in, instanceof).\n\n### Discriminated Union\nSetiap variant punya discriminator (kind). TypeScript tahu property yang tersedia.\n\n### Type Guard\n`value is string` — function yang return boolean dan narrow tipe.',
+    explanationEn: '### Union Types\n`string | number` — can be either. Narrow with typeof.\n\n### Literal Types\n`"north" | "south"` — only specific values are valid.\n\n### Intersection\n`TypeA & TypeB` — combine all properties from both types.\n\n### Type Narrowing\nTypeScript auto-infers type based on conditions (typeof, in, instanceof).\n\n### Discriminated Unions\nEach variant has a discriminator (kind). TypeScript knows available properties.\n\n### Type Guards\n`value is string` — function returning boolean that narrows type.',
+    experimentsId: [
+      'Buat union type untuk status: idle | loading | success | error',
+      'Coba intersection type untuk mixin',
+      'Eksperimen type guard dengan in operator',
+      'Buat discriminated union untuk API response',
+      'Coba exhaustive checking dengan never',
+    ],
+    experimentsEn: [
+      'Create union type for status: idle | loading | success | error',
+      'Try intersection type for mixin',
+      'Experiment type guard with in operator',
+      'Create discriminated union for API response',
+      'Try exhaustive checking with never',
+    ],
+    challengeId: 'Buat type-safe state machine: discriminated union untuk states, type guards untuk transitions, exhaustive handling.',
+    challengeEn: 'Build a type-safe state machine: discriminated union for states, type guards for transitions, exhaustive handling.',
+    summaryId: 'Minggu 2 dari 12: **Advanced Types** (Level: TypeScript Lengkap). Fleksibilitas tipe. Minggu depan: **Functions & Signatures**.',
+    summaryEn: 'Week 2 of 12: **Advanced Types** (Level: Complete TypeScript). Type flexibility. Next week: **Functions & Signatures**.',
+  },
+  {
+    week: 3, level: 'beginer', topicId: 'fungsi-typescript',
+    titleId: 'Functions & Signatures', titleEn: 'Functions & Signatures',
+    programId: 'Typed Functions', programEn: 'Typed Functions',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Function dengan tipe explicit
 function add(a: number, b: number): number {
-  return a + b;
+    return a + b;
 }
+console.log("Add:", add(5, 3));
 
-// Optional & default parameters
-function greet(name: string, title?: string, prefix: string = 'Halo'): string {
-  return \`\${prefix} \${title ? title + ' ' : ''}\${name}!\`;
+// Optional parameters
+function greet(name: string, greeting?: string): string {
+    return (greeting || "Halo") + ", " + name + "!";
 }
+console.log(greet("Budi"));
+console.log(greet("Siti", "Selamat pagi"));
 
-console.log(greet('Budi'));           // Halo Budi!
-console.log(greet('Siti', 'Dr.'));    // Halo Dr. Siti!
+// Default parameters
+function createUser(name: string, role: string = "user"): { name: string; role: string } {
+    return { name, role };
+}
+console.log("\\nUser default:", createUser("Budi"));
+console.log("User custom:", createUser("Siti", "admin"));
 
 // Rest parameters
 function sum(...numbers: number[]): number {
-  return numbers.reduce((a, b) => a + b, 0);
+    return numbers.reduce((acc, n) => acc + n, 0);
 }
+console.log("\\nSum:", sum(1, 2, 3, 4, 5));
 
-console.log('Sum:', sum(1, 2, 3, 4, 5));
+// Function type
+type MathOperation = (a: number, b: number) => number;
 
-// Function overloads
-function process(x: string): string;
-function process(x: number): number;
-function process(x: string | number): string | number {
-  if (typeof x === 'string') return x.toUpperCase();
-  return x * 10;
+const multiply: MathOperation = (a, b) => a * b;
+const subtract: MathOperation = (a, b) => a - b;
+
+function calculate(a: number, b: number, operation: MathOperation): number {
+    return operation(a, b);
 }
-
-console.log(process('hello'));  // HELLO
-console.log(process(5));        // 50
-
-// Arrow function type
-const multiply: (a: number, b: number) => number = (x, y) => x * y;
-console.log('Multiply:', multiply(4, 3));
-`,
-  4: `// Interface — object shape contract
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  readonly sku: string;      // cannot be changed
-  stock?: number;            // optional
-}
-
-const laptop: Product = {
-  id: 1,
-  name: 'Laptop Pro',
-  price: 15000000,
-  sku: 'LAP-001',
-};
-
-laptop.price = 14000000;  // OK
-// laptop.sku = 'NEW-SKU'; // Error: readonly
-
-// Extending interfaces
-interface Electronics extends Product {
-  warrantyYears: number;
-  powerConsumption: number;
-}
-
-const monitor: Electronics = {
-  id: 2,
-  name: 'Monitor 4K',
-  price: 5000000,
-  sku: 'MON-001',
-  warrantyYears: 3,
-  powerConsumption: 65,
-};
-
-// Type alias — alternative to interface
-type Category = {
-  id: number;
-  name: string;
-  parentId?: number;
-};
-
-// Intersection type
-type DetailedProduct = Product & { category: Category };
-
-const item: DetailedProduct = {
-  ...laptop,
-  category: { id: 1, name: 'Elektronik' },
-};
-
-console.log('Monitor:', monitor);
-console.log('Item:', item);
-
-// Index signature
-interface Dictionary {
-  [key: string]: string;
-}
-const translations: Dictionary = { hello: 'halo', world: 'dunia' };
-console.log('Translate:', translations['hello']);
-`,
-  5: `// Union type
-type Status = 'idle' | 'loading' | 'success' | 'error';
-let currentStatus: Status = 'idle';
-currentStatus = 'loading';
-// currentStatus = 'unknown'; // Error
-
-// Union with different types
-type Result = number | string;
-const parseInput = (val: string): Result => {
-  const n = Number(val);
-  return isNaN(n) ? val : n;
-};
-console.log('Parsed:', parseInput('42'), parseInput('abc'));
-
-// Intersection type
-type HasName = { name: string };
-type HasAge = { age: number };
-type Person = HasName & HasAge;
-
-const person: Person = { name: 'Budi', age: 20 };
-
-// Literal types
-type Direction = 'up' | 'down' | 'left' | 'right';
-function move(d: Direction): string {
-  return \`Moving \${d}\`;
-}
-console.log(move('up'));
-
-// Template literal types
-type EventName = \`on\${Capitalize<string>}\`;
-type ClickEvent = \`onClick\`;  // type is "onClick"
-
-// Type alias with union
-type Shape =
-  | { kind: 'circle'; radius: number }
-  | { kind: 'square'; side: number }
-  | { kind: 'rectangle'; width: number; height: number };
-
-function area(s: Shape): number {
-  if (s.kind === 'circle') return Math.PI * s.radius ** 2;
-  if (s.kind === 'square') return s.side ** 2;
-  return s.width * s.height;
-}
-
-console.log('Circle area:', area({ kind: 'circle', radius: 5 }));
-console.log('Square area:', area({ kind: 'square', side: 4 }));
-`,
-  6: `// typeof narrowing
-function processValue(val: string | number): string {
-  if (typeof val === 'string') {
-    return val.toUpperCase();  // TS knows val is string
-  }
-  return val.toFixed(2);       // TS knows val is number
-}
-console.log(processValue('hello'));
-console.log(processValue(3.14159));
-
-// instanceof narrowing
-class Dog { bark() { return 'Woof!'; } }
-class Cat { meow() { return 'Meow!'; } }
-
-function makeSound(animal: Dog | Cat): string {
-  if (animal instanceof Dog) return animal.bark();
-  return animal.meow();
-}
-console.log(makeSound(new Dog()));
-
-// Discriminated union
-type ApiState =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; data: string }
-  | { status: 'error'; error: string };
-
-function handleState(state: ApiState): string {
-  switch (state.status) {
-    case 'idle': return 'Menunggu...';
-    case 'loading': return 'Memuat...';
-    case 'success': return \`Data: \${state.data}\`;
-    case 'error': return \`Error: \${state.error}\`;
-  }
-}
-console.log(handleState({ status: 'idle' }));
-console.log(handleState({ status: 'success', data: 'Halo' }));
-
-// Custom type predicate
-interface Fish { swim(): string; }
-interface Bird { fly(): string; }
-function isFish(pet: Fish | Bird): pet is Fish {
-  return (pet as Fish).swim !== undefined;
-}
-`,
-  7: `// Generic function — reusable type-safe code
-function first<T>(arr: T[]): T | undefined {
-  return arr[0];
-}
-
-console.log(first([1, 2, 3]));           // number
-console.log(first(['a', 'b']));           // string
-console.log(first<number>([10, 20]));     // explicit
-
-// Generic with constraint
-function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key];
-}
-
-const user = { name: 'Budi', age: 20, city: 'Jakarta' };
-console.log(getProperty(user, 'name'));   // Budi
-// getProperty(user, 'email'); // Error
-
-// Generic interface
-interface Repository<T> {
-  getAll(): T[];
-  getById(id: number): T | undefined;
-  add(item: T): void;
-}
-
-class InMemoryRepo<T> implements Repository<T> {
-  private items: T[] = [];
-  getAll(): T[] { return this.items; }
-  getById(id: number): T | undefined { return this.items[id]; }
-  add(item: T): void { this.items.push(item); }
-}
-
-const repo = new InMemoryRepo<string>();
-repo.add('TypeScript');
-repo.add('React');
-console.log('All items:', repo.getAll());
-
-// Generic default type
-function createArray<T = string>(length: number, value: T): T[] {
-  return Array(length).fill(value);
-}
-console.log(createArray(3, 'a'));  // string[]
-`,
-  8: `// Conditional types
-type IsString<T> = T extends string ? 'yes' : 'no';
-type A = IsString<string>;   // 'yes'
-type B = IsString<number>;   // 'no'
-
-// Conditional with infer
-type ReturnTypeOf<T> = T extends (...args: any[]) => infer R ? R : never;
-function example(): boolean { return true; }
-type ExampleReturn = ReturnTypeOf<typeof example>;  // boolean
-
-// Mapped types
-type Readonly<T> = { readonly [K in keyof T]: T[K] };
-type Optional<T> = { [K in keyof T]?: T[K] };
-
-interface Person { name: string; age: number; }
-type ReadonlyPerson = Readonly<Person>;
-type OptionalPerson = Optional<Person>;
-
-// keyof & typeof
-type PersonKeys = keyof Person;  // 'name' | 'age'
-const personObj = { name: 'Budi', age: 20 };
-type PersonType = typeof personObj;
-
-// Indexed access types
-type PersonName = Person['name'];  // string
-
-// Practical: pick specific keys
-function pick<T, K extends keyof T>(obj: T, ...keys: K[]): Pick<T, K> {
-  const result = {} as Pick<T, K>;
-  keys.forEach(key => result[key] = obj[key]);
-  return result;
-}
-
-const picked = pick({ name: 'Budi', age: 20, city: 'JKT' }, 'name', 'city');
-console.log('Picked:', picked);
-`,
-  9: `interface User {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  createdAt: Date;
-}
-
-// Partial — semua properti opsional
-function updateUser(id: number, updates: Partial<User>): void {
-  console.log(\`Mengupdate user \${id}:\`, updates);
-}
-updateUser(1, { name: 'Budi Updated' });
-
-// Required — semua properti wajib
-type CompleteUser = Required<Partial<User>>;
-
-// Readonly — tidak bisa diubah
-const frozen: Readonly<User> = {
-  id: 1, name: 'Budi', email: 'budi@mail.com',
-  password: 'secret', createdAt: new Date(),
-};
-// frozen.name = 'Baru'; // Error
-
-// Pick & Omit
-type PublicUser = Omit<User, 'password'>;
-type UserCredentials = Pick<User, 'email' | 'password'>;
-
-function getProfile(): PublicUser {
-  return { id: 1, name: 'Budi', email: 'b@m.com', createdAt: new Date() };
-}
-console.log('Profile:', getProfile());
-
-// Record — dictionary type
-const scores: Record<string, number> = {
-  Budi: 85, Siti: 92, Alex: 78,
-};
-console.log('Scores:', scores);
-
-// Exclude, Extract, NonNullable
-type T1 = Exclude<'a' | 'b' | 'c', 'a'>;   // 'b' | 'c'
-type T2 = Extract<'a' | 'b' | 'c', 'a' | 'b'>; // 'a' | 'b'
-type T3 = NonNullable<string | null | undefined>; // string
-
-// ReturnType & Parameters
-function calc(a: number, b: number): number { return a + b; }
-type CalcReturn = ReturnType<typeof calc>;     // number
-type CalcParams = Parameters<typeof calc>;      // [number, number]
-
-console.log('Utility types demo completed');
-`,
-  10: `// Class dengan typed properties
-class Animal {
-  constructor(
-    public name: string,      // parameter property
-    private age: number,
-    protected species: string
-  ) {}
-
-  public speak(): string {
-    return \`\${this.name} makes a sound\`;
-  }
-
-  protected getAge(): number {
-    return this.age;
-  }
-}
-
-const dog = new Animal('Dog', 3, 'Canine');
-console.log(dog.speak());
-// dog.age; // Error: private
-
-// Abstract class
-abstract class Vehicle {
-  constructor(public brand: string) {}
-  abstract start(): string;
-  abstract stop(): string;
-  info(): string { return \`Vehicle: \${this.brand}\`; }
-}
-
-class Car extends Vehicle {
-  start(): string { return 'Engine started'; }
-  stop(): string { return 'Engine stopped'; }
-}
-
-const myCar = new Car('Toyota');
-console.log(myCar.info());
-console.log(myCar.start());
-
-// implements — contract from interface
-interface Flyable {
-  fly(): string;
-  land(): string;
-}
-
-class Airplane implements Flyable {
-  fly(): string { return 'Flying at 30,000 ft'; }
-  land(): string { return 'Landing gear deployed'; }
-}
-
-// Static typed property
-class Config {
-  static readonly VERSION: string = '1.0.0';
-  static getAppName(): string { return 'Tryngo App'; }
-}
-console.log(Config.VERSION);
-console.log(Config.getAppName());
-`,
-  11: `// ES Module syntax with types
-// File: types.ts
-export interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-export type TodoStatus = 'active' | 'completed';
-
-export function createTodo(title: string): Todo {
-  return { id: Date.now(), title, completed: false };
-}
-
-// File: store.ts
-export class TodoStore {
-  private todos: Todo[] = [];
-
-  add(title: string): void {
-    this.todos.push(createTodo(title));
-  }
-
-  getAll(): Todo[] {
-    return [...this.todos];
-  }
-
-  toggle(id: number): void {
-    const todo = this.todos.find(t => t.id === id);
-    if (todo) todo.completed = !todo.completed;
-  }
-}
-
-// Re-export
-export type { Todo as TodoItem } from './types';
-
-// Declaration merging (ambient)
-// Normally in a .d.ts file:
-declare module 'my-library' {
-  export function doSomething(): void;
-  export const VERSION: string;
-}
-`,
-  12: `// satisfies operator — check type without widening
-type Palette = { [key: string]: string | string[] };
-
-const colors = {
-  primary: '#3178C6',
-  secondary: ['#fff', '#000'],
-} satisfies Palette;
-
-// colors.primary is still string (not string | string[])
-console.log(colors.primary.toUpperCase());
-
-// Branded types — nominal typing
-type Brand<T, B extends string> = T & { __brand: B };
-type UserId = Brand<number, 'UserId'>;
-type OrderId = Brand<number, 'OrderId'>;
-
-function getUser(id: UserId): string {
-  return \`User \${id}\`;
-}
-
-const uid = 1 as UserId;
-const oid = 1 as OrderId;
-console.log(getUser(uid));
-// getUser(oid); // Error: type mismatch
-
-// Assertion functions
-function assertIsString(val: unknown): asserts val is string {
-  if (typeof val !== 'string') throw new Error('Not a string');
-}
-
-function process(input: unknown): void {
-  assertIsString(input);
-  console.log(input.toUpperCase()); // TS knows input is string
-}
-
-process('hello');
-// process(42); // Would throw
-
-// never for exhaustive checks
-type Shape2 = 'circle' | 'square' | 'triangle';
-function area2(s: Shape2): number {
-  if (s === 'circle') return 1;
-  if (s === 'square') return 2;
-  // if (s === 'triangle') return 3;
-  // const _exhaustive: never = s; // Error if unhandled
-  return 0;
-}
-`,
-  13: `// tsconfig strict mode demo
-// strict: true enables: noImplicitAny, strictNullChecks, etc.
-
-// With strictNullChecks:
-function greetName(name: string | null): string {
-  if (name === null) return 'No name';
-  return name.toUpperCase(); // TS knows name is string here
-}
-console.log(greetName('Budi'));
-console.log(greetName(null));
-
-// noImplicitAny — every parameter must be typed
-function multiply(a: number, b: number): number {
-  return a * b;
-}
-console.log(multiply(3, 4));
-
-// noUnusedLocals — catches unused variables
-function calculate(): number {
-  const result = 42;
-  // const unused = 'will warn'; // Would cause error with the flag
-  return result;
-}
-console.log(calculate());
-
-// Unit test example (Vitest style)
-interface Calculator {
-  add(a: number, b: number): number;
-  subtract(a: number, b: number): number;
-}
-
-const calc: Calculator = {
-  add: (a, b) => a + b,
-  subtract: (a, b) => a - b,
-};
-
-// In a real test file:
-// import { describe, it, expect } from 'vitest';
-// describe('Calculator', () => {
-//   it('should add correctly', () => {
-//     expect(calc.add(2, 3)).toBe(5);
-//   });
-// });
-
-console.log('Calc add:', calc.add(5, 3));
-console.log('Calc subtract:', calc.subtract(10, 4));
-`,
-  14: `// React component types (conceptual — for learning)
-// This demonstrates TS patterns used in React
-
-// Props type
-interface ButtonProps {
-  label: string;
-  variant?: 'primary' | 'secondary';
-  disabled?: boolean;
-  onClick: () => void;
-}
-
-function Button(props: ButtonProps): string {
-  const { label, variant = 'primary', disabled, onClick } = props;
-  return \`<button class="\${variant}" \${disabled ? 'disabled' : ''}>\${label}</button>\`;
-}
-
-console.log(Button({ label: 'Submit', onClick: () => {} }));
-
-// Generic component pattern
-interface ListProps<T> {
-  items: T[];
-  renderItem: (item: T) => string;
-}
-
-function List<T>(props: ListProps<T>): string {
-  return props.items.map(props.renderItem).join('\\n');
-}
-
-const numbers = [1, 2, 3];
-const rendered = List<number>({
-  items: numbers,
-  renderItem: (n) => \`Item: \${n}\`,
-});
-console.log(rendered);
-
-// Custom hook type pattern
-function useCounter(initial: number = 0) {
-  let count = initial;
-  return {
-    get count(): number { return count; },
-    increment: () => { count++; },
-    decrement: () => { count--; },
-    reset: () => { count = initial; },
-  };
-}
-
-const counter = useCounter(10);
-counter.increment();
-counter.increment();
-console.log('Counter:', counter.count);
-counter.decrement();
-console.log('Counter after dec:', counter.count);
-counter.reset();
-console.log('Counter after reset:', counter.count);
-`,
-  15: `// Express-like API types (conceptual — demonstrates backend TS)
-
-// Request & Response types
-interface ApiRequest<T = any> {
-  body: T;
-  params: Record<string, string>;
-  query: Record<string, string>;
-  headers: Record<string, string>;
-}
-
-interface ApiResponse {
-  status(code: number): ApiResponse;
-  json(data: unknown): string;
-}
-
-// Simple router type
-type RouteHandler = (req: ApiRequest, res: ApiResponse) => string;
-
-interface Route {
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  path: string;
-  handler: RouteHandler;
-}
-
-class Router {
-  private routes: Route[] = [];
-  get(path: string, handler: RouteHandler): void {
-    this.routes.push({ method: 'GET', path, handler });
-  }
-  post(path: string, handler: RouteHandler): void {
-    this.routes.push({ method: 'POST', path, handler });
-  }
-}
-
-// DTO (Data Transfer Object) pattern
-interface CreateUserDTO {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface UserResponse {
-  id: number;
-  name: string;
-  email: string;
-}
-
-// Zod-like validation (simplified)
-function validateCreateUser(data: unknown): CreateUserDTO {
-  const dto = data as CreateUserDTO;
-  if (!dto.name || !dto.email || !dto.password) {
-    throw new Error('Missing required fields');
-  }
-  return { name: dto.name, email: dto.email, password: dto.password };
-}
-
-try {
-  const valid = validateCreateUser({
-    name: 'Budi',
-    email: 'budi@mail.com',
-    password: 'secret123',
-  });
-  console.log('Validated DTO:', valid);
-} catch (e) {
-  console.error(e);
-}
-
-// Middleware type
-type Middleware = (req: ApiRequest, res: ApiResponse, next: () => void) => void;
-
-function loggerMiddleware(req: ApiRequest, _res: ApiResponse, next: () => void): void {
-  console.log(\`\${new Date().toISOString()} \${req.method} \${req.path}\`);
-  next();
-}
-`,
-  16: `// Full-stack TypeScript demo — combines all concepts
-
-// === Shared Types ===
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-type ApiResult<T> =
-  | { status: 'success'; data: T }
-  | { status: 'error'; message: string }
-  | { status: 'loading' };
-
-// === Generic API Client ===
-class ApiClient {
-  constructor(private baseUrl: string) {}
-
-  async get<T>(path: string): Promise<ApiResult<T>> {
-    try {
-      const res = await fetch(\`\${this.baseUrl}\${path}\`);
-      const data = await res.json();
-      return { status: 'success', data };
-    } catch (err) {
-      return {
-        status: 'error',
-        message: err instanceof Error ? err.message : 'Unknown error',
-      };
+console.log("\\nMultiply:", calculate(4, 3, multiply));
+console.log("Subtract:", calculate(10, 4, subtract));
+
+// Overload signatures
+function process(input: string): string;
+function process(input: number): number;
+function process(input: string | number): string | number {
+    if (typeof input === "string") {
+        return input.toUpperCase();
     }
-  }
+    return input * 2;
+}
+console.log("\\nOverload string:", process("hello"));
+console.log("Overload number:", process(42));
+
+// Generic function identity
+function identity<T>(value: T): T {
+    return value;
+}
+console.log("\\nIdentity string:", identity("TypeScript"));
+console.log("Identity number:", identity(42));
+console.log("Identity array:", identity([1, 2, 3]));`,
+    objectivesId: [
+      'Function dengan parameter dan return type',
+      'Optional parameters dengan ?',
+      'Default parameter values',
+      'Rest parameters dengan type array',
+      'Function types dan overload signatures',
+    ],
+    objectivesEn: [
+      'Functions with parameter and return types',
+      'Optional parameters with ?',
+      'Default parameter values',
+      'Rest parameters with array types',
+      'Function types and overload signatures',
+    ],
+    explanationId: '### Function Types\n`function add(a: number, b: number): number` — explicit semua tipe.\n\n### Optional Params\n`param?: type` — bisa undefined. Gunakan default value atau cek.\n\n### Rest Params\n`...args: number[]` — kumpulkan semua argumen ke array.\n\n### Function Type\n`type Fn = (a: number) => string` — definisi tipe fungsi.\n\n### Overloads\nMultiple signatures untuk satu function. TypeScript pilih yang sesuai.\n\n### Generic Function\n`<T>(value: T): T` — tipe dinamis yang preserved.',
+    explanationEn: '### Function Types\n`function add(a: number, b: number): number` — explicit all types.\n\n### Optional Params\n`param?: type` — can be undefined. Use default value or check.\n\n### Rest Params\n`...args: number[]` — collect all arguments to array.\n\n### Function Type\n`type Fn = (a: number) => string` — function type definition.\n\n### Overloads\nMultiple signatures for one function. TypeScript picks the matching one.\n\n### Generic Function\n`<T>(value: T): T` — dynamic type that is preserved.',
+    experimentsId: [
+      'Buat function overload untuk format date',
+      'Coba callback type: (err: Error | null, data: string) => void',
+      'Eksperimen generic function dengan constraint',
+      'Buat higher-order function type',
+      'Coba this parameter type',
+    ],
+    experimentsEn: [
+      'Create function overload for date formatting',
+      'Try callback type: (err: Error | null, data: string) => void',
+      'Experiment generic function with constraint',
+      'Create higher-order function type',
+      'Try this parameter type',
+    ],
+    challengeId: 'Buat math library: overloaded functions untuk add/sub/mul/div dengan dukungan number dan string.',
+    challengeEn: 'Build a math library: overloaded functions for add/sub/mul/div with number and string support.',
+    summaryId: 'Minggu 3 dari 12: **Functions & Signatures** (Level: TypeScript Lengkap). Tipe fungsi. Minggu depan: **Interfaces & Type Aliases**.',
+    summaryEn: 'Week 3 of 12: **Functions & Signatures** (Level: Complete TypeScript). Function types. Next week: **Interfaces & Type Aliases**.',
+  },
+  {
+    week: 4, level: 'beginer', topicId: 'interfaces-type-aliases',
+    titleId: 'Interfaces & Type Aliases', titleEn: 'Interfaces & Type Aliases',
+    programId: 'Model Data TypeScript', programEn: 'TypeScript Data Models',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Interface
+interface User {
+    name: string;
+    email: string;
+    age?: number; // optional
+    readonly id: string; // cannot be changed after creation
 }
 
-// === Repository Pattern ===
-interface Repository<T> {
-  findAll(): Promise<ApiResult<T[]>>;
-  findById(id: number): Promise<ApiResult<T>>;
-  create(data: Partial<T>): Promise<ApiResult<T>>;
+const user1: User = {
+    id: "u1",
+    name: "Budi",
+    email: "budi@mail.com",
+    age: 25
+};
+console.log("User:", user1);
+
+// Interface extends
+interface Employee extends User {
+    department: string;
+    salary: number;
 }
 
-class UserRepository implements Repository<User> {
-  constructor(private client: ApiClient) {}
-  async findAll() { return this.client.get<User[]>('/users'); }
-  async findById(id: number) { return this.client.get<User>(\`/users/\${id}\`); }
-  async create(data: Partial<User>) { return this.client.get<User>('/users'); }
+const emp: Employee = {
+    id: "e1",
+    name: "Siti",
+    email: "siti@mail.com",
+    department: "Engineering",
+    salary: 15000000
+};
+console.log("Employee:", emp);
+
+// Type Alias
+type ID = string | number;
+type Status = "active" | "inactive" | "suspended";
+type Result<T> = { success: true; data: T } | { success: false; error: string };
+
+// Interface vs Type
+// Interface: bisa extends, declaration merge
+// Type: bisa union, intersection, mapped types, conditional types
+
+// Index Signature
+interface Dictionary {
+    [key: string]: string | number;
 }
-
-// === Usage demo (no actual network call) ===
-const repo = new UserRepository(new ApiClient('https://api.example.com'));
-console.log('Repository pattern ready');
-console.log('Type-safe from API to UI layer');
-
-// === Type-safe state reducer ===
-type Action =
-  | { type: 'SET_USER'; user: User }
-  | { type: 'CLEAR_USER' }
-  | { type: 'SET_LOADING'; loading: boolean };
-
-type State = {
-  user: User | null;
-  loading: boolean;
+const dict: Dictionary = {
+    name: "Budi",
+    age: 25,
+    city: "Jakarta"
 };
 
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case 'SET_USER': return { ...state, user: action.user, loading: false };
-    case 'CLEAR_USER': return { ...state, user: null };
-    case 'SET_LOADING': return { ...state, loading: action.loading };
-    default: return state;
-  }
+// Function Interface
+interface SearchFn {
+    (query: string, limit?: number): string[];
 }
 
-const initialState: State = { user: null, loading: false };
-const newState = reducer(initialState, {
-  type: 'SET_USER',
-  user: { id: 1, name: 'Budi', email: 'budi@mail.com' },
+const searchUsers: SearchFn = (query, limit = 10) => {
+    return ["Result for: " + query + " (limit: " + limit + ")"];
+};
+
+console.log("\\nSearch:", searchUsers("john"));
+console.log("Search limited:", searchUsers("jane", 5));
+
+// Hybrid Type
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+console.log("\\n=== Type vs Interface ===");
+console.log("Type: union, intersection, conditional");
+console.log("Interface: extends, declaration merge");`,
+    objectivesId: [
+      'Interface: definisi bentuk object',
+      'Interface extends untuk inheritance',
+      'Type alias untuk type composition',
+      'Readonly dan optional properties',
+      'Index signatures dan function interfaces',
+    ],
+    objectivesEn: [
+      'Interfaces: define object shapes',
+      'Interface extends for inheritance',
+      'Type aliases for type composition',
+      'Readonly and optional properties',
+      'Index signatures and function interfaces',
+    ],
+    explanationId: '### Interface\nDefinisi bentuk object. `interface User { name: string }`.\n\n### Extends\n`interface Employee extends User` — tambah property.\n\n### Type Alias\n`type ID = string | number` — alias untuk type apapun.\n\n### Interface vs Type\nInterface: extends, declaration merge. Type: union, intersection, conditional.\n\n### Readonly & Optional\n`readonly id` tidak bisa diubah. `age?` optional.\n\n### Index Signature\n`{ [key: string]: type }` — object dengan dynamic keys.',
+    explanationEn: '### Interfaces\nDefine object shapes. `interface User { name: string }`.\n\n### Extends\n`interface Employee extends User` — add properties.\n\n### Type Aliases\n`type ID = string | number` — alias for any type.\n\n### Interface vs Type\nInterface: extends, declaration merge. Type: union, intersection, conditional.\n\n### Readonly & Optional\n`readonly id` cannot be changed. `age?` optional.\n\n### Index Signatures\n`{ [key: string]: type }` — object with dynamic keys.',
+    experimentsId: [
+      'Buat interface hierarchy: Animal → Mammal → Dog',
+      'Coba declaration merge: dua interface sama nama',
+      'Eksperimen mapped type dengan type alias',
+      'Buat interface untuk API response',
+      'Coba callable interface untuk constructor',
+    ],
+    experimentsEn: [
+      'Create interface hierarchy: Animal → Mammal → Dog',
+      'Try declaration merge: two interfaces same name',
+      'Experiment mapped type with type alias',
+      'Create interface for API response',
+      'Try callable interface for constructor',
+    ],
+    challengeId: 'Buat type system untuk e-commerce: User, Product, Order, Cart — dengan interfaces, types, dan relationships.',
+    challengeEn: 'Build a type system for e-commerce: User, Product, Order, Cart — with interfaces, types, and relationships.',
+    summaryId: 'Minggu 4 dari 12: **Interfaces & Type Aliases** (Level: TypeScript Lengkap). Model data. Minggu depan: **Generics**.',
+    summaryEn: 'Week 4 of 12: **Interfaces & Type Aliases** (Level: Complete TypeScript). Data modeling. Next week: **Generics**.',
+  },
+  {
+    week: 5, level: 'beginer', topicId: 'generics',
+    titleId: 'Generics', titleEn: 'Generics',
+    programId: 'Reusable Generic Types', programEn: 'Reusable Generic Types',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Generic Function
+function identity<T>(value: T): T {
+    return value;
+}
+console.log("Identity string:", identity("TypeScript"));
+console.log("Identity number:", identity(42));
+
+// Generic dengan constraint
+interface HasLength {
+    length: number;
+}
+function logLength<T extends HasLength>(item: T): void {
+    console.log("Length:", item.length);
+}
+logLength("hello");     // string has length
+logLength([1, 2, 3]);   // array has length
+// logLength(42);       // Error! number tidak punya length
+
+// Generic Interface
+interface ApiResponse<T> {
+    data: T;
+    status: number;
+    message: string;
+}
+
+const userResponse: ApiResponse<{ name: string }> = {
+    data: { name: "Budi" },
+    status: 200,
+    message: "OK"
+};
+console.log("\\nAPI Response:", userResponse);
+
+// Generic Class
+class Storage<T> {
+    private items: T[] = [];
+
+    add(item: T): void {
+        this.items.push(item);
+    }
+
+    getAll(): T[] {
+        return [...this.items];
+    }
+
+    find(predicate: (item: T) => boolean): T | undefined {
+        return this.items.find(predicate);
+    }
+}
+
+const stringStorage = new Storage<string>();
+stringStorage.add("apel");
+stringStorage.add("mangga");
+console.log("\\nString Storage:", stringStorage.getAll());
+
+const numberStorage = new Storage<number>();
+numberStorage.add(1);
+numberStorage.add(2);
+numberStorage.add(3);
+console.log("Number Storage:", numberStorage.getAll());
+
+// Generic Utility
+type Nullable<T> = T | null | undefined;
+type Partial<T> = { [K in keyof T]?: T[K] };
+
+interface User {
+    name: string;
+    email: string;
+    age: number;
+}
+
+type PartialUser = Partial<User>;
+type NullableUser = Nullable<User>;
+
+const partial: PartialUser = { name: "Budi" }; // OK
+console.log("\\nPartial user:", partial);
+
+// Keyof constraint
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+    return obj[key];
+}
+
+const user: User = { name: "Siti", email: "siti@mail.com", age: 30 };
+console.log("Name:", getProperty(user, "name"));
+console.log("Age:", getProperty(user, "age"));`,
+    objectivesId: [
+      'Generic functions: <T>(value: T): T',
+      'Generic constraints dengan extends',
+      'Generic interfaces dan classes',
+      'Keyof constraint untuk type-safe property access',
+      'Built-in generic types: Partial, Required, Readonly',
+    ],
+    objectivesEn: [
+      'Generic functions: <T>(value: T): T',
+      'Generic constraints with extends',
+      'Generic interfaces and classes',
+      'Keyof constraint for type-safe property access',
+      'Built-in generic types: Partial, Required, Readonly',
+    ],
+    explanationId: '### Generic Function\n`<T>` — type parameter. Tipe diinfer dari argumen.\n\n### Constraints\n`<T extends HasLength>` — T harus punya property length.\n\n### Generic Interface/Class\n`interface ApiResponse<T>` — tipe dinamis untuk berbagai response.\n\n### Keyof\n`K extends keyof T` — K harus key yang ada di T. Type-safe property access.\n\n### Built-in Generics\n`Partial<T>` semua optional. `Required<T>` semua required. `Readonly<T>` semua readonly.',
+    explanationEn: '### Generic Functions\n`<T>` — type parameter. Type inferred from argument.\n\n### Constraints\n`<T extends HasLength>` — T must have length property.\n\n### Generic Interface/Class\n`interface ApiResponse<T>` — dynamic type for various responses.\n\n### Keyof\n`K extends keyof T` — K must be a key in T. Type-safe property access.\n\n### Built-in Generics\n`Partial<T>` all optional. `Required<T>` all required. `Readonly<T>` all readonly.',
+    experimentsId: [
+      'Buat generic function dengan multiple type params',
+      'Coba conditional type: type IsString<T> = T extends string ? true : false',
+      'Eksperimen generic class dengan default type',
+      'Buat type-safe event emitter dengan generics',
+      'Coba recursive type: type NestedArray<T> = T | NestedArray<T>[]',
+    ],
+    experimentsEn: [
+      'Create generic function with multiple type params',
+      'Try conditional type: type IsString<T> = T extends string ? true : false',
+      'Experiment generic class with default type',
+      'Create type-safe event emitter with generics',
+      'Try recursive type: type NestedArray<T> = T | NestedArray<T>[]',
+    ],
+    challengeId: 'Buat generic repository class: find, findById, create, update, delete — dengan type constraints dan conditional types.',
+    challengeEn: 'Build a generic repository class: find, findById, create, update, delete — with type constraints and conditional types.',
+    summaryId: 'Minggu 5 dari 12: **Generics** (Level: TypeScript Lengkap). Reusable types. Minggu depan: **Classes & OOP**.',
+    summaryEn: 'Week 5 of 12: **Generics** (Level: Complete TypeScript). Reusable types. Next week: **Classes & OOP**.',
+  },
+  {
+    week: 6, level: 'beginer', topicId: 'classes-oop',
+    titleId: 'Classes & OOP', titleEn: 'Classes & OOP',
+    programId: 'TypeScript Classes', programEn: 'TypeScript Classes',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Class dengan access modifiers
+class Animal {
+    // Access modifiers: public, protected, private
+    public name: string;
+    protected age: number;
+    private secret: string;
+
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+        this.secret = "hidden";
+    }
+
+    public speak(): string {
+        return this.name + " makes a sound";
+    }
+
+    protected getAge(): number {
+        return this.age;
+    }
+}
+
+// Inheritance
+class Dog extends Animal {
+    private breed: string;
+
+    constructor(name: string, age: number, breed: string) {
+        super(name, age);
+        this.breed = breed;
+    }
+
+    // Override
+    speak(): string {
+        return this.name + " barks!";
+    }
+
+    getBreed(): string {
+        return this.breed;
+    }
+
+    getInfo(): string {
+        return this.name + " is " + this.getAge() + " years old " + this.breed;
+    }
+}
+
+const dog = new Dog("Buddy", 3, "Labrador");
+console.log(dog.speak());
+console.log(dog.getInfo());
+
+// Abstract Class
+abstract class Shape {
+    abstract area(): number;
+    abstract perimeter(): number;
+
+    describe(): string {
+        return "Area: " + this.area() + ", Perimeter: " + this.perimeter();
+    }
+}
+
+class Circle extends Shape {
+    constructor(private radius: number) {
+        super();
+    }
+    area(): number {
+        return Math.PI * this.radius ** 2;
+    }
+    perimeter(): number {
+        return 2 * Math.PI * this.radius;
+    }
+}
+
+const circle = new Circle(5);
+console.log("\\n" + circle.describe());
+
+// Interface + Class
+interface Printable {
+    print(): string;
+}
+
+interface Serializable {
+    toJSON(): string;
+}
+
+class Report implements Printable, Serializable {
+    constructor(private title: string, private content: string) {}
+
+    print(): string {
+        return "=== " + this.title + " ===\\n" + this.content;
+    }
+
+    toJSON(): string {
+        return JSON.stringify({ title: this.title, content: this.content });
+    }
+}
+
+const report = new Report("Sales Q1", "Revenue increased by 25%");
+console.log("\\n" + report.print());
+console.log("JSON:", report.toJSON());
+
+// Parameter Properties
+class Point {
+    constructor(
+        public x: number,
+        public y: number,
+        private z: number = 0
+    ) {}
+    distance(): number {
+        return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
+    }
+}
+const p = new Point(3, 4, 5);
+console.log("\\nDistance:", p.distance());`,
+    objectivesId: [
+      'Access modifiers: public, protected, private',
+      'Inheritance dengan extends dan super',
+      'Abstract classes dan methods',
+      'Interface implementation dengan implements',
+      'Parameter properties di constructor',
+    ],
+    objectivesEn: [
+      'Access modifiers: public, protected, private',
+      'Inheritance with extends and super',
+      'Abstract classes and methods',
+      'Interface implementation with implements',
+      'Parameter properties in constructor',
+    ],
+    explanationId: '### Access Modifiers\n`public` (default) accessible everywhere. `protected` class + subclass. `private` hanya di class.\n\n### Inheritance\n`class Dog extends Animal` — warisi semua. `super()` panggil parent constructor.\n\n### Abstract Class\nTidak bisa diinstantiate langsung. Method tanpa body harus diimplementasikan subclass.\n\n### Implements\n`class X implements Interface` — harus sediakan semua method interface.\n\n### Parameter Properties\n`constructor(public x: number)` — langsung deklarasikan dan assign field.',
+    explanationEn: '### Access Modifiers\n`public` (default) accessible everywhere. `protected` class + subclass. `private` only in class.\n\n### Inheritance\n`class Dog extends Animal` — inherit all. `super()` calls parent constructor.\n\n### Abstract Classes\nCannot be instantiated directly. Methods without body must be implemented by subclasses.\n\n### Implements\n`class X implements Interface` — must provide all interface methods.\n\n### Parameter Properties\n`constructor(public x: number)` — directly declare and assign field.',
+    experimentsId: [
+      'Buat abstract class Vehicle dengan Car dan Motorcycle',
+      'Coba method override dengan different return type',
+      'Eksperimen multiple interface implementation',
+      'Buat singleton class dengan private constructor',
+      'Coba getter dan setter dengan access modifiers',
+    ],
+    experimentsEn: [
+      'Create abstract class Vehicle with Car and Motorcycle',
+      'Try method override with different return type',
+      'Experiment multiple interface implementation',
+      'Create singleton class with private constructor',
+      'Try getter and setter with access modifiers',
+    ],
+    challengeId: 'Buat class hierarchy untuk shape calculator: abstract Shape, concrete Circle/Rectangle/Triangle, dengan interface Printable.',
+    challengeEn: 'Build a class hierarchy for shape calculator: abstract Shape, concrete Circle/Rectangle/Triangle, with Printable interface.',
+    summaryId: 'Minggu 6 dari 12: **Classes & OOP** (Level: TypeScript Lengkap). Object-oriented TS. Minggu depan: **Utility Types**.',
+    summaryEn: 'Week 6 of 12: **Classes & OOP** (Level: Complete TypeScript). Object-oriented TS. Next week: **Utility Types**.',
+  },
+  {
+    week: 7, level: 'beginer', topicId: 'utility-types',
+    titleId: 'Utility Types', titleEn: 'Utility Types',
+    programId: 'Built-in Utilities', programEn: 'Built-in Utility Types',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Partial<T> — semua property optional
+interface User {
+    id: string;
+    name: string;
+    email: string;
+    age: number;
+}
+
+function updateUser(user: User, updates: Partial<User>): User {
+    return { ...user, ...updates };
+}
+
+const user: User = { id: "1", name: "Budi", email: "budi@mail.com", age: 25 };
+const updated = updateUser(user, { age: 26 });
+console.log("Updated:", updated);
+
+// Required<T> — semua property required
+type PartialUser = Partial<User>;
+type FullUser = Required<PartialUser>;
+
+// Readonly<T> — semua property readonly
+const readonlyUser: Readonly<User> = user;
+// readonlyUser.name = "Siti"; // Error!
+
+// Pick<T, K> — pilih property tertentu
+type UserPreview = Pick<User, "id" | "name">;
+const preview: UserPreview = { id: "1", name: "Budi" };
+
+// Omit<T, K> — hapus property tertentu
+type UserWithoutAge = Omit<User, "age">;
+const noAge: UserWithoutAge = { id: "2", name: "Siti", email: "siti@mail.com" };
+
+// Record<K, T> — object dengan key dan value type
+type UserRoles = Record<string, "admin" | "user" | "guest">;
+const roles: UserRoles = {
+    budi: "admin",
+    siti: "user",
+    tamu: "guest"
+};
+console.log("\\nRoles:", roles);
+
+// Exclude<T, U> — hapus types dari union
+type AllStatus = "active" | "inactive" | "deleted" | "banned";
+type ActiveStatus = Exclude<AllStatus, "deleted" | "banned">;
+
+// Extract<T, U> — ambil types yang ada di kedua union
+type SuccessStatus = Extract<AllStatus, "active" | "pending">; // "active"
+
+// NonNullable<T> — hapus null dan undefined
+type MaybeString = string | null | undefined;
+type DefiniteString = NonNullable<MaybeString>;
+
+// ReturnType<T> — ambil return type dari function
+function createUser() {
+    return { id: "1", name: "Budi", type: "admin" as const };
+}
+type NewUser = ReturnType<typeof createUser>;
+
+// Parameters<T> — ambil parameter types dari function
+function signup(name: string, email: string, age: number) {}
+type SignupParams = Parameters<typeof signup>;
+
+// Custom Utility Types
+type DeepReadonly<T> = {
+    readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
+};
+
+type Nullable<T> = { [K in keyof T]: T[K] | null };
+
+interface Config {
+    host: string;
+    port: number;
+    ssl: { enabled: boolean; cert: string };
+}
+
+type NullableConfig = Nullable<Config>;
+// Semua property bisa null
+
+console.log("\\nPick:", preview);
+console.log("Omit:", noAge);`,
+    objectivesId: [
+      'Partial<T>, Required<T>, Readonly<T>',
+      'Pick<T, K> dan Omit<T, K>',
+      'Record<K, V> untuk type-safe objects',
+      'Exclude, Extract, NonNullable untuk union types',
+      'ReturnType dan Parameters untuk function types',
+    ],
+    objectivesEn: [
+      'Partial<T>, Required<T>, Readonly<T>',
+      'Pick<T, K> and Omit<T, K>',
+      'Record<K, V> for type-safe objects',
+      'Exclude, Extract, NonNullable for union types',
+      'ReturnType and Parameters for function types',
+    ],
+    explanationId: '### Partial<T>\nSemua property jadi optional. Cocok untuk update functions.\n\n### Pick & Omit\n`Pick<T, "name" | "email">` — ambil sebagian. `Omit<T, "age">` — hapus sebagian.\n\n### Record<K, V>\n`Record<string, User>` — object dengan string key dan User value.\n\n### Exclude & Extract\n`Exclude<"a" | "b", "a">` = "b". `Extract<"a" | "b", "a" | "c">` = "a".\n\n### ReturnType & Parameters\n`ReturnType<typeof fn>` — return type dari function. `Parameters<typeof fn>` — tuple parameter types.\n\n### Custom Utilities\nBisa buat utility type sendiri dengan mapped types dan conditional types.',
+    explanationEn: '### Partial<T>\nAll properties become optional. Great for update functions.\n\n### Pick & Omit\n`Pick<T, "name" | "email">` — pick some. `Omit<T, "age">` — remove some.\n\n### Record<K, V>\n`Record<string, User>` — object with string keys and User values.\n\n### Exclude & Extract\n`Exclude<"a" | "b", "a">` = "b". `Extract<"a" | "b", "a" | "c">` = "a".\n\n### ReturnType & Parameters\n`ReturnType<typeof fn>` — return type of function. `Parameters<typeof fn>` — tuple of parameter types.\n\n### Custom Utilities\nCan create own utility types with mapped types and conditional types.',
+    experimentsId: [
+      'Buat DeepPartial: nested partial',
+      'Coba RequiredDeep: nested required',
+      'Eksperimen custom utility: Nullable<T>',
+      'Buat UnionToIntersection type',
+      'Coba infer dengan conditional types',
+    ],
+    experimentsEn: [
+      'Create DeepPartial: nested partial',
+      'Try RequiredDeep: nested required',
+      'Experiment custom utility: Nullable<T>',
+      'Create UnionToIntersection type',
+      'Try infer with conditional types',
+    ],
+    challengeId: 'Buat form state management: Partial untuk updates, Readonly untuk state, Record untuk errors, ReturnType untuk actions.',
+    challengeEn: 'Build form state management: Partial for updates, Readonly for state, Record for errors, ReturnType for actions.',
+    summaryId: 'Minggu 7 dari 12: **Utility Types** (Level: TypeScript Lengkap). Type transformations. Minggu depan: **TypeScript Config**.',
+    summaryEn: 'Week 7 of 12: **Utility Types** (Level: Complete TypeScript). Type transformations. Next week: **TypeScript Config**.',
+  },
+  {
+    week: 8, level: 'beginer', topicId: 'typescript-config',
+    titleId: 'TypeScript Config', titleEn: 'TypeScript Configuration',
+    programId: 'tsconfig.json & Setup', programEn: 'tsconfig.json & Setup',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// tsconfig.json — konfigurasi TypeScript compiler
+// File: tsconfig.json
+const tsconfig = {
+    "compilerOptions": {
+        // Target & Module
+        "target": "ES2020",           // Output JS version
+        "module": "ESNext",           // Module system
+        "moduleResolution": "node",   // How to resolve modules
+
+        // Strict Mode (recommended: all true)
+        "strict": true,               // Enable all strict checks
+        "noImplicitAny": true,        // Error on implicit any
+        "strictNullChecks": true,     // null/undefined checks
+        "noImplicitReturns": true,    // All code paths must return
+        "noUncheckedIndexedAccess": true, // Array[index] bisa undefined
+
+        // Output
+        "outDir": "./dist",           // Output directory
+        "rootDir": "./src",           // Source directory
+        "declaration": true,          // Generate .d.ts files
+        "sourceMap": true,            // Generate source maps
+
+        // Interop
+        "esModuleInterop": true,      // CommonJS/ESM interop
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+
+        // Linting
+        "noUnusedLocals": true,       // Error on unused variables
+        "noUnusedParameters": true,   // Error on unused params
+        "noImplicitOverride": true,   // Must use override keyword
+
+        // Advanced
+        "skipLibCheck": true,         // Skip .d.ts checking
+        "resolveJsonModule": true,    // Import JSON files
+        "isolatedModules": true       // Required for Babel/esbuild
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "**/*.test.ts"]
+};
+
+console.log("=== TypeScript Config ===");
+console.log("Target:", tsconfig.compilerOptions.target);
+console.log("Strict:", tsconfig.compilerOptions.strict);
+console.log("OutDir:", tsconfig.compilerOptions.outDir);
+
+// Triple-slash directives
+// /// <reference path="./types.d.ts" />
+// /// <reference types="node" />
+
+// Declaration files (.d.ts)
+// File: types.d.ts
+// declare module "my-module" {
+//     export function doSomething(): void;
+// }
+
+// Ambient declarations
+// declare const process: { env: Record<string, string | undefined> };
+// declare function fetch(input: string): Promise<Response>;
+
+// Project references
+// tsconfig.json
+// {
+//   "references": [
+//     { "path": "./packages/core" },
+//     { "path": "./packages/ui" }
+//   ]
+// }
+
+// Best Practices
+console.log("\\n=== Best Practices ===");
+console.log("1. Always enable strict: true");
+console.log("2. Use noImplicitAny untuk avoid any");
+console.log("3. Set noUncheckedIndexedAccess untuk array safety");
+console.log("4. Use skipLibCheck untuk compile speed");
+console.log("5. Separate build config from test config");
+console.log("6. Use path aliases: @/components → src/components");
+
+// Path aliases
+// tsconfig.json
+// {
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["src/*"],
+//       "@components/*": ["src/components/*"]
+//     }
+//   }
+// }`,
+    objectivesId: [
+      'tsconfig.json: compiler options utama',
+      'Strict mode dan type checking options',
+      'Target dan module configuration',
+      'Declaration files (.d.ts) untuk type declarations',
+      'Project references dan path aliases',
+    ],
+    objectivesEn: [
+      'tsconfig.json: main compiler options',
+      'Strict mode and type checking options',
+      'Target and module configuration',
+      'Declaration files (.d.ts) for type declarations',
+      'Project references and path aliases',
+    ],
+    explanationId: '### Strict Mode\n`strict: true` — aktifkan semua strict checks. Wajib untuk project baru.\n\n### noImplicitAny\nError jika variabel tanpa type annotation. Memaksa explicit typing.\n\n### Declaration Files\n`.d.ts` — type declarations tanpa implementation. Untuk library types.\n\n### Path Aliases\n`@/components` → `src/components`. Cleaner imports.\n\n### Project References\nMonorepo setup: multiple tsconfig yang saling reference.\n\n### skipLibCheck\nSkip checking `.d.ts` files dari dependencies. Lebih cepat.',
+    explanationEn: '### Strict Mode\n`strict: true` — enable all strict checks. Required for new projects.\n\n### noImplicitAny\nError on variables without type annotation. Forces explicit typing.\n\n### Declaration Files\n`.d.ts` — type declarations without implementation. For library types.\n\n### Path Aliases\n`@/components` → `src/components`. Cleaner imports.\n\n### Project References\nMonorepo setup: multiple tsconfigs referencing each other.\n\n### skipLibCheck\nSkip checking dependency `.d.ts` files. Faster compilation.',
+    experimentsId: [
+      'Buat tsconfig untuk library vs app',
+      'Coba noUncheckedIndexedAccess pada array access',
+      'Eksperimen declaration merging',
+      'Buat custom .d.ts untuk module tanpa types',
+      'Coba project references di monorepo',
+    ],
+    experimentsEn: [
+      'Create tsconfig for library vs app',
+      'Try noUncheckedIndexedAccess on array access',
+      'Experiment declaration merging',
+      'Create custom .d.ts for untyped module',
+      'Try project references in monorepo',
+    ],
+    challengeId: 'Setup TypeScript project: strict mode, path aliases, separate dev/build configs, dan custom declaration files.',
+    challengeEn: 'Setup TypeScript project: strict mode, path aliases, separate dev/build configs, and custom declaration files.',
+    summaryId: 'Minggu 8 dari 12: **TypeScript Config** (Level: TypeScript Lengkap). Konfigurasi project. Minggu depan: **Testing**.',
+    summaryEn: 'Week 8 of 12: **TypeScript Configuration** (Level: Complete TypeScript). Project configuration. Next week: **Testing**.',
+  },
+  {
+    week: 9, level: 'beginer', topicId: 'testing-typescript',
+    titleId: 'Testing TypeScript', titleEn: 'Testing TypeScript',
+    programId: 'Type-Safe Tests', programEn: 'Type-Safe Tests',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Testing dengan type safety
+// Framework: Vitest / Jest dengan TypeScript
+
+// Test utilities dengan types
+interface TestContext {
+    name: string;
+    fn: () => void | Promise<void>;
+}
+
+class TypeSafeRunner {
+    private tests: TestContext[] = [];
+    private passed = 0;
+    private failed = 0;
+
+    test(name: string, fn: () => void | Promise<void>): void {
+        this.tests.push({ name, fn });
+    }
+
+    async run(): Promise<void> {
+        console.log("=== Type-Safe Test Runner ===");
+        for (const { name, fn } of this.tests) {
+            try {
+                await fn();
+                this.passed++;
+                console.log("  ✓", name);
+            } catch (err: unknown) {
+                this.failed++;
+                const msg = err instanceof Error ? err.message : String(err);
+                console.log("  ✗", name);
+                console.log("   ", msg);
+            }
+        }
+        console.log(\`\\nResults: \${this.passed} passed, \${this.failed} failed\`);
+    }
+}
+
+// Type-safe assertions
+function expect<T>(actual: T) {
+    return {
+        toBe(expected: T): void {
+            if (actual !== expected) {
+                throw new Error(\`Expected \${expected}, got \${actual}\`);
+            }
+        },
+        toEqual(expected: T): void {
+            if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+                throw new Error(\`Deep equal failed\`);
+            }
+        },
+        toBeGreaterThan(expected: number): void {
+            if (typeof actual !== "number" || actual <= expected) {
+                throw new Error(\`\${actual} not greater than \${expected}\`);
+            }
+        },
+        toBeType<T2>(): void {
+            // Runtime type check placeholder
+            console.log("  (type check passed)");
+        }
+    };
+}
+
+// Test subjects
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+function greet(name: string, greeting: string = "Hello"): string {
+    return \`\${greeting}, \${name}!\`;
+}
+
+async function fetchUser(id: number): Promise<{ id: number; name: string }> {
+    if (id <= 0) throw new Error("Invalid ID");
+    return { id, name: "User " + id };
+}
+
+// Run tests
+const runner = new TypeSafeRunner();
+
+runner.test("add: basic addition", () => {
+    expect(add(2, 3)).toBe(5);
+    expect(add(-1, 1)).toBe(0);
 });
-console.log('State after reducer:', newState);
-console.log('✅ Final Project — all TypeScript concepts applied!');
-`,
+
+runner.test("greet: default greeting", () => {
+    expect(greet("Budi")).toBe("Hello, Budi!");
+});
+
+runner.test("greet: custom greeting", () => {
+    expect(greet("Siti", "Hi")).toBe("Hi, Siti!");
+});
+
+runner.test("fetchUser: valid ID", async () => {
+    const user = await fetchUser(1);
+    expect(user.id).toBe(1);
+});
+
+runner.test("fetchUser: invalid ID throws", async () => {
+    try {
+        await fetchUser(-1);
+        throw new Error("Should have thrown");
+    } catch (e) {
+        // Expected
+    }
+});
+
+runner.run();
+
+// Testing patterns:
+// - Arrange-Act-Assert (AAA)
+// - Given-When-Then (BDD)
+// - Type-level tests: expectTypeOf
+// - Snapshot testing`,
+    objectivesId: [
+      'Type-safe test runner dan assertions',
+      'Async testing dengan Promise',
+      'Error testing: expect throw',
+      'AAA pattern: Arrange, Act, Assert',
+      'Type-level testing: compile-time checks',
+    ],
+    objectivesEn: [
+      'Type-safe test runner and assertions',
+      'Async testing with Promises',
+      'Error testing: expect throw',
+      'AAA pattern: Arrange, Act, Assert',
+      'Type-level testing: compile-time checks',
+    ],
+    explanationId: '### Type-Safe Testing\nAssertions dengan generic type. TypeScript pastikan expected dan actual sama tipe.\n\n### Async Testing\n`async/await` di test function. Framework handle otomatis.\n\n### Error Testing\n`expect(() => fn()).toThrow()` — pastikan function throw error.\n\n### AAA Pattern\nArrange: setup data. Act: execute function. Assert: verify result.\n\n### Type-Level Tests\n`expectTypeOf(x).toEqualTypeOf<string>()` — cek tipe di compile-time.\n\n### Frameworks\nVitest: fast, Vite-native. Jest: mature. Ambience: node/jsdom.',
+    explanationEn: '### Type-Safe Testing\nAssertions with generic type. TypeScript ensures expected and actual have same type.\n\n### Async Testing\n`async/await` in test function. Framework handles automatically.\n\n### Error Testing\n`expect(() => fn()).toThrow()` — ensure function throws error.\n\n### AAA Pattern\nArrange: setup data. Act: execute function. Assert: verify result.\n\n### Type-Level Tests\n`expectTypeOf(x).toEqualTypeOf<string>()` — check type at compile-time.\n\n### Frameworks\nVitest: fast, Vite-native. Jest: mature. Ambience: node/jsdom.',
+    experimentsId: [
+      'Buat parameterized test dengan types',
+      'Coba mock function dengan proper typing',
+      'Eksperimen test untuk generic functions',
+      'Buat test untuk discriminated unions',
+      'Coba type-level test dengas expectTypeOf',
+    ],
+    experimentsEn: [
+      'Create parameterized test with types',
+      'Try mock function with proper typing',
+      'Experiment test for generic functions',
+      'Create test for discriminated unions',
+      'Try type-level test with expectTypeOf',
+    ],
+    challengeId: 'Buat test suite untuk API client: type-safe mocks, async tests, error cases, dengan 10+ tests.',
+    challengeEn: 'Build a test suite for API client: type-safe mocks, async tests, error cases, with 10+ tests.',
+    summaryId: 'Minggu 9 dari 12: **Testing TypeScript** (Level: TypeScript Lengkap). Kualitas terjamin. Minggu depan: **Design Patterns**.',
+    summaryEn: 'Week 9 of 12: **Testing TypeScript** (Level: Complete TypeScript). Guaranteed quality. Next week: **Design Patterns**.',
+  },
+  {
+    week: 10, level: 'beginer', topicId: 'patterns-typescript',
+    titleId: 'Design Patterns TS', titleEn: 'TypeScript Design Patterns',
+    programId: 'Pattern with Types', programEn: 'Patterns with Types',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Singleton with TypeScript
+class AppConfig {
+    private static instance: AppConfig | null = null;
+    private config: Map<string, string> = new Map();
+
+    private constructor() {}
+
+    static getInstance(): AppConfig {
+        if (!AppConfig.instance) {
+            AppConfig.instance = new AppConfig();
+        }
+        return AppConfig.instance;
+    }
+
+    set(key: string, value: string): void {
+        this.config.set(key, value);
+    }
+
+    get(key: string): string | undefined {
+        return this.config.get(key);
+    }
+}
+
+// Factory Pattern
+interface Product {
+    name: string;
+    price: number;
+}
+
+class Book implements Product {
+    constructor(public name: string, public price: number, public author: string) {}
+}
+
+class Electronics implements Product {
+    constructor(public name: string, public price: number, public warranty: number) {}
+}
+
+type ProductType = "book" | "electronics";
+
+class ProductFactory {
+    static create(type: "book", name: string, price: number, author: string): Book;
+    static create(type: "electronics", name: string, price: number, warranty: number): Electronics;
+    static create(type: ProductType, name: string, price: number, extra?: string | number): Product {
+        switch (type) {
+            case "book": return new Book(name, price, extra as string);
+            case "electronics": return new Electronics(name, price, extra as number);
+        }
+    }
+}
+
+// Observer Pattern (Type-Safe)
+type Listener<T> = (data: T) => void;
+
+class EventEmitter<T extends Record<string, unknown>> {
+    private listeners: { [K in keyof T]?: Listener<T[K]>[] } = {};
+
+    on<K extends keyof T>(event: K, listener: Listener<T[K]>): () => void {
+        if (!this.listeners[event]) this.listeners[event] = [];
+        this.listeners[event]!.push(listener);
+        return () => this.off(event, listener);
+    }
+
+    off<K extends keyof T>(event: K, listener: Listener<T[K]>): void {
+        this.listeners[event] = this.listeners[event]?.filter(l => l !== listener);
+    }
+
+    emit<K extends keyof T>(event: K, data: T[K]): void {
+        this.listeners[event]?.forEach(l => l(data));
+    }
+}
+
+// Demo
+console.log("=== Singleton ===");
+const config = AppConfig.getInstance();
+config.set("apiUrl", "https://api.example.com");
+console.log("API URL:", config.get("apiUrl"));
+
+console.log("\\n=== Factory ===");
+const book = ProductFactory.create("book", "TypeScript Guide", 50000, "John Doe");
+const laptop = ProductFactory.create("electronics", "Laptop", 15000000, 24);
+console.log("Book:", book);
+console.log("Electronics:", laptop);
+
+console.log("\\n=== Type-Safe Observer ===");
+interface AppEvents {
+    "user:login": { name: string; id: string };
+    "user:logout": { id: string };
+    "error": { message: string };
+}
+
+const emitter = new EventEmitter<AppEvents>();
+
+emitter.on("user:login", (data) => {
+    console.log("Login:", data.name, "(ID: " + data.id + ")");
+});
+
+emitter.on("error", (data) => {
+    console.log("Error:", data.message);
+});
+
+emitter.emit("user:login", { name: "Budi", id: "u1" });
+emitter.emit("error", { message: "Network timeout" });`,
+    objectivesId: [
+      'Singleton pattern dengan private constructor',
+      'Factory pattern dengan function overloads',
+      'Type-safe observer dengan mapped event types',
+      'Generic constraints pada class',
+      'Pattern composition dengan interfaces',
+    ],
+    objectivesEn: [
+      'Singleton pattern with private constructor',
+      'Factory pattern with function overloads',
+      'Type-safe observer with mapped event types',
+      'Generic constraints on classes',
+      'Pattern composition with interfaces',
+    ],
+    explanationId: '### Singleton\nPrivate constructor mencegah instantiation dari luar. Static getInstance().\n\n### Factory\nFunction overloads memberikan type safety berdasarkan parameter type.\n\n### Type-Safe Observer\n`EventEmitter<T extends Record>` — event types didefinisi di generic. emit() hanya terima valid events.\n\n### Pattern Composition\nInterface + abstract class + concrete class = flexible patterns.\n\n### Advanced\nConditional types, template literal types, mapped types untuk powerful patterns.',
+    explanationEn: '### Singleton\nPrivate constructor prevents external instantiation. Static getInstance().\n\n### Factory\nFunction overloads provide type safety based on parameter type.\n\n### Type-Safe Observer\n`EventEmitter<T extends Record>` — event types defined in generic. emit() only accepts valid events.\n\n### Pattern Composition\nInterface + abstract class + concrete class = flexible patterns.\n\n### Advanced\nConditional types, template literal types, mapped types for powerful patterns.',
+    experimentsId: [
+      'Buat builder pattern dengan fluent API',
+      'Coba strategy pattern dengan discriminated union',
+      'Eksperimen decorator pattern dengan TC39 decorators',
+      'Buat state machine dengan type-safe transitions',
+      'Coba repository pattern dengan generics',
+    ],
+    experimentsEn: [
+      'Create builder pattern with fluent API',
+      'Try strategy pattern with discriminated union',
+      'Experiment decorator pattern with TC39 decorators',
+      'Create state machine with type-safe transitions',
+      'Try repository pattern with generics',
+    ],
+    challengeId: 'Buat state management: type-safe store, actions dengan discriminated union, middleware dengan generics.',
+    challengeEn: 'Build state management: type-safe store, actions with discriminated union, middleware with generics.',
+    summaryId: 'Minggu 10 dari 12: **Design Patterns TS** (Level: TypeScript Lengkap). Pattern teruji. Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 10 of 12: **TypeScript Design Patterns** (Level: Complete TypeScript). Proven patterns. Next week: **Capstone Project**!',
+  },
+  {
+    week: 11, level: 'beginer', topicId: 'api-advanced-types',
+    titleId: 'Advanced Type Manipulation', titleEn: 'Advanced Type Manipulation',
+    programId: 'Template Literals & Conditional', programEn: 'Template Literals & Conditional Types',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Template Literal Types
+type EventName = "click" | "focus" | "blur";
+type ElementId = "button" | "input" | "form";
+
+// Combine template literals
+type EventString = \`\${ElementId}:\${EventName}\`;
+// "button:click" | "button:focus" | ... | "form:blur"
+
+// Capitalize, Uncapitalize, Uppercase, Lowercase
+type Greeting = "hello world";
+type Capitalized = Capitalize<Greeting>;  // "Hello world"
+type Uppercased = Uppercase<Greeting>;   // "HELLO WORLD"
+type Lowercased = Lowercase<Greeting>;   // "hello world"
+
+// Conditional Types
+type IsString<T> = T extends string ? true : false;
+type Test1 = IsString<"hello">;  // true
+type Test2 = IsString<42>;       // false
+
+// infer keyword
+type ArrayElement<T> = T extends (infer E)[] ? E : never;
+type NumElem = ArrayElement<number[]>;     // number
+type StrElem = ArrayElement<string[]>;     // string
+
+// Distributive Conditional Types
+type ToArray<T> = T extends any ? T[] : never;
+type StringOrNumArray = ToArray<string | number>; // string[] | number[]
+
+// Mapped Types
+type Readonly<T> = {
+    readonly [K in keyof T]: T[K];
 };
 
-// Explanation content per module
-function getExplanation(mod, isId) {
-  const E = {
-    1: { id: 'TypeScript adalah superset JavaScript yang menambahkan tipe statis. Kode TypeScript dikompilasi menjadi JavaScript biasa. Gunakan `tsc nama-file.ts` untuk kompilasi. File `tsconfig.json` mengatur opsi kompilasi seperti `strict`, `target`, dan `module`. Type inference memungkinkan TypeScript menebak tipe secara otomatis.', en: 'TypeScript is a JavaScript superset that adds static types. TypeScript code compiles to plain JavaScript. Use `tsc filename.ts` to compile. The `tsconfig.json` file configures options like `strict`, `target`, and `module`. Type inference lets TypeScript guess types automatically.' },
-    2: { id: 'Tipe primitif: `string`, `number`, `boolean`. Array: `number[]` atau `Array<number>`. Tuple: `[string, number]` untuk array dengan panjang tetap. `any` mematikan type checking — hindari. `unknown` aman karena harus dipersempit dulu. `never` untuk fungsi yang tidak pernah selesai. `void` untuk fungsi tanpa return.', en: 'Primitive types: `string`, `number`, `boolean`. Arrays: `number[]` or `Array<number>`. Tuples: `[string, number]` for fixed-length arrays. `any` disables type checking — avoid it. `unknown` is safe because it must be narrowed first. `never` for functions that never complete. `void` for functions with no return.' },
-    3: { id: 'Tipe fungsi: `(param: Tipe) => ReturnType`. Parameter opsional dengan `?`. Default parameter: `nama = "default"`. Rest parameter: `...args: number[]`. Function overloads memungkinkan beberapa signature untuk satu fungsi. Arrow function bisa diberi tipe eksplisit.', en: 'Function types: `(param: Type) => ReturnType`. Optional params with `?`. Default params: `name = "default"`. Rest params: `...args: number[]`. Function overloads allow multiple signatures for one function. Arrow functions can have explicit types.' },
-    4: { id: '`interface` mendefinisikan bentuk objek. `type` alias bisa untuk union/intersection. `readonly` mencegah modifikasi properti. `?` untuk properti opsional. `extends` mewarisi interface lain. Index signature `[key: string]: Tipe` untuk properti dinamis.', en: '`interface` defines object shapes. `type` aliases work for unions/intersections. `readonly` prevents property modification. `?` for optional properties. `extends` inherits from other interfaces. Index signatures `[key: string]: Type` for dynamic properties.' },
-    5: { id: 'Union `A | B` berarti bisa A atau B. Intersection `A & B` menggabungkan kedua tipe. Literal type membatasi nilai spesifik seperti `"active" | "inactive"`. Template literal types membuat string pattern. Discriminated union menggunakan field `kind` untuk membedakan varian.', en: 'Union `A | B` means either A or B. Intersection `A & B` combines both types. Literal types restrict to specific values like `"active" | "inactive"`. Template literal types create string patterns. Discriminated unions use a `kind` field to distinguish variants.' },
-    6: { id: 'Type narrowing mempersempit tipe union berdasarkan kondisi. `typeof` guard untuk primitif. `instanceof` untuk class. Discriminated union dengan switch sangat ampuh. Type predicate (`pet is Fish`) memberi tahu TypeScript tentang tipe hasil fungsi.', en: 'Type narrowing narrows union types based on conditions. `typeof` guards for primitives. `instanceof` for classes. Discriminated unions with switch are powerful. Type predicates (`pet is Fish`) tell TypeScript about function return types.' },
-    7: { id: 'Generik membuat kode reusable tanpa kehilangan type safety. `<T>` menangkap tipe yang digunakan. Constraint `extends` membatasi tipe yang bisa digunakan. Generic interface membuat struktur data type-safe. Default type menyediakan tipe fallback.', en: 'Generics make code reusable without losing type safety. `<T>` captures the type used. `extends` constraints limit usable types. Generic interfaces create type-safe data structures. Default types provide fallback types.' },
-    8: { id: 'Conditional types: `T extends U ? X : Y`. Mapped types: `{ [K in keyof T]: NewType }`. `keyof` mengambil key union. `typeof` mengambil tipe runtime. Indexed access: `T["key"]`. `infer` menangkap tipe dalam conditional untuk ekstraksi.', en: 'Conditional types: `T extends U ? X : Y`. Mapped types: `{ [K in keyof T]: NewType }`. `keyof` gets key union. `typeof` gets runtime type. Indexed access: `T["key"]`. `infer` captures types inside conditionals for extraction.' },
-    9: { id: 'Utility types bawaan TypeScript: `Partial<T>` — semua opsional, `Required<T>` — semua wajib, `Readonly<T>` — semua tidak bisa diubah, `Pick<T,K>` — pilih properti, `Omit<T,K>` — kecualikan properti, `Record<K,T>` — dictionary, `Exclude/Extract` — manipulasi union.', en: 'Built-in TypeScript utility types: `Partial<T>` — all optional, `Required<T>` — all required, `Readonly<T>` — all immutable, `Pick<T,K>` — select properties, `Omit<T,K>` — exclude properties, `Record<K,T>` — dictionary, `Exclude/Extract` — union manipulation.' },
-    10: { id: 'Class TypeScript: properti harus dideklarasikan dengan tipe. Access modifiers: `public`, `private`, `protected`. Parameter properties: `constructor(public nama: string)`. `implements` memaksa class mengikuti interface. Abstract class tidak bisa diinstansiasi langsung.', en: 'TypeScript classes: properties must be declared with types. Access modifiers: `public`, `private`, `protected`. Parameter properties: `constructor(public name: string)`. `implements` forces a class to follow an interface. Abstract classes cannot be instantiated directly.' },
-    11: { id: 'Module ES6: `export` dan `import` untuk berbagi kode dan tipe. Declaration file `.d.ts` untuk library JavaScript tanpa tipe. `@types` packages menyediakan tipe untuk library populer. Ambient declarations dengan `declare module` untuk kode global.', en: 'ES6 modules: `export` and `import` for sharing code and types. Declaration files `.d.ts` for JavaScript libraries without types. `@types` packages provide types for popular libraries. Ambient declarations with `declare module` for global code.' },
-    12: { id: '`satisfies` mengecek tipe tanpa mengubah inferred type. Branded types menambahkan nominal typing. Assertion functions: `asserts val is Type`. `never` untuk exhaustive checking di switch. Covariance/contravariance mengatur kompatibilitas tipe kompleks.', en: '`satisfies` checks types without changing inferred types. Branded types add nominal typing. Assertion functions: `asserts val is Type`. `never` for exhaustive checking in switches. Covariance/contravariance govern complex type compatibility.' },
-    13: { id: '`strict: true` mengaktifkan semua strict flag. `noImplicitAny` mewajibkan tipe eksplisit. `strictNullChecks` membedakan `T | null`. `noUnusedLocals` membersihkan kode. `typescript-eslint` menegakkan aturan TypeScript. Vitest mendukung TypeScript natively.', en: '`strict: true` enables all strict flags. `noImplicitAny` requires explicit types. `strictNullChecks` distinguishes `T | null`. `noUnusedLocals` cleans up code. `typescript-eslint` enforces TypeScript rules. Vitest supports TypeScript natively.' },
-    14: { id: 'TypeScript di React: tipe props dengan interface. Generic components untuk reusable UI. Event types: `React.ChangeEvent`, `React.MouseEvent`. Custom hooks bisa memiliki tipe parameter dan return yang ketat. Context dengan tipe mengurangi runtime error.', en: 'TypeScript in React: type props with interfaces. Generic components for reusable UI. Event types: `React.ChangeEvent`, `React.MouseEvent`. Custom hooks can have strict parameter and return types. Context with types reduces runtime errors.' },
-    15: { id: 'Backend TypeScript: tipe Request dan Response Express. Middleware dengan type signature. Zod untuk validasi runtime yang type-safe. DTO pattern memisahkan input/output types. Database query result harus di-tipe untuk mencegah akses properti undefined.', en: 'Backend TypeScript: Express Request and Response types. Middleware with type signatures. Zod for type-safe runtime validation. DTO pattern separates input/output types. Database query results must be typed to prevent undefined property access.' },
-    16: { id: 'Proyek akhir menggabungkan: generic API client, repository pattern, discriminated union untuk state management, type assertion, dan interface contracts. Type-safe dari database hingga UI. End-to-end type safety adalah tujuan utama TypeScript.', en: 'Final project combines: generic API client, repository pattern, discriminated unions for state management, type assertions, and interface contracts. Type-safe from database to UI. End-to-end type safety is TypeScript\'s primary goal.' },
-  };
-  return E[mod][isId ? 'id' : 'en'];
+type Partial<T> = {
+    [K in keyof T]?: T[K];
+};
+
+// Key remapping
+type Getters<T> = {
+    [K in keyof T as \`get\${Capitalize<string & K>}\`]: () => T[K];
+};
+
+interface User {
+    name: string;
+    age: number;
+    email: string;
 }
 
-function generateFile(mod, isId) {
-  const lang = isId ? 'id' : 'en';
-  const title = isId ? mod.lid : mod.len;
-  const programTitle = isId ? mod.pid : mod.pen;
-  const obj = OBJ[mod.id];
-  const objectives = (isId ? obj.id : obj.en).map(o => `- ${o}`).join('\n');
-  const code = CODE[mod.id];
-  const explanation = getExplanation(mod.id, isId);
-  const nextModule = MODULES.find(m => m.id === mod.id + 1);
-  const nextWeek = nextModule
-    ? (isId ? `${mod.id + 1}. ${nextModule.lid}` : `${nextModule.len}`)
-    : (isId ? 'Selesai! 🎉' : 'Complete! 🎉');
+type UserGetters = Getters<User>;
+// { getName: () => string; getAge: () => number; getEmail: () => string }
 
-  const experiments = isId
-    ? `Ubah tipe data di setiap fungsi dan lihat error kompilasi,Tambah properti baru ke interface dan update implementasinya,Ganti \`any\` dengan \`unknown\` dan tambahkan type guard,Coba kombinasi union dan intersection type yang berbeda`
-    : `Change data types in each function and see compilation errors,Add new properties to interfaces and update implementations,Replace \`any\` with \`unknown\` and add type guards,Try different union and intersection type combinations`;
+// Recursive types
+type DeepReadonly<T> = {
+    readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
+};
 
-  const challenge = isId
-    ? `Buat program yang menerapkan konsep minggu ini dalam studi kasus nyata. Gunakan type annotation eksplisit di setiap variable dan function. Pastikan tidak ada \`any\`. Tambahkan komentar yang menjelaskan tipe yang digunakan.`
-    : `Build a program applying this week's concepts in a real case study. Use explicit type annotations on every variable and function. Ensure no \`any\`. Add comments explaining the types used.`;
-
-  const summary = isId
-    ? `Modul ${mod.id} dari 16: **${mod.lid}**. TypeScript memberikan type safety tanpa mengorbankan fleksibilitas JavaScript. Minggu depan: **${nextWeek}**.`
-    : `Module ${mod.id} of 16: **${mod.len}**. TypeScript provides type safety without sacrificing JavaScript flexibility. Next week: **${nextWeek}**.`;
-
-  const experimentBullets = experiments.split(',')
-    .filter(Boolean)
-    .map((e) => `- ${e.trim()}`)
-    .join('\n');
-
-  const expBullets = experimentBullets || (isId ? '- Eksperimen dengan kode di atas' : '- Experiment with the code above');
-
-  return `# ${title}
-
-> TypeScript | ${isId ? `Modul ${mod.id}` : `Module ${mod.id}`}
-
-## ${isId ? 'Tujuan Pembelajaran' : 'Learning Objectives'}
-
-${objectives}
-
----
-
-## ${isId ? 'Program' : 'Program'}: ${programTitle}
-
-\`\`\`typescript
-${code}
-\`\`\`
-
----
-
-## ${isId ? 'Penjelasan' : 'Explanation'}
-
-${explanation}
-
----
-
-## ${isId ? 'Eksperimen' : 'Experiments'}
-
-${expBullets}
-
----
-
-## ${isId ? 'Tantangan' : 'Challenge'}
-
-${challenge}
-
----
-
-## ${isId ? 'Ringkasan' : 'Summary'}
-
-${summary}
-`;
+interface Config {
+    server: { host: string; port: number };
+    database: { url: string; pool: number };
 }
 
-if (!fs.existsSync(BASE)) {
-  fs.mkdirSync(path.join(BASE, 'id'), { recursive: true });
-  fs.mkdirSync(path.join(BASE, 'en'), { recursive: true });
+type ReadonlyConfig = DeepReadonly<Config>;
+
+// Branded Types (Nominal Typing)
+type Brand<T, B> = T & { __brand: B };
+type USD = Brand<number, "USD">;
+type EUR = Brand<number, "EUR">;
+
+function usd(amount: number): USD {
+    return amount as USD;
 }
 
-for (const mod of MODULES) {
-  const idContent = generateFile(mod, true);
-  const enContent = generateFile(mod, false);
-  fs.writeFileSync(path.join(BASE, 'id', `week${mod.id}-${mod.f}.md`), idContent, 'utf8');
-  fs.writeFileSync(path.join(BASE, 'en', `week${mod.id}-${mod.f}.md`), enContent, 'utf8');
-  console.log(`  ${mod.id}. ${mod.lid} / ${mod.len}`);
+function eur(amount: number): EUR {
+    return amount as EUR;
 }
 
-console.log(`\n✓ Generated ${MODULES.length * 2} TypeScript curriculum files (${MODULES.length} modules × 2 languages)`);
-console.log(`  Output: ${BASE}`);
+const price1 = usd(100);
+const price2 = eur(100);
+// price1 === price2 // Error! Different brands
+
+console.log("=== Advanced Types ===");
+console.log("Template Literal: combine types into strings");
+console.log("Conditional: T extends U ? X : Y");
+console.log("infer: extract types from structures");
+console.log("Branded: nominal typing for primitives");
+console.log("Recursive: deep type transformations");`,
+    objectivesId: [
+      'Template literal types untuk string manipulation',
+      'Conditional types: T extends U ? X : Y',
+      'infer keyword untuk extract types',
+      'Key remapping dengan as clause',
+      'Branded types untuk nominal typing',
+    ],
+    objectivesEn: [
+      'Template literal types for string manipulation',
+      'Conditional types: T extends U ? X : Y',
+      'infer keyword for type extraction',
+      'Key remapping with as clause',
+      'Branded types for nominal typing',
+    ],
+    explanationId: '### Template Literal Types\n\`type T = \\`get\\${Capitalize<K>}\\`` — generate types dari string.\n\n### Conditional Types\n`T extends string ? true : false` — type-level if/else.\n\n### infer\nExtract type dari structure: `T extends (infer E)[] ? E : never`.\n\n### Key Remapping\n`{ [K in keyof T as NewKey]: T[K] }` — rename keys.\n\n### Branded Types\n`type USD = number & { __brand: "USD" }` — nominal typing untuk primitives.\n\n### Recursive Types\nType yang reference dirinya sendiri: `DeepReadonly<T>`.',
+    explanationEn: '### Template Literal Types\n`type T = \\`get\\${Capitalize<K>}\\`` — generate types from strings.\n\n### Conditional Types\n`T extends string ? true : false` — type-level if/else.\n\n### infer\nExtract type from structure: `T extends (infer E)[] ? E : never`.\n\n### Key Remapping\n`{ [K in keyof T as NewKey]: T[K] }` — rename keys.\n\n### Branded Types\n`type USD = number & { __brand: "USD" }` — nominal typing for primitives.\n\n### Recursive Types\nTypes that reference themselves: `DeepReadonly<T>`.',
+    experimentsId: [
+      'Buat type-safe path: type Path<T, K>',
+      'Coba conditional type untuk flatten array',
+      'Eksperimen template literal untuk CSS properties',
+      'Buat type-safe event map dengan template literals',
+      'Coba type-level programming: Fibonacci',
+    ],
+    experimentsEn: [
+      'Create type-safe path: type Path<T, K>',
+      'Try conditional type for flatten array',
+      'Experiment template literal for CSS properties',
+      'Create type-safe event map with template literals',
+      'Try type-level programming: Fibonacci',
+    ],
+    challengeId: 'Buat type-safe API client: template literal untuk endpoints, conditional types untuk responses, branded types untuk IDs.',
+    challengeEn: 'Build a type-safe API client: template literals for endpoints, conditional types for responses, branded types for IDs.',
+    summaryId: 'Minggu 11 dari 12: **Advanced Type Manipulation** (Level: TypeScript Lengkap). Type-level programming. Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 11 of 12: **Advanced Type Manipulation** (Level: Complete TypeScript). Type-level programming. Next week: **Capstone Project**!',
+  },
+  {
+    week: 12, level: 'beginer', topicId: 'capstone',
+    titleId: 'Capstone: Type-Safe API Client', titleEn: 'Capstone: Type-Safe API Client',
+    programId: 'API Client Library', programEn: 'API Client Library',
+    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    language: 'typescript',
+    code: `// Capstone: Type-Safe REST API Client
+// Menggabungkan semua konsep TypeScript
+
+// === Branded Types ===
+type ID<T> = string & { __brand: T };
+type UserID = ID<"User">;
+type PostID = ID<"Post">;
+
+// === API Response Types ===
+interface ApiResponse<T> {
+    data: T;
+    status: number;
+    message: string;
+}
+
+interface User {
+    id: UserID;
+    name: string;
+    email: string;
+    role: "admin" | "user";
+}
+
+interface Post {
+    id: PostID;
+    title: string;
+    content: string;
+    authorId: UserID;
+}
+
+// === Type-Safe API Client ===
+class ApiClient {
+    constructor(private baseUrl: string) {}
+
+    async get<T>(path: string): Promise<ApiResponse<T>> {
+        console.log("GET", this.baseUrl + path);
+        // Simulasi response
+        return { data: {} as T, status: 200, message: "OK" };
+    }
+
+    async post<T, D>(path: string, body: D): Promise<ApiResponse<T>> {
+        console.log("POST", this.baseUrl + path, body);
+        return { data: {} as T, status: 201, message: "Created" };
+    }
+
+    async put<T, D>(path: string, body: D): Promise<ApiResponse<T>> {
+        console.log("PUT", this.baseUrl + path, body);
+        return { data: {} as T, status: 200, message: "Updated" };
+    }
+
+    async delete(path: string): Promise<{ status: number }> {
+        console.log("DELETE", this.baseUrl + path);
+        return { status: 204 };
+    }
+}
+
+// === Typed Endpoints ===
+type ApiEndpoints = {
+    "/users": { GET: User[]; POST: User };
+    "/users/:id": { GET: User; PUT: User; DELETE: void };
+    "/posts": { GET: Post[]; POST: Post };
+    "/posts/:id": { GET: Post; PUT: Post; DELETE: void };
+};
+
+// === Type-Safe Request Builder ===
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+
+class TypedClient {
+    constructor(private client: ApiClient) {}
+
+    async request<M extends HttpMethod, P extends keyof ApiEndpoints>(
+        method: M,
+        path: P
+    ): Promise<ApiEndpoints[P][M]> {
+        return {} as ApiEndpoints[P][M];
+    }
+}
+
+// === Demo ===
+console.log("=== Type-Safe API Client ===");
+
+const api = new ApiClient("https://api.example.com");
+
+// Type-safe calls
+async function demo() {
+    const users = await api.get<User[]>("/users");
+    console.log("Users status:", users.status);
+
+    const newUser = await api.post<User, Omit<User, "id">>("/users", {
+        name: "Budi",
+        email: "budi@mail.com",
+        role: "user"
+    });
+    console.log("Created status:", newUser.status);
+
+    await api.delete("/users/123");
+}
+
+demo();
+
+// === Architecture Summary ===
+console.log("\\n=== Architecture ===");
+console.log("1. Branded Types: type-safe IDs");
+console.log("2. Generic Client: type-safe requests");
+console.log("3. Typed Endpoints: path → response mapping");
+console.log("4. Discriminated Unions: API responses");
+console.log("5. Utility Types: Partial, Omit, Pick");
+console.log("6. Conditional Types: response transformers");
+console.log("7. Template Literals: URL builders");
+
+// === Key Takeaways ===
+console.log("\\n=== Key Takeaways ===");
+console.log("- TypeScript catches errors at compile-time");
+console.log("- Generics enable reusable type-safe code");
+console.log("- Utility types transform existing types");
+console.log("- Branded types prevent ID mixups");
+console.log("- Conditional types enable type-level logic");`,
+    objectivesId: [
+      'Menggabungkan semua konsep: generics, branded types, conditional types',
+      'Type-safe API client dengan endpoint typing',
+      'Branded types untuk prevent ID mixups',
+      'Generic methods dengan type constraints',
+      'Type-level programming untuk API response mapping',
+    ],
+    objectivesEn: [
+      'Combine all concepts: generics, branded types, conditional types',
+      'Type-safe API client with endpoint typing',
+      'Branded types to prevent ID mixups',
+      'Generic methods with type constraints',
+      'Type-level programming for API response mapping',
+    ],
+    explanationId: '### Proyek Capstone\nType-Safe API Client yang menggabungkan semua 11 minggu pembelajaran.\n\n### Arsitektur\n- Branded Types: UserID vs PostID tidak bisa tertukar\n- Generic Client: type-safe requests\n- Typed Endpoints: path → response type mapping\n- Conditional Types: transform responses\n\n### Fitur\n- CRUD operations dengan type safety\n- Endpoint typing\n- Response transformation\n- Error handling\n\n### Best Practices\n- Strict mode\n- No implicit any\n- Proper generic constraints\n- Type inference where possible',
+    explanationEn: '### Capstone Project\nType-Safe API Client combining all 11 weeks of learning.\n\n### Architecture\n- Branded Types: UserID vs PostID cannot be mixed up\n- Generic Client: type-safe requests\n- Typed Endpoints: path → response type mapping\n- Conditional Types: transform responses\n\n### Features\n- CRUD operations with type safety\n- Endpoint typing\n- Response transformation\n- Error handling\n\n### Best Practices\n- Strict mode\n- No implicit any\n- Proper generic constraints\n- Type inference where possible',
+    experimentsId: [
+      'Tambah request/response interceptors',
+      'Buat type-safe query builder',
+      'Tambah caching layer dengan generics',
+      'Buat type-safe WebSocket client',
+      'Tambah retry logic dengan exponential backoff',
+    ],
+    experimentsEn: [
+      'Add request/response interceptors',
+      'Create type-safe query builder',
+      'Add caching layer with generics',
+      'Create type-safe WebSocket client',
+      'Add retry logic with exponential backoff',
+    ],
+    challengeId: 'Buat full API client library: CRUD, interceptors, caching, retry, type-safe endpoints, error handling.',
+    challengeEn: 'Build a full API client library: CRUD, interceptors, caching, retry, type-safe endpoints, error handling.',
+    summaryId: 'Minggu 12 dari 12: **Capstone: Type-Safe API Client** (Level: TypeScript Lengkap). Selesai! 🎉 Anda sudah menguasai TypeScript dari nol hingga mahir.',
+    summaryEn: 'Week 12 of 12: **Capstone: Type-Safe API Client** (Level: Complete TypeScript). Complete! 🎉 You\'ve mastered TypeScript from scratch to expert.',
+  },
+];
+
+// Add weeks to levels
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
+}
+
+gen.writeFiles(MODULES, LEVELS);

@@ -1,942 +1,1448 @@
-// ============================================================================
-// generate-docker-materials.mjs
-// Docker track: 16 lessons x 2 languages (id/en) -> 32 markdown files.
-// Structure (4 phases) based on bootcamp/curriculum research (2026):
-//   Foundations      : container-as-process mental model first, CLI essentials
-//   Images           : run flags, image layers, Dockerfile, layer-thinking debug
-//   Multi-Container  : volumes, networking (3-stage), Compose, real stack
-//   Production       : Dockerfile best practices, minimal images, registry/CI-CD,
-//                      orchestration decision (Compose -> Swarm -> K8s) + capstone
-// Each lesson's first code block (```docker) is a runnable script executed by
-// the in-app DockerPlayground (browser Docker CLI simulator, src/utils/dockerSim.ts).
-// ============================================================================
-import fs from 'fs';
-import path from 'path';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const BASE = new URL('../public/data/course/docker', import.meta.url).pathname;
-const BASE_DIR = process.platform === 'win32' ? BASE.slice(1) : BASE;
+// ─────────────────────────────────────────────────────────────────────────────
+// DOCKER CURRICULUM — pure research, zero framework influence
+// Sources: Official Docker Docs, Docker Deep Dive (Nigel Poulton),
+//          Docker Mastery (Bret Fisher), Katacoda, Play with Docker,
+//          Dockerfile reference, Compose specification
+// ─────────────────────────────────────────────────────────────────────────────
+// Research consensus: 3 levels, 12 weeks total
+//   Beginner (4w): concepts → images → containers → Dockerfile
+//   Intermediate (4w): volumes → networking → compose → multi-stage
+//   Advanced (4w): security → CI/CD → orchestration → project
+// Total: 12 weeks
+// ─────────────────────────────────────────────────────────────────────────────
 
-const PHASES = [
-  { phase: 1, id: 'foundations', nameId: 'Fondasi', nameEn: 'Foundations' },
-  { phase: 2, id: 'images', nameId: 'Image & Container', nameEn: 'Images & Containers' },
-  { phase: 3, id: 'multicontainer', nameId: 'Multi-Container', nameEn: 'Multi-Container' },
-  { phase: 4, id: 'production', nameId: 'Produksi', nameEn: 'Production' },
+const gen = new BaseGenerator('docker', 'Docker');
+
+const LEVELS = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Fundamental Docker: konsep, image, container, Dockerfile — urutan resmi Docker Docs.',
+    descEn: 'Docker fundamentals: concepts, images, containers, Dockerfile — official Docker Docs order.',
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Docker workflows: volume, network, compose, multi-stage build — Docker Deep Dive pathway.',
+    descEn: 'Docker workflows: volumes, networking, compose, multi-stage builds — Docker Deep Dive pathway.',
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Docker production: security, CI/CD, orchestration, Kubernetes, capstone project.',
+    descEn: 'Production Docker: security, CI/CD, orchestration, Kubernetes, capstone project.',
+  },
 ];
 
-// ===== PHASE 1: FOUNDATIONS (lessons 1-4) =====
-const LESSONS_P1 = [
+const MODULES = [
+  // ── BEGINNER (weeks 1-4) ──────────────────────────────────────────────────
   {
-    phase: 1, num: 1, topicId: 'pengenalan-docker',
-    titleId: 'Pengenalan Docker: Masalah "Works on My Machine"', titleEn: 'Docker Intro: The "Works on My Machine" Problem',
-    script: `# 1) Cek lingkungan Docker Anda
-docker version
+    week: 1, level: 'beginer', topicId: 'konsep-docker',
+    titleId: 'Konsep Docker', titleEn: 'Docker Concepts',
+    programId: 'Halo, Docker!', programEn: 'Hello, Docker!',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER CONCEPTS — Fundamental Commands
+# ─────────────────────────────────────────────────────────
+
+# Check Docker installation
+docker --version
 docker info
 
-# 2) Image yang tersedia (blueprint aplikasi)
-docker images
-
-# 3) Container yang sedang berjalan
-docker ps
-
-# 4) Container pertama Anda
+# Hello World — verifikasi Docker berjalan
 docker run hello-world
-docker ps -a`,
-    objId: [
-      'Memahami akar masalah "works on my machine" dan mengapa container adalah jawabannya',
-      'Membedakan image, container, dan registry',
-      'Menjalankan container pertama dengan docker run',
-      'Mengenal perintah dasar: version, info, images, ps',
+
+# Docker Architecture:
+# Docker Client → Docker Daemon → Containerd → runc → Container
+
+# Image vs Container:
+# Image = template/blueprint (read-only)
+# Container = running instance dari image
+
+# Basic Commands
+docker ps                    # List running containers
+docker ps -a                 # List all containers (including stopped)
+docker images                # List downloaded images
+docker pull nginx            # Download image tanpa run
+docker search ubuntu         # Cari image di Docker Hub
+
+# Run container sederhana
+docker run hello-world
+
+# Run container dengan options
+docker run -d --name my-nginx -p 8080:80 nginx
+
+# Flags:
+# -d        : detached mode (background)
+# --name    : nama container
+# -p        : port mapping (host:container)
+# -v        : volume mount
+# -e        : environment variable
+# --rm      : auto-remove saat stop
+
+# Lihat logs container
+docker logs my-nginx
+docker logs -f my-nginx      # Follow logs
+
+# Execute command di container yang berjalan
+docker exec -it my-nginx bash
+
+# Stop dan remove container
+docker stop my-nginx
+docker rm my-nginx
+
+# Remove image
+docker rmi nginx`,
+    objectivesId: [
+      'Memahami konsep Docker: image, container, registry',
+      'Instalasi Docker: Docker Desktop, Docker Engine',
+      'Docker architecture: Client, Daemon, Containerd, runc',
+      'Perintah dasar: run, ps, images, pull, exec',
+      'Flags umum: -d, --name, -p, -v, -e, --rm',
     ],
-    objEn: [
-      'Understand the root of the "works on my machine" problem and why containers solve it',
-      'Distinguish images, containers, and registries',
-      'Run your first container with docker run',
-      'Know the basic commands: version, info, images, ps',
+    objectivesEn: [
+      'Understand Docker concepts: images, containers, registries',
+      'Docker installation: Docker Desktop, Docker Engine',
+      'Docker architecture: Client, Daemon, Containerd, runc',
+      'Basic commands: run, ps, images, pull, exec',
+      'Common flags: -d, --name, -p, -v, -e, --rm',
     ],
-    expId: `## Masalah "Works on My Machine"
-Semua developer pernah mengalaminya: aplikasi jalan mulus di laptop kita, tapi error di laptop teman, di server staging, atau di production. Penyebabnya bukan "nasib sial" - itu environment drift: versi bahasa berbeda, dependency versi beda, konfigurasi OS beda. Docker menjawabnya dengan satu kalimat: aplikasi dikemas beserta seluruh lingkungannya.
-## Image vs Container vs Registry
-Image adalah blueprint hanya-baca: aplikasi + runtime + konfigurasi dalam satu paket. Container adalah instance image yang berjalan. Registry adalah gudang image (Docker Hub adalah yang terbesar). Analogi: image = kelas/recipe, container = objek/hidangan yang dimasak dari recipe itu, registry = buku resep dunia.
-## Kenapa Container Penting di 2026
-Riset menunjukkan sekitar 92% organisasi IT memakai container dan adopsi Docker mencapai sekitar 71% di kalangan developer. Bukan tren - container menjadi standar de facto untuk mengemas dan mendistribusikan software, dari laptop developer sampai production cluster.
-## Yang Akan Anda Kuasai
-Track ini 16 pelajaran: mental model container, image dan Dockerfile, data dan jaringan, compose dan orkestrasi. Setiap pelajaran punya skrip yang bisa langsung dijalankan di playground simulator di sebelah kanan - tanpa perlu menginstal Docker.`,
-    expEn: `## The "Works on My Machine" Problem
-Every developer has been there: the app runs flawlessly on our laptop, but breaks on a teammate's laptop, on staging, or in production. It is not bad luck - it is environment drift: different language versions, mismatched dependencies, different OS config. Docker's answer is one sentence: ship the application together with its entire environment.
-## Image vs Container vs Registry
-An image is a read-only blueprint: app + runtime + configuration in one package. A container is a running instance of an image. A registry is an image warehouse (Docker Hub is the biggest). Analogy: image = class/recipe, container = object/dish cooked from that recipe, registry = the world's cookbook.
-## Why Containers Matter in 2026
-Research shows roughly 92% of IT organizations use containers and Docker adoption sits near 71% among developers. It is not a trend - containers are the de facto standard for packaging and distributing software, from a dev laptop to production clusters.
-## What You Will Master
-This track has 16 lessons: container mental model, images and Dockerfile, data and networking, Compose and orchestration. Every lesson ships a script you can run right away in the simulator playground on the right - no Docker installation needed.`,
-    chId: 'Jalankan skrip di playground dan amati output-nya. Lalu ketik manual: docker images, docker ps, dan docker run hello-world sekali lagi. Pertanyaan: kenapa docker run hello-world langsung selesai (bukan berjalan terus)? Tulis jawabanmu satu kalimat - jawabannya menjadi fondasi pelajaran 2.',
-    chEn: 'Run the script in the playground and observe the output. Then type manually: docker images, docker ps, and docker run hello-world once more. Question: why does docker run hello-world finish immediately (instead of running forever)? Write a one-sentence answer - it is the foundation of lesson 2.',
-    sumId: 'Masalah "works on my machine" berasal dari environment drift; Docker mengemas aplikasi + lingkungannya. Image = blueprint, container = instance, registry = gudang image. Lanjut: mental model container = proses.',
-    sumEn: 'The "works on my machine" problem comes from environment drift; Docker packages app + environment together. Image = blueprint, container = instance, registry = warehouse. Next: the container-as-process mental model.',
+    explanationId: '### Docker\nPlatform untuk develop, ship, dan run application dalam container.\n\n### Image vs Container\nImage = template read-only. Container = running instance dari image.\n\n### Registry\nDocker Hub = public registry. Private registry untuk enterprise.\n\n### Architecture\n- Docker CLI: user interface\n- Docker Daemon: manage containers\n- Containerd: container runtime management\n- runc: low-level runtime\n\n### Basic Workflow\n1. Pull image: `docker pull nginx`\n2. Run container: `docker run -d nginx`\n3. Manage: `docker ps`, `docker stop`, `docker rm`',
+    explanationEn: '### Docker\nPlatform for developing, shipping, and running applications in containers.\n\n### Images vs Containers\nImages are read-only templates. Containers are running instances.\n\n### Registries\nDocker Hub for public images. Private registries for enterprise.\n\n### Architecture\nCLI → Daemon → Containerd → runc → Container.\n\n### Basic Workflow\nPull image → Run container → Manage lifecycle.',
+    experimentsId: [
+      'Pull berbagai image dan run container',
+      'Eksperimen dengan flags berbeda',
+      'Coba exec bash di container ubuntu',
+      'Run container dengan port mapping berbeda',
+      'Eksperimen dengan environment variable',
+    ],
+    experimentsEn: [
+      'Pull various images and run containers',
+      'Experiment with different flags',
+      'Try exec bash in ubuntu container',
+      'Run containers with different port mappings',
+      'Experiment with environment variables',
+    ],
+    challengeId: 'Setup web server: pull nginx image, run container, akses di browser, customize halaman.',
+    challengeEn: 'Set up web server: pull nginx image, run container, access in browser, customize page.',
+    summaryId: 'Minggu 1 dari 12: **Konsep Docker** (Level: Pemula). Containerization fundamentals. Minggu depan: **Image & Registry**.',
+    summaryEn: 'Week 1 of 12: **Docker Concepts** (Level: Beginner). Containerization fundamentals. Next week: **Images & Registries**.',
   },
   {
-    phase: 1, num: 2, topicId: 'container-adalah-proses',
-    titleId: 'Mental Model: Container Adalah Proses', titleEn: 'Mental Model: A Container Is a Process',
-    script: `# Container = PROSES, bukan VM kecil!
-# Proses selesai -> container selesai (berhenti)
-docker run alpine echo "Halo dari dalam container!"
+    week: 2, level: 'beginer', topicId: 'image-registry',
+    titleId: 'Image & Registry', titleEn: 'Images & Registries',
+    programId: 'Build & Push Image', programEn: 'Build & Push Images',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER IMAGES & REGISTRIES
+# ─────────────────────────────────────────────────────────
 
-# Proses berjalan lama -> jalankan di background
-docker run -d --name web1 -p 8080:80 nginx:alpine
-docker ps
-
-# Container adalah proses dengan view terisolasi
-docker exec web1 whoami
-docker exec web1 cat /etc/hostname
-
-# Container sekali pakai: stop, lalu rm
-docker stop web1
-docker rm web1
-docker ps -a`,
-    objId: [
-      'Membangun mental model: container = proses Linux dengan view terisolasi',
-      'Memahami kenapa container berhenti saat proses utamanya selesai',
-      'Membedakan VM (mesin virtual) dan container (proses)',
-      'Mempraktikkan siklus hidup container: run, ps, stop, rm',
-    ],
-    objEn: [
-      'Build the mental model: a container is a Linux process with an isolated view',
-      'Understand why a container stops when its main process exits',
-      'Distinguish VMs (virtual machines) and containers (processes)',
-      'Practice the container lifecycle: run, ps, stop, rm',
-    ],
-    expId: `## Container Bukan VM Kecil
-Kesalahpahaman paling umum dan paling merusak: container dianggap sebagai VM mini - "komputer kecil" yang bisa di-SSH, diinstal alat debugging, dan ditinggali. Padahal container hanyalah proses biasa yang dijalankan di kernel host dengan view terbatas: filesystem sendiri (mount namespaces), jaringan sendiri (network namespaces), dan pohon proses sendiri (PID namespaces). Itu sebabnya container menyala dalam hitungan detik - tidak ada OS baru yang di-boot.
-## Siklus Hidup: Lahir dan Mati
-Container hidup selama proses utamanya hidup. Jalankan docker run alpine echo "halo": proses echo selesai dalam sekejap, container langsung berhenti. Jalankan nginx (server yang berjalan terus): container tetap Up. Stop container = kirim sinyal berhenti ke proses utama.
-## Konsekuensi Mental Model Ini
-Saat ini klik, semuanya menyusul: jangan "login" ke container dan menginstal barang di dalamnya - container adalah benda sekali pakai yang dibuang dan dibuat ulang. Kenapa data harus hidup di volume? Karena filesystem container ikut mati. Kenapa 2 proses dalam 1 container adalah anti-pattern? Karena yang menghidupkan container adalah SATU proses utama.
-## Latihan Pikiran: VM vs Container
-VM: hypervisor membagi hardware, setiap VM membawa OS sendiri (GB-an, boot menit). Container: kernel host dibagi, hanya aplikasi + runtime (MB-an, boot detik). Container bukan "lebih kecil dari VM" - container adalah kategori yang berbeda.`,
-    expEn: `## Containers Are Not Small VMs
-The most common and most damaging misconception: containers are treated as mini VMs - "small computers" you can SSH into, install debug tools on, and live inside. In reality a container is just a regular process running on the host kernel with a restricted view: its own filesystem (mount namespaces), its own network stack (network namespaces), and its own process tree (PID namespaces). That is why containers start in seconds - no new OS is booted.
-## Lifecycle: Born and Die
-A container lives as long as its main process lives. Run docker run alpine echo "hi": the echo process finishes in a blink and the container stops instantly. Run nginx (a long-running server): the container stays Up. Stopping a container sends a stop signal to the main process.
-## Consequences of This Model
-Once this clicks, everything follows: do not "log into" containers and install stuff inside - containers are throwaway objects you recreate. Why must data live in volumes? Because the container filesystem dies with it. Why is running 2 processes in one container an antipattern? Because ONE main process is what keeps the container alive.
-## Thought Exercise: VM vs Container
-VM: a hypervisor partitions hardware, every VM carries its own OS (gigabytes, minutes to boot). Container: the host kernel is shared, only app + runtime are packaged (megabytes, seconds to boot). A container is not "a smaller VM" - it is a different category entirely.`,
-    chId: 'Jalankan skrip, lalu coba sendiri: docker run alpine echo "tes" - perhatikan container langsung keluar. Kemudian docker run -d --name coba2 nginx:alpine, stop, rm. Tulis dua kalimat: (1) apa yang menentukan container hidup/mati, (2) kenapa kita tidak perlu (dan tidak boleh) menginstal alat debugging di dalam container.',
-    chEn: 'Run the script, then try it yourself: docker run alpine echo "test" - notice the container exits immediately. Then docker run -d --name coba2 nginx:alpine, stop it, rm it. Write two sentences: (1) what decides whether a container lives or dies, (2) why we should not install debug tools inside a container.',
-    sumId: 'Container = proses Linux dengan view terisolasi (namespaces), hidup selama proses utamanya hidup. Bukan VM: tanpa OS baru, tanpa boot lambat. Container = benda sekali pakai. Lanjut: arsitektur Docker di balik layar.',
-    sumEn: 'A container is a Linux process with an isolated view (namespaces), alive as long as its main process runs. Not a VM: no new OS, no slow boot. Containers are throwaway. Next: Docker architecture under the hood.',
-  },
-  {
-    phase: 1, num: 3, topicId: 'arsitektur-docker',
-    titleId: 'Arsitektur Docker & Linux VM', titleEn: 'Docker Architecture & the Linux VM',
-    script: `# Arsitektur: client -> daemon -> containerd
-docker version
-
-# Di balik layar Docker Desktop: Linux VM kecil
-docker info
-
-# Ambil image dari registry
+# Lihat semua image lokal
 docker images
-docker pull redis:7-alpine
+docker image ls
 
-# Jalankan Redis sebagai cache
-docker run -d --name cache -p 6379:6379 redis:7-alpine
-docker ps
-docker stop cache
-docker rm cache`,
-    objId: [
-      'Memahami arsitektur Docker: client, daemon, containerd, runtime',
-      'Menjelaskan kenapa Docker Desktop menjalankan Linux VM di Mac/Windows',
-      'Menarik image dari registry dengan docker pull',
-      'Menjalankan layanan nyata (Redis) dalam container',
-    ],
-    objEn: [
-      'Understand the Docker architecture: client, daemon, containerd, runtime',
-      'Explain why Docker Desktop runs a Linux VM on Mac/Windows',
-      'Pull images from a registry with docker pull',
-      'Run a real service (Redis) in a container',
-    ],
-    expId: `## Client, Daemon, dan Containerd
-Ketik docker <perintah> - yang berjalan adalah client CLI. Client berbicara dengan Docker daemon (dockerd) lewat API. Daemon tidak menjalankan container sendiri: ia meminta containerd (runtime) untuk menjalankan container sebagai proses. Pemisahan ini penting: Kubernetes zaman sekarang tidak berbicara dengan dockerd, melainkan langsung dengan containerd/CRI-O.
-## Mengapa Ada Linux VM di Mac dan Windows
-Container bergantung pada fitur kernel Linux (namespaces, cgroups). Kernel macOS/Windows tidak punya fitur itu. Solusinya: Docker Desktop menjalankan VM Linux kecil di belakang layar, dan semua container hidup di dalam VM itu. Karena itu di docker info tertulis OSType: linux meskipun laptop Anda Windows/Mac.
-## Registry: Docker Hub
-docker pull redis:7-alpine mengambil image dari Docker Hub (registry publik terbesar). Perhatikan: kita meminta versi spesifik (7-alpine), bukan latest - kebiasaan baik yang akan menjadi tema pelajaran 6. Image yang sudah ada tidak diunduh ulang; Docker memakai cache lokal.
-## Ukuran: VM vs Container yang Sesungguhnya
-Image redis:7-alpine hanya 43MB dan container-nya siap dipakai dalam hitungan detik - bandingkan dengan VM Linux yang minimal ratusan MB dan perlu menit untuk boot. Inilah mengapa aplikasi modern dikemas sebagai container, bukan VM image.`,
-    expEn: `## Client, Daemon, and Containerd
-Typing docker <command> runs the CLI client. The client talks to the Docker daemon (dockerd) over an API. The daemon does not run containers itself: it asks containerd (the runtime) to run containers as processes. This split matters: modern Kubernetes does not talk to dockerd - it talks to containerd/CRI-O directly.
-## Why a Linux VM on Mac and Windows
-Containers depend on Linux kernel features (namespaces, cgroups). macOS/Windows kernels lack them. The fix: Docker Desktop runs a small Linux VM in the background, and all containers live inside that VM. That is why docker info says OSType: linux even on a Windows/Mac laptop.
-## The Registry: Docker Hub
-docker pull redis:7-alpine fetches the image from Docker Hub (the largest public registry). Note that we asked for a specific version (7-alpine), not latest - a habit that becomes the theme of lesson 6. Images already present locally are not re-downloaded; Docker uses the local cache.
-## Size: Real VM vs Real Container
-The redis:7-alpine image is just 43MB and the container is usable in seconds - compare with a Linux VM that needs hundreds of MB and minutes to boot. This is why modern apps ship as containers, not VM images.`,
-    chId: 'Jalankan skrip, lalu coba tarik image lain: docker pull python:3.12-slim dan jalankan docker run -d --name py python:3.12-slim (tanpa port mapping - amati bedanya di docker ps). Jelaskan satu kalimat: kenapa kolom PORTS kosong untuk container py?',
-    chEn: 'Run the script, then pull another image: docker pull python:3.12-slim and run docker run -d --name py python:3.12-slim (no port mapping - observe the difference in docker ps). Explain in one sentence: why is the PORTS column empty for the py container?',
-    sumId: 'Client, daemon, containerd: proses berlapis. Di Mac/Windows container hidup dalam Linux VM (Docker Desktop). Registry = sumber image; pull dengan versi spesifik. Lanjut: perintah-perintah esensial Docker.',
-    sumEn: 'Client, daemon, containerd: layered processes. On Mac/Windows containers live inside a Linux VM (Docker Desktop). The registry is the image source; pull specific versions. Next: essential Docker commands.',
-  },
-  {
-    phase: 1, num: 4, topicId: 'command-essensial',
-    titleId: 'Perintah Esensial: ps, start, stop, logs, exec', titleEn: 'Essential Commands: ps, start, stop, logs, exec',
-    script: `# Semua container, termasuk yang sudah berhenti
-docker ps -a
-
-# Bangkitkan lagi container yang berhenti
-docker start old-blog
-docker ps
-
-# Lihat log dan jalankan perintah di dalam container yang hidup
-docker logs old-blog
-docker exec old-blog echo "exec berjalan di dalam container yang hidup"
-
-# Hentikan, lalu hapus
-docker stop old-blog
-docker rm old-blog
-docker ps -a
-
-# Bersihkan artefak yang tidak terpakai
-docker system prune -f
-docker images`,
-    objId: [
-      'Menguasai siklus hidup: run, start, stop, restart, rm',
-      'Membaca log container dengan docker logs',
-      'Menjalankan perintah di dalam container dengan docker exec',
-      'Membersihkan sumber daya dengan docker system prune',
-    ],
-    objEn: [
-      'Master the lifecycle: run, start, stop, restart, rm',
-      'Read container logs with docker logs',
-      'Run commands inside a container with docker exec',
-      'Clean up resources with docker system prune',
-    ],
-    expId: `## Stop Bukan Hapus
-docker stop menghentikan proses utama (kirim SIGTERM, tunggu sebentar, lalu SIGKILL). Container berhenti tapi MASIH ADA - bisa dihidupkan lagi dengan docker start. docker rm menghapus container secara permanen. Bedanya seperti mematikan laptop (data tetap ada) vs membuang laptopnya.
-## Logs: Jendela ke Dalam Container
-Aplikasi yang mencetak ke stdout/stderr otomatis ditangkap Docker. docker logs <nama> menampilkannya tanpa perlu masuk ke container. Ini sumber pertama debugging: baca log sebelum apa pun.
-## Exec: Masuk Tanpa "Masuk"
-Ingat mental model pelajaran 2: kita tidak "login" ke container. Tapi kadang kita perlu menjalankan satu perintah di dalamnya untuk memeriksa - itulah docker exec. docker exec <container> whoami menjalankan whoami di dalam container yang sedang hidup. Singkat, sekali pakai, dan tidak mengubah container.
-## System Prune: Rumah yang Rapi
-Container yang berhenti, image yatim, cache build - semuanya menumpuk diam-diam. docker system prune -f menghapus semua yang tidak terpakai. Biasakan menjalankannya berkala; disk Anda berterima kasih.`,
-    expEn: `## Stop Is Not Delete
-docker stop halts the main process (SIGTERM, short wait, then SIGKILL). The container is stopped but STILL EXISTS - it can be restarted with docker start. docker rm deletes the container permanently. Think of turning off a laptop (data stays) vs throwing the laptop away.
-## Logs: The Window Into a Container
-Anything an app prints to stdout/stderr is captured by Docker. docker logs <name> shows it without entering the container. This is the first debugging source: read logs before anything else.
-## Exec: Get In Without "Logging In"
-Remember the lesson-2 mental model: we do not "log into" containers. But sometimes we need to run a single command inside one to inspect it - that is docker exec. docker exec <container> whoami runs whoami inside the live container. Short, throwaway, and it does not modify the container.
-## System Prune: A Tidy House
-Stopped containers, orphan images, build cache - they pile up silently. docker system prune -f deletes everything unused. Make it a habit; your disk will thank you.`,
-    chId: 'Tanpa membaca materi: jalankan docker ps -a, pilih satu container yang berhenti, hidupkan dengan docker start, baca lognya dengan docker logs, jalankan docker exec untuk mencetak pesan Anda sendiri, lalu docker stop dan docker rm. Tuliskan urutan perintah yang Anda pakai.',
-    chEn: 'Without re-reading the material: run docker ps -a, pick a stopped container, revive it with docker start, read its logs with docker logs, use docker exec to print your own message, then docker stop and docker rm. Write down the command sequence you used.',
-    sumId: 'Siklus hidup: stop (berhenti, tetap ada) vs rm (hapus). Logs untuk membaca output aplikasi; exec untuk menjalankan satu perintah di dalam container; prune untuk bersih-bersih. Lanjut: docker run yang dalam.',
-    sumEn: 'Lifecycle: stop (halts, still exists) vs rm (deletes). Logs read app output; exec runs one command inside a container; prune tidies up. Next: docker run in depth.',
-  },
-];
-
-// ===== PHASE 2: IMAGES & CONTAINERS (lessons 5-8) =====
-const LESSONS_P2 = [
-  {
-    phase: 2, num: 5, topicId: 'docker-run-dalam',
-    titleId: 'docker run dalam: Port, Env, Interaktif', titleEn: 'docker run Deep Dive: Ports, Env, Interactive',
-    script: `# Port mapping: host 8080 -> container 80
-docker run -d --name web -p 8080:80 nginx:alpine
-docker ps
-# Buka http://localhost:8080 di browser Anda!
-
-# Environment variables: -e
-docker run -d --name db -e POSTGRES_PASSWORD=rahasia123 postgres:16-alpine
-docker exec db env
-
-# --rm: otomatis hapus saat berhenti
-docker run --rm hello-world
-docker ps -a
-
-# -it: interaktif (stdin tetap terbuka)
-docker run -it --name shell alpine sh
-docker stop shell
-docker rm shell`,
-    objId: [
-      'Memetakan port container ke host dengan -p',
-      'Memberikan konfigurasi lewat environment variables (-e)',
-      'Memahami --rm untuk container sekali pakai',
-      'Menggunakan -it untuk sesi interaktif',
-    ],
-    objEn: [
-      'Map container ports to the host with -p',
-      'Pass configuration via environment variables (-e)',
-      'Understand --rm for throwaway containers',
-      'Use -it for interactive sessions',
-    ],
-    expId: `## Port Mapping: -p HOST:CONTAINER
-Aplikasi di dalam container mendengar di port sendiri (nginx di 80, Postgres di 5432). Port itu tidak otomatis terbuka ke laptop Anda. -p 8080:80 berarti: terima trafik di port 8080 host, teruskan ke port 80 di dalam container. Tanpa mapping, container tetap jalan - Anda hanya tidak bisa mengaksesnya dari luar. Ingat: EXPOSE di Dockerfile HANYA dokumentasi; -p yang benar-benar mempublikasikan.
-## Konfigurasi Tanpa Hardcode: -e
-Image resmi (postgres, redis, mysql) dikonfigurasi lewat environment variables: POSTGRES_PASSWORD, POSTGRES_DB, dan lain-lain. Nilai diberikan saat run dengan -e NAMA=nilai, dibaca aplikasi di dalam container. Ini pola "config dari luar image" - image tetap sama, konfigurasi berbeda per lingkungan (dev/staging/prod).
-## --rm: Sekali Pakai
-Container yang dipakai untuk satu tugas singkat (test, eksperimen) sebaiknya dijalankan dengan --rm: begitu proses selesai, container dihapus otomatis. Tidak menumpuk sampah. Perhatikan di docker ps -a: tidak ada jejaknya.
-## -it: Interaktif
--it menggabungkan -i (stdin tetap terbuka) dan -t (pseudo-TTY). Dipakai saat kita ingin masuk ke shell container - misalnya untuk eksplorasi cepat. Tapi ingat mental model: eksplorasi sesekali, bukan "tinggal di dalam".`,
-    expEn: `## Port Mapping: -p HOST:CONTAINER
-The app inside a container listens on its own port (nginx on 80, Postgres on 5432). That port is not automatically open on your laptop. -p 8080:80 means: accept traffic on host port 8080, forward it to port 80 inside the container. Without mapping the container still runs - you just cannot reach it from outside. Remember: EXPOSE in a Dockerfile is only documentation; -p is what actually publishes.
-## Configuration Without Hardcoding: -e
-Official images (postgres, redis, mysql) are configured via environment variables: POSTGRES_PASSWORD, POSTGRES_DB, etc. Values are given at run time with -e NAME=value and read by the app inside. This is the "config from outside the image" pattern - the image stays identical while configuration differs per environment (dev/staging/prod).
-## --rm: Single Use
-Containers used for one short task (tests, experiments) should run with --rm: as soon as the process finishes, the container is deleted automatically. No junk piles up. Note in docker ps -a: there is no trace of it.
-## -it: Interactive
--it combines -i (keep stdin open) and -t (pseudo-TTY). It is used when we want to drop into a container shell - e.g., quick exploration. But remember the mental model: occasional exploration, not "living inside".`,
-    chId: 'Jalankan skrip. Lalu buat sendiri: container nginx kedua dengan nama web2 yang memetakan port host 9090, env var APP_ENV=production. Cek dengan docker ps dan docker exec web2 env. Hapus semua container yang Anda buat. Tulis perintah-perintahnya.',
-    chEn: 'Run the script. Then build on your own: a second nginx container named web2 mapping host port 9090, with env var APP_ENV=production. Check with docker ps and docker exec web2 env. Remove all containers you created. Write down the commands.',
-    sumId: '-p mempublikasikan port; -e memberi konfigurasi dari luar; --rm untuk sekali pakai; -it untuk sesi interaktif. Image tetap sama, konfigurasi berbeda per lingkungan. Lanjut: image dan layer.',
-    sumEn: '-p publishes ports; -e feeds config from outside; --rm for single-use; -it for interactive sessions. The image stays the same while config varies per environment. Next: images and layers.',
-  },
-  {
-    phase: 2, num: 6, topicId: 'image-dan-layer',
-    titleId: 'Image & Layer: Mengapa Image Tersusun', titleEn: 'Images & Layers: What Images Are Made Of',
-    script: `# Pull image = unduh lapisan demi lapisan
-docker pull nginx:alpine
-
-# Setiap image = tumpukan layer
-docker history nginx:alpine
-
-# Tag = nama dan versi image
-docker tag nginx:alpine nginx:myweb
-docker images
-
-# Jangan pakai :latest di produksi - pin versi!
+# Pull image dari Docker Hub
+docker pull nginx:1.25
+docker pull ubuntu:22.04
 docker pull node:20-alpine
-docker images
 
-# Hapus image
-docker rmi nginx:myweb
-docker images`,
-    objId: [
-      'Memahami image sebagai tumpukan layer hanya-baca',
-      'Membaca riwayat layer dengan docker history',
-      'Memberi nama versi image dengan docker tag',
-      'Menjelaskan risiko tag :latest dan pentingnya pin versi',
-    ],
-    objEn: [
-      'Understand an image as a stack of read-only layers',
-      'Read layer history with docker history',
-      'Name image versions with docker tag',
-      'Explain the risk of :latest tags and why version pinning matters',
-    ],
-    expId: `## Image = Tumpukan Layer
-Image bukan satu file raksasa - ia tumpukan layer hanya-baca. Saat container dijalankan, Docker menambahkan satu layer tulis tipis di atasnya. Semua perubahan di dalam container hidup di layer tulis itu; hapus container, layer itu hilang. Image tidak pernah berubah - immutable. Perubahan = image baru (layer baru).
-## Docker History: Membaca Arsip
-docker history nginx:alpine memperlihatkan layer demi layer: base OS, lalu instruksi build selanjutnya. Ini alat forensik: kenapa image ini besar? Layer mana yang menyumbang ukuran? Ini juga yang membuat Dockerfile bisa di-debug secara ilmiah (pelajaran 8).
-## Layer dan Cache
-Karena layer di-cache, membangun ulang image tidak mengulang semuanya: hanya layer yang berubah (dan setelahnya) yang dibangun ulang. Konsekuensi praktisnya: urutkan instruksi Dockerfile dari yang jarang berubah ke yang sering berubah (dependency dulu, source belakangan). Ini kunci build cepat - dibahas dalam pelajaran 13.
-## Tag dan Pinning
-Tag = nama versi (nginx:alpine, node:20-alpine). Tag :latest itu "mengambang": hari ini berisi versi A, bulan depan versi B - build Anda bisa rusak tanpa perubahan kode apa pun. Di produksi, pin versi spesifik (bahkan digest sha256 untuk keamanan maksimal).`,
-    expEn: `## An Image Is a Stack of Layers
-An image is not one giant file - it is a stack of read-only layers. When a container starts, Docker adds one thin writable layer on top. Every change inside the container lives in that writable layer; delete the container and that layer is gone. Images never change - they are immutable. A change means a new image (new layers).
-## Docker History: Reading the Archive
-docker history nginx:alpine shows layer after layer: the base OS, then each subsequent build instruction. This is forensic tooling: why is this image big? Which layer contributes the size? It is also what makes Dockerfiles scientifically debuggable (lesson 8).
-## Layers and Cache
-Because layers are cached, rebuilding an image does not redo everything: only changed layers (and those after them) are rebuilt. The practical consequence: order Dockerfile instructions from least-changing to most-changing (dependencies first, source last). This is the key to fast builds - covered in lesson 13.
-## Tags and Pinning
-A tag is a version name (nginx:alpine, node:20-alpine). The :latest tag is "floating": today it holds version A, next month version B - your builds can break with zero code changes. In production, pin specific versions (even sha256 digests for maximum supply-chain safety).`,
-    chId: 'Jalankan skrip. Lalu bandingkan dua image Node: docker history node:20-alpine dan docker history node:20-slim (pull dulu jika perlu). Image mana yang lebih banyak layer-nya? Mengapa? Tulis jawaban satu paragraf singkat.',
-    chEn: 'Run the script. Then compare two Node images: docker history node:20-alpine and docker history node:20-slim (pull them first if needed). Which image has more layers? Why? Write a short paragraph.',
-    sumId: 'Image = layer hanya-baca + layer tulis saat runtime. history membaca arsip layer; tag memberi nama versi; :latest mengambang dan berbahaya - pin versi. Lanjut: menulis Dockerfile.',
-    sumEn: 'An image = read-only layers plus a writable layer at runtime. history reads the layer archive; tag names versions; :latest floats and is risky - pin versions. Next: writing a Dockerfile.',
-  },
-  {
-    phase: 2, num: 7, topicId: 'dockerfile-dasar',
-    titleId: 'Dockerfile: Membangun Image Sendiri', titleEn: 'Dockerfiles: Building Your Own Images',
-    script: `# Bangun image dari Dockerfile (proyek web: multi-stage)
-docker build -t tryngo/shop-web:1.0 web
+# Image layers — setiap command di Dockerfile adalah layer
+docker history nginx
 
-# Image baru muncul di daftar
-docker images
+# Inspect image
+docker inspect nginx
 
-# Jalankan hasil build
-docker run -d --name shop-web -p 8080:80 tryngo/shop-web:1.0
-docker ps
-docker exec shop-web ls /usr/share/nginx/html
+# Tag image
+docker tag nginx:1.25 my-nginx:v1.0
 
-# CMD bisa di-override saat run
-docker run --rm tryngo/shop-web:1.0 echo "CMD diganti saat run!"
-
-# Bersihkan
-docker stop shop-web
-docker rm shop-web`,
-    objId: [
-      'Menulis Dockerfile dengan FROM, WORKDIR, COPY, RUN, EXPOSE, CMD',
-      'Membangun image dengan docker build',
-      'Membedakan CMD dan ENTRYPOINT',
-      'Mengenali pola multi-stage sejak dini',
-    ],
-    objEn: [
-      'Write a Dockerfile with FROM, WORKDIR, COPY, RUN, EXPOSE, CMD',
-      'Build an image with docker build',
-      'Distinguish CMD and ENTRYPOINT',
-      'Recognize the multi-stage pattern early',
-    ],
-    expId: `## Anatomi Dockerfile
-Dockerfile = resep build, dieksekusi baris demi baris dari atas ke bawah, tiap baris menjadi satu layer. FROM = base image (jangan dari scratch kecuali Anda tahu alasannya). WORKDIR = direktori kerja (jangan lupa - COPY dan RUN berjalan relatif dari sini). COPY = salin file dari build context. RUN = eksekusi perintah build (install dependency, compile).
-## Ekspos vs Publikasikan
-EXPOSE 80 di Dockerfile hanyalah dokumentasi: "aplikasi ini mendengarkan di port 80". Ia TIDAK mempublikasikan apa pun. Publikasi terjadi saat run dengan -p, atau di Compose dengan ports. Jangan bingung - ini pertanyaan klasik di wawancara kerja DevOps.
-## CMD vs ENTRYPOINT
-CMD = perintah default, BISA di-override saat run: docker run image echo "halo" menggantikan CMD. ENTRYPOINT = perintah tetap, tidak bisa di-override (argumennya bisa ditambah). Pola umum: ENTRYPOINT untuk executable aplikasi, CMD untuk argumen default. Contoh di skrip: CMD nginx diganti saat run - terlihat di output.
-## Multi-stage Sekilas
-FROM dua kali dalam satu Dockerfile: stage pertama membangun (toolchain lengkap), stage kedua hanya menyalin hasilnya ke base minimal (nginx:alpine). Hasilnya image kecil dan aman tanpa toolchain build. Detail lengkapnya di pelajaran 13-14.`,
-    expEn: `## Dockerfile Anatomy
-A Dockerfile is a build recipe, executed line by line top to bottom; each line becomes one layer. FROM = base image (do not start from scratch unless you know why). WORKDIR = working directory (do not skip it - COPY and RUN are relative to it). COPY = copy files from the build context. RUN = execute build commands (install dependencies, compile).
-## Expose vs Publish
-EXPOSE 80 in a Dockerfile is documentation only: "this app listens on port 80". It publishes nothing. Publishing happens at run time with -p, or in Compose with ports. Do not confuse them - a classic DevOps interview question.
-## CMD vs ENTRYPOINT
-CMD = the default command, overridable at run time: docker run image echo "hi" replaces CMD. ENTRYPOINT = the fixed command, not overridable (its arguments can be appended). Common pattern: ENTRYPOINT for the app executable, CMD for default arguments. In the script you see CMD nginx being replaced at run time.
-## Multi-stage at a Glance
-Two FROMs in one Dockerfile: the first stage builds (full toolchain), the second only copies the artifacts into a minimal base (nginx:alpine). The result: a small, safe image without build toolchain. Full details in lessons 13-14.`,
-    chId: 'Jalankan skrip dan amati output build: berapa langkah, apa yang terjadi tiap langkah. Lalu docker run --rm tryngo/shop-web:1.0 ls / - bandingkan dengan docker exec shop-web ls /usr/share/nginx/html (jalankan container dulu). Apa perbedaan isi filesystem image build vs image runtime?',
-    chEn: 'Run the script and watch the build output: how many steps, what happens at each. Then docker run --rm tryngo/shop-web:1.0 ls / - compare with docker exec shop-web ls /usr/share/nginx/html (run the container first). How does the build image filesystem differ from the runtime one?',
-    sumId: 'Dockerfile = resep layer demi layer. EXPOSE hanya dokumentasi; -p yang mempublikasikan. CMD bisa di-override, ENTRYPOINT tetap. Multi-stage = build kecil, runtime kecil. Lanjut: debug build dengan layer thinking.',
-    sumEn: 'A Dockerfile is a layer-by-layer recipe. EXPOSE is documentation; -p publishes. CMD is overridable, ENTRYPOINT is fixed. Multi-stage = small build, small runtime. Next: debugging builds with layer thinking.',
-  },
-  {
-    phase: 2, num: 8, topicId: 'debug-build-layer',
-    titleId: 'Debug Build dengan Layer Thinking', titleEn: 'Debugging Builds with Layer Thinking',
-    script: `# Build yang GAGAL - perhatikan layer mana yang error
-docker build -t tryngo/broken:latest broken
-
-# Fix: apt-get update dulu, satu RUN, bersihkan cache
-docker build -t tryngo/fixed:latest fixed
-docker images
-
-# Debug layer: jalankan shell di layer terakhir yang sukses
-docker run -it --entrypoint sh ubuntu:24.04`,
-    objId: [
-      'Menganalisis error build dengan layer thinking',
-      'Memperbaiki Dockerfile yang rusak secara sistematis',
-      'Men-debug dengan shell di layer terakhir yang sukses',
-      'Menerapkan pola apt-get update && install dalam satu RUN',
-    ],
-    objEn: [
-      'Analyze build errors with layer thinking',
-      'Fix a broken Dockerfile systematically',
-      'Debug by shelling into the last successful layer',
-      'Apply the apt-get update && install pattern in one RUN',
-    ],
-    expId: `## Tiap Baris Dockerfile = Satu Layer
-Ini kunci debug build: Docker mengeksekusi instruksi satu per satu, masing-masing menjadi layer. Ketika build gagal di layer ke-N, semua layer sebelumnya sudah jadi - dan masih ada di cache. Pertanyaan yang tepat bukan "kenapa gagal?", melainkan "di layer MANA gagalnya?".
-## Membaca Error Build
-Build broken gagal di RUN apt-get install -y curl: "Unable to locate package curl". Penyebabnya klasik: image base ubuntu:24.04 fresh tidak punya daftar paket (apt lists) - harus apt-get update DULU sebelum install. Solusinya digabung dalam satu RUN: apt-get update && apt-get install -y --no-install-recommends curl.
-## Debug di Layer Terakhir yang Sukses
-Jangan Googling dulu. Jalankan shell di layer terakhir yang sukses: docker run -it --entrypoint sh ubuntu:24.04, lalu eksekusi manual perintah yang gagal di dalamnya. Anda melihat langsung pesan errornya di lingkungan yang sama persis dengan build. Ini keterampilan yang membedakan engineer yang mengerti vs yang menyalin dari Stack Overflow.
-## Cache Busting dan Kebersihan
-apt-get update && apt-get install dalam SATU RUN memastikan daftar paket segar tiap kali layer dibangun ulang (update sendirian di layer terpisah akan di-cache dan basi). Bersihkan cache apt di RUN yang sama (rm -rf /var/lib/apt/lists/*) agar layer tidak membawa sampah. Pola yang sama berlaku untuk npm/pip.`,
-    expEn: `## Every Dockerfile Line Is One Layer
-This is the key to debugging builds: Docker executes instructions one by one, each becoming a layer. When a build fails at layer N, all previous layers are already built - and still cached. The right question is not "why did it fail?" but "WHICH layer failed?".
-## Reading Build Errors
-The broken build fails at RUN apt-get install -y curl: "Unable to locate package curl". The cause is classic: a fresh ubuntu:24.04 base has no package lists yet - you must apt-get update BEFORE installing. The fix combines both in one RUN: apt-get update && apt-get install -y --no-install-recommends curl.
-## Debug in the Last Successful Layer
-Do not Google first. Shell into the last successful layer: docker run -it --entrypoint sh ubuntu:24.04, then manually run the failing command inside it. You see the real error in the exact same environment as the build. This skill separates engineers who understand from those who copy Stack Overflow.
-## Cache Busting and Cleanliness
-apt-get update && apt-get install in ONE RUN ensures fresh package lists each time the layer rebuilds (an isolated update in its own layer would be cached and go stale). Clean the apt cache in the same RUN (rm -rf /var/lib/apt/lists/*) so the layer carries no junk. The same pattern applies to npm/pip.`,
-    chId: 'Latihan dari trainer bootcamp: buat Dockerfile dengan 4 bug sengaja - (1) RUN install tanpa update, (2) COPY path yang salah, (3) EXPOSE tidak cocok dengan port aplikasi, (4) CMD merujuk file yang tidak ada. Bangun, temukan layer yang gagal, perbaiki satu per satu. Tuliskan bug yang Anda temukan dan perbaikannya.',
-    chEn: 'The bootcamp-trainer exercise: write a Dockerfile with 4 deliberate bugs - (1) RUN install without update, (2) a wrong COPY path, (3) EXPOSE that does not match the app port, (4) a CMD referencing a missing file. Build, find the failing layer, fix them one by one. Write down the bugs you found and their fixes.',
-    sumId: 'Layer thinking: cari layer yang gagal, bukan pesan errornya. Debug dengan shell di layer terakhir yang sukses. apt-get update && install dalam satu RUN + bersihkan cache. Lanjut: volume dan persistensi data.',
-    sumEn: 'Layer thinking: find the failing layer, not the error message. Debug by shelling into the last successful layer. apt-get update && install in one RUN, then clean the cache. Next: volumes and data persistence.',
-  },
-];
-
-// ===== PHASE 3: MULTI-CONTAINER (lessons 9-12) =====
-const LESSONS_P3 = [
-  {
-    phase: 3, num: 9, topicId: 'volume-persistensi',
-    titleId: 'Volume: Data Bertahan Hidup', titleEn: 'Volumes: Data That Survives',
-    script: `# Buat volume bernama
-docker volume create pgdata
-docker volume ls
-
-# Jalankan Postgres dengan volume
-docker run -d --name db -e POSTGRES_PASSWORD=rahasia123 -v pgdata:/var/lib/postgresql/data postgres:16-alpine
-docker exec db cat /var/lib/postgresql/data/PG_VERSION
-
-# Hapus container - data AMAN di volume
-docker stop db
-docker rm db
-
-# Jalankan lagi dengan volume yang sama - data masih ada!
-docker run -d --name db2 -e POSTGRES_PASSWORD=rahasia123 -v pgdata:/var/lib/postgresql/data postgres:16-alpine
-docker exec db2 cat /var/lib/postgresql/data/PG_VERSION
-
-# Bersihkan
-docker stop db2
-docker rm db2
-docker volume rm pgdata`,
-    objId: [
-      'Menjelaskan mengapa data di container tidak bertahan',
-      'Membuat dan memakai named volume dengan -v',
-      'Membuktikan data bertahan setelah container dihapus',
-      'Mengelola siklus hidup volume',
-    ],
-    objEn: [
-      'Explain why container data does not survive',
-      'Create and use a named volume with -v',
-      'Prove data survives container deletion',
-      'Manage the volume lifecycle',
-    ],
-    expId: `## Masalah: Container itu Ephemeral
-Layer tulis container dihapus bersama containernya. Database tanpa volume = kehilangan semua data saat container restart atau dihapus. Solusi: volume - penyimpanan yang hidup di luar siklus hidup container. Dockerfile menyimpan "resep"; volume menyimpan "data".
-## Named Volume
--v pgdata:/var/lib/postgresql/data memasang volume pgdata ke direktori data Postgres di dalam container. Nama (pgdata) membuatnya bisa dipakai ulang: container kedua, misal db2, memasang volume yang sama dan melihat data yang sama. Perhatikan di skrip: PG_VERSION (dibuat oleh Postgres saat init) masih terbaca setelah container pertama dihapus.
-## Kenapa Nama Direktori Berbeda
-Gunakan jalur yang BENAR-BENAR dipakai aplikasi untuk menyimpan datanya. Postgres: /var/lib/postgresql/data. Nginx: /usr/share/nginx/html. Redis: /data. Salah pasang = aplikasi jalan tapi datanya tidak pernah masuk volume (dan hilang). Cek dokumentasi image resmi untuk jalur resminya.
-## Siklus Hidup Volume
-docker volume ls melihat daftar, docker volume rm menghapus. Penting: menghapus container TIDAK menghapus volume. Volume yatim (tidak dipakai container) menumpuk disk - awasi dengan docker volume ls. Bind mount (pelajaran 12) adalah alternatif untuk direktori host tertentu, tapi untuk produksi, named volume lebih portabel.`,
-    expEn: `## The Problem: Containers Are Ephemeral
-A container's writable layer is deleted with the container. A database without a volume means losing all data whenever the container restarts or is deleted. The solution: volumes - storage that lives outside the container lifecycle. The Dockerfile stores the "recipe"; volumes store the "data".
-## Named Volumes
--v pgdata:/var/lib/postgresql/data mounts the pgdata volume to Postgres's data directory inside the container. The name (pgdata) makes it reusable: a second container, e.g. db2, mounts the same volume and sees the same data. Note in the script: PG_VERSION (written by Postgres during init) is still readable after the first container is deleted.
-## Why the Directory Name Matters
-Mount the path the app ACTUALLY uses to store its data. Postgres: /var/lib/postgresql/data. Nginx: /usr/share/nginx/html. Redis: /data. A wrong mount = the app runs but data never lands in the volume (and is lost). Check official image docs for the canonical paths.
-## Volume Lifecycle
-docker volume ls lists volumes, docker volume rm deletes them. Important: deleting a container does NOT delete its volume. Orphaned volumes (not used by any container) eat disk - watch them with docker volume ls. Bind mounts (lesson 12) are the alternative for specific host directories, but for production, named volumes are more portable.`,
-    chId: 'Jalankan skrip. Lalu buktikan sendiri: setelah menulis data ke volume (buat file dengan docker exec db2 sh -c "echo halo > /var/lib/postgresql/data/test.txt"), hapus container, jalankan container baru dengan volume yang sama, dan baca file itu. Mengapa ini penting untuk database?',
-    chEn: 'Run the script. Then prove it yourself: after writing data to the volume (create a file with docker exec db2 sh -c "echo hi > /var/lib/postgresql/data/test.txt"), delete the container, run a new container with the same volume, and read that file. Why does this matter for databases?',
-    sumId: 'Container ephemeral, volume bertahan. Named volume dipasang dengan -v nama:jalur. Pasang jalur yang benar-benar dipakai aplikasi. Volume tidak ikut terhapus bersama container. Lanjut: networking antar container.',
-    sumEn: 'Containers are ephemeral, volumes survive. Named volumes mount with -v name:path. Mount the path the app really uses. Volumes are not deleted with their container. Next: networking between containers.',
-  },
-  {
-    phase: 3, num: 10, topicId: 'networking-dasar',
-    titleId: 'Networking: Container Saling Bicara', titleEn: 'Networking: Containers Talking to Each Other',
-    script: `# Buat network khusus
-docker network create mynet
-docker network ls
-
-# Jalankan dua container di network yang sama
-docker run -d --name web --network mynet -p 8080:80 nginx:alpine
-docker run -d --name db --network mynet -e POSTGRES_PASSWORD=rahasia123 postgres:16-alpine
-
-# DNS internal: web bisa "ping db" cuma dengan namanya
-docker exec web ping db
-
-# Network inspect: lihat anggota
-docker network inspect mynet
-
-# Hapus network
-docker network rm mynet`,
-    objId: [
-      'Membuat network sendiri dengan docker network create',
-      'Menjelaskan DNS internal: container dipanggil dengan namanya',
-      'Memeriksa anggota network dengan docker network inspect',
-      'Memahami kenapa --link sudah usang',
-    ],
-    objEn: [
-      'Create your own network with docker network create',
-      'Explain internal DNS: containers are addressed by name',
-      'Inspect network members with docker network inspect',
-      'Understand why --link is deprecated',
-    ],
-    expId: `## Jalan Buntu: Localhost Tidak Akan Pernah Sampai
-"localhos" di dalam container adalah container itu sendiri. Aplikasi web yang memanggil http://localhost:5432 TIDAK akan pernah mencapai database di container lain. Kedua container harus berada di network yang sama, dan aplikasi memanggil nama container: http://db:5432.
-## DNS Internal: Nama = Alamat
-Di network khusus, Docker menyediakan DNS: container bisa dipanggil dengan NAMAnya. web bisa ping db tanpa tahu IP-nya. Ini menyelesaikan masalah besar: IP container berubah setiap kali dijalankan ulang, nama tidak. Aplikasi dikonfigurasi dengan nama, bukan IP.
-## Mengapa Network Khusus
-Mengapa tidak semua container di default network saja? Isolasi dan keamanan: network membatasi siapa bisa bicara dengan siapa. DB hanya terhubung ke web, tidak ke setiap container acak di mesin. Prinsip jaringan produksi: segmen, bukan satu kabel besar.
-## --link dan Sejarah
-Dulu ada docker run --link web:web untuk menghubungkan container. Ia dianggap legacy dan tidak direkomendasikan - DNS network menggantikannya. Jawaban wawancara yang bagus: "--link membuat entri /etc/hosts statis; network menyediakan DNS dinamis yang mengikuti container ke mana pun IP-nya berubah."`,
-    expEn: `## The Dead End: Localhost Never Reaches
-"localhost" inside a container is that container itself. An app calling http://localhost:5432 will NEVER reach a database in another container. Both containers must be on the same network, and the app calls the container name: http://db:5432.
-## Internal DNS: Name = Address
-On a custom network, Docker provides DNS: containers are addressable by NAME. web can ping db without knowing its IP. This solves a big problem: container IPs change on every restart, names do not. Configure apps with names, not IPs.
-## Why a Custom Network
-Why not put every container on the default network? Isolation and security: a network limits who can talk to whom. The DB only connects to web, not to every random container on the machine. The production networking principle: segments, not one big cable.
-## --link and History
-There used to be docker run --link web:web to connect containers. It is legacy and not recommended - network DNS replaced it. A good interview answer: "--link writes a static /etc/hosts entry; networks provide dynamic DNS that follows the container wherever its IP moves."`,
-    chId: 'Jalankan skrip. Lalu coba modifikasi: hapus db dari network dengan docker network disconnect mynet db, lalu ping db lagi dari web. Apa yang terjadi? Hubungkan kembali dengan docker network connect mynet db dan ping lagi. Tuliskan hasilnya.',
-    chEn: 'Run the script. Then experiment: remove db from the network with docker network disconnect mynet db, then ping db from web again. What happens? Reconnect with docker network connect mynet db and ping again. Write down the results.',
-    sumId: 'Container di network yang sama bicara lewat NAMA (DNS internal), bukan IP. Buat network khusus untuk isolasi. localhost tidak akan pernah mencapai container lain. Lanjut: Docker Compose.',
-    sumEn: 'Containers on the same network talk via NAME (internal DNS), not IP. Create custom networks for isolation. localhost never reaches another container. Next: Docker Compose.',
-  },
-  {
-    phase: 3, num: 11, topicId: 'docker-compose',
-    titleId: 'Docker Compose: Infrastruktur sebagai Kode', titleEn: 'Docker Compose: Infrastructure as Code',
-    script: `# Lihat definisi stack (vote: web + redis + db)
-docker compose -f compose/vote/docker-compose.yml config
-
-# Jalankan seluruh stack sekali jalan
-docker compose -f compose/vote/docker-compose.yml up -d
-docker ps
-
-# Log semua service
-docker compose -f compose/vote/docker-compose.yml logs
-
-# Perbesar skala worker
-docker compose -f compose/vote/docker-compose.yml up -d --scale worker=3
-docker ps
-
-# Matikan stack, network & volume ikut dibersihkan
-docker compose -f compose/vote/docker-compose.yml down`,
-    objId: [
-      'Membaca definisi service di docker-compose.yml',
-      'Menjalankan seluruh stack dengan compose up',
-      'Melihat log semua service dengan compose logs',
-      'Menjelaskan perbedaan up, down, dan stop',
-    ],
-    objEn: [
-      'Read service definitions in docker-compose.yml',
-      'Bring up an entire stack with compose up',
-      'View logs of all services with compose logs',
-      'Explain the difference between up, down, and stop',
-    ],
-    expId: `## Dari 5 Perintah ke 1 File
-Menjalankan stack multi-container tanpa Compose = menghafal urutan 5+ perintah: buat network, jalankan web dengan flag -p dan -v, jalankan db dengan env, dll. Compose menggantikannya dengan SATU file YAML: service mana, image apa, port apa, env apa, volume mana, network mana. Infrastruktur menjadi kode: bisa di-version-control, di-review, di-reproduksi.
-## Anatomi docker-compose.yml
-services: daftar service, masing-masing dengan image (atau build), ports, environment, volumes, networks, depends_on. Compose otomatis membuat network untuk stack, dan service dipanggil dengan namanya (web, db, redis) - DNS internal yang sama dari pelajaran 10.
-## up, down, stop - Bukan Hal yang Sama
-compose up = bangun dan mulai semua (idempotent: yang sudah jalan dibiarkan, yang berubah di-update). compose down = HENTIKAN SEMUA + hapus container, network, dan (dengan -v) volume. compose stop = hentikan container tapi jangan hapus apa pun. down -v di praktik baik jarang dipakai - volume data dibiarkan hidup.
-## depends_on: Urutan Bukan Kesiapan
-depends_on hanya menjamin URUTAN start, bukan bahwa service SUDAH SIAP. Postgres yang baru pertama kali init butuh detik; app yang start lebih cepat akan gagal konek. Solusi modern: healthcheck + condition: service_healthy (pelajaran 12).`,
-    expEn: `## From 5 Commands to 1 File
-Running a multi-container stack without Compose means memorizing a sequence of 5+ commands: create a network, run web with -p and -v flags, run db with env, etc. Compose replaces all of it with ONE YAML file: which services, what images, which ports, env, volumes, networks. Infrastructure becomes code: version-controlled, reviewable, reproducible.
-## docker-compose.yml Anatomy
-services: a list of services, each with image (or build), ports, environment, volumes, networks, depends_on. Compose automatically creates a network for the stack, and services are addressed by name (web, db, redis) - the same internal DNS from lesson 10.
-## up, down, stop - Not the Same
-compose up = build and start everything (idempotent: running ones are left alone, changed ones are updated). compose down = STOP EVERYTHING + delete containers, network, and (with -v) volumes. compose stop = stop containers but delete nothing. down -v is rarely used in good practice - data volumes are left alive.
-## depends_on: Order Is Not Readiness
-depends_on only guarantees the START ORDER, not that a service is READY. A fresh Postgres takes seconds to initialize; an app starting sooner will fail to connect. The modern solution: healthcheck + condition: service_healthy (lesson 12).`,
-    chId: 'Jalankan skrip, amati urutan container yang dibuat. Lalu coba: docker compose -f compose/vote/docker-compose.yml ps sebelum up - apa yang terjadi? Setelah up, ubah isi docker-compose.yml (misalnya port web) dan up lagi - apa yang berubah? Tuliskan pengamatan Anda.',
-    chEn: 'Run the script and watch the order in which containers appear. Then try: docker compose -f compose/vote/docker-compose.yml ps before up - what happens? After up, edit docker-compose.yml (e.g., the web port) and up again - what changes? Write down your observations.',
-    sumId: 'Compose = satu file YAML menggantikan rantai perintah. up membuat, down menghapus semuanya, stop menghentikan saja. depends_on = urutan, bukan kesiapan. Lanjut: stack nyata dengan healthcheck.',
-    sumEn: 'Compose = one YAML file replacing a command chain. up creates, down removes everything, stop only halts. depends_on = order, not readiness. Next: a real stack with healthchecks.',
-  },
-  {
-    phase: 3, num: 12, topicId: 'stack-nyata',
-    titleId: 'Stack Nyata: Web + API + DB + Redis', titleEn: 'A Real Stack: Web + API + DB + Redis',
-    script: `# Stack shop: web, api, redis, db - lihat definisinya
-docker compose -f compose/shop/docker-compose.yml config
-
-# Naikkan stack dengan healthcheck
-docker compose -f compose/shop/docker-compose.yml up -d
-docker ps
-docker compose -f compose/shop/docker-compose.yml ps
-
-# Log tiap service
-docker compose -f compose/shop/docker-compose.yml logs api
-
-# Skala horizontal: 2 replika API
-docker compose -f compose/shop/docker-compose.yml up -d --scale api=2
-docker compose -f compose/shop/docker-compose.yml ps
-
-# Matikan semuanya
-docker compose -f compose/shop/docker-compose.yml down`,
-    objId: [
-      'Menggunakan healthcheck + depends_on: service_healthy',
-      'Menjalankan stack 4 service dengan satu perintah',
-      'Membaca log service tertentu',
-      'Menskala service secara horizontal',
-    ],
-    objEn: [
-      'Use healthcheck + depends_on: service_healthy',
-      'Run a 4-service stack with one command',
-      'Read logs of a specific service',
-      'Scale a service horizontally',
-    ],
-    expId: `## Pola Aplikasi Modern
-Aplikasi web nyata jarang satu service: web server (frontend/nginx), API backend, database (Postgres), cache (Redis). Masing-masing image resmi + konfigurasi masing-masing. Compose menyatukan semuanya dalam satu file - siklus hidup stack = satu perintah.
-## healthcheck: Kesiapan yang Sebenarnya
-depends_on: db saja tidak cukup (pelajaran 11). Compose modern mendukung depends_on: db: condition: service_healthy. healthcheck mendefinisikan perintah pemeriksaan (misal pg_isready atau wget ke /health). Compose menunggu service sehat SEBELUM memulai dependennya. Ini perbedaan antara "app crash 3 detik lalu berhasil" dan "app mulai saat DB benar-benar siap".
-## Membaca dan Memfilter Log
-compose logs menampilkan log semua service; compose logs api hanya log API. Log terstruktur (JSON, key=value) jauh lebih mudah dicari daripada log bebas. Ini juga yang dipakai platform observasi produksi.
-## Skala Horizontal dengan --scale
---scale api=2 membuat 2 replika service yang sama (naming: api_1, api_2...). Untuk API tanpa state (stateless), ini cara murah menambah kapasitas. Perhatikan: Postgres TIDAK boleh di-scale - database dengan state tidak bisa diduplikasi begitu saja. "Container stateless di-scale, stateful di-hormati".`,
-    expEn: `## The Modern App Pattern
-Real web apps are rarely a single service: a web server (frontend/nginx), a backend API, a database (Postgres), a cache (Redis). Each gets its own official image and its own configuration. Compose unifies them in one file - the stack's lifecycle is one command.
-## healthcheck: Real Readiness
-depends_on: db alone is not enough (lesson 11). Modern Compose supports depends_on: db: condition: service_healthy. healthcheck defines a probe command (e.g. pg_isready or wget to /health). Compose waits until the service is healthy BEFORE starting its dependents. This is the difference between "the app crashed for 3 seconds then worked" and "the app starts when the DB is actually ready".
-## Reading and Filtering Logs
-compose logs shows logs from all services; compose logs api shows only API logs. Structured logs (JSON, key=value) are far easier to search than freeform text. This is also what production observability platforms consume.
-## Horizontal Scaling with --scale
---scale api=2 creates 2 replicas of the same service (named api_1, api_2...). For a stateless API, this is the cheap way to add capacity. Note: Postgres must NOT be scaled - a database with state cannot simply be duplicated. "Stateless containers scale; stateful ones get respect."`,
-    chId: 'Modifikasi: tambahkan healthcheck pada api di compose/shop/docker-compose.yml (bukan web), lalu perhatikan urutan start di docker ps saat up. Naikkan api ke 3 replika, periksa dengan compose ps, lalu turunkan kembali ke 1. Tuliskan apa yang Anda pelajari tentang orkestrasi.',
-    chEn: 'Modify: add a healthcheck to api in compose/shop/docker-compose.yml (not web), then watch the startup order in docker ps during up. Scale api up to 3 replicas, inspect with compose ps, then scale back to 1. Write down what you learned about orchestration.',
-    sumId: 'Stack nyata = web + api + db + redis dalam satu file. healthcheck + service_healthy = kesiapan sejati. Stateless bisa di-scale, stateful tidak. Lanjut: best practices Dockerfile.',
-    sumEn: 'A real stack = web + api + db + redis in one file. healthcheck + service_healthy = true readiness. Stateless scales; stateful does not. Next: Dockerfile best practices.',
-  },
-];
-
-// ===== PHASE 4: PRODUCTION (lessons 13-16) =====
-const LESSONS_P4 = [
-  {
-    phase: 4, num: 13, topicId: 'best-practices-dockerfile',
-    titleId: 'Best Practices Dockerfile', titleEn: 'Dockerfile Best Practices',
-    script: `# Build "single" (satu stage) vs "web" (multi-stage)
-docker build -t tryngo/single:1.0 single
-docker build -t tryngo/shop-web:2.0 web
-
-# Bandingkan ukuran image
-docker images
-
-# Build ulang = cache layer dipakai (perhatikan output)
-docker build -t tryngo/shop-web:2.1 web
-
-# .dockerignore: build context tetap kecil
-docker build -t tryngo/shop-web:2.2 web`,
-    objId: [
-      'Menerapkan urutan instruksi yang ramah cache',
-      'Membandingkan image single-stage vs multi-stage',
-      'Menjelaskan peran .dockerignore',
-      'Menggunakan tag yang deskriptif dan tidak floating',
-    ],
-    objEn: [
-      'Apply cache-friendly instruction ordering',
-      'Compare single-stage vs multi-stage images',
-      'Explain the role of .dockerignore',
-      'Use descriptive, non-floating tags',
-    ],
-    expId: `## Urutkan Instruksi dari yang Jarang Berubah
-Cache layer bekerja per instruksi: layer hanya dibangun ulang jika instruksinya berubah ATAU semua yang di bawahnya berubah. Karena itu salin dependency dulu (package.json / requirements.txt / go.mod), RUN install-nya, baru COPY source. Ubah satu baris kode = hanya layer terakhir yang dibangun ulang. Salin source dulu, install belakangan = setiap commit membangun ulang dependency yang mahal.
-## Satu Tujuan per Layer vs Layer Kurus
-Dulu: "setiap RUN satu tool". Sekarang: gabung perintah terkait dalam satu RUN (apt-get update && install) dan bersihkan cache di RUN yang sama. Layer kurus = image kecil dan aman (tidak ada artefak sisa). Dua aturan praktik: (1) gabungkan install + cleanup, (2) pisahkan hal yang frekuensi perubahannya berbeda.
-## Multi-stage: Toolchain vs Runtime
-Perbandingan di skrip menunjukkan intinya: single membawa seluruh toolchain build (ukuran besar), web (multi-stage) hanya menyalin hasil build ke base minimal. Ukuran image runtime menentukan: kecepatan pull, serangan supply-chain, biaya storage registry. Rencana produksi: stage build (node/rust/go), stage runtime (alpine/scratch).
-## .dockerignore dan Konteks Bersih
-COPY . menyalin build context - semua yang bukan .dockerignore. node_modules, .git, dist, file env masuk image? .dockerignore (pola seperti .gitignore) menjaga konteks tetap kecil dan mencegah rahasia lokal masuk image.`,
-    expEn: `## Order Instructions from Least-Changing
-Layer caching works per instruction: a layer rebuilds only if its instruction changed OR something below it changed. So copy dependencies first (package.json / requirements.txt / go.mod), RUN install, then COPY source. One changed code line = only the last layer rebuilds. Copy source first, install later = every commit rebuilds expensive dependencies.
-## One Purpose per Layer vs Skinny Layers
-Old advice: "one RUN per tool". Now: combine related commands in one RUN (apt-get update && install) and clean caches in the same RUN. Skinny layers = small, safe images (no leftover artifacts). Two practical rules: (1) combine install + cleanup, (2) separate things with different change frequencies.
-## Multi-stage: Toolchain vs Runtime
-The comparison in the script shows the point: single carries the whole build toolchain (large), web (multi-stage) copies only the build result into a minimal base. The runtime image size drives: pull speed, supply-chain attack surface, registry storage cost. Production plan: build stage (node/rust/go), runtime stage (alpine/scratch).
-## .dockerignore and a Clean Context
-COPY . copies the build context - everything not excluded by .dockerignore. node_modules, .git, dist, env files ending up in images? .dockerignore (patterned after .gitignore) keeps the context small and keeps local secrets out of the image.`,
-    chId: 'Hitung sendiri: apa perbedaan ukuran tryngo/single:1.0 vs tryngo/shop-web:2.0? Mengapa? Lalu salin isi proyek single ke folder baru, tambahkan .dockerignore yang mengecualikan README.md, bangun ulang, dan bandingkan ukuran image. Tuliskan hasilnya.',
-    chEn: 'Calculate it yourself: what is the size difference between tryngo/single:1.0 and tryngo/shop-web:2.0? Why? Then copy the single project to a new folder, add a .dockerignore excluding README.md, rebuild, and compare image sizes. Write down the results.',
-    sumId: 'Dependency dulu, source belakangan (cache). Layer kurus dengan install+cleanup. Multi-stage: toolchain di build, hasil di runtime. .dockerignore = konteks bersih. Lanjut: image produksi.',
-    sumEn: 'Dependencies first, source last (cache). Skinny layers with install+cleanup. Multi-stage: toolchain in build, result in runtime. .dockerignore = clean context. Next: production images.',
-  },
-  {
-    phase: 4, num: 14, topicId: 'image-produksi',
-    titleId: 'Image Produksi: Alpine, Slim, Distroless', titleEn: 'Production Images: Alpine, Slim, Distroless',
-    script: `# Program Go: build statis -> image tiny
-docker build -t tryngo/goproj:1.0 goproj
-docker images
-docker history tryngo/goproj:1.0
-
-# Jalankan binary statis
-docker run --rm tryngo/goproj:1.0
-
-# Bandingkan dengan image toolchain
-docker run --rm golang:1.22-alpine ls /usr/local/go/bin`,
-    objId: [
-      'Membedakan alpine, slim, distroless, dan scratch',
-      'Membangun image Go yang sangat kecil (binary statis)',
-      'Membaca jejak layer image produksi',
-      'Menilai trade-off toolchain vs runtime di image',
-    ],
-    objEn: [
-      'Distinguish alpine, slim, distroless, and scratch',
-      'Build a very small Go image (static binary)',
-      'Read the layer trace of a production image',
-      'Weigh toolchain vs runtime trade-offs in images',
-    ],
-    expId: `## Spektrum Base Image
-Dari besar ke kecil: distribusi penuh (ubuntu/debian), slim (debian tanpa toolchain), alpine (musl, sangat kecil), distroless (hanya runtime, tanpa shell), scratch (kosong total). Aturan: pakai base seminimal mungkin yang masih bisa menjalankan aplikasi. image kecil = pull cepat, permukaan serangan kecil.
-## Go: Kasus Ideal
-Go dikompilasi statis: binary tidak butuh runtime di image. FROM scratch + COPY binary = image yang hanya berisi aplikasi Anda. Docker history goproj memperlihatkan: base kosong, binary disalin, selesai. Image Go yang bagus bisa ~10MB vs ~800MB base ubuntu.
-## Kenapa Tidak Selalu Scratch
-Binary statis butuh CA cert (HTTPS), zona waktu, user non-root - semua bisa disalin sebagai file ke scratch. Tapi jika aplikasi butuh shell (debug, entrypoint script), distroless atau alpine lebih praktis. Distroless menjalankan aplikasi sebagai non-root SECARA DEFAULT - menutup satu kelas kerentanan container escape.
-## Trade-off yang Perlu Diingat
-Alpine memakai musl, bukan glibc - beberapa library C native bisa bermasalah. Distroless tidak punya shell - tidak bisa docker exec sh (dan itu bagus untuk keamanan). Pilihan base image adalah keputusan keamanan DAN debugging: dokumentasikan alasan Anda memilih base di README.`,
-    expEn: `## The Base Image Spectrum
-From large to small: full distros (ubuntu/debian), slim (debian without toolchain), alpine (musl, very small), distroless (runtime only, no shell), scratch (completely empty). Rule: use the smallest base that still runs your app. Small images = fast pulls, small attack surface.
-## Go: The Ideal Case
-Go compiles statically: the binary needs no runtime in the image. FROM scratch + COPY binary = an image containing only your app. docker history goproj shows it: empty base, copy binary, done. A good Go image can be ~10MB vs ~800MB ubuntu base.
-## Why Not Always Scratch
-Static binaries need CA certs (HTTPS), timezone data, a non-root user - all copyable as files into scratch. But if the app needs a shell (debugging, entrypoint scripts), distroless or alpine is more practical. Distroless runs apps as non-root BY DEFAULT - closing one whole class of container-escape vulnerabilities.
-## Trade-offs to Remember
-Alpine uses musl, not glibc - some native C libraries can misbehave. Distroless has no shell - no docker exec sh (which is good for security). Base image choice is a security AND debugging decision: document your reasoning in the README.`,
-    chId: 'Jalankan skrip. Lalu coba: ubah Dockerfile goproj untuk memakai alpine (FROM alpine:3.20, tambahkan RUN apk add --no-cache ca-certificates), bangun sebagai tryngo/goproj:alpine. Bandingkan ukuran dan jalankan keduanya. Mana yang Anda pilih untuk produksi dan mengapa?',
-    chEn: 'Run the script. Then try: change the goproj Dockerfile to use alpine (FROM alpine:3.20, add RUN apk add --no-cache ca-certificates), build it as tryngo/goproj:alpine. Compare sizes and run both. Which would you choose for production and why?',
-    sumId: 'Base minimal: slim < alpine < distroless < scratch. Go statis = scratch ideal (~10MB). Non-root default di distroless. Setiap base punya trade-off keamanan/debug. Lanjut: registry, CI/CD, deploy.',
-    sumEn: 'Minimal bases: slim < alpine < distroless < scratch. Static Go = scratch is ideal (~10MB). Non-root by default in distroless. Every base has security/debug trade-offs. Next: registries, CI/CD, deploy.',
-  },
-  {
-    phase: 4, num: 15, topicId: 'registry-cicd-deploy',
-    titleId: 'Registry, CI/CD & Deploy', titleEn: 'Registry, CI/CD & Deployment',
-    script: `# Login ke registry
+# Push ke Docker Hub (login dulu)
 docker login
+docker tag my-nginx:v1.0 username/my-nginx:v1.0
+docker push username/my-nginx:v1.0
 
-# Tag image dengan namespace repo
-docker tag tryngo/shop-web:2.0 tryngo/tryngo/shop-web:2.0
-docker push tryngo/tryngo/shop-web:2.0
+# Search image
+docker search mysql
+docker search --filter=stars=1000 nginx
 
-# Logout
-docker logout
-docker images`,
-    objId: [
-      'Menjelaskan peran registry image (Docker Hub, GHCR, ECR)',
-      'Login dan push image ke registry',
-      'Memetakan pipeline CI/CD ke perintah Docker',
-      'Menyusun strategi versi dan rollback',
+# Remove image
+docker rmi nginx
+docker image prune       # Remove unused images
+docker image prune -a    # Remove ALL unused images
+
+# Save dan load image (offline transfer)
+docker save -o nginx.tar nginx:1.25
+docker load -i nginx.tar
+
+# Import dan export container
+docker export my-container > container.tar
+docker import container.tar my-image:v1
+
+# Multi-architecture images
+docker buildx ls
+docker buildx build --platform linux/amd64,linux/arm64 -t myapp .
+
+# Image best practices:
+# 1. Gunakan official image
+# 2. Pilih small base image (alpine, distroless)
+# 3. Pin version tag (hindari :latest)
+# 4. Gabung RUN commands untuk minimize layers
+# 5. Gunakan .dockerignore`,
+    objectivesId: [
+      'Image layers: setiap command adalah layer',
+      'Pull, tag, push image ke registry',
+      'Docker Hub: search, pull, push image',
+      'Save/load image untuk offline transfer',
+      'Best practices: small image, pin version, minimize layers',
     ],
-    objEn: [
-      'Explain the role of image registries (Docker Hub, GHCR, ECR)',
-      'Login and push images to a registry',
-      'Map a CI/CD pipeline to Docker commands',
-      'Design a versioning and rollback strategy',
+    objectivesEn: [
+      'Image layers: each command is a layer',
+      'Pull, tag, push images to registries',
+      'Docker Hub: search, pull, push images',
+      'Save/load images for offline transfer',
+      'Best practices: small images, pin versions, minimize layers',
     ],
-    expId: `## Registry: Gudang Image
-Registry adalah server penyimpan image (Docker Hub default, GHCR untuk GitHub, ECR di AWS, ACR di Azure). Nama image = registry + namespace + nama + tag. Push image = mengirimkannya ke registry; pull = mengunduh. Tanpa registry, deploy ke server lain tidak mungkin - image hanya ada di mesin lokal Anda.
-## Pipeline CI/CD dalam Perintah Docker
-CI/CD mengotomatiskan apa yang Anda ketik manual: CI (Continuous Integration) = setiap push ke git memicu build + test; CD (Continuous Delivery) = image yang lolos dideploy ke server. Pipeline ideal: build (docker build) -> test (jalankan image, cek healthcheck) -> push (docker push dengan tag unik) -> deploy (pull + run di server). Satu image per commit, tag = versi yang bisa dirujuk.
-## Strategi Tag
-Jangan timpa :latest di produksi. Praktik umum: tag = sha commit atau semver + timestamp, ditambah :latest hanya sebagai penanda konvensional. Keuntungan: audit trail (image mana yang berjalan di server?) dan rollback instan (pull tag lama).
-## Deploy dan Rollback
-Deploy = jalankan image baru di server (pull tag X, restart container). Rollback = jalankan lagi tag sebelumnya. Karena image immutable dan versi tercatat, rollback = perintah pull+run, bukan "revert kode". Ini alasan Docker mengubah cara deploy: artefak (image) dan kode terpisah.`,
-    expEn: `## Registry: The Image Warehouse
-A registry is an image storage server (Docker Hub by default, GHCR for GitHub, ECR on AWS, ACR on Azure). An image name = registry + namespace + name + tag. Pushing an image uploads it to the registry; pulling downloads it. Without a registry, deploying to another server is impossible - the image exists only on your local machine.
-## CI/CD Pipelines in Docker Commands
-CI/CD automates what you type manually: CI (Continuous Integration) = every push to git triggers build + test; CD (Continuous Delivery) = images that pass get deployed to servers. Ideal pipeline: build (docker build) -> test (run the image, check the healthcheck) -> push (docker push with a unique tag) -> deploy (pull + run on the server). One image per commit, tag = the version you can refer back to.
-## Tagging Strategy
-Do not overwrite :latest in production. Common practice: tag = commit sha or semver + timestamp, keeping :latest only as a conventional marker. Benefits: audit trail (which image is running on the server?) and instant rollback (pull the old tag).
-## Deploy and Rollback
-Deploy = run the new image on the server (pull tag X, restart the container). Rollback = run the previous tag again. Because images are immutable and versions are recorded, rollback is a pull+run command, not "revert the code". This is why Docker changed deployment: artifacts (images) and code are separate.`,
-    chId: 'Rancang pipeline CI/CD untuk tryngo/shop-web: tuliskan tahap-tahapnya sebagai daftar perintah Docker yang akan dijalankan otomatis di CI (mulai dari checkout kode sampai image dideploy di server). Sebutkan tag yang Anda pakai di tiap tahap dan bagaimana Anda melakukan rollback.',
-    chEn: 'Design a CI/CD pipeline for tryngo/shop-web: write its stages as a list of Docker commands that CI would run automatically (from code checkout to the image deployed on a server). State the tags you use at each stage and how you roll back.',
-    sumId: 'Registry = gudang image. CI/CD = build, test, push, deploy otomatis. Tag = versi yang bisa dirujuk, jangan timpa :latest. Rollback = pull tag lama. Lanjut: orkestrasi dan capstone.',
-    sumEn: 'A registry = image warehouse. CI/CD = automated build, test, push, deploy. Tags = referable versions, never overwrite :latest. Rollback = pull the old tag. Next: orchestration and the capstone.',
+    explanationId: '### Image Layers\nSetiap instruction di Dockerfile membuat layer. Layer di-cache untuk build lebih cepat.\n\n### Registry\nDocker Hub = default registry. Bisa buat private registry.\n\n### Tag\n`docker tag source target` — rename/reversion image.\n\n### Push Flow\n1. `docker login`\n2. `docker tag image username/repo:tag`\n3. `docker push username/repo:tag`\n\n### Best Practices\n- Gunakan alpine/distroless untuk image kecil\n- Pin version (hindari :latest)\n- Gabung RUN: `RUN apt update && apt install -y ...`',
+    explanationEn: '### Image Layers\nEach Dockerfile instruction creates a cached layer.\n\n### Registries\nDocker Hub is the default. Private registries for enterprise.\n\n### Tagging\nRename and version images with docker tag.\n\n### Push Flow\nLogin → Tag → Push to registry.\n\n### Best Practices\nUse small base images, pin versions, minimize layers.',
+    experimentsId: [
+      'Pull berbagai image dan lihat layers',
+      'Eksperimen dengan image tagging',
+      'Coba save dan load image',
+      'Buat akun Docker Hub dan push image',
+      'Eksperimen dengan multi-arch build',
+    ],
+    experimentsEn: [
+      'Pull various images and observe layers',
+      'Experiment with image tagging',
+      'Try saving and loading images',
+      'Create Docker Hub account and push image',
+      'Experiment with multi-arch builds',
+    ],
+    challengeId: 'Buat image custom: pull ubuntu, install nginx, buat halaman custom, push ke Docker Hub.',
+    challengeEn: 'Create custom image: pull ubuntu, install nginx, make custom page, push to Docker Hub.',
+    summaryId: 'Minggu 2 dari 12: **Image & Registry** (Level: Pemula). Manajemen image Docker. Minggu depan: **Container Management**.',
+    summaryEn: 'Week 2 of 12: **Images & Registries** (Level: Beginner). Docker image management. Next week: **Container Management**.',
   },
   {
-    phase: 4, num: 16, topicId: 'orkestrasi-capstone',
-    titleId: 'Orkestrasi & Capstone: Compose ke Swarm, K8s', titleEn: 'Orchestration & Capstone: Compose to Swarm, K8s',
-    script: `# Capstone: seluruh stack shop dari satu server
-docker compose -f compose/shop/docker-compose.yml up -d
-docker compose -f compose/shop/docker-compose.yml ps
+    week: 3, level: 'beginer', topicId: 'container-management',
+    titleId: 'Container Management', titleEn: 'Container Management',
+    programId: 'Lifecycle & Exec', programEn: 'Lifecycle & Exec',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# CONTAINER MANAGEMENT — Lifecycle & Operations
+# ─────────────────────────────────────────────────────────
 
-# Inisialisasi swarm mode
+# Run container dengan berbagai options
+docker run -d \\
+  --name my-app \\
+  -p 3000:3000 \\
+  -v /data:/app/data \\
+  -e NODE_ENV=production \\
+  --restart unless-stopped \\
+  --memory 512m \\
+  --cpus 1.0 \\
+  node:20-alpine
+
+# Container lifecycle
+docker start my-app          # Start stopped container
+docker stop my-app           # Graceful stop (SIGTERM)
+docker kill my-app           # Force stop (SIGKILL)
+docker restart my-app        # Restart container
+docker pause my-app          # Pause (freeze)
+docker unpause my-app        # Unpause
+
+# Auto-restart policies:
+# no           : tidak auto-restart
+# on-failure   : restart jika exit code != 0
+# always       : selalu restart
+# unless-stopped: restart kecuali di-stop manual
+
+# Lihat container
+docker ps                    # Running containers
+docker ps -a                 # All containers
+docker ps -q                 # Only container IDs
+docker ps --format "table {{.ID}}\\t{{.Names}}\\t{{.Status}}"
+
+# Container stats
+docker stats                 # Real-time resource usage
+docker stats my-app          # Stats satu container
+
+# Logs
+docker logs my-app           # Semua logs
+docker logs -f my-app        # Follow logs (tail -f)
+docker logs --tail 100 my-app # 100 baris terakhir
+docker logs -t my-app        # Dengan timestamp
+
+# Execute command di container
+docker exec my-app ls /app            # Single command
+docker exec -it my-app bash           # Interactive shell
+docker exec -u root my-app bash       # Sebagai root
+docker exec -w /tmp my-app pwd        # Set working directory
+
+# Copy file ke/dari container
+docker cp local-file my-app:/app/
+docker cp my-app:/app/log.txt ./
+
+# Inspect container
+docker inspect my-app
+docker inspect --format='{{.State.Status}}' my-app
+
+# Remove container
+docker rm my-app             # Remove stopped container
+docker rm -f my-app          # Force remove (running)
+docker container prune       # Remove all stopped containers`,
+    objectivesId: [
+      'Container lifecycle: create, start, stop, restart, remove',
+      'Auto-restart policies: no, on-failure, always, unless-stopped',
+      'Resource limits: --memory, --cpus',
+      'Logs dan stats: monitoring container',
+      'exec dan copy: akses container yang berjalan',
+    ],
+    objectivesEn: [
+      'Container lifecycle: create, start, stop, restart, remove',
+      'Auto-restart policies: no, on-failure, always, unless-stopped',
+      'Resource limits: --memory, --cpus',
+      'Logs and stats: monitoring containers',
+      'exec and copy: accessing running containers',
+    ],
+    explanationId: '### Lifecycle\nCreate → Start → Run → Stop → Remove. Container bersifat ephemeral.\n\n### Restart Policies\n- no: default, tidak restart\n- on-failure: restart jika error\n- always: selalu restart\n- unless-stopped: restart kecuali di-stop manual\n\n### Resource Limits\n`--memory 512m` limit RAM. `--cpus 1.0` limit CPU.\n\n### Logs\n`docker logs -f` untuk real-time. `--tail` untuk limit output.\n\n### Exec\n`docker exec -it` untuk interactive shell di container.',
+    explanationEn: '### Lifecycle\nCreate → Start → Run → Stop → Remove. Containers are ephemeral.\n\n### Restart Policies\nControl when containers automatically restart.\n\n### Resource Limits\nLimit memory and CPU usage per container.\n\n### Logs\nMonitor container output with docker logs.\n\n### Exec\nAccess running containers with interactive shell.',
+    experimentsId: [
+      'Run container dengan resource limits',
+      'Eksperimen dengan restart policies',
+      'Coba exec di berbagai container',
+      'Copy file antara host dan container',
+      'Monitor stats container',
+    ],
+    experimentsEn: [
+      'Run containers with resource limits',
+      'Experiment with restart policies',
+      'Try exec in different containers',
+      'Copy files between host and container',
+      'Monitor container stats',
+    ],
+    challengeId: 'Setup development environment: run Node.js container dengan volume mount, akses shell, install dependencies.',
+    challengeEn: 'Set up development environment: run Node.js container with volume mount, access shell, install dependencies.',
+    summaryId: 'Minggu 3 dari 12: **Container Management** (Level: Pemula). Operasional container sehari-hari. Minggu depan: **Dockerfile**.',
+    summaryEn: 'Week 3 of 12: **Container Management** (Level: Beginner). Daily container operations. Next week: **Dockerfiles**.',
+  },
+  {
+    week: 4, level: 'beginer', topicId: 'dockerfile',
+    titleId: 'Dockerfile', titleEn: 'Dockerfile',
+    programId: 'Build Custom Image', programEn: 'Building Custom Images',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'dockerfile',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKERFILE — Build Custom Image
+# ─────────────────────────────────────────────────────────
+
+# File: Dockerfile
+FROM node:20-alpine
+
+# Metadata
+LABEL maintainer="developer@example.com"
+LABEL version="1.0"
+LABEL description="Node.js App"
+
+# Environment variable
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Working directory
+WORKDIR /app
+
+# Copy dependency files (layer caching)
+COPY package.json package-lock.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application code
+COPY . .
+
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+# Expose port (dokumentasi, tidak publish)
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+
+# Start command
+CMD ["node", "server.js"]
+
+# ─────────────────────────────────────────────────────────
+# Build & Run
+# ─────────────────────────────────────────────────────────
+
+# Build image
+# docker build -t my-node-app:1.0 .
+# docker build -t my-node-app:1.0 -f Dockerfile.prod .
+
+# Run container dari image
+# docker run -d -p 3000:3000 --name app my-node-app:1.0
+
+# ─────────────────────────────────────────────────────────
+# Dockerfile Instructions:
+# ─────────────────────────────────────────────────────────
+# FROM      : base image
+# RUN       : execute command saat build
+# COPY      : copy file dari host ke image
+# ADD       : seperti COPY, support URL dan tar
+# WORKDIR   : set working directory
+# ENV       : environment variable
+# ARG       : build-time variable
+# EXPOSE    : dokumentasi port
+# CMD       : default command saat container start
+# ENTRYPOINT: command yang selalu dijalankan
+# USER      : switch user
+# LABEL     : metadata
+# HEALTHCHECK: health check
+# VOLUME    : mount point
+
+# ─────────────────────────────────────────────────────────
+# .dockerignore
+# ─────────────────────────────────────────────────────────
+# node_modules
+# .git
+# .env
+# *.log
+# Dockerfile
+# .dockerignore`,
+    objectivesId: [
+      'Dockerfile instructions: FROM, RUN, COPY, WORKDIR, CMD',
+      'Layer caching: urutan instruction mempengaruhi cache',
+      'Environment variables: ENV vs ARG',
+      'EXPOSE dan HEALTHCHECK',
+      '.dockerignore untuk exclude file',
+    ],
+    objectivesEn: [
+      'Dockerfile instructions: FROM, RUN, COPY, WORKDIR, CMD',
+      'Layer caching: instruction order affects cache',
+      'Environment variables: ENV vs ARG',
+      'EXPOSE and HEALTHCHECK',
+      '.dockerignore to exclude files',
+    ],
+    explanationId: '### Dockerfile\nBlueprint untuk build image. Setiap instruction = satu layer.\n\n### Layer Cache\nJika instruction tidak berubah, Docker pakai cache. Urutan penting: taruh yang jarang berubah di atas.\n\n### COPY vs ADD\nCOPY lebih disederhana. ADD support URL dan auto-extract tar.\n\n### CMD vs ENTRYPOINT\nCMD bisa override. ENTRYPOINT selalu dijalankan. Bisa kombinasi.\n\n### HEALTHCHECK\nDocker cek health container. Unhealthy container bisa di-restart.\n\n### .dockerignore\nExclude file dari build context. Mengurangi build time dan image size.',
+    explanationEn: '### Dockerfile\nBlueprint for building images. Each instruction creates a layer.\n\n### Layer Caching\nDocker caches unchanged layers. Order instructions strategically.\n\n### COPY vs ADD\nCOPY for simple file copying. ADD for URLs and tar extraction.\n\n### CMD vs ENTRYPOINT\nCMD can be overridden. ENTRYPOINT always runs.\n\n### HEALTHCHECK\nDocker monitors container health.\n\n### .dockerignore\nExclude files from build context.',
+    experimentsId: [
+      'Buat Dockerfile untuk aplikasi Python',
+      'Eksperimen dengan layer caching',
+      'Coba HEALTHCHECK dengan berbagai interval',
+      'Buat .dockerignore dan lihat perbedaan build',
+      'Eksperimen dengan CMD vs ENTRYPOINT',
+    ],
+    experimentsEn: [
+      'Create Dockerfile for Python application',
+      'Experiment with layer caching',
+      'Try HEALTHCHECK with different intervals',
+      'Create .dockerignore and observe build differences',
+      'Experiment with CMD vs ENTRYPOINT',
+    ],
+    challengeId: 'Buat Dockerfile untuk web app: multi-stage build, non-root user, health check, optimized layers.',
+    challengeEn: 'Create Dockerfile for web app: multi-stage build, non-root user, health check, optimized layers.',
+    summaryId: 'Minggu 4 dari 12: **Dockerfile** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Volume & Data** (Intermediate).',
+    summaryEn: 'Week 4 of 12: **Dockerfile** (Level: Beginner). Beginner phase complete! Next week: **Volumes & Data** (Intermediate).',
+  },
+  // ── INTERMEDIATE (weeks 5-8) ──────────────────────────────────────────────
+  {
+    week: 5, level: 'intermediate', topicId: 'volume-data',
+    titleId: 'Volume & Data Persistence', titleEn: 'Volumes & Data Persistence',
+    programId: 'Persistent Storage', programEn: 'Persistent Storage',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER VOLUMES — Data Persistence
+# ─────────────────────────────────────────────────────────
+
+# Volume types:
+# 1. Named Volume — dikelola Docker
+# 2. Bind Mount — path di host
+# 3. tmpfs Mount — in-memory (Linux)
+
+# Named Volume
+docker volume create my-data
+docker volume ls
+docker volume inspect my-data
+docker volume rm my-data
+docker volume prune       # Remove unused volumes
+
+# Run dengan named volume
+docker run -d \\
+  --name postgres-db \\
+  -v pgdata:/var/lib/postgresql/data \\
+  -e POSTGRES_PASSWORD=secret \\
+  postgres:16
+
+# Bind Mount
+docker run -d \\
+  --name dev-app \\
+  -v $(pwd):/app \\
+  -v /app/node_modules \\
+  node:20-alpine
+
+# Bind mount dengan read-only
+docker run -v $(pwd)/config:/etc/config:ro nginx
+
+# Volume di docker-compose
+# volumes:
+#   pgdata:
+#   redis-data:
+
+# Backup volume
+docker run --rm \\
+  -v pgdata:/data \\
+  -v $(pwd):/backup \\
+  alpine tar czf /backup/backup.tar.gz -C /data .
+
+# Restore volume
+docker run --rm \\
+  -v pgdata:/data \\
+  -v $(pwd):/backup \\
+  alpine tar xzf /backup/backup.tar.gz -C /data
+
+# Volume drivers (plugin)
+# docker volume create --driver vieux/sshfs \\
+#   -o sshcmd=user@host:/path \\
+#   -o password=secret \\
+#   sshvolume
+
+# Inspect volume mount
+docker inspect -f '{{ .Mounts }}' postgres-db
+
+# Data-only container (legacy)
+# docker create -v /data --name data-store alpine
+# docker run --volumes-from data-store app`,
+    objectivesId: [
+      'Volume types: named volume, bind mount, tmpfs',
+      'Named volume: dikelola Docker, portable',
+      'Bind mount: path di host, untuk development',
+      'Backup dan restore volume',
+      'Volume drivers untuk storage backend',
+    ],
+    objectivesEn: [
+      'Volume types: named volumes, bind mounts, tmpfs',
+      'Named volumes: Docker-managed, portable',
+      'Bind mounts: host paths, for development',
+      'Backup and restore volumes',
+      'Volume drivers for storage backends',
+    ],
+    explanationId: '### Volume Types\n- Named Volume: dikelola Docker, path di /var/lib/docker/volumes\n- Bind Mount: path spesifik di host\n- tmpfs: in-memory, hilang saat container stop\n\n### Named Volume\nPortable, bisa share antar container. Docker handle lifecycle.\n\n\n### Bind Mount\nDevelopment: mount source code ke container. Perubahan langsung terlihat.\n\n### Backup\nGunakan container sederhana untuk tar/zip volume data.\n\n### Volume Drivers\nPlugin untuk NFS, SSH, cloud storage, dll.',
+    explanationEn: '### Volume Types\nNamed volumes, bind mounts, and tmpfs for different use cases.\n\n### Named Volumes\nDocker-managed, portable across containers.\n\n### Bind Mounts\nHost paths for development workflows.\n\n### Backup\nUse temporary containers to archive volume data.\n\n### Volume Drivers\nPlugins for various storage backends.',
+    experimentsId: [
+      'Buat named volume dan mount ke container',
+      'Eksperimen dengan bind mount untuk development',
+      'Backup dan restore volume database',
+      'Coba volume di docker-compose',
+      'Eksperimen dengan read-only mount',
+    ],
+    experimentsEn: [
+      'Create named volume and mount to container',
+      'Experiment with bind mounts for development',
+      'Backup and restore database volume',
+      'Try volumes in docker-compose',
+      'Experiment with read-only mounts',
+    ],
+    challengeId: 'Setup PostgreSQL dengan persistent volume: create volume, run container, verify data persists setelah restart.',
+    challengeEn: 'Set up PostgreSQL with persistent volume: create volume, run container, verify data persists after restart.',
+    summaryId: 'Minggu 5 dari 12: **Volume & Data Persistence** (Level: Menengah). Data yang bertahan. Minggu depan: **Networking**.',
+    summaryEn: 'Week 5 of 12: **Volumes & Data Persistence** (Level: Intermediate). Persistent data. Next week: **Networking**.',
+  },
+  {
+    week: 6, level: 'intermediate', topicId: 'networking',
+    titleId: 'Networking', titleEn: 'Networking',
+    programId: 'Multi-Container Network', programEn: 'Multi-Container Networks',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER NETWORKING
+# ─────────────────────────────────────────────────────────
+
+# Network types:
+# 1. Bridge — default, internal network
+# 2. Host — share host network stack
+# 3. None — no network
+# 4. Overlay — multi-host (Swarm)
+# 5. Macvlan — assign MAC address
+
+# Lihat networks
+docker network ls
+docker network inspect bridge
+
+# Create custom network
+docker network create my-network
+docker network create --driver bridge --subnet 172.20.0.0/16 my-net
+
+# Run container di network tertentu
+docker run -d --name web --network my-network nginx
+docker run -d --name api --network my-network node:20-alpine
+
+# Container bisa pakai nama sebagai hostname
+# curl http://api:3000 dari container web
+
+# Connect/disconnect network
+docker network connect my-network my-container
+docker network disconnect my-network my-container
+
+# Port publishing
+docker run -p 8080:80 nginx           # host:container
+docker run -p 127.0.0.1:8080:80 nginx # bind ke localhost saja
+docker run -P nginx                   # publish semua exposed ports
+
+# DNS resolution
+# Container di network yang sama bisa resolve nama container
+
+# Network aliases
+docker run --network my-network --network-alias backend nginx
+
+# Inspect network
+docker network inspect my-network
+
+# Remove network
+docker network rm my-network
+docker network prune
+
+# Host network (Linux only)
+docker run --network host nginx
+
+# None network
+docker run --network none alpine
+
+# Multi-network container
+docker run -d --name app \\
+  --network frontend \\
+  --network backend \\
+  my-app`,
+    objectivesId: [
+      'Network types: bridge, host, none, overlay, macvlan',
+      'Custom network: create, connect, disconnect',
+      'DNS resolution antar container',
+      'Port publishing: -p host:container',
+      'Network aliases dan multi-network',
+    ],
+    objectivesEn: [
+      'Network types: bridge, host, none, overlay, macvlan',
+      'Custom networks: create, connect, disconnect',
+      'DNS resolution between containers',
+      'Port publishing: -p host:container',
+      'Network aliases and multi-network',
+    ],
+    explanationId: '### Network Types\n- Bridge: default, internal network antar container\n- Host: share host network (Linux only)\n- None: isolated, no network\n- Overlay: multi-host networking (Swarm)\n\n### Custom Network\nContainer di network yang sama bisa communicate via container name (DNS).\n\n### Port Publishing\n`-p 8080:80` — port 8080 di host forward ke port 80 di container.\n\n### DNS\nDocker embedded DNS server. Container resolve nama container lain di network yang sama.\n\n### Aliases\n`--network-alias` — nama tambahan untuk resolve.',
+    explanationEn: '### Network Types\nBridge, host, none, overlay, and macvlan for different scenarios.\n\n### Custom Networks\nContainers on the same network communicate via DNS names.\n\n### Port Publishing\nMap host ports to container ports.\n\n### DNS\nDocker provides automatic DNS resolution between containers.\n\n### Aliases\nAdditional DNS names for containers.',
+    experimentsId: [
+      'Buat custom network dan connect 2 container',
+      'Test DNS resolution antar container',
+      'Eksperimen dengan port publishing',
+      'Coba host network mode',
+      'Buat multi-network setup',
+    ],
+    experimentsEn: [
+      'Create custom network and connect 2 containers',
+      'Test DNS resolution between containers',
+      'Experiment with port publishing',
+      'Try host network mode',
+      'Create multi-network setup',
+    ],
+    challengeId: 'Setup multi-container app: web + api + database di network yang sama. Test communication.',
+    challengeEn: 'Set up multi-container app: web + api + database on the same network. Test communication.',
+    summaryId: 'Minggu 6 dari 12: **Networking** (Level: Menengah). Komunikasi antar container. Minggu depan: **Docker Compose**.',
+    summaryEn: 'Week 6 of 12: **Networking** (Level: Intermediate). Inter-container communication. Next week: **Docker Compose**.',
+  },
+  {
+    week: 7, level: 'intermediate', topicId: 'docker-compose',
+    titleId: 'Docker Compose', titleEn: 'Docker Compose',
+    programId: 'Multi-Container App', programEn: 'Multi-Container Apps',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER COMPOSE — Multi-Container Orchestration
+# ─────────────────────────────────────────────────────────
+
+# File: docker-compose.yml
+cat << 'EOF' > docker-compose.yml
+version: "3.8"
+
+services:
+  web:
+    build: ./web
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - frontend
+
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://user:pass@db:5432/mydb
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - frontend
+      - backend
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend
+
+volumes:
+  pgdata:
+  redis-data:
+
+networks:
+  frontend:
+  backend:
+EOF
+
+# Compose Commands
+docker-compose up -d              # Start semua services
+docker-compose up -d --build      # Build dan start
+docker-compose down               # Stop dan remove
+docker-compose down -v            # Stop + remove volumes
+docker-compose logs -f            # Follow logs
+docker-compose logs -f api        # Logs satu service
+docker-compose ps                 # List services
+docker-compose exec api bash      # Exec di service
+docker-compose restart api        # Restart service
+docker-compose scale api=3        # Scale service (v2)
+docker-compose up -d --scale api=3 # Scale (v3)
+
+# Compose profiles
+# docker-compose --profile debug up`,
+    objectivesId: [
+      'docker-compose.yml: services, volumes, networks',
+      'depends_on dengan health check condition',
+      'Environment variables dan build context',
+      'Compose commands: up, down, logs, exec, scale',
+      'Profiles untuk environment berbeda',
+    ],
+    objectivesEn: [
+      'docker-compose.yml: services, volumes, networks',
+      'depends_on with health check conditions',
+      'Environment variables and build contexts',
+      'Compose commands: up, down, logs, exec, scale',
+      'Profiles for different environments',
+    ],
+    explanationId: '### Docker Compose\nTool untuk define dan run multi-container applications.\n\n### Services\nSetiap service = satu container. Bisa build dari Dockerfile atau pakai image.\n\n### depends_on\n`condition: service_healthy` — tunggu health check passed.\n\n### Volumes & Networks\nDefine di top-level. Shared antar services.\n\n### Commands\n- `up -d`: start di background\n- `down`: stop dan remove\n- `logs -f`: follow logs\n- `exec`: jalankan command di container\n\n### Scale\n`--scale api=3` — jalankan 3 instance api.',
+    explanationEn: '### Docker Compose\nDefine and run multi-container applications.\n\n### Services\nEach service maps to one container.\n\n### depends_on\nWait for dependencies to be healthy.\n\n### Volumes & Networks\nShared across services.\n\n### Commands\nStart, stop, view logs, execute commands.\n\n### Scaling\nRun multiple instances of a service.',
+    experimentsId: [
+      'Buat compose file dengan 3+ services',
+      'Eksperimen dengan depends_on condition',
+      'Coba scale service',
+      'Buat compose dengan profiles',
+      'Eksperimen dengan env_file',
+    ],
+    experimentsEn: [
+      'Create compose file with 3+ services',
+      'Experiment with depends_on conditions',
+      'Try scaling services',
+      'Create compose with profiles',
+      'Experiment with env_file',
+    ],
+    challengeId: 'Buat full-stack app dengan compose: frontend, backend, database, cache. Health checks, volumes, networks.',
+    challengeEn: 'Build full-stack app with compose: frontend, backend, database, cache. Health checks, volumes, networks.',
+    summaryId: 'Minggu 7 dari 12: **Docker Compose** (Level: Menengah). Orchestration sederhana. Minggu depan: **Multi-Stage Build**.',
+    summaryEn: 'Week 7 of 12: **Docker Compose** (Level: Intermediate). Simple orchestration. Next week: **Multi-Stage Builds**.',
+  },
+  {
+    week: 8, level: 'intermediate', topicId: 'multi-stage-build',
+    titleId: 'Multi-Stage Build', titleEn: 'Multi-Stage Builds',
+    programId: 'Optimized Image', programEn: 'Optimized Images',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'dockerfile',
+    code: `# ─────────────────────────────────────────────────────────
+# MULTI-STAGE BUILD — Optimized Production Image
+# ─────────────────────────────────────────────────────────
+
+# File: Dockerfile (Node.js App)
+# Stage 1: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2: Production
+FROM node:20-alpine AS production
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Copy hanya yang perlu dari builder
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+# Non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+EXPOSE 3000
+HEALTHCHECK --interval=30s CMD wget --spider http://localhost:3000/health || exit 1
+CMD ["node", "dist/server.js"]
+
+# ─────────────────────────────────────────────────────────
+# File: Dockerfile (Go App)
+# ─────────────────────────────────────────────────────────
+# Stage 1: Build
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server .
+
+# Stage 2: Production (distroless)
+FROM gcr.io/distroless/static-debian12 AS production
+COPY --from=builder /app/server /server
+EXPOSE 8080
+USER nonroot:nonroot
+ENTRYPOINT ["/server"]
+
+# ─────────────────────────────────────────────────────────
+# File: Dockerfile (Python App)
+# ─────────────────────────────────────────────────────────
+# Stage 1: Build
+FROM python:3.12-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Stage 2: Production
+FROM python:3.12-slim AS production
+WORKDIR /app
+COPY --from=builder /root/.local /root/.local
+COPY . .
+ENV PATH=/root/.local/bin:$PATH
+RUN adduser --disabled-password appuser
+USER appuser
+EXPOSE 8000
+CMD ["python", "app.py"]
+
+# ─────────────────────────────────────────────────────────
+# Build & Compare
+# ─────────────────────────────────────────────────────────
+# docker build -t myapp:single -f Dockerfile.single .
+# docker build -t myapp:multi -f Dockerfile .
+# docker images | grep myapp
+# Single stage: ~1GB
+# Multi-stage: ~50MB`,
+    objectivesId: [
+      'Multi-stage build: multiple FROM dalam satu Dockerfile',
+      'Build stage: compile, test, build artifacts',
+      'Production stage: copy hanya artifacts, bukan tools',
+      'Distroless base image untuk minimal attack surface',
+      'Perbandingan image size: single vs multi-stage',
+    ],
+    objectivesEn: [
+      'Multi-stage builds: multiple FROM in one Dockerfile',
+      'Build stage: compile, test, build artifacts',
+      'Production stage: copy only artifacts, not tools',
+      'Distroless base images for minimal attack surface',
+      'Image size comparison: single vs multi-stage',
+    ],
+    explanationId: '### Multi-Stage Build\nMultiple FROM dalam satu Dockerfile. Setiap FROM = stage baru.\n\n### Build Stage\nInstall dependencies, compile code, run tests. Bisa pakai image besar.\n\n### Production Stage\nCopy hanya artifacts dari build stage. Image kecil dan aman.\n\n### Distroless\nImage tanpa shell, package manager. Minimal attack surface.\n\n### Benefits\n- Image lebih kecil (1GB → 50MB)\n- Lebih aman (no build tools)\n- Build cache per stage',
+    explanationEn: '### Multi-Stage Builds\nMultiple FROM instructions for different build phases.\n\n### Build Stage\nCompile and test with full toolchain.\n\n### Production Stage\nCopy only necessary artifacts.\n\n### Distroless\nMinimal images without shells or package managers.\n\n### Benefits\nSmaller images, better security, cached builds.',
+    experimentsId: [
+      'Buat multi-stage build untuk aplikasi sendiri',
+      'Bandingkan image size single vs multi-stage',
+      'Coba distroless base image',
+      'Eksperimen dengan named stages',
+      'Buat build dengan test stage',
+    ],
+    experimentsEn: [
+      'Create multi-stage build for your application',
+      'Compare single vs multi-stage image sizes',
+      'Try distroless base images',
+      'Experiment with named stages',
+      'Create build with test stage',
+    ],
+    challengeId: 'Buat multi-stage build untuk aplikasi pilihan: build stage + production stage. Bandingkan ukuran image.',
+    challengeEn: 'Create multi-stage build for your application: build stage + production stage. Compare image sizes.',
+    summaryId: 'Minggu 8 dari 12: **Multi-Stage Build** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Security** (Advanced).',
+    summaryEn: 'Week 8 of 12: **Multi-Stage Builds** (Level: Intermediate). Intermediate phase complete! Next week: **Security** (Advanced).',
+  },
+  // ── ADVANCED (weeks 9-12) ────────────────────────────────────────────────
+  {
+    week: 9, level: 'advanced', topicId: 'security',
+    titleId: 'Security', titleEn: 'Security',
+    programId: 'Secure Container', programEn: 'Secure Containers',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER SECURITY — Best Practices
+# ─────────────────────────────────────────────────────────
+
+# 1. Non-root user
+# Dockerfile:
+# RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# USER appuser
+
+# 2. Read-only filesystem
+docker run --read-only --tmpfs /tmp myapp
+
+# 3. Drop capabilities
+docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE myapp
+
+# 4. No new privileges
+docker run --security-opt=no-new-privileges myapp
+
+# 5. Resource limits
+docker run --memory 512m --cpus 1.0 --pids-limit 100 myapp
+
+# 6. Image scanning
+docker scout cves myapp:latest
+trivy image myapp:latest
+snyk docker test myapp:latest
+
+# 7. Content trust
+export DOCKER_CONTENT_TRUST=1
+docker push myapp:latest
+
+# 8. Seccomp profile
+docker run --security-opt seccomp=profile.json myapp
+
+# 9. AppArmor profile
+docker run --security-opt apparmor=my-profile myapp
+
+# 10. Health check
+# HEALTHCHECK --interval=30s CMD curl -f http://localhost/ || exit 1
+
+# Dockerfile Security Best Practices:
+# FROM specific:version          # Pin version
+# RUN apt update && apt install  # Gabung commands
+# USER nonroot                   # Non-root user
+# COPY --chown=user:group        # Set ownership
+# HEALTHCHECK                    # Health check
+# Multi-stage build              # Minimal image
+
+# docker-compose security:
+# services:
+#   web:
+#     read_only: true
+#     user: "1000:1000"
+#     cap_drop:
+#       - ALL
+#     security_opt:
+#       - no-new-privileges:true
+#     deploy:
+#       resources:
+#         limits:
+#           memory: 512M
+#           cpus: '1.0'`,
+    objectivesId: [
+      'Non-root user di container',
+      'Read-only filesystem dan drop capabilities',
+      'Image scanning: Trivy, Docker Scout, Snyk',
+      'Content trust dan security profiles',
+      'Resource limits dan security options',
+    ],
+    objectivesEn: [
+      'Non-root users in containers',
+      'Read-only filesystems and capability dropping',
+      'Image scanning: Trivy, Docker Scout, Snyk',
+      'Content trust and security profiles',
+      'Resource limits and security options',
+    ],
+    explanationId: '### Non-root User\nJalankan container sebagai non-root. Tambah user di Dockerfile.\n\n### Read-only\n`--read-only` — filesystem read-only. Gunakan `--tmpfs` untuk direktori yang perlu write.\n\n### Capabilities\nLinux capabilities. Drop semua, tambah hanya yang perlu.\n\n### Image Scanning\nScan image untuk CVE/vulnerabilities. Trivy, Scout, Snyk.\n\n### Content Trust\nSign image dengan Docker Content Trust. Verify saat pull.\n\n### Security Profiles\nSeccomp dan AppArmor untuk restrict system calls.',
+    explanationEn: '### Non-root Users\nRun containers as non-root for security.\n\n### Read-only\nPrevent filesystem modifications.\n\n### Capabilities\nDrop unnecessary Linux capabilities.\n\n### Image Scanning\nDetect vulnerabilities in images.\n\n### Content Trust\nSign and verify image integrity.\n\n### Security Profiles\nRestrict system calls with Seccomp and AppArmor.',
+    experimentsId: [
+      'Scan image dengan Trivy',
+      'Eksperimen dengan read-only container',
+      'Coba drop capabilities',
+      'Buat seccomp profile',
+      'Eksperimen dengan AppArmor',
+    ],
+    experimentsEn: [
+      'Scan images with Trivy',
+      'Experiment with read-only containers',
+      'Try dropping capabilities',
+      'Create seccomp profiles',
+      'Experiment with AppArmor',
+    ],
+    challengeId: 'Audit existing Dockerfile: tambah non-root user, read-only fs, resource limits, image scanning.',
+    challengeEn: 'Audit existing Dockerfile: add non-root user, read-only fs, resource limits, image scanning.',
+    summaryId: 'Minggu 9 dari 12: **Security** (Level: Lanjutan). Keamanan container. Minggu depan: **CI/CD**.',
+    summaryEn: 'Week 9 of 12: **Security** (Level: Advanced). Container security. Next week: **CI/CD**.',
+  },
+  {
+    week: 10, level: 'advanced', topicId: 'cicd',
+    titleId: 'CI/CD Pipeline', titleEn: 'CI/CD Pipelines',
+    programId: 'GitHub Actions', programEn: 'GitHub Actions',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# DOCKER CI/CD — GitHub Actions Pipeline
+# ─────────────────────────────────────────────────────────
+
+# File: .github/workflows/docker.yml
+cat << 'EOF' > docker-ci.yml
+name: Docker CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: \${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          docker compose -f docker-compose.test.yml up --abort-on-container-exit
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to Registry
+        uses: docker/login-action@v3
+        with:
+          registry: \${{ env.REGISTRY }}
+          username: \${{ github.actor }}
+          password: \${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            \${{ env.REGISTRY }}/\${{ env.IMAGE_NAME }}:latest
+            \${{ env.REGISTRY }}/\${{ env.IMAGE_NAME }}:\${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to server
+        run: |
+          ssh user@server "docker pull \${{ env.REGISTRY }}/\${{ env.IMAGE_NAME }}:latest && docker compose up -d"
+EOF
+
+# ─────────────────────────────────────────────────────────
+# GitLab CI Example
+# ─────────────────────────────────────────────────────────
+# stages: [test, build, deploy]
+# build:
+#   stage: build
+#   script:
+#     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
+#     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+# ─────────────────────────────────────────────────────────
+# Jenkins Pipeline
+# ─────────────────────────────────────────────────────────
+# pipeline {
+#   agent any
+#   stages {
+#     stage('Build') {
+#       steps { sh 'docker build -t myapp .' }
+#     }
+#     stage('Test') {
+#       steps { sh 'docker run myapp npm test' }
+#     }
+#     stage('Push') {
+#       steps { sh 'docker push myapp:latest' }
+#     }
+#   }
+# }`,
+    objectivesId: [
+      'GitHub Actions workflow untuk Docker CI/CD',
+      'Build, test, push, deploy pipeline',
+      'Multi-stage pipeline dengan dependencies',
+      'Registry: GHCR, Docker Hub, ECR',
+      'GitLab CI dan Jenkins pipeline',
+    ],
+    objectivesEn: [
+      'GitHub Actions workflows for Docker CI/CD',
+      'Build, test, push, deploy pipelines',
+      'Multi-stage pipelines with dependencies',
+      'Registries: GHCR, Docker Hub, ECR',
+      'GitLab CI and Jenkins pipelines',
+    ],
+    explanationId: '### CI/CD Pipeline\nAutomate build, test, dan deploy dengan Docker.\n\n### GitHub Actions\nWorkflow file di .github/workflows/. Trigger pada push/PR.\n\n### Pipeline Stages\n1. Test: run unit/integration tests\n2. Build: build Docker image\n3. Push: push ke registry\n4. Deploy: deploy ke server\n\n### Registry\n- GHCR: GitHub Container Registry\n- Docker Hub: public registry\n- ECR: AWS Elastic Container Registry\n\n### Best Practices\n- Cache layers untuk build cepat\n- Scan image untuk vulnerabilities\n- Sign image untuk integrity',
+    explanationEn: '### CI/CD Pipelines\nAutomate build, test, and deploy with Docker.\n\n### GitHub Actions\nWorkflow files triggered by push/PR events.\n\n### Pipeline Stages\nTest → Build → Push → Deploy.\n\n### Registries\nGHCR, Docker Hub, ECR for different needs.\n\n### Best Practices\nLayer caching, vulnerability scanning, image signing.',
+    experimentsId: [
+      'Buat GitHub Actions workflow untuk project sendiri',
+      'Eksperimen dengan multi-stage pipeline',
+      'Coba build dan push ke GHCR',
+      'Buat pipeline dengan matrix build',
+      'Eksperimen dengan deployment strategies',
+    ],
+    experimentsEn: [
+      'Create GitHub Actions workflow for your project',
+      'Experiment with multi-stage pipelines',
+      'Try building and pushing to GHCR',
+      'Create pipeline with matrix builds',
+      'Experiment with deployment strategies',
+    ],
+    challengeId: 'Buat CI/CD pipeline lengkap: test → build → scan → push → deploy. Pilih platform: GitHub Actions atau GitLab CI.',
+    challengeEn: 'Build a complete CI/CD pipeline: test → build → scan → push → deploy. Choose platform: GitHub Actions or GitLab CI.',
+    summaryId: 'Minggu 10 dari 12: **CI/CD Pipeline** (Level: Lanjutan). Automation untuk Docker. Minggu depan: **Orchestration**.',
+    summaryEn: 'Week 10 of 12: **CI/CD Pipelines** (Level: Advanced). Docker automation. Next week: **Orchestration**.',
+  },
+  {
+    week: 11, level: 'advanced', topicId: 'orchestration',
+    titleId: 'Orchestration', titleEn: 'Orchestration',
+    programId: 'Kubernetes Basics', programEn: 'Kubernetes Basics',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# KUBERNETES ORCHESTRATION — Basics
+# ─────────────────────────────────────────────────────────
+
+# Kubernetes Concepts:
+# Pod = smallest unit (1+ containers)
+# Deployment = manage Pod replicas
+# Service = network endpoint
+# Namespace = logical grouping
+# ConfigMap/Secret = configuration
+
+# kubectl basics
+kubectl version
+kubectl cluster-info
+kubectl get nodes
+kubectl get pods
+kubectl get services
+kubectl get deployments
+
+# File: deployment.yml
+cat << 'EOF' > deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: myapp:1.0
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - port: 80
+    targetPort: 3000
+  type: LoadBalancer
+EOF
+
+# Apply dan manage
+kubectl apply -f deployment.yml
+kubectl get pods -w                    # Watch pods
+kubectl logs my-app-xxx               # Pod logs
+kubectl exec -it my-app-xxx -- bash    # Exec di pod
+kubectl scale deployment my-app --replicas=5
+kubectl rollout status deployment/my-app
+kubectl rollout undo deployment/my-app
+
+# Docker Swarm (alternative)
 docker swarm init
-docker node ls
-
-# Service: unit orkestrasi (bukan container tunggal)
-docker service create --name web --replicas 2 -p 8080:80 nginx:alpine
+docker service create --name web --replicas 3 -p 80:80 nginx
 docker service ls
-
-# Skala service
-docker service scale web=4
-docker service ls
-
-# Hentikan service, tinggalkan swarm
-docker service rm web
-docker swarm leave --force
-
-# Capstone selesai: turunkan stack
-docker compose -f compose/shop/docker-compose.yml down`,
-    objId: [
-      'Menjelaskan perbedaan Compose, Swarm, dan Kubernetes',
-      'Menginisialisasi swarm dan melihat node',
-      'Membuat service dengan replika dan skala',
-      'Menyelesaikan capstone: deploy stack nyata',
+docker service scale web=5
+docker stack deploy -c docker-compose.yml myapp`,
+    objectivesId: [
+      'Kubernetes concepts: Pod, Deployment, Service',
+      'kubectl: get, apply, logs, exec, scale',
+      'Deployment YAML: replicas, resources, probes',
+      'Service: ClusterIP, NodePort, LoadBalancer',
+      'Docker Swarm sebagai alternatif ringan',
     ],
-    objEn: [
-      'Explain the difference between Compose, Swarm, and Kubernetes',
-      'Initialize a swarm and list nodes',
-      'Create services with replicas and scaling',
-      'Complete the capstone: deploy a real stack',
+    objectivesEn: [
+      'Kubernetes concepts: Pods, Deployments, Services',
+      'kubectl: get, apply, logs, exec, scale',
+      'Deployment YAML: replicas, resources, probes',
+      'Services: ClusterIP, NodePort, LoadBalancer',
+      'Docker Swarm as lightweight alternative',
     ],
-    expId: `## Compose vs Swarm vs Kubernetes
-Compose = definisi stack untuk SATU host (file YAML, siklus hidup container). Swarm = orkestrasi multi-host bawaan Docker (service + replika + load balancing). Kubernetes = standar industri (pod, deployment, service, ingress - jauh lebih kuat dan kompleks). Kurva keputusan: 1 host = Compose; beberapa host tanpa tim SRE = Swarm; kebutuhan enterprise (auto-scaling, self-healing, multi-cloud) = Kubernetes.
-## Swarm Mode
-docker swarm init mengubah mesin menjadi node manager; docker node ls melihat cluster. Unit kerja Swarm adalah SERVICE: declarative (inginkan 2 replika web - Swarm menjaganya tetap 2 selamanya, termasuk restart otomatis bila ada replika mati). docker service scale mengubah jumlahnya secara dinamis. Tidak ada perintah "run container" - semua deklaratif.
-## Capstone: Dari Nol ke Produksi
-Capstone Anda: gunakan semua yang dipelajari - bangun image stack shop (docker build), jalankan dengan Compose + healthcheck (up -d), skala API (--scale), amati log, lalu bayangkan server kedua bergabung ke swarm. Anda telah menempuh jalan dari "works on my machine" ke mental model produksi: image immutable + orchestration declarative.
-## Setelah Kursus Ini
-Repositori tryngo memuat tantangan lanjutan: tambah service monitoring ke stack, tulis Dockerfile multi-stage untuk aplikasi bahasa lain, atau buat pipeline CI/CD di GitHub Actions. Dokumentasikan keputusan Anda - seperti kurikulum ini: dari nol sampai siap produksi.`,
-    expEn: `## Compose vs Swarm vs Kubernetes
-Compose = a stack definition for ONE host (YAML file, container lifecycle). Swarm = Docker's built-in multi-host orchestration (services + replicas + load balancing). Kubernetes = the industry standard (pods, deployments, services, ingress - far more powerful and complex). The decision curve: 1 host = Compose; several hosts without an SRE team = Swarm; enterprise needs (auto-scaling, self-healing, multi-cloud) = Kubernetes.
-## Swarm Mode
-docker swarm init turns a machine into a manager node; docker node ls lists the cluster. Swarm's unit of work is a SERVICE: declarative (want 2 replicas of web - Swarm keeps them at 2 forever, including automatic restarts if a replica dies). docker service scale changes the count dynamically. There is no "run container" command - everything is declarative.
-## Capstone: From Zero to Production
-Your capstone: use everything you learned - build the shop stack images (docker build), run with Compose + healthcheck (up -d), scale the API (--scale), watch the logs, then imagine a second server joining the swarm. You have walked the path from "works on my machine" to a production mental model: immutable images + declarative orchestration.
-## After This Course
-The tryngo repo holds further challenges: add a monitoring service to the stack, write multi-stage Dockerfiles for other languages, or build a CI/CD pipeline on GitHub Actions. Document your decisions - like this curriculum: from zero to production-ready.`,
-    chId: 'Capstone final: deploy stack shop penuh dengan skenario produksi - scale api ke 3, ubah satu baris konfigurasi, up ulang, dan verifikasi dengan ps dan logs bahwa service baru sehat sebelum menggantikan yang lama. Kemudian inisialisasi swarm, buat service tryngo/web:2.0 dengan 3 replika, dan turunkan semuanya dengan bersih. Dokumentasikan seluruh prosesnya sebagai runbook (daftar perintah + komentar).',
-    chEn: 'Final capstone: deploy the full shop stack with a production scenario - scale api to 3, change one config line, up again, and verify with ps and logs that the new service is healthy before replacing the old one. Then initialize a swarm, create a service tryngo/web:2.0 with 3 replicas, and tear everything down cleanly. Document the whole process as a runbook (command list + comments).',
-    sumId: 'Compose = 1 host, Swarm = multi-host declarative, K8s = standar enterprise. Service menjaga replika tetap hidup. Capstone: dari nol ke stack produksi. Anda siap Docker. Selamat!',
-    sumEn: 'Compose = 1 host, Swarm = declarative multi-host, K8s = the enterprise standard. Services keep replicas alive. Capstone: from zero to a production stack. You are Docker-ready. Congratulations!',
+    explanationId: '### Kubernetes\nContainer orchestration platform. Manage deployment, scaling, dan operations.\n\n### Pod\nSmallest deployable unit. Bisa berisi 1+ container.\n\n### Deployment\nManage Pod replicas. Rolling update, rollback.\n\n### Service\nNetwork endpoint untuk akses Pod. Types: ClusterIP, NodePort, LoadBalancer.\n\n### Probes\n- Liveness: restart jika unhealthy\n- Readiness: mulai terima traffic jika ready\n\n### Docker Swarm\nLighter alternative. Built into Docker. Less features dari K8s.',
+    explanationEn: '### Kubernetes\nContainer orchestration for deployment, scaling, and operations.\n\n### Pods\nSmallest deployable units containing one or more containers.\n\n### Deployments\nManage Pod replicas with rolling updates.\n\n### Services\nNetwork endpoints for Pod access.\n\n### Probes\nHealth checks for liveness and readiness.\n\n### Docker Swarm\nLightweight alternative built into Docker.',
+    experimentsId: [
+      'Deploy app ke Minikube atau kind',
+      'Eksperimen dengan scaling',
+      'Coba rolling update',
+      'Buat Service dengan LoadBalancer',
+      'Eksperimen dengan ConfigMap',
+    ],
+    experimentsEn: [
+      'Deploy app to Minikube or kind',
+      'Experiment with scaling',
+      'Try rolling updates',
+      'Create Service with LoadBalancer',
+      'Experiment with ConfigMap',
+    ],
+    challengeId: 'Deploy multi-service app ke Kubernetes: frontend, backend, database. Gunakan Deployment dan Service.',
+    challengeEn: 'Deploy multi-service app to Kubernetes: frontend, backend, database. Use Deployments and Services.',
+    summaryId: 'Minggu 11 dari 12: **Orchestration** (Level: Lanjutan). Kubernetes dan Swarm. Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 11 of 12: **Orchestration** (Level: Advanced). Kubernetes and Swarm. Next week: **Capstone Project**!',
+  },
+  {
+    week: 12, level: 'advanced', topicId: 'capstone',
+    titleId: 'Capstone: Production Pipeline', titleEn: 'Capstone: Production Pipeline',
+    programId: 'Full DevOps Pipeline', programEn: 'Full DevOps Pipeline',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'bash',
+    code: `# ─────────────────────────────────────────────────────────
+# CAPSTONE: Full Docker Production Pipeline
+# ─────────────────────────────────────────────────────────
+
+# Project Structure:
+# my-project/
+# ├── .github/workflows/ci.yml
+# ├── docker-compose.yml
+# ├── docker-compose.prod.yml
+# ├── Dockerfile
+# ├── Dockerfile.prod
+# ├── k8s/
+# │   ├── deployment.yml
+# │   ├── service.yml
+# │   └── ingress.yml
+# └── scripts/
+#     ├── deploy.sh
+#     └── backup.sh
+
+# ─────────────────────────────────────────────────────────
+# 1. Multi-Stage Dockerfile
+# ─────────────────────────────────────────────────────────
+cat << 'DOCKERFILE' > Dockerfile.prod
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine AS production
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+RUN npm ci --only=production
+RUN addgroup -S app && adduser -S app -G app
+USER app
+EXPOSE 3000
+HEALTHCHECK --interval=30s CMD wget --spider http://localhost:3000/health || exit 1
+CMD ["node", "dist/server.js"]
+DOCKERFILE
+
+# ─────────────────────────────────────────────────────────
+# 2. Docker Compose Production
+# ─────────────────────────────────────────────────────────
+cat << 'COMPOSE' > docker-compose.prod.yml
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    environment:
+      - DATABASE_URL=postgres://user:pass@db:5432/mydb
+    depends_on:
+      db:
+        condition: service_healthy
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+
+volumes:
+  pgdata:
+COMPOSE
+
+# ─────────────────────────────────────────────────────────
+# 3. Deploy Script
+# ─────────────────────────────────────────────────────────
+cat << 'SCRIPT' > scripts/deploy.sh
+#!/bin/bash
+set -e
+
+echo "Building image..."
+docker build -f Dockerfile.prod -t myapp:latest .
+
+echo "Running tests..."
+docker run --rm myapp:latest npm test
+
+echo "Pushing to registry..."
+docker tag myapp:latest registry.example.com/myapp:latest
+docker push registry.example.com/myapp:latest
+
+echo "Deploying..."
+docker compose -f docker-compose.prod.yml up -d
+
+echo "Verifying..."
+docker compose -f docker-compose.prod.yml ps
+echo "Deployment complete!"
+SCRIPT
+
+# Capstone Checklist:
+# ✅ Multi-stage Dockerfile
+# ✅ Non-root user
+# ✅ Health checks
+# ✅ Resource limits
+# ✅ Persistent volumes
+# ✅ CI/CD pipeline
+# ✅ Image scanning
+# ✅ Production compose
+# ✅ Monitoring
+# ✅ Backup strategy`,
+    objectivesId: [
+      'Full production pipeline: build → test → scan → deploy',
+      'Multi-stage Dockerfile dengan security best practices',
+      'Docker Compose production dengan replicas dan limits',
+      'CI/CD integration dengan GitHub Actions',
+      'Monitoring, backup, dan disaster recovery',
+    ],
+    objectivesEn: [
+      'Full production pipeline: build → test → scan → deploy',
+      'Multi-stage Dockerfile with security best practices',
+      'Docker Compose production with replicas and limits',
+      'CI/CD integration with GitHub Actions',
+      'Monitoring, backup, and disaster recovery',
+    ],
+    explanationId: '### Capstone\nFull production pipeline yang menggabungkan semua konsep Docker.\n\n### Pipeline\nBuild → Test → Scan → Push → Deploy → Monitor.\n\n### Security\nNon-root user, read-only fs, image scanning, content trust.\n\n### Production\nReplicas, resource limits, health checks, persistent volumes.\n\n### CI/CD\nAutomated pipeline dengan GitHub Actions atau GitLab CI.\n\n### Monitoring\nHealth checks, logs, metrics, alerting.',
+    explanationEn: '### Capstone\nFull production pipeline combining all Docker concepts.\n\n### Pipeline\nBuild → Test → Scan → Push → Deploy → Monitor.\n\n### Security\nNon-root users, read-only filesystems, image scanning.\n\n### Production\nReplicas, resource limits, health checks.\n\n### CI/CD\nAutomated pipelines with GitHub Actions.\n\n### Monitoring\nHealth checks, logs, and metrics.',
+    experimentsId: [
+      'Buat full pipeline untuk aplikasi sendiri',
+      'Eksperimen dengan blue-green deployment',
+      'Coba canary deployment strategy',
+      'Buat monitoring dengan Prometheus + Grafana',
+      'Eksperimen dengan disaster recovery',
+    ],
+    experimentsEn: [
+      'Create full pipeline for your application',
+      'Experiment with blue-green deployment',
+      'Try canary deployment strategy',
+      'Create monitoring with Prometheus + Grafana',
+      'Experiment with disaster recovery',
+    ],
+    challengeId: 'Buat full production pipeline: Dockerfile → CI/CD → Docker Compose → Monitoring → Backup. Domain: E-Commerce atau Blog.',
+    challengeEn: 'Build a full production pipeline: Dockerfile → CI/CD → Docker Compose → Monitoring → Backup. Domain: E-Commerce or Blog.',
+    summaryId: 'Minggu 12 dari 12: **Capstone: Production Pipeline** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Docker dari nol hingga production-ready.',
+    summaryEn: 'Week 12 of 12: **Capstone: Production Pipeline** (Level: Advanced). Complete! 🎉 You\'ve mastered Docker from scratch to production-ready.',
   },
 ];
 
-const LESSONS = [...LESSONS_P1, ...LESSONS_P2, ...LESSONS_P3, ...LESSONS_P4];
-
-// ===== GENERATE =====
-for (const lesson of LESSONS) {
-  const phase = PHASES.find((p) => p.phase === lesson.phase);
-  const levelDir = phase.id;
-  const mdDir = path.join(BASE_DIR, levelDir);
-
-  const objListId = lesson.objId.map((o) => `- ${o}`).join('\n');
-  const objListEn = lesson.objEn.map((o) => `- ${o}`).join('\n');
-
-  for (const lang of ['id', 'en']) {
-    const isId = lang === 'id';
-    const title = isId ? lesson.titleId : lesson.titleEn;
-    const phaseName = isId ? phase.nameId : phase.nameEn;
-    const objList = isId ? objListId : objListEn;
-    const exp = isId ? lesson.expId : lesson.expEn;
-    const ch = isId ? lesson.chId : lesson.chEn;
-    const sum = isId ? lesson.sumId : lesson.sumEn;
-    const lessonLabel = isId ? `Pelajaran ${lesson.num}` : `Lesson ${lesson.num}`;
-
-    const langDir = path.join(mdDir, lang);
-    fs.mkdirSync(langDir, { recursive: true });
-
-    const script = lesson.script || '';
-    const filename = `lesson${lesson.num}-${lesson.topicId}.md`;
-    const content = `# ${title}
-
-> Docker | ${phaseName} | ${lessonLabel}
-
-## ${isId ? 'Tujuan Pembelajaran' : 'Learning Objectives'}
-
-${objList}
-
----
-
-## Program: ${title}
-
-\`\`\`docker
-${script}
-\`\`\`
-
----
-
-## ${isId ? 'Penjelasan' : 'Explanation'}
-
-${exp}
-
----
-
-## ${isId ? 'Eksperimen' : 'Experiments'}
-
-${exp.split('\n').map((l) => l.trim()).filter((l) => l.startsWith('##')).map((h, i) => `${i + 1}. **${h.replace(/^#+\s*/, '')}**`).join('\n')}
-
----
-
-## ${isId ? 'Tantangan' : 'Challenge'}
-
-${ch}
-
----
-
-## ${isId ? 'Ringkasan' : 'Summary'}
-
-${sum}
-`;
-
-    fs.writeFileSync(path.join(langDir, filename), content);
-  }
-
-  console.log(`  ${lesson.num}. ${lesson.titleId} / ${lesson.titleEn}`);
+// Add weeks to levels
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
 }
 
-const total = LESSONS.length * 2;
-console.log(`\n✓ Generated ${total} Docker curriculum files (${LESSONS.length} lessons × 2 languages)`);
-console.log(`  Output: ${BASE_DIR}`);
-
-
-
+gen.writeFiles(MODULES, LEVELS);

@@ -1,199 +1,160 @@
-# Proyek Akhir
+# Proyek Akhir: Website Portfolio
 
-> HTML5 | Modul 14
+> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 14:** Proyek Akhir: Website Portfolio
 
 ## Tujuan Pembelajaran
 
-- Menggabungkan semantic HTML dalam struktur multi-halaman
-- Menerapkan form, validasi, dan multimedia
-- Mengoptimalkan SEO dan aksesibilitas
-- Mengimplementasi responsive design melalui HTML
-- Membangun portofolio web yang siap di-deploy
+- Menggabungkan semua konsep: semantic, form, multimedia, a11y, SEO
+- Struktur website multi-section yang profesional
+- Navigasi lengkap dengan skip link dan ARIA
+- Form kontak dengan validasi HTML5
+- SEO meta tags dan Open Graph
 
 ---
 
-## Program: Portofolio Pribadi
+## Program: Website Portfolio Lengkap
 
 ```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portofolio — Nama Anda</title>
-  <meta name="description" content="Portofolio pribadi — Web Developer & Designer">
-  <meta property="og:title" content="Portofolio | Nama Anda">
-  <meta property="og:description" content="Portofolio pribadi website developer.">
-  <meta property="og:image" content="https://placehold.co/1200x630/E34F26/fff?text=Portofolio">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23E34F26'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='white'>P</text></svg>">
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Person","name":"Nama Anda","jobTitle":"Web Developer","url":"https://tryngo.com"}
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio John Doe | Web Developer</title>
+    <meta name="description" content="Portfolio John Doe - Web Developer spesialis HTML5, CSS3, dan JavaScript.">
+    <meta property="og:title" content="Portfolio John Doe">
+    <meta property="og:description" content="Web Developer Portfolio">
+    <meta property="og:type" content="website">
 </head>
 <body>
-  <header role="banner">
-    <nav aria-label="Navigasi utama">
-      <ul>
-        <li><a href="#home" aria-current="page">Home</a></li>
-        <li><a href="#about">Tentang</a></li>
-        <li><a href="#skills">Skill</a></li>
-        <li><a href="#projects">Proyek</a></li>
-        <li><a href="#contact">Kontak</a></li>
-      </ul>
-    </nav>
-  </header>
+    <a href="#main" class="skip-link">Skip ke konten</a>
 
-  <main>
-    <section id="home" aria-labelledby="home-title">
-      <h1 id="home-title">Halo, Saya <strong>Nama Anda</strong></h1>
-      <p>Web Developer & Designer</p>
-      <figure>
-        <img src="https://placehold.co/200x200/333/fff?text=Foto" alt="Foto profil Nama Anda" width="200" height="200" loading="eager">
-        <figcaption>Foto profil</figcaption>
-      </figure>
-    </section>
+    <header>
+        <h1>John Doe</h1>
+        <p>Web Developer &amp; Designer</p>
+        <nav aria-label="Navigasi utama">
+            <ul>
+                <li><a href="#tentang" aria-current="page">Tentang</a></li>
+                <li><a href="#proyek">Proyek</a></li>
+                <li><a href="#kemampuan">Kemampuan</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <section id="about" aria-labelledby="about-title">
-      <h2 id="about-title">Tentang Saya</h2>
-      <p>Saya seorang <strong>web developer</strong> yang bersemangat dalam menciptakan <em>pengalaman digital</em> yang inklusif dan mudah diakses.</p>
-      <blockquote>
-        <p>"Kode adalah puisi yang bisa dijalankan."</p>
-      </blockquote>
-    </section>
+    <main id="main">
+        <section id="tentang">
+            <h2>Tentang Saya</h2>
+            <figure>
+                <img src="https://picsum.photos/200/200" alt="Foto John Doe" loading="lazy">
+                <figcaption>John Doe, Web Developer</figcaption>
+            </figure>
+            <p>Saya adalah web developer dengan pengalaman 3 tahun...</p>
+        </section>
 
-    <section id="skills" aria-labelledby="skills-title">
-      <h2 id="skills-title">Keahlian</h2>
-      <table>
-        <caption>Daftar keahlian teknis</caption>
-        <thead>
-          <tr>
-            <th scope="col">Kategori</th>
-            <th scope="col">Teknologi</th>
-            <th scope="col">Level</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th scope="row">Frontend</th><td>HTML5, CSS3, JavaScript</td><td>Mahir</td></tr>
-          <tr><th scope="row">Backend</th><td>Go, Node.js</td><td>Menengah</td></tr>
-          <tr><th scope="row">Tools</th><td>Git, VS Code, Figma</td><td>Mahir</td></tr>
-        </tbody>
-      </table>
+        <section id="proyek">
+            <h2>Proyek</h2>
+            <article>
+                <h3>E-Commerce App</h3>
+                <p>Platform jual beli online dengan HTML5 semantic.</p>
+                <a href="#">Lihat detail</a>
+            </article>
+            <article>
+                <h3>Blog Platform</h3>
+                <p>Platform blog dengan aksesibilitas tinggi.</p>
+                <a href="#">Lihat detail</a>
+            </article>
+        </section>
 
-      <h3>Kemampuan Teknis Detail</h3>
-      <ul>
-        <li><abbr title="HyperText Markup Language">HTML</abbr> — Semantic, Aksesibilitas, SEO</li>
-        <li><abbr title="Cascading Style Sheets">CSS</abbr> — Flexbox, Grid, Animasi</li>
-        <li>JavaScript — ES6+, DOM, Async</li>
-      </ul>
-    </section>
+        <section id="kemampuan">
+            <h2>Kemampuan</h2>
+            <ul>
+                <li>HTML5 Semantic</li>
+                <li>CSS3 &amp; Responsive</li>
+                <li>JavaScript ES6+</li>
+                <li>Accessibility (a11y)</li>
+                <li>SEO Optimization</li>
+            </ul>
+        </section>
 
-    <section id="projects" aria-labelledby="projects-title">
-      <h2 id="projects-title">Proyek</h2>
-      <article>
-        <h3>Aplikasi Todo</h3>
-        <figure>
-          <img src="https://placehold.co/400x250/2E5B44/fff?text=Todo+App" alt="Screenshot aplikasi Todo" loading="lazy" width="400" height="250">
-          <figcaption>Aplikasi manajemen tugas berbasis web</figcaption>
-        </figure>
-        <p>Dibangun dengan HTML5, CSS3, dan JavaScript. Menggunakan <strong>localStorage</strong> untuk persistensi data.</p>
-        <ul>
-          <li><a href="https://github.com" target="_blank">Lihat Source Code</a></li>
-          <li><a href="#" target="_blank">Lihat Demo</a></li>
-        </ul>
-      </article>
-      <article>
-        <h3>Website Portofolio</h3>
-        <figure>
-          <img src="https://placehold.co/400x250/E34F26/fff?text=Portfolio" alt="Screenshot website portofolio" loading="lazy" width="400" height="250">
-          <figcaption>Website portofolio pribadi responsif</figcaption>
-        </figure>
-        <p>Website ini sendiri! Semantic HTML, aksesibel, dan SEO-friendly.</p>
-      </article>
-    </section>
+        <section id="kontak">
+            <h2>Kontak</h2>
+            <form action="#" method="POST">
+                <fieldset>
+                    <legend>Formulir Kontak</legend>
+                    <p>
+                        <label for="nama-kontak">Nama:</label><br>
+                        <input type="text" id="nama-kontak" name="nama" required>
+                    </p>
+                    <p>
+                        <label for="email-kontak">Email:</label><br>
+                        <input type="email" id="email-kontak" name="email" required>
+                    </p>
+                    <p>
+                        <label for="pesan">Pesan:</label><br>
+                        <textarea id="pesan" name="pesan" rows="5" required></textarea>
+                    </p>
+                    <button type="submit">Kirim Pesan</button>
+                </fieldset>
+            </form>
+            <p>Email: <a href="mailto:john@example.com">john@example.com</a></p>
+        </section>
+    </main>
 
-    <section id="contact" aria-labelledby="contact-title">
-      <h2 id="contact-title">Hubungi Saya</h2>
-      <form action="#" method="post">
-        <p>
-          <label for="contact-name">Nama <span aria-label="wajib">*</span>:</label>
-          <input type="text" id="contact-name" name="name" required minlength="3" autocomplete="name">
-        </p>
-        <p>
-          <label for="contact-email">Email <span aria-label="wajib">*</span>:</label>
-          <input type="email" id="contact-email" name="email" required autocomplete="email">
-        </p>
-        <p>
-          <label for="contact-subject">Subjek:</label>
-          <select id="contact-subject" name="subject">
-            <optgroup label="Proyek">
-              <option value="web">Pengembangan Web</option>
-              <option value="design">Desain</option>
-            </optgroup>
-            <option value="lain">Lainnya</option>
-          </select>
-        </p>
-        <p>
-          <label for="contact-message">Pesan <span aria-label="wajib">*</span>:</label><br>
-          <textarea id="contact-message" name="message" rows="5" cols="50" required minlength="10" placeholder="Tulis pesan..."></textarea>
-        </p>
-        <button type="submit">Kirim Pesan</button>
-      </form>
-    </section>
-  </main>
+    <footer>
+        <p>&copy; 2026 John Doe. <a href="#top" aria-label="Kembali ke atas">Kembali ke atas</a></p>
+        <address>Email: <a href="mailto:john@example.com">john@example.com</a></address>
+    </footer>
 
-  <aside>
-    <h3>Media Sosial</h3>
-    <ul>
-      <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="mailto:email@example.com">Email</a></li>
-    </ul>
-  </aside>
-
-  <footer role="contentinfo">
-    <p>&copy; 2026 Nama Anda. Dibangun dengan <strong>HTML5</strong>.</p>
-    <p><a href="#home">Kembali ke atas</a></p>
-  </footer>
+    <style>
+    .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: #000;
+        color: #fff;
+        padding: 8px;
+        z-index: 100;
+    }
+    .skip-link:focus { top: 0; }
+    </style>
 </body>
 </html>
 ```
 
 ---
 
-## Penjelasan
+## Konsep Kunci
 
-Berikut penjelasan detail materi:
+### Proyek Akhir
+Gabungan semua 13 minggu sebelumnya dalam satu website portfolio.
 
-### Arsitektur
-Website portofolio menggabungkan SEMUA konsep HTML5: semantic structure, navigation, forms, tables, multimedia, accessibility, SEO meta tags, dan structured data.
-
-### Semantic Structure
-Gunakan `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`, `<footer>` untuk layout yang jelas. Satu `<h1>` per halaman.
-
-### Aksesibilitas
-`role` attributes, `aria-label`, `aria-labelledby`, `aria-describedby`, skip link, `alt` text, labels pada form.
-
-### SEO
-Meta tags, Open Graph, Twitter Cards, canonical URL, structured data JSON-LD.
-
-### Deploy
-Upload ke GitHub Pages, Netlify, atau Vercel. Pastikan valid HTML dan aksesibel.
+### Komponen
+- Header dengan nav
+- Section tentang, proyek, kemampuan, kontak
+- Form dengan validasi
+- Footer dengan address
+- Skip link, ARIA, semantic
+- SEO meta & OG tags
 
 ---
 
 ## Eksperimen
 
-Tambah halaman kedua "about.html" dengan konten sendiri,Implementasi galeri proyek dengan figure dan figcaption,Tambah testimoni menggunakan blockquote dengan cite,Validasi halaman dengan W3C Validator
+- Tambah section testimoni dengan blockquote
+- Buat halaman tambahan: blog atau project detail
+- Tambah video introduction
+- Buat multi-page website
+- Tambah dark mode toggle
 
 ---
 
 ## Tantangan
 
-Bangun website portofolio pribadi 3 halaman (Beranda, Tentang, Proyek) yang menggabungkan SEMUA konsep HTML5: semantic layout, navigasi konsisten, form kontak dengan validasi, tabel skill, galeri proyek dengan figure, multimedia (video intro atau audio), meta tags SEO, aksesibilitas ARIA, structured data JSON-LD, dan favicon. Deploy ke GitHub Pages.
+Buat website portfolio lengkap: 4+ halaman, navigasi konsisten, form kontak, SEO optimized, fully aksesibel.
 
 ---
 
 ## Ringkasan
 
-Selamat! Anda telah menyelesaikan seluruh kurikulum HTML5. Dari struktur dasar hingga semantic HTML, dari form hingga aksesibilitas, dari multimedia hingga performa — Anda kini memiliki fondasi HTML yang kokoh. Langkah selanjutnya: dalami CSS3 dan JavaScript untuk menjadi frontend developer yang handal!
+Minggu 14 dari 14: **Proyek Akhir: Website Portfolio** (Level: HTML5 Lengkap). Selesai! 🎉 Anda sudah menguasai HTML5 dari nol hingga mahir.

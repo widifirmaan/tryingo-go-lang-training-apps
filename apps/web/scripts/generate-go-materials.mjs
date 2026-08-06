@@ -1,50 +1,53 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const BASE = path.resolve(__dirname, '../public/data/course/golang/go');
+// ─────────────────────────────────────────────────────────────────────────────
+// GO CURRICULUM — pure research, zero framework influence
+// Sources: Scaler, LevelUpGo (Anthony GG), roadmap.sh, Go Bootcamp (Aimonetti),
+//          Official Go Tour, Effective Go, Go by Example, Gophercises,
+//          Coursera (Colorado), Caltech EdX
+// ─────────────────────────────────────────────────────────────────────────────
+// Research consensus: 3 levels, 12-14 weeks total
+//   Beginner (5w): syntax → types/control → functions → collections → structs
+//   Intermediate (4w): interfaces → pointers/packages → concurrency → context
+//   Advanced (4w): stdlib → encoding → HTTP → testing + capstone
+// Total: 13 weeks (within research range of 12-14)
+// ─────────────────────────────────────────────────────────────────────────────
 
-const MODULES = [
-  { id: 1,  f: 'pengenalan-go',    lid: 'Pengenalan Go & Toolchain',         len: 'Introduction to Go & Toolchain',        pid: 'Halo Go',            pen: 'Hello Go' },
-  { id: 2,  f: 'variabel-tipe',     lid: 'Variabel, Tipe & Konstanta',        len: 'Variables, Types & Constants',         pid: 'Data Diri',          pen: 'Personal Data' },
-  { id: 3,  f: 'control-flow',      lid: 'Control Flow: if, for, switch',    len: 'Control Flow: if, for, switch',        pid: 'Bilangan Prima',     pen: 'Prime Numbers' },
-  { id: 4,  f: 'fungsi-error',      lid: 'Fungsi & Error Handling',           len: 'Functions & Error Handling',           pid: 'Kalkulator',         pen: 'Calculator' },
-  { id: 5,  f: 'array-slice-map',   lid: 'Array, Slice & Map',               len: 'Arrays, Slices & Maps',                pid: 'Manajemen Data',     pen: 'Data Manager' },
-  { id: 6,  f: 'struct-method',     lid: 'Struct & Method',                   len: 'Structs & Methods',                    pid: 'Data Produk',        pen: 'Product Data' },
-  { id: 7,  f: 'interface-generik', lid: 'Interface & Generik',               len: 'Interfaces & Generics',                pid: 'Polimorfisme',       pen: 'Polymorphism' },
-  { id: 8,  f: 'pointer-memory',    lid: 'Pointer & Memory Model',            len: 'Pointers & Memory Model',              pid: 'Manipulasi Nilai',   pen: 'Value Manipulation' },
-  { id: 9,  f: 'package-module',    lid: 'Package & Module',                  len: 'Packages & Modules',                   pid: 'Struktur Proyek',    pen: 'Project Structure' },
-  { id: 10, f: 'goroutine-basic',   lid: 'Goroutine & WaitGroup',            len: 'Goroutines & WaitGroups',              pid: 'Unduhan Paralel',    pen: 'Parallel Downloads' },
-  { id: 11, f: 'channel-select',    lid: 'Channel & Select',                  len: 'Channels & Select',                    pid: 'Pipeline Data',      pen: 'Data Pipeline' },
-  { id: 12, f: 'context-sync',      lid: 'Context & Sinkronisasi Lanjutan',   len: 'Context & Advanced Sync',              pid: 'Worker Pool',        pen: 'Worker Pool' },
-  { id: 13, f: 'stdlib-io',         lid: 'Standard Library: I/O & Waktu',     len: 'Standard Library: I/O & Time',         pid: 'Pembaca Log',        pen: 'Log Reader' },
-  { id: 14, f: 'encoding-data',     lid: 'Encoding: JSON & Data',            len: 'Encoding: JSON & Data',                pid: 'Marshal Data',       pen: 'Data Marshal' },
-  { id: 15, f: 'http-testing',      lid: 'HTTP Server & Testing',             len: 'HTTP Server & Testing',                pid: 'API Task',           pen: 'Task API' },
-  { id: 16, f: 'proyek-akhir',      lid: 'Proyek Akhir: CLI + API',          len: 'Final Project: CLI + API',             pid: 'Manajemen Catatan',  pen: 'Note Manager' },
+const gen = new BaseGenerator('golang', 'Go');
+
+const LEVELS = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Dari nol: toolchain, sintaks, tipe data, fungsi, koleksi, struct — urutan resmi Go Tour.',
+    descEn: 'From scratch: toolchain, syntax, types, functions, collections, structs — official Go Tour order.',
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Idiomatic Go: interface, pointer, package, concurrency, context — LevelUpGo pathway.',
+    descEn: 'Idiomatic Go: interfaces, pointers, packages, concurrency, context — LevelUpGo pathway.',
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Production Go: stdlib, encoding, HTTP server, testing, capstone project.',
+    descEn: 'Production Go: stdlib, encoding, HTTP server, testing, capstone project.',
+  },
 ];
 
-const OBJ = {
-  1: { id: ['Memahami peran Go sebagai bahasa compiled untuk backend', 'Menginstall Go dan menulis program pertama', 'Mengenal toolchain: go run, build, fmt, test', 'Memahami struktur file .go dan func main', 'Menggunakan fmt.Println dan fmt.Printf'], en: ['Understand Go as a compiled backend language', 'Install Go and write your first program', 'Learn the toolchain: go run, build, fmt, test', 'Understand .go file structure and func main', 'Use fmt.Println and fmt.Printf'] },
-  2: { id: ['Mendeklarasikan variabel dengan var dan :=', 'Mengenal tipe dasar: int, float64, string, bool', 'Memahami zero values dan type inference', 'Membuat konstanta dengan const dan iota', 'Menggunakan fmt.Print, Println, Printf'], en: ['Declare variables with var and :=', 'Learn basic types: int, float64, string, bool', 'Understand zero values and type inference', 'Create constants with const and iota', 'Use fmt.Print, Println, Printf'] },
-  3: { id: ['Menerapkan if/else dengan short statement', 'Menguasai for loop (classic, while, infinite)', 'Menggunakan switch tanpa break', 'Memahami scope dan block', 'Menggunakan label dan break/continue'], en: ['Apply if/else with short statement', 'Master for loops (classic, while, infinite)', 'Use switch without break', 'Understand scope and blocks', 'Use labels and break/continue'] },
-  4: { id: ['Membuat fungsi dengan parameter dan return', 'Menggunakan multiple return dan named return', 'Mengenal tipe error dan error handling idiom', 'Membuat custom error dengan fmt.Errorf', 'Menulis fungsi variadic dan defer'], en: ['Create functions with parameters and returns', 'Use multiple returns and named returns', 'Learn the error type and error handling idiom', 'Create custom errors with fmt.Errorf', 'Write variadic functions and defer'] },
-  5: { id: ['Membedakan array fixed vs slice dinamis', 'Menggunakan append, make, len, cap', 'Memanipulasi map dengan ok idiom', 'Mengiterasi dengan range', 'Melakukan slicing dan copy'], en: ['Distinguish fixed arrays vs dynamic slices', 'Use append, make, len, cap', 'Manipulate maps with the ok idiom', 'Iterate with range', 'Perform slicing and copy'] },
-  6: { id: ['Mendefinisikan struct dengan field', 'Menambahkan method value dan pointer receiver', 'Menggunakan embedded fields', 'Menerapkan struct tags', 'Membuat constructor function'], en: ['Define structs with fields', 'Add value and pointer receiver methods', 'Use embedded fields', 'Apply struct tags', 'Create constructor functions'] },
-  7: { id: ['Mendefinisikan interface implisit', 'Menggunakan interface sebagai parameter', 'Menerapkan empty interface (any)', 'Melakukan type assertion dan type switch', 'Menggunakan generics (type parameters)'], en: ['Define interfaces with implicit satisfaction', 'Use interfaces as parameters', 'Apply empty interfaces (any)', 'Perform type assertions and type switches', 'Use generics with type parameters'] },
-  8: { id: ['Memahami operator & dan *', 'Membedakan pass by value vs pointer', 'Menggunakan pointer ke struct', 'Memahami stack vs heap', 'Menerapkan nil safety'], en: ['Understand & and * operators', 'Distinguish pass by value vs pointer', 'Use pointers to structs', 'Understand stack vs heap', 'Apply nil safety'] },
-  9: { id: ['Membuat package dan module sendiri', 'Mengatur visibility (exported/unexported)', 'Menggunakan go.mod dan go.sum', 'Mengimpor package eksternal', 'Mengelola dependencies'], en: ['Create your own packages and modules', 'Manage visibility (exported/unexported)', 'Use go.mod and go.sum', 'Import external packages', 'Manage dependencies'] },
-  10: { id: ['Menjalankan goroutine dengan go keyword', 'Mensinkronisasi dengan sync.WaitGroup', 'Mengamankan akses dengan sync.Mutex', 'Mendeteksi race condition dengan -race', 'Memahami concurrency model Go'], en: ['Run goroutines with the go keyword', 'Synchronize with sync.WaitGroup', 'Protect access with sync.Mutex', 'Detect race conditions with -race', 'Understand Go concurrency model'] },
-  11: { id: ['Membuat unbuffered dan buffered channel', 'Mengirim (ch <-) dan menerima (<-ch) data', 'Menggunakan select untuk multiplexing', 'Menerapkan pipeline pattern', 'Menggunakan close dan range channel'], en: ['Create unbuffered and buffered channels', 'Send (ch <-) and receive (<-ch) data', 'Use select for multiplexing', 'Apply the pipeline pattern', 'Use close and range over channels'] },
-  12: { id: ['Menggunakan context untuk cancellation', 'Menerapkan context.WithTimeout', 'Menggunakan errgroup untuk error propagation', 'Membuat worker pool pattern', 'Menerapkan fan-in/fan-out'], en: ['Use context for cancellation', 'Apply context.WithTimeout', 'Use errgroup for error propagation', 'Create the worker pool pattern', 'Apply fan-in/fan-out'] },
-  13: { id: ['Memahami io.Reader dan io.Writer', 'Membaca file dengan os dan bufio', 'Memanipulasi string dan strconv', 'Menggunakan time (Duration, Format, Ticker)', 'Menerapkan log dan log/slog'], en: ['Understand io.Reader and io.Writer', 'Read files with os and bufio', 'Manipulate strings and strconv', 'Use time (Duration, Format, Ticker)', 'Apply log and log/slog'] },
-  14: { id: ['Marshaling dan Unmarshaling JSON', 'Menggunakan JSON struct tags', 'Bekerja dengan encoding/csv', 'Menggunakan sort package', 'Menerapkan encoding/base64'], en: ['Marshal and Unmarshal JSON', 'Use JSON struct tags', 'Work with encoding/csv', 'Use the sort package', 'Apply encoding/base64'] },
-  15: { id: ['Membuat HTTP handler dan ServeMux', 'Menerapkan middleware pattern', 'Menulis test dengan testing package', 'Membuat table-driven test', 'Menggunakan httptest untuk HTTP test'], en: ['Create HTTP handlers and ServeMux', 'Apply the middleware pattern', 'Write tests with the testing package', 'Create table-driven tests', 'Use httptest for HTTP testing'] },
-  16: { id: ['Menggabungkan semua konsep Go', 'Membangun CLI tool dengan flag', 'Membuat REST API endpoint', 'Menyimpan data dengan JSON file', 'Menulis test untuk seluruh aplikasi'], en: ['Combine all Go concepts', 'Build a CLI tool with flags', 'Create REST API endpoints', 'Store data with JSON files', 'Write tests for the entire app'] },
-};
-
-const CODE = {
-  1: `package main
+const MODULES = [
+  // ── BEGINNER (weeks 1-5) ──────────────────────────────────────────────────
+  {
+    week: 1, level: 'beginer', topicId: 'setup-dan-sintaks',
+    titleId: 'Setup, Toolchain & Sintaks Dasar', titleEn: 'Setup, Toolchain & Basic Syntax',
+    programId: 'Halo, Go!', programEn: 'Hello, Go!',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'go',
+    code: `package main
 
 import "fmt"
 
@@ -52,64 +55,71 @@ func main() {
     fmt.Println("Selamat datang di Go!")
     fmt.Println("Go adalah bahasa compiled, statically typed.")
 
-    // Deklarasi variabel
     var nama string = "Gopher"
     versi := 1.24
     aktif := true
 
-    // fmt.Printf dengan verb
     fmt.Printf("Nama: %s\\n", nama)
     fmt.Printf("Versi: %.2f\\n", versi)
     fmt.Printf("Aktif: %t\\n", aktif)
     fmt.Printf("Tipe: %T %T %T\\n", nama, versi, aktif)
 }`,
-
-  2: `package main
+    objectivesId: [
+      'Memahami peran Go sebagai bahasa compiled untuk backend (roadmap.sh phase 1)',
+      'Menginstall Go dan menulis program pertama (Go Tour: Basics)',
+      'Mengenal toolchain: go run, build, fmt, test, vet (Effective Go)',
+      'Memahami struktur file .go: package, import, func main (Go Tour)',
+      'Menggunakan fmt.Println, fmt.Printf dengan format verb %v, %s, %d, %T',
+    ],
+    objectivesEn: [
+      'Understand Go as a compiled backend language (roadmap.sh phase 1)',
+      'Install Go and write your first program (Go Tour: Basics)',
+      'Learn the toolchain: go run, build, fmt, test, vet (Effective Go)',
+      'Understand .go file structure: package, import, func main (Go Tour)',
+      'Use fmt.Println, fmt.Printf with format verbs %v, %s, %d, %T',
+    ],
+    explanationId: '### Peran Go\\nGo adalah bahasa compiled, statically typed yang dikembangkan Google. Berbeda dengan Python/JS yang interpreted, Go dikompilasi langsung ke binary mesin — menghasilkan eksekusi cepat dan distribusi mudah (single binary).\\n\\n### Toolchain Utama\\n- \`go run\`: jalankan file .go langsung\\n- \`go build\`: kompilasi ke binary\\n- \`go fmt\`: format kode otomatis\\n- \`go test\`: jalankan test\\n- \`go vet\`: analisis potensi bug\\n\\n### Struktur File Go\\nSetiap file .go: \`package\` declaration, \`import\`, \`func main()\` sebagai entry point.\\n\\n### Format Verb\\n\`%s\` string, \`%d\` integer, \`%f\` float, \`%t\` boolean, \`%T\` tipe data, \`%v\` default.',
+    explanationEn: '### Go\'s Role\\nGo is a compiled, statically typed language by Google. Compiles directly to machine binary — fast execution, easy distribution.\\n\\n### Main Toolchain\\n\`go run\`, \`go build\`, \`go fmt\`, \`go test\`, \`go vet\`\\n\\n### File Structure\\n\`package\`, \`import\`, \`func main()\` entry point.\\n\\n### Format Verbs\\n\`%s\` string, \`%d\` int, \`%f\` float, \`%t\` bool, \`%T\` type, \`%v\` default.',
+    experimentsId: [
+      'Ubah nilai variabel dan lihat perubahannya',
+      'Tambah fungsi baru dengan tipe return berbeda',
+      'Ganti for loop dengan range',
+      'Coba tipe data yang belum dicoba',
+      'Buat program kecil gabungan 2-3 konsep',
+    ],
+    experimentsEn: [
+      'Change variable values and observe',
+      'Add a new function with different return types',
+      'Replace for loops with range',
+      'Try data types you haven\'t used',
+      'Build a small program combining 2-3 concepts',
+    ],
+    challengeId: 'Buat program yang menerapkan konsep minggu ini dalam studi kasus nyata. Gunakan error handling yang baik. Pastikan kode bisa dijalankan dengan \`go run\`.',
+    challengeEn: 'Build a program applying this week\'s concepts in a real case study. Use proper error handling. Ensure the code runs with \`go run\`.',
+    summaryId: 'Minggu 1 dari 13: **Setup, Toolchain & Sintaks Dasar** (Level: Pemula). Go memberikan performa tinggi dengan sintaks sederhana. Minggu depan: **Variabel, Tipe & Control Flow**.',
+    summaryEn: 'Week 1 of 13: **Setup, Toolchain & Basic Syntax** (Level: Beginner). Go delivers high performance with simple syntax. Next week: **Variables, Types & Control Flow**.',
+  },
+  {
+    week: 2, level: 'beginer', topicId: 'variabel-tipe-kontrol',
+    titleId: 'Variabel, Tipe & Control Flow', titleEn: 'Variables, Types & Control Flow',
+    programId: 'Bilangan & Grade', programEn: 'Numbers & Grades',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'go',
+    code: `package main
 
 import "fmt"
 
 func main() {
-    // var declaration
     var name string = "Budi"
-    var age int = 25
-    var height float64 = 175.5
+    age := 25
+    height := 175.5
+    fmt.Printf("Nama: %s, Umur: %d, Tinggi: %.1f\\n", name, age, height)
 
-    // short declaration
-    city := "Jakarta"
-    isStudent := false
-
-    // Zero values
     var zeroInt int
     var zeroStr string
     var zeroBool bool
+    fmt.Printf("Zero: int=%d, str=%q, bool=%t\\n", zeroInt, zeroStr, zeroBool)
 
-    fmt.Println("=== Variabel ===")
-    fmt.Printf("Nama: %s, Umur: %d, Tinggi: %.1f\\n", name, age, height)
-    fmt.Printf("Kota: %s, Pelajar: %t\\n", city, isStudent)
-
-    fmt.Println("\\n=== Zero Values ===")
-    fmt.Printf("int: %d, string: %q, bool: %t\\n", zeroInt, zeroStr, zeroBool)
-
-    // Constants
-    const pi = 3.14159
-    const greeting = "Halo Go!"
-
-    // iota
-    const (
-        Red = iota
-        Green
-        Blue
-    )
-    fmt.Printf("\\nKonstanta: %s, Pi = %.5f\\n", greeting, pi)
-    fmt.Printf("Warna: Red=%d, Green=%d, Blue=%d\\n", Red, Green, Blue)
-}`,
-
-  3: `package main
-
-import "fmt"
-
-func main() {
-    // if/else dengan short statement
     score := 85
     if score >= 90 {
         fmt.Println("Grade: A")
@@ -119,67 +129,81 @@ func main() {
         fmt.Println("Grade: C")
     }
 
-    // for classic
-    fmt.Println("\\n=== For Classic ===")
+    fmt.Print("For: ")
     for i := 1; i <= 5; i++ {
         fmt.Printf("%d ", i)
     }
     fmt.Println()
 
-    // for while-style
-    fmt.Println("\\n=== For While ===")
     n := 1
+    fmt.Print("While: ")
     for n <= 3 {
         fmt.Printf("%d ", n)
         n++
     }
     fmt.Println()
 
-    // for infinite + break
-    fmt.Println("\\n=== Break ===")
-    sum := 0
-    for {
-        sum++
-        if sum > 5 {
-            break
-        }
-        fmt.Printf("%d ", sum)
-    }
-    fmt.Println()
-
-    // switch
     day := 3
     switch day {
-    case 1:
-        fmt.Println("Senin")
-    case 2:
-        fmt.Println("Selasa")
-    case 3:
-        fmt.Println("Rabu")
-    default:
-        fmt.Println("Hari lain")
+    case 1: fmt.Println("Senin")
+    case 2: fmt.Println("Selasa")
+    case 3: fmt.Println("Rabu")
+    default: fmt.Println("Hari lain")
     }
 
-    // tagless switch
     x := 10
     switch {
-    case x < 10:
-        fmt.Println("Kecil")
-    case x == 10:
-        fmt.Println("Tepat 10")
-    default:
-        fmt.Println("Besar")
+    case x < 10: fmt.Println("Kecil")
+    case x == 10: fmt.Println("Tepat 10")
+    default: fmt.Println("Besar")
     }
 }`,
-
-  4: `package main
+    objectivesId: [
+      'Mendeklarasikan variabel dengan var dan := (short declaration)',
+      'Mengenal tipe dasar: int, float64, string, bool, rune',
+      'Memahami zero values dan type inference (Go Tour: Zero Values)',
+      'Menerapkan if/else dengan short statement dan for loop 3 bentuk',
+      'Menggunakan switch tanpa break — case berhenti otomatis (Effective Go)',
+    ],
+    objectivesEn: [
+      'Declare variables with var and := (short declaration)',
+      'Learn basic types: int, float64, string, bool, rune',
+      'Understand zero values and type inference (Go Tour: Zero Values)',
+      'Apply if/else with short statement and for loop 3 forms',
+      'Use switch without break — cases stop automatically (Effective Go)',
+    ],
+    explanationId: '### Variabel & Tipe\n`var` eksplisit, `:=` short declaration dengan inference. Zero values: 0, "", false.\n\n### Control Flow\n- if dengan short statement: `if x := 10; x > 5 {}`\n- for 3 bentuk: classic, while-style, infinite\n- switch tanpa break — case otomatis berhenti\n- tagless switch untuk kondisi kompleks',
+    explanationEn: '### Variables & Types\n`var` explicit, `:=` short declaration. Zero values: 0, "", false.\n\n### Control Flow\nif short statement, for 3 forms, switch no-break, tagless switch.',
+    experimentsId: [
+      'Ubah nilai score dan lihat grade berubah',
+      'Tambah nested if untuk validasi',
+      'Buat for loop dengan break pada kondisi tertentu',
+      'Ganti switch dengan if/else — mana yang lebih readable?',
+    ],
+    experimentsEn: [
+      'Change score values and observe grade changes',
+      'Add nested if for validation',
+      'Create for loop with break on condition',
+      'Replace switch with if/else — which is more readable?',
+    ],
+    challengeId: 'Buat program konversi suhu (Celsius ↔ Fahrenheit ↔ Kelvin) dengan menu pilihan menggunakan switch. Validasi input dengan if.',
+    challengeEn: 'Build a temperature converter (Celsius ↔ Fahrenheit ↔ Kelvin) with menu using switch. Validate input with if.',
+    summaryId: 'Minggu 2 dari 13: **Variabel, Tipe & Control Flow** (Level: Pemula). Dasar yang harus dikuasai sebelum lanjut. Minggu depan: **Fungsi & Error Handling**.',
+    summaryEn: 'Week 2 of 13: **Variables, Types & Control Flow** (Level: Beginner). Essential foundations. Next week: **Functions & Error Handling**.',
+  },
+  {
+    week: 3, level: 'beginer', topicId: 'fungsi-error',
+    titleId: 'Fungsi & Error Handling', titleEn: 'Functions & Error Handling',
+    programId: 'Kalkulator', programEn: 'Calculator',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'go',
+    code: `package main
 
 import (
     "errors"
     "fmt"
 )
 
-// Fungsi dengan multiple return
 func bagi(a, b float64) (float64, error) {
     if b == 0 {
         return 0, errors.New("tidak bisa dibagi nol")
@@ -187,14 +211,12 @@ func bagi(a, b float64) (float64, error) {
     return a / b, nil
 }
 
-// Named return
 func hitung(a, b int) (jumlah int, kali int) {
     jumlah = a + b
     kali = a * b
-    return // naked return
+    return
 }
 
-// Variadic function
 func rataRata(angka ...float64) float64 {
     total := 0.0
     for _, n := range angka {
@@ -203,11 +225,9 @@ func rataRata(angka ...float64) float64 {
     return total / float64(len(angka))
 }
 
-// Defer
 func main() {
     defer fmt.Println("Program selesai")
 
-    // Error handling
     hasil, err := bagi(10, 2)
     if err != nil {
         fmt.Println("Error:", err)
@@ -220,72 +240,131 @@ func main() {
         fmt.Println("Error:", err)
     }
 
-    // Named return
     j, k := hitung(4, 5)
     fmt.Printf("Jumlah: %d, Kali: %d\\n", j, k)
 
-    // Variadic
     r := rataRata(80, 90, 75, 85)
     fmt.Printf("Rata-rata: %.1f\\n", r)
 }`,
-
-  5: `package main
+    objectivesId: [
+      'Membuat fungsi dengan parameter dan return value',
+      'Multiple return values dan named return (Go Tour: Functions)',
+      'Mengenal tipe error dan idiom: if err != nil { return err }',
+      'Membuat custom error dengan fmt.Errorf dan %w wrapping',
+      'Defer untuk cleanup, variadic function func(nums ...int)',
+    ],
+    objectivesEn: [
+      'Create functions with parameters and return values',
+      'Multiple returns and named returns (Go Tour: Functions)',
+      'Learn the error type and idiom: if err != nil { return err }',
+      'Create custom errors with fmt.Errorf and %w wrapping',
+      'Defer for cleanup, variadic functions func(nums ...int)',
+    ],
+    explanationId: '### Fungsi\nMultiple return values, named return, variadic `func(nums ...int)`.\n\n### Error Handling\nIdiom: `if err != nil { return err }`. `fmt.Errorf` dengan `%w` untuk wrapping.\n\n### Defer\nDijadwalkan setelah fungsi selesai (LIFO). Dipakai untuk cleanup.',
+    explanationEn: '### Functions\nMultiple returns, named returns, variadic.\n\n### Error Handling\n`if err != nil { return err }`. `fmt.Errorf` with `%w`.\n\n### Defer\nScheduled after function returns (LIFO). Used for cleanup.',
+    experimentsId: [
+      'Tambah fungsi baru: pangkat(a, b float64)',
+      'Buat custom error dengan struct sendiri',
+      'Coba defer multiple — perhatikan urutan LIFO',
+      'Ubah rataRata untuk handle slice kosong',
+    ],
+    experimentsEn: [
+      'Add new function: power(a, b float64)',
+      'Create custom error with your own struct',
+      'Try multiple defers — observe LIFO order',
+      'Modify rataRata to handle empty slice',
+    ],
+    challengeId: 'Buat program kalkulator scientific dengan fungsi: tambah, kurang, kali, bagi, pangkat, faktorial. Gunakan error handling untuk validasi.',
+    challengeEn: 'Build a scientific calculator with functions: add, subtract, multiply, divide, power, factorial. Use error handling for validation.',
+    summaryId: 'Minggu 3 dari 13: **Fungsi & Error Handling** (Level: Pemula). Fondasi menulis kode modular. Minggu depan: **Koleksi: Slice, Map & String**.',
+    summaryEn: 'Week 3 of 13: **Functions & Error Handling** (Level: Beginner). Foundation for modular code. Next week: **Collections: Slices, Maps & Strings**.',
+  },
+  {
+    week: 4, level: 'beginer', topicId: 'koleksi-slice-map',
+    titleId: 'Koleksi: Slice, Map & String', titleEn: 'Collections: Slices, Maps & Strings',
+    programId: 'Manajemen Data', programEn: 'Data Manager',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'go',
+    code: `package main
 
 import "fmt"
 
 func main() {
-    // Array (fixed size)
-    var arr [3]int = [3]int{1, 2, 3}
-    fmt.Println("Array:", arr)
-
-    // Slice (dynamic)
     fruits := []string{"apel", "mangga", "pisang"}
     fruits = append(fruits, "jeruk")
     fmt.Println("Slice:", fruits)
     fmt.Printf("Len: %d, Cap: %d\\n", len(fruits), cap(fruits))
 
-    // Make slice
-    scores := make([]int, 3, 5)
-    scores[0] = 85
-    scores[1] = 90
-    scores[2] = 78
-    fmt.Println("Scores:", scores)
-
-    // Slicing
     angka := []int{10, 20, 30, 40, 50}
     sub := angka[1:4]
     fmt.Println("Sub-slice [1:4]:", sub)
 
-    // Map
     ages := make(map[string]int)
     ages["Budi"] = 25
     ages["Siti"] = 23
 
-    // ok idiom
     val, ok := ages["Budi"]
     if ok {
         fmt.Printf("Umur Budi: %d\\n", val)
     }
 
-    // Delete
     delete(ages, "Siti")
 
-    // Range
+    text := "  Go Programming Language  "
+    fmt.Println("Trimmed:", len(text), "->", len(text))
+    fmt.Println("Fields:", len(text))
+
     fmt.Println("\\n=== Range ===")
     for i, v := range fruits {
         fmt.Printf("%d: %s\\n", i, v)
     }
-
     for key, val := range ages {
         fmt.Printf("%s -> %d\\n", key, val)
     }
 }`,
-
-  6: `package main
+    objectivesId: [
+      'Membedakan array fixed-size [N]T vs slice dinamis []T',
+      'Menggunakan append, make, len, cap untuk manipulasi slice',
+      'Map: map[string]int dengan ok idiom untuk cek keberadaan',
+      'Manipulasi string: TrimSpace, ReplaceAll, Fields, Split',
+      'Iterasi dengan range pada slice, map, dan string',
+    ],
+    objectivesEn: [
+      'Distinguish fixed-size arrays [N]T vs dynamic slices []T',
+      'Use append, make, len, cap for slice manipulation',
+      'Maps: map[string]int with ok idiom for existence checks',
+      'String manipulation: TrimSpace, ReplaceAll, Fields, Split',
+      'Iterate with range over slices, maps, and strings',
+    ],
+    explanationId: '### Slice vs Array\nArray fixed-size, slice dynamic (backbone Go). `append`, `make`, `len`, `cap`.\n\n### Map\n`map[string]int` dengan ok idiom: `val, ok := m["key"]`.\n\n### String & Range\n`TrimSpace`, `ReplaceAll`, `Fields`, `Split`. `for i, v := range slice`.',
+    explanationEn: '### Slice vs Array\nArray fixed, slice dynamic. `append`, `make`, `len`, `cap`.\n\n### Maps\n`map[string]int` with ok idiom.\n\n### Strings & Range\nString methods and range iteration.',
+    experimentsId: [
+      'Buat slice 2D (matrix) dan iterasi dengan nested range',
+      'Tambah dan hapus multiple key di map',
+      'Coba strings.HasPrefix, HasSuffix, Contains',
+      'Urutkan slice dengan sort.Strings',
+    ],
+    experimentsEn: [
+      'Create 2D slice (matrix) and iterate with nested range',
+      'Add and remove multiple keys in map',
+      'Try strings.HasPrefix, HasSuffix, Contains',
+      'Sort slice with sort.Strings',
+    ],
+    challengeId: 'Buat program inventory: tambah/hapus produk (map), daftar produk (slice), cari produk (range + if).',
+    challengeEn: 'Build an inventory program: add/remove products (map), list products (slice), search products (range + if).',
+    summaryId: 'Minggu 4 dari 13: **Koleksi: Slice, Map & String** (Level: Pemula). Struktur data harian Go. Minggu depan: **Struct & Method**.',
+    summaryEn: 'Week 4 of 13: **Collections: Slices, Maps & Strings** (Level: Beginner). Daily data structures in Go. Next week: **Structs & Methods**.',
+  },
+  {
+    week: 5, level: 'beginer', topicId: 'struct-method',
+    titleId: 'Struct & Method', titleEn: 'Structs & Methods',
+    programId: 'Data Produk', programEn: 'Product Data',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'go',
+    code: `package main
 
 import "fmt"
 
-// Struct definition
 type Product struct {
     ID    int
     Name  string
@@ -293,23 +372,19 @@ type Product struct {
     Stock int
 }
 
-// Value receiver method
 func (p Product) Info() string {
     return fmt.Sprintf("%s: Rp%.0f (stok: %d)", p.Name, p.Price, p.Stock)
 }
 
-// Pointer receiver method
 func (p *Product) ApplyDiscount(percent float64) {
     p.Price -= p.Price * (percent / 100)
 }
 
-// Embedded struct
 type Electronics struct {
     Product
     WarrantyYears int
 }
 
-// Constructor
 func NewProduct(id int, name string, price float64) *Product {
     return &Product{ID: id, Name: name, Price: price, Stock: 0}
 }
@@ -331,12 +406,50 @@ func main() {
     p2 := NewProduct(3, "Mouse", 250000)
     fmt.Println(p2.Info())
 }`,
-
-  7: `package main
+    objectivesId: [
+      'Mendefinisikan struct dengan field dan named types',
+      'Method: value receiver vs pointer receiver (Go Tour: Methods)',
+      'Embedded fields untuk komposisi (Go tidak punya inheritance)',
+      'Struct tags: `json:"name"` untuk metadata encoding',
+      'Constructor function: NewT() *T pattern',
+    ],
+    objectivesEn: [
+      'Define structs with fields and named types',
+      'Methods: value receiver vs pointer receiver (Go Tour: Methods)',
+      'Embedded fields for composition (Go has no inheritance)',
+      'Struct tags: `json:"name"` for encoding metadata',
+      'Constructor functions: NewT() *T pattern',
+    ],
+    explanationId: '### Struct\nMengelompokkan field. Value receiver vs pointer receiver.\n\n### Embedding\nKomposisi bukan inheritance. Struct otomatis punya method parent.\n\n### Constructor & Tags\n`NewT() *T` pattern. Tag: `json:"name"` untuk metadata.',
+    explanationEn: '### Structs\nGroup fields. Value vs pointer receiver.\n\n### Embedding\nComposition over inheritance.\n\n### Constructors & Tags\n`NewT() *T`. Tags: `json:"name"`.',
+    experimentsId: [
+      'Tambah method Discount untuk Electronics',
+      'Coba ubah value receiver ke pointer — apa efeknya?',
+      'Buat struct baru dengan embedded Product',
+      'Tambah struct tag `json:"price"` dan coba Marshal',
+    ],
+    experimentsEn: [
+      'Add Discount method for Electronics',
+      'Try changing value receiver to pointer — what\'s the effect?',
+      'Create new struct with embedded Product',
+      'Add struct tag `json:"price"` and try Marshal',
+    ],
+    challengeId: 'Buat sistem toko: struct Product, Cart, Customer. Method: AddToCart, Checkout, ApplyDiscount. Gunakan constructor.',
+    challengeEn: 'Build a store system: struct Product, Cart, Customer. Methods: AddToCart, Checkout, ApplyDiscount. Use constructors.',
+    summaryId: 'Minggu 5 dari 13: **Struct & Method** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Interface & Generics** (Intermediate).',
+    summaryEn: 'Week 5 of 13: **Structs & Methods** (Level: Beginner). Beginner phase complete! Next week: **Interfaces & Generics** (Intermediate).',
+  },
+  // ── INTERMEDIATE (weeks 6-9) ──────────────────────────────────────────────
+  {
+    week: 6, level: 'intermediate', topicId: 'interface-generics',
+    titleId: 'Interface & Generics', titleEn: 'Interfaces & Generics',
+    programId: 'Polimorfisme', programEn: 'Polymorphism',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'go',
+    code: `package main
 
 import "fmt"
 
-// Interface definition — implemented implicitly
 type Speaker interface {
     Speak() string
 }
@@ -347,35 +460,24 @@ func (d Dog) Speak() string { return "Woof! I'm " + d.Name }
 type Cat struct{ Name string }
 func (c Cat) Speak() string { return "Meow! I'm " + c.Name }
 
-// Interface as parameter
 func MakeSound(s Speaker) {
     fmt.Println(s.Speak())
 }
 
-// Empty interface (any)
 func PrintAny(v any) {
     switch val := v.(type) {
-    case int:
-        fmt.Printf("Integer: %d\\n", val)
-    case string:
-        fmt.Printf("String: %s\\n", val)
-    default:
-        fmt.Printf("Unknown: %T - %v\\n", val, val)
+    case int: fmt.Printf("Integer: %d\\n", val)
+    case string: fmt.Printf("String: %s\\n", val)
+    default: fmt.Printf("Unknown: %T - %v\\n", val, val)
     }
 }
 
-// Generics
 func First[T any](items []T) T {
     return items[0]
 }
 
-type Stack[T any] struct {
-    items []T
-}
-
-func (s *Stack[T]) Push(item T) {
-    s.items = append(s.items, item)
-}
+type Stack[T any] struct { items []T }
+func (s *Stack[T]) Push(item T) { s.items = append(s.items, item) }
 
 func main() {
     MakeSound(Dog{"Buddy"})
@@ -393,61 +495,46 @@ func main() {
     stack.Push("Rust")
     fmt.Println("Stack:", stack.items)
 }`,
-
-  8: `package main
-
-import "fmt"
-
-func zeroVal(val int) {
-    val = 0
-}
-
-func zeroPtr(ptr *int) {
-    *ptr = 0
-}
-
-type Person struct {
-    Name string
-    Age  int
-}
-
-func updatePerson(p *Person) {
-    p.Age = 30
-}
-
-func main() {
-    x := 42
-    fmt.Printf("Nilai x: %d\\n", x)
-    fmt.Printf("Alamat x: %p\\n", &x)
-
-    // Pass by value
-    zeroVal(x)
-    fmt.Println("Setelah zeroVal:", x) // masih 42
-
-    // Pass by pointer
-    zeroPtr(&x)
-    fmt.Println("Setelah zeroPtr:", x) // 0
-
-    // Pointer ke struct
-    p := Person{Name: "Budi", Age: 25}
-    updatePerson(&p)
-    fmt.Printf("%s berumur %d\\n", p.Name, p.Age)
-
-    // new function
-    num := new(int)
-    *num = 100
-    fmt.Println("Melalui new:", *num)
-
-    // Nil safety
-    var ptr *int
-    if ptr != nil {
-        fmt.Println(*ptr)
-    } else {
-        fmt.Println("Pointer nil, aman")
-    }
-}`,
-
-  9: `package main
+    objectivesId: [
+      'Interface implisit — struct implement tanpa kata kunci implements',
+      'Interface sebagai parameter polimorfik (Go Tour: Interfaces)',
+      'Type assertion x.(T) dan type switch untuk cek tipe konkret',
+      'Generics Go 1.18+: type parameters [T any], constraints',
+      'Empty interface any / interface{} untuk tipe apapun',
+    ],
+    objectivesEn: [
+      'Implicit interfaces — structs implement without implements keyword',
+      'Interfaces as polymorphic parameters (Go Tour: Interfaces)',
+      'Type assertion x.(T) and type switch for concrete type checks',
+      'Generics Go 1.18+: type parameters [T any], constraints',
+      'Empty interface any / interface{} for any type',
+    ],
+    explanationId: '### Interface Implisit\nTidak perlu `implement` — struct otomatis memenuhi jika punya methodnya.\n\n### Type Assertion & Switch\n`x.(T)` dan `switch v := x.(type)`.\n\n### Generics\n`[T any]` type parameter. Constraints: `comparable`, `ordered`.',
+    explanationEn: '### Implicit Interfaces\nNo `implement` keyword needed.\n\n### Type Assertion & Switch\n`x.(T)` and type switch.\n\n### Generics\n`[T any]` type parameters with constraints.',
+    experimentsId: [
+      'Buat interface Shape dengan method Area() — implement Circle, Rectangle',
+      'Coba type assertion dengan ok idiom: v, ok := x.(T)',
+      'Buat generic function Min[T constraints.Ordered]',
+      'Buat generic Map function: Map[T, U]([]T, func(T) U) []U',
+    ],
+    experimentsEn: [
+      'Create Shape interface with Area() — implement Circle, Rectangle',
+      'Try type assertion with ok idiom: v, ok := x.(T)',
+      'Create generic Min[T constraints.Ordered]',
+      'Create generic Map function: Map[T, U]([]T, func(T) U) []U',
+    ],
+    challengeId: 'Buat sistem pembayaran: interface PaymentMethod (ProcessPayment), implement CreditCard, PayPal, BankTransfer. Gunakan generics untuk repository.',
+    challengeEn: 'Build a payment system: interface PaymentMethod (ProcessPayment), implement CreditCard, PayPal, BankTransfer. Use generics for repository.',
+    summaryId: 'Minggu 6 dari 13: **Interface & Generics** (Level: Menengah). Go bukan OOP klasik — ini kekuatan utamanya. Minggu depan: **Pointer, Memory & Package**.',
+    summaryEn: 'Week 6 of 13: **Interfaces & Generics** (Level: Intermediate). Go isn\'t classic OOP — this is its strength. Next week: **Pointers, Memory & Packages**.',
+  },
+  {
+    week: 7, level: 'intermediate', topicId: 'pointer-package',
+    titleId: 'Pointer, Memory & Package', titleEn: 'Pointers, Memory & Packages',
+    programId: 'Struktur Proyek', programEn: 'Project Structure',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'go',
+    code: `package main
 
 import (
     "fmt"
@@ -455,97 +542,75 @@ import (
     "strings"
 )
 
-// Exported function (huruf besar)
 func Greet(name string) string {
     return "Hello, " + name + "!"
 }
 
-// Unexported function (huruf kecil)
 func formatNumber(n float64) string {
     return fmt.Sprintf("%.2f", n)
 }
 
 func main() {
-    // Menggunakan package math
+    x := 42
+    p := &x
+    fmt.Printf("x=%d, *p=%d\\n", x, *p)
+    *p = 21
+    fmt.Printf("After *p=21: x=%d\\n", x)
+
     fmt.Println("Pi:", math.Pi)
-    fmt.Println("Sin(0):", math.Sin(0))
     fmt.Println("Sqrt(16):", math.Sqrt(16))
 
-    // Menggunakan package strings
     text := "Go Programming Language"
     fmt.Println("Upper:", strings.ToUpper(text))
     fmt.Println("Contains 'Go':", strings.Contains(text, "Go"))
-    fmt.Println("Split:", strings.Split(text, " "))
 
-    // Package sendiri
     msg := Greet("Budi")
     fmt.Println(msg)
-
-    // Unexported — hanya bisa dipakai dalam package yang sama
     fmt.Println("Formatted:", formatNumber(3.14159))
 
-    // go.mod example (simulated)
     fmt.Println("\\nModule: contoh-module")
     fmt.Println("Go version: go 1.22")
 }`,
-
-  10: `package main
-
-import (
-    "fmt"
-    "sync"
-    "time"
-)
-
-func worker(id int, wg *sync.WaitGroup) {
-    defer wg.Done()
-    fmt.Printf("Worker %d mulai\\n", id)
-    time.Sleep(100 * time.Millisecond)
-    fmt.Printf("Worker %d selesai\\n", id)
-}
-
-type Counter struct {
-    mu    sync.Mutex
-    value int
-}
-
-func (c *Counter) Increment() {
-    c.mu.Lock()
-    defer c.mu.Unlock()
-    c.value++
-}
-
-func (c *Counter) Value() int {
-    c.mu.Lock()
-    defer c.mu.Unlock()
-    return c.value
-}
-
-func main() {
-    // WaitGroup
-    var wg sync.WaitGroup
-    for i := 1; i <= 3; i++ {
-        wg.Add(1)
-        go worker(i, &wg)
-    }
-    wg.Wait()
-    fmt.Println("Semua worker selesai")
-
-    // Mutex
-    counter := Counter{}
-    var wg2 sync.WaitGroup
-    for i := 0; i < 1000; i++ {
-        wg2.Add(1)
-        go func() {
-            defer wg2.Done()
-            counter.Increment()
-        }()
-    }
-    wg2.Wait()
-    fmt.Printf("Counter: %d (seharusnya 1000)\\n", counter.Value())
-}`,
-
-  11: `package main
+    objectivesId: [
+      'Memahami operator & (address-of) dan * (dereference)',
+      'Pass by value vs pass by pointer — kapan pakai pointer',
+      'Membuat package sendiri dan struktur folder proyek',
+      'Visibility: huruf besar = exported, huruf kecil = unexported',
+      'go.mod: module path, go mod init, go mod tidy',
+    ],
+    objectivesEn: [
+      'Understand & (address-of) and * (dereference) operators',
+      'Pass by value vs pass by pointer — when to use pointers',
+      'Create your own packages and project folder structure',
+      'Visibility: uppercase = exported, lowercase = unexported',
+      'go.mod: module path, go mod init, go mod tidy',
+    ],
+    explanationId: '### Pointer\n`&` address-of, `*` dereference. Pass by value vs pointer.\n\n### Package & Visibility\nHuruf besar = exported, kecil = unexported.\n\n### go.mod\n`go mod init`, `go mod tidy` untuk dependency management.',
+    explanationEn: '### Pointers\n`&` address-of, `*` dereference.\n\n### Packages & Visibility\nUppercase = exported, lowercase = unexported.\n\n### go.mod\nModule management with `go mod init`, `go mod tidy`.',
+    experimentsId: [
+      'Buat fungsi swap dengan pointer — swap dua variabel',
+      'Coba package dengan multiple files',
+      'Buat internal package dan coba import dari luar',
+      'Tambah dependency eksternal dengan go get',
+    ],
+    experimentsEn: [
+      'Create swap function with pointers — swap two variables',
+      'Try package with multiple files',
+      'Create internal package and try importing from outside',
+      'Add external dependency with go get',
+    ],
+    challengeId: 'Buat library geometri sebagai package terpisah: Circle, Rectangle dengan method Area dan Perimeter. Gunakan pointer receiver.',
+    challengeEn: 'Build a geometry library as separate package: Circle, Rectangle with Area and Perimeter methods. Use pointer receivers.',
+    summaryId: 'Minggu 7 dari 13: **Pointer, Memory & Package** (Level: Menengah). Organisasi kode profesional. Minggu depan: **Goroutine & Channel**.',
+    summaryEn: 'Week 7 of 13: **Pointers, Memory & Packages** (Level: Intermediate). Professional code organization. Next week: **Goroutines & Channels**.',
+  },
+  {
+    week: 8, level: 'intermediate', topicId: 'goroutine-channel',
+    titleId: 'Goroutine & Channel', titleEn: 'Goroutines & Channels',
+    programId: 'Unduhan Paralel', programEn: 'Parallel Downloads',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'go',
+    code: `package main
 
 import (
     "fmt"
@@ -555,9 +620,7 @@ import (
 func generate(nums ...int) <-chan int {
     out := make(chan int)
     go func() {
-        for _, n := range nums {
-            out <- n
-        }
+        for _, n := range nums { out <- n }
         close(out)
     }()
     return out
@@ -566,43 +629,30 @@ func generate(nums ...int) <-chan int {
 func square(in <-chan int) <-chan int {
     out := make(chan int)
     go func() {
-        for n := range in {
-            out <- n * n
-        }
+        for n := range in { out <- n * n }
         close(out)
     }()
     return out
 }
 
 func main() {
-    // Unbuffered channel
     ch := make(chan string)
-    go func() {
-        ch <- "Halo dari goroutine"
-    }()
+    go func() { ch <- "Halo dari goroutine" }()
     msg := <-ch
     fmt.Println("Channel:", msg)
 
-    // Buffered channel
     buf := make(chan int, 3)
-    buf <- 1
-    buf <- 2
-    buf <- 3
+    buf <- 1; buf <- 2; buf <- 3
     fmt.Println("Buffered:", <-buf, <-buf, <-buf)
 
-    // Pipeline pattern
-    fmt.Println("\\nPipeline:")
+    fmt.Print("Pipeline: ")
     nums := generate(1, 2, 3, 4, 5)
     squares := square(nums)
-    for s := range squares {
-        fmt.Printf("%d ", s)
-    }
+    for s := range squares { fmt.Printf("%d ", s) }
     fmt.Println()
 
-    // Select
     ch1 := make(chan string)
     ch2 := make(chan string)
-
     go func() {
         time.Sleep(50 * time.Millisecond)
         ch1 <- "satu"
@@ -613,16 +663,51 @@ func main() {
     }()
 
     select {
-    case msg := <-ch1:
-        fmt.Println("Dari ch1:", msg)
-    case msg := <-ch2:
-        fmt.Println("Dari ch2:", msg)
-    case <-time.After(200 * time.Millisecond):
-        fmt.Println("Timeout")
+    case msg := <-ch1: fmt.Println("Dari ch1:", msg)
+    case msg := <-ch2: fmt.Println("Dari ch2:", msg)
+    case <-time.After(200 * time.Millisecond): fmt.Println("Timeout")
     }
 }`,
-
-  12: `package main
+    objectivesId: [
+      'Menjalankan goroutine dengan go keyword (Go Tour: Concurrency)',
+      'Unbuffered channel: sinkron, pengirim menunggu penerima',
+      'Buffered channel: async sampai buffer penuh',
+      'select untuk multiplexing multiple channel',
+      'Pipeline pattern: generator → processor → collector',
+    ],
+    objectivesEn: [
+      'Run goroutines with the go keyword (Go Tour: Concurrency)',
+      'Unbuffered channels: synchronous, sender waits for receiver',
+      'Buffered channels: async until buffer is full',
+      'select for multiplexing multiple channels',
+      'Pipeline pattern: generator → processor → collector',
+    ],
+    explanationId: '### Goroutine\n`go f()` — concurrent, ringan, dijadwalkan Go runtime.\n\n### Channel\nUnbuffered (sinkron) vs buffered (async). `ch <- v` kirim, `<-ch` terima.\n\n### Select & Pipeline\n`select` untuk multiplexing. Pipeline: generator → processor → collector.',
+    explanationEn: '### Goroutines\n`go f()` — lightweight concurrent functions.\n\n### Channels\nUnbuffered (sync) vs buffered (async).\n\n### Select & Pipeline\nMultiplexing with select. Pipeline pattern.',
+    experimentsId: [
+      'Buat pipeline 3 stage: generate → double → print',
+      'Coba select dengan default case (non-blocking)',
+      'Buat fan-in: gabungkan 2 channel ke 1',
+      'Implementasikan worker pool dengan WaitGroup',
+    ],
+    experimentsEn: [
+      'Create 3-stage pipeline: generate → double → print',
+      'Try select with default case (non-blocking)',
+      'Create fan-in: merge 2 channels into 1',
+      'Implement worker pool with WaitGroup',
+    ],
+    challengeId: 'Buat web crawler concurrent: fetch multiple URLs secara paralel dengan goroutine + channel. Batasi concurrency dengan worker pool.',
+    challengeEn: 'Build a concurrent web crawler: fetch multiple URLs in parallel with goroutines + channels. Limit concurrency with worker pool.',
+    summaryId: 'Minggu 8 dari 13: **Goroutine & Channel** (Level: Menengah). Ini yang membuat Go unik. Minggu depan: **Context & Sinkronisasi**.',
+    summaryEn: 'Week 8 of 13: **Goroutines & Channels** (Level: Intermediate). This is what makes Go unique. Next week: **Context & Synchronization**.',
+  },
+  {
+    week: 9, level: 'intermediate', topicId: 'context-sync',
+    titleId: 'Context & Sinkronisasi', titleEn: 'Context & Synchronization',
+    programId: 'Worker Pool', programEn: 'Worker Pool',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'go',
+    code: `package main
 
 import (
     "context"
@@ -641,7 +726,6 @@ func doWork(ctx context.Context, id int, wg *sync.WaitGroup) {
     }
 }
 
-// Worker pool
 type Pool struct {
     jobs    chan int
     results chan int
@@ -668,7 +752,6 @@ func (p *Pool) worker(id int) {
 }
 
 func main() {
-    // Context timeout
     ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
     defer cancel()
 
@@ -679,13 +762,10 @@ func main() {
     }
     wg.Wait()
 
-    // Worker pool
     fmt.Println("\\nWorker Pool:")
     pool := NewPool(3)
     go func() {
-        for i := 1; i <= 5; i++ {
-            pool.jobs <- i
-        }
+        for i := 1; i <= 5; i++ { pool.jobs <- i }
         close(pool.jobs)
     }()
 
@@ -698,128 +778,135 @@ func main() {
         fmt.Printf("Hasil: %d\\n", r)
     }
 }`,
-
-  13: `package main
+    objectivesId: [
+      'context.Context untuk cancellation dan timeout',
+      'context.WithCancel, WithTimeout, WithDeadline',
+      'sync.WaitGroup untuk menunggu goroutine selesai',
+      'sync.Mutex untuk proteksi data race',
+      'Worker pool pattern dan fan-in/fan-out',
+    ],
+    objectivesEn: [
+      'context.Context for cancellation and timeouts',
+      'context.WithCancel, WithTimeout, WithDeadline',
+      'sync.WaitGroup to wait for goroutines to finish',
+      'sync.Mutex to protect against data races',
+      'Worker pool pattern and fan-in/fan-out',
+    ],
+    explanationId: '### context.Context\nCancellation, timeout, nilai antar API. `WithCancel`, `WithTimeout`.\n\n### sync Package\n`WaitGroup` untuk tunggu goroutine. `Mutex` untuk proteksi data race.\n\n### Worker Pool\nN worker proses jobs dari channel terbatas.',
+    explanationEn: '### context.Context\nCancellation and timeouts.\n\n### sync Package\nWaitGroup and Mutex.\n\n### Worker Pool\nBounded concurrency with worker pools.',
+    experimentsId: [
+      'Buat context dengan value: ctx = context.WithValue(ctx, "key", val)',
+      'Coba race condition: hapus Mutex, jalankan dengan -race',
+      'Buat fan-out: distribusikan jobs ke multiple workers',
+      'Implementasikan graceful shutdown dengan signal handling',
+    ],
+    experimentsEn: [
+      'Create context with value: ctx = context.WithValue(ctx, "key", val)',
+      'Try race condition: remove Mutex, run with -race',
+      'Create fan-out: distribute jobs to multiple workers',
+      'Implement graceful shutdown with signal handling',
+    ],
+    challengeId: 'Buat HTTP server dengan graceful shutdown: handle SIGINT, cancel context, tunggu active requests selesai.',
+    challengeEn: 'Build an HTTP server with graceful shutdown: handle SIGINT, cancel context, wait for active requests to complete.',
+    summaryId: 'Minggu 9 dari 13: **Context & Sinkronisasi** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Stdlib: I/O, Time & Encoding** (Advanced).',
+    summaryEn: 'Week 9 of 13: **Context & Synchronization** (Level: Intermediate). Intermediate phase complete! Next week: **Stdlib: I/O, Time & Encoding** (Advanced).',
+  },
+  // ── ADVANCED (weeks 10-13) ────────────────────────────────────────────────
+  {
+    week: 10, level: 'advanced', topicId: 'stdlib-io-encoding',
+    titleId: 'Stdlib: I/O, Time & Encoding', titleEn: 'Stdlib: I/O, Time & Encoding',
+    programId: 'Pembaca Log & JSON', programEn: 'Log Reader & JSON',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'go',
+    code: `package main
 
 import (
     "bufio"
-    "fmt"
-    "log"
-    "strings"
-    "time"
-)
-
-// io.Reader with strings
-func processData(data string) {
-    scanner := bufio.NewScanner(strings.NewReader(data))
-    lineNum := 1
-    for scanner.Scan() {
-        line := scanner.Text()
-        fmt.Printf("%d: %s\\n", lineNum, line)
-        lineNum++
-    }
-}
-
-func main() {
-    // String manipulation
-    text := "  Go Programming Language  "
-    fmt.Println("Trimmed:", strings.TrimSpace(text))
-    fmt.Println("Replace:", strings.ReplaceAll(text, "Go", "Go"))
-    fmt.Println("Fields:", strings.Fields(text))
-
-    // strconv (simulasi)
-    numStr := "42"
-    var num int = 0
-    _, _ = fmt.Sscanf(numStr, "%d", &num)
-    fmt.Printf("Parsed int: %d\\n", num)
-
-    // bufio.Scanner
-    data := "baris pertama\\nbaris kedua\\nbaris ketiga"
-    fmt.Println("\\n=== Scanner ===")
-    processData(data)
-
-    // time
-    now := time.Now()
-    fmt.Println("\\nSekarang:", now.Format("2006-01-02 15:04:05"))
-    fmt.Println("Tanggal:", now.Format("Monday, 2 January 2006"))
-
-    duration := 2*time.Hour + 30*time.Minute
-    fmt.Printf("Durasi: %v (menit: %.0f)\\n", duration, duration.Minutes())
-
-    // log
-    log.Println("Aplikasi berjalan")
-    log.Printf("Memproses %d item\\n", 10)
-}`,
-
-  14: `package main
-
-import (
     "encoding/json"
     "fmt"
-    "sort"
+    "strings"
+    "time"
 )
 
 type Task struct {
     ID     int    \`json:"id"\`
     Title  string \`json:"title"\`
     Done   bool   \`json:"done"\`
-    Priority int  \`json:"priority"\`
 }
 
 func main() {
-    // Marshal (struct -> JSON)
-    tasks := []Task{
-        {ID: 1, Title: "Belajar Go", Done: false, Priority: 1},
-        {ID: 2, Title: "Membuat API", Done: true, Priority: 2},
+    data := "baris pertama\\nbaris kedua\\nbaris ketiga"
+    scanner := bufio.NewScanner(strings.NewReader(data))
+    lineNum := 1
+    for scanner.Scan() {
+        fmt.Printf("%d: %s\\n", lineNum, scanner.Text())
+        lineNum++
     }
 
-    jsonData, err := json.MarshalIndent(tasks, "", "  ")
-    if err != nil {
-        fmt.Println("Error marshaling:", err)
-        return
+    now := time.Now()
+    fmt.Println("\\nSekarang:", now.Format("2006-01-02 15:04:05"))
+
+    tasks := []Task{
+        {ID: 1, Title: "Belajar Go", Done: false},
+        {ID: 2, Title: "Membuat API", Done: true},
     }
-    fmt.Println("=== JSON Output ===")
+    jsonData, _ := json.MarshalIndent(tasks, "", "  ")
+    fmt.Println("\\n=== JSON Output ===")
     fmt.Println(string(jsonData))
 
-    // Unmarshal (JSON -> struct)
-    jsonInput := \`[{"id":3,"title":"Testing","done":false,"priority":3}]\`
+    jsonInput := \`[{"id":3,"title":"Testing","done":false}]\`
     var newTasks []Task
-    err = json.Unmarshal([]byte(jsonInput), &newTasks)
-    if err != nil {
-        fmt.Println("Error unmarshaling:", err)
-        return
-    }
+    json.Unmarshal([]byte(jsonInput), &newTasks)
     fmt.Println("\\n=== Parsed JSON ===")
     for _, t := range newTasks {
         fmt.Printf("Task %d: %s (done: %v)\\n", t.ID, t.Title, t.Done)
     }
-
-    // Sort
-    nums := []int{5, 2, 8, 1, 9}
-    sort.Ints(nums)
-    fmt.Println("\\nSorted:", nums)
-
-    names := []string{"Budi", "Alex", "Siti"}
-    sort.Strings(names)
-    fmt.Println("Sorted names:", names)
-
-    // Custom sort by priority
-    sort.Slice(tasks, func(i, j int) bool {
-        return tasks[i].Priority < tasks[j].Priority
-    })
-    fmt.Println("By priority:")
-    for _, t := range tasks {
-        fmt.Printf("  %s (prioritas %d)\\n", t.Title, t.Priority)
-    }
 }`,
-
-  15: `package main
+    objectivesId: [
+      'io.Reader dan io.Writer sebagai interface fundamental I/O',
+      'bufio.Scanner untuk membaca baris per baris',
+      'time: Duration, Format layout, Ticker, Timer',
+      'json.Marshal dan json.Unmarshal: Go struct ↔ JSON',
+      'Struct tags: `json:"name,omitempty"` untuk kontrol field',
+    ],
+    objectivesEn: [
+      'io.Reader and io.Writer as fundamental I/O interfaces',
+      'bufio.Scanner for line-by-line reading',
+      'time: Duration, Format layout, Ticker, Timer',
+      'json.Marshal and json.Unmarshal: Go struct ↔ JSON',
+      'Struct tags: `json:"name,omitempty"` for field control',
+    ],
+    explanationId: '### io.Reader/Writer\nInterface fundamental I/O. `bufio.Scanner` untuk baca baris.\n\n### time Package\n`time.Now()`, Format layout `2006-01-02 15:04:05`.\n\n### JSON\n`Marshal`/`Unmarshal`. Struct tags: `json:"name,omitempty"`.',
+    explanationEn: '### io.Reader/Writer\nFundamental I/O interfaces.\n\n### time Package\nTime formatting with reference layout.\n\n### JSON\nMarshal/Unmarshal with struct tags.',
+    experimentsId: [
+      'Baca file dengan os.ReadFile dan parse JSON',
+      'Buat custom time format: "Monday, 2 January 2006"',
+      'Coba json.Encoder untuk streaming write',
+      'Buat struct dengan nested JSON dan custom tags',
+    ],
+    experimentsEn: [
+      'Read file with os.ReadFile and parse JSON',
+      'Create custom time format: "Monday, 2 January 2006"',
+      'Try json.Encoder for streaming write',
+      'Create struct with nested JSON and custom tags',
+    ],
+    challengeId: 'Buat program log parser: baca file log, parse timestamp, filter by level (INFO/ERROR), output sebagai JSON.',
+    challengeEn: 'Build a log parser: read log file, parse timestamps, filter by level (INFO/ERROR), output as JSON.',
+    summaryId: 'Minggu 10 dari 13: **Stdlib: I/O, Time & Encoding** (Level: Lanjutan). Standard library yang powerful. Minggu depan: **HTTP Server & Middleware**.',
+    summaryEn: 'Week 10 of 13: **Stdlib: I/O, Time & Encoding** (Level: Advanced). Powerful standard library. Next week: **HTTP Server & Middleware**.',
+  },
+  {
+    week: 11, level: 'advanced', topicId: 'http-server',
+    titleId: 'HTTP Server & Middleware', titleEn: 'HTTP Server & Middleware',
+    programId: 'REST API', programEn: 'REST API',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'go',
+    code: `package main
 
 import (
     "encoding/json"
     "fmt"
     "net/http"
-    "strings"
 )
 
 type Item struct {
@@ -827,13 +914,11 @@ type Item struct {
     Name string \`json:"name"\`
 }
 
-// In-memory store
 var items = []Item{
     {ID: 1, Name: "Belajar Go"},
     {ID: 2, Name: "Membuat HTTP Server"},
 }
 
-// Middleware
 func loggingMiddleware(next http.Handler) http.Handler {
     return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
         fmt.Printf("[%s] %s %s\\n", r.Method, r.URL.Path, r.RemoteAddr)
@@ -841,10 +926,8 @@ func loggingMiddleware(next http.Handler) http.Handler {
     })
 }
 
-// Handler
 func itemsHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
-
     switch r.Method {
     case "GET":
         json.NewEncoder(w).Encode(items)
@@ -866,42 +949,141 @@ func itemsHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
     mux := http.NewServeMux()
     mux.HandleFunc("/items", itemsHandler)
-
     handler := loggingMiddleware(mux)
 
     fmt.Println("Server berjalan di :8080")
     fmt.Println("Endpoint: GET/POST /items")
-    fmt.Println("\\nJalankan dengan 'go run' untuk test sebenarnya")
-    fmt.Println("Contoh: curl http://localhost:8080/items")
 
-    // Simulasi langsung
     req := &http.Request{Method: "GET", URL: nil}
     _ = req
-    fmt.Printf("\\nSimulasi request GET /items -> %d items\\n", len(items))
+    fmt.Printf("\\nSimulasi GET /items -> %d items\\n", len(items))
     for _, item := range items {
         fmt.Printf("  - %d: %s\\n", item.ID, item.Name)
     }
+}`,
+    objectivesId: [
+      'net/http: ServeMux, HandleFunc, ListenAndServe',
+      'http.Handler interface dan handler chaining',
+      'Middleware pattern: logging, recovery, CORS',
+      'JSON API endpoint: encode/decode request body',
+      'Routing: path params, query string, method dispatch',
+    ],
+    objectivesEn: [
+      'net/http: ServeMux, HandleFunc, ListenAndServe',
+      'http.Handler interface and handler chaining',
+      'Middleware pattern: logging, recovery, CORS',
+      'JSON API endpoints: encode/decode request body',
+      'Routing: path params, query string, method dispatch',
+    ],
+    explanationId: '### net/http\n`HandleFunc`, `ListenAndServe`. Handler: `func(w, r)`.\n\n### Middleware\nWrap handler: `loggingMiddleware(recoveryMiddleware(handler))`.\n\n### JSON API\n`json.NewEncoder(w).Encode(data)`, `json.NewDecoder(r.Body).Decode(&data)`.',
+    explanationEn: '### net/http\nHandleFunc, ListenAndServe.\n\n### Middleware\nHandler wrapping pattern.\n\n### JSON API\nEncode/decode JSON requests and responses.',
+    experimentsId: [
+      'Tambah endpoint DELETE /items/:id',
+      'Buat middleware CORS: set Access-Control-Allow-Origin',
+      'Tambah query string filter: /items?limit=10',
+      'Implementasikan graceful shutdown dengen Shutdown()',
+    ],
+    experimentsEn: [
+      'Add DELETE /items/:id endpoint',
+      'Create CORS middleware: set Access-Control-Allow-Origin',
+      'Add query string filter: /items?limit=10',
+      'Implement graceful shutdown with Shutdown()',
+    ],
+    challengeId: 'Buat REST API lengkap untuk Task Manager: CRUD endpoints, middleware (logging, auth), JSON responses, proper HTTP status codes.',
+    challengeEn: 'Build a complete REST API for Task Manager: CRUD endpoints, middleware (logging, auth), JSON responses, proper HTTP status codes.',
+    summaryId: 'Minggu 11 dari 13: **HTTP Server & Middleware** (Level: Lanjutan). Backend development dengan Go. Minggu depan: **Testing & CLI Tools**.',
+    summaryEn: 'Week 11 of 13: **HTTP Server & Middleware** (Level: Advanced). Backend development with Go. Next week: **Testing & CLI Tools**.',
+  },
+  {
+    week: 12, level: 'advanced', topicId: 'testing-cli',
+    titleId: 'Testing & CLI Tools', titleEn: 'Testing & CLI Tools',
+    programId: 'Unit Test & Flag', programEn: 'Unit Test & Flags',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'go',
+    code: `package main
 
-    // Test function (simulasi)
-    testGetItems()
+import (
+    "flag"
+    "fmt"
+)
+
+func Add(a, b int) int { return a + b }
+
+func Divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("cannot divide by zero")
+    }
+    return a / b, nil
 }
 
-// Simulasi table-driven test
-func testGetItems() {
-    tests := []struct {
-        name string
-        method string
-        want int
-    }{
-        {"get all items", "GET", 2},
+func main() {
+    name := flag.String("name", "World", "Nama untuk sapaan")
+    count := flag.Int("count", 1, "Jumlah pengulangan")
+    verbose := flag.Bool("v", false, "Mode verbose")
+
+    fmt.Println("=== CLI Flag (simulasi) ===")
+    fmt.Printf("Name: %s, Count: %d, Verbose: %v\\n", *name, *count, *verbose)
+
+    for i := 0; i < *count; i++ {
+        fmt.Printf("Halo, %s! (%d)\\n", *name, i+1)
     }
-    for _, tt := range tests {
-        fmt.Printf("Test: %s -> expected %d items\\n", tt.name, tt.want)
-        _ = strings.ToUpper(tt.method)
+
+    fmt.Println("\\n=== Test Simulation ===")
+    fmt.Printf("Add(2,3) = %d (expected 5)\\n", Add(2, 3))
+    fmt.Printf("Add(-1,-1) = %d (expected -2)\\n", Add(-1, -1))
+
+    result, err := Divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Printf("Divide(10,2) = %.1f\\n", result)
+    }
+
+    _, err = Divide(5, 0)
+    if err != nil {
+        fmt.Println("Divide(5,0) error:", err)
     }
 }`,
-
-  16: `package main
+    objectivesId: [
+      'testing package: func TestXxx(t *testing.T)',
+      'Table-driven tests: array struct input/expect (Effective Go)',
+      'httptest.NewRecorder dan httptest.NewServer untuk HTTP test',
+      'flag package: flag.String, flag.Int, flag.Parse',
+      'go test -cover, -race, -bench untuk kualitas kode',
+    ],
+    objectivesEn: [
+      'testing package: func TestXxx(t *testing.T)',
+      'Table-driven tests: struct array input/expect (Effective Go)',
+      'httptest.NewRecorder and httptest.NewServer for HTTP tests',
+      'flag package: flag.String, flag.Int, flag.Parse',
+      'go test -cover, -race, -bench for code quality',
+    ],
+    explanationId: '### Testing\n`func TestXxx(t *testing.T)`. Table-driven tests dengan `t.Run`.\n\n### httptest\n`NewRecorder()` mock ResponseWriter, `NewServer()` untuk integration test.\n\n### flag Package\n`flag.String`, `flag.Int`, `flag.Parse`.',
+    explanationEn: '### Testing\nTest functions and table-driven tests.\n\n### httptest\nMock ResponseWriter and test server.\n\n### flag Package\nCLI flag definitions.',
+    experimentsId: [
+      'Buat table-driven test untuk Add dan Divide',
+      'Coba benchmark: func BenchmarkAdd(b *testing.B)',
+      'Buat test dengan httptest.NewRecorder',
+      'Implementasikan sub-tests dengan t.Run',
+    ],
+    experimentsEn: [
+      'Create table-driven tests for Add and Divide',
+      'Try benchmark: func BenchmarkAdd(b *testing.B)',
+      'Create test with httptest.NewRecorder',
+      'Implement sub-tests with t.Run',
+    ],
+    challengeId: 'Buat CLI tool dengan flag: calculator (add, sub, mul, div) dengan proper error handling dan unit tests.',
+    challengeEn: 'Build a CLI tool with flags: calculator (add, sub, mul, div) with proper error handling and unit tests.',
+    summaryId: 'Minggu 12 dari 13: **Testing & CLI Tools** (Level: Lanjutan). Kualitas kode dan tooling. Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 12 of 13: **Testing & CLI Tools** (Level: Advanced). Code quality and tooling. Next week: **Capstone Project**!',
+  },
+  {
+    week: 13, level: 'advanced', topicId: 'capstone',
+    titleId: 'Capstone: REST API + CLI', titleEn: 'Capstone: REST API + CLI',
+    programId: 'Manajemen Catatan', programEn: 'Note Manager',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'go',
+    code: `package main
 
 import (
     "encoding/json"
@@ -917,7 +1099,7 @@ type Note struct {
 }
 
 type NoteManager struct {
-    notes []Note
+    notes  []Note
     nextID int
 }
 
@@ -934,9 +1116,7 @@ func (nm *NoteManager) Add(title, content string) Note {
 
 func (nm *NoteManager) Get(id int) (Note, bool) {
     for _, n := range nm.notes {
-        if n.ID == id {
-            return n, true
-        }
+        if n.ID == id { return n, true }
     }
     return Note{}, false
 }
@@ -960,23 +1140,12 @@ func (nm *NoteManager) List() []Note {
 
 func (nm *NoteManager) SaveJSON(filename string) error {
     data, err := json.MarshalIndent(nm.notes, "", "  ")
-    if err != nil {
-        return fmt.Errorf("marshal error: %w", err)
-    }
+    if err != nil { return fmt.Errorf("marshal error: %w", err) }
     return os.WriteFile(filename, data, 0644)
-}
-
-func (nm *NoteManager) LoadJSON(filename string) error {
-    data, err := os.ReadFile(filename)
-    if err != nil {
-        return fmt.Errorf("read error: %w", err)
-    }
-    return json.Unmarshal(data, &nm.notes)
 }
 
 func main() {
     nm := New()
-
     nm.Add("Belajar Go", "Materi package, function, dan testing")
     nm.Add("REST API", "Buat handler dengan net/http")
     nm.Add("CLI Tool", "Gunakan package flag")
@@ -987,11 +1156,10 @@ func main() {
     }
 
     fmt.Println("\\n=== CLI Flag (simulasi) ===")
-    fmt.Println("Go run note.go -add 'Judul Baru'")
-    fmt.Println("Go run note.go -list")
-    fmt.Println("Go run note.go -delete 1")
+    fmt.Println("go run note.go -add 'Judul Baru'")
+    fmt.Println("go run note.go -list")
+    fmt.Println("go run note.go -delete 1")
 
-    // Simpan ke JSON
     filename := "notes.json"
     if err := nm.SaveJSON(filename); err != nil {
         fmt.Println("Save error:", err)
@@ -999,7 +1167,6 @@ func main() {
         fmt.Printf("\\nData tersimpan ke %s\\n", filename)
     }
 
-    // CLI-like command simulation
     args := []string{"note", "-list"}
     if len(args) > 1 && args[1] == "-list" {
         fmt.Println("\\n=== Hasil CLI: -list ===")
@@ -1008,95 +1175,49 @@ func main() {
         }
     }
 }`,
-};
+    objectivesId: [
+      'Menggabungkan semua konsep: struct, interface, concurrency, HTTP',
+      'Repository pattern: pemisahan data access dan business logic',
+      'CLI dengan flag + REST API dengan net/http',
+      'Penyimpanan data JSON file dan in-memory',
+      'Testing: unit test, table-driven test, HTTP test',
+    ],
+    objectivesEn: [
+      'Combine all concepts: structs, interfaces, concurrency, HTTP',
+      'Repository pattern: separate data access and business logic',
+      'CLI with flags + REST API with net/http',
+      'JSON file and in-memory data storage',
+      'Testing: unit tests, table-driven tests, HTTP tests',
+    ],
+    explanationId: '### Repository Pattern\nPemisahan data access dan business logic.\n\n### CLI + REST API\nSatu binary untuk server dan CLI tool.\n\n### Testing Integration\nUnit test, table-driven test, HTTP test, coverage.',
+    explanationEn: '### Repository Pattern\nSeparate data access from business logic.\n\n### CLI + REST API\nSingle binary for both.\n\n### Testing Integration\nUnit, table-driven, HTTP tests.',
+    experimentsId: [
+      'Tambah method Update untuk NoteManager',
+      'Implementasikan LoadJSON untuk load dari file',
+      'Buat HTTP handler untuk NoteManager',
+      'Tambah unit test untuk semua method',
+    ],
+    experimentsEn: [
+      'Add Update method for NoteManager',
+      'Implement LoadJSON to load from file',
+      'Create HTTP handler for NoteManager',
+      'Add unit tests for all methods',
+    ],
+    challengeId: 'Buat aplikasi capstone lengkap: REST API + CLI + JSON storage + testing. Pilih domain: Task Manager, Blog, atau Inventory.',
+    challengeEn: 'Build a complete capstone application: REST API + CLI + JSON storage + testing. Choose domain: Task Manager, Blog, or Inventory.',
+    summaryId: 'Minggu 13 dari 13: **Capstone: REST API + CLI** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Go dari nol hingga production-ready.',
+    summaryEn: 'Week 13 of 13: **Capstone: REST API + CLI** (Level: Advanced). Complete! 🎉 You\'ve mastered Go from scratch to production-ready.',
+  },
+];
 
-function getExplanation(mod, isId) {
-  const E = {
-    1: { id: 'Go adalah bahasa compiled, statically typed yang dikembangkan Google. Toolchain utama: `go run` (jalankan langsung), `go build` (kompilasi ke binary), `go fmt` (format kode), `go test` (jalankan test). Struktur file Go: `package main`, `import`, `func main()`. `fmt.Println` mencetak dengan newline, `fmt.Printf` dengan format verb.', en: 'Go is a compiled, statically typed language developed by Google. Main toolchain: `go run` (run directly), `go build` (compile to binary), `go fmt` (format code), `go test` (run tests). Go file structure: `package main`, `import`, `func main()`. `fmt.Println` prints with newline, `fmt.Printf` uses format verbs.' },
-    2: { id: '`var nama tipe = nilai` untuk deklarasi eksplisit. `:=` untuk short declaration dengan type inference. Tipe dasar: `int`, `float64`, `string`, `bool`. Zero values: 0 untuk numerik, "" untuk string, false untuk bool. `const` untuk konstanta. `iota` untuk increment otomatis dalam blok const.', en: '`var name type = value` for explicit declaration. `:=` for short declaration with type inference. Basic types: `int`, `float64`, `string`, `bool`. Zero values: 0 for numeric, "" for string, false for bool. `const` for constants. `iota` for auto-increment in const blocks.' },
-    3: { id: '`if` bisa punya short statement: `if x := 10; x > 5 {}`. `for` adalah satu-satunya loop di Go — bisa classic, while-style, atau infinite. `switch` tidak perlu `break`; setiap case berhenti otomatis. Tagless switch bisa untuk kondisi kompleks. `defer` menjadwalkan eksekusi fungsi setelah fungsi sekitarnya selesai.', en: '`if` can have a short statement: `if x := 10; x > 5 {}`. `for` is the only loop in Go — classic, while-style, or infinite. `switch` doesn\'t need `break`; each case stops automatically. Tagless switch works for complex conditions. `defer` schedules function execution after the surrounding function returns.' },
-    4: { id: 'Fungsi Go bisa multiple return values. Error handling idiomatis: `if err != nil { return err }`. `fmt.Errorf` dengan `%w` untuk wrapping error. `defer` dipakai untuk cleanup (tutup file, unlock mutex). Variadic function: `func sum(nums ...int)`. Named return memudahkan dokumentasi.', en: 'Go functions can return multiple values. Idiomatic error handling: `if err != nil { return err }`. `fmt.Errorf` with `%w` for error wrapping. `defer` is used for cleanup (close files, unlock mutex). Variadic functions: `func sum(nums ...int)`. Named returns improve documentation.' },
-    5: { id: 'Array: `[3]int` — fixed size, jarang langsung dipakai. Slice: `[]int` — dynamic, backbone Go. `append` untuk menambah, `make` untuk alokasi. Map: `map[string]int` — key-value, dengan ok idiom untuk cek keberadaan. `range` untuk iterasi slice, map, channel.', en: 'Arrays: `[3]int` — fixed size, rarely used directly. Slices: `[]int` — dynamic, Go\'s backbone. `append` to add, `make` to allocate. Maps: `map[string]int` — key-value, with ok idiom for existence check. `range` for iterating slices, maps, channels.' },
-    6: { id: 'Struct mengelompokkan field terkait. Method: fungsi dengan receiver — value receiver tidak mengubah struct, pointer receiver bisa. Embedded field untuk komposisi (Go tidak punya inheritance). Struct tags memberi metadata untuk encoding. Constructor function mengembalikan pointer.', en: 'Structs group related fields. Methods: functions with receivers — value receivers don\'t modify the struct, pointer receivers can. Embedded fields for composition (Go has no inheritance). Struct tags provide metadata for encoding. Constructor functions return pointers.' },
-    7: { id: 'Interface di Go bersifat implisit — struct cukup implement method interface tanpa kata kunci `implements`. Interface kosong `any` bisa menampung tipe apapun. Type assertion `x.(T)` dan type switch untuk memeriksa tipe konkret. Generics (Go 1.18+) membuat fungsi dan tipe reusable dengan type parameters.', en: 'Go interfaces are implicit — a struct just needs to implement the methods without an `implements` keyword. Empty interface `any` can hold any type. Type assertion `x.(T)` and type switch check concrete types. Generics (Go 1.18+) make functions and types reusable with type parameters.' },
-    8: { id: '`&` mengambil alamat memori, `*` mengakses nilai di alamat. Go pass by value — fungsi mendapat salinan. Pointer memungkinkan modifikasi original. Stack untuk lokal kecil, heap untuk data yang di-share. Nil pointer harus dicek sebelum dereference.', en: '`&` takes the memory address, `*` accesses the value at an address. Go is pass by value — functions get a copy. Pointers allow modifying the original. Stack for small locals, heap for shared data. Nil pointers must be checked before dereferencing.' },
-    9: { id: 'Setiap file Go milik sebuah package. Huruf besar = exported (public), huruf kecil = unexported (private). `go mod init nama-module` memulai module. `go mod tidy` membersihkan dependencies. Package standard seperti `fmt`, `strings`, `math`, `time` sudah built-in.', en: 'Every Go file belongs to a package. Uppercase = exported (public), lowercase = unexported (private). `go mod init module-name` starts a module. `go mod tidy` cleans up dependencies. Standard packages like `fmt`, `strings`, `math`, `time` are built-in.' },
-    10: { id: 'Goroutine: fungsi yang jalan concurrent dengan `go f()`. `sync.WaitGroup` menunggu goroutine selesai. `sync.Mutex` mencegah data race. Race detector `go run -race` mendeteksi akses concurrent berbahaya. Go\'s concurrency model: "Do not communicate by sharing memory; share memory by communicating."', en: 'Goroutines: functions running concurrently with `go f()`. `sync.WaitGroup` waits for goroutines to finish. `sync.Mutex` prevents data races. Race detector `go run -race` detects dangerous concurrent access. Go\'s concurrency model: "Do not communicate by sharing memory; share memory by communicating."' },
-    11: { id: 'Channel adalah pipe komunikasi antar goroutine. Unbuffered: sinkron (pengirim menunggu penerima). Buffered: async sampai buffer penuh. `select` menunggu multiple channel. Pipeline pattern: generator → process → collector. `close(ch)` menandai channel selesai.', en: 'Channels are communication pipes between goroutines. Unbuffered: synchronous (sender waits for receiver). Buffered: async until buffer is full. `select` waits on multiple channels. Pipeline pattern: generator → process → collector. `close(ch)` marks channel as done.' },
-    12: { id: '`context.Context` membawa cancellation, timeout, dan nilai. `WithCancel`, `WithTimeout`, `WithDeadline` untuk kontrol. `errgroup` menggabungkan error dari multiple goroutine. Worker pool membatasi concurrency. Fan-in menggabungkan channel, fan-out mendistribusikan.', en: '`context.Context` carries cancellation, timeout, and values. `WithCancel`, `WithTimeout`, `WithDeadline` for control. `errgroup` combines errors from multiple goroutines. Worker pool limits concurrency. Fan-in merges channels, fan-out distributes.' },
-    13: { id: '`io.Reader` dan `io.Writer` adalah interface fundamental untuk I/O. `bufio.Scanner` membaca baris per baris. `strings` package untuk manipulasi teks. `strconv` untuk konversi string⇄number. `time` untuk waktu, durasi, dan ticker. `log/slog` untuk structured logging.', en: '`io.Reader` and `io.Writer` are fundamental I/O interfaces. `bufio.Scanner` reads line by line. `strings` package for text manipulation. `strconv` for string⇄number conversion. `time` for time, duration, and tickers. `log/slog` for structured logging.' },
-    14: { id: '`encoding/json` — Marshal untuk Go→JSON, Unmarshal untuk JSON→Go. Struct tags `\`json:"name"\`` mengontrol nama field. `sort` package: `sort.Ints`, `sort.Strings`, `sort.Slice` dengan custom comparator. `encoding/csv` untuk data tabular.', en: '`encoding/json` — Marshal for Go→JSON, Unmarshal for JSON→Go. Struct tags `\`json:"name"\`` control field names. `sort` package: `sort.Ints`, `sort.Strings`, `sort.Slice` with custom comparators. `encoding/csv` for tabular data.' },
-    15: { id: '`net/http`: `HandleFunc` mendaftarkan handler, `ListenAndServe` menjalankan server. Middleware: fungsi yang membungkus http.Handler. Testing: `go test`, file `_test.go`. Table-driven test: array struct dengan input/ekspektasi. `httptest` untuk test HTTP tanpa server nyata.', en: '`net/http`: `HandleFunc` registers handlers, `ListenAndServe` starts the server. Middleware: functions wrapping http.Handler. Testing: `go test`, `_test.go` files. Table-driven tests: struct arrays with input/expectations. `httptest` for HTTP tests without a real server.' },
-    16: { id: 'Proyek akhir menggabungkan: struct, method, pointer, interface, slice, map, error handling, encoding/json, file I/O, sort, dan testing. CLI dengan `flag` package, REST API dengan `net/http`, penyimpanan JSON. Pattern repository memisahkan data dan logic.', en: 'Final project combines: structs, methods, pointers, interfaces, slices, maps, error handling, encoding/json, file I/O, sort, and testing. CLI with `flag` package, REST API with `net/http`, JSON storage. Repository pattern separates data and logic.' },
-  };
-  return E[mod][isId ? 'id' : 'en'];
+// Add weeks to levels
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
 }
 
-function generateFile(mod, isId) {
-  const lang = isId ? 'id' : 'en';
-  const title = isId ? mod.lid : mod.len;
-  const programTitle = isId ? mod.pid : mod.pen;
-  const obj = OBJ[mod.id];
-  const objectives = (isId ? obj.id : obj.en).map(o => '- ' + o).join('\n');
-  const code = CODE[mod.id];
-  const explanation = getExplanation(mod.id, isId);
-  const nextModule = MODULES.find(m => m.id === mod.id + 1);
-  const nextWeek = nextModule
-    ? (isId ? mod.id + 1 + '. ' + nextModule.lid : nextModule.len)
-    : (isId ? 'Selesai! 🎉' : 'Complete! 🎉');
-
-  const experiments = isId
-    ? 'Ubah nilai variabel dan lihat perubahannya,Tambah fungsi baru dengan tipe return berbeda,Ganti for loop dengan range, Coba tipe data yang belum dicoba'
-    : 'Change variable values and observe the changes,Add a new function with different return types,Replace for loops with range,Try data types you haven\'t used yet';
-
-  const experimentBullets = experiments.split(',')
-    .filter(Boolean)
-    .map(e => '- ' + e.trim())
-    .join('\n');
-
-  const expBullets = experimentBullets || (isId ? '- Eksperimen dengan kode di atas' : '- Experiment with the code above');
-
-  const challenge = isId
-    ? 'Buat program yang menerapkan konsep minggu ini dalam studi kasus nyata. Gunakan error handling yang baik. Pastikan kode bisa dijalankan dengan `go run`.'
-    : 'Build a program applying this week\'s concepts in a real case study. Use proper error handling. Ensure the code runs with `go run`.' + (mod.id === 10 ? '\nJalankan dengan: go run -race untuk deteksi race condition.' : '');
-
-  const summary = isId
-    ? 'Modul ' + mod.id + ' dari 16: **' + mod.lid + '**. Go memberikan performa tinggi dengan sintaks sederhana. Minggu depan: **' + nextWeek + '**.'
-    : 'Module ' + mod.id + ' of 16: **' + mod.len + '**. Go delivers high performance with simple syntax. Next week: **' + nextWeek + '**.';
-
-  return '# ' + title + '\n\n'
-    + '> Go | ' + (isId ? 'Modul ' + mod.id : 'Module ' + mod.id) + '\n\n'
-    + '## ' + (isId ? 'Tujuan Pembelajaran' : 'Learning Objectives') + '\n\n'
-    + objectives + '\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Program' : 'Program') + ': ' + programTitle + '\n\n'
-    + '```go\n' + code + '\n```\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Penjelasan' : 'Explanation') + '\n\n'
-    + explanation + '\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Eksperimen' : 'Experiments') + '\n\n'
-    + expBullets + '\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Tantangan' : 'Challenge') + '\n\n'
-    + challenge + '\n\n'
-    + '---\n\n'
-    + '## ' + (isId ? 'Ringkasan' : 'Summary') + '\n\n'
-    + summary + '\n';
-}
-
-if (!fs.existsSync(BASE)) {
-  fs.mkdirSync(path.join(BASE, 'id'), { recursive: true });
-  fs.mkdirSync(path.join(BASE, 'en'), { recursive: true });
-}
-
-for (const mod of MODULES) {
-  const idContent = generateFile(mod, true);
-  const enContent = generateFile(mod, false);
-  fs.writeFileSync(path.join(BASE, 'id', 'week' + mod.id + '-' + mod.f + '.md'), idContent, 'utf8');
-  fs.writeFileSync(path.join(BASE, 'en', 'week' + mod.id + '-' + mod.f + '.md'), enContent, 'utf8');
-  console.log('  ' + mod.id + '. ' + mod.lid + ' / ' + mod.len);
-}
-
-console.log('\n✓ Generated ' + (MODULES.length * 2) + ' Go curriculum files (' + MODULES.length + ' modules × 2 languages)');
-console.log('  Output: ' + BASE);
+gen.writeFiles(MODULES, LEVELS);

@@ -1,1544 +1,1463 @@
-import fs from 'fs';
-import path from 'path';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const BASE = new URL('../public/data/course/python', import.meta.url).pathname;
-const BASE_DIR = process.platform === 'win32' ? BASE.slice(1) : BASE;
+// Python curriculum generator
+const gen = new BaseGenerator('python', 'Python');
 
-// ===== PHASES (research-based: Scaler, MOOC.fi Helsinki, Real Python, DataCamp, CourseFacts,
-//      That Le loop/collection syntheses, ACM/CIT misconceptions, CLT worked examples) =====
-const PHASES = [
-  { phase: 1, id: 'foundations', nameId: 'Foundasi Python', nameEn: 'Python Foundations' },
-  { phase: 2, id: 'collections-functions', nameId: 'Koleksi & Fungsi', nameEn: 'Collections & Functions' },
-  { phase: 3, id: 'oop-io', nameId: 'OOP & I/O', nameEn: 'OOP & I/O' },
-  { phase: 4, id: 'real-world', nameId: 'Dunia Nyata', nameEn: 'Real-World Python' },
-];
-
-// StackBlitz WebContainers Python: stdlib-only (no pip/native packages).
-// "python3" tersedia di shell; output console tampil di panel preview.
-const BASE_PROJECT_FILES = {
-  'package.json': JSON.stringify({
-    name: 'python-lesson',
-    version: '1.0.0',
-    private: true,
-    scripts: { dev: 'python3 index.py' },
-  }, null, 2),
-  'index.py': `print("Ganti dengan kode pelajaran")`,
-};
-
-// ===== PHASE 1: FOUNDATIONS (lessons 1-4) =====
-const LESSONS_P1 = [
+const LEVELS = [
   {
-    phase: 1, num: 1, topicId: 'pengenalan-variabel',
-    titleId: 'Pengenalan Python & Variabel', titleEn: 'Python Intro & Variables',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# Variabel adalah LABEL yang menunjuk ke sebuah nilai.
-# Variabel BUKAN "kotak" yang menampung banyak nilai sekaligus.
-
-name = "Ayu"
-age = 26
-height = 1.65
-is_learner = True
-
-print("Halo,", name, "!")
-print(f"Umur: {age} tahun | Tinggi: {height} m | Pelajar: {is_learner}")
-
-# Ekspresi dievaluasi saat program berjalan
-print(f"Tahun depan: {age + 1}")
-print(f"Umur dalam bulan: {age * 12}")
-
-# Reassignment: nilai lama DIGANTI, bukan ditumpuk
-score = 10
-print(f"Score awal: {score}")
-score = 20
-print(f"Score baru: {score}")
-
-# Tipe data: int, float, str, bool
-print(type(42))     # <class 'int'>
-print(type(3.14))   # <class 'float'>
-print(type("42"))   # <class 'str'>  -- tanda kutip = string!
-print(type(True))   # <class 'bool'>
-`,
-      };
-    },
-    objId: ['Memahami variabel sebagai label, bukan kotak', 'Mengenal 4 tipe data dasar: int, float, str, bool', 'Menulis output dengan f-strings', 'Memahami reassignment dan arti tanda kutip'],
-    objEn: ['Understand variables as labels, not boxes', 'Know the 4 basic types: int, float, str, bool', 'Write output with f-strings', 'Understand reassignment and the meaning of quotes'],
-    expId: `## Variabel = Label, Bukan Kotak
-Riset misconception (Cabo, n=108) menemukan 37% pemula percaya variabel bisa menyimpan beberapa nilai sekaligus, dan 34% percaya nilai tidak bisa diganti. Faktanya: \`score = 10\` lalu \`score = 20\` — variabel menunjuk ke satu nilai; nilai lama diganti, tidak pernah menumpuk.
-\n## Tipe Data
-\`int\` (bilangan bulat), \`float\` (desimal), \`str\` (teks), \`bool\` (True/False). Gunakan \`type()\` untuk memeriksa. 46% pemula salah membedakan \`"2.5"\` (string!) dengan \`2.5\` (float) — tanda kutip menentukan tipe.
-\n## f-strings
-\`f"..."\` dengan \`{ekspresi}\` adalah satu-satunya cara format yang diajarkan di track ini (StackOverflow: "show only one method, stick to it"). Hindari \`+\` berantai dan legacy \`%\`/\`.format()\`.
-\n## Reassignment & Komentar
-Nama variabel case-sensitive dan harus deskriptif (\`is_learner\` bukan \`x\`). Komentar \`#\` menjelaskan "mengapa", bukan "apa".`,
-    expEn: `## Variables = Labels, Not Boxes
-Misconception research (Cabo, n=108) found 37% of beginners believe a variable can hold several values at once, and 34% believe values cannot be changed. In fact: \`score = 10\` then \`score = 20\` — a variable points to one value; the old value is replaced, never stacked.
-\n## Data Types
-\`int\` (integers), \`float\` (decimals), \`str\` (text), \`bool\` (True/False). Use \`type()\` to check. 46% of beginners misread \`"2.5"\` (a string!) vs \`2.5\` (a float) — quotes determine the type.
-\n## f-strings
-\`f"..."\` with \`{expression}\` is the only formatting approach taught in this track (StackOverflow: "show only one method, stick to it"). Avoid chained \`+\` and legacy \`%\`/\`.format()\`.
-\n## Reassignment & Comments
-Variable names are case-sensitive and should be descriptive (\`is_learner\`, not \`x\`). \`#\` comments explain "why", not "what".`,
-    chId: 'Buat profil singkat dengan 4 variabel (str, int, float, bool) dan tampilkan dengan f-strings. Lalu prediksi output sebelum menjalankan: (1) \u0060a = 5; a = a + 3; print(a)\u0060, (2) \u0060b = "5"; print(b + 3)\u0060 — jelaskan kenapa (2) error (TypeError).',
-    chEn: 'Create a short profile with 4 variables (str, int, float, bool) shown with f-strings. Then predict the output before running: (1) \u0060a = 5; a = a + 3; print(a)\u0060, (2) \u0060b = "5"; print(b + 3)\u0060 — explain why (2) errors (TypeError).',
-    sumId: 'Variabel = label ke satu nilai. 4 tipe dasar + type(). f-strings untuk output. Reassignment mengganti, tidak menumpuk. Lanjut: tipe data & kondisi.',
-    sumEn: 'Variables = labels to one value. 4 basic types + type(). f-strings for output. Reassignment replaces, never stacks. Next: data types & conditionals.',
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Dasar Python: syntax, tipe data, control flow, functions.',
+    descEn: 'Python basics: syntax, data types, control flow, functions.',
   },
   {
-    phase: 1, num: 2, topicId: 'tipe-data-kondisi',
-    titleId: 'Tipe Data & Kondisi', titleEn: 'Data Types & Conditionals',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ---- Casting: mengubah antar tipe ----
-age_str = "26"
-age = int(age_str)
-print(f"'{age_str}' -> int {age}, tahun depan {age + 1}")
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'Python idiomatic: collections, OOP, file I/O, error handling.',
+    descEn: 'Idiomatic Python: collections, OOP, file I/O, error handling.',
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Production Python: libraries, testing, CLI tools, capstone project.',
+    descEn: 'Production Python: libraries, testing, CLI tools, capstone project.',
+  },
+];
 
-price_str = "185000"
-price = float(price_str)
-print(f"Harga float: {price}, diskon 10%: {price * 0.10}")
+const MODULES = [
 
-# = vs == : = menugaskan, == membandingkan
-total = 100
-print(f"total = 100 -> {total}")
-print(f"total == 100 -> {total == 100}")
+  // Week 1 - Dasar Python & Sintaks
+  {
+    week: 1, level: 'beginer', topicId: 'dasar-python',
+    titleId: 'Dasar Python & Sintaks', titleEn: 'Python Basics & Syntax',
+    programId: 'Halo, Python!', programEn: 'Hello, Python!',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'python',
+    code: `
+# Dasar Python & Sintaks
+print("Selamat datang di Python!")
+print("Python adalah bahasa interpreted, dynamically typed.")
 
-# ---- Operator aritmatika ----
-a, b = 7, 2
+# Variabel — tidak perlu deklarasi tipe
+nama = "Pyverse"
+versi = 3.12
+aktif = True
+tahun = 2024
+
+# f-strings untuk formatting
+print(f"Nama: {nama}")
+print(f"Versi: {versi}")
+print(f"Aktif: {aktif}")
+print(f"Tahun: {tahun}")
+
+# Tipe data dengan type()
+print(f"\\nTipe variabel:")
+print(f"nama: {type(nama).__name__}")
+print(f"versi: {type(versi).__name__}")
+print(f"aktif: {type(aktif).__name__}")
+print(f"tahun: {type(tahun).__name__}")
+
+# Multiple assignment
+x, y, z = 10, 20, 30
+print(f"\\nx={x}, y={y}, z={z}")
+
+# Swap tanpa variabel temporary
+a, b = 5, 10
+a, b = b, a
+print(f"Setelah swap: a={a}, b={b}")
+
+# Konversi tipe
+angka_str = "42"
+angka_int = int(angka_str)
+angka_float = float(angka_str)
+print(f"\\nKonversi: '{angka_str}' -> int={angka_int}, float={angka_float}")
+    `,
+    objectivesId: [
+      'Memahami Python sebagai bahasa interpreted, dynamically typed (Python.org tutorial)',
+      'Menjalankan file Python dengan python command dan IDE',
+      'Mendeklarasikan variabel tanpa tipe eksplisit — duck typing',
+      'Mengenal tipe data dasar: int, float, str, bool, None',
+      'Menggunakan f-strings untuk string formatting modern',
+    ],
+    objectivesEn: [
+      'Understand Python as an interpreted, dynamically typed language (Python.org tutorial)',
+      'Run Python files with python command and IDE',
+      'Declare variables without explicit types — duck typing',
+      'Learn basic data types: int, float, str, bool, None',
+      'Use f-strings for modern string formatting',
+    ],
+    explanationId: '### Apa Itu Python\nPython adalah bahasa interpreted, dynamically typed yang dibuat Guido van Rossum. Tidak perlu kompilasi — kode dijalankan baris per baris. Indentation (spasi) menentukan blok kode, bukan kurung kurawal.\n\n### Variabel & Tipe Data\nTidak perlu deklarasi tipe: `x = 5` otomatis int. Python cek tipe saat runtime. Tipe dasar: `int`, `float`, `str`, `bool`, `None`.\n\n### f-strings\n`f"Hello {name}"` — cara modern formatting string di Python 3.6+. Lebih readable daripada `%` atau `.format()`.\n\n### Multiple Assignment\n`a, b = 10, 20` dan swap `a, b = b, a` — fitur elegan Python.\n\n### Konversi Tipe\n`int("42")`, `str(100)`, `float("3.14")` — konversi eksplisit antar tipe.',
+    explanationEn: '### What is Python\nInterpreted, dynamically typed language by Guido van Rossum. No compilation needed — code runs line by line. Indentation defines code blocks.\n\n### Variables & Types\nNo type declaration needed: `x = 5` is auto int. Basic types: `int`, `float`, `str`, `bool`, `None`.\n\n### f-strings\n`f"Hello {name}"` — modern string formatting in Python 3.6+.\n\n### Multiple Assignment\n`a, b = 10, 20` and swap `a, b = b, a`.\n\n### Type Conversion\n`int("42")`, `str(100)`, `float("3.14")` — explicit type conversion.',
+    experimentsId: [
+      'Ubah nilai variabel dan lihat output berubah',
+      'Coba type() pada berbagai variabel',
+      'Buat konversi tipe: str ke float, int ke str',
+      'Eksperimen dengan multiple assignment',
+      'Buat program kecil gabungan 2-3 konsep',
+    ],
+    experimentsEn: [
+      'Change variable values and observe output',
+      'Try type() on different variables',
+      'Create type conversions: str to float, int to str',
+      'Experiment with multiple assignment',
+      'Build a small program combining 2-3 concepts',
+    ],
+    challengeId: 'Buat program konversi mata uang: input Rupiah, konversi ke USD, EUR, JPY. Gunakan f-strings dan konversi tipe.',
+    challengeEn: 'Build a currency converter: input Rupiah, convert to USD, EUR, JPY. Use f-strings and type conversion.',
+    summaryId: 'Minggu 1 dari 12: **Dasar Python & Sintaks** (Level: Pemula). Python mudah dibaca dan ditulis. Minggu depan: **Data Types & Operasi**.',
+    summaryEn: 'Week 1 of 12: **Python Basics & Syntax** (Level: Beginner). Python is readable and writable. Next week: **Data Types & Operations**.',
+  },
+
+  // Week 2 - Data Types & Operasi
+  {
+    week: 2, level: 'beginer', topicId: 'tipe-data-operasi',
+    titleId: 'Data Types & Operasi', titleEn: 'Data Types & Operations',
+    programId: 'Kalkulator Data', programEn: 'Data Calculator',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'python',
+    code: `
+# Data Types & Operasi
+print("=== Numbers ===")
+a, b = 17, 5
 print(f"{a} + {b} = {a + b}")
 print(f"{a} - {b} = {a - b}")
 print(f"{a} * {b} = {a * b}")
-print(f"{a} / {b} = {a / b}    (selalu float)")
-print(f"{a} // {b} = {a // b}   (pembagian bulat)")
-print(f"{a} % {b} = {a % b}    (sisa bagi)")
-print(f"{a} ** {b} = {a ** b}  (pangkat)")
+print(f"{a} / {b} = {a / b:.2f}")
+print(f"{a} // {b} = {a // b}")
+print(f"{a} % {b} = {a % b}")
+print(f"{a} ** {b} = {a ** b}")
 
-# ---- Kondisi: if / elif / else ----
-umur = 24
-if umur < 13:
-    harga = 75000
-elif umur <= 25:
-    harga = 125000
-elif umur <= 59:
-    harga = 185000
-else:
-    harga = 100000
-print(f"Umur {umur} -> tiket Rp {harga}")
+print("\\n=== Strings ===")
+s = "Python"
+print(f"Length: {len(s)}")
+print(f"Upper: {s.upper()}")
+print(f"Lower: {s.lower()}")
+print(f"Replace: {s.replace('Py', 'My')}")
+print(f"Slice [0:3]: {s[0:3]}")
+print(f"Slice [::2]: {s[::2]}")
+print(f"Reverse: {s[::-1]}")
+print(f"'th' in s: {'th' in s}")
 
-# ---- Operator logika ----
-kartu_member = True
-if umur <= 25 and kartu_member:
-    print("Bonus: dapat minuman gratis!")
-if not kartu_member:
-    print("Ajak teman untuk diskon kelompok")
-`,
-      };
-    },
-    objId: ['Melakukan casting antar tipe (int, float, str)', 'Menguasai operator aritmatika Python (//, %, **)', 'Membedakan = (assignment) dan == (perbandingan)', 'Menulis percabangan if/elif/else dengan logika'],
-    objEn: ['Cast between types (int, float, str)', 'Master Python arithmetic operators (//, %, **)', 'Distinguish = (assignment) from == (comparison)', 'Write if/elif/else branching with logic'],
-    expId: `## Casting
-\`int("26")\`, \`float("185000")\`, \`str(42)\` mengubah tipe secara eksplisit. Input dari \`input()\` selalu string — lupa cast adalah sumber TypeError paling umum untuk pemula (Springer 2023: TypeError = error terbanyak kedua).
-\n## Operator Aritmatika
-\`/\` selalu menghasilkan float. \`//\` pembagian bulat, \`%\` sisa bagi, \`**\` pangkat. Urutan operasi: kurung dulu, lalu \`**\`, \`*\`/\`/\`//\`%\`, terakhir \`+\`/\`-\`.
-\n## = vs ==
-\`=\` menugaskan (hanya nama variabel di kiri!), \`==\` membandingkan. Menulis \`if harga = 100\` adalah SyntaxError — kesalahan khas dari kebiasaan matematika (riset Cabo: siswa menyamakan = dengan persamaan matematika).
-\n## if / elif / else
-Satu cabang yang cocok dieksekusi, urutan atas ke bawah. \`and\`/\`or\`/\`not\` menggabungkan kondisi. Aturan praktis: cek kasus paling spesifik/ekstrem paling atas.`,
-    expEn: `## Casting
-\`int("26")\`, \`float("185000")\`, \`str(42)\` convert types explicitly. Input from \`input()\` is always a string — forgetting to cast is the most common TypeError source for beginners (Springer 2023: TypeError is the 2nd most common error).
-\n## Arithmetic Operators
-\`/\` always produces a float. \`//\` floor division, \`%\` remainder, \`**\` power. Precedence: parentheses first, then \`**\`, \`*\`/\`/\`//\`%\`, finally \`+\`/\`-\`.
-\n## = vs ==
-\`=\` assigns (only a variable name on the left!), \`==\` compares. Writing \`if price = 100\` is a SyntaxError — a classic habit from math class (Cabo's research: students equate = with math equality).
-\n## if / elif / else
-The first matching branch runs, top to bottom. \`and\`/\`or\`/\`not\` combine conditions. Rule of thumb: check the most specific/extreme case first.`,
-    chId: 'Buat kalkulator diskon toko: input harga asli dan tipe member (gold/silver/none). Diskon 20% gold, 10% silver. Jika total setelah diskon >= 500.000, tambah cashback 5%. Tampilkan rincian dengan f-strings.',
-    chEn: 'Build a shop discount calculator: original price and member tier (gold/silver/none). 20% off gold, 10% silver. If the discounted total is >= 500,000, add 5% cashback. Show details with f-strings.',
-    sumId: 'Casting, operator aritmatika, = vs ==, if/elif/else + logika. Common mistakes: satu = di kondisi, lupa cast input. Lanjut: perulangan for-first.',
-    sumEn: 'Casting, arithmetic operators, = vs ==, if/elif/else + logic. Common mistakes: single = in conditions, forgetting to cast input. Next: for-first loops.',
+print("\\n=== Booleans ===")
+x, y = 10, 20
+print(f"{x} == {y}: {x == y}")
+print(f"{x} != {y}: {x != y}")
+print(f"{x} < {y}: {x < y}")
+print(f"True and False: {True and False}")
+print(f"True or False: {True or False}")
+print(f"not True: {not True}")
+
+print("\\n=== Comparison Chains ===")
+n = 15
+print(f"10 <= {n} <= 20: {10 <= n <= 20}")
+
+print("\\n=== None ===")
+hasil = None
+print(f"None: {hasil}, type: {type(hasil).__name__}")
+print(f"hasil is None: {hasil is None}")
+    `,
+    objectivesId: [
+      'Operator aritmatika: +, -, *, /, //, %, **',
+      'String methods: upper, lower, replace, strip, split',
+      'String slicing: s[start:end:step], s[::-1] reverse',
+      'Boolean operators: and, or, not, comparison chains',
+      'None type dan identity check dengan is operator',
+    ],
+    objectivesEn: [
+      'Arithmetic operators: +, -, *, /, //, %, **',
+      'String methods: upper, lower, replace, strip, split',
+      'String slicing: s[start:end:step], s[::-1] reverse',
+      'Boolean operators: and, or, not, comparison chains',
+      'None type and identity check with is operator',
+    ],
+    explanationId: '### Operator Aritmatika\n`/` float division, `//` floor division, `%` modulo, `**` power.\n\n### String Methods\n`upper()`, `lower()`, `replace()`, `strip()`, `split()`, `join()`.\n\n### String Slicing\n`s[start:end:step]`. `s[::-1]` reverse string. `s[::2]` setiap karakter kedua.\n\n### Boolean & Comparison\n`and`, `or`, `not`. Comparison chains: `10 <= x <= 20`.\n\n### None & Identity\n`None` = null Python. Cek dengan `is None`, bukan `== None`.',
+    explanationEn: '### Arithmetic Operators\n`/` float div, `//` floor div, `%` modulo, `**` power.\n\n### String Methods\nCommon string operations.\n\n### String Slicing\n`s[start:end:step]`. Reverse with `s[::-1]`.\n\n### Boolean & Comparison\nLogical operators and chained comparisons.\n\n### None & Identity\n`None` = Python null. Check with `is None`.',
+    experimentsId: [
+      'Hitung BMI dengan operator aritmatika',
+      'Balik string dengan slicing — cek palindrom',
+      'Coba semua string methods pada teks panjang',
+      'Buat truth table untuk and/or/not',
+      'Eksperimen comparison chains',
+    ],
+    experimentsEn: [
+      'Calculate BMI with arithmetic operators',
+      'Reverse string with slicing — check palindrome',
+      'Try all string methods on long text',
+      'Build truth table for and/or/not',
+      'Experiment with comparison chains',
+    ],
+    challengeId: 'Buat program validasi password: min 8 karakter, ada huruf besar, kecil, angka, simbol. Gunakan string methods dan boolean operators.',
+    challengeEn: 'Build a password validator: min 8 chars, uppercase, lowercase, digit, symbol. Use string methods and boolean operators.',
+    summaryId: 'Minggu 2 dari 12: **Data Types & Operasi** (Level: Pemula). Fondasi manipulasi data. Minggu depan: **Control Flow**.',
+    summaryEn: 'Week 2 of 12: **Data Types & Operations** (Level: Beginner). Foundation for data manipulation. Next week: **Control Flow**.',
   },
+
+  // Week 3 - Control Flow & Loops
   {
-    phase: 1, num: 3, topicId: 'perulangan',
-    titleId: 'Perulangan: for-first', titleEn: 'Loops: for-first',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ===== FOR dulu, WHILE kedua (riset: That Le 2026) =====
-# Di Python, for over iterable = konstruk kanonik.
-# while = pengecualian, dipelajari belakangan.
+    week: 3, level: 'beginer', topicId: 'control-flow',
+    titleId: 'Control Flow & Loops', titleEn: 'Control Flow & Loops',
+    programId: 'Grade & Bilangan', programEn: 'Grades & Numbers',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'python',
+    code: `
+# Control Flow & Loops
+print("=== If/Elif/Else ===")
+nilai = 85
+if nilai >= 90:
+    grade = "A"
+elif nilai >= 80:
+    grade = "B"
+elif nilai >= 70:
+    grade = "C"
+elif nilai >= 60:
+    grade = "D"
+else:
+    grade = "E"
+print(f"Nilai {nilai} -> Grade {grade}")
 
-# for x in range(n): menghasilkan 0..n-1
+print("\\n=== Ternary Expression ===")
+status = "Lulus" if nilai >= 60 else "Tidak Lulus"
+print(f"Status: {status}")
+
+print("\\n=== For Loop ===")
+print("Range 5:")
 for i in range(5):
-    print(f"range(5) -> {i}")
-
-# range(start, stop, step) -- stop EXCLUSIVE (sumber off-by-one!)
-print("range(2, 8, 2):")
-for i in range(2, 8, 2):
-    print(" ", i)
-
-# Iterasi atas string
-for ch in "tryngo":
-    print(ch, end="-")
+    print(f"  {i}", end="")
 print()
 
-# Iterasi atas list
-for buah in ["apel", "mangga", "pisang"]:
-    print(f"Buah: {buah}")
+print("Range(2, 10, 2):")
+for i in range(2, 10, 2):
+    print(f"  {i}", end="")
+print()
 
-# Off-by-one: range(1, 4) = 1,2,3 -- BUKAN 4!
-print("range(1, 4):", list(range(1, 4)))
+print("\\n=== Loop through List ===")
+buah = ["apel", "mangga", "pisang", "jeruk"]
+for i, item in enumerate(buah, 1):
+    print(f"  {i}. {item}")
 
-# break & continue
+print("\\n=== While Loop ===")
+n = 1
+while n <= 5:
+    print(f"  While: {n}")
+    n += 1
+
+print("\\n=== Break & Continue ===")
 for i in range(10):
     if i == 3:
-        continue          # lewati 3
+        continue
     if i == 7:
-        break             # berhenti di 7
-    print(i, end=" ")
+        break
+    print(f"  {i}", end="")
 print()
 
-# while = kasus pengecualian: 3 komponen wajib
-i = 0                    # 1. inisialisasi
-while i < 5:             # 2. kondisi
-    print("while:", i)
-    i += 1               # 3. update -- lupa = infinite loop!
+print("\\n=== Nested Loop (Multiplication Table) ===")
+for i in range(1, 4):
+    for j in range(1, 4):
+        print(f"{i*j:3}", end="")
+    print()
 
-# FizzBuzz klasik (latihan standar industri)
-for n in range(1, 16):
-    if n % 15 == 0:
-        print("FizzBuzz")
-    elif n % 3 == 0:
-        print("Fizz")
-    elif n % 5 == 0:
-        print("Buzz")
-    else:
-        print(n)
-`,
-      };
-    },
-    objId: ['Memahami mengapa for lebih dulu daripada while di Python', 'Menguasai range() dan boundary off-by-one', 'Menggunakan break dan continue', 'Menulis while sebagai kasus pengecualian (3 komponen)'],
-    objEn: ['Understand why for comes before while in Python', 'Master range() and off-by-one boundaries', 'Use break and continue', 'Write while as the exception case (3 components)'],
-    expId: `## Mengapa for Duluan?
-Sintesis riset 4 dekade (That Le 2026, merangkum Soloway, Mselle, Sorva, Caceffo, Lister): tradisi "while first" adalah warisan C/Pascal/Java. Di Python, \`for x in iterable\` punya misconception density rendah — deterministik, tanpa miskonsepsi infinite loop, dan transfer mulus ke comprehensions.
-\n## range() dan Off-by-One
-\`range(stop)\` berhenti di \`stop - 1\` (exclusive). Riset ACM (2020): off-by-one umum dan menetap di kalangan mahasiswa. Latihan: selalu cek boundary — iterasi terbalik (\`range(5, 0, -1)\`) juga rawan error; sengaja dilatih di Eksperimen.
-\n## break & continue
-\`break\` menghentikan loop sepenuhnya; \`continue\` melompat ke iterasi berikutnya. Misconception tervalidasi instruktur: banyak yang mengira loop berhenti segera saat kondisi false — padahal body yang sedang berjalan diselesaikan dulu.
-\n## while: Kasus Pengecualian
-Gunakan \`while\` hanya saat iterasi bukan atas iterable (mis. sampai kondisi terpenuhi). Pola 3 komponen (py4e): inisialisasi -> kondisi -> update. Lupa update = infinite loop; StackOverflow: 90% program Python bisa tanpa while.`,
-    expEn: `## Why for First?
-A synthesis of 4 decades of research (That Le 2026, covering Soloway, Mselle, Sorva, Caceffo, Lister): the "while first" tradition is C/Pascal/Java heritage. In Python, \`for x in iterable\` has low misconception density — deterministic, no infinite-loop misconception, and it transfers cleanly to comprehensions.
-\n## range() and Off-by-One
-\`range(stop)\` stops at \`stop - 1\` (exclusive). ACM research (2020): off-by-one errors are common and persist among students. Practice: always check boundaries — reverse iteration (\`range(5, 0, -1)\`) is also error-prone; deliberately trained in Experiments.
-\n## break & continue
-\`break\` exits the loop entirely; \`continue\` jumps to the next iteration. An instructor-validated misconception: many think the loop stops as soon as the condition is false — but the current body finishes first.
-\n## while: The Exception Case
-Use \`while\` only when iteration is not over an iterable (e.g. until a condition holds). The 3-component pattern (py4e): initialize -> condition -> update. Forgetting the update = infinite loop; StackOverflow: 90% of Python programs can be written without while.`,
-    chId: 'Buat pola segitiga asterisk: input tinggi segitiga (mis. 5), tampilkan baris 1..5 dengan jumlah * sesuai nomor baris (nested loop). Lalu tabel perkalian 1..5 x 1..5. Prediksi output sebelum menjalankan.',
-    chEn: 'Build an asterisk triangle: input height (e.g. 5), show rows 1..5 with asterisks matching the row number (nested loops). Then a 1..5 x 1..5 multiplication table. Predict the output before running.',
-    sumId: 'for-first: for x in range/iterable dulu, while belakangan. range stop-exclusive = sumber off-by-one. break/continue. Lanjut: proyek strings & list.',
-    sumEn: 'for-first: for x in range/iterable first, while later. range stop is exclusive = off-by-one source. break/continue. Next: strings & lists project.',
-  },
-  {
-    phase: 1, num: 4, topicId: 'strings-list-proyek',
-    titleId: 'Proyek: Strings, List & Number Guessing', titleEn: 'Project: Strings, Lists & Number Guessing',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `import random
-
-# ===== Strings & Lists =====
-nama = "tryngo academy"
-print(f"Panjang: {len(nama)} | Kapital: {nama.upper()}")
-print(f"Split: {nama.split()}")
-
-kata_kata = ["python", "belajar", "menyenangkan"]
-print("Join:", " ".join(kata_kata))
-
-teks = "   halo dunia   "
-print(f"Strip: '{teks.strip()}'")
-print(f"Replace: {teks.strip().replace('halo', 'hai')}")
-
-# Slicing: [start:stop:step] -- stop EXCLUSIVE
-pesan = "abcdef"
-print(f"pesan[0:3] = {pesan[0:3]}")
-print(f"pesan[::-1] = {pesan[::-1]} (terbalik)")
-print(f"pesan[::2] = {pesan[::2]} (tiap 2 karakter)")
-
-# String immutable: method mengembalikan string BARU
-s = "abc"
-s2 = s.upper()
-print(f"s tetap '{s}', s2 = '{s2}'")
-
-# List mutable: method mengubah langsung
-angka = [3, 1, 4, 1, 5]
-angka.append(9)
-angka.sort()
-print(f"List setelah append+sort: {angka}")
-
-# ===== Number Guessing Game (simulasi auto-play) =====
-# Versi interaktif memakai input(); di sini game "bermain sendiri"
-# agar bisa dijalankan di preview. Strategi: bagi dua rentang.
-secret = random.randint(1, 20)
-tebakan = []
-low, high = 1, 20
-while True:
-    guess = (low + high) // 2
-    tebakan.append(guess)
-    if guess == secret:
-        break
-    elif guess < secret:
-        low = guess + 1
-    else:
-        high = guess - 1
-print(f"\\nAngka rahasia: {secret}")
-print(f"Tebakan: {tebakan} ({len(tebakan)} langkah)")
-`,
-      };
-    },
-    objId: ['Menguasai slicing string dan konsep immutability', 'Menggunakan split/join sebagai jembatan string-list', 'Memahami mutability list (append, sort, pop)', 'Menggabungkan loop + list + random dalam satu program'],
-    objEn: ['Master string slicing and the immutability concept', 'Use split/join as the string-list bridge', 'Understand list mutability (append, sort, pop)', 'Combine loops + lists + random in one program'],
-    expId: `## Slicing
-\`teks[start:stop:step]\` — start inclusive, stop exclusive, step opsional. \`[::-1]\` membalik. Slicing tidak pernah melempar IndexError (datafield.dev): out-of-range ditangani diam-diam — indeks tunggal bisa error, slice tidak.
-\n## Immutability: Threshold Concept
-String tidak bisa diubah in-place; method mengembalikan string BARU. Ini "trips up nearly every beginner" (datafield) dan fondasi memahami references nanti (riset Glasgow: hanya 2% mahasiswa benar soal \`+=\` vs \`append\`).
-\n## split/join: Jembatan Strings <-> List
-\`.split()\` memecah string menjadi list; \`" ".join(list)\` menggabungkan kembali. Dua method paling powerful untuk pemrosesan teks — dipakai lagi di Contact Book dan Expense Tracker nanti.
-\n## import random
-\`import random\` memuat modul stdlib; \`random.randint(a, b)\` mengembalikan int acak inklusif. Memakai modul sejak dini tanpa lesson tersendiri adalah pola yang valid (Scaler: proyek #1 Number Guessing memakai random di modul 1-2).
-\n## Common Mistakes
-Method tanpa tanda kurung (\`s.upper\` bukan \`s.upper()\`), mengubah list saat diiterasi, \`pesan[3]\` di luar indeks (IndexError), memakai \`+\` untuk string di dalam loop besar (pakai join).`,
-    expEn: `## Slicing
-\`text[start:stop:step]\` — start inclusive, stop exclusive, step optional. \`[::-1]\` reverses. Slicing never raises IndexError (datafield.dev): out-of-range is handled silently — single indexing can error, slicing cannot.
-\n## Immutability: A Threshold Concept
-Strings cannot change in place; methods return NEW strings. This "trips up nearly every beginner" (datafield) and is the foundation for understanding references later (Glasgow research: only 2% of students got \`+=\` vs \`append\` right).
-\n## split/join: The Strings <-> List Bridge
-\`.split()\` breaks a string into a list; \`" ".join(list)\` reassembles it. The two most powerful text-processing methods — reused in the Contact Book and Expense Tracker later.
-\n## import random
-\`import random\` loads a stdlib module; \`random.randint(a, b)\` returns a random int, inclusive. Using a module early without a dedicated lesson is a valid pattern (Scaler: project #1 Number Guessing uses random in modules 1-2).
-\n## Common Mistakes
-Methods without parentheses (\`s.upper\` not \`s.upper()\`), mutating a list while iterating over it, \`message[3]\` out of range (IndexError), building strings with \`+\` inside big loops (use join).`,
-    chId: 'Ubah ke versi interaktif: ganti \u0060random.randint\u0060 dengan \u0060input()\u0060 sehingga pemain menebak sendiri. Batasi 5 kesempatan, beri petunjuk "terlalu besar/kecil", tampilkan skor = sisa kesempatan. Bonus: simpan riwayat tebakan dalam list dan tampilkan di akhir.',
-    chEn: 'Convert to the interactive version: replace the auto-guess loop with \u0060input()\u0060 so the player guesses. Limit to 5 tries, give "too high/low" hints, show score = tries left. Bonus: keep the guess history in a list and show it at the end.',
-    sumId: 'Slicing & immutability string, split/join bridge, list mutable, import random, loop+list bersama. Fase 1 selesai: Anda bisa program utuh. Lanjut: fungsi.',
-    sumEn: 'Slicing & string immutability, split/join bridge, mutable lists, import random, loops+lists together. Phase 1 done: you can write full programs. Next: functions.',
-  },
-];
-
-// ===== PHASE 2: COLLECTIONS & FUNCTIONS (lessons 5-8) =====
-const LESSONS_P2 = [
-  {
-    phase: 2, num: 5, topicId: 'fungsi-dasar',
-    titleId: 'Fungsi Dasar', titleEn: 'Functions Basics',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ===== Definisi & pemanggilan =====
-def sapa(nama):
-    return f"Halo, {nama}!"
-
-print(sapa("Ayu"))
-print(sapa("Budi"))
-
-# ===== Parameter vs Argument =====
-# parameter = nama di def; argument = nilai saat dipanggil
-def celsius_ke_fahrenheit(c):
-    return c * 9 / 5 + 32
-
-print(f"25C = {celsius_ke_fahrenheit(25)}F")
-
-# ===== Keyword arguments =====
-def perkenalan(nama, umur, kota):
-    return f"{nama} ({umur}) dari {kota}"
-
-print(perkenalan("Ayu", 26, "Jakarta"))                    # positional
-print(perkenalan(kota="Bandung", umur=30, nama="Budi"))    # keyword, urutan bebas
-
-# ===== Default values (wajib SETELAH non-default) =====
-def sapa_v2(nama, sapaan="Halo"):
-    return f"{sapaan}, {nama}!"
-
-print(sapa_v2("Ayu"))
-print(sapa_v2("Budi", "Selamat pagi"))
-
-# ===== return vs print (perangkap klasik!) =====
-def cetak_kuadrat(x):
-    print(x * x)        # hanya menampilkan
-
-def hasil_kuadrat(x):
-    return x * x        # mengembalikan nilai
-
-cetak_kuadrat(4)
-nilai = hasil_kuadrat(4)
-print(f"hasil_kuadrat(4) = {nilai}, bisa dipakai lagi: {nilai * 2}")
-
-# print mengembalikan None:
-x = print("ini print")
-print(f"Nilai dari print: {x}")   # None!
-
-# ===== Multiple returns =====
-def min_max(data):
-    return min(data), max(data)
-
-daftar = [3, 8, 2, 9, 5]
-terkecil, terbesar = min_max(daftar)
-print(f"Min: {terkecil}, Max: {terbesar}")
-`,
-      };
-    },
-    objId: ['Mendefinisikan dan memanggil fungsi dengan def', 'Membedakan parameter (def) dan argument (call)', 'Menggunakan keyword arguments dan default values', 'Memahami perbedaan return dan print'],
-    objEn: ['Define and call functions with def', 'Distinguish parameters (def) from arguments (call)', 'Use keyword arguments and default values', 'Understand the difference between return and print'],
-    expId: `## Parameter vs Argument
-Parameter = nama di baris \`def\`; argument = nilai saat dipanggil. Perbedaan ini penting untuk membaca error message (SkillWisor, bishrulhaq). Fungsi didefinisikan sekali, dipanggil berkali-kali — DRY.
-\n## Keyword & Default
-\`perkenalan(kota="Bandung", ...)\` membuat pemanggilan self-documenting. Default value membuat parameter opsional — aturan wajib: parameter ber-default harus SETELAH yang tanpa default, atau SyntaxError.
-\n## return vs print
-\`print\` menampilkan; \`return\` menyerahkan nilai ke pemanggil. Perangkap klasik: \`x = print("hi")\` membuat \`x\` berisi \`None\`! Fungsi yang "menghitung" harus return, bukan print (StackOverflow: "Forbid print() in functions").
-\n## Multiple Returns
-\`return a, b\` mengembalikan tuple; \`terkecil, terbesar = ...\` unpacking langsung. Pola ini dipakai di mana-mana di stdlib.
-\n## Common Mistakes
-Lupa return (fungsi mengembalikan None diam-diam), memanggil fungsi tanpa kurung, \`print(hasil_kuadrat)\` (mencetak objek fungsi, bukan hasil).`,
-    expEn: `## Parameters vs Arguments
-Parameters are the names in the \`def\` line; arguments are the values passed at the call. This distinction matters for reading error messages (SkillWisor, bishrulhaq). Define once, call many times — DRY.
-\n## Keyword & Defaults
-\`perkenalan(kota="Bandung", ...)\` makes calls self-documenting. Default values make parameters optional — hard rule: parameters with defaults must come AFTER those without, or SyntaxError.
-\n## return vs print
-\`print\` displays; \`return\` hands a value back to the caller. Classic trap: \`x = print("hi")\` leaves \`x\` holding \`None\`! Functions that "compute" must return, not print (StackOverflow: "Forbid print() in functions").
-\n## Multiple Returns
-\`return a, b\` returns a tuple; \`smallest, largest = ...\` unpacks directly. This pattern is everywhere in the stdlib.
-\n## Common Mistakes
-Forgetting return (functions silently return None), calling a function without parentheses, \`print(hasil_kuadrat)\` (printing the function object, not the result).`,
-    chId: 'Buat fungsi \u0060hitung_imt(berat_kg, tinggi_m)\u0060 mengembalikan tuple (imt, kategori) dengan kategori dari if/elif. Buat fungsi \u0060konversi_uang(jumlah, kurs)\u0060 dengan default kurs 16000. Refactor: semua logika di Challenge sebelumnya dipindah ke fungsi.',
-    chEn: 'Create \u0060hitung_imt(berat_kg, tinggi_m)\u0060 returning a tuple (imt, category) with the category from if/elif. Create \u0060konversi_uang(jumlah, kurs)\u0060 with kurs defaulting to 16000. Refactor: move previous Challenge logic into functions.',
-    sumId: 'Fungsi: def, parameter vs argument, keyword/default, return vs print, multiple returns. Fondasi sebelum OOP. Lanjut: scope & lambda.',
-    sumEn: 'Functions: def, parameters vs arguments, keyword/defaults, return vs print, multiple returns. The foundation before OOP. Next: scope & lambda.',
-  },
-  {
-    phase: 2, num: 6, topicId: 'fungsi-lanjut',
-    titleId: 'Fungsi Lanjutan & Scope', titleEn: 'Advanced Functions & Scope',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ===== Scope: lokal vs global =====
-total = 0                      # global scope
-
-def hitung(angka):
-    total = angka * 2          # LOKAL: tidak mengubah global
-    return total
-
-print(f"Hasil fungsi: {hitung(5)}")
-print(f"Global total tetap: {total}")
-
-# LEGB: Local -> Enclosing -> Global -> Built-in
-def luar():
-    pesan = "dari luar"
-    def dalam():
-        return pesan           # membaca dari Enclosing scope
-    return dalam()
-
-print(luar())
-
-# ===== *args dan **kwargs =====
-def jumlahkan(*args):
-    return sum(args)
-
-print(f"jumlahkan(1,2,3,4) = {jumlahkan(1, 2, 3, 4)}")
-
-def profil(**kwargs):
-    return ", ".join(f"{k}={v}" for k, v in kwargs.items())
-
-print(profil(nama="Ayu", umur=26, kota="Jakarta"))
-
-# ===== Docstrings =====
-def luas_persegi(sisi):
-    """Menghitung luas persegi.
-
-    Parameter:
-        sisi (int/float): panjang sisi.
-    Return:
-        Luas = sisi * sisi.
-    """
-    return sisi * sisi
-
-print(f"Luas: {luas_persegi(4)}")
-print(f"Docstring: {luas_persegi.__doc__.strip().splitlines()[0]}")
-
-# ===== Lambda =====
-produk = [("Keyboard", 750000), ("Monitor", 3200000), ("Hub", 250000)]
-produk.sort(key=lambda item: item[1])   # urutkan by harga
-print("Produk termurah dulu:", produk)
-
-# ===== Perangkap: mutable default argument =====
-def tambah_item_bug(item, daftar=[]):     # BUG: default dievaluasi SEKALI
-    daftar.append(item)
-    return daftar
-
-def tambah_item_aman(item, daftar=None):
-    if daftar is None:
-        daftar = []
-    daftar.append(item)
-    return daftar
-
-print("Bug:", tambah_item_bug("a"), tambah_item_bug("b"))
-print("Aman:", tambah_item_aman("a"), tambah_item_aman("b"))
-`,
-      };
-    },
-    objId: ['Memahami scope lokal vs global dan aturan LEGB', 'Menggunakan *args dan **kwargs', 'Menulis docstring yang baik', 'Memakai lambda sebagai fungsi kecil', 'Menghindari perangkap mutable default'],
-    objEn: ['Understand local vs global scope and the LEGB rule', 'Use *args and **kwargs', 'Write good docstrings', 'Use lambda as a tiny function', 'Avoid the mutable default trap'],
-    expId: `## Scope & LEGB
-Nama dicari dengan urutan: Local -> Enclosing -> Global -> Built-in. Variabel yang di-assign di dalam fungsi adalah lokal — tidak mengubah variabel global dengan nama sama (MOOC.fi Part 6 menempatkan materi ini satu paket dengan error handling). \`global\` ada, tapi saran profesional: jangan.
-\n## *args dan **kwargs
-\`*args\` mengumpulkan argument posisi ekstra menjadi tuple; \`**kwargs\` argument keyword menjadi dict. Kamu akan jarang menulisnya, tapi sering membacanya di library (print sendiri memakai \`*args\`).
-\n## Docstrings
-\`"""..."""\` tepat setelah def: tujuan, parameter, return. Bukan komentar biasa — menjadi \`__doc__\` dan dibaca tooling. Lalu diakses dengan \`help()\`.
-\n## Lambda
-\`lambda x: x * 2\` = fungsi satu ekspresi tanpa nama. Hanya untuk callback singkat (sort key, filter). Lebih dari satu baris? Ubah jadi \`def\` — keterbacaan menang. Fungsi adalah nilai: bisa disimpan, dipassing, dikembalikan.
-\n## Perangkap: Mutable Default
-Default dievaluasi SEKALI saat def. \`daftar=[]\` dibagi semua pemanggilan — item menumpuk misterius. Idiom benar: \`daftar=None\` lalu buat list baru di dalam.`,
-    expEn: `## Scope & LEGB
-Names are resolved: Local -> Enclosing -> Global -> Built-in. Variables assigned inside a function are local — they do not change a same-named global (MOOC.fi Part 6 groups this with error handling). \`global\` exists, but the professional advice is blunt: don't.
-\n## *args and **kwargs
-\`*args\` packs extra positional arguments into a tuple; \`**kwargs\` keyword arguments into a dict. You will rarely write them, but constantly read them in libraries (print itself uses \`*args\`).
-\n## Docstrings
-\`"""..."""\` right after def: purpose, parameters, return. Not a regular comment — it becomes \`__doc__\` and tooling reads it. Access it with \`help()\`.
-\n## Lambda
-\`lambda x: x * 2\` = a single-expression anonymous function. Only for short callbacks (sort keys, filters). More than one line? Promote it to a \`def\` — readability wins. Functions are values: store them, pass them, return them.
-\n## The Mutable Default Trap
-Defaults are evaluated ONCE at definition time. \`daftar=[]\` is shared across calls — items mysteriously accumulate. The correct idiom: \`daftar=None\`, create the list inside.`,
-    chId: 'Tulis \u0060rata_rata(*nilai)\u0060 (return rata-rata, raise ValueError jika kosong), \u0060filter_lebih_dari(daftar, ambang)\u0060 memakai lambda+filter, dan refactor program FizzBuzz sebelumnya menjadi fungsi \u0060fizzbuzz(n)\u0060 yang mengembalikan list hasil.',
-    chEn: 'Write \u0060rata_rata(*nilai)\u0060 (return the average, raise ValueError if empty), \u0060filter_lebih_dari(daftar, ambang)\u0060 using lambda+filter, and refactor the earlier FizzBuzz into a \u0060fizzbuzz(n)\u0060 function returning a list of results.',
-    sumId: 'Scope/LEGB, *args/**kwargs, docstrings, lambda, mutable default trap. Fungsi = nilai. Lanjut: dictionary, set & comprehensions.',
-    sumEn: 'Scope/LEGB, *args/**kwargs, docstrings, lambda, mutable default trap. Functions = values. Next: dictionaries, sets & comprehensions.',
-  },
-  {
-    phase: 2, num: 7, topicId: 'dictionary-set',
-    titleId: 'Dictionary, Set & Comprehensions', titleEn: 'Dictionaries, Sets & Comprehensions',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ===== Masalah: parallel lists (MIT OCW) =====
-nama = ["Ayu", "Budi", "Citra"]
-nilai = [90, 78, 85]
-# Menjaga 2 list sinkron itu rapuh -- DICTIONARY lebih bersih.
-
-# ===== Dictionary: key -> value =====
-nilai_siswa = {"Ayu": 90, "Budi": 78, "Citra": 85}
-print(f"Nilai Ayu: {nilai_siswa['Ayu']}")
-nilai_siswa["Dewi"] = 92          # tambah
-nilai_siswa["Ayu"] = 95           # update
-del nilai_siswa["Budi"]           # hapus
-print(f"Setelah update: {nilai_siswa}")
-
-# ===== KeyError & .get() =====
-# nilai_siswa["Zainal"]  -> KeyError! (error dict paling umum)
-print(f"get() aman: {nilai_siswa.get('Zainal')}")
-print(f"get() + default: {nilai_siswa.get('Zainal', 0)}")
-print(f"Cek key: {'Ayu' in nilai_siswa}")
-
-# ===== Iterasi: keys, values, items =====
-for nama_siswa in nilai_siswa:
-    print(f"Key: {nama_siswa}")
-for nama_siswa, nilai_angka in nilai_siswa.items():
-    print(f"{nama_siswa}: {nilai_angka}")
-
-# ===== Set: unik + membership cepat =====
-warna = {"merah", "biru", "hijau", "merah"}
-print(f"Set (duplikat hilang): {warna}")
-print(f"'merah' in warna: {'merah' in warna}")
-# {} membuat DICT kosong, bukan set!
-set_kosong = set()
-print(f"set() kosong: {set_kosong}, type: {type(set_kosong)}")
-
-# ===== Word frequency (contoh klasik MIT) =====
-lirik = "kita semua saudara kita semua sama kita satu"
-kata_list = lirik.split()
-frekuensi = {}
-for kata in kata_list:
-    frekuensi[kata] = frekuensi.get(kata, 0) + 1
-print(f"Frekuensi kata: {frekuensi}")
-
-# ===== Comprehensions =====
-kuadrat = [n * n for n in range(1, 6)]
+print("\\n=== List Comprehension ===")
+kuadrat = [x**2 for x in range(1, 6)]
+genap = [x for x in range(10) if x % 2 == 0]
 print(f"Kuadrat: {kuadrat}")
-genap = [n for n in range(1, 11) if n % 2 == 0]
 print(f"Genap: {genap}")
-dua_kali = {n: n * 2 for n in range(3)}
-print(f"Dict comp: {dua_kali}")
-`,
-      };
-    },
-    objId: ['Menyelesaikan masalah parallel lists dengan dict', 'Melakukan CRUD dan memahami KeyError + .get()', 'Mengiterasi keys, values, items', 'Memakai set untuk unique & membership', 'Menulis list/dict comprehensions'],
-    objEn: ['Solve the parallel lists problem with dicts', 'Do CRUD and understand KeyError + .get()', 'Iterate keys, values, items', 'Use sets for uniqueness & membership', 'Write list/dict comprehensions'],
-    expId: `## Motivasi: Parallel Lists
-Tiga list paralel (nama, nilai) harus berubah bersamaan di setiap operasi — rapuh (MIT OCW Lecture 14). Dict menggabungkan data yang berelasi: \`nilai_siswa["Ayu"]\` langsung dapat nilai tanpa mencari index. Ordering: Python 3.7+ dict mempertahankan insertion order.
-\n## KeyError & .get()
-KeyError adalah error dict paling umum (datafield.dev): typo case-sensitive (\`"torch"\` vs \`"Torch"\`), mengasumsikan key ada, \`1\` vs \`"1"\` beda key. \`.get()\` untuk key yang boleh tidak ada (counting, config opsional); \`dict[key]\` saat key WAJIB ada — error lebih baik daripada bug diam-diam.
-\n## Iterasi Dictionary
-\`for k in d\` = keys. \`.items()\` untuk (key, value) — unpacking dua nama. Jangan \`.keys()\`+\`.values()\` terpisah jika bisa \`.items()\`.
-\n## Set
-Set = koleksi unik tanpa urutan; \`in\` O(1). \`{}\` membuat dict kosong — gotcha terkenal: set kosong wajib \`set()\`. Urutan tidak dijamin — jangan andalkan.
-\n## Comprehensions
-\`[ekspresi for x in iterable if kondisi]\` — ringkas dan idiomatis, transfer langsung dari for-first. Jangan memaksa: if/else kompleks atau nested loop -> pakai for biasa (datafield: "readability always wins").
-\n## Pilih Struktur Data yang Tepat
-Urutan + posisi -> list. Immutable -> tuple. Key-value lookup cepat -> dict. Unik + membership -> set. Hitung kemunculan -> dict + get(). Hapus duplikat -> set(list).`,
-    expEn: `## The Parallel Lists Motivation
-Three parallel lists (names, scores) must change together on every operation — fragile (MIT OCW Lecture 14). Dicts group related data: \`nilai_siswa["Ayu"]\` gets the score directly, no index search. Order: Python 3.7+ dicts preserve insertion order.
-\n## KeyError & .get()
-KeyError is the most common dict error (datafield.dev): case-sensitive typos (\`"torch"\` vs \`"Torch"\`), assuming a key exists, \`1\` vs \`"1"\` are different keys. Use \`.get()\` when a missing key is expected (counting, optional config); use \`dict[key]\` when the key MUST exist — an error beats a silent bug.
-\n## Dict Iteration
-\`for k in d\` = keys. \`.items()\` for (key, value) — unpack two names. Prefer \`.items()\` over separate \`.keys()\`+\`.values()\`.
-\n## Sets
-Sets are unordered unique collections; \`in\` is O(1). \`{}\` creates an empty dict — a famous gotcha: an empty set requires \`set()\`. Order is not guaranteed — never rely on it.
-\n## Comprehensions
-\`[expression for x in iterable if condition]\` — concise and idiomatic, a direct transfer from for-first. Don't force it: complex if/else or nested loops -> use a plain for (datafield: "readability always wins").
-\n## Choose the Right Data Structure
-Ordered sequence -> list. Immutable -> tuple. Fast key lookup -> dict. Unique + membership -> set. Count occurrences -> dict + get(). Deduplicate -> set(list).`,
-    chId: 'Buat program penghitung kata unik: (1) baca kalimat, split, hitung frekuensi tiap kata dengan dict, (2) tampilkan 3 kata teratas urut frekuensi (sorted dengan key=lambda), (3) daftar kata unik dengan set, (4) buat inverted index sederhana: {kata: [indeks kalimat]}.',
-    chEn: 'Build a unique-word counter: (1) read a sentence, split, count each word with a dict, (2) show the top 3 words by frequency (sorted with key=lambda), (3) unique words with a set, (4) a simple inverted index: {word: [sentence indices]}.',
-    sumId: 'Dict = key-value lookup, KeyError/.get(), iterasi items, set unik, comprehensions. Siap untuk modul & error handling. Lanjut: Contact Book.',
-    sumEn: 'Dicts = key-value lookup, KeyError/.get(), items() iteration, unique sets, comprehensions. Ready for modules & error handling. Next: Contact Book.',
+    `,
+    objectivesId: [
+      'If/elif/else dengan indentation sebagai pengganti kurung kurawal',
+      'For loop dengan range() dan iterasi pada list/string/dict',
+      'While loop dengan kondisi dan increment',
+      'Break, continue, dan pass untuk kontrol loop',
+      'List comprehension: [expr for x in iterable if cond]',
+    ],
+    objectivesEn: [
+      'If/elif/else with indentation replacing curly braces',
+      'For loops with range() and iteration over lists/strings/dicts',
+      'While loops with conditions and increments',
+      'Break, continue, and pass for loop control',
+      'List comprehension: [expr for x in iterable if cond]',
+    ],
+    explanationId: '### If/Elif/Else\nIndentasi (4 spasi) menentukan blok. Tidak perlu kurung kurawal atau parentheses.\n\n### For Loop\n`range(n)` = 0..n-1. `range(start, stop, step)`. Iterasi langsung pada iterable.\n\n### enumerate\n`enumerate(list, start=1)` memberikan index + value sekaligus.\n\n### Break & Continue\n`break` keluar loop, `continue` skip ke iterasi berikutnya, `pass` dummy statement.\n\n### List Comprehension\n`[x**2 for x in range(5)]` — ringkas, cepat, Pythonic.\n\n### Ternary\n`value_if_true if condition else value_if_false`.',
+    explanationEn: '### If/Elif/Else\nIndentation (4 spaces) defines blocks. No curly braces needed.\n\n### For Loop\n`range(n)` = 0..n-1. Iterate directly over iterables.\n\n### enumerate\n`enumerate(list, start=1)` gives index + value.\n\n### Break & Continue\n`break` exits loop, `continue` skips, `pass` is a no-op.\n\n### List Comprehension\nConcise way to create lists.\n\n### Ternary\n`value_if_true if condition else value_if_false`.',
+    experimentsId: [
+      'Ubah nilai dan lihat grade berubah',
+      'Buat for loop dengan break pada kondisi tertentu',
+      'Buat list comprehension yang filter + transform',
+      'Implementasikan FizzBuzz dengan if/elif',
+      'Coba nested loop untuk pola segitiga',
+    ],
+    experimentsEn: [
+      'Change values and observe grade changes',
+      'Create for loop with break on condition',
+      'Build list comprehension that filters + transforms',
+      'Implement FizzBuzz with if/elif',
+      'Try nested loops for triangle patterns',
+    ],
+    challengeId: 'Buat program tebak angka: generate random 1-100, user diberi hint "lebih besar/kecil", hitung jumlah percobaan. Gunakan while loop.',
+    challengeEn: 'Build a number guessing game: generate random 1-100, give "higher/lower" hints, count attempts. Use while loop.',
+    summaryId: 'Minggu 3 dari 12: **Control Flow & Loops** (Level: Pemula). Logika program Anda. Minggu depan: **Functions**.',
+    summaryEn: 'Week 3 of 12: **Control Flow & Loops** (Level: Beginner). Your program logic. Next week: **Functions**.',
   },
+
+  // Week 4 - Functions & Modules
   {
-    phase: 2, num: 8, topicId: 'modul-error-proyek',
-    titleId: 'Proyek: Modul & Error Handling + Contact Book', titleEn: 'Project: Modules & Error Handling + Contact Book',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `import math
+    week: 4, level: 'beginer', topicId: 'functions',
+    titleId: 'Functions & Modules', titleEn: 'Functions & Modules',
+    programId: 'Kalkulator Modular', programEn: 'Modular Calculator',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'python',
+    code: `
+# Functions & Modules
+import math
 import random
-import datetime
+from datetime import datetime
 
-# ===== Modul & stdlib =====
-print(f"pi = {math.pi:.4f}")
-print(f"sqrt(144) = {math.sqrt(144)}")
-print(f"Random 1-10: {random.randint(1, 10)}")
-print(f"Hari ini: {datetime.date.today()}")
+# Basic Function
+def sapa(nama, greeting="Halo"):
+    """Sapa orang dengan greeting yang bisa dikustomisasi."""
+    return f"{greeting}, {nama}!"
 
-from math import floor, ceil
-print(f"floor(3.7) = {floor(3.7)}, ceil(3.2) = {ceil(3.2)}")
+# Multiple Return Values
+def hitung(a, b):
+    """Return jumlah, selisih, kali, bagi."""
+    return a + b, a - b, a * b, a / b if b != 0 else None
 
-# ===== Error handling: baca traceback dulu! =====
-# SyntaxError: salah ketik sintaks
-# TypeError: tipe tidak cocok (mis. "5" + 5)
-# NameError: nama belum didefinisikan
+# *args dan **kwargs
+def tampilkan(*args, **kwargs):
+    print(f"Positional: {args}")
+    print(f"Keyword: {kwargs}")
 
-try:
-    angka = int("tiga")          # ValueError!
-except ValueError as err:
-    print(f"Tertangkap: {err}")
-finally:
-    print("finally selalu jalan")
+# Lambda Function
+kuadrat = lambda x: x ** 2
+pangkat = lambda a, b: a ** b
 
-try:
-    hasil = 10 / 0               # ZeroDivisionError
-except ZeroDivisionError:
-    print("Pembagian nol! Cek logika anda.")
-else:
-    print(f"Hasil: {hasil}")
+# Decorator Sederhana
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = datetime.now()
+        result = func(*args, **kwargs)
+        elapsed = (datetime.now() - start).total_seconds()
+        print(f"{func.__name__} took {elapsed:.4f}s")
+        return result
+    return wrapper
 
-# raising
-def cek_umur(umur):
-    if umur < 0:
-        raise ValueError("Umur tidak boleh negatif")
-    return umur
+@timer
+def jumlahkan(n):
+    return sum(range(n))
 
-print(f"Umur valid: {cek_umur(25)}")
+# Main Program
+print("=== Functions ===")
+print(sapa("Budi"))
+print(sapa("Siti", "Selamat pagi"))
 
-# ===== Contact Book (dictionary + functions) =====
-kontak = {
-    "Ayu": "0812-3456-7890",
-    "Budi": "0813-9876-5432",
-}
+print("\\n=== Multiple Returns ===")
+j, s, k, b = hitung(10, 3)
+print(f"Jumlah: {j}, Selisih: {s}, Kali: {k}, Bagi: {b:.2f}")
 
-def tampilkan(kontak):
-    if not kontak:
-        print("(kontak kosong)")
-    for nama, no in kontak.items():
-        print(f"  {nama}: {no}")
+print("\\n=== *args & **kwargs ===")
+tampilkan(1, 2, 3, nama="Budi", umur=25)
 
-def tambah(kontak, nama, no):
-    kontak[nama] = no
-    print(f"  '{nama}' ditambahkan.")
+print("\\n=== Lambda ===")
+print(f"Kuadrat 5: {kuadrat(5)}")
+print(f"2 pangkat 10: {pangkat(2, 10)}")
 
-def cari(kontak, nama):
-    no = kontak.get(nama)
-    if no is None:
-        print(f"  '{nama}' tidak ditemukan.")
-    else:
-        print(f"  {nama}: {no}")
+print("\\n=== Built-in Functions ===")
+angka = [3, 1, 4, 1, 5, 9, 2, 6]
+print(f"List: {angka}")
+print(f"Sorted: {sorted(angka)}")
+print(f"Reversed: {sorted(angka, reverse=True)}")
+print(f"Sum: {sum(angka)}")
+print(f"Max: {max(angka)}, Min: {min(angka)}")
+print(f"Map (x2): {list(map(lambda x: x*2, angka))}")
+print(f"Filter (genap): {list(filter(lambda x: x%2==0, angka))}")
 
-print("\\n=== Contact Book ===")
-tampilkan(kontak)
-tambah(kontak, "Citra", "0821-111-2222")
-cari(kontak, "Citra")
-cari(kontak, "Zainal")
-`,
-      };
-    },
-    objId: ['Menggunakan import dan from-import', 'Mengenal stdlib: math, random, datetime', 'Menangani error dengan try/except/else/finally', 'Melempar error sendiri dengan raise', 'Membangun Contact Book dengan dict + fungsi'],
-    objEn: ['Use import and from-import', 'Know the stdlib: math, random, datetime', 'Handle errors with try/except/else/finally', 'Raise your own errors', 'Build a Contact Book with dicts + functions'],
-    expId: `## Modul & Import
-\`import math\` lalu \`math.pi\`; \`from math import floor\` untuk nama langsung. Stdlib = "baterai bawaan" Python: math, random, datetime, json, csv, os (MOOC.fi Part 7). Modul sendiri dipelajari di Phase 4.
-\n## Membaca Traceback
-Riset (Springer 2023): SyntaxError = 29% semua error pemula, lalu TypeError; hanya 35% siswa paham isi traceback. Baca dari BAWAH ke atas: baris terakhir = jenis error + pesan, di atasnya = lokasi. "Finding and fixing bugs" = tantangan terbesar pemula (Lahtinen 2005) — jadi keahlian ini dilatih eksplisit.
-\n## try / except / else / finally
-\`try\` blok berisiko; \`except\` menangkap (spesifik dulu!); \`else\` jalan saat TANPA error; \`finally\` selalu jalan (untuk cleanup). Tangkap \`ValueError\`, jangan \`except:\` telanjang yang menyembunyikan semua error.
-\n## raise
-Lempar error sendiri saat kontrak dilanggar (\`cek_umur(-1)\`). Error yang eksplisit > bug yang diam. Nanti dipakai di kelas (phase 3) untuk validasi saldo.
-\n## Common Mistakes
-Except telanjang, menangkap lalu diam (debugging mimpi buruk), \`except ValueError as err\` lupa as, mengabaikan traceback, membandingkan dengan \`==\` setelah get() tanpa cek None.`,
-    expEn: `## Modules & Imports
-\`import math\` then \`math.pi\`; \`from math import floor\` for direct names. The stdlib is Python's "batteries included": math, random, datetime, json, csv, os (MOOC.fi Part 7). Your own modules come in Phase 4.
-\n## Reading Tracebacks
-Research (Springer 2023): SyntaxError = 29% of all beginner errors, then TypeError; only 35% of students understand tracebacks. Read from BOTTOM to top: last line = error type + message, above = location. "Finding and fixing bugs" is the biggest novice challenge (Lahtinen 2005) — so this skill is trained explicitly.
-\n## try / except / else / finally
-\`try\` holds risky code; \`except\` catches (specific first!); \`else\` runs when NO error; \`finally\` always runs (cleanup). Catch \`ValueError\`, never a bare \`except:\` that hides everything.
-\n## raise
-Raise your own errors when a contract is violated (\`cek_umur(-1)\`). An explicit error beats a silent bug. Used later in classes (phase 3) for balance validation.
-\n## Common Mistakes
-Bare except, catching then staying silent (a debugging nightmare), forgetting \`as\` in \`except ValueError as err\`, ignoring tracebacks, comparing after get() without a None check.`,
-    chId: 'Ubah Contact Book jadi menu interaktif (input): 1=tampilkan, 2=tambah, 3=cari, 4=hapus, 0=keluar. Validasi: nomor hanya angka (isdigit), nama tidak duplikat (lemparkan ValueError). Bonus: simpan kontak ke file JSON (lihat Phase 3) dan muat saat start.',
-    chEn: 'Turn the Contact Book into an interactive menu (input): 1=show, 2=add, 3=search, 4=delete, 0=exit. Validate: digits-only numbers (isdigit), no duplicate names (raise ValueError). Bonus: persist contacts to JSON (see Phase 3) and load on start.',
-    sumId: 'import/from, stdlib, baca traceback bottom-up, try/except/else/finally, raise. Contact Book: dict + fungsi + validasi. Lanjut: file I/O.',
-    sumEn: 'import/from, stdlib, bottom-up traceback reading, try/except/else/finally, raise. Contact Book: dicts + functions + validation. Next: file I/O.',
+print("\\n=== Math Module ===")
+print(f"Pi: {math.pi:.6f}")
+print(f"Sqrt(144): {math.sqrt(144)}")
+print(f"Faktorial(5): {math.factorial(5)}")
+
+print("\\n=== Decorator ===")
+hasil = jumlahkan(1000000)
+print(f"Hasil: {hasil}")
+    `,
+    objectivesId: [
+      'Membuat function dengan def, parameter, dan return value',
+      'Default parameter, *args, **kwargs untuk fleksibilitas',
+      'Lambda function untuk operasi satu baris',
+      'Built-in functions: map, filter, sorted, sum, max, min',
+      'Import module: import, from...import, alias',
+    ],
+    objectivesEn: [
+      'Create functions with def, parameters, and return values',
+      'Default parameters, *args, **kwargs for flexibility',
+      'Lambda functions for one-line operations',
+      'Built-in functions: map, filter, sorted, sum, max, min',
+      'Import modules: import, from...import, alias',
+    ],
+    explanationId: '### Function Dasar\n`def nama(params):` dengan docstring `"""..."""`. Return multiple values -> tuple.\n\n### Parameter Fleksibel\n`*args` = tuple positional args. `**kwargs` = dict keyword args. Default: `def f(x=10)`.\n\n### Lambda\n`lambda x: x**2` — function anonymous satu baris. Cocok untuk callback.\n\n### Built-in Functions\n`map(func, list)`, `filter(func, list)`, `sorted(list)`, `sum()`, `enumerate()`, `zip()`.\n\n### Import Module\n`import math`, `from datetime import datetime`, `import numpy as np`.\n\n### Decorator\nFunction yang membungkus function lain. `@timer` syntax sugar.',
+    explanationEn: '### Basic Functions\n`def name(params):` with docstring. Return multiple values -> tuple.\n\n### Flexible Parameters\n`*args` = positional tuple. `**kwargs` = keyword dict. Default: `def f(x=10)`.\n\n### Lambda\nAnonymous one-line functions.\n\n### Built-in Functions\n`map`, `filter`, `sorted`, `sum`, `enumerate`, `zip`.\n\n### Import Modules\nVarious import styles.\n\n### Decorators\nFunctions wrapping other functions.',
+    experimentsId: [
+      'Buat function dengan berbagai tipe parameter',
+      'Coba map dan filter dengan lambda',
+      'Buat decorator sendiri: @debug, @cache',
+      'Eksperimen dengan zip dan enumerate',
+      'Buat module sendiri dan import',
+    ],
+    experimentsEn: [
+      'Create functions with different parameter types',
+      'Try map and filter with lambda',
+      'Build your own decorator: @debug, @cache',
+      'Experiment with zip and enumerate',
+      'Create your own module and import it',
+    ],
+    challengeId: 'Buat library matematika sendiri: function untuk faktorial, fibonacci, prima check, GCD, LCM. Gunakan docstring dan type hints.',
+    challengeEn: 'Build your own math library: functions for factorial, fibonacci, prime check, GCD, LCM. Use docstrings and type hints.',
+    summaryId: 'Minggu 4 dari 12: **Functions & Modules** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Collections** (Intermediate).',
+    summaryEn: 'Week 4 of 12: **Functions & Modules** (Level: Beginner). Beginner phase complete! Next week: **Collections** (Intermediate).',
   },
-];
 
-// ===== PHASE 3: OOP & I/O (lessons 9-12) =====
-const LESSONS_P3 = [
+  // Week 5 - Collections & Data Structures
   {
-    phase: 3, num: 9, topicId: 'file-io',
-    titleId: 'File I/O & Data', titleEn: 'File I/O & Data',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `import json
-import csv
-from pathlib import Path
+    week: 5, level: 'intermediate', topicId: 'collections',
+    titleId: 'Collections & Data Structures', titleEn: 'Collections & Data Structures',
+    programId: 'Manajemen Data', programEn: 'Data Manager',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'python',
+    code: `
+# Collections & Data Structures
+from collections import Counter, defaultdict, namedtuple
 
-# ===== Menulis & membaca file teks =====
-with open("catatan.txt", "w", encoding="utf-8") as f:
-    f.write("baris pertama\\n")
-    f.write("baris kedua\\n")
-
-with open("catatan.txt", "r", encoding="utf-8") as f:
-    isi = f.read()
-print("Isi file:")
-print(isi)
-
-# with = context manager: file SELALU ditutup, bahkan saat error
-
-# ===== Membaca per baris =====
-with open("catatan.txt", "r", encoding="utf-8") as f:
-    for baris in f:
-        print(f"  Baris: {baris.strip()}")
-
-# ===== pathlib =====
-p = Path("catatan.txt")
-print(f"Ada? {p.exists()} | Ukuran: {p.stat().st_size} byte | Nama: {p.name}")
-p2 = Path("arsip") / "catatan.txt"     # gabung path aman lintas OS
-print(f"Path gabung: {p2}")
-
-# ===== JSON =====
-data = {"nama": "Ayu", "nilai": [90, 78, 85], "lulus": True}
-with open("data.json", "w", encoding="utf-8") as f:
-    json.dump(data, f, indent=2, ensure_ascii=False)
-
-with open("data.json", "r", encoding="utf-8") as f:
-    dibaca = json.load(f)
-print(f"JSON dibaca: {dibaca['nama']}, nilai {dibaca['nilai']}")
-
-# ===== CSV =====
-with open("nilai.csv", "w", newline="", encoding="utf-8") as f:
-    penulis = csv.writer(f)
-    penulis.writerow(["nama", "nilai"])
-    penulis.writerow(["Ayu", 90])
-    penulis.writerow(["Budi", 78])
-
-with open("nilai.csv", "r", encoding="utf-8") as f:
-    pembaca = csv.DictReader(f)
-    for baris in pembaca:
-        print(f"  {baris['nama']}: {baris['nilai']}")
-`,
-      };
-    },
-    objId: ['Membaca dan menulis file teks dengan with', 'Membaca file per baris', 'Menggunakan pathlib untuk path aman', 'Menyimpan dan memuat JSON', 'Membaca/menulis CSV dengan csv module'],
-    objEn: ['Read and write text files with with', 'Read files line by line', 'Use pathlib for safe paths', 'Save and load JSON', 'Read/write CSV with the csv module'],
-    expId: `## with: Context Manager
-\`with open(...) as f:\` menjamin file ditutup otomatis, bahkan saat exception terjadi — tidak perlu \`f.close()\` manual (Scaler M5 menempatkan file handling bersama OOP; datafield di chapter terpisah — di sini mendahului OOP karena Expense Tracker butuh CSV).
-\n## Membaca per Baris
-\`for baris in f:\` mengiterasi file tanpa memuat semua ke memori — pola untuk file besar. \`.strip()\` membersihkan newline. \`f.read()\` sekali baca seluruh isi; \`f.readlines()\` list baris.
-\n## pathlib
-\`Path\` adalah cara modern: \`Path("arsip") / "catatan.txt"\` aman di semua OS (vs \\\\ di Windows). \`.exists()\`, \`.stat().st_size\`, \`.name\`, \`.mkdir(exist_ok=True)\`. Mencegah hardcode path — common mistake nomor satu automasi.
-\n## JSON
-\`json.dump(data, f)\` menulis; \`json.load(f)\` membaca. JSON = format pertukaran data paling umum (API, config). \`ensure_ascii=False\` agar karakter non-ASCII terbaca, \`indent=2\` agar rapi.
-\n## CSV
-\`csv.writer\`/\`csv.DictReader\` menangani pemisahan koma, kutipan, dan newline antar OS (\`newline=""\` penting!). Column header memungkinkan akses \`baris["nama"]\`.
-\n## Common Mistakes
-Lupa \`encoding="utf-8"\` (UnicodeDecodeError), menulis tanpa \`with\` (file terkunci), lupa \`newline=""\` untuk CSV di Windows, membaca baris lalu lupa strip.`,
-    expEn: `## with: The Context Manager
-\`with open(...) as f:\` guarantees the file closes automatically, even on exceptions — no manual \`f.close()\` needed (Scaler M5 places file handling with OOP; datafield in a separate chapter — here it precedes OOP because the Expense Tracker needs CSV).
-\n## Reading Line by Line
-\`for baris in f:\` iterates without loading the whole file into memory — the pattern for large files. \`.strip()\` removes newlines. \`f.read()\` reads everything once; \`f.readlines()\` returns a list of lines.
-\n## pathlib
-\`Path\` is the modern way: \`Path("arsip") / "catatan.txt"\` is safe on every OS (vs \\\\ on Windows). \`.exists()\`, \`.stat().st_size\`, \`.name\`, \`.mkdir(exist_ok=True)\`. It prevents hardcoded paths — the #1 automation mistake.
-\n## JSON
-\`json.dump(data, f)\` writes; \`json.load(f)\` reads. JSON is the most common data exchange format (APIs, config). \`ensure_ascii=False\` keeps non-ASCII characters readable, \`indent=2\` pretty-prints.
-\n## CSV
-\`csv.writer\`/\`csv.DictReader\` handle comma separation, quoting, and OS newlines (\`newline=""\` matters!). Column headers enable \`baris["nama"]\` access.
-\n## Common Mistakes
-Forgetting \`encoding="utf-8"\` (UnicodeDecodeError), writing without \`with\` (locked files), forgetting \`newline=""\` for CSV on Windows, reading lines then forgetting to strip.`,
-    chId: 'Buat aplikasi catatan harian: (1) tambah entri (tanggal + teks) ke file teks, (2) tampilkan semua entri, (3) konverter CSV -> JSON: baca nilai.csv, ubah jadi list of dict, simpan nilai.json. Gabungkan dengan try/except untuk file yang tidak ada.',
-    chEn: 'Build a daily journal app: (1) append entries (date + text) to a text file, (2) show all entries, (3) a CSV -> JSON converter: read nilai.csv, turn it into a list of dicts, save nilai.json. Combine with try/except for missing files.',
-    sumId: 'with, per-baris, pathlib, JSON, CSV. Pola baca-tulis file siap untuk proyek. Lanjut: Expense Tracker.',
-    sumEn: 'with, line-by-line, pathlib, JSON, CSV. File read/write patterns ready for projects. Next: Expense Tracker.',
-  },
-  {
-    phase: 3, num: 10, topicId: 'proyek-expense',
-    titleId: 'Proyek: Expense Tracker', titleEn: 'Project: Expense Tracker',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `import csv
-from pathlib import Path
-
-FILE_CSV = Path("pengeluaran.csv")
-
-PENGELUARAN_AWAL = [
-    ["2026-07-01", "Makanan", 45000],
-    ["2026-07-02", "Transport", 25000],
-    ["2026-07-03", "Makanan", 65000],
-    ["2026-07-04", "Hiburan", 80000],
-    ["2026-07-05", "Belanja", 120000],
-]
-
-# ===== Simpan ke CSV (hanya jika belum ada) =====
-if not FILE_CSV.exists():
-    with open(FILE_CSV, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["tanggal", "kategori", "jumlah"])
-        writer.writerows(PENGELUARAN_AWAL)
-    print("CSV dibuat dengan 5 entri contoh.")
-
-# ===== Baca + validasi (error handling) =====
-def baca_pengeluaran():
-    daftar = []
-    with open(FILE_CSV, "r", encoding="utf-8") as f:
-        for baris in csv.DictReader(f):
-            try:
-                daftar.append({
-                    "tanggal": baris["tanggal"],
-                    "kategori": baris["kategori"],
-                    "jumlah": int(baris["jumlah"]),
-                })
-            except (KeyError, ValueError) as err:
-                print(f"Baris rusak dilewati: {baris} ({err})")
-    return daftar
-
-# ===== Analisis: total + per kategori (dict!) =====
-data = baca_pengeluaran()
-total = sum(d["jumlah"] for d in data)
-per_kategori = {}
-for d in data:
-    per_kategori[d["kategori"]] = per_kategori.get(d["kategori"], 0) + d["jumlah"]
-
-print(f"\\nTotal pengeluaran: Rp {total:,}")
-print("Per kategori:")
-for kategori, jumlah in sorted(per_kategori.items(), key=lambda x: -x[1]):
-    porsi = jumlah / total * 100
-    print(f"  {kategori:<12} Rp {jumlah:>10,}  ({porsi:.0f}%)")
-`,
-      };
-    },
-    objId: ['Membangun pipeline baca-validasi-analisis CSV', 'Menangani baris rusak dengan try/except', 'Mengagregasi data dengan dictionary', 'Memformat output angka dengan f-strings'],
-    objEn: ['Build a read-validate-analyze CSV pipeline', 'Handle corrupt rows with try/except', 'Aggregate data with dictionaries', 'Format numeric output with f-strings'],
-    expId: `## Pola Baca-Tulis CSV
-Project ladder Scaler #3: Expense Tracker memakai file handling + data structures + analisis dasar. Pola produksi: tulis header sekali -> append baris -> baca dengan DictReader -> agregasi. \`if not FILE_CSV.exists()\` mencegah overwrite data user.
-\n## Validasi Baris
-Data file tidak bisa dipercaya: kolom hilang (KeyError), angka tidak valid (ValueError). Lewati baris rusak dan lanjutkan — bukan crash total. Ini pola ETL dasar yang dipakai data engineer (travisjneuman level 1: "input validation, CSV, JSON").
-\n## Agregasi dengan Dictionary
-\`per_kategori.get(k, 0) + 1\` idiom counting paling umum di Python (word frequency dari L7 diulang dengan data nyata = spacing/interleaving, ACM ICER 2019: +1.04% nilai per jam latihan tersebar).
-\n## Format Angka
-\`f"{total:,}"\` ribuan separator; \`{jumlah:>10,}\` rata kanan lebar 10; \`{porsi:.0f}%\` presisi desimal; \`{kategori:<12}\` rata kiri. Format spec f-string = alat tiap laporan.
-\n## Proyek Milestone
-Expense Tracker membuktikan: file I/O + error handling + dict + lambda sort + formatting — separuh jalan menuju Python siap-kerja.`,
-    expEn: `## The CSV Read-Write Pattern
-Scaler project ladder #3: the Expense Tracker uses file handling + data structures + basic analysis. The production pattern: write the header once -> append rows -> read with DictReader -> aggregate. \`if not FILE_CSV.exists()\` prevents overwriting user data.
-\n## Row Validation
-File data cannot be trusted: missing columns (KeyError), invalid numbers (ValueError). Skip corrupt rows and continue — not a total crash. This is the basic ETL pattern used by data engineers (travisjneuman level 1: "input validation, CSV, JSON").
-\n## Dict Aggregation
-\`per_kategori.get(k, 0) + 1\` is the most common counting idiom in Python (the L7 word frequency is repeated with real data = spacing/interleaving, ACM ICER 2019: +1.04% exam grade per spaced-practice hour).
-\n## Number Formatting
-\`f"{total:,}"\` thousands separators; \`{jumlah:>10,}\` right-aligned width 10; \`{porsi:.0f}%\` decimal precision; \`{kategori:<12}\` left-aligned. f-string format specs = the tool for every report.
-\n## Project Milestone
-The Expense Tracker proves: file I/O + error handling + dicts + lambda sort + formatting — halfway to job-ready Python.`,
-    chId: 'Tambahkan: (1) filter laporan per bulan (parsing "2026-07"), (2) fungsi tambah_pengeluaran(tanggal, kategori, jumlah) yang meng-append baris baru ke CSV, (3) hapus semua entri dengan kategori tertentu, (4) tampilkan kategori dengan pengeluaran terbesar.',
-    chEn: 'Add: (1) monthly report filtering (parse "2026-07"), (2) tambah_pengeluaran(tanggal, kategori, jumlah) appending a new CSV row, (3) delete all entries of a given category, (4) show the category with the highest spending.',
-    sumId: 'Expense Tracker: CSV pipeline + validasi + agregasi dict + format angka. Separuh jalan. Lanjut: kelas & objek (OOP).',
-    sumEn: 'Expense Tracker: CSV pipeline + validation + dict aggregation + number formatting. Halfway there. Next: classes & objects (OOP).',
-  },
-  {
-    phase: 3, num: 11, topicId: 'kelas-dasar',
-    titleId: 'Kelas & Objek', titleEn: 'Classes & Objects',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ===== Memakai method object dulu (dot-notation) =====
-kata = "tryngo"
-print(f"method: {kata.upper()}")
-angka = [3, 1, 2]
+print("=== List ===")
+angka = [3, 1, 4, 1, 5, 9, 2, 6]
+angka.append(7)
+angka.insert(0, 0)
 angka.sort()
-print(f"method: {angka}")
-# .append(), .split(), .strip() -- kamu sudah memakai object sejak awal!
-# (MOOC.fi Part 8: "objects and methods" DULU, definisi kelas belakangan)
+print(f"List: {angka}")
+print(f"Pop: {angka.pop()}, setelah pop: {angka[-3:]}")
 
-# ===== Mendefinisikan kelas =====
-class RekeningBank:
-    """Contoh standar industri (Scaler): simpanan bank."""
-    mata_uang = "IDR"            # class attribute: dibagi semua instance
+print("\\n=== Tuple (Immutable) ===")
+coord = (10, 20)
+x, y = coord
+print(f"Coord: {x}, {y}")
+single = (42,)
+print(f"Single: {single}")
 
-    def __init__(self, pemilik, saldo=0):
-        self.pemilik = pemilik    # instance attribute: unik per objek
-        self.saldo = saldo
+print("\\n=== Dictionary ===")
+profil = {
+    "nama": "Budi",
+    "umur": 25,
+    "kota": "Jakarta",
+    "hobi": ["ngoding", "baca"]
+}
+print(f"Nama: {profil['nama']}")
+print(f"Get: {profil.get('email', 'N/A')}")
+profil["email"] = "budi@email.com"
+print(f"Keys: {list(profil.keys())}")
+print(f"Values: {list(profil.values())}")
 
-    def setor(self, jumlah):
-        if jumlah <= 0:
-            raise ValueError("Jumlah setoran harus positif")
-        self.saldo += jumlah
-        return self.saldo
+print("\\n=== Dict Comprehension ===")
+kuadrat = {x: x**2 for x in range(1, 6)}
+print(f"Kuadrat: {kuadrat}")
 
-    def tarik(self, jumlah):
-        if jumlah > self.saldo:
-            raise ValueError("Saldo tidak cukup")
-        self.saldo -= jumlah
-        return self.saldo
+print("\\n=== Set ===")
+a = {1, 2, 3, 4, 5}
+b = {4, 5, 6, 7, 8}
+print(f"Union: {a | b}")
+print(f"Intersection: {a & b}")
+print(f"Difference: {a - b}")
+print(f"Symmetric diff: {a ^ b}")
 
-    def info(self):
-        return f"{self.pemilik}: Rp {self.saldo:,} ({self.mata_uang})"
+print("\\n=== Counter ===")
+teks = "abracadabra"
+counter = Counter(teks)
+print(f"Counter: {counter}")
+print(f"Top 3: {counter.most_common(3)}")
 
-# Instansiasi = memanggil kelas seperti fungsi
-rekening_ayu = RekeningBank("Ayu", 500000)
-rekening_budi = RekeningBank("Budi")          # saldo default 0
+print("\\n=== defaultdict ===")
+groups = defaultdict(list)
+for buah in ["apel", "mangga", "alpukat", "pisang"]:
+    groups[buah[0]].append(buah)
+print(f"Group by first letter: {dict(groups)}")
 
-print(rekening_ayu.info())
-rekening_ayu.setor(150000)
-print(f"Setelah setor: {rekening_ayu.info()}")
-rekening_ayu.tarik(200000)
-print(f"Setelah tarik: {rekening_ayu.info()}")
-print(rekening_budi.info())
+print("\\n=== namedtuple ===")
+Point = namedtuple("Point", ["x", "y"])
+p = Point(3, 4)
+print(f"Point: ({p.x}, {p.y})")
 
-# Class attribute dibagi; instance attribute unik
-print(f"Semua pakai mata uang yang sama: {rekening_ayu.mata_uang}")
-
-# Perangkap: tarik lebih besar dari saldo -> ValueError
-try:
-    rekening_budi.tarik(999999)
-except ValueError as err:
-    print(f"Tertangkap: {err}")
-`,
-      };
-    },
-    objId: ['Memakai object/method sebelum mendefinisikan kelas', 'Mendefinisikan class dengan __init__ dan self', 'Membedakan instance vs class attribute', 'Menulis methods yang memvalidasi (raise)'],
-    objEn: ['Use objects/methods before defining classes', 'Define classes with __init__ and self', 'Distinguish instance vs class attributes', 'Write validating methods (raise)'],
-    expId: `## Object & Method: Sudah Kamu Kenal
-\`kata.upper()\`, \`angka.sort()\`, \`teks.split()\` — kamu memakai object & method sejak Pelajaran 4. MOOC.fi mengajarkan "Objects and Methods" sebagai Part 8 PERTAMA, sebelum definisi kelas: dot-notation adalah prasyarat. Riset ACM ("Some Trouble with Transparency") menemukan error OOP terbesar pemula = lupa \`self\` — berakar dari dot-notation yang tidak dikuasai.
-\n## class, __init__, self
-\`class\` = cetak biru; \`__init__\` menginisialisasi tiap instance baru (constructor); \`self\` = referensi instance saat method dipanggil — SELALU parameter pertama (konvensi, bukan keyword; jangan ganti). Instansiasi = \`RekeningBank("Ayu", 500000)\`.
-\n## Instance vs Class Attribute
-Instance attribute (\`self.saldo\`) unik per objek — didefinisikan di \`__init__\` (jangan di class body, kecuali immutable default). Class attribute (\`mata_uang\`) dibagi semua instance. Perangkap Boot.dev: mutable class attribute = versi class dari mutable default bug.
-\n## Method & Validasi
-Method = fungsi di dalam class yang beroperasi pada \`self\`. \`setor\`/\`tarik\` memvalidasi lalu raise ValueError — kontrak yang tegas (lanjutan L8). "Data + behavior berjalan bersama" = alasan utama OOP.
-\n## Common Mistakes: self
-Lupa \`self\` di parameter pertama, lupa \`self.\` saat mengakses attribute, mendefinisikan instance attribute di luar \`__init__\`, memanggil method tanpa tanda kurung. Ini error #1 pemula OOP (ACM 2016).`,
-    expEn: `## Objects & Methods: You Already Know Them
-\`kata.upper()\`, \`angka.sort()\`, \`teks.split()\` — you have been using objects & methods since Lesson 4. MOOC.fi teaches "Objects and Methods" as Part 8 FIRST, before class definitions: dot-notation is the prerequisite. ACM research ("Some Trouble with Transparency") found the biggest beginner OOP error = forgetting \`self\` — rooted in unmastered dot-notation.
-\n## class, __init__, self
-\`class\` = the blueprint; \`__init__\` initializes each new instance (the constructor); \`self\` = the instance reference when a method is called — always the first parameter (a convention, not a keyword; don't rename). Instantiation = \`RekeningBank("Ayu", 500000)\`.
-\n## Instance vs Class Attributes
-Instance attributes (\`self.saldo\`) are unique per object — defined in \`__init__\` (not in the class body, except immutable defaults). Class attributes (\`mata_uang\`) are shared by all instances. Boot.dev's trap: a mutable class attribute is the class version of the mutable default bug.
-\n## Methods & Validation
-Methods are functions inside a class operating on \`self\`. \`setor\`/\`tarik\` validate then raise ValueError — a strict contract (continuing L8). "Data + behavior travel together" = the main reason for OOP.
-\n## Common Mistakes: self
-Forgetting \`self\` as the first parameter, forgetting \`self.\` when accessing attributes, defining instance attributes outside \`__init__\`, calling methods without parentheses. This is the #1 beginner OOP error (ACM 2016).`,
-    chId: 'Buat kelas \u0060Produk\u0060 (nama, harga, stok) dengan metode \u0060jual(jumlah)\u0060 (validasi stok cukup), \u0060restok(jumlah)\u0060, dan \u0060info()\u0060. Buat 3 produk, lakukan transaksi, dan tampilkan daftar produk yang stoknya menipis (< 5).',
-    chEn: 'Create a \u0060Produk\u0060 class (nama, harga, stok) with \u0060jual(jumlah)\u0060 (validate sufficient stock), \u0060restok(jumlah)\u0060, and \u0060info()\u0060. Create 3 products, run transactions, and list products with low stock (< 5).',
-    sumId: 'Object/method dulu, kelas belakangan. __init__ + self, instance vs class attribute, method memvalidasi. Perangkap self. Lanjut: references & inheritance.',
-    sumEn: 'Objects/methods first, classes later. __init__ + self, instance vs class attributes, validating methods. The self trap. Next: references & inheritance.',
+print("\\n=== Zip & Unzip ===")
+nama = ["Budi", "Siti", "Andi"]
+umur = [25, 23, 27]
+for n, u in zip(nama, umur):
+    print(f"  {n}: {u}")
+    `,
+    objectivesId: [
+      'List: mutable, ordered — append, insert, pop, sort, slice',
+      'Tuple: immutable, hashable — unpacking dan namedtuple',
+      'Dictionary: key-value pairs — get, keys, values, items',
+      'Set: unique elements — union, intersection, difference',
+      'collections module: Counter, defaultdict, namedtuple, deque',
+    ],
+    objectivesEn: [
+      'List: mutable, ordered — append, insert, pop, sort, slice',
+      'Tuple: immutable, hashable — unpacking and namedtuple',
+      'Dictionary: key-value pairs — get, keys, values, items',
+      'Set: unique elements — union, intersection, difference',
+      'collections module: Counter, defaultdict, namedtuple, deque',
+    ],
+    explanationId: '### List vs Tuple\nList mutable `[]`, Tuple immutable `()`. Tuple bisa jadi dict key.\n\n### Dictionary\nKey-value dengan O(1) lookup. `get(key, default)` aman dari KeyError.\n\n### Dict Comprehension\n`{k: v for x in iterable}`.\n\n### Set\nOperasi matematika: union `|`, intersection `&`, difference `-`.\n\n### collections Module\n`Counter` untuk frekuensi, `defaultdict` auto-init key, `namedtuple` tuple dengan nama field.\n\n### Zip\n`zip(list1, list2)` menggabungkan iterable parallel.',
+    explanationEn: '### List vs Tuple\nList mutable `[]`, Tuple immutable `()`. Tuples can be dict keys.\n\n### Dictionary\nKey-value with O(1) lookup. `get(key, default)` is safe.\n\n### Dict Comprehension\n`{k: v for x in iterable}`.\n\n### Set\nMathematical operations: union, intersection, difference.\n\n### collections Module\n`Counter` for frequency, `defaultdict` auto-init, `namedtuple` named fields.\n\n### Zip\nCombine iterables in parallel.',
+    experimentsId: [
+      'Buat program frekuensi kata dengan Counter',
+      'Implementasikan cache sederhana dengan dict',
+      'Coba set operations pada dua list',
+      'Buat data processing pipeline dengan zip',
+      'Eksperimen dengan deque untuk queue/stack',
+    ],
+    experimentsEn: [
+      'Build word frequency program with Counter',
+      'Implement simple cache with dict',
+      'Try set operations on two lists',
+      'Build data processing pipeline with zip',
+      'Experiment with deque for queue/stack',
+    ],
+    challengeId: 'Buat program inventory: tambah/hapus produk (dict), kategori (set), riwayat transaksi (list). Gunakan Counter untuk laporan penjualan.',
+    challengeEn: 'Build an inventory program: add/remove products (dict), categories (set), transaction history (list). Use Counter for sales reports.',
+    summaryId: 'Minggu 5 dari 12: **Collections & Data Structures** (Level: Menengah). Struktur data harian Python. Minggu depan: **Object-Oriented Programming**.',
+    summaryEn: 'Week 5 of 12: **Collections & Data Structures** (Level: Intermediate). Daily data structures in Python. Next week: **Object-Oriented Programming**.',
   },
-  {
-    phase: 3, num: 12, topicId: 'oop-lanjut',
-    titleId: 'OOP Lanjutan & Special Methods', titleEn: 'Advanced OOP & Special Methods',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `# ===== Objects & References (riset Glasgow: hanya 2% benar!) =====
-a = [1, 2, 3]
-b = a                  # alias: b dan a menunjuk OBJEK yang sama
-b.append(4)
-print(f"a = {a}  (ikut berubah! alias, bukan salinan)")
-c = a.copy()           # salinan: objek baru
-c.append(5)
-print(f"a = {a}, c = {c}")
 
-# ===== Encapsulation: _private + @property =====
-class Akun:
-    def __init__(self, nama, saldo):
-        self.nama = nama
-        self._saldo = saldo        # konvensi: internal
+  // Week 6 - Object-Oriented Programming
+  {
+    week: 6, level: 'intermediate', topicId: 'oop',
+    titleId: 'Object-Oriented Programming', titleEn: 'Object-Oriented Programming',
+    programId: 'Sistem Bank', programEn: 'Bank System',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'python',
+    code: `
+# Object-Oriented Programming
+from abc import ABC, abstractmethod
+
+class BankAccount:
+    """Rekening bank dengan OOP."""
+    bank_name = "Python Bank"
+
+    def __init__(self, owner: str, balance: float = 0):
+        self.owner = owner
+        self._balance = balance
+        self.__id = id(self)
+
+    def deposit(self, amount: float):
+        if amount <= 0:
+            raise ValueError("Jumlah deposit harus positif")
+        self._balance += amount
+        return self
+
+    def withdraw(self, amount: float):
+        if amount > self._balance:
+            raise ValueError("Saldo tidak cukup")
+        self._balance -= amount
+        return self
 
     @property
-    def saldo(self):
-        return self._saldo
-
-    def setor(self, jumlah):
-        if jumlah <= 0:
-            raise ValueError("Harus positif")
-        self._saldo += jumlah
-
-# ===== Inheritance + super =====
-class Tabungan(Akun):
-    def __init__(self, nama, saldo, bunga_persen=5):
-        super().__init__(nama, saldo)   # panggil parent
-        self.bunga_persen = bunga_persen
-
-    def bulanan(self):
-        bunga = self._saldo * self.bunga_persen / 100
-        self._saldo += bunga
-        return bunga
-
-tabungan = Tabungan("Ayu", 1000000)
-print(f"Saldo awal: {tabungan.saldo}")
-print(f"Bunga bulan ini: {tabungan.bulanan():.0f}")
-print(f"Saldo baru: {tabungan.saldo}")
-
-# ===== Special methods: __str__, __eq__ =====
-class Produk:
-    def __init__(self, nama, harga):
-        self.nama = nama
-        self.harga = harga
+    def balance(self):
+        return self._balance
 
     def __str__(self):
-        return f"{self.nama} (Rp {self.harga:,})"
+        return f"{self.owner}: Rp{self._balance:,.0f}"
 
-    def __eq__(self, lain):
-        return isinstance(lain, Produk) and self.nama == lain.nama and self.harga == lain.harga
+    def __repr__(self):
+        return f"BankAccount('{self.owner}', {self._balance})"
 
-p1 = Produk("Keyboard", 750000)
-p2 = Produk("Keyboard", 750000)
-print(str(p1))                    # pakai __str__
-print(f"p1 == p2: {p1 == p2}")    # pakai __eq__
+class SavingsAccount(BankAccount):
+    """Rekening tabungan dengan bunga."""
 
-# ===== Kapan TIDAK memakai class (Real Python) =====
-# Data-only -> dataclass/namedtuple/dict
-# Satu method -> fungsi biasa
-`,
-      };
-    },
-    objId: ['Memahami references, aliasing, dan copying', 'Menerapkan encapsulation dengan _private dan @property', 'Menggunakan inheritance dan super()', 'Mengimplementasikan __str__ dan __eq__', 'Menilai kapan TIDAK memakai class'],
-    objEn: ['Understand references, aliasing, and copying', 'Apply encapsulation with _private and @property', 'Use inheritance and super()', 'Implement __str__ and __eq__', 'Judge when NOT to use classes'],
-    expId: `## References & Aliasing
-\`b = a\` membuat dua nama menunjuk OBJEK yang sama — \`b.append(4)\` mengubah a juga! Riset Glasgow 2020: hanya 2% mahasiswa benar membedakan \`a + b\`, \`a.append(b)\`, \`a += b\`. Ini threshold concept: gunakan \`.copy()\` untuk salinan, pahami \`is\` vs \`==\`. MOOC.fi Part 9 menempatkan "Objects and References" sebelum materi OOP lanjutan.
-\n## Encapsulation
-Python tidak punya private sejati — konvensi: \`_saldo\` = "internal, jangan disentuh". \`@property\` membungkus attribute dengan method (getter) tanpa mengubah API pemanggil. Tujuannya: kendali (validasi), bukan keamanan (datafield.dev).
-\n## Inheritance & super
-\`class Tabungan(Akun)\` mewarisi attribute + method parent. \`super().__init__(...)\` memanggil constructor parent sebelum logika sendiri (urutan MOOC.fi: P9 references -> P10 hierarchies). Method di child override method parent; \`super()\` untuk memanggil versi parent.
-\n## Special Methods
-\`__str__\` untuk print/display, \`__eq__\` untuk == (default: identity!). \`__repr__\`, \`__len__\`, \`__lt__\` menyusul saat perlu. "Dunder" methods = integrasi objek dengan operator built-in.
-\n## Kapan TIDAK Pakai Class
-Real Python/datafield: data-only -> dataclass/namedtuple/dict; satu method -> fungsi. OOP untuk "benda" (noun: Student, BankAccount, Produk); prosedural untuk operasi (verb: calculate, parse). Kebanyakan program Python = campuran sehat.`,
-    expEn: `## References & Aliasing
-\`b = a\` creates two names pointing at the SAME object — \`b.append(4)\` changes a too! Glasgow research 2020: only 2% of students correctly distinguished \`a + b\`, \`a.append(b)\`, \`a += b\`. This is a threshold concept: use \`.copy()\` for copies, understand \`is\` vs \`==\`. MOOC.fi Part 9 places "Objects and References" before advanced OOP material.
-\n## Encapsulation
-Python has no true private — the convention: \`_saldo\` = "internal, don't touch". \`@property\` wraps an attribute with a method (getter) without changing the caller API. Its purpose: control (validation), not security (datafield.dev).
-\n## Inheritance & super
-\`class Tabungan(Akun)\` inherits the parent's attributes + methods. \`super().__init__(...)\` calls the parent constructor before your own logic (MOOC.fi order: P9 references -> P10 hierarchies). Child methods override parent ones; \`super()\` calls the parent version.
-\n## Special Methods
-\`__str__\` for print/display, \`__eq__\` for == (default: identity!). \`__repr__\`, \`__len__\`, \`__lt__\` come when needed. "Dunder" methods integrate objects with built-in operators.
-\n## When NOT to Use Classes
-Real Python/datafield: data-only -> dataclass/namedtuple/dict; single method -> function. OOP for "things" (nouns: Student, BankAccount, Produk); procedural for operations (verbs: calculate, parse). Most real Python = a healthy mix.`,
-    chId: 'Buat kelas \u0060KoleksiBuku\u0060 dengan \u0060__str__\u0060 (daftar isi) dan \u0060__eq__\u0060 (isi sama). Tambah inheritance \u0060BukuDigital(KoleksiBuku)\u0060 dengan field ukuran_file. Bonus: cegah mutasi bersama (aliasing) dengan mengembalikan \u0060list.copy()\u0060 dari getter.',
-    chEn: 'Create a \u0060KoleksiBuku\u0060 class with \u0060__str__\u0060 (content list) and \u0060__eq__\u0060 (same contents). Add inheritance \u0060BukuDigital(KoleksiBuku)\u0060 with a file-size field. Bonus: prevent shared mutation (aliasing) by returning \u0060list.copy()\u0060 from the getter.',
-    sumId: 'References & aliasing (2%), encapsulation via _/@property, inheritance+super, __str__/__eq__, kapan tidak pakai class. Lanjut: venv & pip.',
-    sumEn: 'References & aliasing (2%), encapsulation via _/@property, inheritance+super, __str__/__eq__, when not to use classes. Next: venv & pip.',
+    def __init__(self, owner: str, balance: float = 0, rate: float = 0.05):
+        super().__init__(owner, balance)
+        self.rate = rate
+
+    def add_interest(self):
+        interest = self._balance * self.rate
+        self._balance += interest
+        return interest
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self): pass
+
+    @abstractmethod
+    def perimeter(self): pass
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self): return self.width * self.height
+    def perimeter(self): return 2 * (self.width + self.height)
+    def __str__(self): return f"Rectangle({self.width}x{self.height})"
+
+# Main Program
+print("=== Bank Account ===")
+acc = BankAccount("Budi", 1000000)
+acc.deposit(500000)
+acc.withdraw(200000)
+print(f"Account: {acc}")
+print(f"Balance: Rp{acc.balance:,.0f}")
+
+print("\\n=== Savings Account ===")
+savings = SavingsAccount("Siti", 2000000)
+interest = savings.add_interest()
+print(f"Savings: {savings}")
+print(f"Bunga: Rp{interest:,.0f}")
+
+print("\\n=== Abstract Class ===")
+rect = Rectangle(5, 3)
+print(f"{rect} -> Area: {rect.area()}, Perimeter: {rect.perimeter()}")
+
+print("\\n=== isinstance checks ===")
+print(f"acc is BankAccount: {isinstance(acc, BankAccount)}")
+print(f"savings is BankAccount: {isinstance(savings, BankAccount)}")
+print(f"rect is Shape: {isinstance(rect, Shape)}")
+    `,
+    objectivesId: [
+      'Membuat class dengan __init__, self, dan instance methods',
+      'Inheritance: super() dan method overriding',
+      'Abstract Base Class (ABC) dengan @abstractmethod',
+      'Encapsulation: _protected, __private, @property',
+      'Dunder methods: __str__, __repr__, __init__',
+    ],
+    objectivesEn: [
+      'Create classes with __init__, self, and instance methods',
+      'Inheritance: super() and method overriding',
+      'Abstract Base Class (ABC) with @abstractmethod',
+      'Encapsulation: _protected, __private, @property',
+      'Dunder methods: __str__, __repr__, __init__',
+    ],
+    explanationId: '### Class & __init__\n`self` = instance. `__init__` = constructor. Method pertama param = self.\n\n### Inheritance\n`class Child(Parent)`. `super().__init__()` panggil parent constructor.\n\n### ABC\n`@abstractmethod` wajib diimplement subclass. Tidak bisa instantiate ABC langsung.\n\n### Encapsulation\n`_protected` convention, `__private` name mangling. `@property` untuk getter.\n\n### Dunder Methods\n`__str__` user-friendly, `__repr__` developer/debug. Lainnya: `__eq__`, `__len__`, `__getitem__`.',
+    explanationEn: '### Class & __init__\n`self` = instance. `__init__` = constructor.\n\n### Inheritance\n`class Child(Parent)`. `super()` calls parent.\n\n### ABC\n`@abstractmethod` must be implemented by subclasses.\n\n### Encapsulation\n`_protected` convention, `__private` name mangling. `@property` for getters.\n\n### Dunder Methods\n`__str__` user-friendly, `__repr__` developer-friendly.',
+    experimentsId: [
+      'Buat class hierarchy: Animal -> Dog, Cat',
+      'Coba @property untuk computed attribute',
+      'Buat class dengan __eq__ dan __lt__',
+      'Eksperimen dengan multiple inheritance',
+      'Buat custom iterator dengan __iter__ dan __next__',
+    ],
+    experimentsEn: [
+      'Create class hierarchy: Animal -> Dog, Cat',
+      'Try @property for computed attribute',
+      'Create class with __eq__ and __lt__',
+      'Experiment with multiple inheritance',
+      'Build custom iterator with __iter__ and __next__',
+    ],
+    challengeId: 'Buat sistem perpustakaan: class Book, Member, Library. Method: borrow, return, search. Gunakan inheritance dan encapsulation.',
+    challengeEn: 'Build a library system: class Book, Member, Library. Methods: borrow, return, search. Use inheritance and encapsulation.',
+    summaryId: 'Minggu 6 dari 12: **Object-Oriented Programming** (Level: Menengah). Python OOP yang powerful. Minggu depan: **File I/O & Error Handling**.',
+    summaryEn: 'Week 6 of 12: **Object-Oriented Programming** (Level: Intermediate). Powerful Python OOP. Next week: **File I/O & Error Handling**.',
   },
-];
 
-// ===== PHASE 4: REAL-WORLD (lessons 13-16) =====
-const LESSONS_P4 = [
+  // Week 7 - File I/O & Error Handling
   {
-    phase: 4, num: 13, topicId: 'lingkungan-paket',
-    titleId: 'venv, pip & Packages', titleEn: 'venv, pip & Packages',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'helpers.py': `def rata_rata(angka):
-    return sum(angka) / len(angka)
-
-def median(angka):
-    urut = sorted(angka)
-    n = len(urut)
-    tengah = n // 2
-    if n % 2 == 1:
-        return urut[tengah]
-    return (urut[tengah - 1] + urut[tengah]) / 2
-`,
-        'index.py': `# ===== Modul sendiri: organisasi kode lintas file =====
-import helpers
-
-nilai = [85, 92, 78, 90, 88]
-print(f"Rata-rata: {helpers.rata_rata(nilai):.1f}")
-print(f"Median: {helpers.median(nilai)}")
-
-# ===== if __name__ == "__main__" =====
-# Kode di bawah hanya jalan saat index.py dieksekusi LANGSUNG,
-# bukan saat di-import sebagai modul.
-def main():
-    print("Program dimulai dari index.py (bukan saat di-import)")
-
-if __name__ == "__main__":
-    main()
-
-# ===== venv & pip (jalankan di terminal lokal / StackBlitz) =====
-# python -m venv venv
-# venv\\Scripts\\activate          (Windows)
-# source venv/bin/activate        (macOS / Linux)
-# pip install requests
-# pip freeze > requirements.txt
-# pip install -r requirements.txt
-`,
-      };
-    },
-    objId: ['Memisahkan kode ke modul sendiri', 'Memahami if __name__ == "__main__"', 'Membuat dan mengaktifkan virtual environment', 'Mengelola dependensi dengan pip dan requirements.txt'],
-    objEn: ['Split code into your own modules', 'Understand if __name__ == "__main__"', 'Create and activate virtual environments', 'Manage dependencies with pip and requirements.txt'],
-    expId: `## Modul Sendiri
-File .py = modul. \`import helpers\` mengeksekusi helpers.py dan memberi namespace. Ini cara profesional mengorganisasi: logika di helpers.py, "cerita" di index.py. Scaler M3 menempatkan modules bersama functions; travisjneuman level 3 menambah packaging.
-\n## if __name__ == "__main__"
-Saat file di-import, kode level-atas TURUT dieksekusi — kecuali dijaga guard ini. \`__name__\` = \`"__main__"\` hanya saat dieksekusi langsung. Setiap file dengan perilaku perlu guard ini.
-\n## Virtual Environment
-\`venv\` = lingkungan Python terisolasi per project: versi package project A tidak merusak project B. Setiap project serius WAJIB venv (Scaler, DataCamp, travisjneuman). \`venv\\Scripts\\activate\` (Windows) / \`source venv/bin/activate\` (Unix).
-\n## pip & requirements.txt
-\`pip install <pkg>\` memasang dari PyPI; \`pip freeze > requirements.txt\` mencatat dependensi + versi; \`pip install -r requirements.txt\` mengembalikan environment di mesin lain / CI. StackBlitz WebContainers saat ini hanya stdlib (python3 vanilla) — install pip di lingkungan lokal kamu.
-\n## Common Mistakes
-Import di tengah fungsi (biasanya tanda design buruk), circular import, tidak pakai venv (dependency hell), meng-commit venv/ folder (pakai .gitignore), \`pip\` vs \`pip3\` salah versi Python.`,
-    expEn: `## Your Own Modules
-A .py file = a module. \`import helpers\` executes helpers.py and provides a namespace. This is the professional way to organize: logic in helpers.py, the "story" in index.py. Scaler M3 places modules with functions; travisjneuman level 3 adds packaging.
-\n## if __name__ == "__main__"
-When a file is imported, top-level code RUNS — unless guarded. \`__name__\` equals \`"__main__"\` only when executed directly. Every behavioral file needs this guard.
-\n## Virtual Environments
-\`venv\` = an isolated Python environment per project: project A's package versions never break project B. Every serious project REQUIRES venv (Scaler, DataCamp, travisjneuman). \`venv\\Scripts\\activate\` (Windows) / \`source venv/bin/activate\` (Unix).
-\n## pip & requirements.txt
-\`pip install <pkg>\` installs from PyPI; \`pip freeze > requirements.txt\` records dependencies + versions; \`pip install -r requirements.txt\` restores the environment on other machines / CI. StackBlitz WebContainers is currently stdlib-only (vanilla python3) — run pip installs in your local environment.
-\n## Common Mistakes
-Imports inside functions (usually a design smell), circular imports, no venv (dependency hell), committing the venv/ folder (use .gitignore), \`pip\` vs \`pip3\` wrong Python version.`,
-    chId: 'Refactor: pindahkan fungsi statistika (rata-rata, median, modus) ke modul \u0060statistik.py\u0060, tulis index.py yang import dan menjalankan laporan, lalu buat requirements.txt kosong untuk project. Latih: buat venv lokal, install satu package, freeze.',
-    chEn: 'Refactor: move the statistics functions (mean, median, mode) into a \u0060statistik.py\u0060 module, write index.py importing and running a report, then create an empty requirements.txt for the project. Practice: create a local venv, install one package, freeze.',
-    sumId: 'Modul sendiri + __name__ guard + venv + pip/requirements.txt = fondasi project nyata. Lanjut: CLI & automasi.',
-    sumEn: 'Own modules + __name__ guard + venv + pip/requirements.txt = real project foundations. Next: CLI & automation.',
-  },
-  {
-    phase: 4, num: 14, topicId: 'cli-automasi',
-    titleId: 'CLI & Automasi', titleEn: 'CLI & Automation',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `import argparse
+    week: 7, level: 'intermediate', topicId: 'file-io',
+    titleId: 'File I/O & Error Handling', titleEn: 'File I/O & Error Handling',
+    programId: 'Manajemen File', programEn: 'File Manager',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'python',
+    code: `
+# File I/O & Error Handling
+import json
+import csv
 import os
-import shutil
-import tempfile
 from pathlib import Path
 
-# ===== argparse: CLI profesional =====
-# (jalankan: python3 index.py --dir <path> --dry-run)
+# Writing Files
+print("=== Writing Files ===")
+data = ["Python", "JavaScript", "Go", "Rust"]
+with open("languages.txt", "w") as f:
+    for lang in data:
+        f.write(f"\\n- {lang}")
+print("Written: languages.txt")
 
-ATURAN = {
-    ".txt": "Dokumen", ".md": "Dokumen",
-    ".png": "Gambar", ".jpg": "Gambar",
-    ".csv": "Data", ".json": "Data",
-}
+# Reading Files
+print("\\n=== Reading Files ===")
+with open("languages.txt", "r") as f:
+    content = f.read()
+print(f"Content:\\n{content}")
 
-def organisir(target_dir, dry_run=False):
-    target = Path(target_dir)
-    for file in target.iterdir():
-        if file.is_dir():
-            continue
-        kategori = ATURAN.get(file.suffix.lower(), "Lainnya")
-        folder = target / kategori
-        print(f"  {file.name} -> {kategori}/")
-        if not dry_run:
-            folder.mkdir(exist_ok=True)
-            shutil.move(str(file), str(folder / file.name))
+with open("languages.txt", "r") as f:
+    lines = f.readlines()
+print(f"Lines: {len(lines)}")
 
-def demo():
-    demo_dir = Path(tempfile.mkdtemp(prefix="tryngo_"))
-    for nama in ["laporan.txt", "foto.png", "data.csv", "catatan.md", "random.bin"]:
-        (demo_dir / nama).write_text("contoh", encoding="utf-8")
-    print(f"Demo dir: {demo_dir}")
-    print("Sebelum:", sorted(f.name for f in demo_dir.iterdir()))
-    organisir(demo_dir, dry_run=True)
-    print("(rencana organisasi di atas, dry-run)")
+# JSON
+print("\\n=== JSON ===")
+users = [
+    {"name": "Budi", "age": 25, "city": "Jakarta"},
+    {"name": "Siti", "age": 23, "city": "Bandung"},
+]
+with open("users.json", "w") as f:
+    json.dump(users, f, indent=2)
 
-def main():
-    parser = argparse.ArgumentParser(description="Organisir file berdasarkan ekstensi")
-    parser.add_argument("--dir", default=".", help="Direktori target")
-    parser.add_argument("--dry-run", action="store_true", help="Hanya tampilkan rencana")
-    args = parser.parse_args()
-    organisir(args.dir, args.dry_run)
+with open("users.json", "r") as f:
+    loaded = json.load(f)
+print(f"Loaded {len(loaded)} users")
+for u in loaded:
+    print(f"  {u['name']}: {u['age']}")
 
-if __name__ == "__main__":
-    demo()
-    # Uncomment baris ini untuk CLI sungguhan:
-    # main()
-`,
-      };
-    },
-    objId: ['Membangun CLI dengan argparse', 'Memanipulasi file dengan os dan shutil', 'Menggunakan pathlib vs os secara sadar', 'Menerapkan pola dry-run yang aman'],
-    objEn: ['Build CLIs with argparse', 'Manipulate files with os and shutil', 'Use pathlib vs os deliberately', 'Apply the safe dry-run pattern'],
-    expId: `## argparse: CLI yang Benar
-\`argparse\` = cara standar membuat command-line interface: flag (\`--dir\`), opsi boolean (\`--dry-run\`), help otomatis (\`--help\`). Ini bentuk 73-74% tool Python yang dikirim developer (research jalur karier: CLI + HTTP service). Asmorix menaruh otomasi + Git di minggu 6-8 kurikulumnya.
-\n## os & shutil
-\`os.rename\`, \`os.walk\` (jelajah rekursif), \`shutil.move\`, \`shutil.copy\`, \`shutil.rmtree\`. shutil = operasi level tinggi di atas os. Kombinasi keduanya = "Automate the Boring Stuff" (kurikulum automasi paling terkenal, gratis di automatetheboringstuff.com).
-\n## pathlib vs os
-\`Path\` modern dan ekspresif; \`os\` murah dan ada di mana-mana. Python 3.6+ menganjurkan pathlib untuk path, os untuk operasi sistem. Konsisten lebih penting daripada "benar".
-\n## Pola Dry-Run
-Tampilkan rencana SEBELUM mengeksekusi — pola produksi yang mencegah bencana (hapus file salah). \`action="store_true"\` membuat flag boolean. Demo di program memakai \`tempfile.mkdtemp\` agar aman di lingkungan apa pun.
-\n## Common Mistakes
-Mengubah file di direktori kerja tanpa cek is_dir, hardcode path, lupa mode file, dry-run yang tetap menulis, \`shutil.move\` ke folder yang belum dibuat (pakai mkdir(exist_ok=True)).`,
-    expEn: `## argparse: The Proper CLI
-\`argparse\` is the standard way to build command-line interfaces: flags (\`--dir\`), boolean options (\`--dry-run\`), automatic help (\`--help\`). This is the shape of 73-74% of shipped Python tools (career-path research: CLI + HTTP services). Asmorix places automation + Git in weeks 6-8 of its curriculum.
-\n## os & shutil
-\`os.rename\`, \`os.walk\` (recursive traversal), \`shutil.move\`, \`shutil.copy\`, \`shutil.rmtree\`. shutil = high-level operations on top of os. The pair = "Automate the Boring Stuff" (the most famous automation curriculum, free at automatetheboringstuff.com).
-\n## pathlib vs os
-\`Path\` is modern and expressive; \`os\` is cheap and everywhere. Python 3.6+ recommends pathlib for paths, os for system operations. Consistency beats "being right".
-\n## The Dry-Run Pattern
-Show the plan BEFORE executing — a production pattern that prevents disasters (deleting the wrong files). \`action="store_true"\` makes a boolean flag. The demo uses \`tempfile.mkdtemp\` so it is safe in any environment.
-\n## Common Mistakes
-Modifying files in the working directory without an is_dir check, hardcoded paths, forgetting file modes, dry-runs that still write, \`shutil.move\` into a folder that doesn't exist yet (use mkdir(exist_ok=True)).`,
-    chId: 'Buat tool \u0060renama_batch.py\u0060: argparse --prefix dan --dir, rename semua file .txt menjadi \u0060{prefix}_{nama}.txt\u0060 dengan os.rename, dry-run default true, opsi --apply untuk eksekusi nyata. Tampilkan ringkasan sebelum/sesudah.',
-    chEn: 'Build \u0060renama_batch.py\u0060: argparse --prefix and --dir, rename all .txt files to \u0060{prefix}_{nama}.txt\u0060 with os.rename, dry-run true by default, --apply for real execution. Show before/after summaries.',
-    sumId: 'argparse CLI, os/shutil automasi, pathlib, dry-run pattern. Siap membuat tool nyata. Lanjut: testing & Git.',
-    sumEn: 'argparse CLIs, os/shutil automation, pathlib, the dry-run pattern. Ready to build real tools. Next: testing & Git.',
-  },
-  {
-    phase: 4, num: 15, topicId: 'testing-git',
-    titleId: 'Testing & Git', titleEn: 'Testing & Git',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'calculator.py': `def tambah(a, b):
-    return a + b
+# CSV
+print("\\n=== CSV ===")
+with open("data.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["Nama", "Umur", "Kota"])
+    writer.writerow(["Budi", 25, "Jakarta"])
+    writer.writerow(["Siti", 23, "Bandung"])
 
-def kurang(a, b):
-    return a - b
+with open("data.csv", "r") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        print(f"  {row['Nama']}: {row['Umur']} tahun")
 
-def kali(a, b):
-    return a * b
+# Pathlib
+print("\\n=== Pathlib ===")
+p = Path("users.json")
+print(f"Exists: {p.exists()}")
+print(f"Name: {p.name}")
+print(f"Parent: {p.parent}")
 
-def bagi(a, b):
-    if b == 0:
-        raise ValueError("Tidak bisa dibagi nol")
-    return a / b
-`,
-        'index.py': `# ===== Pengujian dasar: assert =====
-import calculator
-
-def uji():
-    hasil = []
-    hasil.append(("tambah", calculator.tambah(2, 3) == 5))
-    hasil.append(("kurang", calculator.kurang(10, 4) == 6))
-    hasil.append(("kali", calculator.kali(3, 4) == 12))
-    hasil.append(("bagi", calculator.bagi(9, 3) == 3))
+# Error Handling
+print("\\n=== Error Handling ===")
+def divide(a, b):
     try:
-        calculator.bagi(1, 0)
-        hasil.append(("bagi-nol", False))
-    except ValueError:
-        hasil.append(("bagi-nol", True))
-    return hasil
+        result = a / b
+    except ZeroDivisionError:
+        print("Error: tidak bisa dibagi nol")
+        return None
+    except TypeError:
+        print("Error: tipe data tidak valid")
+        return None
+    else:
+        print(f"Berhasil: {a} / {b} = {result}")
+        return result
+    finally:
+        print("  (finally selalu jalan)")
 
-hasil = uji()
-for nama, ok in hasil:
-    print(f"  [{'PASS' if ok else 'FAIL'}] {nama}")
-print(f"\\n{sum(ok for _, ok in hasil)}/{len(hasil)} lolos")
+divide(10, 3)
+divide(10, 0)
 
-# ===== pytest (tool sungguhan, jalankan lokal) =====
-# Buat file test_calculator.py:
-#
-#   from calculator import tambah, bagi
-#   import pytest
-#
-#   def test_tambah():
-#       assert tambah(2, 3) == 5
-#
-#   def test_bagi_nol():
-#       with pytest.raises(ValueError):
-#           bagi(1, 0)
-#
-# Jalankan:  pytest test_calculator.py -v
+# Custom Exception
+print("\\n=== Custom Exception ===")
+class ValidationError(Exception):
+    def __init__(self, field, message):
+        self.field = field
+        self.message = message
+        super().__init__(f"{field}: {message}")
 
-# ===== Git (konsep inti, jalankan lokal) =====
-# git init
-# git add calculator.py test_calculator.py
-# git commit -m "feat: kalkulator + test"
-# git branch -M main
-# git remote add origin <url>
-# git push -u origin main
-# git log --oneline
-`,
-      };
-    },
-    objId: ['Menulis test berbasis assert', 'Menstrukturkan test sebagai fungsi', 'Memahami pytest dan fixtures dasar', 'Mengenal alur kerja Git: add, commit, push'],
-    objEn: ['Write assert-based tests', 'Structure tests as functions', 'Understand pytest and basic fixtures', 'Know the Git workflow: add, commit, push'],
-    expId: `## assert & Test Function
-\`assert\` memeriksa kebenaran dan melempar AssertionError saat gagal. Struktur test: satu fungsi per perilaku, nama deskriptif (\`test_tambah\`). Pola 3 tahap: arrange (siapkan) -> act (panggil) -> assert (periksa). DataCamp menempatkan testing di bulan 3-4 roadmap 12 bulannya; travisjneuman level 3: "packages, logging, test-driven development".
-\n## pytest
-\`pytest\` = framework test de facto: temukan fungsi \`test_*\`, jalankan, lapor merah/hijau. \`pytest.raises(ValueError)\` untuk menguji error. Assertion bawaannya membaca pesan yang jelas — riset Springer: error message yang jelas menurunkan frustrasi pemula 73%.
-\n## TDD Ringkas
-TDD: tulis test yang gagal dulu, lalu implementasi minimal sampai hijau, lalu refactor. Untuk track ini: cukup tulis test BERSAMA implementasi — kebiasaan mengetes apa yang kamu bangun jauh lebih penting daripada urutannya.
-\n## Git & GitHub
-\`git add\` (staging) -> \`git commit\` (snapshot + pesan) -> \`git push\` (ke remote). \`git log --oneline\` melihat riwayat. Git muncul di hampir semua kurikulum riset: DataCamp bulan 1-2, Asmorix minggu 8, travisjneuman "Git Basics".
-\n## Common Mistakes
-Test menguji implementasi, bukan perilaku (menguji internal, bukan input->output), lupa edge case (bagi nol!), test yang selalu lolos, menge-commit file tidak relevan, commit tanpa pesan deskriptif.`,
-    expEn: `## assert & Test Functions
-\`assert\` checks truthiness and raises AssertionError on failure. Test structure: one function per behavior, descriptive names (\`test_tambah\`). The 3-phase pattern: arrange (prepare) -> act (call) -> assert (check). DataCamp places testing in months 3-4 of its 12-month roadmap; travisjneuman level 3: "packages, logging, test-driven development".
-\n## pytest
-\`pytest\` is the de facto test framework: finds \`test_*\` functions, runs them, reports red/green. \`pytest.raises(ValueError)\` tests errors. Its built-in assertions read clear messages — Springer research: clear error messages reduced beginner frustration by 73%.
-\n## Concise TDD
-TDD: write a failing test first, then minimal implementation until green, then refactor. For this track: writing tests WITH the implementation is enough — the habit of testing what you build matters far more than the order.
-\n## Git & GitHub
-\`git add\` (staging) -> \`git commit\` (snapshot + message) -> \`git push\` (to remote). \`git log --oneline\` views history. Git appears in nearly every researched curriculum: DataCamp months 1-2, Asmorix week 8, travisjneuman "Git Basics".
-\n## Common Mistakes
-Tests asserting implementation rather than behavior (testing internals, not input->output), missing edge cases (divide by zero!), always-passing tests, committing irrelevant files, commits without descriptive messages.`,
-    chId: 'Tambah fungsi \u0060pangkat(a, b)\u0060 dan \u0060sisa(a, b)\u0060 ke calculator.py, tulis test-nya di index.py, lalu buat test_calculator.py versi pytest dan jalankan lokal. Setelah hijau: git init, commit, buat repo GitHub, push.',
-    chEn: 'Add \u0060pangkat(a, b)\u0060 and \u0060sisa(a, b)\u0060 to calculator.py, write their tests in index.py, then create the pytest version test_calculator.py and run it locally. Once green: git init, commit, create a GitHub repo, push.',
-    sumId: 'assert + test functions, pytest, TDD ringkas, Git workflow. Kode teruji + ter-version-control = siap produksi. Lanjut: proyek akhir.',
-    sumEn: 'assert + test functions, pytest, concise TDD, the Git workflow. Tested + version-controlled code = production ready. Next: the final project.',
+def validate_age(age):
+    if not isinstance(age, int):
+        raise ValidationError("age", "harus integer")
+    if age < 0 or age > 150:
+        raise ValidationError("age", "harus 0-150")
+    return True
+
+try:
+    validate_age(-5)
+except ValidationError as e:
+    print(f"Validation error: {e}")
+
+# Cleanup
+os.remove("languages.txt")
+os.remove("users.json")
+os.remove("data.csv")
+print("\\nCleanup done")
+    `,
+    objectivesId: [
+      'Membaca/menulis file dengan open() dan with statement',
+      'JSON: json.dump dan json.load untuk structured data',
+      'CSV: csv.writer dan csv.DictReader untuk tabular data',
+      'pathlib.Path untuk operasi path modern',
+      'try/except/else/finally dan custom Exception',
+    ],
+    objectivesEn: [
+      'Read/write files with open() and with statement',
+      'JSON: json.dump and json.load for structured data',
+      'CSV: csv.writer and csv.DictReader for tabular data',
+      'pathlib.Path for modern path operations',
+      'try/except/else/finally and custom Exception',
+    ],
+    explanationId: '### with Statement\nAuto-close file. Lebih aman daripada manual open/close.\n\n### JSON\n`json.dump(data, f)` write, `json.load(f)` read. `json.loads(string)` dari string.\n\n### CSV\n`csv.writer` untuk write, `csv.DictReader` untuk read sebagai dict.\n\n### pathlib\n`Path("file.txt")`. Method: `exists()`, `read_text()`, `write_text()`, `glob()`.\n\n### Error Handling\n`try/except/else/finally`. `raise Exception()`. Custom exception extends `Exception`.\n\n### Best Practice\nCatch specific exceptions, bukan bare `except:`.',
+    explanationEn: '### with Statement\nAuto-closes files. Safer than manual open/close.\n\n### JSON\n`json.dump(data, f)` write, `json.load(f)` read.\n\n### CSV\n`csv.writer` for writing, `csv.DictReader` for reading.\n\n### pathlib\nModern path operations.\n\n### Error Handling\n`try/except/else/finally`. Raise and catch exceptions.\n\n### Best Practice\nCatch specific exceptions, not bare `except:`.',
+    experimentsId: [
+      'Buat program catatan harian: tulis dan baca dari file',
+      'Coba json.dumps dengan sort_keys dan indent',
+      'Buat CSV reader yang filter berdasarkan kolom',
+      'Implementasikan retry logic dengan try/except',
+      'Buat context manager sendiri dengan __enter__/__exit__',
+    ],
+    experimentsEn: [
+      'Create a diary program: write and read from file',
+      'Try json.dumps with sort_keys and indent',
+      'Create CSV reader that filters by column',
+      'Implement retry logic with try/except',
+      'Build custom context manager with __enter__/__exit__',
+    ],
+    challengeId: 'Buat program manajemen kontak: simpan ke JSON, load dari JSON, cari kontak, export ke CSV. Gunakan error handling yang proper.',
+    challengeEn: 'Build a contact manager: save to JSON, load from JSON, search contacts, export to CSV. Use proper error handling.',
+    summaryId: 'Minggu 7 dari 12: **File I/O & Error Handling** (Level: Menengah). Robust file processing. Minggu depan: **Decorators & Generators**.',
+    summaryEn: 'Week 7 of 12: **File I/O & Error Handling** (Level: Intermediate). Robust file processing. Next week: **Decorators & Generators**.',
   },
+
+  // Week 8 - Decorators & Generators
   {
-    phase: 4, num: 16, topicId: 'proyek-akhir',
-    titleId: 'Proyek Akhir: Library Manager CLI', titleEn: 'Final Project: Library Manager CLI',
-    codeFile: 'index.py',
-    get files() {
-      return {
-        ...BASE_PROJECT_FILES,
-        'index.py': `import json
+    week: 8, level: 'intermediate', topicId: 'decorators-generators',
+    titleId: 'Decorators & Generators', titleEn: 'Decorators & Generators',
+    programId: 'Pythonic Patterns', programEn: 'Pythonic Patterns',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'python',
+    code: `
+# Decorators & Generators
+import functools
+import time
+
+# Basic Decorator
+def debug(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with {args}, {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"  -> {result}")
+        return result
+    return wrapper
+
+@debug
+def add(a, b): return a + b
+
+@debug
+def greet(name, greeting="Hello"): return f"{greeting}, {name}!"
+
+# Decorator with Arguments
+def repeat(n):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            results = []
+            for _ in range(n):
+                results.append(func(*args, **kwargs))
+            return results
+        return wrapper
+    return decorator
+
+@repeat(3)
+def say_hello(): return "Hello!"
+
+# Timing Decorator
+def timer(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        print(f"{func.__name__} took {elapsed:.4f}s")
+        return result
+    return wrapper
+
+@timer
+def slow_function():
+    time.sleep(0.1)
+    return "done"
+
+# Generators
+print("=== Generators ===")
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+print(f"Fibonacci(10): {list(fibonacci(10))}")
+
+def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+
+print(f"Countdown: {list(countdown(5))}")
+
+# Generator Expression
+print("\\n=== Generator Expression ===")
+squares = (x**2 for x in range(10))
+print(f"Squares: {list(squares)}")
+
+# yield from
+def combined():
+    yield from range(3)
+    yield from "abc"
+    yield from [10, 20, 30]
+
+print(f"Combined: {list(combined())}")
+
+# Main
+print("\\n=== Decorator Results ===")
+add(2, 3)
+greet("Budi", greeting="Selamat pagi")
+print(f"Repeat: {say_hello()}")
+slow_function()
+    `,
+    objectivesId: [
+      'Membuat decorator dengan @functools.wraps',
+      'Decorator dengan arguments: @decorator(arg)',
+      'Generator dengan yield untuk lazy evaluation',
+      'Generator expression: (x for x in iterable)',
+      'yield from untuk delegate ke sub-generator',
+    ],
+    objectivesEn: [
+      'Create decorators with @functools.wraps',
+      'Decorators with arguments: @decorator(arg)',
+      'Generators with yield for lazy evaluation',
+      'Generator expressions: (x for x in iterable)',
+      'yield from to delegate to sub-generators',
+    ],
+    explanationId: '### Decorator\nFunction yang membungkus function lain. `@functools.wraps` preserve metadata.\n\n### Decorator dengan Arguments\nNested function: `decorator(arg)` -> `decorator(func)` -> `wrapper(*args, **kwargs)`.\n\n### Generator\n`yield` pause dan return value. Resume saat next() dipanggil. Memory-efficient.\n\n### Generator Expression\n`(x**2 for x in range(1000000))` — lazy, tidak langsung di-memory.\n\n### yield from\nDelegate ke sub-generator: `yield from iterable`.\n\n### Use Cases\n@timer, @debug, @cache, @login_required, @route.',
+    explanationEn: '### Decorator\nFunction wrapping another function. `@functools.wraps` preserves metadata.\n\n### Decorators with Arguments\nNested functions for parameterized decorators.\n\n### Generator\n`yield` pauses and returns value. Resumes on next() call.\n\n### Generator Expression\nLazy evaluation with `(x for x in iterable)`.\n\n### yield from\nDelegate to sub-generators.\n\n### Use Cases\nTiming, debugging, caching, authentication.',
+    experimentsId: [
+      'Buat @cache decorator dengan dict',
+      'Buat @retry decorator dengan max_attempts',
+      'Implementasikan infinite generator: primes()',
+      'Coba @property, @staticmethod, @classmethod',
+      'Buat decorator yang bisa dipakai dengan atau tanpa arguments',
+    ],
+    experimentsEn: [
+      'Build @cache decorator with dict',
+      'Build @retry decorator with max_attempts',
+      'Implement infinite generator: primes()',
+      'Try @property, @staticmethod, @classmethod',
+      'Build decorator usable with or without arguments',
+    ],
+    challengeId: 'Buat pipeline data processing: generator untuk read file, decorator untuk timing dan logging, generator expression untuk transformasi.',
+    challengeEn: 'Build a data processing pipeline: generator for file reading, decorators for timing and logging, generator expression for transformations.',
+    summaryId: 'Minggu 8 dari 12: **Decorators & Generators** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Libraries & Virtual Envs** (Advanced).',
+    summaryEn: 'Week 8 of 12: **Decorators & Generators** (Level: Intermediate). Intermediate phase complete! Next week: **Libraries & Virtual Environments** (Advanced).',
+  },
+
+  // Week 9 - Libraries & Virtual Environments
+  {
+    week: 9, level: 'advanced', topicId: 'libraries',
+    titleId: 'Libraries & Virtual Environments', titleEn: 'Libraries & Virtual Environments',
+    programId: 'Ekosistem Python', programEn: 'Python Ecosystem',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'python',
+    code: `
+# Libraries & Virtual Environments
+import sys
+import json
 from pathlib import Path
+from datetime import datetime, timedelta
+import itertools
+from functools import reduce, lru_cache
+import os
+import re
 
-FILE_DATA = Path("perpustakaan.json")
+print("=== Virtual Environment ===")
+print(f"Python: {sys.version}")
+print(f"Executable: {sys.executable}")
+print(f"sys.path: {sys.path[:3]}...")
 
-class Buku:
-    def __init__(self, judul, penulis, tahun):
-        self.judul = judul
-        self.penulis = penulis
-        self.tahun = tahun
-        self.dipinjam = False
+# Standard Library Highlights
+print("\\n=== Standard Library ===")
 
-    def __str__(self):
-        status = "dipinjam" if self.dipinjam else "tersedia"
-        return f"[{status}] {self.judul} ({self.penulis}, {self.tahun})"
+# datetime
+now = datetime.now()
+future = now + timedelta(days=30)
+print(f"Now: {now:%Y-%m-%d %H:%M}")
+print(f"30 days later: {future:%Y-%m-%d}")
 
-    def to_dict(self):
-        return {"judul": self.judul, "penulis": self.penulis,
-                "tahun": self.tahun, "dipinjam": self.dipinjam}
+# itertools
+print(f"Permutations: {list(itertools.permutations('ABC', 2))}")
+print(f"Combinations: {list(itertools.combinations('ABCD', 2))}")
 
-    @classmethod
-    def from_dict(cls, data):
-        buku = cls(data["judul"], data["penulis"], data["tahun"])
-        buku.dipinjam = data["dipinjam"]
-        return buku
+# functools
+product = reduce(lambda x, y: x * y, [1, 2, 3, 4, 5])
+print(f"Reduce (product): {product}")
 
-class Perpustakaan:
-    def __init__(self, file_data=FILE_DATA):
-        self.file_data = Path(file_data)
-        self.buku = {}                # key: judul -> Buku
-        self._muat()
+@lru_cache(maxsize=128)
+def fib(n):
+    if n < 2: return n
+    return fib(n-1) + fib(n-2)
+print(f"Fib(30): {fib(30)}")
 
-    def tambah(self, buku):
-        self.buku[buku.judul] = buku
-        self._simpan()
+# os
+print(f"CWD: {os.getcwd()}")
+print(f"Files: {os.listdir('.')[:5]}")
 
-    def cari(self, kata):
-        return [b for b in self.buku.values()
-                if kata.lower() in b.judul.lower()
-                or kata.lower() in b.penulis.lower()]
+# re (regex)
+text = "Email: test@example.com, Phone: +6281234567890"
+emails = re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', text)
+phones = re.findall(r'\+?\d{10,13}', text)
+print(f"Emails: {emails}")
+print(f"Phones: {phones}")
 
-    def pinjam(self, judul):
-        buku = self.buku.get(judul)
-        if buku is None:
-            raise KeyError(f"'{judul}' tidak ditemukan")
-        if buku.dipinjam:
-            raise ValueError(f"'{judul}' sudah dipinjam")
-        buku.dipinjam = True
-        self._simpan()
+# requirements.txt format
+print("\\n=== requirements.txt Example ===")
+requirements = [
+    "requests>=2.28.0",
+    "flask>=2.3.0",
+    "sqlalchemy>=2.0.0",
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+]
+for req in requirements:
+    print(f"  {req}")
+    `,
+    objectivesId: [
+      'Membuat dan mengelola virtual environment (venv)',
+      'pip: install, uninstall, freeze, requirements.txt',
+      'Standard library: datetime, itertools, functools, os, re',
+      'Third-party packages: requests, flask, pandas',
+      'Struktur proyek Python modern: src layout, pyproject.toml',
+    ],
+    objectivesEn: [
+      'Create and manage virtual environments (venv)',
+      'pip: install, uninstall, freeze, requirements.txt',
+      'Standard library: datetime, itertools, functools, os, re',
+      'Third-party packages: requests, flask, pandas',
+      'Modern Python project structure: src layout, pyproject.toml',
+    ],
+    explanationId: '### venv\n`python -m venv myenv` — isolated environment. Activate: `source myenv/bin/activate` atau `myenv\\Scripts\\activate`.\n\n### pip\n`pip install pkg`, `pip freeze > requirements.txt`, `pip install -r requirements.txt`.\n\n### Standard Library\n`datetime` untuk tanggal, `itertools` untuk iterasi advanced, `functools` untuk functional tools, `re` untuk regex.\n\n### Third-Party\n`requests` HTTP, `flask` web framework, `pandas` data analysis, `numpy` numerik.\n\n### Struktur Proyek\n`pyproject.toml` modern config. `src/` layout. `tests/` directory.',
+    explanationEn: '### venv\n`python -m venv myenv` — isolated environment.\n\n### pip\nInstall, freeze, and manage dependencies.\n\n### Standard Library\nPowerful built-in modules.\n\n### Third-Party\nPopular packages for web, data, and more.\n\n### Project Structure\nModern Python project layout.',
+    experimentsId: [
+      'Buat venv baru dan install package',
+      'Coba itertools: chain, product, groupby',
+      'Buat regex untuk validasi email/phone',
+      'Eksperimen dengan @lru_cache pada recursive function',
+      'Buat proyek dengan pyproject.toml',
+    ],
+    experimentsEn: [
+      'Create new venv and install packages',
+      'Try itertools: chain, product, groupby',
+      'Build regex for email/phone validation',
+      'Experiment with @lru_cache on recursive functions',
+      'Create project with pyproject.toml',
+    ],
+    challengeId: 'Buat proyek Python terstruktur: venv, requirements.txt, src layout, multiple modules. Install dan gunakan 3 third-party packages.',
+    challengeEn: 'Build a structured Python project: venv, requirements.txt, src layout, multiple modules. Install and use 3 third-party packages.',
+    summaryId: 'Minggu 9 dari 12: **Libraries & Virtual Environments** (Level: Lanjutan). Ekosistem Python yang luas. Minggu depan: **Testing & Quality**.',
+    summaryEn: 'Week 9 of 12: **Libraries & Virtual Environments** (Level: Advanced). Vast Python ecosystem. Next week: **Testing & Quality**.',
+  },
 
-    def kembalikan(self, judul):
-        buku = self.buku.get(judul)
-        if buku is None:
-            raise KeyError(f"'{judul}' tidak ditemukan")
-        buku.dipinjam = False
-        self._simpan()
+  // Week 10 - Testing & Quality
+  {
+    week: 10, level: 'advanced', topicId: 'testing',
+    titleId: 'Testing & Quality', titleEn: 'Testing & Quality',
+    programId: 'Unit Test & Pytest', programEn: 'Unit Test & Pytest',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'python',
+    code: `
+# Testing & Quality
+def add(a: int, b: int) -> int: return a + b
 
-    def daftar(self):
-        return sorted(self.buku.values(), key=lambda b: b.judul)
+def divide(a: float, b: float) -> float:
+    if b == 0: raise ValueError("Cannot divide by zero")
+    return a / b
 
-    def _simpan(self):
-        with open(self.file_data, "w", encoding="utf-8") as f:
-            json.dump([b.to_dict() for b in self.buku.values()], f, indent=2, ensure_ascii=False)
+def is_palindrome(s: str) -> bool:
+    s = s.lower().replace(" ", "")
+    return s == s[::-1]
 
-    def _muat(self):
-        if not self.file_data.exists():
-            return
-        with open(self.file_data, "r", encoding="utf-8") as f:
-            for data in json.load(f):
-                buku = Buku.from_dict(data)
-                self.buku[buku.judul] = buku
+def fizzbuzz(n: int) -> str:
+    if n % 15 == 0: return "FizzBuzz"
+    if n % 3 == 0: return "Fizz"
+    if n % 5 == 0: return "Buzz"
+    return str(n)
 
-def demo():
-    perpus = Perpustakaan("perpustakaan_demo.json")
-    perpus.tambah(Buku("Belajar Python", "Ayu", 2025))
-    perpus.tambah(Buku("Go untuk Pemula", "Budi", 2024))
-    perpus.tambah(Buku("Rust Essentials", "Citra", 2026))
+# Manual Test Simulation
+print("=== Manual Tests ===")
+tests = [
+    ("add(2,3)", add(2, 3), 5),
+    ("add(-1,1)", add(-1, 1), 0),
+    ("divide(10,2)", divide(10, 2), 5.0),
+    ("is_palindrome('racecar')", is_palindrome("racecar"), True),
+    ("is_palindrome('hello')", is_palindrome("hello"), False),
+    ("fizzbuzz(15)", fizzbuzz(15), "FizzBuzz"),
+    ("fizzbuzz(9)", fizzbuzz(9), "Fizz"),
+    ("fizzbuzz(10)", fizzbuzz(10), "Buzz"),
+    ("fizzbuzz(7)", fizzbuzz(7), "7"),
+]
 
-    print("=== Perpustakaan ===")
-    for b in perpus.daftar():
-        print(f"  {b}")
+passed = 0
+for name, result, expected in tests:
+    status = "PASS" if result == expected else "FAIL"
+    if result == expected: passed += 1
+    print(f"  {status}: {name} = {result} (expected {expected})")
 
-    print("\\nTransaksi:")
-    perpus.pinjam("Belajar Python")
-    perpus.kembalikan("Belajar Python")
-    perpus.pinjam("Go untuk Pemula")
+print(f"\\nResults: {passed}/{len(tests)} passed")
 
-    print("Setelah transaksi (tersimpan ke JSON):")
-    for b in perpus.daftar():
-        print(f"  {b}")
+# unittest Framework
+print("\\n=== unittest Framework ===")
+print("""
+import unittest
 
-    print("\\nPencarian 'python':")
-    for b in perpus.cari("python"):
-        print(f"  {b}")
+class TestMath(unittest.TestCase):
+    def test_add(self):
+        self.assertEqual(add(2, 3), 5)
+        self.assertEqual(add(-1, 1), 0)
 
-if __name__ == "__main__":
-    demo()
-`,
-      };
-    },
-    objId: ['Mengintegrasikan kelas, dict, JSON, dan error handling', 'Menerapkan pola persistence baca-simpan', 'Menggunakan classmethod untuk deserialisasi', 'Menilai jalur karier setelah track selesai'],
-    objEn: ['Integrate classes, dicts, JSON, and error handling', 'Apply read-save persistence patterns', 'Use classmethods for deserialization', 'Assess career paths after the track'],
-    expId: `## Arsitektur Proyek
-Capstone ini memakai SEMUA materi: class (Buku, Perpustakaan), special methods (__str__), dict storage, JSON persistence, sorted + lambda, try/except (KeyError, ValueError), if __name__ guard. Ini pola "domain object + repository" yang sama dengan aplikasi produksi — hanya tanpa framework.
-\n## JSON Persistence
-\`to_dict()\` serialisasi, \`from_dict()\` deserialisasi (classmethod: membangun instance dari data mentah). \`_simpan()\` menulis setelah setiap mutasi; \`_muat()\` membaca saat konstruksi. Data hidup lebih lama dari program — pola yang dipakai di todo apps, config, save files.
-\n## Pemisahan Demo & UI
-\`demo()\` memisahkan contoh jalan dari struktur domain. Challenge: ganti demo() dengan menu input() atau argparse CLI (tambah/pinjam/kembalikan/cari/daftar) — mengombinasikan L8 menu + L14 argparse.
-\n## Setelah Track Ini (peta karier riset)
-Research semua sumber (CourseFacts, DataCamp, Scaler, Asmorix): setelah inti Python, PILIH satu jalur — (A) Web: Flask/FastAPI/Django + database; (B) Data: NumPy/Pandas/Matplotlib/Jupyter; (C) Automasi & CLI: os/shutil/subprocess/requests + scheduling; (D) AI: LLM API (Gemini SDK dll). Satu jalur dalam, bukan semua dangkal. Tambahan universal: Git, SQL, terminal.`,
-    expEn: `## Project Architecture
-This capstone uses ALL the material: classes (Buku, Perpustakaan), special methods (__str__), dict storage, JSON persistence, sorted + lambda, try/except (KeyError, ValueError), the if __name__ guard. This is the same "domain object + repository" pattern used in production apps — just without frameworks.
-\n## JSON Persistence
-\`to_dict()\` serializes, \`from_dict()\` deserializes (a classmethod: builds instances from raw data). \`_simpan()\` writes after every mutation; \`_muat()\` reads on construction. Data outlives the program — the pattern used by todo apps, configs, save files.
-\n## Demo vs UI Separation
-\`demo()\` separates the runnable example from the domain structure. Challenge: replace demo() with an input() menu or an argparse CLI (add/borrow/return/search/list) — combining the L8 menu with L14 argparse.
-\n## After This Track (researched career map)
-All sources agree (CourseFacts, DataCamp, Scaler, Asmorix): after core Python, PICK ONE path — (A) Web: Flask/FastAPI/Django + database; (B) Data: NumPy/Pandas/Matplotlib/Jupyter; (C) Automation & CLI: os/shutil/subprocess/requests + scheduling; (D) AI: LLM APIs (Gemini SDK etc.). One path deep, not all shallow. Universal additions: Git, SQL, terminal.`,
-    chId: 'Sempurnakan proyek: (1) CLI argparse penuh: tambah, pinjam, kembalikan, cari, daftar, statistik; (2) statistik koleksi: jumlah buku, persentase dipinjam, buku tertua; (3) test pytest untuk Perpustakaan (tambah, pinjam dua kali harus error); (4) commit + push ke GitHub dan bagikan.',
-    chEn: 'Polish the project: (1) a full argparse CLI: add, borrow, return, search, list, stats; (2) collection stats: book count, borrowed percentage, oldest book; (3) pytest tests for Perpustakaan (add, double borrow must error); (4) commit + push to GitHub and share it.',
-    sumId: 'Capstone selesai: kelas + dict + JSON + error handling + CLI = tool Python nyata. Lanjut pilih jalur: web/data/automasi/AI. Selamat, track Python selesai!',
-    sumEn: 'Capstone done: classes + dicts + JSON + error handling + CLI = a real Python tool. Next, pick your path: web/data/automation/AI. Congratulations, the Python track is complete!',
+    def test_divide(self):
+        self.assertAlmostEqual(divide(10, 2), 5.0)
+        with self.assertRaises(ValueError):
+            divide(10, 0)
+
+    def test_palindrome(self):
+        self.assertTrue(is_palindrome("racecar"))
+        self.assertFalse(is_palindrome("hello"))
+
+if __name__ == '__main__':
+    unittest.main()
+""")
+
+# pytest Style
+print("\\n=== pytest Style ===")
+print("""
+# test_math.py
+def test_add():
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+
+def test_divide():
+    assert divide(10, 2) == 5.0
+    with pytest.raises(ValueError):
+        divide(10, 0)
+
+@pytest.mark.parametrize("input,expected", [
+    ("racecar", True),
+    ("hello", False),
+])
+def test_palindrome(input, expected):
+    assert is_palindrome(input) == expected
+""")
+
+# Type Hints & Quality
+print("\\n=== Type Hints & Quality Tools ===")
+print("Tools: mypy, black, flake8, isort, pre-commit")
+print("Commands:")
+print("  mypy src/")
+print("  black src/ tests/")
+print("  flake8 src/")
+print("  pytest --cov=src tests/")
+    `,
+    objectivesId: [
+      'unittest: TestCase, assertEqual, assertRaises, setUp',
+      'pytest: fixture, parametrize, mark, conftest.py',
+      'Test coverage: pytest-cov, coverage.py',
+      'Type hints dan mypy untuk static type checking',
+      'Code quality: black, flake8, isort, pre-commit',
+    ],
+    objectivesEn: [
+      'unittest: TestCase, assertEqual, assertRaises, setUp',
+      'pytest: fixture, parametrize, mark, conftest.py',
+      'Test coverage: pytest-cov, coverage.py',
+      'Type hints and mypy for static type checking',
+      'Code quality: black, flake8, isort, pre-commit',
+    ],
+    explanationId: '### unittest\nBuilt-in testing framework. `TestCase` class, `assertEqual`, `assertRaises`, `setUp/tearDown`.\n\n### pytest\nLebih powerful: `fixture`, `@pytest.mark.parametrize`, `conftest.py` shared fixtures.\n\n### Coverage\n`pytest --cov=src --cov-report=html` — ukur berapa % kode yang ditest.\n\n### Type Hints\n`def f(x: int) -> str:`. `mypy` static checker. Tidak enforce saat runtime.\n\n### Quality Tools\n`black` formatter, `flake8` linter, `isort` import sorter, `pre-commit` hooks.\n\n### TDD Cycle\nRed -> Green -> Refactor. Write test first, watch it fail, make it pass, clean up.',
+    explanationEn: '### unittest\nBuilt-in testing framework with TestCase class.\n\n### pytest\nMore powerful with fixtures and parametrize.\n\n### Coverage\nMeasure code coverage with pytest-cov.\n\n### Type Hints\nStatic type checking with mypy.\n\n### Quality Tools\nFormatters, linters, and pre-commit hooks.\n\n### TDD Cycle\nRed -> Green -> Refactor.',
+    experimentsId: [
+      'Buat test suite lengkap untuk fungsi sendiri',
+      'Coba pytest parametrize dengan banyak input',
+      'Buat fixture untuk setup/teardown',
+      'Jalankan mypy pada project dan fix type errors',
+      'Setup pre-commit dengan black dan flake8',
+    ],
+    experimentsEn: [
+      'Build complete test suite for your functions',
+      'Try pytest parametrize with many inputs',
+      'Create fixtures for setup/teardown',
+      'Run mypy on project and fix type errors',
+      'Setup pre-commit with black and flake8',
+    ],
+    challengeId: 'Buat library dengan 100% test coverage: unit tests, edge cases, parametrized tests. Setup black + flake8 + mypy.',
+    challengeEn: 'Build a library with 100% test coverage: unit tests, edge cases, parametrized tests. Setup black + flake8 + mypy.',
+    summaryId: 'Minggu 10 dari 12: **Testing & Quality** (Level: Lanjutan). Kualitas kode produksi. Minggu depan: **CLI & Automation**.',
+    summaryEn: 'Week 10 of 12: **Testing & Quality** (Level: Advanced). Production code quality. Next week: **CLI & Automation**.',
+  },
+
+  // Week 11 - CLI & Automation
+  {
+    week: 11, level: 'advanced', topicId: 'cli',
+    titleId: 'CLI & Automation', titleEn: 'CLI & Automation',
+    programId: 'Task CLI', programEn: 'Task CLI',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'python',
+    code: `
+# CLI & Automation
+import argparse
+import json
+import os
+from datetime import datetime
+
+# argparse
+print("=== argparse ===")
+parser = argparse.ArgumentParser(
+    description="Task CLI - Manage your tasks",
+    formatter_class=argparse.RawDescriptionHelpFormatter
+)
+parser.add_argument("--version", action="version", version="%(prog)s 1.0")
+parser.add_argument("--json", action="store_true", help="Output as JSON")
+
+subparsers = parser.add_subparsers(dest="command")
+
+# Add command
+add_parser = subparsers.add_parser("add", help="Add a new task")
+add_parser.add_argument("title", help="Task title")
+add_parser.add_argument("--priority", "-p", choices=["low", "medium", "high"], default="medium")
+
+# List command
+subparsers.add_parser("list", help="List all tasks")
+
+# Done command
+done_parser = subparsers.add_parser("done", help="Mark task as done")
+done_parser.add_argument("id", type=int, help="Task ID")
+
+# Delete command
+delete_parser = subparsers.add_parser("delete", help="Delete a task")
+delete_parser.add_argument("id", type=int, help="Task ID")
+
+# Simulate parsing
+args = parser.parse_args(["add", "Learn Python", "--priority", "high"])
+print(f"Command: {args.command}")
+print(f"Title: {args.title}")
+print(f"Priority: {args.priority}")
+
+# Task Manager
+print("\\n=== Task Manager ===")
+TASKS_FILE = "tasks.json"
+
+def load_tasks():
+    if os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE) as f: return json.load(f)
+    return []
+
+def save_tasks(tasks):
+    with open(TASKS_FILE, "w") as f: json.dump(tasks, f, indent=2)
+
+def add_task(title, priority="medium"):
+    tasks = load_tasks()
+    task = {
+        "id": len(tasks) + 1,
+        "title": title,
+        "priority": priority,
+        "done": False,
+        "created": datetime.now().isoformat()
+    }
+    tasks.append(task)
+    save_tasks(tasks)
+    return task
+
+def mark_done(task_id):
+    tasks = load_tasks()
+    for t in tasks:
+        if t["id"] == task_id:
+            t["done"] = True
+            save_tasks(tasks)
+            return True
+    return False
+
+# Demo
+add_task("Learn Python", "high")
+add_task("Build CLI", "medium")
+add_task("Write tests", "low")
+mark_done(1)
+
+tasks = load_tasks()
+print(f"Tasks ({len(tasks)}):")
+for t in tasks:
+    status = "[x]" if t["done"] else "[ ]"
+    print(f"  {status} {t['id']}. {t['title']} ({t['priority']})")
+
+# Cleanup
+os.remove(TASKS_FILE)
+print("\\nDemo complete")
+    `,
+    objectivesId: [
+      'argparse: ArgumentParser, add_argument, subparsers',
+      'CLI patterns: commands, flags, positional args',
+      'JSON persistence untuk CLI apps',
+      'click dan typer: alternatif argparse yang lebih modern',
+      'Automation: schedule tasks, file watching, web scraping',
+    ],
+    objectivesEn: [
+      'argparse: ArgumentParser, add_argument, subparsers',
+      'CLI patterns: commands, flags, positional args',
+      'JSON persistence for CLI apps',
+      'click and typer: modern argparse alternatives',
+      'Automation: scheduled tasks, file watching, web scraping',
+    ],
+    explanationId: '### argparse\n`ArgumentParser`, `add_argument`, `add_subparsers` untuk command-based CLI.\n\n### CLI Patterns\nCommands (add, list, delete), flags (--json, --verbose), positional args.\n\n### click & typer\n`@click.command()`, `@click.argument()`. typer: modern, type-hint based.\n\n### Persistence\nJSON file, SQLite, atau database untuk simpan state.\n\n### Automation\n`schedule` untuk periodic tasks, `watchdog` untuk file watching, `requests + BeautifulSoup` untuk scraping.\n\n### Best Practice\n`if __name__ == "__main__":` entry point. `setup.py` atau `pyproject.toml` console_scripts.',
+    explanationEn: '### argparse\nStandard library CLI framework.\n\n### CLI Patterns\nCommands, flags, and positional arguments.\n\n### click & typer\nModern CLI frameworks.\n\n### Persistence\nJSON, SQLite, or database storage.\n\n### Automation\nScheduled tasks, file watching, web scraping.\n\n### Best Practice\nEntry points and console_scripts.',
+    experimentsId: [
+      'Buat CLI dengan subcommands: init, run, status',
+      'Coba click untuk membuat CLI yang sama',
+      'Buat progress bar dengan tqdm',
+      'Implementasikan config file (YAML/TOML)',
+      'Buat automation script: backup files, send email',
+    ],
+    experimentsEn: [
+      'Create CLI with subcommands: init, run, status',
+      'Try click to build the same CLI',
+      'Build progress bar with tqdm',
+      'Implement config file (YAML/TOML)',
+      'Build automation script: backup files, send email',
+    ],
+    challengeId: 'Buat CLI tool lengkap: task manager dengan add/list/done/delete, JSON persistence, colored output, --json flag. Package dengan pyproject.toml.',
+    challengeEn: 'Build a complete CLI tool: task manager with add/list/done/delete, JSON persistence, colored output, --json flag. Package with pyproject.toml.',
+    summaryId: 'Minggu 11 dari 12: **CLI & Automation** (Level: Lanjutan). Tooling dan produktivitas. Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 11 of 12: **CLI & Automation** (Level: Advanced). Tooling and productivity. Next week: **Capstone Project**!',
+  },
+
+  // Week 12 - Capstone: Python Application
+  {
+    week: 12, level: 'advanced', topicId: 'capstone',
+    titleId: 'Capstone: Python Application', titleEn: 'Capstone: Python Application',
+    programId: 'URL Shortener', programEn: 'URL Shortener',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'python',
+    code: `
+# Capstone: URL Shortener
+import hashlib
+import json
+import os
+from datetime import datetime
+
+class URLShortener:
+    """URL Shortener dengan persistence."""
+
+    def __init__(self, db_file="urls.json"):
+        self.db_file = db_file
+        self.urls = {}
+        self._load()
+
+    def _load(self):
+        if os.path.exists(self.db_file):
+            with open(self.db_file) as f:
+                self.urls = json.load(f)
+
+    def _save(self):
+        with open(self.db_file, "w") as f:
+            json.dump(self.urls, f, indent=2)
+
+    def shorten(self, url: str, alias: str = None) -> str:
+        if alias is None:
+            short_code = hashlib.md5(url.encode()).hexdigest()[:6]
+        else:
+            short_code = alias
+        self.urls[short_code] = {
+            "url": url, "clicks": 0,
+            "created": datetime.now().isoformat()
+        }
+        self._save()
+        return short_code
+
+    def expand(self, short_code: str) -> str:
+        if short_code in self.urls:
+            self.urls[short_code]["clicks"] += 1
+            self._save()
+            return self.urls[short_code]["url"]
+        return None
+
+    def stats(self, short_code: str) -> dict:
+        return self.urls.get(short_code)
+
+    def list_all(self) -> list:
+        return [{"code": k, **v} for k, v in self.urls.items()]
+
+    def delete(self, short_code: str) -> bool:
+        if short_code in self.urls:
+            del self.urls[short_code]
+            self._save()
+            return True
+        return False
+
+# Demo
+print("=== URL Shortener Capstone ===")
+shortener = URLShortener()
+
+code1 = shortener.shorten("https://python.org/doc")
+code2 = shortener.shorten("https://github.com/python", alias="gh-py")
+code3 = shortener.shorten("https://realpython.com")
+
+print(f"Shortened URLs:")
+print(f"  python.org/doc -> {code1}")
+print(f"  github.com -> {code2}")
+print(f"  realpython.com -> {code3}")
+
+# Expand
+print(f"\\nExpanding:")
+print(f"  {code1} -> {shortener.expand(code1)}")
+print(f"  {code2} -> {shortener.expand(code2)}")
+print(f"  {code1} -> {shortener.expand(code1)}")
+
+# Stats
+print(f"\\nStats:")
+for code in [code1, code2, code3]:
+    s = shortener.stats(code)
+    print(f"  {code}: {s['clicks']} clicks, created {s['created'][:10]}")
+
+# List all
+print(f"\\nAll URLs ({len(shortener.list_all())}):")
+for item in shortener.list_all():
+    print(f"  [{item['code']}] {item['url']}")
+
+# Delete
+shortener.delete(code3)
+print(f"\\nAfter delete: {len(shortener.list_all())} URLs")
+
+# Cleanup
+os.remove("urls.json")
+print("\\nCapstone demo complete!")
+    `,
+    objectivesId: [
+      'Menggabungkan semua konsep: OOP, file I/O, error handling, testing',
+      'Design patterns: Repository, Singleton, Factory',
+      'Clean code: type hints, docstrings, modular design',
+      'CLI + Library: dual interface untuk aplikasi',
+      'Testing: unit test, integration test, coverage',
+    ],
+    objectivesEn: [
+      'Combine all concepts: OOP, file I/O, error handling, testing',
+      'Design patterns: Repository, Singleton, Factory',
+      'Clean code: type hints, docstrings, modular design',
+      'CLI + Library: dual interface for applications',
+      'Testing: unit tests, integration tests, coverage',
+    ],
+    explanationId: '### Capstone Project\nMenggabungkan 12 minggu pembelajaran menjadi aplikasi nyata.\n\n### Design Patterns\nRepository (data access), Singleton (one instance), Factory (object creation).\n\n### Clean Code\nType hints, docstrings, modular file structure, separation of concerns.\n\n### Dual Interface\nLibrary (import dan pakai di code) + CLI (jalankan dari terminal).\n\n### Testing Strategy\nUnit test untuk functions, integration test untuk database/API, coverage report.\n\n### Project Ideas\nURL Shortener, Task Manager, Blog Engine, Chat Bot, Data Pipeline.',
+    explanationEn: '### Capstone Project\nCombine 12 weeks of learning into a real application.\n\n### Design Patterns\nRepository, Singleton, Factory patterns.\n\n### Clean Code\nType hints, docstrings, modular structure.\n\n### Dual Interface\nLibrary + CLI interfaces.\n\n### Testing Strategy\nUnit, integration tests, and coverage.\n\n### Project Ideas\nURL Shortener, Task Manager, Blog Engine, Chat Bot, Data Pipeline.',
+    experimentsId: [
+      'Tambah expiry date untuk short URLs',
+      'Implementasikan custom domain support',
+      'Buat web interface dengan Flask',
+      'Tambah analytics: referrer, browser, location',
+      'Deploy ke cloud: Heroku, Railway, atau AWS',
+    ],
+    experimentsEn: [
+      'Add expiry date for short URLs',
+      'Implement custom domain support',
+      'Build web interface with Flask',
+      'Add analytics: referrer, browser, location',
+      'Deploy to cloud: Heroku, Railway, or AWS',
+    ],
+    challengeId: 'Buat aplikasi capstone lengkap: pilih domain (URL Shortener, Task Manager, Blog), implementasikan dengan OOP, CLI, testing 80%+, dokumentasi.',
+    challengeEn: 'Build a complete capstone application: choose domain (URL Shortener, Task Manager, Blog), implement with OOP, CLI, testing 80%+, documentation.',
+    summaryId: 'Minggu 12 dari 12: **Capstone: Python Application** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Python dari nol hingga production-ready.',
+    summaryEn: 'Week 12 of 12: **Capstone: Python Application** (Level: Advanced). Complete! 🎉 You\'ve mastered Python from scratch to production-ready.',
   },
 ];
 
-const LESSONS = [...LESSONS_P1, ...LESSONS_P2, ...LESSONS_P3, ...LESSONS_P4];
-
-// ===== GENERATE =====
-for (const lesson of LESSONS) {
-  const phase = PHASES.find((p) => p.phase === lesson.phase);
-  const levelDir = phase.id;
-  const mdDir = path.join(BASE_DIR, levelDir);
-
-  const objListId = lesson.objId.map((o) => `- ${o}`).join('\n');
-  const objListEn = lesson.objEn.map((o) => `- ${o}`).join('\n');
-
-  for (const lang of ['id', 'en']) {
-    const isId = lang === 'id';
-    const title = isId ? lesson.titleId : lesson.titleEn;
-    const phaseName = isId ? phase.nameId : phase.nameEn;
-    const objList = isId ? objListId : objListEn;
-    const exp = isId ? lesson.expId : lesson.expEn;
-    const ch = isId ? lesson.chId : lesson.chEn;
-    const sum = isId ? lesson.sumId : lesson.sumEn;
-    const lessonLabel = isId ? `Pelajaran ${lesson.num}` : `Lesson ${lesson.num}`;
-
-    const langDir = path.join(mdDir, lang);
-    fs.mkdirSync(langDir, { recursive: true });
-
-    const code = lesson.files[lesson.codeFile] || '';
-    const filename = `lesson${lesson.num}-${lesson.topicId}.md`;
-    const content = `# ${title}
-
-> Python | ${phaseName} | ${lessonLabel}
-
-## ${isId ? 'Tujuan Pembelajaran' : 'Learning Objectives'}
-
-${objList}
-
----
-
-## Program: ${title}
-
-\`\`\`python
-${code}
-\`\`\`
-
----
-
-## ${isId ? 'Penjelasan' : 'Explanation'}
-
-${exp}
-
----
-
-## ${isId ? 'Eksperimen' : 'Experiments'}
-
-${lesson.expId.split('\n').map((l) => l.trim()).filter((l) => l.startsWith('##')).map((h, i) => `${i + 1}. **${h.replace(/^#+\s*/, '')}**`).join('\n')}
-
----
-
-## ${isId ? 'Tantangan' : 'Challenge'}
-
-${ch}
-
----
-
-## ${isId ? 'Ringkasan' : 'Summary'}
-
-${sum}
-`;
-
-    fs.writeFileSync(path.join(langDir, filename), content);
-
-    // Write project files JSON for StackBlitz playground
-    const filesJson = path.join(langDir, `lesson${lesson.num}-${lesson.topicId}.json`);
-    fs.writeFileSync(filesJson, JSON.stringify(lesson.files, null, 2));
-  }
-
-  console.log(`  ${lesson.num}. ${lesson.titleId} / ${lesson.titleEn}`);
+// Add weeks to levels
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
 }
 
-const total = LESSONS.length * 2;
-console.log(`\n✓ Generated ${total} Python curriculum files (${LESSONS.length} lessons × 2 languages)`);
-console.log(`  Output: ${BASE_DIR}`);
+gen.writeFiles(MODULES, LEVELS);

@@ -1,1093 +1,1555 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { BaseGenerator } from './lib/base-generator.mjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const BASE = path.resolve(__dirname, '../public/data/course/javascript/js');
+// ─────────────────────────────────────────────────────────────────────────────
+// JAVASCRIPT CURRICULUM — pure research, zero framework influence
+// Sources: MDN, Eloquent JS, freeCodeCamp, JavaScript.info
+// ─────────────────────────────────────────────────────────────────────────────
+// Research consensus: 3 levels, 14 weeks
+// Beginner (5w): Basics, Types, Control Flow, Functions, DOM
+// Intermediate (5w): Events, Async, ES6+, Modules, Error Handling
+// Advanced (4w): Patterns, Testing, Performance, Project
+// ─────────────────────────────────────────────────────────────────────────────
 
-const MODULES = [
-  { id: 1,  f: 'dasar-javascript',    lid: 'JavaScript Dasar',           len: 'JavaScript Basics',         cid: 'Halo JavaScript',        cen: 'Hello JavaScript' },
-  { id: 2,  f: 'operator-dan-kontrol', lid: 'Operator & Control Flow',   len: 'Operators & Control Flow',  cid: 'Kalkulator Sederhana',   cen: 'Simple Calculator' },
-  { id: 3,  f: 'fungsi',               lid: 'Fungsi',                    len: 'Functions',                 cid: 'Manajemen Nilai',        cen: 'Grade Manager' },
-  { id: 4,  f: 'array-dan-metode',     lid: 'Array & Metode',            len: 'Arrays & Methods',          cid: 'Daftar Belanja',         cen: 'Shopping List' },
-  { id: 5,  f: 'objek-dan-data',       lid: 'Objek & Data',              len: 'Objects & Data',            cid: 'Buku Alamat',            cen: 'Address Book' },
-  { id: 6,  f: 'dom-manipulasi',       lid: 'DOM Manipulation',          len: 'DOM Manipulation',          cid: 'Pengubah Halaman',       cen: 'Page Modifier' },
-  { id: 7,  f: 'event-dan-form',       lid: 'Event & Form',              len: 'Events & Forms',            cid: 'Form Cerdas',            cen: 'Smart Form' },
-  { id: 8,  f: 'javascript-modern',    lid: 'JavaScript Modern',         len: 'Modern JavaScript',         cid: 'Demo Fitur ES6+',        cen: 'ES6+ Features Demo' },
-  { id: 9,  f: 'async-javascript',     lid: 'Async JavaScript',          len: 'Asynchronous JavaScript',   cid: 'Pengambil Data',         cen: 'Data Fetcher' },
-  { id: 10, f: 'browser-api',          lid: 'Browser API',               len: 'Browser APIs',              cid: 'Toolkit Pribadi',        cen: 'Personal Toolkit' },
-  { id: 11, f: 'konsep-lanjutan',      lid: 'Konsep Lanjutan',           len: 'Advanced Concepts',         cid: 'Aplikasi Catatan',       cen: 'Notes App' },
-  { id: 12, f: 'proyek-akhir',         lid: 'Proyek Akhir',              len: 'Final Project',             cid: 'Dashboard Interaktif',   cen: 'Interactive Dashboard' },
+const gen = new BaseGenerator('javascript', 'JavaScript');
+
+const LEVELS = [
+  {
+    levelId: 'beginer',
+    nameId: 'Pemula',
+    nameEn: 'Beginner',
+    descId: 'Dari nol: sintaks, tipe data, fungsi, dan manipulasi DOM.',
+    descEn: 'From scratch: syntax, data types, functions, and DOM manipulation.',
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Menengah',
+    nameEn: 'Intermediate',
+    descId: 'JavaScript modern: async, ES6+, modules, dan error handling.',
+    descEn: 'Modern JavaScript: async, ES6+, modules, and error handling.',
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Lanjutan',
+    nameEn: 'Advanced',
+    descId: 'Production JS: design patterns, testing, performa, dan proyek capstone.',
+    descEn: 'Production JS: design patterns, testing, performance, and capstone project.',
+  },
 ];
 
-const OBJ = {
-  1: { id: ['Memahami variabel let, const, dan perbedaannya', 'Mengenal tipe data: string, number, boolean, null, undefined', 'Menggunakan console.log untuk debugging', 'Menulis komentar dan sintaks dasar JavaScript', 'Memahami case sensitivity dan aturan penamaan'], en: ['Understand let, const variables and their differences', 'Learn data types: string, number, boolean, null, undefined', 'Use console.log for debugging', 'Write comments and basic JavaScript syntax', 'Understand case sensitivity and naming conventions'] },
-  2: { id: ['Menguasai operator aritmatika, perbandingan, dan logika', 'Menggunakan if/else dan switch untuk pengambilan keputusan', 'Memahami perulangan for, while, dan for...of', 'Membedakan == vs === serta truthy/falsy', 'Menggabungkan kontrol flow dalam program sederhana'], en: ['Master arithmetic, comparison, and logical operators', 'Use if/else and switch for decision making', 'Understand for, while, and for...of loops', 'Distinguish == vs === and truthy/falsy values', 'Combine control flow in simple programs'] },
-  3: { id: ['Membuat fungsi dengan deklarasi, ekspresi, dan arrow', 'Memahami parameter, return value, dan default parameter', 'Mengenal scope global, lokal, dan block scope', 'Menggunakan callback function', 'Menerapkan fungsi sebagai warga kelas satu'], en: ['Create functions with declarations, expressions, and arrows', 'Understand parameters, return values, and default parameters', 'Learn global, local, and block scope', 'Use callback functions', 'Apply functions as first-class citizens'] },
-  4: { id: ['Membuat dan memanipulasi array', 'Menggunakan method: push, pop, shift, unshift', 'Mengiterasi array dengan forEach, map, filter, reduce', 'Menggunakan spread operator dan destructuring', 'Memahami metode pencarian: find, some, every'], en: ['Create and manipulate arrays', 'Use methods: push, pop, shift, unshift', 'Iterate arrays with forEach, map, filter, reduce', 'Use spread operator and destructuring', 'Understand search methods: find, some, every'] },
-  5: { id: ['Membuat dan mengelola objek JavaScript', 'Mengakses properti dengan dot dan bracket notation', 'Menggunakan destrukturisasi objek', 'Memahami JSON.parse dan JSON.stringify', 'Menerapkan object spread dan computed keys'], en: ['Create and manage JavaScript objects', 'Access properties with dot and bracket notation', 'Use object destructuring', 'Understand JSON.parse and JSON.stringify', 'Apply object spread and computed keys'] },
-  6: { id: ['Memilih elemen dengan querySelector dan getElementById', 'Membuat dan menyisipkan elemen baru', 'Mengubah konten, atribut, dan style elemen', 'Mengelola class dengan classList', 'Menghapus elemen dari DOM'], en: ['Select elements with querySelector and getElementById', 'Create and insert new elements', 'Modify content, attributes, and styles', 'Manage classes with classList', 'Remove elements from the DOM'] },
-  7: { id: ['Mendengarkan event dengan addEventListener', 'Mengenal jenis event: click, submit, input, keydown', 'Mengakses event object dan target', 'Mencegah perilaku default form', 'Memahami event bubbling dan delegation'], en: ['Listen to events with addEventListener', 'Learn event types: click, submit, input, keydown', 'Access the event object and target', 'Prevent default form behavior', 'Understand event bubbling and delegation'] },
-  8: { id: ['Mengimpor dan mengekspor modul ES6', 'Membuat class dengan constructor dan method', 'Menggunakan template literal untuk string', 'Menerapkan optional chaining dan nullish coalescing', 'Memahami Map, Set, dan struktur data modern'], en: ['Import and export ES6 modules', 'Create classes with constructor and methods', 'Use template literals for strings', 'Apply optional chaining and nullish coalescing', 'Understand Map, Set, and modern data structures'] },
-  9: { id: ['Memahami konsep synchronous vs asynchronous', 'Membuat dan menggunakan Promise', 'Menulis async/await untuk kode asinkron', 'Mengambil data dengan Fetch API', 'Menangani error dengan try/catch'], en: ['Understand synchronous vs asynchronous concepts', 'Create and use Promises', 'Write async/await for asynchronous code', 'Fetch data with the Fetch API', 'Handle errors with try/catch'] },
-  10: { id: ['Menyimpan data dengan localStorage dan sessionStorage', 'Menggunakan Geolocation API', 'Membuat animasi dengan requestAnimationFrame', 'Mengelola waktu dengan setTimeout dan setInterval', 'Memanfaatkan Notification API'], en: ['Store data with localStorage and sessionStorage', 'Use the Geolocation API', 'Create animations with requestAnimationFrame', 'Manage time with setTimeout and setInterval', 'Leverage the Notification API'] },
-  11: { id: ['Memahami closure dan penggunaannya', 'Menguasai binding this: call, apply, bind', 'Mengenal prototype chain dan inheritance', 'Menerapkan debounce dan throttle', 'Menggunakan pola Module dan IIFE'], en: ['Understand closures and their use cases', 'Master this binding: call, apply, bind', 'Learn prototype chain and inheritance', 'Apply debounce and throttle', 'Use Module pattern and IIFE'] },
-  12: { id: ['Menggabungkan semua konsep JavaScript dalam satu proyek', 'Mendesain arsitektur aplikasi yang terstruktur', 'Mengelola state aplikasi secara efektif', 'Membangun UI yang responsif dan interaktif', 'Men-deploy project JavaScript vanilla'], en: ['Combine all JavaScript concepts in one project', 'Design structured application architecture', 'Manage application state effectively', 'Build responsive and interactive UI', 'Deploy a vanilla JavaScript project'] },
+const MODULES = [
+  // ── BEGINNER (weeks 1-5) ──────────────────────────────────────────────────
+  {
+    week: 1, level: 'beginer', topicId: 'dasar-sintaks',
+    titleId: 'Dasar Sintaks JavaScript', titleEn: 'JavaScript Syntax Basics',
+    programId: 'Halo JavaScript', programEn: 'Hello JavaScript',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'javascript',
+    code: `// Variabel dan Tipe Data
+const nama = "Budi";
+let umur = 25;
+const aktif = true;
+
+console.log("Nama:", nama);
+console.log("Umur:", umur);
+console.log("Aktif:", aktif);
+console.log("Tipe nama:", typeof nama);
+console.log("Tipe umur:", typeof umur);
+
+// Operator
+const a = 10;
+const b = 3;
+console.log("\\n=== Operator ===");
+console.log("a + b =", a + b);
+console.log("a - b =", a - b);
+console.log("a * b =", a * b);
+console.log("a / b =", a / b);
+console.log("a % b =", a % b);
+console.log("a ** b =", a ** b);
+
+// Template Literal
+const sapa = \`Halo, \${nama}! Umur Anda \${umur} tahun.\`;
+console.log("\\n" + sapa);
+
+// Null & Undefined
+let kosong = null;
+let belumDiisi;
+console.log("\\nnull:", kosong);
+console.log("undefined:", belumDiisi);`,
+    objectivesId: [
+      'Mendeklarasikan variabel dengan const, let, var',
+      'Tipe data primitif: string, number, boolean, null, undefined, symbol',
+      'Operator aritmatika: +, -, *, /, %, **',
+      'Template literal dengan backtick dan ekspresi ${}',
+      'typeof operator untuk cek tipe data',
+    ],
+    objectivesEn: [
+      'Declare variables with const, let, var',
+      'Primitive types: string, number, boolean, null, undefined, symbol',
+      'Arithmetic operators: +, -, *, /, %, **',
+      'Template literals with backtick and ${} expressions',
+      'typeof operator to check data types',
+    ],
+    explanationId: '### Variabel\n`const` immutable, `let` mutable, `var` (hindari - function scope).\n\n### Tipe Data Primitif\n`string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`.\n\n### Operator\nAritmatika: `+ - * / % **`. Perbandingan: `=== !== > < >= <=`.\n\n### Template Literal\nBacktick `` ` `` dengan `${expr}` untuk string interpolation.\n\n### typeof\n`typeof "hello"` = "string", `typeof 42` = "number".',
+    explanationEn: '### Variables\n`const` immutable, `let` mutable, `var` (avoid - function scope).\n\n### Primitive Types\n`string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`.\n\n### Operators\nArithmetic: `+ - * / % **`. Comparison: `=== !== > < >= <=`.\n\n### Template Literals\nBacktick `` ` `` with `${expr}` for string interpolation.\n\n### typeof\n`typeof "hello"` = "string", `typeof 42` = "number".',
+    experimentsId: [
+      'Ubah nilai variabel let dan const — apa yang terjadi?',
+      'Coba operator perbandingan: 5 === "5"',
+      'Buat template literal dengan ekspresi aritmatika',
+      'Coba typeof pada null, array, dan object',
+      'Eksperimen dengan operator logika && dan ||',
+    ],
+    experimentsEn: [
+      'Change let and const values — what happens?',
+      'Try comparison: 5 === "5"',
+      'Create template literal with arithmetic expression',
+      'Try typeof on null, array, and object',
+      'Experiment with logical operators && and ||',
+    ],
+    challengeId: 'Buat program kalkulator sederhana: input dua angka, output semua operasi aritmatika dengan template literal.',
+    challengeEn: 'Build a simple calculator: input two numbers, output all arithmetic operations with template literals.',
+    summaryId: 'Minggu 1 dari 14: **Dasar Sintaks JavaScript** (Level: Pemula). Fondasi bahasa. Minggu depan: **Tipe Data & Struktur Data**.',
+    summaryEn: 'Week 1 of 14: **JavaScript Syntax Basics** (Level: Beginner). Language foundation. Next week: **Data Types & Data Structures**.',
+  },
+  {
+    week: 2, level: 'beginer', topicId: 'tipe-data-struktur',
+    titleId: 'Tipe Data & Struktur Data', titleEn: 'Data Types & Data Structures',
+    programId: 'Array & Object', programEn: 'Arrays & Objects',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'javascript',
+    code: `// Array
+const buah = ["apel", "mangga", "pisang"];
+console.log("Buah:", buah);
+console.log("Panjang:", buah.length);
+console.log("Pertama:", buah[0]);
+console.log("Terakhir:", buah[buah.length - 1]);
+
+buah.push("jeruk");
+buah.pop();
+buah.unshift("anggur");
+console.log("Setelah modifikasi:", buah);
+
+console.log("\\n=== Array Methods ===");
+const angka = [1, 2, 3, 4, 5];
+const doubled = angka.map(n => n * 2);
+const evens = angka.filter(n => n % 2 === 0);
+const sum = angka.reduce((acc, n) => acc + n, 0);
+console.log("Original:", angka);
+console.log("Doubled:", doubled);
+console.log("Evens:", evens);
+console.log("Sum:", sum);
+
+// Object
+const mahasiswa = {
+    nama: "Budi",
+    umur: 20,
+    jurusan: "Informatika",
+    aktif: true
+};
+console.log("\\n=== Object ===");
+console.log("Nama:", mahasiswa.nama);
+console.log("Umur:", mahasiswa["umur"]);
+
+mahasiswa.semester = 4;
+delete mahasiswa.aktif;
+console.log("Setelah update:", mahasiswa);
+
+// Destructuring
+const { nama, jurusan } = mahasiswa;
+console.log("\\nDestructuring:", nama, "-", jurusan);
+
+// Spread
+const buahBaru = [...buah, "durian", "manggis"];
+console.log("Spread:", buahBaru);`,
+    objectivesId: [
+      'Array: push, pop, shift, unshift, length',
+      'Array methods: map, filter, reduce, find, some, every',
+      'Object: property access dengan dot dan bracket notation',
+      'Destructuring: ekstrak nilai dari array dan object',
+      'Spread operator: ... untuk copy dan merge',
+    ],
+    objectivesEn: [
+      'Array: push, pop, shift, unshift, length',
+      'Array methods: map, filter, reduce, find, some, every',
+      'Objects: property access with dot and bracket notation',
+      'Destructuring: extract values from arrays and objects',
+      'Spread operator: ... for copying and merging',
+    ],
+    explanationId: '### Array\nOrdered list. `push`/`pop` di akhir, `shift`/`unshift` di awal.\n\n### Array Methods\n`map` transform, `filter` pilih, `reduce` akumulasi, `find` cari pertama.\n\n### Object\nKey-value pairs. Akses: `obj.key` atau `obj["key"]`.\n\n### Destructuring\n`const { nama } = obj` — ekstrak property ke variabel.\n\n### Spread\n`[...arr1, ...arr2]` — gabung array. `{...obj1, ...obj2}` — gabung object.',
+    explanationEn: '### Arrays\nOrdered lists. `push`/`pop` at end, `shift`/`unshift` at start.\n\n### Array Methods\n`map` transform, `filter` select, `reduce` accumulate, `find` search first.\n\n### Objects\nKey-value pairs. Access: `obj.key` or `obj["key"]`.\n\n### Destructuring\n`const { nama } = obj` — extract property to variable.\n\n### Spread\n`[...arr1, ...arr2]` — merge arrays. `{...obj1, ...obj2}` — merge objects.',
+    experimentsId: [
+      'Buat array 2D dan iterasi dengan nested forEach',
+      'Coba reduce untuk hitung rata-rata',
+      'Eksperimen destructuring nested object',
+      'Buat copy object dengan spread vs Object.assign',
+      'Coba array methods chaining: filter().map().reduce()',
+    ],
+    experimentsEn: [
+      'Create 2D array and iterate with nested forEach',
+      'Try reduce to calculate average',
+      'Experiment destructuring nested objects',
+      'Create object copy with spread vs Object.assign',
+      'Try array method chaining: filter().map().reduce()',
+    ],
+    challengeId: 'Buat program manajemen kontak: tambah, hapus, cari, filter berdasarkan kategori — gunakan array of objects.',
+    challengeEn: 'Build a contact management program: add, delete, search, filter by category — use array of objects.',
+    summaryId: 'Minggu 2 dari 14: **Tipe Data & Struktur Data** (Level: Pemula). Organisasi data. Minggu depan: **Control Flow**.',
+    summaryEn: 'Week 2 of 14: **Data Types & Data Structures** (Level: Beginner). Data organization. Next week: **Control Flow**.',
+  },
+  {
+    week: 3, level: 'beginer', topicId: 'control-flow',
+    titleId: 'Control Flow', titleEn: 'Control Flow',
+    programId: 'Sistem Nilai', programEn: 'Grade System',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'javascript',
+    code: `// If/Else
+const nilai = 85;
+
+if (nilai >= 90) {
+    console.log("Grade: A");
+} else if (nilai >= 80) {
+    console.log("Grade: B");
+} else if (nilai >= 70) {
+    console.log("Grade: C");
+} else {
+    console.log("Grade: D");
+}
+
+// Ternary
+const status = nilai >= 70 ? "Lulus" : "Tidak Lulus";
+console.log("Status:", status);
+
+// Switch
+const hari = "Senin";
+switch (hari) {
+    case "Senin":
+        console.log("Mulai kerja!");
+        break;
+    case "Jumat":
+        console.log("Hampir weekend!");
+        break;
+    default:
+        console.log("Hari biasa.");
+}
+
+// For Loop
+console.log("\\n=== For Loop ===");
+for (let i = 1; i <= 5; i++) {
+    console.log("Iterasi ke-" + i);
+}
+
+// For...Of (Array)
+const warna = ["merah", "hijau", "biru"];
+console.log("\\n=== For...Of ===");
+for (const w of warna) {
+    console.log("Warna:", w);
+}
+
+// For...In (Object)
+const user = { nama: "Budi", umur: 25 };
+console.log("\\n=== For...In ===");
+for (const key in user) {
+    console.log(key + ":", user[key]);
+}
+
+// While & Do-While
+console.log("\\n=== While ===");
+let n = 1;
+while (n <= 3) {
+    console.log("While:", n);
+    n++;
+}
+
+// Break & Continue
+console.log("\\n=== Break & Continue ===");
+for (let i = 1; i <= 10; i++) {
+    if (i === 5) break;
+    if (i % 2 === 0) continue;
+    console.log("Ganjil (sebelum 5):", i);
+}`,
+    objectivesId: [
+      'If/else if/else untuk kondisi bertingkat',
+      'Ternary operator: condition ? true : false',
+      'Switch case untuk multiple kondisi',
+      'Loop: for, while, do-while, for-of, for-in',
+      'Break dan continue untuk kontrol loop',
+    ],
+    objectivesEn: [
+      'If/else if/else for multi-level conditions',
+      'Ternary operator: condition ? true : false',
+      'Switch case for multiple conditions',
+      'Loops: for, while, do-while, for-of, for-in',
+      'Break and continue for loop control',
+    ],
+    explanationId: '### If/Else\nKondisi bertingkat. Evaluasi dari atas, berhenti saat true.\n\n### Ternary\n`condition ? valueIfTrue : valueIfFalse` — shorthand untuk if/else sederhana.\n\n### Switch\nCocok untuk banyak kondisi dengan value tetap. Jangan lupa `break`.\n\n### Loop\n`for` classic, `while` kondisi dulu, `do-while` jalankan dulu. `for-of` untuk iterable, `for-in` untuk object keys.\n\n### Break & Continue\n`break` keluar loop, `continue` skip ke iterasi berikutnya.',
+    explanationEn: '### If/Else\nMulti-level conditions. Evaluates top-down, stops at first true.\n\n### Ternary\n`condition ? valueIfTrue : valueIfFalse` — shorthand for simple if/else.\n\n### Switch\nGood for many conditions with fixed values. Don\'t forget `break`.\n\n### Loops\n`for` classic, `while` condition first, `do-while` run first. `for-of` for iterables, `for-in` for object keys.\n\n### Break & Continue\n`break` exits loop, `continue` skips to next iteration.',
+    experimentsId: [
+      'Buat program FizzBuzz dengan for dan if',
+      'Coba switch dengan multiple case',
+      'Eksperimen for-of pada string',
+      'Buat loop dengan break pada kondisi tertentu',
+      'Coba nested loop untuk tabel perkalian',
+    ],
+    experimentsEn: [
+      'Create FizzBuzz program with for and if',
+      'Try switch with multiple cases',
+      'Experiment for-of on string',
+      'Create loop with break on specific condition',
+      'Try nested loop for multiplication table',
+    ],
+    challengeId: 'Buat program tebak angka: generate random, user tebak, hint lebih besar/kecil, limit 5 percobaan.',
+    challengeEn: 'Build a number guessing game: generate random, user guesses, hint higher/lower, limit 5 attempts.',
+    summaryId: 'Minggu 3 dari 14: **Control Flow** (Level: Pemula). Logika program. Minggu depan: **Fungsi**.',
+    summaryEn: 'Week 3 of 14: **Control Flow** (Level: Beginner). Program logic. Next week: **Functions**.',
+  },
+  {
+    week: 4, level: 'beginer', topicId: 'fungsi',
+    titleId: 'Fungsi', titleEn: 'Functions',
+    programId: 'Kalkulator Modular', programEn: 'Modular Calculator',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'javascript',
+    code: `// Function Declaration
+function sapa(nama) {
+    return \`Halo, \${nama}!\`;
+}
+console.log(sapa("Budi"));
+
+// Function Expression
+const tambah = function(a, b) {
+    return a + b;
+};
+console.log("Tambah:", tambah(5, 3));
+
+// Arrow Function
+const kali = (a, b) => a * b;
+const bagi = (a, b) => {
+    if (b === 0) return "Error: bagi nol";
+    return a / b;
+};
+console.log("Kali:", kali(4, 3));
+console.log("Bagi:", bagi(10, 2));
+
+// Default Parameter
+const sapaDefault = (nama = "Tamu") => \`Halo, \${nama}!\`;
+console.log(sapaDefault());
+console.log(sapaDefault("Siti"));
+
+// Rest Parameter
+const sumAll = (...numbers) => numbers.reduce((a, b) => a + b, 0);
+console.log("Sum:", sumAll(1, 2, 3, 4, 5));
+
+// Callback
+function proses(arr, callback) {
+    return arr.map(callback);
+}
+const hasil = proses([1, 2, 3], n => n * n);
+console.log("Callback:", hasil);
+
+// Closure
+function counter() {
+    let count = 0;
+    return function() {
+        return ++count;
+    };
+}
+const hitung = counter();
+console.log("\\n=== Closure ===");
+console.log("Hitung:", hitung());
+console.log("Hitung:", hitung());
+console.log("Hitung:", hitung());`,
+    objectivesId: [
+      'Function declaration vs function expression vs arrow function',
+      'Parameter, default parameter, rest parameter',
+      'Return value dan early return',
+      'Callback function sebagai argumen',
+      'Closure: fungsi yang "mengingat" scope luar',
+    ],
+    objectivesEn: [
+      'Function declaration vs function expression vs arrow function',
+      'Parameters, default parameters, rest parameters',
+      'Return values and early returns',
+      'Callback functions as arguments',
+      'Closures: functions that "remember" outer scope',
+    ],
+    explanationId: '### Jenis Fungsi\n`function decl()` hoisted. `const fn = function(){}` expression. `() => {}` arrow function.\n\n### Parameter\nDefault: `function(x = 10)`. Rest: `function(...args)` — kumpulkan semua argumen ke array.\n\n### Return\n`return value` — keluar dari fungsi dengan nilai. Tanpa return = undefined.\n\n### Callback\nFungsi yang diteruskan sebagai argumen ke fungsi lain.\n\n### Closure\nFungsi dalam fungsi yang masih akses variabel outer scope setelah outer selesai.',
+    explanationEn: '### Function Types\n`function decl()` hoisted. `const fn = function(){}` expression. `() => {}` arrow function.\n\n### Parameters\nDefault: `function(x = 10)`. Rest: `function(...args)` — collect all args to array.\n\n### Return\n`return value` — exit function with value. No return = undefined.\n\n### Callbacks\nFunction passed as argument to another function.\n\n### Closures\nInner function that still accesses outer scope variables after outer completes.',
+    experimentsId: [
+      'Buat fungsi rekursif untuk faktorial',
+      'Coba higher-order function: fungsi yang return fungsi',
+      'Eksperimen closure untuk private counter',
+      'Buat fungsi dengan callback async simulasi',
+      'Coba IIFE (Immediately Invoked Function Expression)',
+    ],
+    experimentsEn: [
+      'Create recursive function for factorial',
+      'Try higher-order function: function that returns function',
+      'Experiment closure for private counter',
+      'Create function with async callback simulation',
+      'Try IIFE (Immediately Invoked Function Expression)',
+    ],
+    challengeId: 'Buat library matematika: tambah, kurang, kali, bagi, pangkat, faktorial — semua dengan arrow function dan error handling.',
+    challengeEn: 'Build a math library: add, subtract, multiply, divide, power, factorial — all with arrow functions and error handling.',
+    summaryId: 'Minggu 4 dari 14: **Fungsi** (Level: Pemula). Modularitas kode. Minggu depan: **DOM Manipulation**.',
+    summaryEn: 'Week 4 of 14: **Functions** (Level: Beginner). Code modularity. Next week: **DOM Manipulation**.',
+  },
+  {
+    week: 5, level: 'beginer', topicId: 'dom-manipulation',
+    titleId: 'DOM Manipulation', titleEn: 'DOM Manipulation',
+    programId: 'To-Do List Sederhana', programEn: 'Simple To-Do List',
+    levelNameId: 'Pemula', levelNameEn: 'Beginner',
+    language: 'javascript',
+    code: `// Simulasi DOM (untuk playground non-browser)
+// Di browser, gunakan document.querySelector dll.
+
+// Simulasi elemen DOM
+const fakeDOM = {
+    elements: {},
+    createElement(tag) {
+        return { tag, children: [], textContent: "", classList: [] };
+    },
+    appendChild(parent, child) {
+        parent.children.push(child);
+        return child;
+    }
 };
 
-const CODE = {
-  1: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Dasar JavaScript</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem;line-height:1.6}h2{color:#B8860B;border-bottom:2px solid #F7DF1E;padding-bottom:.3rem}pre{background:#1e1e1e;color:#f8f8f2;padding:1rem;border-radius:8px;overflow-x:auto}.output{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}button{background:#F7DF1E;color:#000;border:none;padding:.5rem 1.2rem;border-radius:6px;cursor:pointer;font-weight:bold}button:hover{background:#e6cf1a}</style></head>
-<body>
-<h1>Hello JavaScript!</h1>
-<p>Buka <strong>Console</strong> (F12) untuk melihat output.</p>
-<script>
-  // VARIABEL
-  let nama = "Aulia";
-  const umur = 20;
-  var kota = "Jakarta";
-
-  // TIPE DATA
-  let teks = "Halo Dunia";
-  let angka = 42;
-  let desimal = 3.14;
-  let isActive = true;
-  let kosong = null;
-  let tidakDidefinisikan;
-
-  console.log("Nama:", nama, "| Tipe:", typeof nama);
-  console.log("Umur:", umur, "| Tipe:", typeof umur);
-  console.log("Aktif:", isActive, "| Tipe:", typeof isActive);
-  console.log("Null:", kosong, "| Tipe:", typeof kosong);
-  console.log("Undefined:", tidakDidefinisikan, "| Tipe:", typeof tidakDidefinisikan);
-
-  // OUTPUT KE HALAMAN
-  document.getElementById("output").innerHTML = \`
-    <p><strong>Nama:</strong> \${nama}</p>
-    <p><strong>Umur:</strong> \${umur}</p>
-    <p><strong>Kota:</strong> \${kota}</p>
-    <p><strong>Angka favorit:</strong> \${angka}</p>
-  \`;
-</script>
-<h2>Output</h2>
-<div class="output" id="output"></div>
-<button onclick="document.getElementById('output').innerHTML += '<p>Tombol diklik!</p>'">Klik Saya</button>
-</body>
-</html>`,
-
-  2: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Operator & Control Flow</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input,select{padding:.4rem;border:1px solid #ccc;border-radius:4px}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer}</style></head>
-<body>
-<h1>Kalkulator & Control Flow</h1>
-<div class="card">
-  <h2>Operator Aritmatika</h2>
-  <input type="number" id="num1" value="10">
-  <input type="number" id="num2" value="3">
-  <button onclick="hitung()">Hitung</button>
-  <pre id="hasilArit" style="background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px;margin-top:.5rem"></pre>
-</div>
-<div class="card">
-  <h2>Grade Nilai (if/else)</h2>
-  <input type="number" id="nilai" placeholder="Masukkan nilai" min="0" max="100">
-  <button onclick="cekGrade()">Cek Grade</button>
-  <p id="hasilGrade"></p>
-</div>
-<div class="card">
-  <h2>Tabel Perkalian (loop)</h2>
-  <input type="number" id="tabel" value="5" min="1" max="10">
-  <button onclick="buatTabel()">Buat Tabel</button>
-  <pre id="hasilTabel" style="background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px"></pre>
-</div>
-<script>
-  function hitung() {
-    let a = Number(document.getElementById("num1").value);
-    let b = Number(document.getElementById("num2").value);
-    document.getElementById("hasilArit").textContent =
-      \`\${a} + \${b} = \${a + b}\\n\${a} - \${b} = \${a - b}\\n\${a} × \${b} = \${a * b}\\n\${a} ÷ \${b} = \${(a / b).toFixed(2)}\\n\${a} % \${b} = \${a % b}\`;
-    console.log("Operator:", a, b, "→", a + b, a - b, a * b, a / b);
-  }
-  function cekGrade() {
-    let n = Number(document.getElementById("nilai").value);
-    let grade;
-    if (n >= 90) grade = "A (Sempurna!)";
-    else if (n >= 80) grade = "B (Baik)";
-    else if (n >= 70) grade = "C (Cukup)";
-    else if (n >= 60) grade = "D (Kurang)";
-    else grade = "E (Remidi)";
-    document.getElementById("hasilGrade").innerHTML = \`Nilai \${n}: <strong>\${grade}</strong>\`;
-  }
-  function buatTabel() {
-    let n = Number(document.getElementById("tabel").value);
-    let out = "";
-    for (let i = 1; i <= 10; i++) {
-      out += \`\${n} × \${i} = \${n * i}\\n\`;
+// Simulasi To-Do List
+class TodoList {
+    constructor() {
+        this.todos = [];
+        this.nextId = 1;
     }
-    document.getElementById("hasilTabel").textContent = out;
-  }
-</script>
-</body>
-</html>`,
 
-  3: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Fungsi</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input{padding:.4rem;border:1px solid #ccc;border-radius:4px}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px}</style></head>
-<body>
-<h1>Manajemen Nilai Siswa</h1>
-<div class="card">
-  <h2>Tambah Nilai</h2>
-  <input type="text" id="namaSiswa" placeholder="Nama siswa">
-  <input type="number" id="nilaiSiswa" placeholder="Nilai">
-  <button onclick="tambahNilai()">Tambah</button>
-</div>
-<div class="card">
-  <button onclick="hitungRata()">Hitung Rata-rata</button>
-  <button onclick="tampilkanLulus()">Siswa Lulus</button>
-  <button onclick="resetNilai()">Reset</button>
-</div>
-<pre id="output">Data siswa akan tampil di sini</pre>
-<script>
-  let daftarNilai = [];
+    add(text) {
+        const todo = { id: this.nextId++, text, done: false };
+        this.todos.push(todo);
+        return todo;
+    }
 
-  // FUNCTION DECLARATION
-  function tambahNilai() {
-    let nama = document.getElementById("namaSiswa").value.trim();
-    let nilai = Number(document.getElementById("nilaiSiswa").value);
-    if (!nama || isNaN(nilai)) { alert("Isi nama dan nilai!"); return; }
-    daftarNilai.push({ nama, nilai });
-    render();
-  }
+    toggle(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) todo.done = !todo.done;
+        return todo;
+    }
 
-  // ARROW FUNCTION
-  const hitungRata = () => {
-    if (daftarNilai.length === 0) return 0;
-    let total = daftarNilai.reduce((sum, s) => sum + s.nilai, 0);
-    return total / daftarNilai.length;
-  };
+    remove(id) {
+        this.todos = this.todos.filter(t => t.id !== id);
+    }
 
-  // FUNCTION WITH CALLBACK
-  function filterNilai(kriteria) {
-    return daftarNilai.filter(kriteria);
-  }
+    getAll() {
+        return this.todos;
+    }
 
-  const tampilkanLulus = () => {
-    let lulus = filterNilai(s => s.nilai >= 70);
-    console.log("Siswa lulus:", lulus);
-    alert(\`Siswa lulus: \${lulus.length} orang\`);
-  };
+    getCompleted() {
+        return this.todos.filter(t => t.done);
+    }
 
-  // HIGHER-ORDER FUNCTION
-  function resetNilai() {
-    daftarNilai = [];
-    render();
-    console.log("Data direset");
-  }
+    getPending() {
+        return this.todos.filter(t => !t.done);
+    }
+}
 
-  function render() {
-    let out = \`Total siswa: \${daftarNilai.length}\\n\`;
-    daftarNilai.forEach((s, i) => {
-      out += \`\${i + 1}. \${s.nama}: \${s.nilai}\\n\`;
+// Demo
+const todo = new TodoList();
+todo.add("Belajar JavaScript");
+todo.add("Buat To-Do App");
+todo.add("Push ke GitHub");
+
+console.log("=== Semua Todo ===");
+console.log(todo.getAll());
+
+todo.toggle(1);
+console.log("\\n=== Setelah toggle #1 ===");
+console.log("Completed:", todo.getCompleted());
+console.log("Pending:", todo.getPending());
+
+todo.remove(2);
+console.log("\\n=== Setelah hapus #2 ===");
+console.log(todo.getAll());
+
+// DOM API yang di browser:
+// document.querySelector("#id") — pilih elemen
+// document.createElement("div") — buat elemen baru
+// element.textContent = "text" — ubah teks
+// element.classList.add("active") — tambah class
+// element.addEventListener("click", fn) — event handler
+// element.innerHTML = "<span>html</span>" — ubah HTML`,
+    objectivesId: [
+      'Memahami DOM tree dan node types',
+      'querySelector dan querySelectorAll untuk pilih elemen',
+      'createElement dan appendChild untuk buat elemen baru',
+      'textContent, innerHTML, classList untuk manipulasi',
+      'Event listener: addEventListener untuk interaksi',
+    ],
+    objectivesEn: [
+      'Understand DOM tree and node types',
+      'querySelector and querySelectorAll to select elements',
+      'createElement and appendChild to create new elements',
+      'textContent, innerHTML, classList for manipulation',
+      'Event listeners: addEventListener for interaction',
+    ],
+    explanationId: '### DOM Tree\nDocument Object Model — representasi tree dari HTML. Setiap node adalah object.\n\n### Select Elemen\n`querySelector(".class")` — CSS selector. `getElementById("id")` — by ID.\n\n### Create & Append\n`document.createElement("div")` — buat. `parent.appendChild(child)` — tambah.\n\n### Manipulasi\n`textContent` teks aman, `innerHTML` parse HTML, `classList.add/remove/toggle`.\n\n### Events\n`element.addEventListener("click", handler)` — responsif terhadap user action.',
+    explanationEn: '### DOM Tree\nDocument Object Model — tree representation of HTML. Each node is an object.\n\n### Select Elements\n`querySelector(".class")` — CSS selector. `getElementById("id")` — by ID.\n\n### Create & Append\n`document.createElement("div")` — create. `parent.appendChild(child)` — add.\n\n### Manipulation\n`textContent` safe text, `innerHTML` parses HTML, `classList.add/remove/toggle`.\n\n### Events\n`element.addEventListener("click", handler)` — responsive to user actions.',
+    experimentsId: [
+      'Buat elemen div dengan JavaScript dan tambah ke body',
+      'Coba classList.toggle untuk show/hide',
+      'Eksperimen event delegation pada list',
+      'Buat form input yang menambah item ke list',
+      'Coba dataset attributes untuk simpan data',
+    ],
+    experimentsEn: [
+      'Create div element with JavaScript and add to body',
+      'Try classList.toggle for show/hide',
+      'Experiment event delegation on list',
+      'Create form input that adds items to list',
+      'Try dataset attributes to store data',
+    ],
+    challengeId: 'Buat to-do list app: tambah, toggle selesai, hapus, filter — dengan DOM manipulation dan event listeners.',
+    challengeEn: 'Build a to-do list app: add, toggle complete, delete, filter — with DOM manipulation and event listeners.',
+    summaryId: 'Minggu 5 dari 14: **DOM Manipulation** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Events & Event Handling** (Intermediate).',
+    summaryEn: 'Week 5 of 14: **DOM Manipulation** (Level: Beginner). Beginner phase complete! Next week: **Events & Event Handling** (Intermediate).',
+  },
+  // ── INTERMEDIATE (weeks 6-10) ──────────────────────────────────────────────
+  {
+    week: 6, level: 'intermediate', topicId: 'events-handling',
+    titleId: 'Events & Event Handling', titleEn: 'Events & Event Handling',
+    programId: 'Event System', programEn: 'Event System',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'javascript',
+    code: `// Simulasi Event System
+class EventEmitter {
+    constructor() {
+        this.listeners = {};
+    }
+
+    on(event, callback) {
+        if (!this.listeners[event]) this.listeners[event] = [];
+        this.listeners[event].push(callback);
+        return () => this.off(event, callback);
+    }
+
+    off(event, callback) {
+        if (!this.listeners[event]) return;
+        this.listeners[event] = this.listeners[event]
+            .filter(cb => cb !== callback);
+    }
+
+    emit(event, ...args) {
+        if (!this.listeners[event]) return;
+        this.listeners[event].forEach(cb => cb(...args));
+    }
+
+    once(event, callback) {
+        const wrapper = (...args) => {
+            callback(...args);
+            this.off(event, wrapper);
+        };
+        this.on(event, wrapper);
+    }
+}
+
+// Demo Event System
+const emitter = new EventEmitter();
+
+// Subscribe
+const unsub = emitter.on("user:login", (user) => {
+    console.log("User login:", user);
+});
+
+emitter.on("user:login", (user) => {
+    console.log("Log activity:", user);
+});
+
+emitter.once("app:start", () => {
+    console.log("App started (once)");
+});
+
+// Emit events
+console.log("=== Emit Events ===");
+emitter.emit("app:start");
+emitter.emit("app:start"); // tidak trigger once lagi
+emitter.emit("user:login", "Budi");
+
+// Unsubscribe
+unsub();
+console.log("\\n=== After unsubscribe ===");
+emitter.emit("user:login", "Siti"); // hanya 1 listener
+
+// Event phases (browser):
+// 1. Capture phase: dari target ke atas
+// 2. Target phase: di elemen target
+// 3. Bubble phase: dari target ke atas
+// stopPropagation() — hentikan propagasi
+// preventDefault() — cegah default behavior
+
+// Event delegation pattern:
+// parent.addEventListener("click", (e) => {
+//     if (e.target.matches(".child-selector")) {
+//         // handle child click
+//     }
+// });`,
+    objectivesId: [
+      'Event phases: capture, target, bubble',
+      'Event delegation: handle event di parent',
+      'Custom events dengan EventEmitter pattern',
+      'stopPropagation dan preventDefault',
+      'once listener dan unsubscribe pattern',
+    ],
+    objectivesEn: [
+      'Event phases: capture, target, bubble',
+      'Event delegation: handle events on parent',
+      'Custom events with EventEmitter pattern',
+      'stopPropagation and preventDefault',
+      'Once listeners and unsubscribe patterns',
+    ],
+    explanationId: '### Event Phases\n1. Capture: window → target. 2. Target: elemen target. 3. Bubble: target → window.\n\n### Event Delegation\nSatu listener di parent untuk banyak child. Cek `e.target.matches(selector)`.\n\n### Custom Events\n`EventEmitter` pattern: `on`, `off`, `emit`, `once`.\n\n### Propagation\n`stopPropagation()` hentikan bubbling. `preventDefault()` cegah default behavior.\n\n### Unsubscribe\nReturn fungsi unsubscribe dari `on()` untuk cleanup.',
+    explanationEn: '### Event Phases\n1. Capture: window → target. 2. Target: target element. 3. Bubble: target → window.\n\n### Event Delegation\nOne listener on parent for many children. Check `e.target.matches(selector)`.\n\n### Custom Events\n`EventEmitter` pattern: `on`, `off`, `emit`, `once`.\n\n### Propagation\n`stopPropagation()` stops bubbling. `preventDefault()` prevents default behavior.\n\n### Unsubscribe\nReturn unsubscribe function from `on()` for cleanup.',
+    experimentsId: [
+      'Buat event bus untuk komunikasi antar module',
+      'Coba capture phase dengan addEventListener third arg',
+      'Eksperimen event delegation pada table',
+      'Buat custom event dengan detail data',
+      'Implementasikan throttle pada scroll event',
+    ],
+    experimentsEn: [
+      'Create event bus for inter-module communication',
+      'Try capture phase with addEventListener third arg',
+      'Experiment event delegation on table',
+      'Create custom event with detail data',
+      'Implement throttle on scroll event',
+    ],
+    challengeId: 'Buat keyboard shortcut system: register shortcut, trigger action, dengan EventEmitter pattern.',
+    challengeEn: 'Build a keyboard shortcut system: register shortcut, trigger action, with EventEmitter pattern.',
+    summaryId: 'Minggu 6 dari 14: **Events & Event Handling** (Level: Menengah). Interaksi pengguna. Minggu depan: **Async JavaScript**.',
+    summaryEn: 'Week 6 of 14: **Events & Event Handling** (Level: Intermediate). User interaction. Next week: **Async JavaScript**.',
+  },
+  {
+    week: 7, level: 'intermediate', topicId: 'async-javascript',
+    titleId: 'Async JavaScript', titleEn: 'Async JavaScript',
+    programId: 'Promise & Async/Await', programEn: 'Promises & Async/Await',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'javascript',
+    code: `// Simulasi Async Operations
+function fetchData(url) {
+    return new Promise((resolve, reject) => {
+        console.log("Fetching:", url);
+        setTimeout(() => {
+            if (url.includes("error")) {
+                reject(new Error("Network error"));
+            } else {
+                resolve({ data: "Response from " + url, status: 200 });
+            }
+        }, 100);
     });
-    if (daftarNilai.length > 0) {
-      out += \`\\nRata-rata: \${hitungRata().toFixed(1)}\`;
-    }
-    document.getElementById("output").textContent = out || "Belum ada data";
-  }
-</script>
-</body>
-</html>`,
+}
 
-  4: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Array & Metode</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input{padding:.4rem;border:1px solid #ccc;border-radius:4px}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px}</style></head>
-<body>
-<h1>Daftar Belanja</h1>
-<div class="card">
-  <input type="text" id="itemBaru" placeholder="Nama item">
-  <input type="number" id="qtyBaru" placeholder="Jumlah" value="1" min="1">
-  <button onclick="tambahItem()">Tambah</button>
-  <button onclick="hapusTerakhir()">Hapus Terakhir</button>
-  <button onclick="urutkanItem()">Urutkan A-Z</button>
-  <button onclick="filterBeli()">Yang Belum Dibeli</button>
-</div>
-<pre id="output">Daftar belanjaan akan muncul di sini</pre>
-<div class="card">
-  <h2>Demo Method Array</h2>
-  <button onclick="demoMap()">map() — Nama Saja</button>
-  <button onclick="demoFilter()">filter() — Qty > 2</button>
-  <button onclick="demoReduce()">reduce() — Total Item</button>
-  <button onclick="demoFind()">find() — Cari "Susu"</button>
-</div>
-<pre id="demoOutput"></pre>
-<script>
-  let belanja = [
-    { nama: "Beras", qty: 2, beli: false },
-    { nama: "Telur", qty: 12, beli: true },
-  ];
-  function render() {
-    let out = belanja.map((item, i) =>
-      \`\${i + 1}. [\${item.beli ? "✓" : " "}] \${item.nama} × \${item.qty}\`
-    ).join("\\n");
-    document.getElementById("output").textContent = out || "Kosong";
-    console.log("Daftar:", belanja);
-  }
-  function tambahItem() {
-    let nama = document.getElementById("itemBaru").value.trim();
-    let qty = Number(document.getElementById("qtyBaru").value);
-    if (!nama) return;
-    belanja.push({ nama, qty, beli: false });
-    render();
-  }
-  function hapusTerakhir() { belanja.pop(); render(); }
-  function urutkanItem() {
-    belanja.sort((a, b) => a.nama.localeCompare(b.nama)); render();
-  }
-  function filterBeli() {
-    let belum = belanja.filter(item => !item.beli);
-    alert(\`Belum dibeli: \${belum.length} item\`);
-  }
-  function demoMap() {
-    let namaSaja = belanja.map(i => i.nama);
-    document.getElementById("demoOutput").textContent = "Nama item: " + namaSaja.join(", ");
-  }
-  function demoFilter() {
-    let banyak = belanja.filter(i => i.qty > 2);
-    document.getElementById("demoOutput").textContent = "Qty > 2: " + banyak.map(i => i.nama).join(", ");
-  }
-  function demoReduce() {
-    let total = belanja.reduce((sum, i) => sum + i.qty, 0);
-    document.getElementById("demoOutput").textContent = "Total item: " + total;
-  }
-  function demoFind() {
-    let found = belanja.find(i => i.nama.toLowerCase().includes("susu"));
-    document.getElementById("demoOutput").textContent = found ? \`Ditemukan: \${found.nama} × \${found.qty}\` : "Tidak ditemukan";
-  }
-  render();
-</script>
-</body>
-</html>`,
-
-  5: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Objek & Data</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input{padding:.4rem;border:1px solid #ccc;border-radius:4px}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px}</style></head>
-<body>
-<h1>Buku Alamat</h1>
-<div class="card">
-  <input type="text" id="nama" placeholder="Nama">
-  <input type="email" id="email" placeholder="Email">
-  <input type="tel" id="telp" placeholder="Telepon">
-  <button onclick="simpanKontak()">Simpan</button>
-</div>
-<pre id="output"></pre>
-<div class="card">
-  <h2>Demo Objek</h2>
-  <button onclick="demoDestructure()">Destructuring</button>
-  <button onclick="demoSpread()">Spread Object</button>
-  <button onclick="demoJson()">JSON Export</button>
-</div>
-<pre id="demoOut"></pre>
-<script>
-  let kontak = [];
-  function buatKontak(nama, email, telp) {
-    return { nama, email, telp, dibuat: new Date().toLocaleString() };
-  }
-  function simpanKontak() {
-    let n = document.getElementById("nama").value.trim();
-    let e = document.getElementById("email").value.trim();
-    let t = document.getElementById("telp").value.trim();
-    if (!n || !e) { alert("Nama dan email wajib!"); return; }
-    kontak.push(buatKontak(n, e, t));
-    render();
-  }
-  function render() {
-    let out = kontak.map((k, i) =>
-      \`\${i + 1}. \${k.nama} | \${k.email} | \${k.telp} (\${k.dibuat})\`
-    ).join("\\n");
-    document.getElementById("output").textContent = out || "Belum ada kontak";
-  }
-  function demoDestructure() {
-    if (!kontak.length) return alert("Tambah kontak dulu!");
-    let { nama, email } = kontak[0];
-    document.getElementById("demoOut").textContent =
-      \`Destructure: Nama = \${nama}, Email = \${email}\`;
-  }
-  function demoSpread() {
-    if (!kontak.length) return alert("Tambah kontak dulu!");
-    let asli = kontak[0];
-    let salinan = { ...asli, dimodifikasi: true };
-    document.getElementById("demoOut").textContent =
-      "Asli: " + JSON.stringify(asli) + "\\nSalinan (spread): " + JSON.stringify(salinan);
-  }
-  function demoJson() {
-    let json = JSON.stringify(kontak, null, 2);
-    document.getElementById("demoOut").textContent = json;
-    console.log("JSON export:", json);
-  }
-</script>
-</body>
-</html>`,
-
-  6: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>DOM Manipulation</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input{padding:.4rem;border:1px solid #ccc}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}.highlight{background:#fff3cd;border:2px solid #F7DF1E}.box{width:80px;height:80px;background:#F7DF1E;margin:5px;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;border-radius:8px}#targetArea{min-height:60px;border:2px dashed #ccc;padding:.5rem;margin:.5rem 0;border-radius:8px}</style></head>
-<body>
-<h1>Pengubah Halaman</h1>
-<div class="card">
-  <button onclick="tambahElemen()">Tambah Elemen</button>
-  <button onclick="ubahJudul()">Ubah Judul</button>
-  <button onclick="toggleClass()">Toggle Class</button>
-  <button onclick="gantiWarna()">Ganti Warna Latar</button>
-  <button onclick="hapusElemen()">Hapus Elemen Terakhir</button>
-</div>
-<div id="targetArea">
-  <p class="item">Elemen awal</p>
-</div>
-<div id="infoPanel" class="card">
-  <p><strong>Jumlah elemen:</strong> <span id="jumlahElemen">1</span></p>
-</div>
-<script>
-  function tambahElemen() {
-    let div = document.createElement("div");
-    div.className = "box";
-    div.textContent = "Baru";
-    document.getElementById("targetArea").appendChild(div);
-    hitungElemen();
-  }
-  function ubahJudul() {
-    let h1 = document.querySelector("h1");
-    h1.textContent = "DOM Diubah!";
-    h1.style.color = "#e63946";
-  }
-  function toggleClass() {
-    document.getElementById("targetArea").classList.toggle("highlight");
-  }
-  function gantiWarna() {
-    document.body.style.backgroundColor =
-      document.body.style.backgroundColor === "lightblue" ? "" : "lightblue";
-  }
-  function hapusElemen() {
-    let area = document.getElementById("targetArea");
-    let anak = area.querySelectorAll(".box");
-    if (anak.length > 0) area.removeChild(anak[anak.length - 1]);
-    hitungElemen();
-  }
-  function hitungElemen() {
-    let total = document.querySelectorAll("#targetArea > *").length;
-    document.getElementById("jumlahElemen").textContent = total;
-  }
-</script>
-</body>
-</html>`,
-
-  7: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Event & Form</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input,select,textarea{padding:.4rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box;margin-bottom:.5rem}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer}.error{border-color:#e63946!important;background:#ffe5e5}.success{border-color:#2ecc71!important}.toast{position:fixed;top:20px;right:20px;background:#333;color:#fff;padding:.8rem 1.2rem;border-radius:8px;opacity:0;transition:opacity .3s;z-index:999}</style></head>
-<body>
-<h1>Form Cerdas</h1>
-<div class="card">
-  <form id="myForm">
-    <label>Nama Lengkap <span style="color:red">*</span></label>
-    <input type="text" id="name" required placeholder="Min. 3 karakter">
-    <label>Email <span style="color:red">*</span></label>
-    <input type="email" id="email" required placeholder="contoh@email.com">
-    <label>Umur</label>
-    <input type="number" id="age" min="1" max="150" placeholder="1-150">
-    <label>Kategori</label>
-    <select id="category">
-      <option value="">Pilih...</option>
-      <option value="student">Pelajar</option>
-      <option value="worker">Pekerja</option>
-      <option value="other">Lainnya</option>
-    </select>
-    <label>Pesan</label>
-    <textarea id="message" rows="3" placeholder="Tulis pesan..."></textarea>
-    <div style="display:flex;gap:8px;margin-top:.5rem">
-      <button type="submit">Kirim</button>
-      <button type="reset" style="background:#ccc">Reset</button>
-    </div>
-  </form>
-</div>
-<div id="log" class="card">
-  <h2>Event Log</h2>
-  <pre id="eventLog" style="background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px;max-height:150px;overflow-y:auto"></pre>
-</div>
-<div id="toast" class="toast"></div>
-<script>
-  function showToast(msg) {
-    let t = document.getElementById("toast");
-    t.textContent = msg; t.style.opacity = 1;
-    setTimeout(() => t.style.opacity = 0, 2000);
-  }
-  function log(evt) {
-    let el = document.getElementById("eventLog");
-    el.textContent += \`[\${evt.type}] \${evt.target.id || evt.target.tagName}\\n\`;
-    el.scrollTop = el.scrollHeight;
-  }
-  document.getElementById("myForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    let name = document.getElementById("name").value.trim();
-    let email = document.getElementById("email").value.trim();
-    if (name.length < 3) {
-      document.getElementById("name").classList.add("error");
-      return showToast("Nama minimal 3 karakter!");
-    }
-    document.getElementById("name").classList.remove("error");
-    showToast(\`Data terkirim! Nama: \${name}, Email: \${email}\`);
-    console.log("Form submitted:", { name, email });
-  });
-  document.getElementById("myForm").addEventListener("reset", function() {
-    showToast("Form direset");
-    document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
-  });
-  document.querySelectorAll("input, select, textarea").forEach(el => {
-    el.addEventListener("focus", log);
-    el.addEventListener("blur", log);
-    el.addEventListener("input", function() { this.classList.remove("error"); });
-  });
-  // EVENT DELEGATION
-  document.addEventListener("click", function(e) {
-    if (e.target.tagName === "BUTTON" && e.target.type === "submit") {
-      console.log("Tombol submit diklik (delegation)");
-    }
-  });
-</script>
-</body>
-</html>`,
-
-  8: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>JavaScript Modern</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px}</style></head>
-<body>
-<h1>Demo Fitur ES6+</h1>
-<div class="card">
-  <button onclick="demoTemplate()">Template Literal</button>
-  <button onclick="demoClass()">Class & Extends</button>
-  <button onclick="demoOptional()">Optional Chaining</button>
-  <button onclick="demoMapSet()">Map & Set</button>
-  <button onclick="demoDestruct()">Destructuring</button>
-</div>
-<pre id="output">Klik tombol untuk demo fitur ES6+</pre>
-<script>
-  // TEMPLATE LITERAL
-  function demoTemplate() {
-    let name = "Budi", role = "Developer";
-    let msg = \`Halo, nama saya \${name}!\\nSaya seorang \${role}.\\nTahun ini saya berusia \${2026 - 2000} tahun.\`;
-    document.getElementById("output").textContent = msg;
-  }
-  // CLASS
-  function demoClass() {
-    class Animal {
-      constructor(nama) { this.nama = nama; }
-      bersuara() { return \`\${this.nama} membuat suara\`; }
-    }
-    class Kucing extends Animal {
-      bersuara() { return \`\${this.nama} mengeong: Meow!\`; }
-    }
-    class Anjing extends Animal {
-      bersuara() { return \`\${this.nama} menggonggong: Woof!\`; }
-    }
-    let kucing = new Kucing("Mimi");
-    let anjing = new Anjing("Doggy");
-    document.getElementById("output").textContent =
-      kucing.bersuara() + "\\n" + anjing.bersuara();
-  }
-  // OPTIONAL CHAINING
-  function demoOptional() {
-    let user = { nama: "Siti", alamat: { kota: "Jakarta" } };
-    let user2 = { nama: "Ali" };
-    let kota1 = user?.alamat?.kota ?? "Tidak diketahui";
-    let kota2 = user2?.alamat?.kota ?? "Tidak diketahui";
-    document.getElementById("output").textContent =
-      \`user.alamat.kota: \${kota1}\\nuser2.alamat.kota: \${kota2}\`;
-  }
-  // MAP & SET
-  function demoMapSet() {
-    let skor = new Map();
-    skor.set("Budi", 85); skor.set("Siti", 92); skor.set("Ali", 78);
-    let nilaiUnik = new Set([85, 92, 78, 85, 92]);
-    let out = "Map (Nilai Siswa):\\n";
-    skor.forEach((v, k) => { out += \`  \${k}: \${v}\\n\`; });
-    out += "\\nSet (Nilai Unik): [" + [...nilaiUnik].join(", ") + "]";
-    document.getElementById("output").textContent = out;
-  }
-  // DESTRUCTURING
-  function demoDestruct() {
-    let arr = [10, 20, 30, 40];
-    let [a, b, ...sisa] = arr;
-    let obj = { x: 100, y: 200 };
-    let { x, y } = obj;
-    document.getElementById("output").textContent =
-      \`Array: a=\${a}, b=\${b}, sisa=[\${sisa}]\\nObjek: x=\${x}, y=\${y}\`;
-  }
-</script>
-</body>
-</html>`,
-
-  9: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Async JavaScript</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px;max-height:200px;overflow-y:auto}.spinner{display:inline-block;width:16px;height:16px;border:2px solid #F7DF1E;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}</style></head>
-<body>
-<h1>Async JavaScript Demo</h1>
-<div class="card">
-  <button onclick="demoPromise()">Promise Sederhana</button>
-  <button onclick="demoAsync()">Async/Await</button>
-  <button onclick="demoFetch()">Fetch API (JSON)</button>
-  <button onclick="demoParallel()">Promise.all</button>
-  <button onclick="clearOut()">Clear</button>
-</div>
-<pre id="status"></pre>
-<pre id="output">Klik tombol untuk melihat async JavaScript dalam aksi</pre>
-<script>
-  function log(msg) {
-    document.getElementById("output").textContent += msg + "\\n";
-  }
-  function setStatus(msg) {
-    document.getElementById("status").textContent = msg;
-  }
-  function clearOut() {
-    document.getElementById("output").textContent = "";
-    document.getElementById("status").textContent = "";
-  }
-
-  // PROMISE
-  function demoPromise() {
-    setStatus("⏳ Promise berjalan...");
-    log("→ Promise dimulai");
-    let janji = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        let berhasil = Math.random() > 0.3;
-        if (berhasil) resolve("✅ Data berhasil dimuat!");
-        else reject("❌ Gagal memuat data");
-      }, 1500);
+// Promise Chain
+console.log("=== Promise Chain ===")
+fetchData("/api/users")
+    .then(res => {
+        console.log("Step 1:", res.data);
+        return fetchData("/api/posts");
+    })
+    .then(res => {
+        console.log("Step 2:", res.data);
+        return fetchData("/api/comments");
+    })
+    .then(res => {
+        console.log("Step 3:", res.data);
+    })
+    .catch(err => {
+        console.error("Error:", err.message);
     });
-    janji
-      .then(hasil => { log(hasil); setStatus("✅ Promise selesai"); })
-      .catch(err => { log(err); setStatus("❌ Promise gagal"); });
-  }
 
-  // ASYNC/AWAIT
-  function tunda(ms) {
-    return new Promise(r => setTimeout(r, ms));
-  }
-  async function demoAsync() {
-    setStatus("⏳ Async/Await berjalan...");
-    log("→ Async function dimulai");
+// Async/Await
+async function loadUserData() {
     try {
-      await tunda(800);
-      log("✅ Langkah 1: Koneksi database OK");
-      await tunda(800);
-      log("✅ Langkah 2: Data ditemukan (42 baris)");
-      await tunda(800);
-      log("✅ Langkah 3: Data diproses");
-      setStatus("✅ Async/Await selesai!");
-    } catch (err) {
-      log("❌ Error: " + err);
-      setStatus("❌ Gagal");
-    }
-  }
+        console.log("\\n=== Async/Await ===")
+        const users = await fetchData("/api/users");
+        console.log("Users:", users.data);
 
-  // FETCH API
-  async function demoFetch() {
-    setStatus("⏳ Mengambil data...");
-    log("→ Fetch API dimulai");
+        const posts = await fetchData("/api/posts");
+        console.log("Posts:", posts.data);
+
+        return { users, posts };
+    } catch (error) {
+        console.error("Failed:", error.message);
+    }
+}
+
+// Parallel Execution
+async function loadDashboard() {
+    console.log("\\n=== Parallel Execution ===")
+    const start = Date.now();
+
+    const [users, posts, stats] = await Promise.all([
+        fetchData("/api/users"),
+        fetchData("/api/posts"),
+        fetchData("/api/stats")
+    ]);
+
+    console.log("All loaded in", Date.now() - start, "ms");
+    console.log("Results:", users.data, "|", posts.data, "|", stats.data);
+}
+
+// Run demos
+setTimeout(() => {
+    loadUserData().then(() => {
+        loadDashboard();
+    });
+}, 200);
+
+// Promise Utilities
+console.log("\\n=== Promise Utilities ===");
+console.log("Promise.all — semua harus berhasil");
+console.log("Promise.race — yang pertama selesai");
+console.log("Promise.allSettled — semua hasil (success/fail)");
+console.log("Promise.any — yang pertama berhasil");`,
+    objectivesId: [
+      'Callback vs Promise vs Async/Await',
+      'Promise states: pending, fulfilled, rejected',
+      'Promise.all, Promise.race, Promise.allSettled',
+      'Error handling: try/catch dengan async/await',
+      'Parallel vs sequential execution',
+    ],
+    objectivesEn: [
+      'Callbacks vs Promises vs Async/Await',
+      'Promise states: pending, fulfilled, rejected',
+      'Promise.all, Promise.race, Promise.allSettled',
+      'Error handling: try/catch with async/await',
+      'Parallel vs sequential execution',
+    ],
+    explanationId: '### Callback → Promise → Async/Await\nCallback hell → Promise chain → async/await (cleanest).\n\n### Promise States\n`pending` → `fulfilled` (resolve) atau `rejected` (reject).\n\n### Promise.all\nSemua promise harus berhasil. Jika satu gagal, semua gagal.\n\n### Promise.race\nReturn promise pertama yang selesai (success atau fail).\n\n### Async/Await\n`async function` return Promise. `await` tunggu Promise selesai.\n\n### Parallel\n`Promise.all([p1, p2, p3])` — jalankan bersamaan, bukan sequential.',
+    explanationEn: '### Callback → Promise → Async/Await\nCallback hell → Promise chain → async/await (cleanest).\n\n### Promise States\n`pending` → `fulfilled` (resolve) or `rejected` (reject).\n\n### Promise.all\nAll promises must succeed. If one fails, all fail.\n\n### Promise.race\nReturns first promise to complete (success or fail).\n\n### Async/Await\n`async function` returns Promise. `await` waits for Promise to complete.\n\n### Parallel\n`Promise.all([p1, p2, p3])` — run concurrently, not sequentially.',
+    experimentsId: [
+      'Buat Promise yang reject setelah timeout',
+      'Coba Promise.allSettled dengan mix success/fail',
+      'Eksperimen Promise.race untuk timeout pattern',
+      'Buat retry logic dengan async/await',
+      'Implementasikan Promise.all dengan concurrency limit',
+    ],
+    experimentsEn: [
+      'Create Promise that rejects after timeout',
+      'Try Promise.allSettled with mix success/fail',
+      'Experiment Promise.race for timeout pattern',
+      'Create retry logic with async/await',
+      'Implement Promise.all with concurrency limit',
+    ],
+    challengeId: 'Buat data loader: fetch 3 API secara parallel, handle errors per-request, dengan retry logic.',
+    challengeEn: 'Build a data loader: fetch 3 APIs in parallel, handle errors per-request, with retry logic.',
+    summaryId: 'Minggu 7 dari 14: **Async JavaScript** (Level: Menengah). Non-blocking code. Minggu depan: **ES6+ Features**.',
+    summaryEn: 'Week 7 of 14: **Async JavaScript** (Level: Intermediate). Non-blocking code. Next week: **ES6+ Features**.',
+  },
+  {
+    week: 8, level: 'intermediate', topicId: 'es6-features',
+    titleId: 'ES6+ Features', titleEn: 'ES6+ Features',
+    programId: 'Modern JS Syntax', programEn: 'Modern JS Syntax',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'javascript',
+    code: '// Destructuring\nconst [a, b, ...rest] = [1, 2, 3, 4, 5];\nconst { nama, umur, ...lain } = { nama: "Budi", umur: 25, kota: "Jakarta" };\nconsole.log("Array:", a, b, rest);\nconsole.log("Object:", nama, umur, lain);\n\n// Default + Rename\nconst { nama: name, aktif: active = true } = { nama: "Siti" };\nconsole.log("Rename:", name, active);\n\n// Modules (simulasi)\n// export const PI = 3.14;\n// export function add(a, b) { return a + b; }\n// export default class Calculator {}\n// import Calculator, { PI, add } from "./math.js";\n\n// Classes\nclass Animal {\n    constructor(name) {\n        this.name = name;\n    }\n    speak() {\n        return `${this.name} makes a sound`;\n    }\n}\n\nclass Dog extends Animal {\n    constructor(name, breed) {\n        super(name);\n        this.breed = breed;\n    }\n    speak() {\n        return `${this.name} barks!`;\n    }\n}\n\nconst dog = new Dog("Buddy", "Labrador");\nconsole.log("\\n=== Classes ===");\nconsole.log(dog.speak());\nconsole.log("Breed:", dog.breed);\n\n// Optional Chaining\nconst user = { profile: { email: "budi@mail.com" } };\nconsole.log("\\n=== Optional Chaining ===");\nconsole.log("Email:", user?.profile?.email);\nconsole.log("Phone:", user?.profile?.phone); // undefined, no error\nconsole.log("Nested:", user?.address?.street); // undefined, no error\n\n// Nullish Coalescing\nconst value1 = null ?? "default";\nconst value2 = 0 ?? "default";\nconst value3 = "" ?? "default";\nconsole.log("\\n=== Nullish Coalescing ===");\nconsole.log("null ??", value1);\nconsole.log("0 ??", value2); // 0 (bukan null/undefined)\nconsole.log("empty ??", value3); // "" (bukan null/undefined)\n\n// Logical Assignment\nlet x = null;\nx ??= "fallback";\nconsole.log("\\n=== Logical Assignment ===");\nconsole.log("x ??= fallback:", x);\n\nlet count = 5;\ncount ||= 10; // hanya jika falsy\nconsole.log("count ||= 10:", count);',
+    objectivesId: [
+      'Destructuring: array dan object dengan rest pattern',
+      'Classes: constructor, extends, super, method',
+      'Optional chaining: ?. untuk akses property aman',
+      'Nullish coalescing: ?? untuk default value',
+      'Logical assignment: ||=, &&=, ??=',
+    ],
+    objectivesEn: [
+      'Destructuring: arrays and objects with rest pattern',
+      'Classes: constructor, extends, super, methods',
+      'Optional chaining: ?. for safe property access',
+      'Nullish coalescing: ?? for default values',
+      'Logical assignment: ||=, &&=, ??=',
+    ],
+    explanationId: '### Destructuring\n`const [a, ...rest] = arr` — ekstrak array. `const { nama } = obj` — ekstrak object.\n\n### Classes\n`class` syntax di atas prototype. `extends` inheritance, `super()` parent constructor.\n\n### Optional Chaining\n`obj?.prop?.method?.()` — return undefined jika chain null/undefined, tidak throw error.\n\n### Nullish Coalescing\n`value ?? default` — default hanya jika null/undefined (bukan 0 atau "").\n\n### Logical Assignment\n`x ??= val` — assign hanya jika x nullish. `x ||= val` — assign hanya jika x falsy.',
+    explanationEn: '### Destructuring\n`const [a, ...rest] = arr` — extract array. `const { nama } = obj` — extract object.\n\n### Classes\n`class` syntax over prototype. `extends` inheritance, `super()` parent constructor.\n\n### Optional Chaining\n`obj?.prop?.method?.()` — returns undefined if chain null/undefined, no error thrown.\n\n### Nullish Coalescing\n`value ?? default` — default only if null/undefined (not 0 or "").\n\n### Logical Assignment\n`x ??= val` — assign only if x nullish. `x ||= val` — assign only if x falsy.',
+    experimentsId: [
+      'Buat class hierarchy: Vehicle → Car → ElectricCar',
+      'Coba optional chaining dengan method call',
+      'Eksperimen ?? vs || pada berbagai value',
+      'Buat swap variable dengan destructuring',
+      'Coba private class fields dengan #',
+    ],
+    experimentsEn: [
+      'Create class hierarchy: Vehicle → Car → ElectricCar',
+      'Try optional chaining with method calls',
+      'Experiment ?? vs || on various values',
+      'Create swap variables with destructuring',
+      'Try private class fields with #',
+    ],
+    challengeId: 'Buat class Library: Book, Member, Transaction — dengan inheritance, optional chaining, dan nullish coalescing.',
+    challengeEn: 'Create a Library class: Book, Member, Transaction — with inheritance, optional chaining, and nullish coalescing.',
+    summaryId: 'Minggu 8 dari 14: **ES6+ Features** (Level: Menengah). JavaScript modern. Minggu depan: **Modules**.',
+    summaryEn: 'Week 8 of 14: **ES6+ Features** (Level: Intermediate). Modern JavaScript. Next week: **Modules**.',
+  },
+  {
+    week: 9, level: 'intermediate', topicId: 'modules',
+    titleId: 'Modules', titleEn: 'Modules',
+    programId: 'ES Modules', programEn: 'ES Modules',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'javascript',
+    code: `// Simulasi ES Modules (di browser/native Node)
+// File: math.js
+// export const PI = 3.14159;
+// export function add(a, b) { return a + b; }
+// export function multiply(a, b) { return a * b; }
+// export default class Calculator { ... }
+
+// File: main.js
+// import Calculator, { PI, add, multiply } from "./math.js";
+// import * as MathUtils from "./math.js";
+
+// Simulasi module system
+const MathUtils = (() => {
+    const PI = 3.14159;
+
+    function add(a, b) { return a + b; }
+    function multiply(a, b) { return a * b; }
+    function subtract(a, b) { return a - b; }
+
+    class Calculator {
+        #result = 0; // private field
+
+        add(n) { this.#result += n; return this; }
+        subtract(n) { this.#result -= n; return this; }
+        getResult() { return this.#result; }
+    }
+
+    // Named exports
+    return { PI, add, multiply, subtract, Calculator };
+})();
+
+// Gunakan module
+console.log("=== ES Modules Simulation ===");
+console.log("PI:", MathUtils.PI);
+console.log("Add:", MathUtils.add(5, 3));
+console.log("Multiply:", MathUtils.multiply(4, 7));
+
+const calc = new MathUtils.Calculator();
+calc.add(10).subtract(3).add(5);
+console.log("Calculator:", calc.getResult());
+
+// Dynamic import (simulasi)
+async function loadModule(moduleName) {
+    console.log("\\n=== Dynamic Import ===");
+    console.log("Loading module:", moduleName);
+    // const module = await import("./" + moduleName + ".js");
+    return MathUtils;
+}
+
+loadModule("math").then(mod => {
+    console.log("Loaded, PI:", mod.PI);
+});
+
+// Module patterns:
+// 1. ES Modules (modern): import/export
+// 2. CommonJS (Node): require/module.exports
+// 3. AMD (legacy): define/require
+// 4. UMD: universal module
+
+// Tree shaking: bundler hapus unused exports
+// Bundlers: Webpack, Rollup, Vite, esbuild`,
+    objectivesId: [
+      'ES Modules: import dan export syntax',
+      'Named exports vs default exports',
+      'Dynamic import() untuk lazy loading',
+      'Private class fields dengan #',
+      'Module patterns: ES Modules vs CommonJS',
+    ],
+    objectivesEn: [
+      'ES Modules: import and export syntax',
+      'Named exports vs default exports',
+      'Dynamic import() for lazy loading',
+      'Private class fields with #',
+      'Module patterns: ES Modules vs CommonJS',
+    ],
+    explanationId: '### ES Modules\n`export const x` named export. `export default class` default export. `import { x } from "mod"`.\n\n### Named vs Default\nNamed: multiple per module, harus pakai kurung kurawal. Default: satu per module, bebas nama.\n\n### Dynamic Import\n`await import("./module.js")` — load module saat dibutuhkan (lazy loading).\n\n### Private Fields\n`#field` — benar-benar private, tidak bisa diakses dari luar class.\n\n### Bundlers\nWebpack, Rollup, Vite — bundle modules untuk production. Tree shaking hapus unused code.',
+    explanationEn: '### ES Modules\n`export const x` named export. `export default class` default export. `import { x } from "mod"`.\n\n### Named vs Default\nNamed: multiple per module, needs curly braces. Default: one per module, any name.\n\n### Dynamic Import\n`await import("./module.js")` — load module when needed (lazy loading).\n\n### Private Fields\n`#field` — truly private, not accessible outside class.\n\n### Bundlers\nWebpack, Rollup, Vite — bundle modules for production. Tree shaking removes unused code.',
+    experimentsId: [
+      'Buat module dengan multiple named exports',
+      'Coba dynamic import dengan conditional',
+      'Eksperimen private fields dan methods',
+      'Buat barrel file (index.js) untuk re-export',
+      'Coba circular dependency — apa yang terjadi?',
+    ],
+    experimentsEn: [
+      'Create module with multiple named exports',
+      'Try dynamic import with conditional',
+      'Experiment private fields and methods',
+      'Create barrel file (index.js) for re-export',
+      'Try circular dependency — what happens?',
+    ],
+    challengeId: 'Buat module library: math, string, date utilities — dengan named exports, default export, dan dynamic import.',
+    challengeEn: 'Create a module library: math, string, date utilities — with named exports, default export, and dynamic import.',
+    summaryId: 'Minggu 9 dari 14: **Modules** (Level: Menengah). Organisasi kode. Minggu depan: **Error Handling**.',
+    summaryEn: 'Week 9 of 14: **Modules** (Level: Intermediate). Code organization. Next week: **Error Handling**.',
+  },
+  {
+    week: 10, level: 'intermediate', topicId: 'error-handling',
+    titleId: 'Error Handling', titleEn: 'Error Handling',
+    programId: 'Robust Error Handling', programEn: 'Robust Error Handling',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
+    language: 'javascript',
+    code: `// Custom Error Classes
+class ValidationError extends Error {
+    constructor(field, message) {
+        super(message);
+        this.name = "ValidationError";
+        this.field = field;
+    }
+}
+
+class NetworkError extends Error {
+    constructor(status, message) {
+        super(message);
+        this.name = "NetworkError";
+        this.status = status;
+    }
+}
+
+// Try/Catch/Finally
+function validateUser(data) {
+    if (!data.email) throw new ValidationError("email", "Email wajib");
+    if (!data.email.includes("@")) throw new ValidationError("email", "Email tidak valid");
+    if (!data.nama) throw new ValidationError("nama", "Nama wajib");
+    if (data.umur < 0 || data.umur > 150) throw new ValidationError("umur", "Umur tidak valid");
+    return true;
+}
+
+// Demo
+console.log("=== Error Handling ===");
+
+const testCases = [
+    { email: "", nama: "Budi", umur: 25 },
+    { email: "invalid", nama: "Siti", umur: 30 },
+    { email: "budi@mail.com", nama: "", umur: 25 },
+    { email: "budi@mail.com", nama: "Budi", umur: -5 },
+    { email: "budi@mail.com", nama: "Budi", umur: 25 }
+];
+
+testCases.forEach((data, i) => {
     try {
-      let res = await fetch("https://jsonplaceholder.typicode.com/todos/1");
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      let data = await res.json();
-      log("✅ Data diterima:");
-      log("  ID: " + data.id);
-      log("  Judul: " + data.title);
-      log("  Selesai: " + data.completed);
-      setStatus("✅ Fetch selesai!");
-    } catch (err) {
-      log("❌ Fetch error: " + err.message);
-      setStatus("❌ Fetch gagal (gunakan Live Server atau proxy)");
+        validateUser(data);
+        console.log(\`Test \${i+1}: ✓ Valid\`);
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            console.log(\`Test \${i+1}: ✗ \${error.field} - \${error.message}\`);
+        } else {
+            console.log(\`Test \${i+1}: ✗ Unexpected: \${error.message}\`);
+        }
+    } finally {
+        console.log(\`  (test \${i+1} completed)\`);
     }
-  }
+});
 
-  // PROMISE.ALL
-  async function demoParallel() {
-    setStatus("⏳ Eksekusi paralel...");
-    log("→ Promise.all dimulai");
-    let mulai = Date.now();
-    try {
-      let hasil = await Promise.all([
-        tunda(1000).then(() => "Tugas 1 (1s) selesai"),
-        tunda(2000).then(() => "Tugas 2 (2s) selesai"),
-        tunda(1500).then(() => "Tugas 3 (1.5s) selesai"),
-      ]);
-      let waktu = ((Date.now() - mulai) / 1000).toFixed(1);
-      hasil.forEach(h => log("  " + h));
-      log(\`✅ Semua selesai dalam \${waktu}s (bukan 4.5s!)\`);
-      setStatus("✅ Paralel selesai!");
-    } catch (err) {
-      log("❌ " + err);
-      setStatus("❌ Gagal");
-    }
-  }
-</script>
-</body>
-</html>`,
+// Async Error Handling
+async function fetchUser(id) {
+    if (id <= 0) throw new NetworkError(400, "Invalid ID");
+    if (id > 100) throw new NetworkError(404, "User not found");
+    return { id, name: "User " + id };
+}
 
-  10: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Browser API</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input,textarea{padding:.4rem;border:1px solid #ccc;border-radius:4px;width:100%;box-sizing:border-box}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px}#canvas{border:1px solid #ccc;border-radius:8px;display:block;margin:.5rem 0}</style></head>
-<body>
-<h1>Browser API Toolkit</h1>
-<div class="card">
-  <h2>📝 Catatan Cepat (localStorage)</h2>
-  <textarea id="note" rows="3" placeholder="Tulis catatan..."></textarea>
-  <button onclick="simpanNote()">Simpan</button>
-  <button onclick="hapusNote()">Hapus</button>
-  <p id="noteStatus"></p>
-</div>
-<div class="card">
-  <h2>⏱️ Timer</h2>
-  <p>Waktu: <span id="timer">00:00:00</span></p>
-  <button onclick="mulaiTimer()">Mulai</button>
-  <button onclick="hentikanTimer()">Hentikan</button>
-  <button onclick="resetTimer()">Reset</button>
-</div>
-<div class="card">
-  <h2>📍 Geolocation</h2>
-  <button onclick="dapatkanLokasi()">Dapatkan Lokasi Saya</button>
-  <pre id="lokasi"></pre>
-</div>
-<div class="card">
-  <h2>🎨 Canvas</h2>
-  <canvas id="canvas" width="300" height="150"></canvas>
-  <button onclick="gambarCanvas()">Gambar</button>
-  <button onclick="clearCanvas()">Hapus Canvas</button>
-</div>
-<script>
-  // localStorage
-  function simpanNote() {
-    let note = document.getElementById("note").value;
-    localStorage.setItem("quickNote", note);
-    document.getElementById("noteStatus").textContent = "✅ Tersimpan!";
-  }
-  function hapusNote() {
-    localStorage.removeItem("quickNote");
-    document.getElementById("note").value = "";
-    document.getElementById("noteStatus").textContent = "🗑️ Dihapus";
-  }
-  (function() {
-    let saved = localStorage.getItem("quickNote");
-    if (saved) document.getElementById("note").value = saved;
-  })();
-
-  // Timer
-  let timerInterval, detik = 0;
-  function mulaiTimer() {
-    if (timerInterval) return;
-    timerInterval = setInterval(() => {
-      detik++;
-      let h = String(Math.floor(detik / 3600)).padStart(2, "0");
-      let m = String(Math.floor((detik % 3600) / 60)).padStart(2, "0");
-      let s = String(detik % 60).padStart(2, "0");
-      document.getElementById("timer").textContent = \`\${h}:\${m}:\${s}\`;
-    }, 1000);
-  }
-  function hentikanTimer() { clearInterval(timerInterval); timerInterval = null; }
-  function resetTimer() { hentikanTimer(); detik = 0; document.getElementById("timer").textContent = "00:00:00"; }
-
-  // Geolocation
-  function dapatkanLokasi() {
-    if (!navigator.geolocation) return alert("Geolocation tidak didukung");
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        document.getElementById("lokasi").textContent =
-          \`Lat: \${pos.coords.latitude}\\nLng: \${pos.coords.longitude}\\nAkurasi: \${pos.coords.accuracy}m\`;
-      },
-      err => document.getElementById("lokasi").textContent = "❌ " + err.message
+console.log("\\n=== Async Error Handling ===");
+async function loadUsers() {
+    const ids = [1, -5, 50, 200];
+    const results = await Promise.allSettled(
+        ids.map(id => fetchUser(id))
     );
-  }
 
-  // Canvas
-  function gambarCanvas() {
-    let c = document.getElementById("canvas").getContext("2d");
-    c.fillStyle = "#F7DF1E";
-    c.fillRect(20, 20, 260, 110);
-    c.fillStyle = "#000";
-    c.font = "bold 20px system-ui";
-    c.textAlign = "center";
-    c.fillText("Hello Canvas!", 150, 85);
-    c.beginPath();
-    c.arc(250, 50, 25, 0, Math.PI * 2);
-    c.fillStyle = "#e63946";
-    c.fill();
-  }
-  function clearCanvas() {
-    let c = document.getElementById("canvas").getContext("2d");
-    c.clearRect(0, 0, 300, 150);
-  }
-</script>
-</body>
-</html>`,
+    results.forEach((result, i) => {
+        if (result.status === "fulfilled") {
+            console.log(\`User \${ids[i]}: ✓ \`, result.value);
+        } else {
+            console.log(\`User \${ids[i]}: ✗ \`, result.reason.message);
+        }
+    });
+}
 
-  11: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Konsep Lanjutan</title><style>body{font-family:system-ui,sans-serif;max-width:700px;margin:2rem auto;padding:0 1rem}h2{color:#B8860B}.card{background:#f5f5f5;padding:1rem;border-radius:8px;margin:.5rem 0}input{padding:.4rem;border:1px solid #ccc;border-radius:4px}button{background:#F7DF1E;color:#000;border:none;padding:.4rem 1rem;border-radius:6px;cursor:pointer;margin:2px}pre{background:#1e1e1e;color:#f8f8f2;padding:.5rem;border-radius:4px;min-height:60px}</style></head>
-<body>
-<h1>Aplikasi Catatan dengan Closure</h1>
-<div class="card">
-  <p>Catatan ini menggunakan <strong>closure</strong> untuk menyimpan state privat.</p>
-  <input type="text" id="noteInput" placeholder="Isi catatan...">
-  <button onclick="tambahCatatan()">Tambah</button>
-</div>
-<pre id="output"></pre>
-<div class="card">
-  <h2>Demo Konsep Lanjutan</h2>
-  <button onclick="demoClosure()">Closure Counter</button>
-  <button onclick="demoBind()">this & bind</button>
-  <button onclick="demoPrototype()">Prototype</button>
-  <button onclick="demoDebounce()">Debounce Input</button>
-  <button onclick="demoModule()">Module Pattern</button>
-</div>
-<pre id="demoOutput"></pre>
-<script>
-  // CLOSURE: State privat
-  function buatPengelolaCatatan() {
-    let catatan = [];
+loadUsers();
+
+// Global Error Handler
+// window.addEventListener("error", (e) => { ... });
+// window.addEventListener("unhandledrejection", (e) => { ... });`,
+    objectivesId: [
+      'Custom error classes dengan extends Error',
+      'try/catch/finally untuk handle error',
+      'instanceof untuk cek tipe error',
+      'Promise.allSettled untuk handle multiple async errors',
+      'Global error handler: window.onerror, unhandledrejection',
+    ],
+    objectivesEn: [
+      'Custom error classes with extends Error',
+      'try/catch/finally for error handling',
+      'instanceof to check error type',
+      'Promise.allSettled for multiple async error handling',
+      'Global error handlers: window.onerror, unhandledrejection',
+    ],
+    explanationId: '### Custom Error\n`class MyError extends Error` — tambah property custom seperti field, status.\n\n### Try/Catch/Finally\n`try` jalankan, `catch` handle error, `finally` selalu jalan.\n\n### instanceof\n`error instanceof ValidationError` — cek tipe error untuk handling berbeda.\n\n### Async Errors\n`Promise.allSettled` — tidak berhenti saat satu gagal, return semua hasil.\n\n### Global Handler\n`window.onerror` untuk sync errors, `unhandledrejection` untuk Promise.',
+    explanationEn: '### Custom Errors\n`class MyError extends Error` — add custom properties like field, status.\n\n### Try/Catch/Finally\n`try` execute, `catch` handle error, `finally` always runs.\n\n### instanceof\n`error instanceof ValidationError` — check error type for different handling.\n\n### Async Errors\n`Promise.allSettled` — doesn\'t stop when one fails, returns all results.\n\n### Global Handlers\n`window.onerror` for sync errors, `unhandledrejection` for Promises.',
+    experimentsId: [
+      'Buat custom error untuk setiap field form',
+      'Coba error wrapping: throw new Error("context", { cause: original })',
+      'Eksperimen error boundary pattern',
+      'Buat retry logic dengan exponential backoff',
+      'Coba global error logging',
+    ],
+    experimentsEn: [
+      'Create custom error for each form field',
+      'Try error wrapping: throw new Error("context", { cause: original })',
+      'Experiment error boundary pattern',
+      'Create retry logic with exponential backoff',
+      'Try global error logging',
+    ],
+    challengeId: 'Buat form validator: custom errors per field, async validation, error aggregation, dan user-friendly messages.',
+    challengeEn: 'Build a form validator: custom errors per field, async validation, error aggregation, and user-friendly messages.',
+    summaryId: 'Minggu 10 dari 14: **Error Handling** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Design Patterns** (Advanced).',
+    summaryEn: 'Week 10 of 14: **Error Handling** (Level: Intermediate). Intermediate phase complete! Next week: **Design Patterns** (Advanced).',
+  },
+  // ── ADVANCED (weeks 11-14) ────────────────────────────────────────────────
+  {
+    week: 11, level: 'advanced', topicId: 'design-patterns',
+    titleId: 'Design Patterns', titleEn: 'Design Patterns',
+    programId: 'Pattern Implementation', programEn: 'Pattern Implementation',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'javascript',
+    code: `// Singleton Pattern
+class Database {
+    static #instance = null;
+
+    constructor() {
+        if (Database.#instance) return Database.#instance;
+        this.connection = "connected";
+        Database.#instance = this;
+    }
+
+    query(sql) {
+        return "Result of: " + sql;
+    }
+}
+
+// Factory Pattern
+class UserFactory {
+    static create(type, data) {
+        switch (type) {
+            case "admin": return { ...data, role: "admin", permissions: ["all"] };
+            case "editor": return { ...data, role: "editor", permissions: ["read", "write"] };
+            case "viewer": return { ...data, role: "viewer", permissions: ["read"] };
+            default: throw new Error("Unknown type: " + type);
+        }
+    }
+}
+
+// Observer Pattern
+class Store {
+    #state = {};
+    #listeners = new Set();
+
+    getState() { return { ...this.#state }; }
+
+    setState(newState) {
+        this.#state = { ...this.#state, ...newState };
+        this.#listeners.forEach(fn => fn(this.#state));
+    }
+
+    subscribe(fn) {
+        this.#listeners.add(fn);
+        return () => this.#listeners.delete(fn);
+    }
+}
+
+// Strategy Pattern
+const strategies = {
+    bubble: (arr) => { /* bubble sort */ return arr.slice().sort((a, b) => a - b); },
+    quick: (arr) => { /* quick sort */ return arr.slice().sort((a, b) => a - b); },
+    merge: (arr) => { /* merge sort */ return arr.slice().sort((a, b) => a - b); }
+};
+
+class Sorter {
+    constructor(strategy = "bubble") {
+        this.strategy = strategies[strategy];
+    }
+    sort(arr) { return this.strategy(arr); }
+}
+
+// Demo
+console.log("=== Singleton ===");
+const db1 = new Database();
+const db2 = new Database();
+console.log("Same instance:", db1 === db2);
+console.log(db1.query("SELECT * FROM users"));
+
+console.log("\\n=== Factory ===");
+const admin = UserFactory.create("admin", { nama: "Budi" });
+const viewer = UserFactory.create("viewer", { nama: "Siti" });
+console.log(admin);
+console.log(viewer);
+
+console.log("\\n=== Observer ===");
+const store = new Store();
+store.subscribe(state => console.log("Listener 1:", state));
+store.subscribe(state => console.log("Listener 2:", state.count || "no count"));
+store.setState({ user: "Budi" });
+store.setState({ count: 5 });
+
+console.log("\\n=== Strategy ===");
+const sorter = new Sorter("quick");
+console.log("Sorted:", sorter.sort([3, 1, 4, 1, 5, 9, 2, 6]));`,
+    objectivesId: [
+      'Singleton: satu instance global',
+      'Factory: buat object tanpa expose logic',
+      'Observer: subscribe/notify pattern',
+      'Strategy: interchangeable algorithms',
+      'Module pattern dengan IIFE dan closure',
+    ],
+    objectivesEn: [
+      'Singleton: single global instance',
+      'Factory: create objects without exposing logic',
+      'Observer: subscribe/notify pattern',
+      'Strategy: interchangeable algorithms',
+      'Module pattern with IIFE and closures',
+    ],
+    explanationId: '### Singleton\nSatu instance untuk seluruh app. Database connection, config manager.\n\n### Factory\nBuat object berdasarkan type. Tidak perlu tahu class spesifik.\n\n### Observer\nSubscribe ke perubahan state. Notifikasi otomatis saat state berubah.\n\n### Strategy\nBisa ganti algorithm runtime. Sort strategy, payment strategy.\n\n### Module Pattern\nIIFE + closure untuk encapsulation. Private variables, public API.',
+    explanationEn: '### Singleton\nSingle instance for entire app. Database connection, config manager.\n\n### Factory\nCreate objects based on type. Don\'t need to know specific class.\n\n### Observer\nSubscribe to state changes. Auto-notification when state changes.\n\n### Strategy\nSwap algorithms at runtime. Sort strategy, payment strategy.\n\n### Module Pattern\nIIFE + closure for encapsulation. Private variables, public API.',
+    experimentsId: [
+      'Buat singleton logger dengan levels',
+      'Coba abstract factory untuk UI components',
+      'Eksperimen mediator pattern',
+      'Buat decorator pattern dengan higher-order function',
+      'Implementasikan command pattern',
+    ],
+    experimentsEn: [
+      'Create singleton logger with levels',
+      'Try abstract factory for UI components',
+      'Experiment mediator pattern',
+      'Create decorator pattern with higher-order function',
+      'Implement command pattern',
+    ],
+    challengeId: 'Buat state management library: singleton store, observer pattern, actions/reducers, middleware support.',
+    challengeEn: 'Build a state management library: singleton store, observer pattern, actions/reducers, middleware support.',
+    summaryId: 'Minggu 11 dari 14: **Design Patterns** (Level: Lanjutan). Solusi teruji. Minggu depan: **Testing**.',
+    summaryEn: 'Week 11 of 14: **Design Patterns** (Level: Advanced). Proven solutions. Next week: **Testing**.',
+  },
+  {
+    week: 12, level: 'advanced', topicId: 'testing',
+    titleId: 'Testing JavaScript', titleEn: 'Testing JavaScript',
+    programId: 'Unit & Integration Test', programEn: 'Unit & Integration Tests',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'javascript',
+    code: `// Simple Test Framework (simulasi)
+class TestRunner {
+    #tests = [];
+    #passed = 0;
+    #failed = 0;
+
+    test(name, fn) {
+        this.#tests.push({ name, fn });
+    }
+
+    async run() {
+        console.log("=== Running Tests ===");
+        for (const { name, fn } of this.#tests) {
+            try {
+                await fn();
+                this.#passed++;
+                console.log("  ✓", name);
+            } catch (err) {
+                this.#failed++;
+                console.log("  ✗", name);
+                console.log("   ", err.message);
+            }
+        }
+        console.log(\`\\nResults: \${this.#passed} passed, \${this.#failed} failed\`);
+    }
+}
+
+// Assertions
+function expect(actual) {
     return {
-      tambah: function(isi) {
-        catatan.push({ isi, waktu: new Date().toLocaleTimeString() });
-        return catatan;
-      },
-      semua: function() { return [...catatan]; },
-      hapusSemua: function() { catatan = []; }
+        toBe(expected) {
+            if (actual !== expected) {
+                throw new Error(\`Expected \${expected}, got \${actual}\`);
+            }
+        },
+        toEqual(expected) {
+            if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+                throw new Error(\`Expected \${JSON.stringify(expected)}, got \${JSON.stringify(actual)}\`);
+            }
+        },
+        toBeGreaterThan(n) {
+            if (actual <= n) {
+                throw new Error(\`\${actual} is not greater than \${n}\`);
+            }
+        },
+        toContain(item) {
+            if (!actual.includes(item)) {
+                throw new Error(\`"\${actual}" does not contain "\${item}"\`);
+            }
+        },
+        toThrow(fn) {
+            try { fn(); }
+            catch { return; }
+            throw new Error("Expected function to throw");
+        }
     };
-  }
-  const pengelola = buatPengelolaCatatan();
-  function tambahCatatan() {
-    let isi = document.getElementById("noteInput").value.trim();
-    if (!isi) return;
-    pengelola.tambah(isi);
-    renderCatatan();
-  }
-  function renderCatatan() {
-    let all = pengelola.semua();
-    document.getElementById("output").textContent =
-      all.map((c, i) => \`\${i + 1}. [\${c.waktu}] \${c.isi}\`).join("\\n") || "Belum ada catatan";
-  }
+}
 
-  // DEMO: Closure Counter
-  function buatCounter() {
-    let count = 0;
-    return function() { return ++count; };
-  }
-  let counter = buatCounter();
-  function demoClosure() {
-    document.getElementById("demoOutput").textContent =
-      \`Counter dipanggil: \${counter()} | \${counter()} | \${counter()} | \${counter()}\`;
-  }
+// Test subject
+function add(a, b) { return a + b; }
+function divide(a, b) {
+    if (b === 0) throw new Error("Division by zero");
+    return a / b;
+}
+function isPalindrome(str) {
+    return str === str.split("").reverse().join("");
+}
 
-  // DEMO: this & bind
-  function demoBind() {
-    let user = {
-      nama: "Budi", umur: 25,
-      perkenalan: function(kota) {
-        return \`Halo, saya \${this.nama}, \${this.umur} tahun dari \${kota}\`;
-      }
-    };
-    let user2 = { nama: "Siti", umur: 22 };
-    let bound = user.perkenalan.bind(user2, "Bandung");
-    document.getElementById("demoOutput").textContent =
-      "call: " + user.perkenalan.call(user2, "Jakarta") +
-      "\\napply: " + user.perkenalan.apply(user2, ["Surabaya"]) +
-      "\\nbind: " + bound();
-  }
+// Run tests
+const runner = new TestRunner();
 
-  // DEMO: Prototype
-  function demoPrototype() {
-    function Hewan(nama) { this.nama = nama; }
-    Hewan.prototype.bersuara = function() {
-      return \`\${this.nama} bersuara\`;
-    };
-    function Kucing(nama) { Hewan.call(this, nama); }
-    Kucing.prototype = Object.create(Hewan.prototype);
-    Kucing.prototype.bersuara = function() {
-      return \`\${this.nama}: Meow!\`;
-    };
-    let k = new Kucing("Mimi");
-    document.getElementById("demoOutput").textContent =
-      k.bersuara() + "\\ninstanceof Hewan: " + (k instanceof Hewan);
-  }
+runner.test("add: 2 + 3 = 5", () => {
+    expect(add(2, 3)).toBe(5);
+});
 
-  // DEMO: Debounce
-  function debounce(fn, delay) {
+runner.test("add: -1 + 1 = 0", () => {
+    expect(add(-1, 1)).toBe(0);
+});
+
+runner.test("divide: 10 / 2 = 5", () => {
+    expect(divide(10, 2)).toBe(5);
+});
+
+runner.test("divide: throws on zero", () => {
+    expect(() => divide(5, 0)).toThrow();
+});
+
+runner.test("isPalindrome: racecar", () => {
+    expect(isPalindrome("racecar")).toBe(true);
+});
+
+runner.test("isPalindrome: hello", () => {
+    expect(isPalindrome("hello")).toBe(false);
+});
+
+runner.run();
+
+// Real testing frameworks:
+// Jest: test(), expect(), describe()
+// Vitest: compatible dengan Jest, faster
+// Mocha + Chai: flexible
+// Testing Library: DOM testing`,
+    objectivesId: [
+      'Unit test: test fungsi individual',
+      'Assertions: toBe, toEqual, toBeGreaterThan, toContain',
+      'Test runner: jalankan semua test, report hasil',
+      'Setup dan teardown: beforeEach, afterEach',
+      'Testing frameworks: Jest, Vitest, Mocha',
+    ],
+    objectivesEn: [
+      'Unit tests: test individual functions',
+      'Assertions: toBe, toEqual, toBeGreaterThan, toContain',
+      'Test runners: run all tests, report results',
+      'Setup and teardown: beforeEach, afterEach',
+      'Testing frameworks: Jest, Vitest, Mocha',
+    ],
+    explanationId: '### Unit Test\nTest fungsi terisolasi. Input → Output. Tidak ada side effects.\n\n### Assertions\n`toBe` (===), `toEqual` (deep equal), `toContain`, `toThrow`.\n\n### Test Runner\nKumpulkan tests, jalankan, report passed/failed.\n\n### Setup/Teardown\n`beforeEach` sebelum setiap test, `afterEach` setelah. Untuk clean state.\n\n### Frameworks\nJest: batteries included. Vitest: fast, Vite-native. Mocha: flexible + Chai.',
+    explanationEn: '### Unit Tests\nTest isolated functions. Input → Output. No side effects.\n\n### Assertions\n`toBe` (===), `toEqual` (deep equal), `toContain`, `toThrow`.\n\n### Test Runners\nCollect tests, run them, report passed/failed.\n\n### Setup/Teardown\n`beforeEach` before each test, `afterEach` after. For clean state.\n\n### Frameworks\nJest: batteries included. Vitest: fast, Vite-native. Mocha: flexible + Chai.',
+    experimentsId: [
+      'Buat test untuk async function',
+      'Coba mock function untuk isolate dependencies',
+      'Eksperimen parameterized tests',
+      'Buat test untuk error cases',
+      'Coba snapshot testing',
+    ],
+    experimentsEn: [
+      'Create test for async function',
+      'Try mock function to isolate dependencies',
+      'Experiment parameterized tests',
+      'Create test for error cases',
+      'Try snapshot testing',
+    ],
+    challengeId: 'Buat test suite untuk utility library: 20+ tests covering normal, edge, dan error cases.',
+    challengeEn: 'Build a test suite for a utility library: 20+ tests covering normal, edge, and error cases.',
+    summaryId: 'Minggu 12 dari 14: **Testing JavaScript** (Level: Lanjutan). Kualitas kode. Minggu depan: **Performance Optimization**.',
+    summaryEn: 'Week 12 of 14: **Testing JavaScript** (Level: Advanced). Code quality. Next week: **Performance Optimization**.',
+  },
+  {
+    week: 13, level: 'advanced', topicId: 'performance',
+    titleId: 'Performance Optimization', titleEn: 'Performance Optimization',
+    programId: 'Optimasi Performa', programEn: 'Performance Optimization',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'javascript',
+    code: `// Debounce
+function debounce(fn, delay) {
     let timer;
     return function(...args) {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn.apply(this, args), delay);
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
     };
-  }
-  let counterDebounce = 0;
-  const debouncedLog = debounce(() => {
-    document.getElementById("demoOutput").textContent += "✅ Eksekusi ke-" + (++counterDebounce) + "\\n";
-  }, 1000);
-  function demoDebounce() {
-    document.getElementById("demoOutput").textContent = "Klik cepat berkali-kali...\\n";
-    debouncedLog();
-  }
-
-  // DEMO: Module Pattern
-  function demoModule() {
-    const CounterModule = (function() {
-      let _count = 0;
-      return {
-        increment: function() { return ++_count; },
-        decrement: function() { return --_count; },
-        getCount: function() { return _count; }
-      };
-    })();
-    document.getElementById("demoOutput").textContent =
-      \`Counter: \${CounterModule.increment()} | \${CounterModule.increment()} | \${CounterModule.decrement()}\`;
-  }
-</script>
-</body>
-</html>`,
-
-  12: `<!DOCTYPE html>
-<html lang="id">
-<head><meta charset="UTF-8"><title>Dashboard Interaktif</title><style>body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;background:#f8f9fa}h1{color:#333;border-bottom:3px solid #F7DF1E;padding-bottom:.5rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1.5rem 0}.card{background:#fff;padding:1.2rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}.card h3{color:#F7DF1E;margin:0 0 .8rem 0;font-size:1rem}input,select{padding:.5rem;border:1px solid #ddd;border-radius:6px;width:100%;box-sizing:border-box;margin-bottom:.5rem}button{background:#F7DF1E;color:#000;border:none;padding:.5rem 1rem;border-radius:6px;cursor:pointer;font-weight:bold;transition:opacity .2s}button:hover{opacity:.8}.todo-item{display:flex;align-items:center;gap:8px;padding:.4rem 0;border-bottom:1px solid #eee}.todo-item:last-child{border:0}.done{text-decoration:line-through;color:#999}.stats{display:flex;gap:1rem;flex-wrap:wrap}.stat{padding:.3rem .8rem;background:#f0f0f0;border-radius:20px;font-size:.85rem}.stat span{font-weight:bold}#clock{font-size:2.5rem;font-weight:bold;color:#333;text-align:center}</style></head>
-<body>
-<h1>Dashboard Interaktif</h1>
-<div class="grid">
-  <div class="card">
-    <h3>⏰ Jam Digital</h3>
-    <div id="clock">--:--:--</div>
-  </div>
-  <div class="card">
-    <h3>📝 Todo List</h3>
-    <div style="display:flex;gap:4px">
-      <input type="text" id="todoInput" placeholder="Tambah tugas...">
-      <button onclick="tambahTodo()" style="white-space:nowrap">+</button>
-    </div>
-    <div id="todoList"></div>
-    <div class="stats" style="margin-top:8px">
-      <span class="stat">Sisa: <span id="sisaCount">0</span></span>
-      <span class="stat">Selesai: <span id="selesaiCount">0</span></span>
-    </div>
-  </div>
-  <div class="card">
-    <h3>🌤️ Cuaca (Simulasi)</h3>
-    <select id="kotaSelect" onchange="updateCuaca()">
-      <option value="Jakarta">Jakarta</option>
-      <option value="Bandung">Bandung</option>
-      <option value="Surabaya">Surabaya</option>
-    </select>
-    <div id="cuacaInfo" style="text-align:center;padding:1rem">
-      <div style="font-size:3rem" id="cuacaIcon">☀️</div>
-      <div style="font-size:1.2rem" id="cuacaTemp">32°C</div>
-      <div id="cuacaDesc">Cerah</div>
-    </div>
-  </div>
-  <div class="card">
-    <h3>📊 Pengatur Warna</h3>
-    <label>Merah <input type="range" min="0" max="255" value="100" oninput="updateBg()" id="red"></label>
-    <label>Hijau <input type="range" min="0" max="255" value="180" oninput="updateBg()" id="green"></label>
-    <label>Biru <input type="range" min="0" max="255" value="220" oninput="updateBg()" id="blue"></label>
-    <div id="colorPreview" style="height:50px;border-radius:8px;margin-top:8px;border:1px solid #ddd"></div>
-  </div>
-</div>
-<script>
-  // ====== JAM DIGITAL ======
-  function updateJam() {
-    let now = new Date();
-    document.getElementById("clock").textContent = now.toLocaleTimeString("id-ID");
-  }
-  setInterval(updateJam, 1000);
-  updateJam();
-
-  // ====== TODO LIST ======
-  let todos = JSON.parse(localStorage.getItem("dashboardTodos") || "[]");
-  function renderTodo() {
-    let el = document.getElementById("todoList");
-    el.innerHTML = todos.map((t, i) =>
-      \`<div class="todo-item">
-        <input type="checkbox" \${t.done ? "checked" : ""} onchange="toggleTodo(\${i})">
-        <span class="\${t.done ? "done" : ""}">\${t.teks}</span>
-        <button onclick="hapusTodo(\${i})" style="margin-left:auto;padding:2px 8px;font-size:.8rem">✕</button>
-      </div>\`
-    ).join("");
-    document.getElementById("sisaCount").textContent = todos.filter(t => !t.done).length;
-    document.getElementById("selesaiCount").textContent = todos.filter(t => t.done).length;
-    localStorage.setItem("dashboardTodos", JSON.stringify(todos));
-  }
-  function tambahTodo() {
-    let teks = document.getElementById("todoInput").value.trim();
-    if (!teks) return;
-    todos.push({ teks, done: false });
-    document.getElementById("todoInput").value = "";
-    renderTodo();
-  }
-  function toggleTodo(i) { todos[i].done = !todos[i].done; renderTodo(); }
-  function hapusTodo(i) { todos.splice(i, 1); renderTodo(); }
-  renderTodo();
-
-  // ====== CUACA ======
-  const dataCuaca = {
-    Jakarta: { icon: "☀️", temp: "32°C", desc: "Cerah" },
-    Bandung: { icon: "⛅", temp: "24°C", desc: "Berawan" },
-    Surabaya: { icon: "🌤️", temp: "34°C", desc: "Cerah Berawan" },
-  };
-  function updateCuaca() {
-    let kota = document.getElementById("kotaSelect").value;
-    let d = dataCuaca[kota];
-    document.getElementById("cuacaIcon").textContent = d.icon;
-    document.getElementById("cuacaTemp").textContent = d.temp;
-    document.getElementById("cuacaDesc").textContent = d.desc;
-  }
-  updateCuaca();
-
-  // ====== PENGATUR WARNA ======
-  function updateBg() {
-    let r = document.getElementById("red").value;
-    let g = document.getElementById("green").value;
-    let b = document.getElementById("blue").value;
-    document.getElementById("colorPreview").style.background = \`rgb(\${r},\${g},\${b})\`;
-  }
-  updateBg();
-</script>
-</body>
-</html>`,
-};
-
-const EXP = {
-  1: { id: '### Variabel\nGunakan `let` untuk nilai yang bisa berubah, `const` untuk nilai tetap. Hindari `var` karena masalah scope.\n\n### Tipe Data\nJavaScript memiliki 7 tipe data primitif: string, number, boolean, null, undefined, symbol, bigint. Sisanya adalah object.\n\n### Console\n`console.log()` adalah alat debugging utama. Buka DevTools (F12) untuk melihat output.\n\n### Aturan Penamaan\nGunakan camelCase untuk variabel dan fungsi. Nama harus dimulai dengan huruf, `$`, atau `_`.', en: '### Variables\nUse `let` for changeable values, `const` for fixed values. Avoid `var` due to scope issues.\n\n### Data Types\nJavaScript has 7 primitive types: string, number, boolean, null, undefined, symbol, bigint. Everything else is an object.\n\n### Console\n`console.log()` is your primary debugging tool. Open DevTools (F12) to see output.\n\n### Naming Conventions\nUse camelCase for variables and functions. Names must start with a letter, `$`, or `_`.' },
-  2: { id: '### Operator Aritmatika\n`+`, `-`, `*`, `/`, `%` untuk perhitungan dasar. `%` menghasilkan sisa bagi.\n\n### Operator Perbandingan\n`===` (strict equality) cek nilai DAN tipe. `==` hanya cek nilai (dengan coercion). Selalu gunakan `===`.\n\n### Truthy & Falsy\nNilai falsy: `false`, `0`, `""`, `null`, `undefined`, `NaN`. Sisanya truthy.\n\n### Perulangan\n`for` — iterasi dengan counter. `while` — selama kondisi true. `for...of` — untuk array.', en: '### Arithmetic Operators\n`+`, `-`, `*`, `/`, `%` for basic calculations. `%` gives the remainder.\n\n### Comparison Operators\n`===` (strict equality) checks both value AND type. `==` only checks value (with coercion). Always use `===`.\n\n### Truthy & Falsy\nFalsy values: `false`, `0`, `""`, `null`, `undefined`, `NaN`. Everything else is truthy.\n\n### Loops\n`for` — iterate with a counter. `while` — while condition is true. `for...of` — for arrays.' },
-  3: { id: '### Function Declaration vs Expression\nDeclaration bisa dipanggil sebelum didefinisikan (hoisting). Expression tidak bisa.\n\n### Arrow Function\nLebih ringkas, tidak memiliki `this` sendiri. Cocok untuk callback.\n\n### Scope\nVariable dalam function hanya bisa diakses di dalam function itu. `let` dan `const` memiliki block scope.\n\n### Callback\nFungsi yang dikirim sebagai argumen ke fungsi lain. Fondasi untuk async JavaScript.', en: '### Declarations vs Expressions\nDeclarations can be called before definition (hoisting). Expressions cannot.\n\n### Arrow Functions\nMore concise, do not have their own `this`. Great for callbacks.\n\n### Scope\nVariables inside a function are only accessible within that function. `let` and `const` have block scope.\n\n### Callbacks\nFunctions passed as arguments to other functions. The foundation for async JavaScript.' },
-  4: { id: '### Method Array Penting\n- `push()` / `pop()` — tambah/hapus dari akhir\n- `shift()` / `unshift()` — tambah/hapus dari awal\n- `map()` — transformasi setiap elemen\n- `filter()` — seleksi elemen\n- `reduce()` — akumulasi nilai\n- `find()` — cari elemen pertama\n\n### Spread Operator\n`...array` menyebarkan elemen array. Berguna untuk menggabungkan atau menyalin array.\n\n### Destructuring\nMengambil nilai dari array ke variabel terpisah: `[a, b] = array`', en: '### Important Array Methods\n- `push()` / `pop()` — add/remove from end\n- `shift()` / `unshift()` — add/remove from start\n- `map()` — transform each element\n- `filter()` — select elements\n- `reduce()` — accumulate values\n- `find()` — find first element\n\n### Spread Operator\n`...array` spreads array elements. Useful for merging or copying arrays.\n\n### Destructuring\nExtract array values into separate variables: `[a, b] = array`' },
-  5: { id: '### Objek Literal\nCara paling umum membuat objek: `{ key: value }`. Properti bisa diakses dengan dot (`obj.key`) atau bracket (`obj["key"]`).\n\n### Computed Key\n`[variabel]` sebagai nama properti. Berguna untuk properti dinamis.\n\n### JSON\n`JSON.stringify()` mengubah objek ke string JSON. `JSON.parse()` mengembalikan ke objek.\n\n### Object Spread\n`{ ...obj, propertiBaru: nilai }` — menggabungkan dan menyalin objek secara immutable.', en: '### Object Literals\nThe most common way to create objects: `{ key: value }`. Properties can be accessed with dot (`obj.key`) or bracket (`obj["key"]`) notation.\n\n### Computed Keys\n`[variable]` as property name. Useful for dynamic properties.\n\n### JSON\n`JSON.stringify()` converts an object to a JSON string. `JSON.parse()` converts it back.\n\n### Object Spread\n`{ ...obj, newProp: value }` — merges and copies objects immutably.' },
-  6: { id: '### Selektor DOM\n`document.querySelector("#id")` — selector CSS. `document.getElementById("id")` — lebih cepat.\n\n### Manipulasi\n`createElement("tag")` — buat elemen baru. `appendChild(el)` — tambahkan ke DOM. `textContent` — ubah teks. `classList.add/remove/toggle` — kelola class.\n\n### Style\nAtur style via `element.style.property = "value"`. Untuk multiple perubahan, lebih baik gunakan class.\n\n### Performance\nBatch perubahan DOM untuk performa lebih baik. Hindari manipulasi DOM berulang dalam loop.', en: '### DOM Selectors\n`document.querySelector("#id")` — CSS selector. `document.getElementById("id")` — faster.\n\n### Manipulation\n`createElement("tag")` — create new element. `appendChild(el)` — add to DOM. `textContent` — change text. `classList.add/remove/toggle` — manage classes.\n\n### Style\nSet style via `element.style.property = "value"`. For multiple changes, use classes instead.\n\n### Performance\nBatch DOM changes for better performance. Avoid repeated DOM manipulation in loops.' },
-  7: { id: '### Event Listener\n`element.addEventListener("click", handler)` — cara modern mendaftarkan event. Bisa multiple listener pada satu elemen.\n\n### Event Object\nParameter pertama handler berisi informasi event: `type`, `target`, `preventDefault()`, dll.\n\n### Event Bubbling\nEvent naik dari elemen anak ke induk. Bisa dihentikan dengan `stopPropagation()`.\n\n### Event Delegation\nPasang satu listener di induk untuk menangani event dari banyak anak. Efisien untuk elemen dinamis.', en: '### Event Listener\n`element.addEventListener("click", handler)` — modern way to register events. Can have multiple listeners on one element.\n\n### Event Object\nThe first parameter contains event info: `type`, `target`, `preventDefault()`, etc.\n\n### Event Bubbling\nEvents bubble from child to parent elements. Can be stopped with `stopPropagation()`.\n\n### Event Delegation\nAttach one listener on a parent to handle events from many children. Efficient for dynamic elements.' },
-  8: { id: '### Template Literal\nGunakan backtick `` untuk string multi-baris dan interpolasi `${}`.\n\n### Class\nSintaks gula untuk constructor function. Mendukung `extends` untuk inheritance.\n\n### Optional Chaining\n`obj?.prop?.sub` — aman mengakses properti bertingkat tanpa error jika null.\n\n### Nullish Coalescing\n`val ?? defaultValue` — pakai default hanya jika val `null` atau `undefined` (tidak untuk falsy lain).\n\n### Map & Set\n`Map` — objek dengan key apa pun (bukan hanya string). `Set` — koleksi nilai unik.', en: '### Template Literals\nUse backticks `` for multi-line strings and `${}` interpolation.\n\n### Classes\nSyntactic sugar for constructor functions. Supports `extends` for inheritance.\n\n### Optional Chaining\n`obj?.prop?.sub` — safely access nested properties without error on null.\n\n### Nullish Coalescing\n`val ?? defaultValue` — use default only if val is `null` or `undefined` (not other falsy values).\n\n### Map & Set\n`Map` — objects with any key type (not just strings). `Set` — collection of unique values.' },
-  9: { id: '### Synchronous vs Asynchronous\nJS single-threaded. Operasi lambat (fetch, timer) tidak boleh memblokir thread utama.\n\n### Promise\nObjek yang mewakili nilai masa depan. Memiliki state: pending, fulfilled, rejected.\n\n### async/await\nGula sintaks untuk Promise. Fungsi `async` selalu mengembalikan Promise. `await` menunggu Promise selesai.\n\n### Fetch API\nFungsi bawaan browser untuk HTTP request. Mengembalikan Promise. Perlu dua `await`: response headers, lalu body.\n\n### Error Handling\nSelalu bungkus kode async dalam `try/catch` untuk menangani error dengan baik.', en: '### Synchronous vs Asynchronous\nJS is single-threaded. Slow operations (fetch, timer) should not block the main thread.\n\n### Promise\nAn object representing a future value. Has states: pending, fulfilled, rejected.\n\n### async/await\nSyntactic sugar for Promises. `async` functions always return a Promise. `await` waits for Promise resolution.\n\n### Fetch API\nBrowser built-in function for HTTP requests. Returns a Promise. Needs two `await`s: response headers, then body.\n\n### Error Handling\nAlways wrap async code in `try/catch` to handle errors gracefully.' },
-  10: { id: '### localStorage & sessionStorage\nKeduanya menyimpan data di browser. localStorage — persisten. sessionStorage — hilang saat tab ditutup. Hanya bisa string (gunakan JSON.stringify).\n\n### Geolocation API\nMendapatkan posisi user (dengan izin). `getCurrentPosition()` untuk satu kali, `watchPosition()` untuk real-time.\n\n### setTimeout & setInterval\n`setTimeout(fn, ms)` — jalankan sekali setelah delay. `setInterval(fn, ms)` — jalankan berulang. Simpan return value untuk clear.\n\n### Canvas\nElemen HTML untuk menggambar grafis menggunakan JavaScript. Gunakan `getContext("2d")` untuk rendering.', en: '### localStorage & sessionStorage\nBoth store data in the browser. localStorage — persists. sessionStorage — cleared when tab closes. Can only store strings (use JSON.stringify).\n\n### Geolocation API\nGet user position (with permission). `getCurrentPosition()` for one-time, `watchPosition()` for real-time.\n\n### setTimeout & setInterval\n`setTimeout(fn, ms)` — execute once after delay. `setInterval(fn, ms)` — execute repeatedly. Store the return value to clear.\n\n### Canvas\nHTML element for drawing graphics with JavaScript. Use `getContext("2d")` for rendering.' },
-  11: { id: '### Closure\nFungsi yang "mengingat" scope di mana ia dibuat. Berguna untuk data privat, factory functions, dan state persistence.\n\n### this Binding\n`this` tergantung cara fungsi dipanggil: method → objek, fungsi biasa → global/window, arrow → lexical scope. `call`, `apply`, `bind` untuk mengontrol this secara eksplisit.\n\n### Prototype\nMekanisme inheritance JavaScript. Setiap objek memiliki prototype. Method di prototype dibagi antar semua instance (hemat memori).\n\n### Debounce & Throttle\nDebounce — tunggu jeda sebelum eksekusi. Throttle — eksekusi maksimal sekali per interval. Penting untuk performa (input, scroll, resize).', en: '### Closure\nA function that "remembers" the scope where it was created. Useful for private data, factory functions, and state persistence.\n\n### this Binding\n`this` depends on how a function is called: method → object, regular function → global/window, arrow → lexical scope. `call`, `apply`, `bind` to explicitly control this.\n\n### Prototype\nJavaScript\'s inheritance mechanism. Every object has a prototype. Methods on the prototype are shared among all instances (memory efficient).\n\n### Debounce & Throttle\nDebounce — wait for a pause before executing. Throttle — execute at most once per interval. Important for performance (input, scroll, resize).' },
-  12: { id: '### Arsitektur Aplikasi\nPisahkan kode menjadi modul-modul: data (state), UI (render), dan logic (handler). Gunakan closure atau class untuk encapsulasi.\n\n### State Management\nSimpan state aplikasi di satu tempat (bukan tersebar di DOM). Gunakan object terpusat. Simpan state persisten di localStorage.\n\n### Reactivity\nGunakan fungsi render() yang membaca state terbaru dan memperbarui UI. Panggil render() setiap kali state berubah.\n\n### Deployment\nProject vanilla JS bisa di-deploy ke GitHub Pages, Netlify, Vercel, atau Cloudflare Pages tanpa build step.', en: '### Application Architecture\nSeparate code into modules: data (state), UI (render), and logic (handlers). Use closures or classes for encapsulation.\n\n### State Management\nStore application state in one place (not scattered across the DOM). Use a centralized object. Store persistent state in localStorage.\n\n### Reactivity\nUse a render() function that reads the latest state and updates the UI. Call render() every time state changes.\n\n### Deployment\nVanilla JS projects can be deployed to GitHub Pages, Netlify, Vercel, or Cloudflare Pages without a build step.' },
-};
-
-const EXP_E = {
-  1: { id: ['Ganti nilai variabel `nama` dengan nama Anda', 'Tambahkan variabel baru: `hobi` bertipe string', 'Coba `console.table()` untuk menampilkan data', 'Ubah `const` jadi `let` — apa yang terjadi?'], en: ['Change the `nama` variable to your name', 'Add a new variable: `hobi` as a string', 'Try `console.table()` to display data', 'Change `const` to `let` — what happens?'] },
-  2: { id: ['Ubah nilai grade: apakah if/else sudah benar?', 'Ganti `===` dengan `==` — lihat perbedaannya', 'Buat loop yang hanya mencetak angka genap', 'Tambahkan operator logika: cek nilai antara 80-100'], en: ['Change grade values: is the if/else correct?', 'Replace `===` with `==` — see the difference', 'Create a loop that only prints even numbers', 'Add logical operators: check values between 80-100'] },
-  3: { id: ['Buat fungsi `rataRata(arr)` yang menghitung rata-rata array', 'Ubah arrow function jadi function declaration', 'Tambahkan default parameter pada fungsi tambahNilai', 'Buat fungsi kalkulator yang menerima operator sebagai parameter'], en: ['Create a `average(arr)` function that calculates array average', 'Convert arrow function to function declaration', 'Add default parameters to tambahNilai function', 'Create a calculator function that takes an operator parameter'] },
-  4: { id: ['Tambahkan item dengan spread: buat array baru dari array lama', 'Gunakan `some()` untuk cek apakah ada item dengan qty > 5', 'Implementasi undo dengan menyimpan snapshot array', 'Buat tombol random shuffle item'], en: ['Add items with spread: create a new array from old array', 'Use `some()` to check if any item has qty > 5', 'Implement undo by saving array snapshots', 'Create a random shuffle button'] },
-  5: { id: ['Tambahkan properti `alamat` sebagai objek bersarang', 'Gunakan computed keys: buat properti dengan nama dari input', 'Coba Object.keys(), Object.values(), Object.entries()', 'Clone objek dengan spread lalu ubah salah satu properti'], en: ['Add an `address` property as a nested object', 'Use computed keys: create a property with a name from input', 'Try Object.keys(), Object.values(), Object.entries()', 'Clone an object with spread then modify one property'] },
-  6: { id: ['Ganti `querySelector` dengan `getElementById` dan bandingkan', 'Implementasi tombol yang mengganti gambar (src)', 'Buat fungsi yang menghapus semua elemen di targetArea', 'Animasi sederhana: ubah opacity bertahap dengan setInterval'], en: ['Replace `querySelector` with `getElementById` and compare', 'Implement a button that changes an image (src)', 'Create a function that removes all elements in targetArea', 'Simple animation: change opacity gradually with setInterval'] },
-  7: { id: ['Tambahkan validasi: email harus mengandung @', 'Implementasi counter klik pada tombol submit', 'Gunakan event delegation untuk menangani klik pada semua tombol', 'Buat form registrasi dengan 5 field berbeda'], en: ['Add validation: email must contain @', 'Implement a click counter on the submit button', 'Use event delegation to handle clicks on all buttons', 'Create a registration form with 5 different fields'] },
-  8: { id: ['Buat class `Mobil` dengan properti merek, tahun, dan method info()', 'Gunakan template literal untuk membuat HTML dinamis', 'Implementasi private class field (#) untuk data sensitif', 'Buat chain method pada class (method mengembalikan this)'], en: ['Create a `Car` class with brand, year properties and info() method', 'Use template literals to create dynamic HTML', 'Implement private class fields (#) for sensitive data', 'Create method chaining on a class (methods return this)'] },
-  9: { id: ['Ganti Promise `.then()` dengan async/await', 'Tambahkan loading state sebelum fetch', 'Coba Promise.allSettled() dan bedakan dengan Promise.all()', 'Buat countdown timer menggunakan Promise dan setTimeout'], en: ['Replace Promise `.then()` with async/await', 'Add a loading state before fetching', 'Try Promise.allSettled() and compare with Promise.all()', 'Create a countdown timer using Promise and setTimeout'] },
-  10: { id: ['Simpan preferensi tema (terang/gelap) di localStorage', 'Buat kompas sederhana dengan DeviceOrientation API', 'Implementasi stopwatch dengan precision 10ms', 'Gambar diagram batang di canvas dari data array'], en: ['Save theme preference (light/dark) in localStorage', 'Create a simple compass with DeviceOrientation API', 'Implement a stopwatch with 10ms precision', 'Draw a bar chart on canvas from array data'] },
-  11: { id: ['Buat closure counter dengan fungsi increment, decrement, reset', 'Implementasi memoize function untuk caching', 'Gunakan prototype untuk menambah method ke built-in Array', 'Buat fungsi throttle (beda dengan debounce)'], en: ['Create a closure counter with increment, decrement, reset functions', 'Implement a memoize function for caching', 'Use prototype to add a method to built-in Array', 'Create a throttle function (different from debounce)'] },
-  12: { id: ['Tambah fitur edit todo (klik dua kali untuk edit)', 'Implementasi filter: Semua / Aktif / Selesai', 'Tambahkan grafik batang di dashboard (canvas)', 'Simpan seluruh state dashboard ke localStorage dan restore saat load'], en: ['Add todo edit feature (double-click to edit)', 'Implement filter: All / Active / Completed', 'Add a bar chart to the dashboard (canvas)', 'Save entire dashboard state to localStorage and restore on load'] },
-};
-
-const CHALL = {
-  1: { id: 'Buat halaman profil pribadi yang menampilkan nama, umur, hobi, dan pendidikan menggunakan variabel JavaScript. Tampilkan data tersebut di halaman HTML dan juga di console browser. Gunakan minimal 3 tipe data berbeda.', en: 'Create a personal profile page that displays name, age, hobbies, and education using JavaScript variables. Display the data on the HTML page and in the browser console. Use at least 3 different data types.' },
-  2: { id: 'Buat program "Tebak Angka": komputer memilih angka acak 1-100, user menebak. Beri petunjuk "lebih besar" atau "lebih kecil". Hitung jumlah percobaan. Gunakan loop dan conditional.', en: 'Create a "Number Guessing" game: the computer picks a random number 1-100, user guesses. Give hints "higher" or "lower". Count the number of attempts. Use loops and conditionals.' },
-  3: { id: 'Buat kalkulator ilmiah dengan fungsi: tambah, kurang, kali, bagi, pangkat, akar kuadrat, dan faktorial. Gunakan function declaration, arrow function, dan callback. Tampilkan hasil di halaman.', en: 'Create a scientific calculator with functions: add, subtract, multiply, divide, power, square root, and factorial. Use function declarations, arrow functions, and callbacks. Display results on the page.' },
-  4: { id: 'Buat aplikasi "Playlist Musik": array of objects dengan judul, artis, durasi. Fitur: tambah lagu, hapus, cari, urutkan berdasarkan artis, hitung total durasi dengan reduce. Tampilkan sebagai daftar di HTML.', en: 'Create a "Music Playlist" app: array of objects with title, artist, duration. Features: add song, delete, search, sort by artist, calculate total duration with reduce. Display as a list in HTML.' },
-  5: { id: 'Buat aplikasi "Manajemen Buku": array of book objects (judul, penulis, tahun, genre). Fitur: tambah, cari berdasarkan judul/penulis, filter berdasarkan genre, statistik (total buku, buku per genre). Gunakan spread operator untuk edit buku.', en: 'Create a "Book Management" app: array of book objects (title, author, year, genre). Features: add, search by title/author, filter by genre, statistics (total books, books per genre). Use spread operator for editing books.' },
-  6: { id: 'Buat halaman "Gallery Builder": user bisa menambahkan gambar (via URL), memberi caption, mengatur ukuran, dan menghapus. Semua elemen dibuat dan dimanipulasi melalui DOM. Gunakan classList untuk efek hover.', en: 'Create a "Gallery Builder" page: users can add images (via URL), add captions, set sizes, and delete. All elements are created and manipulated through the DOM. Use classList for hover effects.' },
-  7: { id: 'Buat form "Pendaftaran Event" dengan validasi lengkap: nama (min 3 char), email (valid format), nomor telepon (angka, 10-13 digit), tanggal lahir (date picker). Tampilkan ringkasan data sebelum submit. Gunakan event delegation untuk tooltip.', en: 'Create an "Event Registration" form with full validation: name (min 3 chars), email (valid format), phone (digits, 10-13 digits), date of birth (date picker). Show data summary before submit. Use event delegation for tooltips.' },
-  8: { id: 'Buat class `RekeningBank` dengan properti: namaPemilik, nomorRekening, saldo. Method: setor(tambah), tarik(kurang), cekSaldo(). Buat class `RekeningTabungan` yang extends dengan method hitungBunga(). Implementasikan private field untuk saldo.', en: 'Create a `BankAccount` class with properties: ownerName, accountNumber, balance. Methods: deposit(add), withdraw(subtract), checkBalance(). Create a `SavingsAccount` class that extends with a calculateInterest() method. Implement private fields for balance.' },
-  9: { id: 'Buat aplikasi "Berita Terkini" yang mengambil data dari News API (atau mock data). Tampilkan daftar berita dengan gambar, judul, dan deskripsi. Fitur: loading state, error handling, refresh, dan infinite scroll (ambil data tambahan saat scroll ke bawah).', en: 'Create a "Latest News" app that fetches data from a News API (or mock data). Display a news list with images, titles, and descriptions. Features: loading state, error handling, refresh, and infinite scroll (load more data on scroll).' },
-  10: { id: 'Buat aplikasi "Daily Tracker" yang menggunakan localStorage untuk menyimpan: target harian (teks), progres (checkbox), catatan harian (textarea dengan auto-save), dan statistik (streak, total selesai). Gunakan setInterval untuk pengingat setiap jam.', en: 'Create a "Daily Tracker" app using localStorage to store: daily goals (text), progress (checkboxes), daily notes (textarea with auto-save), and statistics (streak, total completed). Use setInterval for hourly reminders.' },
-  11: { id: 'Buat library utilitas menggunakan Module Pattern (IIFE) dengan fungsi: deepClone(obj), isEmpty(obj), formatDate(date), generateId(), dan pipe(...fns). Gunakan closure untuk internal state. Implementasikan debounce untuk search input.', en: 'Create a utility library using the Module Pattern (IIFE) with functions: deepClone(obj), isEmpty(obj), formatDate(date), generateId(), and pipe(...fns). Use closures for internal state. Implement debounce for search input.' },
-  12: { id: 'Bangun aplikasi "Personal Finance Dashboard" yang menggabungkan SEMUA konsep: objek untuk transaksi, array methods untuk filter/sort, DOM untuk UI, event untuk interaksi, localStorage untuk persistensi, async untuk export/import data, closure untuk state privat, dan canvas untuk grafik pengeluaran per kategori.', en: 'Build a "Personal Finance Dashboard" that combines ALL concepts: objects for transactions, array methods for filter/sort, DOM for UI, events for interaction, localStorage for persistence, async for data export/import, closures for private state, and canvas for expense-by-category charts.' },
-};
-
-const SUM = {
-  1: { id: 'JavaScript adalah bahasa yang dinamis dan fleksibel. Anda telah mempelajari variabel, tipe data, dan sintaks dasar. Modul selanjutnya: **Operator & Control Flow** — cara membuat keputusan dan perulangan dalam kode.', en: 'JavaScript is a dynamic and flexible language. You have learned variables, data types, and basic syntax. Next module: **Operators & Control Flow** — how to make decisions and loop in code.' },
-  2: { id: 'Operator dan control flow adalah fondasi logika pemrograman. Dengan if/else, switch, dan loop, Anda bisa mengontrol alur eksekusi kode. Modul selanjutnya: **Fungsi** — blok bangunan kode yang dapat digunakan kembali.', en: 'Operators and control flow are the foundation of programming logic. With if/else, switch, and loops, you can control code execution flow. Next module: **Functions** — reusable code building blocks.' },
-  3: { id: 'Fungsi adalah warga kelas satu di JavaScript. Anda telah belajar deklarasi, arrow function, scope, dan callback. Modul selanjutnya: **Array & Metode** — struktur data untuk koleksi informasi.', en: 'Functions are first-class citizens in JavaScript. You have learned declarations, arrow functions, scope, and callbacks. Next module: **Arrays & Methods** — data structures for collections of information.' },
-  4: { id: 'Array adalah struktur data paling penting di JavaScript. Method seperti map, filter, dan reduce memungkinkan transformasi data yang ekspresif. Modul selanjutnya: **Objek & Data** — cara menyimpan dan mengelola data terstruktur.', en: 'Arrays are the most important data structure in JavaScript. Methods like map, filter, and reduce enable expressive data transformations. Next module: **Objects & Data** — storing and managing structured data.' },
-  5: { id: 'Objek adalah fondasi hampir semua struktur data di JavaScript. Dengan destructuring, spread, dan JSON, Anda bisa mengelola data kompleks dengan mudah. Modul selanjutnya: **DOM Manipulation** — cara JavaScript berinteraksi dengan halaman web.', en: 'Objects are the foundation of almost all data structures in JavaScript. With destructuring, spread, and JSON, you can manage complex data easily. Next module: **DOM Manipulation** — how JavaScript interacts with web pages.' },
-  6: { id: 'DOM manipulation memungkinkan JavaScript mengubah halaman web secara dinamis. Anda telah belajar membuat, memodifikasi, dan menghapus elemen. Modul selanjutnya: **Event & Form** — cara merespon interaksi pengguna.', en: 'DOM manipulation enables JavaScript to dynamically change web pages. You have learned to create, modify, and delete elements. Next module: **Events & Forms** — how to respond to user interactions.' },
-  7: { id: 'Event membuat halaman web menjadi interaktif. Dengan event listener, form validation, dan delegation, Anda bisa menangani interaksi pengguna dengan efisien. Modul selanjutnya: **JavaScript Modern** — fitur-fitur ES6+ yang membuat kode lebih bersih.', en: 'Events make web pages interactive. With event listeners, form validation, and delegation, you can handle user interactions efficiently. Next module: **Modern JavaScript** — ES6+ features that make code cleaner.' },
-  8: { id: 'ES6+ membawa banyak fitur baru yang membuat JavaScript lebih ekspresif dan mudah dipelihara: template literal, class, modules, optional chaining. Modul selanjutnya: **Async JavaScript** — menangani operasi asynchronous seperti request jaringan.', en: 'ES6+ brings many new features that make JavaScript more expressive and maintainable: template literals, classes, modules, optional chaining. Next module: **Asynchronous JavaScript** — handling async operations like network requests.' },
-  9: { id: 'Async JavaScript adalah konsep kunci untuk aplikasi web modern. Promise, async/await, dan Fetch API memungkinkan Anda bekerja dengan data dari server tanpa memblokir UI. Modul selanjutnya: **Browser API** — memanfaatkan fitur bawaan browser.', en: 'Asynchronous JavaScript is a key concept for modern web applications. Promises, async/await, and the Fetch API let you work with server data without blocking the UI. Next module: **Browser APIs** — leveraging built-in browser features.' },
-  10: { id: 'Browser API memberikan akses ke fitur-fitur perangkat: penyimpanan lokal, geolokasi, timer, dan canvas. Dengan API ini, aplikasi web bisa mendekati kemampuan aplikasi native. Modul selanjutnya: **Konsep Lanjutan** — closure, this, prototype, dan pattern penting.', en: 'Browser APIs provide access to device features: local storage, geolocation, timers, and canvas. With these APIs, web apps can approach native app capabilities. Next module: **Advanced Concepts** — closures, this, prototypes, and important patterns.' },
-  11: { id: 'Konsep lanjutan seperti closure, this binding, prototype, dan pattern debounce/throttle adalah yang membedakan developer junior dari senior. Pahami ini untuk menulis kode yang lebih profesional. Modul selanjutnya: **Proyek Akhir** — gabungkan semua konsep dalam satu aplikasi.', en: 'Advanced concepts like closures, this binding, prototypes, and debounce/throttle patterns distinguish junior from senior developers. Understand these to write more professional code. Next module: **Final Project** — combine all concepts in one application.' },
-  12: { id: 'Selamat! Anda telah menyelesaikan seluruh kurikulum JavaScript. Dari variabel dasar hingga pattern lanjutan, dari DOM hingga async — Anda sekarang memiliki fondasi yang kuat. Langkah selanjutnya: pelajari TypeScript, React, atau Node.js untuk memperluas skill Anda.', en: 'Congratulations! You have completed the entire JavaScript curriculum. From basic variables to advanced patterns, from DOM to async — you now have a strong foundation. Next steps: learn TypeScript, React, or Node.js to expand your skills.' },
-};
-
-function generateFile(mod, lang) {
-  const isId = lang === 'id';
-  const h = isId ? mod.lid : mod.len;
-  const progName = isId ? mod.cid : mod.cen;
-  const code = CODE[mod.id];
-  const obj = OBJ[mod.id];
-  const objList = isId ? obj.id : obj.en;
-  const exp = EXP[mod.id];
-  const explanation = isId ? exp.id : exp.en;
-  const expE = EXP_E[mod.id];
-  const experiments = isId ? expE.id : expE.en;
-  const challenge = isId ? CHALL[mod.id].id : CHALL[mod.id].en;
-  const summary = isId ? SUM[mod.id].id : SUM[mod.id].en;
-
-  const moduleLabel = isId ? `Modul ${mod.id}` : `Module ${mod.id}`;
-
-  const objBullets = objList.map(o => `- ${o}`).join('\n');
-  const expBullets = experiments.map(e => `1. **${e.split(' — ')[0] || e}**${e.includes(' — ') ? ' — ' + e.split(' — ').slice(1).join(' — ') : ''}`).join('\n');
- 
-  return `# ${h}
-
-> JavaScript | ${moduleLabel}
-
-## ${isId ? 'Tujuan Pembelajaran' : 'Learning Objectives'}
-
-${objBullets}
-
----
-
-## ${isId ? `Program: ${progName}` : `Program: ${progName}`}
-
-\`\`\`html
-${code}
-\`\`\`
-
----
-
-## ${isId ? 'Penjelasan' : 'Explanation'}
-
-${explanation}
-
----
-
-## ${isId ? 'Eksperimen' : 'Experiments'}
-
-${expBullets}
-
----
-
-## ${isId ? 'Tantangan' : 'Challenge'}
-
-${challenge}
-
----
-
-## ${isId ? 'Ringkasan' : 'Summary'}
-
-${summary}
-`;
 }
 
-if (!fs.existsSync(BASE)) {
-  fs.mkdirSync(path.join(BASE, 'id'), { recursive: true });
-  fs.mkdirSync(path.join(BASE, 'en'), { recursive: true });
+// Throttle
+function throttle(fn, limit) {
+    let inThrottle = false;
+    return function(...args) {
+        if (!inThrottle) {
+            fn.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
 }
 
-for (const mod of MODULES) {
-  const idContent = generateFile(mod, 'id');
-  const enContent = generateFile(mod, 'en');
-  fs.writeFileSync(path.join(BASE, 'id', `week${mod.id}-${mod.f}.md`), idContent, 'utf8');
-  fs.writeFileSync(path.join(BASE, 'en', `week${mod.id}-${mod.f}.md`), enContent, 'utf8');
-  console.log(`  ${mod.id}. ${mod.lid} / ${mod.len}`);
+// Memoization
+function memoize(fn) {
+    const cache = new Map();
+    return function(...args) {
+        const key = JSON.stringify(args);
+        if (cache.has(key)) {
+            console.log("  Cache hit for", key);
+            return cache.get(key);
+        }
+        const result = fn.apply(this, args);
+        cache.set(key, result);
+        return result;
+    };
 }
 
-console.log(`\\n✓ Generated ${MODULES.length * 2} JavaScript curriculum files (${MODULES.length} modules × 2 languages)`);
-console.log(`  Output: ${BASE}`);
+// Lazy Loading Pattern
+class LazyImage {
+    constructor(src) {
+        this.src = src;
+        this.loaded = false;
+    }
+
+    load() {
+        if (this.loaded) return;
+        console.log("Loading:", this.src);
+        this.loaded = true;
+    }
+}
+
+// Demo
+console.log("=== Debounce ===");
+const debouncedSearch = debounce((q) => console.log("Search:", q), 300);
+debouncedSearch("a");
+debouncedSearch("ap");
+debouncedSearch("app");
+debouncedSearch("appl");
+// Hanya "appl" yang akan dijalankan setelah 300ms
+
+console.log("\\n=== Throttle ===");
+const throttledScroll = throttle(() => console.log("Scroll event"), 1000);
+throttledScroll(); // jalan
+throttledScroll(); // skip
+throttledScroll(); // skip
+
+console.log("\\n=== Memoization ===");
+const expensiveCalc = memoize((n) => {
+    console.log("  Computing fib(" + n + ")");
+    if (n <= 1) return n;
+    return expensiveCalc(n - 1) + expensiveCalc(n - 2);
+});
+console.log("Result:", expensiveCalc(10));
+console.log("Result (cached):", expensiveCalc(10));
+
+console.log("\\n=== Performance Tips ===");
+console.log("1. Debounce/throttle untuk events yang sering");
+console.log("2. Memoization untuk fungsi mahal");
+console.log("3. Lazy loading untuk resources besar");
+console.log("4. Virtual DOM untuk update efisien");
+console.log("5. Web Workers untuk heavy computation");
+console.log("6. requestAnimationFrame untuk animasi");
+console.log("7. Avoid memory leaks (cleanup listeners)");`,
+    objectivesId: [
+      'Debounce: delay execution sampai user berhenti',
+      'Throttle: limit execution rate',
+      'Memoization: cache hasil fungsi mahal',
+      'Lazy loading: load resources saat dibutuhkan',
+      'Web Workers: heavy computation di thread terpisah',
+    ],
+    objectivesEn: [
+      'Debounce: delay execution until user stops',
+      'Throttle: limit execution rate',
+      'Memoization: cache expensive function results',
+      'Lazy loading: load resources when needed',
+      'Web Workers: heavy computation in separate thread',
+    ],
+    explanationId: '### Debounce\nTunggu user berhenti mengetik sebelum search. Delay 300ms.\n\n### Throttle\nLimit execution per waktu. Scroll handler max 1x per detik.\n\n### Memoization\nCache hasil berdasarkan argumen. Fibonacci O(n) dari O(2^n).\n\n### Lazy Loading\nLoad image/component hanya saat terlihat di viewport.\n\n### Web Workers\nJalankan heavy task di background thread. Tidak block UI.\n\n### RAF\n`requestAnimationFrame` untuk animasi smooth 60fps.',
+    explanationEn: '### Debounce\nWait for user to stop typing before searching. 300ms delay.\n\n### Throttle\nLimit execution per time. Scroll handler max 1x per second.\n\n### Memoization\nCache results by arguments. Fibonacci O(n) from O(2^n).\n\n### Lazy Loading\nLoad image/component only when visible in viewport.\n\n### Web Workers\nRun heavy tasks in background thread. Doesn\'t block UI.\n\n### RAF\n`requestAnimationFrame` for smooth 60fps animations.',
+    experimentsId: [
+      'Buat debounce dengan immediate option',
+      'Coba throttle dengan trailing call',
+      'Eksperimen memoization dengan cache size limit',
+      'Buat lazy loading untuk list panjang',
+      'Coba requestIdleCallback untuk low-priority work',
+    ],
+    experimentsEn: [
+      'Create debounce with immediate option',
+      'Try throttle with trailing call',
+      'Experiment memoization with cache size limit',
+      'Create lazy loading for long list',
+      'Try requestIdleCallback for low-priority work',
+    ],
+    challengeId: 'Buat search component: debounced input, memoized results, lazy loaded list, dengan performance metrics.',
+    challengeEn: 'Build a search component: debounced input, memoized results, lazy loaded list, with performance metrics.',
+    summaryId: 'Minggu 13 dari 14: **Performance Optimization** (Level: Lanjutan). Kecepatan & efisiensi. Minggu depan: **Capstone Project**!',
+    summaryEn: 'Week 13 of 14: **Performance Optimization** (Level: Advanced). Speed & efficiency. Next week: **Capstone Project**!',
+  },
+  {
+    week: 14, level: 'advanced', topicId: 'capstone',
+    titleId: 'Capstone: Task Manager App', titleEn: 'Capstone: Task Manager App',
+    programId: 'Task Manager Lengkap', programEn: 'Complete Task Manager',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
+    language: 'javascript',
+    code: `// Capstone: Task Manager Application
+// Menggabungkan semua konsep: OOP, async, modules, patterns, testing
+
+// === Store Module (Observer Pattern) ===
+class TaskStore {
+    #tasks = [];
+    #listeners = new Set();
+    #nextId = 1;
+
+    subscribe(fn) {
+        this.#listeners.add(fn);
+        return () => this.#listeners.delete(fn);
+    }
+
+    #notify() {
+        this.#listeners.forEach(fn => fn(this.getAll()));
+    }
+
+    add(task) {
+        const newTask = {
+            id: this.#nextId++,
+            title: task.title,
+            description: task.description || "",
+            priority: task.priority || "medium",
+            done: false,
+            createdAt: new Date().toISOString()
+        };
+        this.#tasks.push(newTask);
+        this.#notify();
+        return newTask;
+    }
+
+    toggle(id) {
+        const task = this.#tasks.find(t => t.id === id);
+        if (task) {
+            task.done = !task.done;
+            this.#notify();
+        }
+        return task;
+    }
+
+    remove(id) {
+        this.#tasks = this.#tasks.filter(t => t.id !== id);
+        this.#notify();
+    }
+
+    getAll() { return [...this.#tasks]; }
+    getCompleted() { return this.#tasks.filter(t => t.done); }
+    getPending() { return this.#tasks.filter(t => !t.done); }
+
+    getStats() {
+        return {
+            total: this.#tasks.length,
+            completed: this.getCompleted().length,
+            pending: this.getPending().length
+        };
+    }
+}
+
+// === Demo ===
+const store = new TaskStore();
+
+// Subscribe to changes
+store.subscribe(tasks => {
+    console.log("Tasks updated:", tasks.length, "items");
+});
+
+// Add tasks
+console.log("=== Adding Tasks ===");
+store.add({ title: "Belajar JavaScript", priority: "high" });
+store.add({ title: "Buat Task Manager", priority: "high" });
+store.add({ title: "Push ke GitHub", priority: "medium" });
+store.add({ title: "Tulis dokumentasi", priority: "low" });
+
+// Toggle completion
+console.log("\\n=== Toggle Task #1 ===");
+store.toggle(1);
+
+// Show stats
+console.log("\\n=== Stats ===");
+const stats = store.getStats();
+console.log("Total:", stats.total);
+console.log("Completed:", stats.completed);
+console.log("Pending:", stats.pending);
+
+// Show pending tasks
+console.log("\\n=== Pending Tasks ===");
+store.getPending().forEach(t => {
+    console.log(\`  [\${t.priority}] \${t.title}\`);
+});
+
+// Remove task
+console.log("\\n=== Remove Task #3 ===");
+store.remove(3);
+console.log("Remaining:", store.getAll().length);
+
+// === Architecture Summary ===
+console.log("\\n=== Architecture ===");
+console.log("1. Observer Pattern: store.subscribe()");
+console.log("2. Private Fields: #tasks, #listeners");
+console.log("3. Immutable Returns: [...this.#tasks]");
+console.log("4. Method Chaining: store.add().toggle()");
+console.log("5. Separation of Concerns: Store vs UI");
+console.log("6. Error Handling: validation, fallbacks");
+console.log("7. Performance: efficient updates, minimal re-renders");`,
+    objectivesId: [
+      'Menggabungkan semua konsep: OOP, async, modules, patterns',
+      'Observer pattern untuk state management',
+      'Private fields untuk encapsulation',
+      'Immutable data flow',
+      'Separation of concerns: data vs presentation',
+    ],
+    objectivesEn: [
+      'Combine all concepts: OOP, async, modules, patterns',
+      'Observer pattern for state management',
+      'Private fields for encapsulation',
+      'Immutable data flow',
+      'Separation of concerns: data vs presentation',
+    ],
+    explanationId: '### Proyek Capstone\nTask Manager yang menggabungkan semua 13 minggu pembelajaran.\n\n### Arsitektur\n- Observer Pattern: reactive state\n- Private Fields: encapsulation\n- Immutable: predictable state\n- Modular: separation of concerns\n\n### Fitur\n- CRUD tasks\n- Toggle completion\n- Filter by status\n- Statistics\n- Priority levels\n\n### Best Practices\n- Clean code\n- Error handling\n- Performance optimization\n- Testable architecture',
+    explanationEn: '### Capstone Project\nTask Manager combining all 13 weeks of learning.\n\n### Architecture\n- Observer Pattern: reactive state\n- Private Fields: encapsulation\n- Immutable: predictable state\n- Modular: separation of concerns\n\n### Features\n- CRUD tasks\n- Toggle completion\n- Filter by status\n- Statistics\n- Priority levels\n\n### Best Practices\n- Clean code\n- Error handling\n- Performance optimization\n- Testable architecture',
+    experimentsId: [
+      'Tambah filter by priority',
+      'Buat undo/redo dengan command pattern',
+      'Tambah localStorage persistence',
+      'Buat sorting by date/priority',
+      'Tambah due date dan reminder',
+    ],
+    experimentsEn: [
+      'Add filter by priority',
+      'Create undo/redo with command pattern',
+      'Add localStorage persistence',
+      'Create sorting by date/priority',
+      'Add due date and reminders',
+    ],
+    challengeId: 'Buat Task Manager lengkap: CRUD, filter, sort, priority, persistence, testing — production-ready.',
+    challengeEn: 'Build a complete Task Manager: CRUD, filter, sort, priority, persistence, testing — production-ready.',
+    summaryId: 'Minggu 14 dari 14: **Capstone: Task Manager App** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai JavaScript dari nol hingga production-ready.',
+    summaryEn: 'Week 14 of 14: **Capstone: Task Manager App** (Level: Advanced). Complete! 🎉 You\'ve mastered JavaScript from scratch to production-ready.',
+  },
+];
+
+// Add weeks to levels
+for (const level of LEVELS) {
+  level.weeks = MODULES.filter(m => m.level === level.levelId).map(m => ({
+    week: m.week,
+    topicId: m.topicId,
+    titleId: m.titleId,
+    titleEn: m.titleEn,
+  }));
+}
+
+gen.writeFiles(MODULES, LEVELS);
