@@ -1,9 +1,0 @@
-{
-  "src/app/app.routes.ts": "import { Routes } from '@angular/router';\nimport { HomeComponent } from './home/home.component';\nimport { AboutComponent } from './about/about.component';\n\nexport const routes: Routes = [\n  { path: '', component: HomeComponent },\n  { path: 'about', component: AboutComponent },\n  { path: '**', redirectTo: '' },\n];\n",
-  "src/app/app.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: `<div>\n    <nav>\n      <a routerLink=\"/\">Beranda</a>\n      <a routerLink=\"/about\">Tentang</a>\n    </nav>\n    <router-outlet></router-outlet>\n  </div>`,\n})\nexport class AppComponent {}\n",
-  "src/app/home/home.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-home',\n  template: '<h1>Beranda</h1><p>Selamat datang di aplikasi Angular.</p>',\n})\nexport class HomeComponent {}\n",
-  "src/app/about/about.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-about',\n  template: '<h1>Tentang</h1><p>Ini adalah halaman tentang.</p>',\n})\nexport class AboutComponent {}\n",
-  "composer.json": "{\n  \"name\": \"angular-lesson-7\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
-  "package.json": "{\n  \"name\": \"angular-lesson-7\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
-  "README.md": "# Angular Lesson 7 - Routing & Navigation\n\nJalankan: npm install && npm run dev\n\nRouterModule, routerLink, router-outlet, Routes config.\n"
-}

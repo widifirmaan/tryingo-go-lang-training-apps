@@ -37,39 +37,6 @@ const SLUG_NAME_MAP = {
   vue: 'Vue.js',
 };
 
-const LEVEL_MAP = {
-  beginer: 'Beginner',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
-  pro: 'Professional',
-  foundations: 'Foundations',
-  images: 'Images & Containers',
-  multicontainer: 'Multi-Container',
-  production: 'Production',
-  express: 'Express & Web APIs',
-  databases: 'Databases & Auth',
-  'request-data': 'Request & Data',
-  'auth-advanced': 'Auth & Advanced',
-  'data-features': 'Data & Features',
-  'drf-apis': 'REST APIs & DRF',
-  'testing-security': 'Testing & Security',
-  'data-crud': 'Data & CRUD',
-  'auth-middleware': 'Auth & Middleware',
-  'apis-realtime': 'APIs & Real-time',
-  'php': 'PHP',
-  'codeigniter4': 'CodeIgniter 4',
-  angular: 'Angular',
-  svelte: 'Svelte',
-  rails: 'Ruby on Rails',
-  postgresql: 'PostgreSQL',
-  graphql: 'GraphQL',
-  csharp: 'C#',
-  spring: 'Spring Boot',
-  mysql: 'MySQL',
-  mongodb: 'MongoDB',
-  redis: 'Redis',
-};
-
 function extractTitle(content, slug) {
   const titleMatch = content.match(/^#\s+(.+)/m);
   return titleMatch ? titleMatch[1].trim() : SLUG_NAME_MAP[slug] || slug;
@@ -101,6 +68,9 @@ function stripMarkdown(text) {
     .replace(/\n{3,}/g, '\n')
     .trim();
 }
+
+// Level names are derived from curriculum.ts, not hardcoded here
+const LEVEL_MAP = {};
 
 async function buildIndex() {
   console.log('Building search index from:', DATA_DIR);
@@ -150,7 +120,7 @@ async function buildIndex() {
             slug,
             trackName: SLUG_NAME_MAP[slug] || slug,
             level,
-            levelName: LEVEL_MAP[level] || level,
+            levelName: LEVEL_MAP[level] || meta.level || level,
             lang,
             week: weekNum,
             weekTopic: meta.week,

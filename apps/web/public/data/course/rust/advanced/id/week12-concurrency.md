@@ -1,100 +1,135 @@
-# Concurrency: Thread, Arc, Mutex
+# Concurrency
 
-> Kategori: Rust, Bahasa Pemrograman | Level: Lanjutan | Week 12
+> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 12:** Concurrency
 
 ## Tujuan Pembelajaran
 
-- Membuat thread dengan thread::spawn dan JoinHandle
-- Menggunakan closure move dengan thread
-- Menerapkan Arc<T> untuk atomic reference counting
-- Menggunakan Mutex<T> untuk mutual exclusion
-- Mengirim pesan dengan mpsc::channel
+- thread::spawn untuk membuat thread baru
+- move closure untuk transfer ownership ke thread
+- mpsc::channel untuk komunikasi antar thread
+- Arc<Mutex<T>> untuk shared mutable state yang aman
+- join() untuk menunggu thread selesai
 
 ---
 
-## Program: Parallel
+## Program: Thread & Channel
 
 ```rust
-use std::sync::{Arc, Mutex, mpsc};
 use std::thread;
+use std::sync::mpsc;
+use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 fn main() {
+    // Thread sederhana
     let handle = thread::spawn(|| {
-        for i in 1..=3 {
-            println!("Thread anak: {}", i);
-            thread::sleep(Duration::from_millis(10));
+        for i in 1..=5 {
+            println!("Thread: {}", i);
         }
+    });
+
+    for i in 1..=3 {
+        println!("Main: {}", i);
+    }
+
+    handle.join().unwrap();
+
+    // Move closure
+    let data = vec![1, 2, 3];
+    let handle = thread::spawn(move || {
+        println!("Moved data: {:?}", data);
     });
     handle.join().unwrap();
 
+    // Channel (mpsc)
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let messages = vec!["halo", "dari", "thread"];
+        for msg in messages {
+            tx.send(msg.to_string()).unwrap();
+        }
+    });
+
+    for _ in 0..3 {
+        let received = rx.recv().unwrap();
+        println!("Received: {}", received);
+    }
+
+    // Arc + Mutex untuk shared state
     let counter = Arc::new(Mutex::new(0));
     let mut handles = vec![];
 
-    for _ in 0..10 {
-        let c = Arc::clone(&counter);
-        handles.push(thread::spawn(move || {
-            let mut num = c.lock().unwrap();
+    for _ in 0..5 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
             *num += 1;
-        }));
+        });
+        handles.push(handle);
     }
 
-    for h in handles {
-        h.join().unwrap();
+    for handle in handles {
+        handle.join().unwrap();
     }
-    println!("Counter final: {}", *counter.lock().unwrap());
 
+    println!("Counter: {}", *counter.lock().unwrap());
+
+    // Multiple producers
     let (tx, rx) = mpsc::channel();
+    let tx2 = tx.clone();
+
     thread::spawn(move || {
-        let pesan = String::from("Halo dari thread!");
-        tx.send(pesan).unwrap();
+        tx.send("from thread 1").unwrap();
     });
 
-    let terima = rx.recv().unwrap();
-    println!("Pesan diterima: {}", terima);
+    thread::spawn(move || {
+        tx2.send("from thread 2").unwrap();
+    });
+
+    for _ in 0..2 {
+        println!("Multi-producer: {}", rx.recv().unwrap());
+    }
 }
 ```
 
-Jalankan program di samping untuk melihat output. Kode ini mendemonstrasikan semua konsep minggu ini.
-
 ---
 
-## Penjelasan
+## Konsep Kunci
 
 ### Thread
+`thread::spawn(|| { ... })` — buat thread baru. `join()` untuk tunggu.
 
-`thread::spawn(|| { ... })` — membuat OS thread baru. `JoinHandle::join()` menunggu thread selesai. `move` untuk memindahkan ownership ke closure thread.
-
-### Arc<T>
-
-`Arc` — Atomic Reference Counting. Thread-safe version of Rc. `Arc::clone()` untuk sharing data antar thread.
-
-### Mutex<T>
-
-`lock()` — mutual exclusion. Hanya satu thread bisa mengakses data pada satu waktu. `unwrap()` karena lock bisa poison.
+### Move Closure
+`move ||` — transfer ownership variabel ke closure/thread.
 
 ### Channel
+`mpsc::channel()` — multiple producer, single consumer. `send()` dan `recv()`.
 
-`mpsc::channel()` — Multiple Producer, Single Consumer. `send()` mengirim, `recv()` menerima. Cloning tx untuk multiple producers.
+### Arc<Mutex<T>>
+`Arc` untuk shared ownership, `Mutex` untuk mutual exclusion. `lock()` untuk akses.
+
+### Thread Safety
+Rust menjamin thread safety di compile time dengan Send dan Sync trait.
 
 ---
 
 ## Eksperimen
 
-Coba modifikasi kode di samping:
-
-1. **Ubah jumlah thread** — dari 10 jadi 100 thread dan lihat hasil counter
-2. **Hapus Arc** — coba tanpa Arc (kompilasi akan gagal karena Send trait)
-3. **Channel multi-producer** — clone tx dan buat 3 producer
+- Buat thread pool sederhana
+- Eksperimen dengan channel timeout
+- Coba deadlock dengan nested Mutex lock
+- Buat producer-consumer pattern
+- Eksperimen dengan scoped threads
 
 ---
 
 ## Tantangan
 
-Buat worker pool: 5 thread membaca dari channel job (angka 1-20), menghitung faktorial, kirim hasil ke channel results. Gunakan Arc<Mutex<>> untuk shared counter task.
+Buat web crawler concurrent: fetch multiple URLs secara paralel dengan thread + channel. Batasi concurrency.
 
 ---
 
 ## Ringkasan
 
-Thread dengan thread::spawn dan JoinHandle. Arc<T> untuk sharing data thread-safe. Mutex<T> untuk akses eksklusif. mpsc::channel untuk komunikasi antar thread. Minggu depan: unsafe Rust dan macro.
+Minggu 12 dari 14: **Concurrency** (Level: Lanjutan). Fearless concurrency ala Rust. Minggu depan: **Macros**.

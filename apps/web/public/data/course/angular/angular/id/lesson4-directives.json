@@ -1,6 +1,0 @@
-{
-  "src/app/app.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: `<div>\n    <h2>Structural Directives</h2>\n    <ul>\n      <li *ngFor=\"let item of items; let i = index\">{{ i + 1 }}. {{ item }}</li>\n    </ul>\n    <p *ngIf=\"showHello\">Hello dengan *ngIf</p>\n    <p *ngIf=\"!showHello; else elseBlock\">Else block</p>\n    <ng-template #elseBlock><p>Template else</p></ng-template>\n\n    <h2>Attribute Directives</h2>\n    <div [class.active]=\"isActive\" [style.background]=\"bgColor\">Div dengan attribute directive</div>\n    <input [(ngModel)]=\"nama\" placeholder=\"Ketik nama Anda\">\n    <p>{{ nama }}</p>\n  </div>`,\n})\nexport class AppComponent {\n  items = ['Angular', 'React', 'Vue'];\n  showHello = true;\n  isActive = true;\n  bgColor = '#f0f0f0';\n  nama = '';\n}\n",
-  "composer.json": "{\n  \"name\": \"angular-lesson-4\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
-  "package.json": "{\n  \"name\": \"angular-lesson-4\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
-  "README.md": "# Angular Lesson 4 - Directives\n\nJalankan: npm install && npm run dev\n\nStructural: *ngFor, *ngIf. Attribute: [class], [style], [(ngModel)].\n"
-}

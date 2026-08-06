@@ -1,6 +1,0 @@
-{
-  "index.php": "<?php\n\n$nilai = 85;\n\nif ($nilai >= 90) {\n    echo \"A\";\n} elseif ($nilai >= 80) {\n    echo \"B\";\n} elseif ($nilai >= 70) {\n    echo \"C\";\n} else {\n    echo \"D\";\n}\n\nfor ($i = 1; $i <= 5; $i++) {\n    echo \"Perulangan ke-$i\\n\";\n}\n\n$hari = 3;\nswitch ($hari) {\n    case 1: echo \"Senin\"; break;\n    case 2: echo \"Selasa\"; break;\n    default: echo \"Hari lain\";\n}\n\n$status = $nilai >= 70 ? \"Lulus\" : \"Tidak Lulus\";\necho $status;\n",
-  "composer.json": "{\n    \"name\": \"tryngo/control-flow\",\n    \"type\": \"project\",\n    \"require\": { \"php\": \"^8.2\" },\n    \"require-dev\": {\n        \"fakerphp/faker\": \"^1.23\",\n        \"phpunit/phpunit\": \"^11.0\"\n    },\n    \"autoload\": { \"psr-4\": { \"App\\\": \"src/\" } },\n    \"minimum-stability\": \"stable\",\n    \"prefer-stable\": true\n}\n",
-  "package.json": "{\n  \"name\": \"php-lesson-4\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"php -S 0.0.0.0:3000\" }\n}\n",
-  "README.md": "# PHP Lesson 4 - Control Flow\n\nJalankan: composer install && npm run dev\nCoba: http://localhost:3000\n"
-}

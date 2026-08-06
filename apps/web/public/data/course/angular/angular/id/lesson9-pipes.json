@@ -1,7 +1,0 @@
-{
-  "src/app/pipes/uppercase.pipe.ts": "import { Pipe, PipeTransform } from '@angular/core';\n\n@Pipe({\n  name: 'uppercase',\n  pure: true,\n})\nexport class UppercasePipe implements PipeTransform {\n  transform(value: string): string {\n    return value ? value.toUpperCase() : '';\n  }\n}\n",
-  "src/app/app.component.ts": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-root',\n  template: `<div>\n    <h2>Built-in Pipes</h2>\n    <p>{{ \"hello world\" | uppercase }}</p>\n    <p>{{ \"hello world\" | lowercase }}</p>\n    <p>{{ 1234567 | number }}</p>\n    <p>{{ \"2024-01-15\" | date:\"mediumDate\" }}</p>\n    <p>{{ 0.123456 | percent:\"1.2-2\" }}</p>\n    <p>{{ \"Hello World\" | slice:0:5 }}</p>\n\n    <h2>Custom Pipe</h2>\n    <p>{{ \"hello world\" | uppercase }}</p>\n  </div>`,\n})\nexport class AppComponent {}\n",
-  "composer.json": "{\n  \"name\": \"angular-lesson-9\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
-  "package.json": "{\n  \"name\": \"angular-lesson-9\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx serve\" }\n}\n",
-  "README.md": "# Angular Lesson 9 - Pipes & Data Transformation\n\nJalankan: npm install && npm run dev\n\nBuilt-in pipes: uppercase, lowercase, date, number, percent, slice. Custom pipes.\n"
-}

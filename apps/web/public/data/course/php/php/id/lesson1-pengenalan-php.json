@@ -1,6 +1,0 @@
-{
-  "index.php": "<?php\n\necho \"Hello, Tryngo!\";\n",
-  "composer.json": "{\n    \"name\": \"tryngo/pengenalan-php\",\n    \"type\": \"project\",\n    \"require\": { \"php\": \"^8.2\" },\n    \"require-dev\": {\n        \"fakerphp/faker\": \"^1.23\",\n        \"phpunit/phpunit\": \"^11.0\"\n    },\n    \"autoload\": { \"psr-4\": { \"App\\\": \"src/\" } },\n    \"minimum-stability\": \"stable\",\n    \"prefer-stable\": true\n}\n",
-  "package.json": "{\n  \"name\": \"php-lesson-1\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"php -S 0.0.0.0:3000\" }\n}\n",
-  "README.md": "# PHP Lesson 1 - Introduction\n\nJalankan: composer install && npm run dev\nCoba: http://localhost:3000\n"
-}

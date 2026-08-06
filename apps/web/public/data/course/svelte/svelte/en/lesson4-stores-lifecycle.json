@@ -1,7 +1,0 @@
-{
-  "src/App.svelte": "<script>\n  import { writable, derived } from \"svelte/store\";\n  import Child from \"./Child.svelte\";\n\n  const count = writable(0);\n  const doubled = derived(count, $count => $count * 2);\n\n  function increment() {\n    count.update(n => n + 1);\n  }\n\n  function decrement() {\n    count.update(n => n - 1);\n  }\n</script>\n\n<h1>Svelte Stores & Lifecycle</h1>\n\n<p>Count: {$count}</p>\n<p>Doubled: {$doubled}</p>\n<button on:click={decrement}>-</button>\n<button on:click={increment}>+</button>\n\n<Child />",
-  "src/Child.svelte": "<script>\n  import { onMount, onDestroy } from \"svelte\";\n\n  let time = new Date().toLocaleTimeString();\n\n  onMount(() => {\n    const interval = setInterval(() => {\n      time = new Date().toLocaleTimeString();\n    }, 1000);\n\n    onDestroy(() => {\n      clearInterval(interval);\n    });\n  });\n</script>\n\n<p>Child mounted at: {time}</p>",
-  "composer.json": "{\n  \"name\": \"svelte-lesson-4\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
-  "package.json": "{\n  \"name\": \"svelte-lesson-4\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": { \"dev\": \"npx vite\" }\n}\n",
-  "README.md": "# Svelte Lesson 4 - Stores & Lifecycle\n\nJalankan: npm install && npm run dev\n\nStores: writable, derived. Lifecycle: onMount, onDestroy.\n"
-}
