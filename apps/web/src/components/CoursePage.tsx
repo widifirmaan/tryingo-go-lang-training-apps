@@ -59,8 +59,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const getFilePath = useCallback(() => {
     if (!currentWeek) return '';
     const topic = currentWeek.topicId;
-    const prefix = isStackBlitz || isDocker ? 'lesson' : 'week';
-    const fileName = `${prefix}${activeWeek}-${topic}.md`;
+    const fileName = `week${activeWeek}-${topic}.md`;
     return `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
   }, [slug, activeLevel, activeWeek, lang, currentWeek]);
 
