@@ -9,6 +9,10 @@ import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
 import StackBlitzPlayground from './StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
+import { SqlPlayground } from './playgrounds/SqlPlayground';
+import { MongoPlayground } from './playgrounds/MongoPlayground';
+import { RedisPlayground } from './playgrounds/RedisPlayground';
+import { GraphqlPlayground } from './playgrounds/GraphqlPlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -325,6 +329,22 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
               mainFile={stackBlitzMainFile}
               inline
             />
+          </div>
+        ) : content && (slug === 'postgresql' || slug === 'mysql') ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <SqlPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'mongodb' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <MongoPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'redis' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <RedisPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'graphql' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <GraphqlPlayground lang={lang} initialCode={extractCode(content)} />
           </div>
         ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
