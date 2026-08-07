@@ -13,6 +13,10 @@ import { SqlPlayground } from './playgrounds/SqlPlayground';
 import { MongoPlayground } from './playgrounds/MongoPlayground';
 import { RedisPlayground } from './playgrounds/RedisPlayground';
 import { GraphqlPlayground } from './playgrounds/GraphqlPlayground';
+import { PhpPlayground } from './playgrounds/PhpPlayground';
+import { RubyPlayground } from './playgrounds/RubyPlayground';
+import { PythonPlayground } from './playgrounds/PythonPlayground';
+import { CsharpPlayground } from './playgrounds/CsharpPlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -345,6 +349,22 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         ) : content && slug === 'graphql' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <GraphqlPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && (slug === 'php' || slug === 'laravel' || slug === 'codeigniter4') ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <PhpPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'csharp' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <CsharpPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'python' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <PythonPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'rails' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <RubyPlayground lang={lang} initialCode={extractCode(content)} />
           </div>
         ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
