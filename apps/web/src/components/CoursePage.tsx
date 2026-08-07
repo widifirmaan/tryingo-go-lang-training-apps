@@ -17,6 +17,9 @@ import { PhpPlayground } from './playgrounds/PhpPlayground';
 import { RubyPlayground } from './playgrounds/RubyPlayground';
 import { PythonPlayground } from './playgrounds/PythonPlayground';
 import { CsharpPlayground } from './playgrounds/CsharpPlayground';
+import { ReactPlayground } from './playgrounds/ReactPlayground';
+import { VuePlayground } from './playgrounds/VuePlayground';
+import { SveltePlayground } from './playgrounds/SveltePlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -365,6 +368,18 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         ) : content && slug === 'rails' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <RubyPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'react' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <ReactPlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'vue' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <VuePlayground lang={lang} initialCode={extractCode(content)} />
+          </div>
+        ) : content && slug === 'svelte' ? (
+          <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
+            <SveltePlayground lang={lang} initialCode={extractCode(content)} />
           </div>
         ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
