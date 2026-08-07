@@ -7,7 +7,7 @@ import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
-import StackBlitzPlayground from './StackBlitzPlayground';
+import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
 import { MongoPlayground } from './playgrounds/MongoPlayground';
@@ -42,7 +42,7 @@ interface CoursePageProps {
 export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [projectFiles, setProjectFiles] = useState<Record<string, string> | null>(null);
+
   const [activeLevel, setActiveLevel] = useState(() => {
     const s = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
     const lvls = getCurriculum(s);
@@ -58,10 +58,8 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const isId = lang === 'id';
   const track = TRACKS_COLLECTION.find(t => t.id === trackId);
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
-  const isStackBlitz = slug === 'nextjs' || slug === 'react' || slug === 'python' || slug === 'vue' || slug === 'nodejs' || slug === 'nestjs' || slug === 'django' || slug === 'laravel' || slug === 'php' || slug === 'codeigniter4' || slug === 'angular' || slug === 'svelte';
+  const isStackBlitz = slug === 'nextjs' || slug === 'nodejs' || slug === 'nestjs' || slug === 'django' || slug === 'angular' || slug === 'spring';
   const isDocker = slug === 'docker';
-  const stackBlitzMainFile = slug === 'nextjs' ? 'app/page.tsx' : slug === 'python' ? 'index.py' : slug === 'vue' ? 'src/App.vue' : slug === 'nodejs' ? 'server.js' : slug === 'nestjs' ? 'src/main.ts' : slug === 'django' ? 'manage.py' : slug === 'laravel' ? 'artisan' : slug === 'php' ? 'index.php' : slug === 'codeigniter4' ? 'index.php' : slug === 'angular' ? 'src/main.ts' : 'src/App.jsx';
-  const stackBlitzTitle = slug === 'nextjs' ? 'Next.js Lesson' : slug === 'python' ? 'Python Lesson' : slug === 'vue' ? 'Vue Lesson' : slug === 'nodejs' ? 'Node.js Lesson' : slug === 'nestjs' ? 'NestJS Lesson' : slug === 'django' ? 'Django Lesson' : slug === 'laravel' ? 'Laravel Lesson' : slug === 'php' ? 'PHP Lesson' : slug === 'codeigniter4' ? 'CodeIgniter 4 Lesson' : slug === 'angular' ? 'Angular Lesson' : 'React Lesson';
   const levels = getCurriculum(slug);
 
   const currentLevel = levels.find(l => l.levelId === activeLevel);
@@ -111,17 +109,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     return () => loadRef.current?.abort.abort();
   }, [loadContent]);
 
-  // Fetch project files for StackBlitz playground (Next.js / React)
-  useEffect(() => {
-    if (!isStackBlitz || !currentWeek) { setProjectFiles(null); return; }
-    const topic = currentWeek.topicId;
-    const fileName = `lesson${activeWeek}-${topic}.json`;
-    const jsonPath = `/data/course/${slug}/${activeLevel}/${lang}/${fileName}`;
-    fetch(jsonPath)
-      .then(r => { if (!r.ok) throw new Error('Not found'); return r.json(); })
-      .then(setProjectFiles)
-      .catch(() => setProjectFiles(null));
-  }, [isStackBlitz, slug, activeLevel, activeWeek, lang, currentWeek]);
+
 
   const handleLevelChange = (levelId: string) => {
     setActiveLevel(levelId);
@@ -327,14 +315,12 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <DockerPlayground lang={lang} script={extractCode(content)} />
           </div>
-        ) : content && isStackBlitz && projectFiles ? (
+        ) : content && isStackBlitz ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <StackBlitzPlayground
               lang={lang}
-              title={stackBlitzTitle}
-              projectFiles={projectFiles}
-              mainFile={stackBlitzMainFile}
-              inline
+              language={slug as any}
+              initialCode={extractCode(content)}
             />
           </div>
         ) : content && (slug === 'postgresql' || slug === 'mysql') ? (
