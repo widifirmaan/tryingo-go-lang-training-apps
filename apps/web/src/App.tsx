@@ -276,7 +276,7 @@ export default function App() {
       }`}>
       
       {/* Main Container */}
-      <div className="w-full max-w-[1720px] mx-auto flex-1 flex flex-col h-full overflow-hidden">
+      <div className="w-full flex-1 flex flex-col h-full overflow-hidden">
         
         {/* Single persistent layout container with FLIP animations */}
         <motion.div 
