@@ -187,8 +187,6 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     setEditorKey(k => k + 1);
   }, [initialCode]);
 
-  const WORKER_URL = (import.meta as any).env?.VITE_EXECUTION_WORKER_URL || 'https://tryngo-code-execution.vejoyf.workers.dev';
-
   const runCode = useCallback(async () => {
     setIsRunning(true);
     setError('');
@@ -283,57 +281,64 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         }
       }
       setIsRunning(false);
-    } else if (isGoLanguage && isWasmReady()) {
+    } else if (isGoLanguage) {
       // Go: execute via WASM (client-side)
-      try {
-        const result = wasmRunGoCode(code);
-        if (result.error) setError(result.error);
-        if (result.output) setOutput(result.output);
-        if (!result.success) setError(result.error || (isId ? 'Eksekusi gagal' : 'Execution failed'));
-      } catch (err) {
-        setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
+      if (isWasmReady()) {
+        try {
+          const result = wasmRunGoCode(code);
+          if (result.error) setError(result.error);
+          if (result.output) setOutput(result.output);
+          if (!result.success) setError(result.error || (isId ? 'Eksekusi gagal' : 'Execution failed'));
+        } catch (err) {
+          setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
+        }
+      } else {
+        setError(
+          isId
+            ? 'Interpreter Go WASM belum siap. Muat ulang halaman lalu coba lagi.'
+            : 'Go WASM interpreter not ready. Reload the page and try again.'
+        );
       }
       setIsRunning(false);
-    } else {
+    } else if (isRustLanguage) {
+      // Rust: execute directly via the Rust Playground API (CORS-enabled, no worker needed)
       try {
-        const res = await fetch(WORKER_URL, {
+        const res = await fetch('https://play.rust-lang.org/execute', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             code,
-            language: LANGUAGE_MAP[language] || language,
+            crateType: 'bin',
+            edition: '2021',
+            channel: 'stable',
+            mode: 'debug',
+            tests: false,
           }),
         });
-
-        if (!res.ok) {
-          const errText = await res.text();
-          setError(errText || `HTTP ${res.status}`);
-          setIsRunning(false);
-          return;
-        }
-
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const result = await res.json();
-
         if (!result.success) {
-          setError(result.stderr || (isId ? 'Eksekusi gagal' : 'Execution failed'));
+          setError(result.stderr || (isId ? 'Kompilasi Rust gagal.' : 'Rust compilation failed.'));
         } else {
-          let combined = '';
-          if (result.stdout) combined += result.stdout;
-          if (result.stderr) combined += (combined ? '\n' : '') + result.stderr;
-          if (combined) setOutput(combined);
+          setOutput(result.stdout || result.stderr || (isId ? 'Kompilasi sukses tanpa output.' : 'Compiled successfully with no output.'));
         }
-
-        setIsRunning(false);
       } catch (err) {
         setError(
           isId
-            ? `Gagal terhubung ke server eksekusi.\nPastikan Worker sudah di-deploy.\n\nDetail: ${err instanceof Error ? err.message : 'Network error'}`
-            : `Failed to connect to execution server.\nMake sure the Worker is deployed.\n\nDetail: ${err instanceof Error ? err.message : 'Network error'}`
+            ? 'Gagal terhubung ke Rust Playground. Periksa koneksi internet Anda.'
+            : 'Failed to connect to the Rust Playground. Check your internet connection.'
         );
-        setIsRunning(false);
       }
+      setIsRunning(false);
+    } else {
+      setError(
+        isId
+          ? 'Bahasa ini belum dapat dieksekusi di playground browser.'
+          : 'This language is not yet executable in the browser playground.'
+      );
+      setIsRunning(false);
     }
-  }, [code, isWebLanguage, isGoLanguage, language, isId, WORKER_URL]);
+  }, [code, isWebLanguage, isGoLanguage, isRustLanguage, language, isId]);
 
   const resetCode = () => {
     setCode(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
@@ -417,7 +422,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
                   ? (isId ? '🐹 Go WASM (TinyGo) — Pre-compiled, instan' : '🐹 Go WASM (TinyGo) — Pre-compiled, instant')
                 : isRustLanguage
                   ? (isId ? '🦀 Rust — Eksekusi via Rust Playground API' : '🦀 Rust — Execute via Rust Playground API')
-                  : (isId ? '⚙️ Bahasa Server — Eksekusi via Worker' : '⚙️ Server Language — Execute via Worker')
+                  : (isId ? '⚙️ Bahasa Lain — Tidak dieksekusi di browser' : '⚙️ Other Language — Not executed in browser')
               }
             </span>
           </div>

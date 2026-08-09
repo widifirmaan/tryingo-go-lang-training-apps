@@ -150,7 +150,7 @@
 | CSS3 | CSS | — | 14 | Browser |
 | JavaScript | JS | — | 16 | Browser |
 | TypeScript | TS | — | 16 | Browser |
-| Go | Go | 3 | 14 | WASM + Worker |
+| Go | Go | 3 | 14 | WASM |
 | React | JS/TS | — | 16 | Browser |
 | Next.js | TS | — | 16 | Browser |
 | Vue | JS/TS | — | 16 | Browser |
@@ -158,7 +158,7 @@
 | Svelte | JS/TS | — | 16 | Browser |
 | Node.js | JS | 4 | 16 | Browser |
 | NestJS | TS | 3 | 16 | Browser |
-| Django | Python | 5 | 18 | Worker |
+| Django | Python | 5 | 18 | WASM |
 | Laravel | PHP | 5 | 20 | Browser |
 | CodeIgniter 4 | PHP | 1 | 16 | Browser |
 | PHP | PHP | 1 | 16 | Browser |
@@ -196,7 +196,7 @@
 ### Backend & Infrastructure
 
 - **Deployment**: Cloudflare Pages (SPA)
-- **Code Execution**: Cloudflare Workers (server-side) + WebAssembly (client-side)
+- **Code Execution**: Fully client-side — WebAssembly (Go) + iframe (web languages) + Rust Playground API (Rust)
 - **Search**: Build-time index with Fuse.js fuzzy search
 - **Go Runtime**: Yaegi interpreter compiled to WASM + TinyGo pre-compiled runner
 
@@ -225,8 +225,6 @@ tryingo-go-lang-training-apps/
 │       │   ├── utils/          # Utility functions and translations
 │       │   └── styles/         # Global styles
 │       └── vite.config.ts
-├── workers/                    # Cloudflare Workers
-│   └── code-execution/         # Server-side code execution worker
 ├── screenshot/                 # Application screenshots
 ├── .wrangler/                  # Cloudflare local state
 ├── .gitignore
