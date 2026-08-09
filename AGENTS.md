@@ -21,7 +21,7 @@ npx wrangler pages deploy dist
 3. **Curriculum generators** — `scripts/generate-go-materials.mjs`, `scripts/generate-rust-materials.mjs`, `scripts/generate-css-materials.mjs` each create 28 course files. Old `generate-full-curriculum.mjs` was deleted with the 864 old template files.
 4. **Monaco Editor** — For interactive code playground
 5. **i18n** — Simple string map in `utils/translations.ts`
-6. **Go client-side execution** — Yaegi interpreter compiled to WASM (`wasm-exec/main.go`). Binary `public/wasm/go-exec.wasm` + runtime `wasm_exec.js` (gitignored). Falls back to Cloudflare Worker when WASM unavailable.
+6. **Go client-side execution** — Yaegi interpreter compiled to WASM (`wasm-exec/main.go`). Binary `public/wasm/go-exec.wasm` + runtime `wasm_exec.js` (gitignored). No Workers needed.
 7. **Playground content matching** — `extractCode()` in CoursePage.tsx extracts code blocks from markdown → passes as `initialCode` to CodePlayground, so each week's playground is pre-filled with that week's examples.
 4. **Monaco Editor** — For interactive code playground
 5. **i18n** — Simple string map in `utils/translations.ts`
@@ -37,11 +37,11 @@ npx wrangler pages deploy dist
 - Indonesian + English translations
 
 ### Recently Added (July 2026)
-- **Server-side code execution (free)**: Cloudflare Worker at `workers/code-execution/` — JavaScript runs via `new Function()`, Go/Python/TypeScript return helpful messages directing to client-side WASM. Go execution is 100% client-side via TinyGo + Yaegi WASM. Requires `VITE_EXECUTION_WORKER_URL` env var.
+- **Fully client-side code execution (no Workers needed)**: No Cloudflare Workers required — Go runs via TinyGo + Yaegi WASM (`public/wasm/`), Rust runs directly against the CORS-enabled Rust Playground API (`play.rust-lang.org/execute`), web languages render in a sandboxed iframe, and other languages show a "not executable in browser" message.
 - **Full-text search across course materials**: Build-time index (`scripts/build-search-index.mjs`) creates `search-index.json` from all .md files. Fuse.js powers fuzzy search in the SearchModal. Two search tabs: "Modul" (track metadata) and "Materi Kursus" (course content).
 - **Accessibility**: `lang` attribute syncs with language setting, `role="main"` / `role="application"` landmarks, `focus-visible` keyboard outlines, skip-to-content CSS, meta description + theme color, ARIA labels on navigation.
 - **Go curriculum redesign** (14 weeks, 3 levels): Beginner (6w: syntax → packages), Intermediate (4w: defer → stdlib), Advanced (4w: CLI/HTTP → final project). Based on research from Scaler, LevelUpGo, roadmap.sh, bytesizego, tutorialQ, and official Go docs. Covers the two project shapes 73-74% of Go devs ship: CLI tools + HTTP services.
-- **Client-side Go execution**: Yaegi interpreter compiled to WebAssembly. `public/wasm/go-exec.wasm` (~38MB) + `wasm_exec.js` runtime. Loaded dynamically; auto-falls back to Cloudflare Worker when unavailable. All 28 .md files include runnable code examples pre-loaded in the playground.
+- **Client-side Go execution**: Yaegi interpreter compiled to WebAssembly. `public/wasm/go-exec.wasm` (~38MB) + `wasm_exec.js` runtime. Loaded dynamically. All 28 .md files include runnable code examples pre-loaded in the playground.
 - **Playground content matching**: Each week's playground is pre-filled with code blocks from that week's markdown materials, like w3schools interactive tutorials.
 
 ### Needs Implementation
@@ -119,12 +119,12 @@ Key takeaways + next week preview
 
 ## Playground Architecture
 - **Client-side languages** (HTML/CSS/JS/TS): Monaco Editor → iframe sandbox preview
-- **Server-side languages** (Go, Python, etc.): Monaco Editor → POST to Cloudflare Worker → WASM execution → return output
 - **Go (client-side WASM)**: Two-tier WASM approach:
   1. **TinyGo runner** (pre-compiled, 663KB) — `wasm-exec/examples/tinygo-runner.go` compiles week examples into a single WASM. Auto-runs via `runTinyGoWeek(weekNum)` on mount. Covers basic constructs (vars, loops, functions, structs, interfaces, goroutines, channels). Cannot run `net/http`, `os.File`, `database/sql`, `flag`.
   2. **Yaegi interpreter** (runtime, 38MB) — `wasm-exec/main.go` interprets arbitrary Go code. Used as fallback when TinyGo can't handle the code (modified/user code).
-  3. Falls back to Cloudflare Worker when neither WASM is available.
-- `src/utils/goWasmLoader.ts` — Lazy-loads both WASM binaries + runtimes, auto-falls back to Worker
+- **Rust**: Monaco Editor → direct POST to `play.rust-lang.org/execute` (CORS-enabled) → return output
+- **Other languages**: show a "not executable in browser" message
+- `src/utils/goWasmLoader.ts` — Lazy-loads both WASM binaries + runtimes
 - The `CodePlayground.tsx` receives `week` prop to trigger TinyGo auto-run on mount
 
 ## Design System

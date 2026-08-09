@@ -1,9 +1,5 @@
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv {
-  readonly VITE_EXECUTION_WORKER_URL?: string;
-}
-
 declare module '*.jpg' {
   const src: string;
   export default src;
