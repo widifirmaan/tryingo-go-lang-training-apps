@@ -140,11 +140,6 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
     >
       <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50 shrink-0">
         <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
-          </div>
           <select
             value={slug}
             onChange={(e) => setSlug(e.target.value as FrameworkSlug)}
