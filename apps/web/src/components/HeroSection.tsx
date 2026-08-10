@@ -735,7 +735,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <motion.div 
                     whileHover={{ scale: 1.03 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="relative w-full max-w-[200px] sm:max-w-[260px] landscape:max-w-[220px] lg:max-w-[380px] xl:max-w-[420px] aspect-[4/3] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl overflow-hidden drop-shadow-2xl border-2 border-white/20"
+                    className="relative w-full max-w-[200px] sm:max-w-[260px] lg:max-w-none aspect-[4/3] sm:aspect-[1/1] lg:aspect-[4/5] rounded-2xl overflow-hidden drop-shadow-2xl border-2 border-white/20"
                   >
                     <img 
                       src={ghibliHeroImg} 
