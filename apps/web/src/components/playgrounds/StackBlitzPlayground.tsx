@@ -95,22 +95,7 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
           <div className="flex-1 min-h-0 flex flex-col border-b border-zinc-700/50">
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
               <span className="text-[10px] text-zinc-500 font-mono">{mainFile}</span>
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={runCode}
-                  disabled={isRunning}
-                  className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50"
-                >
-                  {isRunning ? (
-                    <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
-                  ) : (
-                    <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
-                  )}
-                  <span className="hidden sm:inline">
-                    {isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}
-                  </span>
-                </button>
-              </div>
+              <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
             </div>
             <div className="flex-1 min-h-0">
               {editorReady ? (
@@ -143,15 +128,29 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
 
           <div className="flex-1 min-h-0 flex flex-col bg-[#1a1a1a]">
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
-              <span className="text-[10px] text-zinc-500 font-mono">
-                {isId ? 'Output' : 'Output'}
-              </span>
-              {executionTime !== null && (
-                <span className="text-[9px] text-zinc-600 flex items-center gap-1">
-                  <FontAwesomeIcon icon={faClock} className="w-2.5 h-2.5" />
-                  {executionTime.toFixed(2)}ms
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-zinc-500 font-mono">
+                  {isId ? 'Hasil' : 'Result'}
                 </span>
-              )}
+                {executionTime !== null && (
+                  <span className="text-[9px] text-zinc-600 flex items-center gap-1">
+                    <FontAwesomeIcon icon={faClock} className="w-2.5 h-2.5" />
+                    {executionTime.toFixed(2)}ms
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={runCode}
+                disabled={isRunning}
+                className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
+              >
+                {isRunning ? (
+                  <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
+                ) : (
+                  <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
+                )}
+                <span className="hidden sm:inline">{isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}</span>
+              </button>
             </div>
             <div className="flex-1 min-h-0 overflow-auto p-3 font-mono text-xs">
               {error ? (
@@ -176,15 +175,6 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
               )}
             </div>
           </div>
-        </div>
-
-        <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between shrink-0">
-          <span>
-            {isId
-              ? FRAMEWORK_LABELS[slug] + ' Playground - Simulasi - Ctrl+Enter untuk menjalankan'
-              : FRAMEWORK_LABELS[slug] + ' Playground - Simulation - Ctrl+Enter to run'}
-          </span>
-          <span className="text-zinc-600">{monacoLang}</span>
         </div>
       </div>
     </div>
