@@ -1,11 +1,9 @@
 ﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faSpinner, faRotateLeft, faCircleInfo, faClock, faTriangleExclamation, faExternalLinkAlt, faUpload } from '@fortawesome/free-solid-svg-icons';
-import sdk from '@stackblitz/sdk';
+import { faPlay, faSpinner, faCircleInfo, faClock, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../../utils/translations';
 import {
-  buildProject,
   DEFAULT_CODE,
   simulateOutput,
   FRAMEWORK_LABELS,
@@ -29,8 +27,6 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
   const [isRunning, setIsRunning] = useState(false);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
   const [editorReady, setEditorReady] = useState(false);
-  const [showIframe, setShowIframe] = useState(false);
-  const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
@@ -56,8 +52,6 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
     }
     setOutput('');
     setError('');
-    setIframeUrl(null);
-    setShowIframe(false);
   }, [slug, initialCode]);
 
   const runCode = useCallback(() => {
@@ -75,46 +69,6 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
       setIsRunning(false);
     }, 150 + Math.random() * 200);
   }, [code, slug]);
-
-  const openStackBlitz = useCallback(() => {
-    try {
-      const project = buildProject(slug, code);
-      sdk.openProject({
-        title: 'Tryngo - ' + FRAMEWORK_LABELS[slug],
-        template: project.template,
-        files: project.files,
-        dependencies: project.dependencies,
-      }, { newWindow: true, openFile: FRAMEWORK_MAIN_FILES[slug], view: 'preview' });
-    } catch (e) {
-      console.error('Failed to open StackBlitz:', e);
-    }
-  }, [slug, code]);
-
-  const toggleEmbed = useCallback(() => {
-    if (showIframe) { setShowIframe(false); return; }
-    try {
-      const project = buildProject(slug, code);
-      const params = new URLSearchParams();
-      params.set('embed', '1');
-      params.set('theme', 'dark');
-      params.set('hideExplorer', '1');
-      params.set('hideNavigation', '1');
-      params.set('view', 'preview');
-      params.set('initialPath', FRAMEWORK_MAIN_FILES[slug]);
-      setIframeUrl('https://stackblitz.com/edit/' + project.template + '?' + params.toString());
-      setShowIframe(true);
-    } catch (e) {
-      console.error('Failed to generate embed:', e);
-    }
-  }, [slug, code, showIframe]);
-
-  const handleReset = useCallback(() => {
-    setCode(initialCode || DEFAULT_CODE[slug]);
-    setOutput('');
-    setError('');
-    setExecutionTime(null);
-    setEditorKey((k) => k + 1);
-  }, [initialCode, slug]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -142,27 +96,6 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
               <span className="text-[10px] text-zinc-500 font-mono">{mainFile}</span>
               <div className="flex items-center gap-1.5">
-                <button
-                  onClick={toggleEmbed}
-                  className={`p-1.5 rounded-lg transition-colors ${showIframe ? 'bg-[#2E5B44] text-white' : 'hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200'}`}
-                  title={isId ? 'Tampilkan/Sembunyikan StackBlitz' : 'Toggle StackBlitz'}
-                >
-                  <FontAwesomeIcon icon={faUpload} className="w-3 h-3" />
-                </button>
-                <button
-                  onClick={openStackBlitz}
-                  className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-                  title={isId ? 'Buka di StackBlitz' : 'Open in StackBlitz'}
-                >
-                  <FontAwesomeIcon icon={faExternalLinkAlt} className="w-3 h-3" />
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-                  title={isId ? 'Reset Kode' : 'Reset Code'}
-                >
-                  <FontAwesomeIcon icon={faRotateLeft} className="w-3 h-3" />
-                </button>
                 <button
                   onClick={runCode}
                   disabled={isRunning}
@@ -245,39 +178,14 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
           </div>
         </div>
 
-        {showIframe && iframeUrl && (
-          <div className="w-1/2 min-h-0 flex flex-col border-l border-zinc-700/50">
-            <div className="flex items-center justify-between px-3 py-1 bg-[#252526] border-b border-zinc-800 shrink-0">
-              <span className="text-[10px] text-zinc-500 font-mono">
-                {isId ? 'StackBlitz IDE' : 'StackBlitz IDE'}
-              </span>
-              <button
-                onClick={() => setShowIframe(false)}
-                className="text-[10px] text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                {isId ? 'Tutup' : 'Close'}
-              </button>
-            </div>
-            <div className="flex-1 min-h-0 bg-[#1e1e1e]">
-              <iframe
-                src={iframeUrl}
-                className="w-full h-full border-0"
-                title="StackBlitz"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between shrink-0">
-        <span>
-          {isId
-            ? FRAMEWORK_LABELS[slug] + ' Playground - Simulasi + StackBlitz - Ctrl+Enter untuk menjalankan'
-            : FRAMEWORK_LABELS[slug] + ' Playground - Simulation + StackBlitz - Ctrl+Enter to run'}
-        </span>
-        <span className="text-zinc-600">{monacoLang}</span>
+        <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between shrink-0">
+          <span>
+            {isId
+              ? FRAMEWORK_LABELS[slug] + ' Playground - Simulasi - Ctrl+Enter untuk menjalankan'
+              : FRAMEWORK_LABELS[slug] + ' Playground - Simulation - Ctrl+Enter to run'}
+          </span>
+          <span className="text-zinc-600">{monacoLang}</span>
+        </div>
       </div>
     </div>
   );
