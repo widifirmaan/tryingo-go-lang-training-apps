@@ -20,11 +20,9 @@ interface StackBlitzPlaygroundProps {
   initialCode?: string;
 }
 
-const SLUGS: FrameworkSlug[] = ['nextjs', 'nodejs', 'nestjs', 'django', 'laravel', 'spring', 'angular'];
-
 export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang, language = 'nodejs', initialCode }) => {
   const isId = lang === 'id';
-  const [slug, setSlug] = useState<FrameworkSlug>(language);
+  const slug = language;
   const [code, setCode] = useState(initialCode || DEFAULT_CODE[slug]);
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
@@ -139,18 +137,9 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
       onKeyDown={handleKeyDown}
     >
       <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50 shrink-0">
-        <div className="flex items-center gap-2">
-          <select
-            value={slug}
-            onChange={(e) => setSlug(e.target.value as FrameworkSlug)}
-            className="ml-2 bg-[#3c3c3c] text-zinc-300 text-[10px] sm:text-xs rounded-md px-2 py-0.5 border border-zinc-600 focus:outline-none focus:border-[#2E5B44]"
-            aria-label={isId ? 'Pilih framework' : 'Select framework'}
-          >
-            {SLUGS.map((s) => (
-              <option key={s} value={s}>{FRAMEWORK_LABELS[s]}</option>
-            ))}
-          </select>
-        </div>
+        <span className="text-[10px] sm:text-xs text-zinc-400 font-medium hidden sm:inline">
+          {isId ? `${FRAMEWORK_LABELS[slug]} Playground` : `${FRAMEWORK_LABELS[slug]} Playground`}
+        </span>
         <div className="flex items-center gap-1.5">
           <button
             onClick={toggleEmbed}
