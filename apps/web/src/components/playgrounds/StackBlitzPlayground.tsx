@@ -30,9 +30,23 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
+  const [isHorizontal, setIsHorizontal] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     requestAnimationFrame(() => setEditorReady(true));
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        setIsHorizontal(entry.contentRect.width >= 500);
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -90,90 +104,88 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
       className="flex flex-col bg-[#1e1e1e] rounded-[28px] overflow-hidden border border-zinc-700/50 w-full h-full"
       onKeyDown={handleKeyDown}
     >
-      <div className="flex-1 flex min-h-0 flex-row">
-        <div className="flex-1 flex flex-col min-h-0">
-          <div className="flex-1 min-h-0 flex flex-col border-b border-zinc-700/50">
-            <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
-              <span className="text-[10px] text-zinc-500 font-mono">{mainFile}</span>
-              <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
-            </div>
-            <div className="flex-1 min-h-0">
-              {editorReady ? (
-                <Editor
-                  key={editorKey}
-                  height="100%"
-                  language={monacoLang}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(val) => setCode(val || '')}
-                  onMount={handleEditorMount}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 13,
-                    lineNumbers: 'on',
-                    scrollBeyondLastLine: false,
-                    automaticLayout: true,
-                    tabSize: 2,
-                    wordWrap: 'on',
-                    padding: { top: 8 },
-                  }}
-                />
-              ) : (
-                <div className="h-full flex items-center justify-center bg-[#1e1e1e] text-zinc-500 text-xs">
-                  {isId ? 'Memuat editor...' : 'Loading editor...'}
-                </div>
-              )}
-            </div>
+      <div ref={containerRef} className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
+        <div className={`${isHorizontal ? 'w-1/2 min-h-0 border-r' : 'flex-1 min-h-[120px] border-b'} border-zinc-700/50 flex flex-col`}>
+          <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
+            <span className="text-[10px] text-zinc-500 font-mono">{mainFile}</span>
+            <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
           </div>
-
-          <div className="flex-1 min-h-0 flex flex-col bg-[#1a1a1a]">
-            <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] text-zinc-500 font-mono">
-                  {isId ? 'Hasil' : 'Result'}
-                </span>
-                {executionTime !== null && (
-                  <span className="text-[9px] text-zinc-600 flex items-center gap-1">
-                    <FontAwesomeIcon icon={faClock} className="w-2.5 h-2.5" />
-                    {executionTime.toFixed(2)}ms
-                  </span>
-                )}
+          <div className="flex-1 min-h-0">
+            {editorReady ? (
+              <Editor
+                key={editorKey}
+                height="100%"
+                language={monacoLang}
+                theme="vs-dark"
+                value={code}
+                onChange={(val) => setCode(val || '')}
+                onMount={handleEditorMount}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 13,
+                  lineNumbers: 'on',
+                  scrollBeyondLastLine: false,
+                  automaticLayout: true,
+                  tabSize: 2,
+                  wordWrap: 'on',
+                  padding: { top: 8 },
+                }}
+              />
+            ) : (
+              <div className="h-full flex items-center justify-center bg-[#1e1e1e] text-zinc-500 text-xs">
+                {isId ? 'Memuat editor...' : 'Loading editor...'}
               </div>
-              <button
-                onClick={runCode}
-                disabled={isRunning}
-                className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
-              >
-                {isRunning ? (
-                  <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
-                ) : (
-                  <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
-                )}
-                <span className="hidden sm:inline">{isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}</span>
-              </button>
-            </div>
-            <div className="flex-1 min-h-0 overflow-auto p-3 font-mono text-xs">
-              {error ? (
-                <div className="bg-red-900/30 border border-red-800/50 rounded-lg p-3">
-                  <div className="flex items-center gap-1.5 text-[10px] text-red-400 mb-1">
-                    <FontAwesomeIcon icon={faTriangleExclamation} className="w-3 h-3" />
-                    <span>{isId ? 'Error' : 'Error'}</span>
-                  </div>
-                  <pre className="text-red-300 text-[11px] whitespace-pre-wrap">{error}</pre>
-                </div>
-              ) : output ? (
-                <pre className="text-zinc-200 whitespace-pre-wrap text-[11px]">{output}</pre>
-              ) : (
-                <div className="flex items-center gap-2 text-zinc-500 text-xs">
-                  <FontAwesomeIcon icon={faCircleInfo} className="w-3 h-3" />
-                  <span>
-                    {isId
-                      ? 'Klik "Jalankan" atau tekan Ctrl+Enter untuk mensimulasikan ' + FRAMEWORK_LABELS[slug] + '...'
-                      : 'Click "Run" or press Ctrl+Enter to simulate ' + FRAMEWORK_LABELS[slug] + '...'}
-                  </span>
-                </div>
+            )}
+          </div>
+        </div>
+
+        <div className={`${isHorizontal ? 'w-1/2 min-h-0' : 'flex-1 min-h-[120px]'} flex flex-col bg-[#1a1a1a]`}>
+          <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] text-zinc-500 font-mono">
+                {isId ? 'Hasil' : 'Result'}
+              </span>
+              {executionTime !== null && (
+                <span className="text-[9px] text-zinc-600 flex items-center gap-1">
+                  <FontAwesomeIcon icon={faClock} className="w-2.5 h-2.5" />
+                  {executionTime.toFixed(2)}ms
+                </span>
               )}
             </div>
+            <button
+              onClick={runCode}
+              disabled={isRunning}
+              className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
+            >
+              {isRunning ? (
+                <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
+              ) : (
+                <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
+              )}
+              <span className="hidden sm:inline">{isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}</span>
+            </button>
+          </div>
+          <div className="flex-1 min-h-0 overflow-auto p-3 font-mono text-xs">
+            {error ? (
+              <div className="bg-red-900/30 border border-red-800/50 rounded-lg p-3">
+                <div className="flex items-center gap-1.5 text-[10px] text-red-400 mb-1">
+                  <FontAwesomeIcon icon={faTriangleExclamation} className="w-3 h-3" />
+                  <span>{isId ? 'Error' : 'Error'}</span>
+                </div>
+                <pre className="text-red-300 text-[11px] whitespace-pre-wrap">{error}</pre>
+              </div>
+            ) : output ? (
+              <pre className="text-zinc-200 whitespace-pre-wrap text-[11px]">{output}</pre>
+            ) : (
+              <div className="flex items-center gap-2 text-zinc-500 text-xs">
+                <FontAwesomeIcon icon={faCircleInfo} className="w-3 h-3" />
+                <span>
+                  {isId
+                    ? 'Klik "Jalankan" atau tekan Ctrl+Enter untuk mensimulasikan ' + FRAMEWORK_LABELS[slug] + '...'
+                    : 'Click "Run" or press Ctrl+Enter to simulate ' + FRAMEWORK_LABELS[slug] + '...'}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
