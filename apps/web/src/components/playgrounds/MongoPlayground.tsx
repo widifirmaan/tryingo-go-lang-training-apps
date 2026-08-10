@@ -187,55 +187,13 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
 
       {/* Main area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50 shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] sm:text-xs text-zinc-400 font-mono ml-2 hidden sm:inline">
-              {isId ? '🍃 MongoDB Playground — di browser' : '🍃 MongoDB Playground — in-browser'}
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={runAll}
-              disabled={isRunning}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50"
-              title={isId ? 'Jalankan semua' : 'Run all'}
-            >
-              {isRunning ? (
-                <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3" />
-              ) : (
-                <FontAwesomeIcon icon={faPlay} className="w-3 h-3" />
-              )}
-              <span className="hidden sm:inline">{isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}</span>
-            </button>
-            <button
-              onClick={reset}
-              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-              title={isId ? 'Reset data sampel' : 'Reset sample data'}
-            >
-              <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
-            </button>
-            {onClose && (
-              <button
-                onClick={onClose}
-                className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
-                title={isId ? 'Tutup' : 'Close'}
-              >
-                <span className="text-xs">✕</span>
-              </button>
-            )}
-          </div>
-        </div>
-
         {/* Editor + Output */}
         <div className="flex-1 flex flex-col min-h-0 lg:flex-row">
           {/* Editor Panel */}
           <div className="flex-1 flex flex-col min-h-0 lg:border-r border-zinc-700/50">
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800">
               <span className="text-[10px] text-zinc-500 font-mono">query.js</span>
-              <span className="text-[9px] text-zinc-600 hidden sm:inline">
-                Ctrl+Enter: {isId ? 'jalankan' : 'run'}
-              </span>
+              <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
             </div>
             <div className="flex-1 min-h-0">
               <Editor
@@ -264,14 +222,47 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
           {/* Output Panel */}
           <div className="flex-1 flex flex-col min-h-0 lg:max-w-[50%] border-t lg:border-t-0 border-zinc-700/50">
             <div className="flex items-center justify-between px-3 py-1 bg-[#0b0e14] border-b border-zinc-800">
-              <span className="text-[10px] text-zinc-500 font-mono">{isId ? 'Output' : 'Output'}</span>
-              <button
-                onClick={runSelected}
-                className="text-[9px] text-emerald-400 hover:text-emerald-300 transition-colors"
-                title={isId ? 'Jalankan baris terpilih' : 'Run selected'}
-              >
-                {isId ? '▶ Jalankan pilihan' : '▶ Run selected'}
-              </button>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-zinc-500 font-mono">{isId ? 'Hasil' : 'Result'}</span>
+                <button
+                  onClick={runSelected}
+                  className="text-[9px] text-emerald-400 hover:text-emerald-300 transition-colors"
+                  title={isId ? 'Jalankan baris terpilih' : 'Run selected'}
+                >
+                  {isId ? '▶ Jalankan pilihan' : '▶ Run selected'}
+                </button>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={runAll}
+                  disabled={isRunning}
+                  className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
+                  title={isId ? 'Jalankan semua' : 'Run all'}
+                >
+                  {isRunning ? (
+                    <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3" />
+                  ) : (
+                    <FontAwesomeIcon icon={faPlay} className="w-3 h-3" />
+                  )}
+                  <span className="hidden sm:inline">{isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}</span>
+                </button>
+                <button
+                  onClick={reset}
+                  className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+                  title={isId ? 'Reset data sampel' : 'Reset sample data'}
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
+                </button>
+                {onClose && (
+                  <button
+                    onClick={onClose}
+                    className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
+                    title={isId ? 'Tutup' : 'Close'}
+                  >
+                    <span className="text-xs">✕</span>
+                  </button>
+                )}
+              </div>
             </div>
             <div
               ref={outputRef}

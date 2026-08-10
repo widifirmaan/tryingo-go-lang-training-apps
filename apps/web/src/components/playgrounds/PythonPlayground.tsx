@@ -274,49 +274,13 @@ except Exception as e:
       className="flex flex-col bg-[#1e1e1e] rounded-[28px] overflow-hidden border border-zinc-700/50 w-full h-full"
       onKeyDown={handleKeyDown}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50 shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
-            {isId ? '🐍 Python Playground — Pyodide WASM di browser' : '🐍 Python Playground — Pyodide WASM in browser'}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={handleReset}
-            className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-            title={isId ? 'Reset Kode' : 'Reset Code'}
-          >
-            <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div ref={containerRef} className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
         {/* Editor Panel */}
         <div className={`${isHorizontal ? 'w-1/2 min-h-0 border-r' : 'flex-1 min-h-[120px] border-b'} border-zinc-700/50 flex flex-col`}>
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
               <span className="text-[10px] text-zinc-500 font-mono">main.py</span>
-              <button
-                onClick={runPython}
-                disabled={isRunning || isLoading}
-                className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50"
-              >
-                {isRunning || isLoading ? (
-                  <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
-                ) : (
-                  <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
-                )}
-                <span className="hidden sm:inline">
-                  {isRunning
-                    ? (isId ? 'Menjalankan...' : 'Running...')
-                    : isLoading
-                      ? (isId ? 'Memuat Pyodide...' : 'Loading Pyodide...')
-                      : (isId ? 'Jalankan' : 'Run')
-                  }
-                </span>
-              </button>
+              <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
             </div>
             <div className="flex-1 min-h-0">
               {editorReady ? (
@@ -350,19 +314,45 @@ except Exception as e:
           {/* Output Panel */}
           <div className={`${isHorizontal ? 'w-1/2 min-h-0' : 'flex-1 min-h-[120px]'} flex flex-col bg-[#1a1a1a]`}>
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
-              <span className="text-[10px] text-zinc-500 font-mono">
-                {isId ? 'Output' : 'Output'}
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-zinc-500 font-mono">
+                  {isId ? 'Hasil' : 'Result'}
+                </span>
                 {result && (
-                  <span className="ml-2 text-zinc-600">
-                    ({result.executionTimeMs.toFixed(1)}ms)
+                  <span className="text-[9px] text-zinc-600">
+                    {result.executionTimeMs.toFixed(1)}ms
+                    {result.stdout ? ' · ' + (result.stdout.split('\n').length - 1) + (isId ? ' baris' : ' lines') : ''}
                   </span>
                 )}
-              </span>
-              {result && result.stdout && (
-                <span className="text-[9px] text-zinc-600">
-                  {result.stdout.split('\n').length - 1} {isId ? 'baris' : 'lines'}
-                </span>
-              )}
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={handleReset}
+                  className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+                  title={isId ? 'Reset Kode' : 'Reset Code'}
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={runPython}
+                  disabled={isRunning || isLoading}
+                  className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
+                >
+                  {isRunning || isLoading ? (
+                    <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
+                  ) : (
+                    <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {isRunning
+                      ? (isId ? 'Menjalankan...' : 'Running...')
+                      : isLoading
+                        ? (isId ? 'Memuat Pyodide...' : 'Loading Pyodide...')
+                        : (isId ? 'Jalankan' : 'Run')
+                    }
+                  </span>
+                </button>
+              </div>
             </div>
             <div ref={outputRef} className="flex-1 min-h-0 overflow-auto p-3 font-mono text-xs">
               {!result && !isRunning && (
@@ -426,16 +416,6 @@ except Exception as e:
               )}
             </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between shrink-0">
-        <span>
-          {isId ? 'Pyodide WASM — Python 3.11 di browser — Ctrl+Enter untuk menjalankan' : 'Pyodide WASM — Python 3.11 in browser — Ctrl+Enter to run'}
-        </span>
-        <span className="text-zinc-600">
-          {isId ? 'math · random · json · datetime · collections · itertools · matplotlib' : 'math · random · json · datetime · collections · itertools · matplotlib'}
-        </span>
       </div>
     </div>
   );

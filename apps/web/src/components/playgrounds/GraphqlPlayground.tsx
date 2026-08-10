@@ -175,40 +175,6 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
       }`}
       onKeyDown={handleKeyDown}
     >
-      {!inline && (
-        <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
-              {isId ? '🔷 GraphQL Playground — klien-side dengan graphql-js' : '🔷 GraphQL Playground — client-side with graphql-js'}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={resetQuery}
-              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-              title={isId ? 'Reset Query' : 'Reset Query'}
-            >
-              <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors hidden sm:block"
-              title={isFullscreen ? (isId ? 'Keluar Layar Penuh' : 'Exit Fullscreen') : (isId ? 'Layar Penuh' : 'Fullscreen')}
-            >
-              {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}
-            </button>
-            <button
-              onClick={onClose}
-              className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
-              title={isId ? 'Tutup' : 'Close'}
-            >
-              <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Toolbar */}
       <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1e1e1e] border-b border-zinc-800 flex-wrap">
         <button
@@ -278,9 +244,32 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
           )}
         </div>
 
-        <span className="text-[9px] text-zinc-600 ml-auto hidden sm:inline">
-          {isId ? 'Ctrl+Enter untuk menjalankan' : 'Ctrl+Enter to run'}
-        </span>
+        <div className="ml-auto flex items-center gap-1.5">
+          <span className="text-[9px] text-zinc-600 hidden sm:inline">
+            {isId ? 'Ctrl+Enter untuk menjalankan' : 'Ctrl+Enter to run'}
+          </span>
+          <button
+            onClick={resetQuery}
+            className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+            title={isId ? 'Reset Query' : 'Reset Query'}
+          >
+            <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors hidden sm:block"
+            title={isFullscreen ? (isId ? 'Keluar Layar Penuh' : 'Exit Fullscreen') : (isId ? 'Layar Penuh' : 'Fullscreen')}
+          >
+            {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}
+          </button>
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
+            title={isId ? 'Tutup' : 'Close'}
+          >
+            <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
 
       {/* Schema Panel (collapsible) */}
@@ -423,22 +412,6 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
           </div>
         </div>
       </div>
-
-      {!inline && (
-        <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between">
-          <span>
-            Tryngo Powered by{' '}
-            <a
-              href="https://widifirmaan.web.id"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-300 hover:text-white font-bold transition-colors"
-            >
-              W
-            </a>
-          </span>
-        </div>
-      )}
     </Wrapper>
   );
 };
