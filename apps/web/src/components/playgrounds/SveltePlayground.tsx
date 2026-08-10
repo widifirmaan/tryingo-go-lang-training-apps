@@ -270,12 +270,6 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  const statusBadge = compilerStatus === 'ready'
-    ? (isId ? '🧡 Svelte Playground — Kompiler di browser' : '🧡 Svelte Playground — Compiler in browser')
-    : compilerStatus === 'error'
-      ? (isId ? '❌ Gagal memuat kompiler Svelte' : '❌ Failed to load Svelte compiler')
-      : (isId ? '⏳ Memuat kompiler Svelte...' : '⏳ Loading Svelte compiler...');
-
   return (
     <div
       className={`flex flex-col bg-[#1e1e1e] rounded-[28px] overflow-hidden border border-zinc-700/50 ${
@@ -283,24 +277,6 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       }`}
       onKeyDown={handleKeyDown}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#252526] border-b border-zinc-700/50 shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
-            {statusBadge}
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={handleReset}
-            className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
-            title={isId ? 'Reset Kode' : 'Reset Code'}
-          >
-            <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </div>
-
       {/* Main Content */}
       <div className="flex-1 flex min-h-0 flex-row">
         {/* Editor + Output */}
@@ -309,20 +285,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
           <div className="flex-1 min-h-0 flex flex-col border-b border-zinc-700/50">
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
               <span className="text-[10px] text-zinc-500 font-mono">App.svelte</span>
-              <button
-                onClick={compileAndRun}
-                disabled={isRunning || compilerStatus !== 'ready'}
-                className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50"
-              >
-                {isRunning ? (
-                  <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
-                ) : (
-                  <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
-                )}
-                <span className="hidden sm:inline">
-                  {isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}
-                </span>
-              </button>
+              <span className="text-[9px] text-zinc-600 hidden sm:inline">{isId ? 'Edit kode di sini' : 'Edit code here'}</span>
             </div>
             <div className="flex-1 min-h-0">
               {editorReady ? (
@@ -356,15 +319,40 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
           {/* Output Panel */}
           <div className="flex-1 min-h-0 flex flex-col bg-[#1a1a1a]">
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
-              <span className="text-[10px] text-zinc-500 font-mono">
-                {isId ? 'Output' : 'Output'}
-              </span>
-              {executionTime !== null && (
-                <span className="text-[9px] text-zinc-600 flex items-center gap-1">
-                  <FontAwesomeIcon icon={faClock} className="w-2.5 h-2.5" />
-                  {executionTime.toFixed(2)}ms
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-zinc-500 font-mono">
+                  {isId ? 'Hasil' : 'Result'}
                 </span>
-              )}
+                {executionTime !== null && (
+                  <span className="text-[9px] text-zinc-600 flex items-center gap-1">
+                    <FontAwesomeIcon icon={faClock} className="w-2.5 h-2.5" />
+                    {executionTime.toFixed(2)}ms
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={handleReset}
+                  className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+                  title={isId ? 'Reset Kode' : 'Reset Code'}
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={compileAndRun}
+                  disabled={isRunning || compilerStatus !== 'ready'}
+                  className="flex items-center gap-1 px-2.5 py-0 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50 shadow-xs"
+                >
+                  {isRunning ? (
+                    <FontAwesomeIcon icon={faSpinner} spin className="w-3 h-3 text-white" />
+                  ) : (
+                    <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {isRunning ? (isId ? 'Menjalankan...' : 'Running...') : (isId ? 'Jalankan' : 'Run')}
+                  </span>
+                </button>
+              </div>
             </div>
             <div className="flex-1 min-h-0 overflow-auto p-3 font-mono text-xs">
               {error ? (
@@ -407,18 +395,6 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
             />
           </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="px-3 sm:px-4 py-1.5 bg-[#252526] border-t border-zinc-700/50 text-[10px] text-zinc-500 flex items-center justify-between shrink-0">
-        <span>
-          {isId
-            ? 'Svelte 4 Compiler — Kompilasi di browser — Ctrl+Enter untuk menjalankan'
-            : 'Svelte 4 Compiler — Compile in browser — Ctrl+Enter to run'}
-        </span>
-        <span className="text-zinc-600">
-          {compilerStatus === 'ready' ? 'CDN' : compilerStatus === 'error' ? 'Error' : '...'}
-        </span>
       </div>
     </div>
   );
