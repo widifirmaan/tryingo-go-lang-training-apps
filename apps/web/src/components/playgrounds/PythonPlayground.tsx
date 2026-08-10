@@ -100,9 +100,23 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
   const outputRef = useRef<HTMLDivElement>(null);
+  const [isHorizontal, setIsHorizontal] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     requestAnimationFrame(() => setEditorReady(true));
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        setIsHorizontal(entry.contentRect.width >= 500);
+      }
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -279,11 +293,9 @@ except Exception as e:
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex min-h-0 flex-row">
-        {/* Editor + Output */}
-        <div className="flex-1 flex flex-col min-h-0">
-          {/* Editor Panel */}
-          <div className="flex-1 min-h-0 flex flex-col border-b border-zinc-700/50">
+      <div ref={containerRef} className={`flex-1 flex min-h-0 ${isHorizontal ? 'flex-row' : 'flex-col'}`}>
+        {/* Editor Panel */}
+        <div className={`${isHorizontal ? 'w-1/2 min-h-0 border-r' : 'flex-1 min-h-[120px] border-b'} border-zinc-700/50 flex flex-col`}>
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
               <span className="text-[10px] text-zinc-500 font-mono">main.py</span>
               <button
@@ -336,7 +348,7 @@ except Exception as e:
           </div>
 
           {/* Output Panel */}
-          <div className="flex-1 min-h-0 flex flex-col bg-[#1a1a1a]">
+          <div className={`${isHorizontal ? 'w-1/2 min-h-0' : 'flex-1 min-h-[120px]'} flex flex-col bg-[#1a1a1a]`}>
             <div className="flex items-center justify-between px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
               <span className="text-[10px] text-zinc-500 font-mono">
                 {isId ? 'Output' : 'Output'}
@@ -413,7 +425,6 @@ except Exception as e:
                 </form>
               )}
             </div>
-          </div>
         </div>
       </div>
 
