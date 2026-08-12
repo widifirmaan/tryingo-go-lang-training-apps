@@ -4,6 +4,7 @@ import { HeroSection } from './components/HeroSection';
 import { TrackCard } from './components/TrackCard';
 import { TRACKS_COLLECTION } from './data/tracksData';
 import { CartModal, SearchModal, DetailModal, SettingsModal } from './components/Modals';
+import { QuizModal } from './components/QuizModal';
 import { ArrowDown, Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
 import { REVERSE_SLUG_MAP } from './data/slugMap';
@@ -48,6 +49,14 @@ export default function App() {
   // Playground state
   const [playgroundCode, setPlaygroundCode] = useState<string | null>(null);
   const [playgroundLanguage, setPlaygroundLanguage] = useState<string>('html5');
+
+  // Quiz state (opened from sidebar/HeroSection)
+  const [quizTarget, setQuizTarget] = useState<{ slug: string; level?: string } | null>(null);
+  const quizTrackName = useMemo(() => {
+    if (!quizTarget) return '';
+    const trackId = REVERSE_SLUG_MAP[quizTarget.slug];
+    return trackId ? TRACKS_COLLECTION.find((t) => t.id === trackId)?.name || trackId : quizTarget.slug;
+  }, [quizTarget]);
 
   const updateHash = useCallback((trackId: string | null, level?: string, week?: number) => {
     if (!trackId) {
@@ -309,6 +318,7 @@ export default function App() {
               activeLevel={courseInitialLevel}
               activeWeek={courseInitialWeek}
               onNavigateToWeek={handleNavigateToWeek}
+              onOpenQuiz={(slug, level) => setQuizTarget({ slug, level })}
             />
           </motion.div>
 
@@ -558,6 +568,16 @@ export default function App() {
         theme={theme}
         setTheme={setTheme}
       />
+
+      {quizTarget && (
+        <QuizModal
+          slug={quizTarget.slug}
+          trackName={quizTrackName}
+          lang={lang}
+          initialLevel={quizTarget.level}
+          onClose={() => setQuizTarget(null)}
+        />
+      )}
 
       {/* Interactive Code Playground */}
       <AnimatePresence>

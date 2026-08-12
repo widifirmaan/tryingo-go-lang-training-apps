@@ -43,9 +43,9 @@ npx wrangler pages deploy dist
 - **Go curriculum redesign** (14 weeks, 3 levels): Beginner (6w: syntax → packages), Intermediate (4w: defer → stdlib), Advanced (4w: CLI/HTTP → final project). Based on research from Scaler, LevelUpGo, roadmap.sh, bytesizego, tutorialQ, and official Go docs. Covers the two project shapes 73-74% of Go devs ship: CLI tools + HTTP services.
 - **Client-side Go execution**: Yaegi interpreter compiled to WebAssembly. `public/wasm/go-exec.wasm` (~38MB) + `wasm_exec.js` runtime. Loaded dynamically. All 28 .md files include runnable code examples pre-loaded in the playground.
 - **Playground content matching**: Each week's playground is pre-filled with code blocks from that week's markdown materials, like w3schools interactive tutorials.
+- **Quiz system with scoring (build-time generated)**: `scripts/build-quiz.mjs` parses every markdown file (Objectives, Key Concepts/`###` subtopics, Summary) into `public/quiz-index.json` — ~7.8k MCQ (definition-matching) + True/False questions across 27 tracks × 2 languages. Question count per week scales with content (subtopic count + paragraph length). `QuizModal.tsx` (opened via "Kuis" button in CoursePage) covers the whole track (all levels), with scoring, per-level breakdown, wrong-answer review/retry, and localStorage resume + best score (`utils/quiz.ts`).
 
 ### Needs Implementation
-- Quiz system with scoring
 - User progress tracking (localStorage)
 - Service worker for offline access
 - Vitest unit tests
