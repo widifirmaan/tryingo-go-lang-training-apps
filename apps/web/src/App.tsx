@@ -51,12 +51,13 @@ export default function App() {
   const [playgroundLanguage, setPlaygroundLanguage] = useState<string>('html5');
 
   // Quiz state (opened from sidebar/HeroSection)
-  const [quizTarget, setQuizTarget] = useState<{ slug: string; level?: string } | null>(null);
+  const [quizTarget, setQuizTarget] = useState<{ slug: string; level?: string; sample?: boolean } | null>(null);
   const quizTrackName = useMemo(() => {
     if (!quizTarget) return '';
+    if (quizTarget.sample) return lang === 'id' ? 'Kuis Uji Coba' : 'Test Quiz';
     const trackId = REVERSE_SLUG_MAP[quizTarget.slug];
     return trackId ? TRACKS_COLLECTION.find((t) => t.id === trackId)?.name || trackId : quizTarget.slug;
-  }, [quizTarget]);
+  }, [quizTarget, lang]);
 
   const updateHash = useCallback((trackId: string | null, level?: string, week?: number) => {
     if (!trackId) {
@@ -318,7 +319,7 @@ export default function App() {
               activeLevel={courseInitialLevel}
               activeWeek={courseInitialWeek}
               onNavigateToWeek={handleNavigateToWeek}
-              onOpenQuiz={(slug, level) => setQuizTarget({ slug, level })}
+              onOpenQuiz={(slug, level) => setQuizTarget({ slug, level, sample: slug === '__sample__' })}
             />
           </motion.div>
 
@@ -575,6 +576,7 @@ export default function App() {
           trackName={quizTrackName}
           lang={lang}
           initialLevel={quizTarget.level}
+          sample={quizTarget.sample}
           onClose={() => setQuizTarget(null)}
         />
       )}

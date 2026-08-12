@@ -8,7 +8,7 @@ import {
 import { Language } from '../utils/translations';
 import {
   loadQuizIndex, getTrackQuiz, flattenQuiz,
-  FlatQuestion, QuizLevel, QuizQuestion,
+  FlatQuestion, QuizLevel, QuizQuestion, QuizIndex,
   loadBestScore, saveBestScore, loadProgress, saveProgress, clearProgress,
 } from '../utils/quiz';
 
@@ -17,6 +17,7 @@ interface QuizModalProps {
   trackName: string;
   lang: Language;
   initialLevel?: string;
+  sample?: boolean;
   onClose: () => void;
 }
 
@@ -24,14 +25,17 @@ type Phase = 'loading' | 'intro' | 'quiz' | 'result';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
-export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, initialLevel, onClose }) => {
+export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, initialLevel, sample, onClose }) => {
   const isId = lang === 'id';
   const [phase, setPhase] = useState<Phase>('loading');
   const [flat, setFlat] = useState<FlatQuestion[]>([]);
   const [error, setError] = useState(false);
 
-  // Persistence scope: whole track by default, single level when filtered
-  const scopeKey = useMemo(() => (initialLevel ? `${slug}.${initialLevel}` : slug), [slug, initialLevel]);
+  // Persistence scope: whole track by default, single level when filtered, "sample" for test quiz
+  const scopeKey = useMemo(
+    () => (sample ? 'sample' : initialLevel ? `${slug}.${initialLevel}` : slug),
+    [sample, slug, initialLevel]
+  );
 
   // Quiz run state
   const [idx, setIdx] = useState(0);
@@ -57,10 +61,12 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
     loadQuizIndex()
       .then((index) => {
         if (!mounted) return;
-        const levels = getTrackQuiz(index, slug, lang);
-        let f = flattenQuiz(levels);
-        const levelIndex = initialLevel ? levels.findIndex((l) => l.level === initialLevel) : -1;
-        if (levelIndex >= 0) f = f.filter((item) => item.levelIndex === levelIndex);
+        let f = sample ? buildSampleFlat(index, lang) : flattenQuiz(getTrackQuiz(index, slug, lang));
+        if (!sample) {
+          const levels = getTrackQuiz(index, slug, lang);
+          const levelIndex = initialLevel ? levels.findIndex((l) => l.level === initialLevel) : -1;
+          if (levelIndex >= 0) f = f.filter((item) => item.levelIndex === levelIndex);
+        }
         if (!f.length) {
           setError(true);
           setPhase('intro');
@@ -221,6 +227,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
             isId={isId}
             error={error}
             initialLevel={initialLevel}
+            sample={sample}
             total={flat.length}
             best={best}
             savedProgress={savedProgress}
@@ -272,10 +279,10 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
 // ─────────────────────────────────────────────────────────────────────────────
 
 function IntroScreen({
-  trackName, isId, error, initialLevel, total, best, savedProgress,
+  trackName, isId, error, initialLevel, sample, total, best, savedProgress,
   onBegin, onResume, onResetProgress, onClose,
 }: {
-  trackName: string; isId: boolean; error: boolean; initialLevel?: string; total: number;
+  trackName: string; isId: boolean; error: boolean; initialLevel?: string; sample?: boolean; total: number;
   best: { score: number; total: number; date: number } | null;
   savedProgress: { answers: number[]; idx: number } | null;
   onBegin: () => void; onResume: () => void; onResetProgress: () => void; onClose: () => void;
@@ -325,13 +332,17 @@ function IntroScreen({
             )}
 
             <p className="text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400 mb-4">
-              {initialLevel
+              {sample
                 ? (isId
-                  ? `Kuis mencakup materi level ${initialLevel} pada ${trackName}. Jumlah soal tiap minggu menyesuaikan isi materinya — minggu dengan lebih banyak konsep punya lebih banyak soal.`
-                  : `This quiz covers the ${initialLevel} level of ${trackName}. Question count per week scales with the material — weeks with more concepts have more questions.`)
-                : (isId
-                  ? `Kuis mencakup seluruh materi ${trackName}, dari level Pemula sampai Profesional. Jumlah soal tiap minggu menyesuaikan isi materinya — minggu dengan lebih banyak konsep punya lebih banyak soal.`
-                  : `This quiz covers all ${trackName} material, from Beginner to Professional. Question count per week scales with the material — weeks with more concepts have more questions.`)}
+                  ? 'Kuis uji coba — beberapa contoh soal dari materi Python, JavaScript, dan Go untuk mengetes fitur kuis dengan cepat.'
+                  : 'Test quiz — a few sample questions from Python, JavaScript, and Go to quickly try the quiz feature.')
+                : initialLevel
+                  ? (isId
+                    ? `Kuis mencakup materi level ${initialLevel} pada ${trackName}. Jumlah soal tiap minggu menyesuaikan isi materinya — minggu dengan lebih banyak konsep punya lebih banyak soal.`
+                    : `This quiz covers the ${initialLevel} level of ${trackName}. Question count per week scales with the material — weeks with more concepts have more questions.`)
+                  : (isId
+                    ? `Kuis mencakup seluruh materi ${trackName}, dari level Pemula sampai Profesional. Jumlah soal tiap minggu menyesuaikan isi materinya — minggu dengan lebih banyak konsep punya lebih banyak soal.`
+                    : `This quiz covers all ${trackName} material, from Beginner to Professional. Question count per week scales with the material — weeks with more concepts have more questions.`)}
             </p>
 
             <div className="flex flex-col gap-2">
@@ -644,4 +655,20 @@ function ResultScreen({
 function answersToLabel(idx: number, q: QuizQuestion): string {
   if (idx < 0 || !q.options[idx]) return '—';
   return q.options[idx];
+}
+
+// Build a short cross-track sample quiz (used by the "Test Quiz" sidebar item).
+// Picks the first question of the first week of each level from a few tracks.
+const SAMPLE_TRACKS = ['python', 'javascript', 'golang'];
+function buildSampleFlat(index: QuizIndex, lang: Language): FlatQuestion[] {
+  const picked: FlatQuestion[] = [];
+  for (const slug of SAMPLE_TRACKS) {
+    const levels = index.tracks?.[slug]?.[lang] || [];
+    if (!levels.length) continue;
+    const lv = levels[0];
+    const wk = lv.weeks[0];
+    const q = wk?.questions?.[0];
+    if (q) picked.push({ levelIndex: 0, levelName: lv.levelName, week: wk.week, topic: wk.topic, q });
+  }
+  return picked;
 }
