@@ -120,7 +120,8 @@ export default function App() {
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(trackId);
-    updateHash(null);
+    const slug = trackId.replace('tryngo-lang-', '');
+    window.location.hash = `#/ide/${slug}`;
   };
 
   const t = translations[lang];
@@ -171,6 +172,20 @@ export default function App() {
       const hash = window.location.hash.replace(/^#\/?/, '');
       if (!hash) return;
       const parts = hash.split('/').filter(Boolean);
+      if (parts.length > 0 && parts[0] === 'ide') {
+        // IDE route: #/ide/{slug}
+        const slug = parts[1];
+        const trackId = slug ? REVERSE_SLUG_MAP[slug] : undefined;
+        if (trackId) {
+          setIdeTarget(trackId);
+          setActiveCourseId(null);
+          setCourseInitialLevel(undefined);
+          setCourseInitialWeek(undefined);
+        } else {
+          setIdeTarget(null);
+        }
+        return;
+      }
       if (parts.length > 0) {
         const slug = parts[0];
         const trackId = REVERSE_SLUG_MAP[slug];
@@ -182,6 +197,7 @@ export default function App() {
           setActiveCourseId(trackId);
           setCourseInitialLevel(level);
           setCourseInitialWeek(week && !isNaN(week) ? week : 1);
+          setIdeTarget(null);
         }
       }
     };
@@ -364,7 +380,7 @@ export default function App() {
                     <IdeModal
                       trackId={ideTarget}
                       lang={lang}
-                      onClose={() => setIdeTarget(null)}
+                      onClose={() => { setIdeTarget(null); updateHash(null); }}
                     />
                   </Suspense>
                 </motion.div>
