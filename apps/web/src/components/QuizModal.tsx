@@ -192,21 +192,20 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
   const pct = total ? Math.round((score / total) * 100) : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
+    <div className="fixed inset-0 z-50">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={handleClose}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
+        exit={{ opacity: 0, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-        className="relative z-10 w-full max-w-2xl bg-white dark:bg-[#1e1e1e] rounded-[28px] shadow-2xl border border-zinc-200 dark:border-zinc-700 flex flex-col max-h-[92dvh] overflow-hidden"
+        className="relative z-10 w-full h-full bg-white dark:bg-[#1e1e1e] shadow-2xl flex flex-col overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-label={isId ? 'Kuis' : 'Quiz'}
