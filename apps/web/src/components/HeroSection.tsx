@@ -21,6 +21,7 @@ interface HeroSectionProps {
   activeLevel?: string;
   activeWeek?: number;
   onNavigateToWeek?: (trackId: string, level: string, week: number) => void;
+  onOpenQuiz?: (slug: string, level?: string) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -37,6 +38,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   activeLevel,
   activeWeek,
   onNavigateToWeek,
+  onOpenQuiz,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -46,6 +48,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const materiRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
+
+  const QUIZ_ITEMS = [
+    { label: 'HTML5 Beginner Quiz', slug: 'html5', level: 'beginer' },
+    { label: 'Go Beginner Quiz', slug: 'golang', level: 'beginer' },
+    { label: 'Go Intermediate Quiz', slug: 'golang', level: 'intermediate' },
+    { label: 'Go Advanced Quiz', slug: 'golang', level: 'advanced' },
+  ];
+  const openQuiz = (slug: string, level?: string) => {
+    setActiveSubmenu(null);
+    onOpenQuiz?.(slug, level);
+  };
 
   useEffect(() => {
     const checkHeight = () => setHideBottomCard(window.innerHeight <= 750);
@@ -241,22 +254,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
                         >
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
-                            HTML5 Beginner Quiz
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
-                            Go Beginner Quiz
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                            Go Intermediate Quiz
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                            Go Advanced Quiz
-                          </motion.button>
+                          {QUIZ_ITEMS.map((q, qi) => (
+                            <motion.button
+                              key={q.label}
+                              whileTap={{ scale: 0.97 }}
+                              onClick={() => openQuiz(q.slug, q.level)}
+                              className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left"
+                            >
+                              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${qi % 3 === 0 ? 'bg-sky-400' : qi % 3 === 1 ? 'bg-amber-400' : 'bg-orange-400'}`} />
+                              {q.label}
+                            </motion.button>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -569,8 +577,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
-                          {['HTML5 Beginner Quiz', 'Go Beginner Quiz', 'Go Intermediate Quiz', 'Go Advanced Quiz'].map(q => (
-                            <button key={q} className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left">{q}</button>
+                          {QUIZ_ITEMS.map((q) => (
+                            <button
+                              key={q.label}
+                              onClick={() => { setIsMobileMenuOpen(false); openQuiz(q.slug, q.level); }}
+                              className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left"
+                            >
+                              {q.label}
+                            </button>
                           ))}
                         </motion.div>
                       )}

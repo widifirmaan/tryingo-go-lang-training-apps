@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faClipboardList } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
@@ -20,6 +20,7 @@ import { CsharpPlayground } from './playgrounds/CsharpPlayground';
 import { ReactPlayground } from './playgrounds/ReactPlayground';
 import { VuePlayground } from './playgrounds/VuePlayground';
 import { SveltePlayground } from './playgrounds/SveltePlayground';
+import { QuizModal } from './QuizModal';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -51,6 +52,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   });
   const [activeWeek, setActiveWeek] = useState(initialWeek || 1);
   const [showLevelPicker, setShowLevelPicker] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [leftWidth, setLeftWidth] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -207,6 +209,16 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
             </p>
           </div>
         </div>
+
+        {/* Quiz Button */}
+        <button
+          onClick={() => setShowQuiz(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#2E5B44] text-white border border-[#2E5B44] shadow-xs hover:bg-[#234735] transition-all text-xs sm:text-sm font-bold shrink-0"
+          title={isId ? 'Kuis semua materi' : 'Quiz all material'}
+        >
+          <FontAwesomeIcon icon={faClipboardList} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">{isId ? 'Kuis' : 'Quiz'}</span>
+        </button>
 
         {/* Level Picker */}
         <div className="relative shrink-0">
@@ -382,6 +394,15 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         )}
       </div>
+
+      {showQuiz && (
+        <QuizModal
+          slug={slug}
+          trackName={track?.name || trackId}
+          lang={lang}
+          onClose={() => setShowQuiz(false)}
+        />
+      )}
     </div>
   );
 };
