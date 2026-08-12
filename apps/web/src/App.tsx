@@ -337,6 +337,7 @@ export default function App() {
               onNavigateToWeek={handleNavigateToWeek}
               onOpenQuiz={(slug, level) => setQuizTarget({ slug, level, sample: slug === '__sample__' })}
               onOpenIde={handleOpenIde}
+              activeIdeId={ideTarget}
             />
           </motion.div>
 
