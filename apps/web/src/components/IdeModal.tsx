@@ -61,8 +61,8 @@ export const IdeModal: React.FC<IdePageProps> = ({ trackId, lang, onClose }) => 
   } else if (slug === 'svelte') {
     body = <SveltePlayground lang={lang} />;
   } else {
-    // html5, css3, javascript, typescript, golang, rust → generic CodePlayground
-    body = <CodePlayground lang={lang} language={slug} onClose={onClose} />;
+    // html5, css3, javascript, typescript, golang, rust → generic CodePlayground (inline like course)
+    body = <CodePlayground lang={lang} language={slug} onClose={onClose} inline />;
   }
 
   return (
