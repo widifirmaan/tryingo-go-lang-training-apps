@@ -79,6 +79,7 @@ export default function App() {
     setActiveCourseId(trackId);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
+    setIdeTarget(null);
     updateHash(trackId);
   };
 
@@ -86,6 +87,7 @@ export default function App() {
     setActiveCourseId(trackId);
     setCourseInitialLevel(level);
     setCourseInitialWeek(week);
+    setIdeTarget(null);
     updateHash(trackId, level, week);
   };
 
@@ -93,6 +95,7 @@ export default function App() {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
+    setIdeTarget(null);
     updateHash(null);
   };
 
@@ -117,6 +120,7 @@ export default function App() {
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(trackId);
+    updateHash(null);
   };
 
   const t = translations[lang];
@@ -231,6 +235,7 @@ export default function App() {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
+    setIdeTarget(null);
     updateHash(null);
   };
 
@@ -344,7 +349,25 @@ export default function App() {
             className="flex-1 min-w-0 flex flex-col h-full overflow-hidden"
           >
             <AnimatePresence mode="wait">
-              {activeCourseId ? (
+              {ideTarget ? (
+                /* MODE D: ONLINE IDE VIEW */
+                <motion.div
+                  key={`ide-${ideTarget}`}
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.25 }}
+                  className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
+                >
+                  <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
+                    <IdeModal
+                      trackId={ideTarget}
+                      lang={lang}
+                      onClose={() => setIdeTarget(null)}
+                    />
+                  </Suspense>
+                </motion.div>
+              ) : activeCourseId ? (
                 /* MODE C: COURSE MATERIAL VIEW */
                 <motion.div
                   key="course-view"
@@ -591,17 +614,6 @@ export default function App() {
           sample={quizTarget.sample}
           onClose={() => setQuizTarget(null)}
         />
-      )}
-
-      {/* Online IDE Modal */}
-      {ideTarget && (
-        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
-          <IdeModal
-            trackId={ideTarget}
-            lang={lang}
-            onClose={() => setIdeTarget(null)}
-          />
-        </Suspense>
       )}
 
       {/* Interactive Code Playground */}
