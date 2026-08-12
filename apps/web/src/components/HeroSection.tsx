@@ -253,6 +253,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           transition={{ duration: 0.2 }}
                           className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
                         >
+                          <motion.button
+                            whileTap={{ scale: 0.97 }}
+                            onClick={() => openQuiz('__sample__')}
+                            className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-[#2E5B44]/30 hover:bg-[#2E5B44]/50 text-emerald-300 font-bold text-[11px] flex items-center gap-2 transition-colors text-left shrink-0"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                            {lang === 'id' ? 'Test Quiz' : 'Test Quiz'}
+                          </motion.button>
                           {QUIZ_ITEMS.map((q, qi) => (
                             <motion.button
                               key={q.label}
@@ -576,6 +584,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
+                          <button
+                            onClick={() => { setIsMobileMenuOpen(false); openQuiz('__sample__'); }}
+                            className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-[#2E5B44]/30 text-emerald-300 font-bold text-[11px] text-left shrink-0"
+                          >
+                            {lang === 'id' ? 'Test Quiz' : 'Test Quiz'}
+                          </button>
                           {QUIZ_ITEMS.map((q) => (
                             <button
                               key={q.label}
