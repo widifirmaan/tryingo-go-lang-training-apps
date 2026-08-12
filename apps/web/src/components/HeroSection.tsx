@@ -23,6 +23,7 @@ interface HeroSectionProps {
   onNavigateToWeek?: (trackId: string, level: string, week: number) => void;
   onOpenQuiz?: (slug: string, level?: string) => void;
   onOpenIde?: (trackId: string) => void;
+  activeIdeId?: string | null;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -41,6 +42,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigateToWeek,
   onOpenQuiz,
   onOpenIde,
+  activeIdeId,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -86,11 +88,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }, [activeCourseId]);
 
   useEffect(() => {
-    if (!activeCourseId) {
+    if (activeIdeId) {
+      setActiveSubmenu('ide');
+      setExpandedTrack(null);
+    }
+  }, [activeIdeId]);
+
+  useEffect(() => {
+    if (!activeCourseId && !activeIdeId) {
       setExpandedTrack(null);
       setActiveSubmenu(null);
     }
-  }, [activeCourseId]);
+  }, [activeCourseId, activeIdeId]);
 
   return (
     <motion.div 
@@ -313,9 +322,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               key={track.trackId}
                               whileTap={{ scale: 0.97 }}
                               onClick={() => openIde(track.trackId)}
-                              className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left"
+                              className={`w-full pl-7 pr-3.5 py-1.5 rounded-xl text-[11px] font-medium flex items-center gap-2 transition-colors text-left ${activeIdeId === track.trackId ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/80'}`}
                             >
-                              <FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70 shrink-0" />
+                              <FontAwesomeIcon icon={faTerminal} className={`w-3.5 h-3.5 shrink-0 ${activeIdeId === track.trackId ? 'text-emerald-300' : 'text-white/70'}`} />
                               <span className="truncate">{track.name}</span>
                             </motion.button>
                           ))}
@@ -634,9 +643,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                             <button
                               key={track.trackId}
                               onClick={() => { setIsMobileMenuOpen(false); openIde(track.trackId); }}
-                              className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2 shrink-0"
+                              className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] font-medium text-left flex items-center gap-2 shrink-0 ${activeIdeId === track.trackId ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 text-white/70'}`}
                             >
-                              <FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70 shrink-0" />
+                              <FontAwesomeIcon icon={faTerminal} className={`w-3.5 h-3.5 shrink-0 ${activeIdeId === track.trackId ? 'text-emerald-300' : 'text-white/70'}`} />
                               <span className="truncate">{track.name}</span>
                             </button>
                           ))}
