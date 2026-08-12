@@ -12,6 +12,7 @@ import { getCurriculum } from './data/curriculum';
 
 const CoursePage = React.lazy(() => import('./components/CoursePage'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
+const IdeModal = React.lazy(() => import('./components/IdeModal'));
 
 export default function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -49,6 +50,9 @@ export default function App() {
   // Playground state
   const [playgroundCode, setPlaygroundCode] = useState<string | null>(null);
   const [playgroundLanguage, setPlaygroundLanguage] = useState<string>('html5');
+
+  // Online IDE state (opened from sidebar/HeroSection "Online IDE")
+  const [ideTarget, setIdeTarget] = useState<string | null>(null);
 
   // Quiz state (opened from sidebar/HeroSection)
   const [quizTarget, setQuizTarget] = useState<{ slug: string; level?: string; sample?: boolean } | null>(null);
@@ -106,6 +110,13 @@ export default function App() {
 
   const handleClosePlayground = () => {
     setPlaygroundCode(null);
+  };
+
+  const handleOpenIde = (trackId: string) => {
+    setActiveCourseId(null);
+    setCourseInitialLevel(undefined);
+    setCourseInitialWeek(undefined);
+    setIdeTarget(trackId);
   };
 
   const t = translations[lang];
@@ -320,6 +331,7 @@ export default function App() {
               activeWeek={courseInitialWeek}
               onNavigateToWeek={handleNavigateToWeek}
               onOpenQuiz={(slug, level) => setQuizTarget({ slug, level, sample: slug === '__sample__' })}
+              onOpenIde={handleOpenIde}
             />
           </motion.div>
 
@@ -579,6 +591,17 @@ export default function App() {
           sample={quizTarget.sample}
           onClose={() => setQuizTarget(null)}
         />
+      )}
+
+      {/* Online IDE Modal */}
+      {ideTarget && (
+        <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
+          <IdeModal
+            trackId={ideTarget}
+            lang={lang}
+            onClose={() => setIdeTarget(null)}
+          />
+        </Suspense>
       )}
 
       {/* Interactive Code Playground */}

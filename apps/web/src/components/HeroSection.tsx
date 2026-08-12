@@ -22,6 +22,7 @@ interface HeroSectionProps {
   activeWeek?: number;
   onNavigateToWeek?: (trackId: string, level: string, week: number) => void;
   onOpenQuiz?: (slug: string, level?: string) => void;
+  onOpenIde?: (trackId: string) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -39,6 +40,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   activeWeek,
   onNavigateToWeek,
   onOpenQuiz,
+  onOpenIde,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -57,6 +59,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const openQuiz = (slug: string, level?: string) => {
     setActiveSubmenu(null);
     onOpenQuiz?.(slug, level);
+  };
+
+  // Every track has an online editor/playground; list them all in the IDE submenu.
+  const IDE_ITEMS = TRACKS_COLLECTION.map((track) => ({ trackId: track.id, name: track.name }));
+  const openIde = (trackId: string) => {
+    setActiveSubmenu(null);
+    onOpenIde?.(trackId);
   };
 
   useEffect(() => {
@@ -297,16 +306,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
                         >
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70" />
-                            Go Playground
-                          </motion.button>
-                          <motion.button whileTap={{ scale: 0.97 }} className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left">
-                            <FontAwesomeIcon icon={faGlobe} className="w-3.5 h-3.5 text-white/70" />
-                            HTML / CSS Playground
-                          </motion.button>
+                          {IDE_ITEMS.map((track) => (
+                            <motion.button
+                              key={track.trackId}
+                              whileTap={{ scale: 0.97 }}
+                              onClick={() => openIde(track.trackId)}
+                              className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left"
+                            >
+                              <FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70 shrink-0" />
+                              <span className="truncate">{track.name}</span>
+                            </motion.button>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -617,9 +629,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'ide-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
-                          <button className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2"><FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70" />Go Playground</button>
-                          <button className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2"><FontAwesomeIcon icon={faGlobe} className="w-3.5 h-3.5 text-white/70" />HTML / CSS Playground</button>
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
+                          {IDE_ITEMS.map((track) => (
+                            <button
+                              key={track.trackId}
+                              onClick={() => { setIsMobileMenuOpen(false); openIde(track.trackId); }}
+                              className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left flex items-center gap-2 shrink-0"
+                            >
+                              <FontAwesomeIcon icon={faTerminal} className="w-3.5 h-3.5 text-white/70 shrink-0" />
+                              <span className="truncate">{track.name}</span>
+                            </button>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
