@@ -50,7 +50,17 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
     if (initialLevel && lvls.some(l => l.levelId === initialLevel)) return initialLevel;
     return lvls[0]?.levelId || 'beginer';
   });
-  const [activeWeek, setActiveWeek] = useState(initialWeek || 1);
+  const [activeWeek, setActiveWeek] = useState(() => {
+    const lvl = getCurriculum(SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', ''))
+      .find(l => l.levelId === (initialLevel || undefined));
+    if (lvl) {
+      const first = lvl.weeks[0]?.week;
+      if (initialWeek === undefined) return first || 1;
+      if (lvl.weeks.some(w => w.week === initialWeek)) return initialWeek;
+      return first || 1;
+    }
+    return initialWeek || 1;
+  });
   const [showLevelPicker, setShowLevelPicker] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [leftWidth, setLeftWidth] = useState<number | null>(null);
@@ -78,7 +88,18 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
 
   const loadContent = useCallback(() => {
     const path = getFilePath();
-    if (!path) return;
+    if (!path) {
+      setContent(`# ${track?.name || trackId}
+
+> _${isId ? 'Materi sedang disiapkan. Coba minggu atau level lain!' : 'Material being prepared. Try another week or level!'}_
+
+\`\`\`
+${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is not yet available.'}
+\`\`\`
+`);
+      setLoading(false);
+      return;
+    }
     loadRef.current?.abort.abort();
     const abort = new AbortController();
     loadRef.current = { abort };
@@ -114,10 +135,12 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
 
   const handleLevelChange = (levelId: string) => {
+    const newLevel = levels.find(l => l.levelId === levelId);
+    const firstWeek = newLevel?.weeks[0]?.week ?? 1;
     setActiveLevel(levelId);
-    setActiveWeek(1);
+    setActiveWeek(firstWeek);
     setShowLevelPicker(false);
-    onNavigate?.(trackId, levelId, 1);
+    onNavigate?.(trackId, levelId, firstWeek);
   };
 
   const handleWeekChange = (week: number) => {
