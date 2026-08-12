@@ -66,7 +66,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Every track has an online editor/playground; list them all in the IDE submenu.
   const IDE_ITEMS = TRACKS_COLLECTION.map((track) => ({ trackId: track.id, name: track.name }));
   const openIde = (trackId: string) => {
-    setActiveSubmenu(null);
     onOpenIde?.(trackId);
   };
 
@@ -477,6 +476,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       setIsMobileMenuOpen(next);
                       if (activeSubmenu === 'materi-mobile' || activeSubmenu === 'quiz-mobile' || activeSubmenu === 'ide-mobile') {
                         setActiveSubmenu(null);
+                      }
+                      if (next && activeIdeId) {
+                        setActiveSubmenu('ide-mobile');
                       }
                     }}
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white transition-colors border ${
