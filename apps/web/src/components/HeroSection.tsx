@@ -49,12 +49,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
 
-  const QUIZ_ITEMS = [
-    { label: 'HTML5 Beginner Quiz', slug: 'html5', level: 'beginer' },
-    { label: 'Go Beginner Quiz', slug: 'golang', level: 'beginer' },
-    { label: 'Go Intermediate Quiz', slug: 'golang', level: 'intermediate' },
-    { label: 'Go Advanced Quiz', slug: 'golang', level: 'advanced' },
-  ];
+  // Every track has a generated quiz; list them all in the sidebar submenu.
+  const QUIZ_ITEMS = TRACKS_COLLECTION.map((track) => ({
+    label: track.name,
+    slug: track.id.replace('tryngo-lang-', ''),
+  }));
   const openQuiz = (slug: string, level?: string) => {
     setActiveSubmenu(null);
     onOpenQuiz?.(slug, level);
@@ -252,14 +251,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
                         >
                           {QUIZ_ITEMS.map((q, qi) => (
                             <motion.button
                               key={q.label}
                               whileTap={{ scale: 0.97 }}
-                              onClick={() => openQuiz(q.slug, q.level)}
-                              className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left"
+                              onClick={() => openQuiz(q.slug)}
+                              className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left shrink-0"
                             >
                               <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${qi % 3 === 0 ? 'bg-sky-400' : qi % 3 === 1 ? 'bg-amber-400' : 'bg-orange-400'}`} />
                               {q.label}
@@ -576,12 +575,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
                           {QUIZ_ITEMS.map((q) => (
                             <button
                               key={q.label}
-                              onClick={() => { setIsMobileMenuOpen(false); openQuiz(q.slug, q.level); }}
-                              className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left"
+                              onClick={() => { setIsMobileMenuOpen(false); openQuiz(q.slug); }}
+                              className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left shrink-0"
                             >
                               {q.label}
                             </button>
