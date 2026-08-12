@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { SLUG_MAP } from '../data/slugMap';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -20,7 +20,7 @@ import { VuePlayground } from './playgrounds/VuePlayground';
 import { SveltePlayground } from './playgrounds/SveltePlayground';
 import CodePlayground from './CodePlayground';
 
-interface IdeModalProps {
+interface IdePageProps {
   trackId: string;
   lang: Language;
   onClose: () => void;
@@ -28,7 +28,8 @@ interface IdeModalProps {
 
 const STACKBLITZ_SLUGS = ['nextjs', 'nodejs', 'nestjs', 'django', 'angular', 'spring'] as FrameworkSlug[];
 
-export const IdeModal: React.FC<IdeModalProps> = ({ trackId, lang, onClose }) => {
+export const IdeModal: React.FC<IdePageProps> = ({ trackId, lang, onClose }) => {
+  const isId = lang === 'id';
   const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
   const track = TRACKS_COLLECTION.find((t) => t.id === trackId);
 
@@ -65,26 +66,32 @@ export const IdeModal: React.FC<IdeModalProps> = ({ trackId, lang, onClose }) =>
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-black/80">
-      <div className="flex items-center gap-3 px-3 sm:px-4 py-2.5 bg-[#171a1c] border-b border-zinc-700/60 shrink-0">
-        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center p-1.5 shrink-0">
-          {track && <img src={track.image} alt={track?.name || slug} className="w-full h-full object-contain" referrerPolicy="no-referrer" />}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="font-extrabold text-xs text-zinc-100 truncate">{track?.name || slug}</div>
-          <div className="text-[9px] uppercase tracking-wider text-[#EEDBB2] font-bold">
-            {lang === 'id' ? 'Editor Online' : 'Online Editor'}
-          </div>
-        </div>
+    <div className="flex-1 flex flex-col h-full min-w-0 lg:overflow-hidden gap-3 px-3 sm:px-0">
+      {/* Header */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
         <button
           onClick={onClose}
-          className="p-2 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white transition-colors shrink-0"
-          title={lang === 'id' ? 'Tutup' : 'Close'}
+          className="p-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 shadow-xs transition-all shrink-0"
+          title={isId ? 'Kembali' : 'Back'}
         >
-          <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
+          <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300" />
         </button>
+
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white border-zinc-200 dark:border-zinc-700 border flex items-center justify-center p-1.5 sm:p-2 shrink-0">
+            {track && <img src={track.image} alt={track?.name || slug} className="track-logo-img w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%)' }} referrerPolicy="no-referrer" />}
+          </div>
+          <div className="min-w-0">
+            <h2 className="font-extrabold text-xs sm:text-sm md:text-base leading-none truncate">{track?.name || slug}</h2>
+            <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate mt-0.5">
+              {isId ? 'Editor Online' : 'Online Editor'}
+            </p>
+          </div>
+        </div>
       </div>
-      <div className="flex-1 min-h-0 p-2 sm:p-3">
+
+      {/* Editor Body */}
+      <div className="flex-1 min-h-0 rounded-[28px]">
         <div className="w-full h-full min-h-0">{body}</div>
       </div>
     </div>
