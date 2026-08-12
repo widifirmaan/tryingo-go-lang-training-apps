@@ -428,21 +428,13 @@ function QuizScreen({
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5">
-        {/* Level/week chip */}
-        <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 dark:text-zinc-400 font-semibold mb-3 flex-wrap">
-          <span className="px-2 py-0.5 rounded-full bg-[#2E5B44]/10 dark:bg-emerald-950/40 text-[#2E5B44] dark:text-emerald-400 border border-[#2E5B44]/20">
-            {current.levelName}
-          </span>
-          <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">
-            {isId ? 'Minggu' : 'Week'} {current.week}
-          </span>
-          <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 truncate max-w-[200px]">
-            {current.topic}
-          </span>
-        </div>
+        {/* Topic heading */}
+        <h2 className="text-base sm:text-lg font-bold text-zinc-800 dark:text-zinc-100 mb-3 leading-snug">
+          {current.topic}
+        </h2>
 
         {/* Question */}
-        <h3 className="text-sm sm:text-[15px] font-bold text-zinc-800 dark:text-zinc-100 leading-relaxed mb-3">
+        <h3 className="text-sm sm:text-[15px] font-semibold text-zinc-700 dark:text-zinc-200 leading-relaxed mb-3">
           {q.q}
         </h3>
 
