@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimes, faCheck, faXmark, faRotateRight, faPlay, faTrophy,
   faSpinner, faBookOpen, faChevronDown, faChevronUp, faClockRotateLeft,
+  faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import {
@@ -288,8 +289,9 @@ function IntroScreen({
 }) {
   const canResume = savedProgress && savedProgress.answers.length === total && savedProgress.idx < total;
   const completed = savedProgress && savedProgress.idx >= total;
+  const [confirmReset, setConfirmReset] = useState(false);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-zinc-200 dark:border-zinc-700">
         <div className="flex items-center gap-2.5">
           <div className="w-10 h-10 rounded-2xl bg-[#2E5B44] text-white flex items-center justify-center shadow-xs">
@@ -365,7 +367,7 @@ function IntroScreen({
 
               {canResume && (
                 <button
-                  onClick={onResetProgress}
+                  onClick={() => setConfirmReset(true)}
                   className="w-full text-center text-[11px] text-zinc-400 hover:text-red-500 py-1 transition-colors"
                 >
                   {isId ? 'Hapus progres kuis' : 'Clear quiz progress'}
@@ -375,6 +377,39 @@ function IntroScreen({
           </>
         )}
       </div>
+
+      {confirmReset && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setConfirmReset(false)} />
+          <div className="relative z-10 w-full max-w-sm rounded-3xl bg-white dark:bg-[#262626] p-5 shadow-2xl border border-zinc-200 dark:border-zinc-700">
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-9 h-9 rounded-xl bg-red-100 dark:bg-red-950/50 text-red-500 flex items-center justify-center shrink-0">
+                <FontAwesomeIcon icon={faTriangleExclamation} className="w-4 h-4" />
+              </div>
+              <h3 className="font-extrabold text-sm">{isId ? 'Hapus Progres?' : 'Clear Progress?'}</h3>
+            </div>
+            <p className="text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400 mb-4">
+              {isId
+                ? 'Progres kuis yang belum selesai akan dihapus permanen dari perangkat ini. Skor terbaik tidak terpengaruh.'
+                : 'Your unfinished quiz progress will be permanently deleted on this device. Best score is unaffected.'}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setConfirmReset(false)}
+                className="flex-1 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 text-xs font-bold transition-colors"
+              >
+                {isId ? 'Batal' : 'Cancel'}
+              </button>
+              <button
+                onClick={() => { onResetProgress(); setConfirmReset(false); }}
+                className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-xs font-bold transition-colors"
+              >
+                {isId ? 'Hapus' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
