@@ -316,13 +316,13 @@ export default function App() {
             layout
             transition={{ type: "spring", stiffness: 220, damping: 26 }}
             className={`flex-shrink-0 flex flex-col ${
-              isExploring || activeCourseId
+              isExploring || activeCourseId || ideTarget
                 ? 'w-full lg:w-72 xl:w-80 landscape:w-72 h-auto lg:h-full' 
                 : 'w-full lg:w-[56%] xl:w-[60%] h-dvh lg:h-full min-h-0'
             }`}
           >
             <HeroSection 
-              isExploring={isExploring || !!activeCourseId}
+              isExploring={isExploring || !!activeCourseId || !!ideTarget}
               onBackToHero={handleBackToHero}
               onOpenSearch={() => setIsSearchOpen(true)}
               onOpenFilter={() => setIsSearchOpen(true)}
