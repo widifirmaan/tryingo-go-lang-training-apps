@@ -175,7 +175,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
         </div>
         <div className="flex items-center gap-1.5">
           <button
-            onClick={() => runScript(scriptRef.current || code)}
+            onClick={() => runScript(code)}
             disabled={running}
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold transition-all disabled:opacity-50"
             title={isId ? 'Jalankan (Ctrl+Enter)' : 'Run (Ctrl+Enter)'}

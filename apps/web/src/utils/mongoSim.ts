@@ -360,30 +360,137 @@ const parseArgs = (argsStr: string): any[] => {
   return args;
 };
 
+// Safe parser for Mongo-shell-style query literals (objects/arrays/regex), no eval.
+const parseQueryLiteral = (() => {
+  let s = '';
+  let i = 0;
+
+  const skipWs = () => {
+    while (i < s.length && /\s/.test(s[i])) i++;
+  };
+
+  const parseValue = (): any => {
+    skipWs();
+    if (i >= s.length) throw new Error('Unexpected end');
+    const ch = s[i];
+    if (ch === '{') return parseObject();
+    if (ch === '[') return parseArray();
+    if (ch === '"' || ch === "'") return parseString();
+    if (ch === '/') return parseRegex();
+    return parsePrimitive();
+  };
+
+  const parseObject = (): Record<string, any> => {
+    i++; // consume '{'
+    const obj: Record<string, any> = {};
+    skipWs();
+    if (s[i] === '}') { i++; return obj; }
+    for (;;) {
+      skipWs();
+      // key: quoted or bare
+      let key: string;
+      if (s[i] === '"' || s[i] === "'") key = parseString();
+      else {
+        const start = i;
+        while (i < s.length && !/[\s:,}]/.test(s[i])) i++;
+        key = s.slice(start, i);
+      }
+      skipWs();
+      if (s[i] !== ':') throw new Error('Expected : after key');
+      i++;
+      const val = parseValue();
+      // convert $regex strings into RegExp like the old walk step
+      if (key === '$regex' && typeof val === 'string') obj[key] = new RegExp(val);
+      else obj[key] = val;
+      skipWs();
+      if (s[i] === ',') { i++; continue; }
+      if (s[i] === '}') { i++; break; }
+      throw new Error('Expected , or }');
+    }
+    return obj;
+  };
+
+  const parseArray = (): any[] => {
+    i++; // consume '['
+    const arr: any[] = [];
+    skipWs();
+    if (s[i] === ']') { i++; return arr; }
+    for (;;) {
+      arr.push(parseValue());
+      skipWs();
+      if (s[i] === ',') { i++; continue; }
+      if (s[i] === ']') { i++; break; }
+      throw new Error('Expected , or ]');
+    }
+    return arr;
+  };
+
+  const parseString = (): string => {
+    const quote = s[i++];
+    let out = '';
+    while (i < s.length && s[i] !== quote) {
+      if (s[i] === '\\' && i + 1 < s.length) {
+        i++;
+        const esc = s[i];
+        if (esc === 'n') out += '\n';
+        else if (esc === 't') out += '\t';
+        else if (esc === 'r') out += '\r';
+        else out += esc;
+        i++;
+      } else {
+        out += s[i++];
+      }
+    }
+    i++; // consume closing quote
+    return out;
+  };
+
+  const parseRegex = (): RegExp => {
+    const start = ++i; // consume '/'
+    let body = '';
+    while (i < s.length && s[i] !== '/') {
+      if (s[i] === '\\' && i + 1 < s.length) {
+        body += s[i + 1];
+        i += 2;
+      } else {
+        body += s[i++];
+      }
+    }
+    i++; // consume closing '/'
+    let flags = '';
+    while (i < s.length && /[a-z]/i.test(s[i])) flags += s[i++];
+    try {
+      return new RegExp(body, flags);
+    } catch {
+      return new RegExp(body.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    }
+  };
+
+  const parsePrimitive = (): any => {
+    const start = i;
+    while (i < s.length && !/[\s,}\]/:]/.test(s[i])) i++;
+    const token = s.slice(start, i);
+    if (token === 'true') return true;
+    if (token === 'false') return false;
+    if (token === 'null') return null;
+    const num = Number(token);
+    if (!isNaN(num)) return num;
+    // fall back to a bare string (e.g. unquoted identifier)
+    return token;
+  };
+
+  return (str: string): any => {
+    s = str;
+    i = 0;
+    const val = parseValue();
+    skipWs();
+    return val;
+  };
+})();
+
 const safeEvalJSON = (str: string): any => {
   try {
-    const converted = str.replace(/"\$regex"\s*:\s*"([^"]+)"/g, '"$regex": /$1/')
-      .replace(/"\$regex"\s*:\/'([^']+)'/g, '"$regex": /$1/');
-    const fn = new Function(`
-      var obj = ${converted};
-      function walk(o) {
-        if (Array.isArray(o)) return o.map(walk);
-        if (o && typeof o === 'object') {
-          for (var k in o) {
-            if (k === '$regex' && typeof o[k] === 'string') {
-              o[k] = new RegExp(o[k]);
-            } else if (k === '$in' || k === '$nin') {
-              o[k] = o[k].map(function(v) { return v; });
-            } else {
-              o[k] = walk(o[k]);
-            }
-          }
-        }
-        return o;
-      }
-      return walk(obj);
-    `);
-    return fn();
+    return parseQueryLiteral(str);
   } catch {
     return str;
   }

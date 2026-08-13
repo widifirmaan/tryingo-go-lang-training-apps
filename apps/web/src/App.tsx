@@ -109,11 +109,6 @@ export default function App() {
     }
   };
 
-  const handleOpenPlaygroundById = (trackId: string) => {
-    setPlaygroundLanguage(trackId.replace('tryngo-lang-', ''));
-    setPlaygroundCode('');
-  };
-
   const handleClosePlayground = () => {
     setPlaygroundCode(null);
   };
@@ -400,6 +395,7 @@ export default function App() {
               onOpenQuiz={handleOpenQuiz}
               onOpenIde={handleOpenIde}
               activeIdeId={ideTarget}
+              activeQuizId={quizTarget ? quizTarget.slug : null}
             />
           </motion.div>
 
@@ -496,19 +492,18 @@ export default function App() {
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <h2 className="font-extrabold text-sm sm:text-base leading-none">
+                          <h2 className="font-extrabold text-xl sm:text-2xl leading-none">
                             {t.tracksHeaderTitle}
                           </h2>
-                          <span className="bg-[#2E5B44] text-white text-[10px] font-black px-2 py-0.5 rounded-full">
+                          <span className="bg-[#2E5B44] text-white text-[10px] font-black px-2 py-0.5 rounded-full self-center leading-none">
                             {filteredTracks.length} / {TRACKS_COLLECTION.length}
                           </span>
                         </div>
-                        <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate mt-0.5">
-                          {hasActiveFilters 
-                            ? `${t.activeFilter}: "${searchQuery || 'Kategori/Sort'}" (${filteredTracks.length} ${t.cardsCount})`
-                            : t.tracksHeaderSub
-                          }
-                        </p>
+                        {hasActiveFilters && (
+                          <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate mt-1">
+                            {t.activeFilter}: "{searchQuery || 'Kategori/Sort'}" ({filteredTracks.length} {t.cardsCount})
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -578,7 +573,8 @@ export default function App() {
                               onAddToCart={handleAddToCart}
                               onOpenDetails={(item) => setSelectedProduct(item)}
                               onStartCourse={(id) => handleStartCourse(id)}
-                              onOpenPlayground={handleOpenPlaygroundById}
+                              onOpenPlayground={handleOpenIde}
+                              onOpenQuiz={(slug) => handleOpenQuiz(slug)}
                               lang={lang}
                             />
                           </motion.div>
@@ -601,7 +597,8 @@ export default function App() {
                               onAddToCart={handleAddToCart}
                               onOpenDetails={(item) => setSelectedProduct(item)}
                               onStartCourse={(id) => handleStartCourse(id)}
-                              onOpenPlayground={handleOpenPlaygroundById}
+                              onOpenPlayground={handleOpenIde}
+                              onOpenQuiz={(slug) => handleOpenQuiz(slug)}
                               lang={lang}
                             />
                           </motion.div>
@@ -635,7 +632,8 @@ export default function App() {
                         onAddToCart={handleAddToCart}
                         onOpenDetails={(item) => setSelectedProduct(item)}
                         onStartCourse={(id) => handleStartCourse(id)}
-                        onOpenPlayground={handleOpenPlaygroundById}
+                        onOpenPlayground={handleOpenIde}
+                        onOpenQuiz={(slug) => handleOpenQuiz(slug)}
                         lang={lang}
                       />
                     </motion.div>

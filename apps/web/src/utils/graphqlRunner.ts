@@ -276,7 +276,7 @@ export const SAMPLE_QUERIES = [
     active
   }
 }`,
-    variables: { name: 'New Hire', department: 'Engineering', salary: 10000000, skills: ['Go', 'Docker'] },
+    variables: { name: 'New Hire', dept: 'Engineering', salary: 10000000, skills: ['Go', 'Docker'] },
   },
   {
     name: 'Create Order (Mutation)',

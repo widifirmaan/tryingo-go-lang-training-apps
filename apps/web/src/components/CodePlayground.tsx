@@ -192,6 +192,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   useEffect(() => {
     const handler = (event: MessageEvent) => {
       if (event.data?.type !== 'tryngo-console') return;
+      if (event.source !== iframeRef.current?.contentWindow) return;
       setOutput(String(event.data.data || ''));
     };
     window.addEventListener('message', handler);
@@ -266,6 +267,21 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
               return false;
             };
           <\/script>`;
+          // Non-HTML languages (javascript, typescript) are wrapped in a script tag
+          const looksLikeHtml = /<html|<body|<head|<!\s*DOCTYPE/i.test(finalCode);
+          if (!looksLikeHtml) {
+            finalCode = `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Output</title>
+</head>
+<body>
+  <script>${finalCode}<\/script>
+</body>
+</html>`;
+          }
           const styledCode = finalCode.includes('</head>')
             ? finalCode.replace('</head>', captureScript + '</head>')
             : finalCode.includes('<head>')

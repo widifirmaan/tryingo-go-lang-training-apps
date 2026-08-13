@@ -6,6 +6,7 @@ import { Language } from '../../utils/translations';
 import {
   DEFAULT_CODE,
   simulateOutput,
+  simulateNode,
   FRAMEWORK_LABELS,
   FRAMEWORK_LANGUAGES,
   FRAMEWORK_MAIN_FILES,
@@ -74,14 +75,26 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
     setError('');
     setExecutionTime(null);
     const start = performance.now();
-    setTimeout(() => {
-      const result = simulateOutput(slug, code);
-      const elapsed = performance.now() - start;
-      setExecutionTime(elapsed);
-      if (result.error) setError(result.error);
-      if (result.output) setOutput(result.output);
-      setIsRunning(false);
-    }, 150 + Math.random() * 200);
+    if (slug === 'nodejs') {
+      simulateNode(code)
+        .then((result) => {
+          const elapsed = performance.now() - start;
+          setExecutionTime(elapsed);
+          if (result.error) setError(result.error);
+          if (result.output) setOutput(result.output);
+        })
+        .catch((err) => setError(err instanceof Error ? err.message : String(err)))
+        .finally(() => setIsRunning(false));
+    } else {
+      setTimeout(() => {
+        const result = simulateOutput(slug, code);
+        const elapsed = performance.now() - start;
+        setExecutionTime(elapsed);
+        if (result.error) setError(result.error);
+        if (result.output) setOutput(result.output);
+        setIsRunning(false);
+      }, 150 + Math.random() * 200);
+    }
   }, [code, slug]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -93,7 +106,7 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
-    editor.addCommand(2048 | 3001, () => runCode());
+    editor.addCommand(2048 | 3, () => runCode());
   };
 
   const monacoLang = FRAMEWORK_LANGUAGES[slug];

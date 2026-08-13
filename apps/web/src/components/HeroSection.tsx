@@ -25,6 +25,7 @@ interface HeroSectionProps {
   onOpenQuiz?: (slug: string, level?: string) => void;
   onOpenIde?: (trackId: string) => void;
   activeIdeId?: string | null;
+  activeQuizId?: string | null;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -44,6 +45,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenQuiz,
   onOpenIde,
   activeIdeId,
+  activeQuizId,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -138,7 +140,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       <span className="font-flpcart text-xl font-black tracking-wide leading-none">
                         TRYNGO
                       </span>
-                      <span className="text-[9px] text-[#EEDBB2] uppercase tracking-widest font-bold">Playground Sidebar</span>
+                      <span className="text-[9px] text-[#EEDBB2] uppercase tracking-widest font-bold">{t.heroTagline}</span>
                     </div>
                   </div>
                 </div>
@@ -256,7 +258,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           <motion.button
                             whileTap={{ scale: 0.97 }}
                             onClick={() => openQuiz('__sample__')}
-                            className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-[#2E5B44]/30 hover:bg-[#2E5B44]/50 text-emerald-300 font-bold text-[11px] flex items-center gap-2 transition-colors text-left shrink-0"
+                            className={`w-full pl-7 pr-3.5 py-1.5 rounded-xl text-[11px] font-medium flex items-center gap-2 transition-colors text-left shrink-0 ${activeQuizId === '__sample__' ? 'bg-emerald-400/20 text-emerald-200' : 'bg-[#2E5B44]/30 hover:bg-[#2E5B44]/50 text-emerald-300 font-bold'}`}
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
                             {lang === 'id' ? 'Test Quiz' : 'Test Quiz'}
@@ -266,9 +268,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               key={q.label}
                               whileTap={{ scale: 0.97 }}
                               onClick={() => openQuiz(q.slug)}
-                              className="w-full pl-7 pr-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/80 text-[11px] font-medium flex items-center gap-2 transition-colors text-left shrink-0"
+                              className={`w-full pl-7 pr-3.5 py-1.5 rounded-xl text-[11px] font-medium flex items-center gap-2 transition-colors text-left shrink-0 ${activeQuizId === q.slug ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/80'}`}
                             >
-                              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${qi % 3 === 0 ? 'bg-sky-400' : qi % 3 === 1 ? 'bg-amber-400' : 'bg-orange-400'}`} />
+                              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${activeQuizId === q.slug ? 'bg-emerald-400' : qi % 3 === 0 ? 'bg-sky-400' : qi % 3 === 1 ? 'bg-amber-400' : 'bg-orange-400'}`} />
                               {q.label}
                             </motion.button>
                           ))}
@@ -401,7 +403,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
                   <div className="flex flex-col">
                     <span className="font-flpcart text-base sm:text-lg font-black tracking-wide leading-none">TRYNGO</span>
-                    <span className="text-[9px] text-[#EEDBB2] uppercase tracking-wider font-bold">Playground Sidebar</span>
+                    <span className="text-[9px] text-[#EEDBB2] uppercase tracking-wider font-bold">{t.heroTagline}</span>
                   </div>
                 </div>
 
@@ -558,7 +560,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
                           <button
                             onClick={() => { setIsMobileMenuOpen(false); openQuiz('__sample__'); }}
-                            className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-[#2E5B44]/30 text-emerald-300 font-bold text-[11px] text-left shrink-0"
+                            className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] text-left shrink-0 ${activeQuizId === '__sample__' ? 'bg-emerald-400/20 text-emerald-200 font-bold' : 'bg-[#2E5B44]/30 text-emerald-300 font-bold'}`}
                           >
                             {lang === 'id' ? 'Test Quiz' : 'Test Quiz'}
                           </button>
@@ -566,7 +568,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                             <button
                               key={q.label}
                               onClick={() => { setIsMobileMenuOpen(false); openQuiz(q.slug); }}
-                              className="w-full pl-6 pr-3 py-1.5 rounded-lg bg-white/5 text-white/70 text-[11px] font-medium text-left shrink-0"
+                              className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] font-medium text-left shrink-0 ${activeQuizId === q.slug ? 'bg-emerald-400/20 text-emerald-200' : 'bg-white/5 text-white/70'}`}
                             >
                               {q.label}
                             </button>

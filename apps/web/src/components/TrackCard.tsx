@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faBookOpen, faFlask } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
@@ -27,6 +27,7 @@ interface TrackCardProps {
   isCompact?: boolean;
   onStartCourse?: (trackId: string) => void;
   onOpenPlayground?: (trackId: string) => void;
+  onOpenQuiz?: (slug: string) => void;
   lang?: 'id' | 'en';
 }
 
@@ -37,9 +38,11 @@ export const TrackCard: React.FC<TrackCardProps> = ({
   isCompact = false,
   onStartCourse,
   onOpenPlayground,
+  onOpenQuiz,
   lang = 'id',
 }) => {
-  const totalWeeks = getCurriculum(SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '')).reduce((sum, l) => sum + l.weeks.length, 0);
+  const slug = SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '');
+  const totalWeeks = getCurriculum(slug).reduce((sum, l) => sum + l.weeks.length, 0);
   return (
     <div 
       className={`relative w-full h-full flex flex-col rounded-[28px] p-3 sm:p-4 select-none shadow-md hover:shadow-xl transition-all border ${track.bgClass} ${track.borderColor} dark:bg-zinc-800/90 dark:border-zinc-700/80 dark:text-zinc-100`}
@@ -73,7 +76,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
           </div>
 
           {/* Text Description */}
-          <p className="text-[10px] sm:text-xs leading-relaxed text-zinc-800 dark:text-zinc-300 font-medium min-h-0 overflow-hidden line-clamp-2 sm:line-clamp-3">
+          <p className="text-[10px] sm:text-xs leading-relaxed text-zinc-800 dark:text-zinc-300 font-medium flex-1 min-h-0 overflow-hidden items-start">
             {track.description}
           </p>
 
@@ -94,6 +97,14 @@ export const TrackCard: React.FC<TrackCardProps> = ({
               title="Buka Playground"
             >
               <FontAwesomeIcon icon={faCode} className="w-3.5 h-3.5" />
+            </button>
+
+            <button 
+              onClick={() => onOpenQuiz?.(slug)}
+              className="w-8 h-8 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
+              title="Buka Kuis"
+            >
+              <FontAwesomeIcon icon={faFlask} className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

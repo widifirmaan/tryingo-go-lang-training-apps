@@ -114,7 +114,7 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.addCommand(
-      2048 | 3001,
+      2048 | 3,
       () => runPhp()
     );
   };

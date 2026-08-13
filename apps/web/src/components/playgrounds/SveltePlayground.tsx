@@ -11,15 +11,15 @@ interface SveltePlaygroundProps {
 }
 
 const DEFAULT_SVELTE = `<script>
-  let count = 0;
-  $: doubled = count * 2;
+  let count = $state(0);
+  let doubled = $derived(count * 2);
 </script>
 
 <div style="font-family: system-ui; padding: 20px">
   <h1>Hello Svelte! 🚀</h1>
   <p>Count: {count}</p>
   <p>Doubled: {doubled}</p>
-  <button on:click={() => count++}>Increment</button>
+  <button onclick={() => count++}>Increment</button>
 </div>
 `;
 
@@ -230,13 +230,14 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.addCommand(
-      2048 | 3001,
+      2048 | 3,
       () => compileAndRun()
     );
   };
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return;
       if (event.data?.type === 'console') {
         const prefix = event.data.level === 'error' ? 'Error: ' : event.data.level === 'warn' ? 'Warning: ' : '';
         setOutput((prev) => (prev ? prev + '\n' : '') + prefix + event.data.message);
