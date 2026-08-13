@@ -20,7 +20,7 @@ export const SLUG_MAP: Record<string, string> = {
   'tryngo-lang-graphql': 'graphql',
   'tryngo-lang-csharp': 'csharp',
   'tryngo-lang-spring': 'spring',
-  'tryngo-lang-codeigniter': 'codeigniter',
+  'tryngo-lang-codeigniter': 'codeigniter4',
   'tryngo-lang-mysql': 'mysql',
   'tryngo-lang-mongodb': 'mongodb',
   'tryngo-lang-redis': 'redis',

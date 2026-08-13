@@ -360,7 +360,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
 
     initGoWasm().then(({ tinygo, yaegi }) => {
       if (cancelled) return;
-      if (tinygo && week) {
+      if (tinygo && week && week <= 11) {
         const result = runTinyGoWeek(week);
         if (result.output) setOutput(result.output);
       } else if (yaegi && initialCode) {
