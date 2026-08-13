@@ -10,7 +10,7 @@ interface GraphqlPlaygroundProps {
   lang: Language;
   initialCode?: string;
   language: string;
-  onClose: () => void;
+  onClose?: () => void;
   inline?: boolean;
   week?: number;
 }
@@ -262,6 +262,7 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
           >
             {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}
           </button>
+          {onClose && (
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
@@ -269,7 +270,7 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
           >
             <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
           </button>
-        </div>
+          )}        </div>
       </div>
 
       {/* Schema Panel (collapsible) */}

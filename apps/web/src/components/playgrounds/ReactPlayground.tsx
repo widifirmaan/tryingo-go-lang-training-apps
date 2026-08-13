@@ -246,8 +246,10 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
     loadEsbuild().then(() => {
       setIsLoading(false);
       runCode();
-    }).catch(() => {
+    }).catch((err: any) => {
       setIsLoading(false);
+      setError(err instanceof Error ? err.message : (isId ? 'Gagal memuat compiler React (esbuild). Periksa koneksi internet.' : 'Failed to load React compiler (esbuild). Check your internet connection.'));
+      setCompileStatus('error');
     });
   }, []);
 

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faTimes, faCheck, faXmark, faRotateRight, faPlay, faTrophy,
+  faArrowLeft, faCheck, faXmark, faRotateRight, faPlay, faTrophy,
   faSpinner, faBookOpen, faChevronDown, faChevronUp, faClockRotateLeft,
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
@@ -193,22 +193,37 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
   const pct = total ? Math.round((score / total) * 100) : 0;
 
   return (
-    <div className="fixed inset-0 z-50">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-      />
+    <div className="flex-1 flex flex-col h-full min-w-0 lg:overflow-hidden gap-3 px-3 sm:px-0">
+      {/* Page header (uniform with CoursePage / IdeModal) */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 flex-wrap">
+        <button
+          onClick={handleClose}
+          className="p-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 hover:bg-white dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 shadow-xs transition-all shrink-0"
+          title={isId ? 'Kembali' : 'Back'}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-700 dark:text-zinc-300" />
+        </button>
+
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#2E5B44] text-white flex items-center justify-center shadow-xs shrink-0">
+            <FontAwesomeIcon icon={faBookOpen} className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="font-extrabold text-xs sm:text-sm md:text-base leading-none truncate">{trackName}</h2>
+            <p className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate mt-0.5">
+              {isId ? (sample ? 'Kuis Uji Coba' : 'Kuis Materi') : (sample ? 'Test Quiz' : 'Material Quiz')}
+            </p>
+          </div>
+        </div>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-        className="relative z-10 w-full h-full bg-white dark:bg-[#1e1e1e] shadow-2xl flex flex-col overflow-hidden"
-        role="dialog"
-        aria-modal="true"
+        className="flex-1 min-h-0 rounded-[28px] overflow-hidden bg-white dark:bg-[#1e1e1e] border border-zinc-300 dark:border-zinc-700 shadow-md flex flex-col"
+        role="region"
         aria-label={isId ? 'Kuis' : 'Quiz'}
       >
         {phase === 'loading' && (
@@ -237,7 +252,6 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
               clearProgress(scopeKey, lang);
               window.location.reload();
             }}
-            onClose={handleClose}
           />
         )}
 
@@ -252,7 +266,6 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
             onSelect={selectAnswer}
             onNext={goNext}
             isLast={isLast}
-            onClose={handleClose}
           />
         )}
 
@@ -280,33 +293,18 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
 
 function IntroScreen({
   trackName, isId, error, initialLevel, sample, total, best, savedProgress,
-  onBegin, onResume, onResetProgress, onClose,
+  onBegin, onResume, onResetProgress,
 }: {
   trackName: string; isId: boolean; error: boolean; initialLevel?: string; sample?: boolean; total: number;
   best: { score: number; total: number; date: number } | null;
   savedProgress: { answers: number[]; idx: number } | null;
-  onBegin: () => void; onResume: () => void; onResetProgress: () => void; onClose: () => void;
+  onBegin: () => void; onResume: () => void; onResetProgress: () => void;
 }) {
   const canResume = savedProgress && savedProgress.answers.length === total && savedProgress.idx < total;
   const completed = savedProgress && savedProgress.idx >= total;
   const [confirmReset, setConfirmReset] = useState(false);
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-zinc-200 dark:border-zinc-700">
-        <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-2xl bg-[#2E5B44] text-white flex items-center justify-center shadow-xs">
-            <FontAwesomeIcon icon={faBookOpen} className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="font-extrabold text-sm sm:text-base leading-none">{trackName}</h2>
-            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium mt-1">{isId ? 'Kuis Materi' : 'Material Quiz'}</p>
-          </div>
-        </div>
-        <button onClick={onClose} className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors" title={isId ? 'Tutup' : 'Close'}>
-          <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
-        </button>
-      </div>
-
       <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5">
         {error ? (
           <div className="text-center py-12 text-zinc-500 text-sm">{isId ? 'Soal kuis belum tersedia untuk modul ini.' : 'Quiz questions are not available for this module yet.'}</div>
@@ -429,11 +427,11 @@ function StatCard({ icon, label, value }: { icon: any; label: string; value: str
 // ─────────────────────────────────────────────────────────────────────────────
 
 function QuizScreen({
-  isId, current, idx, total, selected, answers, onSelect, onNext, isLast, onClose,
+  isId, current, idx, total, selected, answers, onSelect, onNext, isLast,
 }: {
   isId: boolean; current: FlatQuestion; idx: number; total: number;
   selected: number | null; answers: number[];
-  onSelect: (i: number) => void; onNext: () => void; isLast: boolean; onClose: () => void;
+  onSelect: (i: number) => void; onNext: () => void; isLast: boolean;
 }) {
   const q: QuizQuestion = current.q;
   const answeredCount = answers.filter((a) => a >= 0).length;
@@ -451,9 +449,6 @@ function QuizScreen({
           <span className="text-[10px] text-zinc-400 hidden sm:inline">
             {isId ? 'Terjawab' : 'Answered'}: {answeredCount}/{total}
           </span>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors" title={isId ? 'Tutup' : 'Close'}>
-            <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
-          </button>
         </div>
         <div className="h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
           <div className="h-full bg-[#2E5B44] transition-all duration-300" style={{ width: `${pct}%` }} />
@@ -579,11 +574,8 @@ function ResultScreen({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="px-5 sm:px-6 py-4 border-b border-zinc-200 dark:border-zinc-700 flex items-center justify-between">
+      <div className="px-5 sm:px-6 py-4 border-b border-zinc-200 dark:border-zinc-700">
         <h2 className="font-extrabold text-sm sm:text-base">{isId ? 'Hasil Kuis' : 'Quiz Result'}</h2>
-        <button onClick={onClose} className="p-2 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 transition-colors" title={isId ? 'Tutup' : 'Close'}>
-          <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
-        </button>
       </div>
 
       <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5">

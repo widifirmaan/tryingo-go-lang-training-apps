@@ -20,7 +20,6 @@ import { CsharpPlayground } from './playgrounds/CsharpPlayground';
 import { ReactPlayground } from './playgrounds/ReactPlayground';
 import { VuePlayground } from './playgrounds/VuePlayground';
 import { SveltePlayground } from './playgrounds/SveltePlayground';
-import { QuizModal } from './QuizModal';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
@@ -35,12 +34,13 @@ interface CoursePageProps {
   lang: Language;
   onBack: () => void;
   onOpenPlayground?: (code: string) => void;
+  onOpenQuiz?: (slug: string, level?: string) => void;
   initialLevel?: string;
   initialWeek?: number;
   onNavigate?: (trackId: string, level: string, week: number) => void;
 }
 
-export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, initialLevel, initialWeek, onNavigate }) => {
+export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, onOpenQuiz, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -62,7 +62,6 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
     return initialWeek || 1;
   });
   const [showLevelPicker, setShowLevelPicker] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
   const [leftWidth, setLeftWidth] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -235,7 +234,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
 
         {/* Quiz Button */}
         <button
-          onClick={() => setShowQuiz(true)}
+          onClick={() => onOpenQuiz?.(slug, activeLevel)}
           className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#2E5B44] text-white border border-[#2E5B44] shadow-xs hover:bg-[#234735] transition-all text-xs sm:text-sm font-bold shrink-0"
           title={isId ? 'Kuis semua materi' : 'Quiz all material'}
         >
@@ -417,15 +416,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         )}
       </div>
-
-      {showQuiz && (
-        <QuizModal
-          slug={slug}
-          trackName={track?.name || trackId}
-          lang={lang}
-          onClose={() => setShowQuiz(false)}
-        />
-      )}
     </div>
   );
 };

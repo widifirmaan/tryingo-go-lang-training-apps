@@ -80,6 +80,7 @@ export default function App() {
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(null);
+    setQuizTarget(null);
     updateHash(trackId);
   };
 
@@ -88,6 +89,7 @@ export default function App() {
     setCourseInitialLevel(level);
     setCourseInitialWeek(week);
     setIdeTarget(null);
+    setQuizTarget(null);
     updateHash(trackId, level, week);
   };
 
@@ -96,6 +98,7 @@ export default function App() {
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(null);
+    setQuizTarget(null);
     updateHash(null);
   };
 
@@ -107,7 +110,7 @@ export default function App() {
   };
 
   const handleOpenPlaygroundById = (trackId: string) => {
-    setPlaygroundLanguage(trackId);
+    setPlaygroundLanguage(trackId.replace('tryngo-lang-', ''));
     setPlaygroundCode(' ');
   };
 
@@ -119,9 +122,24 @@ export default function App() {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
+    setQuizTarget(null);
     setIdeTarget(trackId);
     const slug = trackId.replace('tryngo-lang-', '');
     window.location.hash = `#/ide/${slug}`;
+  };
+
+  const handleOpenQuiz = (slug: string, level?: string) => {
+    setActiveCourseId(null);
+    setCourseInitialLevel(undefined);
+    setCourseInitialWeek(undefined);
+    setIdeTarget(null);
+    setQuizTarget({ slug, level, sample: slug === '__sample__' });
+    window.location.hash = slug === '__sample__' ? '#/quiz/sample' : (level ? `#/quiz/${slug}/${level}` : `#/quiz/${slug}`);
+  };
+
+  const handleCloseQuiz = () => {
+    setQuizTarget(null);
+    updateHash(null);
   };
 
   const t = translations[lang];
@@ -170,8 +188,27 @@ export default function App() {
   useEffect(() => {
     const parseHash = () => {
       const hash = window.location.hash.replace(/^#\/?/, '');
-      if (!hash) return;
+      if (!hash) {
+        setActiveCourseId(null);
+        setIdeTarget(null);
+        setQuizTarget(null);
+        return;
+      }
       const parts = hash.split('/').filter(Boolean);
+      if (parts.length > 0 && parts[0] === 'quiz') {
+        // Quiz route: #/quiz/{slug}/{level?}  (or #/quiz/sample for the test quiz)
+        const slug = parts[1];
+        if (slug === 'sample') {
+          setQuizTarget({ slug: '__sample__', sample: true });
+        } else if (slug) {
+          setQuizTarget({ slug, level: parts[2], sample: false });
+        } else {
+          setQuizTarget(null);
+        }
+        setActiveCourseId(null);
+        setIdeTarget(null);
+        return;
+      }
       if (parts.length > 0 && parts[0] === 'ide') {
         // IDE route: #/ide/{slug}
         const slug = parts[1];
@@ -181,6 +218,7 @@ export default function App() {
           setActiveCourseId(null);
           setCourseInitialLevel(undefined);
           setCourseInitialWeek(undefined);
+          setQuizTarget(null);
         } else {
           setIdeTarget(null);
         }
@@ -198,6 +236,7 @@ export default function App() {
           setCourseInitialLevel(level);
           setCourseInitialWeek(week && !isNaN(week) ? week : 1);
           setIdeTarget(null);
+          setQuizTarget(null);
         }
       }
     };
@@ -252,6 +291,7 @@ export default function App() {
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(null);
+    setQuizTarget(null);
     updateHash(null);
   };
 
@@ -332,13 +372,13 @@ export default function App() {
             layout
             transition={{ type: "spring", stiffness: 220, damping: 26 }}
             className={`flex-shrink-0 flex flex-col ${
-              isExploring || activeCourseId || ideTarget
+              isExploring || activeCourseId || ideTarget || quizTarget
                 ? 'w-full lg:w-72 xl:w-80 landscape:w-72 h-auto lg:h-full' 
                 : 'w-full lg:w-[56%] xl:w-[60%] h-dvh lg:h-full min-h-0'
             }`}
           >
             <HeroSection 
-              isExploring={isExploring || !!activeCourseId || !!ideTarget}
+              isExploring={isExploring || !!activeCourseId || !!ideTarget || !!quizTarget}
               onBackToHero={handleBackToHero}
               onOpenSearch={() => setIsSearchOpen(true)}
               onOpenFilter={() => setIsSearchOpen(true)}
@@ -351,7 +391,7 @@ export default function App() {
               activeLevel={courseInitialLevel}
               activeWeek={courseInitialWeek}
               onNavigateToWeek={handleNavigateToWeek}
-              onOpenQuiz={(slug, level) => setQuizTarget({ slug, level, sample: slug === '__sample__' })}
+              onOpenQuiz={handleOpenQuiz}
               onOpenIde={handleOpenIde}
               activeIdeId={ideTarget}
             />
@@ -366,7 +406,26 @@ export default function App() {
             className="flex-1 min-w-0 flex flex-col h-full overflow-hidden"
           >
             <AnimatePresence mode="wait">
-              {ideTarget ? (
+              {quizTarget ? (
+                /* MODE: QUIZ PAGE VIEW */
+                <motion.div
+                  key={`quiz-${quizTarget.slug}-${quizTarget.level || ''}-${quizTarget.sample ? 'sample' : ''}`}
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.25 }}
+                  className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
+                >
+                  <QuizModal
+                    slug={quizTarget.slug}
+                    trackName={quizTrackName}
+                    lang={lang}
+                    initialLevel={quizTarget.level}
+                    sample={quizTarget.sample}
+                    onClose={handleCloseQuiz}
+                  />
+                </motion.div>
+              ) : ideTarget ? (
                 /* MODE D: ONLINE IDE VIEW */
                 <motion.div
                   key={`ide-${ideTarget}`}
@@ -401,6 +460,7 @@ export default function App() {
                       lang={lang}
                       onBack={handleBackFromCourse}
                       onOpenPlayground={handleOpenPlayground}
+                      onOpenQuiz={handleOpenQuiz}
                       initialLevel={courseInitialLevel}
                       initialWeek={courseInitialWeek}
                       onNavigate={handleNavigateToWeek}
@@ -621,17 +681,6 @@ export default function App() {
         theme={theme}
         setTheme={setTheme}
       />
-
-      {quizTarget && (
-        <QuizModal
-          slug={quizTarget.slug}
-          trackName={quizTrackName}
-          lang={lang}
-          initialLevel={quizTarget.level}
-          sample={quizTarget.sample}
-          onClose={() => setQuizTarget(null)}
-        />
-      )}
 
       {/* Interactive Code Playground */}
       <AnimatePresence>

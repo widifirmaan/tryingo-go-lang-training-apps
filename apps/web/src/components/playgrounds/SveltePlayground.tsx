@@ -57,7 +57,6 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
   const [error, setError] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const [compilerStatus, setCompilerStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [compilerReady, setCompilerReady] = useState(false);
   const [editorReady, setEditorReady] = useState(false);
   const [executionTime, setExecutionTime] = useState<number | null>(null);
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
@@ -353,11 +352,19 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
                 <pre className="text-yellow-300 whitespace-pre-wrap text-[11px]">{output}</pre>
               ) : (
                 <div className="flex items-center gap-2 text-zinc-500 text-xs">
-                  <FontAwesomeIcon icon={faCircleInfo} className="w-3 h-3" />
-                  <span>
-                    {isId
-                      ? 'Klik "Jalankan" atau tekan Ctrl+Enter untuk mengkompilasi Svelte...'
-                      : 'Click "Run" or press Ctrl+Enter to compile Svelte...'}
+                  {compilerStatus === 'error' ? (
+                    <FontAwesomeIcon icon={faTriangleExclamation} className="w-3 h-3 text-red-400" />
+                  ) : (
+                    <FontAwesomeIcon icon={faCircleInfo} className="w-3 h-3" />
+                  )}
+                  <span className={compilerStatus === 'error' ? 'text-red-400' : ''}>
+                    {compilerStatus === 'error'
+                      ? (isId
+                        ? 'Gagal memuat compiler Svelte. Periksa koneksi internet lalu muat ulang.'
+                        : 'Failed to load Svelte compiler. Check your internet connection and reload.')
+                      : (isId
+                        ? 'Klik "Jalankan" atau tekan Ctrl+Enter untuk mengkompilasi Svelte...'
+                        : 'Click "Run" or press Ctrl+Enter to compile Svelte...')}
                   </span>
                 </div>
               )}

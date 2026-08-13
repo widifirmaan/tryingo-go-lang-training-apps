@@ -66,8 +66,6 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
   const editorRef = useRef<any>(null);
   const isRunningRef = useRef(false);
 
-  const isWebLang = false;
-
   useEffect(() => {
     const el = outputRef.current;
     if (el) el.scrollTop = el.scrollHeight;

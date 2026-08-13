@@ -48,7 +48,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [showExitModal, setShowExitModal] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
-  const [hideBottomCard, setHideBottomCard] = useState(false);
   const materiRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
@@ -68,13 +67,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const openIde = (trackId: string) => {
     onOpenIde?.(trackId);
   };
-
-  useEffect(() => {
-    const checkHeight = () => setHideBottomCard(window.innerHeight <= 750);
-    checkHeight();
-    window.addEventListener('resize', checkHeight);
-    return () => window.removeEventListener('resize', checkHeight);
-  }, []);
 
   useEffect(() => {
     if (activeCourseId) {
@@ -197,7 +189,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[400px] overflow-y-auto"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
                         >
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
@@ -360,7 +352,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <motion.button
                     whileHover={{ scale: 1.02, x: 3 }}
                     whileTap={{ scale: 0.97 }}
-                    onClick={() => window.open('https://github.com/anomalyco/tryingo-go-lang-training-apps', '_blank')}
+                    onClick={() => window.open('https://widifirmaan.web.id', '_blank')}
                     className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
                   >
 <FontAwesomeIcon icon={faHeart} className="w-4 h-4 text-red-400" />
@@ -369,31 +361,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
               </div>
 
-              {/* Divider above card */}
-              <hr className="border-white/10 mt-3 mb-1" />
-
-              {/* Bottom Card Preview - fills remaining space */}
-              <motion.div 
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className={`flex-1 min-h-0 p-3 bg-black/20 backdrop-blur-xs rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer ${activeSubmenu === 'materi' || hideBottomCard ? 'hidden' : ''}`}
-              >
-                <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/30 shadow-md">
-                  <img 
-                    src={ghibliHeroImg} 
-                    alt="Ghibli Student" 
-                    className="w-full h-full object-cover" 
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <span className="text-[10px] font-extrabold text-[#EEDBB2] uppercase tracking-wider flex items-center gap-1">
-                    <FontAwesomeIcon icon={faStar} className="w-3 h-3 text-amber-400" /> ACTIVE TRACK
-                  </span>
-                  <span className="text-xs font-bold text-white line-clamp-1">Zero to Professional</span>
-                  <span className="text-[10px] text-emerald-200">6 Interactive Modules</span>
-                </div>
-              </motion.div>
             </div>
 
               {onBackToHero && (
@@ -443,7 +410,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
                   <div className="flex flex-col">
                     <span className="font-flpcart text-base sm:text-lg font-black tracking-wide leading-none">TRYNGO</span>
-                    <span className="text-[9px] text-[#EEDBB2] uppercase tracking-wider font-bold">Playground</span>
+                    <span className="text-[9px] text-[#EEDBB2] uppercase tracking-wider font-bold">Playground Sidebar</span>
                   </div>
                 </div>
 
@@ -553,7 +520,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'materi-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
                               <button
@@ -680,7 +647,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
-                      onClick={() => { setIsMobileMenuOpen(false); window.open('https://github.com/anomalyco/tryingo-go-lang-training-apps', '_blank'); }}
+                      onClick={() => { setIsMobileMenuOpen(false); window.open('https://widifirmaan.web.id', '_blank'); }}
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
                     >
 <FontAwesomeIcon icon={faHeart} className="w-4 h-4 text-red-400" />
