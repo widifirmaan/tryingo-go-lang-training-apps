@@ -40,28 +40,17 @@ let vueScriptLoadPromise: Promise<void> | null = null;
 async function loadVueRuntime(): Promise<void> {
   if (vueScriptLoadPromise) return vueScriptLoadPromise;
 
-  vueScriptLoadPromise = new Promise<void>(async (resolve, reject) => {
-    const loadScript = (src: string): Promise<void> =>
-      new Promise((res, rej) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onload = () => res();
-        script.onerror = () => rej(new Error(`Failed to load: ${src}`));
-        document.head.appendChild(script);
-      });
+  vueScriptLoadPromise = (async () => {
+    const compilerMod = await import(/* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.4.21/dist/compiler-sfc.esm-browser.js');
+    window.Vue = compilerMod as any;
+  })();
 
-    try {
-      await loadScript('https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.4.21/dist/compiler-sfc.browser.js');
-      await loadScript('https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.runtime.esm-browser.js');
-      resolve();
-    } catch (err) {
-      vueScriptLoadPromise = null;
-      reject(err);
-    }
-  });
-
-  return vueScriptLoadPromise;
+  try {
+    await vueScriptLoadPromise;
+  } catch (err) {
+    vueScriptLoadPromise = null;
+    throw err;
+  }
 }
 
 function compileVueSFC(source: string): { jsCode: string; errors: string[] } {

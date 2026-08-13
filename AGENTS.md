@@ -120,7 +120,7 @@ Key takeaways + next week preview
 ## Playground Architecture
 - **Client-side languages** (HTML/CSS/JS/TS): Monaco Editor → iframe sandbox preview
 - **Go (client-side WASM)**: Two-tier WASM approach:
-  1. **TinyGo runner** (pre-compiled, 663KB) — `wasm-exec/examples/tinygo-runner.go` compiles week examples into a single WASM. Auto-runs via `runTinyGoWeek(weekNum)` on mount. Covers basic constructs (vars, loops, functions, structs, interfaces, goroutines, channels). Cannot run `net/http`, `os.File`, `database/sql`, `flag`.
+  1. **TinyGo runner** (pre-compiled, ~800KB) — `wasm-exec/examples/tinygo-runner.go` compiles week examples into a single WASM. Auto-runs via `runTinyGoWeek(weekNum)` on mount. Covers weeks 1–11 (basic constructs: vars, loops, functions, structs, interfaces, goroutines, channels). Cannot run `net/http`, `os.File`, `database/sql`, `flag` — so weeks 12–13 (Testing/CLI + Capstone) are capped: `CodePlayground` only auto-runs TinyGo for `week <= 11` and falls back to the Yaegi interpreter for weeks 12–13.
   2. **Yaegi interpreter** (runtime, 38MB) — `wasm-exec/main.go` interprets arbitrary Go code. Used as fallback when TinyGo can't handle the code (modified/user code).
 - **Rust**: Monaco Editor → direct POST to `play.rust-lang.org/execute` (CORS-enabled) → return output
 - **Other languages**: show a "not executable in browser" message

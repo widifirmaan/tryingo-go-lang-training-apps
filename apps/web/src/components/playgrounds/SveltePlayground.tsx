@@ -23,37 +23,27 @@ const DEFAULT_SVELTE = `<script>
 </div>
 `;
 
-declare global {
-  interface Window {
-    svelte?: {
-      compile: (source: string, options?: Record<string, unknown>) => { js: { code: string }; warnings: Array<{ message: string }> };
-    };
-  }
+const SVELTE_CDN = 'https://cdn.jsdelivr.net/npm/svelte@5.56.8';
+
+interface SvelteCompiler {
+  compile: (source: string, options?: Record<string, unknown>) => {
+    js: { code: string };
+    warnings: Array<{ message: string }>;
+  };
 }
 
-let svelteCompilerPromise: Promise<void> | null = null;
+let svelteCompilerPromise: Promise<SvelteCompiler> | null = null;
 
-async function loadSvelteCompiler(): Promise<void> {
-  if (window.svelte?.compile) return;
+async function loadSvelteCompiler(): Promise<SvelteCompiler> {
   if (svelteCompilerPromise) return svelteCompilerPromise;
 
-  svelteCompilerPromise = new Promise<void>((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/svelte@4.2.12/compiler.js';
-    script.async = true;
-    script.onload = () => {
-      if (window.svelte?.compile) {
-        resolve();
-      } else {
-        reject(new Error('Svelte compiler loaded but not available on window'));
-      }
-    };
-    script.onerror = () => reject(new Error('Failed to load Svelte compiler from CDN'));
-    document.head.appendChild(script);
-  });
+  const compilerUrl = `${SVELTE_CDN}/compiler/+esm`;
+  svelteCompilerPromise = import(/* @vite-ignore */ compilerUrl).then(
+    (mod) => mod as unknown as SvelteCompiler
+  );
 
   try {
-    await svelteCompilerPromise;
+    return await svelteCompilerPromise;
   } catch (err) {
     svelteCompilerPromise = null;
     throw err;
@@ -104,20 +94,13 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
     const start = performance.now();
 
     try {
-      await loadSvelteCompiler();
-
-      const compileFn = window.svelte?.compile;
-      if (!compileFn) {
-        setError(isId ? 'Kompiler Svelte tidak tersedia' : 'Svelte compiler not available');
-        setIsRunning(false);
-        return;
-      }
+      const compiler = await loadSvelteCompiler();
 
       let compiled;
       try {
-        compiled = compileFn(code, {
-          generate: 'dom',
-          format: 'esm',
+        compiled = compiler.compile(code, {
+          generate: 'client',
+          name: 'App',
           dev: false,
         });
       } catch (err: any) {
@@ -152,8 +135,11 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       const logs: string[] = [];
 
       const moduleCode = jsCode
-        .replace(/from\s+["']svelte\/internal\/client["']/g, 'from "https://cdn.jsdelivr.net/npm/svelte@4.2.12/src/internal/client/index.js"')
-        .replace(/from\s+["']svelte["']/g, 'from "https://cdn.jsdelivr.net/npm/svelte@4.2.12/src/index-client.js"');
+        .replace(/export default /, '')
+        .replace(/import\s+["']svelte\/internal\/disclose-version["']/g, `import "${SVELTE_CDN}/internal/disclose-version/+esm"`)
+        .replace(/import\s+["']svelte\/internal\/flags\/legacy["']/g, `import "${SVELTE_CDN}/internal/flags/legacy/+esm"`)
+        .replace(/from\s+["']svelte\/internal\/client["']/g, `from "${SVELTE_CDN}/internal/client/+esm"`)
+        .replace(/from\s+["']svelte["']/g, `from "${SVELTE_CDN}/+esm"`);
 
       const htmlContent = `<!DOCTYPE html>
 <html lang="${lang}">
@@ -174,7 +160,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
 <body>
   <div id="svelte-app"></div>
   <script type="module">
-    import { mount } from 'https://cdn.jsdelivr.net/npm/svelte@4.2.12/src/index-client.js';
+    import { mount } from '${SVELTE_CDN}/+esm';
 
     const _origLog = console.log;
     const _origError = console.error;
@@ -196,7 +182,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
     console.warn = function(...args) {
       const line = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
       _logs.push('Warning: ' + line);
-      window.parent.PostMessage({ type: 'console', level: 'warn', message: line }, '*');
+      window.parent.postMessage({ type: 'console', level: 'warn', message: line }, '*');
       _origWarn.apply(console, args);
     };
 
@@ -205,11 +191,11 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       return false;
     };
 
-    ${jsCode.replace(/export default (\w+);?/, 'const __Component = $1;')}
+    ${moduleCode}
 
     try {
       const target = document.getElementById('svelte-app');
-      mount(__Component, { target });
+      mount(App, { target });
     } catch (err) {
       window.parent.postMessage({ type: 'console', level: 'error', message: err.message }, '*');
     }

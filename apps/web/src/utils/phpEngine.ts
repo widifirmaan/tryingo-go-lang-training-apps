@@ -12,37 +12,40 @@ export interface PhpResult {
 }
 
 // ---------------------------------------------------------------------------
-// WASM loader (php-wasm from CDN)
+// WASM loader (php-wasm from CDN — ESM build)
 // ---------------------------------------------------------------------------
 let wasmModule: any = null;
 let wasmPromise: Promise<any> | null = null;
 
-function loadPhpWasmScript(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if ((window as any).PhpWeb) {
-      resolve();
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/php-wasm@0.0.83/browser.min.js';
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Failed to load php-wasm'));
-    document.head.appendChild(script);
-  });
-}
+const PHP_WASM_BASE = 'https://cdn.jsdelivr.net/npm/php-wasm@0.1.0';
 
 async function initPhpWasm(): Promise<any> {
   if (wasmModule) return wasmModule;
   if (wasmPromise) return wasmPromise;
 
   wasmPromise = (async () => {
-    await loadPhpWasmScript();
-    const PhpWeb = (window as any).PhpWeb;
+    const mod = await import(/* @vite-ignore */ `${PHP_WASM_BASE}/PhpWeb.mjs`);
+    const PhpWeb = mod.PhpWeb;
     if (!PhpWeb) {
-      throw new Error('php-wasm not available');
+      throw new Error('php-wasm PhpWeb not available');
     }
     const php = new PhpWeb();
+    await new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(
+        () => reject(new Error('PHP runtime load timeout')),
+        120000
+      );
+      php.onready = () => {
+        clearTimeout(timeout);
+        resolve();
+      };
+      php.binary
+        .then(() => {
+          clearTimeout(timeout);
+          resolve();
+        })
+        .catch(reject);
+    });
     wasmModule = php;
     return php;
   })();
@@ -842,9 +845,19 @@ export async function executePhp(code: string): Promise<PhpResult> {
 
   try {
     const php = await initPhpWasm();
-    const result = await php.run(code);
-    const output = result.text || '';
-    const error = result.error || '';
+    let output = '';
+    let error = '';
+    php.onoutput = (e: any) => {
+      if (e && e.detail && typeof e.detail[0] === 'string') {
+        output += e.detail[0];
+      }
+    };
+    php.onerror = (e: any) => {
+      if (e && e.detail && typeof e.detail[0] === 'string') {
+        error += e.detail[0];
+      }
+    };
+    await php.run(code);
     return { output, error, engine: 'wasm' };
   } catch {
     // Fallback to interpreter
