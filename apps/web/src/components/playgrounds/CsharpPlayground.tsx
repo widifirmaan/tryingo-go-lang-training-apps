@@ -118,7 +118,7 @@ export const CsharpPlayground: React.FC<CsharpPlaygroundProps> = ({ lang, initia
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.addCommand(
-      2048 | 3001, // Ctrl+Enter
+      2048 | 3, // Ctrl+Enter
       () => runCode()
     );
   };

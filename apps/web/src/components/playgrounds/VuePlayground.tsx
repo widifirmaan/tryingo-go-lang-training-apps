@@ -166,13 +166,22 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
         return;
       }
 
-      const blob = new Blob([jsCode], { type: 'text/javascript' });
-      const blobUrl = URL.createObjectURL(blob);
-
       const logs: string[] = [];
       const iframe = iframeRef.current;
 
       if (iframe) {
+        // Inline the compiled module + bootstrap directly into the sandboxed
+        // iframe (opaque origin). A parent-created blob URL cannot be fetched
+        // from an opaque-origin sandbox, so we embed the module source inline.
+        const moduleScript = `${jsCode}
+
+const { createApp } = await import('vue');
+const app = createApp(__component);
+app.config.errorHandler = function(err, vm, info) {
+  window.parent.postMessage({ type: 'error', args: 'Vue Error: ' + err.message + ' (' + info + ')' }, '*');
+};
+app.mount('#app');
+`;
         const iframeContent = `<!DOCTYPE html>
 <html>
 <head>
@@ -221,25 +230,12 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
       window.parent.postMessage({ type: 'error', args: msg + ' (line ' + line + ':' + col + ')' }, '*');
       return false;
     };
-
-    import('${blobUrl}').then(async (mod) => {
-      const { createApp } = await import('https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.4.21/dist/runtime-dom.esm-browser.js');
-      const component = mod.default || mod;
-      const app = createApp(component);
-      app.config.errorHandler = function(err, vm, info) {
-        window.parent.postMessage({ type: 'error', args: 'Vue Error: ' + err.message + ' (' + info + ')' }, '*');
-      };
-      app.mount('#app');
-    }).catch(err => {
-      window.parent.postMessage({ type: 'error', args: 'Module Error: ' + err.message }, '*');
-    });
   <\/script>
+  <script type="module">${moduleScript}<\/script>
 </body>
 </html>`;
 
-        const blob2 = new Blob([iframeContent], { type: 'text/html' });
-        const iframeUrl = URL.createObjectURL(blob2);
-        iframe.src = iframeUrl;
+        iframe.srcdoc = iframeContent;
       }
     } catch (err: any) {
       setError(err.message || String(err));
@@ -264,11 +260,12 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
-    editor.addCommand(2048 | 3001, () => runVue());
+    editor.addCommand(2048 | 3, () => runVue());
   };
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return;
       if (event.data?.type === 'console' || event.data?.type === 'error') {
         setOutput((prev) => {
           const prefix = event.data.level === 'error' ? '❌ ' : event.data.level === 'warn' ? '⚠️ ' : '';

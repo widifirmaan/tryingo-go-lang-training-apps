@@ -551,28 +551,83 @@ export class AppComponent {}`,
 // ---------------------------------------------------------------------------
 // Simulated execution output
 // ---------------------------------------------------------------------------
+// Safe Node.js simulation: run user code inside a Web Worker (no DOM/window
+// access), capturing console output — no execution in the page context.
+export function simulateNode(code: string): Promise<{ output: string; error: string | null }> {
+  const capture = `
+    self.onmessage = function(ev) {
+      const code = ev.data;
+      const logs = [];
+      const stringify = (a) => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a);
+      const consoleObj = {
+        log: function() { logs.push(Array.prototype.map.call(arguments, stringify).join(' ')); },
+        error: function() { logs.push('Error: ' + Array.prototype.map.call(arguments, stringify).join(' ')); },
+        warn: function() { logs.push('Warning: ' + Array.prototype.map.call(arguments, stringify).join(' ')); },
+        info: function() { logs.push(Array.prototype.map.call(arguments, stringify).join(' ')); }
+      };
+      try {
+        var fn = new Function('console', code);
+        fn(consoleObj);
+      } catch (e) {
+        logs.push('Error: ' + (e && e.message ? e.message : String(e)));
+      }
+      self.postMessage({ logs: logs });
+    };
+  `;
+  const blob = new Blob([capture], { type: 'application/javascript' });
+  const url = URL.createObjectURL(blob);
+  return new Promise((resolve) => {
+    let settled = false;
+    try {
+      const worker = new Worker(url);
+      const timeout = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        worker.terminate();
+        URL.revokeObjectURL(url);
+        resolve({ output: '', error: 'Execution timed out (infinite loop? Max 2s).' });
+      }, 2000);
+      worker.onmessage = (e: MessageEvent) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        const logs: string[] = e.data?.logs || [];
+        worker.terminate();
+        URL.revokeObjectURL(url);
+        resolve({
+          output: logs.join('\n') || '(no output — code executed successfully)',
+          error: null,
+        });
+      };
+      worker.onerror = (e) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        worker.terminate();
+        URL.revokeObjectURL(url);
+        resolve({ output: '', error: 'Worker error: ' + e.message });
+      };
+      worker.postMessage(code);
+    } catch (err) {
+      settled = true;
+      URL.revokeObjectURL(url);
+      resolve({
+        output: '',
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+  });
+}
+
 export function simulateOutput(slug: FrameworkSlug, code: string): { output: string; error: string | null } {
   const lines: string[] = [];
   let error: string | null = null;
 
   switch (slug) {
     case 'nodejs': {
-      const consoleLogs: string[] = [];
-      const mockConsole = {
-        log: (...args: unknown[]) => consoleLogs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ')),
-        error: (...args: unknown[]) => consoleLogs.push('Error: ' + args.map(String).join(' ')),
-        warn: (...args: unknown[]) => consoleLogs.push('Warning: ' + args.map(String).join(' ')),
-      };
-      try {
-        const fn = new Function('console', code);
-        fn(mockConsole);
-        lines.push(...consoleLogs);
-        if (consoleLogs.length === 0) {
-          lines.push('(no output — code executed successfully)');
-        }
-      } catch (e) {
-        error = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
-      }
+      // Executed asynchronously in a Web Worker via simulateNode() from the
+      // playground component; sync path never runs user code in page context.
+      lines.push('(executing in sandboxed worker...)');
       break;
     }
     case 'nextjs':

@@ -78,7 +78,7 @@ async function loadRubyWasm(): Promise<any> {
 
   try {
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@latest/dist/browser.umd.js';
+    script.src = 'https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/browser.umd.js';
     document.head.appendChild(script);
 
     await new Promise<void>((resolve, reject) => {
@@ -87,15 +87,17 @@ async function loadRubyWasm(): Promise<any> {
       setTimeout(() => reject(new Error('ruby-wasm load timeout')), 15000);
     });
 
-    const loadRuby = (window as any).rubyHeadWasmWasi;
-    if (!loadRuby) {
+    const rubyWasi = (window as any)['ruby-wasm-wasi'];
+    if (!rubyWasi || !rubyWasi.DefaultRubyVM) {
       console.warn('ruby-wasm not available on window');
       return null;
     }
 
-    const ruby = await loadRuby();
-    wasmModule = ruby;
-    return ruby;
+    const wasmRes = await fetch('https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/ruby+stdlib.wasm');
+    const wasmModuleBinary = await WebAssembly.compileStreaming(wasmRes);
+    const { vm } = await rubyWasi.DefaultRubyVM(wasmModuleBinary, { consolePrint: true });
+    wasmModule = { vm };
+    return wasmModule;
   } catch (err) {
     console.warn('ruby-wasm unavailable, using procedural interpreter:', err);
     return null;
@@ -110,18 +112,22 @@ function runRubyWasm(code: string): Promise<{ output: string[]; error: string | 
     }
 
     const output: string[] = [];
-    try {
-      const wasi = new wasmModule.WASI({
-        env: {},
-        stdout: (str: string) => output.push(str),
-        stderr: (str: string) => output.push(str),
-      });
+    const origLog = console.log;
+    const origError = console.error;
+    const origWarn = console.warn;
+    console.log = (...args: unknown[]) => output.push(args.map((a) => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
+    console.error = (...args: unknown[]) => output.push('Error: ' + args.map(String).join(' '));
+    console.warn = (...args: unknown[]) => output.push('Warning: ' + args.map(String).join(' '));
 
-      const vm = new wasmModule.VM(wasi);
-      vm.eval(code);
+    try {
+      wasmModule.vm.eval(code);
       resolve({ output, error: null });
     } catch (err: any) {
       resolve({ output, error: err?.message || String(err) });
+    } finally {
+      console.log = origLog;
+      console.error = origError;
+      console.warn = origWarn;
     }
   });
 }
@@ -715,7 +721,7 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
-    editor.addCommand(2048 | 3001, () => runCode());
+    editor.addCommand(2048 | 3, () => runCode());
   };
 
   return (

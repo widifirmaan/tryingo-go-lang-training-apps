@@ -91,10 +91,6 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
   const [result, setResult] = useState<ExecutionResult | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [inputMode, setInputMode] = useState(false);
-  const [inputValue, setInputValue] = useState('');
-  const [inputPrompt, setInputPrompt] = useState('');
-  const inputResolverRef = useRef<((value: string) => void) | null>(null);
   const [editorReady, setEditorReady] = useState(false);
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const prevInitialCode = useRef(initialCode);
@@ -155,6 +151,13 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
         batched: (text: string) => { stderrLines.push(text); },
       });
 
+      pyodide.setStdin({
+        stdin: () => {
+          const value = window.prompt(isId ? 'Masukkan input untuk input():' : 'Enter input for input():', '');
+          return value === null ? null : value + '\n';
+        },
+      });
+
       await pyodide.runPythonAsync(`
 import sys
 import io
@@ -204,9 +207,20 @@ except Exception as e:
         const executionTimeMs = performance.now() - start;
         const errorMsg = err.message || String(err);
 
+        let caughtStdout = stdoutLines.join('');
+        let caughtStderr = stderrLines.join('');
+        try {
+          const so = await pyodide.runPythonAsync('sys.stdout.getvalue()');
+          const se = await pyodide.runPythonAsync('sys.stderr.getvalue()');
+          if (so) caughtStdout = so;
+          if (se) caughtStderr = se;
+        } catch {
+          // buffers unavailable — keep captured lines
+        }
+
         setResult({
-          stdout: stdoutLines.join(''),
-          stderr: stderrLines.join(''),
+          stdout: caughtStdout,
+          stderr: caughtStderr,
           error: errorMsg,
           executionTimeMs,
         });
@@ -244,30 +258,10 @@ except Exception as e:
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.addCommand(
-      2048 | 3001,
+      2048 | 3,
       () => runPython()
     );
   };
-
-  const handleInputSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (inputResolverRef.current) {
-      inputResolverRef.current(inputValue);
-      inputResolverRef.current = null;
-    }
-    setInputMode(false);
-    setInputValue('');
-    setInputPrompt('');
-  };
-
-  const requestInput = useCallback((prompt: string): Promise<string> => {
-    return new Promise((resolve) => {
-      setInputPrompt(prompt);
-      setInputMode(true);
-      setInputValue('');
-      inputResolverRef.current = resolve;
-    });
-  }, []);
 
   return (
     <div
@@ -394,27 +388,7 @@ except Exception as e:
                 </div>
               )}
 
-              {/* Input prompt for input() */}
-              {inputMode && (
-                <form onSubmit={handleInputSubmit} className="flex items-center gap-2 mt-2">
-                  <span className="text-yellow-400">{inputPrompt}</span>
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    autoFocus
-                    className="flex-1 bg-[#252526] border border-zinc-700 rounded px-2 py-1 text-zinc-200 text-xs font-mono focus:outline-none focus:border-[#2E5B44]"
-                    placeholder={isId ? 'Masukkan input...' : 'Enter input...'}
-                  />
-                  <button
-                    type="submit"
-                    className="px-2 py-1 bg-[#2E5B44] text-white text-[10px] rounded hover:bg-[#234735] transition-colors"
-                  >
-                    Enter
-                  </button>
-                </form>
-              )}
-            </div>
+              </div>
         </div>
       </div>
     </div>

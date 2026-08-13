@@ -124,7 +124,7 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
     editorRef.current = editor;
     editor.addCommand(
       // monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter
-      2048 | 3001, // Ctrl+Enter
+      2048 | 3, // Ctrl+Enter
       () => runSql()
     );
   };

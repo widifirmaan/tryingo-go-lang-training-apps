@@ -113,8 +113,8 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
 
       const result = await window.esbuild!.transform(wrappedCode, {
         loader: 'jsx',
-        jsx: 'automatic',
-        format: 'iife',
+        jsx: 'transform',
+        format: 'esm',
         target: 'es2020',
       });
 
@@ -161,8 +161,9 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
       return false;
     };
   <\/script>
-  <script>
+  <script type="module">
     try {
+      const { useState, useEffect, useRef, useCallback, useMemo, useContext, useReducer, createContext } = React;
       ${result.code}
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(React.createElement(App));
@@ -202,13 +203,14 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.addCommand(
-      2048 | 3001,
+      2048 | 3,
       () => runCode()
     );
   };
 
   useEffect(() => {
     const handler = (event: MessageEvent) => {
+      if (event.source !== iframeRef.current?.contentWindow) return;
       if (event.data?.type === 'console') {
         if (event.data.data) {
           setCompileStatus('success');
