@@ -264,7 +264,8 @@ class PhpInterpreter {
 
   private parseBlock(tokens: string[]): number {
     let pos = 0;
-    while (pos < tokens.length) {
+    let guard = 0;
+    while (pos < tokens.length && guard++ < tokens.length + 2) {
       if (tokens[pos] === ';' || tokens[pos] === '{' || tokens[pos] === '}') {
         if (tokens[pos] === ';') { pos++; continue; }
         if (tokens[pos] === '{') {
@@ -274,7 +275,8 @@ class PhpInterpreter {
         }
         if (tokens[pos] === '}') { pos++; break; }
       }
-      pos = this.parseStatement(tokens.slice(pos));
+      const consumed = this.parseStatement(tokens.slice(pos));
+      pos += consumed > 0 ? consumed : 1;
     }
     return pos;
   }

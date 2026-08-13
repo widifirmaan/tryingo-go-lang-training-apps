@@ -124,13 +124,6 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
         return;
       }
 
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (!iframeDoc) {
-        setError(isId ? 'Preview tidak tersedia' : 'Preview not available');
-        setIsRunning(false);
-        return;
-      }
-
       const logs: string[] = [];
 
       const moduleCode = jsCode
@@ -202,9 +195,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
 </body>
 </html>`;
 
-      iframeDoc.open();
-      iframeDoc.write(htmlContent);
-      iframeDoc.close();
+      iframe.srcdoc = htmlContent;
 
       const elapsed = performance.now() - start;
       setExecutionTime(elapsed);

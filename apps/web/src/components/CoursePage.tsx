@@ -147,17 +147,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     onNavigate?.(trackId, activeLevel, week);
   };
 
-  if (!track) {
-    return (
-      <div className="flex-1 flex items-center justify-center text-zinc-500">
-        Track not found
-      </div>
-    );
-  }
-
-  const levelInfo = levels.find(l => l.levelId === activeLevel);
-  const levelName = isId ? levelInfo?.nameId : levelInfo?.nameEn;
-
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
   useEffect(() => {
@@ -206,6 +195,17 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, []);
+
+  if (!track) {
+    return (
+      <div className="flex-1 flex items-center justify-center text-zinc-500">
+        Track not found
+      </div>
+    );
+  }
+
+  const levelInfo = levels.find(l => l.levelId === activeLevel);
+  const levelName = isId ? levelInfo?.nameId : levelInfo?.nameEn;
 
   return (
     <div className="flex-1 flex flex-col h-full min-w-0 overflow-y-auto lg:overflow-hidden gap-3 px-3 sm:px-0">

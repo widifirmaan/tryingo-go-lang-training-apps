@@ -58,6 +58,11 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
   const isLast = idx >= total - 1;
 
   useEffect(() => {
+    setIdx(0);
+    setSelected(null);
+    setAnswers([]);
+    setRetryIndices(null);
+    setShowWrong(false);
     let mounted = true;
     loadQuizIndex()
       .then((index) => {
@@ -156,6 +161,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
   useEffect(() => {
     if (phase !== 'quiz' || !current) return;
     const onKey = (e: KeyboardEvent) => {
+      if (e.repeat) return;
       if (selected === null) {
         const n = parseInt(e.key, 10);
         if (e.key >= '1' && e.key <= '9' && n >= 1 && n <= current.q.options.length) {

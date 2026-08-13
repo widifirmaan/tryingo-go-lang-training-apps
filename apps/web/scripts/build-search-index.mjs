@@ -43,9 +43,9 @@ function extractTitle(content, slug) {
 }
 
 function extractMeta(content) {
-  const category = content.match(/\*\*Kategori:\*\*\s*(.+)/i);
-  const level = content.match(/\*\*Level:\*\*\s*(.+)/i);
-  const week = content.match(/\*\*Minggu\s*\d+:\*\*\s*(.+)/i);
+  const category = content.match(/\*\*Kategori:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
+  const level = content.match(/\*\*Level:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
+  const week = content.match(/\*\*Minggu\s*\d+:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
   return {
     category: category ? category[1].trim() : '',
     level: level ? level[1].trim() : '',

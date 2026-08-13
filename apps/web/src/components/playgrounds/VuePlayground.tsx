@@ -82,22 +82,17 @@ function compileVueSFC(source: string): { jsCode: string; errors: string[] } {
 
     const scriptResult = window.Vue.compileScript(descriptor, {
       id: 'vue-sfc',
-      inlineTemplate: true,
-      templateOptions: {
-        compilerOptions: {
-          mode: 'module',
-        },
-      },
+      inlineTemplate: false,
     });
 
     if (scriptResult.errors.length > 0) {
       errors.push(...scriptResult.errors.map((e: any) => typeof e === 'string' ? e : e.message || JSON.stringify(e)));
     }
 
-    const combinedCode = scriptResult.content + '\n\n' + templateResult.code.replace(
-      'export function render',
-      'const __render = function render'
-    ) + '\n\n__component.render = __render;\nexport default __component;\nexport { __render as render };';
+    const scriptContent = scriptResult.content.replace(/^\s*export default/m, 'const __component =');
+    const renderCode = templateResult.code.replace(/^\s*export function render/m, 'function __render');
+
+    const combinedCode = `${scriptContent}\n\n${renderCode}\n\n__component.render = __render;\nexport default __component;`;
 
     return { jsCode: combinedCode, errors };
   } catch (err: any) {
@@ -423,7 +418,7 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
               ref={iframeRef}
               title="Vue Preview"
               className="w-full h-full border-0"
-              sandbox="allow-scripts allow-modals allow-same-origin"
+              sandbox="allow-scripts allow-modals"
             />
           </div>
         </div>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag, faFlask, faLaptopCode, faTerminal, faGlobe, faHeart, faNewspaper } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag, faFlask, faLaptopCode, faTerminal, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum, LEVEL_BADGE_COLORS } from '../data/curriculum';
+import { SLUG_MAP } from '../data/slugMap';
 
 interface HeroSectionProps {
   onOpenSearch: () => void;
@@ -55,7 +56,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Every track has a generated quiz; list them all in the sidebar submenu.
   const QUIZ_ITEMS = TRACKS_COLLECTION.map((track) => ({
     label: track.name,
-    slug: track.id.replace('tryngo-lang-', ''),
+    slug: SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''),
   }));
   const openQuiz = (slug: string, level?: string) => {
     setActiveSubmenu(null);
@@ -159,16 +160,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                   )}
 
-                  {/* Tech News */}
-                  <motion.button
-                    whileHover={{ scale: 1.02, x: 3 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-2.5 transition-colors"
-                  >
-                    <FontAwesomeIcon icon={faNewspaper} className="w-4 h-4 text-[#EEDBB2]" />
-                    <span>Tech News</span>
-                  </motion.button>
-
                   {/* Materi with submenu */}
                   <div className="flex flex-col" ref={materiRef}>
                     <motion.button
@@ -210,7 +201,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                                     transition={{ duration: 0.15 }}
                                     className="overflow-hidden flex flex-col ml-2 gap-0.5"
                                   >
-                                    {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
+                                    {getCurriculum(SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '')).map(level => (
                                       <div key={level.levelId} className="flex flex-col gap-0.5">
                                         <div className="px-3 py-1 text-[10px] text-white/50 uppercase tracking-wider font-bold">
                                           {lang === 'id' ? level.nameId : level.nameEn}
@@ -500,15 +491,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
-                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center gap-2"
-                    >
-                      <FontAwesomeIcon icon={faNewspaper} className="w-4 h-4 text-[#EEDBB2]" />
-                      <span>Tech News</span>
-                    </motion.button>
-
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.97 }}
                       onClick={() => setActiveSubmenu(activeSubmenu === 'materi-mobile' ? null : 'materi-mobile')}
                       className={`w-full px-3 py-2 rounded-xl text-white text-xs font-bold flex items-center justify-between ${activeSubmenu === 'materi-mobile' ? 'bg-white/20' : 'bg-white/10'}`}
                     >
@@ -532,7 +514,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               </button>
                               {expandedTrack === track.id && (
                                 <div className="flex flex-col ml-2 gap-0.5">
-                                  {getCurriculum(track.id.replace('tryngo-lang-', '')).map(level => (
+                                  {getCurriculum(SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '')).map(level => (
                                   <div key={level.levelId} className="flex flex-col gap-0.5">
                                         <div className="px-3 py-1 text-[9px] text-white/40 uppercase tracking-wider font-bold">
                                           {lang === 'id' ? level.nameId : level.nameEn}
@@ -732,9 +714,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   whileTap={{ scale: 0.9 }}
                   onClick={() => {
                     if (navigator.share) {
-                      navigator.share({ title: 'Tryngo', url: window.location.href });
-                    } else {
-                      navigator.clipboard?.writeText(window.location.href);
+                      navigator.share({ title: 'Tryngo', url: window.location.href }).catch(() => {});
+                    } else if (navigator.clipboard?.writeText) {
+                      navigator.clipboard.writeText(window.location.href).catch(() => {});
                     }
                   }}
                   className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 bg-[#234735] hover:bg-[#1A382A] text-white rounded-full flex items-center justify-center transition-colors shadow-xs"

@@ -393,7 +393,7 @@ echo "const UPDATED_AT = 'updated_at';<br>";
     week: 5, level: 'intermediate', topicId: 'authentication',
     titleId: 'Authentication & Authorization', titleEn: 'Authentication & Authorization',
     programId: 'Login System', programEn: 'Login System',
-    levelNameId: 'Menengah', nameEn: 'Intermediate',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
     language: 'php',
     code: `<?php
 echo "=== Laravel Authentication ===<br><br>";
@@ -488,7 +488,7 @@ echo "@can('edit-post', \$post) ... @endcan<br>";
     week: 6, level: 'intermediate', topicId: 'relationships',
     titleId: 'Database Relationships', titleEn: 'Database Relationships',
     programId: 'Relasi Eloquent', programEn: 'Eloquent Relations',
-    levelNameId: 'Menengah', nameEn: 'Intermediate',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
     language: 'php',
     code: `<?php
 echo "=== Eloquent Relationships ===<br><br>";
@@ -579,7 +579,7 @@ echo "Post::whereHas('comments', fn(\$q) => \$q->where('approved', true))->get()
     week: 7, level: 'intermediate', topicId: 'validation',
     titleId: 'Validation & Form Requests', titleEn: 'Validation & Form Requests',
     programId: 'Validasi Form', programEn: 'Form Validation',
-    levelNameId: 'Menengah', nameEn: 'Intermediate',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
     language: 'php',
     code: `<?php
 echo "=== Laravel Validation ===<br><br>";
@@ -692,7 +692,7 @@ echo "Rule::password()->min(8)->mixedCase()->numbers();<br>";
     week: 8, level: 'intermediate', topicId: 'file-storage',
     titleId: 'File Storage & Upload', titleEn: 'File Storage & Upload',
     programId: 'Upload System', programEn: 'Upload System',
-    levelNameId: 'Menengah', nameEn: 'Intermediate',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
     language: 'php',
     code: `<?php
 echo "=== Laravel File Storage ===<br><br>";
@@ -788,7 +788,7 @@ echo "],<br>";
     week: 9, level: 'advanced', topicId: 'testing',
     titleId: 'Testing dengan PHPUnit', titleEn: 'Testing with PHPUnit',
     programId: 'Feature & Unit Test', programEn: 'Feature & Unit Test',
-    levelNameId: 'Lanjutan', nameEn: 'Advanced',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
     language: 'php',
     code: `<?php
 echo "=== Laravel Testing ===<br><br>";
@@ -886,7 +886,7 @@ echo "<br>All 5 tests passed!<br>";
     week: 10, level: 'advanced', topicId: 'queues-jobs',
     titleId: 'Queues & Background Jobs', titleEn: 'Queues & Background Jobs',
     programId: 'Job Processing', programEn: 'Job Processing',
-    levelNameId: 'Lanjutan', nameEn: 'Advanced',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
     language: 'php',
     code: `<?php
 echo "=== Laravel Queues ===<br><br>";
@@ -977,7 +977,7 @@ echo "})->dispatch();<br>";
     week: 11, level: 'advanced', topicId: 'rest-api',
     titleId: 'REST API Development', titleEn: 'REST API Development',
     programId: 'API Endpoints', programEn: 'API Endpoints',
-    levelNameId: 'Lanjutan', nameEn: 'Advanced',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
     language: 'php',
     code: `<?php
 echo "=== Laravel REST API ===<br><br>";
@@ -1069,7 +1069,7 @@ echo "60 requests per minute<br>";
     week: 12, level: 'advanced', topicId: 'capstone-project',
     titleId: 'Capstone: E-Commerce API', titleEn: 'Capstone: E-Commerce API',
     programId: 'E-Commerce Backend', programEn: 'E-Commerce Backend',
-    levelNameId: 'Lanjutan', nameEn: 'Advanced',
+    levelNameId: 'Lanjutan', levelNameEn: 'Advanced',
     language: 'php',
     code: `<?php
 echo "=== Capstone: E-Commerce API ===<br><br>";

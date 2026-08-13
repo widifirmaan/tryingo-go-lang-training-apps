@@ -7,7 +7,7 @@ import { CartModal, SearchModal, DetailModal, SettingsModal } from './components
 import { QuizModal } from './components/QuizModal';
 import { ArrowDown, Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
-import { REVERSE_SLUG_MAP } from './data/slugMap';
+import { SLUG_MAP, REVERSE_SLUG_MAP } from './data/slugMap';
 import { getCurriculum } from './data/curriculum';
 
 const CoursePage = React.lazy(() => import('./components/CoursePage'));
@@ -68,7 +68,7 @@ export default function App() {
       window.location.hash = '#/';
       return;
     }
-    const slug = trackId.replace('tryngo-lang-', '');
+    const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
     const parts = ['', slug];
     if (level) parts.push(level);
     if (week) parts.push(String(week));
@@ -111,7 +111,7 @@ export default function App() {
 
   const handleOpenPlaygroundById = (trackId: string) => {
     setPlaygroundLanguage(trackId.replace('tryngo-lang-', ''));
-    setPlaygroundCode(' ');
+    setPlaygroundCode('');
   };
 
   const handleClosePlayground = () => {
@@ -124,7 +124,7 @@ export default function App() {
     setCourseInitialWeek(undefined);
     setQuizTarget(null);
     setIdeTarget(trackId);
-    const slug = trackId.replace('tryngo-lang-', '');
+    const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
     window.location.hash = `#/ide/${slug}`;
   };
 
@@ -235,6 +235,12 @@ export default function App() {
           setActiveCourseId(trackId);
           setCourseInitialLevel(level);
           setCourseInitialWeek(week && !isNaN(week) ? week : 1);
+          setIdeTarget(null);
+          setQuizTarget(null);
+        } else {
+          setActiveCourseId(null);
+          setCourseInitialLevel(undefined);
+          setCourseInitialWeek(undefined);
           setIdeTarget(null);
           setQuizTarget(null);
         }

@@ -274,7 +274,7 @@ async function buildQuiz() {
           const topic = (content.match(/^#\s+(.+)/m) || [])[1]?.trim() || file;
           const weekMatch = file.match(/week-?(\d+)/i);
           const week = weekMatch ? parseInt(weekMatch[1]) : 0;
-          const levelMeta = (content.match(/\*\*Level:\*\*\s*(.+)/i) || [])[1]?.trim() || level;
+          const levelMeta = (content.match(/\*\*Level:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im) || [])[1]?.trim() || level;
           const concepts = extractConcepts(pickSection(sections, CONCEPT_SECTION_KEYS));
           const objectives = extractObjectives(pickSection(sections, OBJ_SECTION_KEYS));
 

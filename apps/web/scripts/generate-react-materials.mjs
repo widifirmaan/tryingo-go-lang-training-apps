@@ -577,7 +577,7 @@ console.log("Context & useReducer siap digunakan");`,
     week: 7, level: 'intermediate', topicId: 'forms-validation',
     titleId: 'Forms & Validasi', titleEn: 'Forms & Validation',
     programId: 'Form Registrasi', programEn: 'Registration Form',
-    levelNameId: 'Menengah', nameEn: 'Intermediate',
+    levelNameId: 'Menengah', levelNameEn: 'Intermediate',
     language: 'jsx',
     code: `// Controlled forms = setiap input dikontrol React state
 // Validasi: real-time feedback, error messages, prevent submit

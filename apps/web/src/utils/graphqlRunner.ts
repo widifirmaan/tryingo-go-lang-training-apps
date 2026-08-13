@@ -1,4 +1,4 @@
-import { buildSchema, execute, parse, validate, getIntrospectionQuery, type GraphQLSchema, type ExecutionResult } from 'graphql';
+import { buildSchema, execute, parse, validate, getIntrospectionQuery, getOperationAST, type GraphQLSchema, type ExecutionResult } from 'graphql';
 
 // --- In-memory data stores ---
 
@@ -331,11 +331,15 @@ export async function runQuery(
     }
 
     const activeResolvers = customResolvers || resolvers;
+    const operation = getOperationAST(document);
+    const rootValue = operation?.operation === 'mutation'
+      ? activeResolvers.Mutation
+      : (activeResolvers.Query || activeResolvers);
     const result = await execute({
       schema: graphqlSchema,
       document,
       variableValues: variables,
-      rootValue: activeResolvers.Query || activeResolvers,
+      rootValue,
       contextValue: { employees, products, orders } as ResolverContext,
     });
 
