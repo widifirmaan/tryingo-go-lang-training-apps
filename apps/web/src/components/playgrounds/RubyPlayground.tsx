@@ -8,7 +8,6 @@ interface RubyPlaygroundProps {
   lang: Language;
   initialCode?: string;
   language?: string;
-  onClose?: () => void;
   inline?: boolean;
   week?: number;
 }
@@ -629,7 +628,6 @@ function splitArgs(str: string): string[] {
 export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
   lang,
   initialCode,
-  onClose,
   inline,
 }) => {
   const isId = lang === 'id';

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faRotateLeft, faEraser, faDatabase, faClock, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faRotateLeft, faEraser, faDatabase, faClock, faLayerGroup, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../../utils/translations';
 import { executeRedis, resetRedis, getStats } from '../../utils/redisSim';
 
@@ -203,7 +203,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
               className="p-1.5 rounded-lg hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
               title={isId ? 'Tutup' : 'Close'}
             >
-              <FontAwesomeIcon icon={faEraser} className="w-3.5 h-3.5" />
+              <FontAwesomeIcon icon={faTimes} className="w-3.5 h-3.5" />
             </button>
           )}
         </div>

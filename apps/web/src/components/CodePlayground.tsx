@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faSpinner, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
-import { initGoWasm, isWasmReady, isTinyGoReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
+import { initGoWasm, isWasmReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
 
 interface CodePlaygroundProps {
   lang: Language;
@@ -136,11 +136,9 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const [error, setError] = useState('');
   const [isRunning, setIsRunning] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showConsole, setShowConsole] = useState(true);
   const [isHorizontal, setIsHorizontal] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const consoleTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isId = lang === 'id';
   const isWebLanguage = ['html', 'javascript', 'typescript', 'css'].includes(LANGUAGE_MAP[language] || 'html');
   const isTypeScript = LANGUAGE_MAP[language] === 'typescript';

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faSpinner, faRotateLeft, faCode, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faSpinner, faRotateLeft, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../../utils/translations';
 import { executeCSharp, resetCSharp } from '../../utils/csharpEngine';
 

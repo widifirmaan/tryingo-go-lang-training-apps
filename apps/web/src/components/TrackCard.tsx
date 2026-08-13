@@ -62,9 +62,6 @@ export const TrackCard: React.FC<TrackCardProps> = ({
         <div className="col-span-7 flex flex-col justify-between h-full pl-1 space-y-1">
           {/* Track Title */}
           <div>
-            <span className="text-[9px] font-black tracking-widest text-zinc-700 dark:text-emerald-400 uppercase">
-              {track.category}
-            </span>
             <h3 className="font-bold text-[10px] sm:text-sm text-zinc-900 dark:text-zinc-100 leading-tight line-clamp-1">
               {track.name}
             </h3>
