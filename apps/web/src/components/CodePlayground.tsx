@@ -131,7 +131,11 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   inline,
   week,
 }) => {
-  const [code, setCode] = useState(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
+  const [code, setCode] = useState(
+    initialCode && initialCode.trim()
+      ? initialCode
+      : DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html
+  );
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [isRunning, setIsRunning] = useState(false);
@@ -185,6 +189,15 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     setEditorKey(k => k + 1);
   }, [initialCode]);
 
+  useEffect(() => {
+    const handler = (event: MessageEvent) => {
+      if (event.data?.type !== 'tryngo-console') return;
+      setOutput(String(event.data.data || ''));
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
   const runCode = useCallback(async () => {
     setIsRunning(true);
     setError('');
@@ -194,9 +207,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       // HTML/CSS/JS/TS: render in iframe
       const iframe = iframeRef.current;
       if (iframe) {
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (iframeDoc) {
-          let finalCode = code;
+        let finalCode = code;
 
           // TypeScript: transpile to JavaScript first
           if (isTypeScript) {
@@ -223,23 +234,8 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TypeScript Output</title>
-  <style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:16px;line-height:1.6}pre{background:#f5f5f5;padding:8px;border-radius:4px}</style>
 </head>
 <body>
-  <pre id="output"></pre>
-  <script>
-    const _origLog = console.log;
-    const _logs = [];
-    console.log = function(...args) {
-      _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      document.getElementById('output').textContent = _logs.join('\\n');
-      _origLog.apply(console, args);
-    };
-    console.error = function(...args) {
-      _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      document.getElementById('output').textContent = _logs.join('\\n');
-    };
-  </script>
   <script>${jsCode}</script>
 </body>
 </html>`;
@@ -251,32 +247,36 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
           }
 
           const baseStyles = '<style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:0}img{max-width:100%}</style>';
+          const captureScript = `<script>
+            const _logs = [];
+            const _origLog = console.log;
+            const _origError = console.error;
+            console.log = function(...args) {
+              _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+              window.parent.postMessage({ type: 'tryngo-console', data: _logs.join('\\n') }, '*');
+              _origLog.apply(console, args);
+            };
+            console.error = function(...args) {
+              _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+              window.parent.postMessage({ type: 'tryngo-console', data: _logs.join('\\n') }, '*');
+              _origError.apply(console, args);
+            };
+            window.onerror = function(msg, url, line, col, err) {
+              window.parent.postMessage({ type: 'tryngo-console', data: 'Error: ' + msg + ' (line ' + line + ':' + col + ')' }, '*');
+              return false;
+            };
+          <\/script>`;
           const styledCode = finalCode.includes('</head>')
-            ? finalCode.replace('</head>', baseStyles + '</head>')
+            ? finalCode.replace('</head>', captureScript + '</head>')
             : finalCode.includes('<head>')
-              ? finalCode.replace('<head>', '<head>' + baseStyles)
-              : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + finalCode + '</body></html>';
-          iframeDoc.open();
-          iframeDoc.write(styledCode);
-          iframeDoc.close();
-
-          // Capture console.log from iframe
-          try {
-            const win = iframe.contentWindow;
-            if (win) {
-              const logs: string[] = [];
-              const winAny = win as any;
-              const originalLog = winAny.console.log.bind(winAny.console);
-              winAny.console.log = (...args: any[]) => {
-                logs.push(args.map((a: any) => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-                setOutput(logs.join('\n'));
-              };
-              setTimeout(() => {
-                winAny.console.log = originalLog;
-              }, 1000);
-            }
-          } catch {}
-        }
+              ? finalCode.replace('<head>', '<head>' + captureScript)
+              : '<!DOCTYPE html><html><head>' + captureScript + '</head><body>' + finalCode + '</body></html>';
+          const styledCodeWithStyles = styledCode.includes('</head>')
+            ? styledCode.replace('</head>', baseStyles + '</head>')
+            : styledCode.includes('<head>')
+              ? styledCode.replace('<head>', '<head>' + baseStyles)
+              : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + styledCode + '</body></html>';
+          iframe.srcdoc = styledCodeWithStyles;
       }
       setIsRunning(false);
     } else if (isGoLanguage) {
@@ -300,10 +300,13 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       setIsRunning(false);
     } else if (isRustLanguage) {
       // Rust: execute directly via the Rust Playground API (CORS-enabled, no worker needed)
+      const rustAbort = new AbortController();
+      const rustTimeout = setTimeout(() => rustAbort.abort(), 15000);
       try {
         const res = await fetch('https://play.rust-lang.org/execute', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          signal: rustAbort.signal,
           body: JSON.stringify({
             code,
             crateType: 'bin',
@@ -313,6 +316,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             tests: false,
           }),
         });
+        clearTimeout(rustTimeout);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const result = await res.json();
         if (!result.success) {
@@ -321,6 +325,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
           setOutput(result.stdout || result.stderr || (isId ? 'Kompilasi sukses tanpa output.' : 'Compiled successfully with no output.'));
         }
       } catch (err) {
+        clearTimeout(rustTimeout);
         setError(
           isId
             ? 'Gagal terhubung ke Rust Playground. Periksa koneksi internet Anda.'
@@ -513,7 +518,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
                 ref={iframeRef}
                 title="preview"
                 className="w-full h-full border-0"
-                sandbox="allow-scripts allow-modals allow-same-origin allow-forms"
+                sandbox="allow-scripts allow-modals allow-forms"
               />
             ) : (
               <div className="p-4 font-mono text-xs text-zinc-800 dark:text-zinc-200 whitespace-pre-wrap overflow-auto h-full">

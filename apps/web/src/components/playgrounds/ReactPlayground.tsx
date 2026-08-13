@@ -128,12 +128,6 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
         return;
       }
 
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      if (!iframeDoc) {
-        setIsRunning(false);
-        return;
-      }
-
       const html = `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -179,9 +173,7 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
 </body>
 </html>`;
 
-      iframeDoc.open();
-      iframeDoc.write(html);
-      iframeDoc.close();
+      iframe.srcdoc = html;
 
       setCompileStatus('success');
     } catch (err: any) {

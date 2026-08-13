@@ -64,10 +64,18 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
     setIsRunning(true);
     setResults([]);
 
+    const stripComments = (s: string): string =>
+      s
+        .split('\n')
+        .map((line) => line.replace(/\/\*.*?\*\//g, '').trim())
+        .filter((line) => line.length > 0 && !line.startsWith('--') && !line.startsWith('/*'))
+        .join(' ');
+
     const statements = code
       .split(';')
+      .map(stripComments)
       .map((s) => s.trim())
-      .filter((s) => s.length > 0 && !s.startsWith('--') && !s.startsWith('/*'));
+      .filter((s) => s.length > 0);
 
     if (statements.length === 0) {
       setResults([

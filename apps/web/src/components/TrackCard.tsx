@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
 import { getCurriculum } from '../data/curriculum';
+import { SLUG_MAP } from '../data/slugMap';
 
 export interface TrackData {
   id: string;
@@ -38,7 +39,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
   onOpenPlayground,
   lang = 'id',
 }) => {
-  const totalWeeks = getCurriculum(track.id.replace('tryngo-lang-', '')).reduce((sum, l) => sum + l.weeks.length, 0);
+  const totalWeeks = getCurriculum(SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '')).reduce((sum, l) => sum + l.weeks.length, 0);
   return (
     <div 
       className={`relative w-full h-full flex flex-col rounded-[28px] p-3 sm:p-4 select-none shadow-md hover:shadow-xl transition-all border ${track.bgClass} ${track.borderColor} dark:bg-zinc-800/90 dark:border-zinc-700/80 dark:text-zinc-100`}
