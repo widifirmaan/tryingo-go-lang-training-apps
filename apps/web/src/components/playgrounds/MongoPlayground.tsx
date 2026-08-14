@@ -51,6 +51,59 @@ db.employees.aggregate([
 db.employees.deleteOne({ name: "Dewi" })
 `;
 
+// Split a Mongo shell script into logical statements, respecting bracket
+// depth and string literals so multi-line commands (e.g. aggregate pipelines)
+// run as a single command instead of failing line-by-line.
+export function splitStatements(code: string): string[] {
+  const stmts: string[] = [];
+  let buffer = '';
+  let depth = 0;
+  let inStr = false;
+  let strChar = '';
+
+  const push = () => {
+    const t = buffer.trim();
+    if (t) stmts.push(t);
+    buffer = '';
+  };
+
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i];
+    if (inStr) {
+      buffer += ch;
+      if (ch === strChar && code[i - 1] !== '\\') inStr = false;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      inStr = true;
+      strChar = ch;
+      buffer += ch;
+      continue;
+    }
+    if (ch === '/' && code[i + 1] === '/') {
+      // comment line outside a command → treat as its own statement (info)
+      if (depth === 0 && buffer.trim() === '') {
+        while (i < code.length && code[i] !== '\n') { buffer += code[i]; i++; }
+        push();
+        continue;
+      }
+      // inline comment inside a command → skip to end of line
+      while (i < code.length && code[i] !== '\n') i++;
+      continue;
+    }
+    if (ch === '(' || ch === '[' || ch === '{') depth++;
+    else if (ch === ')' || ch === ']' || ch === '}') depth = Math.max(0, depth - 1);
+    if (ch === '\n') {
+      if (depth === 0) push();
+      else buffer += ' ';
+      continue;
+    }
+    buffer += ch;
+  }
+  push();
+  return stmts;
+}
+
 export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
   lang,
   initialCode,
@@ -99,13 +152,10 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
     setIsRunning(true);
     setLines([]);
 
-    const cmds = code.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);
+    const cmds = splitStatements(code);
     for (const cmd of cmds) {
       if (!isRunningRef.current) break;
-      const commentLines = cmd.split('\n');
-      for (const cl of commentLines) {
-        runCommand(cl);
-      }
+      runCommand(cmd);
       await new Promise((r) => setTimeout(r, 80));
     }
 

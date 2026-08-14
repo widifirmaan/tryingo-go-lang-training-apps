@@ -21,6 +21,7 @@ export interface SqlResult {
   affectedRows?: number;
   error?: string;
   executionTimeMs: number;
+  note?: string;
 }
 
 interface SqlJsDatabase {
@@ -144,6 +145,56 @@ function valueToString(val: unknown): string {
   return String(val);
 }
 
+// Normalize MySQL/PostgreSQL syntax found in course materials into
+// SQLite-compatible statements so the browser engine can run them.
+export function normalizeDialect(sql: string): string {
+  let s = sql.trim();
+  if (!s) return s;
+
+  // MySQL: CREATE DATABASE / USE are session-level, not SQLite concepts
+  if (/^\s*(CREATE\s+DATABASE|USE\s+)/i.test(s)) {
+    return '-- (database selection not supported in SQLite; continuing)';
+  }
+
+  // MySQL backticks → SQLite double quotes
+  s = s.replace(/`/g, '"');
+
+  // MySQL INT UNSIGNED, BIGINT UNSIGNED etc.
+  s = s.replace(/\b(BIG)?INT\s+UNSIGNED\b/gi, 'INTEGER');
+
+  // MySQL AUTO_INCREMENT (column definition)
+  s = s.replace(/(\b[A-Z_][A-Z0-9_]*)\s+INT\s+AUTO_INCREMENT\s+PRIMARY\s+KEY\b/gi, '$1 INTEGER PRIMARY KEY AUTOINCREMENT');
+  s = s.replace(/\bINT\s+AUTO_INCREMENT\b/gi, 'INTEGER AUTOINCREMENT');
+  s = s.replace(/\bINTEGER\s+AUTO_INCREMENT\s+PRIMARY\s+KEY\b/gi, 'INTEGER PRIMARY KEY AUTOINCREMENT');
+
+  // MySQL ENUM(...) / SET(...) → TEXT
+  s = s.replace(/\bENUM\s*\([^)]*\)/gi, 'TEXT');
+  s = s.replace(/\bSET\s*\([^)]*\)/gi, 'TEXT');
+
+  // MySQL table options (may appear without a leading comma after ')')
+  s = s.replace(/,\s*ENGINE\s*=\s*\w+/gi, '');
+  s = s.replace(/,\s*(DEFAULT\s+)?CHARSET\s*=\s*\w+/gi, '');
+  s = s.replace(/,\s*COLLATE\s*=\s*[\w_]+/gi, '');
+  s = s.replace(/\s+ENGINE\s*=\s*\w+/gi, '');
+  s = s.replace(/\s+(DEFAULT\s+)?CHARSET\s*=\s*\w+/gi, '');
+  s = s.replace(/\s+COLLATE\s*=\s*[\w_]+/gi, '');
+
+  // PostgreSQL SERIAL / BIGSERIAL
+  s = s.replace(/\b([A-Za-z_][A-Za-z0-9_]*)\s+SERIAL\s+PRIMARY\s+KEY\b/g, '$1 INTEGER PRIMARY KEY AUTOINCREMENT');
+  s = s.replace(/\bSERIAL\b/gi, 'INTEGER');
+  s = s.replace(/\bBIGSERIAL\b/gi, 'INTEGER');
+
+  // PostgreSQL ::type casts (bare) & dollar-quoted strings
+  s = s.replace(/\$[^$]*\$/g, (m) => m.replace(/'/g, "''"));
+  s = s.replace(/::\s*([A-Za-z0-9_]+)/g, '');
+
+  // PostgreSQL boolean literals (SQLite uses 1/0)
+  s = s.replace(/\bTRUE\b/gi, '1');
+  s = s.replace(/\bFALSE\b/gi, '0');
+
+  return s;
+}
+
 export async function initSqlEngine(): Promise<void> {
   await ensureInit();
 }
@@ -175,7 +226,18 @@ export async function executeSql(sql: string): Promise<SqlResult> {
   }
 
   try {
-    const results = db!.exec(trimmed);
+    const normalized = normalizeDialect(trimmed);
+    if (normalized.startsWith('--')) {
+      return {
+        columns: [],
+        rows: [],
+        rowCount: 0,
+        note: normalized,
+        executionTimeMs: performance.now() - start,
+      };
+    }
+
+    const results = db!.exec(normalized);
 
     if (results.length === 0) {
       const affected = db!.exec('SELECT changes() as c');
