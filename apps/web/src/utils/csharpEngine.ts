@@ -34,8 +34,7 @@ export function executeCSharp(code: string): ExecutionResult {
   const errors: string[] = [];
 
   try {
-    const result = runProgram(code);
-    output.push(...result);
+    runProgram(code, output);
     return { output, errors, success: true };
   } catch (err: any) {
     const msg = err.message || String(err);
@@ -44,8 +43,7 @@ export function executeCSharp(code: string): ExecutionResult {
   }
 }
 
-function runProgram(code: string): string[] {
-  const output: string[] = [];
+function runProgram(code: string, output: string[]): string[] {
   const variables = new Map<string, Variable>();
   const methods = new Map<string, MethodDef>();
   const classes = new Map<string, ClassDef>();
@@ -117,9 +115,55 @@ function runProgram(code: string): string[] {
 }
 
 function stripComments(code: string): string {
-  return code
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\/\/.*/g, '');
+  let out = '';
+  let inStr: '"' | "'" | null = null;
+  let inBlock = false;
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i];
+    const next = code[i + 1];
+    if (inBlock) {
+      if (ch === '*' && next === '/') {
+        inBlock = false;
+        out += '  ';
+        i++;
+      } else {
+        out += ch === '\n' ? '\n' : ' ';
+      }
+      continue;
+    }
+    if (inStr) {
+      out += ch;
+      if (ch === '\\') {
+        if (next !== undefined) {
+          out += next;
+          i++;
+        }
+        continue;
+      }
+      if (ch === inStr) inStr = null;
+      continue;
+    }
+    if (ch === '/' && next === '*') {
+      inBlock = true;
+      out += '  ';
+      i++;
+      continue;
+    }
+    if (ch === '/' && next === '/') {
+      while (i < code.length && code[i] !== '\n') {
+        out += ' ';
+        i++;
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      inStr = ch;
+      out += ch;
+      continue;
+    }
+    out += ch;
+  }
+  return out;
 }
 
 // Replace contents of string literals (incl. interpolated) with spaces so that
@@ -432,8 +476,8 @@ function executeIf(
   const condition = evalCondition(condMatch[1], variables, methods, classes);
 
   // Collect if-block body
-  const ifBody: string[] = [];
-  const elseBody: string[] = [];
+  const ifBody: { line: string; idx: number }[] = [];
+  const elseBody: { line: string; idx: number }[] = [];
   let i = currentIdx + 1;
   let depth = 0;
   let inElse = false;
@@ -470,14 +514,14 @@ function executeIf(
       continue;
     }
     if (depth >= 1 && l && !(opens > closes && isBareBrace(l)) && !masked.includes('}')) {
-      if (inElse) elseBody.push(l); else ifBody.push(l);
+      if (inElse) elseBody.push({ line: l, idx: i }); else ifBody.push({ line: l, idx: i });
     }
     i++;
   }
 
   const body = condition ? ifBody : elseBody;
-  for (const stmt of body) {
-    const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
+  for (const { line: stmt, idx } of body) {
+    const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
     if (result.output) output.push(...result.output);
     if (result.returnValue !== undefined) {
       return { output, nextIdx: i, returnValue: result.returnValue };
@@ -502,7 +546,7 @@ function executeWhile(
   const condExpr = condMatch[1];
 
   // Collect while body
-  const body: string[] = [];
+  const body: { line: string; idx: number }[] = [];
   let i = currentIdx + 1;
   let depth = 0;
 
@@ -523,7 +567,7 @@ function executeWhile(
     if (opens > closes) depth += opens - closes;
 
     if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
-      body.push(l);
+      body.push({ line: l, idx: i });
     }
     i++;
   }
@@ -531,8 +575,8 @@ function executeWhile(
   let iterations = 0;
   const maxIter = 1000;
   while (evalCondition(condExpr, variables, methods, classes) && iterations < maxIter) {
-    for (const stmt of body) {
-      const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
+    for (const { line: stmt, idx } of body) {
+      const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
       if (result.output) output.push(...result.output);
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };
@@ -571,7 +615,7 @@ function executeFor(
   variables.set(varName, { type: 'int', value: initVal });
 
   // Collect for body
-  const body: string[] = [];
+  const body: { line: string; idx: number }[] = [];
   let i = currentIdx + 1;
   let depth = 0;
 
@@ -592,7 +636,7 @@ function executeFor(
     if (opens > closes) depth += opens - closes;
 
     if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
-      body.push(l);
+      body.push({ line: l, idx: i });
     }
     i++;
   }
@@ -603,8 +647,8 @@ function executeFor(
     const current = variables.get(varName)?.value ?? 0;
     if (!evalSimpleCond(current, condOp, condVal)) break;
 
-    for (const stmt of body) {
-      const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
+    for (const { line: stmt, idx } of body) {
+      const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
       if (result.output) output.push(...result.output);
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };
@@ -647,7 +691,7 @@ function executeForeach(
   }
 
   // Collect foreach body
-  const body: string[] = [];
+  const body: { line: string; idx: number }[] = [];
   let i = currentIdx + 1;
   let depth = 0;
 
@@ -668,15 +712,15 @@ function executeForeach(
     if (opens > closes) depth += opens - closes;
 
     if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
-      body.push(l);
+      body.push({ line: l, idx: i });
     }
     i++;
   }
 
   for (const item of arr.value) {
     variables.set(iterVar, { type: iterType === 'var' ? inferType(item) : iterType as Variable['type'], value: item });
-    for (const stmt of body) {
-      const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
+    for (const { line: stmt, idx } of body) {
+      const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
       if (result.output) output.push(...result.output);
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };

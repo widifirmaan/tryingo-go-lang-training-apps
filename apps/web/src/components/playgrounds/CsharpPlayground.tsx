@@ -67,15 +67,37 @@ export const CsharpPlayground: React.FC<CsharpPlaygroundProps> = ({ lang, initia
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
   const outputRef = useRef<HTMLDivElement>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runCodeRef = useRef<() => void>(() => {});
+  const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setOutput([]);
     setErrors([]);
@@ -88,19 +110,30 @@ export const CsharpPlayground: React.FC<CsharpPlaygroundProps> = ({ lang, initia
   }, [output, errors]);
 
   const runCode = useCallback(() => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setOutput([]);
     setErrors([]);
 
-    setTimeout(() => {
+    timerRef.current = window.setTimeout(() => {
+      timerRef.current = null;
       const result = executeCSharp(code);
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setOutput(result.output);
       setErrors(result.errors);
+      isRunningRef.current = false;
       setIsRunning(false);
     }, 50);
   }, [code]);
 
+  runCodeRef.current = runCode;
+
   const handleReset = useCallback(() => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     resetCSharp();
     setOutput([]);
     setErrors([]);
@@ -119,7 +152,7 @@ export const CsharpPlayground: React.FC<CsharpPlaygroundProps> = ({ lang, initia
     editorRef.current = editor;
     editor.addCommand(
       2048 | 3, // Ctrl+Enter
-      () => runCode()
+      () => runCodeRef.current()
     );
   };
 

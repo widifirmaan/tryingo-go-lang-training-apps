@@ -840,29 +840,56 @@ class PhpInterpreter {
 // ---------------------------------------------------------------------------
 // Main execution API
 // ---------------------------------------------------------------------------
+
+// php-wasm exposes a single non-reentrant instance whose onoutput/onerror
+// handlers are overwritten per call. Serialize all executions so concurrent
+// runs can't cross-contaminate output.
+let execChain: Promise<unknown> = Promise.resolve();
+
+export function preloadPhp(): Promise<boolean> {
+  return initPhpWasm()
+    .then(() => true)
+    .catch(() => false);
+}
+
+async function runOnWasm(php: any, code: string): Promise<PhpResult> {
+  let output = '';
+  let error = '';
+  php.onoutput = (e: any) => {
+    if (e && e.detail && typeof e.detail[0] === 'string') {
+      output += e.detail[0];
+    }
+  };
+  php.onerror = (e: any) => {
+    if (e && e.detail && typeof e.detail[0] === 'string') {
+      error += e.detail[0];
+    }
+  };
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => reject(new Error('PHP execution timed out (possible infinite loop)')), 10000);
+  });
+  try {
+    await Promise.race([php.run(code), timeoutPromise]);
+  } catch (err) {
+    error = err instanceof Error ? err.message : String(err);
+  }
+  return { output, error, engine: 'wasm' };
+}
+
 export async function executePhp(code: string): Promise<PhpResult> {
   if (!code.trim()) {
     return { output: '', error: '', engine: null };
   }
 
+  let php: any = null;
   try {
-    const php = await initPhpWasm();
-    let output = '';
-    let error = '';
-    php.onoutput = (e: any) => {
-      if (e && e.detail && typeof e.detail[0] === 'string') {
-        output += e.detail[0];
-      }
-    };
-    php.onerror = (e: any) => {
-      if (e && e.detail && typeof e.detail[0] === 'string') {
-        error += e.detail[0];
-      }
-    };
-    await php.run(code);
-    return { output, error, engine: 'wasm' };
+    php = await initPhpWasm();
   } catch {
-    // Fallback to interpreter
+    php = null;
+  }
+
+  // WASM unavailable (CDN/load failure) → fall back to the naive interpreter.
+  if (!php) {
     try {
       const interp = new PhpInterpreter();
       interp.execute(code);
@@ -879,4 +906,11 @@ export async function executePhp(code: string): Promise<PhpResult> {
       };
     }
   }
+
+  const run = execChain.then(() => runOnWasm(php, code));
+  execChain = run.then(
+    () => undefined,
+    () => undefined
+  );
+  return run;
 }

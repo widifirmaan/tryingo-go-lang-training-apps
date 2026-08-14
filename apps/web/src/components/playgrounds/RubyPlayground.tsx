@@ -68,68 +68,91 @@ else
 end
 `;
 
-let wasmModule: any = null;
-let wasmLoadAttempted = false;
+let wasmBinary: WebAssembly.Module | null = null;
+let wasmLoadPromise: Promise<WebAssembly.Module | null> | null = null;
 
-async function loadRubyWasm(): Promise<any> {
-  if (wasmModule) return wasmModule;
-  if (wasmLoadAttempted) return null;
-  wasmLoadAttempted = true;
+async function loadRubyWasm(): Promise<WebAssembly.Module | null> {
+  if (wasmBinary) return wasmBinary;
+  if (wasmLoadPromise) return wasmLoadPromise;
 
-  try {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/browser.umd.js';
-    document.head.appendChild(script);
+  wasmLoadPromise = (async () => {
+    let timeoutId: number | null = null;
+    try {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/browser.umd.js';
+      document.head.appendChild(script);
 
-    await new Promise<void>((resolve, reject) => {
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load ruby-wasm script'));
-      setTimeout(() => reject(new Error('ruby-wasm load timeout')), 15000);
-    });
+      await new Promise<void>((resolve, reject) => {
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load ruby-wasm script'));
+        timeoutId = window.setTimeout(() => reject(new Error('ruby-wasm load timeout')), 15000);
+      });
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
 
-    const rubyWasi = (window as any)['ruby-wasm-wasi'];
-    if (!rubyWasi || !rubyWasi.DefaultRubyVM) {
-      console.warn('ruby-wasm not available on window');
+      const rubyWasi = (window as any)['ruby-wasm-wasi'];
+      if (!rubyWasi || !rubyWasi.DefaultRubyVM) {
+        console.warn('ruby-wasm not available on window');
+        return null;
+      }
+
+      const wasmRes = await fetch('https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/ruby+stdlib.wasm');
+      const module = await WebAssembly.compileStreaming(wasmRes);
+      wasmBinary = module;
+      return module;
+    } catch (err) {
+      console.warn('ruby-wasm unavailable, using procedural interpreter:', err);
       return null;
+    } finally {
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
     }
+  })();
 
-    const wasmRes = await fetch('https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/ruby+stdlib.wasm');
-    const wasmModuleBinary = await WebAssembly.compileStreaming(wasmRes);
-    const { vm } = await rubyWasi.DefaultRubyVM(wasmModuleBinary, { consolePrint: true });
-    wasmModule = { vm };
-    return wasmModule;
-  } catch (err) {
-    console.warn('ruby-wasm unavailable, using procedural interpreter:', err);
-    return null;
+  const result = await wasmLoadPromise;
+  if (!result) {
+    // Only reset on permanent failure so in-flight callers can still resolve.
+    wasmLoadPromise = null;
   }
+  return result;
 }
 
-function runRubyWasm(code: string): Promise<{ output: string[]; error: string | null }> {
-  return new Promise((resolve) => {
-    if (!wasmModule) {
-      resolve({ output: [], error: 'WASM not loaded' });
-      return;
-    }
+async function runRubyWasm(code: string): Promise<{ output: string[]; error: string | null }> {
+  const binary = await loadRubyWasm();
+  if (!binary) {
+    return { output: [], error: null };
+  }
 
-    const output: string[] = [];
-    const origLog = console.log;
-    const origError = console.error;
-    const origWarn = console.warn;
-    console.log = (...args: unknown[]) => output.push(args.map((a) => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
-    console.error = (...args: unknown[]) => output.push('Error: ' + args.map(String).join(' '));
-    console.warn = (...args: unknown[]) => output.push('Warning: ' + args.map(String).join(' '));
+  const rubyWasi = (window as any)['ruby-wasm-wasi'];
+  let vm: any;
+  try {
+    const created = await rubyWasi.DefaultRubyVM(binary, { consolePrint: true });
+    vm = created.vm;
+  } catch (err: any) {
+    return { output: [], error: err?.message || String(err) };
+  }
 
-    try {
-      wasmModule.vm.eval(code);
-      resolve({ output, error: null });
-    } catch (err: any) {
-      resolve({ output, error: err?.message || String(err) });
-    } finally {
-      console.log = origLog;
-      console.error = origError;
-      console.warn = origWarn;
-    }
-  });
+  const output: string[] = [];
+  const origLog = console.log;
+  const origError = console.error;
+  const origWarn = console.warn;
+  console.log = (...args: unknown[]) => output.push(args.map((a) => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
+  console.error = (...args: unknown[]) => output.push('Error: ' + args.map(String).join(' '));
+  console.warn = (...args: unknown[]) => output.push('Warning: ' + args.map(String).join(' '));
+
+  try {
+    vm.eval(code);
+    return { output, error: null };
+  } catch (err: any) {
+    return { output, error: err?.message || String(err) };
+  } finally {
+    console.log = origLog;
+    console.error = origError;
+    console.warn = origWarn;
+  }
 }
 
 interface InterpreterState {
@@ -139,7 +162,10 @@ interface InterpreterState {
   lastValue?: any;
   returnValue?: any;
   didReturn?: boolean;
+  loopIterations: number;
 }
+
+const MAX_LOOP_ITERATIONS = 100000;
 
 interface FunctionDef {
   params: string[];
@@ -154,6 +180,7 @@ function interpretRuby(code: string): { output: OutputLine[]; error: string | nu
     lastValue: undefined,
     returnValue: undefined,
     didReturn: false,
+    loopIterations: 0,
   };
 
   const lines = code.split('\n');
@@ -302,6 +329,10 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
           i++;
         }
         for (let t = 0; t < count; t++) {
+          state.loopIterations++;
+          if (state.loopIterations > MAX_LOOP_ITERATIONS) {
+            throw new Error(`Infinite loop detected (max ${MAX_LOOP_ITERATIONS} iterations)`);
+          }
           state.variables.set(loopVar, t);
           processLines(bodyLines, state, depth + 1);
         }
@@ -349,11 +380,19 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
       const collection = evaluateExpression(collectionExpr, state);
       if (Array.isArray(collection)) {
         for (const item of collection) {
+          state.loopIterations++;
+          if (state.loopIterations > MAX_LOOP_ITERATIONS) {
+            throw new Error(`Infinite loop detected (max ${MAX_LOOP_ITERATIONS} iterations)`);
+          }
           state.variables.set(itemVar, item);
           processLines(bodyLines, state, depth + 1);
         }
       } else if (typeof collection === 'object' && collection !== null) {
         for (const [k, v] of Object.entries(collection)) {
+          state.loopIterations++;
+          if (state.loopIterations > MAX_LOOP_ITERATIONS) {
+            throw new Error(`Infinite loop detected (max ${MAX_LOOP_ITERATIONS} iterations)`);
+          }
           state.variables.set(itemVar, [k, v]);
           processLines(bodyLines, state, depth + 1);
         }
@@ -714,17 +753,33 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
   const outputRef = useRef<HTMLDivElement>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runCodeRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
     loadRubyWasm()
       .then((wasm) => {
+        if (!mountedRef.current) return;
         setWasmStatus(wasm ? 'ready' : 'unavailable');
       })
       .catch(() => {
+        if (!mountedRef.current) return;
         setWasmStatus('unavailable');
       });
   }, []);
@@ -733,6 +788,9 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setOutput([]);
     setEditorKey((k) => k + 1);
@@ -744,23 +802,17 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
   }, [output]);
 
   const runCode = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setOutput([]);
 
     await new Promise((r) => setTimeout(r, 50));
+    if (!mountedRef.current || runIdRef.current !== runId) return;
 
-    if (wasmStatus === 'ready' && wasmModule) {
-      const result = await runRubyWasm(code);
-      if (result.error) {
-        setOutput([
-          ...result.output.map((t) => ({ text: t, kind: 'output' as const })),
-          { text: result.error, kind: 'error' },
-        ]);
-      } else {
-        setOutput(result.output.map((t) => ({ text: t, kind: 'output' as const })));
-      }
-    } else {
-      const result = interpretRuby(code);
+    const applyResult = (result: { output: OutputLine[]; error: string | null }) => {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       if (result.error) {
         setOutput([
           ...result.output,
@@ -769,12 +821,28 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
       } else {
         setOutput(result.output);
       }
-    }
+      isRunningRef.current = false;
+      setIsRunning(false);
+    };
 
-    setIsRunning(false);
+    if (wasmStatus === 'ready') {
+      const result = await runRubyWasm(code);
+      if (!mountedRef.current || runIdRef.current !== runId) return;
+      applyResult({
+        output: result.output.map((t) => ({ text: t, kind: 'output' as const })),
+        error: result.error,
+      });
+    } else {
+      applyResult(interpretRuby(code));
+    }
   }, [code, wasmStatus]);
 
+  runCodeRef.current = runCode;
+
   const handleReset = useCallback(() => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setOutput([]);
     setCode(initialCode || DEFAULT_RUBY);
     setEditorKey((k) => k + 1);
@@ -789,7 +857,7 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
-    editor.addCommand(2048 | 3, () => runCode());
+    editor.addCommand(2048 | 3, () => runCodeRef.current());
   };
 
   return (

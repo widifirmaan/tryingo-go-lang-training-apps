@@ -114,15 +114,31 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runCodeRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
     setCode(initialCode);
     setOutput('');
     setError('');
@@ -130,46 +146,67 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
   }, [initialCode]);
 
   useEffect(() => {
+    let cancelled = false;
     setIsLoading(true);
     setStatus('loading');
     loadVueRuntime()
       .then(() => {
+        if (!mountedRef.current || cancelled) return;
         setStatus('ready');
         setIsLoading(false);
       })
       .catch((err) => {
+        if (!mountedRef.current || cancelled) return;
         setStatus('error');
         setIsLoading(false);
         setError(isId ? `Gagal memuat compiler Vue: ${err.message}\nPastikan koneksi internet tersedia.` : `Failed to load Vue compiler: ${err.message}\nMake sure internet connection is available.`);
       });
+    return () => {
+      cancelled = true;
+    };
   }, [isId]);
 
   const runVue = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setOutput('');
     setError('');
 
     try {
       await loadVueRuntime();
+      if (!mountedRef.current || runIdRef.current !== runId) return;
 
       if (!window.Vue) {
-        setError(isId ? 'Vue compiler tidak tersedia' : 'Vue compiler not available');
+        if (mountedRef.current && runIdRef.current === runId) {
+          setError(isId ? 'Vue compiler tidak tersedia' : 'Vue compiler not available');
+        }
+        isRunningRef.current = false;
         setIsRunning(false);
         return;
       }
 
       const { jsCode, errors } = compileVueSFC(code);
+      if (!mountedRef.current || runIdRef.current !== runId) return;
 
       if (errors.length > 0) {
-        setError(errors.join('\n'));
+        if (mountedRef.current && runIdRef.current === runId) {
+          setError(errors.join('\n'));
+        }
+        isRunningRef.current = false;
         setIsRunning(false);
         return;
       }
 
-      const logs: string[] = [];
       const iframe = iframeRef.current;
 
       if (iframe) {
+        // Tear down the previous preview document so stale timers/globals die.
+        if (iframe.srcdoc) {
+          iframe.srcdoc = '';
+        }
+
         // Inline the compiled module + bootstrap directly into the sandboxed
         // iframe (opaque origin). A parent-created blob URL cannot be fetched
         // from an opaque-origin sandbox, so we embed the module source inline.
@@ -178,10 +215,12 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
 const { createApp } = await import('vue');
 const app = createApp(__component);
 app.config.errorHandler = function(err, vm, info) {
-  window.parent.postMessage({ type: 'error', args: 'Vue Error: ' + err.message + ' (' + info + ')' }, '*');
+  window.parent.postMessage({ type: 'error', runId: __runId, args: 'Vue Error: ' + err.message + ' (' + info + ')' }, '*');
 };
 app.mount('#app');
 `;
+        const escapedModuleScript = moduleScript.replace(/<\/script/gi, '<\\/script');
+
         const iframeContent = `<!DOCTYPE html>
 <html>
 <head>
@@ -204,6 +243,9 @@ app.mount('#app');
       }
     }
   <\/script>
+  <script>
+    const __runId = ${runId};
+  <\/script>
   <script type="module">
     const _logs = [];
     const _origLog = console.log;
@@ -212,39 +254,50 @@ app.mount('#app');
 
     console.log = function(...args) {
       _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      window.parent.postMessage({ type: 'console', level: 'log', args: _logs[_logs.length - 1] }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'log', args: _logs[_logs.length - 1] }, '*');
       _origLog.apply(console, args);
     };
     console.error = function(...args) {
       _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      window.parent.postMessage({ type: 'console', level: 'error', args: _logs[_logs.length - 1] }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'error', args: _logs[_logs.length - 1] }, '*');
       _origError.apply(console, args);
     };
     console.warn = function(...args) {
       _logs.push('Warn: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      window.parent.postMessage({ type: 'console', level: 'warn', args: _logs[_logs.length - 1] }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'warn', args: _logs[_logs.length - 1] }, '*');
       _origWarn.apply(console, args);
     };
 
     window.onerror = function(msg, url, line, col, err) {
-      window.parent.postMessage({ type: 'error', args: msg + ' (line ' + line + ':' + col + ')' }, '*');
+      window.parent.postMessage({ type: 'error', runId: __runId, args: msg + ' (line ' + line + ':' + col + ')' }, '*');
       return false;
     };
   <\/script>
-  <script type="module">${moduleScript}<\/script>
+  <script type="module">${escapedModuleScript}<\/script>
 </body>
 </html>`;
 
-        iframe.srcdoc = iframeContent;
+        if (mountedRef.current && runIdRef.current === runId) {
+          iframe.srcdoc = iframeContent;
+        }
       }
     } catch (err: any) {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setError(err.message || String(err));
     }
 
-    setIsRunning(false);
+    if (mountedRef.current && runIdRef.current === runId) {
+      isRunningRef.current = false;
+      setIsRunning(false);
+    }
   }, [code, isId]);
 
+  runCodeRef.current = runVue;
+
   const handleReset = useCallback(() => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode || DEFAULT_VUE);
     setOutput('');
     setError('');
@@ -254,18 +307,22 @@ app.mount('#app');
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco command handles it
+      }
       runVue();
     }
   };
 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
-    editor.addCommand(2048 | 3, () => runVue());
+    editor.addCommand(2048 | 3, () => runCodeRef.current());
   };
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.source !== iframeRef.current?.contentWindow) return;
+      if (event.data?.runId !== undefined && event.data.runId !== runIdRef.current) return;
       if (event.data?.type === 'console' || event.data?.type === 'error') {
         setOutput((prev) => {
           const prefix = event.data.level === 'error' ? '❌ ' : event.data.level === 'warn' ? '⚠️ ' : '';

@@ -30,12 +30,30 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
   const [editorReady, setEditorReady] = useState(false);
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const prevInitialCode = useRef(initialCode);
+  const prevSlug = useRef(slug);
   const [editorKey, setEditorKey] = useState(0);
   const [isHorizontal, setIsHorizontal] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runCodeRef = useRef<() => void>(() => {});
+  const timersRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      timersRef.current.forEach((t) => clearTimeout(t));
+      timersRef.current.clear();
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
@@ -51,51 +69,50 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
   }, []);
 
   useEffect(() => {
-    if (!initialCode) return;
-    if (prevInitialCode.current === initialCode) return;
+    const target = initialCode || DEFAULT_CODE[slug];
+    const codeChanged = prevInitialCode.current !== initialCode;
+    const slugChanged = prevSlug.current !== slug;
     prevInitialCode.current = initialCode;
-    setCode(initialCode);
-    setOutput('');
-    setError('');
-    setEditorKey((k) => k + 1);
-  }, [initialCode]);
-
-  useEffect(() => {
-    if (!initialCode) {
-      setCode(DEFAULT_CODE[slug]);
+    prevSlug.current = slug;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
+    if (codeChanged || slugChanged) {
+      setCode(target);
       setEditorKey((k) => k + 1);
     }
     setOutput('');
     setError('');
-  }, [slug, initialCode]);
+  }, [initialCode, slug]);
 
   const runCode = useCallback(() => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setOutput('');
     setError('');
     setExecutionTime(null);
     const start = performance.now();
+    const finish = (result: { error?: string; output?: string }) => {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
+      setExecutionTime(performance.now() - start);
+      if (result.error) setError(result.error);
+      if (result.output) setOutput(result.output);
+      isRunningRef.current = false;
+      setIsRunning(false);
+    };
     if (slug === 'nodejs') {
       simulateNode(code)
-        .then((result) => {
-          const elapsed = performance.now() - start;
-          setExecutionTime(elapsed);
-          if (result.error) setError(result.error);
-          if (result.output) setOutput(result.output);
-        })
-        .catch((err) => setError(err instanceof Error ? err.message : String(err)))
-        .finally(() => setIsRunning(false));
+        .then((result) => finish(result))
+        .catch((err) => finish({ error: err instanceof Error ? err.message : String(err) }));
     } else {
-      setTimeout(() => {
-        const result = simulateOutput(slug, code);
-        const elapsed = performance.now() - start;
-        setExecutionTime(elapsed);
-        if (result.error) setError(result.error);
-        if (result.output) setOutput(result.output);
-        setIsRunning(false);
-      }, 150 + Math.random() * 200);
+      const timer = window.setTimeout(() => finish(simulateOutput(slug, code)), 150 + Math.random() * 200);
+      timersRef.current.add(timer);
     }
   }, [code, slug]);
+
+  runCodeRef.current = runCode;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -106,7 +123,7 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
 
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
-    editor.addCommand(2048 | 3, () => runCode());
+    editor.addCommand(2048 | 3, () => runCodeRef.current());
   };
 
   const monacoLang = FRAMEWORK_LANGUAGES[slug];

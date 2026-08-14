@@ -17,6 +17,70 @@ const DEFAULT_SQL = `-- Tryngo SQL Playground — SQLite via sql.js (WASM)
 SELECT * FROM employees;
 `;
 
+// Split a SQL script into statements, respecting string literals (incl.
+// doubled-quote escapes) and -- / /* */ comments so semicolons inside
+// strings don't break valid statements.
+export function splitSqlStatements(code: string): string[] {
+  const stmts: string[] = [];
+  let buffer = '';
+  let inStr: "'" | '"' | null = null;
+  let inBlock = false;
+  const push = () => {
+    const t = buffer.trim();
+    if (t) stmts.push(t);
+    buffer = '';
+  };
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i];
+    const next = code[i + 1];
+    if (inBlock) {
+      if (ch === '*' && next === '/') {
+        inBlock = false;
+        buffer += ' ';
+        i++;
+      } else {
+        buffer += ' ';
+      }
+      continue;
+    }
+    if (inStr) {
+      buffer += ch;
+      if (ch === inStr) {
+        if (next === inStr) {
+          buffer += next;
+          i++;
+        } else {
+          inStr = null;
+        }
+      }
+      continue;
+    }
+    if (ch === '-' && next === '-') {
+      while (i < code.length && code[i] !== '\n') i++;
+      buffer += ' ';
+      continue;
+    }
+    if (ch === '/' && next === '*') {
+      inBlock = true;
+      buffer += ' ';
+      i++;
+      continue;
+    }
+    if (ch === "'" || ch === '"') {
+      inStr = ch;
+      buffer += ch;
+      continue;
+    }
+    if (ch === ';') {
+      push();
+      continue;
+    }
+    buffer += ch;
+  }
+  push();
+  return stmts;
+}
+
 export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode }) => {
   const isId = lang === 'id';
   const [code, setCode] = useState(initialCode || DEFAULT_SQL);
@@ -30,9 +94,23 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
   const [editorKey, setEditorKey] = useState(0);
   const [isHorizontal, setIsHorizontal] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runSqlRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
@@ -51,33 +129,33 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setResults([]);
     setEditorKey((k) => k + 1);
   }, [initialCode]);
 
   useEffect(() => {
-    getSchema().then(setSchema);
+    getSchema()
+      .then((s) => {
+        if (mountedRef.current) setSchema(s);
+      })
+      .catch(() => {});
   }, []);
 
   const runSql = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setResults([]);
 
-    const stripComments = (s: string): string =>
-      s
-        .split('\n')
-        .map((line) => line.replace(/\/\*.*?\*\//g, '').trim())
-        .filter((line) => line.length > 0 && !line.startsWith('--') && !line.startsWith('/*'))
-        .join(' ');
-
-    const statements = code
-      .split(';')
-      .map(stripComments)
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
+    const statements = splitSqlStatements(code);
 
     if (statements.length === 0) {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setResults([
         {
           columns: [],
@@ -87,35 +165,67 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
           executionTimeMs: 0,
         },
       ]);
+      isRunningRef.current = false;
       setIsRunning(false);
       return;
     }
 
-    const allResults: SqlResult[] = [];
-    for (const stmt of statements) {
-      const result = await executeSql(stmt);
-      allResults.push(result);
+    try {
+      const allResults: SqlResult[] = [];
+      for (const stmt of statements) {
+        if (runIdRef.current !== runId || !mountedRef.current) return;
+        const result = await executeSql(stmt);
+        allResults.push(result);
+      }
+
+      if (!mountedRef.current || runIdRef.current !== runId) return;
+      setResults(allResults);
+
+      const schemaResult = await getSchema();
+      if (!mountedRef.current || runIdRef.current !== runId) return;
+      setSchema(schemaResult);
+    } finally {
+      if (mountedRef.current && runIdRef.current === runId) {
+        isRunningRef.current = false;
+        setIsRunning(false);
+      }
     }
-
-    setResults(allResults);
-    setIsRunning(false);
-
-    const schemaResult = await getSchema();
-    setSchema(schemaResult);
   }, [code, isId]);
 
+  runSqlRef.current = runSql;
+
   const handleReset = useCallback(async () => {
-    await resetSql();
-    setResults([]);
-    const schemaResult = await getSchema();
-    setSchema(schemaResult);
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode || DEFAULT_SQL);
     setEditorKey((k) => k + 1);
+    try {
+      await resetSql();
+      if (!mountedRef.current) return;
+      setResults([]);
+      const schemaResult = await getSchema();
+      if (mountedRef.current) setSchema(schemaResult);
+    } catch (err) {
+      if (!mountedRef.current) return;
+      setResults([
+        {
+          columns: [],
+          rows: [],
+          rowCount: 0,
+          error: err instanceof Error ? err.message : 'Reset failed',
+          executionTimeMs: 0,
+        },
+      ]);
+    }
   }, [initialCode]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco command handles it
+      }
       runSql();
     }
   };
@@ -125,7 +235,7 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
     editor.addCommand(
       // monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter
       2048 | 3, // Ctrl+Enter
-      () => runSql()
+      () => runSqlRef.current()
     );
   };
 

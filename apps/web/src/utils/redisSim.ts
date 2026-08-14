@@ -18,20 +18,31 @@ interface RedisStats {
   byType: Record<string, number>;
 }
 
-const store = new Map<string, RedisValue>();
+let store = new Map<string, RedisValue>();
 const subscribers = new Map<string, Set<PubSubCallback>>();
 const patternSubscribers = new Map<string, Set<PubSubCallback>>();
 let expiredCount = 0;
 let currentDb = 0;
-const dbStores = [store];
+const dbStores = new Map<number, Map<string, RedisValue>>();
+dbStores.set(0, store);
+
+const activeStore = (): Map<string, RedisValue> => {
+  const s = dbStores.get(currentDb);
+  if (!s) {
+    const created = new Map<string, RedisValue>();
+    dbStores.set(currentDb, created);
+    return created;
+  }
+  return s;
+};
 
 const now = () => Date.now();
 
 const isExpired = (key: string): boolean => {
-  const v = store.get(key);
+  const v = activeStore().get(key);
   if (!v?.expiresAt) return false;
   if (now() >= v.expiresAt) {
-    store.delete(key);
+    activeStore().delete(key);
     expiredCount++;
     return true;
   }
@@ -39,14 +50,14 @@ const isExpired = (key: string): boolean => {
 };
 
 const getVal = (key: string): any | null => {
-  const v = store.get(key);
+  const v = activeStore().get(key);
   if (!v) return null;
   if (isExpired(key)) return null;
   return v.data;
 };
 
 const getType = (key: string): string => {
-  const v = store.get(key);
+  const v = activeStore().get(key);
   if (!v) return 'none';
   if (isExpired(key)) return 'none';
   return v.type;
@@ -99,6 +110,10 @@ const matchGlob = (pattern: string, str: string): boolean => {
 };
 
 const loadSampleData = () => {
+  currentDb = 0;
+  const base = dbStores.get(0) ?? new Map<string, RedisValue>();
+  dbStores.set(0, base);
+  store = base;
   store.clear();
   expiredCount = 0;
   subscribers.clear();
@@ -226,9 +241,12 @@ const cmdSelect = (args: string[]): string => {
   const db = parseIntSafe(args[0]);
   if (db === null || db < 0) return formatError('invalid DB index');
   currentDb = db;
-  if (!dbStores[db]) {
-    dbStores[db] = new Map();
+  let target = dbStores.get(db);
+  if (!target) {
+    target = new Map();
+    dbStores.set(db, target);
   }
+  store = target;
   return okResponse();
 };
 
