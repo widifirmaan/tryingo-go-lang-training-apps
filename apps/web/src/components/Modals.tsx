@@ -159,6 +159,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   const [contentResults, setContentResults] = useState<SearchEntry[]>([]);
   const [contentLoading, setContentLoading] = useState(false);
   const searchTimerRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const searchSeqRef = React.useRef(0);
 
   const categoryFilters = [
     { id: 'all', label: t.allCategory },
@@ -199,16 +200,19 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     }
 
     if (searchTimerRef.current) clearTimeout(searchTimerRef.current);
+    const seq = ++searchSeqRef.current;
 
     searchTimerRef.current = setTimeout(async () => {
       setContentLoading(true);
       try {
         const results = await searchCourseContent(searchQuery, { lang, limit: 15 });
+        if (searchSeqRef.current !== seq) return;
         setContentResults(results);
       } catch {
+        if (searchSeqRef.current !== seq) return;
         setContentResults([]);
       }
-      setContentLoading(false);
+      if (searchSeqRef.current === seq) setContentLoading(false);
     }, 300);
 
     return () => {
