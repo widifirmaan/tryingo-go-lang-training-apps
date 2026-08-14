@@ -61,7 +61,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     slug: SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''),
   }));
   const openQuiz = (slug: string, level?: string) => {
-    setActiveSubmenu(null);
     onOpenQuiz?.(slug, level);
   };
 
@@ -89,11 +88,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }, [activeIdeId]);
 
   useEffect(() => {
-    if (!activeCourseId && !activeIdeId) {
+    if (activeQuizId) {
+      setActiveSubmenu('quiz');
+      setExpandedTrack(null);
+    }
+  }, [activeQuizId]);
+
+  useEffect(() => {
+    if (!activeCourseId && !activeIdeId && !activeQuizId) {
       setExpandedTrack(null);
       setActiveSubmenu(null);
     }
-  }, [activeCourseId, activeIdeId]);
+  }, [activeCourseId, activeIdeId, activeQuizId]);
 
   return (
     <motion.div 
@@ -238,7 +244,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setActiveSubmenu(activeSubmenu === 'quiz' ? null : 'quiz')}
-                      className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-between transition-colors"
+                      className={`w-full px-3.5 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center justify-between transition-colors ${activeSubmenu === 'quiz' ? 'bg-white/20' : 'bg-white/10 hover:bg-white/20'}`}
                     >
                       <div className="flex items-center gap-2.5">
                         <FontAwesomeIcon icon={faFlask} className="w-4 h-4 text-[#EEDBB2]" />
@@ -284,7 +290,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setActiveSubmenu(activeSubmenu === 'ide' ? null : 'ide')}
-                      className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center justify-between transition-colors"
+                      className={`w-full px-3.5 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center justify-between transition-colors ${activeSubmenu === 'ide' ? 'bg-white/20' : 'bg-white/10 hover:bg-white/20'}`}
                     >
                       <div className="flex items-center gap-2.5">
                         <FontAwesomeIcon icon={faLaptopCode} className="w-4 h-4 text-[#EEDBB2]" />

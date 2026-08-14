@@ -104,6 +104,15 @@ function runProgram(code: string): string[] {
     i = result.nextIdx ?? (i + 1);
   }
 
+  // Entry point: invoke Main after all methods/classes are registered
+  const mainMethod = methods.get('Main');
+  if (mainMethod) {
+    const mainResult = invokeMethod('Main', [], methods, variables, classes);
+    if (typeof mainResult === 'string' && mainResult.length > 0) {
+      output.push(mainResult);
+    }
+  }
+
   return output;
 }
 
@@ -111,6 +120,26 @@ function stripComments(code: string): string {
   return code
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\/\/.*/g, '');
+}
+
+// Replace contents of string literals (incl. interpolated) with spaces so that
+// braces inside strings (e.g. {year} in $"...") don't confuse block parsing.
+function maskStrings(line: string): string {
+  let out = '';
+  let inStr: '"' | "'" | null = null;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inStr) {
+      if (ch === '\\') { out += ' '; if (i + 1 < line.length) { out += ' '; i++; } continue; }
+      if (ch === inStr) { inStr = null; out += ' '; continue; }
+      out += ' ';
+      continue;
+    }
+    if (ch === '"' && line[i - 1] !== '\\') { inStr = '"'; out += ' '; continue; }
+    if (ch === "'" && line[i - 1] !== '\\') { inStr = "'"; out += ' '; continue; }
+    out += ch;
+  }
+  return out;
 }
 
 function isMethodDecl(line: string): boolean {
@@ -127,15 +156,19 @@ function parseClass(lines: string[], startIdx: number): { classDef: ClassDef; ne
 
   let i = startIdx + 1;
   let depth = 0;
-  if (lines[startIdx].includes('{')) depth = 1;
+  if (maskStrings(lines[startIdx]).includes('{')) depth = 1;
 
   while (i < lines.length) {
     const line = lines[i].trim();
-    if (line.includes('{')) depth++;
-    if (line.includes('}')) {
-      depth--;
+    const masked = maskStrings(line);
+    const { opens, closes } = countBraces(masked);
+
+    if (closes > opens) {
+      depth -= closes - opens;
       if (depth <= 0) { i++; break; }
     }
+
+    if (opens > closes) depth += opens - closes;
 
     if (isMethodDecl(line)) {
       const { method, nextIdx } = parseMethod(lines, i);
@@ -168,6 +201,21 @@ function parseFieldDeclaration(line: string, fields: Map<string, Variable>): voi
   }
 }
 
+// Count { and } in a string-literal-masked line.
+function countBraces(masked: string): { opens: number; closes: number } {
+  let opens = 0, closes = 0;
+  for (const ch of masked) {
+    if (ch === '{') opens++;
+    else if (ch === '}') closes++;
+  }
+  return { opens, closes };
+}
+
+// Is this line a bare block delimiter like "{" or "}" (no code on the same line)?
+function isBareBrace(line: string): boolean {
+  return line.replace(/[{}\s]/g, '').length === 0;
+}
+
 function parseMethod(lines: string[], startIdx: number): { method: MethodDef; nextIdx: number } {
   const header = lines[startIdx].trim();
   const match = header.match(/(?:static\s+)?(\w+)\s+(\w+)\s*\(([^)]*)\)/);
@@ -181,16 +229,21 @@ function parseMethod(lines: string[], startIdx: number): { method: MethodDef; ne
   const body: string[] = [];
   let i = startIdx + 1;
   let depth = 0;
-  if (lines[startIdx].includes('{')) depth = 1;
+  if (maskStrings(lines[startIdx]).includes('{')) depth = 1;
 
   while (i < lines.length) {
     const line = lines[i].trim();
-    if (line.includes('{')) depth++;
-    if (line.includes('}')) {
-      depth--;
+    const masked = maskStrings(line);
+    const { opens, closes } = countBraces(masked);
+
+    if (closes > opens) {
+      depth -= closes - opens;
       if (depth <= 0) { i++; break; }
     }
-    if (depth >= 1 && line && !line.includes('{')) {
+
+    if (opens > closes) depth += opens - closes;
+
+    if (depth >= 1 && line) {
       body.push(line);
     }
     i++;
@@ -213,7 +266,7 @@ function executeStatement(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number } {
+): { output?: string[]; nextIdx?: number; returnValue?: any } {
   // Block opening
   if (line === '{') {
     return {};
@@ -286,7 +339,8 @@ function executeStatement(
 
   // Return statement
   if (line.startsWith('return')) {
-    return {};
+    const retMatch = line.match(/^return\s*(.+?)\s*;?$/);
+    return { returnValue: retMatch && retMatch[1] ? evalExpr(retMatch[1].trim(), variables, methods, classes) : null };
   }
 
   // Method invocation (standalone)
@@ -350,6 +404,16 @@ function executeStatement(
     return {};
   }
 
+  // Increment / decrement: n++ / n--
+  const incDec = line.match(/^(\w+)\s*(\+\+|--)\s*;?$/);
+  if (incDec) {
+    const v = variables.get(incDec[1]);
+    if (v && typeof v.value === 'number') {
+      v.value = incDec[2] === '++' ? v.value + 1 : v.value - 1;
+    }
+    return {};
+  }
+
   return {};
 }
 
@@ -375,16 +439,18 @@ function executeIf(
   let inElse = false;
 
   // Check if brace is on same line
-  if (line.includes('{')) depth = 1;
+  if (maskStrings(line).includes('{')) depth = 1;
 
   while (i < allLines.length) {
     const l = allLines[i].trim();
-    if (l.includes('{')) depth++;
-    if (l.includes('}')) {
-      depth--;
+    const masked = maskStrings(l);
+    const { opens, closes } = countBraces(masked);
+
+    if (closes > opens) {
+      depth -= closes - opens;
       if (depth <= 0) {
         // Check for else on the closing brace line
-        if (l.includes('else')) {
+        if (masked.includes('else')) {
           inElse = true;
           i++;
           continue;
@@ -392,13 +458,18 @@ function executeIf(
         i++;
         break;
       }
+      i++;
+      continue;
     }
+
+    if (opens > closes) depth += opens - closes;
+
     if (l === 'else' || l.startsWith('else ')) {
       inElse = true;
       i++;
       continue;
     }
-    if (depth >= 1 && l && !l.includes('{') && l !== '}') {
+    if (depth >= 1 && l && !(opens > closes && isBareBrace(l)) && !masked.includes('}')) {
       if (inElse) elseBody.push(l); else ifBody.push(l);
     }
     i++;
@@ -408,6 +479,9 @@ function executeIf(
   for (const stmt of body) {
     const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
     if (result.output) output.push(...result.output);
+    if (result.returnValue !== undefined) {
+      return { output, nextIdx: i, returnValue: result.returnValue };
+    }
   }
 
   return { output, nextIdx: i };
@@ -420,7 +494,7 @@ function executeWhile(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number } {
+): { output?: string[]; nextIdx?: number; returnValue?: any } {
   const output: string[] = [];
   const condMatch = line.match(/while\s*\((.+)\)/);
   if (!condMatch) return {};
@@ -432,16 +506,23 @@ function executeWhile(
   let i = currentIdx + 1;
   let depth = 0;
 
-  if (line.includes('{')) depth = 1;
+  if (maskStrings(line).includes('{')) depth = 1;
 
   while (i < allLines.length) {
     const l = allLines[i].trim();
-    if (l.includes('{')) depth++;
-    if (l.includes('}')) {
-      depth--;
+    const masked = maskStrings(l);
+    const { opens, closes } = countBraces(masked);
+
+    if (closes > opens) {
+      depth -= closes - opens;
       if (depth <= 0) { i++; break; }
+      i++;
+      continue;
     }
-    if (depth >= 1 && l && !l.includes('{') && l !== '}') {
+
+    if (opens > closes) depth += opens - closes;
+
+    if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
       body.push(l);
     }
     i++;
@@ -453,6 +534,9 @@ function executeWhile(
     for (const stmt of body) {
       const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
       if (result.output) output.push(...result.output);
+      if (result.returnValue !== undefined) {
+        return { output, nextIdx: i, returnValue: result.returnValue };
+      }
     }
     iterations++;
   }
@@ -471,7 +555,7 @@ function executeFor(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number } {
+): { output?: string[]; nextIdx?: number; returnValue?: any } {
   const output: string[] = [];
   const forMatch = line.match(/for\s*\(\s*(int\s+)?(\w+)\s*=\s*(\d+);\s*(\w+)\s*([<>]=?|==|!=)\s*(\d+);\s*(\w+)\s*(\+\+|--)\s*\)/);
   if (!forMatch) return {};
@@ -491,16 +575,23 @@ function executeFor(
   let i = currentIdx + 1;
   let depth = 0;
 
-  if (line.includes('{')) depth = 1;
+  if (maskStrings(line).includes('{')) depth = 1;
 
   while (i < allLines.length) {
     const l = allLines[i].trim();
-    if (l.includes('{')) depth++;
-    if (l.includes('}')) {
-      depth--;
+    const masked = maskStrings(l);
+    const { opens, closes } = countBraces(masked);
+
+    if (closes > opens) {
+      depth -= closes - opens;
       if (depth <= 0) { i++; break; }
+      i++;
+      continue;
     }
-    if (depth >= 1 && l && !l.includes('{') && l !== '}') {
+
+    if (opens > closes) depth += opens - closes;
+
+    if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
       body.push(l);
     }
     i++;
@@ -515,6 +606,9 @@ function executeFor(
     for (const stmt of body) {
       const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
       if (result.output) output.push(...result.output);
+      if (result.returnValue !== undefined) {
+        return { output, nextIdx: i, returnValue: result.returnValue };
+      }
     }
 
     const val = variables.get(incVar);
@@ -538,7 +632,7 @@ function executeForeach(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number } {
+): { output?: string[]; nextIdx?: number; returnValue?: any } {
   const output: string[] = [];
   const foreachMatch = line.match(/foreach\s*\(\s*(int|string|var)\s+(\w+)\s+in\s+(\w+)\s*\)/);
   if (!foreachMatch) return {};
@@ -557,16 +651,23 @@ function executeForeach(
   let i = currentIdx + 1;
   let depth = 0;
 
-  if (line.includes('{')) depth = 1;
+  if (maskStrings(line).includes('{')) depth = 1;
 
   while (i < allLines.length) {
     const l = allLines[i].trim();
-    if (l.includes('{')) depth++;
-    if (l.includes('}')) {
-      depth--;
+    const masked = maskStrings(l);
+    const { opens, closes } = countBraces(masked);
+
+    if (closes > opens) {
+      depth -= closes - opens;
       if (depth <= 0) { i++; break; }
+      i++;
+      continue;
     }
-    if (depth >= 1 && l && !l.includes('{') && l !== '}') {
+
+    if (opens > closes) depth += opens - closes;
+
+    if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
       body.push(l);
     }
     i++;
@@ -577,6 +678,9 @@ function executeForeach(
     for (const stmt of body) {
       const result = executeStatement(stmt, variables, methods, classes, allLines, allLines.indexOf(stmt));
       if (result.output) output.push(...result.output);
+      if (result.returnValue !== undefined) {
+        return { output, nextIdx: i, returnValue: result.returnValue };
+      }
     }
   }
 
@@ -677,12 +781,19 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
     return variables.get(trimmed)!.value;
   }
 
-  // Arithmetic expression
-  if (/^[\d\s+\-*/().]+$/.test(trimmed) && /[+\-*/]/.test(trimmed)) {
+  // Arithmetic expression (digits and/or numeric variables)
+  if (/^[\w\s+\-*/().]+$/.test(trimmed) && /[+\-*/]/.test(trimmed) && !trimmed.includes('"') && !trimmed.includes("'")) {
     try {
-      return Function(`"use strict"; return (${trimmed})`)();
+      const substituted = trimmed.replace(/[a-zA-Z_]\w*/g, (m) => {
+        const v = variables.get(m);
+        if (v !== undefined && typeof v.value === 'number') return String(v.value);
+        return m;
+      });
+      if (/^[\d\s+\-*/().]+$/.test(substituted) && /[+\-*/]/.test(substituted)) {
+        return evalArithmetic(substituted);
+      }
     } catch {
-      return 0;
+      // fall through
     }
   }
 
@@ -767,9 +878,19 @@ function invokeMethod(
   });
 
   const output: string[] = [];
-  for (const stmt of method.body) {
-    const result = executeStatement(stmt, localVars, methods, classes, method.body, method.body.indexOf(stmt));
+  let i = 0;
+  while (i < method.body.length) {
+    const stmt = method.body[i];
+    const result = executeStatement(stmt, localVars, methods, classes, method.body, i);
     if (result.output) output.push(...result.output);
+    if (result.returnValue !== undefined) {
+      return result.returnValue;
+    }
+    if (result.nextIdx !== undefined && result.nextIdx > i) {
+      i = result.nextIdx;
+    } else {
+      i++;
+    }
   }
 
   return output.length > 0 ? output.join('\n') : null;
@@ -781,6 +902,64 @@ function inferType(value: any): Variable['type'] {
   if (typeof value === 'boolean') return 'bool';
   if (Array.isArray(value)) return 'array';
   return 'var';
+}
+
+// Safe arithmetic evaluator for pure numeric expressions (no eval / new Function)
+function evalArithmetic(expr: string): number {
+  let pos = 0;
+  const input = expr.replace(/\s+/g, '');
+
+  function peek(): string {
+    return input[pos] || '';
+  }
+
+  function consume(): string {
+    return input[pos++] || '';
+  }
+
+  function parsePrimary(): number {
+    const ch = peek();
+    if (ch === '(') {
+      consume();
+      const val = parseExpression();
+      if (peek() === ')') consume();
+      return val;
+    }
+    if (ch === '-') {
+      consume();
+      return -parsePrimary();
+    }
+    const numMatch = input.slice(pos).match(/^\d+(\.\d+)?/);
+    if (numMatch) {
+      pos += numMatch[0].length;
+      return parseFloat(numMatch[0]);
+    }
+    throw new Error('Invalid arithmetic expression');
+  }
+
+  function parseMulDiv(): number {
+    let left = parsePrimary();
+    for (;;) {
+      const ch = peek();
+      if (ch === '*') { consume(); left *= parsePrimary(); }
+      else if (ch === '/') { consume(); left /= parsePrimary(); }
+      else break;
+    }
+    return left;
+  }
+
+  function parseExpression(): number {
+    let left = parseMulDiv();
+    for (;;) {
+      const ch = peek();
+      if (ch === '+') { consume(); left += parseMulDiv(); }
+      else if (ch === '-') { consume(); left -= parseMulDiv(); }
+      else break;
+    }
+    return left;
+  }
+
+  return parseExpression();
 }
 
 export function resetCSharp(): void {

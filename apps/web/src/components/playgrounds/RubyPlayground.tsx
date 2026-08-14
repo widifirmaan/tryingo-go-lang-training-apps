@@ -136,6 +136,9 @@ interface InterpreterState {
   variables: Map<string, any>;
   methods: Map<string, FunctionDef>;
   output: OutputLine[];
+  lastValue?: any;
+  returnValue?: any;
+  didReturn?: boolean;
 }
 
 interface FunctionDef {
@@ -148,6 +151,9 @@ function interpretRuby(code: string): { output: OutputLine[]; error: string | nu
     variables: new Map(),
     methods: new Map(),
     output: [],
+    lastValue: undefined,
+    returnValue: undefined,
+    didReturn: false,
   };
 
   const lines = code.split('\n');
@@ -162,6 +168,7 @@ function interpretRuby(code: string): { output: OutputLine[]; error: string | nu
 function processLines(lines: string[], state: InterpreterState, depth = 0): number {
   let i = 0;
   while (i < lines.length) {
+    if (state.didReturn) return i;
     const raw = lines[i];
     const line = raw.trim();
 
@@ -180,11 +187,17 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
         const methodName = defMatch[1];
         const params = defMatch[2] ? defMatch[2].split(',').map((p) => p.trim()) : [];
         const bodyLines: string[] = [];
+        let defDepth = 0;
         i++;
         while (i < lines.length) {
           const bodyLine = lines[i].trim();
           if (bodyLine === 'end') {
-            break;
+            if (defDepth === 0) {
+              break;
+            }
+            defDepth--;
+          } else if (opensBlock(bodyLine)) {
+            defDepth++;
           }
           bodyLines.push(lines[i]);
           i++;
@@ -395,7 +408,7 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
       method.params.forEach((param, idx) => {
         state.variables.set(param, args[idx]);
       });
-      processLines(method.body, state, depth + 1);
+      state.lastValue = executeMethodBody(method.body, state);
       method.params.forEach((param) => {
         if (savedVars.has(param)) {
           state.variables.set(param, savedVars.get(param));
@@ -410,9 +423,25 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
     const bareMethodCall = line.match(/^(\w+)$/);
     if (bareMethodCall && state.methods.has(bareMethodCall[1])) {
       const method = state.methods.get(bareMethodCall[1])!;
-      processLines(method.body, state, depth + 1);
+      state.lastValue = executeMethodBody(method.body, state);
       i++;
       continue;
+    }
+
+    const returnMatch = line.match(/^return(?:\s+(.+))?$/);
+    if (returnMatch) {
+      state.returnValue = returnMatch[1] ? evaluateExpression(returnMatch[1].trim(), state) : null;
+      state.didReturn = true;
+      return i;
+    }
+
+    try {
+      const exprValue = evaluateExpression(line, state);
+      if (exprValue !== undefined) {
+        state.lastValue = exprValue;
+      }
+    } catch {
+      // not a standalone expression — ignore
     }
 
     i++;
@@ -510,11 +539,11 @@ function evaluateExpression(expr: string, state: InterpreterState): any {
     if (hash && typeof hash === 'object') return hash[key];
   }
 
-  const binOpMatch = trimmed.match(/^(.+?)\s*(\+|\-|\*|\/|\%|\*\*|\=\=|\!\=|\<|\>|\<\=|\>\=|\<=\>)\s*(.+)$/);
+  const binOpMatch = findBinOp(trimmed);
   if (binOpMatch) {
-    const left = evaluateExpression(binOpMatch[1].trim(), state);
-    const op = binOpMatch[2];
-    const right = evaluateExpression(binOpMatch[3].trim(), state);
+    const left = evaluateExpression(binOpMatch.left.trim(), state);
+    const op = binOpMatch.op;
+    const right = evaluateExpression(binOpMatch.right.trim(), state);
     switch (op) {
       case '+': return (left ?? 0) + (right ?? 0);
       case '-': return (left ?? 0) - (right ?? 0);
@@ -555,16 +584,28 @@ function evaluateExpression(expr: string, state: InterpreterState): any {
 
 function executeMethodBody(body: string[], state: InterpreterState): any {
   const savedOutput = [...state.output];
+  const savedLastValue = state.lastValue;
+  const savedReturnValue = state.returnValue;
+  const savedDidReturn = state.didReturn;
   state.output = [];
+  state.lastValue = undefined;
+  state.returnValue = undefined;
+  state.didReturn = false;
+
   processLines(body, state, 0);
+
   const methodOutput = state.output;
+  const result = state.didReturn ? state.returnValue : state.lastValue;
   state.output = savedOutput;
+  state.lastValue = savedLastValue;
+  state.returnValue = savedReturnValue;
+  state.didReturn = savedDidReturn;
 
   for (const line of methodOutput) {
     state.output.push(line);
   }
 
-  return undefined;
+  return result;
 }
 
 function evaluateCondition(condition: string, state: InterpreterState): boolean {
@@ -583,7 +624,7 @@ function evaluateCondition(condition: string, state: InterpreterState): boolean 
     return !evaluateCondition(notMatch[1].trim(), state);
   }
 
-  const compMatch = condition.match(/^(.+?)\s*(\=\=|\!\=|\<|\>|\<\=|\>\=)\s*(.+)$/);
+  const compMatch = condition.match(/^(.+?)\s*(\=\=|\!\=|\<\=|\>\=|\<|\>)\s*(.+)$/);
   if (compMatch) {
     const left = evaluateExpression(compMatch[1].trim(), state);
     const op = compMatch[2];
@@ -611,6 +652,33 @@ function stringify(val: any): string {
     return `{${entries.join(', ')}}`;
   }
   return String(val);
+}
+
+function opensBlock(line: string): boolean {
+  return /^(if\s|unless\s|while\s|until\s|for\s|case\s|begin$|def\s)/.test(line)
+    || /do(?:\s*\|\s*\w+\s*(?:,\s*\w+)*\s*\|)?\s*$/.test(line);
+}
+
+const BIN_OPS = ['<=>', '**', '<=', '>=', '==', '!=', '<', '>', '+', '-', '*', '/', '%'];
+
+function findBinOp(expr: string): { left: string; op: string; right: string } | null {
+  let depth = 0;
+  for (let i = 0; i < expr.length; i++) {
+    const ch = expr[i];
+    if (ch === '(' || ch === '[' || ch === '{') depth++;
+    else if (ch === ')' || ch === ']' || ch === '}') depth--;
+    else if (depth === 0) {
+      for (const op of BIN_OPS) {
+        if (expr.startsWith(op, i)) {
+          const left = expr.slice(0, i).trim();
+          const right = expr.slice(i + op.length).trim();
+          if (left && right) return { left, op, right };
+          break;
+        }
+      }
+    }
+  }
+  return null;
 }
 
 function splitArgs(str: string): string[] {
