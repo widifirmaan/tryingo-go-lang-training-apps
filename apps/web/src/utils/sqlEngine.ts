@@ -90,7 +90,7 @@ INSERT INTO orders VALUES (4, 'Andi', 4, 2, '2024-01-18');
 INSERT INTO orders VALUES (5, 'Dewi', 3, 1, '2024-01-19');
 `;
 
-function loadScript(src: string): Promise<void> {
+function loadScript(src: string, attempt = 1): Promise<void> {
   return new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) {
       resolve();
@@ -99,18 +99,24 @@ function loadScript(src: string): Promise<void> {
     const script = document.createElement('script');
     script.src = src;
     script.async = true;
+    const fail = (msg: string) => {
+      clearTimeout(timer);
+      script.remove();
+      if (attempt < 3) {
+        window.setTimeout(() => loadScript(src, attempt + 1).then(resolve, reject), 400);
+      } else {
+        reject(new Error(msg));
+      }
+    };
     const timer = window.setTimeout(
-      () => reject(new Error(`Failed to load script: ${src} (timeout)`)),
+      () => fail(`Failed to load script: ${src} (timeout)`),
       30000
     );
     script.onload = () => {
       clearTimeout(timer);
       resolve();
     };
-    script.onerror = () => {
-      clearTimeout(timer);
-      reject(new Error(`Failed to load script: ${src}`));
-    };
+    script.onerror = () => fail(`Failed to load script: ${src}`);
     document.head.appendChild(script);
   });
 }
@@ -347,7 +353,8 @@ async function getSchemaLocked(): Promise<SqlTableSchema[]> {
     const tableNames = tables[0].values.map((r) => String(r[0]));
 
     const schema: SqlTableSchema[] = tableNames.map((tableName) => {
-      const pragma = db!.exec(`PRAGMA table_info("${tableName}")`);
+      const safeTableName = tableName.replace(/"/g, '""');
+      const pragma = db!.exec(`PRAGMA table_info("${safeTableName}")`);
       const columns: SqlColumn[] =
         pragma.length > 0
           ? pragma[0].values.map((row) => ({

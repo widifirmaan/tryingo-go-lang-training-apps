@@ -95,6 +95,34 @@ export function splitStatements(code: string): string[] {
       }
       continue;
     }
+    if (ch === '/' && code[i + 1] === '*') {
+      // block comment
+      if (depth === 0 && buffer.trim() === '') {
+        while (i < code.length) {
+          buffer += code[i];
+          if (code[i] === '*' && code[i + 1] === '/') {
+            buffer += code[i + 1];
+            i += 2;
+            break;
+          }
+          i++;
+        }
+        push();
+        prevNonSpace = ' ';
+        continue;
+      }
+      // inline block comment inside a command → skip to closing */
+      while (i < code.length) {
+        if (code[i] === '*' && code[i + 1] === '/') {
+          i += 2;
+          break;
+        }
+        i++;
+      }
+      buffer += ' ';
+      prevNonSpace = ' ';
+      continue;
+    }
     if (ch === '/' && code[i + 1] === '/') {
       // comment line outside a command → treat as its own statement (info)
       if (depth === 0 && buffer.trim() === '') {

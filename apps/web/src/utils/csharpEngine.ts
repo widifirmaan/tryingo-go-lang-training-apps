@@ -29,17 +29,22 @@ interface ClassDef {
 
 const C_KEYWORDS = new Set(['using', 'namespace', 'class', 'static', 'void', 'int', 'string', 'bool', 'double', 'var', 'new', 'if', 'else', 'for', 'while', 'foreach', 'in', 'return', 'true', 'false', 'null', 'Console', 'WriteLine', 'Write', 'using', 'System']);
 
+let activeOutput: string[] | null = null;
+
 export function executeCSharp(code: string): ExecutionResult {
   const output: string[] = [];
   const errors: string[] = [];
 
   try {
+    activeOutput = output;
     runProgram(code, output);
     return { output, errors, success: true };
   } catch (err: any) {
     const msg = err.message || String(err);
     errors.push(msg);
     return { output, errors, success: false };
+  } finally {
+    activeOutput = null;
   }
 }
 
@@ -105,10 +110,7 @@ function runProgram(code: string, output: string[]): string[] {
   // Entry point: invoke Main after all methods/classes are registered
   const mainMethod = methods.get('Main');
   if (mainMethod) {
-    const mainResult = invokeMethod('Main', [], methods, variables, classes);
-    if (typeof mainResult === 'string' && mainResult.length > 0) {
-      output.push(mainResult);
-    }
+    invokeMethod('Main', [], methods, variables, classes);
   }
 
   return output;
@@ -921,12 +923,11 @@ function invokeMethod(
     localVars.set(p.name, { type: p.type as Variable['type'], value: args[i] ?? null });
   });
 
-  const output: string[] = [];
   let i = 0;
   while (i < method.body.length) {
     const stmt = method.body[i];
     const result = executeStatement(stmt, localVars, methods, classes, method.body, i);
-    if (result.output) output.push(...result.output);
+    if (result.output && activeOutput) activeOutput.push(...result.output);
     if (result.returnValue !== undefined) {
       return result.returnValue;
     }
@@ -937,7 +938,7 @@ function invokeMethod(
     }
   }
 
-  return output.length > 0 ? output.join('\n') : null;
+  return null;
 }
 
 function inferType(value: any): Variable['type'] {
