@@ -38,9 +38,14 @@ async function loadSvelteCompiler(): Promise<SvelteCompiler> {
   if (svelteCompilerPromise) return svelteCompilerPromise;
 
   const compilerUrl = `${SVELTE_CDN}/compiler/+esm`;
-  svelteCompilerPromise = import(/* @vite-ignore */ compilerUrl).then(
-    (mod) => mod as unknown as SvelteCompiler
-  );
+  svelteCompilerPromise = Promise.race([
+    import(/* @vite-ignore */ compilerUrl).then(
+      (mod) => mod as unknown as SvelteCompiler
+    ),
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Svelte compiler CDN load timed out')), 20000)
+    ),
+  ]);
 
   try {
     return await svelteCompilerPromise;

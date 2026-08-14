@@ -41,7 +41,12 @@ async function loadVueRuntime(): Promise<void> {
   if (vueScriptLoadPromise) return vueScriptLoadPromise;
 
   vueScriptLoadPromise = (async () => {
-    const compilerMod = await import(/* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.4.21/dist/compiler-sfc.esm-browser.js');
+    const compilerMod = await Promise.race([
+      import(/* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.4.21/dist/compiler-sfc.esm-browser.js'),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Vue compiler CDN load timed out')), 20000)
+      ),
+    ]);
     window.Vue = compilerMod as any;
   })();
 

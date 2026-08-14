@@ -46,6 +46,7 @@ async function loadEsbuild(): Promise<void> {
         script.onload = () => resolve();
         script.onerror = () => reject(new Error('Failed to load esbuild browser script from CDN'));
         document.head.appendChild(script);
+        setTimeout(() => reject(new Error('esbuild CDN load timed out')), 20000);
       });
     }
 
