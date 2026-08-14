@@ -16,6 +16,7 @@ interface RedisStats {
   totalKeys: number;
   expired: number;
   byType: Record<string, number>;
+  currentDb: number;
 }
 
 let store = new Map<string, RedisValue>();
@@ -111,10 +112,12 @@ const matchGlob = (pattern: string, str: string): boolean => {
 
 const loadSampleData = () => {
   currentDb = 0;
+  for (const [, s] of dbStores) {
+    s.clear();
+  }
   const base = dbStores.get(0) ?? new Map<string, RedisValue>();
   dbStores.set(0, base);
   store = base;
-  store.clear();
   expiredCount = 0;
   subscribers.clear();
   patternSubscribers.clear();
@@ -198,7 +201,12 @@ const cmdTtl = (args: string[]): string => {
 };
 
 const cmdFlushall = (): string => {
-  store.clear();
+  for (const [, s] of dbStores) {
+    s.clear();
+  }
+  currentDb = 0;
+  store = dbStores.get(0) ?? new Map<string, RedisValue>();
+  dbStores.set(0, store);
   subscribers.clear();
   patternSubscribers.clear();
   expiredCount = 0;
@@ -251,7 +259,7 @@ const cmdSelect = (args: string[]): string => {
 };
 
 const cmdInfo = (): string => {
-  const info = `# Server\r\nredis_version:7.2.0-sim\r\n# Clients\r\nconnected_clients:1\r\n# Memory\r\nused_memory:${store.size * 100}\r\n# Keyspace\r\ndb0:keys=${store.size},expires=${[...store.values()].filter(v => v.expiresAt).length},avg_ttl=0\r\n`;
+  const info = `# Server\r\nredis_version:7.2.0-sim\r\n# Clients\r\nconnected_clients:1\r\n# Memory\r\nused_memory:${store.size * 100}\r\n# Keyspace\r\ndb${currentDb}:keys=${store.size},expires=${[...store.values()].filter(v => v.expiresAt).length},avg_ttl=0\r\n`;
   return formatBulkString(info);
 };
 
@@ -268,9 +276,17 @@ const cmdSet = (args: string[]): string => {
 
   for (let i = 2; i < args.length; i++) {
     const opt = args[i].toUpperCase();
-    if (opt === 'EX' && args[i + 1]) { ex = parseIntSafe(args[++i]); }
-    else if (opt === 'PX' && args[i + 1]) { ex = parseIntSafe(args[++i])! / 1000; }
-    else if (opt === 'NX') { nx = true; }
+    if (opt === 'EX') {
+      const secs = parseIntSafe(args[i + 1] ?? '');
+      if (secs === null || secs <= 0) return formatError('invalid expire time in \'set\' command');
+      ex = secs;
+      i++;
+    } else if (opt === 'PX') {
+      const ms = parseIntSafe(args[i + 1] ?? '');
+      if (ms === null || ms <= 0) return formatError('invalid expire time in \'set\' command');
+      ex = ms / 1000;
+      i++;
+    } else if (opt === 'NX') { nx = true; }
     else if (opt === 'XX') { xx = true; }
   }
 
@@ -356,9 +372,9 @@ const cmdGetset = (args: string[]): string => {
   const key = args[0];
   const newVal = args[1];
   const oldVal = getVal(key);
+  if (oldVal !== null && typeof oldVal !== 'string') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   store.set(key, { type: 'string', data: newVal, expiresAt: null });
   if (oldVal === null) return '$-1';
-  if (typeof oldVal !== 'string') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   return formatBulkString(oldVal);
 };
 
@@ -450,11 +466,16 @@ const cmdHmset = (args: string[]): string => {
   if (args.length < 3 || args.length % 2 === 0) return formatError('wrong number of arguments for \'hmset\' command');
   const key = args[0];
   const v = store.get(key);
-  let hash: Record<string, string> = (v && v.type === 'hash' && !isExpired(key)) ? { ...v.data } : {};
+  let hash: Record<string, string> = {};
+  let ttl: number | null = null;
+  if (v && v.type === 'hash' && !isExpired(key)) {
+    hash = { ...v.data };
+    ttl = v.expiresAt ?? null;
+  }
   for (let i = 1; i < args.length; i += 2) {
     hash[args[i]] = args[i + 1];
   }
-  store.set(key, { type: 'hash', data: hash, expiresAt: null });
+  store.set(key, { type: 'hash', data: hash, expiresAt: ttl });
   return okResponse();
 };
 
@@ -498,6 +519,7 @@ const cmdHdel = (args: string[]): string => {
       count++;
     }
   }
+  if (Object.keys(val).length === 0) store.delete(key);
   return formatInteger(count);
 };
 
@@ -543,16 +565,18 @@ const cmdHincrby = (args: string[]): string => {
   if (incr === null) return formatError('value is not an integer or out of range');
   const v = store.get(key);
   let hash: Record<string, string>;
+  let ttl: number | null = null;
   if (!v || isExpired(key)) {
     hash = {};
   } else {
     if (v.type !== 'hash') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     hash = { ...v.data };
+    ttl = v.expiresAt ?? null;
   }
   const cur = parseIntSafe(hash[field] || '0') || 0;
   const result = cur + incr;
   hash[field] = String(result);
-  store.set(key, { type: 'hash', data: hash, expiresAt: null });
+  store.set(key, { type: 'hash', data: hash, expiresAt: ttl });
   return formatInteger(result);
 };
 
@@ -563,16 +587,18 @@ const cmdLpush = (args: string[]): string => {
   const key = args[0];
   const v = store.get(key);
   let list: string[];
+  let ttl: number | null = null;
   if (!v || isExpired(key)) {
     list = [];
   } else {
     if (v.type !== 'list') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     list = [...v.data];
+    ttl = v.expiresAt ?? null;
   }
   for (let i = 1; i < args.length; i++) {
     list.unshift(args[i]);
   }
-  store.set(key, { type: 'list', data: list, expiresAt: null });
+  store.set(key, { type: 'list', data: list, expiresAt: ttl });
   return formatInteger(list.length);
 };
 
@@ -581,16 +607,18 @@ const cmdRpush = (args: string[]): string => {
   const key = args[0];
   const v = store.get(key);
   let list: string[];
+  let ttl: number | null = null;
   if (!v || isExpired(key)) {
     list = [];
   } else {
     if (v.type !== 'list') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     list = [...v.data];
+    ttl = v.expiresAt ?? null;
   }
   for (let i = 1; i < args.length; i++) {
     list.push(args[i]);
   }
-  store.set(key, { type: 'list', data: list, expiresAt: null });
+  store.set(key, { type: 'list', data: list, expiresAt: ttl });
   return formatInteger(list.length);
 };
 
@@ -601,6 +629,10 @@ const cmdLpop = (args: string[]): string => {
   if (val === null) return '$-1';
   if (!Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   const item = val.shift();
+  if (item === undefined) {
+    store.delete(key);
+    return '$-1';
+  }
   if (!val.length) store.delete(key);
   return formatBulkString(item);
 };
@@ -612,6 +644,10 @@ const cmdRpop = (args: string[]): string => {
   if (val === null) return '$-1';
   if (!Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   const item = val.pop();
+  if (item === undefined) {
+    store.delete(key);
+    return '$-1';
+  }
   if (!val.length) store.delete(key);
   return formatBulkString(item);
 };
@@ -706,6 +742,7 @@ const cmdLrem = (args: string[]): string => {
       if (list[i] === value) { list.splice(i, 1); removed++; }
     }
   }
+  if (list.length === 0) store.delete(key);
   return formatInteger(removed);
 };
 
@@ -736,17 +773,19 @@ const cmdSadd = (args: string[]): string => {
   const key = args[0];
   const v = store.get(key);
   let set: Set<string>;
+  let ttl: number | null = null;
   if (!v || isExpired(key)) {
     set = new Set();
   } else {
     if (v.type !== 'set') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     set = new Set(v.data);
+    ttl = v.expiresAt ?? null;
   }
   let added = 0;
   for (let i = 1; i < args.length; i++) {
     if (!set.has(args[i])) { set.add(args[i]); added++; }
   }
-  store.set(key, { type: 'set', data: set, expiresAt: null });
+  store.set(key, { type: 'set', data: set, expiresAt: ttl });
   return formatInteger(added);
 };
 
@@ -778,6 +817,7 @@ const cmdSrem = (args: string[]): string => {
   for (let i = 1; i < args.length; i++) {
     if (val.delete(args[i])) count++;
   }
+  if (val.size === 0) store.delete(key);
   return formatInteger(count);
 };
 
@@ -818,6 +858,10 @@ const cmdSpop = (args: string[]): string => {
   const val = getVal(key);
   if (val === null) return '$-1';
   if (!(val instanceof Set)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
+  if (val.size === 0) {
+    store.delete(key);
+    return '$-1';
+  }
   const arr = [...val];
   const item = arr[Math.floor(Math.random() * arr.length)];
   val.delete(item);
@@ -831,6 +875,7 @@ const cmdSrandmember = (args: string[]): string => {
   const val = getVal(key);
   if (val === null) return '$-1';
   if (!(val instanceof Set)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
+  if (val.size === 0) return '$-1';
   const arr = [...val];
   return formatBulkString(arr[Math.floor(Math.random() * arr.length)]);
 };
@@ -884,11 +929,13 @@ const cmdZadd = (args: string[]): string => {
   const key = args[0];
   const v = store.get(key);
   let zset: Record<string, number>;
+  let ttl: number | null = null;
   if (!v || isExpired(key)) {
     zset = {};
   } else {
     if (v.type !== 'zset') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     zset = { ...v.data };
+    ttl = v.expiresAt ?? null;
   }
   let added = 0;
   for (let i = 1; i < args.length; i += 2) {
@@ -898,7 +945,7 @@ const cmdZadd = (args: string[]): string => {
     if (!(member in zset)) added++;
     zset[member] = score;
   }
-  store.set(key, { type: 'zset', data: zset, expiresAt: null });
+  store.set(key, { type: 'zset', data: zset, expiresAt: ttl });
   return formatInteger(added);
 };
 
@@ -995,6 +1042,7 @@ const cmdZrem = (args: string[]): string => {
   for (let i = 1; i < args.length; i++) {
     if (args[i] in val) { delete val[args[i]]; count++; }
   }
+  if (Object.keys(val).length === 0) store.delete(key);
   return formatInteger(count);
 };
 
@@ -1014,14 +1062,16 @@ const cmdZincrby = (args: string[]): string => {
   const member = args[2];
   const v = store.get(key);
   let zset: Record<string, number>;
+  let ttl: number | null = null;
   if (!v || isExpired(key)) {
     zset = {};
   } else {
     if (v.type !== 'zset') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     zset = { ...v.data };
+    ttl = v.expiresAt ?? null;
   }
   zset[member] = (zset[member] || 0) + incr;
-  store.set(key, { type: 'zset', data: zset, expiresAt: null });
+  store.set(key, { type: 'zset', data: zset, expiresAt: ttl });
   return formatBulkString(String(zset[member]));
 };
 
@@ -1267,7 +1317,7 @@ export function getStats(): RedisStats {
       total++;
     }
   }
-  return { totalKeys: total, expired: expiredCount, byType };
+  return { totalKeys: total, expired: expiredCount, byType, currentDb };
 }
 
 // Initialize with sample data

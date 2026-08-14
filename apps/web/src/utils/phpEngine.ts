@@ -71,6 +71,7 @@ class PhpInterpreter {
   private output: string = '';
   private error: string = '';
   private functions: Map<string, { params: string[]; body: string }> = new Map();
+  private loopBudget: number = 100000;
 
   constructor() {
     this.scope = { vars: new Map(), parent: null };
@@ -406,6 +407,9 @@ class PhpInterpreter {
     const maxIter = 1000;
     let iter = 0;
     while (iter < maxIter) {
+      if (--this.loopBudget <= 0) {
+        throw new Error('Interpreter stopped: too many loop iterations');
+      }
       const condResult = this.evalExpr(condTokens);
       if (!condResult) break;
       const bodyTokCopy = [...bodyTokens];
@@ -439,6 +443,9 @@ class PhpInterpreter {
     const maxIter = 1000;
     let iter = 0;
     while (iter < maxIter) {
+      if (--this.loopBudget <= 0) {
+        throw new Error('Interpreter stopped: too many loop iterations');
+      }
       const condResult = this.evalExpr(condTokens);
       if (!condResult) break;
       const bodyTokCopy = [...bodyTokens];
@@ -474,6 +481,9 @@ class PhpInterpreter {
     const arr = this.resolveVar(arrayVar);
     if (Array.isArray(arr)) {
       for (const item of arr) {
+        if (--this.loopBudget <= 0) {
+          throw new Error('Interpreter stopped: too many loop iterations');
+        }
         this.scope.vars.set(valueVar, item);
         const bodyTokCopy = [...bodyTokens];
         this.parseBlock(bodyTokCopy);
@@ -522,15 +532,24 @@ class PhpInterpreter {
     let pos = 1;
     if (tokens[pos] === '[') {
       pos++;
-      const { value: idxVal, nextPos } = this.parseExpression(tokens.slice(pos));
-      pos += nextPos;
-      if (tokens[pos] === ']') pos++;
+      let appendMode = false;
+      let idxVal: any = undefined;
+      if (tokens[pos] === ']') {
+        appendMode = true;
+        pos++;
+      } else {
+        const { value: idxValP, nextPos } = this.parseExpression(tokens.slice(pos));
+        idxVal = idxValP;
+        pos += nextPos;
+        if (tokens[pos] === ']') pos++;
+      }
       if (tokens[pos] === '=') {
         pos++;
         const { value, nextPos: np } = this.parseExpression(tokens.slice(pos));
         const arr = this.resolveVar(varName);
         if (Array.isArray(arr)) {
-          arr[idxVal] = value;
+          if (appendMode) arr.push(value);
+          else arr[idxVal] = value;
           this.scope.vars.set(varName, arr);
         }
         pos += np;
@@ -845,6 +864,10 @@ class PhpInterpreter {
 // handlers are overwritten per call. Serialize all executions so concurrent
 // runs can't cross-contaminate output.
 let execChain: Promise<unknown> = Promise.resolve();
+// When a run times out the WASM instance keeps executing in the background and
+// would bleed its output into the next run. Flag it so the next call rebuilds
+// a fresh instance, discarding the stuck one.
+let phpNeedsReset = false;
 
 export function preloadPhp(): Promise<boolean> {
   return initPhpWasm()
@@ -872,6 +895,9 @@ async function runOnWasm(php: any, code: string): Promise<PhpResult> {
     await Promise.race([php.run(code), timeoutPromise]);
   } catch (err) {
     error = err instanceof Error ? err.message : String(err);
+    if (error.includes('timed out')) {
+      phpNeedsReset = true;
+    }
   }
   return { output, error, engine: 'wasm' };
 }
@@ -886,6 +912,19 @@ export async function executePhp(code: string): Promise<PhpResult> {
     php = await initPhpWasm();
   } catch {
     php = null;
+  }
+
+  // A previous run timed out → rebuild a fresh instance so the stuck one's
+  // late output can't pollute this run.
+  if (php && phpNeedsReset) {
+    phpNeedsReset = false;
+    wasmModule = null;
+    wasmPromise = null;
+    try {
+      php = await initPhpWasm();
+    } catch {
+      php = null;
+    }
   }
 
   // WASM unavailable (CDN/load failure) → fall back to the naive interpreter.

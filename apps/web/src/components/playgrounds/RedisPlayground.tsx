@@ -66,7 +66,10 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
   const runIdRef = useRef(0);
   const mountedRef = useRef(true);
+  const isRunningRef = useRef(false);
   const scriptRef = useRef(initialCode);
+  const draftRef = useRef('');
+  const navHistoryRef = useRef<(dir: 1 | -1) => void>(() => {});
 
   useEffect(() => {
     mountedRef.current = true;
@@ -96,22 +99,31 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   }, [pushLine, refreshStats]);
 
   const runScript = useCallback(async (scriptText: string) => {
+    if (isRunningRef.current) return;
     const cmds = splitScript(scriptText);
     if (!cmds.length) return;
+    isRunningRef.current = true;
     const runId = ++runIdRef.current;
     setRunning(true);
+    setHistory((h) => {
+      if (h[0] === scriptText) return h;
+      return [scriptText, ...h].slice(0, 50);
+    });
+    setHistIdx(-1);
     for (const c of cmds) {
       if (runIdRef.current !== runId || !mountedRef.current) break;
       runOne(c);
       await new Promise((r) => setTimeout(r, 120));
     }
     if (runIdRef.current === runId && mountedRef.current) {
+      isRunningRef.current = false;
       setRunning(false);
     }
   }, [runOne]);
 
   const resetAll = useCallback(() => {
     runIdRef.current++;
+    isRunningRef.current = false;
     setRunning(false);
     resetRedis();
     setLines([]);
@@ -173,6 +185,9 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   const handleEditorMount: OnMount = (editor) => {
     editorRef.current = editor;
     editor.addCommand(2048 | 3, () => submitCommand());
+    // Alt+Up / Alt+Down history navigation (overrides Monaco's moveLine).
+    editor.addCommand(528, () => navHistoryRef.current(1));
+    editor.addCommand(529, () => navHistoryRef.current(-1));
   };
 
   useEffect(() => {
@@ -189,6 +204,28 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
     }
   }, [histIdx, history]);
 
+  const navHistory = useCallback((dir: 1 | -1) => {
+    if (dir === 1) {
+      if (!history.length) return;
+      if (histIdx < 0) {
+        draftRef.current = editorRef.current?.getValue() ?? code;
+        setHistIdx(0);
+      } else {
+        setHistIdx(Math.min(histIdx + 1, history.length - 1));
+      }
+    } else {
+      if (histIdx < 0) return;
+      if (histIdx === 0) {
+        setCode(draftRef.current);
+        setHistIdx(-1);
+      } else {
+        setHistIdx(histIdx - 1);
+      }
+    }
+  }, [history, histIdx, code]);
+
+  navHistoryRef.current = navHistory;
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
@@ -197,16 +234,12 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
       }
       handleSubmit(e);
     }
-    if (e.key === 'ArrowUp' && e.altKey) {
+    if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
       e.preventDefault();
-      if (!history.length) return;
-      const idx = histIdx < 0 ? 0 : Math.min(histIdx + 1, history.length - 1);
-      setHistIdx(idx);
-    } else if (e.key === 'ArrowDown' && e.altKey) {
-      e.preventDefault();
-      if (histIdx < 0) return;
-      const idx = histIdx - 1;
-      setHistIdx(idx);
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco addCommand handles it
+      }
+      navHistory(e.key === 'ArrowUp' ? 1 : -1);
     }
   };
 
@@ -374,7 +407,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
           {isId ? 'Redis Simulator v7.2.0 — State di memori browser' : 'Redis Simulator v7.2.0 — State in browser memory'}
         </span>
         <span className="hidden sm:inline">
-          DB: {0} | {stats.totalKeys} keys
+          DB: {stats.currentDb} | {stats.totalKeys} keys
         </span>
       </div>
     </div>

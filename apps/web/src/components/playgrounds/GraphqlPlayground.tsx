@@ -71,6 +71,8 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     setQuery(initialCode);
     setResult('');
     setError('');
+    setIntrospectionResult('');
+    setShowIntrospection(false);
     setEditorKey(k => k + 1);
   }, [initialCode]);
 
@@ -82,6 +84,7 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     setError('');
     setResult('');
     setShowIntrospection(false);
+    setIntrospectionResult('');
 
     try {
       let vars: Record<string, any> | undefined;
@@ -133,8 +136,12 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
       const schema = getSampleSchema();
       const introResult = await runIntrospection(schema);
       if (!mountedRef.current || runIdRef.current !== runId) return;
-      setIntrospectionResult(JSON.stringify(introResult, null, 2));
-      setShowIntrospection(true);
+      if (introResult && typeof introResult === 'object' && 'error' in introResult) {
+        setError(String((introResult as { error: string }).error));
+      } else {
+        setIntrospectionResult(JSON.stringify(introResult, null, 2));
+        setShowIntrospection(true);
+      }
     } catch (err) {
       if (!mountedRef.current || runIdRef.current !== runId) return;
       setError(err instanceof Error ? err.message : 'Introspection failed');
@@ -153,6 +160,9 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
   }, [showSchema]);
 
   const resetQuery = () => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setQuery(DEFAULT_QUERY);
     setVariables('{\n  \n}');
     setResult('');
@@ -170,6 +180,9 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
   };
 
   const loadSample = (sample: typeof SAMPLE_QUERIES[0]) => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setQuery(sample.query);
     if (sample.variables) {
       setVariables(JSON.stringify(sample.variables, null, 2));
@@ -180,6 +193,7 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     setSampleMenuOpen(false);
     setResult('');
     setError('');
+    setIntrospectionResult('');
     setShowIntrospection(false);
   };
 
