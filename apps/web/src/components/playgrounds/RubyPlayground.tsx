@@ -120,39 +120,135 @@ async function loadRubyWasm(): Promise<WebAssembly.Module | null> {
   return result;
 }
 
+const RUBY_UMD_URL = 'https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/browser.umd.js';
+const RUBY_WASM_URL = 'https://cdn.jsdelivr.net/npm/ruby-head-wasm-wasi@2.3.0/dist/ruby+stdlib.wasm';
+const RUBY_EXEC_TIMEOUT = 10000;
+
+// Ruby eval is synchronous on the main thread, so an infinite loop
+// (while true / loop do) would freeze the tab. Running it inside a
+// Web Worker lets us kill a hung execution with worker.terminate().
+function createRubyWorker(): Worker {
+  const source = `
+    var RUBY_UMD_URL = ${JSON.stringify(RUBY_UMD_URL)};
+    var RUBY_WASM_URL = ${JSON.stringify(RUBY_WASM_URL)};
+    self.onmessage = async function (e) {
+      var data = e.data;
+      try {
+        if (!self['ruby-wasm-wasi']) {
+          importScripts(RUBY_UMD_URL);
+        }
+        var rubyWasi = self['ruby-wasm-wasi'];
+        var created;
+        if (data.module) {
+          created = await rubyWasi.DefaultRubyVM(data.module, { consolePrint: true });
+        } else {
+          var res = await fetch(RUBY_WASM_URL);
+          var buf = await res.arrayBuffer();
+          created = await rubyWasi.DefaultRubyVM(buf, { consolePrint: true });
+        }
+        var vm = created.vm;
+        var stdout = [];
+        var stderr = [];
+        var origLog = console.log;
+        var origWarn = console.warn;
+        var origErr = console.error;
+        console.log = function () {
+          stdout.push(Array.prototype.map.call(arguments, function (a) { return typeof a === 'object' ? JSON.stringify(a) : String(a); }).join(' '));
+          origLog.apply(console, arguments);
+        };
+        console.warn = function () {
+          stderr.push(Array.prototype.map.call(arguments, function (a) { return String(a); }).join(' '));
+          origWarn.apply(console, arguments);
+        };
+        console.error = function () {
+          stderr.push(Array.prototype.map.call(arguments, function (a) { return String(a); }).join(' '));
+          origErr.apply(console, arguments);
+        };
+        var error = null;
+        try {
+          vm.eval(data.code);
+        } catch (err) {
+          error = (err && err.message) ? err.message : String(err);
+        }
+        console.log = origLog;
+        console.warn = origWarn;
+        console.error = origErr;
+        self.postMessage({ ok: true, stdout: stdout, stderr: stderr, error: error });
+      } catch (err) {
+        self.postMessage({ ok: false, error: (err && err.message) ? err.message : String(err) });
+      }
+    };
+  `;
+  const blob = new Blob([source], { type: 'application/javascript' });
+  return new Worker(URL.createObjectURL(blob));
+}
+
+let rubyWorker: Worker | null = null;
+
 async function runRubyWasm(code: string): Promise<{ output: string[]; error: string | null }> {
   const binary = await loadRubyWasm();
   if (!binary) {
     return { output: [], error: null };
   }
 
-  const rubyWasi = (window as any)['ruby-wasm-wasi'];
-  let vm: any;
-  try {
-    const created = await rubyWasi.DefaultRubyVM(binary, { consolePrint: true });
-    vm = created.vm;
-  } catch (err: any) {
-    return { output: [], error: err?.message || String(err) };
+  if (typeof Worker === 'undefined') {
+    return { output: [], error: 'Web Worker not available — Ruby WASM execution disabled' };
   }
 
-  const output: string[] = [];
-  const origLog = console.log;
-  const origError = console.error;
-  const origWarn = console.warn;
-  console.log = (...args: unknown[]) => output.push(args.map((a) => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' '));
-  console.error = (...args: unknown[]) => output.push('Error: ' + args.map(String).join(' '));
-  console.warn = (...args: unknown[]) => output.push('Warning: ' + args.map(String).join(' '));
-
   try {
-    vm.eval(code);
-    return { output, error: null };
+    if (!rubyWorker) {
+      rubyWorker = createRubyWorker();
+    }
   } catch (err: any) {
-    return { output, error: err?.message || String(err) };
-  } finally {
-    console.log = origLog;
-    console.error = origError;
-    console.warn = origWarn;
+    return { output: [], error: `Failed to start Ruby worker: ${err?.message || String(err)}` };
   }
+
+  const worker = rubyWorker;
+  return new Promise((resolve) => {
+    let settled = false;
+    const timer = window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      try {
+        worker.terminate();
+      } catch {
+        // ignore
+      }
+      rubyWorker = null;
+      resolve({ output: [], error: 'Ruby execution timed out (possible infinite loop)' });
+    }, RUBY_EXEC_TIMEOUT);
+
+    worker.onmessage = (e) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      const data = e.data;
+      if (data.ok) {
+        const output: string[] = [
+          ...(data.stdout as string[]),
+          ...(data.stderr as string[]).map((s) => `Warning: ${s}`),
+        ];
+        resolve({ output, error: data.error || null });
+      } else {
+        resolve({ output: [], error: data.error || 'Ruby execution failed' });
+      }
+    };
+    worker.onerror = (e) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve({ output: [], error: e.message || 'Ruby worker error' });
+    };
+
+    try {
+      worker.postMessage({ code, module: binary });
+    } catch (err: any) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve({ output: [], error: `Failed to send code to Ruby worker: ${err?.message || String(err)}` });
+    }
+  });
 }
 
 interface InterpreterState {
@@ -328,6 +424,8 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
           bodyLines.push(lines[i]);
           i++;
         }
+        const hadLoopVar = state.variables.has(loopVar);
+        const prevLoopVar = state.variables.get(loopVar);
         for (let t = 0; t < count; t++) {
           state.loopIterations++;
           if (state.loopIterations > MAX_LOOP_ITERATIONS) {
@@ -335,35 +433,45 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
           }
           state.variables.set(loopVar, t);
           processLines(bodyLines, state, depth + 1);
+          if (state.didReturn) break;
         }
-        state.variables.delete(loopVar);
+        if (hadLoopVar) {
+          state.variables.set(loopVar, prevLoopVar);
+        } else {
+          state.variables.delete(loopVar);
+        }
         i++;
         continue;
       }
     }
 
-    if (line.startsWith('while ')) {
-      const whileMatch = line.match(/^while\s+(.+)$/);
-      if (whileMatch) {
-        const condition = whileMatch[1].trim();
-        const bodyLines: string[] = [];
+    const whileMatch = line.match(/^while\s+(.+)$/);
+    const untilMatch = line.match(/^until\s+(.+)$/);
+    const isLoopDo = line === 'loop do';
+    if (whileMatch || untilMatch || isLoopDo) {
+      const condition = whileMatch
+        ? whileMatch[1].trim()
+        : untilMatch
+          ? untilMatch[1].trim()
+          : 'true';
+      const negate = !whileMatch;
+      const bodyLines: string[] = [];
+      i++;
+      while (i < lines.length) {
+        if (lines[i].trim() === 'end') break;
+        bodyLines.push(lines[i]);
         i++;
-        while (i < lines.length) {
-          if (lines[i].trim() === 'end') break;
-          bodyLines.push(lines[i]);
-          i++;
-        }
-        let iterations = 0;
-        while (evaluateCondition(condition, state)) {
-          processLines(bodyLines, state, depth + 1);
-          iterations++;
-          if (iterations > 10000) {
-            throw new Error('Infinite loop detected (max 10000 iterations)');
-          }
-        }
-        i++;
-        continue;
       }
+      while (negate ? !evaluateCondition(condition, state) : evaluateCondition(condition, state)) {
+        state.loopIterations++;
+        if (state.loopIterations > MAX_LOOP_ITERATIONS) {
+          throw new Error(`Infinite loop detected (max ${MAX_LOOP_ITERATIONS} iterations)`);
+        }
+        processLines(bodyLines, state, depth + 1);
+        if (state.didReturn) break;
+      }
+      i++;
+      continue;
     }
 
     const eachMatch = line.match(/^(.+)\.each\s+do(?:\s*\|\s*(\w+)\s*\|\s*)?$/);
@@ -378,6 +486,8 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
         i++;
       }
       const collection = evaluateExpression(collectionExpr, state);
+      const hadLoopVar = state.variables.has(itemVar);
+      const prevLoopVar = state.variables.get(itemVar);
       if (Array.isArray(collection)) {
         for (const item of collection) {
           state.loopIterations++;
@@ -386,6 +496,7 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
           }
           state.variables.set(itemVar, item);
           processLines(bodyLines, state, depth + 1);
+          if (state.didReturn) break;
         }
       } else if (typeof collection === 'object' && collection !== null) {
         for (const [k, v] of Object.entries(collection)) {
@@ -395,9 +506,14 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
           }
           state.variables.set(itemVar, [k, v]);
           processLines(bodyLines, state, depth + 1);
+          if (state.didReturn) break;
         }
       }
-      state.variables.delete(itemVar);
+      if (hadLoopVar) {
+        state.variables.set(itemVar, prevLoopVar);
+      } else {
+        state.variables.delete(itemVar);
+      }
       i++;
       continue;
     }
@@ -757,6 +873,11 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
   const runIdRef = useRef(0);
   const mountedRef = useRef(true);
   const runCodeRef = useRef<() => void>(() => {});
+  const codeRef = useRef(code);
+
+  useEffect(() => {
+    codeRef.current = code;
+  }, [code]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -826,16 +947,16 @@ export const RubyPlayground: React.FC<RubyPlaygroundProps> = ({
     };
 
     if (wasmStatus === 'ready') {
-      const result = await runRubyWasm(code);
+      const result = await runRubyWasm(codeRef.current);
       if (!mountedRef.current || runIdRef.current !== runId) return;
       applyResult({
         output: result.output.map((t) => ({ text: t, kind: 'output' as const })),
         error: result.error,
       });
     } else {
-      applyResult(interpretRuby(code));
+      applyResult(interpretRuby(codeRef.current));
     }
-  }, [code, wasmStatus]);
+  }, [wasmStatus]);
 
   runCodeRef.current = runCode;
 

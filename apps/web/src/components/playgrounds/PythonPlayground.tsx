@@ -17,12 +17,6 @@ interface ExecutionResult {
   image?: string;
 }
 
-declare global {
-  interface Window {
-    loadPyodide?: (config?: { indexURL?: string }) => Promise<any>;
-  }
-}
-
 const DEFAULT_PYTHON = `# Tryngo Python Playground — Pyodide (WASM)
 # Pre-loaded modules: math, random, json, datetime, collections, itertools
 
@@ -43,75 +37,201 @@ for student in students:
 # Try modifying the code above!
 `;
 
-let pyodideInstance: any = null;
-let pyodideLoadPromise: Promise<any> | null = null;
+// ---------------------------------------------------------------------------
+// Worker-based Pyodide runner.
+//
+// Pyodide's runPythonAsync executes synchronously on the calling thread — an
+// infinite loop in user code would freeze the entire tab with no way to abort.
+// Running Pyodide inside a Web Worker keeps the UI responsive and lets us kill
+// a stuck run by terminating the worker. The worker is kept alive between runs
+// and only recreated after a timeout kills it.
+// ---------------------------------------------------------------------------
 
-const PREP_CODE = `import sys
-import io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-try:
-    import matplotlib.pyplot as plt
-    plt.close('all')
-except Exception:
-    pass
-`;
+const PYODIDE_BASE = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full';
 
-const PLOT_CAPTURE_CODE = `import matplotlib
-matplotlib.use('AGG')
-import matplotlib.pyplot as plt
-import io
-import base64
+const PY_WORKER_SRC = `
+importScripts('${PYODIDE_BASE}/pyodide.js');
 
-buf = io.BytesIO()
-try:
-    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
-    buf.seek(0)
-    img_base64 = base64.b64encode(buf.read()).decode('utf-8')
-    plt.close('all')
-    img_base64
-except Exception as e:
-    plt.close('all')
-    ''
-`;
+let pyodide = null;
+let ready = false;
 
-async function getPyodide(): Promise<any> {
-  if (pyodideInstance) return pyodideInstance;
-  if (pyodideLoadPromise) return pyodideLoadPromise;
+const PREP_CODE = [
+  'import sys',
+  'import io',
+  "sys.stdout = io.StringIO()",
+  "sys.stderr = io.StringIO()",
+  "try:",
+  "    import matplotlib.pyplot as plt",
+  "    plt.close('all')",
+  "except Exception:",
+  "    pass"
+].join('\\n');
 
-  pyodideLoadPromise = (async () => {
-    if (!window.loadPyodide) {
-      await new Promise<void>((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js';
-        script.async = true;
-        script.onload = () => resolve();
-        script.onerror = () => reject(new Error('Failed to load Pyodide script from CDN'));
-        document.head.appendChild(script);
-      });
-    }
+const PLOT_CAPTURE_CODE = [
+  'import matplotlib',
+  "matplotlib.use('AGG')",
+  'import matplotlib.pyplot as plt',
+  'import io',
+  'import base64',
+  '',
+  'buf = io.BytesIO()',
+  "try:",
+  "    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')",
+  "    buf.seek(0)",
+  "    img_base64 = base64.b64encode(buf.read()).decode('utf-8')",
+  "    plt.close('all')",
+  '    img_base64',
+  'except Exception as e:',
+  "    plt.close('all')",
+  "    ''"
+].join('\\n');
 
-    const loadPyodide = window.loadPyodide;
-    if (!loadPyodide) {
-      throw new Error('Pyodide failed to initialize: loadPyodide not found on window');
-    }
+async function ensureReady() {
+  if (ready) return;
+  pyodide = await loadPyodide({ indexURL: '${PYODIDE_BASE}/' });
+  await pyodide.loadPackage(['matplotlib']);
+  ready = true;
+}
 
-    pyodideInstance = await loadPyodide({
-      indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/',
-    });
-
-    await pyodideInstance.loadPackage(['matplotlib']);
-
-    return pyodideInstance;
-  })();
-
+self.onmessage = async (e) => {
+  const { id, type, code } = e.data;
+  if (type === 'ready') return;
+  if (type !== 'run') return;
   try {
-    return await pyodideLoadPromise;
+    await ensureReady();
+    postMessage({ type: 'ready' });
   } catch (err) {
-    pyodideLoadPromise = null;
-    pyodideInstance = null;
-    throw err;
+    postMessage({ id, type: 'load-error', error: err && err.message ? String(err.message) : String(err) });
+    return;
   }
+  const stdoutLines = [];
+  const stderrLines = [];
+  try {
+    pyodide.setStdout({ batched: (t) => stdoutLines.push(t) });
+    pyodide.setStderr({ batched: (t) => stderrLines.push(t) });
+    pyodide.setStdin({ stdin: () => '' });
+  } catch {
+    // buffers unavailable — continue without capture
+  }
+  const start = performance.now();
+  let stdout = '';
+  let stderr = '';
+  let image = '';
+  let error = '';
+  try {
+    await pyodide.runPythonAsync(PREP_CODE);
+    await pyodide.runPythonAsync(code);
+    const plotResult = await pyodide.runPythonAsync(PLOT_CAPTURE_CODE);
+    stdout = await pyodide.runPythonAsync('sys.stdout.getvalue()');
+    stderr = await pyodide.runPythonAsync('sys.stderr.getvalue()');
+    if (plotResult && typeof plotResult === 'string' && plotResult.length > 0) {
+      image = 'data:image/png;base64,' + plotResult;
+    }
+  } catch (err) {
+    error = err && err.message ? String(err.message) : String(err);
+    try {
+      const so = await pyodide.runPythonAsync('sys.stdout.getvalue()');
+      const se = await pyodide.runPythonAsync('sys.stderr.getvalue()');
+      if (so) stdout = so;
+      if (se) stderr = se;
+    } catch {
+      if (stdoutLines.length) stdout = stdoutLines.join('');
+      if (stderrLines.length) stderr = stderrLines.join('');
+    }
+  }
+  postMessage({
+    id,
+    type: 'result',
+    stdout: String(stdout || ''),
+    stderr: String(stderr || ''),
+    error: String(error || ''),
+    image: image || '',
+    executionTimeMs: performance.now() - start,
+  });
+};
+`;
+
+let pyWorker: Worker | null = null;
+let pyWorkerReady = false;
+let pyRunSeq = 1;
+
+function runPythonWorker(code: string): Promise<ExecutionResult> {
+  return new Promise((resolve) => {
+    let settled = false;
+    let handler: ((e: MessageEvent) => void) | null = null;
+    let runTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const finish = (res: ExecutionResult) => {
+      if (settled) return;
+      settled = true;
+      if (runTimer) clearTimeout(runTimer);
+      if (handler && pyWorker) {
+        pyWorker.removeEventListener('message', handler);
+      }
+      resolve(res);
+    };
+
+    if (!pyWorker) {
+      try {
+        const blob = new Blob([PY_WORKER_SRC], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        pyWorker = new Worker(url);
+        URL.revokeObjectURL(url);
+        pyWorkerReady = false;
+        pyWorker.addEventListener('message', (e) => {
+          const data = e.data;
+          if (data && data.type === 'ready') pyWorkerReady = true;
+        });
+      } catch (err) {
+        finish({
+          stdout: '',
+          stderr: '',
+          error: err instanceof Error ? err.message : 'Failed to start Python worker',
+          executionTimeMs: 0,
+        });
+        return;
+      }
+    }
+
+    const id = pyRunSeq++;
+    handler = (e: MessageEvent) => {
+      const data = e.data;
+      if (!data || data.id !== id) return;
+      if (data.type === 'result') {
+        finish({
+          stdout: data.stdout,
+          stderr: data.stderr,
+          error: data.error,
+          image: data.image || undefined,
+          executionTimeMs: data.executionTimeMs,
+        });
+      } else if (data.type === 'load-error') {
+        finish({
+          stdout: '',
+          stderr: '',
+          error: data.error || 'Failed to load Pyodide',
+          executionTimeMs: 0,
+        });
+      }
+    };
+    pyWorker.addEventListener('message', handler);
+    pyWorker.postMessage({ id, type: 'run', code });
+
+    // First run includes the Pyodide + matplotlib download, so give it a much
+    // longer budget. Subsequent runs execute against a warm worker.
+    const timeoutMs = pyWorkerReady ? 15000 : 60000;
+    runTimer = setTimeout(() => {
+      const timedOut = pyWorkerReady
+        ? 'Python execution timed out (possible infinite loop)'
+        : 'Pyodide load timed out. Check your internet connection.';
+      finish({ stdout: '', stderr: '', error: timedOut, executionTimeMs: 0 });
+      if (pyWorker) {
+        pyWorker.terminate();
+        pyWorker = null;
+        pyWorkerReady = false;
+      }
+    }, timeoutMs);
+  });
 }
 
 export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initialCode }) => {
@@ -193,77 +313,26 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
       setIsLoading(false);
     };
 
-    let pyodide: any = null;
     setIsLoading(true);
-    try {
-      pyodide = await getPyodide();
-    } catch (err: any) {
-      const errorMsg = err instanceof Error
-        ? (isId ? `Gagal memuat Pyodide: ${err.message}\nPastikan koneksi internet tersedia.` : `Failed to load Pyodide: ${err.message}\nMake sure internet connection is available.`)
-        : (isId ? 'Gagal memuat Pyodide' : 'Failed to load Pyodide');
-      finish({ stdout: '', stderr: '', error: errorMsg, executionTimeMs: performance.now() - start });
-      return;
-    }
+    const res = await runPythonWorker(code);
     if (!mountedRef.current || runIdRef.current !== runId) return;
     setIsLoading(false);
 
-    const stdoutLines: string[] = [];
-    const stderrLines: string[] = [];
-
-    try {
-      pyodide.setStdout({
-        batched: (text: string) => { stdoutLines.push(text); },
-      });
-
-      pyodide.setStderr({
-        batched: (text: string) => { stderrLines.push(text); },
-      });
-
-      pyodide.setStdin({
-        stdin: () => {
-          const value = window.prompt(isId ? 'Masukkan input untuk input():' : 'Enter input for input():', '');
-          return value === null ? null : value + '\n';
-        },
-      });
-
-      await pyodide.runPythonAsync(PREP_CODE);
-      await pyodide.runPythonAsync(code);
-
-      const plotResult = await pyodide.runPythonAsync(PLOT_CAPTURE_CODE);
-
-      const stdoutResult = await pyodide.runPythonAsync('sys.stdout.getvalue()');
-      const stderrResult = await pyodide.runPythonAsync('sys.stderr.getvalue()');
-
-      finish({
-        stdout: stdoutResult || '',
-        stderr: stderrResult || '',
-        error: '',
-        executionTimeMs: performance.now() - start,
-        image: plotResult && typeof plotResult === 'string' && plotResult.length > 0
-          ? `data:image/png;base64,${plotResult}`
-          : undefined,
-      });
-    } catch (err: any) {
-      const errorMsg = err.message || String(err);
-
-      let caughtStdout = stdoutLines.join('');
-      let caughtStderr = stderrLines.join('');
-      try {
-        const so = await pyodide.runPythonAsync('sys.stdout.getvalue()');
-        const se = await pyodide.runPythonAsync('sys.stderr.getvalue()');
-        if (so) caughtStdout = so;
-        if (se) caughtStderr = se;
-      } catch {
-        // buffers unavailable — keep captured lines
-      }
-
-      finish({
-        stdout: caughtStdout,
-        stderr: caughtStderr,
-        error: errorMsg,
-        executionTimeMs: performance.now() - start,
-      });
+    if (res.error && (/Pyodide load timed out/i.test(res.error) || /^Failed to load Pyodide/i.test(res.error))) {
+      const errorMsg = isId
+        ? `Gagal memuat Pyodide: ${res.error}\nPastikan koneksi internet tersedia.`
+        : `Failed to load Pyodide: ${res.error}\nMake sure internet connection is available.`;
+      finish({ stdout: '', stderr: '', error: errorMsg, executionTimeMs: performance.now() - start });
+      return;
     }
+
+    finish({
+      stdout: res.stdout,
+      stderr: res.stderr,
+      error: res.error,
+      executionTimeMs: performance.now() - start,
+      image: res.image,
+    });
   }, [code, isId]);
 
   runPythonRef.current = runPython;

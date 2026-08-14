@@ -178,11 +178,15 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   // Sync when initialCode changes (week/level switch) — skip first mount
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
+  const runIdRef = useRef(0);
+  const isRunningRef = useRef(false);
 
   useEffect(() => {
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
     setCode(initialCode);
     setOutput('');
     setError('');
@@ -193,6 +197,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     const handler = (event: MessageEvent) => {
       if (event.data?.type !== 'tryngo-console') return;
       if (event.source !== iframeRef.current?.contentWindow) return;
+      if (event.data?.runId !== undefined && event.data.runId !== runIdRef.current) return;
       setOutput(String(event.data.data || ''));
     };
     window.addEventListener('message', handler);
@@ -200,6 +205,9 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   }, []);
 
   const runCode = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setError('');
     setOutput('');
@@ -215,6 +223,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             const ts = tsRef.current;
             if (!ts) {
               setError(isId ? 'TypeScript compiler belum siap. Coba lagi.' : 'TypeScript compiler not ready. Try again.');
+              isRunningRef.current = false;
               setIsRunning(false);
               return;
             }
@@ -242,6 +251,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
 </html>`;
             } catch (err) {
               setError(err instanceof Error ? err.message : (isId ? 'Gagal kompilasi TypeScript' : 'TypeScript compilation failed'));
+              isRunningRef.current = false;
               setIsRunning(false);
               return;
             }
@@ -249,21 +259,22 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
 
           const baseStyles = '<style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:0}img{max-width:100%}</style>';
           const captureScript = `<script>
+            const __runId = ${runId};
             const _logs = [];
             const _origLog = console.log;
             const _origError = console.error;
             console.log = function(...args) {
               _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-              window.parent.postMessage({ type: 'tryngo-console', data: _logs.join('\\n') }, '*');
+              window.parent.postMessage({ type: 'tryngo-console', runId: __runId, data: _logs.join('\\n') }, '*');
               _origLog.apply(console, args);
             };
             console.error = function(...args) {
               _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-              window.parent.postMessage({ type: 'tryngo-console', data: _logs.join('\\n') }, '*');
+              window.parent.postMessage({ type: 'tryngo-console', runId: __runId, data: _logs.join('\\n') }, '*');
               _origError.apply(console, args);
             };
             window.onerror = function(msg, url, line, col, err) {
-              window.parent.postMessage({ type: 'tryngo-console', data: 'Error: ' + msg + ' (line ' + line + ':' + col + ')' }, '*');
+              window.parent.postMessage({ type: 'tryngo-console', runId: __runId, data: 'Error: ' + msg + ' (line ' + line + ':' + col + ')' }, '*');
               return false;
             };
           <\/script>`;
@@ -294,6 +305,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
               : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + styledCode + '</body></html>';
           iframe.srcdoc = styledCodeWithStyles;
       }
+      isRunningRef.current = false;
       setIsRunning(false);
     } else if (isGoLanguage) {
       // Go: execute via WASM (client-side)
@@ -313,6 +325,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             : 'Go WASM interpreter not ready. Reload the page and try again.'
         );
       }
+      isRunningRef.current = false;
       setIsRunning(false);
     } else if (isRustLanguage) {
       // Rust: execute directly via the Rust Playground API (CORS-enabled, no worker needed)
@@ -335,6 +348,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         clearTimeout(rustTimeout);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const result = await res.json();
+        if (runIdRef.current !== runId) return;
         if (!result.success) {
           setError(result.stderr || (isId ? 'Kompilasi Rust gagal.' : 'Rust compilation failed.'));
         } else {
@@ -342,12 +356,14 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         }
       } catch (err) {
         clearTimeout(rustTimeout);
+        if (runIdRef.current !== runId) return;
         setError(
           isId
             ? 'Gagal terhubung ke Rust Playground. Periksa koneksi internet Anda.'
             : 'Failed to connect to the Rust Playground. Check your internet connection.'
         );
       }
+      isRunningRef.current = false;
       setIsRunning(false);
     } else {
       setError(
@@ -355,11 +371,15 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
           ? 'Bahasa ini belum dapat dieksekusi di playground browser.'
           : 'This language is not yet executable in the browser playground.'
       );
+      isRunningRef.current = false;
       setIsRunning(false);
     }
   }, [code, isWebLanguage, isGoLanguage, isRustLanguage, language, isId]);
 
   const resetCode = () => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
     setOutput('');
     setError('');
@@ -376,15 +396,16 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   useEffect(() => {
     if (!isGoLanguage) return;
     let cancelled = false;
+    const effId = ++runIdRef.current;
 
     initGoWasm().then(({ tinygo, yaegi }) => {
-      if (cancelled) return;
+      if (cancelled || runIdRef.current !== effId) return;
       if (tinygo && week && week <= 11) {
         const result = runTinyGoWeek(week);
-        if (result.output) setOutput(result.output);
+        if (runIdRef.current === effId && result.output) setOutput(result.output);
       } else if (yaegi && initialCode) {
         const result = wasmRunGoCode(initialCode);
-        if (result.output) setOutput(result.output);
+        if (runIdRef.current === effId && result.output) setOutput(result.output);
       }
     });
 
