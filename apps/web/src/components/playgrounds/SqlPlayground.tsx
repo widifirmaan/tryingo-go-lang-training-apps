@@ -265,6 +265,13 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
                           </div>
                           <pre className="text-red-300 text-[11px] font-mono whitespace-pre-wrap">{result.error}</pre>
                         </div>
+                      ) : result.note ? (
+                        <div className="bg-amber-900/20 border border-amber-800/40 rounded-lg p-3">
+                          <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono">
+                            <span>ℹ</span>
+                            <span>{result.note}</span>
+                          </div>
+                        </div>
                       ) : result.columns.length === 0 ? (
                         <div className="bg-green-900/20 border border-green-800/40 rounded-lg p-3">
                           <div className="flex items-center gap-1.5 text-[10px] text-green-400 font-mono">
