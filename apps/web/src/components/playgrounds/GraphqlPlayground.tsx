@@ -39,10 +39,23 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
   const [sampleMenuOpen, setSampleMenuOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isId = lang === 'id';
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
 
   const [editorReady, setEditorReady] = useState(false);
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   const prevInitialCode = useRef(initialCode);
@@ -52,6 +65,9 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setQuery(initialCode);
     setResult('');
     setError('');
@@ -59,6 +75,9 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
   }, [initialCode]);
 
   const runGraphQL = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setError('');
     setResult('');
@@ -70,7 +89,9 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
         try {
           vars = JSON.parse(variables);
         } catch {
+          if (!mountedRef.current || runIdRef.current !== runId) return;
           setError(isId ? 'Variables JSON tidak valid. Periksa format JSON.' : 'Invalid JSON variables. Check JSON format.');
+          isRunningRef.current = false;
           setIsRunning(false);
           return;
         }
@@ -78,6 +99,7 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
 
       const schema = getSampleSchema();
       const output = await runQuery(schema, query, vars);
+      if (!mountedRef.current || runIdRef.current !== runId) return;
 
       if (output.errors.length > 0 && !output.data) {
         setError(output.errors.join('\n'));
@@ -90,13 +112,19 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
         setResult(display);
       }
     } catch (err) {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
     }
 
+    if (!mountedRef.current || runIdRef.current !== runId) return;
+    isRunningRef.current = false;
     setIsRunning(false);
   }, [query, variables, isId]);
 
   const handleIntrospection = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setError('');
     setResult('');
@@ -104,12 +132,16 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     try {
       const schema = getSampleSchema();
       const introResult = await runIntrospection(schema);
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setIntrospectionResult(JSON.stringify(introResult, null, 2));
       setShowIntrospection(true);
     } catch (err) {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setError(err instanceof Error ? err.message : 'Introspection failed');
     }
 
+    if (!mountedRef.current || runIdRef.current !== runId) return;
+    isRunningRef.current = false;
     setIsRunning(false);
   }, []);
 
@@ -125,6 +157,8 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     setVariables('{\n  \n}');
     setResult('');
     setError('');
+    setIntrospectionResult('');
+    setSchemaText('');
     setShowIntrospection(false);
   };
 
@@ -146,6 +180,7 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     setSampleMenuOpen(false);
     setResult('');
     setError('');
+    setShowIntrospection(false);
   };
 
   useEffect(() => {

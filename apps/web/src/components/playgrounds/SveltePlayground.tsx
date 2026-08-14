@@ -63,21 +63,42 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
     loadSvelteCompiler()
-      .then(() => setCompilerStatus('ready'))
-      .catch(() => setCompilerStatus('error'));
+      .then(() => {
+        if (mountedRef.current) setCompilerStatus('ready');
+      })
+      .catch(() => {
+        if (mountedRef.current) setCompilerStatus('error');
+      });
   }, []);
 
   useEffect(() => {
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setOutput('');
     setError('');
@@ -85,6 +106,9 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
   }, [initialCode]);
 
   const compileAndRun = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setOutput('');
     setError('');
@@ -94,6 +118,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
 
     try {
       const compiler = await loadSvelteCompiler();
+      if (!mountedRef.current || runIdRef.current !== runId) return;
 
       let compiled;
       try {
@@ -106,6 +131,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
         const elapsed = performance.now() - start;
         setExecutionTime(elapsed);
         setError(err.message || (isId ? 'Kompilasi gagal' : 'Compilation failed'));
+        isRunningRef.current = false;
         setIsRunning(false);
         return;
       }
@@ -120,18 +146,18 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       const iframe = iframeRef.current;
       if (!iframe) {
         setError(isId ? 'Preview tidak tersedia' : 'Preview not available');
+        isRunningRef.current = false;
         setIsRunning(false);
         return;
       }
 
-      const logs: string[] = [];
-
-      const moduleCode = jsCode
+      const moduleCode = (jsCode
         .replace(/export default /, '')
         .replace(/import\s+["']svelte\/internal\/disclose-version["']/g, `import "${SVELTE_CDN}/internal/disclose-version/+esm"`)
         .replace(/import\s+["']svelte\/internal\/flags\/legacy["']/g, `import "${SVELTE_CDN}/internal/flags/legacy/+esm"`)
         .replace(/from\s+["']svelte\/internal\/client["']/g, `from "${SVELTE_CDN}/internal/client/+esm"`)
-        .replace(/from\s+["']svelte["']/g, `from "${SVELTE_CDN}/+esm"`);
+        .replace(/from\s+["']svelte["']/g, `from "${SVELTE_CDN}/+esm"`))
+        .replace(/<\/script/gi, '<\\/script');
 
       const htmlContent = `<!DOCTYPE html>
 <html lang="${lang}">
@@ -154,6 +180,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
   <script type="module">
     import { mount } from '${SVELTE_CDN}/+esm';
 
+    const __runId = ${runId};
     const _origLog = console.log;
     const _origError = console.error;
     const _origWarn = console.warn;
@@ -162,24 +189,24 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
     console.log = function(...args) {
       const line = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
       _logs.push(line);
-      window.parent.postMessage({ type: 'console', level: 'log', message: line }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'log', message: line }, '*');
       _origLog.apply(console, args);
     };
     console.error = function(...args) {
       const line = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
       _logs.push('Error: ' + line);
-      window.parent.postMessage({ type: 'console', level: 'error', message: line }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'error', message: line }, '*');
       _origError.apply(console, args);
     };
     console.warn = function(...args) {
       const line = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
       _logs.push('Warning: ' + line);
-      window.parent.postMessage({ type: 'console', level: 'warn', message: line }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'warn', message: line }, '*');
       _origWarn.apply(console, args);
     };
 
     window.onerror = function(msg, url, line, col, err) {
-      window.parent.postMessage({ type: 'console', level: 'error', message: msg + ' (line ' + line + ')' }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'error', message: msg + ' (line ' + line + ')' }, '*');
       return false;
     };
 
@@ -189,7 +216,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       const target = document.getElementById('svelte-app');
       mount(App, { target });
     } catch (err) {
-      window.parent.postMessage({ type: 'console', level: 'error', message: err.message }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, level: 'error', message: err.message }, '*');
     }
   </script>
 </body>
@@ -198,6 +225,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       iframe.srcdoc = htmlContent;
 
       const elapsed = performance.now() - start;
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setExecutionTime(elapsed);
 
       if (warningsText) {
@@ -205,14 +233,23 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       }
     } catch (err: any) {
       const elapsed = performance.now() - start;
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setExecutionTime(elapsed);
       setError(err.message || (isId ? 'Eksekusi gagal' : 'Execution failed'));
     }
 
-    setIsRunning(false);
+    if (mountedRef.current && runIdRef.current === runId) {
+      isRunningRef.current = false;
+      setIsRunning(false);
+    }
   }, [code, isId, lang]);
 
+  runRef.current = compileAndRun;
+
   const handleReset = useCallback(() => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode || DEFAULT_SVELTE);
     setOutput('');
     setError('');
@@ -223,6 +260,9 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco command handles it
+      }
       compileAndRun();
     }
   };
@@ -231,7 +271,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
     editorRef.current = editor;
     editor.addCommand(
       2048 | 3,
-      () => compileAndRun()
+      () => runRef.current()
     );
   };
 
@@ -239,6 +279,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
     const handleMessage = (event: MessageEvent) => {
       if (event.source !== iframeRef.current?.contentWindow) return;
       if (event.data?.type === 'console') {
+        if (event.data.runId !== undefined && event.data.runId !== runIdRef.current) return;
         const prefix = event.data.level === 'error' ? 'Error: ' : event.data.level === 'warn' ? 'Warning: ' : '';
         setOutput((prev) => (prev ? prev + '\n' : '') + prefix + event.data.message);
       }

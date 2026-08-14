@@ -64,8 +64,17 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   const [stats, setStats] = useState(getStats());
   const outputRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
-  const cancelRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
   const scriptRef = useRef(initialCode);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      runIdRef.current++;
+    };
+  }, []);
 
   const pushLine = useCallback((l: Line) => {
     setLines((prev) => [...prev, l]);
@@ -89,18 +98,21 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   const runScript = useCallback(async (scriptText: string) => {
     const cmds = splitScript(scriptText);
     if (!cmds.length) return;
-    cancelRef.current = false;
+    const runId = ++runIdRef.current;
     setRunning(true);
     for (const c of cmds) {
-      if (cancelRef.current) break;
+      if (runIdRef.current !== runId || !mountedRef.current) break;
       runOne(c);
       await new Promise((r) => setTimeout(r, 120));
     }
-    setRunning(false);
+    if (runIdRef.current === runId && mountedRef.current) {
+      setRunning(false);
+    }
   }, [runOne]);
 
   const resetAll = useCallback(() => {
-    cancelRef.current = true;
+    runIdRef.current++;
+    setRunning(false);
     resetRedis();
     setLines([]);
     refreshStats();
@@ -111,7 +123,9 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
     scriptRef.current = initialCode;
     resetAll();
     const t = setTimeout(() => {
-      runScript(initialCode || '');
+      if (mountedRef.current) {
+        runScript(initialCode || '');
+      }
     }, 250);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -122,20 +136,65 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
     if (el) el.scrollTop = el.scrollHeight;
   }, [lines]);
 
+  const submitCommand = () => {
+    const editor = editorRef.current;
+    const selected = editor?.getSelection();
+    let commands: string[] = [];
+    if (selected && !selected.isEmpty()) {
+      const selectedText = editor?.getModel()?.getValueInRange(selected) || '';
+      commands = selectedText
+        .split('\n')
+        .map((l) => l.trim())
+        .filter((l) => l.length > 0 && !l.startsWith('#'));
+    } else {
+      const pos = editor?.getPosition();
+      const lineNum = pos ? pos.lineNumber : 1;
+      const line = editor?.getModel()?.getLineContent(lineNum) || '';
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#')) {
+        commands = [trimmed];
+      }
+      if (!commands.length) {
+        const first = code.split('\n').find((l) => l.trim() && !l.trim().startsWith('#'));
+        if (first) commands = [first.trim()];
+      }
+    }
+    if (!commands.length) return;
+    commands.forEach((c) => runOne(c));
+    setHistory((h) => [...commands, ...h].slice(0, 50));
+    setHistIdx(-1);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const selected = editorRef.current?.getSelection();
-    const selectedText = selected ? editorRef.current?.getModel()?.getValueInRange(selected) : null;
-    const cmd = selectedText?.trim() || code.split('\n').find(l => l.trim() && !l.trim().startsWith('#')) || '';
-    if (!cmd.trim()) return;
-    setHistory((h) => [cmd, ...h].slice(0, 50));
-    setHistIdx(-1);
-    runOne(cmd);
+    submitCommand();
   };
+
+  const handleEditorMount: OnMount = (editor) => {
+    editorRef.current = editor;
+    editor.addCommand(2048 | 3, () => submitCommand());
+  };
+
+  useEffect(() => {
+    if (histIdx >= 0 && histIdx < history.length) {
+      const cmd = history[histIdx];
+      setCode(cmd);
+      const editor = editorRef.current;
+      const model = editor?.getModel();
+      if (editor && model) {
+        const lastLine = model.getLineCount();
+        const col = model.getLineMaxColumn(lastLine);
+        editor.setPosition({ lineNumber: lastLine, column: col });
+      }
+    }
+  }, [histIdx, history]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco command handles it
+      }
       handleSubmit(e);
     }
     if (e.key === 'ArrowUp' && e.altKey) {
@@ -226,7 +285,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
                 theme="vs-dark"
                 value={code}
                 onChange={(val) => setCode(val || '')}
-                onMount={(editor) => { editorRef.current = editor; }}
+                onMount={handleEditorMount}
                 options={{
                   minimap: { enabled: false },
                   fontSize: 13,

@@ -99,8 +99,18 @@ function loadScript(src: string): Promise<void> {
     const script = document.createElement('script');
     script.src = src;
     script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+    const timer = window.setTimeout(
+      () => reject(new Error(`Failed to load script: ${src} (timeout)`)),
+      30000
+    );
+    script.onload = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    script.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error(`Failed to load script: ${src}`));
+    };
     document.head.appendChild(script);
   });
 }
@@ -199,7 +209,24 @@ export async function initSqlEngine(): Promise<void> {
   await ensureInit();
 }
 
+// Serialize DB operations so resetSql (which swaps the shared db instance)
+// can never race with an in-flight executeSql/getSchema.
+let opChain: Promise<unknown> = Promise.resolve();
+
+function withLock<T>(fn: () => Promise<T>): Promise<T> {
+  const run = opChain.then(fn);
+  opChain = run.then(
+    () => undefined,
+    () => undefined
+  );
+  return run;
+}
+
 export async function executeSql(sql: string): Promise<SqlResult> {
+  return withLock(() => executeSqlLocked(sql));
+}
+
+async function executeSqlLocked(sql: string): Promise<SqlResult> {
   const start = performance.now();
 
   try {
@@ -272,7 +299,11 @@ export async function executeSql(sql: string): Promise<SqlResult> {
   }
 }
 
-export async function resetSql(): Promise<void> {
+export function resetSql(): Promise<void> {
+  return withLock(() => resetSqlLocked());
+}
+
+async function resetSqlLocked(): Promise<void> {
   try {
     await ensureInit();
 
@@ -295,7 +326,11 @@ export async function resetSql(): Promise<void> {
   }
 }
 
-export async function getSchema(): Promise<SqlTableSchema[]> {
+export function getSchema(): Promise<SqlTableSchema[]> {
+  return withLock(() => getSchemaLocked());
+}
+
+async function getSchemaLocked(): Promise<SqlTableSchema[]> {
   try {
     await ensureInit();
   } catch {

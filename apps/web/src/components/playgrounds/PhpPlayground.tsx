@@ -3,7 +3,7 @@ import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faSpinner, faCircleInfo, faClock, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../../utils/translations';
-import { executePhp } from '../../utils/phpEngine';
+import { executePhp, preloadPhp } from '../../utils/phpEngine';
 
 interface PhpPlaygroundProps {
   lang: Language;
@@ -47,9 +47,23 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
   const [editorKey, setEditorKey] = useState(0);
   const [isHorizontal, setIsHorizontal] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runPhpRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
@@ -68,6 +82,9 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setOutput('');
     setError('');
@@ -75,10 +92,13 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
   }, [initialCode]);
 
   useEffect(() => {
-    executePhp('').catch(() => {});
+    preloadPhp();
   }, []);
 
   const runPhp = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setOutput('');
     setError('');
@@ -88,6 +108,7 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
 
     try {
       const result = await executePhp(code);
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       const elapsed = performance.now() - start;
       setExecutionTime(elapsed);
 
@@ -98,11 +119,17 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
         setOutput(result.output);
       }
     } catch (err) {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
     }
 
-    setIsRunning(false);
+    if (mountedRef.current && runIdRef.current === runId) {
+      isRunningRef.current = false;
+      setIsRunning(false);
+    }
   }, [code, isId]);
+
+  runPhpRef.current = runPhp;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -115,7 +142,7 @@ export const PhpPlayground: React.FC<PhpPlaygroundProps> = ({ lang, initialCode 
     editorRef.current = editor;
     editor.addCommand(
       2048 | 3,
-      () => runPhp()
+      () => runPhpRef.current()
     );
   };
 

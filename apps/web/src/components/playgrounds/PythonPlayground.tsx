@@ -46,6 +46,35 @@ for student in students:
 let pyodideInstance: any = null;
 let pyodideLoadPromise: Promise<any> | null = null;
 
+const PREP_CODE = `import sys
+import io
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
+try:
+    import matplotlib.pyplot as plt
+    plt.close('all')
+except Exception:
+    pass
+`;
+
+const PLOT_CAPTURE_CODE = `import matplotlib
+matplotlib.use('AGG')
+import matplotlib.pyplot as plt
+import io
+import base64
+
+buf = io.BytesIO()
+try:
+    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
+    buf.seek(0)
+    img_base64 = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close('all')
+    img_base64
+except Exception as e:
+    plt.close('all')
+    ''
+`;
+
 async function getPyodide(): Promise<any> {
   if (pyodideInstance) return pyodideInstance;
   if (pyodideLoadPromise) return pyodideLoadPromise;
@@ -98,9 +127,23 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
   const outputRef = useRef<HTMLDivElement>(null);
   const [isHorizontal, setIsHorizontal] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runPythonRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
@@ -119,6 +162,10 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
+    setIsLoading(false);
     setCode(initialCode);
     setResult(null);
     setEditorKey((k) => k + 1);
@@ -131,18 +178,39 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
   }, [result]);
 
   const runPython = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setResult(null);
 
     const start = performance.now();
+    const finish = (res: ExecutionResult) => {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
+      setResult(res);
+      isRunningRef.current = false;
+      setIsRunning(false);
+      setIsLoading(false);
+    };
+
+    let pyodide: any = null;
+    setIsLoading(true);
+    try {
+      pyodide = await getPyodide();
+    } catch (err: any) {
+      const errorMsg = err instanceof Error
+        ? (isId ? `Gagal memuat Pyodide: ${err.message}\nPastikan koneksi internet tersedia.` : `Failed to load Pyodide: ${err.message}\nMake sure internet connection is available.`)
+        : (isId ? 'Gagal memuat Pyodide' : 'Failed to load Pyodide');
+      finish({ stdout: '', stderr: '', error: errorMsg, executionTimeMs: performance.now() - start });
+      return;
+    }
+    if (!mountedRef.current || runIdRef.current !== runId) return;
+    setIsLoading(false);
+
+    const stdoutLines: string[] = [];
+    const stderrLines: string[] = [];
 
     try {
-      const pyodide = await getPyodide();
-
-      const stdoutLines: string[] = [];
-      const stderrLines: string[] = [];
-      let plotImage: string | undefined;
-
       pyodide.setStdout({
         batched: (text: string) => { stdoutLines.push(text); },
       });
@@ -158,91 +226,53 @@ export const PythonPlayground: React.FC<PythonPlaygroundProps> = ({ lang, initia
         },
       });
 
-      await pyodide.runPythonAsync(`
-import sys
-import io
-sys.stdout = io.StringIO()
-sys.stderr = io.StringIO()
-`);
+      await pyodide.runPythonAsync(PREP_CODE);
+      await pyodide.runPythonAsync(code);
 
-      try {
-        await pyodide.runPythonAsync(code);
+      const plotResult = await pyodide.runPythonAsync(PLOT_CAPTURE_CODE);
 
-        const plotResult = await pyodide.runPythonAsync(`
-import matplotlib
-matplotlib.use('AGG')
-import matplotlib.pyplot as plt
-import io
-import base64
+      const stdoutResult = await pyodide.runPythonAsync('sys.stdout.getvalue()');
+      const stderrResult = await pyodide.runPythonAsync('sys.stderr.getvalue()');
 
-buf = io.BytesIO()
-try:
-    plt.savefig(buf, format='png', dpi=100, bbox_inches='tight')
-    buf.seek(0)
-    img_base64 = base64.b64encode(buf.read()).decode('utf-8')
-    plt.close('all')
-    img_base64
-except Exception as e:
-    plt.close('all')
-    ''
-`);
-
-        if (plotResult && typeof plotResult === 'string' && plotResult.length > 0) {
-          plotImage = `data:image/png;base64,${plotResult}`;
-        }
-
-        const stdoutResult = await pyodide.runPythonAsync('sys.stdout.getvalue()');
-        const stderrResult = await pyodide.runPythonAsync('sys.stderr.getvalue()');
-
-        const executionTimeMs = performance.now() - start;
-
-        setResult({
-          stdout: stdoutResult || '',
-          stderr: stderrResult || '',
-          error: '',
-          executionTimeMs,
-          image: plotImage,
-        });
-      } catch (err: any) {
-        const executionTimeMs = performance.now() - start;
-        const errorMsg = err.message || String(err);
-
-        let caughtStdout = stdoutLines.join('');
-        let caughtStderr = stderrLines.join('');
-        try {
-          const so = await pyodide.runPythonAsync('sys.stdout.getvalue()');
-          const se = await pyodide.runPythonAsync('sys.stderr.getvalue()');
-          if (so) caughtStdout = so;
-          if (se) caughtStderr = se;
-        } catch {
-          // buffers unavailable — keep captured lines
-        }
-
-        setResult({
-          stdout: caughtStdout,
-          stderr: caughtStderr,
-          error: errorMsg,
-          executionTimeMs,
-        });
-      }
+      finish({
+        stdout: stdoutResult || '',
+        stderr: stderrResult || '',
+        error: '',
+        executionTimeMs: performance.now() - start,
+        image: plotResult && typeof plotResult === 'string' && plotResult.length > 0
+          ? `data:image/png;base64,${plotResult}`
+          : undefined,
+      });
     } catch (err: any) {
-      const executionTimeMs = performance.now() - start;
-      const errorMsg = err instanceof Error
-        ? (isId ? `Gagal memuat Pyodide: ${err.message}\nPastikan koneksi internet tersedia.` : `Failed to load Pyodide: ${err.message}\nMake sure internet connection is available.`)
-        : (isId ? 'Gagal memuat Pyodide' : 'Failed to load Pyodide');
+      const errorMsg = err.message || String(err);
 
-      setResult({
-        stdout: '',
-        stderr: '',
+      let caughtStdout = stdoutLines.join('');
+      let caughtStderr = stderrLines.join('');
+      try {
+        const so = await pyodide.runPythonAsync('sys.stdout.getvalue()');
+        const se = await pyodide.runPythonAsync('sys.stderr.getvalue()');
+        if (so) caughtStdout = so;
+        if (se) caughtStderr = se;
+      } catch {
+        // buffers unavailable — keep captured lines
+      }
+
+      finish({
+        stdout: caughtStdout,
+        stderr: caughtStderr,
         error: errorMsg,
-        executionTimeMs,
+        executionTimeMs: performance.now() - start,
       });
     }
-
-    setIsRunning(false);
   }, [code, isId]);
 
+  runPythonRef.current = runPython;
+
   const handleReset = useCallback(() => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
+    setIsLoading(false);
     setCode(initialCode || DEFAULT_PYTHON);
     setResult(null);
     setEditorKey((k) => k + 1);
@@ -259,7 +289,7 @@ except Exception as e:
     editorRef.current = editor;
     editor.addCommand(
       2048 | 3,
-      () => runPython()
+      () => runPythonRef.current()
     );
   };
 

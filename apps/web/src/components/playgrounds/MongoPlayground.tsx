@@ -52,14 +52,15 @@ db.employees.deleteOne({ name: "Dewi" })
 `;
 
 // Split a Mongo shell script into logical statements, respecting bracket
-// depth and string literals so multi-line commands (e.g. aggregate pipelines)
-// run as a single command instead of failing line-by-line.
+// depth, string/template/regex literals and comments so multi-line commands
+// (e.g. aggregate pipelines) run as a single command instead of line-by-line.
 export function splitStatements(code: string): string[] {
   const stmts: string[] = [];
   let buffer = '';
   let depth = 0;
-  let inStr = false;
-  let strChar = '';
+  let inStr: string | null = null; // ', ", `
+  let inRegex = false;
+  let prevNonSpace: string | null = null;
 
   const push = () => {
     const t = buffer.trim();
@@ -67,17 +68,31 @@ export function splitStatements(code: string): string[] {
     buffer = '';
   };
 
+  const isEscaped = (i: number): boolean => {
+    let count = 0;
+    for (let j = i - 1; j >= 0 && code[j] === '\\'; j--) count++;
+    return count % 2 === 1;
+  };
+
+  const isRegexStart = (): boolean => {
+    if (prevNonSpace === null) return true;
+    return /[=(,{}\[\]:!&|;?+\-*%<>]/.test(prevNonSpace);
+  };
+
   for (let i = 0; i < code.length; i++) {
     const ch = code[i];
     if (inStr) {
       buffer += ch;
-      if (ch === strChar && code[i - 1] !== '\\') inStr = false;
+      if (ch === inStr && !isEscaped(i)) inStr = null;
       continue;
     }
-    if (ch === '"' || ch === "'") {
-      inStr = true;
-      strChar = ch;
+    if (inRegex) {
       buffer += ch;
+      if (ch === '/' && !isEscaped(i)) inRegex = false;
+      else if (ch === '\n') {
+        inRegex = false;
+        buffer += ' ';
+      }
       continue;
     }
     if (ch === '/' && code[i + 1] === '/') {
@@ -85,19 +100,40 @@ export function splitStatements(code: string): string[] {
       if (depth === 0 && buffer.trim() === '') {
         while (i < code.length && code[i] !== '\n') { buffer += code[i]; i++; }
         push();
+        prevNonSpace = ' ';
         continue;
       }
       // inline comment inside a command → skip to end of line
       while (i < code.length && code[i] !== '\n') i++;
+      buffer += ' ';
+      prevNonSpace = ' ';
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === '`') {
+      inStr = ch;
+      buffer += ch;
+      prevNonSpace = ch;
+      continue;
+    }
+    if (ch === '/' && isRegexStart()) {
+      inRegex = true;
+      buffer += ch;
       continue;
     }
     if (ch === '(' || ch === '[' || ch === '{') depth++;
     else if (ch === ')' || ch === ']' || ch === '}') depth = Math.max(0, depth - 1);
+    if (ch === ';' && depth === 0) {
+      push();
+      prevNonSpace = ';';
+      continue;
+    }
     if (ch === '\n') {
       if (depth === 0) push();
       else buffer += ' ';
+      prevNonSpace = ' ';
       continue;
     }
+    if (!/\s/.test(ch)) prevNonSpace = ch;
     buffer += ch;
   }
   push();
@@ -118,6 +154,17 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
   const outputRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<any>(null);
   const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const prevInitialCode = useRef(initialCode);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      runIdRef.current++;
+    };
+  }, []);
 
   useEffect(() => {
     const el = outputRef.current;
@@ -128,6 +175,19 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
     resetMongo();
     setCollections(listCollections());
   }, []);
+
+  useEffect(() => {
+    if (!initialCode) return;
+    if (prevInitialCode.current === initialCode) return;
+    prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
+    setCode(initialCode);
+    setLines([]);
+    resetMongo();
+    setCollections(listCollections());
+  }, [initialCode]);
 
   const pushLine = useCallback((line: Line) => {
     setLines((prev) => [...prev, line]);
@@ -149,34 +209,42 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
   const runAll = useCallback(async () => {
     if (isRunningRef.current) return;
     isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setLines([]);
 
     const cmds = splitStatements(code);
     for (const cmd of cmds) {
-      if (!isRunningRef.current) break;
+      if (runIdRef.current !== runId || !mountedRef.current) break;
       runCommand(cmd);
       await new Promise((r) => setTimeout(r, 80));
     }
 
+    if (!mountedRef.current || runIdRef.current !== runId) return;
     setCollections(listCollections());
     setIsRunning(false);
     isRunningRef.current = false;
   }, [code, runCommand]);
 
   const runSelected = useCallback(() => {
+    if (isRunningRef.current) return;
     const editor = editorRef.current;
     if (!editor) return;
     const selection = editor.getSelection?.();
-    const selectedText = selection ? editor.getModel()?.getValueInRange(selection) : null;
-    const cmd = selectedText?.trim() || code.split('\n').find((l) => l.trim() && !l.trim().startsWith('//')) || '';
-    if (!cmd) return;
-    runCommand(cmd);
+    const selectedText = selection && !selection.isEmpty() ? editor.getModel()?.getValueInRange(selection) : null;
+    if (selectedText) {
+      splitStatements(selectedText).forEach((c) => runCommand(c));
+    } else {
+      const first = splitStatements(code)[0];
+      if (first) runCommand(first);
+    }
     setCollections(listCollections());
   }, [code, runCommand]);
 
   const reset = useCallback(() => {
+    runIdRef.current++;
     isRunningRef.current = false;
+    setIsRunning(false);
     resetMongo();
     setCollections(listCollections());
     setLines([]);
@@ -214,9 +282,11 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
               className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] text-zinc-300 hover:bg-zinc-700/50 cursor-pointer font-mono transition-colors"
               onClick={() => {
                 const editor = editorRef.current;
+                const current = editor ? editor.getValue() : code;
+                const next = current + `\ndb.${name}.find()`;
+                setCode(next);
                 if (editor) {
-                  const current = editor.getValue();
-                  editor.setValue(current + `\ndb.${name}.find()`);
+                  editor.setValue(next);
                   editor.focus();
                 }
               }}

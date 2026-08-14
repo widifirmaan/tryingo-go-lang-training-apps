@@ -85,15 +85,35 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   const [editorKey, setEditorKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isRunningRef = useRef(false);
+  const runIdRef = useRef(0);
+  const mountedRef = useRef(true);
+  const runCodeRef = useRef<() => void>(() => {});
+  const initialRunDoneRef = useRef(false);
+  const esbuildReadyRef = useRef(false);
 
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
     if (!initialCode) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setError('');
     setCompileStatus('idle');
@@ -101,22 +121,31 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   }, [initialCode]);
 
   const runCode = useCallback(async () => {
+    if (isRunningRef.current) return;
+    isRunningRef.current = true;
+    const runId = ++runIdRef.current;
     setIsRunning(true);
     setError('');
     setCompileStatus('idle');
 
     try {
       await loadEsbuild();
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setIsLoading(false);
 
-      const wrappedCode = code;
+      // Tear down the previous preview document so stale timers/globals die.
+      const preview = iframeRef.current;
+      if (preview && preview.srcdoc) {
+        preview.srcdoc = '';
+      }
 
-      const result = await window.esbuild!.transform(wrappedCode, {
+      const result = await window.esbuild!.transform(code, {
         loader: 'jsx',
         jsx: 'transform',
         format: 'esm',
         target: 'es2020',
       });
+      if (!mountedRef.current || runIdRef.current !== runId) return;
 
       if (result.warnings.length > 0) {
         console.warn('esbuild warnings:', result.warnings);
@@ -124,9 +153,12 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
 
       const iframe = iframeRef.current;
       if (!iframe) {
+        isRunningRef.current = false;
         setIsRunning(false);
         return;
       }
+
+      const escapedCode = result.code.replace(/<\/script/gi, '<\\/script');
 
       const html = `<!DOCTYPE html>
 <html lang="${lang}">
@@ -143,32 +175,33 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"><\/script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"><\/script>
   <script>
+    const __runId = ${runId};
     const _logs = [];
     const _origLog = console.log;
     const _origError = console.error;
     console.log = function(...args) {
       _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      window.parent.postMessage({ type: 'console', data: _logs.join('\\n') }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, data: _logs.join('\\n') }, '*');
       _origLog.apply(console, args);
     };
     console.error = function(...args) {
       _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-      window.parent.postMessage({ type: 'console', data: _logs.join('\\n') }, '*');
+      window.parent.postMessage({ type: 'console', runId: __runId, data: _logs.join('\\n') }, '*');
       _origError.apply(console, args);
     };
     window.onerror = function(msg, url, line, col, err) {
-      window.parent.postMessage({ type: 'runtime-error', data: msg + ' (line ' + line + ':' + col + ')' }, '*');
+      window.parent.postMessage({ type: 'runtime-error', runId: __runId, data: msg + ' (line ' + line + ':' + col + ')' }, '*');
       return false;
     };
   <\/script>
   <script type="module">
     try {
       const { useState, useEffect, useRef, useCallback, useMemo, useContext, useReducer, createContext } = React;
-      ${result.code}
+      ${escapedCode}
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(React.createElement(App));
     } catch (err) {
-      window.parent.postMessage({ type: 'runtime-error', data: err.message || String(err) }, '*');
+      window.parent.postMessage({ type: 'runtime-error', runId: __runId, data: err.message || String(err) }, '*');
     }
   <\/script>
 </body>
@@ -176,17 +209,27 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
 
       iframe.srcdoc = html;
 
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       setCompileStatus('success');
     } catch (err: any) {
+      if (!mountedRef.current || runIdRef.current !== runId) return;
       const errorMsg = err instanceof Error ? err.message : String(err);
       setError(errorMsg);
       setCompileStatus('error');
     }
 
-    setIsRunning(false);
+    if (mountedRef.current && runIdRef.current === runId) {
+      isRunningRef.current = false;
+      setIsRunning(false);
+    }
   }, [code, lang]);
 
+  runCodeRef.current = runCode;
+
   const handleReset = useCallback(() => {
+    runIdRef.current++;
+    isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode || DEFAULT_JSX);
     setError('');
     setCompileStatus('idle');
@@ -196,6 +239,9 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco command handles it
+      }
       runCode();
     }
   };
@@ -204,13 +250,14 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
     editorRef.current = editor;
     editor.addCommand(
       2048 | 3,
-      () => runCode()
+      () => runCodeRef.current()
     );
   };
 
   useEffect(() => {
     const handler = (event: MessageEvent) => {
       if (event.source !== iframeRef.current?.contentWindow) return;
+      if (event.data?.runId !== undefined && event.data.runId !== runIdRef.current) return;
       if (event.data?.type === 'console') {
         if (event.data.data) {
           setCompileStatus('success');
@@ -225,26 +272,41 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
     return () => window.removeEventListener('message', handler);
   }, []);
 
+  // Debounced auto-run on edits (after the initial load+run has completed).
   useEffect(() => {
+    if (!initialRunDoneRef.current) {
+      initialRunDoneRef.current = true;
+      return;
+    }
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      runCode();
+      if (mountedRef.current) runCodeRef.current();
     }, 800);
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [runCode]);
+  }, [code]);
 
+  // Initial load + first run.
   useEffect(() => {
+    let cancelled = false;
     setIsLoading(true);
-    loadEsbuild().then(() => {
-      setIsLoading(false);
-      runCode();
-    }).catch((err: any) => {
-      setIsLoading(false);
-      setError(err instanceof Error ? err.message : (isId ? 'Gagal memuat compiler React (esbuild). Periksa koneksi internet.' : 'Failed to load React compiler (esbuild). Check your internet connection.'));
-      setCompileStatus('error');
-    });
+    loadEsbuild()
+      .then(() => {
+        if (!mountedRef.current || cancelled) return;
+        setIsLoading(false);
+        esbuildReadyRef.current = true;
+        runCodeRef.current();
+      })
+      .catch((err: any) => {
+        if (!mountedRef.current || cancelled) return;
+        setIsLoading(false);
+        setError(err instanceof Error ? err.message : (isId ? 'Gagal memuat compiler React (esbuild). Periksa koneksi internet.' : 'Failed to load React compiler (esbuild). Check your internet connection.'));
+        setCompileStatus('error');
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
