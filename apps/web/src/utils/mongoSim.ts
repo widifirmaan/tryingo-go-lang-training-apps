@@ -65,6 +65,26 @@ const getCollection = (name: string): Collection => {
   return c;
 };
 
+const applyUpdate = (doc: Doc, update: Doc): void => {
+  if (update.$set) Object.assign(doc, update.$set);
+  if (update.$inc) {
+    for (const [k, v] of Object.entries(update.$inc)) {
+      doc[k] = (doc[k] || 0) + (v as number);
+    }
+  }
+  if (update.$push) {
+    for (const [k, v] of Object.entries(update.$push)) {
+      if (!Array.isArray(doc[k])) doc[k] = [];
+      doc[k].push(v);
+    }
+  }
+  if (update.$unset) {
+    for (const k of Object.keys(update.$unset)) {
+      delete doc[k];
+    }
+  }
+};
+
 // --- query matching ----------------------------------------------------------
 
 const matchValue = (fieldVal: any, operator: string, operand: any): boolean => {
@@ -98,6 +118,10 @@ const matchDoc = (doc: Doc, query: Doc): boolean => {
 
   for (const [key, val] of Object.entries(query)) {
     if (key.startsWith('$')) continue;
+    if (val instanceof RegExp) {
+      if (!val.test(String(doc[key]))) return false;
+      continue;
+    }
     if (val !== null && typeof val === 'object' && !Array.isArray(val) && !(val instanceof RegExp)) {
       const ops = Object.keys(val);
       const isOp = ops.every((o) => o.startsWith('$'));
@@ -583,6 +607,34 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         return { result: `{ "acknowledged": true, "insertedCount": ${docs.length}, "insertedIds": ${JSON.stringify(insertedIds)} }`, isError: false };
       }
 
+      case 'findOneAndUpdate': {
+        const args = parseArgs(argsStr);
+        const query = (args[0] as Doc) || {};
+        const update = (args[1] as Doc) || {};
+        const options = (args[2] as Doc) || {};
+        const idx = col.docs.findIndex((d) => matchDoc(d, query));
+        if (idx === -1) return { result: 'null', isError: false };
+        const doc = col.docs[idx];
+        const before = { ...doc };
+        const hasOperators = ['$set', '$inc', '$push', '$unset'].some((op) => update[op]);
+        if (hasOperators) {
+          applyUpdate(doc, update);
+        } else {
+          col.docs[idx] = { ...update, ...(doc._id !== undefined ? { _id: doc._id } : {}) };
+        }
+        const returnDoc = options.returnDocument === 'before' ? before : col.docs[idx];
+        return { result: formatDoc(returnDoc), isError: false };
+      }
+
+      case 'findOneAndDelete': {
+        const args = parseArgs(argsStr);
+        const query = (args[0] as Doc) || {};
+        const idx = col.docs.findIndex((d) => matchDoc(d, query));
+        if (idx === -1) return { result: 'null', isError: false };
+        const [removed] = col.docs.splice(idx, 1);
+        return { result: formatDoc(removed), isError: false };
+      }
+
       case 'updateOne': {
         const args = parseArgs(argsStr);
         const query = (args[0] as Doc) || {};
@@ -595,23 +647,7 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
           return { result: 'MongoServerError: update operator required ($set, $inc, $push, $unset)', isError: true };
         }
 
-        if (update.$set) Object.assign(doc, update.$set);
-        if (update.$inc) {
-          for (const [k, v] of Object.entries(update.$inc)) {
-            doc[k] = (doc[k] || 0) + (v as number);
-          }
-        }
-        if (update.$push) {
-          for (const [k, v] of Object.entries(update.$push)) {
-            if (!Array.isArray(doc[k])) doc[k] = [];
-            doc[k].push(v);
-          }
-        }
-        if (update.$unset) {
-          for (const k of Object.keys(update.$unset)) {
-            delete doc[k];
-          }
-        }
+        applyUpdate(doc, update);
         return { result: `{ "acknowledged": true, "matchedCount": 1, "modifiedCount": 1 }`, isError: false };
       }
 
@@ -623,23 +659,7 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         if (matched.length === 0) return { result: `{ "acknowledged": true, "matchedCount": 0, "modifiedCount": 0 }`, isError: false };
 
         for (const doc of matched) {
-          if (update.$set) Object.assign(doc, update.$set);
-          if (update.$inc) {
-            for (const [k, v] of Object.entries(update.$inc)) {
-              doc[k] = (doc[k] || 0) + (v as number);
-            }
-          }
-          if (update.$push) {
-            for (const [k, v] of Object.entries(update.$push)) {
-              if (!Array.isArray(doc[k])) doc[k] = [];
-              doc[k].push(v);
-            }
-          }
-          if (update.$unset) {
-            for (const k of Object.keys(update.$unset)) {
-              delete doc[k];
-            }
-          }
+          applyUpdate(doc, update);
         }
         return { result: `{ "acknowledged": true, "matchedCount": ${matched.length}, "modifiedCount": ${matched.length} }`, isError: false };
       }
@@ -683,7 +703,7 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
 
       default:
         return {
-          result: `MongoServerError: unknown method "${method}".\nSupported: find, findOne, insertOne, insertMany, updateOne, updateMany, deleteOne, deleteMany, countDocuments, aggregate, drop`,
+          result: `MongoServerError: unknown method "${method}".\nSupported: find, findOne, findOneAndUpdate, findOneAndDelete, insertOne, insertMany, updateOne, updateMany, deleteOne, deleteMany, countDocuments, aggregate, drop`,
           isError: true,
         };
     }

@@ -54,6 +54,7 @@ importScripts('${PYODIDE_BASE}/pyodide.js');
 
 let pyodide = null;
 let ready = false;
+let baselineGlobals = false;
 
 const PREP_CODE = [
   'import sys',
@@ -65,6 +66,15 @@ const PREP_CODE = [
   "    plt.close('all')",
   "except Exception:",
   "    pass"
+].join('\\n');
+
+const RESET_GLOBALS_CODE = [
+  "__tryngo_base = globals().get('globals_baseline', None)",
+  "__tryngo_base = __tryngo_base if isinstance(__tryngo_base, set) else set()",
+  "__tryngo_keep = set(globals().keys())",
+  "for __tryngo_k in set(globals().keys()) - __tryngo_base - {'__tryngo_keep', 'globals_baseline', '__tryngo_base'}:",
+  "    globals().pop(__tryngo_k, None)",
+  "del __tryngo_keep, __tryngo_base"
 ].join('\\n');
 
 const PLOT_CAPTURE_CODE = [
@@ -119,7 +129,14 @@ self.onmessage = async (e) => {
   let image = '';
   let error = '';
   try {
-    await pyodide.runPythonAsync(PREP_CODE);
+    if (!baselineGlobals) {
+      await pyodide.runPythonAsync(PREP_CODE);
+      await pyodide.runPythonAsync("globals_baseline = set(globals().keys())");
+      baselineGlobals = true;
+    } else {
+      await pyodide.runPythonAsync(RESET_GLOBALS_CODE);
+      await pyodide.runPythonAsync(PREP_CODE);
+    }
     await pyodide.runPythonAsync(code);
     const plotResult = await pyodide.runPythonAsync(PLOT_CAPTURE_CODE);
     stdout = await pyodide.runPythonAsync('sys.stdout.getvalue()');

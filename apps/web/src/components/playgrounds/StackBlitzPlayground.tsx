@@ -117,6 +117,9 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
+      if (editorRef.current?.hasTextFocus()) {
+        return; // Monaco command handles it
+      }
       runCode();
     }
   };

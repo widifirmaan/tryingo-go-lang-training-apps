@@ -138,7 +138,8 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
   }, [initialCode]);
 
   useEffect(() => {
-    getSchema()
+    resetSql()
+      .then(() => getSchema())
       .then((s) => {
         if (mountedRef.current) setSchema(s);
       })

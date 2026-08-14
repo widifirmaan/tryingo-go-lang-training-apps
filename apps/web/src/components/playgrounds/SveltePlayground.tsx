@@ -227,6 +227,11 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
 </body>
 </html>`;
 
+      // Tear down the previous preview document so stale timers/globals die.
+      if (iframe.srcdoc) {
+        iframe.srcdoc = '';
+      }
+
       iframe.srcdoc = htmlContent;
 
       const elapsed = performance.now() - start;
