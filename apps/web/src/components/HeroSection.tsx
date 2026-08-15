@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faFlask, faLaptopCode, faTerminal, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -243,7 +243,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className={`w-full px-3.5 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center justify-between transition-colors ${activeSubmenu === 'quiz' ? 'bg-white/20' : 'bg-white/10 hover:bg-white/20'}`}
                     >
                       <div className="flex items-center gap-2.5">
-                        <FontAwesomeIcon icon={faFlask} className="w-4 h-4 text-[#EEDBB2]" />
+                        <FontAwesomeIcon icon={faQuestion} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>{lang === 'id' ? 'Kuis' : 'Quiz'}</span>
                       </div>
                       <span className="text-[9px] opacity-60">{activeSubmenu === 'quiz' ? '▲' : '▼'}</span>
@@ -478,7 +478,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.15 }}
-                    className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[calc(100dvh-4.5rem)] overflow-y-auto"
+                    className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain touch-pan-y"
                   >
                     {onBackToHero && (
                       <motion.button
@@ -552,7 +552,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center justify-between"
                     >
                       <div className="flex items-center gap-2">
-                        <FontAwesomeIcon icon={faFlask} className="w-4 h-4 text-[#EEDBB2]" />
+                        <FontAwesomeIcon icon={faQuestion} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>{lang === 'id' ? 'Kuis' : 'Quiz'}</span>
                       </div>
                       <span className="text-[9px]">{activeSubmenu === 'quiz-mobile' ? '▲' : '▼'}</span>

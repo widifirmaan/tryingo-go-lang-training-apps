@@ -179,12 +179,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     { id: 'stock-desc', label: t.stockDesc },
   ];
 
-  const quickTags = [
-    'Spring Boot', 'CodeIgniter', 'MySQL', 'MongoDB', 'Redis',
-    'Django', 'NestJS', 'TypeScript', 'React 19', 'Next.js',
-    'Golang', 'Python', 'PostgreSQL', 'Laravel',
-  ];
-
   const resetAllFilters = () => {
     setSearchQuery('');
     setSortBy('default');
@@ -322,28 +316,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               )}
             </div>
 
-            {/* Quick Topic Pills */}
-            <div className="shrink-0 space-y-1.5">
-              <span className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-wider block">
-                {t.popularSearch}
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {quickTags.map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => setSearchQuery(tag)}
-                    className={`text-xs px-2.5 py-1 rounded-full transition-all font-semibold border ${
-                      searchQuery.toLowerCase() === tag.toLowerCase()
-                        ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-2xs'
-                        : 'bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200'
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Tracks Tab: Filter & Sort Controls */}
             {searchTab === 'tracks' && (
               <>
@@ -394,8 +366,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     }}
                     className="bg-[#2E5B44] hover:bg-[#234735] text-white text-xs px-4 py-2 rounded-xl font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5"
                   >
-                    <span>{t.applyFilters}</span>
-                    <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5" />
+                    <FontAwesomeIcon icon={faSearch} className="w-3.5 h-3.5" />
+                    <span>{lang === 'id' ? 'Cari' : 'Search'}</span>
                   </button>
                 </div>
               </>
@@ -675,9 +647,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <h2 className="text-lg font-bold font-flpcart leading-tight">
                     {t.settingsTitle}
                   </h2>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                    {t.settingsSub}
-                  </p>
                 </div>
               </div>
               <button

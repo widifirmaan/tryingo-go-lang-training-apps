@@ -504,7 +504,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             </button>
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors hidden sm:block"
+              className="p-1.5 rounded-lg hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
               title={isFullscreen ? (isId ? 'Keluar Layar Penuh' : 'Exit Fullscreen') : (isId ? 'Layar Penuh' : 'Fullscreen')}
             >
               {isFullscreen ? <FontAwesomeIcon icon={faCompress} className="w-3.5 h-3.5" /> : <FontAwesomeIcon icon={faExpand} className="w-3.5 h-3.5" />}

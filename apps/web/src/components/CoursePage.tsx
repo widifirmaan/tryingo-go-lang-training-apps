@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
@@ -249,7 +249,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#2E5B44] text-white border border-[#2E5B44] shadow-xs hover:bg-[#234735] transition-all text-xs sm:text-sm font-bold shrink-0"
           title={isId ? 'Kuis semua materi' : 'Quiz all material'}
         >
-          <FontAwesomeIcon icon={faClipboardList} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <FontAwesomeIcon icon={faQuestion} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span className="hidden sm:inline">{isId ? 'Kuis' : 'Quiz'}</span>
         </button>
 
@@ -260,7 +260,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
             className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 shadow-xs hover:bg-white dark:hover:bg-zinc-700 transition-all text-xs sm:text-sm font-bold"
           >
             <span className="hidden sm:inline">{levelName}</span>
-            <span className="sm:hidden">{levels.length > 1 ? `Lv.${levels.findIndex(l => l.levelId === activeLevel) + 1}` : levelName}</span>
             <FontAwesomeIcon icon={faChevronDown} className="w-3.5 h-3.5" />
           </button>
 

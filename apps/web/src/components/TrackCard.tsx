@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faCode, faBookOpen, faFlask } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faCode, faBookOpen, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
@@ -84,11 +84,10 @@ export const TrackCard: React.FC<TrackCardProps> = ({
           <div className="flex items-center gap-2">
             <button 
               onClick={() => onStartCourse?.(track.id)}
-              className="px-3 py-1.5 bg-[#2E5B44] hover:bg-[#234735] text-white text-[10px] sm:text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all hover:scale-105 shadow-sm"
+              className="w-8 h-8 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
               title="Mulai Course"
             >
-              <FontAwesomeIcon icon={faPlay} className="w-3 h-3 text-white" />
-              <span>Mulai Course</span>
+              <FontAwesomeIcon icon={faBookOpen} className="w-3.5 h-3.5" />
             </button>
 
             <button 
@@ -104,7 +103,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
               className="w-8 h-8 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-zinc-800 dark:text-zinc-200 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
               title="Buka Kuis"
             >
-              <FontAwesomeIcon icon={faFlask} className="w-3.5 h-3.5" />
+              <FontAwesomeIcon icon={faQuestion} className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
