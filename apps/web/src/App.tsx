@@ -491,7 +491,7 @@ export default function App() {
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <h2 className="font-extrabold text-xl sm:text-2xl leading-none self-center">
+                          <h2 className="font-extrabold text-xl sm:text-2xl leading-none self-center h-8 flex items-center">
                             {t.tracksHeaderTitle}
                           </h2>
                         </div>
