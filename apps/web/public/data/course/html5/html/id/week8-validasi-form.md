@@ -105,6 +105,20 @@
 
 ---
 
+## Penjelasan untuk Pemula
+
+Validasi = aturan agar data **benar sebelum dikirim**. Bayangkan penjaga pintu yang memeriksa tiket masuk.
+
+- `required` = wajib diisi.
+- `minlength`/`maxlength` = batas jumlah karakter.
+- `min`/`max`/`step` = batas angka.
+- `type="email"`, `type="url"`, `type="tel"` = browser otomatis memeriksa formatnya.
+- `pattern` = memeriksa cocok dengan pola tertentu (misal `pattern="[0-9]{10,13}"` berarti 10-13 digit angka). `title` = teks bantuan yang tampil saat pola gagal.
+
+**Coba:** Ketik username hanya 2 huruf (padahal `minlength="3"`) lalu klik Kirim — lihat pesan error dari browser.
+
+---
+
 ## Eksperimen
 
 - Coba pattern untuk validasi NIM/NPM

@@ -70,6 +70,20 @@
 
 ---
 
+## Beginner Friendly Explanation
+
+A link is a **bridge between pages**. Clicking a link takes visitors from one place to another.
+
+**How to read a link:**
+- `<a href="destination">text</a>` — `a` = anchor, `href` = where the link points, `text` = what you see and click.
+- Absolute (full address): `https://mdn.dev`. Relative (relative address): `pages/about.html`. Fragment: `#contact` — jumps directly to the element with `id="contact"` on the same page.
+- `target="_blank"` = open in a new tab. Always add `rel="noopener noreferrer"` so that new tab cannot open a harmful window.
+- `mailto:` = opens the email app, `tel:` = dials a phone number.
+
+**Try:** In this week program, click each link and watch the URL change or the page jump — the fastest way to learn the difference between absolute, relative, and fragment.
+
+---
+
 ## Experiments
 
 - Create navigation menu with 5 links to different sections

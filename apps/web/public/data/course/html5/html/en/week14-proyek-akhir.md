@@ -139,6 +139,20 @@ Combines all 13 previous weeks in one portfolio website.
 
 ---
 
+## Beginner Friendly Explanation
+
+This is assembly week: every tag you learned is used **together** in one whole page.
+
+How to approach it:
+1. Read the project goal first.
+2. Copy the program to the playground and run it — understand the page frame (head, header, main, section, footer).
+3. Change it section by section: replace text, names, projects, contacts — keep each change working.
+4. Check the requirements list (semantic, a11y, SEO, form) like a checklist and tick items one by one.
+
+Do not get discouraged if it is not perfect. Real developers also finish through many small attempts.
+
+---
+
 ## Experiments
 
 - Add testimonial section with blockquote

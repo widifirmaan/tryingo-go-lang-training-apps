@@ -45,6 +45,26 @@ Tags: `<p>` opening, `</p>` closing. Element = opening + content + closing.
 
 ---
 
+## Beginner Friendly Explanation
+
+This material is for complete beginners. Think of HTML as a **house frame**: you decide the room layout, then the browser paints and fills it.
+
+**3 terms to understand first:**
+
+1. **Tag** — a command wrapped in `<` and `>`. Example `<p>` = start paragraph, `</p>` = end paragraph.
+2. **Element** — a tag pair plus its content. `<p>Hello</p>` is one paragraph element.
+3. **Document** — a full page starts with `<!DOCTYPE html>` (tells the browser "this is HTML version 5"), then `<html>`, split into `<head>` (settings, invisible) and `<body>` (what you see on screen).
+
+**Read this week program step by step:**
+- Row 1: `<!DOCTYPE html>` — the marker the browser reads.
+- Row 2: `<html lang="id">` — the root of the whole document; `lang` tells the language.
+- Rows 5-8: `<head>` contains `meta charset` (so letters display correctly) and `title` (the browser tab title).
+- Rows 10-14: `<body>` contains `h1` (large heading) and two `p` (paragraphs).
+
+**Tip:** Do not memorize every tag. Copy the code to the playground, change the text, then run it — seeing the result instantly teaches you what each tag does.
+
+---
+
 ## Experiments
 
 - Add different heading levels (h2, h3) below h1

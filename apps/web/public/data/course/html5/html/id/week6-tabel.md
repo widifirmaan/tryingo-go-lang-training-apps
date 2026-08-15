@@ -108,6 +108,19 @@
 
 ---
 
+## Penjelasan untuk Pemula
+
+Tabel = data yang disusun dalam **baris dan kolom**, seperti jadwal pelajaran di sekolah.
+
+- `<table>` = wadah tabel. `<tr>` = satu **baris**. Di dalam baris ada `<th>` (judul kolom, tampil tebal) atau `<td>` (sel data).
+- `<thead>` = bagian baris judul, `<tbody>` = bagian data, `<tfoot>` = baris ringkasan di bawah.
+- `<caption>` = judul tabel.
+- `colspan="2"` = gabungkan 2 kolom, `rowspan="2"` = gabungkan 2 baris — untuk sel yang melebar atau memanjang.
+
+**Coba:** Di program "Jadwal Kuliah", tambah satu baris `<tr>` berisi mata kuliah milikmu, lalu jalankan dan lihat tabelnya tetap rapi.
+
+---
+
 ## Eksperimen
 
 - Buat tabel dengan 5 kolom dan 10 baris

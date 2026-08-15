@@ -87,6 +87,24 @@
 
 ---
 
+## Beginner Friendly Explanation
+
+Semantic means **meaningful**. Semantic elements tell readers (and browsers/screen readers) what part each block of the page is.
+
+- `<header>` = page/section head (usually a title + nav).
+- `<nav>` = navigation menu.
+- `<main>` = main content (used once per page).
+- `<article>` = self-standing content (news, a post).
+- `<section>` = a thematic part of a page.
+- `<aside>` = side content (sidebar).
+- `<footer>` = page foot (copyright, contacts).
+
+Compare with `<div>` which is neutral / meaningless. Using semantic elements keeps code tidy, clear for search engines, and easy for screen readers.
+
+**Try:** In this week program, replace `<nav>` with `<div>` and run it — the page still looks the same, but now nothing tells anyone it is a menu.
+
+---
+
 ## Experiments
 
 - Create page with multiple articles in main

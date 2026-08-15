@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faShoppingBag, faFlask, faLaptopCode, faTerminal, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faFlask, faLaptopCode, faTerminal, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -15,8 +15,6 @@ interface HeroSectionProps {
   onOpenCollection: () => void;
   isExploring?: boolean;
   onBackToHero?: () => void;
-  cartCount?: number;
-  onOpenCart?: () => void;
   lang?: Language;
   activeCourseId?: string | null;
   activeLevel?: string;
@@ -35,8 +33,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenCollection,
   isExploring = false,
   onBackToHero,
-  cartCount = 0,
-  onOpenCart,
   lang = 'id',
   activeCourseId,
   activeLevel,
@@ -107,7 +103,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       transition={{ type: "spring", stiffness: 220, damping: 25 }}
       className="relative w-full h-full bg-[#2E5B44] dark:bg-[#12221A] text-white rounded-[28px] overflow-hidden flex flex-col justify-between p-3 sm:p-4 lg:p-5 shadow-xl border border-[#234735] dark:border-zinc-800 select-none"
     >
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {/* ----------------------------------------------------------------------- */}
         {/* 1. SIDEBAR MODE CONTENT (Visible on desktop/landscape when isExploring) */}
         {/* ----------------------------------------------------------------------- */}
@@ -117,7 +113,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
             className="relative w-full h-full flex flex-col justify-between"
           >
             {/* Desktop/Landscape Sidebar View */}
@@ -470,7 +466,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.15 }}
                     className="fixed inset-0 bg-black/40 z-10"
                     onClick={() => setIsMobileMenuOpen(false)}
                   />
@@ -481,7 +477,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     initial={{ opacity: 0, y: -12 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.15 }}
                     className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[calc(100dvh-4.5rem)] overflow-y-auto"
                   >
                     {onBackToHero && (
@@ -510,7 +506,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'materi-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
                               <button
@@ -563,7 +559,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
                           <button
                             onClick={() => { setIsMobileMenuOpen(false); openQuiz('__sample__'); }}
                             className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] text-left shrink-0 ${activeQuizId === '__sample__' ? 'bg-emerald-400/20 text-emerald-200 font-bold' : 'bg-[#2E5B44]/30 text-emerald-300 font-bold'}`}
@@ -597,7 +593,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'ide-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
                           {IDE_ITEMS.map((track) => (
                             <button
                               key={track.trackId}
@@ -644,20 +640,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       <span>{lang === 'id' ? 'Dukung' : 'Support'}</span>
                     </motion.button>
 
-                    {onOpenCart && (
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => { setIsMobileMenuOpen(false); onOpenCart(); }}
-                        className="w-full px-3 py-2 rounded-xl bg-[#EEDBB2] text-[#2E5B44] text-xs font-extrabold flex items-center justify-between"
-                      >
-                        <div className="flex items-center gap-2">
-                          <FontAwesomeIcon icon={faShoppingBag} className="w-4 h-4" />
-                          <span>Enrolled Cart</span>
-                        </div>
-                        <span className="bg-[#2E5B44] text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{cartCount}</span>
-                      </motion.button>
-                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -672,7 +654,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
             className="relative w-full h-full flex flex-col justify-between"
           >
             {/* Top Navbar */}

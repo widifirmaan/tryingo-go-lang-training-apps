@@ -139,6 +139,20 @@ Gabungan semua 13 minggu sebelumnya dalam satu website portfolio.
 
 ---
 
+## Penjelasan untuk Pemula
+
+Ini minggu perakitan: semua tag yang sudah dipelajari dipakai **bersama** dalam satu halaman utuh.
+
+Cara menghadapinya:
+1. Baca dulu tujuan proyeknya.
+2. Salin program ke playground, jalankan — pahami kerangka halaman (head, header, main, section, footer).
+3. Ubah bagian demi bagian: ganti teks, nama, proyek, kontak — pastikan tiap perubahan tetap berjalan.
+4. Periksa daftar ketentuan (semantic, a11y, SEO, form) seperti checklist dan centang satu per satu.
+
+Jangan berkecil hati bila belum sempurna. Developer sejati juga menyelesaikan lewat banyak percobaan kecil.
+
+---
+
 ## Eksperimen
 
 - Tambah section testimoni dengan blockquote

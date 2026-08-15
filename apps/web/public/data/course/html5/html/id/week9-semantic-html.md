@@ -87,6 +87,24 @@
 
 ---
 
+## Penjelasan untuk Pemula
+
+Semantic = **bermakna**. Elemen semantic memberi tahu pembaca (dan browser/screen reader) bagian apa tiap blok halaman.
+
+- `<header>` = kepala halaman/bagian (biasanya judul + nav).
+- `<nav>` = menu navigasi.
+- `<main>` = konten utama (dipakai sekali per halaman).
+- `<article>` = konten yang berdiri sendiri (berita, postingan).
+- `<section>` = bagian tematik di dalam halaman.
+- `<aside>` = konten samping (sidebar).
+- `<footer>` = kaki halaman (copyright, kontak).
+
+Bandingkan dengan `<div>` yang netral / tanpa makna. Memakai elemen semantic membuat kode rapi, jelas bagi mesin pencari, dan mudah diakses pembaca layar.
+
+**Coba:** Di program minggu ini, ganti `<nav>` dengan `<div>` lalu jalankan — halaman tetap tampak sama, tapi sekarang tidak ada petunjuk bahwa itu menu.
+
+---
+
 ## Eksperimen
 
 - Buat halaman dengan multiple article di main

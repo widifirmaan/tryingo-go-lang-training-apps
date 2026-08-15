@@ -80,6 +80,20 @@ Embed external content: YouTube, Maps, etc.
 
 ---
 
+## Beginner Friendly Explanation
+
+HTML5 video and audio = **media players right on the page**, no extra apps needed.
+
+- `<video controls>` = a video player with play/pause buttons. `poster` = a front image, `preload="metadata"` = download light info first.
+- `<audio controls>` = an audio player.
+- Use multiple `<source>` for format fallback (mp4, webm, ogg) — the browser picks the one it supports.
+- `<track>` = subtitles (a .vtt file).
+- `<iframe>` = embed another page/content (YouTube, maps).
+
+**Try:** Run the "Media Player" program in the playground and play the video/audio. Remove the `controls` attribute, then run again — media becomes silent playback without buttons.
+
+---
+
 ## Experiments
 
 - Add video with autoplay and muted

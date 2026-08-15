@@ -59,6 +59,20 @@ function halo() {
 
 ---
 
+## Penjelasan untuk Pemula
+
+Minggu ini tentang memberi **gaya** pada kata. Bayangkan seperti menyorot kata di buku catatan.
+
+**Kata-kata penting:**
+- `<strong>` = teks penting, tampil **tebal**. `<em>` = penekanan, tampil *miring*. `<mark>` = seperti stabilo. `<u>` = garis bawah, `<s>` = coret.
+- `<sub>` = huruf kecil di bawah (misal H₂O, angka 2 di bawah), `<sup>` = huruf kecil di atas (x², angka 2 di atas).
+- `<blockquote>` = kutipan panjang, tampil menjorok. `<q>` = kutipan pendek di dalam satu baris.
+- `<pre>` = teks apa adanya: spasi dan baris baru dipertahankan persis, jadi bagus untuk menampilkan kode.
+
+**Coba di playground:** Ubah kata di antara `<strong>` dan `<em>`, lalu jalankan — bandingkan tampilan tiap tag sampai hafal bedanya.
+
+---
+
 ## Eksperimen
 
 - Buat paragraf dengan semua format inline berbeda

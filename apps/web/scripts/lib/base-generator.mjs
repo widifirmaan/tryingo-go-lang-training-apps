@@ -30,11 +30,16 @@ export class BaseGenerator {
     const experiments = isId ? module.experimentsId : module.experimentsEn;
     const challenge = isId ? module.challengeId : module.challengeEn;
     const summary = isId ? module.summaryId : module.summaryEn;
+    const beginner = isId ? module.beginnerId : module.beginnerEn;
 
     const objectivesList = objectives.map(o => '- ' + o).join('\n');
     const experimentsList = experiments.map(e => '- ' + e).join('\n');
 
     const levelName = isId ? module.levelNameId : module.levelNameEn;
+
+    const beginnerSection = beginner
+      ? `---\n\n## ${isId ? 'Penjelasan untuk Pemula' : 'Beginner Friendly Explanation'}\n\n${beginner}\n\n---\n\n`
+      : '---\n\n';
 
     return `# ${title}
 
@@ -58,9 +63,7 @@ ${module.code}
 
 ${explanation}
 
----
-
-## ${isId ? 'Eksperimen' : 'Experiments'}
+${beginnerSection}## ${isId ? 'Eksperimen' : 'Experiments'}
 
 ${experimentsList}
 

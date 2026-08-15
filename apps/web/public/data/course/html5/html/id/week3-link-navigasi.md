@@ -70,6 +70,20 @@
 
 ---
 
+## Penjelasan untuk Pemula
+
+Link adalah **jembatan antar halaman**. Mengklik link membawa pengunjung dari satu tempat ke tempat lain.
+
+**Cara membaca link:**
+- `<a href="tujuan">teks</a>` — `a` = anchor (jangkar), `href` = kemana link mengarah, `teks` = yang tampil dan bisa diklik.
+- Absolute (alamat lengkap): `https://mdn.dev`. Relative (alamat relatif): `halaman/about.html`. Fragment: `#kontak` — langsung ke bagian dengan `id="kontak"` di halaman yang sama.
+- `target="_blank"` = buka di tab baru. Selalu tambahkan `rel="noopener noreferrer"` agar tab baru itu tidak bisa membuka jendela berbahaya.
+- `mailto:` = membuka aplikasi email, `tel:` = memanggil nomor telepon.
+
+**Coba:** Di program minggu ini, klik setiap link dan perhatikan perubahan URL atau lompatan halaman — ini cara tercepat memahami beda absolute, relative, dan fragment.
+
+---
+
 ## Eksperimen
 
 - Buat menu navigasi dengan 5 link ke section berbeda

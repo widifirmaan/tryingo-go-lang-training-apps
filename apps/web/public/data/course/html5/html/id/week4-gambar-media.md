@@ -68,6 +68,21 @@
 
 ---
 
+## Penjelasan untuk Pemula
+
+Menampilkan gambar dengan `<img>` seperti memasang foto di biodata: kita menulis alamat fotonya, lalu browser menempelkannya.
+
+**Hal penting:**
+- `<img src="alamat">` — `src` = sumber gambar. Bedanya dengan tag lain: `<img>` **tidak punya pasangan penutup** (self-closing).
+- `alt="deskripsi"` — teks pengganti bila gambar gagal dimuat atau dibaca oleh pembaca layar. **Selalu isi** — ini kunci aksesibilitas.
+- `width`/`height` = ukuran. `loading="lazy"` = unduh belakangan saat pengunjung mendekat (hemat data).
+- `<figure>` = bingkai, `<figcaption>` = keterangan di bawah gambar. Pasangan yang rapi.
+- `<picture>` = menyediakan beberapa versi gambar; browser memilih yang paling pas untuk ukuran layar — trik halaman responsif.
+
+**Coba:** Di program minggu ini, kosongkan `alt` lalu jalankan dan bayangkan pembaca layar membacanya. Ganti `loading="lazy"` menjadi `eager` dan bandingkan.
+
+---
+
 ## Eksperimen
 
 - Tambah 3 gambar dengan alt text berbeda

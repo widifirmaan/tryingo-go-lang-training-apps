@@ -98,6 +98,20 @@ Structured data untuk rich snippets di Google.
 
 ---
 
+## Penjelasan untuk Pemula
+
+SEO = membuat halaman **mudah ditemukan** di Google. Intinya: beri tahu mesin pencari tentang halaman kita.
+
+- `<title>` = judul di hasil pencarian (usahakan 50-60 karakter).
+- `<meta name="description">` = ringkasan di bawah judul hasil pencarian (150-160 karakter).
+- Open Graph (`og:`) = pratinjau ketika link dibagikan di media sosial (WhatsApp, Facebook).
+- `rel="canonical"` = alamat asli halaman, mencegah konten ganda.
+- JSON-LD (`script type="application/ld+json"`) = data terstruktur agar Google bisa menampilkan pratinjau kaya.
+
+**Coba:** Ganti `<title>` program minggu ini dengan judulmu sendiri, lalu isi deskripsi — bayangkan keduanya tampil di halaman hasil pencarian.
+
+---
+
 ## Eksperimen
 
 - Buat halaman dengan semua OG tags

@@ -126,6 +126,20 @@ Radio: same name, different value. Checkbox: same name, multiple values.
 
 ---
 
+## Beginner Friendly Explanation
+
+A form is a web form, like a registration form: text boxes, choices, and a submit button.
+
+- `<form>` = the container. `<input>` = a text box; its type is set by `type` (text, email, password, date, file).
+- `<select>` + `<option>` = a dropdown menu.
+- `<textarea>` = a long text box.
+- Radio = pick **one** of several. Checkbox = pick **many**.
+- `<label for="id">` connects the caption to its input box — always include it for easy clicking and screen readers.
+
+**Try:** Fill in the "Registration Form" program and click Register — notice the browser rejects required boxes that are empty.
+
+---
+
 ## Experiments
 
 - Add input type="range" for slider

@@ -98,6 +98,20 @@ Structured data for Google rich snippets.
 
 ---
 
+## Beginner Friendly Explanation
+
+SEO = making pages **easy to find** on Google. The core idea: tell search engines about your page.
+
+- `<title>` = the title in search results (aim for 50-60 characters).
+- `<meta name="description">` = the summary below the search result title (150-160 characters).
+- Open Graph (`og:`) = the preview when a link is shared on social media (WhatsApp, Facebook).
+- `rel="canonical"` = the real address of a page, preventing duplicate content.
+- JSON-LD (`script type="application/ld+json"`) = structured data so Google can show rich previews.
+
+**Try:** change the `<title>` in this week program to your own title, then fill in the description — imagine them both shown on a search results page.
+
+---
+
 ## Experiments
 
 - Create page with all OG tags

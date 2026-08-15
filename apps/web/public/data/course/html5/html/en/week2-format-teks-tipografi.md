@@ -59,6 +59,20 @@ function halo() {
 
 ---
 
+## Beginner Friendly Explanation
+
+This week is about giving words **style**. Imagine highlighting words in a notebook.
+
+**Key words:**
+- `<strong>` = important text, shows **bold**. `<em>` = emphasis, shows *italic*. `<mark>` = like a highlighter. `<u>` = underline, `<s>` = strikethrough.
+- `<sub>` = small letters below (so H₂O needs the 2 below), `<sup>` = small letters above (x², the 2 above).
+- `<blockquote>` = long quote, shown indented. `<q>` = short quote inside one line.
+- `<pre>` = text as-is: spaces and line breaks kept exactly, great for showing code.
+
+**Try in the playground:** change the words between `<strong>` and `<em>`, run it, and compare each tag until the differences stick.
+
+---
+
 ## Experiments
 
 - Create paragraph with all different inline formats

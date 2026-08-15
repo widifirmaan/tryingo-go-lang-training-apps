@@ -115,6 +115,20 @@ Cek `if (navigator.geolocation)` sebelum pakai API.
 
 ---
 
+## Penjelasan untuk Pemula
+
+API = perintah siap pakai yang bisa kita panggil dari JavaScript (kode di dalam `<script>`), seperti meminta layanan dari browser.
+
+- **Drag & Drop**: `draggable="true"` membuat elemen bisa diseret; JavaScript mendengarkan event `dragstart`, `dragover`, `drop`.
+- **Geolocation**: `navigator.geolocation.getCurrentPosition(...)` meminta lokasi pengguna (setelah izin diberikan).
+- **Web Storage**: `localStorage` menyimpan data yang tetap ada walau tab ditutup; `sessionStorage` hilang saat tab ditutup.
+
+Kuncinya: selalu cek dulu dukungannya (contoh `if (navigator.geolocation)`), supaya halaman tidak error di browser lama.
+
+**Coba:** Di program "HTML APIs Demo", klik tombol Dapatkan Lokasi dan izinkan permintaannya — lihat koordinat muncul. Ketik nama lalu Simpan, tutup tab, buka lagi — namamu masih ada (localStorage).
+
+---
+
 ## Eksperimen
 
 - Buat multiple drag source ke satu drop zone
