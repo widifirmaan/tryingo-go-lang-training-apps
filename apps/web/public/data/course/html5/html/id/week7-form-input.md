@@ -126,6 +126,20 @@ Radio: sama name, beda value. Checkbox: sama name, multiple value.
 
 ---
 
+## Penjelasan untuk Pemula
+
+Form = formulir di web, seperti formulir pendaftaran: ada kotak isian, pilihan, dan tombol kirim.
+
+- `<form>` = wadah. `<input>` = kotak isian; jenisnya ditentukan `type` (text, email, password, date, file).
+- `<select>` + `<option>` = menu pilihan (dropdown).
+- `<textarea>` = kotak teks panjang.
+- Radio = pilih **satu** dari beberapa. Checkbox = pilih **banyak**.
+- `<label for="id">` menghubungkan keterangan dengan kotak isiannya — pastikan selalu ada untuk kemudahan klik dan pembaca layar.
+
+**Coba:** Isi form di program "Form Registrasi" lalu klik Daftar — perhatikan browser menolak kotak wajib yang kosong.
+
+---
+
 ## Eksperimen
 
 - Tambah input type="range" untuk slider

@@ -68,6 +68,21 @@
 
 ---
 
+## Beginner Friendly Explanation
+
+Showing an image with `<img>` is like putting a photo in a bio: you write the photo address, then the browser attaches it.
+
+**Important things:**
+- `<img src="address">` — `src` = image source. Difference from other tags: `<img>` **has no closing tag** (self-closing).
+- `alt="description"` — replacement text if the image fails to load or is read by a screen reader. **Always fill it** — a key to accessibility.
+- `width`/`height` = size. `loading="lazy"` = download later when the visitor scrolls near (saves data).
+- `<figure>` = the frame, `<figcaption>` = the caption below. A tidy pair.
+- `<picture>` = provides several image versions; the browser picks the best fit for the screen size — the responsive trick.
+
+**Try:** In this week program, empty the `alt` and run it, imagining a screen reader reading it. Change `loading="lazy"` to `eager` and compare.
+
+---
+
 ## Experiments
 
 - Add 3 images with different alt text

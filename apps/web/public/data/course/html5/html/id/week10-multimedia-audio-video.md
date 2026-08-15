@@ -80,6 +80,20 @@ Embed konten eksternal: YouTube, Maps, dll.
 
 ---
 
+## Penjelasan untuk Pemula
+
+Video dan audio HTML5 = **pemutar media langsung di halaman**, tanpa aplikasi tambahan.
+
+- `<video controls>` = pemutar video dengan tombol putar/jeda. `poster` = gambar muka, `preload="metadata"` = unduh informasi ringkas dulu.
+- `<audio controls>` = pemutar audio.
+- Gunakan `<source>` berganda untuk fallback format (mp4, webm, ogg) — browser memilih yang didukungnya.
+- `<track>` = subtitle (berupa file .vtt).
+- `<iframe>` = menyisipkan halaman/konten lain (YouTube, peta).
+
+**Coba:** Jalankan program "Pemutar Media" di playground dan putar video/audionya. Hapus atribut `controls`, lalu jalankan lagi — media menjadi pemutaran senyap tanpa tombol.
+
+---
+
 ## Eksperimen
 
 - Tambah video dengan autoplay dan muted

@@ -45,6 +45,26 @@ Tag: `<p>` (opening) dan `</p>` (closing). Elemen = opening + content + closing.
 
 ---
 
+## Penjelasan untuk Pemula
+
+Materi ini untuk orang yang benar-benar baru. Anggap HTML seperti **kerangka rumah**: kita tentukan tata letak ruangannya, lalu browser yang mengecat dan mengisinya.
+
+**3 istilah yang wajib dipahami dulu:**
+
+1. **Tag** — perintah yang diapit `<` dan `>`. Contoh `<p>` = mulai paragraf, `</p>` = akhir paragraf.
+2. **Elemen** — pasangan tag + isinya. `<p>Halo</p>` adalah satu elemen paragraf.
+3. **Dokumen** — halaman lengkap diawali `<!DOCTYPE html>` (memberi tahu browser "ini HTML versi 5"), lalu `<html>`, lalu dibagi menjadi `<head>` (pengaturan, tidak terlihat) dan `<body>` (yang tampil di layar).
+
+**Baca program minggu ini langkah demi langkah:**
+- Baris 1: `<!DOCTYPE html>` — penanda yang dibaca browser.
+- Baris 2: `<html lang="id">` — akar seluruh dokumen; `lang` memberi tahu bahasanya.
+- Baris 5-8: `<head>` berisi `meta charset` (agar huruf Indonesia terbaca) dan `title` (judul tab browser).
+- Baris 10-14: `<body>` berisi `h1` (judul besar) dan dua `p` (paragraf).
+
+**Tips:** Jangan hafal semua tag. Salin kodenya ke playground, ubah teksnya, lalu jalankan — melihat hasilnya langsung adalah cara tercepat memahami fungsi tiap tag.
+
+---
+
 ## Eksperimen
 
 - Tambah heading level berbeda (h2, h3) di bawah h1

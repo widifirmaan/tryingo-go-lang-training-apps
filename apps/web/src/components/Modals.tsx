@@ -431,8 +431,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 <div
                   key={track.id}
                   onClick={() => {
-                    onSelectTrack(track);
-                    onClose();
+                    if (onStartCourse) {
+                      onStartCourse(track.id);
+                      onClose();
+                    } else {
+                      onSelectTrack(track);
+                      onClose();
+                    }
                   }}
                   className="flex items-center justify-between p-3 bg-white hover:bg-zinc-50/90 rounded-2xl border border-zinc-200/80 shadow-2xs cursor-pointer transition-all hover:scale-[1.01] group"
                 >
@@ -459,9 +464,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0 pl-2">
-                    <span className="text-xs font-black text-[#2E5B44] bg-[#2E5B44]/10 px-2.5 py-1 rounded-full">
-                      ${track.price}
-                    </span>
                     <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 text-zinc-400 group-hover:text-[#2E5B44] group-hover:translate-x-0.5 transition-all" />
                   </div>
                 </div>

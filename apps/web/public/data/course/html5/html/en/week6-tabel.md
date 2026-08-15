@@ -108,6 +108,19 @@
 
 ---
 
+## Beginner Friendly Explanation
+
+A table is data arranged in **rows and columns**, like a school class schedule.
+
+- `<table>` = the table container. `<tr>` = one **row**. Inside a row there is `<th>` (column header, shown bold) or `<td>` (data cell).
+- `<thead>` = the header rows section, `<tbody>` = the data section, `<tfoot>` = the summary row at the bottom.
+- `<caption>` = the table title.
+- `colspan="2"` = merge 2 columns, `rowspan="2"` = merge 2 rows — for cells that stretch wide or tall.
+
+**Try:** In the "Class Schedule" program, add one `<tr>` row with a subject of your own, then run it and watch the table stay tidy.
+
+---
+
 ## Experiments
 
 - Create table with 5 columns and 10 rows

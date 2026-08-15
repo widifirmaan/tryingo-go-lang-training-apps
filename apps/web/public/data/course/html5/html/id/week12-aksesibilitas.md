@@ -110,6 +110,19 @@ Alt text deskriptif. Heading h1→h2→h3 tanpa skip.
 
 ---
 
+## Penjelasan untuk Pemula
+
+Aksesibilitas (a11y) = memastikan semua orang, termasuk yang memakai keyboard saja atau pembaca layar, bisa menggunakan halaman.
+
+- **Skip link**: link tersembunyi yang muncul saat fokus keyboard — langsung melompat ke konten utama.
+- `role` = memberi tahu pembaca layar peran elemen (banner, main, navigation, alert, dll).
+- `aria-label` = label tambahan untuk pembaca layar (misal untuk ikon tombol). `aria-describedby` = teks penjelas.
+- `alt` deskriptif di semua gambar, label di semua form, dan struktur heading yang berurutan = dasar a11y.
+
+**Coba:** Tekan Tab beberapa kali di program minggu ini — skip link muncul lebih dulu. Gunakan pembaca layar ponsel untuk "mendengar" halaman ini dibacakan.
+
+---
+
 ## Eksperimen
 
 - Tambah skip link untuk navigasi dan konten

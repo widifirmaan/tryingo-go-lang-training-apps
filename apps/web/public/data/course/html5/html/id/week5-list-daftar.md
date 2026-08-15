@@ -82,6 +82,20 @@ List di dalam list untuk sub-item. Bisa ol di dalam ul atau sebaliknya.
 
 ---
 
+## Penjelasan untuk Pemula
+
+Daftar di HTML seperti catatan belanja: ada yang bernomor, ada yang berpoin.
+
+- `<ol>` = ordered list = **bernomor otomatis** (1, 2, 3). Cocok untuk urutan langkah.
+- `<ul>` = unordered list = **berpoin**. Cocok untuk daftar tanpa urutan penting.
+- Setiap butir dibungkus `<li>` (list item).
+- `<dl>` = description list — pasangan `<dt>` (istilah) dan `<dd>` (penjelasannya).
+- Bisa **bersarang**: `<ul>` di dalam `<ul>` untuk sub-daftar.
+
+**Coba:** Di program "Daftar Belanja", ganti `<ol>` jadi `<ul>`, jalankan, dan lihat nomornya berubah menjadi poin.
+
+---
+
 ## Eksperimen
 
 - Buat nested list 3 level dalam

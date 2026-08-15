@@ -115,6 +115,20 @@ Check `if (navigator.geolocation)` before using API.
 
 ---
 
+## Beginner Friendly Explanation
+
+An API = ready-made commands we can call from JavaScript (code inside `<script>`), like asking the browser for a service.
+
+- **Drag & Drop**: `draggable="true"` makes an element draggable; JavaScript listens for `dragstart`, `dragover`, `drop` events.
+- **Geolocation**: `navigator.geolocation.getCurrentPosition(...)` asks for the user location (after permission is given).
+- **Web Storage**: `localStorage` keeps data even after the tab closes; `sessionStorage` disappears when the tab closes.
+
+The key: always check support first (e.g. `if (navigator.geolocation)`) so the page does not error on old browsers.
+
+**Try:** In the "HTML APIs Demo" program, click Get Location and allow the request — see the coordinates appear. Type your name, click Save, close the tab, reopen it — your name is still there (localStorage).
+
+---
+
 ## Experiments
 
 - Create multiple drag sources to one drop zone

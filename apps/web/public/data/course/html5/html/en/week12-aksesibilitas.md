@@ -110,6 +110,19 @@ Descriptive alt text. Headings h1→h2→h3 without skipping.
 
 ---
 
+## Beginner Friendly Explanation
+
+Accessibility (a11y) = making sure everyone, including those using only a keyboard or a screen reader, can use the page.
+
+- **Skip link**: a hidden link that appears on keyboard focus — jumps straight to the main content.
+- `role` = tells screen readers what an element is for (banner, main, navigation, alert, etc.).
+- `aria-label` = an extra label for screen readers (e.g. for a button icon). `aria-describedby` = an explanatory text.
+- Descriptive `alt` on every image, labels on every form, and sequential heading structure are a11y basics.
+
+**Try:** Press Tab a few times in this week program — the skip link appears first. Use a phone screen reader to "hear" this page read aloud.
+
+---
+
 ## Experiments
 
 - Add skip links for navigation and content

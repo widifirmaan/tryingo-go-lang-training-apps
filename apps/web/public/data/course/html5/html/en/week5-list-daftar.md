@@ -82,6 +82,20 @@ Lists inside lists for sub-items.
 
 ---
 
+## Beginner Friendly Explanation
+
+Lists in HTML are like a shopping list: some are numbered, some are bulleted.
+
+- `<ol>` = ordered list = **automatically numbered** (1, 2, 3). Good for a sequence of steps.
+- `<ul>` = unordered list = **bulleted**. Good for lists with no important order.
+- Every item is wrapped in `<li>` (list item).
+- `<dl>` = description list — a `<dt>` (term) and `<dd>` (its description) pair.
+- You can **nest**: a `<ul>` inside a `<ul>` for sub-lists.
+
+**Try:** In the "Shopping List" program, change `<ol>` to `<ul>`, run it, and watch the numbers turn into bullets.
+
+---
+
 ## Experiments
 
 - Create nested list 3 levels deep

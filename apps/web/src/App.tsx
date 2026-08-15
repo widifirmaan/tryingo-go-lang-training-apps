@@ -385,8 +385,6 @@ export default function App() {
               onOpenFilter={() => setIsSearchOpen(true)}
               onOpenSettings={() => setIsSettingsOpen(true)}
               onOpenCollection={handleOpenCollection}
-              cartCount={cartItems.length}
-              onOpenCart={() => setIsCartOpen(true)}
               lang={lang}
               activeCourseId={activeCourseId}
               activeLevel={courseInitialLevel}
@@ -415,7 +413,7 @@ export default function App() {
                   initial={{ opacity: 0, scale: 0.92 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.15 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
                   <QuizModal
@@ -434,7 +432,7 @@ export default function App() {
                   initial={{ opacity: 0, scale: 0.92 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.15 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
                   <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
@@ -452,7 +450,7 @@ export default function App() {
                   initial={{ opacity: 0, scale: 0.92 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.15 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
                   <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
@@ -477,7 +475,7 @@ export default function App() {
                   initial={{ opacity: 0, scale: 0.88 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.88 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.15 }}
                   className={`flex-1 flex flex-col h-full min-w-0 overflow-hidden rounded-[28px] p-3 sm:p-4 md:p-5 border shadow-xs transition-colors ${
                     theme === 'dark' 
                       ? 'bg-zinc-900/60 border-zinc-800 backdrop-blur-md' 
@@ -493,12 +491,9 @@ export default function App() {
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <h2 className="font-extrabold text-xl sm:text-2xl leading-none">
+                          <h2 className="font-extrabold text-3xl leading-none">
                             {t.tracksHeaderTitle}
                           </h2>
-                          <span className="hidden sm:inline-flex bg-[#2E5B44] text-white text-[10px] font-black px-2 py-0.5 rounded-full self-center leading-none">
-                            {filteredTracks.length} / {TRACKS_COLLECTION.length}
-                          </span>
                         </div>
                         {hasActiveFilters && (
                           <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium truncate mt-1">
@@ -611,7 +606,7 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                   className="hidden lg:flex flex-1 flex-col gap-3 sm:gap-4 md:gap-5 h-full overflow-hidden"
                 >
                   {heroTrackIds.slice(0, heroCardCount).map((idx, i) => (

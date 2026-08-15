@@ -105,6 +105,20 @@
 
 ---
 
+## Beginner Friendly Explanation
+
+Validation = rules so data is **correct before it is sent**. Imagine a doorman checking tickets.
+
+- `required` = must be filled in.
+- `minlength`/`maxlength` = character count limits.
+- `min`/`max`/`step` = number limits.
+- `type="email"`, `type="url"`, `type="tel"` = the browser automatically checks the format.
+- `pattern` = checks against a pattern (e.g. `pattern="[0-9]{10,13}"` means 10-13 digits). `title` = the help text shown when the pattern fails.
+
+**Try:** type a username with only 2 letters (even though `minlength="3"`) and click Submit — see the browser error message.
+
+---
+
 ## Experiments
 
 - Try pattern for student ID validation
