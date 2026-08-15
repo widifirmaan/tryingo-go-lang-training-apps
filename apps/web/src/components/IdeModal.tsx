@@ -91,7 +91,7 @@ export const IdeModal: React.FC<IdePageProps> = ({ trackId, lang, onClose }) => 
       </div>
 
       {/* Editor Body */}
-      <div className="flex-1 min-h-0 rounded-[28px]">
+      <div className="h-[calc(100dvh-6.5rem)] landscape:h-[calc(100dvh-4rem)] min-h-0 lg:h-full lg:flex-1 lg:min-h-0 rounded-[28px]">
         <div className="w-full h-full min-h-0">{body}</div>
       </div>
     </div>
