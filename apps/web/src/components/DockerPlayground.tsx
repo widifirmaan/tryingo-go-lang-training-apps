@@ -31,7 +31,8 @@ export const DockerPlayground: React.FC<DockerPlaygroundProps> = ({ lang, script
   const [histIdx, setHistIdx] = useState(-1);
   const outputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const cancelRef = useRef(false);
+  const runTokenRef = useRef(0);
+  const mountedRef = useRef(true);
   const scriptRef = useRef(script);
 
   const pushLine = useCallback((l: Line) => {
@@ -58,21 +59,32 @@ export const DockerPlayground: React.FC<DockerPlaygroundProps> = ({ lang, script
   const runScript = useCallback(async (scriptText: string) => {
     const cmds = splitScript(scriptText);
     if (!cmds.length) return;
-    cancelRef.current = false;
+    const token = ++runTokenRef.current;
     setRunning(true);
     for (const c of cmds) {
-      if (cancelRef.current) break;
-      runOne(c);
+      if (runTokenRef.current !== token) break;
+      try {
+        runOne(c);
+      } catch (err) {
+        pushLine({ text: `Error internal: ${String(err)}`, kind: 'err' });
+      }
       await new Promise((r) => setTimeout(r, 140));
+      if (!mountedRef.current) return;
     }
-    setRunning(false);
-  }, [runOne]);
+    if (mountedRef.current && runTokenRef.current === token) setRunning(false);
+  }, [runOne, pushLine]);
 
   const resetAll = useCallback(() => {
-    cancelRef.current = true;
+    runTokenRef.current++;
     resetDocker();
     setLines([]);
     setInput('');
+    setRunning(false);
+  }, []);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
   }, []);
 
   // On mount / script change (week switch): fresh engine + auto-run lesson script
@@ -81,7 +93,9 @@ export const DockerPlayground: React.FC<DockerPlaygroundProps> = ({ lang, script
     scriptRef.current = script;
     resetAll();
     setHistory([]);
+    const scheduledToken = runTokenRef.current;
     const t = setTimeout(() => {
+      if (runTokenRef.current !== scheduledToken) return;
       runScript(script || '');
     }, 250);
     return () => clearTimeout(t);

@@ -202,13 +202,47 @@ export function normalizeDialect(sql: string): string {
 
   // PostgreSQL ::type casts (bare) & dollar-quoted strings
   s = s.replace(/\$[^$]*\$/g, (m) => m.replace(/'/g, "''"));
-  s = s.replace(/::\s*([A-Za-z0-9_]+)/g, '');
+  s = applyOutsideStrings(s, /::\s*([A-Za-z0-9_]+)/g, '');
 
   // PostgreSQL boolean literals (SQLite uses 1/0)
-  s = s.replace(/\bTRUE\b/gi, '1');
-  s = s.replace(/\bFALSE\b/gi, '0');
+  s = applyOutsideStrings(s, /\bTRUE\b/gi, '1');
+  s = applyOutsideStrings(s, /\bFALSE\b/gi, '0');
 
   return s;
+}
+
+// Split SQL into quoted-string segments and code segments so dialect
+// rewrites never touch the inside of string literals.
+function splitStringSegments(input: string): { text: string; isStr: boolean }[] {
+  const segments: { text: string; isStr: boolean }[] = [];
+  let cur = '';
+  let isStr = false;
+  for (let i = 0; i < input.length; i++) {
+    const ch = input[i];
+    if (isStr) {
+      cur += ch;
+      if (ch === "'") {
+        if (input[i + 1] === "'") { cur += "'"; i++; continue; }
+        isStr = false;
+      }
+      continue;
+    }
+    if (ch === "'") {
+      if (cur) segments.push({ text: cur, isStr: false });
+      cur = "'";
+      isStr = true;
+      continue;
+    }
+    cur += ch;
+  }
+  if (cur) segments.push({ text: cur, isStr });
+  return segments;
+}
+
+function applyOutsideStrings(input: string, re: RegExp, repl: string): string {
+  return splitStringSegments(input)
+    .map((seg) => (seg.isStr ? seg.text : seg.text.replace(re, repl)))
+    .join('');
 }
 
 export async function initSqlEngine(): Promise<void> {

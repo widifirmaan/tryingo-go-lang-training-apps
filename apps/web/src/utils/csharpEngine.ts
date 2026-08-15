@@ -70,8 +70,9 @@ function runProgram(code: string, output: string[]): string[] {
       i++;
       let depth = 0;
       while (i < lines.length) {
-        if (lines[i].includes('{')) depth++;
-        if (lines[i].includes('}')) {
+        const msk = maskStrings(lines[i]);
+        if (msk.includes('{')) depth++;
+        if (msk.includes('}')) {
           depth--;
           if (depth <= 0) { i++; break; }
         }
@@ -189,7 +190,7 @@ function maskStrings(line: string): string {
 }
 
 function isMethodDecl(line: string): boolean {
-  return /^(static\s+)?(void|int|string|bool|double|var)\s+\w+\s*\(/.test(line);
+  return /^(?:(?:public|private|protected|internal)\s+)?(?:static\s+)?(void|int|string|bool|double|var|\w+)\s+\w+\s*\(/.test(line);
 }
 
 function parseClass(lines: string[], startIdx: number): { classDef: ClassDef; nextIdx: number } {
@@ -264,7 +265,7 @@ function isBareBrace(line: string): boolean {
 
 function parseMethod(lines: string[], startIdx: number): { method: MethodDef; nextIdx: number } {
   const header = lines[startIdx].trim();
-  const match = header.match(/(?:static\s+)?(\w+)\s+(\w+)\s*\(([^)]*)\)/);
+  const match = header.match(/(?:(?:public|private|protected|internal)\s+)?(?:static\s+)?(\w+)\s+(\w+)\s*\(([^)]*)\)/);
   if (!match) return { method: { name: 'unknown', params: [], body: [], returnType: 'void' }, nextIdx: startIdx + 1 };
 
   const returnType = match[1];
@@ -312,11 +313,15 @@ function executeStatement(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number; returnValue?: any } {
+): { output?: string[]; nextIdx?: number; returnValue?: any; control?: 'break' | 'continue' } {
   // Block opening
   if (line === '{') {
     return {};
   }
+
+  // break / continue control flow
+  if (line === 'break' || line === 'break;') return { control: 'break' };
+  if (line === 'continue' || line === 'continue;') return { control: 'continue' };
 
   // Variable declaration with assignment
   const varDecl = line.match(/^(int|string|bool|double|var)\s+(\w+)\s*=\s*(.+);$/);
@@ -439,12 +444,22 @@ function executeStatement(
     return {};
   }
 
-  // Array element assignment
-  const arrAssign = line.match(/^(\w+)\[(\d+)\]\s*=\s*(.+);$/);
+  // Array initialization without new: int[] a = { 1, 2, 3 };
+  const arrInitNoNew = line.match(/^(\w+)\[\]\s+(\w+)\s*=\s*\{(.+)\};$/);
+  if (arrInitNoNew) {
+    const name = arrInitNoNew[2];
+    const values = arrInitNoNew[3].split(',').map((v) => evalExpr(v.trim(), variables, methods, classes));
+    variables.set(name, { type: 'array', value: values });
+    return {};
+  }
+
+  // Array element assignment (supports variable/computed index)
+  const arrAssign = line.match(/^(\w+)\[(.+?)\]\s*=\s*(.+);$/);
   if (arrAssign) {
     const arr = variables.get(arrAssign[1]);
     if (arr && arr.type === 'array') {
-      const idx = parseInt(arrAssign[2]);
+      const idxStr = arrAssign[2].trim();
+      const idx = /^\d+$/.test(idxStr) ? parseInt(idxStr) : Number(evalExpr(idxStr, variables, methods, classes));
       arr.value[idx] = evalExpr(arrAssign[3], variables, methods, classes);
     }
     return {};
@@ -470,21 +485,18 @@ function executeIf(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number } {
+): { output?: string[]; nextIdx?: number; returnValue?: any; control?: 'break' | 'continue' } {
   const output: string[] = [];
   const condMatch = line.match(/if\s*\((.+)\)/);
   if (!condMatch) return {};
 
-  const condition = evalCondition(condMatch[1], variables, methods, classes);
+  // Build an if / else-if / else chain. Each entry has either a condition or is the final else.
+  const chain: { condition: string | null; body: { line: string; idx: number }[] }[] = [];
+  chain.push({ condition: condMatch[1], body: [] });
+  let currentBlock = chain[0];
 
-  // Collect if-block body
-  const ifBody: { line: string; idx: number }[] = [];
-  const elseBody: { line: string; idx: number }[] = [];
   let i = currentIdx + 1;
   let depth = 0;
-  let inElse = false;
-
-  // Check if brace is on same line
   if (maskStrings(line).includes('{')) depth = 1;
 
   while (i < allLines.length) {
@@ -492,41 +504,88 @@ function executeIf(
     const masked = maskStrings(l);
     const { opens, closes } = countBraces(masked);
 
-    if (closes > opens) {
-      depth -= closes - opens;
-      if (depth <= 0) {
-        // Check for else on the closing brace line
-        if (masked.includes('else')) {
-          inElse = true;
-          i++;
-          continue;
+    // Line closes the current block completely (depth would reach 0)
+    if (closes > opens && depth - (closes - opens) <= 0) {
+      // Look ahead to the next non-empty line for else / else-if
+      let j = i + 1;
+      while (j < allLines.length && allLines[j].trim() === '') j++;
+      const nxt = j < allLines.length ? allLines[j].trim() : '';
+
+      if (nxt === 'else') {
+        currentBlock = { condition: null, body: [] };
+        chain.push(currentBlock);
+        depth = maskStrings(allLines[j]).includes('{') ? 1 : 0;
+        i = j + (depth > 0 ? 1 : 0);
+        if (depth <= 0) {
+          if (j + 1 < allLines.length) currentBlock.body.push({ line: allLines[j + 1].trim(), idx: j + 1 });
+          i = j + 2;
+          break;
         }
-        i++;
-        break;
+        continue;
       }
+      if (nxt.startsWith('else if')) {
+        const ec = nxt.match(/else\s+if\s*\((.+)\)/);
+        currentBlock = { condition: ec ? ec[1] : null, body: [] };
+        chain.push(currentBlock);
+        depth = maskStrings(allLines[j]).includes('{') ? 1 : 0;
+        i = j + (depth > 0 ? 1 : 0);
+        if (depth <= 0) {
+          if (j + 1 < allLines.length) currentBlock.body.push({ line: allLines[j + 1].trim(), idx: j + 1 });
+          i = j + 2;
+        }
+        continue;
+      }
+
+      depth -= closes - opens;
       i++;
-      continue;
+      break;
     }
 
+    // Line closes one block and opens another: `} else {` or `} else if (...) {`
+    if (closes > 0 && opens >= closes) {
+      const rest = masked.replace(/[{}]/g, ' ').trim();
+      if (rest === 'else') {
+        currentBlock = { condition: null, body: [] };
+        chain.push(currentBlock);
+        depth -= closes;
+        depth += opens;
+        i++;
+        continue;
+      }
+      if (/^else\s+if/.test(rest)) {
+        const ec = rest.match(/else\s+if\s*\((.+)\)/);
+        currentBlock = { condition: ec ? ec[1] : null, body: [] };
+        chain.push(currentBlock);
+        depth -= closes;
+        depth += opens;
+        i++;
+        continue;
+      }
+    }
+
+    if (closes > opens) depth -= closes - opens;
     if (opens > closes) depth += opens - closes;
 
-    if (l === 'else' || l.startsWith('else ')) {
-      inElse = true;
-      i++;
-      continue;
-    }
-    if (depth >= 1 && l && !(opens > closes && isBareBrace(l)) && !masked.includes('}')) {
-      if (inElse) elseBody.push({ line: l, idx: i }); else ifBody.push({ line: l, idx: i });
+    if (depth >= 1 && currentBlock && l && !(opens > closes && isBareBrace(l)) && !masked.includes('}')) {
+      currentBlock.body.push({ line: l, idx: i });
     }
     i++;
   }
 
-  const body = condition ? ifBody : elseBody;
-  for (const { line: stmt, idx } of body) {
-    const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
-    if (result.output) output.push(...result.output);
-    if (result.returnValue !== undefined) {
-      return { output, nextIdx: i, returnValue: result.returnValue };
+  let taken = false;
+  for (const block of chain) {
+    const matches = block.condition === null ? !taken : evalCondition(block.condition, variables, methods, classes);
+    if (!matches) continue;
+    taken = true;
+    for (const { line: stmt, idx } of block.body) {
+      const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
+      if (result.output) output.push(...result.output);
+      if (result.control === 'break' || result.control === 'continue') {
+        return { output, nextIdx: i, control: result.control };
+      }
+      if (result.returnValue !== undefined) {
+        return { output, nextIdx: i, returnValue: result.returnValue };
+      }
     }
   }
 
@@ -580,6 +639,8 @@ function executeWhile(
     for (const { line: stmt, idx } of body) {
       const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
       if (result.output) output.push(...result.output);
+      if (result.control === 'break') return { output, nextIdx: i };
+      if (result.control === 'continue') break;
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };
       }
@@ -601,20 +662,21 @@ function executeFor(
   classes: Map<string, ClassDef>,
   allLines: string[],
   currentIdx: number
-): { output?: string[]; nextIdx?: number; returnValue?: any } {
+): { output?: string[]; nextIdx?: number; returnValue?: any; control?: 'break' | 'continue' } {
   const output: string[] = [];
-  const forMatch = line.match(/for\s*\(\s*(int\s+)?(\w+)\s*=\s*(\d+);\s*(\w+)\s*([<>]=?|==|!=)\s*(\d+);\s*(\w+)\s*(\+\+|--)\s*\)/);
+  const forMatch = line.match(/for\s*\(([^;]+);\s*([^;]+);\s*([^)]+)\s*\)/);
   if (!forMatch) return {};
 
-  const varName = forMatch[2];
-  const initVal = parseInt(forMatch[3]);
-  const condVar = forMatch[4];
-  const condOp = forMatch[5];
-  const condVal = parseInt(forMatch[6]);
-  const incVar = forMatch[7];
-  const incOp = forMatch[8];
+  const initClause = forMatch[1].trim();
+  const condClause = forMatch[2].trim();
+  const incClause = forMatch[3].trim();
 
-  variables.set(varName, { type: 'int', value: initVal });
+  // Initializer clause: `int i = 0` or `i = 0`
+  const initMatch = initClause.match(/^(?:int\s+)?([a-zA-Z_]\w*)\s*=\s*(.+)$/);
+  if (initMatch) {
+    const initVal = Number(evalExpr(initMatch[2], variables, methods, classes));
+    variables.set(initMatch[1], { type: 'int', value: Number.isNaN(initVal) ? 0 : initVal });
+  }
 
   // Collect for body
   const body: { line: string; idx: number }[] = [];
@@ -646,20 +708,38 @@ function executeFor(
   let iterations = 0;
   const maxIter = 1000;
   while (iterations < maxIter) {
-    const current = variables.get(varName)?.value ?? 0;
-    if (!evalSimpleCond(current, condOp, condVal)) break;
+    if (!evalCondition(condClause, variables, methods, classes)) break;
 
     for (const { line: stmt, idx } of body) {
       const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
       if (result.output) output.push(...result.output);
+      if (result.control === 'break') return { output, nextIdx: i };
+      if (result.control === 'continue') break;
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };
       }
     }
 
-    const val = variables.get(incVar);
-    if (val) {
-      val.value = incOp === '++' ? (val.value + 1) : (val.value - 1);
+    // Increment clause: `i++`, `i--`, `i += 2`, `i = i + 1`, ...
+    const incStep = incClause.match(/^([a-zA-Z_]\w*)\s*(\+\+|--)\s*$/);
+    if (incStep) {
+      const v = variables.get(incStep[1]);
+      if (v && typeof v.value === 'number') v.value += incStep[2] === '++' ? 1 : -1;
+    } else {
+      const incAssign = incClause.match(/^([a-zA-Z_]\w*)\s*([+\-*/]?=)\s*(.+)$/);
+      if (incAssign) {
+        const v = variables.get(incAssign[1]);
+        if (v) {
+          const cur = typeof v.value === 'number' ? v.value : 0;
+          const val = Number(evalExpr(incAssign[3], variables, methods, classes)) || 0;
+          const op = incAssign[2];
+          if (op === '=') v.value = val;
+          else if (op === '+=') v.value = cur + val;
+          else if (op === '-=') v.value = cur - val;
+          else if (op === '*=') v.value = cur * val;
+          else if (op === '/=') v.value = cur / val;
+        }
+      }
     }
     iterations++;
   }
@@ -724,6 +804,8 @@ function executeForeach(
     for (const { line: stmt, idx } of body) {
       const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
       if (result.output) output.push(...result.output);
+      if (result.control === 'break') return { output, nextIdx: i };
+      if (result.control === 'continue') break;
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };
       }
@@ -749,20 +831,96 @@ function evalWriteContent(content: string, variables: Map<string, Variable>, met
     return evalInterpolatedString(content, variables, methods, classes);
   }
 
+  // Handle composite format: "{0} {1}", a, b
+  const composite = tryCompositeFormat(content, variables, methods, classes);
+  if (composite !== null) return composite;
+
+  // Full string literal (may contain + or commas): "a+b"
+  if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
+    return content.slice(1, -1);
+  }
+
   // Handle concatenation: "text" + var + "text"
-  if (content.includes('+')) {
-    const parts = content.split('+').map((p) => p.trim());
-    return parts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
+  const concatParts = splitConcatenation(content);
+  if (concatParts) {
+    return concatParts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
   }
 
   // Simple value
   return formatValue(evalExpr(content, variables, methods, classes));
 }
 
+// Find the first top-level comma (outside parens/brackets/string literals), or -1.
+function findTopLevelComma(content: string): number {
+  let depth = 0;
+  let inStr: '"' | "'" | null = null;
+  for (let i = 0; i < content.length; i++) {
+    const ch = content[i];
+    if (inStr) {
+      if (ch === '\\') { i++; continue; }
+      if (ch === inStr) inStr = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") { inStr = ch; continue; }
+    if (ch === '(' || ch === '[') { depth++; continue; }
+    if (ch === ')' || ch === ']') { depth--; continue; }
+    if (ch === ',' && depth === 0) return i;
+  }
+  return -1;
+}
+
+// Split a concatenation expression only on + operators outside string literals. Returns null if there's no concatenation.
+function splitConcatenation(content: string): string[] | null {
+  const parts: string[] = [];
+  let current = '';
+  let inStr: '"' | "'" | null = null;
+  let sawPlus = false;
+  for (let i = 0; i < content.length; i++) {
+    const ch = content[i];
+    if (inStr) {
+      current += ch;
+      if (ch === '\\') { current += content[++i] ?? ''; continue; }
+      if (ch === inStr) inStr = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") { inStr = ch; current += ch; continue; }
+    if (ch === '+') { sawPlus = true; parts.push(current.trim()); current = ''; continue; }
+    current += ch;
+  }
+  parts.push(current.trim());
+  return sawPlus ? parts : null;
+}
+
+// Composite format writes: Console.WriteLine("{0} {1}", a, b)
+function tryCompositeFormat(content: string, variables: Map<string, Variable>, methods: Map<string, MethodDef>, classes: Map<string, ClassDef>): string | null {
+  const commaIdx = findTopLevelComma(content);
+  if (commaIdx === -1) return null;
+  const fmtWithQuote = content.slice(0, commaIdx).trim();
+  if (!fmtWithQuote.includes('{0}') && !fmtWithQuote.includes('{1}') && !/\{\d/.test(fmtWithQuote)) return null;
+  const fmt = (fmtWithQuote.endsWith('"') || fmtWithQuote.endsWith("'")) ? fmtWithQuote.slice(0, -1) : fmtWithQuote;
+  const argsPart = content.slice(commaIdx + 1).trim();
+  // Split remaining args at top-level commas
+  const args: any[] = [];
+  let rest = argsPart;
+  for (;;) {
+    const c = findTopLevelComma(rest);
+    if (c === -1) { args.push(evalExpr(rest.trim(), variables, methods, classes)); break; }
+    args.push(evalExpr(rest.slice(0, c).trim(), variables, methods, classes));
+    rest = rest.slice(c + 1).trim();
+  }
+  return fmt.replace(/\{(\d+)(:.*?)?\}/g, (m, idx) => {
+    if (m.includes(':')) return m; // format spec without args — leave as-is
+    return formatValue(args[Number(idx)]);
+  });
+}
+
 function evalInterpolatedString(content: string, variables: Map<string, Variable>, methods: Map<string, MethodDef>, classes: Map<string, ClassDef>): string {
   const str = content.slice(2, content.endsWith('"') ? -1 : undefined);
   return str.replace(/\{([^}]+)\}/g, (_, expr) => {
-    return formatValue(evalExpr(expr.trim(), variables, methods, classes));
+    const e = expr.trim();
+    const fmtIdx = e.indexOf(':');
+    const e2 = fmtIdx === -1 ? e : e.slice(0, fmtIdx).trim();
+    return formatValue(evalExpr(e2, variables, methods, classes));
   });
 }
 
@@ -812,12 +970,30 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
     return invokeMethod(methodName, args, methods, variables, classes);
   }
 
-  // Array access: arr[idx]
-  const arrAccess = trimmed.match(/^(\w+)\[(\d+)\]$/);
+  // Member access: obj.Length / obj.Count / obj.ToString()
+  const memberAccess = trimmed.match(/^(\w+\.(?:Length|Count|ToString|ToUpper|ToLower))$/);
+  if (memberAccess) {
+    const mem = memberAccess[1];
+    const [objName, prop] = mem.split('.');
+    const obj = variables.get(objName);
+    if (obj !== undefined) {
+      const v = obj.value;
+      if (prop === 'Length' || prop === 'Count') return Array.isArray(v) ? v.length : String(v).length;
+      if (prop === 'ToString') return String(v);
+      if (prop === 'ToUpper') return typeof v === 'string' ? v.toUpperCase() : String(v).toUpperCase();
+      if (prop === 'ToLower') return typeof v === 'string' ? v.toLowerCase() : String(v).toLowerCase();
+    }
+    return trimmed;
+  }
+
+  // Array access: arr[idx] (numeric or variable index)
+  const arrAccess = trimmed.match(/^(\w+)\[(.+?)\]$/);
   if (arrAccess) {
     const arr = variables.get(arrAccess[1]);
     if (arr && arr.type === 'array') {
-      return arr.value[parseInt(arrAccess[2])];
+      const idxStr = arrAccess[2].trim();
+      const idx = /^\d+$/.test(idxStr) ? parseInt(idxStr) : Number(evalExpr(idxStr, variables, methods, classes));
+      return arr.value[idx];
     }
     return 0;
   }
@@ -844,9 +1020,9 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
   }
 
   // String concatenation with variables (already handled in WriteLine)
-  if (trimmed.includes('+')) {
-    const parts = trimmed.split('+').map((p) => p.trim());
-    return parts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
+  const concatParts = splitConcatenation(trimmed);
+  if (concatParts) {
+    return concatParts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
   }
 
   return trimmed;

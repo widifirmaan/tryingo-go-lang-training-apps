@@ -72,6 +72,8 @@ class PhpInterpreter {
   private error: string = '';
   private functions: Map<string, { params: string[]; body: string }> = new Map();
   private loopBudget: number = 100000;
+  private hasPendingReturn = false;
+  private pendingReturnValue: any = undefined;
 
   constructor() {
     this.scope = { vars: new Map(), parent: null };
@@ -267,6 +269,7 @@ class PhpInterpreter {
     let pos = 0;
     let guard = 0;
     while (pos < tokens.length && guard++ < tokens.length + 2) {
+      if (this.hasPendingReturn) break;
       if (tokens[pos] === ';' || tokens[pos] === '{' || tokens[pos] === '}') {
         if (tokens[pos] === ';') { pos++; continue; }
         if (tokens[pos] === '{') {
@@ -493,29 +496,65 @@ class PhpInterpreter {
   }
 
   private parseIf(tokens: string[]): number {
-    if (tokens.length < 7) return this.findExprEnd(tokens);
-    let pos = 1;
-    if (tokens[pos] !== '(') return this.findExprEnd(tokens);
-    pos++;
-    const condStart = pos;
-    while (pos < tokens.length && tokens[pos] !== ')') pos++;
-    const condTokens = tokens.slice(condStart, pos);
-    pos++;
-    if (tokens[pos] !== '{') return this.findExprEnd(tokens);
-    pos++;
-    let braceDepth = 1;
-    const bodyStart = pos;
-    while (pos < tokens.length && braceDepth > 0) {
-      if (tokens[pos] === '{') braceDepth++;
-      if (tokens[pos] === '}') braceDepth--;
-      pos++;
-    }
-    const bodyTokens = tokens.slice(bodyStart, pos - 1);
+    let pos = 0;
+    let expectingClause = true;
+    let taken = false;
 
-    const condResult = this.evalExpr(condTokens);
-    if (condResult) {
-      const bodyTokCopy = [...bodyTokens];
-      this.parseBlock(bodyTokCopy);
+    while (pos < tokens.length && expectingClause) {
+      expectingClause = false;
+
+      // Handle `else` and `else if` after a completed clause
+      if (pos > 0 && tokens[pos] === 'else') {
+        pos++;
+        if (tokens[pos] === 'if') {
+          pos++;
+        } else {
+          // plain else — block or single statement
+          if (tokens[pos] === '{') {
+            let bd = 1;
+            const bs = pos + 1;
+            let q = bs;
+            while (q < tokens.length && bd > 0) {
+              if (tokens[q] === '{') bd++;
+              if (tokens[q] === '}') bd--;
+              q++;
+            }
+            const body = tokens.slice(bs, q - 1);
+            if (!taken) { taken = true; this.parseBlock([...body]); }
+            return q;
+          }
+          const consumed = this.findExprEnd(tokens.slice(pos));
+          if (!taken) { taken = true; this.parseBlock([...tokens.slice(pos, pos + consumed)]); }
+          return pos + consumed;
+        }
+      }
+
+      // Expect a condition now
+      if (pos >= tokens.length || tokens[pos] !== '(') break;
+      let p = pos + 1;
+      const condStart = p;
+      while (p < tokens.length && tokens[p] !== ')') p++;
+      const condTokens = tokens.slice(condStart, p);
+      p++;
+      if (p >= tokens.length || tokens[p] !== '{') break;
+
+      let bd = 1;
+      const bs = p + 1;
+      let q = bs;
+      while (q < tokens.length && bd > 0) {
+        if (tokens[q] === '{') bd++;
+        if (tokens[q] === '}') bd--;
+        q++;
+      }
+      const body = tokens.slice(bs, q - 1);
+
+      if (!taken && this.evalExpr(condTokens)) {
+        taken = true;
+        this.parseBlock([...body]);
+      }
+
+      pos = q;
+      expectingClause = true;
     }
     return pos;
   }
@@ -523,7 +562,8 @@ class PhpInterpreter {
   private parseReturn(tokens: string[]): number {
     let pos = 1;
     const { value, nextPos } = this.parseExpression(tokens.slice(pos));
-    this.output += String(value);
+    this.hasPendingReturn = true;
+    this.pendingReturnValue = value;
     return nextPos + pos + 1;
   }
 
@@ -667,6 +707,11 @@ class PhpInterpreter {
 
     const tok = tokens[pos];
 
+    // Variable token: '$x' (tokenizer merges $ + name into a single token)
+    if (tok.startsWith('$')) {
+      return { value: this.resolveVar(tok), nextPos: pos + 1 };
+    }
+
     if (tok === '$') {
       const varName = tok + (tokens[pos + 1] || '');
       return { value: this.resolveVar(varName), nextPos: pos + 2 };
@@ -757,15 +802,22 @@ class PhpInterpreter {
     if (this.functions.has(fnName)) {
       const fn = this.functions.get(fnName)!;
       const savedScope = this.scope;
+      const savedPR = this.hasPendingReturn;
+      const savedPRV = this.pendingReturnValue;
       const newScope: InterpScope = { vars: new Map(), parent: savedScope };
+      this.hasPendingReturn = false;
+      this.pendingReturnValue = undefined;
       fn.params.forEach((p, idx) => {
         newScope.vars.set(p, args[idx]);
       });
       this.scope = newScope;
       const bodyTok = this.tokenize(fn.body);
       this.parseBlock(bodyTok);
+      const retVal = this.hasPendingReturn ? this.pendingReturnValue : undefined;
       this.scope = savedScope;
-      return { value: undefined, nextPos: i };
+      this.hasPendingReturn = savedPR;
+      this.pendingReturnValue = savedPRV;
+      return { value: retVal, nextPos: i };
     }
 
     const result = this.callBuiltin(fnName, args);
@@ -888,15 +940,29 @@ async function runOnWasm(php: any, code: string): Promise<PhpResult> {
       error += e.detail[0];
     }
   };
+  let timedOut = false;
   const timeoutPromise = new Promise<never>((_, reject) => {
-    setTimeout(() => reject(new Error('PHP execution timed out (possible infinite loop)')), 10000);
+    setTimeout(() => {
+      timedOut = true;
+      reject(new Error('PHP execution timed out (possible infinite loop)'));
+    }, 10000);
   });
   try {
     await Promise.race([php.run(code), timeoutPromise]);
   } catch (err) {
     error = err instanceof Error ? err.message : String(err);
-    if (error.includes('timed out')) {
+  } finally {
+    if (timedOut) {
       phpNeedsReset = true;
+      // Try to terminate the stuck instance so its worker doesn't keep running.
+      try {
+        typeof php.exit === 'function' && php.exit();
+        typeof php.close === 'function' && php.close();
+      } catch {
+        // ignore — we discard the reference below regardless
+      }
+      wasmModule = null;
+      wasmPromise = null;
     }
   }
   return { output, error, engine: 'wasm' };
@@ -907,46 +973,51 @@ export async function executePhp(code: string): Promise<PhpResult> {
     return { output: '', error: '', engine: null };
   }
 
-  let php: any = null;
-  try {
-    php = await initPhpWasm();
-  } catch {
-    php = null;
-  }
-
-  // A previous run timed out → rebuild a fresh instance so the stuck one's
-  // late output can't pollute this run.
-  if (php && phpNeedsReset) {
-    phpNeedsReset = false;
-    wasmModule = null;
-    wasmPromise = null;
+  // Serialize executions: acquire the instance INSIDE the chain so a previous
+  // run that timed out (and flagged phpNeedsReset) is rebuilt before this run
+  // starts — otherwise this run would capture the stuck instance's output.
+  const run = execChain.then(async () => {
+    let php: any = null;
     try {
       php = await initPhpWasm();
     } catch {
       php = null;
     }
-  }
 
-  // WASM unavailable (CDN/load failure) → fall back to the naive interpreter.
-  if (!php) {
-    try {
-      const interp = new PhpInterpreter();
-      interp.execute(code);
-      return {
-        output: interp.getOutput(),
-        error: interp.getError(),
-        engine: 'interpreter',
-      };
-    } catch (err) {
-      return {
-        output: '',
-        error: err instanceof Error ? err.message : 'PHP execution failed',
-        engine: 'interpreter',
-      };
+    // A previous run timed out → rebuild a fresh instance so the stuck one's
+    // late output can't pollute this run.
+    if (php && phpNeedsReset) {
+      phpNeedsReset = false;
+      wasmModule = null;
+      wasmPromise = null;
+      try {
+        php = await initPhpWasm();
+      } catch {
+        php = null;
+      }
     }
-  }
 
-  const run = execChain.then(() => runOnWasm(php, code));
+    // WASM unavailable (CDN/load failure) → fall back to the naive interpreter.
+    if (!php) {
+      try {
+        const interp = new PhpInterpreter();
+        interp.execute(code);
+        return {
+          output: interp.getOutput(),
+          error: interp.getError(),
+          engine: 'interpreter',
+        };
+      } catch (err) {
+        return {
+          output: '',
+          error: err instanceof Error ? err.message : 'PHP execution failed',
+          engine: 'interpreter',
+        };
+      }
+    }
+
+    return runOnWasm(php, code);
+  });
   execChain = run.then(
     () => undefined,
     () => undefined

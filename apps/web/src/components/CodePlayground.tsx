@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faSpinner, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
-import { initGoWasm, isWasmReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
+import { initGoWasm, isWasmReady, isTinyGoReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
 
 interface CodePlaygroundProps {
   lang: Language;
@@ -143,6 +143,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const [isHorizontal, setIsHorizontal] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const mountedRef = useRef(true);
   const isId = lang === 'id';
   const isWebLanguage = ['html', 'javascript', 'typescript', 'css'].includes(LANGUAGE_MAP[language] || 'html');
   const isTypeScript = LANGUAGE_MAP[language] === 'typescript';
@@ -152,7 +153,10 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   // Defer Monaco mount until after first paint
   const [editorReady, setEditorReady] = useState(false);
   useEffect(() => {
-    requestAnimationFrame(() => setEditorReady(true));
+    const raf = requestAnimationFrame(() => {
+      if (mountedRef.current) setEditorReady(true);
+    });
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   // TypeScript compiler ref
@@ -170,9 +174,12 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     script.src = 'https://cdn.jsdelivr.net/npm/typescript@5.5.4/lib/typescript.min.js';
     script.onload = () => {
       tsRef.current = (window as any).ts;
-      setTsReady(true);
+      if (mountedRef.current) setTsReady(true);
     };
     document.head.appendChild(script);
+    return () => {
+      script.remove();
+    };
   }, [isTypeScript]);
 
   // Sync when initialCode changes (week/level switch) — skip first mount
@@ -182,16 +189,24 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   const isRunningRef = useRef(false);
 
   useEffect(() => {
-    if (!initialCode) return;
+    if (!initialCode || !mountedRef.current) return;
     if (prevInitialCode.current === initialCode) return;
     prevInitialCode.current = initialCode;
     runIdRef.current++;
     isRunningRef.current = false;
+    setIsRunning(false);
     setCode(initialCode);
     setOutput('');
     setError('');
     setEditorKey(k => k + 1);
   }, [initialCode]);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     const handler = (event: MessageEvent) => {
@@ -318,6 +333,14 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         } catch (err) {
           setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
         }
+      } else if (isTinyGoReady() && week && week <= 11) {
+        try {
+          const result = runTinyGoWeek(week);
+          if (result.output) setOutput(result.output);
+          if (!result.success) setError(result.error || (isId ? 'Eksekusi gagal' : 'Execution failed'));
+        } catch (err) {
+          setError(err instanceof Error ? err.message : (isId ? 'Eksekusi gagal' : 'Execution failed'));
+        }
       } else {
         setError(
           isId
@@ -348,7 +371,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         clearTimeout(rustTimeout);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const result = await res.json();
-        if (runIdRef.current !== runId) return;
+        if (!mountedRef.current || runIdRef.current !== runId) return;
         if (!result.success) {
           setError(result.stderr || (isId ? 'Kompilasi Rust gagal.' : 'Rust compilation failed.'));
         } else {
@@ -356,7 +379,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
         }
       } catch (err) {
         clearTimeout(rustTimeout);
-        if (runIdRef.current !== runId) return;
+        if (!mountedRef.current || runIdRef.current !== runId) return;
         setError(
           isId
             ? 'Gagal terhubung ke Rust Playground. Periksa koneksi internet Anda.'
@@ -383,6 +406,9 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     setCode(initialCode || DEFAULT_CODE[LANGUAGE_MAP[language] || 'html'] || DEFAULT_CODE.html);
     setOutput('');
     setError('');
+    if (isWebLanguage && iframeRef.current) {
+      iframeRef.current.srcdoc = '';
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -402,10 +428,16 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       if (cancelled || runIdRef.current !== effId) return;
       if (tinygo && week && week <= 11) {
         const result = runTinyGoWeek(week);
-        if (runIdRef.current === effId && result.output) setOutput(result.output);
+        if (runIdRef.current === effId) {
+          if (result.output) setOutput(result.output);
+          if (!result.success) setError(result.error || (isId ? 'Eksekusi otomatis gagal' : 'Auto-run failed'));
+        }
       } else if (yaegi && initialCode) {
         const result = wasmRunGoCode(initialCode);
-        if (runIdRef.current === effId && result.output) setOutput(result.output);
+        if (runIdRef.current === effId) {
+          if (result.output) setOutput(result.output);
+          if (!result.success) setError(result.error || (isId ? 'Eksekusi otomatis gagal' : 'Auto-run failed'));
+        }
       }
     });
 

@@ -540,21 +540,30 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         if (t === '-d') detach = true;
         else if (t === '-it' || t === '-i' || t === '-t') { interactive = true; tty = true; }
         else if (t === '--rm') rm = true;
-        else if (t === '--name') name = rest[++i];
+        else if (t === '--name') name = rest[++i] || '';
         else if (t === '-p') {
-          const [h, c] = rest[++i].split(':');
-          ports.push({ host: h, container: c || h });
+          const spec = rest[++i];
+          if (!spec) return 'docker run: "-p" membutuhkan spesifikasi port (mis. 8080:80).';
+          const parts = spec.split(':');
+          if (parts.length === 1) ports.push({ host: parts[0], container: parts[0] });
+          else if (parts.length >= 2) ports.push({ host: parts[0], container: parts[parts.length - 1] });
         } else if (t === '-e') {
-          const [k, v] = rest[++i].split('=');
-          env[k] = v || '';
+          const spec = rest[++i];
+          if (!spec) return 'docker run: "-e" membutuhkan spesifikasi env (mis. FOO=bar).';
+          const idx = spec.indexOf('=');
+          const k = idx === -1 ? spec : spec.slice(0, idx);
+          const v = idx === -1 ? '' : spec.slice(idx + 1);
+          env[k] = v;
         } else if (t === '-v' || t === '--volume') {
-          const [vsrc, vdst] = rest[++i].split(':');
-          volume = vsrc;
-        } else if (t === '--network') network = rest[++i];
+          const spec = rest[++i];
+          if (!spec) return 'docker run: "-v" membutuhkan spesifikasi volume (mis. /data atau volume:/data).';
+          volume = spec.split(':')[0];
+        } else if (t === '--network') network = rest[++i] || 'bridge';
         else if (t.startsWith('-')) { /* flag lain diabaikan */ }
         else if (!imageRef) imageRef = t;
         else cmdArgs.push(t);
       }
+      if (!imageRef) return 'docker run: membutuhkan minimal 1 argumen (image).\n\nSee \'docker run --help\'.';
       const img = findImage(imageRef) || (() => { const repo = imageRef.split(':')[0]; const tag = imageRef.split(':')[1] || 'latest'; images.push({ repo, tag, id: hex(12), sizeMB: 25, layers: 5, created: '1 hour', base: 'alpine:3.21' }); return images[images.length - 1]; })();
 
       const cname = name || `${img.repo.replace(/[^a-z0-9]/g, '')}-${hex(6)}`;
@@ -852,7 +861,7 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
       let tag = 'tryngo/app:latest';
       for (let i = 0; i < restTokens.length; i++) {
         const t = restTokens[i];
-        if (t === '-t') tag = restTokens[++i];
+        if (t === '-t') { tag = restTokens[++i]; if (!tag) return 'docker build: "-t" membutuhkan nilai tag (mis. tryngo/app:latest).'; }
         else if (t === '--no-cache') { /* abaikan */ }
         else if (!t.startsWith('-')) dir = t;
       }
@@ -894,7 +903,7 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         const sIdx = restTokens.indexOf('--scale');
         const scaleVal = sIdx >= 0 ? restTokens[sIdx + 1] : null;
         const scaleName = scaleVal ? scaleVal.split('=')[0] : null;
-        const svcScale = scaleVal ? Number(scaleVal.split('=')[1]) || 1 : 1;
+        const svcScale = scaleVal ? Math.min(Math.max(Number(scaleVal.split('=')[1]) || 1, 1), 20) : 1;
         const out: string[] = [];
         for (const s of proj.services) {
           const replicas = scaleName ? (s.name === scaleName ? svcScale : 1) : 1;
@@ -916,7 +925,15 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
           if (s.healthcheck) out.push(`Container ${proj.name}-${s.name}-1  Healthy`);
         }
         currentProject = proj;
-        return out.join('\n') + `\nNetwork ${proj.name}_default  Created\n${proj.services.filter((s) => s.volumes).map((s) => `Volume ${s.volumes?.split(':')[0]}  Created`).join('\n')}`;
+        const netName = `${proj.name}_default`;
+        if (!networks.find((n) => n.name === netName)) networks.push({ name: netName, driver: 'bridge', scope: 'local', subnet: `172.2${proj.name.charCodeAt(0) % 10}.0.0/16`, dns: true });
+        for (const s of proj.services) {
+          if (s.volumes) {
+            const vname = s.volumes.split(':')[0];
+            if (!volumes.find((v) => v.name === vname)) volumes.push({ name: vname, driver: 'local', files: [] });
+          }
+        }
+        return out.join('\n') + `\nNetwork ${netName}  Created\n${proj.services.filter((s) => s.volumes).map((s) => `Volume ${s.volumes?.split(':')[0]}  Created`).join('\n')}`;
       }
       if (action === 'ps') {
         const rows = containers
@@ -946,8 +963,10 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         const force = rest.includes('-f');
         const stopped = containers.filter((c) => c.status === 'exited').length;
         const dangling = images.filter((i) => i.tag === 'latest' && i.created === '1 hour').length;
+        if (!force) {
+          return 'WARNING! This will remove:\n  - all stopped containers\n  - all networks not used by at least one container\n  - all dangling images\n  - unused build cache\n\nAre you sure you want to continue? [y/N]  (pakai: docker system prune -f)';
+        }
         containers = containers.filter((c) => c.status !== 'exited');
-        if (!force) return 'WARNING! This will remove:\n  - all stopped containers\n  - all networks not used by at least one container\n  - all dangling images\n  - unused build cache\n\nAre you sure you want to continue? [y/N]  (pakai: docker system prune -f)';
         return `Deleted Containers:\n${stopped}\nDeleted Images:\n${dangling}\nDeleted build cache:\n0B\n\nTotal reclaimed space: ${(stopped * 3 + dangling * 20)}MB`;
       }
       return 'docker system: sub-perintah yang didukung: prune';

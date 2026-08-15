@@ -188,7 +188,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
                         >
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
@@ -259,7 +259,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
                         >
                           <motion.button
                             whileTap={{ scale: 0.97 }}
@@ -305,7 +305,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin"
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
                         >
                           {IDE_ITEMS.map((track) => (
                             <motion.button
@@ -482,7 +482,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.2 }}
-                    className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[60vh] overflow-y-auto"
+                    className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[calc(100dvh-4.5rem)] overflow-y-auto"
                   >
                     {onBackToHero && (
                       <motion.button
@@ -510,7 +510,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'materi-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
                               <button
@@ -563,7 +563,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
                           <button
                             onClick={() => { setIsMobileMenuOpen(false); openQuiz('__sample__'); }}
                             className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] text-left shrink-0 ${activeQuizId === '__sample__' ? 'bg-emerald-400/20 text-emerald-200 font-bold' : 'bg-[#2E5B44]/30 text-emerald-300 font-bold'}`}
@@ -597,7 +597,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'ide-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5 max-h-[40vh] overflow-y-auto scrollbar-thin">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
                           {IDE_ITEMS.map((track) => (
                             <button
                               key={track.trackId}

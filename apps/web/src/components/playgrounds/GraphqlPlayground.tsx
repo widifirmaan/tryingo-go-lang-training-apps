@@ -4,7 +4,7 @@ import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faSpinner, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faEye, faEyeSlash, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../../utils/translations';
-import { runQuery, runIntrospection, getSampleSchema, SAMPLE_QUERIES } from '../../utils/graphqlRunner';
+import { runQuery, runIntrospection, getSampleSchema, SAMPLE_QUERIES, resetData } from '../../utils/graphqlRunner';
 
 interface GraphqlPlaygroundProps {
   lang: Language;
@@ -74,6 +74,8 @@ export const GraphqlPlayground: React.FC<GraphqlPlaygroundProps> = ({
     setIntrospectionResult('');
     setShowIntrospection(false);
     setEditorKey(k => k + 1);
+    // Fresh in-memory dataset per lesson so mutations can't leak across weeks.
+    resetData();
   }, [initialCode]);
 
   const runGraphQL = useCallback(async () => {
