@@ -354,7 +354,7 @@ export default function App() {
     <div
       role="application"
       aria-label={t.heroTagline}
-      className={`min-h-screen lg:h-screen w-full p-0 sm:p-3 md:p-4 flex flex-col font-sans antialiased overflow-y-auto lg:overflow-hidden select-none transition-colors duration-300 ${
+      className={`min-h-dvh lg:h-screen w-full p-0 sm:p-3 md:p-4 flex flex-col font-sans antialiased overflow-y-auto lg:overflow-hidden select-none transition-colors duration-300 ${
         theme === 'dark' ? 'bg-[#121417] text-zinc-100' : 'bg-[#EFECE6] text-zinc-900'
       }`}>
       
