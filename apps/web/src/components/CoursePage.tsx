@@ -35,12 +35,13 @@ interface CoursePageProps {
   onBack: () => void;
   onOpenPlayground?: (code: string) => void;
   onOpenQuiz?: (slug: string, level?: string) => void;
+  onOpenIde?: (trackId: string) => void;
   initialLevel?: string;
   initialWeek?: number;
   onNavigate?: (trackId: string, level: string, week: number) => void;
 }
 
-export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, onOpenQuiz, initialLevel, initialWeek, onNavigate }) => {
+export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, onOpenQuiz, onOpenIde, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -231,6 +232,16 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
             </p>
           </div>
         </div>
+
+        {/* IDE Button */}
+        <button
+          onClick={() => onOpenIde?.(trackId)}
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 shadow-xs hover:bg-white dark:hover:bg-zinc-700 transition-all text-xs sm:text-sm font-bold shrink-0"
+          title={isId ? 'Buka Online IDE' : 'Open Online IDE'}
+        >
+          <FontAwesomeIcon icon={faCode} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">IDE</span>
+        </button>
 
         {/* Quiz Button */}
         <button

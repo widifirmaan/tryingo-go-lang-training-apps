@@ -85,11 +85,12 @@ export function initGoWasm(): Promise<InitResult> {
     function finalize() {
       if (finalized) return;
       finalized = true;
+      clearTimeout(safetyTimer);
       resolve({ yaegi: yaegiLoaded, tinygo: tinygoLoaded });
     }
 
     // Safety timeout
-    setTimeout(() => finalize(), 30000);
+    const safetyTimer = setTimeout(() => finalize(), 30000);
   });
 
   return initPromise;

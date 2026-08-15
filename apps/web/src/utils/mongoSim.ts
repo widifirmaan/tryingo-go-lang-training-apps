@@ -51,7 +51,7 @@ export function resetMongo(): void {
   seqId = 100;
   collections = SEED_DATA.map((c) => ({
     name: c.name,
-    docs: c.docs.map((d) => ({ ...d, ...(Array.isArray(d.items) ? { items: d.items.map((i: Doc) => ({ ...i })) } : {}) })),
+    docs: c.docs.map((d) => JSON.parse(JSON.stringify(d))),
   }));
 }
 
@@ -99,6 +99,7 @@ const matchValue = (fieldVal: any, operator: string, operand: any): boolean => {
     case '$nin': return Array.isArray(operand) && !operand.includes(fieldVal);
     case '$regex': {
       const re = operand instanceof RegExp ? operand : new RegExp(operand);
+      re.lastIndex = 0;
       return re.test(String(fieldVal));
     }
     case '$exists': return operand ? fieldVal !== undefined : fieldVal === undefined;
@@ -109,16 +110,14 @@ const matchValue = (fieldVal: any, operator: string, operand: any): boolean => {
 const matchDoc = (doc: Doc, query: Doc): boolean => {
   if (!query || Object.keys(query).length === 0) return true;
 
-  if (query.$and) {
-    return Array.isArray(query.$and) && query.$and.every((q: Doc) => matchDoc(doc, q));
-  }
-  if (query.$or) {
-    return Array.isArray(query.$or) && query.$or.some((q: Doc) => matchDoc(doc, q));
-  }
+  // $and / $or combine with any other top-level fields (MongoDB ANDs them together).
+  if (query.$and && Array.isArray(query.$and) && !query.$and.every((q: Doc) => matchDoc(doc, q))) return false;
+  if (query.$or && Array.isArray(query.$or) && !query.$or.some((q: Doc) => matchDoc(doc, q))) return false;
 
   for (const [key, val] of Object.entries(query)) {
-    if (key.startsWith('$')) continue;
+    if (key === '$and' || key === '$or' || key.startsWith('$')) continue;
     if (val instanceof RegExp) {
+      val.lastIndex = 0;
       if (!val.test(String(doc[key]))) return false;
       continue;
     }
@@ -126,7 +125,22 @@ const matchDoc = (doc: Doc, query: Doc): boolean => {
       const ops = Object.keys(val);
       const isOp = ops.every((o) => o.startsWith('$'));
       if (isOp) {
-        if (!ops.every((op) => matchValue(doc[key], op, val[op]))) return false;
+        // A $regex string value is combined with a sibling $options flag.
+        let regexRe: RegExp | null = null;
+        const opKeys = ops.filter((o) => o !== '$options');
+        for (const op of opKeys) {
+          let operand = val[op];
+          if (op === '$regex' && typeof operand === 'string') {
+            const flags = typeof val.$options === 'string' ? val.$options : '';
+            try {
+              regexRe = new RegExp(operand, flags);
+            } catch {
+              return false;
+            }
+            operand = regexRe;
+          }
+          if (!matchValue(doc[key], op, operand)) return false;
+        }
         continue;
       }
     }
@@ -226,6 +240,7 @@ const aggregateGroup = (docs: Doc[], groupSpec: Doc): Doc[] => {
           case '$sum':
             if (val === 1) out[field] = groupDocs.length;
             else if (typeof val === 'string' && val.startsWith('$')) out[field] = groupDocs.reduce((s, d) => s + (Number(d[val.slice(1)]) || 0), 0);
+            else if (typeof val === 'number') out[field] = val * groupDocs.length;
             else out[field] = groupDocs.reduce((s, d) => s + (Number(d[field]) || 0), 0);
             break;
           case '$avg':
@@ -285,19 +300,25 @@ const aggregate = (docs: Doc[], pipeline: Doc[]): Doc[] => {
         break;
       case '$unwind': {
         const field = typeof arg === 'string' ? arg : arg.path;
+        if (typeof field !== 'string' || !field.startsWith('$')) throw new Error('$unwind: path harus string berawalan $ (mis. "$tags")');
+        const fieldName = field.slice(1);
+        const preserve = typeof arg === 'object' && arg.preserveNullAndEmptyArrays === true;
         const expanded: Doc[] = [];
         for (const doc of result) {
-          const arr = doc[field.startsWith('$') ? field.slice(1) : field];
+          const arr = doc[fieldName];
           if (Array.isArray(arr)) {
             if (arr.length === 0) {
-              const copy = { ...doc };
-              delete copy[field.startsWith('$') ? field.slice(1) : field];
-              expanded.push(copy);
+              if (preserve) {
+                const copy = { ...doc };
+                delete copy[fieldName];
+                expanded.push(copy);
+              }
             } else {
-              for (const item of arr) expanded.push({ ...doc, [field.startsWith('$') ? field.slice(1) : field]: item });
+              for (const item of arr) expanded.push({ ...doc, [fieldName]: item });
             }
           } else {
-            expanded.push(doc);
+            // missing / null / non-array — dropped by default unless preserveNullAndEmptyArrays
+            if (preserve) expanded.push({ ...doc });
           }
         }
         result = expanded;
@@ -588,7 +609,7 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         const doc = args[0] as Doc;
         if (!doc) return { result: 'MongoServerError: document required', isError: true };
         const newDoc = { ...doc };
-        if (!newDoc._id) newDoc._id = nextId();
+        if (newDoc._id === undefined) newDoc._id = nextId();
         col.docs.push(newDoc);
         return { result: `{ "acknowledged": true, "insertedId": ${JSON.stringify(newDoc._id)} }`, isError: false };
       }
@@ -600,7 +621,7 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         const insertedIds: any[] = [];
         for (const doc of docs) {
           const newDoc = { ...doc };
-          if (!newDoc._id) newDoc._id = nextId();
+          if (newDoc._id === undefined) newDoc._id = nextId();
           col.docs.push(newDoc);
           insertedIds.push(newDoc._id);
         }
@@ -622,7 +643,8 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         } else {
           col.docs[idx] = { ...update, ...(doc._id !== undefined ? { _id: doc._id } : {}) };
         }
-        const returnDoc = options.returnDocument === 'before' ? before : col.docs[idx];
+        // MongoDB's default for returnDocument is "before" (the original document).
+        const returnDoc = options.returnDocument === 'after' ? col.docs[idx] : before;
         return { result: formatDoc(returnDoc), isError: false };
       }
 

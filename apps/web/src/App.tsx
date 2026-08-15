@@ -5,7 +5,7 @@ import { TrackCard } from './components/TrackCard';
 import { TRACKS_COLLECTION } from './data/tracksData';
 import { CartModal, SearchModal, DetailModal, SettingsModal } from './components/Modals';
 import { QuizModal } from './components/QuizModal';
-import { ArrowDown, Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
+import { Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
 import { SLUG_MAP, REVERSE_SLUG_MAP } from './data/slugMap';
 import { getCurriculum } from './data/curriculum';
@@ -463,6 +463,7 @@ export default function App() {
                       onBack={handleBackFromCourse}
                       onOpenPlayground={handleOpenPlayground}
                       onOpenQuiz={handleOpenQuiz}
+                      onOpenIde={handleOpenIde}
                       initialLevel={courseInitialLevel}
                       initialWeek={courseInitialWeek}
                       onNavigate={handleNavigateToWeek}
@@ -495,7 +496,7 @@ export default function App() {
                           <h2 className="font-extrabold text-xl sm:text-2xl leading-none">
                             {t.tracksHeaderTitle}
                           </h2>
-                          <span className="bg-[#2E5B44] text-white text-[10px] font-black px-2 py-0.5 rounded-full self-center leading-none">
+                          <span className="hidden sm:inline-flex bg-[#2E5B44] text-white text-[10px] font-black px-2 py-0.5 rounded-full self-center leading-none">
                             {filteredTracks.length} / {TRACKS_COLLECTION.length}
                           </span>
                         </div>
@@ -532,11 +533,6 @@ export default function App() {
                           <RotateCcw className="w-3.5 h-3.5" />
                         </button>
                       )}
-
-                      <div className="lg:hidden landscape:hidden flex items-center gap-1.5 text-xs font-bold text-[#2E5B44] dark:text-emerald-400 bg-[#2E5B44]/10 dark:bg-emerald-950/40 px-3 py-1 rounded-full border border-[#2E5B44]/20">
-                        <span>{t.scrollVertical}</span>
-                        <ArrowDown className="w-4 h-4 stroke-[2.5]" />
-                      </div>
                     </div>
                   </div>
 

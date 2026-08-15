@@ -97,6 +97,13 @@ const formatSimpleString = (s: string): string => `+${s}`;
 
 const okResponse = () => formatSimpleString('OK');
 
+// Returns null when the key is missing or holds the expected type, otherwise a WRONGTYPE error reply.
+const wrongtypeCheck = (key: string, expected: string): string | null => {
+  const t = getType(key);
+  if (t === 'none' || t === expected) return null;
+  return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
+};
+
 const notifySubscribers = (pattern: string, channel: string, message: string) => {
   for (const [pat, cbs] of patternSubscribers) {
     if (matchGlob(pat, pattern)) {
@@ -204,9 +211,6 @@ const cmdFlushall = (): string => {
   for (const [, s] of dbStores) {
     s.clear();
   }
-  currentDb = 0;
-  store = dbStores.get(0) ?? new Map<string, RedisValue>();
-  dbStores.set(0, store);
   subscribers.clear();
   patternSubscribers.clear();
   expiredCount = 0;
@@ -401,6 +405,7 @@ const cmdSetex = (args: string[]): string => {
   const key = args[0];
   const seconds = parseIntSafe(args[1]);
   if (seconds === null) return formatError('value is not an integer or out of range');
+  if (seconds <= 0) return formatError('invalid expire time in \'setex\' command');
   const value = args[2];
   store.set(key, { type: 'string', data: value, expiresAt: now() + seconds * 1000 });
   return okResponse();
@@ -420,6 +425,7 @@ const cmdPsetex = (args: string[]): string => {
   const key = args[0];
   const ms = parseIntSafe(args[1]);
   if (ms === null) return formatError('value is not an integer or out of range');
+  if (ms <= 0) return formatError('invalid expire time in \'psetex\' command');
   const value = args[2];
   store.set(key, { type: 'string', data: value, expiresAt: now() + ms });
   return okResponse();
@@ -455,9 +461,10 @@ const cmdHget = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'hget\' command');
   const key = args[0];
   const field = args[1];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   const result = val[field];
   return result !== undefined ? formatBulkString(result) : '$-1';
 };
@@ -465,10 +472,13 @@ const cmdHget = (args: string[]): string => {
 const cmdHmset = (args: string[]): string => {
   if (args.length < 3 || args.length % 2 === 0) return formatError('wrong number of arguments for \'hmset\' command');
   const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
   const v = store.get(key);
+  const isNew = !v || isExpired(key);
   let hash: Record<string, string> = {};
   let ttl: number | null = null;
-  if (v && v.type === 'hash' && !isExpired(key)) {
+  if (!isNew) {
     hash = { ...v.data };
     ttl = v.expiresAt ?? null;
   }
@@ -482,9 +492,11 @@ const cmdHmset = (args: string[]): string => {
 const cmdHmget = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'hmget\' command');
   const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
   const val = getVal(key);
   const results: (string | null)[] = [];
-  if (val === null || typeof val !== 'object' || Array.isArray(val)) {
+  if (val === null) {
     for (let i = 1; i < args.length; i++) results.push(null);
   } else {
     for (let i = 1; i < args.length; i++) {
@@ -496,9 +508,11 @@ const cmdHmget = (args: string[]): string => {
 
 const cmdHgetall = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'hgetall\' command');
-  const val = getVal(args[0]);
+  const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
+  const val = getVal(key);
   if (val === null) return formatArray([]);
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   const results: string[] = [];
   for (const [k, v] of Object.entries(val)) {
     results.push(k, v as string);
@@ -509,9 +523,10 @@ const cmdHgetall = (args: string[]): string => {
 const cmdHdel = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'hdel\' command');
   const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatInteger(0);
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   let count = 0;
   for (let i = 1; i < args.length; i++) {
     if (args[i] in val) {
@@ -527,33 +542,40 @@ const cmdHexists = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'hexists\' command');
   const key = args[0];
   const field = args[1];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatInteger(0);
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   return formatInteger(field in val ? 1 : 0);
 };
 
 const cmdHkeys = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'hkeys\' command');
-  const val = getVal(args[0]);
+  const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
+  const val = getVal(key);
   if (val === null) return formatArray([]);
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   return formatArray(Object.keys(val));
 };
 
 const cmdHvals = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'hvals\' command');
-  const val = getVal(args[0]);
+  const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
+  const val = getVal(key);
   if (val === null) return formatArray([]);
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   return formatArray(Object.values(val));
 };
 
 const cmdHlen = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'hlen\' command');
-  const val = getVal(args[0]);
+  const key = args[0];
+  const tErr = wrongtypeCheck(key, 'hash');
+  if (tErr) return tErr;
+  const val = getVal(key);
   if (val === null) return formatInteger(0);
-  if (typeof val !== 'object' || Array.isArray(val)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   return formatInteger(Object.keys(val).length);
 };
 
@@ -573,7 +595,9 @@ const cmdHincrby = (args: string[]): string => {
     hash = { ...v.data };
     ttl = v.expiresAt ?? null;
   }
-  const cur = parseIntSafe(hash[field] || '0') || 0;
+  const fieldValue = hash[field];
+  if (fieldValue !== undefined && parseIntSafe(fieldValue) === null) return formatError('hash value is not an integer');
+  const cur = parseIntSafe(fieldValue || '0') || 0;
   const result = cur + incr;
   hash[field] = String(result);
   store.set(key, { type: 'hash', data: hash, expiresAt: ttl });
@@ -696,8 +720,9 @@ const cmdLset = (args: string[]): string => {
   const v = store.get(key);
   if (!v || isExpired(key)) return formatError('no such key');
   if (v.type !== 'list') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  if (index < 0 || index >= v.data.length) return formatError('index out of range');
-  v.data[index] = args[2];
+  const cursor = index < 0 ? v.data.length + index : index;
+  if (cursor < 0 || cursor >= v.data.length) return formatError('index out of range');
+  v.data[cursor] = args[2];
   return okResponse();
 };
 
@@ -838,7 +863,6 @@ const cmdSmove = (args: string[]): string => {
   if (srcVal === null) return formatInteger(0);
   if (!(srcVal instanceof Set)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   if (!srcVal.has(member)) return formatInteger(0);
-  srcVal.delete(member);
   const dstVal = store.get(dst);
   let dstSet: Set<string>;
   if (!dstVal || isExpired(dst)) {
@@ -847,6 +871,9 @@ const cmdSmove = (args: string[]): string => {
     if (dstVal.type !== 'set') return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
     dstSet = new Set(dstVal.data);
   }
+  // Validate destination BEFORE mutating the source so a WRONGTYPE error
+  // leaves the source set intact (Redis semantics).
+  srcVal.delete(member);
   dstSet.add(member);
   store.set(dst, { type: 'set', data: dstSet, expiresAt: null });
   return formatInteger(1);
@@ -855,14 +882,28 @@ const cmdSmove = (args: string[]): string => {
 const cmdSpop = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'spop\' command');
   const key = args[0];
+  const count = args.length > 1 ? parseIntSafe(args[1]) : null;
+  if (args.length > 1 && count === null) return formatError('value is not an integer or out of range');
+  const tErr = wrongtypeCheck(key, 'set');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  if (!(val instanceof Set)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
+  const arr = [...val];
+  if (count !== null) {
+    const n = Math.min(Math.max(count, 0), arr.length);
+    const popped: string[] = [];
+    for (let k = 0; k < n; k++) {
+      const idx = Math.floor(Math.random() * arr.length);
+      popped.push(arr.splice(idx, 1)[0]);
+    }
+    for (const m of popped) val.delete(m);
+    if (!val.size) store.delete(key);
+    return formatArray(popped);
+  }
   if (val.size === 0) {
     store.delete(key);
     return '$-1';
   }
-  const arr = [...val];
   const item = arr[Math.floor(Math.random() * arr.length)];
   val.delete(item);
   if (!val.size) store.delete(key);
@@ -872,11 +913,22 @@ const cmdSpop = (args: string[]): string => {
 const cmdSrandmember = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'srandmember\' command');
   const key = args[0];
+  const count = args.length > 1 ? parseIntSafe(args[1]) : null;
+  if (args.length > 1 && count === null) return formatError('value is not an integer or out of range');
+  const tErr = wrongtypeCheck(key, 'set');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  if (!(val instanceof Set)) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  if (val.size === 0) return '$-1';
   const arr = [...val];
+  if (arr.length === 0) return '$-1';
+  if (count !== null) {
+    const n = Math.min(Math.max(count, 0), arr.length);
+    const picked: string[] = [];
+    for (let k = 0; k < n; k++) {
+      picked.push(arr[Math.floor(Math.random() * arr.length)]);
+    }
+    return formatArray(picked);
+  }
   return formatBulkString(arr[Math.floor(Math.random() * arr.length)]);
 };
 
@@ -955,10 +1007,11 @@ const cmdZrange = (args: string[]): string => {
   const start = parseIntSafe(args[1]);
   const stop = parseIntSafe(args[2]);
   if (start === null || stop === null) return formatError('value is not an integer or out of range');
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatArray([]);
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  const entries = Object.entries(val).sort((a, b) => a[1] - b[1]);
+  const entries = Object.entries(val).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const len = entries.length;
   const s = start < 0 ? Math.max(len + start, 0) : Math.min(start, len);
   const e = stop < 0 ? Math.max(len + stop, -1) : Math.min(stop, len - 1);
@@ -979,10 +1032,11 @@ const cmdZrevrange = (args: string[]): string => {
   const start = parseIntSafe(args[1]);
   const stop = parseIntSafe(args[2]);
   if (start === null || stop === null) return formatError('value is not an integer or out of range');
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatArray([]);
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  const entries = Object.entries(val).sort((a, b) => b[1] - a[1]);
+  const entries = Object.entries(val).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0));
   const len = entries.length;
   const s = start < 0 ? Math.max(len + start, 0) : Math.min(start, len);
   const e = stop < 0 ? Math.max(len + stop, -1) : Math.min(stop, len - 1);
@@ -1001,10 +1055,11 @@ const cmdZrank = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'zrank\' command');
   const key = args[0];
   const member = args[1];
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  const entries = Object.entries(val).sort((a, b) => a[1] - b[1]);
+  const entries = Object.entries(val).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const idx = entries.findIndex(([m]) => m === member);
   return idx >= 0 ? formatInteger(idx) : '$-1';
 };
@@ -1013,10 +1068,11 @@ const cmdZrevrank = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'zrevrank\' command');
   const key = args[0];
   const member = args[1];
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  const entries = Object.entries(val).sort((a, b) => b[1] - a[1]);
+  const entries = Object.entries(val).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0));
   const idx = entries.findIndex(([m]) => m === member);
   return idx >= 0 ? formatInteger(idx) : '$-1';
 };
@@ -1025,9 +1081,10 @@ const cmdZscore = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'zscore\' command');
   const key = args[0];
   const member = args[1];
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   const score = val[member];
   return score !== undefined ? formatBulkString(String(score)) : '$-1';
 };
@@ -1035,9 +1092,10 @@ const cmdZscore = (args: string[]): string => {
 const cmdZrem = (args: string[]): string => {
   if (args.length < 2) return formatError('wrong number of arguments for \'zrem\' command');
   const key = args[0];
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatInteger(0);
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   let count = 0;
   for (let i = 1; i < args.length; i++) {
     if (args[i] in val) { delete val[args[i]]; count++; }
@@ -1048,9 +1106,11 @@ const cmdZrem = (args: string[]): string => {
 
 const cmdZcard = (args: string[]): string => {
   if (!args.length) return formatError('wrong number of arguments for \'zcard\' command');
-  const val = getVal(args[0]);
+  const key = args[0];
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
+  const val = getVal(key);
   if (val === null) return formatInteger(0);
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
   return formatInteger(Object.keys(val).length);
 };
 
@@ -1075,16 +1135,31 @@ const cmdZincrby = (args: string[]): string => {
   return formatBulkString(String(zset[member]));
 };
 
+const parseScoreBound = (s: string): { value: number; exclusive: boolean } | null => {
+  let exclusive = false;
+  let str = s.trim();
+  if (str.startsWith('(')) { exclusive = true; str = str.slice(1); }
+  const lower = str.toLowerCase();
+  if (lower === '-inf') return { value: -Infinity, exclusive: false };
+  if (lower === '+inf' || lower === 'inf') return { value: Infinity, exclusive: false };
+  const n = parseFloatSafe(str);
+  if (n === null) return null;
+  return { value: n, exclusive };
+};
+
 const cmdZrangebyscore = (args: string[]): string => {
   if (args.length < 3) return formatError('wrong number of arguments for \'zrangebyscore\' command');
   const key = args[0];
-  const min = parseFloatSafe(args[1]);
-  const max = parseFloatSafe(args[2]);
-  if (min === null || max === null) return formatError('min or max is not a float');
+  const min = parseScoreBound(args[1]);
+  const max = parseScoreBound(args[2]);
+  if (!min || !max) return formatError('min or max is not a float');
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatArray([]);
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  const entries = Object.entries(val).filter(([, s]) => s >= min && s <= max).sort((a, b) => a[1] - b[1]);
+  const inRange = ([, s]: [string, number]) =>
+    (min.exclusive ? s > min.value : s >= min.value) && (max.exclusive ? s < max.value : s <= max.value);
+  const entries = Object.entries(val).filter(inRange as any).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const withScores = args.some(a => a.toUpperCase() === 'WITHSCORES');
   const results: string[] = [];
   for (const [member, score] of entries) {
@@ -1097,13 +1172,17 @@ const cmdZrangebyscore = (args: string[]): string => {
 const cmdZcount = (args: string[]): string => {
   if (args.length < 3) return formatError('wrong number of arguments for \'zcount\' command');
   const key = args[0];
-  const min = parseFloatSafe(args[1]);
-  const max = parseFloatSafe(args[2]);
-  if (min === null || max === null) return formatError('min or max is not a float');
+  const min = parseScoreBound(args[1]);
+  const max = parseScoreBound(args[2]);
+  if (!min || !max) return formatError('min or max is not a float');
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatInteger(0);
-  if (typeof val !== 'object' || Array.isArray(val) || val instanceof Set) return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
-  const count = Object.values(val).filter(s => s >= min && s <= max).length;
+  const count = Object.values(val).filter((s) => {
+    const sc = s as number;
+    return (min.exclusive ? sc > min.value : sc >= min.value) && (max.exclusive ? sc < max.value : sc <= max.value);
+  }).length;
   return formatInteger(count);
 };
 
@@ -1282,6 +1361,15 @@ const parseCommand = (input: string): string[] => {
   let current = '';
   let inQuote = false;
   let quoteChar = '';
+  let hasToken = false;
+
+  const pushToken = () => {
+    if (hasToken) {
+      tokens.push(current);
+      current = '';
+      hasToken = false;
+    }
+  };
 
   for (let i = 0; i < input.length; i++) {
     const ch = input[i];
@@ -1294,13 +1382,15 @@ const parseCommand = (input: string): string[] => {
     } else if (ch === '"' || ch === '\'') {
       inQuote = true;
       quoteChar = ch;
+      hasToken = true;
     } else if (ch === ' ' || ch === '\t') {
-      if (current) { tokens.push(current); current = ''; }
+      pushToken();
     } else {
       current += ch;
+      hasToken = true;
     }
   }
-  if (current) tokens.push(current);
+  pushToken();
   return tokens;
 };
 

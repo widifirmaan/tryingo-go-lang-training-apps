@@ -135,6 +135,13 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
     setCode(initialCode);
     setResults([]);
     setEditorKey((k) => k + 1);
+    // Fresh DB per lesson so a DROP/ALTER in a previous week can't break this one.
+    resetSql()
+      .then(() => getSchema())
+      .then((s) => {
+        if (mountedRef.current) setSchema(s);
+      })
+      .catch(() => {});
   }, [initialCode]);
 
   useEffect(() => {
