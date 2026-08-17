@@ -506,7 +506,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'materi-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
                               <button
@@ -559,7 +559,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
                           <button
                             onClick={() => { setIsMobileMenuOpen(false); openQuiz('__sample__'); }}
                             className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] text-left shrink-0 ${activeQuizId === '__sample__' ? 'bg-emerald-400/20 text-emerald-200 font-bold' : 'bg-[#2E5B44]/30 text-emerald-300 font-bold'}`}
@@ -593,7 +593,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'ide-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-hidden flex flex-col ml-2 gap-0.5">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
                           {IDE_ITEMS.map((track) => (
                             <button
                               key={track.trackId}
