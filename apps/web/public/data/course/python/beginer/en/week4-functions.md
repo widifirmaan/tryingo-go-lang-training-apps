@@ -1,136 +1,131 @@
-# Functions & Modules
+# Functions — Reusable Shop Recipes
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 4:** Functions & Modules
 
 ## Learning Objectives
 
-- Create functions with def, parameters, and return values
-- Default parameters, *args, **kwargs for flexibility
-- Lambda functions for one-line operations
-- Built-in functions: map, filter, sorted, sum, max, min
-- Import modules: import, from...import, alias
+- Make recipe with `def name():` — write once, use 100x
+- Send ingredients **parameter**, get result **return**
+- Default `name="Guest"` and bulk `*numbers`
+- Shortcut `lambda x: x**2` and built-ins `map`, `filter`, `sorted`, `sum`
+- Borrow others' tools `import math`, `from datetime import datetime`
 
 ---
 
-## Program: Modular Calculator
+## Why This Matters (Non-IT)
+
+Recipe "total + delivery" used 30x a day. Without function, write formula 30x. With `def calc_total(cart):` write once, call `calc_total(cart_A)`. No copy, no mistake.
+
+---
+
+## Program: Shop Functions Kitchen
 
 ```python
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
 
-# Functions & Modules
+print(greet("Budi"))
+print(greet("Siti", "Good morning"))
+
+def calc(a, b):
+    return a + b, a - b, a * b
+
+total, diff, prod = calc(10, 3)
+print(f"\nTotal {total}, Diff {diff}, Prod {prod}")
+
+def total_all(*numbers):
+    return sum(numbers)
+
+print("\nTotal:", total_all(1, 2, 3, 4, 5))
+
+square = lambda x: x ** 2
+print(f"Square 5 = {square(5)}")
+
+prices = [10000, 15000, 20000, 25000]
+up = list(map(lambda h: h * 1.1, prices))
+cheap = list(filter(lambda h: h < 20000, prices))
+print(f"\nUp 10%: {[int(x) for x in up]}")
+print(f"Cheap: {cheap}")
+
+numbers = [3, 1, 4, 1, 5, 9]
+print(f"\nSorted: {sorted(numbers)}")
+print(f"Sum: {sum(numbers)}, Max: {max(numbers)}")
+
 import math
-import random
-from datetime import datetime
+print(f"\nPi: {math.pi:.4f}, Sqrt 144: {math.sqrt(144)}")
 
-# Basic Function
-def sapa(nama, greeting="Halo"):
-    """Sapa orang dengan greeting yang bisa dikustomisasi."""
-    return f"{greeting}, {nama}!"
+def calc_total(cart, discount=0):
+    total = sum(item["price"] * item["qty"] for item in cart)
+    return total * (1 - discount/100)
 
-# Multiple Return Values
-def hitung(a, b):
-    """Return jumlah, selisih, kali, bagi."""
-    return a + b, a - b, a * b, a / b if b != 0 else None
-
-# *args dan **kwargs
-def tampilkan(*args, **kwargs):
-    print(f"Positional: {args}")
-    print(f"Keyword: {kwargs}")
-
-# Lambda Function
-kuadrat = lambda x: x ** 2
-pangkat = lambda a, b: a ** b
-
-# Decorator Sederhana
-def timer(func):
-    def wrapper(*args, **kwargs):
-        start = datetime.now()
-        result = func(*args, **kwargs)
-        elapsed = (datetime.now() - start).total_seconds()
-        print(f"{func.__name__} took {elapsed:.4f}s")
-        return result
-    return wrapper
-
-@timer
-def jumlahkan(n):
-    return sum(range(n))
-
-# Main Program
-print("=== Functions ===")
-print(sapa("Budi"))
-print(sapa("Siti", "Selamat pagi"))
-
-print("\n=== Multiple Returns ===")
-j, s, k, b = hitung(10, 3)
-print(f"Jumlah: {j}, Selisih: {s}, Kali: {k}, Bagi: {b:.2f}")
-
-print("\n=== *args & **kwargs ===")
-tampilkan(1, 2, 3, nama="Budi", umur=25)
-
-print("\n=== Lambda ===")
-print(f"Kuadrat 5: {kuadrat(5)}")
-print(f"2 pangkat 10: {pangkat(2, 10)}")
-
-print("\n=== Built-in Functions ===")
-angka = [3, 1, 4, 1, 5, 9, 2, 6]
-print(f"List: {angka}")
-print(f"Sorted: {sorted(angka)}")
-print(f"Reversed: {sorted(angka, reverse=True)}")
-print(f"Sum: {sum(angka)}")
-print(f"Max: {max(angka)}, Min: {min(angka)}")
-print(f"Map (x2): {list(map(lambda x: x*2, angka))}")
-print(f"Filter (genap): {list(filter(lambda x: x%2==0, angka))}")
-
-print("\n=== Math Module ===")
-print(f"Pi: {math.pi:.6f}")
-print(f"Sqrt(144): {math.sqrt(144)}")
-print(f"Faktorial(5): {math.factorial(5)}")
-
-print("\n=== Decorator ===")
-hasil = jumlahkan(1000000)
-print(f"Hasil: {hasil}")
-    
+cart = [{"price": 62000, "qty": 1}, {"price": 5000, "qty": 2}]
+print(f"\nTotal no discount: Rp {calc_total(cart):,}")
+print(f"10% off: Rp {calc_total(cart, 10):,}")
 ```
 
 ---
 
 ## Key Concepts
 
-### Basic Functions
-`def name(params):` with docstring. Return multiple values -> tuple.
+### `def` = Write Recipe
+```python
+def greet(name):
+    return f"Hello {name}"
+```
+Call `greet("Budi")` → `"Hello Budi"`. No `return` → `None`.
 
-### Flexible Parameters
-`*args` = positional tuple. `**kwargs` = keyword dict. Default: `def f(x=10)`.
+### Flexible Parameter
+- Default: `def greet(name="Guest")`
+- `*numbers` → collect many positionals into tuple
+- `**info` → collect many keywords into dict
 
-### Lambda
-Anonymous one-line functions.
+### Lambda & Map/Filter
+- `lambda x: x*2` quick recipe for `map`/`filter`
+- `map(lambda, list)` change, `filter(lambda, list)` filter
 
-### Built-in Functions
-`map`, `filter`, `sorted`, `sum`, `enumerate`, `zip`.
+### Import
+`import math` → `math.sqrt(144)`, `from datetime import datetime` → `datetime.now()`
 
-### Import Modules
-Various import styles.
+---
 
-### Decorators
-Functions wrapping other functions.
+## Beginner Friendly Explanation
+
+### Analogy: Kitchen Recipe
+
+- **Function = recipe**: write "soto: chicken + spice → boil" once, cook 100x `soto(chicken)`.
+- **Parameter = ingredients**, **Return = dish**
+- **`*numbers` = sack**: fits any amount.
+- **Lambda = quick sticky**: not thick book, just `x*2`.
 
 ---
 
 ## Experiments
 
-- Create functions with different parameter types
-- Try map and filter with lambda
-- Build your own decorator: @debug, @cache
-- Experiment with zip and enumerate
-- Create your own module and import it
+- **Green:** `def shop_greet(name): return f"Welcome {name}"` → call 2x
+- **Yellow:** `total_all(10,20,30)` → ? `calc_total(cart, 20)` 20% off
+- **Red:** Forget `return` → result `None`. Add `return` → correct
 
 ---
 
 ## Challenge
 
-Build your own math library: functions for factorial, fibonacci, prime check, GCD, LCM. Use docstrings and type hints.
+**Auto Shop:** Make 3 functions:
+1. `subtotal(cart)` → total no discount
+2. `delivery(weight, distance)` → `weight*5000 + distance*2000`
+3. `print_receipt(cart, distance)` → combine 1+2 + `greet(name)` return string
+Call with 2 different carts to prove reuse.
+
+---
+
+## Mini Glossary
+
+- **def/return**: make & return
+- **lambda**: 1-line function
+- **map/filter**: process list
+- **import**: borrow module
 
 ---
 
 ## Summary
 
-Week 4 of 12: **Functions & Modules** (Level: Beginner). Beginner phase complete! Next week: **Collections** (Intermediate).
+Week 4 of 12: **Functions & Modules** (Level: Beginner). Have reusable recipes. **Beginner Python done!** Next: **Collections** — list, dict, set for shop stock.

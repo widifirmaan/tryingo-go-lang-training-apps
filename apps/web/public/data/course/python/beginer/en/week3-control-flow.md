@@ -1,125 +1,146 @@
-# Control Flow & Loops
+# Control Flow — If Score 85 Gets B?
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 3:** Control Flow & Loops
 
 ## Learning Objectives
 
-- If/elif/else with indentation replacing curly braces
-- For loops with range() and iteration over lists/strings/dicts
-- While loops with conditions and increments
-- Break, continue, and pass for loop control
-- List comprehension: [expr for x in iterable if cond]
+- Decide with `if / elif / else` (4-space indent, no `{}`)
+- Short with `"Pass" if score >= 70 else "Fail"`
+- Repeat with `for` + `range()`: `range(5)` = 0-4, `range(2,10,2)` = even
+- Loop list: `for fruit in list:` and number `enumerate(list, 1)`
+- `while` while condition, `break` exit, `continue` skip, `pass` empty
+- Fast **list comprehension**: `[x**2 for x in range(5) if x%2==0]`
 
 ---
 
-## Program: Grades & Numbers
+## Why This Matters (Non-IT)
+
+Score 85 must be B without 30 manual writes. Stock must be checked one by one automatically. **Control flow = guard deciding path, loop = stamping repeatedly.**
+
+---
+
+## Program: Report & Stock Count
 
 ```python
-
-# Control Flow & Loops
-print("=== If/Elif/Else ===")
-nilai = 85
-if nilai >= 90:
+score = 85
+if score >= 90:
     grade = "A"
-elif nilai >= 80:
+elif score >= 80:
     grade = "B"
-elif nilai >= 70:
+elif score >= 70:
     grade = "C"
-elif nilai >= 60:
-    grade = "D"
 else:
-    grade = "E"
-print(f"Nilai {nilai} -> Grade {grade}")
+    grade = "D"
+print(f"Score {score} → Grade {grade}")
 
-print("\n=== Ternary Expression ===")
-status = "Lulus" if nilai >= 60 else "Tidak Lulus"
-print(f"Status: {status}")
+status = "Pass" if score >= 70 else "Fail"
+print("Status:", status)
 
-print("\n=== For Loop ===")
-print("Range 5:")
+print("\nCount 0-4:")
 for i in range(5):
-    print(f"  {i}", end="")
-print()
-
-print("Range(2, 10, 2):")
+    print(i, end=" ")
+print("\nEven 2-8:")
 for i in range(2, 10, 2):
-    print(f"  {i}", end="")
+    print(i, end=" ")
 print()
 
-print("\n=== Loop through List ===")
-buah = ["apel", "mangga", "pisang", "jeruk"]
-for i, item in enumerate(buah, 1):
-    print(f"  {i}. {item}")
+print("\n=== Stock ===")
+fruits = ["rice", "oil", "sugar", "eggs"]
+for no, name in enumerate(fruits, 1):
+    print(f"{no}. {name}")
 
-print("\n=== While Loop ===")
-n = 1
-while n <= 5:
-    print(f"  While: {n}")
-    n += 1
+print("\n=== While ===")
+left = 3
+while left > 0:
+    print(f"Left: {left}")
+    left -= 1
 
 print("\n=== Break & Continue ===")
 for i in range(10):
-    if i == 3:
-        continue
-    if i == 7:
-        break
-    print(f"  {i}", end="")
+    if i == 3: continue
+    if i == 7: break
+    print(i, end=" ")
 print()
 
-print("\n=== Nested Loop (Multiplication Table) ===")
-for i in range(1, 4):
-    for j in range(1, 4):
-        print(f"{i*j:3}", end="")
-    print()
+prices = [10000, 15000, 20000, 25000]
+cheap = [p for p in prices if p < 20000]
+up = [p * 1.1 for p in prices]
+print(f"\nCheap: {cheap}")
+print(f"Up 10%: {[int(x) for x in up]}")
 
-print("\n=== List Comprehension ===")
-kuadrat = [x**2 for x in range(1, 6)]
-genap = [x for x in range(10) if x % 2 == 0]
-print(f"Kuadrat: {kuadrat}")
-print(f"Genap: {genap}")
-    
+cart = [{"name": "Rice", "price": 62000, "inStock": True}, {"name": "Sugar", "price": 15000, "inStock": False}, {"name": "Oil", "price": 34000, "inStock": True}]
+total = 0
+for item in cart:
+    if not item["inStock"]: continue
+    total += item["price"]
+print(f"\nTotal buyable: Rp {total:,}")
 ```
 
 ---
 
 ## Key Concepts
 
-### If/Elif/Else
-Indentation (4 spaces) defines blocks. No curly braces needed.
+### `if/elif/else` with Spaces
+```python
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+else:
+    grade = "C"
+```
+No `()` and `{}`, just `:` and indent.
 
-### For Loop
-`range(n)` = 0..n-1. Iterate directly over iterables.
+### `range()` = Number Machine
+- `range(5)` → 0,1,2,3,4
+- `range(2,10,2)` → 2,4,6,8
+- `range(5,0,-1)` → 5,4,3,2,1
 
-### enumerate
-`enumerate(list, start=1)` gives index + value.
+### `for` Python Direct Item
+`for fruit in ["apple","mango"]:` directly `fruit` = "apple", not index. Use `enumerate` for number.
 
-### Break & Continue
-`break` exits loop, `continue` skips, `pass` is a no-op.
+### `break`/`continue`/`pass`
+- `break` exit, `continue` skip, `pass` silent placeholder.
 
-### List Comprehension
-Concise way to create lists.
+### List Comprehension = Express Lane
+`[x**2 for x in range(5) if x%2==0]` = loop + filter 1 line, faster than `for` + `append`.
 
-### Ternary
-`value_if_true if condition else value_if_false`.
+---
+
+## Beginner Friendly Explanation
+
+### Analogy
+
+- **`if` = shop guard**: "If score ≥90, door A. If 80, door B."
+- **`range` = queue machine**: press `range(5)` get 0-4.
+- **`for fruit in list` = check shelf**: pick each item, no index needed.
+- **`comprehension` = sieve + stamp at once**: filter cheap + stamp 10% in 1 sieve.
 
 ---
 
 ## Experiments
 
-- Change values and observe grade changes
-- Create for loop with break on condition
-- Build list comprehension that filters + transforms
-- Implement FizzBuzz with if/elif
-- Try nested loops for triangle patterns
+- **Green:** `score=95` → grade? `range(10,0,-2)` → ?
+- **Yellow:** `even = [x for x in range(20) if x%2==0 and x>10]` → ?
+- **Red:** Forget indent → `IndentationError`. Indent 4 spaces → works.
 
 ---
 
 ## Challenge
 
-Build a number guessing game: generate random 1-100, give "higher/lower" hints, count attempts. Use while loop.
+**Guess Price:** `secret= 7`, `guesses=[3,9,7]` loop `for g in guesses:` if `g==secret` → `print("Correct!")` + `break`, if `g<secret` → "Too small", else "Too big". If no correct → "Failed". Use `continue` if `g is None`.
+
+---
+
+## Mini Glossary
+
+- **if/elif/else**: branch
+- **range/for/while**: loops
+- **enumerate**: number + item
+- **comprehension**: short loop
 
 ---
 
 ## Summary
 
-Week 3 of 12: **Control Flow & Loops** (Level: Beginner). Your program logic. Next week: **Functions**.
+Week 3 of 12: **Control Flow & Loops** (Level: Beginner). Can decide and repeat automatically. Next: **Functions** — reusable recipes.

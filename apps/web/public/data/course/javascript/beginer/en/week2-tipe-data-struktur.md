@@ -1,103 +1,124 @@
-# Data Types & Data Structures
+# Data Types & Structures — Shopping List and Customer Card
 
-> **Kategori:** JavaScript | **Level:** Beginner | **Minggu 2:** Data Types & Data Structures
+> **Kategori:** JavaScript | **Level:** Beginner | **Minggu 2:** Tipe Data & Struktur Data
 
 ## Learning Objectives
 
-- Array: push, pop, shift, unshift, length
-- Array methods: map, filter, reduce, find, some, every
-- Objects: property access with dot and bracket notation
-- Destructuring: extract values from arrays and objects
-- Spread operator: ... for copying and merging
+- Make **list** with `array`: `["apple","mango"]`, add/remove `push`/`pop`, `length`
+- Transform list with `map` (change each), `filter` (pick), `reduce` (sum)
+- Make **card** with `object`: `{ name: "Budi", age: 25 }`, access `obj.name` / `obj["name"]`
+- Unpack with **destructuring**: `const { name } = customer`
+- Merge with **spread**: `[...fruits, "durian"]`
 
 ---
 
-## Program: Arrays & Objects
+## Why This Matters (Non-IT)
+
+Shop has 30 products and 100 customers. Without array/object, you write 30 variables `product1, product2...` — tired. With structures, **1 list for all**, filter "only out of stock" or sum total.
+
+---
+
+## Program: Product List & Customer Card
 
 ```javascript
-// Array
-const buah = ["apel", "mangga", "pisang"];
-console.log("Buah:", buah);
-console.log("Panjang:", buah.length);
-console.log("Pertama:", buah[0]);
-console.log("Terakhir:", buah[buah.length - 1]);
+const fruits = ["apple", "mango", "banana"];
+console.log("Start:", fruits, "len:", fruits.length);
+console.log("First:", fruits[0], "last:", fruits[fruits.length - 1]);
+fruits.push("orange");
+console.log("After push orange:", fruits);
+fruits.pop();
+console.log("After pop:", fruits);
+fruits.unshift("grape");
+console.log("After unshift grape:", fruits);
 
-buah.push("jeruk");
-buah.pop();
-buah.unshift("anggur");
-console.log("Setelah modifikasi:", buah);
+const prices = [10000, 15000, 20000, 25000];
+const up10 = prices.map(p => p * 1.1);
+const cheap = prices.filter(p => p < 20000);
+const total = prices.reduce((s, p) => s + p, 0);
+console.log("\nPrices:", prices);
+console.log("Up 10%:", up10);
+console.log("Cheap (<20k):", cheap);
+console.log("Total:", total);
 
-console.log("\n=== Array Methods ===");
-const angka = [1, 2, 3, 4, 5];
-const doubled = angka.map(n => n * 2);
-const evens = angka.filter(n => n % 2 === 0);
-const sum = angka.reduce((acc, n) => acc + n, 0);
-console.log("Original:", angka);
-console.log("Doubled:", doubled);
-console.log("Evens:", evens);
-console.log("Sum:", sum);
+const customer = { name: "Budi", age: 25, member: true, address: "Melati 12" };
+console.log("\nName:", customer.name, "| Age:", customer["age"]);
+customer.phone = "08123456789";
+delete customer.member;
+console.log("After update:", customer);
 
-// Object
-const mahasiswa = {
-    nama: "Budi",
-    umur: 20,
-    jurusan: "Informatika",
-    aktif: true
-};
-console.log("\n=== Object ===");
-console.log("Nama:", mahasiswa.nama);
-console.log("Umur:", mahasiswa["umur"]);
+const { name, address } = customer;
+console.log("\nDestructuring:", name, "-", address);
 
-mahasiswa.semester = 4;
-delete mahasiswa.aktif;
-console.log("Setelah update:", mahasiswa);
-
-// Destructuring
-const { nama, jurusan } = mahasiswa;
-console.log("\nDestructuring:", nama, "-", jurusan);
-
-// Spread
-const buahBaru = [...buah, "durian", "manggis"];
-console.log("Spread:", buahBaru);
+const allFruits = [...fruits, "durian", "mangosteen"];
+console.log("\nSpread fruits:", allFruits);
+const newCustomer = { ...customer, points: 120 };
+console.log("Spread + points:", newCustomer);
 ```
 
 ---
 
 ## Key Concepts
 
-### Arrays
-Ordered lists. `push`/`pop` at end, `shift`/`unshift` at start.
+### Array = List (Order Matters)
+`fruits[0]` apple. `push`/`pop` end, `unshift`/`shift` start, `length` count.
 
-### Array Methods
-`map` transform, `filter` select, `reduce` accumulate, `find` search first.
+### `map` / `filter` / `reduce` = Shelf Machines
+- `map` = **change each** (raise price 10%)
+- `filter` = **pick passing** (only cheap)
+- `reduce` = **collect to 1** (total)
+- `find` = first match.
 
-### Objects
-Key-value pairs. Access: `obj.key` or `obj["key"]`.
+### Object = Card (Label Matters)
+`{ name: "Budi", age: 25 }` → `customer.name`. Add `customer.phone = ...`, delete `delete customer.member`.
 
-### Destructuring
-`const { nama } = obj` — extract property to variable.
+### Destructuring & Spread
+- Unpack: `const { name, age } = customer`
+- Merge: `[...old, "new"]`, `{...old, new: 123}`
 
-### Spread
-`[...arr1, ...arr2]` — merge arrays. `{...obj1, ...obj2}` — merge objects.
+---
+
+## Beginner Friendly Explanation
+
+### Analogy
+
+- **Array = fruit shelf in order**: `push` put at end, `pop` take end.
+- **Object = member card**: label `name`, `age`.
+- **`map` = price stamp**: stamp each fruit new price.
+- **`filter` = sieve**: only cheap passes.
+- **`spread` = photocopy shelf**: `[...fruits, "durian"]` copy old + add durian (original not damaged).
 
 ---
 
 ## Experiments
 
-- Create 2D array and iterate with nested forEach
-- Try reduce to calculate average
-- Experiment destructuring nested objects
-- Create object copy with spread vs Object.assign
-- Try array method chaining: filter().map().reduce()
+- **Green:** `const veg = ["spinach","kale"]`, `push` "cabbage", `length`?
+- **Yellow:** From `prices`, `expensive = prices.filter(p => p >= 20000)` and `discountedTotal = prices.map(p=>p*0.9).reduce((a,b)=>a+b,0)`
+- **Red:** `const a = [...fruits]; a.push("x"); console.log(fruits)` → original unchanged? Yes, spread is copy.
 
 ---
 
 ## Challenge
 
-Build a contact management program: add, delete, search, filter by category — use array of objects.
+**Shop Contacts:** `contacts = [{name:"Budi", phone:"081", category:"customer"}, ... 5 ]`. Then:
+1. `filter` only `customer`
+2. `map` to `["Budi - 081", ...]`
+3. `reduce` count
+4. Add 1 new via `[...contacts, newOne]`, not `push`
+
+Bonus: `const {name, category} = contacts[0]`
+
+---
+
+## Mini Glossary
+
+- **Array**: ordered list
+- **Object**: label-value pairs
+- **map/filter/reduce**: list processors
+- **Destructuring**: unpack to variables
+- **Spread `...`**: copy + add
 
 ---
 
 ## Summary
 
-Week 2 of 14: **Data Types & Data Structures** (Level: Beginner). Data organization. Next week: **Control Flow**.
+Week 2 of 14: **Data Types & Structures** (Level: Beginner). You can organize lists (array) and cards (object), process with map/filter. Next week: **Control Flow** — decide "if out of stock, don't sell" (`if`, `switch`, `loop`).

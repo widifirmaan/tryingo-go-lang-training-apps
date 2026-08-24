@@ -1,98 +1,127 @@
-# Python Basics & Syntax
+# Python Basics — Ledger That Calculates Itself
 
-> **Kategori:** Python | **Level:** Beginner | **Minggu 1:** Python Basics & Syntax
+> **Kategori:** Python | **Level:** Beginner | **Minggu 1:** Dasar Python & Sintaks
 
 ## Learning Objectives
 
-- Understand Python as an interpreted, dynamically typed language (Python.org tutorial)
-- Run Python files with python command and IDE
-- Declare variables without explicit types — duck typing
-- Learn basic data types: int, float, str, bool, None
-- Use f-strings for modern string formatting
+- Understand Python like smart ledger reading line by line (interpreted)
+- Install Python, run `python hello.py` and in VS Code
+- Store data without type: `name = "Budi"` auto text
+- Know 5 types: `int`, `float`, `str`, `bool`, `None`
+- Join text neat with `f" Hello {name}"` and check `type()`
 
 ---
 
-## Program: Hello, Python!
+## Why This Matters (Non-IT)
+
+Teacher recaps scores, shop counts stock — all need note and calc. Python = **ledger that calculates**: write `total = price * qty`, it calculates. No `;` or braces — just **enter & 4 spaces**.
+
+Today you make same receipt as JS, but more human-like.
+
+---
+
+## Program: Shop Receipt Python
+
+Save as `receipt.py` → `python receipt.py`
 
 ```python
+print("Siti's Shop")
+print("=" * 25)
 
-# Dasar Python & Sintaks
-print("Selamat datang di Python!")
-print("Python adalah bahasa interpreted, dynamically typed.")
+shop = "Siti's Shop"
+customer = "Budi"
+rice_kg = 2
+price_per_kg = 12500
+eggs_kg = 1
+egg_price = 28000
 
-# Variabel — tidak perlu deklarasi tipe
-nama = "Pyverse"
-versi = 3.12
-aktif = True
-tahun = 2024
+total = rice_kg * price_per_kg + eggs_kg * egg_price
+print(f"Shop: {shop}")
+print(f"Customer: {customer}")
+print(f"Total: Rp {total:,}")
 
-# f-strings untuk formatting
-print(f"Nama: {nama}")
-print(f"Versi: {versi}")
-print(f"Aktif: {aktif}")
-print(f"Tahun: {tahun}")
+print("\n=== Check Type ===")
+print(f"shop: {type(shop).__name__}")
+print(f"rice_kg: {type(rice_kg).__name__}")
+print(f"total: {type(total).__name__}")
 
-# Tipe data dengan type()
-print(f"\nTipe variabel:")
-print(f"nama: {type(nama).__name__}")
-print(f"versi: {type(versi).__name__}")
-print(f"aktif: {type(aktif).__name__}")
-print(f"tahun: {type(tahun).__name__}")
+receipt = f"Hello {customer}, your total is Rp {total:,}. Thanks!"
+print("\n" + receipt)
 
-# Multiple assignment
-x, y, z = 10, 20, 30
-print(f"\nx={x}, y={y}, z={z}")
+customer = "Siti"
+total = total + 5000
+print(f"\nAfter switch: {customer}, New total: Rp {total:,}")
 
-# Swap tanpa variabel temporary
 a, b = 5, 10
+print(f"\nBefore swap: a={a}, b={b}")
 a, b = b, a
-print(f"Setelah swap: a={a}, b={b}")
+print(f"After swap: a={a}, b={b}")
 
-# Konversi tipe
-angka_str = "42"
-angka_int = int(angka_str)
-angka_float = float(angka_str)
-print(f"\nKonversi: '{angka_str}' -> int={angka_int}, float={angka_float}")
-    
+num_str = "42"
+num_int = int(num_str)
+print(f"\n'{num_str}' as number: {num_int} + 8 = {num_int + 8}")
 ```
+
+**How to run:**
+- Install Python from `python.org` → check `Add to PATH`
+- VS Code → `receipt.py` → Run or `python receipt.py`
+- Tryngo playground: copy, Run
 
 ---
 
 ## Key Concepts
 
-### What is Python
-Interpreted, dynamically typed language by Guido van Rossum. No compilation needed — code runs line by line. Indentation defines code blocks.
+### Python = Read Line by Line, No Type Prefix
+`name = "Budi"` auto `str`, `age = 25` auto `int`. No `string name`.
 
-### Variables & Types
-No type declaration needed: `x = 5` is auto int. Basic types: `int`, `float`, `str`, `bool`, `None`.
+### 5 Basic Types
+`int` `25`, `float` `3.14`, `str` `"Budi"`, `bool` `True/False` (capital!), `None` (empty)
 
-### f-strings
-`f"Hello {name}"` — modern string formatting in Python 3.6+.
+### `f"..."` = Auto Stamp
+`f"Hello {name}"` — braces fill variable. `f"Rp {total:,}"` with `:,` makes `62000` → `62,000`.
 
-### Multiple Assignment
-`a, b = 10, 20` and swap `a, b = b, a`.
+### Indentation = Space Rule
+No `{}`. Block by **4 spaces indent**. Wrong space → error.
 
-### Type Conversion
-`int("42")`, `str(100)`, `float("3.14")` — explicit type conversion.
+### `a, b = b, a` — Magic Swap
+No temp needed. Python swaps in 1 line.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Magic Ledger
+
+- **Variable = ledger line**: `customer = "Budi"` write "Budi" on customer line.
+- **No type = no stamp needed**: write "Budi", book knows text.
+- **f-string = auto stamp**: `f"Total {total}"` auto fills number.
+- **Indentation = book margin**: indented = still same chapter.
 
 ---
 
 ## Experiments
 
-- Change variable values and observe output
-- Try type() on different variables
-- Create type conversions: str to float, int to str
-- Experiment with multiple assignment
-- Build a small program combining 2-3 concepts
+- **Green:** Change `rice_kg = 5`, `customer = "Andi"` → total?
+- **Yellow:** `f"10% discount = {total * 0.1:,}"`
+- **Red:** Forget `f` → `"{customer}"` shows raw `{customer}`. Add `f`.
 
 ---
 
 ## Challenge
 
-Build a currency converter: input Rupiah, convert to USD, EUR, JPY. Use f-strings and type conversion.
+**Delivery Calculator:** Hardcode `weight = 2.5`, `distance = 8`, calc `delivery = weight*5000 + distance*2000`, show `f"Weight {weight}kg, distance {distance}km → Rp {delivery:,}"` + `type(delivery).__name__`. Add `note = None` if no note.
+
+---
+
+## Mini Glossary
+
+- **Variable**: labeled box
+- **f-string**: `f"{}"` template
+- **int/float/str/bool/None**: data types
+- **Indentation**: 4-space block
 
 ---
 
 ## Summary
 
-Week 1 of 12: **Python Basics & Syntax** (Level: Beginner). Python is readable and writable. Next week: **Data Types & Operations**.
+Week 1 of 12: **Python Basics** (Level: Beginner). You can note shop and calc receipt in human-like language. Next week: **Data Types & Operations** — text tricks (upper, slice) and `// % **` .
