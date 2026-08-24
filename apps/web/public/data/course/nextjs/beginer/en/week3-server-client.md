@@ -1,119 +1,168 @@
-# Server & Client Components
+# Server & Client Components — Kitchen vs Table
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 3:** Server & Client Components
 
 ## Learning Objectives
 
-- Server Components: default in App Router, render on server
-- Client Components: "use client" directive, interactive
-- When to use Server vs Client component
-- Data fetching directly in Server Component
-- Composition pattern: Server wrapping Client
+- Understand 2 kinds of Next.js components: **Server Component** (cook in kitchen, default) vs **Client Component** (at the table, needs `"use client"`)
+- Know when to use which: Server for fetching & showing, Client for clicking, typing
+- Golden rule: **Server can import Client, Client cannot import Server**
+- Build a simple interactive component with `useState` without hurting performance
+- Combine both: Server fetches products, Client filters search
 
 ---
 
-## Program: Component Combination
+## Why This Matters (Non-IT)
+
+Imagine Siti's shop: **Kitchen (server)** cooks fried rice, **Table (browser)** where customer adds chili. If everything is cooked at the table, smoke everywhere. If everything in kitchen, customer can't adjust taste.
+
+Next.js App Router **default = kitchen** (Server). Makes site fast & light (great for low-spec phones). Only interactive parts (button, input) move to table (`"use client"`). Wrong choice = slow site or `useState is not defined` error.
+
+---
+
+## Program: Product List + Search Box (Server + Client)
+
+1 Server Component fetches data, 1 Client Component handles search.
 
 ```jsx
-// Next.js App Router: Server Components (default) & Client Components
-// "use client" directive untuk interactive components
+// ── app/products/page.js — SERVER COMPONENT (default, no "use client") ──
+async function getProducts() {
+  return [
+    { id: "1", name: "Rice 5kg", price: 62000, category: "staple" },
+    { id: "2", name: "Spinach", price: 5000, category: "vegetable" },
+    { id: "3", name: "Eggs 1kg", price: 28000, category: "staple" },
+    { id: "4", name: "Chili 250g", price: 15000, category: "vegetable" },
+  ];
+}
 
-// ── Server Component (default) ──
-// Bisa: fetch data, akses filesystem, API keys (aman)
-// Tidak bisa: useState, useEffect, onClick, browser APIs
+import SearchBox from "./SearchBox"; // Client imported in Server — OK
 
-// ── app/products/page.js (Server Component) ──
 export default async function ProductsPage() {
-  // Fetch langsung di server component (aman, cepat)
-  const products = await fetchProducts();
+  const products = await getProducts(); // direct await, no useEffect!
 
   return (
     <div>
-      <h1>Produk</h1>
-      <ProductList products={products} />
-      <SearchBar /> {/* Client Component */}
+      <h1>Shop Products</h1>
+      <p style={{ color: "gray" }}>Fetched on server — fast & SEO-friendly</p>
+      <SearchBox list={products} />
     </div>
   );
 }
 
-async function fetchProducts() {
-  // Simulasi fetch data di server
-  return [
-    { id: 1, name: "Laptop", price: 15000000 },
-    { id: 2, name: "Mouse", price: 250000 },
-  ];
-}
-
-// ── components/ProductList.jsx (Server Component) ──
-function ProductList({ products }) {
-  return (
-    <ul>
-      {products.map((p) => (
-        <li key={p.id}>
-          {p.name} — Rp {p.price.toLocaleString("id-ID")}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-// ── components/SearchBar.jsx (Client Component) ──
+// ── app/products/SearchBox.js — CLIENT COMPONENT (interactive, in browser) ──
 "use client";
 
 import { useState } from "react";
 
-function SearchBar() {
+export default function SearchBox({ list }) {
   const [query, setQuery] = useState("");
+  const results = list.filter((p) => p.name.toLowerCase().includes(query.toLowerCase()));
 
   return (
     <div>
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Cari produk..."
+        placeholder="Search: rice, spinach..."
+        style={{ padding: 8, width: "100%", maxWidth: 300, border: "1px solid #ccc", borderRadius: 8 }}
       />
-      <p>Mencari: {query || "(kosong)"}</p>
+      <p style={{ color: "gray" }}>Showing {results.length} of {list.length}</p>
+      <ul>
+        {results.map((p) => (
+          <li key={p.id}>{p.name} — Rp {p.price.toLocaleString("en-US")} <span style={{ color: "gray" }}>({p.category})</span></li>
+        ))}
+      </ul>
+      {results.length === 0 && <p style={{ color: "red" }}>No results for "{query}"</p>}
     </div>
   );
 }
-
-console.log("Server & Client Components siap digunakan");
 ```
+
+Rules:
+- `page.js` **no** `"use client"` → stays Server → can `async/await`.
+- `SearchBox.js` has `"use client"` on **line 1** → can use `useState`.
 
 ---
 
 ## Key Concepts
 
-### Server Components
-Default. Render on server. Smaller bundles. Direct fetch.
+### Server Component (Default)
+- **Where:** server (kitchen). No JS sent → light.
+- **Can:** `await fetch()`, read DB, use `process.env`.
+- **Cannot:** `useState`, `useEffect`, `onClick`, `window`.
 
-### Client Components
-"use client". For interactivity.
+### Client Component (`"use client"`)
+- **Where:** browser (table). JS sent, interactive.
+- **Can:** `useState`, `onClick`, `localStorage`.
+- **Cost:** adds JS → use as small as possible (only SearchBox).
 
-### When to Use
-- Server: fetch, read files, static display
-- Client: interactivity, hooks, browser APIs
+### Correct Composition
+```
+Server (page.js) 
+  └─► Client (SearchBox.js)  ✅ OK
+Client 
+  └─► Server                 ❌ ERROR
+```
+Fix: Server passes data as `props` (`list={products}`).
 
-### Pattern
-Server wraps Client, not vice versa.
+### Common Beginner Mistakes (2025)
+- Put `"use client"` on `page.js` to use `useState` → whole page heavy. **Don't.** Split small.
+- Forget `"use client"` → `useState is not defined`.
+- Use `useEffect` fetch in Client → Server could do `await fetch()` directly.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Kitchen & Table
+
+- **Server = Kitchen**: cook fried rice (fetch), customer only sees plate (HTML).
+- **Client = Table + Fork**: customer stirs chili (type), presses bell (click).
+- **`"use client"` = "Touch Allowed" sticker**: without it, plate is display only.
+
+### How the Computer Reads It
+
+1. Browser asks `/products` → Server runs `ProductsPage()` → `await getProducts()` → HTML.
+2. Server sees `SearchBox` is Client → sends HTML + small JS for SearchBox.
+3. User types "rice" → `useState` in `SearchBox` updates → filter runs **in browser**, no server request → fast.
+
+### 3 Must-Know Terms
+
+1. **`"use client"`** = marker "this file lives in browser, interactive". Must be line 1.
+2. **Props** = data parcel from Server to Client (`list={products}`)
+3. **Server-First** = Next.js principle: assume server, move to client only if needs click/type.
 
 ---
 
 ## Experiments
 
-- Create Server Component fetching from API
-- Create Client Component with interactive form
-- Combine both: Server list + Client filter
-- Compare bundle sizes
+- **Green:** Change placeholder, add new product in `getProducts()`.
+- **Yellow:** Create second Client `CartButton.js` with `useState` counter, import in `page.js`.
+- **Red:** Move `"use client"` from `SearchBox.js` to `page.js`. Check Network tab JS size increase. Revert.
 
 ---
 
 ## Challenge
 
-Build a dashboard page: Server Component for static data (sidebar, header), Client Component for interactive table with search.
+**Pick one:**
+
+**A. Shop Filter:** Add 2 category buttons in `SearchBox`: "All | Staple | Vegetable" — filter `results` again.
+
+**B. Mini Dashboard:** Server fetches `[{name, score}]` students, Client shows search + average of filtered.
+
+Done when: 1 Server file (`page.js` async), 1 Client file (`"use client"`), data via `props`.
+
+---
+
+## Mini Glossary
+
+- **Server Component**: component on server, default
+- **Client Component**: component in browser, needs `"use client"`
+- **useState**: storage that changes on click/type (Client only)
+- **props**: way to pass data parent → child
 
 ---
 
 ## Summary
 
-Week 3 of 12: **Server & Client Components** (Level: Beginner). Next.js component architecture. Next week: **Styling & Optimization**.
+Week 3 of 12: **Server & Client Components** (Level: Beginner). You learned **kitchen vs table**: Server cooks data (fast, safe), Client handles touch (search, click). Next week: **Styling & Optimization** — Tailwind & images that don't eat quota.
