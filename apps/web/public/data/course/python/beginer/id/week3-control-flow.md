@@ -1,125 +1,170 @@
-# Control Flow & Loops
+# Control Flow — Jika Nilai 85 Dapat B apa?
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 3:** Control Flow & Loops
 
 ## Tujuan Pembelajaran
 
-- If/elif/else dengan indentation sebagai pengganti kurung kurawal
-- For loop dengan range() dan iterasi pada list/string/dict
-- While loop dengan kondisi dan increment
-- Break, continue, dan pass untuk kontrol loop
-- List comprehension: [expr for x in iterable if cond]
+- Putuskan dengan `if / elif / else` (pakai spasi menjorok 4, tanpa `{}`)
+- Singkat dengan ` "Lulus" if nilai >= 70 else "Gagal"`
+- Ulangi dengan `for` + `range()`: `range(5)` = 0-4, `range(2,10,2)` = genap
+- Loop daftar: `for buah in daftar:` dan hitung `enumerate(daftar, 1)`
+- `while` selama kondisi, `break` keluar, `continue` loncat, `pass` kosong
+- Cepat dengan **list comprehension**: `[x**2 for x in range(5) if x%2==0]`
 
 ---
 
-## Program: Grade & Bilangan
+## Kenapa Ini Penting Buat Kamu?
+
+Nilai 85 harus jadi B tanpa tulis manual 30x. Stok harus dicek satu per satu otomatis. **Control flow = satpam yang putuskan jalur, loop = cap stempel berulang.** Tanpa ini, kamu if manual 100 baris.
+
+---
+
+## Program: Rapor Warung & Hitung Stok
 
 ```python
-
-# Control Flow & Loops
-print("=== If/Elif/Else ===")
+# ── 1. If Bertingkat — seperti rapor ──
 nilai = 85
 if nilai >= 90:
     grade = "A"
-elif nilai >= 80:
+elif nilai >= 80:  # elif = else if Python
     grade = "B"
 elif nilai >= 70:
     grade = "C"
-elif nilai >= 60:
-    grade = "D"
 else:
-    grade = "E"
-print(f"Nilai {nilai} -> Grade {grade}")
+    grade = "D"
+print(f"Nilai {nilai} → Grade {grade}")
 
-print("\n=== Ternary Expression ===")
-status = "Lulus" if nilai >= 60 else "Tidak Lulus"
-print(f"Status: {status}")
+# Ternary Python (dibalik dari JS!)
+status = "Lulus" if nilai >= 70 else "Gagal"
+print("Status:", status)
 
-print("\n=== For Loop ===")
-print("Range 5:")
-for i in range(5):
-    print(f"  {i}", end="")
-print()
-
-print("Range(2, 10, 2):")
+# ── 2. For dengan range ──
+print("\nHitung 0-4:")
+for i in range(5):  # 0,1,2,3,4
+    print(i, end=" ")
+print("\nGenap 2-8:")
 for i in range(2, 10, 2):
-    print(f"  {i}", end="")
+    print(i, end=" ")
 print()
 
-print("\n=== Loop through List ===")
-buah = ["apel", "mangga", "pisang", "jeruk"]
-for i, item in enumerate(buah, 1):
-    print(f"  {i}. {item}")
+# ── 3. Loop daftar + nomor ──
+print("\n=== Stok ===")
+buah = ["beras", "minyak", "gula", "telur"]
+for no, nama in enumerate(buah, 1):
+    print(f"{no}. {nama}")
 
-print("\n=== While Loop ===")
-n = 1
-while n <= 5:
-    print(f"  While: {n}")
-    n += 1
+# ── 4. While — selama ada sisa ──
+print("\n=== While ===")
+sisa = 3
+while sisa > 0:
+    print(f"Sisa: {sisa}")
+    sisa -= 1
 
+# ── 5. Break & Continue — sortir apel busuk ──
 print("\n=== Break & Continue ===")
 for i in range(10):
-    if i == 3:
-        continue
-    if i == 7:
-        break
-    print(f"  {i}", end="")
+    if i == 3: continue  # loncat 3
+    if i == 7: break     # stop di 7
+    print(i, end=" ")
 print()
 
-print("\n=== Nested Loop (Multiplication Table) ===")
-for i in range(1, 4):
-    for j in range(1, 4):
-        print(f"{i*j:3}", end="")
-    print()
+# ── 6. List comprehension — saring + ubah sekaligus ──
+harga = [10000, 15000, 20000, 25000]
+murah = [h for h in harga if h < 20000]   # saring
+naik = [h * 1.1 for h in harga]           # ubah
+print(f"\nMurah: {murah}")
+print(f"Naik 10%: {[int(x) for x in naik]}")
 
-print("\n=== List Comprehension ===")
-kuadrat = [x**2 for x in range(1, 6)]
-genap = [x for x in range(10) if x % 2 == 0]
-print(f"Kuadrat: {kuadrat}")
-print(f"Genap: {genap}")
-    
+# ── 7. Gabungan nyata: total belanja yang ada stok ──
+keranjang = [
+    {"nama": "Beras", "harga": 62000, "ada": True},
+    {"nama": "Gula", "harga": 15000, "ada": False},
+    {"nama": "Minyak", "harga": 34000, "ada": True},
+]
+total = 0
+for item in keranjang:
+    if not item["ada"]:
+        continue
+    total += item["harga"]
+print(f"\nTotal yang bisa dibeli: Rp {total:,}")
 ```
 
 ---
 
 ## Konsep Kunci
 
-### If/Elif/Else
-Indentasi (4 spasi) menentukan blok. Tidak perlu kurung kurawal atau parentheses.
+### `if/elif/else` Pakai Spasi
+```python
+if nilai >= 90:
+    grade = "A"  # menjorok 4 spasi
+elif nilai >= 80:
+    grade = "B"
+else:
+    grade = "C"
+```
+Tanpa `()` dan `{}`, cukup `:` dan menjorok.
 
-### For Loop
-`range(n)` = 0..n-1. `range(start, stop, step)`. Iterasi langsung pada iterable.
+### `range()` = Mesin Nomor
+- `range(5)` → 0,1,2,3,4
+- `range(2,10,2)` → 2,4,6,8
+- `range(5,0,-1)` → 5,4,3,2,1
 
-### enumerate
-`enumerate(list, start=1)` memberikan index + value sekaligus.
+### `for` Python Langsung Barang
+`for buah in ["apel","mangga"]:` langsung `buah` = "apel", tidak `i` index. Pakai `enumerate` jika butuh nomor.
 
-### Break & Continue
-`break` keluar loop, `continue` skip ke iterasi berikutnya, `pass` dummy statement.
+### `break`/`continue`/`pass`
+- `break` keluar, `continue` loncat, `pass` diam (placeholder `if True: pass`).
 
-### List Comprehension
-`[x**2 for x in range(5)]` — ringkas, cepat, Pythonic.
+### List Comprehension = Jalan Tol
+`[x**2 for x in range(5) if x%2==0]` = loop + filter 1 baris, lebih cepat dari `for` + `append`.
 
-### Ternary
-`value_if_true if condition else value_if_false`.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi
+
+- **`if` = satpam toko**: "Jika nilai ≥90, pintu A. Jika 80, pintu B."
+- **`range` = mesin nomor antrian**: tekan `range(5)` keluar 0-4.
+- **`for buah in daftar` = cek rak**: ambil tiap barang, tidak perlu hitung index.
+- **`comprehension` = saringan + stempel sekaligus**: saring murah + stempel naik 10% dalam 1 saringan.
+
+### Cara Komputer Membaca
+
+1. `if nilai >=90:` → 85>=90? false → `elif 85>=80` true → `grade="B"` → **stop**, tidak cek C/D.
+2. `for i in range(5): print(i)` → `i=0` cetak, `i=1` cetak, sampai 4.
+
+### 3 Istilah Wajib
+
+1. **elif**: else if Python
+2. **range**: pembuat urutan angka
+3. **Comprehension**: loop 1 baris
 
 ---
 
 ## Eksperimen
 
-- Ubah nilai dan lihat grade berubah
-- Buat for loop dengan break pada kondisi tertentu
-- Buat list comprehension yang filter + transform
-- Implementasikan FizzBuzz dengan if/elif
-- Coba nested loop untuk pola segitiga
+- **Hijau:** `nilai=95` → grade apa? `range(10,0,-2)` → apa?
+- **Kuning:** `genap = [x for x in range(20) if x%2==0 and x>10]` → berapa?
+- **Merah:** Lupa menjorok → `IndentationError`. Menjorok 4 spasi → jalan.
 
 ---
 
 ## Tantangan
 
-Buat program tebak angka: generate random 1-100, user diberi hint "lebih besar/kecil", hitung jumlah percobaan. Gunakan while loop.
+**Tebak Harga:** `harga_rahasia= 7` (hardcode), `tebakan=[3,9,7]` loop `for t in tebakan:` jika `t==rahasia` → `print("Benar!")` + `break`, jika `t<rahasia` → "Kekecilan", else "Kebesaran". Jika habis loop tanpa benar → "Gagal". Pakai `continue` jika `t is None`.
+
+---
+
+## Glosarium Mini
+
+- **if/elif/else**: cabang
+- **range/for/while**: loop
+- **enumerate**: nomor + isi
+- **comprehension**: loop singkat
 
 ---
 
 ## Ringkasan
 
-Minggu 3 dari 12: **Control Flow & Loops** (Level: Pemula). Logika program Anda. Minggu depan: **Functions**.
+Minggu 3 dari 12: **Control Flow & Loops** (Level: Pemula). Bisa putuskan dan ulang otomatis. Minggu depan: **Functions** — resep pakai ulang.

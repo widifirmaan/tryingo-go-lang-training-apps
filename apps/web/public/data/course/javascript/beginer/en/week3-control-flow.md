@@ -1,124 +1,131 @@
-# Control Flow
+# Control Flow — If Out of Stock, What To Do?
 
 > **Kategori:** JavaScript | **Level:** Beginner | **Minggu 3:** Control Flow
 
 ## Learning Objectives
 
-- If/else if/else for multi-level conditions
-- Ternary operator: condition ? true : false
-- Switch case for multiple conditions
-- Loops: for, while, do-while, for-of, for-in
-- Break and continue for loop control
+- Decide with `if / else if / else` — like fork in road
+- Short with **ternary** `score >= 70 ? "Pass" : "Fail"`
+- Many fixed choices with `switch` (Monday-Friday)
+- Repeat with **loops**: `for`, `while`, `for...of` (list), `for...in` (card)
+- Stop/skip with `break` & `continue`
 
 ---
 
-## Program: Grade System
+## Why This Matters (Non-IT)
+
+Shop: **if out of stock → show "Out", else "Buy"**. Teacher: **if 85 → B, 90 → A**. Without `if`/`loop`, you write each case manually. With control flow, computer decides thousands of times.
+
+---
+
+## Program: Grades & Stock Auto
 
 ```javascript
-// If/Else
-const nilai = 85;
+const score = 85;
+if (score >= 90) console.log("Grade: A");
+else if (score >= 80) console.log("Grade: B");
+else if (score >= 70) console.log("Grade: C");
+else console.log("Grade: D");
 
-if (nilai >= 90) {
-    console.log("Grade: A");
-} else if (nilai >= 80) {
-    console.log("Grade: B");
-} else if (nilai >= 70) {
-    console.log("Grade: C");
-} else {
-    console.log("Grade: D");
-}
-
-// Ternary
-const status = nilai >= 70 ? "Lulus" : "Tidak Lulus";
+const status = score >= 70 ? "Pass ✅" : "Fail ❌";
 console.log("Status:", status);
 
-// Switch
-const hari = "Senin";
-switch (hari) {
-    case "Senin":
-        console.log("Mulai kerja!");
-        break;
-    case "Jumat":
-        console.log("Hampir weekend!");
-        break;
-    default:
-        console.log("Hari biasa.");
+const day = "Friday";
+switch (day) {
+  case "Monday": console.log("Monday hustle!"); break;
+  case "Friday": console.log("Almost weekend!"); break;
+  case "Saturday": case "Sunday": console.log("Holiday 🎉"); break;
+  default: console.log("Workday");
 }
 
-// For Loop
-console.log("\n=== For Loop ===");
-for (let i = 1; i <= 5; i++) {
-    console.log("Iterasi ke-" + i);
-}
+console.log("\n=== For 1-5 ===");
+for (let i = 1; i <= 5; i++) console.log("Count:", i);
 
-// For...Of (Array)
-const warna = ["merah", "hijau", "biru"];
+const stock = ["rice", "oil", "sugar"];
 console.log("\n=== For...Of ===");
-for (const w of warna) {
-    console.log("Warna:", w);
-}
+for (const item of stock) console.log("Check:", item);
 
-// For...In (Object)
-const user = { nama: "Budi", umur: 25 };
+const profile = { name: "Budi", age: 25, city: "Jakarta" };
 console.log("\n=== For...In ===");
-for (const key in user) {
-    console.log(key + ":", user[key]);
-}
+for (const key in profile) console.log(key + ":", profile[key]);
 
-// While & Do-While
 console.log("\n=== While ===");
-let n = 1;
-while (n <= 3) {
-    console.log("While:", n);
-    n++;
-}
+let left = 3;
+while (left > 0) { console.log("Left:", left); left--; }
 
-// Break & Continue
 console.log("\n=== Break & Continue ===");
 for (let i = 1; i <= 10; i++) {
-    if (i === 5) break;
-    if (i % 2 === 0) continue;
-    console.log("Ganjil (sebelum 5):", i);
+  if (i === 5) { console.log("Stop at 5 (break)"); break; }
+  if (i % 2 === 0) continue;
+  console.log("Odd before 5:", i);
 }
+
+const cart = [{ name: "Rice", price: 62000, inStock: true }, { name: "Sugar", price: 15000, inStock: false }, { name: "Oil", price: 34000, inStock: true }];
+let total = 0;
+for (const item of cart) { if (!item.inStock) continue; total += item.price; }
+console.log("\nTotal buyable: Rp", total.toLocaleString("en-US"));
 ```
 
 ---
 
 ## Key Concepts
 
-### If/Else
-Multi-level conditions. Evaluates top-down, stops at first true.
+### `if / else if / else` = Fork
+Check top, stop at first `true`. `else` = last road if all fail.
 
-### Ternary
-`condition ? valueIfTrue : valueIfFalse` — shorthand for simple if/else.
+### Ternary = Mini If
+`condition ? ifYes : ifNo` — for 1 line.
 
-### Switch
-Good for many conditions with fixed values. Don't forget `break`.
+### `switch` = Many Doors with Labels
+Good for 1 variable vs many fixed values. Don't forget `break`.
 
-### Loops
-`for` classic, `while` condition first, `do-while` run first. `for-of` for iterables, `for-in` for object keys.
+### Loop = Stamping Repeatedly
+- `for (let i=1; i<=5; i++)` — known count
+- `while (left > 0)` — while condition
+- `for...of` — for array, `for...in` — for object
 
-### Break & Continue
-`break` exits loop, `continue` skips to next iteration.
+### `break` / `continue`
+- `break` = **exit** loop
+- `continue` = **skip** 1 round
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy
+
+- **`if` = shop guard**: "If stock >0, please buy. Else sorry out."
+- **`switch` = day board**: Monday do A, Friday do B.
+- **`for` = stamping**: stamp 5x with number `i=1..5`.
+- **`for...of` = check shelf one by one**
+- **`break` = emergency brake**, `continue` = skip 1 stair.
 
 ---
 
 ## Experiments
 
-- Create FizzBuzz program with for and if
-- Try switch with multiple cases
-- Experiment for-of on string
-- Create loop with break on specific condition
-- Try nested loop for multiplication table
+- **Green:** Change `score = 95` → grade? Change `day = "Sunday"` → ?
+- **Yellow:** Make `for` 10 to 1 descending `for(let i=10; i>=1; i--)`
+- **Red:** Remove `break` in `switch` Friday → see "leak" prints 2 lines. Put back.
 
 ---
 
 ## Challenge
 
-Build a number guessing game: generate random, user guesses, hint higher/lower, limit 5 attempts.
+**Shop Guess:** Computer picks `secret = 7`. Loop 5 tries from array `[3,9,7]`, each: if `guess === secret` → `break` "Correct!", if `guess < secret` → "Too small", else "Too big". If loop ends without correct → "Failed 5x". Use `continue` if `guess is null`.
+
+---
+
+## Mini Glossary
+
+- **if/else**: branch
+- **switch**: many choices
+- **loop**: repeat
+- **for...of/in**: list/card loop
+- **break/continue**: stop/skip
 
 ---
 
 ## Summary
 
-Week 3 of 14: **Control Flow** (Level: Beginner). Program logic. Next week: **Functions**.
+Week 3 of 14: **Control Flow** (Level: Beginner). You can decide and repeat automatically. Next week: **Functions** — recipes reusable without rewrite.
