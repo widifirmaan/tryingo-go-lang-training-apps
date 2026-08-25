@@ -123,11 +123,11 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - **Tambah:** Sisa data fetch, Server Actions
 - **Persiapan:** Selesai
 
-#### Vue — ⬜ TODO NEXT
-- **Riset:** Vue paling ramah non-IT: `npm create vue@latest`, `template {{ }}` mirip HTML, tidak perlu `className`
-- **Ubah:** W1 jangan `Composition API refs` tapi `stiker reaktif {{ harga }}`
-- **Tambah:** `SFC` single file `.vue` demo
-- **Persiapan:** `vuejs.org` guide, bandingkan dengan React LEGO
+#### Vue — ✅ DONE W1-W4 (515f080)
+- **Riset:** Vue paling ramah non-IT: `npm create vue@latest`, `template {{ }}` mirip HTML, tidak perlu `className` — sudah rewrite manual non-IT
+- **Ubah:** W1 stiker `{{ total }}`, W2 `ref/reactive` kotak pintar, W3 `v-if/v-for` saklar, W4 `defineProps/defineEmits` LEGO — semua id+en (8 file)
+- **Tambah:** `SFC` single file `.vue` demo + `npm run dev` langkah 1
+- **Persiapan:** Selesai — `vuejs.org` + banding React LEGO
 
 #### Svelte — ⬜ TODO
 - **Riset:** Svelte compile, `$state` runes baru — 4 minggu
@@ -213,7 +213,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 ### Konten
 - [x] Pilot 4 stack (34 file) — selesai
 - [x] TypeScript 4 minggu (8 file) — selesai 5f5d833
-- [ ] Batch C1: Vue 4 minggu (8 file) — NEXT
+- [x] Vue 4 minggu (8 file) — selesai 515f080
 - [ ] Batch C2: Go 5 minggu + Rust 3 minggu
 - [ ] Batch C3: DB (Postgres/MySQL) 4 minggu + Docker 2 minggu
 - [ ] Batch C4: Sisa backend (Node/Django/Laravel) — pilih 1 jalur utama
@@ -250,6 +250,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `c054d4d` | React W1-W4 (id+en, 8 file) | Manual LEGO: Vite `create vite`, amplop props `key={id}`, kasir `useState`, alarm `useEffect` + cleanup |
 | 2026-08-25 | `cccc750` | JS W1-W5 + Python W1-W4 (id+en, 18 file) | Warung ledger: JS `const/let` struk, rak `map/filter`, Python `f"Rp {total:,}"`, `strip()` `//`, comprehension |
 | 2026-08-25 | `5f5d833` | TypeScript W1-W4 (id+en, 8 file) | Manual stiker: `harga: number` merah sebelum run, `Status "ada"|"habis"` literal, `(nama:string)=>string`, `interface Produk` cetak biru |
+| 2026-08-25 | `515f080` | Vue W1-W4 (id+en, 8 file) | Manual stiker: `{{ total }}` auto, `ref/reactive` kotak pintar, `v-if/v-for` saklar, `defineProps/defineEmits` LEGO |
 
-**Total non-IT ready:** 5 stack × ±4 minggu ×2 = **42 file** + HTML5/CSS3 harmonized. Sisa 22 stack → lanjut Vue.
+**Total non-IT ready:** 6 stack × ±4 minggu ×2 = **50 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8) + HTML5/CSS3 harmonized. Sisa 21 stack → lanjut Go.
 
