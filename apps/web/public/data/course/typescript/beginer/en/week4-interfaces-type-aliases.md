@@ -1,134 +1,125 @@
-# Interfaces & Type Aliases
+# Interfaces & Type Aliases — Card Blueprints
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 4:** Interfaces & Type Aliases
 
 ## Learning Objectives
 
-- Interfaces: define object shapes
-- Interface extends for inheritance
-- Type aliases for type composition
-- Readonly and optional properties
-- Index signatures and function interfaces
+- Difference `type` vs `interface` — when to use which
+- Make blueprint `interface Product { name: string; price: number; stock?: number }`
+- `extends` for inheritance: `Member extends Customer`
+- `readonly` and optional field
+- Index signature for dictionary `Record<string, number>`
 
 ---
 
-## Program: TypeScript Data Models
+## Why This Matters (Non-IT)
+
+Without blueprint, each product card manually `name: string, price: number` 20x — typo `prcie` passes. With `interface Product` write once, all cards follow same sticker. Change `price` to `salePrice`, error shows everywhere you forgot — safe.
+
+---
+
+## Program: Blueprint Cards
 
 ```typescript
-// Interface
-interface User {
-    name: string;
-    email: string;
-    age?: number; // optional
-    readonly id: string; // cannot be changed after creation
+interface Product {
+  readonly id: number;
+  name: string;
+  price: number;
+  stock?: number;
+  category: "staple" | "vegetable" | "protein";
 }
 
-const user1: User = {
-    id: "u1",
-    name: "Budi",
-    email: "budi@mail.com",
-    age: 25
+const rice: Product = {
+  id: 1,
+  name: "Rice 5kg",
+  price: 62000,
+  category: "staple",
 };
-console.log("User:", user1);
+console.log("Product:", rice);
+// rice.id = 2; // ❌ readonly
 
-// Interface extends
-interface Employee extends User {
-    department: string;
-    salary: number;
+interface Customer {
+  name: string;
+  phone: string;
 }
-
-const emp: Employee = {
-    id: "e1",
-    name: "Siti",
-    email: "siti@mail.com",
-    department: "Engineering",
-    salary: 15000000
-};
-console.log("Employee:", emp);
-
-// Type Alias
-type ID = string | number;
-type Status = "active" | "inactive" | "suspended";
-type Result<T> = { success: true; data: T } | { success: false; error: string };
-
-// Interface vs Type
-// Interface: bisa extends, declaration merge
-// Type: bisa union, intersection, mapped types, conditional types
-
-// Index Signature
-interface Dictionary {
-    [key: string]: string | number;
+interface Member extends Customer {
+  points: number;
+  level: "silver" | "gold";
 }
-const dict: Dictionary = {
-    name: "Budi",
-    age: 25,
-    city: "Jakarta"
-};
+const member: Member = { name: "Budi", phone: "081", points: 120, level: "gold" };
+console.log("\nMember:", member);
 
-// Function Interface
-interface SearchFn {
-    (query: string, limit?: number): string[];
+type Status = "inStock" | "out";
+type Price = number;
+
+type StockMap = { [name: string]: number };
+const stock: StockMap = { rice: 10, eggs: 5 };
+console.log("\nRice stock:", stock["rice"]);
+
+function total(items: Product[]): number {
+  return items.reduce((s, p) => s + p.price * (p.stock ?? 1), 0);
 }
+console.log("\nTotal:", total([rice, { id: 2, name: "Spinach", price: 5000, category: "vegetable", stock: 2 }]));
 
-const searchUsers: SearchFn = (query, limit = 10) => {
-    return ["Result for: " + query + " (limit: " + limit + ")"];
-};
-
-console.log("\nSearch:", searchUsers("john"));
-console.log("Search limited:", searchUsers("jane", 5));
-
-// Hybrid Type
-interface Counter {
-    (start: number): string;
-    interval: number;
-    reset(): void;
-}
-
-console.log("\n=== Type vs Interface ===");
-console.log("Type: union, intersection, conditional");
-console.log("Interface: extends, declaration merge");
+type Brief = Pick<Product, "name" | "price">;
+const brief: Brief = { name: "Sugar", price: 15000 };
+console.log("Brief:", brief);
 ```
 
 ---
 
 ## Key Concepts
 
-### Interfaces
-Define object shapes. `interface User { name: string }`.
+### `interface` vs `type`
+- `interface` for **objects/shapes**, can `extends` and merge.
+- `type` for **alias, union, tuple, function**.
+- For shop cards, **use `interface`** more idiomatic.
 
-### Extends
-`interface Employee extends User` — add properties.
+### `readonly` & `?`
+- `readonly id` cannot change.
+- `stock?: number` may be missing.
 
-### Type Aliases
-`type ID = string | number` — alias for any type.
+### `extends`
+`Member extends Customer` → has all Customer fields + extra.
 
-### Interface vs Type
-Interface: extends, declaration merge. Type: union, intersection, conditional.
+### Index Signature
+`{ [key: string]: number }` free string-key dictionary.
 
-### Readonly & Optional
-`readonly id` cannot be changed. `age?` optional.
+---
 
-### Index Signatures
-`{ [key: string]: type }` — object with dynamic keys.
+## Beginner Friendly Explanation
+
+### Analogy: Blueprints
+
+- **Interface = house blueprint**: drawing `name`, `price`, `category` — workers (TS) check each house follows blueprint.
+- **`extends` = extension blueprint**: Member house = Customer house + 2nd floor (points).
+- **`readonly` = concrete foundation**: cannot move after built.
+- **`?` = optional**: garage may exist or not.
 
 ---
 
 ## Experiments
 
-- Create interface hierarchy: Animal → Mammal → Dog
-- Try declaration merge: two interfaces same name
-- Experiment mapped type with type alias
-- Create interface for API response
-- Try callable interface for constructor
+- **Green:** Make `interface Book { title: string; pages: number }` → make 1 book.
+- **Yellow:** `stock?: number` → make product without stock, `total` uses `?? 1`?
+- **Red:** Change `rice.id = 9` → readonly error.
 
 ---
 
 ## Challenge
 
-Build a type system for e-commerce: User, Product, Order, Cart — with interfaces, types, and relationships.
+**Tiered Student Card:** `interface Person { name: string; age: number }`, `interface Student extends Person { id: string; score: number }`, `type Status = "pass" | "remedial"`. Make `function status(s: Student): Status { return s.score >= 70 ? "pass" : "remedial" }` and array `Student[]` average.
+
+---
+
+## Mini Glossary
+
+- **interface/type**: blueprints
+- **extends**: inheritance
+- **readonly/?**: fixed/optional
 
 ---
 
 ## Summary
 
-Week 4 of 12: **Interfaces & Type Aliases** (Level: Complete TypeScript). Data modeling. Next week: **Generics**.
+Week 4 of 12: **Interfaces** (Level: Complete). Have safe card blueprints. Foundation TS done! Next: **Generics** — blueprint for any shelf.

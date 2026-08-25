@@ -1,114 +1,118 @@
-# Introduction to TypeScript
+# Intro to TypeScript — Safety Stickers for JavaScript
 
-> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 1:** Introduction to TypeScript
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 1:** Pengantar TypeScript
 
 ## Learning Objectives
 
-- Difference between TypeScript and JavaScript: static typing
-- Basic types: string, number, boolean, arrays, tuples
-- Type inference: TypeScript automatically detects types
-- Enums for fixed sets of values
-- Any, unknown, void, never types
+- Understand TypeScript = JavaScript + **label stickers** (types) preventing wrong delivery
+- Install TS, change `app.js` → `app.ts`, run `npx tsc` and `watch`
+- Write basic types: `string`, `number`, `boolean` with `:`
+- Let TS **infer** — no need to write all
+- See red error **before run**, not after customer complains
 
 ---
 
-## Program: Hello TypeScript
+## Why This Matters (Non-IT)
+
+JS allows `price = "five thousand"` (text) to pass, error only on calc. Shop loses. TS = **safety sticker on box**: `price: number` only fits number. Wrong fill, VS Code red — fix before ship.
+
+If you know JS last week, TS only adds **one colon**.
+
+---
+
+## Program: Typed Shop Receipt
+
+Save as `receipt.ts` → `npx tsc receipt.ts` → `node receipt.js`
 
 ```typescript
-// Dasar Tipe Data
-const nama: string = "Budi";
-const umur: number = 25;
-const aktif: boolean = true;
+const shopName: string = "Siti's Shop";
+const riceKg: number = 2;
+const pricePerKg: number = 12500;
+let customer: string = "Budi";
 
-console.log("Nama:", nama);
-console.log("Umur:", umur);
-console.log("Aktif:", aktif);
+let total = riceKg * pricePerKg;
+console.log(`Shop: ${shopName}, Customer: ${customer}, Total: Rp ${total}`);
 
-// Type Inference (TypeScript otomatis deteksi tipe)
-const kota = "Jakarta"; // string
-const tinggi = 175.5;  // number
-const setuju = true;   // boolean
-
-// Array
-const angka: number[] = [1, 2, 3, 4, 5];
-const buah: Array<string> = ["apel", "mangga"];
-
-// Tuple
-const koordinat: [number, number] = [106.8, -6.2];
-const userTuple: [string, number, boolean] = ["Budi", 25, true];
-
-// Enum
-enum Warna {
-    Merah = "red",
-    Hijau = "green",
-    Biru = "blue"
+function greet(name: string): string {
+  return `Hello, ${name}!`;
 }
-const favColor: Warna = Warna.Hijau;
+console.log(greet("Budi"));
+// greet(123); // ❌ Error
 
-// Any & Unknown
-let flexible: any = "bisa apa saja";
-flexible = 42;
-flexible = true;
+const prices: number[] = [10000, 15000, 20000];
+const fruits: string[] = ["apple", "mango"];
 
-let safeUnknown: unknown = "type-safe any";
-if (typeof safeUnknown === "string") {
-    console.log("String length:", safeUnknown.length);
-}
+console.log("\n=== Inference ===");
+const city = "Jakarta";
+const height = 175.5;
 
-// Void & Never
-function logMessage(msg: string): void {
-    console.log(msg);
-}
+let note: string | null = null;
+note = "No plastic please";
+console.log("Note:", note);
 
-function throwError(msg: string): never {
-    throw new Error(msg);
-}
-
-console.log("\n=== Enum ===");
-console.log("Warna favorit:", favColor);
-console.log("Koordinat:", koordinat);
+console.log("\n✅ TS checks before run — safe!");
 ```
+
+**Run (3 steps):**
+1. `npm install -g typescript` or `npm install typescript --save-dev`
+2. `npx tsc receipt.ts` → makes `receipt.js`
+3. `node receipt.js` — try `greet(123)` → `npx tsc` red before `node`.
 
 ---
 
 ## Key Concepts
 
-### TypeScript vs JavaScript
-TypeScript = JavaScript + Static Types. Compiled to JS. Catch errors at compile-time.
+### TS = JS + Stickers
+`const name: string` sticker "only text". JS has no stickers.
 
-### Basic Types
-`string`, `number`, `boolean`, `null`, `undefined`, `symbol`.
+### Inference = Auto Guess
+`const city = "Jakarta"` TS knows `string` without `:string`.
 
-### Type Inference
-`const x = 10` automatically `number`. Don't always need explicit types.
+### Typed Array
+`number[]` rack only for numbers.
 
-### Arrays & Tuples
-`number[]` or `Array<number>`. Tuple `[string, number]` fixed-length.
+### Union `A | B`
+`string | null` = text or empty.
 
-### Enums
-Named value sets: `enum Warna { Merah = "red" }`.
+### Check Before Run
+`tsc` compiles TS→JS and checks. Error at **VS Code** red, not after deploy.
 
-### Any vs Unknown
-`any` bypasses type checking. `unknown` is type-safe — must check before use.
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Warehouse Stickers
+
+- **JS = unlabeled boxes**: rice or stone, no one stops.
+- **TS = stickered boxes**: `price: number` blue sticker "Numbers only". Wrong → guard (VS Code) stops.
+- **`npx tsc` = guard check**: before goods leave, guard checks all stickers.
 
 ---
 
 ## Experiments
 
-- Try assigning string to number variable — see the error
-- Create enum for days of the week
-- Experiment unknown with type guards
-- Create tuple with 4 different elements
-- Try union type: string | number
+- **Green:** Change `riceKg: number = 2` to `"two"` → red. Fix.
+- **Yellow:** `let points: number | string = 10; points = "ten";` — union can switch?
+- **Red:** `fruits: string[]` then `fruits.push(123)` → error.
 
 ---
 
 ## Challenge
 
-Build a temperature converter: function with typed parameters, enum for units, and type-safe output.
+**Typed Receipt:** Make `function calcTotal(weight: number, price: number): number { return weight * price }`. Call `calcTotal(2, 12500)` ✅ and `calcTotal("2", 12500)` ❌ see error. Add `let discount: number | null = null` and `if (discount !== null) total -= discount`.
+
+---
+
+## Mini Glossary
+
+- **TypeScript**: JS with stickers
+- **: string / : number**: type annotation
+- **Inference**: guess type
+- **Union `|`**: or
+- **tsc**: compiler TS→JS
 
 ---
 
 ## Summary
 
-Week 1 of 12: **Introduction to TypeScript** (Level: Complete TypeScript). Type foundation. Next week: **Advanced Types**.
+Week 1 of 12: **Intro TS** (Level: Complete). You put safety stickers on JS boxes. Next: **Advanced Types** simplified — `status: "inStock" | "out"` not theory.

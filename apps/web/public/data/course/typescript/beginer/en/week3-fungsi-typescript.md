@@ -1,119 +1,112 @@
-# Functions & Signatures
+# Typed Functions — Recipes with Ingredient Labels
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 3:** Functions & Signatures
 
 ## Learning Objectives
 
-- Functions with parameter and return types
-- Optional parameters with ?
-- Default parameter values
-- Rest parameters with array types
-- Function types and overload signatures
+- Write typed functions: `(name: string) => string`, `void` if no return
+- Optional `name?: string` and default `name = "Guest"`
+- Typed `Rest` `(...nums: number[])`
+- Typed callback `(n: number) => number` and `readonly` array
+- Simple overload for `greet` with different input
 
 ---
 
-## Program: Typed Functions
+## Why This Matters (Non-IT)
+
+Recipe `calcTotal` if wrongly sent `string` → total becomes `"6210"` (text join). With `(price: number)` wrong send red. Callback `map` without type, `n` becomes `any` → typo not caught.
+
+---
+
+## Program: Typed Kitchen Functions
 
 ```typescript
-// Function dengan tipe explicit
-function add(a: number, b: number): number {
-    return a + b;
-}
-console.log("Add:", add(5, 3));
-
-// Optional parameters
-function greet(name: string, greeting?: string): string {
-    return (greeting || "Halo") + ", " + name + "!";
+function greet(name: string): string {
+  return `Hello, ${name}`;
 }
 console.log(greet("Budi"));
-console.log(greet("Siti", "Selamat pagi"));
 
-// Default parameters
-function createUser(name: string, role: string = "user"): { name: string; role: string } {
-    return { name, role };
+function greet2(name: string = "Guest", title?: string): string {
+  return title ? `Hello ${title} ${name}` : `Hello ${name}`;
 }
-console.log("\nUser default:", createUser("Budi"));
-console.log("User custom:", createUser("Siti", "admin"));
+console.log(greet2());
+console.log(greet2("Siti", "Ms."));
 
-// Rest parameters
-function sum(...numbers: number[]): number {
-    return numbers.reduce((acc, n) => acc + n, 0);
+function total(...nums: number[]): number {
+  return nums.reduce((a, b) => a + b, 0);
 }
-console.log("\nSum:", sum(1, 2, 3, 4, 5));
+console.log("\nTotal:", total(1, 2, 3, 4));
 
-// Function type
-type MathOperation = (a: number, b: number) => number;
-
-const multiply: MathOperation = (a, b) => a * b;
-const subtract: MathOperation = (a, b) => a - b;
-
-function calculate(a: number, b: number, operation: MathOperation): number {
-    return operation(a, b);
+function process(data: number[], work: (n: number) => number): number[] {
+  return data.map(work);
 }
-console.log("\nMultiply:", calculate(4, 3, multiply));
-console.log("Subtract:", calculate(10, 4, subtract));
+console.log("Doubled:", process([1, 2, 3], n => n * 2));
 
-// Overload signatures
-function process(input: string): string;
-function process(input: number): number;
-function process(input: string | number): string | number {
-    if (typeof input === "string") {
-        return input.toUpperCase();
-    }
-    return input * 2;
+function print(prices: readonly number[]) {
+  console.log("Prices:", prices);
 }
-console.log("\nOverload string:", process("hello"));
-console.log("Overload number:", process(42));
+print([10000, 20000]);
 
-// Generic function identity
-function identity<T>(value: T): T {
-    return value;
+type Cart = { price: number; qty: number };
+function calcTotal(cart: Cart[], discount: number = 0): number {
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  return subtotal * (1 - discount / 100);
 }
-console.log("\nIdentity string:", identity("TypeScript"));
-console.log("Identity number:", identity(42));
-console.log("Identity array:", identity([1, 2, 3]));
+const cart: Cart[] = [{ price: 62000, qty: 1 }, { price: 5000, qty: 2 }];
+console.log("\nTotal:", calcTotal(cart));
+console.log("10% off:", calcTotal(cart, 10));
 ```
 
 ---
 
 ## Key Concepts
 
-### Function Types
-`function add(a: number, b: number): number` — explicit all types.
+### `(a: string): string`
+Inside parentheses = input type, after = output type. `void` = no return.
 
-### Optional Params
-`param?: type` — can be undefined. Use default value or check.
+### `?:` & Default
+`title?: string` may be missing, `name = "Guest"` default fill.
 
-### Rest Params
-`...args: number[]` — collect all arguments to array.
+### `...nums: number[]`
+Rest must be typed array. `number[]` = rack only for numbers.
 
-### Function Type
-`type Fn = (a: number) => string` — function type definition.
+### Callback `(n: number) => number`
+Full function type. `readonly number[]` cannot `push`.
 
-### Overloads
-Multiple signatures for one function. TypeScript picks the matching one.
+---
 
-### Generic Function
-`<T>(value: T): T` — dynamic type that is preserved.
+## Beginner Friendly Explanation
+
+### Analogy: Labeled Recipe
+
+- **`(name: string): string`** = label on ingredient bowl and finished plate. Wrong ingredient → rejected.
+- **`readonly`** = sign "Do Not Touch".
+- **Callback** = delegate "cut this way" — way must be `(item: number) => result`.
 
 ---
 
 ## Experiments
 
-- Create function overload for date formatting
-- Try callback type: (err: Error | null, data: string) => void
-- Experiment generic function with constraint
-- Create higher-order function type
-- Try this parameter type
+- **Green:** `function mul(a:number,b:number):number { return a*b }` → `mul(2,3)`?
+- **Yellow:** `total(1,2,"3")` → error? Must all numbers.
+- **Red:** `print` then `push` → readonly error.
 
 ---
 
 ## Challenge
 
-Build a math library: overloaded functions for add/sub/mul/div with number and string support.
+**Typed Shop Calculator:** `type Item={price:number; qty:number}`, `function delivery(weight:number,distance:number):number`, `function receipt(items: readonly Item[], distance:number): string` return `` `Total Rp ${calcTotal(items)}` ``. Try send `price:"62000"` → red.
+
+---
+
+## Mini Glossary
+
+- **Signature**: function type
+- **void**: no return
+- **readonly**: cannot change
 
 ---
 
 ## Summary
 
-Week 3 of 12: **Functions & Signatures** (Level: Complete TypeScript). Function types. Next week: **Interfaces & Type Aliases**.
+Week 3 of 12: **Typed Functions** (Level: Complete). Safe labeled recipes. Next: **Interfaces** — card blueprints.

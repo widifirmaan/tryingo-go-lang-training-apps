@@ -1,87 +1,79 @@
-# Advanced Types
+# Tipe Lanjutan — Label Warna untuk Status
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 2:** Advanced Types
 
 ## Tujuan Pembelajaran
 
-- Union types: string | number | boolean
-- Literal types: specific value sebagai tipe
-- Intersection types: typeA & typeB
-- Type narrowing dengan typeof, instanceof
-- Discriminated unions untuk state handling
+- `Union` untuk pilihan: `status: "ada" | "habis" | "preorder"`
+- `Literal` + `type alias` untuk singkatan label
+- `Intersection` (`&`) untuk gabung kartu: `Pelanggan & Member`
+- `Narrowing` dengan `typeof` — TypeScript makin pintar setelah `if`
+- `Discriminated union` untuk stok bentuk berbeda (kotak, karung, botol)
 
 ---
 
-## Program: Union, Intersection & Literal
+## Kenapa Ini Penting Buat Kamu?
+
+Status warung hanya 3 kata: `ada/habis/preorder`, bukan bebas ketik `adA`. Tanpa literal, typo lolos. Dengan `type Status = "ada" | "habis"` typo langsung merah. Untuk produk beda bentuk (kotak vs karung), `discriminated union` cegah salah hitung stok.
+
+---
+
+## Program: Status & Bentuk Produk
 
 ```typescript
-// Union Types
-function printId(id: string | number) {
-    if (typeof id === "string") {
-        console.log("String ID:", id.toUpperCase());
-    } else {
-        console.log("Number ID:", id.toFixed(2));
-    }
+// 1. Union + Literal — stiker warna khusus
+type Status = "ada" | "habis" | "preorder";
+let s: Status = "ada";
+// s = "adA"; // ❌ Error
+
+function label(status: Status): string {
+  if (status === "ada") return "✅ Tersedia";
+  if (status === "habis") return "❌ Habis";
+  return "⏳ Preorder";
 }
-printId("ABC123");
-printId(42);
+console.log(label("ada"));
 
-// Literal Types
-type Direction = "north" | "south" | "east" | "west";
-function move(dir: Direction) {
-    console.log("Moving:", dir);
+// 2. Intersection — gabung 2 kartu
+type Nama = { nama: string };
+type Umur = { umur: number };
+type Orang = Nama & Umur; // harus punya keduanya
+const budi: Orang = { nama: "Budi", umur: 25 };
+console.log("\nOrang:", budi);
+
+// 3. Narrowing — setelah cek, TS tahu tipe
+function proses(id: string | number) {
+  if (typeof id === "string") {
+    // di sini TS tahu id = string → boleh .toUpperCase()
+    console.log("ID String:", id.toUpperCase());
+  } else {
+    // di sini number → boleh .toFixed()
+    console.log("ID Angka:", id.toFixed(0));
+  }
 }
-move("north");
-// move("up"); // Error! Bukan valid literal
+proses("abc123");
+proses(42);
 
-// Intersection Types
-type Named = { name: string };
-type Aged = { age: number };
-type Person = Named & Aged;
+// 4. Discriminated Union — bentuk berbeda, 1 rak
+type Produk =
+  | { jenis: "kotak"; isi: number; satuan: "pcs" }
+  | { jenis: "karung"; berat: number; satuan: "kg" };
 
-const person: Person = { name: "Budi", age: 25 };
-console.log("\nPerson:", person);
-
-// Type Narrowing
-function process(value: string | number | boolean) {
-    if (typeof value === "string") {
-        return value.length;
-    } else if (typeof value === "number") {
-        return value * 2;
-    }
-    return value ? 1 : 0;
+function stok(p: Produk): string {
+  switch (p.jenis) {
+    case "kotak": return `${p.isi} ${p.satuan}`;
+    case "karung": return `${p.berat} ${p.satuan}`;
+  }
 }
-console.log("\nProcess string:", process("hello"));
-console.log("Process number:", process(42));
-console.log("Process boolean:", process(true));
+console.log("\nStok kotak:", stok({ jenis: "kotak", isi: 12, satuan: "pcs" }));
+console.log("Stok karung:", stok({ jenis: "karung", berat: 5, satuan: "kg" }));
 
-// Discriminated Union
-type Shape =
-    | { kind: "circle"; radius: number }
-    | { kind: "square"; side: number }
-    | { kind: "rectangle"; width: number; height: number };
-
-function area(shape: Shape): number {
-    switch (shape.kind) {
-        case "circle": return Math.PI * shape.radius ** 2;
-        case "square": return shape.side ** 2;
-        case "rectangle": return shape.width * shape.height;
-    }
+// 5. Type Guard — satpam pemeriksa
+function isString(x: unknown): x is string {
+  return typeof x === "string";
 }
-
-console.log("\n=== Discriminated Union ===");
-console.log("Circle area:", area({ kind: "circle", radius: 5 }).toFixed(2));
-console.log("Square area:", area({ kind: "square", side: 4 }));
-console.log("Rectangle area:", area({ kind: "rectangle", width: 3, height: 6 }));
-
-// Type Guards
-function isString(value: unknown): value is string {
-    return typeof value === "string";
-}
-
-const test: unknown = "hello";
-if (isString(test)) {
-    console.log("\nType guard result:", test.toUpperCase());
+const cek: unknown = "halo";
+if (isString(cek)) {
+  console.log("\nPanjang:", cek.length); // aman, TS tahu string
 }
 ```
 
@@ -89,42 +81,59 @@ if (isString(test)) {
 
 ## Konsep Kunci
 
-### Union Types
-`string | number` — bisa salah satu. Bisa narrow dengan typeof.
+### `type Status = "ada" | "habis"`
+Hanya 3 kata valid. Salah ketik langsung error — seperti stiker warna khusus.
 
-### Literal Types
-`"north" | "south"` — hanya value tertentu yang valid.
+### `type Orang = Nama & Umur`
+`&` gabung → harus punya semua field dari keduanya.
 
-### Intersection
-`TypeA & TypeB` — gabung semua property dari kedua type.
-
-### Type Narrowing
-TypeScript otosisasi tipe berdasarkan kondisi (typeof, in, instanceof).
+### Narrowing `typeof`
+Setelah `if (typeof id === "string")`, TS di dalam `if` tahu `id` adalah `string`.
 
 ### Discriminated Union
-Setiap variant punya discriminator (kind). TypeScript tahu property yang tersedia.
+Tiap varian punya `jenis` pembeda. `switch(p.jenis)` TS tahu field yang ada.
 
-### Type Guard
-`value is string` — function yang return boolean dan narrow tipe.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi
+
+- **Literal = cap stempel**: hanya 3 cap `ada/habis/preorder`, tidak bisa cap `adA`.
+- **Intersection = kartu gabungan**: KTP + Kartu Member = Orang.
+- **Narrowing = senter**: setelah senter `typeof`, gelap jadi terang.
+- **Discriminated union = rak campur**: kotak dan karung 1 rak, tapi label `jenis` bedakan cara hitung.
+
+### 3 Istilah Wajib
+
+1. **Union `|`**: atau
+2. **Literal**: nilai jadi tipe
+3. **Narrowing**: persempit tipe setelah cek
 
 ---
 
 ## Eksperimen
 
-- Buat union type untuk status: idle | loading | success | error
-- Coba intersection type untuk mixin
-- Eksperimen type guard dengan in operator
-- Buat discriminated union untuk API response
-- Coba exhaustive checking dengan never
+- **Hijau:** `type Hari = "Senin"|"Jumat"` → `let h: Hari = "Senin"` ✅, `"Minggu"` ❌?
+- **Kuning:** `type A={a:string}&{b:number}` → buat objek harus dua-duanya.
+- **Merah:** Hapus `typeof` di `proses`, coba `id.toUpperCase()` di luar if → error?
 
 ---
 
 ## Tantangan
 
-Buat type-safe state machine: discriminated union untuk states, type guards untuk transitions, exhaustive handling.
+**Mesin Status Pesanan:** `type Pesanan = { status: "baru" } | { status: "kirim", resi: string } | { status: "selesai" }`. Fungsi `info(p: Pesanan)` → switch status, jika `kirim` tampilkan `resi`. Coba `info({status:"kirim"})` tanpa `resi` → error, harus lengkap.
+
+---
+
+## Glosarium Mini
+
+- **Union/Literal**: pilihan terbatas
+- **Intersection**: gabung tipe
+- **Narrowing/Guard**: cek tipe
 
 ---
 
 ## Ringkasan
 
-Minggu 2 dari 12: **Advanced Types** (Level: TypeScript Lengkap). Fleksibilitas tipe. Minggu depan: **Functions & Signatures**.
+Minggu 2 dari 12: **Tipe Lanjutan** (Level: Lengkap). Bisa batasi pilihan dan bedakan bentuk. Minggu depan: **Functions** bertipe.
