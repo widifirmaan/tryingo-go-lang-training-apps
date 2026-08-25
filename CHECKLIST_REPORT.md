@@ -94,14 +94,14 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - **Tambah:** Sisa: `pip`, `venv`, `pandas` untuk UMKM (fase 3)
 - **Persiapan:** Selesai
 
-#### Go — ⬜ TODO P1
+#### Go — ✅ DONE W1-W5 (13fbab8)
 - **Riset ideal:** Roadmap.sh Go: `go run/build`, `var :=`, `if/for`, `slice/map`, `struct` 5 minggu beginner tanpa `concurrency` dulu
-- **Cons:** Lama W1 ` toolchain vet static typed` — bunuh motivasi non-IT
-- **Keep:** Code runnable Yaegi
-- **Ubah:** W1 jadi `Buku Kas Go (go run struk.go)` analogi `kotak berlabel`, hapus `vet` minggu 1
-- **Hapus:** `toolchain` dari tujuan beginner
-- **Tambah:** `go mod init warung`, `go fmt` demo
-- **Persiapan:** TinyGo vs Yaegi limit (net/http tidak jalan di WASM) — tulis di materi
+- **Pros:** Sudah rewrite manual non-IT — 10 file id+en
+- **Keep:** Code runnable Yaegi + TinyGo limit note
+- **Ubah:** W1 buku kas `go run struk.go` kotak berlabel, W2 rak berlabel & satpam switch, W3 resep alarm `error`, W4 rak geser `slice/map`, W5 kartu `struct` + stempel
+- **Hapus:** `toolchain vet` dari W1
+- **Tambah:** `go mod init warung`, `go fmt` demo, zero value `0 "" false`
+- **Persiapan:** Selesai
 
 #### Rust — ⬜ TODO
 - **Riset:** Ownership `box pinjam` paling susah non-IT — butuh 2 minggu hanya `let mut`, `ownership` analogi `buku perpustakaan`
@@ -251,6 +251,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `cccc750` | JS W1-W5 + Python W1-W4 (id+en, 18 file) | Warung ledger: JS `const/let` struk, rak `map/filter`, Python `f"Rp {total:,}"`, `strip()` `//`, comprehension |
 | 2026-08-25 | `5f5d833` | TypeScript W1-W4 (id+en, 8 file) | Manual stiker: `harga: number` merah sebelum run, `Status "ada"|"habis"` literal, `(nama:string)=>string`, `interface Produk` cetak biru |
 | 2026-08-25 | `515f080` | Vue W1-W4 (id+en, 8 file) | Manual stiker: `{{ total }}` auto, `ref/reactive` kotak pintar, `v-if/v-for` saklar, `defineProps/defineEmits` LEGO |
+| 2026-08-25 | `13fbab8` | Go W1-W5 (id+en, 10 file) | Manual buku kas: `go run` kotak berlabel, switch tanpa break, alarm error `if err!=nil`, rak `slice/map`, kartu `struct` |
 
-**Total non-IT ready:** 6 stack × ±4 minggu ×2 = **50 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8) + HTML5/CSS3 harmonized. Sisa 21 stack → lanjut Go.
+**Total non-IT ready:** 7 stack × ±4 minggu ×2 = **60 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10) + HTML5/CSS3 harmonized. Sisa 20 stack → lanjut Rust/DB.
 
