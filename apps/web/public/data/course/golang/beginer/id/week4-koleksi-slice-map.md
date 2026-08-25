@@ -1,56 +1,72 @@
-# Koleksi: Slice, Map & String
+# Koleksi: Slice, Map & String — Rak Dinamis dan Buku Alamat
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 4:** Koleksi: Slice, Map & String
 
 ## Tujuan Pembelajaran
 
-- Membedakan array fixed-size [N]T vs slice dinamis []T
-- Menggunakan append, make, len, cap untuk manipulasi slice
-- Map: map[string]int dengan ok idiom untuk cek keberadaan
-- Manipulasi string: TrimSpace, ReplaceAll, Fields, Split
-- Iterasi dengan range pada slice, map, dan string
+- `array [3]int` vs `slice []int` dinamis — pakai slice untuk warung
+- `append`, `make`, `len`, `cap`, slicing `angka[1:4]`
+- `map[string]int` buku alamat, cek `val, ok := m["Budi"]`
+- Olah teks `strings` dan `range` untuk daftar
 
 ---
 
-## Program: Manajemen Data
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar harga 30 produk tidak muat di `var a,b,c` manual. **Slice = rak geser**, **Map = buku alamat harga**. Warung butuh keduanya.
+
+---
+
+## Program: Rak dan Buku Harga
 
 ```go
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-    fruits := []string{"apel", "mangga", "pisang"}
-    fruits = append(fruits, "jeruk")
-    fmt.Println("Slice:", fruits)
-    fmt.Printf("Len: %d, Cap: %d\n", len(fruits), cap(fruits))
+	// Slice dinamis
+	buah := []string{"apel", "mangga", "pisang"}
+	buah = append(buah, "jeruk") // tambah
+	fmt.Println("Buah:", buah, "len:", len(buah), "cap:", cap(buah))
 
-    angka := []int{10, 20, 30, 40, 50}
-    sub := angka[1:4]
-    fmt.Println("Sub-slice [1:4]:", sub)
+	angka := []int{10, 20, 30, 40, 50}
+	fmt.Println("Potong [1:4]:", angka[1:4]) // 20,30,40
 
-    ages := make(map[string]int)
-    ages["Budi"] = 25
-    ages["Siti"] = 23
+	// Map
+	stok := make(map[string]int)
+	stok["Beras"] = 10
+	stok["Gula"] = 5
+	stok["Beras"] = 12 // update
 
-    val, ok := ages["Budi"]
-    if ok {
-        fmt.Printf("Umur Budi: %d\n", val)
-    }
+	harga, ada := stok["Beras"]
+	if ada {
+		fmt.Printf("Stok Beras: %d\n", harga)
+	}
 
-    delete(ages, "Siti")
+	// Cek tidak ada
+	if _, ada := stok["Kopi"]; !ada {
+		fmt.Println("Kopi belum ada")
+	}
 
-    text := "  Go Programming Language  "
-    fmt.Println("Trimmed:", len(text), "->", len(text))
-    fmt.Println("Fields:", len(text))
+	delete(stok, "Gula")
+	fmt.Println("Setelah hapus Gula:", stok)
 
-    fmt.Println("\n=== Range ===")
-    for i, v := range fruits {
-        fmt.Printf("%d: %s\n", i, v)
-    }
-    for key, val := range ages {
-        fmt.Printf("%s -> %d\n", key, val)
-    }
+	// String + range
+	teks := "Warung Bu Siti"
+	fmt.Println("Upper:", strings.ToUpper(teks))
+	fmt.Println("Contains 'Bu':", strings.Contains(teks, "Bu"))
+
+	fmt.Println("\nDaftar buah:")
+	for i, v := range buah {
+		fmt.Printf("%d: %s\n", i, v)
+	}
+	for k, v := range stok {
+		fmt.Printf("%s → %d\n", k, v)
+	}
 }
 ```
 
@@ -59,31 +75,48 @@ func main() {
 ## Konsep Kunci
 
 ### Slice vs Array
-Array fixed-size, slice dynamic (backbone Go). `append`, `make`, `len`, `cap`.
+`[3]int` tetap 3, `[]int` geser. Pakai `[]int` 99% waktu. `append`, `make([]int,0,10)`, `len`, `cap`.
 
-### Map
-`map[string]int` dengan ok idiom: `val, ok := m["key"]`.
+### Map + `ok`
+`val, ok := m["kunci"]` → `ok` true jika ada. Jangan `m["kunci"]` langsung untuk cek ada (bisa 0).
 
-### String & Range
-`TrimSpace`, `ReplaceAll`, `Fields`, `Split`. `for i, v := range slice`.
+### `strings` & `range`
+`strings.ToUpper`, `Contains`, `TrimSpace`. `for i, v := range buah` loop rak dan buku.
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi
+
+- **Slice = rak geser IKEA**: bisa tambah `append` tanpa beli rak baru. `cap` kapasitas rak, `len` isi terpakai.
+- **Map = buku alamat**: cari "Budi" → `081`, tidak ada → tidak ketemu (`ok==false`).
+- **`range` = cek rak satu per satu**.
 
 ---
 
 ## Eksperimen
 
-- Buat slice 2D (matrix) dan iterasi dengan nested range
-- Tambah dan hapus multiple key di map
-- Coba strings.HasPrefix, HasSuffix, Contains
-- Urutkan slice dengan sort.Strings
+- **Hijau:** `buah = append(buah, "durian","manggis")` → len?
+- **Kuning:** `stok["Kopi"]=7; delete(stok,"Kopi")`
+- **Merah:** `angka[1:4]` ubah `angka[1]=99` → `angka` asli ikut berubah? Ya, slice share memori.
 
 ---
 
 ## Tantangan
 
-Buat program inventory: tambah/hapus produk (map), daftar produk (slice), cari produk (range + if).
+**Inventaris Warung:** `map[string]int` stok, `slice` daftar belanja, `range` cari yang stok <3 → tampil "Mau habis". Pakai `ok` cek ada.
+
+---
+
+## Glosarium Mini
+
+- **Slice/Map**: rak/buku
+- **append/make**: tambah/buat
+- **ok**: cek ada
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 13: **Koleksi: Slice, Map & String** (Level: Pemula). Struktur data harian Go. Minggu depan: **Struct & Method**.
+Minggu 4: **Slice & Map** (Level: Pemula). Bisa rak geser & buku alamat. Minggu depan: **Struct** — kartu produk.

@@ -1,64 +1,63 @@
-# Structs & Methods
+# Struct & Method — Product Card and Its Stamp
 
-> **Kategori:** Go | **Level:** Beginner | **Minggu 5:** Structs & Methods
+> **Kategori:** Go | **Level:** Beginner | **Minggu 5:** Struct & Method
 
 ## Learning Objectives
 
-- Define structs with fields and named types
-- Methods: value receiver vs pointer receiver (Go Tour: Methods)
-- Embedded fields for composition (Go has no inheritance)
-- Struct tags: `json:"name"` for encoding metadata
-- Constructor functions: NewT() *T pattern
+- `type Product struct { Name string; Price int }` — product card
+- Method `func (p Product) Info() string` vs `func (p *Product) Discount()` — when to use `*`
+- Embedding `type Electronic struct { Product; Warranty int }` — inheritance without hassle
+- `NewProduct()` constructor and tag `json:"name"`
 
 ---
 
-## Program: Product Data
+## Why This Matters (Non-IT)
+
+50 products if using separate `map[string]int` — messy. **Struct = unified card** (name+price+stock 1 card). Method = stamp on card (`Info()`, `Discount(10)`). Embedding = Electronic inherits Product card.
+
+---
+
+## Program: Shop Product Cards
 
 ```go
 package main
-
 import "fmt"
 
 type Product struct {
-    ID    int
-    Name  string
-    Price float64
-    Stock int
+	Name  string
+	Price int
+	Stock int
 }
 
 func (p Product) Info() string {
-    return fmt.Sprintf("%s: Rp%.0f (stok: %d)", p.Name, p.Price, p.Stock)
+	return fmt.Sprintf("%s: Rp%d (stock %d)", p.Name, p.Price, p.Stock)
 }
 
-func (p *Product) ApplyDiscount(percent float64) {
-    p.Price -= p.Price * (percent / 100)
+func (p *Product) Discount(percent int) {
+	p.Price = p.Price - p.Price*percent/100
 }
 
-type Electronics struct {
-    Product
-    WarrantyYears int
+type Electronic struct {
+	Product
+	Warranty int
 }
 
-func NewProduct(id int, name string, price float64) *Product {
-    return &Product{ID: id, Name: name, Price: price, Stock: 0}
+func NewProduct(name string, price int) *Product {
+	return &Product{Name: name, Price: price, Stock: 0}
 }
 
 func main() {
-    p1 := Product{ID: 1, Name: "Laptop", Price: 15000000, Stock: 10}
-    fmt.Println(p1.Info())
+	p1 := Product{Name: "Rice", Price: 62000, Stock: 10}
+	fmt.Println(p1.Info())
+	p1.Discount(10)
+	fmt.Println("After discount:", p1.Info())
 
-    p1.ApplyDiscount(10)
-    fmt.Println("Setelah diskon:", p1.Info())
+	laptop := Electronic{Product: Product{Name: "Laptop", Price: 15000000, Stock: 5}, Warranty: 3}
+	fmt.Println(laptop.Info())
+	fmt.Printf("Warranty: %d years\n", laptop.Warranty)
 
-    laptop := Electronics{
-        Product:       Product{ID: 2, Name: "Laptop Pro", Price: 20000000, Stock: 5},
-        WarrantyYears: 3,
-    }
-    fmt.Println(laptop.Info())
-    fmt.Printf("Garansi: %d tahun\n", laptop.WarrantyYears)
-
-    p2 := NewProduct(3, "Mouse", 250000)
-    fmt.Println(p2.Info())
+	p2 := NewProduct("Sugar", 15000)
+	fmt.Println(p2.Info())
 }
 ```
 
@@ -66,32 +65,54 @@ func main() {
 
 ## Key Concepts
 
-### Structs
-Group fields. Value vs pointer receiver.
+### Struct = Card
+`type Product struct { Name string; Price int }` → `Product{Name:"Rice", Price:62000}`
 
-### Embedding
-Composition over inheritance.
+### Method ` (p Product)` vs ` (p *Product)`
+- ` (p Product)` **copy** — change not affect original (for read `Info`)
+- ` (p *Product)` **original** — change `Price` permanent (for `Discount`)
 
-### Constructors & Tags
-`NewT() *T`. Tags: `json:"name"`.
+### Embedding = Inheritance
+`Electronic struct { Product; Warranty int }` → `laptop.Info()` auto exists.
+
+### Constructor `NewProduct`
+Go no `new` class, use function `NewProduct(...) *Product` returning pointer.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Card & Stamp
+
+- **Struct = member card**: 1 card 3 lines.
+- **Method = stamp on card**: `Info()` write stamp, `Discount()` cut price stamp.
+- **`*` = original vs photocopy**: `*Product` changes original, `Product` changes copy.
 
 ---
 
 ## Experiments
 
-- Add Discount method for Electronics
-- Try changing value receiver to pointer — what's the effect?
-- Create new struct with embedded Product
-- Add struct tag `json:"price"` and try Marshal
+- **Green:** `p1.Discount(20)` → price?
+- **Yellow:** Change `Info()` to `*Product` → still works? Difference if `Info` changes field?
+- **Red:** `Electronic` without `Product` → `laptop.Info()` error?
 
 ---
 
 ## Challenge
 
-Build a store system: struct Product, Cart, Customer. Methods: AddToCart, Checkout, ApplyDiscount. Use constructors.
+**Mini Shop:** `type Cart struct { Items []Product }` + method `Add(p Product)`, `Total() int`, `Pay(discount int)`. Use `*Cart` to change.
+
+---
+
+## Mini Glossary
+
+- **Struct**: card
+- **Method**: stamp
+- **Pointer `*`**: original vs copy
+- **Embedding**: inheritance
 
 ---
 
 ## Summary
 
-Week 5 of 13: **Structs & Methods** (Level: Beginner). Beginner phase complete! Next week: **Interfaces & Generics** (Intermediate).
+Week 5: **Struct** (Level: Beginner). **Beginner Go done!** Next: **Interface & Generics** (Intermediate).

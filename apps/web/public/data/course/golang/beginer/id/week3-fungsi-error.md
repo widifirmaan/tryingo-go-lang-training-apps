@@ -1,68 +1,74 @@
-# Fungsi & Error Handling
+# Fungsi & Error — Resep Dapur dengan Alarm Gagal
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 3:** Fungsi & Error Handling
 
 ## Tujuan Pembelajaran
 
-- Membuat fungsi dengan parameter dan return value
-- Multiple return values dan named return (Go Tour: Functions)
-- Mengenal tipe error dan idiom: if err != nil { return err }
-- Membuat custom error dengan fmt.Errorf dan %w wrapping
-- Defer untuk cleanup, variadic function func(nums ...int)
+- `func bagi(a float64, b float64) (float64, error)` — Go wajib kembalikan error
+- Pola `if err != nil { return err }` — alarm jika bagi 0
+- `defer` untuk tutup pintu setelah selesai, `...float64` untuk borong
+- Bedakan `var` vs `:=` di fungsi
 
 ---
 
-## Program: Kalkulator
+## Kenapa Ini Penting Buat Kamu?
+
+Resep warung `bagiStok(10,0)` jika tidak cek error → stok minus, rugi. Go paksa kamu cek `error` tiap bagi, buka file, panggil API — aman untuk non-IT yang takut lupa cek.
+
+---
+
+## Program: Dapur Fungsi Aman
 
 ```go
 package main
 
 import (
-    "errors"
-    "fmt"
+	"errors"
+	"fmt"
 )
 
 func bagi(a, b float64) (float64, error) {
-    if b == 0 {
-        return 0, errors.New("tidak bisa dibagi nol")
-    }
-    return a / b, nil
+	if b == 0 {
+		return 0, errors.New("tidak bisa bagi 0 — cek stok")
+	}
+	return a / b, nil
 }
 
-func hitung(a, b int) (jumlah int, kali int) {
-    jumlah = a + b
-    kali = a * b
-    return
+func hitung(a, b int) (jumlah int, kali int) { // named return
+	jumlah = a + b
+	kali = a * b
+	return // otomatis return jumlah, kali
 }
 
-func rataRata(angka ...float64) float64 {
-    total := 0.0
-    for _, n := range angka {
-        total += n
-    }
-    return total / float64(len(angka))
+func rataRata(angka ...float64) float64 { // borong
+	total := 0.0
+	for _, n := range angka {
+		total += n
+	}
+	if len(angka) == 0 {
+		return 0
+	}
+	return total / float64(len(angka))
 }
 
 func main() {
-    defer fmt.Println("Program selesai")
+	defer fmt.Println("Selesai — defer jalan terakhir")
 
-    hasil, err := bagi(10, 2)
-    if err != nil {
-        fmt.Println("Error:", err)
-    } else {
-        fmt.Printf("10 / 2 = %.1f\n", hasil)
-    }
+	hasil, err := bagi(10, 2)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Printf("10/2 = %.1f\n", hasil)
+	}
 
-    _, err = bagi(5, 0)
-    if err != nil {
-        fmt.Println("Error:", err)
-    }
+	_, err = bagi(5, 0)
+	if err != nil {
+		fmt.Println("Bagi 0 error:", err)
+	}
 
-    j, k := hitung(4, 5)
-    fmt.Printf("Jumlah: %d, Kali: %d\n", j, k)
-
-    r := rataRata(80, 90, 75, 85)
-    fmt.Printf("Rata-rata: %.1f\n", r)
+	j, k := hitung(4, 5)
+	fmt.Printf("Jumlah %d, Kali %d\n", j, k)
+	fmt.Printf("Rata-rata: %.1f\n", rataRata(80, 90, 75))
 }
 ```
 
@@ -70,32 +76,49 @@ func main() {
 
 ## Konsep Kunci
 
-### Fungsi
-Multiple return values, named return, variadic `func(nums ...int)`.
+### ` (float64, error)` — Dua Kembar
+Go tidak pakai `try/catch`. Tiap yang bisa gagal return `(hasil, error)`. Wajib cek `if err != nil`.
 
-### Error Handling
-Idiom: `if err != nil { return err }`. `fmt.Errorf` dengan `%w` untuk wrapping.
+### Named Return & Variadic
+- `func hitung() (jumlah int, kali int)` → `return` saja.
+- `func rataRata(angka ...float64)` → terima banyak.
 
-### Defer
-Dijadwalkan setelah fungsi selesai (LIFO). Dipakai untuk cleanup.
+### `defer` = Tutup Pintu Terakhir
+`defer fmt.Println("selesai")` jalan saat fungsi selesai, LIFO jika banyak.
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Alarm Kompor
+
+- **`error` = alarm asap**: masak `bagi(5,0)` alarm bunyi, kamu cek `if err != nil` → matikan kompor.
+- **`defer` = matikan kompor setelah masak**: tulis di awal, jalan di akhir.
 
 ---
 
 ## Eksperimen
 
-- Tambah fungsi baru: pangkat(a, b float64)
-- Buat custom error dengan struct sendiri
-- Coba defer multiple — perhatikan urutan LIFO
-- Ubah rataRata untuk handle slice kosong
+- **Hijau:** `bagi(9,3)` → ?
+- **Kuning:** `rataRata()` tanpa isi → 0 (cek len).
+- **Merah:** Lupa cek `err` → hasil 0 dipakai, salah hitung.
 
 ---
 
 ## Tantangan
 
-Buat program kalkulator scientific dengan fungsi: tambah, kurang, kali, bagi, pangkat, faktorial. Gunakan error handling untuk validasi.
+**Kasir Aman:** `func hitungTotal(belanja []int, diskon float64) (int, error)` → jika `diskon <0 || >50` return error, else hitung. `defer` log "Transaksi selesai". Pakai `if err != nil`.
+
+---
+
+## Glosarium Mini
+
+- **error**: alarm gagal
+- **defer**: tunda sampai selesai
+- **...**: borong
 
 ---
 
 ## Ringkasan
 
-Minggu 3 dari 13: **Fungsi & Error Handling** (Level: Pemula). Fondasi menulis kode modular. Minggu depan: **Koleksi: Slice, Map & String**.
+Minggu 3: **Fungsi Aman** (Level: Pemula). Bisa resep yang tidak diam-diam gagal. Minggu depan: **Slice & Map** — rak dinamis.
