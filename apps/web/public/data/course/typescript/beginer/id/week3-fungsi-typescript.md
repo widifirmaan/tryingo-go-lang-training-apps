@@ -1,119 +1,127 @@
-# Functions & Signatures
+# Functions Bertipe — Resep dengan Label Bahan
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 3:** Functions & Signatures
 
 ## Tujuan Pembelajaran
 
-- Function dengan parameter dan return type
-- Optional parameters dengan ?
-- Default parameter values
-- Rest parameters dengan type array
-- Function types dan overload signatures
+- Tulis fungsi bertipe: `(nama: string) => string`, `void` jika tidak return
+- Parameter opsional `nama?: string` dan default `nama = "Tamu"`
+- `Rest` bertipe `(...angka: number[])`
+- Callback bertipe `(n: number) => number` dan `readonly` array
+- Overload sederhana untuk `sapa` yang beda input
 
 ---
 
-## Program: Typed Functions
+## Kenapa Ini Penting Buat Kamu?
+
+Resep `hitungTotal` jika salah kirim `string` → total jadi `"6210"` (gabung teks). Dengan tipe `(harga: number)` salah kirim langsung merah. Callback `map` jika tidak bertipe, `n` jadi `any` → typo tidak ketahuan.
+
+---
+
+## Program: Dapur Fungsi Bertipe
 
 ```typescript
-// Function dengan tipe explicit
-function add(a: number, b: number): number {
-    return a + b;
+// 1. Fungsi dasar bertipe
+function sapa(nama: string): string {
+  return `Halo, ${nama}`;
 }
-console.log("Add:", add(5, 3));
+console.log(sapa("Budi"));
+// sapa(123); // ❌
 
-// Optional parameters
-function greet(name: string, greeting?: string): string {
-    return (greeting || "Halo") + ", " + name + "!";
+// 2. Opsional & default
+function sapa2(nama: string = "Tamu", gelar?: string): string {
+  return gelar ? `${greeting} ${gelar} ${nama}` : `Halo ${nama}`;
+  // gelar? = boleh tidak diisi (string | undefined)
 }
-console.log(greet("Budi"));
-console.log(greet("Siti", "Selamat pagi"));
+console.log(sapa2());
+console.log(sapa2("Siti", "Bu"));
 
-// Default parameters
-function createUser(name: string, role: string = "user"): { name: string; role: string } {
-    return { name, role };
+// 3. Rest bertipe
+function total(...angka: number[]): number {
+  return angka.reduce((a, b) => a + b, 0);
 }
-console.log("\nUser default:", createUser("Budi"));
-console.log("User custom:", createUser("Siti", "admin"));
+console.log("\nTotal:", total(1, 2, 3, 4));
 
-// Rest parameters
-function sum(...numbers: number[]): number {
-    return numbers.reduce((acc, n) => acc + n, 0);
+// 4. Callback bertipe
+function proses(data: number[], kerja: (n: number) => number): number[] {
+  return data.map(kerja);
 }
-console.log("\nSum:", sum(1, 2, 3, 4, 5));
+console.log("Kali2:", proses([1, 2, 3], n => n * 2));
 
-// Function type
-type MathOperation = (a: number, b: number) => number;
-
-const multiply: MathOperation = (a, b) => a * b;
-const subtract: MathOperation = (a, b) => a - b;
-
-function calculate(a: number, b: number, operation: MathOperation): number {
-    return operation(a, b);
+// 5. Readonly — jangan ubah rak orang lain
+function cetak(harga: readonly number[]) {
+  console.log("Harga:", harga);
+  // harga.push(999); // ❌ Error: readonly
 }
-console.log("\nMultiply:", calculate(4, 3, multiply));
-console.log("Subtract:", calculate(10, 4, subtract));
+cetak([10000, 20000]);
 
-// Overload signatures
-function process(input: string): string;
-function process(input: number): number;
-function process(input: string | number): string | number {
-    if (typeof input === "string") {
-        return input.toUpperCase();
-    }
-    return input * 2;
+// 6. Contoh nyata warung
+type Keranjang = { harga: number; qty: number };
+function hitungTotal(belanja: Keranjang[], diskon: number = 0): number {
+  const subtotal = belanja.reduce((s, i) => s + i.harga * i.qty, 0);
+  return subtotal * (1 - diskon / 100);
 }
-console.log("\nOverload string:", process("hello"));
-console.log("Overload number:", process(42));
-
-// Generic function identity
-function identity<T>(value: T): T {
-    return value;
-}
-console.log("\nIdentity string:", identity("TypeScript"));
-console.log("Identity number:", identity(42));
-console.log("Identity array:", identity([1, 2, 3]));
+const keranjang: Keranjang[] = [{ harga: 62000, qty: 1 }, { harga: 5000, qty: 2 }];
+console.log("\nTotal:", hitungTotal(keranjang));
+console.log("Diskon 10%:", hitungTotal(keranjang, 10));
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Function Types
-`function add(a: number, b: number): number` — explicit semua tipe.
+### `(a: string): string`
+Di dalam kurung = tipe masuk, setelah kurung = tipe keluar. `void` = tidak return.
 
-### Optional Params
-`param?: type` — bisa undefined. Gunakan default value atau cek.
+### `?:` & Default
+`gelar?: string` boleh kosong, `nama = "Tamu"` isi default.
 
-### Rest Params
-`...args: number[]` — kumpulkan semua argumen ke array.
+### `...angka: number[]`
+Rest harus array bertipe. `number[]` = rak khusus number.
 
-### Function Type
-`type Fn = (a: number) => string` — definisi tipe fungsi.
+### Callback `(n: number) => number`
+Tipe fungsi ditulis lengkap. `readonly number[]` tidak boleh `push`.
 
-### Overloads
-Multiple signatures untuk satu function. TypeScript pilih yang sesuai.
+---
 
-### Generic Function
-`<T>(value: T): T` — tipe dinamis yang preserved.
+## Penjelasan untuk Pemula
+
+### Analogi: Resep Berlabel
+
+- **`(nama: string): string`** = label di wadah bahan dan piring hasil. Salah bahan → ditolak.
+- **`readonly`** = papan "Jangan Diutak-atik".
+- **Callback** = titip "potong sesuai pola ini" — pola harus `(bahan: number) => hasil`.
+
+### 3 Istilah Wajib
+
+1. **Signature**: bentuk fungsi `(a: string) => number`
+2. **Optional `?:`**: boleh tidak ada
+3. **Readonly**: tidak boleh ubah
 
 ---
 
 ## Eksperimen
 
-- Buat function overload untuk format date
-- Coba callback type: (err: Error | null, data: string) => void
-- Eksperimen generic function dengan constraint
-- Buat higher-order function type
-- Coba this parameter type
+- **Hijau:** `function kali(a:number,b:number):number { return a*b }` → `kali(2,3)`?
+- **Kuning:** `total(1,2,"3")` → error? Harus number semua.
+- **Merah:** `cetak` lalu `push` → error readonly.
 
 ---
 
 ## Tantangan
 
-Buat math library: overloaded functions untuk add/sub/mul/div dengan dukungan number dan string.
+**Kalkulator Warung Bertipe:** `type Item={harga:number; qty:number}`, `function ongkir(berat:number,jarak:number):number`, `function struk(items: readonly Item[], jarak:number): string` return `` `Total Rp ${hitungTotal(items)}` ``. Coba kirim `harga:"62000"` → merah.
+
+---
+
+## Glosarium Mini
+
+- **Signature**: tipe fungsi
+- **void**: tidak return
+- **readonly**: tidak boleh ubah
 
 ---
 
 ## Ringkasan
 
-Minggu 3 dari 12: **Functions & Signatures** (Level: TypeScript Lengkap). Tipe fungsi. Minggu depan: **Interfaces & Type Aliases**.
+Minggu 3 dari 12: **Functions Bertipe** (Level: Lengkap). Resep aman berlabel. Minggu depan: **Interfaces** — cetak biru kartu.
