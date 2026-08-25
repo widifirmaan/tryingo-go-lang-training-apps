@@ -1,64 +1,64 @@
-# Struct & Method
+# Struct & Method — Kartu Produk dan Stempelnya
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 5:** Struct & Method
 
 ## Tujuan Pembelajaran
 
-- Mendefinisikan struct dengan field dan named types
-- Method: value receiver vs pointer receiver (Go Tour: Methods)
-- Embedded fields untuk komposisi (Go tidak punya inheritance)
-- Struct tags: `json:"name"` untuk metadata encoding
-- Constructor function: NewT() *T pattern
+- `type Produk struct { Nama string; Harga int }` — kartu produk
+- Method `func (p Produk) Info() string` vs `func (p *Produk) Diskon()` — kapan pakai `*`
+- Embedding `type Elektronik struct { Produk; Garansi int }` — warisan tanpa ribet
+- `NewProduk()` constructor dan tag `json:"nama"`
 
 ---
 
-## Program: Data Produk
+## Kenapa Ini Penting Buat Kamu?
+
+50 produk jika pakai `map[string]int` terpisah — berantakan. **Struct = kartu terpadu** (nama+hrga+stok 1 kartu). Method = stempel di kartu (`Info()`, `Diskon(10)`). Embedding = kartu Elektronik warisi kartu Produk.
+
+---
+
+## Program: Kartu Produk Warung
 
 ```go
 package main
 
 import "fmt"
 
-type Product struct {
-    ID    int
-    Name  string
-    Price float64
-    Stock int
+type Produk struct {
+	Nama  string
+	Harga int
+	Stok  int
 }
 
-func (p Product) Info() string {
-    return fmt.Sprintf("%s: Rp%.0f (stok: %d)", p.Name, p.Price, p.Stock)
+func (p Produk) Info() string {
+	return fmt.Sprintf("%s: Rp%d (stok %d)", p.Nama, p.Harga, p.Stok)
 }
 
-func (p *Product) ApplyDiscount(percent float64) {
-    p.Price -= p.Price * (percent / 100)
+func (p *Produk) Diskon(persen int) {
+	p.Harga = p.Harga - p.Harga*persen/100 // * = ubah asli
 }
 
-type Electronics struct {
-    Product
-    WarrantyYears int
+type Elektronik struct {
+	Produk        // warisi semua field Produk
+	Garansi int // tahun
 }
 
-func NewProduct(id int, name string, price float64) *Product {
-    return &Product{ID: id, Name: name, Price: price, Stock: 0}
+func NewProduk(nama string, harga int) *Produk {
+	return &Produk{Nama: nama, Harga: harga, Stok: 0}
 }
 
 func main() {
-    p1 := Product{ID: 1, Name: "Laptop", Price: 15000000, Stock: 10}
-    fmt.Println(p1.Info())
+	p1 := Produk{Nama: "Beras", Harga: 62000, Stok: 10}
+	fmt.Println(p1.Info())
+	p1.Diskon(10)
+	fmt.Println("Setelah diskon:", p1.Info())
 
-    p1.ApplyDiscount(10)
-    fmt.Println("Setelah diskon:", p1.Info())
+	laptop := Elektronik{Produk: Produk{Nama: "Laptop", Harga: 15000000, Stok: 5}, Garansi: 3}
+	fmt.Println(laptop.Info()) // punya Info() warisan!
+	fmt.Printf("Garansi: %d tahun\n", laptop.Garansi)
 
-    laptop := Electronics{
-        Product:       Product{ID: 2, Name: "Laptop Pro", Price: 20000000, Stock: 5},
-        WarrantyYears: 3,
-    }
-    fmt.Println(laptop.Info())
-    fmt.Printf("Garansi: %d tahun\n", laptop.WarrantyYears)
-
-    p2 := NewProduct(3, "Mouse", 250000)
-    fmt.Println(p2.Info())
+	p2 := NewProduk("Gula", 15000)
+	fmt.Println(p2.Info())
 }
 ```
 
@@ -66,32 +66,54 @@ func main() {
 
 ## Konsep Kunci
 
-### Struct
-Mengelompokkan field. Value receiver vs pointer receiver.
+### Struct = Kartu
+`type Produk struct { Nama string; Harga int }` → `Produk{Nama:"Beras", Harga:62000}`
 
-### Embedding
-Komposisi bukan inheritance. Struct otomatis punya method parent.
+### Method ` (p Produk)` vs ` (p *Produk)`
+- ` (p Produk)` **salinan** — ubah tidak ngefek asli (untuk baca `Info`)
+- ` (p *Produk)` **asli** — ubah `Harga` permanen (untuk `Diskon`)
 
-### Constructor & Tags
-`NewT() *T` pattern. Tag: `json:"name"` untuk metadata.
+### Embedding = Warisan
+`Elektronik struct { Produk; Garansi int }` → `laptop.Info()` otomatis ada.
+
+### Constructor `NewProduk`
+Go tidak ada `new` class, pakai fungsi `NewProduk(...) *Produk` yang return pointer.
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Kartu & Stempel
+
+- **Struct = kartu anggota**: 1 kartu isi 3 baris.
+- **Method = stempel di kartu**: `Info()` stempel tulis, `Diskon()` stempel potong harga.
+- **`*` = kartu asli vs fotokopi**: `*Produk` ubah asli, `Produk` ubah fotokopi.
 
 ---
 
 ## Eksperimen
 
-- Tambah method Discount untuk Electronics
-- Coba ubah value receiver ke pointer — apa efeknya?
-- Buat struct baru dengan embedded Product
-- Tambah struct tag `json:"price"` dan coba Marshal
+- **Hijau:** `p1.Diskon(20)` → harga?
+- **Kuning:** Ubah `Info()` jadi `*Produk` → tetap jalan? Bedanya jika `Info` ubah field?
+- **Merah:** `Elektronik` tanpa `Produk` → `laptop.Info()` error?
 
 ---
 
 ## Tantangan
 
-Buat sistem toko: struct Product, Cart, Customer. Method: AddToCart, Checkout, ApplyDiscount. Gunakan constructor.
+**Toko Mini:** `type Keranjang struct { Items []Produk }` + method `Tambah(p Produk)`, `Total() int`, `Bayar(diskon int)`. Pakai `*Keranjang` untuk ubah.
+
+---
+
+## Glosarium Mini
+
+- **Struct**: kartu
+- **Method**: stempel
+- **Pointer `*`**: asli vs salinan
+- **Embedding**: warisan
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 13: **Struct & Method** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Interface & Generics** (Intermediate).
+Minggu 5: **Struct** (Level: Pemula). **Selesai Beginner Go!** Minggu depan: **Interface & Generics** (Menengah).

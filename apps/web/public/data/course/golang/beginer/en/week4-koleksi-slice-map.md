@@ -1,56 +1,64 @@
-# Collections: Slices, Maps & Strings
+# Collections: Slice, Map & String — Dynamic Shelves and Address Book
 
-> **Kategori:** Go | **Level:** Beginner | **Minggu 4:** Collections: Slices, Maps & Strings
+> **Kategori:** Go | **Level:** Beginner | **Minggu 4:** Koleksi: Slice, Map & String
 
 ## Learning Objectives
 
-- Distinguish fixed-size arrays [N]T vs dynamic slices []T
-- Use append, make, len, cap for slice manipulation
-- Maps: map[string]int with ok idiom for existence checks
-- String manipulation: TrimSpace, ReplaceAll, Fields, Split
-- Iterate with range over slices, maps, and strings
+- `array [3]int` vs `slice []int` dynamic — use slice for shop
+- `append`, `make`, `len`, `cap`, slicing `nums[1:4]`
+- `map[string]int` address book, check `val, ok := m["Budi"]`
+- String `strings` and `range` for lists
 
 ---
 
-## Program: Data Manager
+## Why This Matters (Non-IT)
+
+Price list 30 products not fit in `var a,b,c` manual. **Slice = sliding shelf**, **Map = price address book**. Shop needs both.
+
+---
+
+## Program: Shelves and Price Book
 
 ```go
 package main
-
-import "fmt"
+import ("fmt"; "strings")
 
 func main() {
-    fruits := []string{"apel", "mangga", "pisang"}
-    fruits = append(fruits, "jeruk")
-    fmt.Println("Slice:", fruits)
-    fmt.Printf("Len: %d, Cap: %d\n", len(fruits), cap(fruits))
+	fruits := []string{"apple", "mango", "banana"}
+	fruits = append(fruits, "orange")
+	fmt.Println("Fruits:", fruits, "len:", len(fruits), "cap:", cap(fruits))
 
-    angka := []int{10, 20, 30, 40, 50}
-    sub := angka[1:4]
-    fmt.Println("Sub-slice [1:4]:", sub)
+	nums := []int{10, 20, 30, 40, 50}
+	fmt.Println("Slice [1:4]:", nums[1:4])
 
-    ages := make(map[string]int)
-    ages["Budi"] = 25
-    ages["Siti"] = 23
+	stock := make(map[string]int)
+	stock["Rice"] = 10
+	stock["Sugar"] = 5
+	stock["Rice"] = 12
 
-    val, ok := ages["Budi"]
-    if ok {
-        fmt.Printf("Umur Budi: %d\n", val)
-    }
+	price, ok := stock["Rice"]
+	if ok {
+		fmt.Printf("Rice stock: %d\n", price)
+	}
 
-    delete(ages, "Siti")
+	if _, ok := stock["Coffee"]; !ok {
+		fmt.Println("Coffee not yet")
+	}
 
-    text := "  Go Programming Language  "
-    fmt.Println("Trimmed:", len(text), "->", len(text))
-    fmt.Println("Fields:", len(text))
+	delete(stock, "Sugar")
+	fmt.Println("After delete Sugar:", stock)
 
-    fmt.Println("\n=== Range ===")
-    for i, v := range fruits {
-        fmt.Printf("%d: %s\n", i, v)
-    }
-    for key, val := range ages {
-        fmt.Printf("%s -> %d\n", key, val)
-    }
+	text := "Siti's Shop"
+	fmt.Println("Upper:", strings.ToUpper(text))
+	fmt.Println("Contains 'Shop':", strings.Contains(text, "Shop"))
+
+	fmt.Println("\nFruits:")
+	for i, v := range fruits {
+		fmt.Printf("%d: %s\n", i, v)
+	}
+	for k, v := range stock {
+		fmt.Printf("%s → %d\n", k, v)
+	}
 }
 ```
 
@@ -59,31 +67,48 @@ func main() {
 ## Key Concepts
 
 ### Slice vs Array
-Array fixed, slice dynamic. `append`, `make`, `len`, `cap`.
+`[3]int` fixed 3, `[]int` sliding. Use `[]int` 99% time. `append`, `make([]int,0,10)`, `len`, `cap`.
 
-### Maps
-`map[string]int` with ok idiom.
+### Map + `ok`
+`val, ok := m["key"]` → `ok` true if exists. Don't `m["key"]` directly to check (could be 0).
 
-### Strings & Range
-String methods and range iteration.
+### `strings` & `range`
+`strings.ToUpper`, `Contains`, `TrimSpace`. `for i, v := range fruits` loop shelf and book.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy
+
+- **Slice = IKEA sliding shelf**: can add `append` without new shelf. `cap` shelf capacity, `len` filled.
+- **Map = address book**: find "Budi" → `081`, not found → `ok==false`.
+- **`range` = check shelf one by one**.
 
 ---
 
 ## Experiments
 
-- Create 2D slice (matrix) and iterate with nested range
-- Add and remove multiple keys in map
-- Try strings.HasPrefix, HasSuffix, Contains
-- Sort slice with sort.Strings
+- **Green:** `fruits = append(fruits, "durian","mangosteen")` → len?
+- **Yellow:** `stock["Coffee"]=7; delete(stock,"Coffee")`
+- **Red:** `nums[1:4]` change `nums[1]=99` → `nums` original changes? Yes, slice shares memory.
 
 ---
 
 ## Challenge
 
-Build an inventory program: add/remove products (map), list products (slice), search products (range + if).
+**Shop Inventory:** `map[string]int` stock, `slice` shopping list, `range` find stock <3 → show "Almost out". Use `ok` check exists.
+
+---
+
+## Mini Glossary
+
+- **Slice/Map**: shelf/book
+- **append/make**: add/make
+- **ok**: check exists
 
 ---
 
 ## Summary
 
-Week 4 of 13: **Collections: Slices, Maps & Strings** (Level: Beginner). Daily data structures in Go. Next week: **Structs & Methods**.
+Week 4: **Slice & Map** (Level: Beginner). Can sliding shelf & address book. Next: **Struct** — product card.
