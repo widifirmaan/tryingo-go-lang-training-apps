@@ -1,96 +1,91 @@
-# JOINs & Table Relations
+# JOIN & Relations — Join 2 Shelves into 1 Report
 
-> **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 3:** JOINs & Table Relations
+> **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 3:** JOIN & Relasi
 
 ## Learning Objectives
 
-- FOREIGN KEY integrity
-- INNER JOIN
-- LEFT JOIN
-- Multi-JOIN 3+ tables
-- Aggregation with JOIN
+- `FOREIGN KEY` — string: `orders.customer_id → customers.id`
+- `INNER JOIN` only paired, `LEFT JOIN` all left + pair if exists
+- `GROUP BY` + `COUNT/SUM` for report: total per customer
 
 ---
 
-## Program: Multi-Table Queries
+## Why This Matters (Non-IT)
+
+Shop has `customers` and `orders` separate. Boss asks "How much did Budi buy total?" — must **join** 2 shelves. Without JOIN, answer manually.
+
+---
+
+## Program: Orders Join Customers
 
 ```sql
-CREATE TABLE pesanan (
+CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    pelanggan_id INTEGER REFERENCES pelanggan(id),
-    tanggal TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'pending'
+    customer_id INTEGER REFERENCES customers(id),
+    total DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE detail_pesanan (
-    id SERIAL PRIMARY KEY,
-    pesanan_id INTEGER REFERENCES pesanan(id),
-    produk_id INTEGER REFERENCES produk(id),
-    jumlah INTEGER NOT NULL,
-    harga_satuan DECIMAL(10,2) NOT NULL
-);
+INSERT INTO orders (customer_id, total) VALUES (1, 75000), (1, 32000), (2, 55000);
 
-INSERT INTO pelanggan (nama, email, kota) VALUES ('Rudi', 'rudi@mail.com', 'Medan');
-INSERT INTO pesanan (pelanggan_id, status) VALUES (1,'completed'),(2,'completed'),(1,'pending');
-INSERT INTO detail_pesanan (pesanan_id, produk_id, jumlah, harga_satuan) VALUES
-    (1,1,1,12500000),(1,2,2,350000),(2,3,1,850000),(3,4,1,2800000);
+SELECT customers.name, orders.total
+FROM customers INNER JOIN orders ON customers.id = orders.customer_id;
 
--- INNER JOIN
-SELECT p.nama AS pelanggan, ps.tanggal, ps.status
-    FROM pesanan ps INNER JOIN pelanggan p ON p.id = ps.pelanggan_id;
+SELECT customers.name, orders.total
+FROM customers LEFT JOIN orders ON customers.id = orders.customer_id;
 
--- LEFT JOIN
-SELECT p.nama, COALESCE(COUNT(ps.id),0) AS total
-    FROM pelanggan p LEFT JOIN pesanan ps ON p.id = ps.pelanggan_id
-    GROUP BY p.nama;
-
--- Multi-JOIN 3 tabel
-SELECT p.nama AS pelanggan, pr.nama AS produk,
-    dp.jumlah, dp.harga_satuan,
-    (dp.jumlah * dp.harga_satuan) AS subtotal
-    FROM detail_pesanan dp
-    JOIN pesanan ps ON ps.id = dp.pesanan_id
-    JOIN pelanggan p ON p.id = ps.pelanggan_id
-    JOIN produk pr ON pr.id = dp.produk_id
-    ORDER BY subtotal DESC;
+SELECT customers.name, COUNT(orders.id) AS order_count, SUM(orders.total) AS total_spent
+FROM customers LEFT JOIN orders ON customers.id = orders.customer_id
+GROUP BY customers.name ORDER BY total_spent DESC;
 ```
 
 ---
 
 ## Key Concepts
 
-### FOREIGN KEY
-REFERENCES ensures related data exists.
+### Foreign Key = String
+`customer_id INTEGER REFERENCES customers(id)` — cannot insert `999` if no customer 999.
 
-### INNER JOIN
-Only matching rows.
+### JOIN = Join Shelves
+- `INNER JOIN` → only linked
+- `LEFT JOIN` → all left, right `NULL` if none
 
-### LEFT JOIN
-All left rows appear.
+### `GROUP BY` = Group
+`GROUP BY customers.name` → count per name.
 
-### Multi-JOIN
-Chain JOIN ... ON ...
+---
 
-### Aggregation + JOIN
-GROUP BY with JOIN.
+## Beginner Friendly Explanation
+
+### Analogy: Guest Book & Receipts
+
+- **customers = guest book**, **orders = pile receipts** with `customer_id` handwritten.
+- **JOIN = stapler**: staple receipt to guest book row with same `id`.
 
 ---
 
 ## Experiments
 
-- RIGHT JOIN
-- FULL OUTER JOIN
-- Self-join
-- Revenue per city
+- **Green:** `INSERT orders` without `customer_id` → allowed? (allowed NULL if not `NOT NULL`)
+- **Yellow:** `LEFT JOIN` customer with no orders → `total` NULL?
+- **Red:** `DELETE FROM customers WHERE id=1` with orders → foreign key error.
 
 ---
 
 ## Challenge
 
-E-commerce DB: top 5 customers, best-sellers, monthly revenue.
+**Library:** `loans(id, book_id FK, member_id FK, date)` → `SELECT members.name, books.title FROM loans JOIN members ON ... JOIN books ON ...` + `GROUP BY members.name` count.
+
+---
+
+## Mini Glossary
+
+- **Foreign Key**: string
+- **JOIN**: join
+- **GROUP BY**: group
 
 ---
 
 ## Summary
 
-Week 3 of 10: **JOINs & Table Relations** (Beginner).
+Week 3: **JOIN** — can join 2 shelves into report. Next: **Index** — fast search.

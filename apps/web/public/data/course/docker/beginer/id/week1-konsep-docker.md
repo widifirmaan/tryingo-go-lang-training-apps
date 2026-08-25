@@ -1,116 +1,98 @@
-# Konsep Docker
+# Konsep Docker — Peti Kemas untuk Aplikasi
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 1:** Konsep Docker
 
 ## Tujuan Pembelajaran
 
-- Memahami konsep Docker: image, container, registry
-- Instalasi Docker: Docker Desktop, Docker Engine
-- Docker architecture: Client, Daemon, Containerd, runc
-- Perintah dasar: run, ps, images, pull, exec
-- Flags umum: -d, --name, -p, -v, -e, --rm
+- Paham Docker seperti **peti kemas**: aplikasi + dependensi 1 paket, jalan di mana saja
+- Bedakan `image` (cetak biru) vs `container` (peti yang jalan), vs `Dockerfile` (resep)
+- Install Docker Desktop, cek `docker --version`, jalankan `docker run hello-world` dan `nginx`
+- `docker ps`, `logs`, `stop`, `rm`
 
 ---
 
-## Program: Halo, Docker!
+## Kenapa Ini Penting Buat Kamu?
+
+Warung buka cabang: tanpa peti, bawa kompor, tabung, bumbu terpisah — ada yang ketinggalan. Dengan peti Docker, 1 peti berisi semua → buka di mana saja langsung jalan. Laptop teman, server, sama.
+
+---
+
+## Program: Peti Pertama
 
 ```bash
-# ─────────────────────────────────────────────────────────
-# DOCKER CONCEPTS — Fundamental Commands
-# ─────────────────────────────────────────────────────────
-
-# Check Docker installation
+# Cek Docker terinstall
 docker --version
-docker info
-
-# Hello World — verifikasi Docker berjalan
 docker run hello-world
+# → Hello from Docker! (peti contoh)
 
-# Docker Architecture:
-# Docker Client → Docker Daemon → Containerd → runc → Container
+# Jalankan toko demo (nginx) — peti web server
+docker run --name warung-web -p 8080:80 -d nginx
+# -p 8080:80 = pintu luar 8080 → dalam 80, -d = jalan di belakang
+# Buka http://localhost:8080 → lihat "Welcome to nginx!"
 
-# Image vs Container:
-# Image = template/blueprint (read-only)
-# Container = running instance dari image
+# Lihat peti yang jalan
+docker ps
+docker logs warung-web
+docker stop warung-web
+docker rm warung-web
 
-# Basic Commands
-docker ps                    # List running containers
-docker ps -a                 # List all containers (including stopped)
-docker images                # List downloaded images
-docker pull nginx            # Download image tanpa run
-docker search ubuntu         # Cari image di Docker Hub
-
-# Run container sederhana
-docker run hello-world
-
-# Run container dengan options
-docker run -d --name my-nginx -p 8080:80 nginx
-
-# Flags:
-# -d        : detached mode (background)
-# --name    : nama container
-# -p        : port mapping (host:container)
-# -v        : volume mount
-# -e        : environment variable
-# --rm      : auto-remove saat stop
-
-# Lihat logs container
-docker logs my-nginx
-docker logs -f my-nginx      # Follow logs
-
-# Execute command di container yang berjalan
-docker exec -it my-nginx bash
-
-# Stop dan remove container
-docker stop my-nginx
-docker rm my-nginx
-
-# Remove image
-docker rmi nginx
+# Peti berinteraksi (masuk ke dalam)
+docker run -it --rm alpine sh
+# -it = interaktif, --rm = hapus setelah keluar
+# Di dalam: ls, pwd, exit
 ```
+
+**Install (sekali):** `docker.com` → Docker Desktop → Install → Restart → `docker --version` muncul.
+
+**Tanpa install (coba):** `play-with-docker.com` di browser.
 
 ---
 
 ## Konsep Kunci
 
-### Docker
-Platform untuk develop, ship, dan run application dalam container.
+### Peti Kemas
+- **Image** = cetak biru (resep + bahan) — `nginx`, `postgres`
+- **Container** = peti yang jalan dari image — `warung-web`
+- **Dockerfile** = resep tulis image (minggu 4)
+- **Registry** = gudang cetak biru — Docker Hub
 
-### Image vs Container
-Image = template read-only. Container = running instance dari image.
+### Perintah Wajib
+`docker run -p luar:dalam -d --name nama image`, `docker ps`, `logs`, `stop`, `rm`, `exec -it`.
 
-### Registry
-Docker Hub = public registry. Private registry untuk enterprise.
+---
 
-### Architecture
-- Docker CLI: user interface
-- Docker Daemon: manage containers
-- Containerd: container runtime management
-- runc: low-level runtime
+## Penjelasan untuk Pemula
 
-### Basic Workflow
-1. Pull image: `docker pull nginx`
-2. Run container: `docker run -d nginx`
-3. Manage: `docker ps`, `docker stop`, `docker rm`
+### Analogi
+
+- **Image = cetak biru peti**: gambar + daftar isi.
+- **Container = peti nyata**: 1 cetak bisa jadi 5 peti jalan.
+- **Port `-p` = pintu gudang**: luar 8080, dalam 80.
 
 ---
 
 ## Eksperimen
 
-- Pull berbagai image dan run container
-- Eksperimen dengan flags berbeda
-- Coba exec bash di container ubuntu
-- Run container dengan port mapping berbeda
-- Eksperimen dengan environment variable
+- **Hijau:** `docker run -p 8081:80 -d nginx` kedua di 8081 → 2 toko jalan bareng?
+- **Kuning:** `docker ps -a` lihat yang mati, `docker rm` hapus.
+- **Merah:** Lupa `-p` → `localhost:8080` tidak bisa, harus `-p`.
 
 ---
 
 ## Tantangan
 
-Setup web server: pull nginx image, run container, akses di browser, customize halaman.
+**Peti Warung:** `docker run --name db -e POSTGRES_PASSWORD=rahasia -p 5432:5432 -d postgres` → cek `docker logs db` → `docker ps`. Stop & hapus setelah.
+
+---
+
+## Glosarium Mini
+
+- **Image/Container**: cetak/peti
+- **Port**: pintu
+- **Registry**: gudang cetak
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 12: **Konsep Docker** (Level: Pemula). Containerization fundamentals. Minggu depan: **Image & Registry**.
+Minggu 1: **Peti Kemas** — aplikasi jalan di mana saja. Minggu depan: **Image & Registry** — ambil & simpan cetak biru.

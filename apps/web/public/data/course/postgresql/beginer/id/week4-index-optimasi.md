@@ -1,88 +1,93 @@
-# Index & Optimasi Query
+# Index & Optimasi — Daftar Isi Biar Cari Cepat
 
-> **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 4:** Index & Optimasi Query
+> **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 4:** Index & Optimasi
 
 ## Tujuan Pembelajaran
 
-- B-tree index
-- EXPLAIN ANALYZE
-- Multi-column index
-- Partial index
-- Trade-off index
+- `CREATE INDEX` — daftar isi buku, cari `WHERE email = '...'` dari 1 detik jadi 0.01 detik
+- `EXPLAIN` lihat rencana: `Seq Scan` (baca semua) vs `Index Scan` (loncat)
+- Kapan index: kolom sering `WHERE/JOIN/ORDER BY`, jangan di kolom jarang
 
 ---
 
-## Program: Performa Database
+## Kenapa Ini Penting Buat Kamu?
+
+Gudang 10 baris tidak terasa. 100 ribu baris, cari `email` tanpa index = baca semua kardus. Dengan index = buka daftar isi langsung ke rak.
+
+---
+
+## Program: Index Warung
 
 ```sql
-CREATE TABLE transaksi (
-    id BIGSERIAL PRIMARY KEY,
-    pelanggan_id INTEGER NOT NULL,
-    produk_id INTEGER NOT NULL,
-    jumlah INTEGER NOT NULL,
-    total DECIMAL(12,2) NOT NULL,
-    tanggal DATE NOT NULL,
-    metode_bayar VARCHAR(20)
-);
+-- Tanpa index: cari email harus baca semua (Seq Scan)
+EXPLAIN SELECT * FROM pelanggan WHERE email = 'siti@email.com';
 
-INSERT INTO transaksi (pelanggan_id, produk_id, jumlah, total, tanggal, metode_bayar)
-    SELECT (random()*100+1)::int, (random()*50+1)::int,
-        (random()*10+1)::int, (random()*5000000+100000)::decimal(12,2),
-        CURRENT_DATE - (random()*365)::int,
-        (ARRAY['cash','transfer','ewallet'])[(random()*3)::int+1]
-    FROM generate_series(1,1000);
+-- Bikin index (daftar isi)
+CREATE INDEX idx_pelanggan_email ON pelanggan(email);
+CREATE INDEX idx_produk_kategori ON produk(kategori);
 
-EXPLAIN ANALYZE SELECT * FROM transaksi WHERE pelanggan_id = 42;
+-- Sekarang cari lagi → Index Scan (cepat)
+EXPLAIN SELECT * FROM pelanggan WHERE email = 'siti@email.com';
 
-CREATE INDEX idx_transaksi_pelanggan ON transaksi(pelanggan_id);
+-- Index untuk JOIN cepat
+CREATE INDEX idx_pesanan_pelanggan ON pesanan(pelanggan_id);
 
-EXPLAIN ANALYZE SELECT * FROM transaksi WHERE pelanggan_id = 42;
+-- Lihat index yang ada
+SELECT indexname FROM pg_indexes WHERE tablename = 'pelanggan';
 
-CREATE INDEX idx_transaksi_tanggal_bayar ON transaksi(tanggal, metode_bayar);
+-- Hapus jika tidak perlu (hemat tulis)
+DROP INDEX idx_produk_kategori;
 
-CREATE INDEX idx_transaksi_besar ON transaksi(total) WHERE total > 1000000;
-
-SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'transaksi';
-
-SELECT COUNT(*) AS total_rows, COUNT(DISTINCT pelanggan_id) AS unique_pelanggan FROM transaksi;
+-- Tips: jangan index semua! Tiap INSERT jadi lambat (harus update daftar isi)
 ```
 
 ---
 
 ## Konsep Kunci
 
-### B-tree Index
-Struktur tree untuk mempercepat pencarian.
+### Index = Daftar Isi
+Tanpa index: baca halaman 1-300. Dengan index: buka daftar isi → halaman 42.
 
-### EXPLAIN ANALYZE
-Menunjukkan execution plan.
+### `EXPLAIN` = Rencana
+`EXPLAIN SELECT ...` tampilkan `Seq Scan` vs `Index Scan` + cost.
 
-### Multi-Column Index
-Urutan kolom penting.
+### Kapan Index
+- Sering `WHERE email`, `JOIN pelanggan_id`, `ORDER BY harga` → index
+- Kolom `kota` jarang saring → tidak perlu.
 
-### Partial Index
-Index dengan WHERE clause.
+---
 
-### Trade-off
-Index cepat SELECT, lambat INSERT/UPDATE.
+## Penjelasan untuk Pemula
+
+### Analogi: Buku Telepon
+
+- **Tanpa index = cari nama dengan baca tiap halaman**.
+- **Dengan index = daftar isi abjad**: cari "Siti" → S → halaman 200.
 
 ---
 
 ## Eksperimen
 
-- Bandingkan waktu query
-- Index di kolom duplikat
-- GIN index
-- Analisis JOIN besar
+- **Hijau:** `EXPLAIN` sebelum & sesudah `CREATE INDEX` → cost turun?
+- **Kuning:** `DROP INDEX` → `EXPLAIN` balik `Seq Scan`?
+- **Merah:** Bikin index di `stok` yang jarang WHERE → tulis `INSERT` jadi lebih lambat (cek waktu).
 
 ---
 
 ## Tantangan
 
-Tabel 10000+ baris, identifikasi slow query, tambah index, ukur perbaikan.
+**Perpustakaan:** `CREATE INDEX idx_buku_judul ON buku(judul)` → `EXPLAIN SELECT * FROM buku WHERE judul LIKE 'Java%'` → Index Scan? Tambah `idx_anggota_email`.
+
+---
+
+## Glosarium Mini
+
+- **Index**: daftar isi
+- **EXPLAIN**: rencana
+- **Seq/Index Scan**: baca semua/loncat
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 10: **Index & Optimasi** (Pemula).
+Minggu 4: **Index** — gudang besar tetap cepat. Selesai Beginner DB! Minggu depan: **Fungsi & Trigger** (Menengah).

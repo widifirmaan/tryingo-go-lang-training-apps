@@ -1,111 +1,93 @@
-# Docker Concepts
+# Docker Concept — Shipping Container for Apps
 
-> **Kategori:** Docker | **Level:** Beginner | **Minggu 1:** Docker Concepts
+> **Kategori:** Docker | **Level:** Beginner | **Minggu 1:** Konsep Docker
 
 ## Learning Objectives
 
-- Understand Docker concepts: images, containers, registries
-- Docker installation: Docker Desktop, Docker Engine
-- Docker architecture: Client, Daemon, Containerd, runc
-- Basic commands: run, ps, images, pull, exec
-- Common flags: -d, --name, -p, -v, -e, --rm
+- Understand Docker like **shipping container**: app + dependencies 1 package, runs anywhere
+- Difference `image` (blueprint) vs `container` (running box), vs `Dockerfile` (recipe)
+- Install Docker Desktop, check `docker --version`, run `docker run hello-world` and `nginx`
+- `docker ps`, `logs`, `stop`, `rm`
 
 ---
 
-## Program: Hello, Docker!
+## Why This Matters (Non-IT)
+
+Shop branch: without container, bring stove, gas, spices separately — something missing. With Docker container, 1 box has all → open anywhere same. Friend laptop, server, same.
+
+---
+
+## Program: First Box
 
 ```bash
-# ─────────────────────────────────────────────────────────
-# DOCKER CONCEPTS — Fundamental Commands
-# ─────────────────────────────────────────────────────────
-
-# Check Docker installation
 docker --version
-docker info
-
-# Hello World — verifikasi Docker berjalan
 docker run hello-world
 
-# Docker Architecture:
-# Docker Client → Docker Daemon → Containerd → runc → Container
+docker run --name shop-web -p 8080:80 -d nginx
+# -p 8080:80 = outside 8080 → inside 80, -d = background
+# Open http://localhost:8080 → "Welcome to nginx!"
 
-# Image vs Container:
-# Image = template/blueprint (read-only)
-# Container = running instance dari image
+docker ps
+docker logs shop-web
+docker stop shop-web
+docker rm shop-web
 
-# Basic Commands
-docker ps                    # List running containers
-docker ps -a                 # List all containers (including stopped)
-docker images                # List downloaded images
-docker pull nginx            # Download image tanpa run
-docker search ubuntu         # Cari image di Docker Hub
-
-# Run container sederhana
-docker run hello-world
-
-# Run container dengan options
-docker run -d --name my-nginx -p 8080:80 nginx
-
-# Flags:
-# -d        : detached mode (background)
-# --name    : nama container
-# -p        : port mapping (host:container)
-# -v        : volume mount
-# -e        : environment variable
-# --rm      : auto-remove saat stop
-
-# Lihat logs container
-docker logs my-nginx
-docker logs -f my-nginx      # Follow logs
-
-# Execute command di container yang berjalan
-docker exec -it my-nginx bash
-
-# Stop dan remove container
-docker stop my-nginx
-docker rm my-nginx
-
-# Remove image
-docker rmi nginx
+docker run -it --rm alpine sh
+# -it = interactive, --rm = delete after exit
+# Inside: ls, pwd, exit
 ```
+
+**Install (once):** `docker.com` → Docker Desktop → Install → Restart → `docker --version`.
+
+**No install:** `play-with-docker.com` in browser.
 
 ---
 
 ## Key Concepts
 
-### Docker
-Platform for developing, shipping, and running applications in containers.
+### Container
+- **Image** = blueprint (recipe + ingredients) — `nginx`, `postgres`
+- **Container** = running box from image — `shop-web`
+- **Dockerfile** = recipe to write image (week 4)
+- **Registry** = blueprint warehouse — Docker Hub
 
-### Images vs Containers
-Images are read-only templates. Containers are running instances.
+### Must Commands
+`docker run -p outside:inside -d --name name image`, `docker ps`, `logs`, `stop`, `rm`, `exec -it`.
 
-### Registries
-Docker Hub for public images. Private registries for enterprise.
+---
 
-### Architecture
-CLI → Daemon → Containerd → runc → Container.
+## Beginner Friendly Explanation
 
-### Basic Workflow
-Pull image → Run container → Manage lifecycle.
+### Analogy
+
+- **Image = container blueprint**: picture + list.
+- **Container = real container**: 1 blueprint can be 5 running containers.
+- **Port `-p` = warehouse door**: outside 8080, inside 80.
 
 ---
 
 ## Experiments
 
-- Pull various images and run containers
-- Experiment with different flags
-- Try exec bash in ubuntu container
-- Run containers with different port mappings
-- Experiment with environment variables
+- **Green:** `docker run -p 8081:80 -d nginx` second on 8081 → 2 shops together?
+- **Yellow:** `docker ps -a` see dead, `docker rm` delete.
+- **Red:** Forget `-p` → `localhost:8080` fails, need `-p`.
 
 ---
 
 ## Challenge
 
-Set up web server: pull nginx image, run container, access in browser, customize page.
+**Shop Box:** `docker run --name db -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres` → check `docker logs db` → `docker ps`. Stop & remove after.
+
+---
+
+## Mini Glossary
+
+- **Image/Container**: blueprint/box
+- **Port**: door
+- **Registry**: blueprint warehouse
 
 ---
 
 ## Summary
 
-Week 1 of 12: **Docker Concepts** (Level: Beginner). Containerization fundamentals. Next week: **Images & Registries**.
+Week 1: **Container** — app runs anywhere. Next: **Image & Registry** — fetch & store blueprints.
