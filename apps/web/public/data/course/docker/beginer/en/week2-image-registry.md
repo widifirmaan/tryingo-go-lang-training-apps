@@ -1,113 +1,94 @@
-# Images & Registries
+# Image & Registry — Blueprint Warehouse
 
-> **Kategori:** Docker | **Level:** Beginner | **Minggu 2:** Images & Registries
+> **Kategori:** Docker | **Level:** Beginner | **Minggu 2:** Image & Registry
 
 ## Learning Objectives
 
-- Image layers: each command is a layer
-- Pull, tag, push images to registries
-- Docker Hub: search, pull, push images
-- Save/load images for offline transfer
-- Best practices: small images, pin versions, minimize layers
+- Find & pull `docker pull`, see `docker images`, delete `rmi`
+- Tag `nginx:1.25` vs `nginx:latest`, layers, cache
+- Push to Docker Hub / login, `docker build -t yourname/shop:1.0 .` preview
+- `docker save/load` to send file
 
 ---
 
-## Program: Build & Push Images
+## Why This Matters (Non-IT)
+
+Shop blueprint not just 1. Need version `1.0`, `1.1`, store in warehouse (Hub) so branch can `pull` same — not via USB.
+
+---
+
+## Program: Blueprint Warehouse
 
 ```bash
-# ─────────────────────────────────────────────────────────
-# DOCKER IMAGES & REGISTRIES
-# ─────────────────────────────────────────────────────────
+docker pull nginx:alpine
+docker pull postgres:15
 
-# Lihat semua image lokal
 docker images
 docker image ls
 
-# Pull image dari Docker Hub
-docker pull nginx:1.25
-docker pull ubuntu:22.04
-docker pull node:20-alpine
+docker tag nginx:alpine shop/web:1.0
+docker images | grep shop
 
-# Image layers — setiap command di Dockerfile adalah layer
-docker history nginx
+docker save shop/web:1.0 -o shop.tar
+docker load -i shop.tar
 
-# Inspect image
-docker inspect nginx
+docker rmi shop/web:1.0
+docker rmi nginx:alpine
 
-# Tag image
-docker tag nginx:1.25 my-nginx:v1.0
-
-# Push ke Docker Hub (login dulu)
 docker login
-docker tag my-nginx:v1.0 username/my-nginx:v1.0
-docker push username/my-nginx:v1.0
+# docker build -t yourname/shop:1.0 .
+# docker push yourname/shop:1.0
 
-# Search image
-docker search mysql
-docker search --filter=stars=1000 nginx
-
-# Remove image
-docker rmi nginx
-docker image prune       # Remove unused images
-docker image prune -a    # Remove ALL unused images
-
-# Save dan load image (offline transfer)
-docker save -o nginx.tar nginx:1.25
-docker load -i nginx.tar
-
-# Import dan export container
-docker export my-container > container.tar
-docker import container.tar my-image:v1
-
-# Multi-architecture images
-docker buildx ls
-docker buildx build --platform linux/amd64,linux/arm64 -t myapp .
-
-# Image best practices:
-# 1. Gunakan official image
-# 2. Pilih small base image (alpine, distroless)
-# 3. Pin version tag (hindari :latest)
-# 4. Gabung RUN commands untuk minimize layers
-# 5. Gunakan .dockerignore
+docker pull nginx:alpine # second time: Already exists (cache)
 ```
 
 ---
 
 ## Key Concepts
 
-### Image Layers
-Each Dockerfile instruction creates a cached layer.
+### Tag = Version
+`nginx:latest` (latest), `nginx:1.25`, `postgres:15-alpine` (small). Don't use `latest` in prod — uncertain.
 
-### Registries
-Docker Hub is the default. Private registries for enterprise.
+### Layer = Cake Layers
+Image has layers (OS, nginx, config). Second `pull` only new layers.
 
-### Tagging
-Rename and version images with docker tag.
+### Registry = Warehouse
+Docker Hub = public warehouse. Private Hub = private.
 
-### Push Flow
-Login → Tag → Push to registry.
+---
 
-### Best Practices
-Use small base images, pin versions, minimize layers.
+## Beginner Friendly Explanation
+
+### Analogy: Blueprint Warehouse
+
+- **`pull` = take blueprint copy from warehouse**.
+- **`tag` = version stamp**: `shop:1.0` vs `shop:2.0`.
+- **`push` = save new copy to warehouse**.
 
 ---
 
 ## Experiments
 
-- Pull various images and observe layers
-- Experiment with image tagging
-- Try saving and loading images
-- Create Docker Hub account and push image
-- Experiment with multi-arch builds
+- **Green:** `docker pull postgres:15` then `docker images` → size?
+- **Yellow:** `docker tag nginx:alpine shop:test` → 2 names, 1 content (same ID).
+- **Red:** `docker rmi postgres:15` while container `db` running → error `image is being used`.
 
 ---
 
 ## Challenge
 
-Create custom image: pull ubuntu, install nginx, make custom page, push to Docker Hub.
+**Version Warehouse:** `pull` `nginx:alpine` and `nginx:1.25`, compare `docker images` size. `tag` one to `shop/nginx:shop` → `save` → `rmi` → `load`.
+
+---
+
+## Mini Glossary
+
+- **pull/push**: fetch/store
+- **Tag**: version
+- **Layer**: layer
 
 ---
 
 ## Summary
 
-Week 2 of 12: **Images & Registries** (Level: Beginner). Docker image management. Next week: **Container Management**.
+Week 2: **Blueprint Warehouse** — fetch, tag, store. Next: **Container Management** — live, stop, volumes.

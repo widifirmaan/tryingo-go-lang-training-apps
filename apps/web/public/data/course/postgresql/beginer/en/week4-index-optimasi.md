@@ -1,88 +1,85 @@
-# Indexes & Query Optimization
+# Index & Optimization — Table of Contents for Fast Search
 
-> **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 4:** Indexes & Query Optimization
+> **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 4:** Index & Optimasi
 
 ## Learning Objectives
 
-- B-tree index
-- EXPLAIN ANALYZE
-- Multi-column index
-- Partial index
-- Index trade-off
+- `CREATE INDEX` — table of contents, search `WHERE email = '...'` from 1s → 0.01s
+- `EXPLAIN` plan: `Seq Scan` (read all) vs `Index Scan` (jump)
+- When to index: often `WHERE/JOIN/ORDER BY`, not rarely used column
 
 ---
 
-## Program: Database Performance
+## Why This Matters (Non-IT)
+
+Warehouse 10 rows no feel. 100k rows, search `email` without index = read all boxes. With index = open table of contents to shelf.
+
+---
+
+## Program: Shop Index
 
 ```sql
-CREATE TABLE transaksi (
-    id BIGSERIAL PRIMARY KEY,
-    pelanggan_id INTEGER NOT NULL,
-    produk_id INTEGER NOT NULL,
-    jumlah INTEGER NOT NULL,
-    total DECIMAL(12,2) NOT NULL,
-    tanggal DATE NOT NULL,
-    metode_bayar VARCHAR(20)
-);
+EXPLAIN SELECT * FROM customers WHERE email = 'siti@email.com';
 
-INSERT INTO transaksi (pelanggan_id, produk_id, jumlah, total, tanggal, metode_bayar)
-    SELECT (random()*100+1)::int, (random()*50+1)::int,
-        (random()*10+1)::int, (random()*5000000+100000)::decimal(12,2),
-        CURRENT_DATE - (random()*365)::int,
-        (ARRAY['cash','transfer','ewallet'])[(random()*3)::int+1]
-    FROM generate_series(1,1000);
+CREATE INDEX idx_customers_email ON customers(email);
+CREATE INDEX idx_products_category ON products(category);
 
-EXPLAIN ANALYZE SELECT * FROM transaksi WHERE pelanggan_id = 42;
+EXPLAIN SELECT * FROM customers WHERE email = 'siti@email.com';
 
-CREATE INDEX idx_transaksi_pelanggan ON transaksi(pelanggan_id);
+CREATE INDEX idx_orders_customer ON orders(customer_id);
 
-EXPLAIN ANALYZE SELECT * FROM transaksi WHERE pelanggan_id = 42;
+SELECT indexname FROM pg_indexes WHERE tablename = 'customers';
 
-CREATE INDEX idx_transaksi_tanggal_bayar ON transaksi(tanggal, metode_bayar);
-
-CREATE INDEX idx_transaksi_besar ON transaksi(total) WHERE total > 1000000;
-
-SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'transaksi';
-
-SELECT COUNT(*) AS total_rows, COUNT(DISTINCT pelanggan_id) AS unique_pelanggan FROM transaksi;
+DROP INDEX idx_products_category;
 ```
 
 ---
 
 ## Key Concepts
 
-### B-tree Index
-Tree structure for fast lookups.
+### Index = Table of Contents
+Without: read pages 1-300. With: open TOC → page 42.
 
-### EXPLAIN ANALYZE
-Shows execution plan.
+### `EXPLAIN` = Plan
+`EXPLAIN SELECT ...` shows `Seq Scan` vs `Index Scan` + cost.
 
-### Multi-Column Index
-Column order matters.
+### When Index
+- Often `WHERE email`, `JOIN customer_id`, `ORDER BY price` → index
+- Rare `city` filter → not needed.
 
-### Partial Index
-Index with WHERE clause.
+---
 
-### Trade-off
-Fast SELECT, slower writes.
+## Beginner Friendly Explanation
+
+### Analogy: Phone Book
+
+- **No index = read each page**.
+- **With index = alphabetical TOC**: find "Siti" → S → page 200.
 
 ---
 
 ## Experiments
 
-- Compare query time
-- Index on dup column
-- GIN index
-- Analyze large JOINs
+- **Green:** `EXPLAIN` before & after `CREATE INDEX` → cost down?
+- **Yellow:** `DROP INDEX` → `EXPLAIN` back to `Seq Scan`?
+- **Red:** Index on rarely filtered `stock` → `INSERT` slower.
 
 ---
 
 ## Challenge
 
-10k+ rows table, identify slow queries, add indexes, measure improvement.
+**Library:** `CREATE INDEX idx_books_title ON books(title)` → `EXPLAIN SELECT * FROM books WHERE title LIKE 'Java%'` → Index Scan? Add `idx_members_email`.
+
+---
+
+## Mini Glossary
+
+- **Index**: TOC
+- **EXPLAIN**: plan
+- **Seq/Index Scan**: read all/jump
 
 ---
 
 ## Summary
 
-Week 4 of 10: **Indexes & Optimization** (Beginner).
+Week 4: **Index** — large warehouse still fast. Beginner DB done! Next: **Functions & Triggers** (Intermediate).

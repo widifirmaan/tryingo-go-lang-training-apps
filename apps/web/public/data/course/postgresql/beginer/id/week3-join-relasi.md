@@ -1,96 +1,100 @@
-# JOIN & Relasi Tabel
+# JOIN & Relasi — Gabung 2 Rak Jadi 1 Laporan
 
-> **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 3:** JOIN & Relasi Tabel
+> **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 3:** JOIN & Relasi
 
 ## Tujuan Pembelajaran
 
-- FOREIGN KEY dan referential integrity
-- INNER JOIN
-- LEFT JOIN
-- Multi-JOIN 3+ tabel
-- Agregasi dengan JOIN
+- `FOREIGN KEY` — tali pengikat: `pesanan.pelanggan_id → pelanggan.id`
+- `INNER JOIN` hanya yang ada pasangan, `LEFT JOIN` semua kiri + pasangan jika ada
+- `GROUP BY` + `COUNT/SUM` untuk laporan: total belanja per pelanggan
 
 ---
 
-## Program: Query Multi-Tabel
+## Kenapa Ini Penting Buat Kamu?
+
+Warung punya rak `pelanggan` dan `pesanan` terpisah. Bos tanya "Budi belanja berapa total?" — harus **gabung** 2 rak. Tanpa JOIN, jawab manual.
+
+---
+
+## Program: Pesanan Gabung Pelanggan
 
 ```sql
+-- Rak pesanan pakai tali ke pelanggan
 CREATE TABLE pesanan (
     id SERIAL PRIMARY KEY,
-    pelanggan_id INTEGER REFERENCES pelanggan(id),
-    tanggal TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'pending'
+    pelanggan_id INTEGER REFERENCES pelanggan(id), -- tali
+    total DECIMAL(10,2) NOT NULL,
+    tanggal TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE detail_pesanan (
-    id SERIAL PRIMARY KEY,
-    pesanan_id INTEGER REFERENCES pesanan(id),
-    produk_id INTEGER REFERENCES produk(id),
-    jumlah INTEGER NOT NULL,
-    harga_satuan DECIMAL(10,2) NOT NULL
-);
+INSERT INTO pesanan (pelanggan_id, total) VALUES
+(1, 75000), (1, 32000), (2, 55000); -- Budi 2x, Siti 1x
 
-INSERT INTO pelanggan (nama, email, kota) VALUES ('Rudi', 'rudi@mail.com', 'Medan');
-INSERT INTO pesanan (pelanggan_id, status) VALUES (1,'completed'),(2,'completed'),(1,'pending');
-INSERT INTO detail_pesanan (pesanan_id, produk_id, jumlah, harga_satuan) VALUES
-    (1,1,1,12500000),(1,2,2,350000),(2,3,1,850000),(3,4,1,2800000);
+-- INNER JOIN — hanya yang punya pasangan
+SELECT pelanggan.nama, pesanan.total
+FROM pelanggan
+INNER JOIN pesanan ON pelanggan.id = pesanan.pelanggan_id;
 
--- INNER JOIN
-SELECT p.nama AS pelanggan, ps.tanggal, ps.status
-    FROM pesanan ps INNER JOIN pelanggan p ON p.id = ps.pelanggan_id;
+-- LEFT JOIN — semua pelanggan, meski belum pesan (NULL)
+SELECT pelanggan.nama, pesanan.total
+FROM pelanggan
+LEFT JOIN pesanan ON pelanggan.id = pesanan.pelanggan_id;
 
--- LEFT JOIN
-SELECT p.nama, COALESCE(COUNT(ps.id),0) AS total
-    FROM pelanggan p LEFT JOIN pesanan ps ON p.id = ps.pelanggan_id
-    GROUP BY p.nama;
-
--- Multi-JOIN 3 tabel
-SELECT p.nama AS pelanggan, pr.nama AS produk,
-    dp.jumlah, dp.harga_satuan,
-    (dp.jumlah * dp.harga_satuan) AS subtotal
-    FROM detail_pesanan dp
-    JOIN pesanan ps ON ps.id = dp.pesanan_id
-    JOIN pelanggan p ON p.id = ps.pelanggan_id
-    JOIN produk pr ON pr.id = dp.produk_id
-    ORDER BY subtotal DESC;
+-- Laporan: total per pelanggan
+SELECT pelanggan.nama, COUNT(pesanan.id) AS jml_pesanan, SUM(pesanan.total) AS total_belanja
+FROM pelanggan
+LEFT JOIN pesanan ON pelanggan.id = pesanan.pelanggan_id
+GROUP BY pelanggan.nama
+ORDER BY total_belanja DESC;
 ```
 
 ---
 
 ## Konsep Kunci
 
-### FOREIGN KEY
-REFERENCES memastikan data terkait ada.
+### Foreign Key = Tali
+`pelanggan_id INTEGER REFERENCES pelanggan(id)` — tidak bisa isi `999` jika tidak ada pelanggan 999.
 
-### INNER JOIN
-Hanya baris yang cocok di kedua tabel.
+### JOIN = Gabung Rak
+- `INNER JOIN` → hanya yang nyambung
+- `LEFT JOIN` → semua kiri, kanan `NULL` jika tidak ada
 
-### LEFT JOIN
-Semua baris kiri muncul.
+### `GROUP BY` = Kelompokkan
+`GROUP BY pelanggan.nama` → hitung per nama.
 
-### Multi-JOIN
-Chain JOIN ... ON ...
+---
 
-### Agregasi + JOIN
-GROUP BY dengan JOIN untuk laporan.
+## Penjelasan untuk Pemula
+
+### Analogi: Buku Tamu & Nota
+
+- **pelanggan = buku tamu**, **pesanan = tumpukan nota** dengan `pelanggan_id` tulisan tangan.
+- **JOIN = stapler**: stapler nota ke baris buku tamu yang `id` sama.
 
 ---
 
 ## Eksperimen
 
-- RIGHT JOIN
-- FULL OUTER JOIN
-- Self-join
-- Revenue per kota
+- **Hijau:** `INSERT pesanan` tanpa `pelanggan_id` → boleh? (boleh NULL jika tidak `NOT NULL`)
+- **Kuning:** `LEFT JOIN` pelanggan yang belum pesan → `total` NULL?
+- **Merah:** `DELETE FROM pelanggan WHERE id=1` yang punya pesanan → error foreign key.
 
 ---
 
 ## Tantangan
 
-Database e-commerce: top 5 pelanggan, produk terlaris, revenue bulanan.
+**Perpustakaan:** `peminjaman(id, buku_id FK, anggota_id FK, tgl)` → `SELECT anggota.nama, buku.judul FROM peminjaman JOIN anggota ON ... JOIN buku ON ...` + `GROUP BY anggota.nama` hitung pinjam.
+
+---
+
+## Glosarium Mini
+
+- **Foreign Key**: tali
+- **JOIN**: gabung
+- **GROUP BY**: kelompok
 
 ---
 
 ## Ringkasan
 
-Minggu 3 dari 10: **JOIN & Relasi Tabel** (Pemula).
+Minggu 3: **JOIN** — bisa gabung 2 rak jadi laporan. Minggu depan: **Index** — biar cari cepat.

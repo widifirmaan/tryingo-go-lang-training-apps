@@ -1,117 +1,101 @@
-# Image & Registry
+# Image & Registry — Gudang Cetak Biru
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 2:** Image & Registry
 
 ## Tujuan Pembelajaran
 
-- Image layers: setiap command adalah layer
-- Pull, tag, push image ke registry
-- Docker Hub: search, pull, push image
-- Save/load image untuk offline transfer
-- Best practices: small image, pin version, minimize layers
+- Cari & tarik image `docker pull`, lihat `docker images`, hapus `rmi`
+- Tag `nginx:1.25` vs `nginx:latest`, layer, cache
+- Push ke Docker Hub / login, `docker build -t namamu/warung:1.0 .` preview
+- `docker save/load` untuk kirim file
 
 ---
 
-## Program: Build & Push Image
+## Kenapa Ini Penting Buat Kamu?
+
+Cetak biru warung tidak cukup 1. Perlu versi `1.0`, `1.1`, simpan di gudang (Hub) biar cabang bisa `pull` yang sama — tidak bawa USB.
+
+---
+
+## Program: Gudang Cetak
 
 ```bash
-# ─────────────────────────────────────────────────────────
-# DOCKER IMAGES & REGISTRIES
-# ─────────────────────────────────────────────────────────
+# Cari & tarik
+docker pull nginx:alpine
+docker pull postgres:15
 
-# Lihat semua image lokal
+# Lihat koleksi
 docker images
 docker image ls
 
-# Pull image dari Docker Hub
-docker pull nginx:1.25
-docker pull ubuntu:22.04
-docker pull node:20-alpine
+# Beri label versi sendiri (tag)
+docker tag nginx:alpine warung/web:1.0
+docker images | grep warung
 
-# Image layers — setiap command di Dockerfile adalah layer
-docker history nginx
+# Simpan & load sebagai file (untuk kirim tanpa internet)
+docker save warung/web:1.0 -o warung.tar
+docker load -i warung.tar
 
-# Inspect image
-docker inspect nginx
+# Hapus
+docker rmi warung/web:1.0
+docker rmi nginx:alpine # jika tidak dipakai container
 
-# Tag image
-docker tag nginx:1.25 my-nginx:v1.0
-
-# Push ke Docker Hub (login dulu)
+# Login & push (butuh akun hub.docker.com)
 docker login
-docker tag my-nginx:v1.0 username/my-nginx:v1.0
-docker push username/my-nginx:v1.0
+# docker build -t namamu/warung:1.0 .
+# docker push namamu/warung:1.0
 
-# Search image
-docker search mysql
-docker search --filter=stars=1000 nginx
-
-# Remove image
-docker rmi nginx
-docker image prune       # Remove unused images
-docker image prune -a    # Remove ALL unused images
-
-# Save dan load image (offline transfer)
-docker save -o nginx.tar nginx:1.25
-docker load -i nginx.tar
-
-# Import dan export container
-docker export my-container > container.tar
-docker import container.tar my-image:v1
-
-# Multi-architecture images
-docker buildx ls
-docker buildx build --platform linux/amd64,linux/arm64 -t myapp .
-
-# Image best practices:
-# 1. Gunakan official image
-# 2. Pilih small base image (alpine, distroless)
-# 3. Pin version tag (hindari :latest)
-# 4. Gabung RUN commands untuk minimize layers
-# 5. Gunakan .dockerignore
+# Lihat layer (kenapa pull kedua cepat? cache)
+docker pull nginx:alpine # kedua kali: Already exists
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Image Layers
-Setiap instruction di Dockerfile membuat layer. Layer di-cache untuk build lebih cepat.
+### Tag = Versi
+`nginx:latest` (terbaru), `nginx:1.25`, `postgres:15-alpine` (kecil). Jangan pakai `latest` di produksi — tidak pasti.
 
-### Registry
-Docker Hub = default registry. Bisa buat private registry.
+### Layer = Lapis Kue
+Image terdiri lapis (OS, nginx, config). `pull` kedua hanya lapis baru.
 
-### Tag
-`docker tag source target` — rename/reversion image.
+### Registry = Gudang
+Docker Hub = gudang umum. Private Hub = gudang pribadi.
 
-### Push Flow
-1. `docker login`
-2. `docker tag image username/repo:tag`
-3. `docker push username/repo:tag`
+---
 
-### Best Practices
-- Gunakan alpine/distroless untuk image kecil
-- Pin version (hindari :latest)
-- Gabung RUN: `RUN apt update && apt install -y ...`
+## Penjelasan untuk Pemula
+
+### Analogi: Gudang Cetak Biru
+
+- **`pull` = ambil fotokopi cetak dari gudang**.
+- **`tag` = stempel versi**: `warung:1.0` vs `warung:2.0`.
+- **`push` = simpan fotokopi baru ke gudang**.
 
 ---
 
 ## Eksperimen
 
-- Pull berbagai image dan lihat layers
-- Eksperimen dengan image tagging
-- Coba save dan load image
-- Buat akun Docker Hub dan push image
-- Eksperimen dengan multi-arch build
+- **Hijau:** `docker pull postgres:15` lalu `docker images` → size?
+- **Kuning:** `docker tag nginx:alpine warung:test` → 2 nama, 1 isi (same ID).
+- **Merah:** `docker rmi postgres:15` saat container `db` masih jalan → error `image is being used`.
 
 ---
 
 ## Tantangan
 
-Buat image custom: pull ubuntu, install nginx, buat halaman custom, push ke Docker Hub.
+**Gudang Versi:** `pull` `nginx:alpine` dan `nginx:1.25`, bandingkan `docker images` size. `tag` satu jadi `warung/nginx:warung` → `save` → `rmi` → `load`.
+
+---
+
+## Glosarium Mini
+
+- **pull/push**: ambil/simpan
+- **Tag**: versi
+- **Layer**: lapis
 
 ---
 
 ## Ringkasan
 
-Minggu 2 dari 12: **Image & Registry** (Level: Pemula). Manajemen image Docker. Minggu depan: **Container Management**.
+Minggu 2: **Gudang Cetak** — ambil, tag, simpan. Minggu depan: **Container Management** — hidup, mati, volume.
