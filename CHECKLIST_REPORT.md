@@ -1,0 +1,255 @@
+# Tryngo — Report Riset Mendalam: Dari Pemula Nol ke Ahli
+
+> **Tujuan:** Materi untuk orang awam total (non-IT) → mahir. Research 1-1 per stack, tidak mengacu level/minggu lama. Checklist apa **dipertahankan / diubah / dihapus / ditambahkan** + persiapan.
+> **Metode:** Review 27 track existing + docs resmi + kurikulum global (MDN Curriculum, freeCodeCamp 3000 jam, Coursera 2026 Roadmaps, CourseFacts Self-Taught, Koli Calling, Xie 4-skills theory, Higgins integrative review)
+> **Tanggal:** 25 Aug 2026 | **Penulis:** Audit Tryngo
+
+---
+
+## 1. Ringkasan Eksekutif
+
+**Keunggulan existing (pertahankan):**
+- 27 track lengkap, bilingual id/en, playground Monaco + WASM Go/Rust, dark/light, search, quiz
+- HTML5 Week1 sudah benar-benar non-IT: analogi kerangka rumah, 3 istilah, walkthrough baris — jadi referensi
+- Next.js/React/JS/Python pilot baru (34 file) sudah pakai analogi warung/LEGO/kasir
+
+**Masalah utama (wajib diperbaiki):**
+1. **Flatlining jargon:** Go `compiled statically typed toolchain vet` minggu 1, JS `map/filter/reduce/destructuring` minggu 2 — cognitive overload >30% dropout (Koli Calling 30%+ fail CS1)
+2. **Tanpa jembatan non-IT:** `kalkulator scientific`, `SCA`, `channel pipelines` — tidak relate warung/guru
+3. **Generator template:** 864 file dari template → semua seragam, tidak riset per-stack (misal Next.js tidak ada `create-next-app` langkah `node -v`)
+4. **Level/minggu lama tidak spiral:** 4 level × 4 minggu = linear, padahal research: spiral (Bruner) + mastery (Aalto) + 7 skills Higgins (abstraksi, dekomposisi, mental model)
+5. **Tanpa 4 skill Xie:** tracing (baca), menulis syntax, template, problem solving — langsung coding campur semua
+
+**Prinsip baru (research-backed):**
+- **Semantic Waves** (Maton): abstrak→sederhana→kembali teknis. `Motivate → Isolate → Practice → Integrate` + `Explicit program dynamics`
+- **Multimodal:** code + analogi + diagram memori (Medialib, Multiple Views N=829)
+- **Project-based + Mastery:** kerjakan mini-project, baru naik level jika lulus (Kinnunen)
+- **Spiral:** HTML/CSS/JS dasar dulu 3 bulan, baru framework — jangan lompat ke Next.js sebelum React paham (CourseFacts)
+
+---
+
+## 2. Kurikulum Ideal Baru (tidak ikut 4×4 lama)
+
+Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts + freeCodeCamp + MDN:
+
+| Fase | Durasi | Isi | Output | Kriteria Naik |
+|------|--------|-----|--------|---------------|
+| **0. Fondasi Digital** | 1 minggu | Laptop, VS Code, terminal, Node/Python install, `node -v`, git `add/commit` | Bisa `node hello.js` | Run tanpa `not recognized` |
+| **1. Web Statis** | 6 minggu | HTML semantik, CSS Flex/Grid, responsive, aksesibilitas, deploy Vercel | Portfolio 1 halaman + 3 project (personal page, landing warung, form) | 3 page lulus Lighthouse |
+| **2. Bahasa Inti** | 8 minggu | **JS atau Python pilih satu** (jangan dua): variabel, tipe, `if`, `for`, `function`, array/object, DOM/fetch (JS) atau file/loop (Python), debugging, error journal | To-do, kalkulator ongkir, buku kas | 83% inline challenges pass |
+| **3. Intermediate** | 8 minggu | TS dasar, Git/GitHub, API REST `fetch`/`axios`, `async/await`, DB SQLite/Postgres CRUD, Auth JWT | Clone Trello + API app (cuaca/film) | PR di GitHub |
+| **4. Framework** | 6 minggu | **React** (atau Vue/Svelte) — komponen, props, `useState`, `useEffect`, router | SPA + React project | Deploy + test |
+| **5. Meta-Framework** | 4 minggu | **Next.js** App Router (folder=route, server/client, `next/image/font`), data fetch server | Blog + dashboard | SEO + `next/image` |
+| **6. Spesialisasi** | 6-8 minggu | Pilih **Frontend** (perf, a11y, testing RTL) atau **Backend** (Node/Go/Python API, Docker, Redis) atau **Fullstack** | Capstone SaaS/Toko | CI/CD |
+| **7. Expert & Karir** | 4 minggu | System design, DSA array/map, interview, portfolio 3-5 project | Siap interview | Mock interview |
+
+> **Aturan:** Fase 1-2 wajib untuk semua stack. Framework (fase 4-5) hanya setelah fase 2 lulus — jangan ajar Next.js ke yang belum paham `let/const` (CourseFacts: butuh 2-3 bulan JS sebelum React).
+
+---
+
+## 3. Checklist Per Stack (1-1 Research)
+
+> Format: **Keep** = pertahankan, **Ubah** = rewrite, **Hapus** = buang, **Tambah** = baru. Persiapan = riset/tools.
+
+### Kategori A — Fundamental (Wajib Duluan)
+
+#### HTML5 [Harmonized]
+- **Riset ideal:** MDN Core: semantik `header/nav/main`, form `input/label`, a11y, SEO meta — 6 minggu project-based (portfolio, landing, form)
+- **Pros:** Week1 sudah non-IT perfect, 14 minggu lengkap
+- **Cons:** Week lain masih teknis (`validasi, API`) tanpa WHY warung
+- **Keep:** Week1 template sebagai referensi semua track
+- **Ubah:** Week2-14 tambah `Kenapa Penting (guru posting nilai)`, sederhanakan `section/article` jadi `rak/sekat`
+- **Hapus:** Istilah `DOM Standard` di deskripsi trackData (menakuti)
+- **Tambah:** Project deploy Netlify minggu 4, a11y checklist
+- **Persiapan:** Screenshots before/after, screen reader demo
+
+#### CSS3 [Harmonized]
+- **Riset:** Flex/Grid, responsive 1→3 kolom, Tailwind vs CSS Modules — 6 minggu visual (box model 3D)
+- **Keep:** Struktur 14 minggu
+- **Ubah:** Week1 jangan `CSS3 Blue` tapi `cat ruko (stiker Tailwind)` non-IT
+- **Tambah:** `next/font` anti-kedip, `box-model` explorer interaktif
+- **Persiapan:** Figma warna warung
+
+#### JavaScript — ✅ DONE W1-W5
+- **Riset:** freeCodeCamp JS 6-8 minggu: variabel, `map/filter`, `if`, `function`, DOM — 83% harus hands-on
+- **Keep:** Struktur pilot baru (struk warung)
+- **Ubah:** Sudah diubah — keep
+- **Tambah:** Sisa intermediate: TS, `fetch` API (sudah plan fase 3)
+- **Persiapan:** Selesai
+
+#### TypeScript — ✅ DONE W1-W4 (5f5d833)
+- **Riset ideal:** Setelah JS paham, 1-2 minggu: `string/number`, `interface`, `generics` dasar — jangan `narrowings` minggu 1
+- **Pros:** Track ada → sudah rewrite manual non-IT
+- **Cons:** Lama langsung `generics, narrowings` — diperbaiki: W1 stiker `harga: number`, W2 `Status "ada"|"habis"`, W3 `(nama:string)=>string`, W4 `interface Produk`
+- **Keep:** Struktur file + `tsc` cek merah
+- **Ubah:** W1 `JS + stiker pengaman`, W2 literal warna, W3 fungsi bertipe, W4 cetak biru `interface` — semua manual id+en (8 file)
+- **Hapus:** `type narrowings, generics` dari W1-W2
+- **Tambah:** `npx tsc struk.ts → node struk.js`, demo error `sapa(123)` merah sebelum run
+- **Persiapan:** Selesai — `typescriptlang.org` + warung `harga: number`
+
+#### Python — ✅ DONE W1-W4
+- **Riset:** Python.org + freeCodeCamp SciPy: `f"Rp {total:,}"`, `// %`, `if/elif`, `def`, `list/dict` — 8 minggu + file I/O
+- **Keep:** Pilot struk
+- **Ubah:** Sudah — keep
+- **Tambah:** Sisa: `pip`, `venv`, `pandas` untuk UMKM (fase 3)
+- **Persiapan:** Selesai
+
+#### Go — ⬜ TODO P1
+- **Riset ideal:** Roadmap.sh Go: `go run/build`, `var :=`, `if/for`, `slice/map`, `struct` 5 minggu beginner tanpa `concurrency` dulu
+- **Cons:** Lama W1 ` toolchain vet static typed` — bunuh motivasi non-IT
+- **Keep:** Code runnable Yaegi
+- **Ubah:** W1 jadi `Buku Kas Go (go run struk.go)` analogi `kotak berlabel`, hapus `vet` minggu 1
+- **Hapus:** `toolchain` dari tujuan beginner
+- **Tambah:** `go mod init warung`, `go fmt` demo
+- **Persiapan:** TinyGo vs Yaegi limit (net/http tidak jalan di WASM) — tulis di materi
+
+#### Rust — ⬜ TODO
+- **Riset:** Ownership `box pinjam` paling susah non-IT — butuh 2 minggu hanya `let mut`, `ownership` analogi `buku perpustakaan`
+- **Ubah:** W1 jangan `memory safety GC` tapi `buku dipinjam harus balik`
+- **Hapus:** `WASM` minggu 1
+- **Tambah:** `cargo new`, `cargo run` langkah 1
+
+### Kategori B — Frontend Framework (Setelah JS)
+
+#### React — ✅ DONE W1-W4
+- **Riset:** react.dev: `JSX LEGO`, `props amplop`, `useState kasir`, `useEffect alarm` — 6 minggu
+- **Keep:** Pilot LEGO
+- **Tambah:** Sisa intermediate: Router, Context
+- **Persiapan:** Selesai
+
+#### Next.js — ✅ DONE W1-W4
+- **Riset:** nextjs.org App Router: `create-next-app`, `app/page.js` folder=route, server/client, `next/image` — 4 minggu beginner (pilot sudah)
+- **Keep:** Pilot ruko
+- **Tambah:** Sisa data fetch, Server Actions
+- **Persiapan:** Selesai
+
+#### Vue — ⬜ TODO NEXT
+- **Riset:** Vue paling ramah non-IT: `npm create vue@latest`, `template {{ }}` mirip HTML, tidak perlu `className`
+- **Ubah:** W1 jangan `Composition API refs` tapi `stiker reaktif {{ harga }}`
+- **Tambah:** `SFC` single file `.vue` demo
+- **Persiapan:** `vuejs.org` guide, bandingkan dengan React LEGO
+
+#### Svelte — ⬜ TODO
+- **Riset:** Svelte compile, `$state` runes baru — 4 minggu
+- **Hapus:** `Virtual DOM` dari Svelte (tidak ada)
+- **Tambah:** `npm create svelte@latest` + `+page.svelte`
+
+#### Angular — ⬜ TODO LAST
+- **Riset:** Enterprise: `npx ng new`, DI, RxJS — butuh TS dulu, bukan untuk non-IT awal
+- **Ubah:** Tandai `Butuh TS & 3 bulan JS` di prasyarat
+- **Hapus:** Jangan taruh di jalur pemula
+
+### Kategori C — Backend (Setelah Bahasa)
+
+#### Node.js — ⬜ TODO
+- **Riset:** `npm init`, `express`, `event loop` — 3 minggu
+- **Tambah:** `node server.js` hello world langkah 1
+
+#### NestJS / Django / Laravel / CI4 / Rails / Spring / C# — ⬜ TODO (batch)
+- **Riset per stack 1 minggu:** `django-admin startproject`, `composer create-project laravel`, `rails new` — semua butuh analogi `dapur/restoran API`
+- **Prinsip:** 1 stack per jalur, jangan campur. Rekomendasi non-IT: **Node.js** paling cepat dari JS.
+- **Hapus:** `Shield Auth, Hotwire` dari beginner
+
+#### PHP — ⬜ TODO
+- **Riset:** `php -S localhost:8000` — perlu `XAMPP` prep checklist
+- **Tambah:** `php -v` check
+
+### Kategori D — Data (Setelah Backend Dasar)
+
+#### PostgreSQL / MySQL — ⬜ TODO
+- **Riset:** `SELECT` → `JOIN` → `INDEX` 4 minggu, pakai analogi `gudang & kartu indeks`
+- **Tambah:** `docker run postgres` atau `Supabase` tanpa install lokal
+
+#### MongoDB / Redis / GraphQL — ⬜ TODO
+- **Riset:** Mongo `document = kartu`, Redis `cache = laci cepat`, GraphQL `SDL = menu`
+- **Hapus:** `aggregation pipeline` dari beginner
+
+### Kategori E — Infra
+
+#### Docker — ⬜ TODO
+- **Riset:** `docker run hello-world`, `Dockerfile`, `compose` — 2 minggu, analogi `peti kemas`
+- **Tambah:** `docker desktop` install Windows
+
+---
+
+## 4. Checklist Global — Apa Dipertahankan / Diubah / Dihapus / Ditambahkan
+
+### Dipertahankan ✅
+- [x] 27 track bilingual + playground + search/quiz
+- [x] Template markdown baru (Kenapa Penting, Analogi, 3 Istilah, Glosarium) — pilot sudah
+- [x] HTML5 Week1 sebagai referensi
+
+### Diubah 🔧
+- [x] JS W1-W5, Python W1-W4, Next.js W1-W4, React W1-W4 → manual warung (DONE)
+- [x] TypeScript W1-W4 → manual stiker (DONE 5f5d833)
+- [ ] Go W1-W5 (hapus toolchain minggu1)
+- [ ] Vue W1-W4 (ramah template)
+- [ ] Semua deskripsi `tracksData.ts` → tambah tagline non-IT di atas teknis
+- [ ] Kurikulum: dari 4×4 linear → 7 fase spiral (Fondasi→Karir)
+
+### Dihapus 🗑️
+- [ ] Hapus jargon `compiled, vet, pipelines, revalidate 3600` dari **beginner** W1-W2 (pindah ke intermediate)
+- [ ] Hapus `generator mjs` sebagai sumber materi — ganti manual per-stack
+- [ ] Hapus `var` dan `Pages Router` dari beginner
+
+### Ditambahkan ➕
+- [ ] **Fase 0**: Node/Python install + `node -v` + VS Code + git
+- [ ] **Tracing & Parsons**: tabel jejak `let x=5; x++` sebelum coding (Xie S1)
+- [ ] **Error Journal**: tiap minggu 1 error sengaja + solusi
+- [ ] **3-5 Portfolio Project** (bukan 1 capstone): clone, API app, fullstack
+- [ ] **A11y + Perf** checklist tiap Web track (MDN)
+- [ ] **Deploy** tiap fase (Vercel/Supabase) — bukan akhir saja
+
+---
+
+## 5. Persiapan & Research Lanjutan (Checklist Aksi)
+
+### Riset
+- [x] Riset global (MDN, freeCodeCamp, CourseFacts, Xie, Higgins) — selesai
+- [x] Riset per-stack Next.js/React/JS/Python/TypeScript — selesai
+- [ ] Riset per-stack sisa 20 (Vue, Go, Rust, Django, Laravel, DB, Docker) — 1-1 via docs resmi
+- [ ] Interview 5 orang non-IT (warung, guru, admin) validasi analogi
+
+### Konten
+- [x] Pilot 4 stack (34 file) — selesai
+- [x] TypeScript 4 minggu (8 file) — selesai 5f5d833
+- [ ] Batch C1: Vue 4 minggu (8 file) — NEXT
+- [ ] Batch C2: Go 5 minggu + Rust 3 minggu
+- [ ] Batch C3: DB (Postgres/MySQL) 4 minggu + Docker 2 minggu
+- [ ] Batch C4: Sisa backend (Node/Django/Laravel) — pilih 1 jalur utama
+
+### Platform
+- [ ] Tambah `BEGINNER_NONIT_TODO.md` progress bar
+- [ ] Update `tracksData.ts` tagline non-IT
+- [ ] Build quiz/search index ulang setelah rewrite (`npm run build`)
+- [ ] Uji di HP kentang (kuota, 1GB RAM)
+
+### Prioritas (MoSCoW)
+- **Must:** TypeScript, Vue, Go — 3 stack paling dicari non-IT yang mau kerja
+- **Should:** DB + Docker — untuk fullstack
+- **Could:** Svelte, Angular, Spring — nanti
+- **Won't:** Hapus stack, tetap 27 tapi tandai `Butuh prasyarat` di UI
+
+---
+
+## 6. Cara Pakai Checklist Ini
+
+1. Centang `[x]` setiap minggu manual selesai (commit `feat: rewrite ...`)
+2. Jangan generate — tulis 1-1, rujukan `CHECKLIST_REPORT.md` ini + docs resmi
+3. Validasi: minta 1 orang awam baca W1 — jika butuh tanya 3x, terlalu teknis
+
+> **Next action:** TypeScript DONE → NEXT **Vue W1-W4** (template ramah non-IT) — lanjut?
+
+---
+
+## 7. Log Perubahan (Report Tiap Changes)
+
+| Tanggal | Commit | Stack | Ringkasan |
+|---------|--------|-------|-----------|
+| 2026-08-25 | `fe79836` | Next.js W1-W4 (id+en, 8 file) | Manual ruko: `create-next-app` baris-per-baris, `[id]` hotel, dapur/server vs meja/client, `next/image` 3MB→80KB |
+| 2026-08-25 | `c054d4d` | React W1-W4 (id+en, 8 file) | Manual LEGO: Vite `create vite`, amplop props `key={id}`, kasir `useState`, alarm `useEffect` + cleanup |
+| 2026-08-25 | `cccc750` | JS W1-W5 + Python W1-W4 (id+en, 18 file) | Warung ledger: JS `const/let` struk, rak `map/filter`, Python `f"Rp {total:,}"`, `strip()` `//`, comprehension |
+| 2026-08-25 | `5f5d833` | TypeScript W1-W4 (id+en, 8 file) | Manual stiker: `harga: number` merah sebelum run, `Status "ada"|"habis"` literal, `(nama:string)=>string`, `interface Produk` cetak biru |
+
+**Total non-IT ready:** 5 stack × ±4 minggu ×2 = **42 file** + HTML5/CSS3 harmonized. Sisa 22 stack → lanjut Vue.
+
