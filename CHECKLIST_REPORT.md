@@ -156,9 +156,9 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 
 ### Kategori D — Data (Setelah Backend Dasar)
 
-#### PostgreSQL / MySQL — ⬜ TODO
-- **Riset:** `SELECT` → `JOIN` → `INDEX` 4 minggu, pakai analogi `gudang & kartu indeks`
-- **Tambah:** `docker run postgres` atau `Supabase` tanpa install lokal
+#### PostgreSQL / MySQL — ✅ DONE PostgreSQL W1-W4 (ac8335e)
+- **Riset:** `SELECT` → `JOIN` → `INDEX` 4 minggu, analogi `gudang & kartu indeks` — sudah rewrite manual non-IT 8 file id+en
+- **Tambah:** Supabase tanpa install + `docker run postgres` opsi, `EXPLAIN` Index Scan
 
 #### MongoDB / Redis / GraphQL — ⬜ TODO
 - **Riset:** Mongo `document = kartu`, Redis `cache = laci cepat`, GraphQL `SDL = menu`
@@ -166,9 +166,9 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 
 ### Kategori E — Infra
 
-#### Docker — ⬜ TODO
-- **Riset:** `docker run hello-world`, `Dockerfile`, `compose` — 2 minggu, analogi `peti kemas`
-- **Tambah:** `docker desktop` install Windows
+#### Docker — ✅ DONE W1-W2 (ac8335e)
+- **Riset:** `docker run hello-world`, `Dockerfile`, `compose` — 2 minggu, analogi `peti kemas` — sudah rewrite manual 4 file id+en
+- **Tambah:** `play-with-docker.com` tanpa install + `docker desktop` Windows
 
 ---
 
@@ -214,8 +214,8 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - [x] Pilot 4 stack (34 file) — selesai
 - [x] TypeScript 4 minggu (8 file) — selesai 5f5d833
 - [x] Vue 4 minggu (8 file) — selesai 515f080
-- [ ] Batch C2: Go 5 minggu + Rust 3 minggu
-- [ ] Batch C3: DB (Postgres/MySQL) 4 minggu + Docker 2 minggu
+- [x] Batch C2: Go 5 minggu (10 file) — selesai 13fbab8
+- [x] Batch C3: PostgreSQL 4 minggu + Docker 2 minggu (12 file) — selesai ac8335e
 - [ ] Batch C4: Sisa backend (Node/Django/Laravel) — pilih 1 jalur utama
 
 ### Platform
@@ -252,6 +252,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `5f5d833` | TypeScript W1-W4 (id+en, 8 file) | Manual stiker: `harga: number` merah sebelum run, `Status "ada"|"habis"` literal, `(nama:string)=>string`, `interface Produk` cetak biru |
 | 2026-08-25 | `515f080` | Vue W1-W4 (id+en, 8 file) | Manual stiker: `{{ total }}` auto, `ref/reactive` kotak pintar, `v-if/v-for` saklar, `defineProps/defineEmits` LEGO |
 | 2026-08-25 | `13fbab8` | Go W1-W5 (id+en, 10 file) | Manual buku kas: `go run` kotak berlabel, switch tanpa break, alarm error `if err!=nil`, rak `slice/map`, kartu `struct` |
+| 2026-08-25 | `ac8335e` | PostgreSQL W1-W4 + Docker W1-W2 (id+en, 12 file) | Manual gudang: Supabase tanpa install, `SERIAL` KTP, CRUD `WHERE`, `JOIN` stapler, `INDEX` daftar isi + peti kemas `docker run` |
 
-**Total non-IT ready:** 7 stack × ±4 minggu ×2 = **60 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10) + HTML5/CSS3 harmonized. Sisa 20 stack → lanjut Rust/DB.
+**Total non-IT ready:** 9 stack × ±4 minggu ×2 = **72 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4) + HTML5/CSS3 harmonized. Sisa 18 stack → lanjut Rust/MySQL/Mongo.
 
