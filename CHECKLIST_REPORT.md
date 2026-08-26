@@ -265,6 +265,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 
 | 2026-08-25 | `24005d9` | NestJS W1-W3 + CI4 W1-W3 + Rails W1-W3 (id+en, 18 file) | Manual SOP, warung ringan, scaffold kilat |
+| 2026-08-25 | `cebb181` | JS Intermediate W6 (id, 1 file) | Manual delegation 1 satpam 100 pintu — mulai fase Menengah friendly |
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
 | 2026-08-25 | `752e981` | Svelte W1-W3 + Angular W1-W3 (id+en, 12 file) | Manual kompilasi `let` ajaib & enterprise `ng new` |
