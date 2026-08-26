@@ -1,76 +1,52 @@
-# Views & URL Routing
+# Views & URLs — Pelayan dan Pintu
 
-> **Kategori:** Django | **Level:** Beginner | **Minggu 3:** Views & URL Routing
+> **Kategori:** Django | **Level:** Pemula | **Minggu 3:** Views & URLs
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Function-Based Views
-- HttpResponse and render
-- URL routing: path() and urlpatterns
-- URL parameters: <int:pk>
-- name parameter for URL reversing
+- `views.py` pelayan: `def daftar(request): return render(...)`
+- `urls.py` pintu: `path('produk/', views.daftar)`
+- `request.GET` baca cari, `context` kirim ke template
 
 ---
 
-## Program: First View
+## Program
 
 ```python
-# Views
-print("=== Django Views ===")
-print("def home(request):")
-print("    return HttpResponse('Hello, Django!')")
-print("")
-print("def product_list(request):")
-print("    products = Product.objects.all()")
-print("    return render(request, 'products/list.html', {'products': products})")
-print("")
-print("def product_detail(request, pk):")
-print("    product = Product.objects.get(pk=pk)")
-print("    return render(request, 'products/detail.html', {'product': product})")
-print("")
-print("=== URL Configuration ===")
-print("urlpatterns = [")
-print("    path('', views.home, name='home'),")
-print("    path('products/', views.product_list, name='product_list'),")
-print("    path('products/<int:pk>/', views.product_detail, name='product_detail'),")
-print("]")
+# warung/views.py
+from django.shortcuts import render
+from .models import Produk
 
+def daftar(request):
+    cari = request.GET.get("cari", "")
+    produk = Produk.objects.filter(nama__icontains=cari) if cari else Produk.objects.all()
+    return render(request, "warung/daftar.html", {"produk": produk, "cari": cari})
+
+# warung/urls.py
+from django.urls import path
+from . import views
+urlpatterns = [
+    path("produk/", views.daftar, name="daftar"),
+]
+
+# toko/urls.py
+from django.urls import include, path
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("warung.urls")),
+]
 ```
 
----
+**Template** `warung/templates/warung/daftar.html`:
+```html
+<form><input name="cari" value="{{ cari }}"><button>Cari</button></form>
+<ul>{% for p in produk %}<li>{{ p.nama }} - Rp{{ p.harga }}</li>{% endfor %}</ul>
+```
 
-## Key Concepts
-
-### Function-Based Views
-def view(request): return HttpResponse('...'). `render()` for templates.
-
-### URL Routing
-`path('url/', view_function, name='name')`.
-
-### URL Parameters
-`<int:pk>` captures integer as `pk`.
-
-### URL Reversing
-`{% url 'name' %}` in templates.
+Buka `http://localhost:8000/produk/?cari=beras`.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create 3 views with different URLs
-- Try URL parameters
-- Use render with context
-- Create view handling GET and POST
-- Implement redirect
-
----
-
-## Challenge
-
-Create views for: home, product list, product detail. Define URLs.
-
----
-
-## Summary
-
-Week 3 of 12: **Views & URL Routing** (Level: Beginner). Next week: **Templates**.
+Minggu 3: **Pelayan & Pintu** — views & URLs. Minggu depan: **Templates**.

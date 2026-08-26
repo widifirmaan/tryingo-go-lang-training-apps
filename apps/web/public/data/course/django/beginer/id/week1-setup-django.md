@@ -1,88 +1,49 @@
-# Setup & Instalasi Django
+# Setup Django — Warung dengan Admin Otomatis
 
-> **Kategori:** Django | **Level:** Pemula | **Minggu 1:** Setup & Instalasi Django
+> **Kategori:** Django | **Level:** Pemula | **Minggu 1:** Setup Django
 
 ## Tujuan Pembelajaran
 
-- Install Django via pip
-- Memahami struktur folder Django
-- manage.py CLI commands
-- File settings.py
-- MVT pattern
+- Instal Django `pip install django`, cek `django-admin --version`, buat `django-admin startproject toko .`
+- `python manage.py runserver` di `localhost:8000`, `migrate`, `createsuperuser`
+- Paham `project` (gedung) vs `app` (toko di gedung)
 
 ---
 
-## Program: Project Pertama
+## Kenapa Ini Penting Buat Kamu?
 
-```python
-# Setup
-print("=== Django Setup ===")
-print("pip install django")
-print("django-admin startproject myproject")
-print("cd myproject")
-print("python manage.py runserver")
-print("Server running on http://localhost:8000")
-print("")
-print("=== Directory Structure ===")
-dirs = [
-    "myproject/",
-    "  settings.py",
-    "  urls.py",
-    "manage.py",
-    "app/",
-    "  models.py",
-    "  views.py",
-    "  admin.py",
-    "  migrations/",
-]
-for d in dirs:
-    print(f"  {d}")
-print("")
-print("=== manage.py Commands ===")
-print("runserver - Start dev server")
-print("startapp - Create app")
-print("makemigrations - Create migrations")
-print("migrate - Apply migrations")
-print("createsuperuser - Create admin")
-print("shell - Interactive shell")
+Django = warung dengan **admin otomatis**: buat model `Produk` → admin CRUD jadi tanpa coding. Paling cepat untuk non-IT yang butuh dashboard.
 
+---
+
+## Program: Warung Django 5 Menit
+
+```bash
+pip install django
+django-admin --version
+django-admin startproject toko .
+python manage.py startapp warung
+python manage.py migrate
+python manage.py createsuperuser # admin / admin123
+python manage.py runserver
+# Buka http://localhost:8000 dan http://localhost:8000/admin
 ```
 
----
+**Struktur:**
+```
+toko/ (gedung)
+  settings.py # konfigurasi gedung
+  urls.py # pintu utama
+warung/ (toko)
+  models.py # rak
+  views.py # pelayan
+  admin.py # kasir admin
+```
 
-## Konsep Kunci
-
-### Instalasi
-`pip install django`, lalu `django-admin startproject nama_project`.
-
-### Struktur Folder
-- `myproject/` - Project config
-- `app/` - Application code
-- `manage.py` - CLI tool
-
-### MVT Pattern
-- Model: data & database
-- View: business logic
-- Template: presentation
-
----
-
-## Eksperimen
-
-- Install Django dan buat project baru
-- Jelajari setiap file
-- Coba manage.py shell
-- Buat app baru
-- Lihat settings.py
-
----
-
-## Tantangan
-
-Buat project Django baru dengan 1 app. Buat halaman home sederhana.
+Tambah `warung` ke `INSTALLED_APPS` di `settings.py`.
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 12: **Setup & Instalasi Django** (Level: Pemula). Minggu depan: **Models & ORM**.
+Minggu 1: **Gedung & Toko** — Django hidup dengan admin. Minggu depan: **Models**.
