@@ -1,97 +1,45 @@
-# Setup, Toolchain & Basic Syntax
+# Setup & Sintaks C# — Warung Microsoft
 
-> **Kategori:** C# | **Level:** Beginner | **Minggu 1:** Setup, Toolchain & Basic Syntax
+> **Kategori:** C# | **Level:** Pemula | **Minggu 1:** Setup & Sintaks
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand C# as a modern language for the .NET ecosystem
-- Install .NET SDK and write your first program
-- Learn basic types: int, double, string, bool, var
-- String interpolation with $ and verbatim strings with @
-- Nullable types: T? for nullable value types
+- Instal `.NET SDK`, `dotnet --version`, `dotnet new console -n Warung`, `dotnet run`
+- `Console.WriteLine`, `string nama = "Budi"`, `$"Halo {nama}"` interpolasi
 
 ---
 
-## Program: Hello, C#!
+## Kenapa Ini Penting Buat Kamu?
 
-```csharp
-using System;
+C# = warung Microsoft untuk kantor & toko desktop. `dotnet` seperti `cargo` Rust — 1 alat untuk semua.
 
-class Program
-{
-    static void Main()
-    {
-        Console.WriteLine("Selamat datang di C#!");
-        Console.WriteLine("C# adalah bahasa modern dari Microsoft untuk .NET.");
+---
 
-        // Variabel dan tipe data
-        string nama = "Budi";
-        int umur = 25;
-        double tinggi = 175.5;
-        bool aktif = true;
+## Program: Struk C#
 
-        Console.WriteLine($"Nama: {nama}");
-        Console.WriteLine($"Umur: {umur}");
-        Console.WriteLine($"Tinggi: {tinggi}");
-        Console.WriteLine($"Aktif: {aktif}");
-
-        // Implicit typing
-        var pesan = "Halo, Dunia!";
-        var angka = 42;
-        Console.WriteLine($"Pesan: {pesan}, Angka: {angka}");
-
-        // Null dan nullable
-        string? nullableStr = null;
-        int? nullableInt = null;
-        Console.WriteLine($"Nullable: {nullableStr ?? "kosong"}");
-
-        // String interpolation
-        Console.WriteLine($"{nama} berumur {umur} tahun");
-
-        // Verbatim string
-        string path = @"C:\Users\Budi\Documents";
-        Console.WriteLine($"Path: {path}");
-    }
-}
+```bash
+dotnet new console -n Warung
+cd Warung
+dotnet run
 ```
 
----
+```csharp
+// Program.cs
+string namaWarung = "Warung Bu Siti";
+string pelanggan = "Budi";
+int berasKg = 2;
+int hargaPerKg = 12500;
+int total = berasKg * hargaPerKg;
 
-## Key Concepts
+Console.WriteLine($"Warung: {namaWarung}");
+Console.WriteLine($"Pelanggan: {pelanggan}, Total: Rp {total:N0}");
+Console.WriteLine($"Tipe: {namaWarung.GetType().Name}, {berasKg.GetType().Name}");
+```
 
-### C#'s Role
-Modern, object-oriented language by Microsoft. Runs on .NET runtime — cross-platform, high-performance.
-
-### Toolchain
-`dotnet new`, `dotnet run`, `dotnet build`, `dotnet test`
-
-### Basic Types
-Value types (int, double, bool), reference types (string, class), var for implicit typing.
-
-### String Interpolation
-`$"Hello {name}"` — readable string formatting.
-
-### Nullable
-`int?` — nullable value types.
+`dotnet run` → lihat struk.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Change variable values and observe
-- Try data types you haven't used: decimal, long, char
-- Experiment with string interpolation
-- Create nullable int and check HasValue
-- Build a small program combining 2-3 concepts
-
----
-
-## Challenge
-
-Build a user profile program: name, age, email, address. Use string interpolation for display. Validate with if.
-
----
-
-## Summary
-
-Week 1 of 12: **Setup, Toolchain & Basic Syntax** (Level: Beginner). C# delivers high productivity with type safety. Next week: **Data Types & Variables**.
+Minggu 1: **Warung C#** — `dotnet run` struk. Minggu depan: **Tipe & Variabel**.
