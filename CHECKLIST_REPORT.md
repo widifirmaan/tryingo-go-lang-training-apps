@@ -150,10 +150,8 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 #### NestJS — ✅ DONE W1-W3 (24005d9) — 6 file id+en `nest new` SOP controller→service
 #### CodeIgniter — ✅ DONE W1-W3 (24005d9) — 6 file id+en `spark serve` warung ringan
 #### Rails — ✅ DONE W1-W3 (24005d9) — 6 file id+en `rails new` + `scaffold` kilat
-#### Spring / C# — ⬜ TODO (batch terakhir)
-- **Riset per stack 1 minggu:** `spring initializr`, `dotnet new` — analogi `dapur/restoran API`
-- **Prinsip:** 1 stack per jalur, jangan campur.
-- **Hapus:** `Shield Auth, Hotwire` dari beginner
+#### Spring — ✅ DONE W1-W3 (1f8415e) — 6 file id+en `start.spring.io` pabrik + `@Autowired`
+#### C# — ✅ DONE W1-W3 (1f8415e) — 6 file id+en `dotnet new` warung Microsoft `var`/`decimal`
 
 #### PHP — ✅ DONE W1-W3 (e0ace1d) — 6 file id+en `$` wajib, `php -S localhost:8000`
 - **Riset:** `php -S localhost:8000` — perlu `XAMPP` prep checklist — sudah rewrite manual `<?php $total` warung
@@ -262,7 +260,9 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 23 stack × ±4 minggu ×2 = **154 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6) + HTML5/CSS3 harmonized. Sisa 4 stack → Spring, C# + 2.
+**Total non-IT ready:** 25 stack × ±4 minggu ×2 = **166 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Sisa 2 stack → final polish.
+
+| 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 
 | 2026-08-25 | `24005d9` | NestJS W1-W3 + CI4 W1-W3 + Rails W1-W3 (id+en, 18 file) | Manual SOP, warung ringan, scaffold kilat |
 
