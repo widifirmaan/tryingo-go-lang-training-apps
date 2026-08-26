@@ -160,9 +160,9 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - **Riset:** `SELECT` → `JOIN` → `INDEX` 4 minggu, analogi `gudang & kartu indeks` — sudah rewrite manual non-IT 16 file id+en (8 PG + 8 MySQL `AUTO_INCREMENT` vs `SERIAL`)
 - **Tambah:** Supabase `db-fiddle` tanpa install + `EXPLAIN` Index Scan
 
-#### MongoDB / Redis / GraphQL — ⬜ TODO
-- **Riset:** Mongo `document = kartu`, Redis `cache = laci cepat`, GraphQL `SDL = menu`
-- **Hapus:** `aggregation pipeline` dari beginner
+#### MongoDB / Redis / GraphQL — ✅ DONE (c68ac17) — 14 file id+en
+- **Riset:** Mongo `document = kartu fleksibel JSON`, Redis `laci cepat RAM`, GraphQL `menu restoran` — sudah rewrite manual non-IT: Mongo W1-W3 kartu/CRUD/index, Redis W1-W2 laci Hash, GraphQL W1-W2 menu & query
+- **Hapus:** `aggregation pipeline` dari beginner — pindah intermediate
 
 ### Kategori E — Infra
 
@@ -255,6 +255,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `13fbab8` | Go W1-W5 (id+en, 10 file) | Manual buku kas: `go run` kotak berlabel, switch tanpa break, alarm error `if err!=nil`, rak `slice/map`, kartu `struct` |
 | 2026-08-25 | `ac8335e` | PostgreSQL W1-W4 + Docker W1-W2 (id+en, 12 file) | Manual gudang: Supabase tanpa install, `SERIAL` KTP, CRUD `WHERE`, `JOIN` stapler, `INDEX` daftar isi + peti kemas `docker run` |
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
+| 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 11 stack × ±4 minggu ×2 = **86 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8) + HTML5/CSS3 harmonized. Sisa 16 stack → lanjut Mongo/Redis/GraphQL.
+**Total non-IT ready:** 14 stack × ±4 minggu ×2 = **100 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4) + HTML5/CSS3 harmonized. Sisa 13 stack → lanjut Node/Backend.
 
