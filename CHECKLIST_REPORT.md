@@ -147,9 +147,12 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 
 #### Django — ✅ DONE W1-W3 (381f118) — 6 file id+en `startproject` gedung & toko, `models` rak ORM, `views` pelayan
 #### Laravel — ✅ DONE W1-W3 (e0ace1d) — 6 file id+en `composer create-project` + `artisan serve` + Blade
-#### NestJS / CI4 / Rails / Spring / C# — ⬜ TODO (batch)
-- **Riset per stack 1 minggu:** `rails new`, `spring initializr` — semua butuh analogi `dapur/restoran API`
-- **Prinsip:** 1 stack per jalur, jangan campur. Rekomendasi non-IT: **Node.js** paling cepat dari JS.
+#### NestJS — ✅ DONE W1-W3 (24005d9) — 6 file id+en `nest new` SOP controller→service
+#### CodeIgniter — ✅ DONE W1-W3 (24005d9) — 6 file id+en `spark serve` warung ringan
+#### Rails — ✅ DONE W1-W3 (24005d9) — 6 file id+en `rails new` + `scaffold` kilat
+#### Spring / C# — ⬜ TODO (batch terakhir)
+- **Riset per stack 1 minggu:** `spring initializr`, `dotnet new` — analogi `dapur/restoran API`
+- **Prinsip:** 1 stack per jalur, jangan campur.
 - **Hapus:** `Shield Auth, Hotwire` dari beginner
 
 #### PHP — ✅ DONE W1-W3 (e0ace1d) — 6 file id+en `$` wajib, `php -S localhost:8000`
@@ -259,7 +262,9 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 20 stack × ±4 minggu ×2 = **136 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6) + HTML5/CSS3 harmonized. Sisa 7 stack → lanjut NestJS/CI/Rails/Spring/C#.
+**Total non-IT ready:** 23 stack × ±4 minggu ×2 = **154 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6) + HTML5/CSS3 harmonized. Sisa 4 stack → Spring, C# + 2.
+
+| 2026-08-25 | `24005d9` | NestJS W1-W3 + CI4 W1-W3 + Rails W1-W3 (id+en, 18 file) | Manual SOP, warung ringan, scaffold kilat |
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
 | 2026-08-25 | `752e981` | Svelte W1-W3 + Angular W1-W3 (id+en, 12 file) | Manual kompilasi `let` ajaib & enterprise `ng new` |
