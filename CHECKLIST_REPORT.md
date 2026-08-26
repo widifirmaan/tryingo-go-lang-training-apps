@@ -141,12 +141,13 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 
 ### Kategori C — Backend (Setelah Bahasa)
 
-#### Node.js — ⬜ TODO
-- **Riset:** `npm init`, `express`, `event loop` — 3 minggu
-- **Tambah:** `node server.js` hello world langkah 1
+#### Node.js — ✅ DONE W1-W3 (381f118)
+- **Riset:** `npm init`, `express`, `event loop` — 3 minggu — sudah rewrite manual 6 file id+en
+- **Tambah:** `node app.js Budi 2` via `process.argv`, `require` pinjam, `fs` buku kas
 
-#### NestJS / Django / Laravel / CI4 / Rails / Spring / C# — ⬜ TODO (batch)
-- **Riset per stack 1 minggu:** `django-admin startproject`, `composer create-project laravel`, `rails new` — semua butuh analogi `dapur/restoran API`
+#### Django — ✅ DONE W1-W3 (381f118) — 6 file id+en `startproject` gedung & toko, `models` rak ORM, `views` pelayan
+#### NestJS / Laravel / CI4 / Rails / Spring / C# — ⬜ TODO (batch)
+- **Riset per stack 1 minggu:** `composer create-project laravel`, `rails new` — semua butuh analogi `dapur/restoran API`
 - **Prinsip:** 1 stack per jalur, jangan campur. Rekomendasi non-IT: **Node.js** paling cepat dari JS.
 - **Hapus:** `Shield Auth, Hotwire` dari beginner
 
@@ -257,5 +258,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 14 stack × ±4 minggu ×2 = **100 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4) + HTML5/CSS3 harmonized. Sisa 13 stack → lanjut Node/Backend.
+**Total non-IT ready:** 16 stack × ±4 minggu ×2 = **112 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6) + HTML5/CSS3 harmonized. Sisa 11 stack → lanjut Laravel/PHP.
+
+| 2026-08-25 | `381f118` | Node.js W1-W3 + Django W1-W3 (id+en, 12 file) | Manual dapur terminal `node app.js` + admin Django otomatis |
 
