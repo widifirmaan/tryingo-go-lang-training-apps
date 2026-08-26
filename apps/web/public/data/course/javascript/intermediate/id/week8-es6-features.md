@@ -1,125 +1,78 @@
-# ES6+ Features
+# ES6+ Features — Alat Singkat Modern
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 8:** ES6+ Features
 
 ## Tujuan Pembelajaran
 
-- Destructuring: array dan object dengan rest pattern
-- Classes: constructor, extends, super, method
-- Optional chaining: ?. untuk akses property aman
-- Nullish coalescing: ?? untuk default value
-- Logical assignment: ||=, &&=, ??=
+- `destructuring` bongkar `const {nama} = pelanggan`, `spread` fotokopi `[...lama, baru]`, `rest` sisa
+- `template` `` `Halo ${nama}` ``, `default` param, `arrow` singkat
+- `optional chaining` `pelanggan?.alamat?.kota` aman jika kosong, `nullish` `??` default
 
 ---
 
-## Program: Modern JS Syntax
+## Kenapa Ini Penting Buat Kamu?
+
+Warung list 10 produk — tulis `const nama = p.nama; const harga = p.harga` 10x capek. `const {nama, harga} = p` 1 baris.
+
+---
+
+## Program: Bongkar & Gabung Cepat
 
 ```javascript
-// Destructuring
-const [a, b, ...rest] = [1, 2, 3, 4, 5];
-const { nama, umur, ...lain } = { nama: "Budi", umur: 25, kota: "Jakarta" };
-console.log("Array:", a, b, rest);
-console.log("Object:", nama, umur, lain);
+const pelanggan = { nama: "Budi", umur: 25, alamat: { kota: "Jakarta" } };
+const { nama, umur } = pelanggan; // bongkar
+console.log(nama, umur);
 
-// Default + Rename
-const { nama: name, aktif: active = true } = { nama: "Siti" };
-console.log("Rename:", name, active);
+const buah = ["apel", "mangga"];
+const semua = [...buah, "durian"]; // fotokopi + tambah
+console.log(semua);
 
-// Modules (simulasi)
-// export const PI = 3.14;
-// export function add(a, b) { return a + b; }
-// export default class Calculator {}
-// import Calculator, { PI, add } from "./math.js";
+function total(...angka){ return angka.reduce((a,b)=>a+b,0); } // rest sisa
+console.log(total(1,2,3,4));
 
-// Classes
-class Animal {
-    constructor(name) {
-        this.name = name;
-    }
-    speak() {
-        return `${this.name} makes a sound`;
-    }
-}
+const kota = pelanggan.alamat?.kota ?? "Tidak ada"; // aman jika alamat null
+console.log(kota);
 
-class Dog extends Animal {
-    constructor(name, breed) {
-        super(name);
-        this.breed = breed;
-    }
-    speak() {
-        return `${this.name} barks!`;
-    }
-}
+const sapa = (nama="Tamu") => `Halo ${nama}`; // arrow + default
+console.log(sapa());
+console.log(sapa("Siti"));
 
-const dog = new Dog("Buddy", "Labrador");
-console.log("\n=== Classes ===");
-console.log(dog.speak());
-console.log("Breed:", dog.breed);
-
-// Optional Chaining
-const user = { profile: { email: "budi@mail.com" } };
-console.log("\n=== Optional Chaining ===");
-console.log("Email:", user?.profile?.email);
-console.log("Phone:", user?.profile?.phone); // undefined, no error
-console.log("Nested:", user?.address?.street); // undefined, no error
-
-// Nullish Coalescing
-const value1 = null ?? "default";
-const value2 = 0 ?? "default";
-const value3 = "" ?? "default";
-console.log("\n=== Nullish Coalescing ===");
-console.log("null ??", value1);
-console.log("0 ??", value2); // 0 (bukan null/undefined)
-console.log("empty ??", value3); // "" (bukan null/undefined)
-
-// Logical Assignment
-let x = null;
-x ??= "fallback";
-console.log("\n=== Logical Assignment ===");
-console.log("x ??= fallback:", x);
-
-let count = 5;
-count ||= 10; // hanya jika falsy
-console.log("count ||= 10:", count);
+// Gabung object
+const base = { nama: "Beras", harga: 62000 };
+const lengkap = { ...base, stok: 10, kategori: "Sembako" };
+console.log(lengkap);
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Destructuring
-`const [a, ...rest] = arr` — ekstrak array. `const { nama } = obj` — ekstrak object.
+### Destructuring = Bongkar Kardus
+`const {nama, harga} = produk` langsung jadi variabel.
 
-### Classes
-`class` syntax di atas prototype. `extends` inheritance, `super()` parent constructor.
+### Spread/Rest `...`
+- `[...lama, baru]` fotokopi tambah
+- `function f(...sisa)` sisa jadi array
 
-### Optional Chaining
-`obj?.prop?.method?.()` — return undefined jika chain null/undefined, tidak throw error.
-
-### Nullish Coalescing
-`value ?? default` — default hanya jika null/undefined (bukan 0 atau "").
-
-### Logical Assignment
-`x ??= val` — assign hanya jika x nullish. `x ||= val` — assign hanya jika x falsy.
+### `?.` & `??`
+`pelanggan?.alamat?.kota` jika `alamat` null → tidak error, `??` jika kiri null pakai kanan.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Buat class hierarchy: Vehicle → Car → ElectricCar
-- Coba optional chaining dengan method call
-- Eksperimen ?? vs || pada berbagai value
-- Buat swap variable dengan destructuring
-- Coba private class fields dengan #
+### Analogi: Bongkar & Fotokopi
+- **Destructuring = bongkar kardus**: ambil `nama` dan `harga` langsung.
+- **Spread = fotokopi + tambah**: fotokopi daftar lama tambah durian.
 
 ---
 
 ## Tantangan
 
-Buat class Library: Book, Member, Transaction — dengan inheritance, optional chaining, dan nullish coalescing.
+**Katalog ES6:** `const p = {nama:"Beras", harga:62000, stok:10}` → `const {nama, harga} = p`, `const baru = {...p, diskon:10}`, `const kota = pelanggan?.alamat?.kota ?? "Jakarta"`.
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 14: **ES6+ Features** (Level: Menengah). JavaScript modern. Minggu depan: **Modules**.
+Minggu 8: **ES6+** — bongkar & fotokopi cepat. Minggu depan: **Modules** — bagi file.
