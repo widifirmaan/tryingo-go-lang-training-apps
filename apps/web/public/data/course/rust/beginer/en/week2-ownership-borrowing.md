@@ -1,99 +1,113 @@
-# Ownership & Borrowing
+# Ownership & Borrowing — Pinjam Buku Harus Balik
 
-> **Kategori:** Rust | **Level:** Beginner | **Minggu 2:** Ownership & Borrowing
+> **Kategori:** Rust | **Level:** Pemula | **Minggu 2:** Ownership & Borrowing
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand ownership: each value has one owner
-- Move semantics: transfer ownership on assignment
-- Clone: deep copy for value duplication
-- Borrowing: borrow with & (immutable) and &mut (mutable)
-- Borrowing rules: one mutable borrow OR many immutable borrows
+- 1 pemilik 1 buku — `let s = String::from("halo"); let s2 = s;` → `s` tidak bisa dipakai lagi (pindah milik)
+- Pinjam `&s` (baca) dan `&mut s` (baca+tulis) — buku dipinjam, balik lagi
+- Aturan: 1 pinjam mut **atau** banyak pinjam baca, tidak boleh campur
+- `s.len()` pinjam baca, `s.push_str()` pinjam mut
 
 ---
 
-## Program: Memory Management
+## Kenapa Ini Penting Buat Kamu?
+
+Warung pinjam buku kas ke cabang — jika 2 cabang tulis bersamaan, catat tumpang tindih. Rust cegah **data race** sejak kompilasi — tidak ada buku hilang. Awal ribet, tapi aman.
+
+---
+
+## Program: Perpustakaan Pinjam
 
 ```rust
 fn main() {
-    // Ownership: setiap value punya satu owner
-    let s1 = String::from("Halo");
-    let s2 = s1; // s1 dipindahkan ke s2 (move)
-    // println!("{}", s1); // ERROR: s1 sudah tidak valid
-    println!("s2 = {}", s2);
+    // 1. Pindah milik (move)
+    let s1 = String::from("Warung");
+    let s2 = s1; // s1 pindah ke s2, s1 hangus
+    // println!("{}", s1); // ❌ error: value borrowed after move
+    println!("s2: {}", s2);
 
-    // Clone: deep copy
-    let s3 = String::from("Dunia");
-    let s4 = s3.clone();
-    println!("s3 = {}, s4 = {}", s3, s4);
+    // 2. Pinjam baca &s
+    let s = String::from("Bu Siti");
+    let len = hitung_panjang(&s); // pinjam, s tetap
+    println!("'{}' panjang {}", s, len);
 
-    // Borrowing: pinjam dengan &
-    let s5 = String::from("Rust");
-    let len = hitung_panjang(&s5);
-    println!("Panjang '{}' = {}", s5, len);
+    // 3. Pinjam tulis &mut
+    let mut t = String::from("Beras");
+    tambah_gula(&mut t);
+    println!("Setelah tambah: {}", t);
 
-    // Mutable borrow
-    let mut s6 = String::from("Halo");
-    ubah_string(&mut s6);
-    println!("Setelah diubah: {}", s6);
+    // 4. Aturan pinjam
+    let mut u = String::from("kopi");
+    let r1 = &u; // pinjam baca
+    let r2 = &u;
+    println!("{} dan {}", r1, r2); // boleh banyak baca
+    // let r3 = &mut u; // ❌ tidak boleh mut saat ada baca
 
-    // Aturan borrowing
-    let mut s = String::from("Halo");
-    let r1 = &s;
-    let r2 = &s;
-    println!("r1 = {}, r2 = {}", r1, r2);
-    // let r3 = &mut s; // ERROR: tidak bisa mutable borrow saat immutable borrow aktif
-
-    // Dangling reference prevention
-    // let reference_to_nothing = dangle(); // ERROR: tidak bisa return reference ke local
+    let mut v = String::from("teh");
+    let w = &mut v; // 1 pinjam mut
+    // let w2 = &mut v; // ❌ tidak boleh 2 mut
+    w.push_str(" manis");
+    println!("{}", w);
 }
 
 fn hitung_panjang(s: &String) -> usize {
-    s.len()
+    s.len() // pinjam baca
 }
 
-fn ubah_string(s: &mut String) {
-    s.push_str(", Dunia!");
+fn tambah_gula(s: &mut String) {
+    s.push_str(" + Gula");
 }
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Ownership
-Each value has one owner. When owner goes out of scope, value is dropped.
+### Move = Pindah Milik
+`let s2 = s1` → `s1` mati. Untuk copy, `let s2 = s1.clone()`.
 
-### Move
-Assignment moves ownership for non-Copy types. Original variable becomes invalid.
+### `&` vs `&mut`
+- `&String` pinjam baca (banyak boleh)
+- `&mut String` pinjam tulis (1 saja, tidak boleh bareng baca)
 
-### Clone
-Deep copy creates independent duplicate.
-
-### Borrowing
-`&s` immutable, `&mut s` mutable. Rule: one mutable OR many immutable.
-
-### Dangling References
-Prevented at compile time.
+### Aturan Emas
+Banyak baca **atau** 1 tulis, tidak campur — cegah tumpang tindih.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Try println! s1 after move — observe error
-- Create function that returns ownership
-- Experiment with multiple mutable borrows
-- Create struct with String field and test ownership
-- Try Copy trait on primitive types
+### Analogi: Buku Kas Cabang
 
----
-
-## Challenge
-
-Build a book management program: struct Book with title (String), functions new(), display(), and clone(). Demonstrate ownership and borrowing.
+- **Move = serah terima buku**: cabang A serah ke B, A tidak punya lagi.
+- **`&` = fotokopi baca**: cabang pinjam fotokopi, buku asli tetap di pusat.
+- **`&mut` = pinjam asli untuk tulis**: hanya 1 yang boleh tulis.
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 2 of 14: **Ownership & Borrowing** (Level: Beginner). This is what makes Rust unique. Next week: **Structs & Methods**.
+- **Hijau:** `let s1 = String::from("halo"); let s2 = s1.clone(); println!("{} {}", s1, s2)` → keduanya hidup?
+- **Kuning:** `hitung_panjang(&s)` setelah itu `s` masih bisa dipakai? Ya.
+- **Merah:** `let r1=&s; let r2=&mut s;` → error?
+
+---
+
+## Tantangan
+
+**Warung Pinjam:** Buat `fn cetak(s: &String)`, `fn tambah_stok(s: &mut String)`, panggil `cetak(&warung)` lalu `tambah_stok(&mut warung)` → urutan harus benar (baca dulu baru mut).
+
+---
+
+## Glosarium Mini
+
+- **Ownership/move**: pemilik/pindah
+- **Borrow &/&mut**: pinjam
+- **Clone**: fotokopi
+
+---
+
+## Ringkasan
+
+Minggu 2: **Ownership** — pinjam harus balik. Minggu depan: **Struct** — kartu Rust.
