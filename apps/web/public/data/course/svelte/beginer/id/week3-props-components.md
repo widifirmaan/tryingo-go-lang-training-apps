@@ -1,72 +1,45 @@
-# Props & Components
+# Props & Components — Bata Svelte
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 3:** Props & Components
 
 ## Tujuan Pembelajaran
 
-- export let untuk definisi props
-- Default values untuk props
-- Spread props: {...props}
-- Component composition
-- Slot untuk konten dinamis
+- `export let nama` terima props, `createEventDispatcher` lapor balik
 
 ---
 
-## Program: Komponen Produk
+## Program
 
 ```svelte
-<!-- Props = data dari parent ke child -->
-<!-- Child: ProductCard.svelte -->
+<!-- Kartu.svelte -->
 <script>
-  export let name;
-  export let price;
-  export let isAvailable = true;
+  export let nama;
+  export let harga;
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 </script>
-<div class="card">
-  <h3>{name}</h3>
-  <p>Rp {price.toLocaleString("id-ID")}</p>
-  <button disabled={!isAvailable} on:click>Tambah</button>
+
+<div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
+  <h3>{nama}</h3>
+  <p>Rp {harga}</p>
+  <button on:click={() => dispatch("beli", nama)}>Beli</button>
+  <slot>Default</slot>
 </div>
-<!-- Parent: App.svelte -->
+
+<!-- +page.svelte -->
 <script>
-  import ProductCard from './ProductCard.svelte';
-  let products = [{ name: 'Laptop', price: 15000000, isAvailable: true }];
+  import Kartu from "./Kartu.svelte";
+  let daftar = [{ nama: "Beras", harga: 62000 }];
+  function handleBeli(e){ alert("Beli " + e.detail); }
 </script>
-{#each products as product}
-  <ProductCard name={product.name} price={product.price} />
+
+{#each daftar as p}
+  <Kartu nama={p.nama} harga={p.harga} on:beli={handleBeli} />
 {/each}
 ```
 
 ---
 
-## Konsep Kunci
-
-### Props
-export let name = prop definition. Parent: <Comp name="value" />.
-
-### Default Values
-export let name = "default".
-
-### Slots
-<slot /> = konten dari parent.
-
----
-
-## Eksperimen
-
-- Buat komponen dengan multiple props
-- Tambah named slots
-- Implementasikan slot props
-- Buat komponen dengan events
-
----
-
-## Tantangan
-
-Buat product catalog: ProductCard, ProductList, CartSummary.
-
----
-
 ## Ringkasan
 
-Minggu 3 dari 10: **Props & Components** (Level: Pemula). Minggu depan: **Events & Bindings**.
+Minggu 3: **Bata Svelte** — `export let` dan `dispatch`.

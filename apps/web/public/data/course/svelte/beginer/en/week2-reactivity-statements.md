@@ -1,76 +1,33 @@
-# Reactivity & Statements
+# Reactivity Lanjutan — $: dan Store
 
-> **Kategori:** Svelte | **Level:** Beginner | **Minggu 2:** Reactivity & Statements
+> **Kategori:** Svelte | **Level:** Pemula | **Minggu 2:** Reactivity & Statements
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Reactive assignments: need reassignment
-- $: for derived state
-- Array reactivity: reassign
-- each block for list rendering
-- if block for conditional rendering
+- `$:` hitung, `$:` log ` $: console.log(total)`, dan `store` untuk bagi data antar halaman
 
 ---
 
-## Program: Todo App
+## Program
 
 ```svelte
-<!-- Svelte reactivity: assign to update, $: for derived -->
 <script>
-  let todos = [];
-  let newTodo = "";
-  function addTodo() {
-    if (newTodo.trim()) {
-      todos = [...todos, { id: Date.now(), text: newTodo, done: false }];
-      newTodo = "";
-    }
-  }
-  $: remaining = todos.filter(t => !t.done).length;
+  import { writable } from "svelte/store";
+  let beras = 2;
+  $: total = beras * 12500;
+  $: if (total > 50000) console.log("Gratis ongkir!");
+  const keranjang = writable([{ nama: "Beras", qty: 1 }]);
+  function tambah(){ $keranjang = [...$keranjang, { nama: "Telur", qty: 1 }]; }
 </script>
-<input bind:value={newTodo} placeholder="Tambah todo...">
-<button on:click={addTodo}>Tambah</button>
-<p>{remaining} tersisa</p>
-{#each todos as todo}
-  <div>
-    <input type="checkbox" checked={todo.done}>
-    <span>{todo.text}</span>
-  </div>
-{/each}
+
+<p>Total: {total}</p>
+<button on:click={() => beras++}>+ Beras</button>
+<button on:click={tambah}>+ Keranjang</button>
+<ul>{#each $keranjang as item}<li>{item.nama} x{item.qty}</li>{/each}</ul>
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Reactivity
-Assign to update.
-
-### $:
-Derived state.
-
-### each block
-List rendering.
-
-### if block
-Conditional rendering.
-
----
-
-## Experiments
-
-- Create filter completed/active/all
-- Add edit todo
-- Implement clear completed
-- Add localStorage persistence
-
----
-
-## Challenge
-
-Build a complete todo app: add, toggle, delete, filter, persist to localStorage.
-
----
-
-## Summary
-
-Week 2 of 10: **Reactivity & Statements** (Level: Beginner). Next week: **Props & Components**.
+Minggu 2: **Reaktivitas** — `$:` dan `store` bagi keranjang.

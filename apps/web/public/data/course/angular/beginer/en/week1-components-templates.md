@@ -1,68 +1,60 @@
-# Components & Templates
+# Components & Templates — Cabang Warung Enterprise
 
-> **Kategori:** Angular | **Level:** Beginner | **Minggu 1:** Components & Templates
+> **Kategori:** Angular | **Level:** Pemula | **Minggu 1:** Components & Templates
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand Angular as web app platform
-- Component: selector, template, class
-- Interpolation: {{ }} for data display
-- Event binding: (click)="method()"
-- Structural directive: *ngIf, *ngFor
+- Instal `npm install -g @angular/cli`, `ng new warung-angular`, `ng serve` di `4200`
+- Paham Angular = **warung enterprise**: banyak aturan, tapi rapi untuk 100 cabang — butuh `TypeScript` dulu
+- `component` = toko, `template` = etalase `{{ nama }}`, `selector: 'app-kartu'`
 
 ---
 
-## Program: Hello Angular
+## Kenapa Ini Penting Buat Kamu?
 
-```typescript
-// Angular = platform untuk membangun mobile dan desktop web apps
-import { Component } from '@angular/core';
-@Component({
-  selector: 'app-root',
-  template: '<h1>Halo, {{ name }}!</h1><button (click)="greet()">Klik</button><p *ngIf="showMessage">{{ message }}</p>',
-})
-export class AppComponent {
-  name = 'Tryngo';
-  message = 'Tombol diklik!';
-  showMessage = false;
-  greet() { this.showMessage = true; console.log('Halo dari Angular!'); }
-}
-console.log('Angular app siap dijalankan');
+Angular untuk perusahaan besar: jika warung mau jadi minimarket 100 cabang, butuh aturan ketat (TypeScript, DI) — tidak untuk warung 1 cabang (pakai Vue/React saja). Jika tetap mau, ini gerbangnya — **butuh 3 bulan JS+TS dulu**.
+
+---
+
+## Program: Kartu Angular
+
+```bash
+npx @angular/cli new warung-angular --style=css --routing
+cd warung-angular
+ng serve
+# Buka http://localhost:4200
 ```
 
----
+```typescript
+// src/app/kartu/kartu.component.ts
+import { Component, Input } from '@angular/core';
+@Component({
+  selector: 'app-kartu',
+  template: `<div style="border: 1px solid #ddd; padding: 12px;">
+    <h3>{{ nama }}</h3><p>Rp {{ harga }}</p>
+    <button (click)="beli.emit(nama)">Beli</button>
+  </div>`
+})
+export class KartuComponent {
+  @Input() nama!: string;
+  @Input() harga!: number;
+}
+```
 
-## Key Concepts
-
-### Component
-Building block with @Component.
-
-### Template
-HTML + Angular syntax.
-
-### Structural Directives
-*ngIf conditional, *ngFor loop.
-
-### Module
-@NgModule organizes components.
-
----
-
-## Experiments
-
-- Change property and observe template update
-- Add new method with event
-- Create conditional display
-- Render list with *ngFor
+Gunakan di `app.component.html`: `<app-kartu nama="Beras" [harga]="62000"></app-kartu>`
 
 ---
 
-## Challenge
+## Konsep Kunci
 
-Build a counter app: increment, decrement, reset. Show different messages based on value.
+### `ng new` + `ng serve`
+Buat gedung enterprise, jalan di `4200`.
+
+### `@Component` + `{{ }}`
+`selector` nama tag, `template` HTML dengan `{{ nama }}`.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 1 of 14: **Components & Templates** (Level: Beginner). Next week: **Directives & Pipes**.
+Minggu 1: **Enterprise Component** — butuh TS, untuk skala besar. Minggu depan: **Directives & Pipes**.

@@ -1,67 +1,94 @@
-# Dasar Svelte & Template
+# Dasar Svelte — Kompilasi Ajaib Tanpa Virtual DOM
 
-> **Kategori:** Svelte | **Level:** Pemula | **Minggu 1:** Dasar Svelte & Template
+> **Kategori:** Svelte | **Level:** Pemula | **Minggu 1:** Dasar Svelte
 
 ## Tujuan Pembelajaran
 
-- Memahami Svelte sebagai compiler framework
-- Template syntax: { } untuk expressions
-- Reactive declarations: $: derived = expr
-- Event handling: on:click={handler}
-- Scoped CSS di dalam komponen
+- Paham Svelte = **kompilasi ajaib**: tulis `let count = 0` biasa, Svelte ubah jadi reaktif otomatis — tanpa `ref` atau `useState`
+- Buat `npm create svelte@latest warung-svelte`, `npm run dev` di `5173`
+- `let` biasa reaktif, `on:click` klik, `{nama}` stiker
 
 ---
 
-## Program: Halo Svelte
+## Kenapa Ini Penting Buat Kamu?
+
+Vue butuh `ref`, React butuh `useState`. Svelte **cukup `let`** — paling mirip buku tulis biasa. Cocok untuk non-IT yang pusing dengan `.value`.
+
+---
+
+## Program: Warung Svelte Pertama
+
+`src/routes/+page.svelte`
 
 ```svelte
-<!-- Svelte = compiler framework (no virtual DOM) -->
 <script>
-  let name = "Tryngo";
-  let count = 0;
-  $: doubled = count * 2;
-  $: greeting = "Halo, " + name + "!";
-  function increment() { count++; }
+  let namaWarung = "Warung Bu Siti";
+  let pelanggan = "Budi";
+  let berasKg = 2;
+  let hargaPerKg = 12500;
+  $: total = berasKg * hargaPerKg; // $: = hitung otomatis jika berasKg berubah
+
+  function tambah() { berasKg += 1; }
 </script>
-<h1>{greeting}</h1>
-<p>Count: {count} | Doubled: {doubled}</p>
-<button on:click={increment}>+</button>
-<!-- Svelte app siap dijalankan -->
+
+<h1>{namaWarung} 🥬</h1>
+<p>Halo {pelanggan}, total: Rp {total.toLocaleString("id-ID")}</p>
+
+<input bind:value={pelanggan} placeholder="Nama" />
+<button on:click={tambah}>+ Beras ({berasKg}kg)</button>
+<button on:click={() => berasKg -= 1} disabled={berasKg <= 0}>−</button>
+
+{#if total > 50000}
+  <p style="color: green;">Gratis ongkir!</p>
+{:else}
+  <p>Belanja lagi Rp {(50000 - total).toLocaleString("id-ID")}</p>
+{/if}
+
+<style>
+  button { padding: 6px 12px; margin: 4px; border-radius: 8px; }
+</style>
+```
+
+**Jalankan:**
+```
+npm create svelte@latest warung-svelte
+cd warung-svelte
+npm install
+npm run dev
+# Buka http://localhost:5173 → ganti src/routes/+page.svelte
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Svelte
-Compiler framework. No virtual DOM.
+### `let` Biasa = Reaktif
+`let count = 0; count += 1` → HTML `{count}` otomatis update. Tidak perlu `ref`.
 
-### Template
-{ } = expression. Auto-update saat state berubah.
+### `$:` = Kalkulator Otomatis
+`$: total = berasKg * harga` → jika `berasKg` ganti, `total` hitung ulang.
 
-### Reactive Declarations
-$: = re-run saat dependency berubah.
+### `on:click` & `bind:value`
+`on:click={tambah}`, `bind:value={pelanggan}` 2 arah.
 
-### Scoped CSS
-CSS di <style> hanya berlaku untuk komponen ini.
+### `{#if}` & `{#each}`
+`{#if total>50000}...{:else}...{/if}`, `{#each daftar as item}...{/each}`
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Ubah state dan lihat UI update
-- Tambah reactive declaration baru
-- Buat conditional rendering
-- Render list dengan each
+### Analogi: Buku Ajaib
+- **Svelte = buku yang tulisannya bergerak**: tulis `let`, buku otomatis ubah angka di halaman lain (`$:`).
 
 ---
 
 ## Tantangan
 
-Buat counter app dengan increment, decrement, reset. Tampilkan pesan berbeda berdasarkan nilai.
+Tambah `let diskon=10; $: totalDiskon = total * (1 - diskon/100)` + input `bind:value={diskon}`.
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 10: **Dasar Svelte & Template** (Level: Pemula). Minggu depan: **Reactivity & Statements**.
+Minggu 1: **Svelte Ajaib** — `let` biasa reaktif. Minggu depan: **Reactivity** lanjutan.
