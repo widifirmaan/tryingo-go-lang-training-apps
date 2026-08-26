@@ -1,129 +1,88 @@
-# Collections & Data Structures
+# Collections — Rak, Buku Alamat, dan Tas Unik
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 5:** Collections & Data Structures
+> **Kategori:** Python | **Level:** Menengah | **Minggu 5:** Collections
 
 ## Tujuan Pembelajaran
 
-- List: mutable, ordered — append, insert, pop, sort, slice
-- Tuple: immutable, hashable — unpacking dan namedtuple
-- Dictionary: key-value pairs — get, keys, values, items
-- Set: unique elements — union, intersection, difference
-- collections module: Counter, defaultdict, namedtuple, deque
+- `list` rak urut `["beras","minyak"]`, `dict` buku alamat `{"Budi": 081}`, `set` tas unik `{"beras","beras"} → {"beras"}`, `tuple` kardus kunci `(1,2)`
+- `list` method `append`, `dict` `get`, `set` `add`, `tuple` tidak bisa ubah
 
 ---
 
-## Program: Manajemen Data
+## Kenapa Ini Penting Buat Kamu?
+
+Stok warung butuh rak urut (list), harga per nama butuh buku alamat (dict), daftar kategori tanpa kembar butuh tas unik (set).
+
+---
+
+## Program: Koleksi Warung
 
 ```python
+# List — rak urut
+stok = ["beras", "minyak", "gula"]
+stok.append("telur")
+print(stok, "panjang", len(stok))
+print("Pertama:", stok[0])
 
-# Collections & Data Structures
-from collections import Counter, defaultdict, namedtuple
+# Dict — buku alamat
+harga = {"beras": 62000, "gula": 15000}
+print("Harga beras:", harga["beras"])
+print("Harga kopi (aman):", harga.get("kopi", 0)) # tidak error, default 0
+harga["kopi"] = 12000
+print(harga)
 
-print("=== List ===")
-angka = [3, 1, 4, 1, 5, 9, 2, 6]
-angka.append(7)
-angka.insert(0, 0)
-angka.sort()
-print(f"List: {angka}")
-print(f"Pop: {angka.pop()}, setelah pop: {angka[-3:]}")
+# Set — tas unik (tidak kembar)
+kategori = {"Sembako", "Sayur", "Sembako"}
+print("Kategori:", kategori) # {'Sembako','Sayur'}
+kategori.add("Protein")
+print("Setelah add:", kategori)
 
-print("\n=== Tuple (Immutable) ===")
-coord = (10, 20)
-x, y = coord
-print(f"Coord: {x}, {y}")
-single = (42,)
-print(f"Single: {single}")
+# Tuple — kardus kunci (tidak bisa ubah)
+lokasi = (106.8, -6.2) # koordinat
+print("Lokasi:", lokasi)
+# lokasi[0] = 107 # ❌ error: tuple tidak bisa ubah
 
-print("\n=== Dictionary ===")
-profil = {
-    "nama": "Budi",
-    "umur": 25,
-    "kota": "Jakarta",
-    "hobi": ["ngoding", "baca"]
-}
-print(f"Nama: {profil['nama']}")
-print(f"Get: {profil.get('email', 'N/A')}")
-profil["email"] = "budi@email.com"
-print(f"Keys: {list(profil.keys())}")
-print(f"Values: {list(profil.values())}")
+# Loop koleksi
+for nama, h in harga.items():
+    print(f"{nama}: Rp{h:,}")
 
-print("\n=== Dict Comprehension ===")
-kuadrat = {x: x**2 for x in range(1, 6)}
-print(f"Kuadrat: {kuadrat}")
-
-print("\n=== Set ===")
-a = {1, 2, 3, 4, 5}
-b = {4, 5, 6, 7, 8}
-print(f"Union: {a | b}")
-print(f"Intersection: {a & b}")
-print(f"Difference: {a - b}")
-print(f"Symmetric diff: {a ^ b}")
-
-print("\n=== Counter ===")
-teks = "abracadabra"
-counter = Counter(teks)
-print(f"Counter: {counter}")
-print(f"Top 3: {counter.most_common(3)}")
-
-print("\n=== defaultdict ===")
-groups = defaultdict(list)
-for buah in ["apel", "mangga", "alpukat", "pisang"]:
-    groups[buah[0]].append(buah)
-print(f"Group by first letter: {dict(groups)}")
-
-print("\n=== namedtuple ===")
-Point = namedtuple("Point", ["x", "y"])
-p = Point(3, 4)
-print(f"Point: ({p.x}, {p.y})")
-
-print("\n=== Zip & Unzip ===")
-nama = ["Budi", "Siti", "Andi"]
-umur = [25, 23, 27]
-for n, u in zip(nama, umur):
-    print(f"  {n}: {u}")
-    
+# Comprehension cepat
+murah = [nama for nama, h in harga.items() if h < 20000]
+print("Murah:", murah)
 ```
 
 ---
 
 ## Konsep Kunci
 
-### List vs Tuple
-List mutable `[]`, Tuple immutable `()`. Tuple bisa jadi dict key.
+### `list` vs `tuple` vs `dict` vs `set`
+- `list` `[]` urut, bisa ubah
+- `tuple` `()` urut, tidak bisa ubah (kunci)
+- `dict` `{kunci: nilai}` cari cepat
+- `set` `{}` unik, tidak kembar
 
-### Dictionary
-Key-value dengan O(1) lookup. `get(key, default)` aman dari KeyError.
-
-### Dict Comprehension
-`{k: v for x in iterable}`.
-
-### Set
-Operasi matematika: union `|`, intersection `&`, difference `-`.
-
-### collections Module
-`Counter` untuk frekuensi, `defaultdict` auto-init key, `namedtuple` tuple dengan nama field.
-
-### Zip
-`zip(list1, list2)` menggabungkan iterable parallel.
+### `get` Aman
+`harga.get("kopi", 0)` tidak error jika tidak ada.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Buat program frekuensi kata dengan Counter
-- Implementasikan cache sederhana dengan dict
-- Coba set operations pada dua list
-- Buat data processing pipeline dengan zip
-- Eksperimen dengan deque untuk queue/stack
+### Analogi
+
+- **List = rak**: urutan 0,1,2
+- **Dict = buku alamat**: cari "Budi" → 081
+- **Set = tas unik**: masukkan "beras" 2x tetap 1
+- **Tuple = kardus segel**: tidak bisa ubah
 
 ---
 
 ## Tantangan
 
-Buat program inventory: tambah/hapus produk (dict), kategori (set), riwayat transaksi (list). Gunakan Counter untuk laporan penjualan.
+**Inventaris:** `stok = ["beras","gula","beras"]` → `set(stok)` unik? `harga = {"beras":62000}` → `harga.get("beras")` + `for k,v in harga.items()` print.
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 12: **Collections & Data Structures** (Level: Menengah). Struktur data harian Python. Minggu depan: **Object-Oriented Programming**.
+Minggu 5: **Koleksi** — rak, buku, tas, kardus. Minggu depan: **OOP**.

@@ -1,138 +1,112 @@
-# Async JavaScript
+# Async JavaScript — Pesan Antar Tanpa Nunggu di Warung
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 7:** Async JavaScript
 
 ## Tujuan Pembelajaran
 
-- Callback vs Promise vs Async/Await
-- Promise states: pending, fulfilled, rejected
-- Promise.all, Promise.race, Promise.allSettled
-- Error handling: try/catch dengan async/await
-- Parallel vs sequential execution
+- Paham `callback` → `Promise` (janji) → `async/await` (tunggu janji) — seperti pesan ojek
+- `fetch` ambil data warung tanpa freeze, `then/catch` dan `try/catch` untuk `await`
+- `Promise.all` pesan 3 warung sekaligus
 
 ---
 
-## Program: Promise & Async/Await
+## Kenapa Ini Penting Buat Kamu?
+
+Warung ambil harga dari supplier via `fetch`. Tanpa async, layar freeze 3 detik. Dengan `async`, tulis `await fetch(...)` seperti pesan ojek: pesan, tunggu, lanjut.
+
+---
+
+## Program: Ambil Harga Supplier
 
 ```javascript
-// Simulasi Async Operations
-function fetchData(url) {
-    return new Promise((resolve, reject) => {
-        console.log("Fetching:", url);
-        setTimeout(() => {
-            if (url.includes("error")) {
-                reject(new Error("Network error"));
-            } else {
-                resolve({ data: "Response from " + url, status: 200 });
-            }
-        }, 100);
-    });
+// Simulasi fetch tanpa internet (pakai Promise)
+function ambilHarga(nama) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ nama, harga: nama === "Beras" ? 62000 : 5000 }), 800);
+  });
 }
 
-// Promise Chain
-console.log("=== Promise Chain ===")
-fetchData("/api/users")
-    .then(res => {
-        console.log("Step 1:", res.data);
-        return fetchData("/api/posts");
-    })
-    .then(res => {
-        console.log("Step 2:", res.data);
-        return fetchData("/api/comments");
-    })
-    .then(res => {
-        console.log("Step 3:", res.data);
-    })
-    .catch(err => {
-        console.error("Error:", err.message);
-    });
+// Cara lama: callback hell
+// ambilHarga("Beras", (data) => { console.log(data); });
 
-// Async/Await
-async function loadUserData() {
-    try {
-        console.log("\n=== Async/Await ===")
-        const users = await fetchData("/api/users");
-        console.log("Users:", users.data);
+// Cara modern: async/await — seperti tunggu ojek
+async function belanja() {
+  console.log("Pesan Beras...");
+  try {
+    const beras = await ambilHarga("Beras"); // tunggu 0.8 detik, tidak freeze
+    console.log("Dapat:", beras);
 
-        const posts = await fetchData("/api/posts");
-        console.log("Posts:", posts.data);
+    const bayam = await ambilHarga("Bayam");
+    console.log("Dapat:", bayam);
 
-        return { users, posts };
-    } catch (error) {
-        console.error("Failed:", error.message);
-    }
+    // 2 pesan sekaligus (lebih cepat)
+    const [a, b] = await Promise.all([ambilHarga("Beras"), ambilHarga("Bayam")]);
+    console.log("Sekaligus:", a, b);
+  } catch (err) {
+    console.log("Gagal:", err);
+  }
 }
 
-// Parallel Execution
-async function loadDashboard() {
-    console.log("\n=== Parallel Execution ===")
-    const start = Date.now();
+belanja();
+console.log("→ Baris ini jalan duluan (tidak tunggu belanja)");
 
-    const [users, posts, stats] = await Promise.all([
-        fetchData("/api/users"),
-        fetchData("/api/posts"),
-        fetchData("/api/stats")
-    ]);
-
-    console.log("All loaded in", Date.now() - start, "ms");
-    console.log("Results:", users.data, "|", posts.data, "|", stats.data);
-}
-
-// Run demos
-setTimeout(() => {
-    loadUserData().then(() => {
-        loadDashboard();
-    });
-}, 200);
-
-// Promise Utilities
-console.log("\n=== Promise Utilities ===");
-console.log("Promise.all — semua harus berhasil");
-console.log("Promise.race — yang pertama selesai");
-console.log("Promise.allSettled — semua hasil (success/fail)");
-console.log("Promise.any — yang pertama berhasil");
+// Fetch beneran (jika ada internet):
+// async function ambilAPI() {
+//   const res = await fetch("https://api.warung.com/produk");
+//   const data = await res.json();
+//   console.log(data);
+// }
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Callback → Promise → Async/Await
-Callback hell → Promise chain → async/await (cleanest).
+### `Promise` = Janji Ojek
+`new Promise((resolve) => setTimeout(() => resolve(data), 800))` — janji "800ms lagi saya antar".
 
-### Promise States
-`pending` → `fulfilled` (resolve) atau `rejected` (reject).
+### `async/await` = Tunggu Janji
+`async function belanja(){ const data = await ambilHarga() }` — tulis seperti sync, tapi tidak freeze.
 
-### Promise.all
-Semua promise harus berhasil. Jika satu gagal, semua gagal.
+### `try/catch` untuk `await`
+`await` yang gagal → `catch`.
 
-### Promise.race
-Return promise pertama yang selesai (success atau fail).
+### `Promise.all` = Pesan 3 Ojek Sekaligus
+`await Promise.all([ambil("Beras"), ambil("Bayam")])` → 0.8 detik untuk 2, bukan 1.6 detik.
 
-### Async/Await
-`async function` return Promise. `await` tunggu Promise selesai.
+---
 
-### Parallel
-`Promise.all([p1, p2, p3])` — jalankan bersamaan, bukan sequential.
+## Penjelasan untuk Pemula
+
+### Analogi: Ojek
+
+- **`fetch` = pesan ojek**: kamu pesan, ojek jalan 0.8 detik, kamu tunggu `await`.
+- **`Promise.all` = pesan 2 ojek bareng**: 2 ojek jalan bersamaan, tiba hampir bareng.
 
 ---
 
 ## Eksperimen
 
-- Buat Promise yang reject setelah timeout
-- Coba Promise.allSettled dengan mix success/fail
-- Eksperimen Promise.race untuk timeout pattern
-- Buat retry logic dengan async/await
-- Implementasikan Promise.all dengan concurrency limit
+- **Hijau:** `await ambilHarga("Beras")` → `harga` berapa?
+- **Kuning:** `Promise.all` 3 ambil → waktu tetap 0.8 detik?
+- **Merah:** Lupa `await` → `beras` jadi `Promise { <pending> }`, bukan data.
 
 ---
 
 ## Tantangan
 
-Buat data loader: fetch 3 API secara parallel, handle errors per-request, dengan retry logic.
+**Warung Async:** `ambilStok(nama)` Promise 500ms return stok, `async belanja()` `await` 3 produk `Promise.all`, hitung total `harga*stok`, `try/catch` jika `nama` tidak ada.
+
+---
+
+## Glosarium Mini
+
+- **Promise/async/await**: janji & tunggu
+- **fetch**: ambil data
+- **Promise.all**: bareng
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 14: **Async JavaScript** (Level: Menengah). Non-blocking code. Minggu depan: **ES6+ Features**.
+Minggu 7: **Async** — pesan tanpa nunggu freeze. Minggu depan: **ES6+** — spread & destructuring singkat.
