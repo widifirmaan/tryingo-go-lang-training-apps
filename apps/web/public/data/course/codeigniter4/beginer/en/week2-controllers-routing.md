@@ -1,105 +1,30 @@
-# Controllers & Routing
+# Controllers & Routing — Pintu CI4
 
-> **Kategori:** CodeIgniter 4 | **Level:** Beginner | **Minggu 2:** Controllers & Routing
+> **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 2:** Controllers & Routing
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Create controllers with extends BaseController
-- Routing: get, post, put, delete methods
-- Route parameters: (:num), (:alpha), (:any)
-- Redirect: redirect()->to() and redirect()->route()
-- Named routes with as option
+- `Routes.php` pintu, `Controller` pelayan, `$this->request->getVar('cari')` baca cari
 
 ---
 
-## Program: Route & Controller
+## Program
 
 ```php
-<?php
-echo "=== CI4 Controllers ===<br><br>";
+// Routes.php
+$routes->get('/produk', 'Produk::index');
+$routes->get('/produk/(:num)', 'Produk::detail/$1');
 
-echo "=== Basic Controller ===<br>";
-echo "namespace App\Controllers;<br>";
-echo "use CodeIgniter\Controller;<br>";
-echo "class Home extends BaseController {<br>";
-echo "    public function index() {<br>";
-echo "        return view('welcome');<br>";
-echo "    }<br>";
-echo "}<br><br>";
-
-echo "=== Routing ===<br>";
-echo "// app/Config/Routes.php<br>";
-echo "$routes->get('/', 'Home::index');<br>";
-echo "$routes->get('/about', 'Page::about');<br>";
-echo "$routes->get('/users', 'User::index');<br>";
-echo "$routes->get('/users/(:num)', 'User::show/$1');<br>";
-echo "$routes->post('/users', 'User::store');<br>";
-echo "$routes->put('/users/(:num)', 'User::update/$1');<br>";
-echo "$routes->delete('/users/(:num)', 'User::delete/$1');<br><br>";
-
-echo "=== Route Simulation ===<br>";
-$routes = [
-    ["GET", "/", "Home::index"],
-    ["GET", "/about", "Page::about"],
-    ["GET", "/users", "User::index"],
-    ["GET", "/users/1", "User::show (id: 1)"],
-    ["POST", "/users", "User::store"],
-];
-
-foreach ($routes as [$method, $uri, $action]) {
-    echo "$method $uri → $action<br>";
+// Produk.php
+public function detail($id){ return "Detail $id"; }
+public function index(){
+  $cari = $this->request->getVar('cari');
+  // filter
 }
-
-echo "<br>=== Controller with Parameters ===<br>";
-echo "public function show($id) {<br>";
-echo "    $data['user'] = $this->userModel->find($id);<br>";
-echo "    return view('user/show', $data);<br>";
-echo "}<br><br>";
-
-echo "=== Redirect & Named Routes ===<br>";
-echo "return redirect()->to('/home');<br>";
-echo "$routes->add('login', 'Auth::login', ['as' => 'login']);<br>";
-echo "return redirect()->route('login');<br>";
->
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Controller
-`class Home extends BaseController`. `index()` method as default.
-
-### Routing
-`$routes->get($uri, $handler)`. Params: `(:num)`, `(:alpha)`, `(:any)`.
-
-### Parameters
-Route `/users/(:num)` → controller `show($1)`.
-
-### Redirect
-`redirect()->to('/url')`, `redirect()->route('name')`.
-
-### Named Routes
-`$routes->add('uri', 'handler', ['as' => 'name'])`.
-
----
-
-## Experiments
-
-- Create controller with multiple methods
-- Try route parameters with (:num)
-- Create route group with namespace
-- Implement redirect after form submit
-- Create custom 404 override
-
----
-
-## Challenge
-
-Create Product controller with 5 methods: index, show, create, store, destroy. Define routes for all methods.
-
----
-
-## Summary
-
-Week 2 of 10: **Controllers & Routing** (Level: Beginner). Heart of CI4. Next week: **Views & Templates**.
+Minggu 2: **Pintu CI4** — routing sederhana.

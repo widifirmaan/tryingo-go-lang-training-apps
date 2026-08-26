@@ -1,88 +1,66 @@
-# Controllers & Routing
+# Controllers & Routing — Pelayan Warung Terstruktur
 
-> **Kategori:** NestJS | **Level:** Beginner | **Minggu 1:** Controllers & Routing
+> **Kategori:** NestJS | **Level:** Pemula | **Minggu 1:** Controllers & Routing
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand NestJS Controller architecture
-- Routing: @Get, @Post, @Put, @Delete
-- Decorators: @Controller, @Param, @Query, @Body
-- Request handling: params, query, body
-- Response formatting and status codes
+- Paham NestJS = **Node.js yang terstruktur** seperti warung dengan SOP: `controller` pelayan, `service` dapur, `module` gedung
+- `npm i -g @nestjs/cli`, `nest new warung-nest`, `npm run start:dev` di `3000`
+- `@Controller('produk')` + `@Get()` pintu, `return` otomatis JSON
 
 ---
 
-## Program: First Controller
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+Express bebas, tapi berantakan saat besar. NestJS pakai **SOP** — tiap pelayan punya tugas jelas, cocok untuk tim warung yang mau jadi minimarket.
 
-@Controller('users')
-export class UsersController {
-  private users = [
-    { id: 1, nama: 'Budi', email: 'budi@mail.com' },
-    { id: 2, nama: 'Siti', email: 'siti@mail.com' },
+---
+
+## Program: Pelayan Produk
+
+```bash
+npm i -g @nestjs/cli
+nest new warung-nest
+cd warung-nest
+npm run start:dev
+# Buka http://localhost:3000
+```
+
+```typescript
+// src/produk/produk.controller.ts
+import { Controller, Get, Param } from '@nestjs/common';
+
+@Controller('produk')
+export class ProdukController {
+  private daftar = [
+    { id: 1, nama: "Beras 5kg", harga: 62000 },
+    { id: 2, nama: "Bayam", harga: 5000 },
   ];
 
   @Get()
-  findAll() {
-    return { success: true, data: this.users };
-  }
+  semua() { return this.daftar; } // GET /produk
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const user = this.users.find(u => u.id === parseInt(id));
-    return { success: true, data: user };
-  }
-
-  @Post()
-  create(@Body() createUserDto: { nama: string; email: string }) {
-    const newUser = { id: this.users.length + 1, ...createUserDto };
-    this.users.push(newUser);
-    return { success: true, data: newUser };
+  satu(@Param('id') id: string) {
+    return this.daftar.find(p => p.id === Number(id)) || { error: "Tidak ada" };
   }
 }
-
-console.log('NestJS Controller Simulation:');
-console.log('GET /users -> Returns all users');
-console.log('GET /users/1 -> Returns user by ID');
-console.log('POST /users -> Creates new user');
-console.log('Decorators: @Controller, @Get, @Post, @Param, @Body');
 ```
 
----
-
-## Key Concepts
-
-### Controller
-Class decorated with @Controller('path').
-
-### Routing
-HTTP method decorators.
-
-### Decorators
-@Param, @Body, @Query for extracting data.
-
-### Response
-Auto-serialized to JSON.
+Buka `http://localhost:3000/produk` → JSON, `/produk/1` → 1 produk.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Add PUT and DELETE routes
-- Create new controller for products
-- Add query string filtering
-- Implement response interceptor
+### `@Controller('produk')` = Meja Pelayan
+`@Get()` = pintu GET, `@Param('id')` = ambil variabel URL.
 
----
-
-## Challenge
-
-Build complete Users Controller: CRUD with validation, pagination, and error handling.
+### SOP NestJS
+`controller` (pelayan) → `service` (dapur) → `module` (gedung). Minggu depan service.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 1 of 12: **Controllers & Routing** (Level: Beginner). Next week: **Providers & Services**.
+Minggu 1: **Pelayan Terstruktur** — NestJS SOP. Minggu depan: **Providers & Services**.

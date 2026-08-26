@@ -1,105 +1,45 @@
-# Setup & Rails Installation
+# Setup Rails — Warung Kilat Convention
 
-> **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 1:** Setup & Rails Installation
+> **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 1:** Setup Rails
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Install Ruby and Rails (Rails Guides: Getting Started)
-- Understand Rails folder structure: app, config, db, test
-- Rails CLI: server, console, generate, db:migrate
-- Gemfile: dependency management with Bundler
-- Convention over Configuration: Rails philosophy
+- Instal `gem install rails`, `rails new warung --database=postgresql`, `rails server` di `3000`
+- Rails = **warung kilat**: `convention over configuration` — tidak perlu setting, ikuti aturan nama
 
 ---
 
-## Program: First Project
+## Kenapa Ini Penting Buat Kamu?
 
-```ruby
-#!/usr/bin/env ruby
-# Ruby simulation
-puts "=== Ruby on Rails Setup ==="
-puts "gem install rails"
-puts "rails new my_app"
-puts "cd my_app"
-puts "rails server"
-puts "Server running on http://localhost:3000"
-puts ""
-puts "=== Rails Directory Structure ==="
-dirs = [
-    "app/",
-    "  controllers/",
-    "  models/",
-    "  views/",
-    "  helpers/",
-    "  assets/",
-    "config/",
-    "  routes.rb",
-    "  database.yml",
-    "db/",
-    "  migrate/",
-    "  seeds.rb",
-    "test/",
-    "Gemfile",
-]
-dirs.each { |d| puts "  #{d}" }
-puts ""
-puts "=== Key Commands ==="
-puts "rails new name      — Create new project"
-puts "rails server        — Start dev server (bin/rails s)"
-puts "rails console       — Interactive console (bin/rails c)"
-puts "rails generate      — Generate code (bin/rails g)"
-puts "rails db:migrate    — Run migrations"
-puts "rails routes        — List all routes"
-puts ""
-puts "=== Gemfile ==="
-puts "gem 'rails', '~> 7.0'"
-puts "gem 'sqlite3'         # Database"
-puts "gem 'puma'            # Server"
-puts "gem 'devise'          # Auth (later)"
-puts "bundle install"
+Rails paling cepat bikin warung online dari nol: 1 perintah `rails generate scaffold Produk nama:string harga:integer` langsung jadi CRUD + DB + views.
 
+---
+
+## Program: Warung Kilat
+
+```bash
+rails new warung --database=postgresql
+cd warung
+rails generate scaffold Produk nama:string harga:integer stok:integer
+rails db:migrate
+rails server
+# Buka http://localhost:3000/produks
 ```
 
----
-
-## Key Concepts
-
-### Rails Installation
-`gem install rails`, then `rails new name`.
-
-### Folder Structure
-- `app/` - MVC
-- `config/` - routes, database
-- `db/` - migrations, seeds
-- `test/` - test files
-
-### CLI
-`rails server`, `rails console`, `rails generate`.
-
-### Gemfile
-Defines dependencies. `bundle install` to install.
-
-### Convention over Configuration
-Rails follows conventions: model `Post` -> table `posts` -> controller `PostsController`.
+Buka `http://localhost:3000/produks` → CRUD jadi! Tambah produk langsung tanpa coding.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Install Rails and create new project
-- Explore app/ folder and its contents
-- Try rails console for exploration
-- Create simple route in routes.rb
-- Navigate config/ and view configuration
+### `scaffold` = Warung Jadi
+1 perintah jadi Model + View + Controller + DB.
 
----
-
-## Challenge
-
-Create a new Rails project with 3 routes: home (/), about (/about), contact (/contact). Display different text on each route.
+### Convention
+File `produk.rb` otomatis tabel `produks`, `Produk` class.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 1 of 12: **Setup & Rails Installation** (Level: Beginner). Rails foundation begins. Next week: **MVC Architecture**.
+Minggu 1: **Warung Kilat Rails** — `scaffold` langsung jadi. Minggu depan: **MVC**.
