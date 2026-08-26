@@ -1,75 +1,81 @@
-# Node.js Basics & Runtime
+# Dasar Node.js — Dapur Warung di Terminal
 
-> **Kategori:** Node.js | **Level:** Beginner | **Minggu 1:** Node.js Basics & Runtime
+> **Kategori:** Node.js | **Level:** Pemula | **Minggu 1:** Dasar Node.js
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand what Node.js is and its role as a JavaScript runtime
-- Run JavaScript files with the node command
-- Learn process object: version, platform, argv
-- Variables: const, let, and basic JavaScript data types
-- Function declarations vs arrow functions
+- Paham Node.js = **dapur yang jalan di terminal** (bukan browser) — `node -v`, `npm -v`
+- Buat `package.json` `npm init -y`, `app.js` dengan `console.log` dan `process.argv`
+- Jalankan `node app.js` dan `node app.js Budi 2` baca argumen
+- `global`, `process`, `__dirname` — info dapur
 
 ---
 
-## Program: Hello Node.js
+## Kenapa Ini Penting Buat Kamu?
+
+Warung butuh dapur yang bisa hitung tanpa buka browser. Node = JS di terminal, untuk hitung stok, cetak struk di kasir, nanti jadi server.
+
+---
+
+## Program: Dapur Node Pertama
+
+Simpan `app.js`
 
 ```javascript
-const nama = "Node.js";
-console.log("Selamat datang di " + nama + "!");
-console.log("Versi: " + process.version);
-console.log("Platform: " + process.platform);
+// app.js — jalan di terminal, bukan browser
+console.log("Dapur Warung Node.js");
+console.log("Versi Node:", process.version);
+console.log("Folder:", __dirname);
 
-const umur = 25;
-const tinggi = 175.5;
-const aktif = true;
-const hobi = ["ngoding", "baca buku", "musik"];
-const profil = { nama: "Budi", kota: "Jakarta" };
+// Baca argumen: node app.js Budi 2
+const nama = process.argv[2] || "Tamu";
+const qty = Number(process.argv[3] || 1);
+console.log(`Halo ${nama}, qty: ${qty}`);
 
-console.log("Umur: " + umur + " tahun");
-console.log("Hobi: " + hobi.join(", "));
-console.log("Profil: " + profil.nama + " dari " + profil.kota);
+// Hitung
+const harga = 62000;
+console.log(`Total: Rp ${(harga * qty).toLocaleString("id-ID")}`);
 
-function sapa(nama) { return "Halo, " + nama + "!"; }
-const kali = (a, b) => a * b;
-
-console.log(sapa("Gopher"));
-console.log("5 x 3 = " + kali(5, 3));
+// Tanpa DOM: document is not defined di Node — wajar
+// console.log(typeof document); // ReferenceError
 ```
 
----
+**Jalankan:**
+```
+node app.js
+node app.js Budi 2
+node --version
+npm --version
+```
 
-## Key Concepts
-
-### What is Node.js
-Node.js is a JavaScript runtime powered by V8.
-
-### Process Object
-process.version, process.platform, process.argv.
-
-### Variables
-const, let, avoid var.
-
-### Functions
-Function declarations vs arrow functions.
+Buat `package.json`: `npm init -y` → lihat `name`, `version`, `scripts`.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Change variable values and observe
-- Add a new function with different parameters
-- Try process.argv with custom arguments
-- Create arrow function with multiple parameters
+### Node vs Browser
+- Browser punya `document`, `window`. Node punya `process`, `fs`, `http`.
+- `process.argv` = antrian pesanan dari terminal.
 
----
-
-## Challenge
-
-Build a CLI greeting: accept name from process.argv, output greeting with timestamp.
+### `npm init`
+Bikin `package.json` — KTP proyek.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 1 of 12: **Node.js Basics & Runtime** (Level: Beginner). Next week: **Modules & NPM**.
+### Analogi: Dapur Terminal
+- **Browser = ruang makan**, **Node = dapur belakang** — tidak ada meja, hanya kompor & hitungan.
+
+---
+
+## Tantangan
+
+**Kasir Terminal:** `node kasir.js Siti 3` → baca `nama` dan `qty` dari `argv`, hitung `total = 62000*qty`, cetak `Halo Siti, total Rp ...`.
+
+---
+
+## Ringkasan
+
+Minggu 1: **Dapur Node** — JS di terminal. Minggu depan: **Modules & npm** — pinjam alat.
