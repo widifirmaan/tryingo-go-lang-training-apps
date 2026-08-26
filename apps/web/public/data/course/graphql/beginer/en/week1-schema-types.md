@@ -1,104 +1,72 @@
-# Schema & Basic Types
+# Schema & Types — Menu Restoran
 
-> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 1:** Schema & Basic Types
+> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 1:** Schema & Types
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand Schema Definition Language
-- Basic types: String, Int, Float, Boolean, ID
-- Non-null types with !
-- List types with []
-- Enums and Scalars
+- GraphQL = **menu restoran**: client pesan "saya mau nama & harga saja", server kirim itu saja (tidak lebih)
+- `type Produk { id: ID!, nama: String!, harga: Int! }` stiker menu
+- `!` wajib, `[]` daftar, `query` ambil
 
 ---
 
-## Program: First GraphQL Schema
+## Kenapa Ini Penting Buat Kamu?
+
+REST `/api/produk` kirim semua field (nama, harga, deskripsi, stok) padahal HP butuh harga saja → buang kuota. GraphQL minta pas.
+
+---
+
+## Program: Menu Produk
 
 ```graphql
-# Schema Definition Language (SDL)
+# Schema — menu
+type Produk {
+  id: ID!
+  nama: String!
+  harga: Int!
+  stok: Int
+  kategori: String
+}
+
 type Query {
-  # Get all products
-  products: [Product!]!
-  
-  # Get product by ID
-  product(id: ID!): Product
-  
-  # Search products
-  searchProducts(keyword: String!): [Product!]!
-  
-  # Get current user
-  me: User
+  produk: [Produk!]!
+  produkById(id: ID!): Produk
 }
 
-type Product {
-  id: ID!
-  name: String!
-  price: Float!
-  stock: Int!
-  category: Category!
-  tags: [String!]
-  inStock: Boolean!
+# Query — pesan
+query {
+  produk {
+    nama
+    harga
+  }
 }
 
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  role: UserRole!
+query {
+  produkById(id: "1") {
+    nama
+    harga
+    stok
+  }
 }
-
-type Category {
-  id: ID!
-  name: String!
-  slug: String!
-  products: [Product!]!
-}
-
-enum UserRole {
-  ADMIN
-  USER
-  SELLER
-}
-
-scalar DateTime
 ```
 
----
-
-## Key Concepts
-
-### SDL
-Schema Definition Language for defining data types.
-
-### Basic Types
-String, Int, Float, Boolean, ID.
-
-### Non-null
-! means required, cannot be null.
-
-### Lists
-[Type] for arrays. [Type!]! means non-null array of non-null.
-
-### Enums
-Limited set of allowed values.
+Coba di `onecompiler.com/graphql` atau `graphql.org/swapi-graphql`.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Add new types
-- Create other enums
-- Custom scalars
-- Interfaces
+### Schema = Menu
+`type Produk` daftar kolom yang ada.
 
----
+### `!` & `[]`
+`String!` wajib, `String` boleh kosong. `[Produk!]!` daftar wajib, isinya wajib.
 
-## Challenge
-
-E-commerce schema: Product, User, Category, Order.
+### Query = Pesan
+Minta field yang mau, dapat itu saja.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 1 of 10: **Schema & Basic Types** (Beginner).
+Minggu 1: **Menu** — schema & query dasar. Minggu depan: **Queries** lanjutan.

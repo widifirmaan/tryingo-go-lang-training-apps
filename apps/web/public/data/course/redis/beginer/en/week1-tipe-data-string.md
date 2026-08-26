@@ -1,89 +1,58 @@
-# Data Types & Strings
+# Redis String — Laci Cepat
 
-> **Kategori:** Redis | **Level:** Beginner | **Minggu 1:** Data Types & Strings
+> **Kategori:** Redis | **Level:** Pemula | **Minggu 1:** Tipe Data String
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- SET and GET
-- MSET and MGET
-- INCR, DECR, INCRBY
-- SET with TTL (EX, PX)
-- SET NX for locking
+- Redis = **laci cepat di meja** (RAM), bukan gudang (disk) — baca 0.1ms
+- `SET nama "Budi"`, `GET nama`, `INCR counter`, `EXPIRE key 60` kadaluarsa
+- `MSET/MGET` banyak sekaligus
 
 ---
 
-## Program: Redis String Operations
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# String: operasi dasar
-SET user:1001 "Budi Santoso"
-GET user:1001
+Keranjang belanja, sesi login, cache harga — butuh laci yang buka tutup super cepat, tidak perlu gudang berat.
 
-# SET dengan expiry (TTL)
-SET session:abc123 "active" EX 3600  # 1 jam
-TTL session:abc123
+---
 
-# Multiple set/get
-MSET product:1 "Laptop" product:2 "Mouse" product:3 "Keyboard"
-MGET product:1 product:2 product:3
+## Program: Laci Cepat
 
-# Increment/Decrement
-SET counter:visitors 0
-INCR counter:visitors
-INCRBY counter:visitors 5
-DECR counter:visitors
-DECRBY counter:visitors 2
-GET counter:visitors
+Jalankan di `try.redis.io` atau `docker run -p 6379:6379 redis`.
 
-# Append & Strlen
-SET greeting "Hello"
-APPEND greeting " World"
-STRLEN greeting
+```bash
+SET pelanggan:1:nama "Budi"
+GET pelanggan:1:nama
+SET counter:pengunjung 0
+INCR counter:pengunjung # +1
+INCRBY counter:pengunjung 5 # +5
+EXPIRE counter:pengunjung 60 # hilang 60 detik
+TTL counter:pengunjung
 
-# Set jika tidak ada (untuk locking)
-SET lock:resource "locked" NX EX 10
-SET lock:resource "locked" NX EX 10  # Gagal, sudah ada
+MSET produk:1:harga 62000 produk:1:stok 10
+MGET produk:1:harga produk:1:stok
 
-# GETSET (atomic get + SET)
-GETSET counter:visitors 0
+SET stok:beras 10
+DECR stok:beras # jual 1 → 9
+GET stok:beras
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Strings
-Basic Redis data type. Store text, integers, binary.
+### Laci vs Gudang
+- **Redis = laci RAM**: cepat, hilang jika listrik mati (kecuali `PERSIST`).
+- **Postgres = gudang disk**: lambat, awet.
 
-### SET & GET
-Store and retrieve values.
+### `INCR/DECR` = Hitung Otomatis
+`INCR counter` tanpa ambil +1 manual — aman untuk banyak kasir.
 
-### Multiple
-MSET/MGET for batch operations.
-
-### Increment
-INCR/DECR atomic counters.
-
-### TTL
-EX (seconds), PX (milliseconds). TTL to check remaining time.
+### `EXPIRE` = Kadaluarsa
+`SET sesi:123 "data" EX 3600` → hapus 1 jam.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- SET vs SETNX
-- BITCOUNT for bits
-- SETRANGE
-- Strings as rate limiter counters
-
----
-
-## Challenge
-
-Session store: store sessions with TTL, check expiration.
-
----
-
-## Summary
-
-Week 1 of 10: **Data Types & Strings** (Beginner).
+Minggu 1: **Laci Cepat** — string & counter. Minggu depan: **Hash** — kartu di laci.

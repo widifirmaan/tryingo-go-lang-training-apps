@@ -1,104 +1,72 @@
-# Schema & Tipe Dasar
+# Schema & Types — Menu Restoran
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 1:** Schema & Tipe Dasar
+> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 1:** Schema & Types
 
 ## Tujuan Pembelajaran
 
-- Memahami Schema Definition Language
-- Tipe dasar: String, Int, Float, Boolean, ID
-- Tipe non-null dengan !
-- Tipe list dengan []
-- Enum dan Scalar
+- GraphQL = **menu restoran**: client pesan "saya mau nama & harga saja", server kirim itu saja (tidak lebih)
+- `type Produk { id: ID!, nama: String!, harga: Int! }` stiker menu
+- `!` wajib, `[]` daftar, `query` ambil
 
 ---
 
-## Program: GraphQL Schema Pertama
+## Kenapa Ini Penting Buat Kamu?
+
+REST `/api/produk` kirim semua field (nama, harga, deskripsi, stok) padahal HP butuh harga saja → buang kuota. GraphQL minta pas.
+
+---
+
+## Program: Menu Produk
 
 ```graphql
-# Schema Definition Language (SDL)
+# Schema — menu
+type Produk {
+  id: ID!
+  nama: String!
+  harga: Int!
+  stok: Int
+  kategori: String
+}
+
 type Query {
-  # Get all products
-  products: [Product!]!
-  
-  # Get product by ID
-  product(id: ID!): Product
-  
-  # Search products
-  searchProducts(keyword: String!): [Product!]!
-  
-  # Get current user
-  me: User
+  produk: [Produk!]!
+  produkById(id: ID!): Produk
 }
 
-type Product {
-  id: ID!
-  name: String!
-  price: Float!
-  stock: Int!
-  category: Category!
-  tags: [String!]
-  inStock: Boolean!
+# Query — pesan
+query {
+  produk {
+    nama
+    harga
+  }
 }
 
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  role: UserRole!
+query {
+  produkById(id: "1") {
+    nama
+    harga
+    stok
+  }
 }
-
-type Category {
-  id: ID!
-  name: String!
-  slug: String!
-  products: [Product!]!
-}
-
-enum UserRole {
-  ADMIN
-  USER
-  SELLER
-}
-
-scalar DateTime
 ```
+
+Coba di `onecompiler.com/graphql` atau `graphql.org/swapi-graphql`.
 
 ---
 
 ## Konsep Kunci
 
-### SDL
-Schema Definition Language untuk mendefinisikan tipe data.
+### Schema = Menu
+`type Produk` daftar kolom yang ada.
 
-### Tipe Dasar
-String, Int, Float, Boolean, ID.
+### `!` & `[]`
+`String!` wajib, `String` boleh kosong. `[Produk!]!` daftar wajib, isinya wajib.
 
-### Non-null
-! berarti wajib ada, tidak boleh null.
-
-### List
-[Type] untuk array. [Type!]! berarti array non-null berisi non-null.
-
-### Enum
-Nilai terbatas yang bisa dipilih.
-
----
-
-## Eksperimen
-
-- Tambah tipe baru
-- Buat enum lain
-- Scalar custom
-- Interface
-
----
-
-## Tantangan
-
-Schema e-commerce: Product, User, Category, Order.
+### Query = Pesan
+Minta field yang mau, dapat itu saja.
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 10: **Schema & Tipe Dasar** (Pemula).
+Minggu 1: **Menu** — schema & query dasar. Minggu depan: **Queries** lanjutan.
