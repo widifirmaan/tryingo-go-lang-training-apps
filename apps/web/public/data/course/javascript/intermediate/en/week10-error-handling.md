@@ -1,139 +1,82 @@
-# Error Handling
+# Error Handling — Alarm Warung Tidak Panik
 
-> **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 10:** Error Handling
+> **Kategori:** JavaScript | **Level:** Menengah | **Minggu 10:** Error Handling
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Custom error classes with extends Error
-- try/catch/finally for error handling
-- instanceof to check error type
-- Promise.allSettled for multiple async error handling
-- Global error handlers: window.onerror, unhandledrejection
+- `try { ... } catch (err) { ... } finally { ... }` — coba, jika gagal tangkap, akhirnya tutup
+- `throw new Error("stok habis")` buat alarm sendiri
+- `async try/catch` untuk `await fetch`
 
 ---
 
-## Program: Robust Error Handling
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `try/catch`, `JSON.parse` data rusak → warung crash, layar putih. Dengan `try`, tampil "Data rusak, coba lagi" — tidak panik.
+
+---
+
+## Program: Kasir Anti-Crash
 
 ```javascript
-// Custom Error Classes
-class ValidationError extends Error {
-    constructor(field, message) {
-        super(message);
-        this.name = "ValidationError";
-        this.field = field;
-    }
+function parseStok(json){
+  try {
+    const data = JSON.parse(json); // bisa gagal jika json rusak
+    if (!data.nama) throw new Error("Nama wajib");
+    console.log("Sukses:", data);
+    return data;
+  } catch (err) {
+    console.log("Gagal:", err.message);
+    return { nama: "Tidak diketahui", stok: 0 };
+  } finally {
+    console.log("Selesai cek");
+  }
 }
 
-class NetworkError extends Error {
-    constructor(status, message) {
-        super(message);
-        this.name = "NetworkError";
-        this.status = status;
-    }
+parseStok('{"nama":"Beras","stok":10}');
+parseStok('rusak{');
+parseStok('{"stok":10}'); // tanpa nama → throw
+
+async function ambil(){
+  try {
+    const res = await fetch("https://api.warung.com/produk");
+    if (!res.ok) throw new Error("Gagal fetch " + res.status);
+    const data = await res.json();
+    console.log(data);
+  } catch (err){
+    console.log("Ambil gagal:", err.message);
+  }
 }
-
-// Try/Catch/Finally
-function validateUser(data) {
-    if (!data.email) throw new ValidationError("email", "Email wajib");
-    if (!data.email.includes("@")) throw new ValidationError("email", "Email tidak valid");
-    if (!data.nama) throw new ValidationError("nama", "Nama wajib");
-    if (data.umur < 0 || data.umur > 150) throw new ValidationError("umur", "Umur tidak valid");
-    return true;
-}
-
-// Demo
-console.log("=== Error Handling ===");
-
-const testCases = [
-    { email: "", nama: "Budi", umur: 25 },
-    { email: "invalid", nama: "Siti", umur: 30 },
-    { email: "budi@mail.com", nama: "", umur: 25 },
-    { email: "budi@mail.com", nama: "Budi", umur: -5 },
-    { email: "budi@mail.com", nama: "Budi", umur: 25 }
-];
-
-testCases.forEach((data, i) => {
-    try {
-        validateUser(data);
-        console.log(`Test ${i+1}: ✓ Valid`);
-    } catch (error) {
-        if (error instanceof ValidationError) {
-            console.log(`Test ${i+1}: ✗ ${error.field} - ${error.message}`);
-        } else {
-            console.log(`Test ${i+1}: ✗ Unexpected: ${error.message}`);
-        }
-    } finally {
-        console.log(`  (test ${i+1} completed)`);
-    }
-});
-
-// Async Error Handling
-async function fetchUser(id) {
-    if (id <= 0) throw new NetworkError(400, "Invalid ID");
-    if (id > 100) throw new NetworkError(404, "User not found");
-    return { id, name: "User " + id };
-}
-
-console.log("\n=== Async Error Handling ===");
-async function loadUsers() {
-    const ids = [1, -5, 50, 200];
-    const results = await Promise.allSettled(
-        ids.map(id => fetchUser(id))
-    );
-
-    results.forEach((result, i) => {
-        if (result.status === "fulfilled") {
-            console.log(`User ${ids[i]}: ✓ `, result.value);
-        } else {
-            console.log(`User ${ids[i]}: ✗ `, result.reason.message);
-        }
-    });
-}
-
-loadUsers();
-
-// Global Error Handler
-// window.addEventListener("error", (e) => { ... });
-// window.addEventListener("unhandledrejection", (e) => { ... });
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Custom Errors
-`class MyError extends Error` — add custom properties like field, status.
+### `try/catch/finally`
+`try` coba, `catch` tangkap error, `finally` selalu jalan (tutup pintu).
 
-### Try/Catch/Finally
-`try` execute, `catch` handle error, `finally` always runs.
+### `throw`
+Buat error sendiri `throw new Error("stok habis")`.
 
-### instanceof
-`error instanceof ValidationError` — check error type for different handling.
-
-### Async Errors
-`Promise.allSettled` — doesn't stop when one fails, returns all results.
-
-### Global Handlers
-`window.onerror` for sync errors, `unhandledrejection` for Promises.
+### `async` + `try`
+`await` yang gagal harus `try/catch`, tidak `.catch` saja.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create custom error for each form field
-- Try error wrapping: throw new Error("context", { cause: original })
-- Experiment error boundary pattern
-- Create retry logic with exponential backoff
-- Try global error logging
+### Analogi: Alarm Kebakaran
+- **`try` = coba masak**, **`catch` = jika kompor meledak, padamkan**, **`finally` = matikan gas**.
 
 ---
 
-## Challenge
+## Tantangan
 
-Build a form validator: custom errors per field, async validation, error aggregation, and user-friendly messages.
+**Warung Aman:** `function hitung(harga,qty){ if(qty<=0) throw new Error("Qty salah"); return harga*qty }` → `try { hitung(62000,0)} catch(e){ console.log(e.message)}`.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 10 of 14: **Error Handling** (Level: Intermediate). Intermediate phase complete! Next week: **Design Patterns** (Advanced).
+Minggu 10: **Alarm Anti-Panik** — `try/catch` biar warung tidak crash.

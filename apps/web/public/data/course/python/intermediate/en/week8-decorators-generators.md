@@ -1,151 +1,77 @@
-# Decorators & Generators
+# Decorators & Generators — Stempel dan Antrian
 
-> **Kategori:** Python | **Level:** Intermediate | **Minggu 8:** Decorators & Generators
+> **Kategori:** Python | **Level:** Menengah | **Minggu 8:** Decorators & Generators
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Create decorators with @functools.wraps
-- Decorators with arguments: @decorator(arg)
-- Generators with yield for lazy evaluation
-- Generator expressions: (x for x in iterable)
-- yield from to delegate to sub-generators
+- `decorator` = stempel di fungsi — `@catat` log sebelum/ sesudah
+- `generator` `yield` = antrian: beri 1, tunggu, beri lagi (hemat RAM)
 
 ---
 
-## Program: Pythonic Patterns
+## Kenapa Ini Penting Buat Kamu?
+
+Warung ingin `hitungTotal` otomatis log "mulai" dan "selesai" tanpa tulis `print` di tiap fungsi — decorator stempel sekali untuk semua.
+
+---
+
+## Program
 
 ```python
+# Decorator = stempel
+def catat(func):
+    def bungkus(*args, **kwargs):
+        print(f"Mulai {func.__name__}")
+        hasil = func(*args, **kwargs)
+        print(f"Selesai {func.__name__}: {hasil}")
+        return hasil
+    return bungkus
 
-# Decorators & Generators
-import functools
-import time
+@catat
+def hitung(a, b):
+    return a + b
 
-# Basic Decorator
-def debug(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        print(f"Calling {func.__name__} with {args}, {kwargs}")
-        result = func(*args, **kwargs)
-        print(f"  -> {result}")
-        return result
-    return wrapper
+print(hitung(2, 3))
 
-@debug
-def add(a, b): return a + b
+# Generator = antrian hemat
+def antrian_produk(daftar):
+    for p in daftar:
+        print(f"Siapkan {p}")
+        yield p  # beri 1, pause, lanjut saat next()
 
-@debug
-def greet(name, greeting="Hello"): return f"{greeting}, {name}!"
+for item in antrian_produk(["Beras", "Bayam", "Telur"]):
+    print("Kirim:", item)
 
-# Decorator with Arguments
-def repeat(n):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            results = []
-            for _ in range(n):
-                results.append(func(*args, **kwargs))
-            return results
-        return wrapper
-    return decorator
-
-@repeat(3)
-def say_hello(): return "Hello!"
-
-# Timing Decorator
-def timer(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        start = time.perf_counter()
-        result = func(*args, **kwargs)
-        elapsed = time.perf_counter() - start
-        print(f"{func.__name__} took {elapsed:.4f}s")
-        return result
-    return wrapper
-
-@timer
-def slow_function():
-    time.sleep(0.1)
-    return "done"
-
-# Generators
-print("=== Generators ===")
-def fibonacci(n):
-    a, b = 0, 1
-    for _ in range(n):
-        yield a
-        a, b = b, a + b
-
-print(f"Fibonacci(10): {list(fibonacci(10))}")
-
-def countdown(n):
-    while n > 0:
-        yield n
-        n -= 1
-
-print(f"Countdown: {list(countdown(5))}")
-
-# Generator Expression
-print("\n=== Generator Expression ===")
-squares = (x**2 for x in range(10))
-print(f"Squares: {list(squares)}")
-
-# yield from
-def combined():
-    yield from range(3)
-    yield from "abc"
-    yield from [10, 20, 30]
-
-print(f"Combined: {list(combined())}")
-
-# Main
-print("\n=== Decorator Results ===")
-add(2, 3)
-greet("Budi", greeting="Selamat pagi")
-print(f"Repeat: {say_hello()}")
-slow_function()
-    
+# Hemat RAM: range(1_000_000) tidak buat list 1jt, tapi yield 1 per 1
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Decorator
-Function wrapping another function. `@functools.wraps` preserves metadata.
+### Decorator `@catat`
+Fungsi yang bungkus fungsi lain — tambah log tanpa ubah isi.
 
-### Decorators with Arguments
-Nested functions for parameterized decorators.
-
-### Generator
-`yield` pauses and returns value. Resumes on next() call.
-
-### Generator Expression
-Lazy evaluation with `(x for x in iterable)`.
-
-### yield from
-Delegate to sub-generators.
-
-### Use Cases
-Timing, debugging, caching, authentication.
+### Generator `yield`
+`return` sekali habis, `yield` beri 1, jeda, beri lagi — untuk 1jt produk hemat.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Build @cache decorator with dict
-- Build @retry decorator with max_attempts
-- Implement infinite generator: primes()
-- Try @property, @staticmethod, @classmethod
-- Build decorator usable with or without arguments
+### Analogi
 
----
-
-## Challenge
-
-Build a data processing pipeline: generator for file reading, decorators for timing and logging, generator expression for transformations.
+- **Decorator = stempel**: tempel `@catat` di resep, otomatis cap "Mulai/Selesai".
+- **Generator = antrian warung**: panggil 1, layani 1, panggil lagi.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 8 of 12: **Decorators & Generators** (Level: Intermediate). Intermediate phase complete! Next week: **Libraries & Virtual Environments** (Advanced).
+**Stempel Waktu:** Buat `@timer` yang `start = time.time()` sebelum `func` dan `print(time.time()-start)` sesudah. Pakai di `hitung(a,b)`.
+
+---
+
+## Ringkasan
+
+Minggu 8: **Stempel & Antrian** — decorator & generator. Selesai Intermediate Python!
