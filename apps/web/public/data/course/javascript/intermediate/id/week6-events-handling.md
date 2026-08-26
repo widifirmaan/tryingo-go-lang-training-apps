@@ -1,131 +1,115 @@
-# Events & Event Handling
+# Events Lanjutan — Telinga yang Lebih Pintar
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 6:** Events & Event Handling
 
 ## Tujuan Pembelajaran
 
-- Event phases: capture, target, bubble
-- Event delegation: handle event di parent
-- Custom events dengan EventEmitter pattern
-- stopPropagation dan preventDefault
-- once listener dan unsubscribe pattern
+- Bedakan `click`, `input`, `submit`, `keydown` — telinga untuk aksi beda
+- `addEventListener` dengan `preventDefault()` (jangan reload) dan `stopPropagation()` (jangan bocor ke induk)
+- **Delegation**: 1 telinga di `ul` untuk 100 `li` (hemat, tidak pasang 100 telinga)
+- `once` dan lepas `removeEventListener` (telinga sekali pakai)
 
 ---
 
-## Program: Event System
+## Kenapa Ini Penting Buat Kamu?
 
+Warung list 100 produk — pasang 100 `addEventListener` di tiap `li` → berat, lupa lepas → bocor. Delegation = **1 satpam di pintu lobi**, cek `e.target` siapa yang klik. `preventDefault` = cegah form reload.
+
+---
+
+## Program: Kasir Delegation
+
+```html
+<ul id="daftar"><li data-id="1">Beras <button class="hapus">Hapus</button></li><li data-id="2">Bayam <button class="hapus">Hapus</button></li></ul>
+<form id="form"><input id="nama" placeholder="Nama"><button>Tambah</button></form>
+```
 ```javascript
-// Simulasi Event System
-class EventEmitter {
-    constructor() {
-        this.listeners = {};
-    }
+const daftar = document.getElementById("daftar");
+const form = document.getElementById("form");
+const input = document.getElementById("nama");
 
-    on(event, callback) {
-        if (!this.listeners[event]) this.listeners[event] = [];
-        this.listeners[event].push(callback);
-        return () => this.off(event, callback);
-    }
-
-    off(event, callback) {
-        if (!this.listeners[event]) return;
-        this.listeners[event] = this.listeners[event]
-            .filter(cb => cb !== callback);
-    }
-
-    emit(event, ...args) {
-        if (!this.listeners[event]) return;
-        this.listeners[event].forEach(cb => cb(...args));
-    }
-
-    once(event, callback) {
-        const wrapper = (...args) => {
-            callback(...args);
-            this.off(event, wrapper);
-        };
-        this.on(event, wrapper);
-    }
-}
-
-// Demo Event System
-const emitter = new EventEmitter();
-
-// Subscribe
-const unsub = emitter.on("user:login", (user) => {
-    console.log("User login:", user);
+// 1. Delegation: 1 telinga di ul untuk semua tombol hapus
+daftar.addEventListener("click", (e) => {
+  if (e.target.matches(".hapus")) {
+    const li = e.target.closest("li");
+    console.log("Hapus id:", li.dataset.id);
+    li.remove(); // hapus 1 li
+  }
 });
 
-emitter.on("user:login", (user) => {
-    console.log("Log activity:", user);
+// 2. preventDefault: jangan reload saat submit
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const nama = input.value.trim();
+  if (!nama) return;
+  const li = document.createElement("li");
+  li.innerHTML = `${nama} <button class="hapus">Hapus</button>`;
+  li.dataset.id = Date.now();
+  daftar.appendChild(li);
+  input.value = "";
 });
 
-emitter.once("app:start", () => {
-    console.log("App started (once)");
+// 3. Sekali pakai
+let promo = document.createElement("button");
+promo.textContent = "Klaim Promo (sekali)";
+promo.addEventListener("click", () => alert("Promo diklaim!"), { once: true });
+document.body.appendChild(promo);
+
+// 4. Keyboard
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") console.log("Enter ditekan");
 });
-
-// Emit events
-console.log("=== Emit Events ===");
-emitter.emit("app:start");
-emitter.emit("app:start"); // tidak trigger once lagi
-emitter.emit("user:login", "Budi");
-
-// Unsubscribe
-unsub();
-console.log("\n=== After unsubscribe ===");
-emitter.emit("user:login", "Siti"); // hanya 1 listener
-
-// Event phases (browser):
-// 1. Capture phase: dari target ke atas
-// 2. Target phase: di elemen target
-// 3. Bubble phase: dari target ke atas
-// stopPropagation() — hentikan propagasi
-// preventDefault() — cegah default behavior
-
-// Event delegation pattern:
-// parent.addEventListener("click", (e) => {
-//     if (e.target.matches(".child-selector")) {
-//         // handle child click
-//     }
-// });
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Event Phases
-1. Capture: window → target. 2. Target: elemen target. 3. Bubble: target → window.
+### `e.target` vs `e.currentTarget`
+- `target` = yang diklik (tombol hapus), `currentTarget` = yang pasang telinga (ul).
 
-### Event Delegation
-Satu listener di parent untuk banyak child. Cek `e.target.matches(selector)`.
+### Delegation = 1 Satpam untuk 100 Pintu
+`ul.addEventListener("click", e => if(e.target.matches(".hapus")) ...)` — hemat, otomatis untuk `li` baru.
 
-### Custom Events
-`EventEmitter` pattern: `on`, `off`, `emit`, `once`.
+### `preventDefault` vs `stopPropagation`
+- `preventDefault()` = cegah aksi default (form reload, link pindah).
+- `stopPropagation()` = jangan bocor ke induk (klik tombol tidak trigger klik `li`).
 
-### Propagation
-`stopPropagation()` hentikan bubbling. `preventDefault()` cegah default behavior.
+---
 
-### Unsubscribe
-Return fungsi unsubscribe dari `on()` untuk cleanup.
+## Penjelasan untuk Pemula
+
+### Analogi: Satpam Lobi
+
+- **100 telinga = 100 satpam di tiap kamar** → boros.
+- **Delegation = 1 satpam di lobi**: tamu klik `Hapus` di kamar 5 → satpam lobi cek `e.target` ID 5 → hapus.
 
 ---
 
 ## Eksperimen
 
-- Buat event bus untuk komunikasi antar module
-- Coba capture phase dengan addEventListener third arg
-- Eksperimen event delegation pada table
-- Buat custom event dengan detail data
-- Implementasikan throttle pada scroll event
+- **Hijau:** Klik `Hapus` Bayam → `li` hilang? Tambah produk baru → Hapus-nya tetap jalan tanpa pasang ulang?
+- **Kuning:** Hapus `e.preventDefault()` di submit → form reload? Pasang lagi.
+- **Merah:** Ganti `e.target.matches(".hapus")` jadi `e.target.tagName === "BUTTON"` → masih jalan?
 
 ---
 
 ## Tantangan
 
-Buat keyboard shortcut system: register shortcut, trigger action, dengan EventEmitter pattern.
+**Warung Delegation:** `ul` 20 produk via `for` + `innerHTML`, 1 `addEventListener` di `ul` untuk `Hapus` dan `Edit` (2 tombol per `li` beda class). Tambah produk via `form submit` — delegation tetap jalan tanpa `addEventListener` baru.
+
+Kriteria: 1 telinga di parent, pakai `closest` + `dataset.id`, dan `preventDefault`.
+
+---
+
+## Glosarium Mini
+
+- **Delegation**: 1 telinga untuk banyak anak
+- **preventDefault/stopPropagation**: cegah default/bocor
+- **once**: sekali pakai
 
 ---
 
 ## Ringkasan
 
-Minggu 6 dari 14: **Events & Event Handling** (Level: Menengah). Interaksi pengguna. Minggu depan: **Async JavaScript**.
+Minggu 6 dari 14: **Events Lanjutan** (Level: Menengah). Bisa 1 satpam untuk 100 pintu. Minggu depan: **Async** — pesan antar tanpa tunggu.
