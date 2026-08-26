@@ -1,72 +1,45 @@
-# Props & Components
+# Props & Components — Bata Svelte
 
-> **Kategori:** Svelte | **Level:** Beginner | **Minggu 3:** Props & Components
+> **Kategori:** Svelte | **Level:** Pemula | **Minggu 3:** Props & Components
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- export let for prop definition
-- Default values for props
-- Spread props: {...props}
-- Component composition
-- Slot for dynamic content
+- `export let nama` terima props, `createEventDispatcher` lapor balik
 
 ---
 
-## Program: Product Components
+## Program
 
 ```svelte
-<!-- Props = data dari parent ke child -->
-<!-- Child: ProductCard.svelte -->
+<!-- Kartu.svelte -->
 <script>
-  export let name;
-  export let price;
-  export let isAvailable = true;
+  export let nama;
+  export let harga;
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 </script>
-<div class="card">
-  <h3>{name}</h3>
-  <p>Rp {price.toLocaleString("id-ID")}</p>
-  <button disabled={!isAvailable} on:click>Tambah</button>
+
+<div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
+  <h3>{nama}</h3>
+  <p>Rp {harga}</p>
+  <button on:click={() => dispatch("beli", nama)}>Beli</button>
+  <slot>Default</slot>
 </div>
-<!-- Parent: App.svelte -->
+
+<!-- +page.svelte -->
 <script>
-  import ProductCard from './ProductCard.svelte';
-  let products = [{ name: 'Laptop', price: 15000000, isAvailable: true }];
+  import Kartu from "./Kartu.svelte";
+  let daftar = [{ nama: "Beras", harga: 62000 }];
+  function handleBeli(e){ alert("Beli " + e.detail); }
 </script>
-{#each products as product}
-  <ProductCard name={product.name} price={product.price} />
+
+{#each daftar as p}
+  <Kartu nama={p.nama} harga={p.harga} on:beli={handleBeli} />
 {/each}
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Props
-export let for prop definition.
-
-### Default Values
-export let with default.
-
-### Slots
-<slot /> for parent content.
-
----
-
-## Experiments
-
-- Create component with multiple props
-- Add named slots
-- Implement slot props
-- Create component with events
-
----
-
-## Challenge
-
-Build a product catalog: ProductCard, ProductList, CartSummary.
-
----
-
-## Summary
-
-Week 3 of 10: **Props & Components** (Level: Beginner). Next week: **Events & Bindings**.
+Minggu 3: **Bata Svelte** — `export let` dan `dispatch`.
