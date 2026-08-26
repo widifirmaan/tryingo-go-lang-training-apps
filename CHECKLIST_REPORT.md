@@ -94,18 +94,18 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - **Tambah:** Sisa: `pip`, `venv`, `pandas` untuk UMKM (fase 3)
 - **Persiapan:** Selesai
 
-#### Go — ✅ DONE W1-W5 (13fbab8)
-- **Riset ideal:** Roadmap.sh Go: `go run/build`, `var :=`, `if/for`, `slice/map`, `struct` 5 minggu beginner tanpa `concurrency` dulu
-- **Pros:** Sudah rewrite manual non-IT — 10 file id+en
+#### Go — ✅ DONE W1-W5 (13fbab8) + W6-W9 Intermediate (9c9cf99) — 18 file id+en
+- **Riset ideal:** Roadmap.sh Go: `go run/build`, `var :=`, `if/for`, `slice/map`, `struct` 5 minggu beginner tanpa `concurrency` dulu — sudah + 4 minggu intermediate kontrak & kasir paralel
+- **Pros:** Sudah rewrite manual non-IT — 18 file (beginner 10 + intermediate 8)
 - **Keep:** Code runnable Yaegi + TinyGo limit note
-- **Ubah:** W1 buku kas `go run struk.go` kotak berlabel, W2 rak berlabel & satpam switch, W3 resep alarm `error`, W4 rak geser `slice/map`, W5 kartu `struct` + stempel
+- **Ubah:** W1 buku kas `go run struk.go`, W6 kontrak `interface Kasir`, W8 kasir paralel `go` + `channel`, W9 alarm `context`
 - **Hapus:** `toolchain vet` dari W1
 - **Tambah:** `go mod init warung`, `go fmt` demo, zero value `0 "" false`
 - **Persiapan:** Selesai
 
-#### Rust — ✅ DONE W1-W3 (0e19c90)
-- **Riset:** Ownership `box pinjam` paling susah non-IT — 2 minggu hanya `let mut`, `ownership` analogi `buku perpustakaan` — sudah rewrite manual 6 file id+en
-- **Ubah:** W1 `cargo new` perpustakaan `let` vs `let mut`, W2 ownership pinjam `&`/`&mut` harus balik, W3 `struct` kartu
+#### Rust — ✅ DONE W1-W6 (0e19c90 + 9c9cf99) — 12 file id+en (Beginner lengkap)
+- **Riset:** Ownership `box pinjam` paling susah non-IT — 2 minggu hanya `let mut`, `ownership` analogi `buku perpustakaan` — sudah rewrite manual 12 file (W1-W6)
+- **Ubah:** W1 `cargo new`, W2 ownership, W3 `struct`, W4 `enum` pilihan, W5 `Vec/HashMap` rak, W6 `Result` alarm
 - **Hapus:** `WASM/memory safety` dari W1
 - **Tambah:** `cargo run/fmt` langkah 1, `String` vs `&str`
 
@@ -260,12 +260,13 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 8 = 174 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Intermediate mulai — lanjut semua.
+**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 22 = 188 file** (Next.js 8 + React 8 + JS 14 + Python 12 + TS 8 + Vue 8 + Go 18 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Intermediate lanjut — Go & Rust selesai.
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
 
 | 2026-08-25 | `24005d9` | NestJS W1-W3 + CI4 W1-W3 + Rails W1-W3 (id+en, 18 file) | Manual SOP, warung ringan, scaffold kilat |
+| 2026-08-25 | `9c9cf99` | Go W6-W9 + Rust W4-W6 (id+en, 14 file) — INTERMEDIATE | Manual kontrak interface, pointer alamat, kasir paralel channel, enum match |
 | 2026-08-25 | `cebb181` | JS Intermediate W6 (id, 1 file) | Manual delegation 1 satpam 100 pintu — mulai fase Menengah friendly |
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
