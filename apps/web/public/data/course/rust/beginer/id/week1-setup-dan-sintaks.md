@@ -1,92 +1,123 @@
-# Setup, Toolchain & Sintaks Dasar
+# Setup & Sintaks Rust — Buku Perpustakaan yang Ketat
 
-> **Kategori:** Rust | **Level:** Pemula | **Minggu 1:** Setup, Toolchain & Sintaks Dasar
+> **Kategori:** Rust | **Level:** Pemula | **Minggu 1:** Setup & Sintaks Dasar
 
 ## Tujuan Pembelajaran
 
-- Memahami peran Rust sebagai bahasa systems programming yang aman memori
-- Menginstall Rust (rustup) dan toolchain: cargo, rustc, rustfmt
-- Memahami struktur file .rs: fn main, println!, macro vs fungsi
-- Mengenal tipe dasar: i32, f64, bool, char, &str, tuple, array
-- Immutability by default dan type inference
+- Instal Rust `rustup`, cek `cargo --version`, buat `cargo new warung --bin`, jalankan `cargo run`
+- Paham `let` (kotak kunci) vs `let mut` (kotak bisa ubah) — Rust **default tidak bisa ubah**
+- Tipe harus jelas atau tebak: `let x: i32 = 5`, `let y = 5` (tebak i32), `String` vs `&str`
+- `println!` dengan `{}`, `{:?}` debug, dan `cargo fmt` rapikan
 
 ---
 
-## Program: Halo, Rust!
+## Kenapa Ini Penting Buat Kamu?
+
+Rust = perpustakaan yang **sangat ketat**: tiap buku ada 1 pemilik, jika pinjam harus balik. Awal terasa ribet, tapi **tidak ada buku hilang** (memory safety tanpa sampah). Cocok untuk warung yang tidak mau rugi karena bug.
+
+Hari ini pasang perpustakaan, tulis struk pertama.
+
+---
+
+## Program: Struk Rust Pertama
+
+Simpan di `src/main.rs` setelah `cargo new warung`
 
 ```rust
 fn main() {
-    println!("Selamat datang di Rust!");
-    println!("Rust adalah bahasa systems programming yang aman dan cepat.");
+    println!("Warung Bu Siti — Rust Perpustakaan");
 
-    let nama: &str = "Ferris";
-    let versi: f64 = 1.78;
-    let aktif: bool = true;
+    // 1. let = kotak kunci (tidak bisa ubah)
+    let nama = "Budi"; // &str, tebak otomatis
+    let beras_kg: i32 = 2; // i32 = integer 32-bit
+    let harga: i32 = 12500;
+    
+    // let mut = kotak bisa ubah
+    let mut total = beras_kg * harga;
+    println!("Pelanggan: {}, Total: Rp {}", nama, total);
 
-    println!("Nama: {}", nama);
-    println!("Versi: {:.2}", versi);
-    println!("Aktif: {}", aktif);
+    // Ubah mut
+    total = total + 5000; // tambah ongkir
+    println!("Setelah ongkir: Rp {}", total);
 
-    let x = 42;
-    let y: i32 = 100;
-    println!("Tipe x: i32 (inferensi)");
-    println!("x + y = {}", x + y);
+    // let tidak bisa ubah: let x = 5; x = 6; // ❌ error: cannot assign twice
 
-    let tuple: (i32, f64, &str) = (42, 3.14, "halo");
-    println!("Tuple: {:?}", tuple);
-    println!("Tuple.0 = {}", tuple.0);
+    // 2. String vs &str
+    let s1: &str = "halo"; // pinjam teks (tidak punya)
+    let s2: String = String::from("halo"); // punya teks (di heap)
+    println!("s1: {}, s2: {}", s1, s2);
 
-    let arr: [i32; 5] = [1, 2, 3, 4, 5];
-    println!("Array: {:?}", arr);
-    println!("arr[0] = {}", arr[0]);
+    // 3. Shadowing — pakai nama sama, kotak baru
+    let x = 5;
+    let x = x + 1; // kotak baru, bukan ubah
+    println!("x shadow: {}", x);
+
+    println!("\nTool: cargo run (jalan), cargo fmt (rapikan), cargo build (cetak binary)");
 }
 ```
+
+**Cara jalankan (5 menit):**
+1. Install dari `rustup.rs` → `rustup` → Next → cek `cargo --version` + `rustc --version`
+2. `cargo new warung --bin; cd warung`
+3. Ganti `src/main.rs` dengan kode → `cargo run` → lihat struk
+4. Acak spasi → `cargo fmt` → rapi
 
 ---
 
 ## Konsep Kunci
 
-### Peran Rust
-Rust adalah bahasa systems programming yang menjamin memory safety tanpa garbage collector. Menggunakan ownership system untuk mencegah data race, dangling pointer, dan buffer overflow.
+### `let` vs `let mut`
+- `let x = 5` → **kunci**, tidak bisa `x = 6` (error)
+- `let mut x = 5` → bisa `x = 6` → pakai `mut` jika perlu ubah
 
-### Toolchain Utama
-- `rustc`: kompilasi file .rs
-- `cargo`: package manager & build system
-- `rustfmt`: format kode
-- `clippy`: linter
+### Tipe Tebak vs Jelas
+`let x = 5` tebak `i32`, `let x: i32 = 5` jelas. `String` punya heap, `&str` pinjam.
 
-### Macro vs Fungsi
-`println!` adalah macro (tanda `!`). Macro menghasilkan kode saat compile time.
+### `println!("Halo {}", nama)`
+`!` macro, `{}` isi variabel. `{:?}` debug.
 
-### Tipe Dasar
-- Integer: i8, i16, i32, i64, i128, u8, u16, dll
-- Float: f32, f64
-- Boolean: bool
-- Char: char (4 bytes, Unicode)
-- Tuple: (i32, f64, &str)
-- Array: [T; N] fixed-size
+### `cargo` — Tukang Perpustakaan
+`cargo new`, `cargo run`, `cargo fmt`, `cargo build --release` (cepat).
 
-### Immutability
-Variabel immutable by default. Tambah `mut` untuk mutable.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Perpustakaan Ketat
+
+- **Rust = perpustakaan**: tiap buku 1 pemilik. `let` = buku dikunci di rak, `let mut` = buku boleh tulis.
+- **`cargo` = pustakawan**: `cargo new` bikin perpustakaan baru, `cargo run` buka dan baca.
+
+### 3 Istilah Wajib
+
+1. **let/mut**: kunci/bisa ubah
+2. **String/&str**: punya/pinjam
+3. **cargo**: tukang
 
 ---
 
 ## Eksperimen
 
-- Ubah nilai variabel mutable dan lihat perubahannya
-- Buat tuple dengan tipe berbeda
-- Coba operasi aritmatika dengan tipe berbeda
-- Buat array 10 elemen dan akses dengan index
-- Eksperimen dengan type annotation vs inference
+- **Hijau:** `let mut beras = 2; beras += 3` → berapa?
+- **Kuning:** `let x = 5; let x = x+1` → shadowing 6?
+- **Merah:** `let x = 5; x = 6` tanpa mut → error `cannot assign`.
 
 ---
 
 ## Tantangan
 
-Buat program konversi suhu (Celsius ↔ Fahrenheit ↔ Kelvin) dengan menu. Gunakan tuple untuk menyimpan data konversi.
+**Struk Ongkir Rust:** `let berat: f64 = 2.5; let jarak: i32 = 8; let ongkir = (berat * 5000.0) as i32 + jarak * 2000; println!("Berat {}kg jarak {}km → Rp {}", berat, jarak, ongkir)` + `cargo fmt`.
+
+---
+
+## Glosarium Mini
+
+- **Rust/cargo**: bahasa/pustakawan
+- **let/mut**: kunci/bisa
+- **i32/f64**: angka
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 14: **Setup, Toolchain & Sintaks Dasar** (Level: Pemula). Rust memberikan memory safety tanpa GC. Minggu depan: **Ownership & Borrowing**.
+Minggu 1 dari 14: **Setup Rust** (Level: Pemula). Perpustakaan menyala, struk pertama jadi. Minggu depan: **Ownership** — pinjam buku harus balik.

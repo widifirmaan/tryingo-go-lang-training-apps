@@ -1,74 +1,50 @@
-# Struct & Method
+# Struct & Method — Kartu Produk Rust
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 3:** Struct & Method
 
 ## Tujuan Pembelajaran
 
-- Mendefinisikan struct dengan field bertipe
-- Method dengan impl block: &self, &mut self, self
-- Associated function: Struct::new() sebagai constructor
-- Derive trait: Debug, Clone, PartialEq
-- Struct composition: nested struct
+- `struct Produk { nama: String, harga: u32 }` — kartu produk Rust (punya data)
+- `impl Produk { fn info(&self) }` — stempel di kartu, `&self` pinjam baca, `&mut self` untuk diskon
+- `Produk::new()` constructor
 
 ---
 
-## Program: Data Produk
+## Kenapa Ini Penting Buat Kamu?
+
+50 produk sebagai `String` terpisah berantakan. `struct` = 1 kartu isi 3 baris, `impl` = stempel.
+
+---
+
+## Program: Kartu Warung Rust
 
 ```rust
-#[derive(Debug, Clone)]
-struct Product {
-    id: u32,
-    name: String,
-    price: f64,
-    stock: u32,
+struct Produk {
+    nama: String,
+    harga: u32,
+    stok: u32,
 }
 
-impl Product {
-    fn new(id: u32, name: &str, price: f64) -> Product {
-        Product {
-            id,
-            name: name.to_string(),
-            price,
-            stock: 0,
-        }
+impl Produk {
+    fn new(nama: String, harga: u32) -> Self {
+        Self { nama, harga, stok: 0 }
     }
-
     fn info(&self) -> String {
-        format!("{}: Rp{:.0} (stok: {})", self.name, self.price, self.stock)
+        format!("{}: Rp{} (stok {})", self.nama, self.harga, self.stok)
     }
-
-    fn apply_discount(&mut self, percent: f64) {
-        self.price -= self.price * (percent / 100.0);
+    fn diskon(&mut self, persen: u32) {
+        self.harga = self.harga - self.harga * persen / 100;
     }
-
-    fn restock(&mut self, amount: u32) {
-        self.stock += amount;
-    }
-}
-
-#[derive(Debug)]
-struct Electronics {
-    product: Product,
-    warranty_years: u32,
 }
 
 fn main() {
-    let mut p1 = Product::new(1, "Laptop", 15000000.0);
-    p1.restock(10);
-    println!("{}", p1.info());
+    let mut beras = Produk { nama: "Beras".to_string(), harga: 62000, stok: 10 };
+    println!("{}", beras.info());
+    beras.diskon(10);
+    println!("Setelah diskon: {}", beras.info());
 
-    p1.apply_discount(10.0);
-    println!("Setelah diskon: {}", p1.info());
-
-    let laptop = Electronics {
-        product: Product::new(2, "Laptop Pro", 20000000.0),
-        warranty_years: 3,
-    };
-    println!("{:?}", laptop);
-    println!("Garansi: {} tahun", laptop.warranty_years);
-
-    let p2 = Product::new(3, "Mouse", 250000.0);
-    println!("{}", p2.info());
+    let gula = Produk::new("Gula".to_string(), 15000);
+    println!("{}", gula.info());
 }
 ```
 
@@ -76,39 +52,27 @@ fn main() {
 
 ## Konsep Kunci
 
-### Struct
-Mengelompokkan field. Mirip class tapi tanpa inheritance.
+### `struct` = Kartu
+`struct Produk { nama: String, harga: u32 }` → `Produk { nama: "Beras".to_string(), harga: 62000 }`
 
-### Method
-`impl Product { fn method(&self) }`. `&self` read-only, `&mut self` mutable, `self` consume.
-
-### Associated Function
-`Product::new()` — tidak punya self, mirip static method.
-
-### Derive
-`#[derive(Debug)]` auto-implement trait. `Debug` untuk `{:?}`, `Clone` untuk `.clone()`.
-
-### Composition
-Struct bisa punya field struct lain (composition over inheritance).
+### `impl` + `&self`/`&mut self`
+- `&self` baca, `&mut self` tulis. `Self` = Produk.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Tambah method update_price pada Product
-- Buat struct baru dengan nested Product
-- Coba derive PartialEq dan bandingkan dua struct
-- Buat method yang consume self (fn into(self))
-- Tambah associated function lain
+### Analogi: Kartu & Stempel
+- `struct` = kartu, `impl` = stempel. `&mut self` stempel potong harga.
 
 ---
 
 ## Tantangan
 
-Buat sistem toko: struct Product, Cart, Customer. Method: add_to_cart, checkout, apply_discount. Gunakan constructor.
+**Keranjang:** `struct Keranjang { items: Vec<Produk> }` + `fn tambah(&mut self, p: Produk)` + `fn total(&self) -> u32`.
 
 ---
 
 ## Ringkasan
 
-Minggu 3 dari 14: **Struct & Method** (Level: Pemula). Tipe data custom di Rust. Minggu depan: **Enum & Pattern Matching**.
+Minggu 3: **Struct** — kartu Rust. Minggu depan: **Enum** — pilihan.

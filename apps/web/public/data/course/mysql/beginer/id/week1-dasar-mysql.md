@@ -1,23 +1,24 @@
-# Dasar MySQL & Tabel
+# Dasar MySQL — Gudang Warung Versi MySQL
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 1:** Dasar MySQL & Tabel
 
 ## Tujuan Pembelajaran
 
-- Memahami arsitektur MySQL
-- Membuat database dan tabel
-- AUTO_INCREMENT primary key
-- Constraint: PK, NOT NULL, UNIQUE, DEFAULT
-- Query SELECT dasar
+- Bedakan MySQL vs PostgreSQL: `AUTO_INCREMENT` vs `SERIAL`, `ENGINE=InnoDB`
+- Buat `CREATE TABLE produk` dengan `INT AUTO_INCREMENT PRIMARY KEY`
+- `INSERT`, `SELECT`, `WHERE`, `COUNT/AVG` — sama seperti PostgreSQL
 
 ---
 
-## Program: Membuat Database & Tabel
+## Kenapa Ini Penting Buat Kamu?
+
+MySQL paling banyak dipakai UMKM (WordPress, toko online). Gudangnya mirip PostgreSQL, hanya mesin nomor beda: `AUTO_INCREMENT`.
+
+---
+
+## Program: Gudang MySQL
 
 ```sql
-CREATE DATABASE toko_db;
-USE toko_db;
-
 CREATE TABLE produk (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(100) NOT NULL,
@@ -25,71 +26,44 @@ CREATE TABLE produk (
     stok INT DEFAULT 0,
     kategori VARCHAR(50),
     dibuat_pada TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE pelanggan (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nama VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    kota VARCHAR(50),
-    dibuat_pada TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB;
 
 INSERT INTO produk (nama, harga, stok, kategori) VALUES
-    ('Laptop ASUS', 12500000, 15, 'Elektronik'),
-    ('Mouse Logitech', 350000, 50, 'Aksesoris'),
-    ('Keyboard Mechanical', 850000, 30, 'Aksesoris'),
-    ('Monitor LG', 2800000, 20, 'Elektronik'),
-    ('Headset Sony', 1200000, 25, 'Audio');
-
-INSERT INTO pelanggan (nama, email, kota) VALUES
-    ('Budi Santoso', 'budi@email.com', 'Jakarta'),
-    ('Siti Rahayu', 'siti@email.com', 'Bandung'),
-    ('Ahmad Wijaya', 'ahmad@email.com', 'Surabaya'),
-    ('Dewi Lestari', 'dewi@email.com', 'Yogyakarta');
+    ('Beras 5kg', 62000, 10, 'Sembako'),
+    ('Bayam', 5000, 20, 'Sayur');
 
 SELECT * FROM produk;
-SELECT nama, harga FROM produk WHERE kategori = 'Elektronik';
-SELECT COUNT(*) AS total_produk FROM produk;
-SELECT AVG(harga) AS rata_harga FROM produk;
+SELECT nama, harga FROM produk WHERE kategori = 'Sembako';
+SELECT COUNT(*) AS total FROM produk;
 ```
+
+**Coba tanpa install:** `db-fiddle.com` pilih MySQL 8 atau `onecompiler.com/mysql`.
 
 ---
 
 ## Konsep Kunci
 
-### Arsitektur MySQL
-MySQL adalah RDBMS open-source populer untuk web application.
+### `AUTO_INCREMENT` = Mesin Nomor MySQL
+Beda PostgreSQL `SERIAL`, MySQL `INT AUTO_INCREMENT`. Hasil sama 1,2,3.
 
-### Tipe Data
-INT, DECIMAL, VARCHAR, TEXT, BOOLEAN, TIMESTAMP, ENUM.
-
-### AUTO_INCREMENT
-MySQL menggunakan AUTO_INCREMENT untuk primary key otomatis.
-
-### Constraint
-PRIMARY KEY, NOT NULL, UNIQUE, DEFAULT, FOREIGN KEY.
-
-### Query Dasar
-SELECT, WHERE, COUNT, AVG, SUM.
+### `ENGINE=InnoDB` = Tahan ACID
+MySQL punya 2 mesin: `InnoDB` aman, `MyISAM` cepat tapi tidak aman — pakai `InnoDB`.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- ALTER TABLE tambah kolom
-- Foreign key
-- ENUM type
-- INSERT dengan IGNORE
+### Analogi: Gudang MySQL vs PostgreSQL
+- Dua merk gudang, rak sama, mesin nomor beda warna.
 
 ---
 
 ## Tantangan
 
-Database perpustakaan: buku, anggota, peminjaman.
+Buat `pelanggan` MySQL `email VARCHAR(150) UNIQUE`, isi 2 baris, `SELECT AVG(harga)`.
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 10: **Dasar MySQL & Tabel** (Pemula).
+Minggu 1: **MySQL Gudang** — mirip PostgreSQL, mesin nomor beda. Minggu depan: **CRUD**.
