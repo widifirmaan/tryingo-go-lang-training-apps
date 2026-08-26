@@ -1,64 +1,62 @@
-# Vue Router
+# Vue Router — Peta Warung Vue
 
 > **Kategori:** Vue | **Level:** Menengah | **Minggu 5:** Vue Router
 
 ## Tujuan Pembelajaran
 
-- Setup createRouter dan createWebHistory
-- RouterLink untuk navigasi, RouterView untuk render
-- Dynamic routes: /user/:id dengan useRoute
-- Navigation guards: beforeEach, beforeEnter
-- Lazy loading: () => import() untuk code splitting
+- `npm install vue-router`, `createRouter` + `createWebHistory`, `routes` peta, `<RouterView>` etalase ganti, `<RouterLink>` pintu
 
 ---
 
-## Program: Multi-Halaman
+## Kenapa Ini Penting Buat Kamu?
 
-```vue
-// Vue Router = official routing untuk Vue.js SPA
-const routes = [
-  { path: '/', name: 'home', component: { template: '<h1>Beranda</h1>' } },
-  { path: '/about', name: 'about', component: { template: '<h1>Tentang</h1>' } },
-  { path: '/user/:id', name: 'user', component: { template: '<h1>User {{ $route.params.id }}</h1>' } },
-];
-// const router = createRouter({ history: createWebHistory(), routes });
-// router.beforeEach((to, from, next) => { ... });
-console.log('Vue Router siap digunakan');
+Sama seperti React Router — pindah tanpa reload header.
+
+---
+
+## Program: Toko Vue 3 Halaman
+
+```bash
+npm install vue-router
 ```
 
----
+```javascript
+// src/router/index.js
+import { createRouter, createWebHistory } from "vue-router";
+import Beranda from "../views/Beranda.vue";
+import Daftar from "../views/Daftar.vue";
+import Detail from "../views/Detail.vue";
 
-## Konsep Kunci
+export default createRouter({
+  history: createWebHistory(),
+  routes: [
+    { path: "/", component: Beranda },
+    { path: "/produk", component: Daftar },
+    { path: "/produk/:id", component: Detail, props: true },
+  ],
+});
+```
 
-### Setup
-createRouter + createWebHistory. Register di app.
+```vue
+<!-- App.vue -->
+<script setup>
+import { RouterView, RouterLink } from "vue-router";
+</script>
 
-### Navigation
-<RouterLink to="/path"> = SPA navigation.
+<template>
+  <nav><RouterLink to="/">Beranda</RouterLink> | <RouterLink to="/produk">Produk</RouterLink></nav>
+  <RouterView />
+</template>
 
-### Dynamic Routes
-/path/:id -> useRoute().params.id.
-
-### Guards
-beforeEach = global guard. beforeEnter = per-route guard.
-
----
-
-## Eksperimen
-
-- Buat nested routes
-- Implementasikan route guard untuk auth
-- Tambah transition antar route
-- Buat 404 Not Found page
-
----
-
-## Tantangan
-
-Buat blog app dengan routing: Home, Posts, Post Detail (/post/:slug), About.
+<!-- Detail.vue -->
+<script setup>
+const props = defineProps({ id: String });
+</script>
+<template><h1>Detail {{ id }}</h1><RouterLink to="/produk">Kembali</RouterLink></template>
+```
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 12: **Vue Router** (Level: Menengah). Minggu depan: **Pinia State Management**.
+Minggu 5: **Peta Vue** — Router tanpa reload. Minggu depan: **Pinia**.

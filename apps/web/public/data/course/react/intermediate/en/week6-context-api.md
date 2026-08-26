@@ -1,105 +1,70 @@
-# Context API & useReducer
+# Context API — Gudang Bersama Warung
 
-> **Kategori:** React | **Level:** Intermediate | **Minggu 6:** Context API & useReducer
+> **Kategori:** React | **Level:** Menengah | **Minggu 6:** Context API & useReducer
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- createContext and Provider for global state
-- useContext hook to consume context
-- useReducer for state management with action types
-- When to use Context vs prop drilling vs state library
-- Custom hooks: useTheme, useAuth pattern
+- `createContext` + `Provider` = gudang bersama, `useContext` ambil — tanpa `props` 5 level
+- `useReducer` untuk keranjang kompleks (tambah/hapus/kosongkan)
 
 ---
 
-## Program: Theme & Auth
+## Kenapa Ini Penting Buat Kamu?
+
+Warung 10 komponen butuh `keranjang` — kirim via props 5 level = estafet melelahkan. Context = **gudang di tengah**, semua ambil langsung.
+
+---
+
+## Program: Gudang Keranjang
 
 ```jsx
-// Context = state global tanpa prop drilling
-// useReducer = state management kompleks (alternatif useState)
-
 import { createContext, useContext, useReducer } from "react";
 
-// ── Context Setup ──
-const ThemeContext = createContext(null);
+const KeranjangContext = createContext();
 
-// ── Reducer ──
-function themeReducer(state, action) {
-  switch (action.type) {
-    case "TOGGLE":
-      return { ...state, dark: !state.dark };
-    case "SET_COLOR":
-      return { ...state, color: action.payload };
-    default:
-      return state;
-  }
+function keranjangReducer(state, action){
+  if(action.type === "tambah") return [...state, action.item];
+  if(action.type === "hapus") return state.filter(i => i.id !== action.id);
+  if(action.type === "kosong") return [];
+  return state;
 }
 
-function ThemeProvider({ children }) {
-  const [state, dispatch] = useReducer(themeReducer, { dark: false, color: "blue" });
+function KeranjangProvider({ children }){
+  const [keranjang, dispatch] = useReducer(keranjangReducer, []);
   return (
-    <ThemeContext.Provider value={{ state, dispatch }}>
+    <KeranjangContext.Provider value={{ keranjang, dispatch }}>
       {children}
-    </ThemeContext.Provider>
+    </KeranjangContext.Provider>
   );
 }
 
-function ThemeToggle() {
-  const { state, dispatch } = useContext(ThemeContext);
-  return (
-    <div style={{ background: state.dark ? "#222" : "#fff", padding: 20 }}>
-      <p>Mode: {state.dark ? "Gelap" : "Terang"} | Warna: {state.color}</p>
-      <button onClick={() => dispatch({ type: "TOGGLE" })}>
-        Toggle Tema
-      </button>
-      <button onClick={() => dispatch({ type: "SET_COLOR", payload: "green" })}>
-        Set Green
-      </button>
-    </div>
-  );
+function Produk(){
+  const { dispatch } = useContext(KeranjangContext);
+  return <button onClick={() => dispatch({ type: "tambah", item: { id: Date.now(), nama: "Beras" } })}>Tambah Beras</button>;
 }
 
-function App() {
-  return (
-    <ThemeProvider>
-      <ThemeToggle />
-    </ThemeProvider>
-  );
+function Tampilkan(){
+  const { keranjang } = useContext(KeranjangContext);
+  return <p>Isi: {keranjang.length} | {keranjang.map(i=>i.nama).join(", ")}</p>;
 }
 
-console.log("Context & useReducer siap digunakan");
+export default function App(){
+  return <KeranjangProvider><Produk /><Tampilkan /></KeranjangProvider>;
+}
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Context
-createContext → Provider → useContext. Avoid prop drilling.
+### `createContext` + `Provider` = Gudang
+Bungkus `App` dengan `Provider value={{ keranjang, dispatch }}`, semua anak `useContext` ambil tanpa props.
 
-### useReducer
-Complex state with actions. dispatch({ type, payload }).
-
-### Pattern
-Provider wraps app, custom hooks, reducer pattern.
+### `useReducer` = Kasir Aturan
+`dispatch({type:"tambah"})` → `reducer` tentukan cara ubah.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create context for authentication (login/logout)
-- Add new action to reducer
-- Create multiple contexts (Theme + Auth)
-- Implement custom hook useLocalStorage
-
----
-
-## Challenge
-
-Build a shopping cart with Context + useReducer: add item, remove item, update quantity, total price.
-
----
-
-## Summary
-
-Week 6 of 12: **Context API & useReducer** (Level: Intermediate). Global state management. Next week: **Forms & Validation**.
+Minggu 6: **Gudang Bersama** — Context tanpa estafet. Minggu depan: **Forms**.
