@@ -1,102 +1,40 @@
-# Operators & Control Flow
+# Operator & Kontrol — Cabang dan Timbangan
 
-> **Kategori:** PHP | **Level:** Beginner | **Minggu 2:** Operators & Control Flow
+> **Kategori:** PHP | **Level:** Pemula | **Minggu 2:** Operator & Kontrol
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Arithmetic operators: +, -, *, /, %, ** (power)
-- Comparison operators: ==, ===, !=, !==, <, >, <=, >=
-- Logical operators: &&, ||, !, and, or, xor
-- Control flow: if, elseif, else for branching
-- Loops: for, while, do-while, and switch case
+- `+ - * / % **` hitung, `.` gabung, `==` vs `===` (PHP `==` longgar, `===` ketat)
+- `if / elseif / else`, `switch`, `for`, `while`, `foreach` untuk array
 
 ---
 
-## Program: Grade System
+## Program
 
 ```php
 <?php
 $nilai = 85;
-$absen = 90;
+if ($nilai >= 90) echo "A";
+elseif ($nilai >= 80) echo "B";
+else echo "C";
 
-echo "Nilai: $nilai, Absen: $absen<br>";
-
-if ($nilai >= 90) {
-    $grade = "A";
-} elseif ($nilai >= 75) {
-    $grade = "B";
-} elseif ($nilai >= 60) {
-    $grade = "C";
-} else {
-    $grade = "D";
-}
-echo "Grade: $grade<br>";
-
-echo "<br>=== For Loop ===<br>";
-for ($i = 1; $i <= 5; $i++) {
-    echo "Iterasi $i<br>";
-}
-
-echo "<br>=== While Loop ===<br>";
-$n = 1;
-while ($n <= 3) {
-    echo "While: $n<br>";
-    $n++;
-}
-
-echo "<br>=== Switch ===<br>";
-$hari = 3;
+$hari = "Jumat";
 switch ($hari) {
-    case 1: echo "Senin"; break;
-    case 2: echo "Selasa"; break;
-    case 3: echo "Rabu"; break;
-    default: echo "Lainnya";
+  case "Jumat": echo "Besok libur"; break;
+  default: echo "Kerja";
 }
-echo "<br>";
 
-$hasil = ($nilai >= 60) ? "Lulus" : "Tidak Lulus";
-echo "Status: $hasil<br>";
-
-$nama = null;
-$salam = $nama ?? "Tamu";
-echo "Halo, $salam<br>";
->
+for ($i=1; $i<=5; $i++) echo "$i ";
+$buah = ["apel","mangga"];
+foreach ($buah as $b) echo "$b ";
+$keranjang = [["Beras",62000,true],["Gula",15000,false]];
+$total=0; foreach($keranjang as $item) if($item[2]) $total+=$item[1];
+echo "Total beli: $total";
+?>
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Arithmetic Operators
-`+`, `-`, `*`, `/`, `%`, `**` power.
-
-### Comparison & Logic
-`==` equals, `===` identical, `&&` AND, `||` OR.
-
-### Control Flow
-`if/elseif/else` for branching. Ternary: `? :`.
-
-### Loops
-`for` counted, `while` conditional, `switch` for branches.
-
----
-
-## Experiments
-
-- Change values and observe grade changes
-- Create nested if for multi-condition validation
-- Try for loop with break and continue
-- Replace switch with if/else — which is more readable?
-- Use null coalescing operator ?? for default values
-
----
-
-## Challenge
-
-Build a simple calculator with switch case: add, subtract, multiply, divide. Validate division by zero.
-
----
-
-## Summary
-
-Week 2 of 12: **Operators & Control Flow** (Level: Beginner). Program logic is built here. Next week: **Functions & Variable Scope**.
+Minggu 2: **Kontrol PHP** — `if` dan `foreach` untuk keranjang.
