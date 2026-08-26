@@ -129,15 +129,15 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - **Tambah:** `SFC` single file `.vue` demo + `npm run dev` langkah 1
 - **Persiapan:** Selesai — `vuejs.org` + banding React LEGO
 
-#### Svelte — ⬜ TODO
-- **Riset:** Svelte compile, `$state` runes baru — 4 minggu
-- **Hapus:** `Virtual DOM` dari Svelte (tidak ada)
-- **Tambah:** `npm create svelte@latest` + `+page.svelte`
+#### Svelte — ✅ DONE W1-W3 (752e981) — 6 file id+en `$:` kompilasi ajaib `let` biasa reaktif
+- **Riset:** Svelte compile, `$state` runes baru — 4 minggu — sudah rewrite manual `npm create svelte@latest`
+- **Hapus:** `Virtual DOM` dari Svelte
+- **Tambah:** `+page.svelte` + `store`
 
-#### Angular — ⬜ TODO LAST
-- **Riset:** Enterprise: `npx ng new`, DI, RxJS — butuh TS dulu, bukan untuk non-IT awal
+#### Angular — ✅ DONE W1-W3 (752e981) — 6 file id+en `ng new` enterprise `Butuh TS 3 bulan` warning
+- **Riset:** Enterprise: `npx ng new`, DI, RxJS — butuh TS dulu — sudah rewrite manual dengan peringatan non-IT
 - **Ubah:** Tandai `Butuh TS & 3 bulan JS` di prasyarat
-- **Hapus:** Jangan taruh di jalur pemula
+- **Hapus:** Jangan taruh di jalur pemula — tetap ada untuk scale besar
 
 ### Kategori C — Backend (Setelah Bahasa)
 
@@ -259,9 +259,10 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 18 stack × ±4 minggu ×2 = **124 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6) + HTML5/CSS3 harmonized. Sisa 9 stack → lanjut Svelte/Angular/NestJS.
+**Total non-IT ready:** 20 stack × ±4 minggu ×2 = **136 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6) + HTML5/CSS3 harmonized. Sisa 7 stack → lanjut NestJS/CI/Rails/Spring/C#.
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
+| 2026-08-25 | `752e981` | Svelte W1-W3 + Angular W1-W3 (id+en, 12 file) | Manual kompilasi `let` ajaib & enterprise `ng new` |
 
 | 2026-08-25 | `381f118` | Node.js W1-W3 + Django W1-W3 (id+en, 12 file) | Manual dapur terminal `node app.js` + admin Django otomatis |
 
