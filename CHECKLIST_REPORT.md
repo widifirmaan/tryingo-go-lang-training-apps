@@ -103,11 +103,11 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - **Tambah:** `go mod init warung`, `go fmt` demo, zero value `0 "" false`
 - **Persiapan:** Selesai
 
-#### Rust — ⬜ TODO
-- **Riset:** Ownership `box pinjam` paling susah non-IT — butuh 2 minggu hanya `let mut`, `ownership` analogi `buku perpustakaan`
-- **Ubah:** W1 jangan `memory safety GC` tapi `buku dipinjam harus balik`
-- **Hapus:** `WASM` minggu 1
-- **Tambah:** `cargo new`, `cargo run` langkah 1
+#### Rust — ✅ DONE W1-W3 (0e19c90)
+- **Riset:** Ownership `box pinjam` paling susah non-IT — 2 minggu hanya `let mut`, `ownership` analogi `buku perpustakaan` — sudah rewrite manual 6 file id+en
+- **Ubah:** W1 `cargo new` perpustakaan `let` vs `let mut`, W2 ownership pinjam `&`/`&mut` harus balik, W3 `struct` kartu
+- **Hapus:** `WASM/memory safety` dari W1
+- **Tambah:** `cargo run/fmt` langkah 1, `String` vs `&str`
 
 ### Kategori B — Frontend Framework (Setelah JS)
 
@@ -156,9 +156,9 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 
 ### Kategori D — Data (Setelah Backend Dasar)
 
-#### PostgreSQL / MySQL — ✅ DONE PostgreSQL W1-W4 (ac8335e)
-- **Riset:** `SELECT` → `JOIN` → `INDEX` 4 minggu, analogi `gudang & kartu indeks` — sudah rewrite manual non-IT 8 file id+en
-- **Tambah:** Supabase tanpa install + `docker run postgres` opsi, `EXPLAIN` Index Scan
+#### PostgreSQL / MySQL — ✅ DONE PostgreSQL W1-W4 (ac8335e) + MySQL W1-W4 (0e19c90)
+- **Riset:** `SELECT` → `JOIN` → `INDEX` 4 minggu, analogi `gudang & kartu indeks` — sudah rewrite manual non-IT 16 file id+en (8 PG + 8 MySQL `AUTO_INCREMENT` vs `SERIAL`)
+- **Tambah:** Supabase `db-fiddle` tanpa install + `EXPLAIN` Index Scan
 
 #### MongoDB / Redis / GraphQL — ⬜ TODO
 - **Riset:** Mongo `document = kartu`, Redis `cache = laci cepat`, GraphQL `SDL = menu`
@@ -216,6 +216,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 - [x] Vue 4 minggu (8 file) — selesai 515f080
 - [x] Batch C2: Go 5 minggu (10 file) — selesai 13fbab8
 - [x] Batch C3: PostgreSQL 4 minggu + Docker 2 minggu (12 file) — selesai ac8335e
+- [x] Batch C3b: Rust 3 minggu + MySQL 4 minggu (14 file) — selesai 0e19c90
 - [ ] Batch C4: Sisa backend (Node/Django/Laravel) — pilih 1 jalur utama
 
 ### Platform
@@ -253,6 +254,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `515f080` | Vue W1-W4 (id+en, 8 file) | Manual stiker: `{{ total }}` auto, `ref/reactive` kotak pintar, `v-if/v-for` saklar, `defineProps/defineEmits` LEGO |
 | 2026-08-25 | `13fbab8` | Go W1-W5 (id+en, 10 file) | Manual buku kas: `go run` kotak berlabel, switch tanpa break, alarm error `if err!=nil`, rak `slice/map`, kartu `struct` |
 | 2026-08-25 | `ac8335e` | PostgreSQL W1-W4 + Docker W1-W2 (id+en, 12 file) | Manual gudang: Supabase tanpa install, `SERIAL` KTP, CRUD `WHERE`, `JOIN` stapler, `INDEX` daftar isi + peti kemas `docker run` |
+| 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 
-**Total non-IT ready:** 9 stack × ±4 minggu ×2 = **72 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4) + HTML5/CSS3 harmonized. Sisa 18 stack → lanjut Rust/MySQL/Mongo.
+**Total non-IT ready:** 11 stack × ±4 minggu ×2 = **86 file** (Next.js 8 + React 8 + JS 10 + Python 8 + TS 8 + Vue 8 + Go 10 + PostgreSQL 8 + Docker 4 + Rust 6 + MySQL 8) + HTML5/CSS3 harmonized. Sisa 16 stack → lanjut Mongo/Redis/GraphQL.
 
