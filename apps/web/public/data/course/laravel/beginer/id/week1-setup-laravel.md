@@ -1,106 +1,53 @@
-# Setup & Instalasi Laravel
+# Setup Laravel — Warung Siap Jual dengan Artisan
 
-> **Kategori:** Laravel | **Level:** Pemula | **Minggu 1:** Setup & Instalasi Laravel
+> **Kategori:** Laravel | **Level:** Pemula | **Minggu 1:** Setup Laravel
 
 ## Tujuan Pembelajaran
 
-- Install Laravel via Composer (Laravel Docs: Installation)
-- Memahami struktur folder Laravel: app, routes, resources, database
-- Artisan CLI: serve, make:controller, make:model, migrate
-- File .env untuk environment configuration
-- Routes: routes/web.php dan routes/api.php
+- Instal `composer create-project laravel/laravel warung`, `php artisan serve` di `localhost:8000`
+- Paham `artisan` tukang, `routes/web.php` pintu, `resources/views` etalase, `.env` buku alamat
 
 ---
 
-## Program: Project Pertama
+## Kenapa Ini Penting Buat Kamu?
 
-```php
-<?php
-// Terminal commands (simulated output)
-echo "=== Laravel Setup ===<br>";
-echo "composer create-project laravel/laravel my-app<br>";
-echo "cd my-app<br>";
-echo "php artisan serve<br>";
-echo "Server running on http://localhost:8000<br><br>";
+Laravel = PHP warung siap jual: `artisan` bikinkan rak, kasir, admin — tidak dari nol. Paling cepat buat toko online untuk non-IT.
 
-// Directory structure
-echo "=== Laravel Directory Structure ===<br>";
-$dirs = [
-    "app/",
-    "  Console/Commands/",
-    "  Http/Controllers/",
-    "  Http/Middleware/",
-    "  Models/",
-    "  Providers/",
-    "bootstrap/",
-    "config/",
-    "database/migrations/",
-    "database/seeders/",
-    "public/",
-    "resources/views/",
-    "routes/",
-    "storage/",
-    "tests/",
-];
-foreach ($dirs as $dir) {
-    echo "  $dir<br>";
-}
+---
 
-echo "<br>=== Key Files ===<br>";
-echo "routes/web.php — Web routes<br>";
-echo "app/Http/Controllers/ — Controllers<br>";
-echo "app/Models/ — Eloquent models<br>";
-echo "resources/views/ — Blade templates<br>";
-echo "database/migrations/ — Database schema<br>";
-echo ".env — Environment config<br>";
+## Program: Toko Laravel 5 Menit
 
-echo "<br>=== artisan Commands ===<br>";
-echo "php artisan serve — Start dev server<br>";
-echo "php artisan make:controller Name — Create controller<br>";
-echo "php artisan make:model Name — Create model<br>";
-echo "php artisan migrate — Run migrations<br>";
-echo "php artisan route:list — Show all routes<br>";
->
+```bash
+composer create-project laravel/laravel warung
+cd warung
+php artisan serve
+# Buka http://localhost:8000 → Laravel welcome
 ```
 
----
+**Buat pintu & etalase:**
+```php
+// routes/web.php
+Route::get('/', function () { return view('welcome'); });
+Route::get('/produk', function () {
+  $produk = [["nama"=>"Beras","harga"=>62000],["nama"=>"Bayam","harga"=>5000]];
+  return view('produk', ["produk"=>$produk]);
+});
+```
 
-## Konsep Kunci
+```html
+<!-- resources/views/produk.blade.php -->
+<h1>Katalog</h1>
+<ul>
+@foreach($produk as $p)
+  <li>{{ $p["nama"] }} - Rp{{ number_format($p["harga"]) }}</li>
+@endforeach
+</ul>
+```
 
-### Instalasi Laravel
-`composer create-project laravel/laravel nama-project`. Alternatif: `laravel new`.
-
-### Struktur Folder
-- `app/` — Business logic (Controllers, Models, Middleware)
-- `routes/` — Route definitions
-- `resources/views/` — Blade templates
-- `database/migrations/` — Schema versioning
-- `public/` — Entry point (index.php)
-
-### Artisan CLI
-Command-line tool untuk scaffolding, migration, testing, dan banyak lagi.
-
-### Routes
-`routes/web.php` untuk web pages, `routes/api.php` untuk API.
-
----
-
-## Eksperimen
-
-- Buat project baru dengan laravel new
-- Jelajahi setiap folder dan lihat isinya
-- Coba artisan list untuk semua commands
-- Buat route sederhana di web.php
-- Pindah ke config/ dan lihat file konfigurasi
-
----
-
-## Tantangan
-
-Buat project Laravel baru dengan 3 routes: home (/), about (/about), contact (/contact). Tampilkan teks berbeda di setiap route.
+Buka `http://localhost:8000/produk`.
 
 ---
 
 ## Ringkasan
 
-Minggu 1 dari 12: **Setup & Instalasi Laravel** (Level: Pemula). Fondasi Laravel dimulai. Minggu depan: **Routing & Controllers**.
+Minggu 1: **Artisan & Pintu** — Laravel hidup. Minggu depan: **Routing & Controller**.

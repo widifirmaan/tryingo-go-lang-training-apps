@@ -1,71 +1,85 @@
-# Basic Syntax & Variables
+# Sintaks Dasar PHP — Buku Kas Warung yang Jalan di Server
 
-> **Kategori:** PHP | **Level:** Beginner | **Minggu 1:** Basic Syntax & Variables
+> **Kategori:** PHP | **Level:** Pemula | **Minggu 1:** Sintaks Dasar
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Understand PHP as a server-side language (PHP Official Docs)
-- Write PHP tags: <?php ... ?> and echo for output
-- Declare variables with $ and dynamic typing
-- Learn basic types: string, int, float, bool, array, NULL
-- String interpolation and concatenation with .
+- Instal PHP `php -v`, `php -S localhost:8000`, file `index.php` diawali `<?php`
+- Variabel `$nama = "Budi"` (wajib `$`), tipe `string/int/float/bool`, `echo` cetak
+- Gabung `"."` titik, interpolasi `"Halo $nama"` dan `"Halo {$nama}"`
+- `var_dump` cek tipe
 
 ---
 
-## Program: Hello, PHP!
+## Kenapa Ini Penting Buat Kamu?
+
+PHP = bahasa warung online paling banyak (WordPress, toko). Jalan di server, bukan browser — `<?php echo "Halo"; ?>` jadi HTML. Hari ini bikin struk `<?php $total = 62000*2; echo "Rp $total"; ?>`.
+
+---
+
+## Program: Struk PHP Pertama
+
+Simpan `struk.php`
 
 ```php
 <?php
-echo "Selamat datang di PHP!<br>";
-echo "PHP adalah bahasa server-side populer.<br>";
+$namaWarung = "Warung Bu Siti";
+$pelanggan = "Budi";
+$berasKg = 2;
+$hargaPerKg = 12500;
+$total = $berasKg * $hargaPerKg;
 
-$nama = "Budi";
-$umur = 25;
-$tinggi = 175.5;
-$aktif = true;
+echo "Warung: $namaWarung <br>";
+echo "Pelanggan: $pelanggan <br>";
+echo "Total: Rp " . number_format($total, 0, ',', '.') . "<br>";
 
-echo "Nama: $nama<br>";
-echo "Umur: $umur<br>";
-echo "Tinggi: $tinggi<br>";
-echo "Aktif: " . ($aktif ? "Ya" : "Tidak") . "<br>";
-echo "Tipe: " . gettype($nama) . ", " . gettype($umur) . "<br>";
->
+echo "<br>=== Cek Tipe ===<br>";
+var_dump($namaWarung); // string
+var_dump($berasKg);    // int
+var_dump($total);      // int
+
+$pesan = "Halo $pelanggan, totalmu Rp " . number_format($total, 0, ',', '.');
+echo "<br>$pesan<br>";
+
+$pelanggan = "Siti";
+$total += 5000;
+echo "Setelah ganti: $pelanggan, Total baru: Rp " . number_format($total, 0, ',', '.');
+?>
 ```
 
----
-
-## Key Concepts
-
-### PHP's Role
-PHP is a server-side scripting language. Executed on the server — produces HTML sent to client.
-
-### Basic Syntax
-`<?php ... ?>` tags. `echo` for output. Variables start with `$`.
-
-### Data Types
-String, Integer, Float, Boolean, Array, NULL.
-
-### Strings
-Double-quote interpolation, single-quote literal, concatenation with `.`.
+**Jalankan:**
+- Tanpa server: `php struk.php` di Terminal
+- Dengan server: `php -S localhost:8000` → buka `http://localhost:8000/struk.php`
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Change variable values and observe
-- Create arithmetic operations: +, -, *, /, %
-- Try single-quote vs double-quote difference
-- Use gettype() to check various types
-- Create type casting: (int), (string), (bool)
+### `<?php` + `$` Wajib
+Tiap file PHP diawali `<?php`, tiap variabel `$nama`. Lupa `$` → error.
 
----
+### `echo` + `.` Gabung
+`echo "Halo $nama"` interpolasi, `"Halo " . $nama` titik. `number_format(62000)` → `62.000`.
 
-## Challenge
-
-Build a student profile program: name, age, grades (array), and graduation status. Display with formatted echo.
+### `var_dump` Cek
+`var_dump($total)` tampil `int(124000)`.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 1 of 12: **Basic Syntax & Variables** (Level: Beginner). PHP foundation starts here. Next week: **Operators & Control Flow**.
+### Analogi: Buku Kas Server
+- **PHP = buku kas di gudang (server)**, `echo` kirim hasil ke etalase (browser).
+- **`$` = label harga**: tiap kotak harus `$`.
+
+---
+
+## Tantangan
+
+**Ongkir PHP:** `$berat=2.5; $jarak=8; $ongkir = $berat*5000 + $jarak*2000; echo "Rp " . number_format($ongkir);` + `var_dump($ongkir)`.
+
+---
+
+## Ringkasan
+
+Minggu 1: **Sintaks PHP** — `$` dan `echo`. Minggu depan: **Operator & Kontrol**.

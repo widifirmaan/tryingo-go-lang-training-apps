@@ -1,106 +1,53 @@
-# Setup & Laravel Installation
+# Setup Laravel — Warung Siap Jual dengan Artisan
 
-> **Kategori:** Laravel | **Level:** Beginner | **Minggu 1:** Setup & Laravel Installation
+> **Kategori:** Laravel | **Level:** Pemula | **Minggu 1:** Setup Laravel
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Install Laravel via Composer (Laravel Docs: Installation)
-- Understand Laravel folder structure: app, routes, resources, database
-- Artisan CLI: serve, make:controller, make:model, migrate
-- .env file for environment configuration
-- Routes: routes/web.php and routes/api.php
+- Instal `composer create-project laravel/laravel warung`, `php artisan serve` di `localhost:8000`
+- Paham `artisan` tukang, `routes/web.php` pintu, `resources/views` etalase, `.env` buku alamat
 
 ---
 
-## Program: First Project
+## Kenapa Ini Penting Buat Kamu?
 
-```php
-<?php
-// Terminal commands (simulated output)
-echo "=== Laravel Setup ===<br>";
-echo "composer create-project laravel/laravel my-app<br>";
-echo "cd my-app<br>";
-echo "php artisan serve<br>";
-echo "Server running on http://localhost:8000<br><br>";
+Laravel = PHP warung siap jual: `artisan` bikinkan rak, kasir, admin — tidak dari nol. Paling cepat buat toko online untuk non-IT.
 
-// Directory structure
-echo "=== Laravel Directory Structure ===<br>";
-$dirs = [
-    "app/",
-    "  Console/Commands/",
-    "  Http/Controllers/",
-    "  Http/Middleware/",
-    "  Models/",
-    "  Providers/",
-    "bootstrap/",
-    "config/",
-    "database/migrations/",
-    "database/seeders/",
-    "public/",
-    "resources/views/",
-    "routes/",
-    "storage/",
-    "tests/",
-];
-foreach ($dirs as $dir) {
-    echo "  $dir<br>";
-}
+---
 
-echo "<br>=== Key Files ===<br>";
-echo "routes/web.php — Web routes<br>";
-echo "app/Http/Controllers/ — Controllers<br>";
-echo "app/Models/ — Eloquent models<br>";
-echo "resources/views/ — Blade templates<br>";
-echo "database/migrations/ — Database schema<br>";
-echo ".env — Environment config<br>";
+## Program: Toko Laravel 5 Menit
 
-echo "<br>=== artisan Commands ===<br>";
-echo "php artisan serve — Start dev server<br>";
-echo "php artisan make:controller Name — Create controller<br>";
-echo "php artisan make:model Name — Create model<br>";
-echo "php artisan migrate — Run migrations<br>";
-echo "php artisan route:list — Show all routes<br>";
->
+```bash
+composer create-project laravel/laravel warung
+cd warung
+php artisan serve
+# Buka http://localhost:8000 → Laravel welcome
 ```
 
----
+**Buat pintu & etalase:**
+```php
+// routes/web.php
+Route::get('/', function () { return view('welcome'); });
+Route::get('/produk', function () {
+  $produk = [["nama"=>"Beras","harga"=>62000],["nama"=>"Bayam","harga"=>5000]];
+  return view('produk', ["produk"=>$produk]);
+});
+```
 
-## Key Concepts
+```html
+<!-- resources/views/produk.blade.php -->
+<h1>Katalog</h1>
+<ul>
+@foreach($produk as $p)
+  <li>{{ $p["nama"] }} - Rp{{ number_format($p["harga"]) }}</li>
+@endforeach
+</ul>
+```
 
-### Laravel Installation
-`composer create-project laravel/laravel name`. Alternative: `laravel new`.
-
-### Folder Structure
-- `app/` — Business logic
-- `routes/` — Route definitions
-- `resources/views/` — Blade templates
-- `database/migrations/` — Schema versioning
-- `public/` — Entry point
-
-### Artisan CLI
-CLI tool for scaffolding, migrations, testing.
-
-### Routes
-`routes/web.php` for web, `routes/api.php` for API.
-
----
-
-## Experiments
-
-- Create new project with laravel new
-- Explore each folder and its contents
-- Try artisan list for all commands
-- Create simple route in web.php
-- Navigate config/ and view config files
+Buka `http://localhost:8000/produk`.
 
 ---
 
-## Challenge
+## Ringkasan
 
-Create a new Laravel project with 3 routes: home (/), about (/about), contact (/contact). Display different text on each route.
-
----
-
-## Summary
-
-Week 1 of 12: **Setup & Laravel Installation** (Level: Beginner). Laravel foundation begins. Next week: **Routing & Controllers**.
+Minggu 1: **Artisan & Pintu** — Laravel hidup. Minggu depan: **Routing & Controller**.

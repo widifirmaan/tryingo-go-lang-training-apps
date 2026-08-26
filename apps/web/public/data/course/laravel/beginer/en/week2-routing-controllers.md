@@ -1,95 +1,37 @@
-# Routing & Controllers
+# Routing & Controllers — Pintu dan Pelayan
 
-> **Kategori:** Laravel | **Level:** Beginner | **Minggu 2:** Routing & Controllers
+> **Kategori:** Laravel | **Level:** Pemula | **Minggu 2:** Routing & Controllers
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Route definition: Route::get, post, put, delete, patch, options
-- Route parameters: required {id} and optional {id?}
-- Route model binding: implicit binding with type-hint
-- Route naming: name() and route() helper
-- Resource routes: Route::resource for automatic CRUD
+- `Route::get('/produk/{id}', [ProdukController::class,'show'])` pintu dinamis
+- `php artisan make:controller ProdukController` buat pelayan, `request()->input('cari')` baca cari
 
 ---
 
-## Program: Route & Controller
+## Program
 
 ```php
-<?php
-echo "=== Laravel Routing ===<br><br>";
+// Buat controller
+// php artisan make:controller ProdukController
 
-// routes/web.php (simulated)
-$routes = [
-    ["GET", "/", "HomeController@index", "home"],
-    ["GET", "/about", "PageController@about", "about"],
-    ["GET", "/users", "UserController@index", "users.index"],
-    ["GET", "/users/{id}", "UserController@show", "users.show"],
-    ["POST", "/users", "UserController@store", "users.store"],
-    ["PUT", "/users/{id}", "UserController@update", "users.update"],
-    ["DELETE", "/users/{id}", "UserController@destroy", "users.destroy"],
-];
-
-echo "Method | URI | Action | Name<br>";
-echo "-------|-----|--------|------<br>";
-foreach ($routes as [$method, $uri, $action, $name]) {
-    echo "$method | $uri | $action | $name<br>";
+// app/Http/Controllers/ProdukController.php
+public function index(Request $req){
+  $cari = $req->input('cari');
+  $produk = $cari ? Produk::where('nama','like',"%$cari%")->get() : Produk::all();
+  return view('produk', compact('produk'));
 }
+public function show($id){ return "Detail $id"; }
 
-echo "<br>=== Route Parameters ===<br>";
-echo "Route::get('/posts/{post}', function (Post $post) {<br>";
-echo "    return $post->title;<br>";
-echo "});<br><br>";
-
-echo "=== Route Model Binding ===<br>";
-echo "public function show(Post $post)  // Auto-resolve by id<br>";
-echo "public function show(Post $post:slug)  // Resolve by slug<br><br>";
-
-echo "=== Resource Route ===<br>";
-echo "Route::resource('posts', PostController::class);<br>";
-echo "Creates: index, create, store, show, edit, update, destroy<br><br>";
-
-echo "=== Controller Example ===<br>";
-echo "php artisan make:controller PostController --resource<br>";
->
+// routes/web.php
+Route::get('/produk', [ProdukController::class,'index']);
+Route::get('/produk/{id}', [ProdukController::class,'show']);
 ```
 
----
-
-## Key Concepts
-
-### Route Definition
-`Route::get($uri, $callback)`. HTTP method matches verb.
-
-### Route Parameters
-`{id}` required, `{id?}` optional. Injected to callback.
-
-### Model Binding
-Type-hint model in controller. Laravel auto-resolves.
-
-### Resource Routes
-`Route::resource()` generates 7 CRUD routes.
-
-### Route Groups
-Group routes with shared middleware/prefix.
+Buka `http://localhost:8000/produk?cari=beras`.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create route with multiple parameters
-- Try route model binding with slug
-- Create route group with prefix and middleware
-- Use Route::view for static page
-- Implement fallback route for 404
-
----
-
-## Challenge
-
-Create routes for a blog: list posts, single post, create, edit, delete. Use resource controller and named routes.
-
----
-
-## Summary
-
-Week 2 of 12: **Routing & Controllers** (Level: Beginner). Heart of Laravel. Next week: **Blade Templates**.
+Minggu 2: **Pintu & Pelayan** — routing & controller.
