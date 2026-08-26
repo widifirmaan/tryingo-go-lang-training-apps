@@ -1,101 +1,48 @@
-# Interfaces & Generics
+# Interface & Generics — Kontrak Warung
 
-> **Kategori:** Go | **Level:** Intermediate | **Minggu 6:** Interfaces & Generics
+> **Kategori:** Go | **Level:** Menengah | **Minggu 6:** Interface & Generics
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Implicit interfaces — structs implement without implements keyword
-- Interfaces as polymorphic parameters (Go Tour: Interfaces)
-- Type assertion x.(T) and type switch for concrete type checks
-- Generics Go 1.18+: type parameters [T any], constraints
-- Empty interface any / interface{} for any type
+- `type Kasir interface { Hitung() int }` — kontrak: siapa pun yang bisa `Hitung()` boleh jadi kasir
+- Struct `Beras`, `Minyak` implisit implement — tidak perlu `implements`
+- `any` untuk apa saja, `generics [T any]` rak untuk tipe apa saja
 
 ---
 
-## Program: Polymorphism
+## Kenapa Ini Penting Buat Kamu?
+
+Warung punya kasir beras, kasir sembako — semua harus bisa `Hitung()`. Interface = **kontrak**: jika bisa `Hitung`, boleh jaga kasir.
+
+---
+
+## Program: Kontrak Kasir
 
 ```go
 package main
-
 import "fmt"
 
-type Speaker interface {
-    Speak() string
-}
+type Kasir interface { Hitung() int }
 
-type Dog struct{ Name string }
-func (d Dog) Speak() string { return "Woof! I'm " + d.Name }
+type Beras struct{ Kg, Harga int }
+func (b Beras) Hitung() int { return b.Kg * b.Harga }
 
-type Cat struct{ Name string }
-func (c Cat) Speak() string { return "Meow! I'm " + c.Name }
+type Minyak struct{ Liter, Harga int }
+func (m Minyak) Hitung() int { return m.Liter * m.Harga }
 
-func MakeSound(s Speaker) {
-    fmt.Println(s.Speak())
-}
+func Bayar(k Kasir){ fmt.Printf("Bayar: Rp %d\n", k.Hitung()) }
 
-func PrintAny(v any) {
-    switch val := v.(type) {
-    case int: fmt.Printf("Integer: %d\n", val)
-    case string: fmt.Printf("String: %s\n", val)
-    default: fmt.Printf("Unknown: %T - %v\n", val, val)
-    }
-}
+func Pertama[T any](list []T) T { return list[0] }
 
-func First[T any](items []T) T {
-    return items[0]
-}
-
-type Stack[T any] struct { items []T }
-func (s *Stack[T]) Push(item T) { s.items = append(s.items, item) }
-
-func main() {
-    MakeSound(Dog{"Buddy"})
-    MakeSound(Cat{"Kitty"})
-
-    PrintAny(42)
-    PrintAny("hello")
-    PrintAny(3.14)
-
-    fmt.Println("First int:", First([]int{10, 20, 30}))
-    fmt.Println("First string:", First([]string{"a", "b"}))
-
-    stack := Stack[string]{}
-    stack.Push("Go")
-    stack.Push("Rust")
-    fmt.Println("Stack:", stack.items)
+func main(){
+  Bayar(Beras{Kg:2, Harga:12500})
+  Bayar(Minyak{Liter:2, Harga:17000})
+  fmt.Println("Pertama:", Pertama([]string{"Beras","Minyak"}))
 }
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Implicit Interfaces
-No `implement` keyword needed.
-
-### Type Assertion & Switch
-`x.(T)` and type switch.
-
-### Generics
-`[T any]` type parameters with constraints.
-
----
-
-## Experiments
-
-- Create Shape interface with Area() — implement Circle, Rectangle
-- Try type assertion with ok idiom: v, ok := x.(T)
-- Create generic Min[T constraints.Ordered]
-- Create generic Map function: Map[T, U]([]T, func(T) U) []U
-
----
-
-## Challenge
-
-Build a payment system: interface PaymentMethod (ProcessPayment), implement CreditCard, PayPal, BankTransfer. Use generics for repository.
-
----
-
-## Summary
-
-Week 6 of 13: **Interfaces & Generics** (Level: Intermediate). Go isn't classic OOP — this is its strength. Next week: **Pointers, Memory & Packages**.
+Minggu 6: **Kontrak** — interface implisit. Minggu depan: **Pointer**.
