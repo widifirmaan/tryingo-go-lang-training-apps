@@ -1,117 +1,39 @@
-# Queries
+# Queries — Pesan Apa yang Mau
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 2:** Queries
 
 ## Tujuan Pembelajaran
 
-- Query dasar
-- Query dengan parameter
-- Variabel ($variable)
-- Fragment untuk reuse
-- Nested query
+- Argumen `produk(kategori: "Sembako")`, alias `murah: produk(kategori:"Sayur")`, fragment `...Fields`
+- Variabel `$id: ID!` untuk aman
 
 ---
 
-## Program: Membuat Query
+## Program
 
 ```graphql
-# Query: baca data (GET)
-
-# Get semua produk
-query GetAllProducts {
-  products {
-    id
-    name
-    price
-    inStock
+query Cari($kategori: String!) {
+  produk(kategori: $kategori) {
+    nama
+    harga
   }
 }
+# Variables: { "kategori": "Sembako" }
 
-# Get produk by ID
-query GetProduct($id: ID!) {
-  product(id: $id) {
-    id
-    name
-    price
-    stock
-    category {
-      name
-      slug
-    }
-  }
+query Dua {
+  murah: produk(kategori: "Sayur") { nama harga }
+  mahal: produk(kategori: "Elektronik") { nama harga }
 }
 
-# Search produk
-query SearchProducts($keyword: String!) {
-  searchProducts(keyword: $keyword) {
-    id
-    name
-    price
-    inStock
-  }
-}
+fragment Kartu on Produk { nama harga stok }
 
-# Fragment untuk reuse field
-fragment ProductFields on Product {
-  id
-  name
-  price
-  stock
-  inStock
+query {
+  produk { ...Kartu }
 }
-
-query GetProductsWithFragment {
-  products {
-    ...ProductFields
-    category {
-      name
-    }
-  }
-}
-
-# Variables
-# {
-#   "id": "1",
-#   "keyword": "laptop"
-# }
 ```
-
----
-
-## Konsep Kunci
-
-### Query
-Operasi baca data. Seperti GET di REST.
-
-### Parameter
-Query bisa terima parameter dengan tipe.
-
-### Variabel
-Kirim variables terpisah dari query.
-
-### Fragment
-Reuse set of fields.
-
-### Nested Query
-Query relasi dalam satu request.
-
----
-
-## Eksperimen
-
-- Alias fields
-- Directives @skip/@include
-- Multiple queries
-- Inline fragments
-
----
-
-## Tantangan
-
-Query lengkap: produk dengan kategori dan filter.
 
 ---
 
 ## Ringkasan
 
-Minggu 2 dari 10: **Queries** (Pemula).
+Minggu 2: **Pesanan Canggih** — argumen, alias, fragment. Minggu depan: **Mutations**.

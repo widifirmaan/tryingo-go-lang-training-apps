@@ -1,112 +1,56 @@
-# Update & Delete Dokumen
+# Update & Delete — Ubah dan Buang Kartu
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 2:** Update & Delete Dokumen
+> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 2:** Update & Delete
 
 ## Tujuan Pembelajaran
 
-- updateOne dan updateMany
-- $set, $mul, $inc, $push, $pull
-- upsert: update atau insert
-- deleteOne dan deleteMany
-- replaceOne
+- `updateOne({nama:"Beras"}, {$set:{harga:65000}})` ubah 1, `updateMany` ubah banyak
+- `$inc: { stok: -1 }` tambah/kurang, `$push` tambah ke array
+- `deleteOne`, `deleteMany`, `findOneAndUpdate` ambil & ubah sekaligus
+- `upsert: true` buat jika belum ada
 
 ---
 
-## Program: Modifikasi Data
+## Kenapa Ini Penting Buat Kamu?
+
+Harga naik, stok berkurang 1 tiap jual — harus ubah kartu, bukan bikin baru.
+
+---
+
+## Program
 
 ```javascript
-async function main() {
-    const client = new MongoClient('mongodb://localhost:27017');
-    await client.connect();
-    const produk = client.db('toko_db').collection('produk');
+// Ubah harga Bayam
+db.produk.updateOne({ nama: "Bayam" }, { $set: { harga: 6000 } })
 
-    // UPDATE satu dokumen
-    await produk.updateOne(
-        { nama: 'Laptop ASUS' },
-        { $set: { harga: 13000000, stok: 12 } }
-    );
+// Tambah stok +5 untuk semua Sembako
+db.produk.updateMany({ kategori: "Sembako" }, { $inc: { stok: 5 } })
 
-    // UPDATE banyak dokumen
-    await produk.updateMany(
-        { kategori: 'Aksesoris' },
-        { $mul: { harga: 0.9 } }  // Diskon 10%
-    );
+// Tambah tag array
+db.produk.updateOne({ nama: "Beras 5kg" }, { $push: { tag: "promo" } })
 
-    // UPDATE: tambah ke array
-    await produk.updateOne(
-        { nama: 'Laptop ASUS' },
-        { $push: { tags: 'gaming' } }
-    );
+// Hapus yang stok 0
+db.produk.deleteMany({ stok: 0 })
 
-    // UPDATE: hapus dari array
-    await produk.updateOne(
-        { nama: 'Laptop ASUS' },
-        { $pull: { tags: 'asus' } }
-    );
+// Upsert: update jika ada, insert jika belum
+db.produk.updateOne({ nama: "Kopi" }, { $set: { harga: 12000 } }, { upsert: true })
 
-    // UPSERT: update atau insert jika tidak ada
-    await produk.updateOne(
-        { nama: 'Webcam HD' },
-        { $set: { harga: 650000, stok: 40, kategori: 'Aksesoris' } },
-        { upsert: true }
-    );
-
-    // DELETE satu dokumen
-    await produk.deleteOne({ nama: 'Headset Sony' });
-
-    // DELETE banyak dokumen
-    await produk.deleteMany({ stok: 0 });
-
-    // REPLACE: ganti seluruh dokumen
-    await produk.replaceOne(
-        { nama: 'Mouse Logitech' },
-        { nama: 'Mouse Logitech G502', harga: 450000, stok: 60, kategori: 'Aksesoris' }
-    );
-
-    const remaining = await produk.countDocuments();
-    console.log('Sisa produk:', remaining);
-
-    await client.close();
-}
-main().catch(console.error);
+// Ambil & ubah
+db.produk.findOneAndUpdate({ nama: "Gula" }, { $inc: { stok: -1 } }, { returnDocument: "after" })
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Update Operators
-$set: ubah nilai, $mul: kali, $inc: tambah.
+### `$set`/`$inc`/`$push`
+`$set` ganti, `$inc` tambah, `$push` masukkan ke array.
 
-### Array Operators
-$push: tambah ke array, $pull: hapus dari array.
-
-### Upsert
-Update jika ada, insert jika tidak ada.
-
-### Delete
-deleteOne: hapus satu, deleteMany: hapus banyak.
-
-### Replace
-Ganti seluruh dokumen dengan yang baru.
-
----
-
-## Eksperimen
-
-- $inc untuk stok
-- $addToSet (unique push)
-- deleteMany dengan filter
-- findAndModify
-
----
-
-## Tantangan
-
-Sistem inventory: update stok, hapus expired, upsert produk baru.
+### `upsert` = Update or Insert
+Jika `nama:"Kopi"` belum ada, buat baru.
 
 ---
 
 ## Ringkasan
 
-Minggu 2 dari 10: **Update & Delete Dokumen** (Pemula).
+Minggu 2: **Ubah & Hapus** — kartu bisa diedit, stok bisa kurang. Minggu depan: **Index**.
