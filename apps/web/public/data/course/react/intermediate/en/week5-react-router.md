@@ -1,118 +1,84 @@
-# React Router
+# React Router — Peta Toko Tanpa Reload
 
-> **Kategori:** React | **Level:** Intermediate | **Minggu 5:** React Router
+> **Kategori:** React | **Level:** Menengah | **Minggu 5:** React Router
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Setup BrowserRouter and Routes/Route for routing
-- Link component for navigation without page reload
-- useParams to get dynamic route parameters
-- useNavigate for programmatic navigation
-- Nested routes and layout routes
+- Instal `npm install react-router-dom`, bungkus `BrowserRouter`, `Routes` + `Route` = peta
+- `Link` pintu geser (tanpa reload) vs `a` bongkar, `useParams` baca `id` dari URL
 
 ---
 
-## Program: Multi-Page App
+## Kenapa Ini Penting Buat Kamu?
+
+Warung 3 halaman tanpa router = 1 file raksasa `if` manual. Router = **peta**: `/` → Beranda, `/produk/1` → Detail — pindah tanpa reload header.
+
+---
+
+## Program: Toko 3 Halaman
+
+```bash
+npm install react-router-dom
+```
 
 ```jsx
-// React Router = routing SPA (Single Page Application)
-// BrowserRouter, Routes, Route, Link, useParams, useNavigate
+// App.jsx
+import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom";
 
-import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
-
-function Home() {
-  return (
-    <div>
-      <h1>Beranda</h1>
-      <p>Selamat datang di Tryngo App</p>
-    </div>
-  );
+function Beranda(){ return <h1>Beranda Warung</h1>; }
+function Daftar(){
+  return <div><h1>Daftar</h1><Link to="/produk/1">Beras</Link> | <Link to="/produk/2">Bayam</Link></div>;
+}
+function Detail(){
+  const { id } = useParams(); // baca :id dari URL
+  return <div><h1>Detail {id}</h1><Link to="/produk">Kembali</Link></div>;
 }
 
-function About() {
-  return (
-    <div>
-      <h1>Tentang Kami</h1>
-      <p>Platform pembelajaran coding interaktif</p>
-    </div>
-  );
-}
-
-function User() {
-  const { id } = useParams();
-  return (
-    <div>
-      <h1>Profil Pengguna</h1>
-      <p>ID: {id}</p>
-    </div>
-  );
-}
-
-function Dashboard() {
-  const navigate = useNavigate();
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <button onClick={() => navigate("/")}>Kembali</button>
-    </div>
-  );
-}
-
-function App() {
+export default function App(){
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/">Beranda</Link>
-        <Link to="/about">Tentang</Link>
-        <Link to="/user/123">User 123</Link>
-        <Link to="/dashboard">Dashboard</Link>
-      </nav>
+      <nav><Link to="/">Beranda</Link> | <Link to="/produk">Produk</Link></nav>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/user/:id" element={<User />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Beranda />} />
+        <Route path="/produk" element={<Daftar />} />
+        <Route path="/produk/:id" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-console.log("React Router App siap digunakan");
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### BrowserRouter
-Wraps app for routing.
+### `BrowserRouter` = Gedung
+Bungkus semua, sediakan peta.
 
-### Routes & Route
-Route maps path to element.
+### `Routes` + `Route` = Peta
+`path="/produk/:id"` `:id` variabel, `element={<Detail />}` yang tampil.
 
-### Dynamic Routes
-useParams for URL parameters.
+### `Link` vs `a`
+`Link` geser, `a` bongkar.
 
-### Navigation
-Link for SPA navigation, useNavigate for programmatic.
-
----
-
-## Experiments
-
-- Add 404 Not Found route
-- Create nested routes with layout
-- Implement route guards (protected routes)
-- Add active link styling
+### `useParams` = Amplop
+`const {id} = useParams()` ambil `1` dari `/produk/1`.
 
 ---
 
-## Challenge
+## Penjelasan untuk Pemula
 
-Build a blog app with routing: Home, Post List, Post Detail (/post/:id), About. Use layout wrapper and active navigation.
+### Analogi: Peta Mall
+- **`BrowserRouter` = gedung mall**, **`Routes` = papan peta**, **`Link` = lift ekspres**.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 5 of 12: **React Router** (Level: Intermediate). Multi-page navigation. Next week: **Context API**.
+**Toko 3 Halaman:** `Beranda`, `Produk` list `Link` ke `ProdukDetail/:id` yang `useParams`, + `NotFound` `path="*"` .
+
+---
+
+## Ringkasan
+
+Minggu 5: **Peta Toko** — Router tanpa reload. Minggu depan: **Context** — gudang bersama.

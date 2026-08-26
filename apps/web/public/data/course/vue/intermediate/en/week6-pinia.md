@@ -1,64 +1,48 @@
-# Pinia State Management
+# Pinia — Gudang Bersama Vue
 
-> **Kategori:** Vue | **Level:** Intermediate | **Minggu 6:** Pinia State Management
+> **Kategori:** Vue | **Level:** Menengah | **Minggu 6:** Pinia
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- defineStore: setup function or options style
-- State: ref() for reactive state
-- Getters: computed() for derived state
-- Actions: functions to mutate state
-- Stores across multiple components
+- `defineStore` gudang, `store.keranjang` baca, `store.tambah()` ubah — tanpa props 5 level
 
 ---
 
-## Program: Store & Cart
+## Program: Gudang Pinia
 
-```vue
-// Pinia = official state management untuk Vue
-// export const useCartStore = defineStore("cart", () => {
-//   const items = ref([]);
-//   const totalItems = computed(() => items.value.reduce((s, i) => s + i.quantity, 0));
-//   function addItem(product) { ... }
-//   function removeItem(id) { ... }
-//   return { items, totalItems, addItem, removeItem };
-// });
-console.log('Pinia State Management siap digunakan');
+```bash
+npm install pinia
 ```
 
----
+```javascript
+// src/stores/keranjang.js
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-## Key Concepts
+export const useKeranjang = defineStore("keranjang", () => {
+  const items = ref([]);
+  function tambah(item){ items.value.push(item); }
+  function hapus(id){ items.value = items.value.filter(i => i.id !== id); }
+  return { items, tambah, hapus };
+});
+```
 
-### Setup Store
-defineStore with setup function.
+```vue
+<!-- Produk.vue -->
+<script setup>
+import { useKeranjang } from "../stores/keranjang";
+const keranjang = useKeranjang();
+</script>
+<template>
+  <button @click="keranjang.tambah({ id: Date.now(), nama: 'Beras' })">Tambah Beras</button>
+  <p>Isi: {{ keranjang.items.length }}</p>
+</template>
+```
 
-### State
-ref() for reactive state.
-
-### Getters
-computed() for derived values.
-
-### Actions
-Functions to mutate state.
-
----
-
-## Experiments
-
-- Create multiple stores
-- Implement async action
-- Add store persistence
-- Create store with modules pattern
-
----
-
-## Challenge
-
-Build an e-commerce with Pinia: product store, cart store, user store.
+Setup `main.js`: `app.use(createPinia())`.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 6 of 12: **Pinia State Management** (Level: Intermediate). Next week: **Lifecycle & Watchers**.
+Minggu 6: **Gudang Pinia** — 1 gudang untuk semua. Minggu depan: **Lifecycle**.
