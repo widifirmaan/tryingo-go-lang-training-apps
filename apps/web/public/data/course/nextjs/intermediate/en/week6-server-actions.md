@@ -1,114 +1,67 @@
-# Server Actions & Mutations
+# Server Actions — Kirim Pesanan Tanpa API Manual
 
-> **Kategori:** Next.js | **Level:** Intermediate | **Minggu 6:** Server Actions & Mutations
+> **Kategori:** Next.js | **Level:** Menengah | **Minggu 6:** Server Actions & Mutations
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Server Actions: "use server" directive
-- Form submission with Server Actions
-- revalidatePath to invalidate cache after mutation
-- Optimistic updates with useOptimistic
-- useFormStatus for pending state
+- `"use server"` di `actions.js` — fungsi di server, dipanggil dari Client `form` tanpa `fetch` manual
+- `revalidatePath("/produk")` segarkan daftar setelah tambah
 
 ---
 
-## Program: Form & Mutation
+## Kenapa Ini Penting Buat Kamu?
+
+Form tambah produk tanpa Server Actions = bikin `fetch("/api/produk", {method:"POST"})` manual + `route.ts`. Dengan Actions = tulis fungsi `tambah(formData)` di server, di Client `action={tambah}` — selesai.
+
+---
+
+## Program: Tambah Produk via Action
 
 ```jsx
-// Server Actions = async functions yang jalan di server
-// Untuk form submission, mutations, database operations
+// app/produk/actions.js — di server
+"use server";
+import { revalidatePath } from "next/cache";
 
-// ── Server Action (dalam Server Component) ──
-// "use server";
-// async function createPost(formData) {
-//   const title = formData.get("title");
-//   await db.post.create({ data: { title } });
-//   revalidatePath("/posts");
-// }
+let produk = [{ id: 1, nama: "Beras", harga: 62000 }];
 
-// ── app/posts/create/page.js ──
-export default function CreatePostPage() {
+export async function tambah(formData) {
+  const nama = formData.get("nama");
+  const harga = Number(formData.get("harga"));
+  if (!nama || !harga) throw new Error("Isi nama & harga");
+  produk.push({ id: Date.now(), nama, harga });
+  revalidatePath("/produk"); // segarkan cache /produk
+}
+
+// app/produk/page.js — Server
+import { tambah } from "./actions";
+
+export default async function ProdukPage() {
+  // ... ambil produk
   return (
     <div>
-      <h1>Tambah Post Baru</h1>
-      <form>
-        <input name="title" placeholder="Judul" />
-        <textarea name="content" placeholder="Konten" />
-        <button type="submit">Simpan</button>
+      <form action={tambah}>
+        <input name="nama" placeholder="Nama" required />
+        <input name="harga" type="number" placeholder="Harga" required />
+        <button>Tambah</button>
       </form>
+      {/* daftar */}
     </div>
   );
 }
-
-// ── Client Component dengan Server Action ──
-// "use client";
-// import { useFormStatus } from "react-dom";
-// import { createPost } from "./actions";
-
-// function SubmitButton() {
-//   const { pending } = useFormStatus();
-//   return <button disabled={pending}>{pending ? "Menyimpan..." : "Simpan"}</button>;
-// }
-
-// ── Actions (app/posts/actions.js) ──
-// "use server";
-// import { revalidatePath } from "next/cache";
-// import { redirect } from "next/navigation";
-// export async function createPost(formData) {
-//   const title = formData.get("title");
-//   // Simulasi save
-//   console.log("Menyimpan post:", title);
-//   revalidatePath("/posts");
-//   redirect("/posts");
-// }
-
-// ── Optimistic Update ──
-// "use client";
-// import { useOptimistic } from "react";
-// function Messages({ messages }) {
-//   const [optimisticMessages, addOptimistic] = useOptimistic(
-//     messages,
-//     (state, newMsg) => [...state, { ...newMsg, sending: true }]
-//   );
-//   return <MessageList messages={optimisticMessages} />;
-// }
-
-console.log("Server Actions siap digunakan");
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Server Actions
-Async functions with "use server". Run on server.
+### `"use server"` = Dapur
+Fungsi jalan di server, aman akses DB, tidak kirim ke browser.
 
-### Form Submission
-<form action={action}> calls Server Action.
-
-### Revalidation
-revalidatePath invalidates cache.
-
-### Optimistic Updates
-useOptimistic shows changes immediately.
+### `form action={tambah}` = Pesan Antar
+Klik Tambah → browser kirim `FormData` ke server → `tambah` jalan → `revalidatePath` segarkan.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create form with Server Action
-- Add optimistic update
-- Implement form validation
-- Create delete action with confirm
-
----
-
-## Challenge
-
-Build a CRUD app: create, read, update, delete posts. Use Server Actions, revalidatePath, and optimistic updates.
-
----
-
-## Summary
-
-Week 6 of 12: **Server Actions** (Level: Intermediate). Safe data mutations. Next week: **Loading & Error UI**.
+Minggu 6: **Kirim Tanpa API** — Server Actions. Minggu depan: **Loading & Error**.
