@@ -1,58 +1,43 @@
-# Angular Router
+# Routing — Peta Warung Angular
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 6:** Angular Router
+> **Kategori:** Angular | **Level:** Menengah | **Minggu 6:** Routing
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Routes configuration
-- RouterLink and RouterOutlet
-- Route parameters
-- Navigation guards: CanActivate
-- Lazy loading
+- `RouterModule` peta, `path: 'produk/:id'` variabel, `routerLink` pintu, `ActivatedRoute` baca `id`
 
 ---
 
-## Program: Multi-Page App
+## Kenapa Ini Penting Buat Kamu?
+
+Sama seperti React/Vue — pindah tanpa reload header.
+
+---
+
+## Program: Toko Angular 3 Halaman
 
 ```typescript
-// Angular Router = powerful routing untuk SPA
-// const routes: Routes = [
-//   { path: '', component: HomeComponent },
-//   { path: 'products/:id', component: ProductDetailComponent },
-// ];
-console.log('Angular Router siap digunakan');
+// app.routes.ts
+export const routes: Routes = [
+  { path: '', component: BerandaComponent },
+  { path: 'produk', component: DaftarComponent },
+  { path: 'produk/:id', component: DetailComponent },
+];
+
+// app.component.html
+<nav><a routerLink="/">Beranda</a> | <a routerLink="/produk">Produk</a></nav>
+<router-outlet />
+
+// detail.component.ts
+export class DetailComponent {
+  id = inject(ActivatedRoute).snapshot.paramMap.get('id');
+}
 ```
 
----
-
-## Key Concepts
-
-### Routes
-Array of route objects.
-
-### RouterLink
-Navigation directive.
-
-### Guards
-CanActivate protects routes.
+Gunakan `routerLink="/produk/1"` vs `href` (reload).
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create nested routes
-- Implement route guard
-- Add breadcrumb
-- Create 404 page
-
----
-
-## Challenge
-
-Build a blog app with routing: Home, Posts, Post Detail, Admin (protected).
-
----
-
-## Summary
-
-Week 6 of 14: **Angular Router** (Level: Intermediate). Next week: **Reactive Forms**.
+Minggu 6: **Peta Angular** — `Routes` + `routerLink`.
