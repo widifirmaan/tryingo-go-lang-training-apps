@@ -1,171 +1,37 @@
-# Classes & OOP
+# Classes & OOP — Pabrik Kartu TypeScript
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 6:** Classes & OOP
 
 ## Tujuan Pembelajaran
 
-- Access modifiers: public, protected, private
-- Inheritance dengan extends dan super
-- Abstract classes dan methods
-- Interface implementation dengan implements
-- Parameter properties di constructor
+- `class Produk { constructor(nama: string, harga: number){} }` pabrik kartu, `private`, `public`, `extends`
 
 ---
 
-## Program: TypeScript Classes
+## Program
 
 ```typescript
-// Class dengan access modifiers
-class Animal {
-    // Access modifiers: public, protected, private
-    public name: string;
-    protected age: number;
-    private secret: string;
-
-    constructor(name: string, age: number) {
-        this.name = name;
-        this.age = age;
-        this.secret = "hidden";
-    }
-
-    public speak(): string {
-        return this.name + " makes a sound";
-    }
-
-    protected getAge(): number {
-        return this.age;
-    }
+class Produk {
+  constructor(public nama: string, public harga: number, private stok: number = 0){}
+  info(): string { return `${this.nama}: Rp${this.harga} (stok ${this.stok})`; }
+  diskon(persen: number){ this.harga -= this.harga * persen/100; }
 }
 
-// Inheritance
-class Dog extends Animal {
-    private breed: string;
-
-    constructor(name: string, age: number, breed: string) {
-        super(name, age);
-        this.breed = breed;
-    }
-
-    // Override
-    speak(): string {
-        return this.name + " barks!";
-    }
-
-    getBreed(): string {
-        return this.breed;
-    }
-
-    getInfo(): string {
-        return this.name + " is " + this.getAge() + " years old " + this.breed;
-    }
+class Member extends Produk {
+  constructor(nama: string, harga: number, public poin: number){
+    super(nama, harga);
+  }
 }
 
-const dog = new Dog("Buddy", 3, "Labrador");
-console.log(dog.speak());
-console.log(dog.getInfo());
-
-// Abstract Class
-abstract class Shape {
-    abstract area(): number;
-    abstract perimeter(): number;
-
-    describe(): string {
-        return "Area: " + this.area() + ", Perimeter: " + this.perimeter();
-    }
-}
-
-class Circle extends Shape {
-    constructor(private radius: number) {
-        super();
-    }
-    area(): number {
-        return Math.PI * this.radius ** 2;
-    }
-    perimeter(): number {
-        return 2 * Math.PI * this.radius;
-    }
-}
-
-const circle = new Circle(5);
-console.log("\n" + circle.describe());
-
-// Interface + Class
-interface Printable {
-    print(): string;
-}
-
-interface Serializable {
-    toJSON(): string;
-}
-
-class Report implements Printable, Serializable {
-    constructor(private title: string, private content: string) {}
-
-    print(): string {
-        return "=== " + this.title + " ===\n" + this.content;
-    }
-
-    toJSON(): string {
-        return JSON.stringify({ title: this.title, content: this.content });
-    }
-}
-
-const report = new Report("Sales Q1", "Revenue increased by 25%");
-console.log("\n" + report.print());
-console.log("JSON:", report.toJSON());
-
-// Parameter Properties
-class Point {
-    constructor(
-        public x: number,
-        public y: number,
-        private z: number = 0
-    ) {}
-    distance(): number {
-        return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
-    }
-}
-const p = new Point(3, 4, 5);
-console.log("\nDistance:", p.distance());
+const beras = new Produk("Beras", 62000, 10);
+console.log(beras.info());
+beras.diskon(10);
+console.log(beras.info());
+console.log(new Member("Gula", 15000, 120).info());
 ```
-
----
-
-## Konsep Kunci
-
-### Access Modifiers
-`public` (default) accessible everywhere. `protected` class + subclass. `private` hanya di class.
-
-### Inheritance
-`class Dog extends Animal` — warisi semua. `super()` panggil parent constructor.
-
-### Abstract Class
-Tidak bisa diinstantiate langsung. Method tanpa body harus diimplementasikan subclass.
-
-### Implements
-`class X implements Interface` — harus sediakan semua method interface.
-
-### Parameter Properties
-`constructor(public x: number)` — langsung deklarasikan dan assign field.
-
----
-
-## Eksperimen
-
-- Buat abstract class Vehicle dengan Car dan Motorcycle
-- Coba method override dengan different return type
-- Eksperimen multiple interface implementation
-- Buat singleton class dengan private constructor
-- Coba getter dan setter dengan access modifiers
-
----
-
-## Tantangan
-
-Buat class hierarchy untuk shape calculator: abstract Shape, concrete Circle/Rectangle/Triangle, dengan interface Printable.
 
 ---
 
 ## Ringkasan
 
-Minggu 6 dari 12: **Classes & OOP** (Level: TypeScript Lengkap). Object-oriented TS. Minggu depan: **Utility Types**.
+Minggu 6: **Pabrik Kartu** — `class` + `extends`.

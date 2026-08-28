@@ -1,143 +1,62 @@
-# Generics
+# Generics — Rak untuk Tipe Apa Saja
 
-> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 5:** Generics
+> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 5:** Generics
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Generic functions: <T>(value: T): T
-- Generic constraints with extends
-- Generic interfaces and classes
-- Keyof constraint for type-safe property access
-- Built-in generic types: Partial, Required, Readonly
+- `function pertama<T>(arr: T[]): T` — rak yang muat `string` atau `number` tergantung pakai
+- `Stack<T>` keranjang untuk apa saja, `constraint` `T extends { harga: number }`
 
 ---
 
-## Program: Reusable Generic Types
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa generics, buat `pertamaString` dan `pertamaNumber` 2 fungsi sama — duplikat. Dengan `<T>` 1 rak untuk semua.
+
+---
+
+## Program: Rak Generik
 
 ```typescript
-// Generic Function
-function identity<T>(value: T): T {
-    return value;
+function pertama<T>(arr: T[]): T | undefined {
+  return arr[0];
 }
-console.log("Identity string:", identity("TypeScript"));
-console.log("Identity number:", identity(42));
+console.log(pertama([1,2,3])); // T = number → 1
+console.log(pertama(["a","b"])); // T = string → "a"
 
-// Generic dengan constraint
-interface HasLength {
-    length: number;
-}
-function logLength<T extends HasLength>(item: T): void {
-    console.log("Length:", item.length);
-}
-logLength("hello");     // string has length
-logLength([1, 2, 3]);   // array has length
-// logLength(42);       // Error! number tidak punya length
-
-// Generic Interface
-interface ApiResponse<T> {
-    data: T;
-    status: number;
-    message: string;
+class Keranjang<T> {
+  private items: T[] = [];
+  tambah(item: T){ this.items.push(item); }
+  semua(): T[] { return this.items; }
 }
 
-const userResponse: ApiResponse<{ name: string }> = {
-    data: { name: "Budi" },
-    status: 200,
-    message: "OK"
-};
-console.log("\nAPI Response:", userResponse);
+const keranjangString = new Keranjang<string>();
+keranjangString.tambah("Beras");
+console.log(keranjangString.semua());
 
-// Generic Class
-class Storage<T> {
-    private items: T[] = [];
+const keranjangAngka = new Keranjang<number>();
+keranjangAngka.tambah(62000);
+console.log(keranjangAngka.semua());
 
-    add(item: T): void {
-        this.items.push(item);
-    }
-
-    getAll(): T[] {
-        return [...this.items];
-    }
-
-    find(predicate: (item: T) => boolean): T | undefined {
-        return this.items.find(predicate);
-    }
+// Constraint — hanya yang punya harga
+function total<T extends { harga: number }>(items: T[]): number {
+  return items.reduce((s,i)=>s+i.harga,0);
 }
-
-const stringStorage = new Storage<string>();
-stringStorage.add("apel");
-stringStorage.add("mangga");
-console.log("\nString Storage:", stringStorage.getAll());
-
-const numberStorage = new Storage<number>();
-numberStorage.add(1);
-numberStorage.add(2);
-numberStorage.add(3);
-console.log("Number Storage:", numberStorage.getAll());
-
-// Generic Utility
-type Nullable<T> = T | null | undefined;
-type Partial<T> = { [K in keyof T]?: T[K] };
-
-interface User {
-    name: string;
-    email: string;
-    age: number;
-}
-
-type PartialUser = Partial<User>;
-type NullableUser = Nullable<User>;
-
-const partial: PartialUser = { name: "Budi" }; // OK
-console.log("\nPartial user:", partial);
-
-// Keyof constraint
-function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
-    return obj[key];
-}
-
-const user: User = { name: "Siti", email: "siti@mail.com", age: 30 };
-console.log("Name:", getProperty(user, "name"));
-console.log("Age:", getProperty(user, "age"));
+console.log(total([{harga:62000},{harga:5000}]));
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Generic Functions
-`<T>` — type parameter. Type inferred from argument.
+### `<T>` = Label Sementara
+`function pertama<T>` → saat pakai `pertama([1,2])` T jadi `number`.
 
-### Constraints
-`<T extends HasLength>` — T must have length property.
-
-### Generic Interface/Class
-`interface ApiResponse<T>` — dynamic type for various responses.
-
-### Keyof
-`K extends keyof T` — K must be a key in T. Type-safe property access.
-
-### Built-in Generics
-`Partial<T>` all optional. `Required<T>` all required. `Readonly<T>` all readonly.
+### `Keranjang<T>` = Rak Serbaguna
+`Keranjang<string>` rak khusus string, `Keranjang<number>` rak khusus number.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create generic function with multiple type params
-- Try conditional type: type IsString<T> = T extends string ? true : false
-- Experiment generic class with default type
-- Create type-safe event emitter with generics
-- Try recursive type: type NestedArray<T> = T | NestedArray<T>[]
-
----
-
-## Challenge
-
-Build a generic repository class: find, findById, create, update, delete — with type constraints and conditional types.
-
----
-
-## Summary
-
-Week 5 of 12: **Generics** (Level: Complete TypeScript). Reusable types. Next week: **Classes & OOP**.
+Minggu 5: **Rak Generik** — 1 rak untuk semua tipe. Minggu depan: **Classes**.
