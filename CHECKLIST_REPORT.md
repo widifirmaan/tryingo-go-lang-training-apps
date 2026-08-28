@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 46 = 212 file** (Next.js 16 + React 12 + Vue 12 + JS 18 + Python 16 + TS 8 + Go 18 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Intermediate lanjut — Next.js fetch & actions selesai.
+**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 50 = 216 file** (Next.js 16 + React 12 + Vue 12 + JS 18 + Python 16 + TS 12 + Go 18 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 6 + Angular 6 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Intermediate lanjut — TS generics selesai.
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
@@ -270,6 +270,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `fc16502` | JS W9-W10 + Python W7-W8 (id+en, 8 file) — INTERMEDIATE | Manual bagi file `export/import` + alarm `try/catch` + buku kas `json` file + stempel decorator |
 | 2026-08-25 | `db4c302` | React W5-W6 + Vue W5-W6 (id+en, 8 file) — INTERMEDIATE | Manual peta `BrowserRouter` + gudang `Context` + `RouterLink` + `Pinia` |
 | 2026-08-25 | `3bbd17c` | Next.js W5-W8 (id+en, 8 file) — INTERMEDIATE | Manual `await fetch` cache + `use server` `revalidatePath` + `loading.js` skeleton + `middleware` satpam |
+| 2026-08-25 | `2e32716` | TypeScript W5-W6 (id+en, 4 file) — INTERMEDIATE | Manual rak generik `<T>` + pabrik `class` |
 | 2026-08-25 | `cebb181` | JS Intermediate W6 (id, 1 file) | Manual delegation 1 satpam 100 pintu — mulai fase Menengah friendly |
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
