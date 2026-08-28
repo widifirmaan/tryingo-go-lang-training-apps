@@ -1,67 +1,55 @@
-# SvelteKit Routing
+# SvelteKit Routing — Peta Warung Svelte
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 6:** SvelteKit Routing
+> **Kategori:** Svelte | **Level:** Menengah | **Minggu 6:** SvelteKit Routing
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- File-based routing
-- +page.svelte and +layout.svelte
-- Dynamic routes: [id].svelte
-- Load function for data fetching
-- Navigate with goto()
+- `src/routes/+page.svelte` → `/`, `src/routes/produk/+page.svelte` → `/produk`, `src/routes/produk/[id]/+page.svelte` → `/produk/1`
+- `+layout.svelte` bingkai, `load` ambil data
 
 ---
 
-## Program: Multi-Page App
+## Kenapa Ini Penting Buat Kamu?
 
-```svelte
-<!-- SvelteKit = meta-framework untuk Svelte (routing, SSR) -->
-<!-- File-based routing: src/routes/ -->
-<!-- +page.svelte = page component -->
-<!-- +layout.svelte = layout wrapper -->
-<!-- [id].svelte = dynamic route -->
-<!-- +error.svelte = error page -->
-<script>
-  export let data; // dari load function
-</script>
-<h1>{data.title}</h1>
-<a href="/about">Tentang</a>
-<a href="/products/123">Detail</a>
+SvelteKit seperti Next.js: folder = alamat. Warung 50 produk tidak bikin 50 file manual — 1 `[id]` untuk semua.
+
+---
+
+## Program: Toko SvelteKit 3 Halaman
+
+```
+src/routes/
+  +layout.svelte      # bingkai
+  +page.svelte        # /
+  produk/
+    +page.svelte      # /produk
+    [id]/
+      +page.svelte    # /produk/1
 ```
 
----
+```svelte
+<!-- src/routes/+layout.svelte -->
+<nav><a href="/">Beranda</a> | <a href="/produk">Produk</a></nav>
+<slot />
 
-## Key Concepts
+<!-- src/routes/produk/+page.svelte -->
+<script>
+  let daftar = [{ id: 1, nama: "Beras" }, { id: 2, nama: "Bayam" }];
+</script>
+<ul>{#each daftar as p}<li><a href={`/produk/${p.id}`}>{p.nama}</a></li>{/each}</ul>
 
-### File-based Routing
-routes/folder = URL.
+<!-- src/routes/produk/[id]/+page.svelte -->
+<script>
+  import { page } from "$app/stores";
+  $: id = $page.params.id;
+</script>
+<h1>Detail {id}</h1><a href="/produk">Kembali</a>
+```
 
-### Dynamic Routes
-[id] for parameters.
-
-### Load Function
-load() returns data.
-
-### Navigation
-goto for programmatic.
-
----
-
-## Experiments
-
-- Create nested routes
-- Implement dynamic route
-- Add layout wrapper
-- Create 404 page
+`npm run dev` → `http://localhost:5173/produk/1` → `id` otomatis.
 
 ---
 
-## Challenge
+## Ringkasan
 
-Build a blog app with SvelteKit: Home, Posts, Post Detail (/post/[slug]), About.
-
----
-
-## Summary
-
-Week 6 of 10: **SvelteKit Routing** (Level: Intermediate). Next week: **Actions & Forms**.
+Minggu 6: **Peta SvelteKit** — folder = alamat. Minggu depan: **Actions & Forms**.
