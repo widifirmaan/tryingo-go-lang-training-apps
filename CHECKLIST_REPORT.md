@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 54 = 220 file** (Next.js 16 + React 12 + Vue 12 + JS 18 + Python 16 + TS 12 + Go 18 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 8 + Angular 8 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Intermediate lanjut — Svelte/Angular peta selesai.
+**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 54 + Advanced 8 = 228 file** (Next.js 16 + React 12 + Vue 12 + JS 18 + Python 16 + TS 12 + Go 26 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 8 + Angular 8 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Advanced mulai — Go production selesai.
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
@@ -272,6 +272,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `3bbd17c` | Next.js W5-W8 (id+en, 8 file) — INTERMEDIATE | Manual `await fetch` cache + `use server` `revalidatePath` + `loading.js` skeleton + `middleware` satpam |
 | 2026-08-25 | `2e32716` | TypeScript W5-W6 (id+en, 4 file) — INTERMEDIATE | Manual rak generik `<T>` + pabrik `class` |
 | 2026-08-25 | `b577d5c` | Svelte + Angular W6 (id+en, 4 file) — INTERMEDIATE | Manual peta `+page.svelte` + `RouterModule` |
+| 2026-08-25 | `548bab9` | Go Advanced W10-W13 (id+en, 8 file) — ADVANCED | Manual `json.Marshal` nota + `http.NewServeMux` warung API + `go test` + capstone CLI+API |
 | 2026-08-25 | `cebb181` | JS Intermediate W6 (id, 1 file) | Manual delegation 1 satpam 100 pintu — mulai fase Menengah friendly |
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
