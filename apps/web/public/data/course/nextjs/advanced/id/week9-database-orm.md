@@ -1,126 +1,66 @@
-# Database & ORM
+# Database & ORM — Gudang dengan Penerjemah
 
 > **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 9:** Database & ORM
 
 ## Tujuan Pembelajaran
 
-- Setup Prisma dengan Next.js
-- Schema definition: models, relations, fields
-- CRUD operations: create, read, update, delete
-- Relations: one-to-many, many-to-many
-- Migrations: prisma migrate, prisma generate
+- Hubungkan Next.js ke **Postgres** via `Prisma` — penerjemah: tulis `prisma.produk.findMany()` bukan SQL
+- `npx prisma init`, `schema.prisma` cetak biru rak, `npx prisma migrate dev` bangun rak
+- `await prisma.produk.create({ data: { nama, harga } })` di Server Action
 
 ---
 
-## Program: Prisma & CRUD
+## Kenapa Ini Penting Buat Kamu?
 
-```jsx
-// Next.js + Database: Prisma ORM
-// Setup, schema, migrations, CRUD operations
+Tanpa DB, produk hilang saat restart. Dengan Prisma + Postgres (Supabase), data awet.
 
-// ── prisma/schema.prisma ──
-// generator client {
-//   provider = "prisma-client-js"
-// }
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-// model User {
-//   id        Int      @id @default(autoincrement())
-//   email     String   @unique
-//   name      String?
-//   posts     Post[]
-//   createdAt DateTime @default(now())
-// }
-// model Post {
-//   id        Int      @id @default(autoincrement())
-//   title     String
-//   content   String?
-//   published Boolean  @default(false)
-//   author    User     @relation(fields: [authorId], references: [id])
-//   authorId  Int
-// }
+---
 
-// ── lib/prisma.js ──
-// import { PrismaClient } from "@prisma/client";
-// const prisma = new PrismaClient();
-// export default prisma;
+## Program: Gudang Prisma
 
-// ── Server Component dengan Prisma ──
-// import prisma from "@/lib/prisma";
-
-export default async function UsersPage() {
-  // Simulasi data dari database
-  const users = await getUsers();
-
-  return (
-    <div>
-      <h1>Users</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name} ({user.email}) — {user.posts} posts
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-async function getUsers() {
-  // Simulasi: prisma.user.findMany({ include: { posts: true } })
-  return [
-    { id: 1, name: "Budi", email: "budi@tryngo.dev", posts: 5 },
-    { id: 2, name: "Siti", email: "siti@tryngo.dev", posts: 3 },
-  ];
-}
-
-// ── Server Action: Create User ──
-// "use server";
-// export async function createUser(formData) {
-//   const name = formData.get("name");
-//   const email = formData.get("email");
-//   await prisma.user.create({ data: { name, email } });
-//   revalidatePath("/users");
-// }
-
-console.log("Database & ORM siap digunakan");
+```bash
+npm install prisma @prisma/client
+npx prisma init
+# Atur DATABASE_URL di .env = "postgresql://..."
 ```
 
----
+```prisma
+// prisma/schema.prisma
+model Produk {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  harga     Int
+  stok      Int      @default(0)
+  createdAt DateTime @default(now())
+}
+```
 
-## Konsep Kunci
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
 
-### Prisma
-ORM type-safe untuk Next.js. Schema-first approach.
+```javascript
+// app/produk/actions.js
+"use server";
+import { prisma } from "@/lib/prisma";
 
-### Schema
-Model = table. Field = column. Relation = foreign key.
+export async function tambah(formData){
+  await prisma.produk.create({
+    data: { nama: formData.get("nama"), harga: Number(formData.get("harga")) }
+  });
+}
 
-### CRUD
-prisma.user.findMany(), create(), update(), delete().
-
-### Migrations
-prisma migrate dev = buat migration + apply.
-
----
-
-## Eksperimen
-
-- Buat schema dengan relations
-- Implementasikan pagination
-- Tambah search dan filter
-- Buat nested create (user + posts)
-
----
-
-## Tantangan
-
-Buat blog database: User, Post, Comment models. CRUD operations dengan Prisma. Include relations dan pagination.
+// app/produk/page.js
+import { prisma } from "@/lib/prisma";
+export default async function Page(){
+  const produk = await prisma.produk.findMany();
+  return <ul>{produk.map(p=><li key={p.id}>{p.nama} - Rp{p.harga}</li>)}</ul>;
+}
+```
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 12: **Database & ORM** (Level: Lanjutan). Data persistence. Minggu depan: **Advanced Auth**.
+Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`.
