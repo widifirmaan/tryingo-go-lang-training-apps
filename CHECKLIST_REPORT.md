@@ -260,9 +260,10 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 27 stack **Beginner 182 + Intermediate 54 + Advanced 38 = 274 file** (HTML5 10 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 8 + Angular 8 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) — 27 stack 100% beginner. Advanced lanjut.
+**Total non-IT ready:** 27 stack **Beginner 182 + Intermediate 58 + Advanced 38 = 278 file** (HTML5 10 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 10 + Angular 10 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) — 27 stack 100% beginner. Intermediate lanjut — Svelte/Angular forms.
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
+| 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
