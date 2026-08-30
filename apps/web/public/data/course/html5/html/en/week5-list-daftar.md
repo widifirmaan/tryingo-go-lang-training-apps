@@ -1,117 +1,46 @@
-# Lists
+# List & Daftar — Rak Daftar
 
-> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 5:** Lists
+> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 5:** List & Daftar
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Ordered list: ol for sequential lists
-- Unordered list: ul for non-sequential lists
-- Description list: dl, dt, dd for term-description pairs
-- Nested lists: lists inside lists for hierarchy
-- Styling lists with CSS list-style-type
+- `ul` tidak urut (peluru), `ol` urut (1,2,3), `li` isi, `dl/dt/dd` kamus
 
 ---
 
-## Program: Shopping List
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar produk, langkah masak, FAQ — semua list. Tanpa `ul/ol`, tulis ` - Beras<br> - Bayam` berantakan.
+
+---
+
+## Program: Daftar Warung
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Daftar Belanja</title>
-</head>
-<body>
-    <h1>Daftar Belanja Mingguan</h1>
+<h2>Produk</h2>
+<ul>
+  <li>Beras 5kg — Rp 62.000</li>
+  <li>Bayam — Rp 5.000</li>
+</ul>
 
-    <h2>Yang Harus Dibeli (Ordered)</h2>
-    <ol>
-        <li>Susu segar 1 liter</li>
-        <li>Roti tawar</li>
-        <li>Telur 1 lusin</li>
-        <li>Buah-buahan</li>
-    </ol>
+<h2>Langkah Pesan</h2>
+<ol>
+  <li>Pilih produk</li>
+  <li>WA 0812</li>
+  <li>Bayar COD</li>
+</ol>
 
-    <h2>Kategori Belanja (Unordered)</h2>
-    <ul>
-        <li>Sayuran
-            <ul>
-                <li>Bayam</li>
-                <li>Brokoli</li>
-                <li>Wortel</li>
-            </ul>
-        </li>
-        <li>Protein
-            <ul>
-                <li>Ayam</li>
-                <li>Ikan</li>
-                <li>Tahu & Tempe</li>
-            </ul>
-        </li>
-        <li>Bumbu Dapur</li>
-    </ul>
-
-    <h2>Deskripsi Produk (Description List)</h2>
-    <dl>
-        <dt>Susu</dt>
-        <dd>Minuman dari sapi, kaya kalsium dan protein</dd>
-        <dt>Roti</dt>
-        <dd>Makanan dari tepung terigu yang dipanggang</dd>
-        <dt>Telur</dt>
-        <dd>Sumber protein hewani yang murah dan bergizi</dd>
-    </dl>
-</body>
-</html>
+<h2>Kamus</h2>
+<dl>
+  <dt>Beras</dt><dd>Nasi harian</dd>
+  <dt>Bayam</dt><dd>Sayur hijau</dd>
+</dl>
 ```
 
----
-
-## Key Concepts
-
-### Ordered List
-`<ol><li>...</li></ol>` — auto-numbered list.
-
-### Unordered List
-`<ul><li>...</li></ul>` — bulleted list.
-
-### Description List
-`<dl><dt>term</dt><dd>description</dd></dl>` — term pairs.
-
-### Nested Lists
-Lists inside lists for sub-items.
+**Zag `ul` vs `ol`:** `ul` peluru, `ol` nomor. `ol start="5"` mulai 5, `reversed`.
 
 ---
 
-## Beginner Friendly Explanation
+## Ringkasan
 
-Lists in HTML are like a shopping list: some are numbered, some are bulleted.
-
-- `<ol>` = ordered list = **automatically numbered** (1, 2, 3). Good for a sequence of steps.
-- `<ul>` = unordered list = **bulleted**. Good for lists with no important order.
-- Every item is wrapped in `<li>` (list item).
-- `<dl>` = description list — a `<dt>` (term) and `<dd>` (its description) pair.
-- You can **nest**: a `<ul>` inside a `<ul>` for sub-lists.
-
-**Try:** In the "Shopping List" program, change `<ol>` to `<ul>`, run it, and watch the numbers turn into bullets.
-
----
-
-## Experiments
-
-- Create nested list 3 levels deep
-- Try description list for FAQ
-- Create ordered list with start="5"
-- Experiment reversed on ol
-- Create sidebar navigation with nested ul
-
----
-
-## Challenge
-
-Build a food recipe page: ingredients (ul), steps (ol), and nutrition (dl).
-
----
-
-## Summary
-
-Week 5 of 14: **Lists** (Level: Complete HTML5). Simple data structures. Next week: **Tables**.
+Minggu 5: **Daftar** — `ul/ol` rak daftar.

@@ -1,45 +1,50 @@
-# Format Teks & Tipografi
+# Format Teks & Tipografi — Spanduk Warung yang Menarik
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 2:** Format Teks & Tipografi
 
 ## Tujuan Pembelajaran
 
-- Elemen format inline: strong, em, u, s, mark, code
-- Elemen semantik teks: blockquote, q, cite, abbr, time
-- Subscript dan superscript: sub, sup untuk formula
-- Elemen preformatted: pre untuk kode dan teks terformat
-- Elemen kutipan: blockquote, q, cite untuk referensi
+- Tebalkan yang penting `<strong>` (bukan `<b>`), miringkan penekanan `<em>` (bukan `<i>`)
+- Stabilo `<mark>`, garis bawah `<u>`, coret `<s>`, kecil bawah/atas `<sub>/<sup>` untuk H₂O dan x²
+- Kutipan `<blockquote>` menjorok dan `<q>` dalam baris, plus `<abbr>` singkatan
+- Tampilkan kode apa adanya `<pre>` + `<code>` agar spasi tidak hilang
 
 ---
 
-## Program: Artikel Berita
+## Kenapa Ini Penting Buat Kamu?
+
+Spanduk warung " **GRATIS ONGKIR** " harus tebal, " *syarat berlaku* " miring, " H₂O " angka kecil bawah. Tanpa format, semua teks rata — pelanggan tidak lihat yang penting. Minggu ini bikin spanduk yang mata langsung tangkap promo.
+
+---
+
+## Program: Spanduk Promo Warung
 
 ```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Artikel Berita</title>
+  <meta charset="UTF-8">
+  <title>Promo Warung</title>
 </head>
 <body>
-    <article>
-        <h1><strong>Pentingnya</strong> <em>Belajar HTML</em></h1>
-        <p>Ditulis oleh <mark>Redaksi</mark> | <time datetime="2026-08-06">6 Agustus 2026</time></p>
-        <hr>
-        <p>HTML adalah <abbr title="HyperText Markup Language">HTML</abbr> — fondasi web.</p>
-        <p>Ini teks <strong>tebal</strong>, <em>miring</em>, <u>garis bawah</u>, dan <s>coret</s>.</p>
-        <p>Rumus air: H<sub>2</sub>O. Pangkat: x<sup>2</sup> + y<sup>2</sup> = z<sup>2</sup></p>
-        <blockquote>
-            <p>"Web adalah untuk semua orang, bukan untuk sebagian orang."</p>
-            <footer>— Tim Berners-Lee</footer>
-        </blockquote>
-        <pre>
-function halo() {
-    console.log("Halo, Dunia!");
-}
-        </pre>
-        <code>const x = 42;</code>
-    </article>
+  <article style="font-family: sans-serif; max-width: 600px;">
+    <h1><strong>Gratis Ongkir</strong> <em>Syarat Berlaku</em></h1>
+    <p>Ditulis oleh <mark>Bu Siti</mark> | <time datetime="2026-08-25">25 Agustus 2026</time></p>
+    <hr>
+
+    <p>Ini <strong>tebal penting</strong>, <em>miring penekanan</em>, <u>garis bawah</u>, <s>coret harga lama Rp 70.000</s> → <mark>Rp 62.000</mark></p>
+
+    <p>Rumus: Air H<sub>2</sub>O, Pangkat x<sup>2</sup></p>
+    <p><abbr title="Warung Bu Siti">WBS</abbr> buka tiap hari.</p>
+
+    <blockquote>
+      <p>"Warung yang jujur, pelanggan betah."</p>
+      <footer>— Bu Siti</footer>
+    </blockquote>
+
+    <p>Kode promo:</p>
+    <pre><code>GRATIS-ONGKIR-2026</code></pre>
+  </article>
 </body>
 </html>
 ```
@@ -48,47 +53,70 @@ function halo() {
 
 ## Konsep Kunci
 
-### Format Inline
-`<strong>` penting (bold), `<em>` penekanan (italic), `<mark>` highlight, `<code>` kode inline.
+### `<strong>` vs `<b>`, `<em>` vs `<i>`
+- `<strong>` = penting (dibaca screen reader tegas), `<b>` hanya tebal visual — pakai `<strong>`
+- `<em>` = penekanan, `<i>` hanya miring — pakai `<em>`
 
-### Kutipan
-`<blockquote>` kutipan blok, `<q>` kutipan inline, `<cite>` sumber.
+### `<mark>`, `<u>`, `<s>`
+`mark` stabilo kuning, `u` garis bawah, `s` coret (harga lama).
 
-### Pre & Code
-`<pre>` pertahankan spasi dan line break. `<code>` untuk kode inline.
+### `<sub>`/`<sup>` dan `<abbr>`
+`H<sub>2</sub>O` bawah, `x<sup>2</sup>` atas, `abbr` singkatan hover.
+
+### `<blockquote>` vs `<q>` vs `<pre>`
+- `blockquote` kutipan blok menjorok
+- `q` kutipan dalam baris pakai kutip otomatis
+- `pre` pertahankan spasi/baris + `code` untuk kode inline `const x = 1`
 
 ---
 
 ## Penjelasan untuk Pemula
 
-Minggu ini tentang memberi **gaya** pada kata. Bayangkan seperti menyorot kata di buku catatan.
+### Analogi: Spanduk Pasar
 
-**Kata-kata penting:**
-- `<strong>` = teks penting, tampil **tebal**. `<em>` = penekanan, tampil *miring*. `<mark>` = seperti stabilo. `<u>` = garis bawah, `<s>` = coret.
-- `<sub>` = huruf kecil di bawah (misal H₂O, angka 2 di bawah), `<sup>` = huruf kecil di atas (x², angka 2 di atas).
-- `<blockquote>` = kutipan panjang, tampil menjorok. `<q>` = kutipan pendek di dalam satu baris.
-- `<pre>` = teks apa adanya: spasi dan baris baru dipertahankan persis, jadi bagus untuk menampilkan kode.
+- **`<strong>` = spidol tebal**: "GRATIS" tebal biar dari jauh kelihatan.
+- **`<em>` = suara ditekankan**: "syarat *berlaku*".
+- **`<mark>` = stabilo**: kuning untuk "Bu Siti".
+- **`<sub>/<sup>` = angka kecil**: H₂O angka 2 kecil bawah.
 
-**Coba di playground:** Ubah kata di antara `<strong>` dan `<em>`, lalu jalankan — bandingkan tampilan tiap tag sampai hafal bedanya.
+### Cara Komputer Membaca
+
+1. `<strong>Gratis</strong>` → browser tebalkan + screen reader baca tegas.
+2. `<pre>GRATIS` → browser jangan rapikan spasi, tampil apa adanya.
+
+### 3 Istilah Wajib
+
+1. **Inline**: format dalam baris (`strong`, `em`) tidak bikin baris baru.
+2. **Blockquote**: kutipan blok menjorok.
+3. **Pre**: preformatted.
 
 ---
 
 ## Eksperimen
 
-- Buat paragraf dengan semua format inline berbeda
-- Tambah blockquote dengan cite untuk artikel
-- Coba pre dengan kode lebih panjang
-- Eksperimen sub dan sup dengan formula matematika
-- Buat daftar isi dengan abbr untuk istilah teknis
+- **Hijau:** Ganti `<strong>Gratis Ongkir</strong>` jadi nama warungmu → tebal?
+- **Kuning:** `H<sub>2</sub>O` ganti jadi `CO<sub>2</sub>` → bawah?
+- **Merah:** Tulis `<b>` bukan `<strong>` → tetap tebal tapi screen reader tidak tegas (cek di `Konsep Kunci`).
 
 ---
 
 ## Tantangan
 
-Buat halaman artikel blog lengkap: judul, penulis, tanggal, paragraf dengan format, blockquote, kode, dan footer.
+**Spanduk Warung Lengkap:** Judul `H1` **Promo**, penulis `mark` + `time`, paragraf dengan `strong/em/u/s`, `H2O` + `x2`, `blockquote` testimoni pelanggan, `pre+code` kode promo `WARUNG10`.
+
+Kriteria: `strong/em/mark` + `sub/sup` + `blockquote` + `pre` semua ada, buka di browser terlihat spanduk.
+
+---
+
+## Glosarium Mini
+
+- **strong/em**: penting/penekanan
+- **mark/u/s**: stabilo/garis/coret
+- **sub/sup**: bawah/atas
+- **blockquote/q/pre**: kutipan
 
 ---
 
 ## Ringkasan
 
-Minggu 2 dari 14: **Format Teks & Tipografi** (Level: HTML5 Lengkap). Kaya ekspresi dalam teks. Minggu depan: **Link & Navigasi**.
+Minggu 2 dari 14: **Format Teks** (Level: Lengkap). Bisa bikin spanduk promo yang mata tangkap. Minggu depan: **Link & Navigasi** — sambung halaman warung.

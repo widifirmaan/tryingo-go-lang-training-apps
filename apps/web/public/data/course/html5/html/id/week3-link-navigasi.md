@@ -1,105 +1,66 @@
-# Link & Navigasi
+# Link & Navigasi — Jalan Antar Warung
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 3:** Link & Navigasi
 
 ## Tujuan Pembelajaran
 
-- Elemen anchor: a dengan atribut href untuk hyperlink
-- Jenis link: absolute URL, relative URL, fragment (#id)
-- Navigasi: nav, ul, li untuk menu
-- Link khusus: mailto:, tel:, target="_blank"
-- Atribut rel: noopener, noreferer untuk keamanan
+- `href` jalan: `href="/produk"` dalam, `href="https://..."` luar, `href="#promo"` lompat dalam halaman
+- `target="_blank"` buka tab baru + `rel="noopener"` aman
+- `nav`, `ul>li>a` menu, `a` download `download` dan `mailto:`
 
 ---
 
-## Program: Menu Navigasi
+## Kenapa Ini Penting Buat Kamu?
+
+Warung tanpa jalan = pelanggan di beranda tidak bisa ke produk. Link = **jalan**. `nav` = papan petunjuk.
+
+---
+
+## Program: Menu Warung 3 Halaman
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Link & Navigasi</title>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="#beranda">Beranda</a></li>
-            <li><a href="#tentang">Tentang</a></li>
-            <li><a href="#kontak">Kontak</a></li>
-        </ul>
-    </nav>
+<nav>
+  <ul>
+    <li><a href="/">Beranda</a></li>
+    <li><a href="/produk.html">Produk</a></li>
+    <li><a href="/kontak.html">Kontak</a></li>
+    <li><a href="https://wa.me/62812" target="_blank" rel="noopener">WA</a></li>
+  </ul>
+</nav>
 
-    <main>
-        <section id="beranda">
-            <h1>Beranda</h1>
-            <p>Selamat datang di halaman utama.</p>
-            <p><a href="https://developer.mozilla.org" target="_blank" rel="noopener">Buka MDN (tab baru)</a></p>
-        </section>
-
-        <section id="tentang">
-            <h2>Tentang Kami</h2>
-            <p>Ini halaman tentang. <a href="#beranda">Kembali ke beranda</a></p>
-        </section>
-
-        <section id="kontak">
-            <h2>Kontak</h2>
-            <p>Email: <a href="mailto:info@example.com">info@example.com</a></p>
-            <p>Telepon: <a href="tel:+628123456789">+62 812-3456-789</a></p>
-        </section>
-    </main>
-</body>
-</html>
+<main>
+  <h1 id="promo">Promo Hari Ini</h1>
+  <p><a href="#promo">Lompat ke promo</a></p>
+  <p><a href="katalog.pdf" download>Download Katalog</a></p>
+  <p><a href="mailto:warung@email.com">Email</a></p>
+</main>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Elemen Anchor
-`<a href="url">text</a>` — hyperlink. `href` bisa absolute, relative, atau fragment.
+### `href` 3 Jalan
+- `/produk.html` dalam, `https://` luar, `#promo` lompat, `mailto:` email
 
-### Navigasi
-`<nav>` wrapper untuk menu. `<ul><li>` untuk daftar link.
-
-### Link Khusus
-`mailto:` buka email client, `tel:` panggil nomor di mobile.
-
-### Keamanan
-`rel="noopener noreferer"` untuk link external dengan target="_blank".
+### `nav` + `ul`
+`nav` bungkus menu, `ul>li>a` daftar jalan.
 
 ---
 
 ## Penjelasan untuk Pemula
 
-Link adalah **jembatan antar halaman**. Mengklik link membawa pengunjung dari satu tempat ke tempat lain.
-
-**Cara membaca link:**
-- `<a href="tujuan">teks</a>` — `a` = anchor (jangkar), `href` = kemana link mengarah, `teks` = yang tampil dan bisa diklik.
-- Absolute (alamat lengkap): `https://mdn.dev`. Relative (alamat relatif): `halaman/about.html`. Fragment: `#kontak` — langsung ke bagian dengan `id="kontak"` di halaman yang sama.
-- `target="_blank"` = buka di tab baru. Selalu tambahkan `rel="noopener noreferrer"` agar tab baru itu tidak bisa membuka jendela berbahaya.
-- `mailto:` = membuka aplikasi email, `tel:` = memanggil nomor telepon.
-
-**Coba:** Di program minggu ini, klik setiap link dan perhatikan perubahan URL atau lompatan halaman — ini cara tercepat memahami beda absolute, relative, dan fragment.
-
----
-
-## Eksperimen
-
-- Buat menu navigasi dengan 5 link ke section berbeda
-- Tambah link external ke 3 website berbeda
-- Coba mailto dengan subject dan body
-- Buat breadcrumb navigation
-- Tambah skip-to-content link untuk aksesibilitas
+### Analogi: Jalan & Papan Petunjuk
+- **`<a href="/produk">` = jalan ke toko sebelah**, **`nav` = papan petunjuk** di depan.
 
 ---
 
 ## Tantangan
 
-Buat halaman multi-section lengkap dengan navigasi sticky, smooth scroll, dan semua jenis link.
+**Warung 3 Halaman:** `index.html` (Beranda), `produk.html` (daftar), `kontak.html` (WA+email) + `nav` sama di 3 file, + link `#promo`.
 
 ---
 
 ## Ringkasan
 
-Minggu 3 dari 14: **Link & Navigasi** (Level: HTML5 Lengkap). Menghubungkan halaman. Minggu depan: **Gambar & Media**.
+Minggu 3: **Link** — jalan antar warung. Minggu depan: **Gambar & Media**.

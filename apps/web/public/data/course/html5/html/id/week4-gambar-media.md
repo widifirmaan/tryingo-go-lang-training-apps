@@ -1,104 +1,35 @@
-# Gambar & Media
+# Gambar & Media — Etalase Foto
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 4:** Gambar & Media
 
 ## Tujuan Pembelajaran
 
-- Elemen img: src, alt, width, height, loading
-- Pentingnya alt text untuk aksesibilitas dan SEO
-- Elemen figure dan figcaption untuk caption gambar
-- Elemen picture untuk responsive images
-- Atribut loading="lazy" untuk performa
+- `img src alt width height` foto, `alt` wajib untuk tunanetra, `figure+figcaption` bingkai + caption
+- `srcset` untuk HP vs laptop (nanti CSS)
 
 ---
 
-## Program: Galeri Foto
+## Kenapa Ini Penting Buat Kamu?
+
+Warung tanpa foto = pelanggan tidak percaya. `alt` = deskripsi jika foto gagal load / dibaca screen reader.
+
+---
+
+## Program: Etalase Foto
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Galeri Foto</title>
-</head>
-<body>
-    <h1>Galeri Foto</h1>
-
-    <figure>
-        <img src="https://picsum.photos/400/300?random=1"
-             alt="Pemandangan gunung saat sunrise"
-             width="400" height="300"
-             loading="lazy">
-        <figcaption>Pemandangan gunung saat sunrise</figcaption>
-    </figure>
-
-    <figure>
-        <img src="https://picsum.photos/400/300?random=2"
-             alt="Pantai tropis dengan pasir putih"
-             width="400" height="300"
-             loading="lazy">
-        <figcaption>Pantai tropis dengan pasir putih</figcaption>
-    </figure>
-
-    <h2>Responsive Picture</h2>
-    <picture>
-        <source media="(min-width: 800px)" srcset="https://picsum.photos/800/400?random=3">
-        <source media="(min-width: 400px)" srcset="https://picsum.photos/400/300?random=4">
-        <img src="https://picsum.photos/300/200?random=5" alt="Gambar responsive">
-    </picture>
-</body>
-</html>
+<figure>
+  <img src="beras.jpg" alt="Karung beras 5kg" width="300" height="200">
+  <figcaption>Beras 5kg — Rp 62.000</figcaption>
+</figure>
+<img src="https://via.placeholder.com/300" alt="Placeholder produk" width="300" height="200">
+<p>Jika foto gagal, <code>alt</code> tampil: "Karung beras 5kg"</p>
 ```
 
----
-
-## Konsep Kunci
-
-### Elemen img
-`<img src="url" alt="deskripsi">` — alt wajib untuk aksesibilitas.
-
-### Figure & Figcaption
-`<figure>` wrapper, `<figcaption>` caption. Lebih semantic dari caption biasa.
-
-### Picture Element
-`<picture>` dengan `<source>` untuk responsive images — browser pilih yang sesuai.
-
-### Performa
-`loading="lazy"` menunda load sampai gambar terlihat di viewport.
-
----
-
-## Penjelasan untuk Pemula
-
-Menampilkan gambar dengan `<img>` seperti memasang foto di biodata: kita menulis alamat fotonya, lalu browser menempelkannya.
-
-**Hal penting:**
-- `<img src="alamat">` — `src` = sumber gambar. Bedanya dengan tag lain: `<img>` **tidak punya pasangan penutup** (self-closing).
-- `alt="deskripsi"` — teks pengganti bila gambar gagal dimuat atau dibaca oleh pembaca layar. **Selalu isi** — ini kunci aksesibilitas.
-- `width`/`height` = ukuran. `loading="lazy"` = unduh belakangan saat pengunjung mendekat (hemat data).
-- `<figure>` = bingkai, `<figcaption>` = keterangan di bawah gambar. Pasangan yang rapi.
-- `<picture>` = menyediakan beberapa versi gambar; browser memilih yang paling pas untuk ukuran layar — trik halaman responsif.
-
-**Coba:** Di program minggu ini, kosongkan `alt` lalu jalankan dan bayangkan pembaca layar membacanya. Ganti `loading="lazy"` menjadi `eager` dan bandingkan.
-
----
-
-## Eksperimen
-
-- Tambah 3 gambar dengan alt text berbeda
-- Coba picture dengan 3 source berbeda
-- Eksperimen dengan width dan height berbeda
-- Buat galeri dengan figure dan figcaption
-- Coba loading="eager" vs "lazy"
-
----
-
-## Tantangan
-
-Buat halaman portofolio dengan galeri foto responsive, figure + figcaption, dan lazy loading.
+**Wajib `alt`**: kosong `alt=""` jika hiasan, isi jika produk.
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 14: **Gambar & Media** (Level: HTML5 Lengkap). Visual yang powerful. Minggu depan: **List & Daftar**.
+Minggu 4: **Foto** — `img` + `alt` + `figure`. Minggu depan: **List**.
