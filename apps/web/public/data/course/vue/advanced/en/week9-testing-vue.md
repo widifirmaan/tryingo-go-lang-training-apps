@@ -1,65 +1,32 @@
-# Testing Vue Components
+# Testing Vue — Uji Kartu
 
-> **Kategori:** Vue | **Level:** Advanced | **Minggu 9:** Testing Vue Components
+> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 9:** Testing Vue
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Vitest + Vue Test Utils setup
-- mount vs shallowMount: when to use
-- find, findAll: query DOM elements
-- trigger, emit: simulate user interactions
-- Mock stores and router in tests
+- `vitest` + `Vue Test Utils` — `mount(Kartu, { props: { nama: "Beras" } })`
 
 ---
 
-## Program: Unit & Integration
+## Program
 
 ```vue
-// Testing Vue: Vitest + Vue Test Utils
-// import { mount } from "@vue/test-utils";
-// import { describe, it, expect } from "vitest";
-// describe("Counter", () => {
-//   it("renders initial count", () => {
-//     const wrapper = mount(Counter);
-//     expect(wrapper.find("[data-testid=count]").text()).toBe("0");
-//   });
-// });
-console.log('Testing Vue siap digunakan');
+<!-- Kartu.vue -->
+<template><div>{{ nama }}</div></template>
+<script setup> defineProps({ nama: String }); </script>
+
+<!-- Kartu.test.js -->
+import { mount } from "@vue/test-utils";
+import Kartu from "./Kartu.vue";
+import { test, expect } from "vitest";
+test("tampil nama", () => {
+  const w = mount(Kartu, { props: { nama: "Beras" } });
+  expect(w.text()).toContain("Beras");
+});
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Setup
-Vitest + @vue/test-utils.
-
-### Queries
-find() = first match, findAll() = all.
-
-### Interactions
-trigger, setValue for user simulation.
-
-### Best Practices
-Test behavior, not implementation.
-
----
-
-## Experiments
-
-- Test form submission
-- Test async component with fetch
-- Test with mocked store
-- Test navigation with router
-
----
-
-## Challenge
-
-Build a test suite for TodoApp: add todo, toggle complete, delete todo, filter.
-
----
-
-## Summary
-
-Week 9 of 12: **Testing Vue** (Level: Advanced). Next week: **Performance & Nuxt**.
+Minggu 9: **Uji Vue** — `mount` + `props`.

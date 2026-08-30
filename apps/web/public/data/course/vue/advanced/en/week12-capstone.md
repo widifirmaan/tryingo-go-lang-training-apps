@@ -1,56 +1,21 @@
-# Capstone: SaaS Dashboard
+# Capstone: Toko Vue Lengkap
 
-> **Kategori:** Vue | **Level:** Advanced | **Minggu 12:** Capstone: SaaS Dashboard
+> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 12:** Capstone
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all Vue concepts in one project
-- Composition API + Pinia + Router pattern
-- Component architecture: reusable, composable
-- Testing: unit, integration, e2e
-- Production build and deployment
+- Gabung Router + Pinia + `fetch` jadi toko `produk` + `keranjang`
 
 ---
 
-## Program: Analytics Platform
+## Program
 
-```vue
-// Capstone: SaaS Analytics Dashboard
-// Architecture: Vue 3 + Pinia + Vue Router + Vite + Vitest
-// Features: Auth, charts, CRUD, notifications, dark mode, testing
-console.log('SaaS Dashboard siap digunakan!');
-```
+Fitur: `/` Beranda, `/produk` `fetch` Pinia, `/produk/:id` detail, `/keranjang` Pinia + `persist`.
+
+Deploy `Vercel`.
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Architecture
-Composition API + Pinia + Router.
-
-### Testing
-Unit with Vitest, E2E with Playwright.
-
-### Production
-vite build for production.
-
----
-
-## Experiments
-
-- Add real-time WebSocket
-- Implement data export
-- Build comprehensive test suite
-- Deploy to production
-
----
-
-## Challenge
-
-Build a complete SaaS dashboard: auth, charts, CRUD, notifications, dark mode, testing.
-
----
-
-## Summary
-
-Week 12 of 12: **Capstone: SaaS Dashboard** (Level: Advanced). Complete! 🎉
+Minggu 12: **Capstone Vue** — toko lengkap, **Selesai Vue 0→Ahli!**
