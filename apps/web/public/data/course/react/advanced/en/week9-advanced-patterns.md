@@ -1,111 +1,32 @@
-# Advanced Patterns
+# Advanced Patterns — Pola Warung Rapi
 
-> **Kategori:** React | **Level:** Advanced | **Minggu 9:** Advanced Patterns
+> **Kategori:** React | **Level:** Lanjutan | **Minggu 9:** Advanced Patterns
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Higher-Order Component (HOC): function receiving a component
-- Render Props: component with function prop for rendering
-- Compound Components: components working together
-- When to use these patterns vs custom hooks
-- Composition over inheritance in React
+- `Compound Components` — `Card.Header` + `Card.Body`, `Render Props` dan `HOC` — cetak biru rapi
 
 ---
 
-## Program: HOC & Render Props
+## Program: Pola Compound
 
 ```jsx
-// Advanced patterns: HOC, Render Props, Compound Components
-// Patterns untuk code reuse yang lebih powerful
+function Card({ children }){ return <div style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16 }}>{children}</div>; }
+Card.Header = ({ children }) => <h3>{children}</h3>;
+Card.Body = ({ children }) => <p>{children}</p>;
 
-import { useState } from "react";
-
-// ── Higher-Order Component (HOC) ──
-function withAuth(Component) {
-  return function AuthenticatedComponent(props) {
-    const isAuthenticated = true; // simulasi
-    if (!isAuthenticated) return <p>Silakan login terlebih dahulu</p>;
-    return <Component {...props} />;
-  };
-}
-
-// ── Render Props ──
-function MouseTracker({ render }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+export default function App(){
   return (
-    <div style={{ height: 200, background: "#eee" }}
-      onMouseMove={(e) => setPosition({ x: e.clientX, y: e.clientY })}>
-      {render(position)}
-    </div>
+    <Card>
+      <Card.Header>Beras 5kg</Card.Header>
+      <Card.Body>Rp 62.000 — Stok 10</Card.Body>
+    </Card>
   );
 }
-
-// ── Compound Components ──
-function Select({ children, value, onChange }) {
-  return (
-    <div className="select" onClick={() => onChange(value)}>
-      {children}
-    </div>
-  );
-}
-Select.Option = function Option({ value, children }) {
-  return <div className="option">{children}</div>;
-};
-
-// ── Usage ──
-const ProtectedDashboard = withAuth(function Dashboard() {
-  return <h1>Dashboard (Protected)</h1>;
-});
-
-function App() {
-  return (
-    <div>
-      <ProtectedDashboard />
-      <MouseTracker render={({ x, y }) => <p>Mouse: {x}, {y}</p>} />
-      <Select value="a" onChange={(v) => console.log(v)}>
-        <Select.Option value="a">Option A</Select.Option>
-        <Select.Option value="b">Option B</Select.Option>
-      </Select>
-    </div>
-  );
-}
-
-console.log("Advanced patterns siap digunakan");
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### HOC
-Function(Component) → enhanced component.
-
-### Render Props
-Component receives render function as prop.
-
-### Compound Components
-Components sharing implicit state.
-
-### Modern Alternative
-Custom hooks often replace HOC and Render Props.
-
----
-
-## Experiments
-
-- Create HOC with logging
-- Create Toggle component with render props
-- Implement compound Tabs component
-- Refactor HOC to custom hook
-
----
-
-## Challenge
-
-Build Modal component with compound pattern: Modal, Modal.Header, Modal.Body, Modal.Footer. Use createContext for state sharing.
-
----
-
-## Summary
-
-Week 9 of 12: **Advanced Patterns** (Level: Advanced). Reusable component patterns. Next week: **Testing**.
+Minggu 9: **Pola Compound** — bagi kartu jadi Header/Body.
