@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 54 + Advanced 24 = 244 file** (Next.js 24 + React 12 + Vue 12 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 8 + Angular 8 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Advanced lanjut — Next.js gudang & capstone selesai.
+**Total non-IT ready:** 25 stack **Beginner 166 + Intermediate 54 + Advanced 38 = 258 file** (Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 8 + Docker 4 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 6 + Django 6 + PHP 6 + Laravel 6 + Svelte 8 + Angular 8 + NestJS 6 + CodeIgniter 6 + Rails 6 + Spring 6 + C# 6) + HTML5/CSS3 harmonized. Advanced lanjut — React/Vue capstone selesai.
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
@@ -275,6 +275,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `548bab9` | Go Advanced W10-W13 (id+en, 8 file) — ADVANCED | Manual `json.Marshal` nota + `http.NewServeMux` warung API + `go test` + capstone CLI+API |
 | 2026-08-25 | `2de2247` | Python W9-W10 + JS W11-W12 (id+en, 8 file) — ADVANCED | Manual `pip` pinjam + `assert` uji + `Singleton` cetak biru |
 | 2026-08-25 | `1e3f055` | Next.js Advanced W9-W12 (id+en, 8 file) — ADVANCED | Manual `Prisma` gudang + `NextAuth` KTP + `Vercel` deploy + capstone toko |
+| 2026-08-25 | `31928d2` | React + Vue Advanced W9-W12 (id+en, 14 file) — ADVANCED | Manual pola `memo`, uji `vitest`, capstone toko lengkap |
 | 2026-08-25 | `cebb181` | JS Intermediate W6 (id, 1 file) | Manual delegation 1 satpam 100 pintu — mulai fase Menengah friendly |
 
 | 2026-08-25 | `e0ace1d` | PHP W1-W3 + Laravel W1-W3 (id+en, 12 file) | Manual warung `$` PHP + artisan Laravel Blade |
