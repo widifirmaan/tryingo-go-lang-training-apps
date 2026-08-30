@@ -1,70 +1,41 @@
-# Actions & Forms
+# Actions & Forms — Stempel & Formulir Svelte
 
 > **Kategori:** Svelte | **Level:** Menengah | **Minggu 7:** Actions & Forms
 
 ## Tujuan Pembelajaran
 
-- Form actions: ?/create, ?/delete
-- +page.server.js untuk server actions
-- Form data dengan request.formData()
-- Enhance form untuk progressive enhancement
-- Return data dari action
+- `use:action` stempel di elemen, `bind:value` + `on:submit|preventDefault` untuk form warung tanpa reload
 
 ---
 
-## Program: Form & API
+## Program: Form Warung Svelte
 
 ```svelte
-<!-- SvelteKit Actions: form submission ke server -->
-<!-- +page.server.js -->
-// export const actions = {
-//   create: async ({ request }) => {
-//     const data = await request.formData();
-//     const name = data.get('name');
-//     return { success: true, message: 'Berhasil' };
-//   }
-// };
-<!-- +page.svelte (Form) -->
 <script>
-  export let form; // hasil dari action
+  let nama = "";
+  let daftar = [];
+  function tambah(){ if(!nama.trim()) return; daftar = [...daftar, { id: Date.now(), nama }]; nama = ""; }
+  function klikLuar(node){
+    function handle(e){ if(!node.contains(e.target)) node.dispatchEvent(new CustomEvent("klikLuar")); }
+    document.addEventListener("click", handle);
+    return { destroy(){ document.removeEventListener("click", handle); } };
+  }
 </script>
-<form method="POST" action="?/create">
-  <input name="name" placeholder="Nama">
-  <button type="submit">Simpan</button>
+
+<form on:submit|preventDefault={tambah}>
+  <input bind:value={nama} placeholder="Nama produk" />
+  <button>Tambah</button>
 </form>
-{#if form?.success}<p>{form.message}</p>{/if}
+
+<div use:klikLuar on:klikLuar={() => console.log("klik luar")}>
+  <p>Klik di luar kotak ini → log</p>
+</div>
+
+<ul>{#each daftar as p}<li>{p.nama}</li>{/each}</ul>
 ```
-
----
-
-## Konsep Kunci
-
-### Actions
-+page.server.js: actions object. ?/create = create action.
-
-### Form Data
-request.formData() = parse form submission.
-
-### Progressive Enhancement
-Tanpa JS tetap jalan. Dengan JS lebih baik.
-
----
-
-## Eksperimen
-
-- Buat form dengan multiple actions
-- Implementasikan form validation server-side
-- Tambah enhance untuk no-reload
-- Buat delete confirmation
-
----
-
-## Tantangan
-
-Buat CRUD app dengan SvelteKit actions: create, read, update, delete posts.
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 10: **Actions & Forms** (Level: Menengah). Minggu depan: **Lifecycle & Context**.
+Minggu 7: **Stempel & Form** — `use:` dan `bind`.
