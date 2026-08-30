@@ -1,61 +1,35 @@
-# Reactive Forms
+# Reactive Forms — Formulir Reaktif Angular
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 7:** Reactive Forms
+> **Kategori:** Angular | **Level:** Menengah | **Minggu 7:** Reactive Forms
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- FormControl, FormGroup, FormArray
-- FormBuilder for form building
-- Validators: required, minLength, email
-- Dynamic forms: add/remove controls
-- Custom validators
+- `FormControl`, `FormGroup`, `Validators.required`, `form.value` — formulir yang validasi otomatis
 
 ---
 
-## Program: Dynamic Forms
+## Program: Form Warung
 
 ```typescript
-// Reactive Forms: form logic di component class
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-@Component({ selector: 'app-form', template: '<form [formGroup]="form"><input formControlName="name"></form>' })
-export class DynamicFormComponent {
-  form: FormGroup;
-  constructor(private fb: FormBuilder) { this.form = this.fb.group({ name: ['', Validators.required] }); }
-}
-console.log('Reactive Forms siap digunakan');
+// component.ts
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+form = new FormGroup({
+  nama: new FormControl("", Validators.required),
+  harga: new FormControl(0, [Validators.required, Validators.min(1)])
+});
+submit(){ if(this.form.valid) console.log(this.form.value); }
+
+// template.html
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <input formControlName="nama" placeholder="Nama" />
+  <input formControlName="harga" type="number" />
+  <button [disabled]="form.invalid">Tambah</button>
+</form>
+<p *ngIf="form.get('nama')?.hasError('required')">Nama wajib</p>
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### FormControl
-Single control.
-
-### FormGroup
-Group of controls.
-
-### FormBuilder
-Service for building forms.
-
----
-
-## Experiments
-
-- Create custom validator
-- Implement async validator
-- Create multi-step reactive form
-- Add cross-field validation
-
----
-
-## Challenge
-
-Build a dynamic survey form: add/remove questions, validation, submit to API.
-
----
-
-## Summary
-
-Week 7 of 14: **Reactive Forms** (Level: Intermediate). Next week: **HTTP Client**.
+Minggu 7: **Formulir Reaktif** — `FormGroup` + `Validators`.
