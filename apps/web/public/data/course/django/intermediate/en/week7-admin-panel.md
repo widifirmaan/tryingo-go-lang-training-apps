@@ -1,73 +1,32 @@
-# Admin Panel
+# Admin Panel — Kasir Otomatis Django
 
-> **Kategori:** Django | **Level:** Intermediate | **Minggu 7:** Admin Panel
+> **Kategori:** Django | **Level:** Menengah | **Minggu 7:** Admin Panel
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Register models to admin
-- ModelAdmin: list_display, list_filter, search_fields
-- list_editable for inline editing
-- createsuperuser for admin access
-- Custom admin actions
+- `admin.py` kustom: `list_display`, `list_filter`, `search_fields` — kasir lebih enak
 
 ---
 
-## Program: Custom Admin
+## Program
 
 ```python
-# admin.py
-print("=== Django Admin ===")
-print("from django.contrib import admin")
-print("from .models import Product")
-print("")
-print("=== Register Model ===")
-print("admin.site.register(Product)")
-print("")
-print("=== Custom Admin ===")
-print("@admin.register(Product)")
-print("class ProductAdmin(admin.ModelAdmin):")
-print("    list_display = ["name", "price", "is_available", "created_at"]")
-print("    list_filter = ["is_available", "created_at"]")
-print("    search_fields = ["name"]")
-print("    list_editable = ["price", "is_available"]")
-print("")
-print("=== Access Admin ===")
-print("python manage.py createsuperuser")
-print("http://localhost:8000/admin/")
+# warung/admin.py
+from django.contrib import admin
+from .models import Produk
 
+@admin.register(Produk)
+class ProdukAdmin(admin.ModelAdmin):
+    list_display = ("nama", "harga", "stok", "kategori")
+    list_filter = ("kategori",)
+    search_fields = ("nama",)
+    list_editable = ("harga", "stok")
 ```
 
----
-
-## Key Concepts
-
-### Register Model
-`admin.site.register(Model)` registers model to admin.
-
-### ModelAdmin
-`list_display` - displayed columns. `list_filter` - sidebar filters. `search_fields` - search.
-
-### Access
-`python manage.py createsuperuser` creates admin. `/admin/` accesses admin.
+Buka `http://localhost:8000/admin/warung/produk/` → filter kategori, cari nama, edit harga langsung di list.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Register model to admin
-- Custom ModelAdmin
-- Add search_fields
-- Create custom admin action
-- Try fieldsets
-
----
-
-## Challenge
-
-Create admin panel for Product: list_display, list_filter, search_fields.
-
----
-
-## Summary
-
-Week 7 of 12: **Admin Panel** (Level: Intermediate). Next week: **REST API**.
+Minggu 7: **Kasir Otomatis** — admin kustom.
