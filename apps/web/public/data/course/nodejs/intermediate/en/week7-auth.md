@@ -1,94 +1,43 @@
-# Authentication & Authorization
+# Auth — KTP Node
 
-> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 7:** Authentication & Authorization
+> **Kategori:** Node.js | **Level:** Menengah | **Minggu 7:** Auth
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Password hashing with bcrypt (salt + hash)
-- JSON Web Tokens (JWT): header.payload.signature
-- Auth middleware: verify token on every request
-- Role-Based Access Control (RBAC)
-- Session vs Token authentication
+- `jsonwebtoken` KTP: `jwt.sign({id}, "rahasia")`, `jwt.verify`, `middleware` cek `Authorization` header
 
 ---
 
-## Program: JWT Auth
+## Program
 
 ```javascript
-const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+const express = require("express");
+const app = express();
+app.use(express.json());
 
-console.log("=== Password Hashing ===");
-function hashPassword(password) {
-  const salt = crypto.randomBytes(16).toString("hex");
-  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-  return salt + ":" + hash;
+const SECRET = "rahasia-warung";
+
+app.post("/login", (req,res)=>{
+  const { username } = req.body;
+  const token = jwt.sign({ username }, SECRET, { expiresIn: "1h" });
+  res.json({ token });
+});
+
+function cek(req,res,next){
+  const token = req.headers.authorization?.split(" ")[1];
+  try{ req.user = jwt.verify(token, SECRET); next(); }
+  catch{ res.status(401).json({ error: "Belum login" }); }
 }
 
-function verifyPassword(password, stored) {
-  const [salt, hash] = stored.split(":");
-  const testHash = crypto.pbkdf2Sync(password, salt, 1000, 64, "sha512").toString("hex");
-  return testHash === hash;
-}
-
-const stored = hashPassword("rahasia123");
-console.log("Stored:", stored.substring(0, 40) + "...");
-console.log("Verify correct:", verifyPassword("rahasia123", stored));
-console.log("Verify wrong:", verifyPassword("salah", stored));
-
-console.log("\n=== JWT Simulation ===");
-function createJWT(payload, secret) {
-  const header = { alg: "HS256", typ: "JWT" };
-  const encode = (obj) => Buffer.from(JSON.stringify(obj)).toString("base64");
-  const data = encode(header) + "." + encode(payload);
-  const signature = crypto.createHmac("sha256", secret).update(data).digest("base64");
-  return data + "." + signature;
-}
-
-const token = createJWT({ userId: 1, role: "admin" }, "secret-key");
-console.log("Token:", token.substring(0, 50) + "...");
-
-console.log("\n=== Role-Based Access ===");
-function checkPermission(userRole, requiredRole) {
-  const roles = { admin: 3, editor: 2, viewer: 1 };
-  return (roles[userRole] || 0) >= (roles[requiredRole] || 0);
-}
-console.log("Admin can edit:", checkPermission("admin", "editor"));
-console.log("Viewer can edit:", checkPermission("viewer", "editor"));
+app.get("/admin", cek, (req,res)=>res.json({ pesan: `Halo ${req.user.username}` }));
+app.listen(3000);
 ```
 
----
-
-## Key Concepts
-
-### Password Hashing
-Bcrypt with salt.
-
-### JWT
-Header + Payload + Signature.
-
-### RBAC
-Role-based access control.
-
-### Middleware
-Auth middleware pattern.
+Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}' http://localhost:3000/login` → token → `curl -H "Authorization: Bearer TOKEN" http://localhost:3000/admin`.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Create complete register and login flow
-- Implement refresh token mechanism
-- Add middleware for role checking
-- Create password reset flow
-
----
-
-## Challenge
-
-Build a complete auth system: register, login, JWT, role-based access, password hashing.
-
----
-
-## Summary
-
-Week 7 of 12: **Authentication & Authorization** (Level: Intermediate). Next week: **Database & ORM**.
+Minggu 7: **KTP Node** — JWT + middleware.
