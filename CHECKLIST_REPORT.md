@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 27 stack **Beginner 182 + Intermediate 84 + Advanced 38 = 304 file** (HTML5 10 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 10 + Docker 8 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 10 + Django 10 + PHP 6 + Laravel 10 + Svelte 10 + Angular 10 + NestJS 6 + CodeIgniter 8 + Rails 8 + Spring 8 + C# 8) — 27 stack 100% beginner. Intermediate lanjut — Node/Django/Laravel REST.
+**Total non-IT ready:** 27 stack **Beginner 182 + Intermediate 90 + Advanced 38 = 310 file** (HTML5 10 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 10 + Docker 8 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 10 + Django 10 + PHP 6 + Laravel 10 + Svelte 10 + Angular 10 + NestJS 6 + CodeIgniter 10 + Rails 10 + Spring 10 + C# 8) — 27 stack 100% beginner. Intermediate lanjut — CI/Rails/Spring validasi.
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
 | 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
@@ -268,6 +268,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `8231e9f` | Node W5 + Django W5 + Laravel W5 (id+en, 6 file) — INTERMEDIATE | Manual `express` `app.get` + Django `ModelForm` + Laravel `Breeze` auth |
 | 2026-08-25 | `e06a14d` | CI4 W4 + Rails W5 + Spring W4 + C# W4 (id+en, 8 file) — INTERMEDIATE | Manual `Model` CI4 + `has_secure_password` Rails + `JpaRepository` Spring + `class` C# |
 | 2026-08-25 | `c2d4fdd` | Node W6 + Django W6 + Laravel W6 (id+en, 6 file) — INTERMEDIATE | Manual `express` REST `GET/POST` + Django `login_required` + `hasMany` |
+| 2026-08-25 | `ab152c6` | CI4 W6 + Rails W6 + Spring W6 (id+en, 6 file) — INTERMEDIATE | Manual validasi CI4 + `has_many` Rails + `SecurityFilterChain` Spring |
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
