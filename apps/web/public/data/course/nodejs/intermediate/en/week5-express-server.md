@@ -1,80 +1,51 @@
-# Express.js & Web Server
+# Express Server — Warung Online Node
 
-> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 5:** Express.js & Web Server
+> **Kategori:** Node.js | **Level:** Menengah | **Minggu 5:** Express Server
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Express.js: setup, routes, and listen on port
-- HTTP methods: GET, POST, PUT, DELETE
-- Route parameters: req.params and req.query
-- Middleware: app.use, next(), error handler
-- Request body parsing: express.json(), express.urlencoded()
+- `npm install express`, `app.get("/produk", (req,res)=>res.json(daftar))`, `app.listen(3000)`
 
 ---
 
-## Program: Basic Web Server
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-const express = require("express");
-const app = express();
-const PORT = 3000;
+Node `http` asli ribet. Express = **pelayan warung siap pakai**: `app.get` 1 baris jadi API.
 
-app.use(express.json());
+---
 
-app.get("/", (req, res) => {
-  res.json({ message: "Selamat datang di API!" });
-});
+## Program: Warung Express
 
-app.get("/users", (req, res) => {
-  const users = [{ id: 1, nama: "Budi" }, { id: 2, nama: "Siti" }];
-  res.json(users);
-});
-
-app.get("/users/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  res.json({ id, nama: "User " + id });
-});
-
-app.post("/users", (req, res) => {
-  const { nama, email } = req.body;
-  res.status(201).json({ id: 3, nama, email });
-});
-
-app.listen(PORT, () => {
-  console.log("Server berjalan di http://localhost:" + PORT);
-});
+```bash
+npm install express
 ```
 
----
+```javascript
+// server.js
+const express = require("express");
+const app = express();
+app.use(express.json());
 
-## Key Concepts
+let daftar = [{ id: 1, nama: "Beras", harga: 62000 }];
 
-### Express Setup
-express() and app.listen().
+app.get("/produk", (req, res) => res.json(daftar));
+app.get("/produk/:id", (req, res) => {
+  const p = daftar.find(x => x.id == req.params.id);
+  res.json(p || { error: "Tidak ada" });
+});
+app.post("/produk", (req, res) => {
+  const baru = { id: Date.now(), ...req.body };
+  daftar.push(baru);
+  res.status(201).json(baru);
+});
 
-### Routes
-HTTP method handlers.
+app.listen(3000, () => console.log("Buka http://localhost:3000/produk"));
+```
 
-### Middleware
-Global and route-specific middleware with next().
-
----
-
-## Experiments
-
-- Add PUT and DELETE routes for users
-- Create custom middleware for request logging
-- Implement route with query string filter
-- Add error handling middleware
-
----
-
-## Challenge
-
-Build a REST API for Task Manager: CRUD tasks with Express, logging middleware, and error handling.
+`node server.js` → `curl http://localhost:3000/produk`.
 
 ---
 
-## Summary
+## Ringkasan
 
-Week 5 of 12: **Express.js & Web Server** (Level: Intermediate). Next week: **REST API Design**.
+Minggu 5: **Express** — `app.get/post` jadi API.
