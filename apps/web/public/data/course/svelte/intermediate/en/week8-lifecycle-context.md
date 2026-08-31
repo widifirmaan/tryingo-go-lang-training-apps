@@ -1,64 +1,28 @@
-# Lifecycle & Context
+# Lifecycle & Context — Siklus Hidup Warung Svelte
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 8:** Lifecycle & Context
+> **Kategori:** Svelte | **Level:** Menengah | **Minggu 8:** Lifecycle & Context
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- onMount: runs after mount
-- onDestroy: cleanup before destroy
-- beforeUpdate and afterUpdate
-- setContext and getContext
-- tick() to flush state changes
+- `onMount` buka toko, `onDestroy` tutup, `setContext/getContext` gudang
 
 ---
 
-## Program: Hooks & Context
+## Program
 
 ```svelte
-<!-- Lifecycle: onMount, onDestroy, beforeUpdate, afterUpdate -->
-<!-- Context: setContext, getContext -->
 <script>
-  import { onMount, onDestroy, setContext, getContext } from 'svelte';
-  onMount(() => { console.log('Mounted!'); return () => console.log('Cleanup'); });
-  onDestroy(() => { console.log('Destroyed'); });
-  setContext('theme', { dark: false, toggle: () => {} });
-  const theme = getContext('theme');
+  import { onMount, onDestroy, setContext, getContext } from "svelte";
+  setContext("warung", { nama: "Bu Siti" });
+  onMount(() => { console.log("Buka toko"); return () => console.log("Tutup"); });
+  const warung = getContext("warung");
 </script>
+
+<p>Warung: {warung.nama}</p>
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### onMount
-Runs after mount, returns cleanup.
-
-### onDestroy
-Runs before destroy.
-
-### Context
-setContext in parent, getContext in child.
-
-### Tick
-await tick() waits for DOM update.
-
----
-
-## Experiments
-
-- Create timer with onMount/onDestroy
-- Implement context for theme
-- Use tick after state update
-- Create custom lifecycle hook
-
----
-
-## Challenge
-
-Build a theme provider with context: setContext theme, useContext in child components.
-
----
-
-## Summary
-
-Week 8 of 10: **Lifecycle & Context** (Level: Intermediate). Next week: **Transitions & Animations**.
+Minggu 8: **Siklus Hidup** — `onMount`/`onDestroy` + `context`.
