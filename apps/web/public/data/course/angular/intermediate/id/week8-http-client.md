@@ -1,65 +1,32 @@
-# HTTP Client & APIs
+# HttpClient — Ambil Stok dari Gudang
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 8:** HTTP Client & APIs
+> **Kategori:** Angular | **Level:** Menengah | **Minggu 8:** HttpClient
 
 ## Tujuan Pembelajaran
 
-- HttpClient module setup
-- GET, POST, PUT, DELETE requests
-- Type-safe responses dengan interface
-- HttpHeaders dan HttpParams
-- Error handling dengan catchError
+- `HttpClient` `get`/`post` ambil API warung, `Observable` langganan
 
 ---
 
-## Program: REST API
+## Program
 
 ```typescript
-// HttpClient = Angular service untuk HTTP requests
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-export interface Product { id: number; name: string; price: number; }
-@Injectable({ providedIn: 'root' })
-export class ProductApiService {
-  private apiUrl = 'https://api.example.com/products';
+// service
+import { HttpClient } from "@angular/common/http";
+@Injectable({ providedIn: "root" })
+export class ProdukService {
   constructor(private http: HttpClient) {}
-  getProducts(): Observable<Product[]> { return this.http.get<Product[]>(this.apiUrl); }
-  getProduct(id: number): Observable<Product> { return this.http.get<Product>(this.apiUrl + '/' + id); }
+  getAll(){ return this.http.get<any[]>("/api/produk"); }
 }
-console.log('HTTP Client siap digunakan');
+
+// component
+produk$ = this.produkService.getAll();
 ```
 
----
-
-## Konsep Kunci
-
-### HttpClient
-Injectable service untuk HTTP.
-
-### Methods
-get(), post(), put(), delete().
-
-### Type-safe
-http.get<Type>(url) = typed response.
-
----
-
-## Eksperimen
-
-- Buat API service dengan CRUD
-- Implementasikan error handling
-- Tambah request interceptor
-- Buat search dengan debounce
-
----
-
-## Tantangan
-
-Buat product CRUD app: fetch from API, display list, add/edit/delete products.
+Template: `<li *ngFor="let p of produk$ | async">{{ p.nama }}</li>`
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 14: **HTTP Client & APIs** (Level: Menengah). Minggu depan: **RxJS Fundamentals**.
+Minggu 8: **Ambil Stok** — `HttpClient` + `async` pipe.
