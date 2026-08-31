@@ -1,79 +1,43 @@
-# Authentication & Authorization
+# Authentication — KTP Django
 
-> **Kategori:** Django | **Level:** Intermediate | **Minggu 6:** Authentication & Authorization
+> **Kategori:** Django | **Level:** Menengah | **Minggu 6:** Authentication
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Built-in auth: django.contrib.auth
-- Auth views: LoginView, LogoutView
-- login_required decorator
-- User model: create_user, create_superuser
-- Auth checks: is_authenticated, is_superuser
+- `django.contrib.auth` KTP: `User`, `login()`, `logout()`, `@login_required` jaga `/admin`
 
 ---
 
-## Program: Login System
+## Program
 
-```python
-# Auth
-print("=== Django Authentication ===")
-print("=== Built-in Auth ===")
-print("INSTALLED_APPS += ["django.contrib.auth"]")
-print("")
-print("=== Auth Views ===")
-print("from django.contrib.auth import views as auth_views")
-print("urlpatterns = [")
-print("    path("login/", auth_views.LoginView.as_view(), name="login"),")
-print("    path("logout/", auth_views.LogoutView.as_view(), name="logout"),")
-print("]")
-print("")
-print("=== Login Required ===")
-print("from django.contrib.auth.decorators import login_required")
-print("@login_required")
-print("def dashboard(request):")
-print("    return render(request, "dashboard.html")")
-print("")
-print("=== User Model ===")
-print("from django.contrib.auth.models import User")
-print("user = User.objects.create_user("budi", "budi@mail.com", "pass123")")
-print("user = User.objects.create_superuser("admin", "admin@mail.com", "admin123")")
-
+```bash
+python manage.py startapp akun
 ```
 
----
+```python
+# akun/views.py
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
 
-## Key Concepts
+def masuk(request):
+    if request.method == "POST":
+        user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
+        if user:
+            login(request, user)
+            return redirect("daftar")
+    return render(request, "akun/login.html")
 
-### Built-in Auth
-`django.contrib.auth` - Django built-in auth system.
+# warung/views.py
+from django.contrib.auth.decorators import login_required
+@login_required
+def admin_warung(request):
+    return render(request, "warung/admin.html")
+```
 
-### Auth Views
-`LoginView`, `LogoutView`, `PasswordChangeView`.
-
-### login_required
-`@login_required` redirects to login if unauthenticated.
-
-### User Model
-`create_user()` creates regular user. `create_superuser()` creates admin.
-
----
-
-## Experiments
-
-- Setup auth in settings.py
-- Create login/logout views
-- Protect views with login_required
-- Create registration view
-- Try password change
+`login.html`: `{% csrf_token %}` + `username`/`password`.
 
 ---
 
-## Challenge
+## Ringkasan
 
-Create auth system: register, login, logout, dashboard (protected).
-
----
-
-## Summary
-
-Week 6 of 12: **Authentication** (Level: Intermediate). Next week: **Admin Panel**.
+Minggu 6: **KTP Django** — `authenticate` + `login_required`.
