@@ -1,88 +1,29 @@
-# Replication & High Availability
+# Replikasi & HA — Cabang Gudang
 
-> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 9:** Replication & High Availability
+> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 9:** Replikasi & HA
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- WAL and streaming replication
-- Primary/standby config
-- Replication slots
-- Logical replication
-- Lag monitoring
+- `replica` baca, `primary` tulis, `pg_basebackup` salin, `failover` jika primary mati
 
 ---
 
-## Program: Streaming Replication
+## Kenapa Ini Penting Buat Kamu?
 
-```sql
--- KONFIGURASI PRIMARY (postgresql.conf)
--- wal_level = replica
--- max_wal_senders = 10
--- hot_standby = on
+Warung buka 24 jam — jika gudang utama mati, cabang replica ambil alih.
 
-CREATE USER replicator WITH REPLICATION ENCRYPTED PASSWORD 'secure_pass';
+---
 
-SELECT * FROM pg_create_physical_replication_slot('standby_slot');
+## Program: Replikasi
 
--- pg_basebackup -h primary_host -D /data -U replicator -P -Xs -R
-
--- Cek status replikasi (primary)
-SELECT
-    client_addr, state, sent_lsn, replay_lsn,
-    (sent_lsn - replay_lsn) AS replication_lag
-    FROM pg_stat_replication;
-
--- Cek status (standby)
-SELECT
-    last_msg_receipt_time,
-    EXTRACT(EPOCH FROM (now() - last_msg_receipt_time)) AS lag_seconds
-    FROM pg_stat_wal_receiver;
-
--- Logical Replication
-CREATE PUBLICATION pub_produk FOR TABLE produk;
-
--- Monitoring lag
-SELECT slot_name, confirmed_flush_lsn,
-    (pg_current_wal_lsn() - confirmed_flush_lsn) AS lag_bytes
-    FROM pg_replication_slots;
+```bash
+# Primary: postgresql.conf: wal_level = replica
+# Replica: pg_basebackup -h primary -D /var/lib/postgresql/data -R
+# Cek: SELECT * FROM pg_stat_replication;
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### WAL
-Log of all changes before writing.
-
-### Streaming Replication
-Primary sends WAL to standby.
-
-### Replication Slots
-Ensure WAL not deleted.
-
-### Logical Replication
-Replicate specific tables.
-
-### Monitoring
-pg_stat_replication for lag.
-
----
-
-## Experiments
-
-- Docker replication setup
-- Measure lag with pgbench
-- Logical replication
-- Simulate failover
-
----
-
-## Challenge
-
-Setup replication: primary + standby + monitoring + failover.
-
----
-
-## Summary
-
-Week 9 of 10: **Replication & HA** (Intermediate).
+Minggu 9: **Cabang Gudang** — replikasi.
