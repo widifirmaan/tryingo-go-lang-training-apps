@@ -1,57 +1,23 @@
-# Advanced Patterns
+# Advanced Patterns — Pola Enterprise
 
-> **Kategori:** Angular | **Level:** Advanced | **Minggu 13:** Advanced Patterns
+> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 13:** Advanced Patterns
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Smart/Dumb component pattern
-- Feature module architecture
-- Shared module for reusable components
-- Core module for singleton services
-- Lazy-loaded feature modules
+- `Standalone` + `lazy` `loadComponent` — muat lambat
 
 ---
 
-## Program: Architecture
+## Program
 
 ```typescript
-// Advanced Patterns: Smart/Dumb components, Feature Modules
-// Smart: handle logic, data, state
-// Dumb: only display, receive via @Input, emit via @Output
-// @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-console.log('Advanced Patterns siap digunakan');
+const routes: Routes = [
+  { path: "admin", loadComponent: () => import("./admin/admin.component").then(m => m.AdminComponent) }
+];
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Smart/Dumb
-Smart = logic, Dumb = display.
-
-### Feature Module
-Each feature = own module.
-
-### Shared Module
-Reusable components.
-
----
-
-## Experiments
-
-- Refactor to smart/dumb pattern
-- Create feature module
-- Setup shared module
-- Implement lazy loading
-
----
-
-## Challenge
-
-Refactor Angular app to feature modules: products, cart, auth.
-
----
-
-## Summary
-
-Week 13 of 14: **Advanced Patterns** (Level: Advanced). Next week: **Capstone Project**!
+Minggu 13: **Pola Enterprise** — `lazy`.

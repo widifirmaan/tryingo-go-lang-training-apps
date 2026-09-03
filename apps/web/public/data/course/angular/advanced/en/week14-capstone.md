@@ -1,56 +1,21 @@
-# Capstone: Enterprise App
+# Capstone: Toko Angular Lengkap
 
-> **Kategori:** Angular | **Level:** Advanced | **Minggu 14:** Capstone: Enterprise App
+> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 14:** Capstone
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all Angular concepts
-- Enterprise architecture: feature modules
-- NgRx state management
-- Role-based access control
-- Production deployment
+- Gabung `Router` + `Service` + `HttpClient` + `OnPush` jadi toko `produk` + `keranjang` + `auth` + `deploy`
 
 ---
 
-## Program: ERP System
+## Program: Toko Capstone Angular
 
-```typescript
-// Capstone: Enterprise Resource Planning (ERP) System
-// Architecture: Angular + NgRx + Angular Material + JWT Auth
-// Features: Auth, Dashboard, Product CRUD, Order management, Admin panel
-console.log('Enterprise ERP System siap digunakan!');
-```
+Fitur: `produk` CRUD `HttpClient` + `keranjang` `Service` + `auth` `CanActivate` + `deploy` `Vercel`.
+
+**Tugas:** Deploy `warung-angular.vercel.app`.
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Architecture
-Feature modules + NgRx + Angular Material.
-
-### State Management
-NgRx for unidirectional flow.
-
-### Auth
-JWT + role-based access.
-
----
-
-## Experiments
-
-- Add real-time notifications
-- Implement reports
-- Build comprehensive test suite
-- Deploy to production
-
----
-
-## Challenge
-
-Build a complete ERP system: auth, dashboard, product management, orders, admin panel.
-
----
-
-## Summary
-
-Week 14 of 14: **Capstone: Enterprise App** (Level: Advanced). Complete! 🎉
+Minggu 14: **Capstone Angular** — toko enterprise, **Selesai Angular 0→Ahli!**
