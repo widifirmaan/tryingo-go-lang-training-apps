@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 27 stack **Beginner 182 + Intermediate 110 + Advanced 62 = 354 file** (HTML5 10 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 10 + Docker 8 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 22 + Django 22 + PHP 6 + Laravel 22 + Svelte 12 + Angular 12 + NestJS 6 + CodeIgniter 10 + Rails 10 + Spring 10 + C# 12) — **27 stack 0→Ahli 100%**. Semua capstone toko final.
+**Total non-IT ready:** 27 stack **Beginner 182 + Intermediate 110 + Advanced 70 = 362 file** (HTML5 10 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 22 + Python 20 + TS 12 + Go 26 + PostgreSQL 10 + Docker 8 + Rust 12 + MySQL 8 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 22 + Django 22 + PHP 6 + Laravel 22 + Svelte 12 + Angular 12 + NestJS 6 + CodeIgniter 10 + Rails 10 + Spring 12 + C# 16) — **27 stack 0→Ahli 100%**. Advanced generik & validasi.
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
 | 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
@@ -276,6 +276,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `6ef3512` | Node W10 + Django W10 + Laravel W10 (id+en, 6 file) — ADVANCED | Manual `pm2` cepat + Django `cache` laci + Laravel `queue` antri |
 | 2026-08-25 | `31ad803` | Node W11 + Django W11 + Laravel W11 (id+en, 6 file) — ADVANCED | Manual `vercel --prod` deploy + `gunicorn` + `apiResource` |
 | 2026-08-25 | `18cfb48` | Node W12 + Django W12 + Laravel W12 (id+en, 6 file) — CAPSTONE | Manual toko final `express` + `DRF` + `Blade` + deploy |
+| 2026-08-25 | `69003c2` | C# W7-W8 + Spring W7-W8 (id+en, 8 file) — ADVANCED | Manual `Keranjang<T>` generik + `try/catch` + `MockMvc` + `@Valid` |
 
 | 2026-08-25 | `1f8415e` | Spring W1-W3 + C# W1-W3 (id+en, 12 file) | Manual pabrik `start.spring.io` + warung `dotnet new` |
 | 2026-08-25 | `2b1bebd` | JS W7-W8 + Python W5-W6 (id+en, 8 file) — INTERMEDIATE start | Manual async pesan antar `Promise.all` + ES6 bongkar + koleksi `set` + OOP cetak biru |
