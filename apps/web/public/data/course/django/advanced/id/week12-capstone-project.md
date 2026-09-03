@@ -1,92 +1,23 @@
-# Capstone: E-Commerce Platform
+# Capstone: Toko Django Lengkap
 
-> **Kategori:** Django | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce Platform
+> **Kategori:** Django | **Level:** Lanjutan | **Minggu 12:** Capstone Project
 
 ## Tujuan Pembelajaran
 
-- Menggabungkan semua konsep: MVT, forms, auth, admin, REST
-- E-commerce domain: products, orders, cart, payments
-- Service layer: extract business logic
-- Testing: model, view, API tests
-- Deployment: Docker, Gunicorn, Nginx
+- Gabung `models` + `forms` + `auth` + `admin` + `DRF` + `deploy` jadi toko `produk` + `pesanan` + `login`
 
 ---
 
-## Program: E-Commerce Django
+## Program: Toko Capstone Django
 
-```python
-# capstone
-print("=== Capstone: E-Commerce Platform ===")
-print("=== Architecture ===")
-print("Models: User, Product, Order, OrderItem, Category, Cart")
-print("Views: ProductViewSet, OrderViewSet, AuthViewSet")
-print("Services: OrderService, PaymentService")
-print("Tests: Model, View, API tests")
-print("")
-print("=== Features ===")
-features = [
-    "User authentication",
-    "Product catalog",
-    "Shopping cart",
-    "Order processing",
-    "Payment integration",
-    "Admin dashboard",
-    "REST API (DRF)",
-    "Testing (pytest)",
-    "Docker deployment",
-]
-for f in features:
-    print(f"  - {f}")
-print("")
-print("=== API Endpoints ===")
-endpoints = [
-    "POST /api/register - Register",
-    "POST /api/login - Login",
-    "GET /api/products - List products",
-    "POST /api/orders - Create order",
-]
-for ep in endpoints:
-    print(f"  {ep}")
+Fitur: `Produk` CRUD via `ModelForm` + `admin` + `api/produk/` DRF + `auth` + `deploy` Railway.
 
-```
+Struktur: `warung/models.py`, `warung/views.py`, `warung/serializers.py`, `warung/admin.py`.
 
----
-
-## Konsep Kunci
-
-### Architecture
-MVT + Service Layer. View -> Service -> Model.
-
-### E-Commerce Flow
-Browse -> Add to cart -> Checkout -> Payment -> Order created.
-
-### Service Layer
-Extract logic: `OrderService.create(user, cart)`.
-
-### Testing
-Model tests, API tests, integration tests.
-
-### Deployment
-Docker + Compose. PostgreSQL + Redis.
-
----
-
-## Eksperimen
-
-- Tambah payment webhook
-- Implementasikan coupon system
-- Buat product review
-- Tambah real-time notifications
-- Buat admin dashboard
-
----
-
-## Tantangan
-
-Buat e-commerce platform lengkap: auth, products CRUD, cart, orders, payment, API, testing.
+**Tugas:** Deploy `warung-django.railway.app` + video.
 
 ---
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone** (Level: Lanjutan). Selesai! Anda sudah menguasai Django.
+Minggu 12: **Capstone Django** — toko lengkap, **Selesai Django 0→Ahli!**
