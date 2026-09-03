@@ -1,58 +1,31 @@
-# Performance Optimization
+# Performance Angular — Cepat Enterprise
 
-> **Kategori:** Angular | **Level:** Advanced | **Minggu 12:** Performance Optimization
+> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 12:** Performance
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- OnPush change detection strategy
-- trackBy for ngFor optimization
-- Lazy loading modules
-- Preloading strategies
-- Angular Universal SSR
+- `OnPush` + `trackBy` — jangan gambar ulang jika sama
 
 ---
 
-## Program: Optimization & SSR
+## Program
 
 ```typescript
-// Performance: OnPush, trackBy, Lazy Loading, SSR
-// @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-// <li *ngFor='let item of items; trackBy: trackByFn'></li>
-// trackByFn(index: number, item: any) { return item.id; }
-// { path: 'admin', loadChildren: () => import('./admin.module').then(m => m.AdminModule) }
-console.log('Performance Optimization siap digunakan');
+@Component({
+  selector: "app-kartu",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<div>{{ nama }}</div>`
+})
+export class KartuComponent {
+  @Input() nama!: string;
+  trackById(index, item){ return item.id; }
+}
 ```
 
----
-
-## Key Concepts
-
-### OnPush
-Only checks on @Input change.
-
-### trackBy
-Identify items to avoid full re-render.
-
-### Lazy Loading
-Load modules on demand.
+`<div *ngFor="let p of daftar; trackBy: trackById">`.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Implement OnPush
-- Add trackBy to ngFor
-- Setup lazy loading route
-- Measure bundle size
-
----
-
-## Challenge
-
-Optimize Angular app: OnPush, trackBy, lazy loading, measure performance.
-
----
-
-## Summary
-
-Week 12 of 14: **Performance** (Level: Advanced). Next week: **Advanced Patterns**.
+Minggu 12: **Cepat** — `OnPush` + `trackBy`.

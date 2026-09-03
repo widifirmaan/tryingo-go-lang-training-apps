@@ -1,64 +1,32 @@
-# Testing Angular
+# Testing Angular — Uji Pabrik
 
-> **Kategori:** Angular | **Level:** Advanced | **Minggu 11:** Testing Angular
+> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 11:** Testing Angular
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Jasmine + Karma setup
-- TestBed for testing environment
-- ComponentFixture for component testing
-- Service testing with TestBed.inject
-- Async testing: fakeAsync, waitForAsync
+- `TestBed` + `ComponentFixture` — `fixture.detectChanges()` uji `Kartu`
 
 ---
 
-## Program: Unit & Integration
+## Program
 
 ```typescript
-// Testing Angular: Jasmine + Karma
-// describe('AppComponent', () => {
-//   let component: AppComponent;
-//   let fixture: ComponentFixture<AppComponent>;
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({ declarations: [AppComponent] }).compileComponents();
-//     fixture = TestBed.createComponent(AppComponent);
-//     component = fixture.componentInstance;
-//   });
-//   it('should create', () => { expect(component).toBeTruthy(); });
-// });
-console.log('Testing Angular siap digunakan');
+import { TestBed } from "@angular/core/testing";
+import { KartuComponent } from "./kartu.component";
+
+it("tampil nama", () => {
+  TestBed.configureTestingModule({ imports: [KartuComponent] });
+  const fixture = TestBed.createComponent(KartuComponent);
+  fixture.componentInstance.nama = "Beras";
+  fixture.detectChanges();
+  expect(fixture.nativeElement.textContent).toContain("Beras");
+});
 ```
 
----
-
-## Key Concepts
-
-### TestBed
-Configure testing module.
-
-### ComponentFixture
-Wrapper for component + DOM.
-
-### Async Testing
-fakeAsync, waitForAsync.
+`ng test` → PASS.
 
 ---
 
-## Experiments
+## Ringkasan
 
-- Test component with @Input/@Output
-- Test service with HTTP mocking
-- Test with reactive forms
-- Test route navigation
-
----
-
-## Challenge
-
-Build a test suite for product component: display, add to cart, remove from cart.
-
----
-
-## Summary
-
-Week 11 of 14: **Testing Angular** (Level: Advanced). Next week: **Performance**.
+Minggu 11: **Uji Angular** — `TestBed`.
