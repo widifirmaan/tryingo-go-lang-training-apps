@@ -148,7 +148,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 #### Django — ✅ DONE W1-W3 (381f118) — 6 file id+en `startproject` gedung & toko, `models` rak ORM, `views` pelayan
 #### Laravel — ✅ DONE W1-W3 (e0ace1d) — 6 file id+en `composer create-project` + `artisan serve` + Blade
 #### NestJS — ✅ DONE W1-W3 (24005d9) — 6 file id+en `nest new` SOP controller→service
-#### CodeIgniter — ✅ DONE W1-W3 (24005d9) — 6 file id+en `spark serve` warung ringan
+#### CodeIgniter — ✅ FIXED W1-W3 full-template (fda9b40) — 6 file id+en research `codeigniter.com` `composer 2.0.14` `php.ini intl` + `Routes.php` `get()` official
 #### Rails — ✅ DONE W1-W3 (24005d9) — 6 file id+en `rails new` + `scaffold` kilat
 #### Spring — ✅ DONE W1-W3 (1f8415e) — 6 file id+en `start.spring.io` pabrik + `@Autowired`
 #### C# — ✅ DONE W1-W3 (1f8415e) — 6 file id+en `dotnet new` warung Microsoft `var`/`decimal`
@@ -273,6 +273,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `ab152c6` | CI4 W6 + Rails W6 + Spring W6 (id+en, 6 file) — INTERMEDIATE | Manual validasi CI4 + `has_many` Rails + `SecurityFilterChain` Spring |
 | 2026-08-25 | `bc796cb` | Svelte W8 + Angular W8 + C# W5-W6 (id+en, 8 file) — INTERMEDIATE | Manual `onMount` + `HttpClient` + LINQ `Where` + `async Task` |
 | 2026-08-25 | `b007044` | Node W7 + Django W7 + Laravel W7 (id+en, 6 file) — INTERMEDIATE | Manual JWT `Authorization` + Django `list_display` + Laravel `FormRequest` |
+| 2026-08-25 | `fda9b40` | FIX CodeIgniter W1-W3 full-template research-based (id+en, 6 file) — prepare device `php -v` + `composer 2.0.14` + `Routes.php` official |
 | 2026-08-25 | `0ee0ee5` | Node W8 + Django W8 + Laravel W8 (id+en, 6 file) — INTERMEDIATE | Manual Prisma gudang + DRF `ViewSet` + Storage foto |
 | 2026-08-25 | `8b9354e` | Node W9 + Django W9 + Laravel W9 (id+en, 6 file) — ADVANCED | Manual `vitest` Node + Django `TestCase` + Laravel `php artisan test` |
 | 2026-08-25 | `6ef3512` | Node W10 + Django W10 + Laravel W10 (id+en, 6 file) — ADVANCED | Manual `pm2` cepat + Django `cache` laci + Laravel `queue` antri |
