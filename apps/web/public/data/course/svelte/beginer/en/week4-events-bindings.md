@@ -1,71 +1,40 @@
-# Events & Bindings
+# Events & Bindings — Telinga & Tali Svelte
 
-> **Kategori:** Svelte | **Level:** Beginner | **Minggu 4:** Events & Bindings
+> **Kategori:** Svelte | **Level:** Pemula | **Minggu 4:** Events & Bindings
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- on:event for event handling
-- bind:value for two-way binding
-- Event modifiers: preventDefault, stopPropagation
-- bind:checked for checkbox
-- bind:group for radio/checkbox group
+- `on:click` telinga, `bind:value` tali 2 arah, `bind:group` untuk radio, `on:input` ketik
 
 ---
 
-## Program: Interactive Form
+## Kenapa Ini Penting Buat Kamu?
+
+Form warung tanpa `bind` = ketik tidak masuk `pelanggan`. Dengan `bind:value`, ketik → `pelanggan` otomatis.
+
+---
+
+## Program: Form Warung Svelte
 
 ```svelte
-<!-- Events: on:event, Bindings: bind:property -->
 <script>
-  let name = "";
-  let email = "";
-  let errors = {};
-  function validate() {
-    errors = {};
-    if (!name.trim()) errors.name = "Wajib diisi";
-    if (!email.includes("@")) errors.email = "Tidak valid";
-    return Object.keys(errors).length === 0;
-  }
+  let pelanggan = "";
+  let qty = 1;
+  let kategori = "sembako";
+  let daftar = [];
+  function tambah(){ if(!pelanggan.trim()) return; daftar = [...daftar, { id: Date.now(), pelanggan, qty, kategori }]; pelanggan = ""; }
 </script>
-<form on:submit|preventDefault>
-  <input bind:value={name} placeholder="Nama">
-  {#if errors.name}<span class="error">{errors.name}</span>{/if}
-  <input bind:value={email} placeholder="Email">
-  {#if errors.email}<span class="error">{errors.email}</span>{/if}
-  <button type="submit" disabled={!validate()}>Daftar</button>
-</form>
+
+<input bind:value={pelanggan} placeholder="Nama" />
+<input type="number" bind:value={qty} min="1" />
+<select bind:value={kategori}><option>sembako</option><option>sayur</option></select>
+<button on:click={tambah}>Tambah</button>
+
+<ul>{#each daftar as p}<li>{p.pelanggan} x{p.qty} ({p.kategori})</li>{/each}</ul>
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### Events
-on:click={handler}.
-
-### Bindings
-bind:value for two-way.
-
-### Modifiers
-|preventDefault, |stopPropagation.
-
----
-
-## Experiments
-
-- Create form with multiple input types
-- Implement keyboard shortcuts
-- Create custom event
-- Add real-time form validation
-
----
-
-## Challenge
-
-Build a registration form with validation: name, email, password, confirm password.
-
----
-
-## Summary
-
-Week 4 of 10: **Events & Bindings** (Level: Beginner). Next week: **Stores**.
+Minggu 4: **Telinga & Tali** — `on:` dan `bind:`.

@@ -1,63 +1,30 @@
-# Template-driven Forms
+# Template Forms — Formulir Warung Angular
 
-> **Kategori:** Angular | **Level:** Beginner | **Minggu 5:** Template-driven Forms
+> **Kategori:** Angular | **Level:** Pemula | **Minggu 5:** Template Forms
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- NgModel for two-way binding
-- Form validation: required, minlength, email
-- ngForm for form state
-- Error display with *ngIf
-- ngSubmit for form submission
+- `FormsModule`, `[(ngModel)]` 2 arah, `required` validasi
 
 ---
 
-## Program: Form Validation
+## Program
+
+```html
+<form #f="ngForm" (ngSubmit)="tambah()">
+  <input name="nama" [(ngModel)]="nama" required placeholder="Nama" />
+  <input name="harga" [(ngModel)]="harga" type="number" required />
+  <button [disabled]="f.invalid">Tambah</button>
+</form>
+```
 
 ```typescript
-// Template-driven Forms: form logic di template
-import { Component } from '@angular/core';
-@Component({
-  selector: 'app-register-form',
-  template: '<form #form="ngForm" (ngSubmit)="onSubmit(form)"><input name="name" [(ngModel)]="model.name" #name="ngModel" required minlength="3" placeholder="Nama"><div *ngIf="name.invalid && name.touched"><span *ngIf="name.errors?.['required']">Wajib diisi</span></div><input name="email" [(ngModel)]="model.email" #email="ngModel" required email placeholder="Email"><button type="submit" [disabled]="form.invalid">Daftar</button></form>',
-})
-export class RegisterFormComponent {
-  model = { name: '', email: '' };
-  onSubmit(form: any) { if (form.valid) console.log('Data:', this.model); }
-}
-console.log('Template-driven Forms siap digunakan');
+nama = ""; harga = 0;
+tambah(){ console.log(this.nama, this.harga); }
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### NgModel
-Two-way binding.
-
-### Validation
-Built-in validators.
-
-### Form State
-valid, invalid, touched, dirty.
-
----
-
-## Experiments
-
-- Add custom validation
-- Create multi-step form
-- Implement async validation
-- Create reusable form component
-
----
-
-## Challenge
-
-Build a registration form with validation: name, email, password, confirm password.
-
----
-
-## Summary
-
-Week 5 of 14: **Template-driven Forms** (Level: Beginner). Beginner phase complete! Next week: **Routing**.
+Minggu 5: **Formulir Warung** — `ngModel` + `required`.
