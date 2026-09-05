@@ -260,12 +260,13 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready:** 27 stack **Beginner 196 + Intermediate 126 + Advanced 86 = 408 file** (HTML5 24 + CSS3 10 + Next.js 24 + React 20 + Vue 18 + JS 24 + Python 22 + TS 14 + Go 26 + PostgreSQL 18 + Docker 10 + Rust 12 + MySQL 14 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 22 + Django 22 + PHP 6 + Laravel 22 + Svelte 14 + Angular 20 + NestJS 6 + CodeIgniter 10 + Rails 10 + Spring 12 + C# 16) — 27 stack 100% beginner. FIX HTML5 tabel & form.
+**Total non-IT ready:** 27 stack **Beginner 204 + Intermediate 126 + Advanced 86 = 416 file** (HTML5 28 + CSS3 14 + Next.js 24 + React 20 + Vue 18 + JS 24 + Python 22 + TS 14 + Go 26 + PostgreSQL 18 + Docker 10 + Rust 12 + MySQL 14 + MongoDB 6 + Redis 4 + GraphQL 4 + Node 22 + Django 22 + PHP 6 + Laravel 22 + Svelte 14 + Angular 20 + NestJS 6 + CodeIgniter 10 + Rails 10 + Spring 12 + C# 16) — 27 stack 100% beginner. FIX HTML5 SEO & capstone.
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
 | 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
 | 2026-08-25 | `44ad1ed` | Docker W3-W4 + PostgreSQL W6 (id+en, 6 file) — INTERMEDIATE | Manual volume `warung-data` + `Dockerfile` + Window `RANK()` |
 | 2026-08-25 | `26a60ef` | FIX HTML5 W6-W12 full-template (id+en, 14 file) — tabel MDN, form `label for`, a11y `alt` |
+| 2026-08-25 | `429e505` | FIX HTML5 W13-W14 + CSS3 W6-W7 full-template (id+en, 8 file) — SEO `og:` + capstone + positioning |
 | 2026-08-25 | `e870485` | TS W12 + Svelte W12 + Python W12 + JS W14 (id+en, 8 file) — CAPSTONE FINAL | Manual capstone toko `apiGet<T>`, SvelteKit deploy, Flask, JS modules |
 | 2026-08-25 | `91e80d1` | PostgreSQL W9-W10 + MySQL W6-W7 (id+en, 8 file) — INTERMEDIATE | Manual replikasi `pg_basebackup` + capstone + `GROUP BY` + `EXPLAIN` |
 | 2026-08-25 | `8231e9f` | Node W5 + Django W5 + Laravel W5 (id+en, 6 file) — INTERMEDIATE | Manual `express` `app.get` + Django `ModelForm` + Laravel `Breeze` auth |
