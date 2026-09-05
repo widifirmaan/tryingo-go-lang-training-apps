@@ -1,174 +1,34 @@
-# Final Project: Portfolio Website
+# Proyek Akhir — Warung HTML Lengkap
 
-> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 14:** Final Project: Portfolio Website
+> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 14:** Proyek Akhir
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all concepts: semantic, forms, multimedia, a11y, SEO
-- Professional multi-section website structure
-- Complete navigation with skip link and ARIA
-- Contact form with HTML5 validation
-- SEO meta tags and Open Graph
+- Gabung semua: `header/nav` + `table` harga + `form` pesan + `img` + `footer` jadi `index.html` warung lengkap + deploy `Netlify` drag-drop
 
 ---
 
-## Program: Complete Portfolio Website
+## Program: Warung Lengkap
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio John Doe | Web Developer</title>
-    <meta name="description" content="Portfolio John Doe - Web Developer spesialis HTML5, CSS3, dan JavaScript.">
-    <meta property="og:title" content="Portfolio John Doe">
-    <meta property="og:description" content="Web Developer Portfolio">
-    <meta property="og:type" content="website">
-</head>
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Warung Bu Siti</title></head>
 <body>
-    <a href="#main" class="skip-link">Skip ke konten</a>
-
-    <header>
-        <h1>John Doe</h1>
-        <p>Web Developer &amp; Designer</p>
-        <nav aria-label="Navigasi utama">
-            <ul>
-                <li><a href="#tentang" aria-current="page">Tentang</a></li>
-                <li><a href="#proyek">Proyek</a></li>
-                <li><a href="#kemampuan">Kemampuan</a></li>
-                <li><a href="#kontak">Kontak</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main id="main">
-        <section id="tentang">
-            <h2>Tentang Saya</h2>
-            <figure>
-                <img src="https://picsum.photos/200/200" alt="Foto John Doe" loading="lazy">
-                <figcaption>John Doe, Web Developer</figcaption>
-            </figure>
-            <p>Saya adalah web developer dengan pengalaman 3 tahun...</p>
-        </section>
-
-        <section id="proyek">
-            <h2>Proyek</h2>
-            <article>
-                <h3>E-Commerce App</h3>
-                <p>Platform jual beli online dengan HTML5 semantic.</p>
-                <a href="#">Lihat detail</a>
-            </article>
-            <article>
-                <h3>Blog Platform</h3>
-                <p>Platform blog dengan aksesibilitas tinggi.</p>
-                <a href="#">Lihat detail</a>
-            </article>
-        </section>
-
-        <section id="kemampuan">
-            <h2>Kemampuan</h2>
-            <ul>
-                <li>HTML5 Semantic</li>
-                <li>CSS3 &amp; Responsive</li>
-                <li>JavaScript ES6+</li>
-                <li>Accessibility (a11y)</li>
-                <li>SEO Optimization</li>
-            </ul>
-        </section>
-
-        <section id="kontak">
-            <h2>Kontak</h2>
-            <form action="#" method="POST">
-                <fieldset>
-                    <legend>Formulir Kontak</legend>
-                    <p>
-                        <label for="nama-kontak">Nama:</label><br>
-                        <input type="text" id="nama-kontak" name="nama" required>
-                    </p>
-                    <p>
-                        <label for="email-kontak">Email:</label><br>
-                        <input type="email" id="email-kontak" name="email" required>
-                    </p>
-                    <p>
-                        <label for="pesan">Pesan:</label><br>
-                        <textarea id="pesan" name="pesan" rows="5" required></textarea>
-                    </p>
-                    <button type="submit">Kirim Pesan</button>
-                </fieldset>
-            </form>
-            <p>Email: <a href="mailto:john@example.com">john@example.com</a></p>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 John Doe. <a href="#top" aria-label="Kembali ke atas">Kembali ke atas</a></p>
-        <address>Email: <a href="mailto:john@example.com">john@example.com</a></address>
-    </footer>
-
-    <style>
-    .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 0;
-        background: #000;
-        color: #fff;
-        padding: 8px;
-        z-index: 100;
-    }
-    .skip-link:focus { top: 0; }
-    </style>
-</body>
-</html>
+  <header><h1>Warung Bu Siti</h1><nav><a href="/">Beranda</a> | <a href="/produk.html">Produk</a></nav></header>
+  <main>
+    <table><caption>Daftar Harga</caption><thead><tr><th>Produk</th><th>Harga</th></tr></thead><tbody><tr><td>Beras 5kg</td><td>Rp 62.000</td></tr></tbody></table>
+    <form><label for="nama">Nama</label><input id="nama" name="nama" required><button>Pesan</button></form>
+    <figure><img src="beras.jpg" alt="Karung beras 5kg" width="300"><figcaption>Beras pulen</figcaption></figure>
+  </main>
+  <footer>© 2026 Warung</footer>
+</body></html>
 ```
 
----
+Deploy: `netlify.com` → drag `index.html` → `warung.netlify.app`.
 
-## Key Concepts
-
-### Final Project
-Combines all 13 previous weeks in one portfolio website.
-
-### Components
-- Header with nav
-- About, projects, skills, contact sections
-- Form with validation
-- Footer with address
-- Skip link, ARIA, semantic
-- SEO meta & OG tags
+**Tugas capstone:** Deploy + `WAVE` a11y check 0 error.
 
 ---
 
-## Beginner Friendly Explanation
+## Ringkasan
 
-This is assembly week: every tag you learned is used **together** in one whole page.
-
-How to approach it:
-1. Read the project goal first.
-2. Copy the program to the playground and run it — understand the page frame (head, header, main, section, footer).
-3. Change it section by section: replace text, names, projects, contacts — keep each change working.
-4. Check the requirements list (semantic, a11y, SEO, form) like a checklist and tick items one by one.
-
-Do not get discouraged if it is not perfect. Real developers also finish through many small attempts.
-
----
-
-## Experiments
-
-- Add testimonial section with blockquote
-- Create additional page: blog or project detail
-- Add video introduction
-- Create multi-page website
-- Add dark mode toggle
-
----
-
-## Challenge
-
-Build a complete portfolio website: 4+ pages, consistent navigation, contact form, SEO optimized, fully accessible.
-
----
-
-## Summary
-
-Week 14 of 14: **Final Project: Portfolio Website** (Level: Complete HTML5). Complete! 🎉 You've mastered HTML5 from scratch to expert.
+Minggu 14: **Capstone HTML** — warung lengkap, **Selesai HTML5 0→Ahli!**
