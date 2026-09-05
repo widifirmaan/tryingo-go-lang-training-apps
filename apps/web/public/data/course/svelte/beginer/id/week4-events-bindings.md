@@ -1,71 +1,40 @@
-# Events & Bindings
+# Events & Bindings — Telinga & Tali Svelte
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 4:** Events & Bindings
 
 ## Tujuan Pembelajaran
 
-- on:event untuk event handling
-- bind:value untuk two-way binding
-- Event modifiers: preventDefault, stopPropagation
-- bind:checked untuk checkbox
-- bind:group untuk radio/checkbox group
+- `on:click` telinga, `bind:value` tali 2 arah, `bind:group` untuk radio, `on:input` ketik
 
 ---
 
-## Program: Form Interaktif
+## Kenapa Ini Penting Buat Kamu?
+
+Form warung tanpa `bind` = ketik tidak masuk `pelanggan`. Dengan `bind:value`, ketik → `pelanggan` otomatis.
+
+---
+
+## Program: Form Warung Svelte
 
 ```svelte
-<!-- Events: on:event, Bindings: bind:property -->
 <script>
-  let name = "";
-  let email = "";
-  let errors = {};
-  function validate() {
-    errors = {};
-    if (!name.trim()) errors.name = "Wajib diisi";
-    if (!email.includes("@")) errors.email = "Tidak valid";
-    return Object.keys(errors).length === 0;
-  }
+  let pelanggan = "";
+  let qty = 1;
+  let kategori = "sembako";
+  let daftar = [];
+  function tambah(){ if(!pelanggan.trim()) return; daftar = [...daftar, { id: Date.now(), pelanggan, qty, kategori }]; pelanggan = ""; }
 </script>
-<form on:submit|preventDefault>
-  <input bind:value={name} placeholder="Nama">
-  {#if errors.name}<span class="error">{errors.name}</span>{/if}
-  <input bind:value={email} placeholder="Email">
-  {#if errors.email}<span class="error">{errors.email}</span>{/if}
-  <button type="submit" disabled={!validate()}>Daftar</button>
-</form>
+
+<input bind:value={pelanggan} placeholder="Nama" />
+<input type="number" bind:value={qty} min="1" />
+<select bind:value={kategori}><option>sembako</option><option>sayur</option></select>
+<button on:click={tambah}>Tambah</button>
+
+<ul>{#each daftar as p}<li>{p.pelanggan} x{p.qty} ({p.kategori})</li>{/each}</ul>
 ```
-
----
-
-## Konsep Kunci
-
-### Events
-on:click={handler}. Shorthand: on:click.
-
-### Bindings
-bind:value = two-way. Input -> state, state -> input.
-
-### Modifiers
-|preventDefault, |stopPropagation, |once, |self.
-
----
-
-## Eksperimen
-
-- Buat form dengan multiple input types
-- Implementasikan keyboard shortcuts
-- Buat custom event
-- Tambah form validation real-time
-
----
-
-## Tantangan
-
-Buat registration form dengan validasi: nama, email, password, konfirmasi password.
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 10: **Events & Bindings** (Level: Pemula). Minggu depan: **Stores**.
+Minggu 4: **Telinga & Tali** — `on:` dan `bind:`.

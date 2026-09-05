@@ -1,69 +1,33 @@
-# Svelte Stores
+# Stores — Gudang Bersama Svelte
 
-> **Kategori:** Svelte | **Level:** Beginner | **Minggu 5:** Svelte Stores
+> **Kategori:** Svelte | **Level:** Pemula | **Minggu 5:** Stores
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- writable store for mutable state
-- derived store for derived state
-- Custom store with methods
-- $ prefix for auto-subscribe
-- readable store for read-only state
+- `writable` gudang, `$store` baca, `store.set`/`update` ubah — 1 gudang untuk 10 komponen
 
 ---
 
-## Program: State Management
+## Program: Gudang Keranjang
 
 ```svelte
-<!-- Stores = shared state antar komponen -->
-<!-- stores.js -->
-import { writable, derived } from 'svelte/store';
-export const count = writable(0);
-export const doubled = derived(count, $count => $count * 2);
-function createCount() {
-  const { subscribe, set, update } = writable(0);
-  return { subscribe, increment: () => update(n => n + 1), reset: () => set(0) };
-}
-export const counter = createCount();
-<!-- Component.svelte -->
+<!-- stores/keranjang.js -->
+import { writable } from "svelte/store";
+export const keranjang = writable([]);
+
+<!-- App.svelte -->
 <script>
-  import { count, doubled, counter } from './stores.js';
+  import { keranjang } from "./stores/keranjang.js";
+  function tambah(){ $keranjang = [...$keranjang, { nama: "Beras", harga: 62000 }]; }
 </script>
-<p>Count: {$count} | Doubled: {$doubled}</p>
-<button on:click={counter.increment}>+</button>
-<!-- $ = auto-subscribe ke store -->
+
+<button on:click={tambah}>Tambah Beras</button>
+<p>Isi: {$keranjang.length}</p>
+<ul>{#each $keranjang as item}<li>{item.nama}</li>{/each}</ul>
 ```
 
 ---
 
-## Key Concepts
+## Ringkasan
 
-### writable
-writable(initial) with set, update, subscribe.
-
-### derived
-derived from other stores.
-
-### Auto-subscribe
-$store for auto-subscription.
-
----
-
-## Experiments
-
-- Create custom store with async actions
-- Implement store persistence
-- Create store with multiple derived
-- Use readable store
-
----
-
-## Challenge
-
-Build a shopping cart with stores: cart store, total derived store, add/remove actions.
-
----
-
-## Summary
-
-Week 5 of 10: **Svelte Stores** (Level: Beginner). Beginner phase complete! Next week: **SvelteKit Routing**.
+Minggu 5: **Gudang Bersama** — `writable` + `$`.
