@@ -1,133 +1,37 @@
-# SEO & Meta Tags
+# SEO & Meta — Papan Nama Google
 
-> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 13:** SEO & Meta Tags
+> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 13:** SEO & Meta Tags
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- SEO meta tags: title, description, keywords, robots
-- Open Graph tags for social media sharing
-- Twitter Card tags for Twitter preview
-- Canonical URL to avoid duplicate content
-- JSON-LD structured data for rich snippets
+- `<title>` + `<meta name="description" content="Warung Bu Siti — beras 5kg Rp 62.000">` + `<meta property="og:image" content="beras.jpg">` untuk Google & WA preview
 
 ---
 
-## Program: SEO-Optimized Page
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `description`, Google ambil teks acak. Dengan `description` 150 huruf, warung muncul cantik di Google & WA.
+
+---
+
+## Program: SEO Warung
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO Meta Tags -->
-    <title>Belajar HTML5 Panduan Lengkap | Blog Kursus</title>
-    <meta name="description" content="Panduan lengkap belajar HTML5 dari nol hingga mahir. 14 minggu interaktif dengan contoh kode.">
-    <meta name="keywords" content="belajar HTML, HTML5, web development, tutorial">
-    <meta name="author" content="Nama Penulis">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="Belajar HTML5 Panduan Lengkap">
-    <meta property="og:description" content="Panduan lengkap belajar HTML5 dari nol hingga mahir.">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://example.com/belajar-html5">
-    <meta property="og:image" content="https://example.com/images/html5-cover.jpg">
-    <meta property="og:locale" content="id_ID">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Belajar HTML5 Panduan Lengkap">
-    <meta name="twitter:description" content="Panduan lengkap belajar HTML5 dari nol hingga mahir.">
-    <meta name="twitter:image" content="https://example.com/images/html5-cover.jpg">
-
-    <!-- Canonical -->
-    <link rel="canonical" href="https://example.com/belajar-html5">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Belajar HTML5 Panduan Lengkap",
-        "author": { "@type": "Person", "name": "Nama Penulis" },
-        "datePublished": "2026-08-06",
-        "description": "Panduan lengkap belajar HTML5 dari nol hingga mahir."
-    }
-    </script>
+  <meta charset="UTF-8">
+  <title>Warung Bu Siti — Beras 5kg Rp 62.000</title>
+  <meta name="description" content="Warung Bu Siti — beras pulen 5kg Rp 62.000, bayam segar, gratis ongkir RW 01-03. Buka 07.00-20.00.">
+  <meta property="og:title" content="Warung Bu Siti">
+  <meta property="og:description" content="Beras 5kg Rp 62.000">
+  <meta property="og:image" content="https://warung.com/beras.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-    <header>
-        <h1>Belajar HTML5 Panduan Lengkap</h1>
-    </header>
-    <main>
-        <article>
-            <h2>Apa itu HTML5?</h2>
-            <p>HTML5 adalah versi terstandarisasi dari HTML...</p>
-        </article>
-    </main>
-    <footer>
-        <p>&copy; 2026 Blog Kursus</p>
-    </footer>
-</body>
-</html>
 ```
 
----
-
-## Key Concepts
-
-### SEO Meta
-`<title>` 50-60 chars. `<meta name="description">` 150-160 chars. `robots` index/follow.
-
-### Open Graph
-`og:title`, `og:description`, `og:image`, `og:url` — control display when shared on Facebook/LinkedIn.
-
-### Twitter Card
-`twitter:card` summary or summary_large_image.
-
-### Canonical
-`<link rel="canonical">` avoid duplicate content from different URLs.
-
-### JSON-LD
-Structured data for Google rich snippets.
+Test di `search.google.com/test/rich-results` dan WA `wa.me` preview.
 
 ---
 
-## Beginner Friendly Explanation
+## Ringkasan
 
-SEO = making pages **easy to find** on Google. The core idea: tell search engines about your page.
-
-- `<title>` = the title in search results (aim for 50-60 characters).
-- `<meta name="description">` = the summary below the search result title (150-160 characters).
-- Open Graph (`og:`) = the preview when a link is shared on social media (WhatsApp, Facebook).
-- `rel="canonical"` = the real address of a page, preventing duplicate content.
-- JSON-LD (`script type="application/ld+json"`) = structured data so Google can show rich previews.
-
-**Try:** change the `<title>` in this week program to your own title, then fill in the description — imagine them both shown on a search results page.
-
----
-
-## Experiments
-
-- Create page with all OG tags
-- Add JSON-LD for FAQ schema
-- Try robots noindex on certain page
-- Create multiple pages with different canonical
-- Add hreflang for multi-language
-
----
-
-## Challenge
-
-Build a complete article page with all SEO meta, OG tags, Twitter Card, and JSON-LD.
-
----
-
-## Summary
-
-Week 13 of 14: **SEO & Meta Tags** (Level: Complete HTML5). Search engine visibility. Next week: **Final Project**!
+Minggu 13: **Papan Nama Google** — `title` + `description` + `og:`.
