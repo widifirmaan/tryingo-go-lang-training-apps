@@ -1,142 +1,130 @@
-# Tables
+# Tabel — Daftar Harga Warung yang Rapi
 
-> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 6:** Tables
+> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 6:** Tabel
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Table structure: table, thead, tbody, tfoot
-- Rows and cells: tr, th, td
-- Caption for table title
-- rowspan and colspan for cell merging
-- Scope attribute for th accessibility
+- Membuat tabel dengan `<table>` + `<caption>` (judul) + `<thead>` (kepala) + `<tbody>` (badan) + `<tr>` (baris) + `<th scope="col">` (header) + `<td>` (data) — sumber: MDN HTML table basics
+- `border-collapse` agar garis tidak ganda, `scope="col/row"` untuk screen reader, `colspan/rowspan` untuk gabung sel (sumber: MDN table accessibility)
 
 ---
 
-## Program: Class Schedule
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar harga warung `Beras | 62.000 | 10` jika pakai `<p>` berantakan saat harga panjang. Dengan `<table>`, kolom rata, screen reader baca "Beras, harga 62.000" — tidak bingung. `caption` bantu tunanetra tahu ini tabel apa.
+
+---
+
+## Program: Daftar Harga Warung (MDN Style)
 
 ```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Jadwal Kuliah</title>
+  <meta charset="UTF-8">
+  <title>Daftar Harga</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; max-width: 500px; }
+    th, td { border: 1px solid #999; padding: 8px 12px; text-align: left; }
+    th { background: #EFECE6; }
+  </style>
 </head>
 <body>
-    <h1>Jadwal Kuliah Semester Ganjil</h1>
-
-    <table>
-        <caption>Jadwal Kuliah Kelas A - 2026</caption>
-        <thead>
-            <tr>
-                <th>Hari</th>
-                <th>Waktu</th>
-                <th>Mata Kuliah</th>
-                <th>Ruang</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Senin</td>
-                <td>08:00 - 10:00</td>
-                <td>Algoritma</td>
-                <td>R.301</td>
-            </tr>
-            <tr>
-                <td>Selasa</td>
-                <td>10:00 - 12:00</td>
-                <td>Basis Data</td>
-                <td>Lab.2</td>
-            </tr>
-            <tr>
-                <td>Rabu</td>
-                <td>08:00 - 10:00</td>
-                <td>Web Programming</td>
-                <td>Lab.1</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4">Total: 3 mata kuliah</td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <h2>Tabel dengan rowspan & colspan</h2>
-    <table>
-        <thead>
-            <tr>
-                <th rowspan="2">Nama</th>
-                <th colspan="2">Nilai</th>
-            </tr>
-            <tr>
-                <th>Teori</th>
-                <th>Praktek</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Budi</td>
-                <td>85</td>
-                <td>90</td>
-            </tr>
-            <tr>
-                <td>Siti</td>
-                <td>92</td>
-                <td>88</td>
-            </tr>
-        </tbody>
-    </table>
+  <table>
+    <caption>Daftar Harga Warung Bu Siti — 25 Agustus 2026</caption>
+    <thead>
+      <tr>
+        <th scope="col">Produk</th>
+        <th scope="col">Harga</th>
+        <th scope="col">Stok</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Beras 5kg</th>
+        <td>Rp 62.000</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <th scope="row">Bayam</th>
+        <td>Rp 5.000</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: right; font-weight: bold;">Total Stok</td>
+        <td>30</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>
 ```
 
----
-
-## Key Concepts
-
-### Table Structure
-`<table>` container, `<thead>` header, `<tbody>` data, `<tfoot>` footer.
-
-### Cells & Rows
-`<tr>` row, `<th>` header cell, `<td>` data cell.
-
-### Cell Merging
-`rowspan="2"` merge 2 rows, `colspan="2"` merge 2 columns.
-
-### Accessibility
-`<th scope="col">` or `scope="row"` for screen readers.
+**Wajib:** `caption` di bawah `<table>`, `th scope="col"` untuk header atas, `th scope="row"` untuk header kiri, `colspan="2"` gabung 2 kolom untuk total.
 
 ---
 
-## Beginner Friendly Explanation
+## Konsep Kunci
 
-A table is data arranged in **rows and columns**, like a school class schedule.
+### `<table>` + `<caption>` + `<thead>/<tbody>` + `<tr>` + `<th>` + `<td>`
+- `table` wadah, `caption` judul (bantu screen reader), `thead` kepala, `tbody` badan, `tr` baris, `th` header, `td` data.
 
-- `<table>` = the table container. `<tr>` = one **row**. Inside a row there is `<th>` (column header, shown bold) or `<td>` (data cell).
-- `<thead>` = the header rows section, `<tbody>` = the data section, `<tfoot>` = the summary row at the bottom.
-- `<caption>` = the table title.
-- `colspan="2"` = merge 2 columns, `rowspan="2"` = merge 2 rows — for cells that stretch wide or tall.
+### `scope="col"` vs `scope="row"`
+`scope="col"` header untuk kolom (Produk), `scope="row"` untuk baris (Beras 5kg). Screen reader baca "Beras 5kg, harga 62.000".
 
-**Try:** In the "Class Schedule" program, add one `<tr>` row with a subject of your own, then run it and watch the table stay tidy.
-
----
-
-## Experiments
-
-- Create table with 5 columns and 10 rows
-- Try rowspan for row merging
-- Create table with caption and tfoot
-- Experiment scope="row" and scope="col"
-- Create complex table with nested headers
+### `colspan`/`rowspan` + `border-collapse`
+`colspan="2"` gabung 2 kolom (Total Stok), `border-collapse: collapse` garis tidak ganda (MDN).
 
 ---
 
-## Challenge
+## Penjelasan untuk Pemula
 
-Build a simple dashboard page: student data table with sorting indicator, caption, and footer.
+### Analogi: Meja Warung dengan Label
+
+- **`<table>` = meja warung**: `thead` kepala meja (label kolom), `tbody` badan meja (baris produk).
+- **`<th scope="col">` = label kolom**: "Produk", "Harga" di atas.
+- **`<caption>` = papan judul meja**: "Daftar Harga Warung" di atas meja — tunanetra dengar dulu sebelum baca isi.
+- **`colspan` = meja gabung**: "Total Stok" gabung 2 kolom.
+
+### Langkah 0 — Device (Sama W1)
+
+VS Code + browser, buat `tabel.html`, buka di browser → `Ctrl+O`.
+
+### Cara Komputer Membaca
+
+1. `<table>` → buat wadah.
+2. `<thead><tr><th scope="col">Produk</th>...</tr></thead>` → 1 baris header.
+3. `<tbody><tr><th scope="row">Beras</th><td>Rp 62.000</td>...</tr>` → baris data, `scope="row"` hubungkan "Beras" dengan harganya untuk screen reader.
+
+### 3 Istilah Wajib
+
+1. **th/td**: header/data
+2. **thead/tbody**: kepala/badan
+3. **caption/scope**: judul/label untuk aksesibilitas
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 6 of 14: **Tables** (Level: Complete HTML5). Structured data. Next week: **Forms & Inputs**.
+- **Hijau:** Ganti `Beras 5kg` jadi `Gula 1kg` + harga `15000` → baris baru?
+- **Kuning:** Hapus `scope="col"` → screen reader masih baca tapi tidak tahu header kolom (MDN).
+- **Merah:** Hapus `border-collapse` → garis ganda tebal.
+
+---
+
+## Tantangan
+
+**Tabel Warung Lengkap:** `caption` "Stok 25 Agustus", `thead` 3 kolom `Produk/Harga/Stok`, `tbody` 5 produk + `th scope="row"` tiap produk, `tfoot` atau baris `colspan="2"` total, `scope` benar, buka di browser + cek `WAVE` extension.
+
+---
+
+## Glosarium Mini
+
+- **table/caption/thead/tbody/tr/th/td**: meja/judul/kepala/badan/baris/header/data
+- **scope/colspan**: label/gabung
+
+---
+
+## Ringkasan
+
+Minggu 6 dari 14: **Tabel** (Level: Lengkap). Bisa daftar harga rata dan aksesibel. Minggu depan: **Form & Input** — pesan antar.
