@@ -1,96 +1,84 @@
-# Sorted Sets
+# Sorted Set — Papan Ranking Warung Redis
 
-> **Kategori:** Redis | **Level:** Beginner | **Minggu 5:** Sorted Sets
+> **Kategori:** Redis | **Level:** Pemula | **Minggu 5:** Sorted Set
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- ZADD and ZRANGE
-- ZREVRANGE for rankings
-- ZINCRBY for score increments
-- ZCOUNT and ZRANGEBYSCORE
-- ZINTERSTORE and ZUNIONSTORE
+- `ZADD laris 100 "beras"` papan skor, `ZRANGE` naik, `ZREVRANGE` turun (juara dulu), `ZINCRBY` tambah skor (sumber: redis.io/docs/data-types/sorted-sets)
+- `ZRANGEBYSCORE` saring skor, `ZCOUNT` hitung
 
 ---
 
-## Program: Sorted Set Operations
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# Sorted Set: set dengan score untuk urutan
-ZADD leaderboard 100 "player1" 250 "player2" 180 "player3" 300 "player4" 150 "player5"
+"Top 5 terlaris" tanpa sorted set = ambil semua + `sort` di JS tiap buka (lambat). Dengan `ZREVRANGE laris 0 4`, Redis simpan sudah urut → 1 perintah.
 
-# Lihat semua (berdasarkan score)
-ZRANGE leaderboard 0 -1 WITHSCORES
+---
 
-# Lihat reverse (terbesar dulu)
-ZREVRANGE leaderboard 0 -1 WITHSCORES
+## Program: Papan Terlaris
 
-# Top 3
-ZREVRANGE leaderboard 0 2 WITHSCORES
-
-# Score spesifik
-ZSCORE leaderboard "player2"
-
-# Rank (posisi)
-ZRANK leaderboard "player2"
-ZREVRANK leaderboard "player2"
-
-# Increment score
-ZINCRBY leaderboard 50 "player1"
-
-# Count dalam range
-ZCOUNT leaderboard 100 200
-
-# Range by score
-ZRANGEBYSCORE leaderboard 100 200 WITHSCORES
-
-# Remove by score range
-ZREMRANGEBYSCORE leaderboard 0 100
-
-# Remove by rank
-ZREMRANGEBYRANK leaderboard 0 0
-
-# Intersection sorted sets
-ZADD set1 1 "a" 2 "b" 3 "c"
-ZADD set2 10 "b" 20 "c" 30 "d"
-ZINTERSTORE result 2 set1 set2 WITHSCORES
+```bash
+ZADD laris 100 "beras" 250 "minyak" 180 "telur"
+ZRANGE laris 0 -1 WITHSCORES
+ZREVRANGE laris 0 2 WITHSCORES
+ZINCRBY laris 50 "beras"
+ZREVRANGE laris 0 2 WITHSCORES
+ZRANGEBYSCORE laris 100 200
+ZCOUNT laris 100 200
+ZREM laris "telur"
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Sorted Sets
-Sets with scores. Auto-sorted by score.
+### Sorted Set = Papan Ranking
+`ZADD papan skor member` — unik member, urut skor. `ZINCRBY` tambah skor atomik.
 
-### ZADD
-Add member with score.
-
-### ZREVRANGE
-Descending range for leaderboards.
-
-### ZINCRBY
-Increment score (for point systems).
-
-### ZCOUNT
-Count members in score range.
+### `ZRANGE` vs `ZREVRANGE` = Naik vs Turun
+`ZRANGE 0 2` 3 terbawah, `ZREVRANGE 0 2` 3 teratas (juara).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Rate limiters with sorted sets
-- Real-time leaderboards
-- Time-based scoring
-- Sorted sets vs lists
+### Analogi: Papan Klasemen
+- **Member = tim**, **score = poin**, `ZREVRANGE 0 2` = 3 besar.
+
+### Langkah 0 — Siapkan Device
+- Sama W1.
+
+### Cara Komputer Membaca
+1. `ZADD laris 100 "beras"` → simpan + sisipkan urut.
+2. `ZREVRANGE laris 0 2` → ambil 3 skor tertinggi.
+
+### 3 Istilah Wajib
+1. **ZADD/ZRANGE**: papan/lihat
+2. **ZINCRBY**: tambah skor
 
 ---
 
-## Challenge
+## Eksperimen
 
-Game leaderboard: add scores, view top 10, check player rank.
+- **Hijau:** `ZREVRANGE laris 0 0` → juara 1?
+- **Kuning:** `ZINCRBY laris 200 "beras"` → juara ganti?
+- **Merah:** `ZADD laris 100 "beras"` lagi (skor sama) → tetap 1 member (update, bukan duplikat)?
 
 ---
 
-## Summary
+## Tantangan
 
-Week 5 of 10: **Sorted Sets** (Beginner).
+**Warung Ranking:** `ZADD` 5 produk → `ZREVRANGE 0 2` top 3 → `ZINCRBY` jual 30 → top 3 baru → `ZRANGEBYSCORE 100 200`. **Selesai Beginner Redis!**
+
+---
+
+## Glosarium Mini
+
+- **Sorted Set/ZADD/ZREVRANGE**: papan/tambah/juara
+- **ZINCRBY/ZCOUNT**: skor/hitung
+
+---
+
+## Ringkasan
+
+Minggu 5 dari 5: **Papan Ranking** (Level: Pemula). **Selesai Beginner Redis!** Lanjut: **Expire & Pub/Sub** (Menengah).

@@ -1,98 +1,87 @@
-# Sets
+# Set — Tas Tag Unik Redis
 
-> **Kategori:** Redis | **Level:** Beginner | **Minggu 4:** Sets
+> **Kategori:** Redis | **Level:** Pemula | **Minggu 4:** Set
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- SADD, SMEMBERS, SREM
-- SISMEMBER for membership
-- SUNION, SINTER, SDIFF
-- SUNIONSTORE, SINTERSTORE
-- SRANDMEMBER
+- `SADD tags "sayur" "segar"` tas unik (kembar otomatis 1), `SMEMBERS`, `SISMEMBER`, `SREM` (sumber: redis.io/docs/data-types/sets)
+- `SINTER` irisan, `SUNION` gabung, `SDIFF` selisih — untuk tag & kategori
 
 ---
 
-## Program: Redis Set Operations
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# Set: koleksi unik tidak terurut
-SADD tags:produk:1 "elektronik" "laptop" "asus" "gaming"
-SADD tags:produk:2 "aksesoris" "mouse" "logitech"
-SADD tags:produk:3 "elektronik" "monitor" "lg"
+Produk punya tag `["sayur","segar","sayur"]` — duplikat bikin filter ganda. Set otomatis unik. `SINTER` cari "produk yang sayur DAN promo" tanpa loop.
 
-# Lihat semua member
-SMEMBERS tags:produk:1
+---
 
-# Cek membership
-SISMEMBER tags:produk:1 "gaming"
-SISMEMBER tags:produk:1 "murah"
+## Program: Tas Tag Warung
 
-# Panjang set
-SCARD tags:produk:1
-
-# Pop random element
-SPOP tags:produk:1
-
-# Hapus member
-SREM tags:produk:1 "asus"
-
-# Set operations
-SADD setA "1" "2" "3" "4"
-SADD setB "3" "4" "5" "6"
-
-# Union (gabungan)
-SUNION setA setB
-
-# Intersection (irisan)
-SINTER setA setB
-
-# Difference (selisih)
-SDIFF setA setB
-
-# Store hasil operasi
-SUNIONSTORE result:set setA setB
-SINTERSTORE result:common setA setB
-
-# Random member tanpa hapus
-SRANDMEMBER tags:produk:1 2
+```bash
+SADD tags:beras "sembako" "pokok" "promo"
+SADD tags:bayam "sayur" "segar" "promo"
+SADD tags:beras "sembako"
+SMEMBERS tags:beras
+SISMEMBER tags:beras "promo"
+SINTER tags:beras tags:bayam
+SUNION tags:beras tags:bayam
+SDIFF tags:beras tags:bayam
+SREM tags:beras "pokok"
+SRANDMEMBER tags:bayam
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Sets
-Unordered unique collections.
+### Set = Tas Unik Tak Berurutan
+`SADD` tambah (kembar diabaikan), `SMEMBERS` lihat, `SISMEMBER` cek, `SREM` buang.
 
-### SADD & SREM
-Add and remove members.
-
-### Set Operations
-Union, intersection, difference.
-
-### Store
-SUNIONSTORE saves result to new key.
-
-### SRANDMEMBER
-Get random without removing.
+### `SINTER/SUNION/SDIFF` = Operasi Himpunan
+Irisan / gabung / selisih 2 tas — untuk filter tag.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Tag systems with sets
-- Friend recommendations (intersection)
-- Unique visitors (HyperLogLog)
-- Sets vs Sorted Sets
+### Analogi: Tas Belanja Unik
+- **Set = tas**: masukkan "sayur" 2x tetap 1.
+- **SINTER = yang sama di 2 tas**.
+
+### Langkah 0 — Siapkan Device
+- Sama W1.
+
+### Cara Komputer Membaca
+1. `SADD tags:beras "sembako"` → tambah jika belum ada.
+2. `SINTER a b` → bandingkan, keluarkan yang ada di keduanya.
+
+### 3 Istilah Wajib
+1. **Set/SADD/SMEMBERS**: tas/tambah/lihat
+2. **SINTER/SUNION**: iris/gabung
 
 ---
 
-## Challenge
+## Eksperimen
 
-Tag system: add/remove tags, find products with same tags.
+- **Hijau:** `SADD` "promo" 2x → `SMEMBERS` 1?
+- **Kuning:** `SINTER` beras & bayam → "promo"?
+- **Merah:** `SDIFF` beras bayam → hanya milik beras?
 
 ---
 
-## Summary
+## Tantangan
 
-Week 4 of 10: **Sets** (Beginner).
+**Tag Warung:** 3 produk `SADD` tag masing-masing → `SINTER` 2 produk → `SUNION` semua → `SISMEMBER` cek "promo".
+
+---
+
+## Glosarium Mini
+
+- **Set/SADD/SMEMBERS**: tas/tambah/lihat
+- **SINTER/SUNION/SDIFF**: iris/gabung/selisih
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 5: **Tas Unik** (Level: Pemula). Tag anti-duplikat + irisan. Minggu depan: **Sorted Set** — ranking.
