@@ -1,120 +1,84 @@
-# DataLoader & N+1 Problem
+# DataLoader & N+1 — Gerobak Sekaligus GraphQL
 
-> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 7:** DataLoader & N+1 Problem
+> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 7:** DataLoader & N+1 Problem
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- N+1 problem explained
-- DataLoader setup
-- Batch loading
-- Per-request caching
-- Multiple loaders
+- N+1: 100 produk → 1 query daftar + 100 query kategori = 101x (lambat!) (sumber: github.com/graphql/dataloader)
+- `new DataLoader(keys => batchFn(keys))` kumpulkan 1 detik → 1 query `WHERE id IN (...)`
 
 ---
 
-## Program: Query Optimization
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar 100 produk + kategori tiap baris = 101 query DB (10 detik). Dengan DataLoader, 2 query (0.1 detik) — 100x cepat. Tanpa ini, GraphQL lambat di produksi.
+
+---
+
+## Program: Gerobak Warung
 
 ```javascript
-// DataLoader: solve N+1 problem
-const DataLoader = require('dataloader');
+const DataLoader = require("dataloader");
 
-// N+1 Problem (BAD)
-// Setiap product query category terpisah
-const resolversBad = {
-  Product: {
-    category: async (product) => {
-      return db.categories.findById(product.categoryId);  // 1 query per product!
-    }
-  }
-};
+// Tanpa DataLoader (N+1): 1 + 100 query!
+// Produk: { kategori: p => db.kategori(p.kategoriId) } ← 100x!
 
-// Dengan DataLoader (GOOD)
-const createLoaders = () => ({
-  categoryLoader: new DataLoader(async (categoryIds) => {
-    // Batch load: 1 query untuk semua IDs
-    const categories = await db.categories.findByIds(categoryIds);
-    const categoryMap = new Map(categories.map(c => [c.id, c]));
-    return categoryIds.map(id => categoryMap.get(id));
-  }),
-  
-  productLoader: new DataLoader(async (productIds) => {
-    const products = await db.products.findByIds(productIds);
-    const productMap = new Map(products.map(p => [p.id, p]));
-    return productIds.map(id => productMap.get(id));
-  }),
-  
-  ordersByUserLoader: new DataLoader(async (userIds) => {
-    const orders = await db.orders.findByUserIds(userIds);
-    const grouped = {};
-    orders.forEach(o => {
-      if (!grouped[o.userId]) grouped[o.userId] = [];
-      grouped[o.userId].push(o);
-    });
-    return userIds.map(id => grouped[id] || []);
-  }),
+// Dengan DataLoader: 1 + 1 query
+const kategoriLoader = new DataLoader(async (ids) => {
+  const rows = await db.kategoriByIds(ids); // 1 query IN (...)
+  return ids.map(id => rows.find(r => r.id === id)); // urut sesuai ids!
 });
 
-// Gunakan di context
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: () => ({
-    loaders: createLoaders(),
-  }),
-});
-
-// Resolver dengan loader
 const resolvers = {
-  Product: {
-    category: (product, _, { loaders }) =>
-      loaders.categoryLoader.load(product.categoryId),
-  },
-  User: {
-    orders: (user, _, { loaders }) =>
-      loaders.ordersByUserLoader.load(user.id),
-  },
-  Query: {
-    products: () => db.products.findAll(),
+  Produk: {
+    kategori: (parent) => kategoriLoader.load(parent.kategoriId),
   },
 };
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### N+1 Problem
-1 query for parent + N queries for children.
+### N+1 = 1 + N Query
+Daftar (1) + tiap baris (N). DataLoader kumpulkan → 1 batch.
 
-### DataLoader
-Batch and cache database calls.
-
-### Batching
-Collect IDs, query all at once.
-
-### Caching
-Cache per request (not shared).
-
-### Setup
-Create loaders in context, call .load(id).
+### `load()` + Batch = Gerobak
+`load(id)` naik gerobak, gerobak jalan 1x per tick dengan semua penumpang.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Prime loaders
-- Clear caches
-- Custom cache keys
-- Loader composition
+### Analogi: Ojek vs Bus
+- **Tanpa DataLoader = 100 ojek** (mahal).
+- **DataLoader = 1 bus**: kumpulkan penumpang 1 tick, jalan sekali.
 
----
-
-## Challenge
-
-Optimize: implement DataLoader for all relations.
+### 3 Istilah Wajib
+1. **N+1/batch/load**: 101x/gerobak/naik
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 7 of 10: **DataLoader & N+1** (Intermediate).
+- **Hijau:** Log tiap query kategori → 100 baris? Dengan DataLoader → 1?
+- **Kuning:** `load` id sama 2x → cache (1x)?
+- **Merah:** Return urutan acak dari batch → data tertukar? (Wajib urut sesuai ids!)
+
+---
+
+## Tantangan
+
+**Warung Cepat:** `Produk.kategori` via DataLoader + log hitung query: 101 → 2. Screenshot.
+
+---
+
+## Glosarium Mini
+
+- **DataLoader/N+1**: gerobak/101x
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 10: **Gerobak Sekaligus** (Level: Menengah). 100x cepat. Minggu depan: **Subscriptions**.

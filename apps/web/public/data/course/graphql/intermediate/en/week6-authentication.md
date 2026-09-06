@@ -1,120 +1,98 @@
-# Authentication & Authorization
+# Authentication — KTP Restoran GraphQL
 
-> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 6:** Authentication & Authorization
+> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 6:** Authentication & Authorization
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- JWT token generation
-- Context authentication
-- Role-based authorization
-- Custom @auth directive
-- Error handling
+- `login(email, password)` mutation → JWT `token`, `context: { user }` KTP tiap request, tolak jika bukan pemilik (sumber: apollographql.com/docs/apollo-server/security/authentication)
 
 ---
 
-## Program: GraphQL Security
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa auth, siapa saja `mutation { hapusProduk }` hapus semua. Dengan JWT di `Authorization: Bearer`, server tahu siapa + tolak yang bukan pemilik.
+
+---
+
+## Program: KTP Warung GraphQL
 
 ```javascript
-// JWT Authentication & Authorization
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const SECRET = "rahasia-warung";
 
-// Generate token
-function generateToken(user) {
-  return jwt.sign(
-    { userId: user.id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: '24h' }
-  );
-}
+// 1. Login → token
+const resolvers = {
+  Mutation: {
+    login: (_, { email, password }) => {
+      if (email === "admin@warung.com" && password === "123") {
+        const token = jwt.sign({ email, role: "admin" }, SECRET);
+        return { token };
+      }
+      throw new Error("Salah");
+    },
+    tambahProduk: (_, { input }, context) => {
+      if (!context.user) throw new Error("Login dulu!"); // satpam
+      return { id: "9", ...input };
+    },
+  },
+};
 
-// Verify token dari header
-function getUser(token) {
-  if (!token) return null;
-  try {
-    const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
-    return { id: decoded.userId, role: decoded.role };
-  } catch {
-    return null;
-  }
-}
-
-// Context dengan auth
+// 2. Server baca KTP tiap request
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: async ({ req }) => {
-    const token = req.headers.authorization || '';
-    const currentUser = getUser(token);
-    return { currentUser, db };
+  typeDefs, resolvers,
+  context: ({ req }) => {
+    const token = (req.headers.authorization || "").replace("Bearer ", "");
+    try {
+      return { user: jwt.verify(token, SECRET) }; // KTP sah?
+    } catch { return {}; } // tanpa KTP
   },
 });
-
-// Directive untuk authorization
-const { SchemaDirectiveVisitor } = require('apollo-server');
-const { defaultFieldResolver } = require('graphql');
-
-class AuthDirective extends SchemaDirectiveVisitor {
-  visitFieldDefinition(field) {
-    const { resolve = defaultFieldResolver } = field;
-    const requiredRole = this.args.requires;
-    
-    field.resolve = async function (...args) {
-      const context = args[2];
-      if (!context.currentUser) {
-        throw new Error('Not authenticated');
-      }
-      if (requiredRole && context.currentUser.role !== requiredRole) {
-        throw new Error('Not authorized');
-      }
-      return resolve.apply(this, args);
-    };
-  }
-}
-
-// Schema dengan directive
-// type Query {
-//   users: [User!]! @auth(requires: ADMIN)
-//   me: User @auth
-// }
 ```
 
----
-
-## Key Concepts
-
-### JWT
-JSON Web Tokens for authentication.
-
-### Context
-Verify token in context, inject user.
-
-### Authorization
-Check roles in resolvers or directives.
-
-### Directives
-Custom directives to protect fields.
-
-### Errors
-Throw AuthenticationError vs ForbiddenError.
+Test GraphiQL: `mutation { login(email:"admin@warung.com", password:"123") { token } }` → Headers `{"Authorization": "Bearer TOKEN"}` → `tambahProduk` lolos. Tanpa header → "Login dulu!".
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Refresh tokens
-- Rate limiting
-- API key auth
-- OAuth integration
+### `login` → JWT → `context.user` = KTP
+Login 1x dapat token, tiap request bawa token, server isi `context.user`.
 
----
-
-## Challenge
-
-Auth system: register, login, JWT, role-based access.
+### Satpam di Resolver
+`if (!context.user) throw` — tolak sebelum masak.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 6 of 10: **Authentication & Authorization** (Intermediate).
+### Analogi: Gelang Konser
+- **Login = tukar tiket jadi gelang (JWT)**, **context = periksa gelang** tiap pintu.
+
+### 3 Istilah Wajib
+1. **JWT/context/Bearer**: gelang/periksa/bawa
+
+---
+
+## Eksperimen
+
+- **Hijau:** Tanpa header → "Login dulu!"?
+- **Kuning:** Token palsu → ditolak?
+- **Merah:** `tambahProduk` tanpa cek `context.user` → bebas tanpa login? (Jangan! Pasang.)
+
+---
+
+## Tantangan
+
+**Restoran Ber-KTP:** `login` + `tambahProduk` (wajib login) + `produk` (bebas) + GraphiQL 3 test (tanpa/palsu/asli).
+
+---
+
+## Glosarium Mini
+
+- **JWT/Bearer/context**: gelang/bawa/periksa
+
+---
+
+## Ringkasan
+
+Minggu 6 dari 10: **KTP Restoran** (Level: Menengah). Pintu terjaga. Minggu depan: **DataLoader**.

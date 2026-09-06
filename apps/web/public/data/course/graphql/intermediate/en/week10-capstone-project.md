@@ -1,113 +1,59 @@
-# Capstone: E-Commerce GraphQL
+# Capstone: E-Commerce GraphQL — Restoran Grand Opening
 
-> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce GraphQL
+> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce GraphQL
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Complete schema
-- Pagination (Connection pattern)
-- Auth directives
-- Subscriptions
-- Error handling
+- Gabung W1-W9: `schema` + `resolvers` + `auth` + `DataLoader` + `subscription` + `test` jadi toko GraphQL produksi
 
 ---
 
-## Program: Production-Ready API
+## Kenapa Ini Penting Buat Kamu?
 
-```graphql
-# CAPSTONE: E-Commerce GraphQL API
+9 minggu terpisah — capstone buktikan gabung: HP hemat kuota (pilih field) + cepat (DataLoader) + live (subscription) + aman (auth) + teruji. Portfolio "GraphQL production-ready".
 
-# Schema lengkap
-type Query {
-  # Products
-  products(
-    filter: ProductFilter
-    pagination: PaginationInput
-    sort: SortInput
-  ): ProductConnection!
-  product(id: ID!): Product
-  
-  # Orders
-  myOrders: [Order!]!
-  order(id: ID!): Order
-  
-  # User
-  me: User
-}
+---
 
-type Mutation {
-  # Auth
-  register(input: RegisterInput!): AuthPayload!
-  login(input: LoginInput!): AuthPayload!
-  
-  # Products
-  createProduct(input: CreateProductInput!): Product! @auth(requires: SELLER)
-  updateProduct(id: ID!, input: UpdateProductInput!): Product! @auth
-  deleteProduct(id: ID!): Boolean! @auth(requires: ADMIN)
-  
-  # Orders
-  createOrder(input: CreateOrderInput!): Order! @auth
-  cancelOrder(id: ID!): Order! @auth
-  
-  # Cart
-  addToCart(input: AddToCartInput!): Cart! @auth
-  removeFromCart(productId: ID!): Cart! @auth
-  checkout: Order! @auth
-}
+## Program: Restoran Lengkap (Checklist)
 
-type Subscription {
-  productCreated: Product!
-  orderStatusChanged(orderId: ID!): Order!
-}
-
-type ProductConnection {
-  edges: [Product!]!
-  totalCount: Int!
-  pageInfo: PageInfo!
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  endCursor: String
-}
+```javascript
+// server.js — gabung semua
+// typeDefs: Produk, Query (produk + args), Mutation (tambah/ubah/hapus + login), Subscription (stokHabis)
+// resolvers: Query + Mutation (auth cek!) + Subscription + Produk.kategori (DataLoader!)
+// context: JWT → user
+// test: 4 hijau
 ```
 
----
+Fitur wajib:
+- [ ] `query` pilih field + argumen + fragment
+- [ ] `mutation` auth (tanpa token ditolak)
+- [ ] `Produk.kategori` via DataLoader (log 2 query, bukan 101)
+- [ ] `subscription stokHabis` 2 tab bunyi
+- [ ] 4 test HIJAU + deploy (`Railway`/`Vercel`)
 
-## Key Concepts
-
-### Schema Design
-Query, Mutation, Subscription types.
-
-### Connection Pattern
-Cursor-based pagination.
-
-### Auth Directives
-Protect fields with @auth.
-
-### Subscriptions
-Realtime updates.
-
-### Error Handling
-Typed errors with extensions.
+**Tugas capstone:** URL publik + GraphiQL screenshot tambah produk + video 1 menit. **Selesai GraphQL 0→Ahli!** 🎉
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Federation
-- Schema stitching
-- File uploads
-- Persisted queries
+### Capstone = Gabung 9 Minggu
+Menu + dapur + KTP + gerobak + bel + cicip = restoran.
 
 ---
 
-## Challenge
+## Tantangan
 
-Deploy GraphQL API: schema, resolvers, auth, pagination, testing.
+**Grand Opening:** Semua checklist + URL + video. **Selesai GraphQL 0→Ahli!** 🎉
 
 ---
 
-## Summary
+## Glosarium Mini
 
-Week 10 of 10: **Capstone: E-Commerce GraphQL** (Intermediate). Complete!
+- **Capstone/deploy**: gabung/buka
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 10: **Grand Opening** (Level: Menengah). **Selesai GraphQL 0→Ahli dari nol!** 🎉
