@@ -1,110 +1,115 @@
-# REST API Development
+# REST API — Warung Online CI4 Beneran
 
-> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 8:** REST API Development
+> **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 8:** REST API Development
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Resource routes: $routes->resource() for CRUD APIs
-- JSON responses: setJSON, respond, respondCreated
-- ResourceController: pre-built CRUD controller
-- getJSON: parse JSON request body
-- CORS: configure cross-origin resource sharing
+- `ResourceController` + `$routes->resource('api/produk')` 5 pintu otomatis (sumber: codeigniter.com/user_guide/incoming/rest_api)
+- `respond()`/`respondCreated()`/`failNotFound()` JSON + `$this->request->getJSON()` baca amplop
 
 ---
 
-## Program: API Endpoints
+## Kenapa Ini Penting Buat Kamu?
+
+HP butuh JSON, bukan HTML. Tanpa API, HP tidak bisa ambil stok. `resource()` 1 baris = 5 pintu (GET/POST/PUT/DELETE) — tanpa tulis 5 route manual.
+
+---
+
+## Program: API Warung Beneran
 
 ```php
-<?php
-echo "=== CI4 REST API ===<br><br>";
-
-echo "=== API Routes ===<br>";
-echo "$routes->resource('api/products');<br>";
-echo "$routes->group('api', function($routes) {<br>";
-echo "    $routes->get('products', 'Api\Product::index');<br>";
-echo "    $routes->post('products', 'Api\Product::store');<br>";
-echo "    $routes->put('products/(:num)', 'Api\Product::update/$1');<br>";
-echo "    $routes->delete('products/(:num)', 'Api\Product::delete/$1');<br>";
-echo "});<br><br>";
-
-echo "=== JSON Response ===<br>";
-echo "return $this->response->setJSON([<br>";
-echo "    'status' => 'success',<br>";
-echo "    'data' => $products,<br>";
-echo "]);<br><br>";
-
-echo "=== API Controller ===<br>";
-echo "class Product extends ResourceController {<br>";
-echo "    protected $model = ProductModel::class;<br>";
-echo "    protected $format = 'json';<br><br>";
-echo "    public function index() {<br>";
-echo "        return $this->respond($this->model->findAll());<br>";
-echo "    }<br><br>";
-echo "    public function create() {<br>";
-echo "        $data = $this->request->getJSON(true);<br>";
-echo "        $this->model->insert($data);<br>";
-echo "        return $this->respondCreated($data);<br>";
-echo "    }<br>";
-echo "}<br><br>";
-
-echo "=== API Simulation ===<br>";
-$endpoints = [
-    "GET /api/products" => ["status" => 200, "data" => "List products"],
-    "GET /api/products/1" => ["status" => 200, "data" => "Product #1"],
-    "POST /api/products" => ["status" => 201, "data" => "Created"],
-    "PUT /api/products/1" => ["status" => 200, "data" => "Updated"],
-    "DELETE /api/products/1" => ["status" => 200, "data" => "Deleted"],
-];
-
-foreach ($endpoints as $endpoint => $resp) {
-    echo "$endpoint → {$resp['status']}: {$resp['data']}<br>";
-}
-
-echo "<br>=== CORS & Filters ===<br>";
-echo "// app/Config/Cors.php<br>";
-echo "public $allowedOrigins = ['http://localhost:3000'];<br>";
-echo "public $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE'];<br>";
-echo "public $allowedHeaders = ['Content-Type', 'Authorization'];<br>";
->
+// Routes.php — 1 baris 5 pintu!
+$routes->resource('api/produk', ['controller' => 'Api\Produk']);
+// GET api/produk, GET api/produk/1, POST, PUT api/produk/1, DELETE api/produk/1
 ```
 
----
+```php
+// Controllers/Api/Produk.php — beneran (bukan echo!)
+namespace App\Controllers\Api;
+use CodeIgniter\RESTful\ResourceController;
 
-## Key Concepts
+class Produk extends ResourceController {
+  protected $modelName = 'App\Models\ProdukModel';
+  protected $format = 'json';
 
-### Resource Routes
-`$routes->resource()` generates 5 RESTful routes.
+  public function index() {
+    return $this->respond($this->model->findAll());
+  }
 
-### JSON Response
-`$this->respond()`, `$this->respondCreated()`, `setJSON()`.
+  public function show($id = null) {
+    $p = $this->model->find($id);
+    return $p ? $this->respond($p) : $this->failNotFound("Tidak ada $id");
+  }
 
-### ResourceController
-Pre-built CRUD controller.
+  public function create() {
+    $data = $this->request->getJSON(true); // amplop JSON → array
+    $id = $this->model->insert($data);
+    return $this->respondCreated(["id" => $id] + $data);
+  }
 
-### getJSON
-`$this->request->getJSON(true)` parses JSON body to array.
+  public function delete($id = null) {
+    $this->model->delete($id);
+    return $this->respondDeleted(["id" => $id]);
+  }
+}
+```
 
-### CORS
-`app/Config/Cors.php` configures allowed origins, methods, headers.
-
----
-
-## Experiments
-
-- Create API resource controller for Post
-- Implement API with JWT auth
-- Try API versioning with route group
-- Create API pagination
-- Implement rate limiting
-
----
-
-## Challenge
-
-Build a complete REST API for products: CRUD endpoints, validation, JSON responses, CORS.
+Test: `curl localhost:8080/api/produk` → JSON. `curl -X POST -H "Content-Type: application/json" -d '{"nama":"Gula","harga":15000}' ...` → `201`.
 
 ---
 
-## Summary
+## Konsep Kunci
 
-Week 8 of 10: **REST API Development** (Level: Intermediate). API-first development. Next week: **Testing**.
+### `$routes->resource()` = 5 Pintu Sekaligus
+`index/show/create/update/delete` otomatis.
+
+### `respond()`/`failNotFound()` = Balas JSON Rapi
+`respond($data)` 200, `respondCreated` 201, `failNotFound` 404 JSON (bukan HTML!).
+
+### `getJSON(true)` = Buka Amplop
+JSON body → array PHP.
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Drive-Thru JSON
+- **resource() = 5 jendela drive-thru** sekaligus.
+- **respond = struk JSON**, bukan halaman.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + `curl` atau Postman.
+
+### Cara Komputer Membaca
+1. `POST /api/produk` JSON → `create()` → `getJSON` → `insert` → `201`.
+2. `GET /api/produk/99` → tidak ada → `404` JSON.
+
+### 3 Istilah Wajib
+1. **resource/respond**: 5-pintu/balas-JSON
+2. **getJSON**: buka-amplop
+
+---
+
+## Eksperimen
+
+- **Hijau:** `GET /api/produk/1` → JSON 1 barang?
+- **Kuning:** `GET /api/produk/99` → 404 JSON (bukan HTML)?
+- **Merah:** POST tanpa `Content-Type: application/json` → `getJSON` null? Tambah header.
+
+---
+
+## Tantangan
+
+**Warung Online Lengkap:** `resource` + CRUD beneran + `curl` 5 perintah lulus (GET list/1/99, POST, DELETE).
+
+---
+
+## Glosarium Mini
+
+- **resource/respond/fail**: 5-pintu/balas/gagal-JSON
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 10: **Drive-Thru JSON** (Level: Menengah). HP bisa belanja. Minggu depan: **Testing**.
