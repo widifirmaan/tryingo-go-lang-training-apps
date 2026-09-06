@@ -1,97 +1,80 @@
-# Redis Cluster
+# Clustering — Warung Bercabang Redis
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 8:** Redis Cluster
+> **Kategori:** Redis | **Level:** Menengah | **Minggu 8:** Redis Cluster
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Cluster setup
-- Hash slots
-- Hash tags for multi-key
-- Cluster info and nodes
-- Failover and resharding
+- `redis-cli --cluster create` 3 master + 3 replica, `16384 slots` bagi data, failover otomatis (sumber: redis.io/docs/management/scaling)
 
 ---
 
-## Program: Distributed Redis
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# Redis Cluster: distribusi data
-# Konfigurasi (redis.conf)
-# cluster-enabled yes
-# cluster-config-file nodes.conf
-# cluster-node-timeout 5000
+1 server Redis mati → warung tutup. Dengan 6 node (3 master + 3 cadangan), mati 1 → cadangan naik otomatis. Data dibagi 16384 slot ke 3 master (tidak numpuk 1).
 
-# Buat cluster (6 nodes: 3 master, 3 replica)
-# redis-cli --cluster create \
-#   127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 \
-#   127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \
-#   --cluster-replicas 1
+---
 
-# Hash slots: 16384 slots dibagi ke master
-# Master 1: 0-5460
-# Master 2: 5461-10922
-# Master 3: 10923-16383
+## Program: Cabang Redis (Docker)
 
-# Operasi di cluster
-redis-cli -c -p 7000
-SET user:1001 "Budi"  # Auto-redirect ke slot yang benar
-GET user:1001
+```bash
+# 6 node via compose (contoh ringkas)
+docker compose up -d  # 6x redis:7 --cluster-enabled yes
 
-# Multi-key operations (harus di slot yang sama)
-# Gunah hash tag untuk memastikan slot sama
-SET {user:1001}:profile "data"
-SET {user:1001}:session "active"
-MGET {user:1001}:profile {user:1001}:session
+# Bentuk cluster (1 master per 5461 slot)
+redis-cli --cluster create 127.0.0.1:7000 ... :7005 --cluster-replicas 1 --cluster-yes
 
-# Cluster info
-CLUSTER INFO
-CLUSTER NODES
-CLUSTER SLOTS
-CLUSTER KEYSLOT user:1001
-
-# Failover
-CLUSTER FAILOVER
-
-# Resharding
-# redis-cli --cluster reshard 127.0.0.1:7000
+# Cek + test failover
+redis-cli -c -p 7000 SET kasir:1 buka
+redis-cli -c -p 7000 GET kasir:1
+docker stop <master-1>  # matikan 1!
+redis-cli -c -p 7000 GET kasir:1  # tetap bisa (replica naik!)
 ```
 
----
-
-## Key Concepts
-
-### Cluster
-Distribute data across multiple nodes.
-
-### Hash Slots
-16384 slots divided among master nodes.
-
-### Hash Tags
-{key} to ensure keys in same slot.
-
-### Failover
-Replica auto-promotes if master fails.
-
-### Resharding
-Move slots between nodes.
+`-c` = ikut redirect slot (wajib di cluster!).
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Cluster with Docker
-- Benchmark cluster vs single
-- Slot migration
-- Read replicas
+### `16384 Slots` = Petak Gudang
+Data dibagi 16384 petak ke master. Kunci `kasir:1` hash → petak → master pemilik.
 
----
-
-## Challenge
-
-Setup Redis Cluster: 3 masters + 3 replicas + monitoring.
+### Replica + Failover = Cadangan Naik
+Tiap master 1 replica. Master mati → replica jadi master otomatis.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 8 of 10: **Redis Cluster** (Intermediate).
+### Analogi: 3 Cabang + Cadangan
+- **Master = cabang**, **replica = wakil**, **slot = wilayah**. Cabang tutup → wakil buka.
+
+### 3 Istilah Wajib
+1. **Cluster/slot/replica**: cabang/petak/cadangan
+2. **Failover/-c**: ganti-otomatis/ikut
+
+---
+
+## Eksperimen
+
+- **Hijau:** `cluster info` → `cluster_state:ok`?
+- **Kuning:** Tanpa `-c`, `GET` kunci beda slot → `MOVED` error? Tambah `-c`.
+- **Merah:** Matikan master → `GET` tetap bisa setelah failover?
+
+---
+
+## Tantangan
+
+**Cabang 6 Node:** Compose 6 + `create --cluster-replicas 1` + `SET/GET -c` + matikan 1 master buktikan tetap jalan.
+
+---
+
+## Glosarium Mini
+
+- **Cluster/failover/slot**: cabang/ganti/petak
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 10: **Bercabang Otomatis** (Level: Menengah). Mati 1 tetap buka. Minggu depan: **Caching Patterns**.

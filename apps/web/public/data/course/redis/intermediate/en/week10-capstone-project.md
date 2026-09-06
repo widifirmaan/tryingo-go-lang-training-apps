@@ -1,105 +1,66 @@
-# Capstone: Real-time Analytics
+# Capstone: Real-time Analytics — Dasbor Warung Live
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 10:** Capstone: Real-time Analytics
+> **Kategori:** Redis | **Level:** Menengah | **Minggu 10:** Capstone: Real-time Analytics
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- HyperLogLog for unique counts
-- Bitmaps for DAU
-- Sorted set leaderboards
-- Rate limiters
-- Event streams
+- Gabung W1-W9: `String` counter + `Hash` kartu + `Sorted Set` ranking + `Streams` pesanan + `Pub/Sub` siar + TTL jadi dasbor live warung
 
 ---
 
-## Program: Redis Analytics System
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# CAPSTONE: Real-time Analytics dengan Redis
+9 minggu terpisah — capstone buktikan gabung: pengunjung naik, ranking terlaris live, pesanan mengalir, stok siar habis. Ini portfolio "Redis real-time".
 
-# 1. Page view tracking (HyperLogLog)
-PFADD page:views:2024-01-15 user:1001 user:1002 user:1003
-PFADD page:views:2024-01-15 user:1001 user:1004
-PFCOUNT page:views:2024-01-15  # Unique visitors
+---
 
-# 2. Daily active users (bitmaps)
-SETBIT dau:2024-01-15 1001 1
-SETBIT dau:2024-01-15 1002 1
-SETBIT dau:2024-01-15 1003 1
-BITCOUNT dau:2024-01-15
-BITOP OR dau:week dau:2024-01-15 dau:2024-01-16
+## Program: Dasbor Live Warung (Checklist)
 
-# 3. Real-time leaderboard
-ZADD leaderboard:daily 150 "user:1001" 200 "user:1002" 180 "user:1003"
-ZINCRBY leaderboard:daily 50 "user:1001"
-ZREVRANGE leaderboard:daily 0 9 WITHSCORES
+```bash
+# 1. Counter pengunjung (W1 String + EXPIRE harian)
+INCR pengunjung:2026-08-25
 
-# 4. Rate limiter
-EVAL "
-local current = redis.call('GET', KEYS[1])
-if current and tonumber(current) >= 100 then return 0 end
-redis.call('INCR', KEYS[1])
-if redis.call('TTL', KEYS[1]) == -1 then
-    redis.call('EXPIRE', KEYS[1], 60)
-end
-return 1
-" 1 rate:limit:api:user:1001
+# 2. Kartu produk (W2 Hash)
+HSET produk:1 nama "Beras" harga 62000 stok 10
 
-# 5. Session store
-HSET session:abc123 user_id 1001 login_at "2024-01-15T10:00:00"
-EXPIRE session:abc123 3600
+# 3. Ranking laris (W5 Sorted Set)
+ZINCRBY laris 1 "beras"
+ZREVRANGE laris 0 2 WITHSCORES  # top 3 live!
 
-# 6. Event stream
-XADD events * type "page_view" user 1001 page "/products"
-XADD events * type "click" user 1001 element "buy-button"
-XRANGE events - + COUNT 10
+# 4. Aliran pesanan (W6 Streams)
+XADD pesanan * nama "Budi" total 62000
+XREAD COUNT 10 STREAMS pesanan 0
 
-# 7. Caching layer
-SET product:top "[{id:1,nama:Laptop,qty:50}]" EX 300
-GET product:top
+# 5. Siar habis (W6 Pub/Sub)
+PUBLISH stok "Beras habis!"  # kasir SUBSCRIBE dengar
 
-# 8. Real-time stats
-INCR stats:page_views:today
-INCRBY stats:revenue:today 12500000
-EXPIRE stats:page_views:today 86400
+# 6. Cache daftar (W9 TTL)
+SET daftar:json "..." EX 60
 ```
 
----
-
-## Key Concepts
-
-### HyperLogLog
-Count unique with small memory.
-
-### Bitmaps
-Bit-level operations for analytics.
-
-### Sorted Sets
-Real-time leaderboards.
-
-### Rate Limiter
-Lua scripts for rate limiting.
-
-### Streams
-Event sourcing for analytics.
+**Tugas capstone:** Script `dasbor.sh` jalankan 1-6 berurutan + screenshot tiap hasil + `INFO stats` (uptime, memori). **Selesai Redis 0→Ahli!** 🎉
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Sliding window rate limiters
-- HyperLogLog merges
-- Stream consumer groups
-- RedisTimeSeries
+### Capstone = Gabung 9 Minggu
+String + Hash + List + Set + ZSet + Streams + Pub/Sub + TTL = dasbor live.
 
 ---
 
-## Challenge
+## Tantangan
 
-Deploy analytics system: tracking, leaderboard, rate limiter, caching.
+**Grand Opening:** Semua checklist + `INFO` + video 1 menit pesan→ranking berubah live. **Selesai Redis 0→Ahli!** 🎉
 
 ---
 
-## Summary
+## Glosarium Mini
 
-Week 10 of 10: **Capstone: Real-time Analytics** (Intermediate). Complete!
+- **Capstone/live**: gabung/langsung
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 10: **Dasbor Live** (Level: Menengah). **Selesai Redis 0→Ahli dari nol!** 🎉

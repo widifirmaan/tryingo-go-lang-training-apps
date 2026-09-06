@@ -1,96 +1,88 @@
-# Pub/Sub & Streams
+# Pub/Sub — Pengeras Warung Redis
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 6:** Pub/Sub & Streams
+> **Kategori:** Redis | **Level:** Menengah | **Minggu 6:** Pub/Sub & Streams
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- SUBSCRIBE, PUBLISH, UNSUBSCRIBE
-- PSUBSCRIBE pattern matching
-- XADD and XRANGE streams
-- Consumer groups
-- XACK and XTRIM
+- `SUBSCRIBE stok` dengar kanal, `PUBLISH stok "habis"` siar (sumber: redis.io/docs/data-types/pubsub)
+- `XADD`/`XREAD` streams (antrian awet, beda pub/sub yang hilang jika tidak dengar)
 
 ---
 
-## Program: Redis Messaging
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# Pub/Sub: publish-subscribe
-# Subscriber (terminal 1)
-SUBSCRIBE news:tech news:sports
-PSUBSCRIBE news:*
+Stok habis → 3 kasir + gudang harus tahu SEKARANG. Tanpa pub/sub, tiap kasir tanya DB tiap detik (boros). Dengan `PUBLISH`, 1 siar → semua dengar. Streams untuk pesanan (tidak boleh hilang meski worker mati).
 
-# Publisher (terminal 2)
-PUBLISH news:tech "AI terbaru 2024"
-PUBLISH news:sports "Hasil pertandingan"
+---
 
-# Unsubscribe
-UNSUBSCRIBE news:tech
+## Program: Siar & Antrian Awet Warung
 
-# Streams: append-only log
-XADD events * type "login" user "budi" ip "10.0.0.1"
-XADD events * type "purchase" user "budi" amount 12500000
-XADD events * type "logout" user "budi"
+```bash
+# Terminal 1 (dengar):
+SUBSCRIBE stok
+# Terminal 2 (siar):
+PUBLISH stok "Beras habis!"
+# → Terminal 1 langsung terima!
 
-# Baca stream
-XRANGE events - +
-
-# Baca dari ID tertentu
-XRANGE events 1700000000000-0 +
-
-# Panjang stream
-XLEN events
-
-# Consumer group
-XGROUP CREATE events mygroup 0
-XREADGROUP GROUP mygroup consumer1 STREAMS events >
-
-# ACK message
-XACK events mygroup 1700000000000-0
-
-# Trim stream
-XTRIM events MAXLEN 1000
-
-# Blocking read
-XREAD BLOCK 5000 STREAMS events $
+# Streams (antrian awet, ada ID):
+XADD pesanan * nama "Budi" total 62000
+XADD pesanan * nama "Siti" total 5000
+XREAD COUNT 2 STREAMS pesanan 0
+XREAD BLOCK 5000 STREAMS pesanan $
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Pub/Sub
-Messaging pattern: publisher sends, subscriber receives.
+### Pub/Sub = Pengeras (Hilang Jika Tak Dengar)
+`SUBSCRIBE` dulu baru `PUBLISH` sampai. Telat dengar = ketinggalan.
 
-### Patterns
-PSUBSCRIBE with wildcard patterns.
-
-### Streams
-Append-only log for event sourcing.
-
-### Consumer Groups
-Multiple consumers read same stream.
-
-### XACK
-Acknowledge processed messages.
+### Streams = Buku Antrian Awet
+`XADD` simpan + ID waktu, `XREAD` baca (bisa dari ID lama). Worker mati → lanjutkan dari ID terakhir.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Chat rooms with pub/sub
-- Event sourcing with streams
-- Stream processing pipelines
-- Consumer group failover
+### Analogi: Pengeras & Buku Kasir
+- **Pub/Sub = pengeras masjid**: siar sekarang, yang tidak dengar ketinggalan.
+- **Streams = buku antrian bernomor**: sobek nomor, panggil ulang bisa.
+
+### Langkah 0 — Siapkan Device
+- 2 terminal `redis-cli` (atau `try.redis.io` 2 tab).
+
+### Cara Komputer Membaca
+1. `SUBSCRIBE stok` → koneksi jadi pendengar.
+2. `PUBLISH stok "x"` → server teruskan ke semua pendengar kanal itu.
+
+### 3 Istilah Wajib
+1. **Publish/subscribe**: siar/dengar
+2. **Streams/XADD**: buku/tulis
 
 ---
 
-## Challenge
+## Eksperimen
 
-Real-time notification system: pub/sub + streams.
+- **Hijau:** Siar tanpa pendengar → hilang? (Ya! Beda streams.)
+- **Kuning:** 2 pendengar → keduanya terima?
+- **Merah:** `XREAD` dari `0` vs `$` → lama vs baru?
 
 ---
 
-## Summary
+## Tantangan
 
-Week 6 of 10: **Pub/Sub & Streams** (Intermediate).
+**Warung Siar:** `SUBSCRIBE` 2 terminal + `PUBLISH` 3 pesan + `XADD` 2 pesanan + `XREAD` baca ulang.
+
+---
+
+## Glosarium Mini
+
+- **Pub/Sub/Streams**: siar/antrian-awet
+- **XADD/XREAD**: tulis/baca
+
+---
+
+## Ringkasan
+
+Minggu 6 dari 10: **Pengeras & Buku** (Level: Menengah). Siar instan + antrian awet. Minggu depan: **Lua** — resep di server.
