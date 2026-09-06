@@ -1,115 +1,125 @@
-# Composer & Autoloading
+# Composer & Autoloading — Gudang Alat PHP Beneran
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 9:** Composer & Autoloading
+> **Kategori:** PHP | **Level:** Pemula | **Minggu 9:** Composer & Autoloading
 
 ## Tujuan Pembelajaran
 
-- Composer: dependency manager untuk PHP
-- composer.json: konfigurasi project dan dependencies
-- Autoloading: PSR-4 standard dan spl_autoload_register
-- Namespace: organisasi class dengan use dan as
-- Composer commands: init, install, require, dump-autoload
+- `composer init` + `composer require monolog/monolog` pinjam beneran (sumber: getcomposer.org)
+- `vendor/autoload.php` 1 baris muat semua, PSR-4 `App\` → `src/` (sumber: php-fig.org/psr-4)
 
 ---
 
-## Program: Dependency Manager
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa composer, pinjam library = download zip + `require` 20 file manual (lupa 1 = error). Dengan composer, 1 perintah + 1 `require autoload.php` — 100 class otomatis. Laravel/CodeIgniter jalan di atas ini.
+
+---
+
+## Program: Gudang Composer Beneran
+
+```bash
+composer --version  # 2.x?
+mkdir warung-app && cd warung-app
+composer init --name="warung/app" --no-interaction
+composer require monolog/monolog
+ls vendor/  # gudang fisik!
+```
+
+```json
+// composer.json — tambah autoload sendiri
+{
+  "autoload": { "psr-4": { "App\\": "src/" } }
+}
+```
+
+```bash
+composer dump-autoload
+```
 
 ```php
+// src/Kasir.php
 <?php
-echo "=== Composer Autoload Simulation ===<br><br>";
-
-spl_autoload_register(function ($class) {
-    $prefix = "App\\";
-    $baseDir = __DIR__ . "/src/";
-
-    if (strpos($class, $prefix) === 0) {
-        $relative = str_replace("\\", "/", substr($class, strlen($prefix)));
-        $file = $baseDir . $relative . ".php";
-        echo "Loading: $class -> $file<br>";
-    }
-});
-
-echo "Autoload registered for App\\ namespace<br><br>";
-
-echo "=== Namespace Simulation ===<br>";
-
-namespace App\Models {
-    class User {
-        public string $name;
-        public function __construct(string $name) {
-            $this->name = $name;
-        }
-        public function greet(): string {
-            return "Hello, {$this->name}!";
-        }
-    }
+namespace App;
+class Kasir {
+  public function total(array $items): int {
+    $s = 0;
+    foreach ($items as $i) $s += $i["harga"] * $i["qty"];
+    return $s;
+  }
 }
+```
 
-namespace App\Services {
-    class UserService {
-        private array $users = [];
-        public function add(string $name): void {
-            $this->users[] = $name;
-        }
-        public function list(): array {
-            return $this->users;
-        }
-    }
-}
+```php
+// app.php — 1 baris muat SEMUA (pinjaman + sendiri)
+<?php
+require __DIR__ . "/vendor/autoload.php";
 
-namespace {
-    $service = new \App\Services\UserService();
-    $service->add("Budi");
-    $service->add("Siti");
-    $service->add("Andi");
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use App\Kasir;
 
-    echo "Users: " . implode(", ", $service->list()) . "<br>";
+$log = new Logger("warung");
+$log->pushHandler(new StreamHandler("warung.log"));
+$log->info("Buka toko");
 
-    $user = new \App\Models\User("Budi");
-    echo $user->greet() . "<br>";
-
-    echo "<br>=== Composer Commands ===<br>";
-    echo "composer init — buat composer.json<br>";
-    echo "composer install — install dependencies<br>";
-    echo "composer dump-autoload — regenerate autoload<br>";
-}
->
+$kasir = new Kasir();
+echo "Total: " . $kasir->total([["harga"=>62000,"qty"=>1]]) . "\n";
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Composer
-Dependency manager PHP. `composer.json` define dependencies. `vendor/` untuk installed packages.
+### `composer require` = Pinjam + Catat
+Unduh ke `vendor/` + catat di `composer.json` + kunci versi `composer.lock`.
 
-### PSR-4 Autoloading
-Namespace map ke folder: `App\` => `src/`. `composer dump-autoload` regenerate.
+### `vendor/autoload.php` = Pintu Ajaib
+1 `require` muat semua class (pinjaman + `App\` sendiri).
 
-### Namespace
-`namespace App\Models` deklarasi. `use App\Models\User` import. `as` untuk alias.
+### PSR-4 `App\` → `src/` = Aturan Alamat
+`App\Kasir` → `src/Kasir.php` otomatis.
 
-### Commands
-`composer init` buat config, `composer require pkg` tambah dependency.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Gudang + Peta
+- **Composer = mandor gudang**: `require` = "ambilkan Monolog".
+- **autoload.php = peta**: semua class ketemu tanpa `require` manual.
+
+### Langkah 0 — Siapkan Device
+- `composer --version` 2.x (getcomposer.org) + folder `warung-app`.
+
+### Cara Komputer Membaca
+1. `new Kasir()` → autoloader cari `App\Kasir` → `src/Kasir.php` → muat.
+2. `composer install` di laptop lain → baca `composer.lock` → versi SAMA persis.
+
+### 3 Istilah Wajib
+1. **Composer/vendor**: mandor/gudang
+2. **autoload/PSR-4**: peta/aturan
 
 ---
 
 ## Eksperimen
 
-- Buat 3 file dengan namespace berbeda dan autoload
-- Coba use dan as untuk alias namespace
-- Buat composer.json dengan PSR-4 autoload
-- Install package via composer (simulasi)
-- Buat interface dan implement di namespace berbeda
+- **Hijau:** Hapus `require autoload.php` → `Class not found`? Pasang.
+- **Kuning:** `composer show monolog/monolog` → versi?
+- **Merah:** Edit `src/Kasir.php` tambah method → langsung bisa (tanpa dump)? Ya, PSR-4 dinamis!
 
 ---
 
 ## Tantangan
 
-Buat aplikasi kecil dengan struktur MVC: namespace App\Controllers, App\Models, App\Views. Gunakan autoloading.
+**Gudang Sendiri:** `composer init` + `require nesbot/carbon` (tanggal) → `Carbon::now()->addDays(7)` jatuh tempo + class `App\Struk` sendiri → `app.php` gabung.
+
+---
+
+## Glosarium Mini
+
+- **Composer/autoload/PSR-4**: mandor/peta/aturan
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 12: **Composer & Autoloading** (Level: Menengah). Modern PHP development. Minggu depan: **Testing dengan PHPUnit**.
+Minggu 9 dari 12: **Gudang Alat Beneran** (Level: Menengah). Tanpa simulasi. Minggu depan: **Testing**.

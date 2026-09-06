@@ -1,138 +1,91 @@
-# Capstone: Aplikasi Blog
+# Capstone: Warung PHP Lengkap — Toko Online Jadi
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 12:** Capstone: Aplikasi Blog
 
 ## Tujuan Pembelajaran
 
-- Menggabungkan semua konsep: OOP, PDO, Composer, Testing
-- Repository Pattern: pemisahan data access dan business logic
-- CRUD lengkap: Create, Read, Update, Delete dengan validasi
-- Search functionality dengan filtering
-- Clean architecture: separation of concerns
+- Gabung W1-W11: `OOP` kartu + `PDO` gudang + `Composer` alat + `PHPUnit` uji + `satpam` jadi toko `produk` CRUD + `deploy`
 
 ---
 
-## Program: Blog System
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung jadi produk nyata yang bisa dibuka HP + lulus uji. Ini portfolio "PHP production-ready".
+
+---
+
+## Program: Toko Warung Capstone (Struktur)
+
+```
+warung/
+  composer.json (autoload App\ → src/)
+  public/index.php (pintu: route ?halaman=)
+  src/Produk.php (OOP kartu)
+  src/Keranjang.php (OOP + PDO simpan)
+  tests/WarungTest.php (PHPUnit 5 test)
+```
 
 ```php
+// public/index.php — pintu + satpam + gudang
 <?php
-echo "=== Capstone: Blog Application ===<br><br>";
+require __DIR__ . "/../vendor/autoload.php";
+$pdo = new PDO("mysql:host=localhost;dbname=warung;charset=utf8mb4", "root", "",
+  [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-class BlogPost {
-    public int $id;
-    public string $title;
-    public string $content;
-    public string $author;
-    public string $created_at;
-
-    public function __construct(int $id, string $title, string $content, string $author) {
-        $this->id = $id;
-        $this->title = $title;
-        $this->content = $content;
-        $this->author = $author;
-        $this->created_at = date("Y-m-d H:i:s");
-    }
-
-    public function excerpt(int $len = 100): string {
-        return strlen($this->content) > $len
-            ? substr($this->content, 0, $len) . "..."
-            : $this->content;
-    }
+$halaman = $_GET["halaman"] ?? "daftar";
+if ($halaman === "daftar") {
+  $stmt = $pdo->query("SELECT * FROM produk ORDER BY nama");
+  foreach ($stmt as $p) echo "<div>" . htmlspecialchars($p["nama"]) . " Rp" . $p["harga"] . "</div>";
+} elseif ($halaman === "tambah" && $_SERVER["REQUEST_METHOD"] === "POST") {
+  $nama = trim($_POST["nama"] ?? "");
+  if ($nama === "" || (int)$_POST["harga"] <= 0) die("Data salah");
+  $ins = $pdo->prepare("INSERT INTO produk (nama, harga) VALUES (?, ?)");
+  $ins->execute([$nama, (int)$_POST["harga"]]);
+  header("Location: ?halaman=daftar");
 }
+?>
+<form method="post" action="?halaman=tambah">
+  <input name="nama" required> <input name="harga" type="number" min="1" required>
+  <button>Tambah</button>
+</form>
+```
 
-class BlogRepository {
-    private array $posts = [];
-    private int $nextId = 1;
-
-    public function create(string $title, string $content, string $author): BlogPost {
-        $post = new BlogPost($this->nextId++, $title, $content, $author);
-        $this->posts[] = $post;
-        return $post;
-    }
-
-    public function find(int $id): ?BlogPost {
-        foreach ($this->posts as $p) {
-            if ($p->id === $id) return $p;
-        }
-        return null;
-    }
-
-    public function all(): array {
-        return array_reverse($this->posts);
-    }
-
-    public function delete(int $id): bool {
-        foreach ($this->posts as $i => $p) {
-            if ($p->id === $id) {
-                array_splice($this->posts, $i, 1);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function search(string $query): array {
-        return array_filter($this->posts, fn($p) =>
-            stripos($p->title, $query) !== false ||
-            stripos($p->content, $query) !== false
-        );
-    }
-}
-
-$blog = new BlogRepository();
-$blog->create("Belajar PHP", "PHP adalah bahasa server-side yang populer...", "Budi");
-$blog->create("OOP di PHP", "Object-Oriented Programming di PHP...", "Siti");
-$blog->create("Keamanan Web", "XSS, CSRF, dan SQL Injection...", "Budi");
-
-echo "=== All Posts ===<br>";
-foreach ($blog->all() as $post) {
-    echo "<b>{$post->title}</b> by {$post->author}<br>";
-    echo $post->excerpt(50) . "<br><br>";
-}
-
-echo "=== Search: PHP ===<br>";
-$results = $blog->search("PHP");
-foreach ($results as $post) {
-    echo "- {$post->title}<br>";
-}
-echo "<br>Found: " . count($results) . " posts<br>";
->
+```bash
+php -S localhost:8000 -t public
+./vendor/bin/phpunit tests  # HIJAU 5/5?
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Repository Pattern
-Pemisahan data access (query DB) dan business logic (validasi, transformasi).
-
-### CRUD Lengkap
-Create: validasi input, insert. Read: fetch single/all. Update: find + modify. Delete: find + remove.
-
-### Search
-Filter posts berdasarkan title/content dengan `stripos` (case-insensitive).
-
-### Architecture
-Controller (handle request) → Service (business logic) → Repository (data access).
+### Capstone = Gabung 11 Minggu
+OOP + PDO + Composer + uji + satpam = 1 toko.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Tambah method Update untuk BlogPost
-- Implementasikan pagination untuk list posts
-- Buat kategori dan tagging system
-- Tambah comment system dengan relasi
-- Buat API endpoint untuk blog posts
+### Analogi: Grand Opening
+- **W1-W6 fondasi** + **W7-W11 mesin** = toko. **W12 = buka**.
+
+### 3 Istilah Wajib
+1. **Capstone/deploy**: gabung/buka
 
 ---
 
 ## Tantangan
 
-Buat aplikasi blog lengkap: CRUD posts, kategori, komentar, search, pagination. Gunakan semua konsep yang dipelajari.
+**Grand Opening Warung PHP:** CRUD jalan + satpam (XSS/SQLi gagal) + PHPUnit 5 hijau + screenshot. **Selesai PHP 0→Ahli!** 🎉
+
+---
+
+## Glosarium Mini
+
+- **Capstone**: gabung semua
 
 ---
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Aplikasi Blog** (Level: Menengah). Selesai! 🎉 Anda sudah menguasai PHP dari dasar hingga produksi.
+Minggu 12 dari 12: **Grand Opening** (Level: Menengah). **Selesai PHP 0→Ahli dari nol!** 🎉
