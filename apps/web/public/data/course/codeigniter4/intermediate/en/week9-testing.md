@@ -1,114 +1,111 @@
-# Testing with PHPUnit
+# Testing — Cicip Warung CI4 Beneran
 
-> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 9:** Testing with PHPUnit
+> **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 9:** Testing dengan PHPUnit
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- CIUnitTestCase: base class for unit tests
-- FeatureTestTrait: test HTTP requests
-- Database testing: seeInDatabase, dontSeeInDatabase
-- Test helpers: model(), db_connect(), seed()
-- Assertions: assertStatus, assertJSON, assertIsArray
+- `phpunit.xml` + `CIUnitTestCase` + `FeatureTestTrait` `$this->get('/produk')` beneran (sumber: codeigniter.com/user_guide/testing)
+- `seeInDatabase()` / `dontSeeInDatabase()` cek DB + `RefreshDatabase` reset
 
 ---
 
-## Program: Unit & Feature Test
+## Kenapa Ini Penting Buat Kamu?
+
+Simulasi `echo` tidak menangkap bug (tidak dicek mesin). Test beneran: ubah route → merah → perbaiki. `RefreshDatabase` tiap test mulai bersih (tidak cemari).
+
+---
+
+## Program: Cicip Beneran CI4
+
+```bash
+composer require --dev phpunit/phpunit
+```
 
 ```php
-<?php
-echo "=== CI4 Testing ===<br><br>";
+// tests/ProdukTest.php — beneran!
+namespace Tests;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\FeatureTestTrait;
+use CodeIgniter\Test\DatabaseTestTrait;
 
-echo "=== Unit Test ===<br>";
-echo "use CodeIgniter\Test\CIUnitTestCase;<br>";
-echo "class ProductModelTest extends CIUnitTestCase {<br>";
-echo "    protected $refresh = true;<br><br>";
-echo "    public function testFindAll() {<br>";
-echo "        $model = new ProductModel();<br>";
-echo "        $result = $model->findAll();<br>";
-echo "        $this->assertIsArray($result);<br>";
-echo "    }<br>";
-echo "}<br><br>";
+class ProdukTest extends CIUnitTestCase {
+  use FeatureTestTrait;
+  use DatabaseTestTrait;
+  protected $refresh = true; // reset DB tiap test!
+  protected $seed = 'Tests\Support\Database\Seeds\IsiProduk';
 
-echo "=== Feature Test ===<br>";
-echo "use CodeIgniter\Test\FeatureTestTrait;<br>";
-echo "class ProductControllerTest extends CIUnitTestCase {<br>";
-echo "    use FeatureTestTrait;<br><br>";
-echo "    public function testIndex() {<br>";
-echo "        $result = $this->get('/api/products');<br>";
-echo "        $result->assertStatus(200);<br>";
-echo "        $result->assertJSON();<br>";
-echo "    }<br><br>";
-echo "    public function testCreate() {<br>";
-echo "        $result = $this->post('/api/products', [<br>";
-echo "            'name' => 'Test Product',<br>";
-echo "            'price' => 100000,<br>";
-echo "        ]);<br>";
-echo "        $result->assertStatus(201);<br>";
-echo "    }<br>";
-echo "}<br><br>";
+  public function testDaftar200() {
+    $res = $this->get('/produk');
+    $res->assertStatus(200);
+  }
 
-echo "=== Test Simulation ===<br>";
-$tests = [
-    ["testFindAll", "PASS"],
-    ["testFindById", "PASS"],
-    ["testCreate", "PASS"],
-    ["testUpdate", "PASS"],
-    ["testDelete", "PASS"],
-];
+  public function testTambahMasukDB() {
+    $this->post('/produk/simpan', ["nama" => "Kopi", "harga" => 12000]);
+    $this->seeInDatabase('produk', ["nama" => "Kopi"]);
+  }
 
-foreach ($tests as [$name, $result]) {
-    echo "  $result: $name<br>";
+  public function testHapusHilang() {
+    $this->call('delete', '/produk/1');
+    $this->dontSeeInDatabase('produk', ["id" => 1]);
+  }
 }
+```
 
-echo "<br>=== Database Testing ===<br>";
-echo "$this->seeInDatabase('products', ['name' => 'Test Product']);<br>";
-echo "$this->dontSeeInDatabase('products', ['name' => 'Deleted']);<br>";
-echo "$this->hasInDatabase('products', ['name' => 'New', 'price' => 50]);<br><br>";
-
-echo "=== Test Helpers ===<br>";
-echo "model('ProductModel') — Get model instance<br>";
-echo "db_connect() — Get database connection<br>";
-echo "$this->seed('ProductSeeder') — Run seeder<br>";
->
+```bash
+php spark test
+# OK (3 tests) — HIJAU beneran
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### CIUnitTestCase
-Base test class. `$refresh = true` resets database.
+### `FeatureTestTrait` = Pelanggan Bohongan
+`$this->get/post/call` pura-pura browser + `assertStatus(200)`.
 
-### FeatureTestTrait
-Test HTTP: `$this->get()`, `$this->post()`.
-
-### Database Tests
-`seeInDatabase()` checks record exists. `dontSeeInDatabase()` checks absence.
-
-### Helpers
-`model()`, `db_connect()`, `seed()`.
-
-### Assertions
-`assertStatus()`, `assertJSON()`, `assertIsArray()`.
+### `DatabaseTestTrait` + `refresh` = DB Bersih Tiap Test
+Migrasi + seeder ulang otomatis. `seeInDatabase` cek ada.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create test for model CRUD
-- Test controller with FeatureTestTrait
-- Try database assertions
-- Create test with seeder
-- Implement test with mocking
+### Analogi: Mystery Shopper + Dapur Bersih
+- **Feature test = mystery shopper**: datang, pesan, nilai.
+- **refresh = pel bersih**: tiap tamu meja baru.
+
+### Langkah 0 — Siapkan Device
+- `composer require --dev phpunit/phpunit` + `phpunit.xml` (sudah di appstarter).
+
+### Cara Komputer Membaca
+1. `php spark test` → cari `*Test.php` → `refresh` DB → jalankan → lapor.
+
+### 3 Istilah Wajib
+1. **Feature/seeInDatabase**: bohongan/cek-DB
+2. **refresh/seed**: bersih/isi
 
 ---
 
-## Challenge
+## Eksperimen
 
-Create a complete test suite for Product CRUD: model test, controller test, database assertions. Min 10 test cases.
+- **Hijau:** Sengaja `assertStatus(201)` untuk GET → merah? Betulkan 200.
+- **Kuning:** Tanpa `refresh` → data test menumpuk? Pasang.
+- **Merah:** File `Coba.php` (tanpa Test) → tidak jalan? Ganti `CobaTest.php`.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 9 of 10: **Testing with PHPUnit** (Level: Intermediate). Code quality guaranteed. Next week: **Capstone Project**!
+**Warung Teruji:** 3 test (GET 200 + tambah-masuk-DB + hapus-hilang) HIJAU + seeder 2 produk.
+
+---
+
+## Glosarium Mini
+
+- **FeatureTestTrait/seeInDatabase**: bohongan/cek
+
+---
+
+## Ringkasan
+
+Minggu 9 dari 10: **Cicip Beneran** (Level: Menengah). Tanpa simulasi. Minggu depan: **Capstone**.

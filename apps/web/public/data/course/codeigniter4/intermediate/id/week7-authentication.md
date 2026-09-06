@@ -1,117 +1,121 @@
-# Authentication & Authorization
+# Authentication — KTP Warung CI4 Beneran
 
-> **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 7:** Authentication & Authorization
+> **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 7:** Authentication & Authorization
 
 ## Tujuan Pembelajaran
 
-- Session: set, get, destroy untuk state management
-- Custom authentication dengan password_verify
-- Filters: protect routes dengan before filter
-- Auth filter: redirect jika belum login
-- Role-based access dengan session data
+- `session()->set('user_id', ...)` KTP + `session()->destroy()` keluar (sumber: codeigniter.com/user_guide/libraries/sessions)
+- Filter `AuthFilter::before()` satpam pintu + daftarkan di `Filters.php` (sumber: user_guide/incoming/filters)
+- `password_hash`/`password_verify` (jangan MD5!)
 
 ---
 
-## Program: Login System
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa auth, `/admin` dibuka siapa saja → harga diubah iseng. Tanpa filter, cek login ditulis di 20 method (lupa 1 = bolong). Filter 1x jaga semua pintu.
+
+---
+
+## Program: KTP + Satpam CI4 Beneran
 
 ```php
-<?php
-echo "=== CI4 Authentication ===<br><br>";
+// Auth.php — login beneran (bukan echo!)
+public function masuk() {
+  $email = $this->request->getPost('email');
+  $user = (new \App\Models\UserModel())->where('email', $email)->first();
+  if ($user && password_verify($this->request->getPost('password'), $user['password'])) {
+    session()->set(['user_id' => $user['id'], 'masuk' => true]);
+    session()->regenerate(); // ganti kunci (anti bajak!)
+    return redirect()->to('/admin');
+  }
+  return redirect()->back()->with('error', 'Salah');
+}
 
-echo "=== Session ===<br>";
-echo "// Login<br>";
-echo "$session = session();<br>";
-echo "$session->set('user_id', $user->id);<br>";
-echo "$session->set('logged_in', true);<br><br>";
+public function keluar() {
+  session()->destroy();
+  return redirect()->to('/login');
+}
+```
 
-echo "// Check<br>";
-echo "if (session('logged_in')) {<br>";
-echo "    // User is logged in<br>";
-echo "}<br><br>";
+```php
+// Filters/AuthFilter.php — satpam 1x untuk semua pintu
+namespace App\Filters;
+use CodeIgniter\Filters\FilterInterface;
+use CodeIgniter\HTTP\{RequestInterface, ResponseInterface};
 
-echo "// Logout<br>";
-echo "$session->destroy();<br>";
-echo "return redirect()->to('/login');<br><br>";
-
-echo "=== Login Simulation ===<br>";
-$users = [
-    ["id" => 1, "email" => "admin@mail.com", "password" => password_hash("secret123", PASSWORD_DEFAULT), "role" => "admin"],
-    ["id" => 2, "email" => "user@mail.com", "password" => password_hash("pass456", PASSWORD_DEFAULT), "role" => "user"],
-];
-
-$input_email = "admin@mail.com";
-$input_password = "secret123";
-
-$authenticated = false;
-foreach ($users as $user) {
-    if ($user['email'] === $input_email && password_verify($input_password, $user['password'])) {
-        $authenticated = true;
-        echo "Login success! Welcome, {$user['email']}<br>";
-        echo "Role: {$user['role']}<br>";
-        break;
+class AuthFilter implements FilterInterface {
+  public function before(RequestInterface $request, $arguments = null) {
+    if (!session('masuk')) {
+      return redirect()->to('/login'); // tendang!
     }
+  }
+  public function after(RequestInterface $request, ResponseInterface $response, $arguments = null) {}
 }
-if (!$authenticated) {
-    echo "Login failed!<br>";
-}
+```
 
-echo "<br>=== Filters ===<br>";
-echo "// app/Config/Filters.php<br>";
-echo "public $aliases = [<br>";
-echo "    'auth' => \App\Filters\AuthFilter::class,<br>";
-echo "];<br>";
-echo "public $globals = [<br>";
-echo '    "before' => ["auth"],<br>';
-echo "];<br><br>";
-
-echo "=== Auth Filter ===<br>";
-echo "class AuthFilter implements FilterInterface {<br>";
-echo "    public function before(RequestInterface $request) {<br>";
-echo "        if (!session('logged_in')) {<br>";
-echo "            return redirect()->to('/login');<br>";
-echo "        }<br>";
-echo "    }<br>";
-echo "}<br>";
->
+```php
+// Config/Filters.php — daftarkan satpam
+public $aliases = ['auth' => \App\Filters\AuthFilter::class];
+// Routes.php:
+$routes->group('admin', ['filter' => 'auth'], function($routes) {
+  $routes->get('/', 'Admin::index');
+});
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Session
-`session()->set('key', $value)`, `session('key')`, `session()->destroy()`.
+### `session()->set/get/destroy` = KTP
+`set` beri, `session('masuk')` cek, `destroy` cabut. `regenerate()` ganti kunci.
 
-### Custom Auth
-Manual: query user by email, verify password dengan `password_verify()`.
+### Filter `before()` = Satpam Pintu
+Jalan SEBELUM controller. Return redirect = tendang.
 
-### Filters
-`before()` dijalankan sebelum controller. Redirect jika tidak auth.
+### `password_verify` = Cek Brankas
+Banding hash, bukan teks.
 
-### Auth Filter
-Implement `FilterInterface`. Cek session, redirect ke login jika tidak auth.
+---
 
-### Apply Filter
-`$routes->group('/', ['filter' => 'auth'], function ($routes) {...})`.
+## Penjelasan untuk Pemula
+
+### Analogi: Gelang Konser + Satpam
+- **session = gelang**: masuk → gelang, keluar → gunting.
+- **Filter = satpam tiap pintu admin**.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + tabel `users` (migration + seeder 1 admin, password `password_hash`!).
+
+### Cara Komputer Membaca
+1. `GET /admin` → filter `before` → `session('masuk')`? Tidak → redirect `/login`.
+2. Login benar → `set` + `regenerate` → `/admin` lolos.
+
+### 3 Istilah Wajib
+1. **Session/filter**: gelang/satpam
+2. **password_verify**: cek-brankas
 
 ---
 
 ## Eksperimen
 
-- Implementasikan login/logout dengan session
-- Buat auth filter untuk protect routes
-- Coba remember me dengan cookie
-- Buat role-based access (admin/user)
-- Implementasikan CSRF protection
+- **Hijau:** Buka `/admin` tanpa login → ke `/login`?
+- **Kuning:** Login salah → kembali + error?
+- **Merah:** Hapus `'filter' => 'auth'` → bebas tanpa login? (Jangan! Pasang.)
 
 ---
 
 ## Tantangan
 
-Buat sistem auth lengkap: register, login, logout, auth filter, role-based access, CSRF protection.
+**Warung Ber-KTP:** Login/logout beneran + `AuthFilter` jaga `/admin/*` + seeder admin + screenshot tendang & lolos.
+
+---
+
+## Glosarium Mini
+
+- **Session/filter/regenerate**: gelang/satpam/ganti-kunci
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 10: **Authentication & Authorization** (Level: Menengah). Keamanan aplikasi. Minggu depan: **REST API**.
+Minggu 7 dari 10: **KTP + Satpam** (Level: Menengah). Pintu terjaga. Minggu depan: **REST API**.
