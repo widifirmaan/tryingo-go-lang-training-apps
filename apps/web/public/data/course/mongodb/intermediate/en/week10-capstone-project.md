@@ -1,115 +1,65 @@
-# Capstone: E-Commerce MongoDB
+# Capstone: E-Commerce MongoDB — Toko Kartu Grand Opening
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce MongoDB
+> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce MongoDB
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Schema validation
-- Optimal indexes
-- Complex aggregation pipeline
-- Views from pipelines
-- Change streams
+- Gabung W1-W9: `CRUD` + `index` + `aggregation` + `schema` + `replica` + `transaction` jadi toko kartu produksi
 
 ---
 
-## Program: Production-Ready Database
+## Kenapa Ini Penting Buat Kamu?
+
+9 minggu terpisah — capstone buktikan gabung: katalog cepat (index), laporan 1 pipa (`$facet`), desain benar (embed/order), aman (transaction), awet (replica). Portfolio "MongoDB production-ready".
+
+---
+
+## Program: Toko Kartu Lengkap (Checklist)
 
 ```javascript
-// CAPSTONE: E-Commerce MongoDB Production-Ready
+// 1. Schema benar (W5): produk embed ulasan, pesanan reference
+db.produk.insertOne({ nama: "Beras", harga: 62000, ulasan: [{ bintang: 5 }] })
 
-// 1. Schema Validation
-const produkValidator = {
-    $jsonSchema: {
-        bsonType: 'object',
-        required: ['nama', 'harga', 'kategori'],
-        properties: {
-            nama: { bsonType: 'string', description: 'Nama produk wajib' },
-            harga: { bsonType: 'double', minimum: 0 },
-            stok: { bsonType: 'int', minimum: 0 },
-            kategori: { enum: ['Elektronik','Aksesoris','Audio','Storage'] },
-            tags: { bsonType: 'array', items: { bsonType: 'string' } },
-            created_at: { bsonType: 'date' }
-        }
-    }
-};
+// 2. Index (W3+W8): 
+db.produk.createIndex({ kategori: 1, harga: -1 })
 
-await db.createCollection('produk', { validator: produkValidator });
+// 3. Laporan 1 pipa (W4+W6):
+db.produk.aggregate([
+  { $match: { stok: { $gt: 0 } } },
+  { $facet: {
+      perKategori: [{ $group: { _id: "$kategori", total: { $sum: 1 } } }],
+      top3: [{ $sort: { harga: -1 } }, { $limit: 3 }]
+  }}
+])
 
-// 2. Indexes
-await produk.createIndex({ kategori: 1, harga: -1 });
-await produk.createIndex({ nama: 'text' });
-await produk.createIndex({ tags: 1 });
-await produk.createIndex({ sku: 1 }, { unique: true });
+// 4. Jual aman (W9): transaction kurang-stok + tambah-pesanan
 
-// 3. Aggregation pipeline laporan
-const laporan = await db.collection('order_items').aggregate([
-    { $lookup: {
-        from: 'produk',
-        localField: 'produk_id',
-        foreignField: '_id',
-        as: 'produk'
-    }},
-    { $unwind: '$produk' },
-    { $group: {
-        _id: '$produk.kategori',
-        totalOrders: { $sum: 1 },
-        totalRevenue: { $sum: { $multiply: ['$qty', '$harga'] } },
-        avgOrderValue: { $avg: { $multiply: ['$qty', '$harga'] } }
-    }},
-    { $sort: { totalRevenue: -1 } },
-    { $merge: { into: 'laporan_kategori', whenMatched: 'replace' } }
-]).toArray();
-
-// 4. View
-await db.createView('v_top_produk', 'order_items', [
-    { $group: { _id: '$produk_id', totalSold: { $sum: '$qty' } } },
-    { $sort: { totalSold: -1 } },
-    { $limit: 10 }
-]);
-
-// 5. Change stream untuk notifikasi
-const stream = db.collection('pesanan').watch([
-    { $match: { operationType: 'insert' } }
-]);
-stream.on('change', (doc) => console.log('New order:', doc.fullDocument));
+// 5. Replica (W7): rs.status() 1 PRIMARY + 2 SECONDARY
 ```
 
----
-
-## Key Concepts
-
-### Schema Validation
-Document validation with JSON Schema.
-
-### Indexes
-Compound, text, unique, multikey indexes.
-
-### Aggregation
-Complex pipeline with lookup, group, merge.
-
-### Views
-Read-only views from aggregation pipelines.
-
-### Change Streams
-Realtime monitoring for notifications.
+**Tugas capstone:** `mongodump` backup + `explain` 3 query IXSCAN + laporan `$facet` screenshot. **Selesai MongoDB 0→Ahli!** 🎉
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Time series collections
-- Atlas search
-- Data lake
-- Custom roles
+### Capstone = Gabung 9 Minggu
+CRUD + index + pipa + desain + replica + transaksi = produksi.
 
 ---
 
-## Challenge
+## Tantangan
 
-Deploy MongoDB e-commerce: schema, indexes, aggregation, views, change streams.
+**Grand Opening:** Semua checklist + `mongodump` + restore ke DB baru + data sama. **Selesai MongoDB 0→Ahli!** 🎉
 
 ---
 
-## Summary
+## Glosarium Mini
 
-Week 10 of 10: **Capstone: E-Commerce MongoDB** (Intermediate). Complete!
+- **Capstone/mongodump**: gabung/cadangan
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 10: **Grand Opening** (Level: Menengah). **Selesai MongoDB 0→Ahli dari nol!** 🎉
