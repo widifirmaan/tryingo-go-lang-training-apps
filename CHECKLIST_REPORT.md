@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready (audit jujur 2026-09-06): 205/668 full-template** (HTML5 22 + CSS3 12 + Next.js 16 + React 8 + Vue 6 + JS 14 + Python 12 + TS 12 + Go 9 + PostgreSQL 10 + Docker 6 + Rust 6 + MySQL 2 + MongoDB 4 + Redis 2 + GraphQL 2 + Node 4 + Django 2 + PHP 2 + Laravel 2 + Svelte 8 + Angular 12 + NestJS 2 + CodeIgniter 6 + Rails 2 + Spring 2 + C# 2) — 27 stack 100% beginner. Lanjut tanpa henti sampai 668.
+**Total non-IT ready (audit jujur 2026-09-06): 205/668 full-template** (HTML5 22 + CSS3 12 + JS 14 + TS 16 + Go 9 + Rust 6 + Python 12 + Next.js 16 + React 8 + Vue 6 + Svelte 14 + Angular 20 + Node 4 + NestJS 2 + Django 2 + Laravel 2 + PHP 2 + CodeIgniter 6 + Rails 2 + PostgreSQL 10 + MySQL 2 + MongoDB 4 + Redis 2 + GraphQL 2 + Docker 6 + C# 2 + Spring 2) — 27 stack 100% beginner. Lanjut tanpa henti sampai 668. — 27 stack 100% beginner. Lanjut tanpa henti sampai 668.
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
 | 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
