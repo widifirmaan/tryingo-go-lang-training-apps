@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready (audit jujur 2026-09-06): 205/668 full-template** (HTML5 22 + CSS3 12 + JS 14 + TS 16 + Go 9 + Rust 6 + Python 12 + Next.js 16 + React 8 + Vue 6 + Svelte 14 + Angular 20 + Node 4 + NestJS 2 + Django 2 + Laravel 2 + PHP 2 + CodeIgniter 6 + Rails 2 + PostgreSQL 10 + MySQL 2 + MongoDB 4 + Redis 2 + GraphQL 2 + Docker 6 + C# 2 + Spring 2) — 27 stack 100% beginner. Lanjut tanpa henti sampai 668. — 27 stack 100% beginner. Lanjut tanpa henti sampai 668.
+**Total non-IT ready (audit jujur 2026-09-06, batch 35efd81): 247/668 full-template** (HTML5 22 + CSS3 12 + JS 14 + TS 16 + Go 9 + Rust 6 + Python 12 + Next.js 16 + React 8 + Vue 6 + Svelte 14 + Angular 20 + Node 10 + NestJS 2 + Django 8 + Laravel 8 + PHP 12 + CodeIgniter 6 + Rails 2 + PostgreSQL 10 + MySQL 10 + MongoDB 4 + Redis 2 + GraphQL 2 + Docker 6 + C# 8 + Spring 2) — 27 stack 100% beginner. Lanjut: Rails/NestJS/Mongo/GraphQL/Redis/Rust/Svelte/Angular/Go/HTML5.
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
 | 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
@@ -270,7 +270,8 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0f47f81` | FIX Svelte W4-W5 + Angular W4-W5 full-template (id+en, 8 file) — lanjut tanpa henti, `on:click` + `ngModel` |
 | 2026-08-25 | `33661c8` | FIX CSS3 W8-W12 full-template (id+en, 10 file) — animasi, variables, arsitektur, capstone |
 | 2026-08-25 | `e870485` | TS W12 + Svelte W12 + Python W12 + JS W14 (id+en, 8 file) — CAPSTONE FINAL | Manual capstone toko `apiGet<T>`, SvelteKit deploy, Flask, JS modules |
-| 2026-09-06 | `e7671a0` | RECOVERY 22 file full-template (id+en, 44 file) — CSS3 W8-W12, TS W7-W11, Svelte W7-W9+capstone, Angular int W7-W10 + adv W11-W14 | Pindah dari stray path (backslash Linux) + rebuild index |
+| 2026-09-06 | `e7671a0` | RECOVERY 22 file full-template (id+en, 44 file) |
+| 2026-09-06 | `35efd81` | UPGRADE 21 file full-template (id+en, 42 file) — MySQL W2-W5, PHP W2-W6, C# W2-W4, Node W2-W4, Django W2-W4, Laravel W2-W4 | Heredoc+baca-verifikasi tiap file | — CSS3 W8-W12, TS W7-W11, Svelte W7-W9+capstone, Angular int W7-W10 + adv W11-W14 | Pindah dari stray path (backslash Linux) + rebuild index |
 | 2026-08-25 | `91e80d1` | PostgreSQL W9-W10 + MySQL W6-W7 (id+en, 8 file) — INTERMEDIATE | Manual replikasi `pg_basebackup` + capstone + `GROUP BY` + `EXPLAIN` |
 | 2026-08-25 | `8231e9f` | Node W5 + Django W5 + Laravel W5 (id+en, 6 file) — INTERMEDIATE | Manual `express` `app.get` + Django `ModelForm` + Laravel `Breeze` auth |
 | 2026-08-25 | `e06a14d` | CI4 W4 + Rails W5 + Spring W4 + C# W4 (id+en, 8 file) — INTERMEDIATE | Manual `Model` CI4 + `has_secure_password` Rails + `JpaRepository` Spring + `class` C# |
