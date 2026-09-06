@@ -1,134 +1,118 @@
-# Apollo Server & Client
+# Apollo Server — Buka Restoran GraphQL
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 5:** Apollo Server & Client
 
 ## Tujuan Pembelajaran
 
-- Setup Apollo Server
-- typeDefs dan resolvers
-- Context dan auth
-- Apollo Client
-- useQuery hook
+- `npm install @apollo/server graphql` + `startStandaloneServer(server, { listen: { port: 4000 } })` buka di `localhost:4000` (sumber: apollographql.com/docs)
+- Gabung `typeDefs` (menu W1) + `resolvers` (dapur W4) → restoran jadi
 
 ---
 
-## Program: Setup Server GraphQL
+## Kenapa Ini Penting Buat Kamu?
+
+Menu + dapur tanpa restoran = tidak bisa pesan. Apollo Server = gedung restoran: 1 perintah, dapat `GraphiQL` coba-coba + endpoint `/` siap di-`fetch` HP.
+
+---
+
+## Program: Restoran Warung Jadi
+
+```bash
+npm init -y
+npm install @apollo/server graphql
+```
 
 ```javascript
-// Setup Apollo Server + Client
-
-// SERVER
+// index.js — gedung (menu + dapur)
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
 
 const typeDefs = `#graphql
-  type Query {
-    hello: String
-    products: [Product]
-    product(id: ID!): Product
-  }
-  
-  type Mutation {
-    createProduct(input: CreateProductInput!): Product!
-  }
-  
-  type Product {
-    id: ID!
-    name: String!
-    price: Float!
-    inStock: Boolean!
-  }
-  
-  input CreateProductInput {
-    name: String!
-    price: Float!
-  }
+  type Produk { id: ID!, nama: String!, harga: Int!, stok: Int }
+  type Query { produk: [Produk!]!, produkById(id: ID!): Produk }
+  type Mutation { tambahProduk(nama: String!, harga: Int!): Produk! }
 `;
+
+let produk = [
+  { id: "1", nama: "Beras", harga: 62000, stok: 10 },
+  { id: "2", nama: "Bayam", harga: 5000, stok: 20 },
+];
 
 const resolvers = {
   Query: {
-    hello: () => 'Hello GraphQL!',
-    products: () => [],
-    product: (_, { id }) => null,
+    produk: () => produk,
+    produkById: (_, { id }) => produk.find(p => p.id === id),
   },
   Mutation: {
-    createProduct: (_, { input }) => ({
-      id: '1',
-      ...input,
-      inStock: true,
-    }),
+    tambahProduk: (_, { nama, harga }) => {
+      const baru = { id: String(Date.now()), nama, harga, stok: 0 };
+      produk.push(baru);
+      return baru;
+    },
   },
 };
 
-async function startServer() {
+async function mulai() {
   const server = new ApolloServer({ typeDefs, resolvers });
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-    context: async ({ req }) => ({
-      token: req.headers.authorization,
-    }),
-  });
-  console.log(`Server ready at ${url}`);
+  const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+  console.log(`Restoran buka di ${url}`);
 }
-
-// CLIENT (React)
-import { ApolloClient, InMemoryCache, gql, useQuery } from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  cache: new InMemoryCache(),
-});
-
-const GET_PRODUCTS = gql`
-  query GetProducts {
-    products { id name price inStock }
-  }
-`;
-
-function ProductList() {
-  const { loading, error, data } = useQuery(GET_PRODUCTS);
-  if (loading) return 'Loading...';
-  if (error) return `Error: ${error.message}`;
-  return data.products.map(p => `${p.name}: Rp${p.price}`).join('\n');
-}
+mulai();
 ```
+
+Buka `http://localhost:4000` → GraphiQL → coba `query { produk { nama harga } }` + `mutation { tambahProduk(nama:"Gula", harga:15000) { id } }`.
 
 ---
 
 ## Konsep Kunci
 
-### Apollo Server
-Library untuk buat GraphQL server.
+### `typeDefs` + `resolvers` = Menu + Dapur
+`ApolloServer({ typeDefs, resolvers })` gabung → restoran.
 
-### typeDefs
-Schema dalam bentuk template literal.
+### `startStandaloneServer` = Buka Pintu
+`listen: { port: 4000 }` → `http://localhost:4000`.
 
-### Context
-Buat context untuk auth/database.
+---
 
-### Apollo Client
-State management untuk GraphQL.
+## Penjelasan untuk Pemula
 
-### useQuery
-React hook untuk fetch data.
+### Analogi: Buka Restoran
+- **typeDefs = menu**, **resolvers = koki**, **ApolloServer = gedung**, **port 4000 = alamat**.
+
+### Langkah 0 — Siapkan Device
+- `node -v` 20+, folder `warung-graphql`, `npm init -y`, install 2 paket.
+
+### Cara Komputer Membaca
+1. `node index.js` → server dengar 4000.
+2. Browser kirim `query` → server panggil resolver → JSON `{ data }`.
+
+### 3 Istilah Wajib
+1. **ApolloServer/typeDefs**: gedung/menu
+2. **startStandaloneServer**: buka pintu
 
 ---
 
 ## Eksperimen
 
-- Subscriptions client
-- Mutation hook
-- Cache updates
-- Error policies
+- **Hijau:** `query { produk { nama } }` di GraphiQL → 2 nama?
+- **Kuning:** Ganti port `4001` → buka `:4001`?
+- **Merah:** Hapus 1 resolver → query itu error? Pasang lagi.
 
 ---
 
 ## Tantangan
 
-Setup server + client: query dan mutation lengkap.
+**Restoran Lengkap:** `typeDefs` + `resolvers` (Query 2 + Mutation 2) + `node index.js` + GraphiQL screenshot tambah produk. **Selesai Beginner GraphQL!**
+
+---
+
+## Glosarium Mini
+
+- **Apollo/typeDefs/resolvers**: gedung/menu/dapur
+- **GraphiQL**: coba-coba
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 10: **Apollo Server & Client** (Pemula).
+Minggu 5 dari 5: **Restoran Jadi** (Level: Pemula). **Selesai Beginner GraphQL!** Lanjut: **Auth & Client** (Menengah).
