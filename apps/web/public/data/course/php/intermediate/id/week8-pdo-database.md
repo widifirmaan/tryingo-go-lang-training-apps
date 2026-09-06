@@ -1,99 +1,106 @@
-# PDO & Database
+# PDO Database — Supir Gudang PHP Beneran
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 8:** PDO & Database
 
 ## Tujuan Pembelajaran
 
-- PDO: PHP Data Object untuk akses database universal
-- Connection: DSN string, username, password, options
-- Prepared Statements: prepare, bindParam, execute
-- CRUD Operations: SELECT, INSERT, UPDATE, DELETE
-- Error handling: PDO::ERRMODE_EXCEPTION dan try-catch
+- `new PDO("mysql:host=...;dbname=warung", "root", "")` sambung + `ERRMODE_EXCEPTION` (sumber: php.net/pdo)
+- `query()` untuk tetap, `prepare()` + `execute()` untuk ada input user, `fetchAll()` ambil
 
 ---
 
-## Program: CRUD Database
+## Kenapa Ini Penting Buat Kamu?
+
+Simulasi array hilang saat restart. PDO + MySQL beneran = data awet + bisa jutaan baris. 1 supir PDO untuk MySQL/Postgres/SQLite (ganti DSN saja).
+
+---
+
+## Program: Gudang PDO Beneran
 
 ```php
 <?php
-echo "=== PDO Database Simulation ===<br><br>";
-
-$users = [
-    ["id" => 1, "nama" => "Budi", "email" => "budi@example.com"],
-    ["id" => 2, "nama" => "Siti", "email" => "siti@example.com"],
-    ["id" => 3, "nama" => "Andi", "email" => "andi@example.com"],
-];
-
-echo "SELECT * FROM users<br>";
-foreach ($users as $user) {
-    echo "  {$user['id']}: {$user['nama']} ({$user['email']})<br>";
+try {
+  $pdo = new PDO(
+    "mysql:host=localhost;dbname=warung;charset=utf8mb4",
+    "root", "",
+    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // error jadi exception!
+  );
+} catch (PDOException $e) {
+  die("Gagal sambung: " . $e->getMessage());
 }
 
-echo "<br>SELECT WHERE id = 1<br>";
-$found = null;
-foreach ($users as $u) {
-    if ($u['id'] == 1) { $found = $u; break; }
+// Tetap (tanpa input user): query langsung
+foreach ($pdo->query("SELECT nama, harga FROM produk WHERE stok > 5") as $row) {
+  echo $row["nama"] . " Rp" . $row["harga"] . "\n";
 }
-echo "  Found: {$found['nama']}<br>";
 
-echo "<br>INSERT INTO users<br>";
-$newId = max(array_column($users, 'id')) + 1;
-$users[] = ["id" => $newId, "nama" => "Dewi", "email" => "dewi@example.com"];
-echo "  Added: Dewi (id: $newId)<br>";
+// Ada input user: WAJIB prepare!
+$cari = $_GET["cari"] ?? "";
+$stmt = $pdo->prepare("SELECT * FROM produk WHERE nama LIKE ?");
+$stmt->execute(["%$cari%"]);
+$hasil = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo "Ketemu: " . count($hasil) . "\n";
 
-echo "<br>UPDATE users SET nama WHERE id = 2<br>";
-foreach ($users as &$u) {
-    if ($u['id'] == 2) { $u['nama'] = "Siti Updated"; break; }
-}
-echo "  Updated: id=2 nama=Siti Updated<br>";
-
-echo "<br>DELETE FROM users WHERE id = 3<br>";
-$users = array_filter($users, fn($u) => $u['id'] != 3);
-$users = array_values($users);
-echo "  Remaining: " . count($users) . " users<br><br>";
-
-echo "=== PDO Connection String ===<br>";
-$dsn = "mysql:host=localhost;dbname=myapp;charset=utf8mb4";
-echo "DSN: $dsn<br>";
-echo "Options: PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION<br>";
-echo "Options: PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC<br>";
->
+// Tulis
+$ins = $pdo->prepare("INSERT INTO produk (nama, harga, stok) VALUES (?, ?, ?)");
+$ins->execute(["Kopi", 12000, 7]);
+echo "ID baru: " . $pdo->lastInsertId() . "\n";
+?>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### PDO Connection
-`new PDO($dsn, $user, $pass, $options)`. DSN: `mysql:host=localhost;dbname=test`.
+### `new PDO(dsn, user, pass)` = Sambung Gudang
+`mysql:host=...;dbname=...` alamat. `ERRMODE_EXCEPTION` agar error meledak (jangan diam!).
 
-### Prepared Statements
-`$stmt = $pdo->prepare("SELECT * FROM u WHERE id = :id")`. Bind: `->bindParam(':id', $id)`.
+### `query()` vs `prepare()` = Tetap vs Ada-Tamu
+Tetap → `query`. Ada input user → `prepare` + `?`.
 
-### CRUD
-`query()` untuk SELECT, `exec()` untuk INSERT/UPDATE/DELETE. `fetch()` untuk result.
+### `fetchAll()` / `lastInsertId()` = Ambil Semua / ID Baru
 
-### Error Mode
-`PDO::ERRMODE_EXCEPTION` untuk throw exception saat error.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Supir Gudang
+- **PDO = supir**: 1 supir bisa ke gudang MySQL/Postgres (ganti alamat).
+- **prepare = surat jalan resmi**: barang (data) diperiksa, tidak selundupan.
+
+### Langkah 0 — Siapkan Device
+- MySQL jalan + DB `warung` + tabel `produk` (W1 MySQL) + `php -m | grep -i pdo` ada `pdo_mysql`.
+
+### Cara Komputer Membaca
+1. `new PDO(...)` → konek TCP ke MySQL.
+2. `prepare` → MySQL compile → `execute` kirim data terpisah.
+
+### 3 Istilah Wajib
+1. **DSN/PDO**: alamat/supir
+2. **prepare/fetchAll**: aman/ambil
 
 ---
 
 ## Eksperimen
 
-- Buat class Database wrapper untuk PDO
-- Coba fetchAll() vs fetch() per row
-- Implementasikan transaction dengan beginTransaction
-- Buat pagination dengan LIMIT dan OFFSET
-- Gunakan PDO::FETCH_CLASS untuk map ke object
+- **Hijau:** Salah password → `PDOException` pesan jelas?
+- **Kuning:** `query("SELECT ... $cari ...")` tempel langsung + `cari = '" OR 1=1'` → bocor? Ganti prepare.
+- **Merah:** Lupa `ERRMODE_EXCEPTION` → gagal diam (false)? Pasang.
 
 ---
 
 ## Tantangan
 
-Buat CRUD app lengkap: users table dengan PDO, prepared statements, pagination, search, dan error handling.
+**Gudang PDO Lengkap:** `list.php` (`query` + `cari` prepare) + `tambah.php` (`prepare` INSERT) + `hapus.php` (`prepare` DELETE) + coba SQL-injection gagal.
+
+---
+
+## Glosarium Mini
+
+- **PDO/DSN/prepare**: supir/alamat/aman
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 12: **PDO & Database** (Level: Menengah). Database adalah backbone aplikasi. Minggu depan: **Composer & Autoloading**.
+Minggu 8 dari 12: **Supir Gudang Beneran** (Level: Menengah). Data awet jutaan baris. Minggu depan: **Composer** — gudang alat.

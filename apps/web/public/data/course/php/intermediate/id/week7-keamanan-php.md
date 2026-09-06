@@ -1,93 +1,101 @@
-# Keamanan PHP
+# Keamanan PHP — Satpam Warung Anti-Bajak
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 7:** Keamanan PHP
 
 ## Tujuan Pembelajaran
 
-- XSS Prevention: htmlspecialchars untuk output encoding
-- SQL Injection: prepared statements dan parameterized queries
-- CSRF Protection: token generation dan validation
-- Input Validation: filter_var dengan berbagai filter
-- Session Security: session_start, regenerate_id, HTTP-only
+- `htmlspecialchars()` anti-XSS, `PDO prepare` anti-SQL-injection, `password_hash()` brankas, `session_regenerate_id()` anti-bajak sesi (sumber: php.net/security)
 
 ---
 
-## Program: Security Check
+## Kenapa Ini Penting Buat Kamu?
+
+Warung tanpa satpam: hacker kirim `<script>` di nama → admin buka → password dicuri (XSS). Ketik `' OR 1=1` di login → masuk tanpa password (SQL injection). 2 fungsi cegah 90% serangan.
+
+---
+
+## Program: Satpam Warung PHP
 
 ```php
 <?php
-$user_input = '<script>alert("XSS")</script>Hello';
-$safe = htmlspecialchars($user_input, ENT_QUOTES, 'UTF-8');
-echo "XSS Safe: $safe<br>";
+// 1. XSS: cuci output
+$nama = '<script>alert("bajak")</script>Budi';
+echo htmlspecialchars($nama, ENT_QUOTES, 'UTF-8'); // tampil mentah, tidak jalan!
 
-$search = "Budi";
-$safe_search = urlencode($search);
-echo "URL Safe: $safe_search<br>";
+// 2. SQL injection: JANGAN tempel string!
+// $sql = "SELECT * FROM user WHERE nama = '$nama'"; // BAHAYA!
+$pdo = new PDO("mysql:host=localhost;dbname=warung", "root", "");
+$stmt = $pdo->prepare("SELECT * FROM user WHERE nama = ?"); // ? = lubang aman
+$stmt->execute([$nama]); // kirim terpisah, tidak bisa suntik
 
-$email = "user@example.com";
-if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo "Email valid: $email<br>";
-}
+// 3. Password: JANGAN md5/sha1!
+$hash = password_hash("rahasia123", PASSWORD_DEFAULT); // $2y$... acak
+var_dump(password_verify("rahasia123", $hash)); // true
+var_dump(password_verify("salah", $hash));      // false
 
-$age = "25";
-if (filter_var($age, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1, "max_range" => 150]])) {
-    echo "Age valid: $age<br>";
-}
-
-$ip = "192.168.1.1";
-if (filter_var($ip, FILTER_VALIDATE_IP)) {
-    echo "IP valid: $ip<br>";
-}
-
-$token = bin2hex(random_bytes(32));
-echo "CSRF Token: " . substr($token, 0, 16) . "...<br>";
-
+// 4. Sesi: ganti kunci setelah login
 session_start();
-$_SESSION['user_id'] = 123;
-$_SESSION['token'] = $token;
-echo "Session started: user_id=" . $_SESSION['user_id'] . "<br>";
-
-$password = "user_password";
-$hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
-echo "Bcrypt: " . substr($hash, 0, 20) . "...<br>";
-echo "Verify: " . (password_verify($password, $hash) ? "Valid" : "Invalid") . "<br>";
->
+$_SESSION["user"] = "Budi";
+session_regenerate_id(true); // kunci baru, kunci lama hangus
+?>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### XSS Prevention
-`htmlspecialchars()` convert `<>` ke entity. Selalu escape output ke HTML.
+### `htmlspecialchars` = Cuci Output
+Ubah `<` jadi `&lt;` — script tidak jalan. Pakai di SEMUA `echo` data user.
 
-### SQL Injection
-Prepared statements: `$pdo->prepare("SELECT * FROM u WHERE id = ?")`. Jangan concatenate input ke query.
+### `prepare` + `?` = Lubang Aman
+Query + data dikirim terpisah — suntikan jadi teks biasa.
 
-### CSRF Token
-Generate token random (random_bytes), simpan di session, validasi setiap POST request.
+### `password_hash`/`verify` = Brankas
+`PASSWORD_DEFAULT` (bcrypt) acak tiap hash. Verifikasi pakai `verify`, bukan `==`.
 
-### Session Security
-`session_regenerate_id()` setelah login. Set cookie HTTP-only dan Secure.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Satpam 3 Lapis
+- **htmlspecialchars = cuci tangan**: bersihkan sebelum saji.
+- **prepare = loket kaca**: uang lewat lubang kecil, perampok tidak masuk.
+- **hash = brankas**: password jadi acak.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + MySQL jalan untuk PDO test.
+
+### Cara Komputer Membaca
+1. `prepare("... ? ...")` → MySQL compile pola.
+2. `execute([$nama])` → kirim data terpisah → tidak bisa ubah pola.
+
+### 3 Istilah Wajib
+1. **XSS/SQLi**: suntik-script/suntik-SQL
+2. **prepare/hash**: lubang/brankas
 
 ---
 
 ## Eksperimen
 
-- Buat fungsi antiXSS untuk output aman
-- Coba SQL injection pada query tidak aman vs prepared statement
-- Implementasikan CSRF token di form
-- Set cookie dengan setcookie() dan params aman
-- Buat rate limiting sederhana dengan session
+- **Hijau:** `htmlspecialchars('<b>x</b>')` → `&lt;b&gt;`?
+- **Kuning:** Login `' OR '1'='1` via prepare → gagal (aman)?
+- **Merah:** `md5("123")` selalu `202cb9...` (sama → brute force mudah)? `password_hash` 2x beda?
 
 ---
 
 ## Tantangan
 
-Buat sistem login aman: CSRF token, password hash, session management, dan protection terhadap brute force.
+**Warung Bersatpam:** Form login (`htmlspecialchars` tampil + `prepare` cek + `password_verify` + `session_regenerate_id`) → coba bajak diri sendiri 3 cara, semua gagal.
+
+---
+
+## Glosarium Mini
+
+- **XSS/SQLi/CSRF**: suntik script/SQL/palsu-request
+- **prepare/hash/session**: lubang/brankas/kunci
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 12: **Keamanan PHP** (Level: Menengah). Keamanan adalah prioritas produksi. Minggu depan: **PDO & Database**.
+Minggu 7 dari 12: **Satpam Anti-Bajak** (Level: Menengah). 90% serangan tertahan. Minggu depan: **PDO** — supir database.

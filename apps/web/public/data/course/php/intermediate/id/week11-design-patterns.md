@@ -1,132 +1,108 @@
-# Design Patterns
+# Design Patterns — Pola Warung Rapi PHP
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 11:** Design Patterns
 
 ## Tujuan Pembelajaran
 
-- Strategy Pattern: interface + multiple implementations
-- Singleton Pattern: single instance dengan static property
-- Dependency Injection: inject dependency via constructor
-- Factory Pattern: object creation terpusat
-- Observer Pattern: event-driven architecture
+- `Singleton` 1 kasir (`private __construct` + `getInstance()`), `Factory` pabrik `buat()` (sumber: refactoring.guru/design-patterns/php)
+- `Strategy` ganti cara bayar tanpa `if` 20x
 
 ---
 
-## Program: Pattern Implementation
+## Kenapa Ini Penting Buat Kamu?
+
+Bayar tunai/transfer/QRIS dengan `if` 20x → tambah QRIS ubah 20 tempat. Dengan `Strategy`, tambah 1 class. `Singleton` cegah 2 koneksi DB berebut.
+
+---
+
+## Program: Pola Bayar Warung
 
 ```php
 <?php
-echo "=== Design Patterns in PHP ===<br><br>";
-
-interface PaymentMethod {
-    public function pay(float $amount): string;
+// Strategy: 1 pintu, banyak cara
+interface Bayar {
+  public function bayar(int $total): string;
+}
+class Tunai implements Bayar {
+  public function bayar(int $total): string { return "Tunai Rp$total"; }
+}
+class Transfer implements Bayar {
+  public function bayar(int $total): string { return "Transfer Rp$total"; }
 }
 
-class CreditCard implements PaymentMethod {
-    public function pay(float $amount): string {
-        return "Paid Rp" . number_format($amount, 0) . " via Credit Card";
-    }
+class Kasir {
+  public function __construct(private Bayar $cara) {}
+  public function checkout(int $total): string { return $this->cara->bayar($total); }
 }
 
-class PayPal implements PaymentMethod {
-    public function pay(float $amount): string {
-        return "Paid Rp" . number_format($amount, 0) . " via PayPal";
-    }
+echo (new Kasir(new Tunai()))->checkout(62000) . "\n";
+echo (new Kasir(new Transfer()))->checkout(62000) . "\n";
+
+// Singleton: 1 kasir utama
+class KasirUtama {
+  private static ?KasirUtama $satu = null;
+  private function __construct() {}
+  public static function ambil(): KasirUtama {
+    return self::$satu ??= new KasirUtama();
+  }
 }
-
-class PaymentProcessor {
-    public function process(PaymentMethod $method, float $amount): string {
-        return $method->pay($amount);
-    }
-}
-
-$processor = new PaymentProcessor();
-echo $processor->process(new CreditCard(), 500000) . "<br>";
-echo $processor->process(new PayPal(), 300000) . "<br>";
-
-class Database {
-    private static ?Database $instance = null;
-    private function __construct() {}
-    public static function getInstance(): Database {
-        if (self::$instance === null) {
-            self::$instance = new Database();
-        }
-        return self::$instance;
-    }
-    public function query(string $sql): string {
-        return "Executing: $sql";
-    }
-}
-
-$db1 = Database::getInstance();
-$db2 = Database::getInstance();
-echo "<br>Singleton same? " . ($db1 === $db2 ? "Yes" : "No") . "<br>";
-echo $db1->query("SELECT * FROM users") . "<br>";
-
-interface Logger {
-    public function log(string $msg): void;
-}
-
-class FileLogger implements Logger {
-    public function log(string $msg): void {
-        echo "File: [$msg]<br>";
-    }
-}
-
-class App {
-    private Logger $logger;
-    public function __construct(Logger $logger) {
-        $this->logger = $logger;
-    }
-    public function run(): void {
-        $this->logger->log("App started");
-        $this->logger->log("Processing...");
-        $this->logger->log("App finished");
-    }
-}
-
-$app = new App(new FileLogger());
-$app->run();
->
+var_dump(KasirUtama::ambil() === KasirUtama::ambil()); // true, sama!
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Strategy Pattern
-Interface + multiple class implement. Client pilih strategy saat runtime.
+### `Strategy` = Colokan Ganti
+`Kasir(Bayar $cara)` terima colokan apa saja yang pas (`Tunai`/`Transfer`).
 
-### Singleton
-Private constructor, `getInstance()` static. Pastikan satu instance global.
+### `Singleton` = 1 Saja
+`private __construct` + `static ambil()` — `new` dari luar ditolak.
 
-### Dependency Injection
-Inject dependency lewat constructor, bukan buat di dalam class.
+### `Factory` = Pabrik (Bonus)
+`function buat($tipe)` return objek sesuai tipe — 1 pintu buat.
 
-### Factory Pattern
-Satu class/fungsi untuk buat object kompleks. Client tidak perlu tahu detail.
+---
 
-### Observer
-Subject maintain list notifier. Event terjadi → semua observer notified.
+## Penjelasan untuk Pemula
+
+### Analogi: Colokan & Kasir Utama
+- **Strategy = colokan listrik**: colok Tunai/Transfer, kasir sama.
+- **Singleton = kasir utama**: cuma 1 di toko.
+
+### Langkah 0 — Siapkan Device
+- `php pola.php` (tanpa DB).
+
+### Cara Komputer Membaca
+1. `new Kasir(new Tunai())` → simpan cara.
+2. `checkout(62000)` → panggil `cara->bayar()` (polimorfisme).
+
+### 3 Istilah Wajib
+1. **Strategy/Singleton**: colokan/1-saja
+2. **Interface**: kontrak colokan
 
 ---
 
 ## Eksperimen
 
-- Buat Factory Pattern untuk PaymentMethod
-- Implementasikan Observer dengan SplSubject/SplObserver
-- Coba Decorator Pattern untuk Logger
-- Buat Repository Pattern untuk database access
-- Implementasikan Chain of Responsibility
+- **Hijau:** Tambah `class Qris implements Bayar` → `new Kasir(new Qris())` tanpa ubah `Kasir`?
+- **Kuning:** `new KasirUtama()` langsung → error `private`?
+- **Merah:** 20 `if` vs 1 Strategy — tambah cara ke-21, mana ubah 1 tempat?
 
 ---
 
 ## Tantangan
 
-Buat aplikasi e-commerce kecil dengan: Strategy (payment methods), Singleton (database), Factory (product creation), DI (service container).
+**Warung Pola Lengkap:** `Bayar` + `Tunai/Transfer/Qris` + `Kasir` + `phpunit` test 3 cara + `Singleton` log transaksi.
+
+---
+
+## Glosarium Mini
+
+- **Strategy/Singleton/Factory**: colokan/1/pabrik
 
 ---
 
 ## Ringkasan
 
-Minggu 11 dari 12: **Design Patterns** (Level: Menengah). Arsitektur kode profesional. Minggu depan: **Capstone Project**!
+Minggu 11 dari 12: **Pola Rapi** (Level: Menengah). Tambah tanpa ubah lama. Minggu depan: **Capstone**.
