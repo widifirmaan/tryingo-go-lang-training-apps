@@ -1,149 +1,97 @@
-# Generics
+# Generics — Rak Serbaguna C#
 
-> **Kategori:** C# | **Level:** Intermediate | **Minggu 7:** Generics
+> **Kategori:** C# | **Level:** Menengah | **Minggu 7:** Generics
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Generic class: class Repository<T> where T : class
-- Generic method: static T FirstOrDefault<T>(List<T>, Func<T,bool>)
-- Generic interface: IRepository<T>
-- Generic constraints: where T : class, struct, new(), BaseClass
-- Nullable reference types: T? for nullable reference types
+- `class Keranjang<T>` rak untuk tipe apa saja + `where T : Produk` batas (sumber: Microsoft Learn generics)
+- Method generik `T Pertama<T>(List<T> list)`
 
 ---
 
-## Program: Generic Repository
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa generics, `KeranjangString` + `KeranjangInt` 2 class sama (duplikat!). Dengan `<T>` 1 rak untuk semua + tetap ketat tipe (tidak `object` longgar yang perlu cast).
+
+---
+
+## Program: Rak Generik Warung
 
 ```csharp
-using System;
-using System.Collections.Generic;
-
-// Generic class
-class Repository<T> where T : class
-{
-    private List<T> _items = new List<T>();
-
-    public void Add(T item) => _items.Add(item);
-    public void Remove(T item) => _items.Remove(item);
-    public List<T> GetAll() => _items;
-    public T? Find(Predicate<T> predicate) => _items.Find(predicate);
+class Keranjang<T> {
+  public List<T> Items = new();
+  public void Tambah(T item) => Items.Add(item);
+  public T Pertama() => Items[0];
 }
 
-// Generic method
-class Utility
-{
-    public static T? FirstOrDefault<T>(List<T> items, Func<T, bool> predicate)
-    {
-        foreach (var item in items)
-            if (predicate(item)) return item;
-        return default;
-    }
+var ks = new Keranjang<string>();
+ks.Tambah("Beras");
+Console.WriteLine(string.Join(", ", ks.Items));
 
-    public static List<TResult> Map<T, TResult>(List<T> items, Func<T, TResult> mapper)
-    {
-        var result = new List<TResult>();
-        foreach (var item in items)
-            result.Add(mapper(item));
-        return result;
-    }
+var ki = new Keranjang<int>();
+ki.Tambah(62000);
+
+// Batas: hanya Produk ke bawah
+class Gudang<T> where T : Produk {
+  public void StokRendah(List<T> list) {
+    foreach (var p in list) if (p.Stok < 5) Console.WriteLine(p.Nama);
+  }
 }
 
-// Generic interface
-interface IRepository<T> where T : class
-{
-    void Add(T item);
-    void Remove(T item);
-    List<T> GetAll();
-    T? FindById(int id);
-}
-
-// Entity
-class Product
-{
-    public int Id { get; set; }
-    public string Name { get; set; } = "";
-    public double Price { get; set; }
-}
-
-class Program
-{
-    static void Main()
-    {
-        // Generic class
-        var repo = new Repository<Product>();
-        repo.Add(new Product { Id = 1, Name = "Laptop", Price = 15000000 });
-        repo.Add(new Product { Id = 2, Name = "Mouse", Price = 250000 });
-        repo.Add(new Product { Id = 3, Name = "Keyboard", Price = 500000 });
-
-        Console.WriteLine("=== Repository<Product> ===");
-        foreach (var p in repo.GetAll())
-            Console.WriteLine($"  {p.Id}: {p.Name} - Rp{p.Price:N0}");
-
-        // Find
-        var found = repo.Find(p => p.Price > 1000000);
-        Console.WriteLine($"\nFound expensive: {found?.Name}");
-
-        // Generic method
-        var products = repo.GetAll();
-        var first = Utility.FirstOrDefault(products, p => p.Name.StartsWith("M"));
-        Console.WriteLine($"\nFirst with M: {first?.Name}");
-
-        // Map
-        var names = Utility.Map(products, p => p.Name);
-        Console.WriteLine($"Names: [{string.Join(", ", names)}]");
-
-        // Generic constraints
-        // where T : class — harus reference type
-        // where T : struct — harus value type
-        // where T : new() — harus punya parameterless constructor
-        // where T : Product — harus turunan Product
-
-        // Nullable reference types
-        string? nullable = null;
-        string notNull = "hola";
-        Console.WriteLine($"\nNullable: {nullable ?? "kosong"}");
-        Console.WriteLine($"NotNull: {notNull}");
-    }
-}
+// Method generik
+static T AmbilPertama<T>(List<T> list) => list[0];
+Console.WriteLine(AmbilPertama(new List<string> { "a", "b" }));
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Generic Classes
-Type parameter for reusable, type-safe classes.
+### `<T>` = Label Sementara
+`Keranjang<string>` → `T` jadi `string` di mana-mana. Ketat, tanpa cast.
 
-### Generic Methods
-Methods with their own type parameters.
-
-### Generic Interfaces
-Interfaces with type parameters.
-
-### Constraints
-Restrict type parameters with where clauses.
-
-### Nullable Reference Types
-`string?` for nullable reference types.
+### `where T : ...` = Syarat Rak
+`where T : Produk` (harus turunan), `where T : new()` (bisa `new T()`).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create generic class Stack<T>
-- Experiment with multiple constraints
-- Create generic method with Func<T, TResult>
-- Try generic interface implementation
-- Experiment with covariance/contravariance
+### Analogi: Rak Serbaguna
+- **Generics = rak adjustable**: setel `string` untuk teks, `int` untuk angka — 1 rak.
+
+### Langkah 0 — Siapkan Device
+- Sama W1.
+
+### Cara Komputer Membaca
+1. `new Keranjang<string>()` → buat versi string khusus.
+2. `Tambah(123)` → error (bukan string)!
+
+### 3 Istilah Wajib
+1. **Generics/<T>/where**: serbaguna/label/syarat
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build generic Repository<T> with methods: Add, Remove, FindById, Find all. Implement for Product and User.
+- **Hijau:** `Keranjang<int>` + `Tambah("x")` → error?
+- **Kuning:** `where T : new()` + `new T()` di dalam → bisa?
+- **Merah:** Pakai `object` + cast manual vs generics → mana aman compile-time?
 
 ---
 
-## Summary
+## Tantangan
 
-Week 7 of 12: **Generics** (Level: Intermediate). Type-safe reusable code. Next week: **Error Handling**.
+**Gudang Generik:** `Keranjang<T>` + `Total<T>(List<T>, Func<T,int>)` + `where T : Produk` + 2 tipe beda.
+
+---
+
+## Glosarium Mini
+
+- **Generics/where**: serbaguna/syarat
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 12: **Rak Serbaguna** (Level: Menengah). 1 rak semua tipe. Minggu depan: **Error Handling**.

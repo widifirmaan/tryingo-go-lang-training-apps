@@ -1,184 +1,106 @@
-# Design Patterns
+# Design Patterns — Pola Warung Rapi C#
 
-> **Kategori:** C# | **Level:** Advanced | **Minggu 9:** Design Patterns
+> **Kategori:** C# | **Level:** Lanjutan | **Minggu 9:** Design Patterns
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Strategy Pattern: interchangeable family of algorithms
-- Singleton Pattern: single global instance
-- Factory Pattern: object creation without exposing logic
-- Repository Pattern: abstraction for data access
-- Dependency Injection: inject dependencies from outside
+- `Strategy` colokan ganti cara bayar tanpa `if` 20x, `Singleton` 1 kasir utama, `Repository` tukang gudang (sumber: refactoring.guru/design-patterns/csharp)
 
 ---
 
-## Program: Repository & Strategy
+## Kenapa Ini Penting Buat Kamu?
+
+Tambah QRIS dengan `if` 20x → ubah 20 tempat, lupa 1 = bug. Dengan `Strategy`, tambah 1 class. `Repository` pisahkan SQL dari logika — ganti DB tanpa ubah kasir.
+
+---
+
+## Program: Pola Bayar Warung
 
 ```csharp
-using System;
-using System.Collections.Generic;
-using System.Linq;
+// Strategy: 1 colokan, banyak cara
+interface IBayar { void Bayar(decimal total); }
 
-// Strategy Pattern
-interface IPaymentStrategy
-{
-    void Pay(double amount);
+class Tunai : IBayar {
+  public void Bayar(decimal total) => Console.WriteLine($"Tunai Rp{total:N0}");
+}
+class Transfer : IBayar {
+  public void Bayar(decimal total) => Console.WriteLine($"Transfer Rp{total:N0}");
 }
 
-class CreditCardPayment : IPaymentStrategy
-{
-    public void Pay(double amount) =>
-        Console.WriteLine($"  Credit Card: Rp{amount:N0}");
+class Kasir {
+  private readonly IBayar _cara;
+  public Kasir(IBayar cara) { _cara = cara; } // suntik colokan!
+  public void Checkout(decimal total) => _cara.Bayar(total);
 }
 
-class PayPalPayment : IPaymentStrategy
-{
-    public void Pay(double amount) =>
-        Console.WriteLine($"  PayPal: Rp{amount:N0}");
+var k1 = new Kasir(new Tunai());
+k1.Checkout(62000);
+var k2 = new Kasir(new Transfer());
+k2.Checkout(62000);
+
+// Singleton: 1 kasir utama
+class KasirUtama {
+  private static KasirUtama? _satu;
+  private KasirUtama() {}
+  public static KasirUtama Ambil() => _satu ??= new KasirUtama();
 }
-
-class BankTransferPayment : IPaymentStrategy
-{
-    public void Pay(double amount) =>
-        Console.WriteLine($"  Bank Transfer: Rp{amount:N0}");
-}
-
-class PaymentContext
-{
-    private IPaymentStrategy _strategy;
-
-    public PaymentContext(IPaymentStrategy strategy) => _strategy = strategy;
-    public void SetStrategy(IPaymentStrategy strategy) => _strategy = strategy;
-    public void ExecutePayment(double amount) => _strategy.Pay(amount);
-}
-
-// Singleton Pattern
-class DatabaseConnection
-{
-    private static DatabaseConnection? _instance;
-    private static readonly object _lock = new();
-
-    public string ConnectionString { get; }
-
-    private DatabaseConnection()
-    {
-        ConnectionString = "Server=localhost;Database=mydb";
-    }
-
-    public static DatabaseConnection Instance
-    {
-        get
-        {
-            lock (_lock)
-            {
-                return _instance ??= new DatabaseConnection();
-            }
-        }
-    }
-}
-
-// Factory Pattern
-interface IProduct
-{
-    string Name { get; }
-    double Price { get; }
-}
-
-class Book : IProduct
-{
-    public string Name => "Buku";
-    public Price => 75000;
-}
-
-class Electronics : IProduct
-{
-    public string Name => "Laptop";
-    public Price => 15000000;
-}
-
-class ProductFactory
-{
-    public static IProduct Create(string type) => type.ToLower() switch
-    {
-        "book" => new Book(),
-        "electronics" => new Electronics(),
-        _ => throw new ArgumentException($"Unknown type: {type}")
-    };
-}
-
-class Program
-{
-    static void Main()
-    {
-        // Strategy
-        Console.WriteLine("=== Strategy Pattern ===");
-        var payment = new PaymentContext(new CreditCardPayment());
-        payment.ExecutePayment(1000000);
-
-        payment.SetStrategy(new PayPalPayment());
-        payment.ExecutePayment(500000);
-
-        payment.SetStrategy(new BankTransferPayment());
-        payment.ExecutePayment(2000000);
-
-        // Singleton
-        Console.WriteLine("\n=== Singleton Pattern ===");
-        var db1 = DatabaseConnection.Instance;
-        var db2 = DatabaseConnection.Instance;
-        Console.WriteLine($"Same instance: {ReferenceEquals(db1, db2)}");
-        Console.WriteLine($"Connection: {db1.ConnectionString}");
-
-        // Factory
-        Console.WriteLine("\n=== Factory Pattern ===");
-        var products = new List<IProduct>
-        {
-            ProductFactory.Create("book"),
-            ProductFactory.Create("electronics")
-        };
-
-        foreach (var p in products)
-            Console.WriteLine($"  {p.Name}: Rp{p.Price:N0}");
-    }
-}
+Console.WriteLine(KasirUtama.Ambil() == KasirUtama.Ambil()); // True
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Strategy Pattern
-Interchangeable algorithms at runtime.
+### `Strategy` = Colokan
+`Kasir(IBayar cara)` terima apa saja yang pas. Tambah `Qris` tanpa ubah `Kasir`.
 
-### Singleton Pattern
-Single global instance with thread safety.
+### `Singleton` = 1 Saja
+`private` constructor + `static Ambil()` — `new` dari luar ditolak.
 
-### Factory Pattern
-Object creation without exposing logic.
-
-### Repository Pattern
-Abstraction for data access.
-
-### Dependency Injection
-Inject dependencies from outside for testability.
+### `Repository` = Tukang Gudang
+`interface IRepo { List<Produk> Semua(); }` — kasir tidak tahu SQL.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create strategy pattern for sorting
-- Experiment with singleton for config manager
-- Create factory pattern for notifications
-- Implement repository pattern
-- Try dependency injection with interfaces
+### Analogi: Colokan & Kasir Utama
+- **Strategy = colokan listrik**: colok Tunai/Transfer, kasir sama.
+- **Singleton = kasir utama**: cuma 1 di toko.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `dotnet run`.
+
+### Cara Komputer Membaca
+1. `new Kasir(new Tunai())` → simpan cara.
+2. `Checkout(62000)` → panggil `cara.Bayar()` (polimorfisme).
+
+### 3 Istilah Wajib
+1. **Strategy/Singleton**: colokan/1-saja
+2. **Interface**: kontrak colokan
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a payment system with strategy pattern: CreditCard, PayPal, BankTransfer, Crypto. Add factory for payment creation.
+- **Hijau:** Tambah `class Qris : IBayar` → `new Kasir(new Qris())` tanpa ubah `Kasir`?
+- **Kuning:** `new KasirUtama()` langsung → error `private`?
+- **Merah:** 20 `if` vs Strategy — tambah cara ke-21, mana 1 tempat?
 
 ---
 
-## Summary
+## Tantangan
 
-Week 9 of 12: **Design Patterns** (Level: Advanced). Reusable solutions for common problems. Next week: **Testing**.
+**Warung Pola Lengkap:** `IBayar` + 3 cara + `Kasir` + test 3 + `Singleton` log.
+
+---
+
+## Glosarium Mini
+
+- **Strategy/Singleton/Repository**: colokan/1/tukang
+
+---
+
+## Ringkasan
+
+Minggu 9 dari 12: **Pola Rapi** (Level: Lanjutan). Tambah tanpa ubah lama. Minggu depan: **Testing**.

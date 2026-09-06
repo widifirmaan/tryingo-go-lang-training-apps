@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Versi intermediate sudah bisa; versi advanced untuk produksi: custom Exception + throw + using + global handler. Tanpa ini, kode menengah jebol di edge-case produksi.
+
+---
+
 ## Program
 
 ```csharp
@@ -22,7 +28,27 @@ try {
 }
 ```
 
+
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Alarm Produksi Berlapis
+- Lihat Program: tiap baris ada komentar. Jalankan `dotnet run`, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama C# W1: `.NET SDK`, `dotnet run`.
+
+### Cara Komputer Membaca
+- `class KasirException : Exception` + middleware/handler global + log.
+
+### 3 Istilah Wajib
+- 1. **Custom/global/log**: khusus/pusat/catat
+
+## Glosarium Mini
+
+- **Lanjutan**: alarm lanjutan produksi
 
 ## Ringkasan
 

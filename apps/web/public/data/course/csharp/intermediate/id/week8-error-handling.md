@@ -1,180 +1,99 @@
-# Error Handling
+# Error Handling — Alarm Anti-Panik C#
 
 > **Kategori:** C# | **Level:** Menengah | **Minggu 8:** Error Handling
 
 ## Tujuan Pembelajaran
 
-- try-catch-finally untuk handle exception
-- Multiple catch blocks dengan exception type spesifik
-- Custom exception class dengan inheritance
-- Throw expression dan null check
-- Using statement untuk IDisposable pattern
+- `try/catch/finally` tangkap + `Exception` spesifik dulu (`FormatException` sebelum `Exception`) (sumber: Microsoft Learn exceptions)
+- `throw new` buat alarm + `using` tutup otomatis (`IDisposable`)
 
 ---
 
-## Program: Penanganan Exception
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `try/catch`, input "abc" ke harga → crash + tutup aplikasi kasir. Dengan tangkap, tampil "Harga salah" → lanjut. `using` pastikan file tertutup meski error (tanpa ini file terkunci!).
+
+---
+
+## Program: Kasir Anti-Crash C#
 
 ```csharp
-using System;
-
-// Custom exception
-class AppException : Exception
-{
-    public string ErrorCode { get; }
-
-    public AppException(string message, string errorCode)
-        : base(message)
-    {
-        ErrorCode = errorCode;
-    }
-
-    public AppException(string message, string errorCode, Exception inner)
-        : base(message, inner)
-    {
-        ErrorCode = errorCode;
-    }
+try {
+  Console.Write("Harga: ");
+  int harga = int.Parse(Console.ReadLine() ?? "0"); // bisa meledak!
+  if (harga <= 0) throw new Exception("Harga harus > 0");
+  Console.WriteLine($"OK: Rp{harga:N0}");
+}
+catch (FormatException) {
+  Console.WriteLine("Itu bukan angka!");
+}
+catch (Exception ex) {
+  Console.WriteLine($"Gagal: {ex.Message}");
+}
+finally {
+  Console.WriteLine("Kasir siap lagi");
 }
 
-class ProductNotFoundException : AppException
-{
-    public int ProductId { get; }
-
-    public ProductNotFoundException(int id)
-        : base($"Produk {id} tidak ditemukan", "PROD_NOT_FOUND")
-    {
-        ProductId = id;
-    }
-}
-
-class Program
-{
-    static double Bagi(double a, double b)
-    {
-        if (b == 0)
-            throw new DivideByZeroException("Tidak bisa dibagi nol");
-        return a / b;
-    }
-
-    static int CariProduk(int id)
-    {
-        if (id <= 0)
-            throw new ArgumentException("ID harus positif", nameof(id));
-        if (id > 100)
-            throw new ProductNotFoundException(id);
-        return id;
-    }
-
-    static void Main()
-    {
-        // Try-catch
-        try
-        {
-            var result = Bagi(10, 2);
-            Console.WriteLine($"10 / 2 = {result}");
-        }
-        catch (DivideByZeroException ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-
-        // Multiple catch
-        try
-        {
-            var result = Bagi(5, 0);
-            Console.WriteLine($"Hasil: {result}");
-        }
-        catch (DivideByZeroException ex)
-        {
-            Console.WriteLine($"Divide error: {ex.Message}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"General error: {ex.Message}");
-        }
-        finally
-        {
-            Console.WriteLine("Finally block selalu dijalankan");
-        }
-
-        // Custom exception
-        try
-        {
-            CariProduk(200);
-        }
-        catch (ProductNotFoundException ex)
-        {
-            Console.WriteLine($"Custom error [{exErrorCode}]: {ex.Message}");
-        }
-        catch (AppException ex)
-        {
-            Console.WriteLine($"App error [{ex.ErrorCode}]: {ex.Message}");
-        }
-
-        // Try pattern (C# 7+)
-        if (int.TryParse("42", out int parsed))
-        {
-            Console.WriteLine($"\nParsed: {parsed}");
-        }
-
-        // Null check dengan throw
-        string? name = null;
-        try
-        {
-            string safeName = name ?? throw new ArgumentNullException(nameof(name));
-            Console.WriteLine(safeName);
-        }
-        catch (ArgumentNullException ex)
-        {
-            Console.WriteLine($"Null error: {ex.Message}");
-        }
-
-        // Using statement (IDisposable)
-        using (var writer = new System.IO.StringWriter())
-        {
-            writer.WriteLine("Hello using statement");
-            Console.WriteLine(writer.ToString());
-        }
-    }
-}
+// using: tutup otomatis meski error
+using (var file = new StreamWriter("struk.txt")) {
+  file.WriteLine("Beras 62000");
+} // tertutup otomatis di sini!
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Try-Catch
-`try { ... } catch (ExceptionType ex) { ... }` — handle error.
+### `try/catch/finally` = Coba/Tangkap/Selalu
+`try` coba, `catch` tangkap per tipe (spesifik dulu!), `finally` selalu jalan.
 
-### Multiple Catch
-Catch spesifik dulu, umum di akhir. `finally` selalu dijalankan.
+### `throw new` = Bunyikan Alarm
+`throw new Exception("...")` lempar ke `catch` terdekat.
 
-### Custom Exception
-Inherit dari `Exception`. Tambah properties spesifik.
+### `using` = Tutup Otomatis
+`using (var x = ...)` → `Dispose()` otomatis (file, koneksi DB).
 
-### Throw Expression
-`name ?? throw new ArgumentNullException()` — throw inline.
+---
 
-### Using Statement
-`using (var x = new Disposable()) { ... }` — auto dispose saat keluar scope.
+## Penjelasan untuk Pemula
+
+### Analogi: Jaring Pengaman Sirkus
+- **try = atraksi**, **catch = jaring**, **finally = sapu panggung** (selalu).
+- **using = pintu otomatis**: tutup sendiri.
+
+### Langkah 0 — Siapkan Device
+- Sama W1.
+
+### Cara Komputer Membaca
+1. `int.Parse("abc")` → lempar `FormatException` → cari `catch` cocok.
+2. `using` selesai → `Dispose()` meski ada error.
+
+### 3 Istilah Wajib
+1. **try/catch/finally**: coba/tangkap/selalu
+2. **throw/using**: alarm/tutup-otomatis
 
 ---
 
 ## Eksperimen
 
-- Buat custom exception dengan inner exception
-- Eksperimen dengan multiple catch order
-- Coba finally block dengan return statement
-- Buat using declaration (C# 8+)
-- Eksperimen dengan exception filter
+- **Hijau:** Input "abc" → "Itu bukan angka"?
+- **Kuning:** `catch (Exception)` dulu baru `FormatException` → warning unreachable? Urutkan!
+- **Merah:** Tanpa `using`, error sebelum `Close()` → file terkunci? Pakai `using`.
 
 ---
 
 ## Tantangan
 
-Buat program manajemen produk dengan custom exception: ProductNotFoundException, InvalidPriceException, DuplicateProductException. Handle semua case.
+**Kasir Aman Lengkap:** Loop input harga + `try/catch` 2 tipe + `throw` untuk <= 0 + `using` tulis struk file. **Selesai Menengah C#!**
+
+---
+
+## Glosarium Mini
+
+- **try/catch/throw/using**: coba/tangkap/alarm/otomatis
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 12: **Error Handling** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Design Patterns** (Advanced).
+Minggu 8 dari 12: **Alarm Anti-Panik** (Level: Menengah). **Selesai Menengah C#!** Lanjut: **Generics Lanjutan** (Advanced).
