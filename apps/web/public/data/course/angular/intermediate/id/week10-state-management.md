@@ -1,56 +1,90 @@
-# State Management
+# State Management — Gudang Besar Angular (ngrx.io)
 
 > **Kategori:** Angular | **Level:** Menengah | **Minggu 10:** State Management
 
 ## Tujuan Pembelajaran
 
-- NgRx: Store, Actions, Reducers
-- Selectors untuk derived state
-- Effects untuk side effects
-- Angular Signals: signal, computed, effect
-- Kapan pakai NgRx vs Signals
+- `@ngrx/component-store` gudang komponen — `store` + `updater` + `selector` + `dispatch` (sumber: ngrx.io/guide/component-store)
 
 ---
 
-## Program: NgRx & Signals
+## Kenapa Ini Penting Buat Kamu?
+
+Warung 10 komponen butuh `keranjang` — `props` estafet 5 level melelahkan. `ComponentStore` = gudang di tengah, semua ambil.
+
+---
+
+## Program: Gudang NgRx Warung (ngrx.io)
+
+```bash
+npm install @ngrx/component-store
+```
 
 ```typescript
-// State Management: NgRx & Angular Signals
-import { signal, computed, effect } from '@angular/core';
-const count = signal(0);
-const doubled = computed(() => count() * 2);
-effect(() => { console.log('Count:', count()); });
-// count.set(5);
-console.log('State Management siap digunakan');
+// keranjang.store.ts
+import { ComponentStore } from "@ngrx/component-store";
+import { Injectable } from "@angular/core";
+
+interface KeranjangState { items: { nama: string }[]; }
+
+@Injectable({ providedIn: "root" })
+export class KeranjangStore extends ComponentStore<KeranjangState> {
+  constructor(){ super({ items: [] }); }
+
+  readonly items$ = this.select(state => state.items);
+  readonly tambah = this.updater((state, item: { nama: string }) => ({
+    items: [...state.items, item]
+  }));
+}
+
+// component.ts
+constructor(private store: KeranjangStore) {}
+tambah(){ this.store.tambah({ nama: "Beras" }); }
+
+// template.html
+<button (click)="tambah()">Tambah Beras</button>
+<div *ngFor="let i of store.items$ | async">{{ i.nama }}</div>
 ```
+
+**Sumber:** `ngrx.io/guide/component-store` — `ComponentStore` + `select`/`updater`.
 
 ---
 
 ## Konsep Kunci
 
-### NgRx
-Redux pattern: unidirectional data flow.
-
-### Signals
-Reactive primitives: signal(), computed(), effect().
+### `ComponentStore` = Gudang Komponen
+`select` baca, `updater` ubah, `| async` di template.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Buat NgRx store dengan CRUD
-- Implementasikan Signal-based state
-- Buat custom selector
-- Tambah effect untuk API call
+### Analogi: Gudang Besar
+
+- **`ComponentStore` = gudang**: `tambah` masukkan, `items$` lihat.
+
+### Langkah 0 — Device
+
+`ng new` + `npm install @ngrx/component-store` + `ng serve` di `4200`.
+
+### 3 Istilah Wajib
+
+1. **Store/select/updater**: gudang/baca/ubah
 
 ---
 
 ## Tantangan
 
-Buat shopping cart dengan Signals: add/remove items, total price, persist state.
+**Warung Gudang Lengkap:** `KeranjangStore` `items: {nama, harga}[]` + `tambah` + `hapus` `updater`, `items$ | async` tampil, `ng serve` cek.
+
+---
+
+## Glosarium Mini
+
+- **ComponentStore**: gudang komponen
 
 ---
 
 ## Ringkasan
 
-Minggu 10 dari 14: **State Management** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Testing**.
+Minggu 10 dari 12: **Gudang Besar** — `ComponentStore`. Minggu depan: **Testing**.

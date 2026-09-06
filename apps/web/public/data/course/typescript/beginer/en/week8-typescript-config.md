@@ -1,151 +1,82 @@
-# TypeScript Configuration
+# TypeScript Config — Buku Aturan Warung (typescriptlang.org)
 
-> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 8:** TypeScript Configuration
+> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 8:** TypeScript Config
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- tsconfig.json: main compiler options
-- Strict mode and type checking options
-- Target and module configuration
-- Declaration files (.d.ts) for type declarations
-- Project references and path aliases
+- `tsconfig.json` buku aturan: `strict: true` satpam ketat, `target: "ES2020"`, `module: "ESNext"` (sumber: typescriptlang.org/tsconfig)
 
 ---
 
-## Program: tsconfig.json & Setup
+## Kenapa Ini Penting Buat Kamu?
 
-```typescript
-// tsconfig.json — konfigurasi TypeScript compiler
-// File: tsconfig.json
-const tsconfig = {
-    "compilerOptions": {
-        // Target & Module
-        "target": "ES2020",           // Output JS version
-        "module": "ESNext",           // Module system
-        "moduleResolution": "node",   // How to resolve modules
+Tanpa `strict: true`, `nama: string | null` lolos `null` → error di `nama.length`. Dengan `strict`, merah sebelum run.
 
-        // Strict Mode (recommended: all true)
-        "strict": true,               // Enable all strict checks
-        "noImplicitAny": true,        // Error on implicit any
-        "strictNullChecks": true,     // null/undefined checks
-        "noImplicitReturns": true,    // All code paths must return
-        "noUncheckedIndexedAccess": true, // Array[index] bisa undefined
+---
 
-        // Output
-        "outDir": "./dist",           // Output directory
-        "rootDir": "./src",           // Source directory
-        "declaration": true,          // Generate .d.ts files
-        "sourceMap": true,            // Generate source maps
+## Program: Buku Aturan Warung (typescriptlang.org)
 
-        // Interop
-        "esModuleInterop": true,      // CommonJS/ESM interop
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-
-        // Linting
-        "noUnusedLocals": true,       // Error on unused variables
-        "noUnusedParameters": true,   // Error on unused params
-        "noImplicitOverride": true,   // Must use override keyword
-
-        // Advanced
-        "skipLibCheck": true,         // Skip .d.ts checking
-        "resolveJsonModule": true,    // Import JSON files
-        "isolatedModules": true       // Required for Babel/esbuild
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "**/*.test.ts"]
-};
-
-console.log("=== TypeScript Config ===");
-console.log("Target:", tsconfig.compilerOptions.target);
-console.log("Strict:", tsconfig.compilerOptions.strict);
-console.log("OutDir:", tsconfig.compilerOptions.outDir);
-
-// Triple-slash directives
-// /// <reference path="./types.d.ts" />
-// /// <reference types="node" />
-
-// Declaration files (.d.ts)
-// File: types.d.ts
-// declare module "my-module" {
-//     export function doSomething(): void;
-// }
-
-// Ambient declarations
-// declare const process: { env: Record<string, string | undefined> };
-// declare function fetch(input: string): Promise<Response>;
-
-// Project references
-// tsconfig.json
-// {
-//   "references": [
-//     { "path": "./packages/core" },
-//     { "path": "./packages/ui" }
-//   ]
-// }
-
-// Best Practices
-console.log("\n=== Best Practices ===");
-console.log("1. Always enable strict: true");
-console.log("2. Use noImplicitAny untuk avoid any");
-console.log("3. Set noUncheckedIndexedAccess untuk array safety");
-console.log("4. Use skipLibCheck untuk compile speed");
-console.log("5. Separate build config from test config");
-console.log("6. Use path aliases: @/components → src/components");
-
-// Path aliases
-// tsconfig.json
-// {
-//   "compilerOptions": {
-//     "baseUrl": ".",
-//     "paths": {
-//       "@/*": ["src/*"],
-//       "@components/*": ["src/components/*"]
-//     }
-//   }
-// }
+```json
+// tsconfig.json — buku aturan (typescriptlang.org)
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "strict": true, // satpam ketat: null, any, this semua dicek
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}
 ```
 
----
+```bash
+npx tsc --init # buat tsconfig.json
+npx tsc --noEmit # cek tanpa buat js
+```
 
-## Key Concepts
-
-### Strict Mode
-`strict: true` — enable all strict checks. Required for new projects.
-
-### noImplicitAny
-Error on variables without type annotation. Forces explicit typing.
-
-### Declaration Files
-`.d.ts` — type declarations without implementation. For library types.
-
-### Path Aliases
-`@/components` → `src/components`. Cleaner imports.
-
-### Project References
-Monorepo setup: multiple tsconfigs referencing each other.
-
-### skipLibCheck
-Skip checking dependency `.d.ts` files. Faster compilation.
+**Sumber:** `typescriptlang.org/tsconfig` — `strict` = 7 cek ketat.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Create tsconfig for library vs app
-- Try noUncheckedIndexedAccess on array access
-- Experiment declaration merging
-- Create custom .d.ts for untyped module
-- Try project references in monorepo
+### `strict: true` = Satpam Ketat
+Aktifkan 7 cek: `strictNullChecks`, `noImplicitAny`, dll. Tanpa `strict`, `null` lolos.
 
----
-
-## Challenge
-
-Setup TypeScript project: strict mode, path aliases, separate dev/build configs, and custom declaration files.
+### `target`/`module`
+`target: ES2020` → `let/const` tetap, `module: ESNext` → `import`.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 8 of 12: **TypeScript Configuration** (Level: Complete TypeScript). Project configuration. Next week: **Testing**.
+### Analogi: Buku Aturan Warung
+
+- **`tsconfig.json` = buku SOP**: `strict: true` SOP ketat, `target` bahasa.
+
+### Langkah 0 — Device
+
+`npx tsc --init` di root, `npx tsc --noEmit` cek.
+
+### 3 Istilah Wajib
+
+1. **tsconfig/strict**: buku aturan/satpam
+
+---
+
+## Tantangan
+
+**Warung Aturan Lengkap:** `strict: true` + `noImplicitAny` error `function hitung(a,b)` tanpa tipe → tambah `: number`.
+
+---
+
+## Glosarium Mini
+
+- **tsconfig/strict/target**: buku/satpam/target
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 12: **Buku Aturan** — `tsconfig` + `strict`.

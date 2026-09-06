@@ -1,142 +1,83 @@
-# Utility Types
+# Utility Types — Alat Potong Warung (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 7:** Utility Types
 
 ## Tujuan Pembelajaran
 
-- Partial<T>, Required<T>, Readonly<T>
-- Pick<T, K> dan Omit<T, K>
-- Record<K, V> untuk type-safe objects
-- Exclude, Extract, NonNullable untuk union types
-- ReturnType dan Parameters untuk function types
+- `Pick<Produk, "nama" | "harga">` ambil 2, `Omit<Produk, "stok">` buang 1, `Partial` jadi opsional, `Required` wajib (sumber: typescriptlang.org/docs/handbook/utility-types)
 
 ---
 
-## Program: Built-in Utilities
+## Kenapa Ini Penting Buat Kamu?
+
+Produk punya 5 field, tapi kartu ringkas hanya butuh `nama` + `harga` — tanpa `Pick`, tulis ulang `interface Ringkas { nama, harga }` duplikat. Dengan `Pick`, 1 baris.
+
+---
+
+## Program: Alat Potong Warung (typescriptlang.org)
 
 ```typescript
-// Partial<T> — semua property optional
-interface User {
-    id: string;
-    name: string;
-    email: string;
-    age: number;
+interface Produk { id: number; nama: string; harga: number; stok: number; kategori: string; }
+
+type Ringkas = Pick<Produk, "nama" | "harga">; // hanya nama & harga
+const r: Ringkas = { nama: "Beras", harga: 62000 };
+
+type TanpaStok = Omit<Produk, "stok">; // semua kecuali stok
+type Opsional = Partial<Produk>; // semua jadi ?
+type Wajib = Required<Opsional>; // semua wajib lagi
+
+// Contoh warung: update hanya nama
+function update(produk: Produk, patch: Partial<Produk>): Produk {
+  return { ...produk, ...patch };
 }
-
-function updateUser(user: User, updates: Partial<User>): User {
-    return { ...user, ...updates };
-}
-
-const user: User = { id: "1", name: "Budi", email: "budi@mail.com", age: 25 };
-const updated = updateUser(user, { age: 26 });
-console.log("Updated:", updated);
-
-// Required<T> — semua property required
-type PartialUser = Partial<User>;
-type FullUser = Required<PartialUser>;
-
-// Readonly<T> — semua property readonly
-const readonlyUser: Readonly<User> = user;
-// readonlyUser.name = "Siti"; // Error!
-
-// Pick<T, K> — pilih property tertentu
-type UserPreview = Pick<User, "id" | "name">;
-const preview: UserPreview = { id: "1", name: "Budi" };
-
-// Omit<T, K> — hapus property tertentu
-type UserWithoutAge = Omit<User, "age">;
-const noAge: UserWithoutAge = { id: "2", name: "Siti", email: "siti@mail.com" };
-
-// Record<K, T> — object dengan key dan value type
-type UserRoles = Record<string, "admin" | "user" | "guest">;
-const roles: UserRoles = {
-    budi: "admin",
-    siti: "user",
-    tamu: "guest"
-};
-console.log("\nRoles:", roles);
-
-// Exclude<T, U> — hapus types dari union
-type AllStatus = "active" | "inactive" | "deleted" | "banned";
-type ActiveStatus = Exclude<AllStatus, "deleted" | "banned">;
-
-// Extract<T, U> — ambil types yang ada di kedua union
-type SuccessStatus = Extract<AllStatus, "active" | "pending">; // "active"
-
-// NonNullable<T> — hapus null dan undefined
-type MaybeString = string | null | undefined;
-type DefiniteString = NonNullable<MaybeString>;
-
-// ReturnType<T> — ambil return type dari function
-function createUser() {
-    return { id: "1", name: "Budi", type: "admin" as const };
-}
-type NewUser = ReturnType<typeof createUser>;
-
-// Parameters<T> — ambil parameter types dari function
-function signup(name: string, email: string, age: number) {}
-type SignupParams = Parameters<typeof signup>;
-
-// Custom Utility Types
-type DeepReadonly<T> = {
-    readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
-};
-
-type Nullable<T> = { [K in keyof T]: T[K] | null };
-
-interface Config {
-    host: string;
-    port: number;
-    ssl: { enabled: boolean; cert: string };
-}
-
-type NullableConfig = Nullable<Config>;
-// Semua property bisa null
-
-console.log("\nPick:", preview);
-console.log("Omit:", noAge);
+console.log(update({ id: 1, nama: "Beras", harga: 62000, stok: 10, kategori: "Sembako" }, { harga: 65000 }));
 ```
+
+**Sumber:** `typescriptlang.org/docs/handbook/utility-types` — `Pick`, `Omit`, `Partial`.
 
 ---
 
 ## Konsep Kunci
 
-### Partial<T>
-Semua property jadi optional. Cocok untuk update functions.
+### `Pick`/`Omit` = Potong
+`Pick` ambil, `Omit` buang.
 
-### Pick & Omit
-`Pick<T, "name" | "email">` — ambil sebagian. `Omit<T, "age">` — hapus sebagian.
-
-### Record<K, V>
-`Record<string, User>` — object dengan string key dan User value.
-
-### Exclude & Extract
-`Exclude<"a" | "b", "a">` = "b". `Extract<"a" | "b", "a" | "c">` = "a".
-
-### ReturnType & Parameters
-`ReturnType<typeof fn>` — return type dari function. `Parameters<typeof fn>` — tuple parameter types.
-
-### Custom Utilities
-Bisa buat utility type sendiri dengan mapped types dan conditional types.
+### `Partial`/`Required` = Opsional/Wajib
+`Partial` semua `?`, `Required` semua wajib.
 
 ---
 
-## Eksperimen
+## Penjelasan untuk Pemula
 
-- Buat DeepPartial: nested partial
-- Coba RequiredDeep: nested required
-- Eksperimen custom utility: Nullable<T>
-- Buat UnionToIntersection type
-- Coba infer dengan conditional types
+### Analogi: Alat Potong Kertas
+
+- **`Pick` = gunting**: potong `nama` dan `harga` saja.
+- **`Omit` = buang**: buang `stok`.
+- **`Partial` = pensil tipis**: semua opsional.
+
+### Langkah 0 — Device
+
+`npx tsc` cek, `tsc --version` 5.x (sudah W1).
+
+### 3 Istilah Wajib
+
+1. **Pick/Omit**: ambil/buang
+2. **Partial/Required**: opsional/wajib
 
 ---
 
 ## Tantangan
 
-Buat form state management: Partial untuk updates, Readonly untuk state, Record untuk errors, ReturnType untuk actions.
+**Warung Potong Lengkap:** `Produk` 5 field → `Ringkas = Pick<Produk, "nama"|"harga">` + `TanpaStok = Omit<Produk,"stok">` + `update(produk, Partial<Produk>)`.
+
+---
+
+## Glosarium Mini
+
+- **Pick/Omit/Partial**: potong/buang/opsional
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 12: **Utility Types** (Level: TypeScript Lengkap). Type transformations. Minggu depan: **TypeScript Config**.
+Minggu 7 dari 12: **Alat Potong** — `Pick`/`Omit`. Minggu depan: **Config**.
