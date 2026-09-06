@@ -1,127 +1,90 @@
-# Capstone: E-Commerce Database
+# Capstone: E-Commerce Database — Gudang Warung Grand Opening
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce Database
+> **Kategori:** MySQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce Database
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Production-ready schema
-- ENUM type
-- JSON column
-- Auto-update trigger
-- Views for reports
+- Gabung W1-W9: `AUTO_INCREMENT` + `FK` + `INDEX` + `TRANSACTION` + `VIEW` + `TRIGGER` jadi gudang toko online produksi
 
 ---
 
-## Program: Production-Ready Database
+## Kenapa Ini Penting Buat Kamu?
+
+9 minggu terpisah — capstone buktikan gabung: gudang yang cepat (index), aman (transaksi + user), terpantau. Ini portfolio "MySQL production-ready".
+
+---
+
+## Program: Gudang Toko Lengkap (Checklist)
 
 ```sql
--- CAPSTONE: E-Commerce MySQL Database
+-- 1. Rak + tali (W1-W3)
+CREATE TABLE kategori (id INT AUTO_INCREMENT PRIMARY KEY, nama VARCHAR(50)) ENGINE=InnoDB;
+CREATE TABLE produk (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  kategori_id INT,
+  nama VARCHAR(100) NOT NULL,
+  harga INT NOT NULL CHECK (harga > 0),
+  stok INT DEFAULT 0,
+  FOREIGN KEY (kategori_id) REFERENCES kategori(id)
+) ENGINE=InnoDB;
 
-CREATE TABLE categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    slug VARCHAR(100) UNIQUE NOT NULL
-);
+-- 2. Index (W4+W7)
+CREATE INDEX idx_kategori ON produk(kategori_id);
+CREATE INDEX idx_nama ON produk(nama);
 
-CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category_id INT,
-    name VARCHAR(200) NOT NULL,
-    sku VARCHAR(50) UNIQUE NOT NULL,
-    price DECIMAL(12,2) NOT NULL,
-    stock INT DEFAULT 0,
-    attributes JSON,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id),
-    INDEX idx_category (category_id),
-    INDEX idx_sku (sku)
-);
+-- 3. User secukupnya (W9)
+CREATE USER 'kasir'@'localhost' IDENTIFIED BY 'Kasir#2026!';
+GRANT SELECT, INSERT, UPDATE ON warung.produk TO 'kasir'@'localhost';
 
-CREATE TABLE customers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    city VARCHAR(50)
-);
+-- 4. Laporan VIEW (baca gampang)
+CREATE VIEW laporan AS
+SELECT k.nama AS kategori, COUNT(*) AS jml, SUM(p.harga * p.stok) AS nilai
+FROM produk p JOIN kategori k ON p.kategori_id = k.id
+GROUP BY k.nama;
 
-CREATE TABLE orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT,
-    status ENUM('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
-    total DECIMAL(12,2) DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (customer_id) REFERENCES customers(id),
-    INDEX idx_customer (customer_id),
-    INDEX idx_status (status)
-);
+-- 5. Transaksi jual aman (W6)
+START TRANSACTION;
+UPDATE produk SET stok = stok - 2 WHERE id = 1 AND stok >= 2;
+INSERT INTO pesanan (produk_id, qty) VALUES (1, 2);
+COMMIT;
 
-CREATE TABLE order_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT,
-    product_id INT,
-    quantity INT NOT NULL,
-    unit_price DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
-);
-
-DELIMITER //
-CREATE TRIGGER trg_update_stock
-AFTER INSERT ON order_items
-FOR EACH ROW
-BEGIN
-    UPDATE products SET stock = stock - NEW.quantity WHERE id = NEW.product_id;
-END //
-DELIMITER ;
-
-CREATE VIEW v_sales_report AS
-SELECT c.name AS category, COUNT(DISTINCT o.id) AS total_orders,
-    SUM(oi.quantity * oi.unit_price) AS total_revenue
-FROM order_items oi
-JOIN products p ON p.id = oi.product_id
-JOIN categories c ON c.id = p.category_id
-JOIN orders o ON o.id = oi.order_id
-WHERE o.status = 'completed'
-GROUP BY c.name;
+-- 6. Cek cepat (W7)
+EXPLAIN SELECT * FROM produk WHERE kategori_id = 1;
 ```
 
----
-
-## Key Concepts
-
-### Schema Design
-Table relations with foreign keys.
-
-### ENUM
-Choice data type: order status.
-
-### JSON
-Flexible product attributes.
-
-### Triggers
-Auto-update stock after order.
-
-### Views
-Sales reports per category.
+**Tugas capstone:** File `warung.sql` lengkap + `mysqldump` backup + `EXPLAIN` 3 query (`ref`, bukan `ALL`) + screenshot `SHOW GRANTS`.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Partitioning
-- Full-text search
-- Soft delete
-- Audit log
+### Capstone = Gabung 9 Minggu
+Rak + tali + index + transaksi + user + view = produksi.
 
 ---
 
-## Challenge
+## Penjelasan untuk Pemula
 
-Deploy complete MySQL e-commerce database.
+### Analogi: Grand Opening Gudang
+- **W1-W4 fondasi** + **W6-W9 mesin** = gudang. **W10 = buka**.
+
+### 3 Istilah Wajib
+1. **VIEW/mysqldump**: jendela/cadangan
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 10: **Capstone: E-Commerce DB** (Intermediate). Complete!
+**Grand Opening:** Semua checklist + `mysqldump warung > backup.sql` + hapus DB + `restore` dari backup + data kembali! **Selesai MySQL 0→Ahli!** 🎉
+
+---
+
+## Glosarium Mini
+
+- **VIEW/mysqldump**: jendela/cadangan
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 10: **Grand Opening** (Level: Menengah). **Selesai MySQL 0→Ahli dari nol!** 🎉
