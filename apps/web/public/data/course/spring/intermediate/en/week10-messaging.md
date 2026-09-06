@@ -1,147 +1,112 @@
-# Messaging
+# Messaging — Pesan Antar Dapur Spring
 
-> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 10:** Messaging
+> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 10:** Messaging
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Spring Events: ApplicationEventPublisher and @EventListener
-- @Async for asynchronous method execution
-- CompletableFuture for async return values
-- RabbitMQ integration with Spring AMQP
-- Event-driven architecture pattern
+- `ApplicationEventPublisher` + `@EventListener` pesan dalam Warung (tanpa RabbitMQ dulu)
+- `@Async` + `@EnableAsync` kerja background (kirim WA tanpa tunggu)
 
 ---
 
-## Program: Async & Events
+## Kenapa Ini Penting Buat Kamu?
+
+Checkout kirim WA 5 detik → pelanggan tunggu loading 5 detik. Dengan event + `@Async`, simpan pesanan langsung balas "OK", WA kirim background. Tanpa ini, 10 pesanan bareng = antre 50 detik.
+
+---
+
+## Program: Pesan Warung Background
 
 ```java
-// File: OrderEvent.java
-package com.example.demo.event;
+// 1. Event = surat
+public record PesananDibuat(Long id, String nama) {}
 
-public record OrderEvent(Long orderId, String status, String customerEmail) {}
+// 2. Penerbit di service pesanan
+import org.springframework.context.ApplicationEventPublisher;
 
-// File: OrderEventPublisher.java
-/*
-@Component
-public class OrderEventPublisher {
-
-    private final ApplicationEventPublisher eventPublisher;
-
-    public OrderEventPublisher(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
-
-    public void publishOrderCreated(OrderEvent event) {
-        eventPublisher.publishEvent(event);
-    }
-}
-*/
-
-// File: OrderEventListener.java
-/*
-@Component
-public class OrderEventListener {
-
-    @EventListener
-    @Async
-    public void handleOrderCreated(OrderEvent event) {
-        System.out.println("Order created: " + event.orderId());
-        // Kirim email notifikasi
-    }
-
-    @EventListener
-    public void handleOrderCancelled(OrderEvent event) {
-        System.out.println("Order cancelled: " + event.orderId());
-        // Refund payment
-    }
-}
-*/
-
-// File: AsyncConfig.java
-/*
-@Configuration
-@EnableAsync
-public class AsyncConfig {
-
-    @Bean
-    public Executor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(5);
-        executor.setMaxPoolSize(10);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("async-");
-        executor.initialize();
-        return executor;
-    }
-}
-*/
-
-// File: AsyncService.java
-/*
 @Service
-public class NotificationService {
+public class PesananService {
+  private final ApplicationEventPublisher penerbit;
+  public PesananService(ApplicationEventPublisher p) { penerbit = p; }
 
-    @Async
-    public CompletableFuture<String> sendEmail(String to, String subject) {
-        // Simulasi kirim email
-        Thread.sleep(1000);
-        return CompletableFuture.completedFuture("Email sent to " + to);
-    }
-
-    @Async
-    public void sendSMS(String phone, String message) {
-        // Simulasi kirim SMS
-        System.out.println("SMS sent to " + phone);
-    }
+  public Pesanan buat(String nama) {
+    Pesanan s = repo.save(new Pesanan(nama)); // simpan cepat
+    penerbit.publishEvent(new PesananDibuat(s.getId(), nama)); // kirim surat
+    return s; // langsung balas (tidak tunggu WA!)
+  }
 }
-*/
 
-// Dependencies:
-/*
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-amqp</artifactId>
-</dependency>
-*/
+// 3. Pendengar kirim WA di background
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Notifikasi {
+  @Async // jalan background!
+  @EventListener
+  public void kirimWA(PesananDibuat e) throws Exception {
+    Thread.sleep(5000); // simulasi WA 5 detik
+    System.out.println("WA terkirim untuk pesanan " + e.id());
+  }
+}
+
+// 4. Aktifkan async
+// @EnableAsync di main class!
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Spring Events
-Event-driven communication between components.
+### `publishEvent` + `@EventListener` = Surat + Penerima
+Terbitkan surat, yang dengar (`@EventListener`) kerja. Pengirim tidak tunggu.
 
-### @Async
-Methods run in separate threads.
-
-### CompletableFuture
-Represent asynchronous results.
-
-### RabbitMQ
-Message broker for async communication.
-
-### Event-Driven
-Loose coupling between publishers and listeners.
+### `@Async` + `@EnableAsync` = Background
+Tanpa `@Async`, pendengar blokir pengirim 5 detik. Dengan `@Async`, langsung balik.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create custom events and listeners
-- Experiment with @Async and CompletableFuture
-- Try RabbitMQ with @RabbitListener
-- Create event-driven order processing
-- Experiment with transactional events
+### Analogi: Surat & Kurir
+- **Event = surat**: "pesanan 5 jadi".
+- **@EventListener = kurir**: ambil surat, antar WA.
+- **@Async = kurir motor**: tidak ikut antre kasir.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + `@EnableAsync` di main.
+
+### Cara Komputer Membaca
+1. `buat()` → simpan → `publishEvent` → balas HTTP langsung.
+2. Background thread → `kirimWA` → 5 detik → log.
+
+### 3 Istilah Wajib
+1. **Event/Listener**: surat/penerima
+2. **Async**: background
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build an order system with event-driven architecture: OrderCreated event, email notification listener, SMS notification listener.
+- **Hijau:** POST pesanan → balas <1 detik meski WA 5 detik?
+- **Kuning:** Hapus `@Async` → balas 5 detik? (Blokir! Pasang lagi.)
+- **Merah:** Hapus `@EnableAsync` → `@Async` tidak jalan? (Butuh saklar utama!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 14: **Messaging** (Level: Intermediate). Intermediate phase complete! Next week: **Caching** (Advanced).
+**Warung Cepat:** `buat()` + event + `@Async` WA + log waktu balas <1s. **Selesai Menengah Spring!**
+
+---
+
+## Glosarium Mini
+
+- **Event/Listener/Async**: surat/penerima/background
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 10: **Pesan Background** (Level: Menengah). **Selesai Menengah Spring!** Lanjut: **Caching** (Lanjutan).

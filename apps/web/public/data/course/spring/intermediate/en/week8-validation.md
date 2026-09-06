@@ -1,128 +1,98 @@
-# Validation
+# Validation — Satpam Input Warung Spring
 
-> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 8:** Validation
+> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 8:** Validation
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Bean Validation with Jakarta annotations
-- @NotNull, @NotBlank, @Size, @Min, @Max
-- @Valid to trigger validation in controllers
-- MethodArgumentNotValidException handler
-- Custom validation messages
+- `@NotBlank`/`@Min(1)` stempel wajib di entity + `@Valid` di controller picu cek (sumber: beanvalidation.org + docs.spring.io)
+- `BindingResult`/`MethodArgumentNotValidException` tangkap → balas 400 rapi
 
 ---
 
-## Program: Bean Validation
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa validasi, `nama: ""` + `harga: -5` masuk DB → struk minus, laporan rusak. Dengan `@NotBlank`, Spring tolak SEBELUM simpan + pesan "Nama wajib" otomatis.
+
+---
+
+## Program: Satpam Stempel Spring
 
 ```java
-// File: Product.java (dengan validation)
-package com.example.demo.model;
-
+// Produk.java — stempel di entity
 import jakarta.validation.constraints.*;
 
-public class Product {
+public class Produk {
+  @NotBlank(message = "Nama wajib")
+  private String nama;
 
-    private Long id;
-
-    @NotBlank(message = "Nama tidak boleh kosong")
-    @Size(min = 2, max = 100, message = "Nama harus 2-100 karakter")
-    private String name;
-
-    @NotNull(message = "Harga tidak boleh null")
-    @DecimalMin(value = "0.0", message = "Harga harus positif")
-    private Double price;
-
-    @Min(value = 0, message = "Stok tidak boleh negatif")
-    private Integer stock;
-
-    // Constructors, getters, setters
-    public Product() {}
-    public Product(String name, Double price) {
-        this.name = name; this.price = price;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
-    public Integer getStock() { return stock; }
-    public void setStock(Integer stock) { this.stock = stock; }
+  @Min(value = 1, message = "Harga minimal 1")
+  private Integer harga;
+  // getter/setter...
 }
 
-// File: ProductController.java (dengan validation)
-/*
+// Controller — picu dengan @Valid
 @PostMapping
-public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
-    Product created = productService.createProduct(product);
-    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+public Object tambah(@Valid @RequestBody Produk p, BindingResult br) {
+  if (br.hasErrors()) {
+    return Map.of("error", br.getFieldError().getDefaultMessage());
+  }
+  return repo.save(p);
 }
-*/
-
-// File: GlobalExceptionHandler.java (validation handler)
-/*
-@ExceptionHandler(MethodArgumentNotValidException.class)
-public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
-    Map<String, String> errors = new HashMap<>();
-    ex.getBindingResult().getFieldErrors().forEach(error ->
-        errors.put(error.getField(), error.getDefaultMessage()));
-
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-        "timestamp", LocalDateTime.now().toString(),
-        "status", 400,
-        "errors", errors
-    ));
-}
-*/
-
-// Validation Annotations:
-// @NotNull — tidak boleh null
-// @NotBlank — tidak boleh null/kosong/whitespace
-// @Size — panjang string/collection
-// @Min, @Max — batas numerik
-// @Email — format email
-// @Pattern — regex pattern
-// @Valid — trigger validation
 ```
 
----
-
-## Key Concepts
-
-### Bean Validation
-Validate input with Jakarta annotations.
-
-### Annotations
-@NotNull, @NotBlank, @Size, @Min, @Max for different constraints.
-
-### @Valid
-Trigger validation on controller parameters.
-
-### Exception Handler
-Handle validation errors with MethodArgumentNotValidException.
-
-### Custom Messages
-Provide user-friendly error messages.
+Test: `curl -X POST ... -d '{"nama":"","harga":-5}'` → `{"error":"Nama wajib"}` status 400 (bukan 500!).
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Create custom validation annotation
-- Experiment with validation groups
-- Try @Valid on nested objects
-- Create custom validator class
-- Experiment with i18n messages
+### `@NotBlank/@Min/...` = Stempel Wajib
+`@NotBlank` tolak kosong, `@Min(1)` tolak <1, `@Email` cek email.
 
----
-
-## Challenge
-
-Build form validation for User registration: name, email, password, age. Custom validation for password strength.
+### `@Valid` = Picu Cek
+Tanpa `@Valid`, stempel tidak dibaca! `BindingResult` tampung hasil.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 8 of 14: **Validation** (Level: Intermediate). Input sanitization and security. Next week: **Actuator & Monitoring**.
+### Analogi: Satpam Pintu Masuk
+- **Stempel = syarat**: "Nama wajib" cap di barang.
+- **@Valid = satpam baca cap**: tidak lolos → tolak 400.
+
+### Langkah 0 — Siapkan Device
+- `spring-boot-starter-validation` di `pom.xml` (atau centang Validation di start.spring.io).
+
+### Cara Komputer Membaca
+1. `POST` JSON → `Produk` → cek tiap stempel → gagal? Kumpulkan error.
+2. `BindingResult` ada error → balas 400 + pesan.
+
+### 3 Istilah Wajib
+1. **NotBlank/Min**: wajib/minimal
+2. **Valid/BindingResult**: picu/tampung
+
+---
+
+## Eksperimen
+
+- **Hijau:** POST `nama:""` → "Nama wajib"?
+- **Kuning:** Hapus `@Valid` → data jelek lolos? (Itulah kenapa wajib!)
+- **Merah:** `harga: -5` → "Harga minimal 1"?
+
+---
+
+## Tantangan
+
+**Warung Bersatpam:** `nama` + `harga` + `stok` (`@Min(0)`) + `POST` 3 kasus (lolos/kosong/minus) → 400 rapi semua.
+
+---
+
+## Glosarium Mini
+
+- **NotBlank/Min/Valid**: wajib/minimal/picu
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 10: **Satpam Input** (Level: Menengah). Data kotor ditolak. Minggu depan: **Actuator** — dasbor sehat.
