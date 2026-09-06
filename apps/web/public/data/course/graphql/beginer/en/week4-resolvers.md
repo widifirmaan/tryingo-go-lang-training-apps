@@ -1,124 +1,109 @@
-# Resolvers
+# Resolvers — Dapur Server GraphQL
 
-> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 4:** Resolvers
+> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 4:** Resolvers
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Query resolvers
-- Mutation resolvers
-- Field resolvers
-- Resolver args (parent, args, context, info)
-- Error handling in resolvers
+- `resolvers = { Query: { produk: () => [...] }, Mutation: { tambahProduk: (_, { input }) => ... } }` dapur tiap field (sumber: apollographql.com/docs)
+- `parent, args, context` = piring, pesanan, dapur bersama
 
 ---
 
-## Program: Resolver Implementation
+## Kenapa Ini Penting Buat Kamu?
+
+Schema (W1) hanya menu — tanpa resolver, pesan "tambahProduk" tidak ada yang masak (error `Cannot query field`). Resolver = koki tiap menu: `Query.produk` ambil rak, `Mutation.tambahProduk` simpan.
+
+---
+
+## Program: Dapur Warung Resolver
 
 ```javascript
-// Apollo Server Resolvers
-const { ApolloServer, gql } = require('apollo-server');
-
-// Mock database
-const products = [
-  { id: '1', name: 'Laptop ASUS', price: 12500000, stock: 15, categoryId: '1', tags: ['laptop'] },
-  { id: '2', name: 'Mouse Logitech', price: 350000, stock: 50, categoryId: '2', tags: ['mouse'] },
-];
-const categories = [
-  { id: '1', name: 'Elektronik', slug: 'elektronik' },
-  { id: '2', name: 'Aksesoris', slug: 'aksesoris' },
+// db.js — rak (sementara array, nanti DB beneran)
+let produk = [
+  { id: "1", nama: "Beras", harga: 62000 },
+  { id: "2", nama: "Bayam", harga: 5000 },
 ];
 
-// Resolvers
+// resolvers.js — koki tiap field
 const resolvers = {
-  // Query resolvers
   Query: {
-    products: () => products,
-    product: (_, { id }) => products.find(p => p.id === id),
-    searchProducts: (_, { keyword }) =>
-      products.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase())),
-    me: (_, __, context) => context.currentUser,
+    produk: () => produk,                          // baca semua
+    produkById: (_, { id }) => produk.find(p => p.id === id), // args = pesanan
   },
-
-  // Field resolvers
-  Product: {
-    category: (product) => categories.find(c => c.id === product.categoryId),
-    inStock: (product) => product.stock > 0,
-  },
-
-  Category: {
-    products: (category) => products.filter(p => p.categoryId === category.id),
-  },
-
-  // Mutation resolvers
   Mutation: {
-    createProduct: (_, { input }, context) => {
-      // Auth check
-      if (!context.currentUser) throw new Error('Unauthorized');
-      
-      const product = {
-        id: String(products.length + 1),
-        ...input,
-      };
-      products.push(product);
-      return product;
+    tambahProduk: (_, { input }) => {              // input = amplop
+      const baru = { id: String(Date.now()), ...input };
+      produk.push(baru);
+      return baru;
     },
-
-    updateProduct: (_, { id, input }) => {
-      const index = products.findIndex(p => p.id === id);
-      if (index === -1) throw new Error('Product not found');
-      products[index] = { ...products[index], ...input };
-      return products[index];
-    },
-
-    deleteProduct: (_, { id }) => {
-      const index = products.findIndex(p => p.id === id);
-      if (index === -1) return false;
-      products.splice(index, 1);
+    hapusProduk: (_, { id }) => {
+      produk = produk.filter(p => p.id !== id);
       return true;
     },
   },
+  // Field resolver: Produk.kategori ambil dari rak lain
+  Produk: {
+    kategori: (parent) => parent.kategori || "Umum",
+  },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
-server.listen().then(({ url }) => console.log(`Server ready at ${url}`));
+module.exports = { resolvers };
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Resolvers
-Functions that return data for specific fields.
+### `Query` / `Mutation` / `Produk` = Koki Menu/Kasir/Lauk
+- `Query.produk` masak bacaan, `Mutation.tambahProduk` masak tulisan.
+- `Produk.kategori` masak field khusus.
 
-### Signature
-(parent, args, context, info) => data.
-
-### Field Resolvers
-Resolve computed fields (inStock, category).
-
-### Context
-Object shared across all resolvers (auth, db).
-
-### Errors
-Throw errors for failures.
+### `(parent, args, context)` = Piring/Pesanan/Dapur
+- `parent` hasil induk, `args` pesanan (`{ id }`), `context` bersama (user login).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Pagination resolvers
-- File upload resolvers
-- Data loaders
-- Custom directives
+### Analogi: Dapur Restoran
+- **Schema = menu**, **resolver = koki**: tiap menu ada koki.
+- **args = kertas pesanan**: `id: "1"`.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `node -v`, folder `warung-graphql` (server minggu depan).
+
+### Cara Komputer Membaca
+1. `query { produk { nama } }` → panggil `Query.produk()` → array → ambil `nama` tiap item.
+2. `mutation { tambahProduk(input:...) }` → panggil `Mutation.tambahProduk(_, { input })` → push → balas.
+
+### 3 Istilah Wajib
+1. **Resolver**: koki field
+2. **args/context**: pesanan/dapur
+3. **parent**: hasil induk
 
 ---
 
-## Challenge
+## Eksperimen
 
-Complete resolver implementation for e-commerce.
+- **Hijau:** `Query.produk()` langsung di node → array 2?
+- **Kuning:** `tambahProduk` tanpa `input.nama` → `undefined`? Tambah validasi `if (!input.nama) throw new Error("Nama wajib")`.
+- **Merah:** Hapus `Mutation` → `mutation { tambahProduk }` error `Cannot query field`? Pasang lagi.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 4 of 10: **Resolvers** (Beginner).
+**Dapur Lengkap:** `Query.produk` + `produkByKategori(kategori)` (`filter`) + `Mutation.ubahHarga/hapusProduk` + `Produk.total = harga * stok` field resolver. Test 4 via `node` langsung (tanpa server).
+
+---
+
+## Glosarium Mini
+
+- **Resolver/args/context**: koki/pesanan/dapur
+- **parent**: induk
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 5: **Dapur Server** (Level: Pemula). Tiap menu ada koki. Minggu depan: **Apollo Server** — buka restoran.
