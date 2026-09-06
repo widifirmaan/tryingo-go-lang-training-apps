@@ -1,180 +1,118 @@
-# Web API
+# Web API — Warung Online C#
 
 > **Kategori:** C# | **Level:** Lanjutan | **Minggu 11:** Web API
 
 ## Tujuan Pembelajaran
 
-- ASP.NET Core Web API: Controller, Action, Routing
-- HTTP methods: GET, POST, PUT, DELETE
-- Model binding dan validation
-- Middleware pipeline
-- Dependency injection di ASP.NET Core
+- `dotnet new webapi` + `[ApiController]` + `[HttpGet/Post/Delete]` pintu JSON (sumber: Microsoft Learn web-api)
+- `[FromBody]` amplop, `Results.Ok/NotFound` balas (minimal API alternatif)
 
 ---
 
-## Program: REST API
+## Kenapa Ini Penting Buat Kamu?
+
+HP butuh JSON, bukan console. Web API = `console` jadi `http://localhost:5000/produk` — 1 codebase C# melayani HP + web.
+
+---
+
+## Program: API Warung C#
+
+```bash
+dotnet new webapi -n WarungApi
+cd WarungApi
+dotnet run  # https://localhost:7000/swagger !
+```
 
 ```csharp
-using System;
-using System.Collections.Generic;
-using System.Linq;
+// Controllers/ProdukController.cs
+using Microsoft.AspNetCore.Mvc;
 
-// Model
-class Product
-{
-    public int Id { get; set; }
-    public string Name { get; set; } = "";
-    public double Price { get; set; }
-    public int Stock { get; set; }
-}
+[ApiController]
+[Route("api/[controller]")] // → api/produk
+public class ProdukController : ControllerBase {
+  private static List<Produk> daftar = new() {
+    new() { Id = 1, Nama = "Beras", Harga = 62000 }
+  };
 
-// Controller (simulasi)
-class ProductController
-{
-    private static List<Product> _products = new()
-    {
-        new Product { Id = 1, Name = "Laptop", Price = 15000000, Stock = 10 },
-        new Product { Id = 2, Name = "Mouse", Price = 250000, Stock = 50 },
-    };
-    private static int _nextId = 3;
+  [HttpGet]
+  public ActionResult<List<Produk>> Semua() => daftar;
 
-    // GET /api/products
-    public static List<Product> GetAll() => _products;
+  [HttpGet("{id}")]
+  public ActionResult<Produk> Satu(int id) {
+    var p = daftar.FirstOrDefault(x => x.Id == id);
+    return p is null ? NotFound() : p;
+  }
 
-    // GET /api/products/{id}
-    public static Product? GetById(int id) =>
-        _products.FirstOrDefault(p => p.Id == id);
+  [HttpPost]
+  public ActionResult<Produk> Tambah(Produk p) { // [FromBody] otomatis!
+    p.Id = daftar.Count + 1;
+    daftar.Add(p);
+    return CreatedAtAction(nameof(Satu), new { id = p.Id }, p);
+  }
 
-    // POST /api/products
-    public static Product Create(Product product)
-    {
-        product.Id = _nextId++;
-        _products.Add(product);
-        return product;
-    }
-
-    // PUT /api/products/{id}
-    public static Product? Update(int id, Product updated)
-    {
-        var product = GetById(id);
-        if (product == null) return null;
-        product.Name = updated.Name;
-        product.Price = updated.Price;
-        product.Stock = updated.Stock;
-        return product;
-    }
-
-    // DELETE /api/products/{id}
-    public static bool Delete(int id)
-    {
-        var product = GetById(id);
-        if (product == null) return false;
-        _products.Remove(product);
-        return true;
-    }
-}
-
-// Middleware (simulasi)
-class LoggingMiddleware
-{
-    public static void Log(string method, string path)
-    {
-        Console.WriteLine($"  [{DateTime.Now:HH:mm:ss}] {method} {path}");
-    }
-}
-
-class Program
-{
-    static void Main()
-    {
-        Console.WriteLine("=== REST API Simulation ===");
-
-        // GET all
-        LoggingMiddleware.Log("GET", "/api/products");
-        var products = ProductController.GetAll();
-        Console.WriteLine($"GET /api/products -> {products.Count} items");
-        foreach (var p in products)
-            Console.WriteLine($"  {p.Id}: {p.Name} - Rp{p.Price:N0}");
-
-        // GET by id
-        LoggingMiddleware.Log("GET", "/api/products/1");
-        var product = ProductController.GetById(1);
-        Console.WriteLine($"\nGET /api/products/1 -> {product?.Name}");
-
-        // POST
-        LoggingMiddleware.Log("POST", "/api/products");
-        var newProduct = ProductController.Create(new Product
-        {
-            Name = "Keyboard",
-            Price = 500000,
-            Stock = 30
-        });
-        Console.WriteLine($"\nPOST /api/products -> Created: {newProduct.Id}: {newProduct.Name}");
-
-        // PUT
-        LoggingMiddleware.Log("PUT", "/api/products/1");
-        var updated = ProductController.Update(1, new Product
-        {
-            Name = "Laptop Pro",
-            Price = 20000000,
-            Stock = 5
-        });
-        Console.WriteLine($"\nPUT /api/products/1 -> Updated: {updated?.Name}");
-
-        // DELETE
-        LoggingMiddleware.Log("DELETE", "/api/products/2");
-        bool deleted = ProductController.Delete(2);
-        Console.WriteLine($"\nDELETE /api/products/2 -> {deleted}");
-
-        // Final state
-        Console.WriteLine("\n=== Final State ===");
-        foreach (var p in ProductController.GetAll())
-            Console.WriteLine($"  {p.Id}: {p.Name} - Rp{p.Price:N0}");
-
-        Console.WriteLine("\n=== ASP.NET Core Web API ===");
-        Console.WriteLine("dotnet new webapi -n MyApi");
-        Console.WriteLine("dotnet run");
-    }
+  [HttpDelete("{id}")]
+  public IActionResult Hapus(int id) {
+    daftar.RemoveAll(x => x.Id == id);
+    return NoContent();
+  }
 }
 ```
+
+Buka `https://localhost:7000/swagger` → coba langsung dari browser! `curl` juga bisa.
 
 ---
 
 ## Konsep Kunci
 
-### Web API
-ASP.NET Core Web API untuk build REST API.
+### `[ApiController]` + `[Route]` = Pelayan JSON
+Otomatis validasi + JSON (tanpa `View`).
 
-### Controller
-Class dengan method untuk handle HTTP request. Attribute routing.
+### `[HttpGet/Post/Delete]` = Pintu per Aksi
+`[HttpGet("{id}")]` + `(int id)` ambil dari URL.
 
-### HTTP Methods
-GET (read), POST (create), PUT (update), DELETE (delete).
+### Swagger = Menu Coba
+`/swagger` UI coba API tanpa `curl`.
 
-### Middleware
-Pipeline untuk process request/response. Logging, auth, CORS.
+---
 
-### DI
-Dependency injection built-in. Register service di Program.cs.
+## Penjelasan untuk Pemula
+
+### Analogi: Drive-Thru JSON
+- **Controller = 5 jendela**, **Swagger = menu coba**.
+
+### Langkah 0 — Siapkan Device
+- `.NET SDK` + `dotnet new webapi` + `dotnet run` + buka `/swagger`.
+
+### Cara Komputer Membaca
+1. `POST /api/produk` JSON → `[FromBody]` (otomatis!) → `Tambah` → `201 + Location`.
+2. `GET /api/produk/99` → null → `404`.
+
+### 3 Istilah Wajib
+1. **ApiController/Route**: pelayan-JSON/pintu
+2. **Swagger/FromBody**: coba/amplop
 
 ---
 
 ## Eksperimen
 
-- Tambah endpoint dengan query parameter
-- Buat middleware untuk authentication
-- Coba model validation dengan Data Annotations
-- Buat endpoint dengan pagination
-- Eksperimen dengan minimal API
+- **Hijau:** Swagger coba POST → 201 + `Location` header?
+- **Kuning:** GET 99 → 404 JSON?
+- **Merah:** Hapus `[ApiController]` → validasi otomatis hilang? Pasang.
 
 ---
 
 ## Tantangan
 
-Buat REST API lengkap untuk Task Manager: CRUD endpoints, validation, logging middleware, proper HTTP status codes.
+**Warung Online Lengkap:** CRUD 4 pintu + Swagger screenshot + `curl` 5 perintah lulus.
+
+---
+
+## Glosarium Mini
+
+- **ApiController/Swagger**: JSON/coba
 
 ---
 
 ## Ringkasan
 
-Minggu 11 dari 12: **Web API** (Level: Lanjutan). Backend development dengan C#. Minggu depan: **Capstone Project**!
+Minggu 11 dari 12: **Drive-Thru JSON** (Level: Lanjutan). HP bisa belanja. Minggu depan: **Capstone**.
