@@ -1,179 +1,103 @@
-# Flexbox
+# Flexbox — Rak Geser Warung
 
-> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 4:** Flexbox
+> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 4:** Flexbox
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- display: flex — activate flexbox on container
-- flex-direction: row, column, row-reverse, column-reverse
-- justify-content: main axis alignment
-- align-items: cross axis alignment
-- flex-wrap, flex-grow, flex-shrink, flex-basis
+- `display: flex` aktifkan rak geser, `justify-content` atur kiri-tengah-kanan, `align-items` atas-tengah-bawah, `gap` jarak, `flex-wrap` pindah baris (sumber: MDN CSS flexbox)
 
 ---
 
-## Program: Flexbox Layout
+## Kenapa Ini Penting Buat Kamu?
+
+3 kartu produk tanpa flex = turun ke bawah 1 kolom (sempit di laptop lebar). Dengan `display: flex; gap: 12px`, sejajar 3 + jarak rapi. `flex-wrap: wrap` otomatis turun jika HP sempit — 1 aturan untuk semua layar.
+
+---
+
+## Program: Rak 3 Kartu Geser
 
 ```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>CSS Flexbox</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; }
-
-        /* Flex Container */
-        .flex-container {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
-            background: #e3f2fd;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        /* Flex Items */
-        .flex-item {
-            background: #2E5B44;
-            color: white;
-            padding: 20px;
-            border-radius: 6px;
-            text-align: center;
-            flex: 1;
-        }
-
-        /* Direction */
-        .row { flex-direction: row; }
-        .column { flex-direction: column; }
-        .row-reverse { flex-direction: row-reverse; }
-
-        /* Justify (main axis) */
-        .justify-between { justify-content: space-between; }
-        .justify-around { justify-content: space-around; }
-        .justify-center { justify-content: center; }
-
-        /* Align (cross axis) */
-        .align-center {
-            align-items: center;
-            min-height: 120px;
-        }
-
-        /* Wrap */
-        .wrap { flex-wrap: wrap; }
-        .wrap .flex-item { min-width: 100px; }
-
-        /* Navbar example */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #2E5B44;
-            padding: 15px 30px;
-            border-radius: 8px;
-            color: white;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Centering */
-        .center-demo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 150px;
-            background: #f3e5f5;
-            border-radius: 8px;
-        }
-    </style>
-</head>
-<body>
-    <h1>CSS Flexbox</h1>
-
-    <h2>Basic Flex (flex: 1)</h2>
-    <div class="flex-container">
-        <div class="flex-item">1</div>
-        <div class="flex-item">2</div>
-        <div class="flex-item">3</div>
-    </div>
-
-    <h2>Justify Content</h2>
-    <div class="flex-container justify-between align-center">
-        <div class="flex-item" style="flex: none;">Left</div>
-        <div class="flex-item" style="flex: none;">Center</div>
-        <div class="flex-item" style="flex: none;">Right</div>
-    </div>
-
-    <h2>Flex Wrap</h2>
-    <div class="flex-container wrap">
-        <div class="flex-item">Item 1</div>
-        <div class="flex-item">Item 2</div>
-        <div class="flex-item">Item 3</div>
-        <div class="flex-item">Item 4</div>
-        <div class="flex-item">Item 5</div>
-    </div>
-
-    <h2>Navbar Example</h2>
-    <nav class="navbar">
-        <div class="logo">Brand</div>
-        <ul class="nav-links">
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-        </ul>
-    </nav>
-
-    <h2>Perfect Centering</h2>
-    <div class="center-demo">
-        <div class="flex-item" style="flex: none;">Centered!</div>
-    </div>
-</body>
-</html>
+<div class="rak">
+  <div class="kartu"><h3>Beras</h3><p>Rp 62.000</p></div>
+  <div class="kartu"><h3>Bayam</h3><p>Rp 5.000</p></div>
+  <div class="kartu"><h3>Telur</h3><p>Rp 28.000</p></div>
+</div>
 ```
 
----
+```css
+.rak {
+  display: flex;          /* AKTIFKAN rak geser */
+  gap: 12px;              /* jarak antar kartu */
+  flex-wrap: wrap;        /* pindah baris jika sempit */
+  justify-content: center; /* tengah: flex-start | center | space-between */
+  align-items: stretch;   /* tinggi sama */
+}
+.kartu {
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 12px;
+  width: 180px;
+}
+```
 
-## Key Concepts
-
-### Flex Container
-`display: flex` on parent. All children become flex items.
-
-### Direction & Wrap
-`flex-direction: row|column`, `flex-wrap: wrap|nowrap`.
-
-### Justify & Align
-`justify-content` main axis, `align-items` cross axis.
-
-### Flex Items
-`flex: 1` = grow 1, shrink 1, basis 0. `flex: none` = fixed size.
-
-### Gap
-`gap: 15px` — space between items (no margin needed).
-
----
-
-## Experiments
-
-- Create sidebar + content layout with flex
-- Try align-self on single item
-- Experiment order for item sequence
-- Create holy grail layout with flex
-- Try flex-basis vs width
+Kecilkan browser → kartu turun otomatis (`wrap`). Hapus `wrap` → kartu gepeng dipaksa!
 
 ---
 
-## Challenge
+## Konsep Kunci
 
-Create a dashboard layout: header, sidebar, main content, footer — all with flexbox.
+### `display: flex` = Aktifkan Rak
+Anak (`.kartu`) jadi sejajar horizontal (default `row`).
+
+### `justify-content` vs `align-items` = Kiri-Kanan vs Atas-Bawah
+- `justify-content`: sumbu utama (horizontal): `flex-start`, `center`, `space-between`.
+- `align-items`: sumbu silang (vertikal): `stretch`, `center`.
+
+### `gap` + `flex-wrap` = Jarak + Pindah
+`gap: 12px` ganti `margin` manual. `wrap` responsif tanpa `@media`.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 4 of 12: **Flexbox** (Level: Complete CSS3). 1-dimensional layout. Next week: **CSS Grid**.
+### Analogi: Rak Geser Toko
+- **flex = rak**: barang sejajar. **justify = geser kiri/kanan**, **wrap = rak lipat** saat gang sempit.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `index.html` + `style.css`.
+
+### Cara Komputer Membaca
+1. `display: flex` → anak jadi flex items sejajar.
+2. `justify-content: center` → sisa ruang bagi kiri-kanan.
+
+### 3 Istilah Wajib
+1. **Flex container/item**: rak/barang
+2. **Main/cross axis**: horizontal/vertikal
+3. **gap/wrap**: jarak/lipat
+
+---
+
+## Eksperimen
+
+- **Hijau:** `justify-content: space-between` → kartu ke tepi?
+- **Kuning:** Hapus `flex-wrap` + kecilkan browser → gepeng?
+- **Merah:** `flex-direction: column` → turun vertikal? (Rak jadi tower)
+
+---
+
+## Tantangan
+
+**Rak Warung Lengkap:** 6 kartu `flex` + `gap` + `wrap` + `justify-content: center` + 1 `header` `display: flex; justify-content: space-between` (logo kiri, nav kanan).
+
+---
+
+## Glosarium Mini
+
+- **flex/justify/align**: rak/sejajar/rata
+- **gap/wrap**: jarak/lipat
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 12: **Rak Geser** (Level: Lengkap). Sejajar + responsif 1 aturan. Minggu depan: **Grid** — kotak-kotak.

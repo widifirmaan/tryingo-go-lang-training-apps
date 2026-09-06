@@ -1,133 +1,129 @@
-# Selectors & Basic Styling
+# Selector & Basic Styling — Cat Warung Pertama
 
-> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 1:** Selectors & Basic Styling
+> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 1:** Selector & Basic Styling
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Three ways to include CSS: inline, internal (style tag), external (link)
-- Basic selectors: element, class (.), id (#)
-- Combination selectors: descendant, child (>), adjacent (+)
-- Pseudo-classes: :hover, :focus, :first-child, :last-child
-- Attribute selectors: [attr], [attr=value], [attr^=value]
+- 3 cara pasang cat: `style=""` (kuas langsung), `<style>` (kaleng di head), `style.css` + `<link>` (toko cat) (sumber: MDN CSS first steps)
+- Bidik: `p` (semua), `.card` (kelas, titik), `#header` (satu, pagar), `.card p` (di dalam), `:hover` (saat sentuh)
 
 ---
 
-## Program: First Styled Page
+## Kenapa Ini Penting Buat Kamu?
+
+HTML tanpa CSS = warung bata telanjang. CSS = cat + dekor. Tanpa selector, ubah 1 paragraf harus edit 30 tempat. Dengan `.card`, 30 kartu 1 aturan.
+
+---
+
+## Program: Warung Bercat Pertama
+
+`index.html` + `style.css` (2 file, cara profesional):
 
 ```html
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>CSS Selectors</title>
-    <style>
-        /* Element Selector */
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-
-        /* Class Selector */
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 10px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* ID Selector */
-        #header {
-            background: #2E5B44;
-            color: white;
-            padding: 30px;
-            text-align: center;
-            border-radius: 8px;
-        }
-
-        /* Descendant Selector */
-        .card p {
-            color: #555;
-        }
-
-        /* Pseudo-class */
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        /* Multiple Selector */
-        h1, h2, h3 {
-            margin-top: 0;
-        }
-
-        /* Attribute Selector */
-        a[href^="https"] {
-            color: #2E5B44;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Warung Bu Siti</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="header">
-        <h1>Belajar CSS Selectors</h1>
-        <p>Styling halaman web dengan CSS3</p>
-    </div>
+  <div id="header">
+    <h1>Warung Bu Siti</h1>
+    <p>Sayur segar tiap pagi</p>
+  </div>
 
-    <div class="card">
-        <h2>Card Pertama</h2>
-        <p>Ini adalah paragraf di dalam card.</p>
-        <a href="https://developer.mozilla.org">Link ke MDN</a>
-    </div>
+  <div class="card">
+    <h2>Beras 5kg</h2>
+    <p>Rp 62.000 — <a href="https://wa.me/62812">Pesan WA</a></p>
+  </div>
 
-    <div class="card">
-        <h2>Card Kedua</h2>
-        <p>Card ini juga terkena styling yang sama.</p>
-        <a href="#internal">Link internal</a>
-    </div>
+  <div class="card">
+    <h2>Bayam</h2>
+    <p>Rp 5.000 — <a href="/produk">Lihat</a></p>
+  </div>
 </body>
 </html>
 ```
 
----
+```css
+/* style.css — toko cat terpisah */
+body { font-family: sans-serif; background: #FBF9F5; margin: 0; padding: 20px; }
 
-## Key Concepts
+#header { /* pagar = SATU saja */
+  background: #2E5B44; color: white; padding: 24px;
+  text-align: center; border-radius: 12px;
+}
 
-### Including CSS
-Inline: `<p style="color:red">`. Internal: `<style>` in head. External: `<link rel="stylesheet" href="style.css">`.
+.card { /* titik = KELAS, boleh banyak */
+  background: white; border-radius: 12px; padding: 16px; margin: 12px 0;
+}
 
-### Basic Selectors
-Element: `p {}`. Class: `.card {}`. Id: `#header {}`.
+.card p { color: #555; } /* di dalam .card */
+.card:hover { transform: translateY(-2px); } /* saat mouse sentuh */
 
-### Combinations
-Descendant: `.card p {}`. Child: `.card > p {}`. Adjacent: `h2 + p {}`.
-
-### Pseudo-classes
-`:hover` on mouse over, `:focus` on input active, `:first-child` first element.
-
-### Attributes
-`[href^="https"]` — href starting with "https".
-
----
-
-## Experiments
-
-- Create 5 different classes with different styling
-- Try :nth-child(odd) for zebra stripes
-- Experiment [attr*="value"] contains selector
-- Create selector with multiple pseudo-classes
-- Try :not() selector for exclusion
+a[href^="https"] { color: #2E5B44; font-weight: bold; } /* link luar */
+```
 
 ---
 
-## Challenge
+## Konsep Kunci
 
-Create a page with 3 different cards: use element, class, id, descendant, and pseudo-class selectors.
+### 3 Cara Pasang
+- `style=""` kuas langsung (darurat saja).
+- `<style>` kaleng di head (latihan).
+- `<link href="style.css">` toko cat (produksi, bisa dipakai 10 halaman).
+
+### Bidik: Elemen / `.kelas` / `#satu`
+- `p {}` semua paragraf, `.card {}` kelas, `#header {}` satu-satunya.
+
+### `.card p` / `:hover` / `[href^="https"]`
+Di dalam / saat sentuh / atribut diawali.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 1 of 12: **Selectors & Basic Styling** (Level: Complete CSS3). Styling foundation. Next week: **Box Model**.
+### Analogi: Toko Cat & Stensil
+- **CSS = cat**, **selector = stensil**: `.card` stensil kartu, tempel ke 30 kartu.
+- **`#header` = papan nama toko**: cuma 1.
+
+### Langkah 0 — Siapkan Device
+- VS Code + browser. Buat folder `warung-css/` → `index.html` + `style.css` → buka `index.html` (`Ctrl+O`).
+
+### Cara Komputer Membaca
+1. `<link href="style.css">` → unduh/baca toko cat.
+2. `<div class="card">` → cari `.card` → tempel aturan.
+
+### 3 Istilah Wajib
+1. **Selector/deklarasi**: bidik/aturan (`color: red`)
+2. **Class/id**: titik/pagar
+3. **External/internal/inline**: toko/kaleng/kuas
+
+---
+
+## Eksperimen
+
+- **Hijau:** Ganti `.card` background `yellow` → 2 kartu ikut?
+- **Kuning:** `#header` dipakai 2x → tetap jalan tapi salah (id harus 1)! Ganti 1 jadi class.
+- **Merah:** Hapus `<link>` → polos? Pasang lagi.
+
+---
+
+## Tantangan
+
+**Warung Bercat Lengkap:** `index.html` (header + 3 `.card` + link luar/dalam) + `style.css` (body, `#header`, `.card`, `.card:hover`, `a[href^="https"]`). Buka polos vs bercat screenshot.
+
+---
+
+## Glosarium Mini
+
+- **Selector/class/id**: bidik/titik/pagar
+- **link/style**: toko/kaleng
+
+---
+
+## Ringkasan
+
+Minggu 1 dari 12: **Cat Pertama** (Level: Lengkap). Bisa bidik & cat. Minggu depan: **Box Model** — kardus.
