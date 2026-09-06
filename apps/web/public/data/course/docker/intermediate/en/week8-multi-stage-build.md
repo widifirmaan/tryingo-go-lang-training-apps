@@ -1,136 +1,97 @@
-# Multi-Stage Builds
+# Multi-Stage Build — Peti Diet Warung
 
-> **Kategori:** Docker | **Level:** Intermediate | **Minggu 8:** Multi-Stage Builds
+> **Kategori:** Docker | **Level:** Menengah | **Minggu 8:** Multi-Stage Build
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Multi-stage builds: multiple FROM in one Dockerfile
-- Build stage: compile, test, build artifacts
-- Production stage: copy only artifacts, not tools
-- Distroless base images for minimal attack surface
-- Image size comparison: single vs multi-stage
+- `FROM ... AS build` + `COPY --from=build` — masak di dapur besar, saji di piring kecil (sumber: docs.docker.com/build/building/multi-stage)
+- Kecilkan image Go `800MB → 15MB` (buang compiler)
 
 ---
 
-## Program: Optimized Images
+## Kenapa Ini Penting Buat Kamu?
+
+Image Go dengan compiler = 800MB (upload 10 menit, bayar storage). Dengan multi-stage, compiler hanya saat build → hasil 15MB (upload 10 detik). Deploy 10x sehari = hemat jam.
+
+---
+
+## Program: Diet Peti Go Warung
 
 ```dockerfile
-# ─────────────────────────────────────────────────────────
-# MULTI-STAGE BUILD — Optimized Production Image
-# ─────────────────────────────────────────────────────────
-
-# File: Dockerfile (Node.js App)
-# Stage 1: Build
-FROM node:20-alpine AS builder
+# Dockerfile — 2 tahap
+# Tahap 1: DAPUR (besar, ada compiler)
+FROM golang:1.22 AS build
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
-# Stage 2: Production
-FROM node:20-alpine AS production
-WORKDIR /app
-ENV NODE_ENV=production
-
-# Copy hanya yang perlu dari builder
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package.json ./
-RUN npm ci --only=production && npm cache clean --force
-
-# Non-root user
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-
-EXPOSE 3000
-HEALTHCHECK --interval=30s CMD wget --spider http://localhost:3000/health || exit 1
-CMD ["node", "dist/server.js"]
-
-# ─────────────────────────────────────────────────────────
-# File: Dockerfile (Go App)
-# ─────────────────────────────────────────────────────────
-# Stage 1: Build
-FROM golang:1.22-alpine AS builder
-WORKDIR /app
-COPY go.mod go.sum ./
+COPY go.mod ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server .
+RUN CGO_ENABLED=0 go build -o warung .
 
-# Stage 2: Production (distroless)
-FROM gcr.io/distroless/static-debian12 AS production
-COPY --from=builder /app/server /server
+# Tahap 2: PIRING (kecil, hanya hasil!)
+FROM alpine:3.19
+COPY --from=build /app/warung /warung
 EXPOSE 8080
-USER nonroot:nonroot
-ENTRYPOINT ["/server"]
+CMD ["/warung"]
+```
 
-# ─────────────────────────────────────────────────────────
-# File: Dockerfile (Python App)
-# ─────────────────────────────────────────────────────────
-# Stage 1: Build
-FROM python:3.12-slim AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
-
-# Stage 2: Production
-FROM python:3.12-slim AS production
-WORKDIR /app
-COPY --from=builder /root/.local /root/.local
-COPY . .
-ENV PATH=/root/.local/bin:$PATH
-RUN adduser --disabled-password appuser
-USER appuser
-EXPOSE 8000
-CMD ["python", "app.py"]
-
-# ─────────────────────────────────────────────────────────
-# Build & Compare
-# ─────────────────────────────────────────────────────────
-# docker build -t myapp:single -f Dockerfile.single .
-# docker build -t myapp:multi -f Dockerfile .
-# docker images | grep myapp
-# Single stage: ~1GB
-# Multi-stage: ~50MB
+```bash
+docker build -t warung:1.0 .
+docker images warung  # ~15MB! (vs golang:1.22 ~800MB)
+docker run -p 8080:8080 warung:1.0
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Multi-Stage Builds
-Multiple FROM instructions for different build phases.
+### `AS build` + `COPY --from=build` = Dapur + Saji
+Tahap 1 masak (compiler), tahap 2 hanya bawa hasil. Peralatan dapur tidak ikut.
 
-### Build Stage
-Compile and test with full toolchain.
-
-### Production Stage
-Copy only necessary artifacts.
-
-### Distroless
-Minimal images without shells or package managers.
-
-### Benefits
-Smaller images, better security, cached builds.
+### `CGO_ENABLED=0` = Statis
+Binary tanpa butuh libc — jalan di `alpine`/`scratch` kosong.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create multi-stage build for your application
-- Compare single vs multi-stage image sizes
-- Try distroless base images
-- Experiment with named stages
-- Create build with test stage
+### Analogi: Dapur & Piring Saji
+- **Tahap build = dapur**: kompor + panci (besar).
+- **Tahap akhir = piring**: hanya makanan (kecil). Dapur tidak ikut ke meja!
+
+### Langkah 0 — Siapkan Device
+- Docker + proyek Go kecil (`main.go` hello).
+
+### Cara Komputer Membaca
+1. `FROM golang AS build` → compile → `/app/warung`.
+2. `FROM alpine` → salin binary saja → image akhir kecil.
+
+### 3 Istilah Wajib
+1. **Multi-stage/AS**: 2-tahap/dapur
+2. **COPY --from**: bawa-hasil
 
 ---
 
-## Challenge
+## Eksperimen
 
-Create multi-stage build for your application: build stage + production stage. Compare image sizes.
+- **Hijau:** Bandingkan `docker images` 1-stage vs multi → beda MB?
+- **Kuning:** Hapus `CGO_ENABLED=0` + base `scratch` → error `not found`? (Butuh libc!)
+- **Merah:** `COPY . .` sebelum `go mod download` → ubah kode = download ulang (lambat)? Urutkan mod dulu (cache!).
 
 ---
 
-## Summary
+## Tantangan
 
-Week 8 of 12: **Multi-Stage Builds** (Level: Intermediate). Intermediate phase complete! Next week: **Security** (Advanced).
+**Peti Diet Lengkap:** Go/Node warung multi-stage + `docker images` <50MB + `run` lulus. **Selesai Menengah Docker!**
+
+---
+
+## Glosarium Mini
+
+- **Multi-stage/scratch**: diet/kosong
+- **CGO_ENABLED**: statis
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 12: **Peti Diet** (Level: Menengah). 800MB → 15MB. **Selesai Menengah Docker!** Lanjut: **Security** (Lanjutan).
