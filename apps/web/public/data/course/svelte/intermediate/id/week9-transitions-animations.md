@@ -1,68 +1,98 @@
-# Transitions & Animations
+# Transitions & Animations — Warung Halus Svelte (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Menengah | **Minggu 9:** Transitions & Animations
 
 ## Tujuan Pembelajaran
 
-- transition: directive untuk enter/leave
-- in: dan out: untuk separate transitions
-- Built-in transitions: fade, fly, slide, scale
-- each block animations dengan animate:flip
-- Custom transition functions
+- `fade` pudar, `slide` geser, `flip` pindah — `in:slide` masuk, `out:fade` keluar, `animate:flip` geser posisi (sumber: svelte.dev/docs/svelte/svelte-transition)
 
 ---
 
-## Program: UI Animasi
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar produk tambah/hapus langsung hilang → kasar. Dengan `slide` + `fade` + `flip`, tambah geser halus, hapus pudar — warung terasa mahal.
+
+---
+
+## Program: Daftar Halus Svelte (svelte.dev)
 
 ```svelte
-<!-- Svelte Transitions: built-in animation directives -->
 <script>
-  import { fade, fly, slide, scale, flip } from 'svelte/transition';
-  let visible = true;
-  let items = [1, 2, 3];
+  import { slide, fade } from "svelte/transition";
+  import { flip } from "svelte/animate";
+  let daftar = [{ id: 1, nama: "Beras" }];
+  function tambah(){ daftar = [...daftar, { id: Date.now(), nama: "Bayam" }]; }
+  function hapus(id){ daftar = daftar.filter(p => p.id !== id); }
 </script>
-{#if visible}
-  <div transition:fade={{ duration: 300 }}>Fade in/out</div>
-  <div in:fly={{ y: -200 }} out:slide>Fly in, slide out</div>
-{/if}
-{#each items as item (item)}
-  <div transition:scale>{{ item }}</div>
-{/each}
+
+<button on:click={tambah}>Tambah Bayam</button>
+<ul>
+  {#each daftar as item (item.id)}
+    <li in:slide out:fade animate:flip>
+      {item.nama} <button on:click={() => hapus(item.id)}>Hapus</button>
+    </li>
+  {/each}
+</ul>
 ```
+
+**Sumber:** `svelte.dev/docs/svelte/svelte-transition` — `fade(node, {delay, duration})`, `slide(node, {axis})`.
 
 ---
 
 ## Konsep Kunci
 
-### transition:
-transition:name = same for in/out.
+### `in:`/`out:`/`animate:`
+- `in:slide` saat masuk geser, `out:fade` saat keluar pudar, `animate:flip` saat pindah posisi.
 
-### in:/out:
-Separate transitions.
+### `slide` vs `fade`
+`slide` geser `axis: "y"` default, `fade` opacity.
 
-### Built-in
-fade, fly, slide, scale, blur, draw.
+---
 
-### animate:flip
-Flip animation untuk reorder list.
+## Penjelasan untuk Pemula
+
+### Analogi: Warung Halus
+
+- **`slide` = laci geser**: masuk geser, keluar geser.
+- **`fade` = lampu pudar**: masuk terang, keluar pudar.
+- **`flip` = geser posisi**: daftar geser halus saat tambah/hapus.
+
+### Langkah 0 — Device
+
+`npm create svelte@latest` + `npm run dev` di `5173` (sudah W1).
+
+### Cara Komputer Membaca
+
+1. `in:slide` → Svelte animasi `translate` saat `li` masuk.
+2. `out:fade` → animasi `opacity` saat `li` keluar.
+
+### 3 Istilah Wajib
+
+1. **in:/out:/animate:**: masuk/keluar/pindah
+2. **slide/fade/flip**: geser/pudar/geser posisi
 
 ---
 
 ## Eksperimen
 
-- Buat page transition
-- Implementasikan modal animation
-- Buat staggered list animation
-- Integrasikan spring motion
+- **Hijau:** Ganti `in:slide` jadi `in:fade` → masuk pudar?
+- **Kuning:** Hapus `animate:flip` → daftar pindah kasar?
+- **Merah:** `out:slide` tanpa `in:slide` → keluar geser, masuk langsung?
 
 ---
 
 ## Tantangan
 
-Buat animated dashboard: page transitions, list animations, modal animations.
+**Warung Halus Lengkap:** `{#each daftar as item (item.id)}` + `in:slide` + `out:fade` + `animate:flip`, `daftar` tambah/hapus, `npm run dev` screenshot halus.
+
+---
+
+## Glosarium Mini
+
+- **slide/fade/flip**: geser/pudar/pindah
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 10: **Transitions & Animations** (Level: Menengah). Minggu depan: **Capstone Project**!
+Minggu 9 dari 12: **Halus** — `slide`/`fade`/`flip`. Minggu depan: **Performance**.

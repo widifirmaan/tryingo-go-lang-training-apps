@@ -1,161 +1,100 @@
-# TypeScript Design Patterns
+# Design Patterns TS — Pola Warung Rapi (TechPulse 2026)
 
-> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 10:** TypeScript Design Patterns
+> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 10:** Design Patterns TS
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Singleton pattern with private constructor
-- Factory pattern with function overloads
-- Type-safe observer with mapped event types
-- Generic constraints on classes
-- Pattern composition with interfaces
+- `Singleton` 1 kasir, `Factory` pabrik `buatProduk("beras")`, `Observer` langganan `stokHabis` (sumber: TechPulse 2026 + refactoring.guru)
 
 ---
 
-## Program: Patterns with Types
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa pola, `if (tipe==="beras")` 20x duplikat. Dengan `Factory`, 1 pabrik untuk semua. `Observer` untuk "jika stok habis, beri tahu 3 cabang" tanpa `if` manual.
+
+---
+
+## Program: Pola Warung TS (TechPulse)
 
 ```typescript
-// Singleton with TypeScript
-class AppConfig {
-    private static instance: AppConfig | null = null;
-    private config: Map<string, string> = new Map();
-
-    private constructor() {}
-
-    static getInstance(): AppConfig {
-        if (!AppConfig.instance) {
-            AppConfig.instance = new AppConfig();
-        }
-        return AppConfig.instance;
-    }
-
-    set(key: string, value: string): void {
-        this.config.set(key, value);
-    }
-
-    get(key: string): string | undefined {
-        return this.config.get(key);
-    }
+// Singleton — 1 kasir (TechPulse)
+class Kasir {
+  private static instance: Kasir;
+  private constructor(){}
+  static getInstance(): Kasir {
+    if(!Kasir.instance) Kasir.instance = new Kasir();
+    return Kasir.instance;
+  }
 }
+const a = Kasir.getInstance();
+const b = Kasir.getInstance();
+console.log(a === b); // true, sama
 
-// Factory Pattern
-interface Product {
-    name: string;
-    price: number;
+// Factory — pabrik (refactoring.guru)
+function buatProduk(tipe: "beras" | "bayam"){
+  if(tipe === "beras") return { nama: "Beras", harga: 62000 };
+  return { nama: "Bayam", harga: 5000 };
 }
+console.log(buatProduk("beras"));
 
-class Book implements Product {
-    constructor(public name: string, public price: number, public author: string) {}
+// Observer — langganan (TechPulse)
+class Toko {
+  private pelanggan: ((nama:string)=>void)[] = [];
+  langganan(fn: (nama:string)=>void){ this.pelanggan.push(fn); }
+  stokHabis(nama: string){ this.pelanggan.forEach(fn=>fn(nama)); }
 }
-
-class Electronics implements Product {
-    constructor(public name: string, public price: number, public warranty: number) {}
-}
-
-type ProductType = "book" | "electronics";
-
-class ProductFactory {
-    static create(type: "book", name: string, price: number, author: string): Book;
-    static create(type: "electronics", name: string, price: number, warranty: number): Electronics;
-    static create(type: ProductType, name: string, price: number, extra?: string | number): Product {
-        switch (type) {
-            case "book": return new Book(name, price, extra as string);
-            case "electronics": return new Electronics(name, price, extra as number);
-        }
-    }
-}
-
-// Observer Pattern (Type-Safe)
-type Listener<T> = (data: T) => void;
-
-class EventEmitter<T extends Record<string, unknown>> {
-    private listeners: { [K in keyof T]?: Listener<T[K]>[] } = {};
-
-    on<K extends keyof T>(event: K, listener: Listener<T[K]>): () => void {
-        if (!this.listeners[event]) this.listeners[event] = [];
-        this.listeners[event]!.push(listener);
-        return () => this.off(event, listener);
-    }
-
-    off<K extends keyof T>(event: K, listener: Listener<T[K]>): void {
-        this.listeners[event] = this.listeners[event]?.filter(l => l !== listener);
-    }
-
-    emit<K extends keyof T>(event: K, data: T[K]): void {
-        this.listeners[event]?.forEach(l => l(data));
-    }
-}
-
-// Demo
-console.log("=== Singleton ===");
-const config = AppConfig.getInstance();
-config.set("apiUrl", "https://api.example.com");
-console.log("API URL:", config.get("apiUrl"));
-
-console.log("\n=== Factory ===");
-const book = ProductFactory.create("book", "TypeScript Guide", 50000, "John Doe");
-const laptop = ProductFactory.create("electronics", "Laptop", 15000000, 24);
-console.log("Book:", book);
-console.log("Electronics:", laptop);
-
-console.log("\n=== Type-Safe Observer ===");
-interface AppEvents {
-    "user:login": { name: string; id: string };
-    "user:logout": { id: string };
-    "error": { message: string };
-}
-
-const emitter = new EventEmitter<AppEvents>();
-
-emitter.on("user:login", (data) => {
-    console.log("Login:", data.name, "(ID: " + data.id + ")");
-});
-
-emitter.on("error", (data) => {
-    console.log("Error:", data.message);
-});
-
-emitter.emit("user:login", { name: "Budi", id: "u1" });
-emitter.emit("error", { message: "Network timeout" });
+const toko = new Toko();
+toko.langganan(nama=>console.log(`Stok ${nama} habis, restok?`));
+toko.stokHabis("Beras");
 ```
 
----
-
-## Key Concepts
-
-### Singleton
-Private constructor prevents external instantiation. Static getInstance().
-
-### Factory
-Function overloads provide type safety based on parameter type.
-
-### Type-Safe Observer
-`EventEmitter<T extends Record>` — event types defined in generic. emit() only accepts valid events.
-
-### Pattern Composition
-Interface + abstract class + concrete class = flexible patterns.
-
-### Advanced
-Conditional types, template literal types, mapped types for powerful patterns.
+**Sumber:** `techpulsesite.com/typescript-design-patterns-2026` — Singleton/Factory/Observer + `refactoring.guru`.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Create builder pattern with fluent API
-- Try strategy pattern with discriminated union
-- Experiment decorator pattern with TC39 decorators
-- Create state machine with type-safe transitions
-- Try repository pattern with generics
+### `Singleton` = 1 Kasir
+`private constructor` + `static getInstance` — 1 instance.
 
----
+### `Factory` = Pabrik
+`buatProduk(tipe)` → objek, tanpa `new` manual 20x.
 
-## Challenge
-
-Build state management: type-safe store, actions with discriminated union, middleware with generics.
+### `Observer` = Langganan
+`langganan(fn)` + `stokHabis` → panggil semua.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 10 of 12: **TypeScript Design Patterns** (Level: Complete TypeScript). Proven patterns. Next week: **Capstone Project**!
+### Analogi: Warung Rapi
+
+- **Singleton = 1 kasir utama**: tidak ada 2 kasir utama.
+- **Factory = pabrik kardus**: minta "beras" → pabrik buat kardus beras.
+- **Observer = grup WA**: stok habis → broadcast ke 3 cabang.
+
+### Langkah 0 — Device
+
+`npx tsc` cek, `tsc --version` 5.x (sudah W1).
+
+### 3 Istilah Wajib
+
+1. **Singleton/Factory/Observer**: 1/pabrik/langganan
+
+---
+
+## Tantangan
+
+**Warung Pola Lengkap:** `Kasir` Singleton + `buatProduk` Factory 3 tipe + `Toko` Observer 2 pelanggan langganan `stokHabis`.
+
+---
+
+## Glosarium Mini
+
+- **Singleton/Factory/Observer**: pola
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 12: **Pola Rapi** — Singleton, Factory, Observer.
