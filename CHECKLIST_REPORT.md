@@ -260,7 +260,7 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 | 2026-08-25 | `0e19c90` | Rust W1-W3 + MySQL W1-W4 (id+en, 14 file) | Manual perpustakaan `cargo new` `let mut`, ownership `&` pinjam + gudang MySQL `AUTO_INCREMENT` |
 | 2026-08-25 | `c68ac17` | MongoDB W1-W3 + Redis W1-W2 + GraphQL W1-W2 (id+en, 14 file) | Manual kartu fleksibel JSON, laci cepat RAM, menu restoran GraphQL |
 
-**Total non-IT ready (audit 2026-09-06, bertahap): 473/660 Kenapa + 42 Why + Penjelasan = 480+/660 unin ANY** — 12 track 100% (Go, Angular, PHP, MySQL, Docker, C#, CI4, Redis, MongoDB, GraphQL + TS/React/Next sebagian). Lanjut tanpa henti.
+**Total (audit 2026-09-06, diverifikasi grep): 473/654 Kenapa + Why/Penjelasan = 517/654 (79%) ANY friendly — 12 track 100% (Go, Angular, PHP, MySQL, Docker, C#, CI4, Redis, MongoDB, GraphQL, TS, +1). Sisa 137 file. Lanjut tanpa henti.**
 
 | 2026-08-25 | `32055ce` | HTML5 W2-W5 + CSS3 W2-W5 (id+en, 16 file) — BEGINNER | Manual spanduk `strong/mark`, jalan `href`, foto `alt`, daftar `ul/ol`, kardus `box-model`, Grid |
 | 2026-08-25 | `dbb6873` | Svelte W7 + Angular W7 (id+en, 4 file) — INTERMEDIATE | Manual `use:` stempel & `FormGroup` reaktif |
