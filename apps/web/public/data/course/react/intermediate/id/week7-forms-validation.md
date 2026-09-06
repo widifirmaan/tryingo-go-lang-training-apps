@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa validasi, nama kosong masuk → laporan rusak. Dengan `react-hook-form` + `zod`, 3 baris validasi + pesan otomatis.
+
+---
+
 ## Program: Form Registrasi
 
 ```jsx
@@ -112,7 +118,22 @@ Validate saat submit. Clear error saat user mulai mengetik.
 
 Buat form checkout dengan validasi: nama, alamat, telepon, email, metode pembayaran. Tampilkan error real-time.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Satpam Formulir
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- `register('nama', { required: 'Wajib' })` + `errors.nama?.message` tampil.
+
+### 3 Istilah Wajib
+- 1. **register/errors**: daftar/salah
 
 ## Ringkasan
 

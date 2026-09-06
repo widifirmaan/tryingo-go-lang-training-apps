@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa auth, `/admin` dibuka siapa saja → harga diubah iseng. Dengan NextAuth + `auth()` di Server Component, 5 baris lindungi + session siap pakai.
+
+---
+
 ## Program: KTP Warung
 
 ```bash
@@ -34,7 +40,22 @@ export default async function Admin(){
 }
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: KTP Digital Warung
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- `auth()` di Server Component baca session; tanpa session tampilkan login.
+
+### 3 Istilah Wajib
+- 1. **NextAuth/session**: KTP/periksa
 
 ## Ringkasan
 

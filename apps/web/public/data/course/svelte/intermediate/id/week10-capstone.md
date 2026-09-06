@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+9 minggu terpisah — capstone buktikan gabung: SvelteKit + store + deploy jadi toko. Portfolio Svelte.
+
+---
+
 ## Program: Platform Kursus
 
 ```svelte
@@ -57,7 +63,22 @@ vite build -> adapter.
 
 Buat course platform lengkap: auth, course catalog, video player, progress tracking, admin panel.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Svelte
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- CHECKLIST (routes + store + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
 
 ## Ringkasan
 
