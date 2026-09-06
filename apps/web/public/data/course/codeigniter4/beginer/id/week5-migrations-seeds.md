@@ -1,105 +1,125 @@
-# Migrations & Seeds
+# Migrations & Seeds — Cetak Biru dan Isi Awal CI4
 
 > **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 5:** Migrations & Seeds
 
 ## Tujuan Pembelajaran
 
-- Migration: up() untuk create/modify, down() untuk rollback
-- Field types: INT, VARCHAR, TEXT, DATETIME, DATE
-- Forge: addField, addKey, createTable, dropTable
-- Seeds: populate database dengan data awal
-- Foreign keys: addForeignKey dengan cascade
+- `php spark make:migration BuatProduk` + `up()` (`forge->addField/addKey/createTable`) + `down()` (`dropTable`) (sumber: codeigniter.com/user_guide/dbmgmt/migration)
+- `php spark migrate` bangun, `migrate:rollback` batal, `migrate:status` cek
+- `php spark make:seeder` + `db->table()->insertBatch()` isi awal + `php spark db:seed`
 
 ---
 
-## Program: Database Schema
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa migration, tambah kolom = edit DB manual tiap laptop/server (lupa 1 = error). Dengan migration, `migrate` di mana saja hasilnya sama. Seeds isi produk contoh otomatis — tidak input manual 20x tiap install baru.
+
+---
+
+## Program: Cetak Biru + Isi CI4 Beneran
+
+```bash
+php spark make:migration BuatProduk
+php spark make:seeder IsiProduk
+```
 
 ```php
-<?php
-echo "=== CI4 Migrations ===<br><br>";
+// app/Database/Migrations/2026-08-25-BuatProduk.php
+namespace App\Database\Migrations;
+use CodeIgniter\Database\Migration;
 
-echo "=== Create Migration ===<br>";
-echo "php spark make:migration CreateUsersTable<br>";
-echo "php spark migrate<br>";
-echo "php spark migrate:rollback<br>";
-echo "php spark migrate:status<br><br>";
+class BuatProduk extends Migration {
+  public function up() {
+    $this->forge->addField([
+      'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+      'nama' => ['type' => 'VARCHAR', 'constraint' => 100],
+      'harga' => ['type' => 'INT'],
+      'stok' => ['type' => 'INT', 'default' => 0],
+    ]);
+    $this->forge->addKey('id', true);
+    $this->forge->createTable('produk');
+  }
+  public function down() {
+    $this->forge->dropTable('produk');
+  }
+}
+```
 
-echo "=== Migration Class ===<br>";
-echo "class Migration_CreateUsersTable extends Migration {<br>";
-echo "    public function up() {<br>";
-echo "        $this->forge->addField([<br>";
-echo "            'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],<br>";
-echo "            'name' => ['type' => 'VARCHAR', 'constraint' => 255],<br>";
-echo "            'email' => ['type' => 'VARCHAR', 'constraint' => 255, 'unique' => true],<br>";
-echo "            'created_at' => ['type' => 'DATETIME', 'null' => true],<br>";
-echo "        ]);<br>";
-echo "        $this->forge->addKey('id', true);<br>";
-echo "        $this->forge->createTable('users');<br>";
-echo "    }<br>";
-echo "    public function down() {<br>";
-echo "        $this->forge->dropTable('users');<br>";
-echo "    }<br>";
-echo "}<br><br>";
+```php
+// app/Database/Seeds/IsiProduk.php
+namespace App\Database\Seeds;
+use CodeIgniter\Database\Seeder;
 
-echo "=== Field Types ===<br>";
-echo "INT, VARCHAR, TEXT, DATETIME, DATE, FLOAT, BOOLEAN<br>";
-echo "Options: constraint, unsigned, null, default, unique, auto_increment<br><br>";
+class IsiProduk extends Seeder {
+  public function run() {
+    $this->db->table('produk')->insertBatch([
+      ["nama" => "Beras", "harga" => 62000, "stok" => 10],
+      ["nama" => "Bayam", "harga" => 5000, "stok" => 20],
+    ]);
+  }
+}
+```
 
-echo "=== Seeds ===<br>";
-echo "php spark make:seed UserSeeder<br>";
-echo "class UserSeeder extends Seeder {<br>";
-echo "    public function run() {<br>";
-echo "        $data = [<br>";
-echo "            ['name' => 'Budi', 'email' => 'budi@mail.com'],<br>";
-echo "            ['name' => 'Siti', 'email' => 'siti@mail.com'],<br>";
-echo "        ];<br>";
-echo "        $this->db->table('users')->insertBatch($data);<br>";
-echo "    }<br>";
-echo "}<br>";
-echo "php spark db:seed UserSeeder<br><br>";
-
-echo "=== Foreign Keys ===<br>";
-echo "$this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');<br>";
->
+```bash
+php spark migrate
+php spark migrate:status
+php spark db:seed IsiProduk
+php spark migrate:rollback  # batalkan terakhir
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Migration
-Version control untuk database. `up()` apply changes, `down()` rollback.
+### `up()` / `down()` = Bangun/Bongkar
+`up` jalankan `migrate`, `down` jalankan `rollback`.
 
-### Field
-`addField(['id' => ['type' => 'INT', 'auto_increment' => true]])`. Options: constraint, null, default.
+### `forge` = Tukang Bangunan
+`addField`, `addKey('id', true)` PK, `createTable`, `dropTable`.
 
-### Seeds
-Populate data awal. `insertBatch()` untuk multiple rows.
+### Seeder = Pengisi Awal
+`insertBatch([...])` banyak sekaligus. `db:seed Nama`.
 
-### Foreign Key
-`addForeignKey('col', 'ref_table', 'ref_col', 'on_delete', 'on_update')`.
+---
 
-### Commands
-`migrate`, `migrate:rollback`, `migrate:status`, `db:seed`.
+## Penjelasan untuk Pemula
+
+### Analogi: Cetak Biru + Stok Awal
+- **Migration = gambar renovasi**, **seeder = isi rak pertama** (20 produk contoh).
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + DB di `.env` benar + `php spark migrate:status` cek.
+
+### Cara Komputer Membaca
+1. `migrate` → baca file `up()` belum jalan → `createTable`.
+2. `db:seed` → `run()` → `insertBatch`.
+
+### 3 Istilah Wajib
+1. **Migration/up/down**: biru/bangun/bongkar
+2. **Seeder/insertBatch**: pengisi/borong
 
 ---
 
 ## Eksperimen
 
-- Buat migration untuk posts table
-- Tambah dan hapus column dengan migration
-- Buat seeder dengan 10 data
-- Implementasikan foreign key constraint
-- Coba rollback migration
+- **Hijau:** `migrate:status` → semua `up`?
+- **Kuning:** `rollback` → tabel hilang? `migrate` lagi.
+- **Merah:** Jalankan `migrate` 2x → "Nothing to migrate" (tidak ganda)?
 
 ---
 
 ## Tantangan
 
-Buat migration lengkap: users, posts, comments table dengan foreign keys. Buat seeder untuk populasi data dummy.
+**Gudang Lengkap:** Migration `BuatPelanggan` + seeder 3 pelanggan + `migrate` + `seed` + cek di `phpMyAdmin`/SQLite. **Selesai Beginner CI4!**
+
+---
+
+## Glosarium Mini
+
+- **Migration/Seeder/forge**: biru/isi/tukang
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 10: **Migrations & Seeds** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Validation** (Intermediate).
+Minggu 5 dari 5: **Cetak Biru & Isi** (Level: Pemula). **Selesai Beginner CI4!** Lanjut: **Validation** (Menengah).
