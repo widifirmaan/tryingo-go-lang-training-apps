@@ -1,18 +1,18 @@
 # Transitions & Animations
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 9:** Transitions & Animations
+> **Kategori:** Svelte | **Level:** Menengah | **Minggu 9:** Transitions & Animations
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- transition: for enter/leave
-- in: and out: for separate transitions
+- transition: directive untuk enter/leave
+- in: dan out: untuk separate transitions
 - Built-in transitions: fade, fly, slide, scale
-- each block animations with animate:flip
+- each block animations dengan animate:flip
 - Custom transition functions
 
 ---
 
-## Program: Animated UI
+## Program: UI Animasi
 
 ```svelte
 <!-- Svelte Transitions: built-in animation directives -->
@@ -32,37 +32,37 @@
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### transition:
-Same for in/out.
+transition:name = same for in/out.
 
 ### in:/out:
 Separate transitions.
 
 ### Built-in
-fade, fly, slide, scale.
+fade, fly, slide, scale, blur, draw.
 
 ### animate:flip
-Flip for list reorder.
+Flip animation untuk reorder list.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create page transitions
-- Implement modal animation
-- Create staggered list animation
-- Integrate spring motion
-
----
-
-## Challenge
-
-Build an animated dashboard: page transitions, list animations, modal animations.
+- Buat page transition
+- Implementasikan modal animation
+- Buat staggered list animation
+- Integrasikan spring motion
 
 ---
 
-## Summary
+## Tantangan
 
-Week 9 of 10: **Transitions & Animations** (Level: Intermediate). Next week: **Capstone Project**!
+Buat animated dashboard: page transitions, list animations, modal animations.
+
+---
+
+## Ringkasan
+
+Minggu 9 dari 10: **Transitions & Animations** (Level: Menengah). Minggu depan: **Capstone Project**!

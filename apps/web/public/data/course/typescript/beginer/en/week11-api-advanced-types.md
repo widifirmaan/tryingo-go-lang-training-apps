@@ -1,18 +1,18 @@
 # Advanced Type Manipulation
 
-> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 11:** Advanced Type Manipulation
+> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 11:** Advanced Type Manipulation
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Template literal types for string manipulation
+- Template literal types untuk string manipulation
 - Conditional types: T extends U ? X : Y
-- infer keyword for type extraction
-- Key remapping with as clause
-- Branded types for nominal typing
+- infer keyword untuk extract types
+- Key remapping dengan as clause
+- Branded types untuk nominal typing
 
 ---
 
-## Program: Template Literals & Conditional Types
+## Program: Template Literals & Conditional
 
 ```typescript
 // Template Literal Types
@@ -105,44 +105,44 @@ console.log("Recursive: deep type transformations");
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Template Literal Types
-`type T = \`get\${Capitalize<K>}\`` — generate types from strings.
+`type T = \`get\${Capitalize<K>}\`` — generate types dari string.
 
 ### Conditional Types
 `T extends string ? true : false` — type-level if/else.
 
 ### infer
-Extract type from structure: `T extends (infer E)[] ? E : never`.
+Extract type dari structure: `T extends (infer E)[] ? E : never`.
 
 ### Key Remapping
 `{ [K in keyof T as NewKey]: T[K] }` — rename keys.
 
 ### Branded Types
-`type USD = number & { __brand: "USD" }` — nominal typing for primitives.
+`type USD = number & { __brand: "USD" }` — nominal typing untuk primitives.
 
 ### Recursive Types
-Types that reference themselves: `DeepReadonly<T>`.
+Type yang reference dirinya sendiri: `DeepReadonly<T>`.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create type-safe path: type Path<T, K>
-- Try conditional type for flatten array
-- Experiment template literal for CSS properties
-- Create type-safe event map with template literals
-- Try type-level programming: Fibonacci
-
----
-
-## Challenge
-
-Build a type-safe API client: template literals for endpoints, conditional types for responses, branded types for IDs.
+- Buat type-safe path: type Path<T, K>
+- Coba conditional type untuk flatten array
+- Eksperimen template literal untuk CSS properties
+- Buat type-safe event map dengan template literals
+- Coba type-level programming: Fibonacci
 
 ---
 
-## Summary
+## Tantangan
 
-Week 11 of 12: **Advanced Type Manipulation** (Level: Complete TypeScript). Type-level programming. Next week: **Capstone Project**!
+Buat type-safe API client: template literal untuk endpoints, conditional types untuk responses, branded types untuk IDs.
+
+---
+
+## Ringkasan
+
+Minggu 11 dari 12: **Advanced Type Manipulation** (Level: TypeScript Lengkap). Type-level programming. Minggu depan: **Capstone Project**!
