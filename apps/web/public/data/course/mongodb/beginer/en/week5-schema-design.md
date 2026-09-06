@@ -1,116 +1,106 @@
-# Schema Design Patterns
+# Schema Design — Kartu Rapi: Tempel atau Pisah?
 
-> **Kategori:** MongoDB | **Level:** Beginner | **Minggu 5:** Schema Design Patterns
+> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 5:** Schema Design Patterns
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Embedding vs Referencing
-- Embedding pattern 1-to-Few
-- Referencing pattern 1-to-Many
-- $lookup for joins
-- Bucket and outlier patterns
+- **Embed** (tempel di kartu, 1-to-Few: alamat di pelanggan) vs **Reference** (pisah + `_id`, 1-to-Many: pesanan → pelanggan) (sumber: mongodb.com/docs/manual/data-modeling)
+- `$lookup` gabung (JOIN-nya Mongo)
 
 ---
 
-## Program: Schema Design Patterns
+## Kenapa Ini Penting Buat Kamu?
+
+Salah desain: pesanan 10.000 ditempel di kartu pelanggan → kartu raksasa 16MB limit, lambat. Benar: alamat (sedikit) tempel, pesanan (banyak) pisah + `$lookup` saat perlu.
+
+---
+
+## Program: Tempel vs Pisah
 
 ```javascript
-// Pola Schema Design MongoDB
+// 1. EMBED — sedikit & sering dibaca bareng (alamat pelanggan)
+db.pelanggan.insertOne({
+  nama: "Budi",
+  email: "budi@email.com",
+  alamat: [
+    { jalan: "Jl. Melati 12", kota: "Jakarta", utama: true },
+    { jalan: "Jl. Mawar 3", kota: "Bekasi", utama: false }
+  ]
+})
+// Baca 1x dapat semua: db.pelanggan.findOne({ email: "budi@email.com" })
 
-// 1. Embedding (1-to-Few)
-const pelangganEmbedded = {
-    _id: ObjectId('...'),
-    nama: 'Budi Santoso',
-    email: 'budi@email.com',
-    alamat: [
-        { jalan: 'Jl. Sudirman', kota: 'Jakarta', utama: true },
-        { jalan: 'Jl. Thamrin', kota: 'Jakarta', utama: false }
-    ]
-};
+// 2. REFERENCE — banyak & tumbuh terus (pesanan)
+db.pesanan.insertOne({ pelanggan_email: "budi@email.com", total: 75000 })
+db.pesanan.insertOne({ pelanggan_email: "budi@email.com", total: 32000 })
 
-// 2. Referencing (1-to-Many)
-const pesananRef = {
-    _id: ObjectId('...'),
-    pelanggan_id: ObjectId('...'),  // Reference ke pelanggan
-    tanggal: new Date(),
-    items: [
-        { produk_id: ObjectId('...'), nama: 'Laptop', qty: 1, harga: 12500000 },
-        { produk_id: ObjectId('...'), nama: 'Mouse', qty: 2, harga: 350000 }
-    ],
-    total: 13200000
-};
-
-// 3. Lookup (join)
-async function getPesananWithPelanggan() {
-    const pesanan = client.db('toko_db').collection('pesanan');
-    return await pesanan.aggregate([
-        { $lookup: {
-            from: 'pelanggan',
-            localField: 'pelanggan_id',
-            foreignField: '_id',
-            as: 'pelanggan'
-        }},
-        { $unwind: '$pelanggan' },
-        { $project: {
-            'pelanggan.nama': 1,
-            'pelanggan.email': 1,
-            total: 1,
-            tanggal: 1
-        }}
-    ]).toArray();
-}
-
-// 4. Pola Bucket (time-series)
-const sensorReading = {
-    sensor_id: 'temp-01',
-    timestamp: new Date(),
-    value: 25.5
-};
-
-// 5. Pola Outlier (pola subscription)
-const userWithOutlier = {
-    _id: ObjectId('...'),
-    nama: 'Budi',
-    subscription: 'premium'  // Outlier field
-};
+// 3. $lookup — gabung saat perlu (seperti JOIN)
+db.pelanggan.aggregate([
+  { $match: { email: "budi@email.com" } },
+  { $lookup: {
+      from: "pesanan",
+      localField: "email",
+      foreignField: "pelanggan_email",
+      as: "riwayat"
+  }}
+])
+// → { nama: "Budi", ..., riwayat: [{total:75000}, {total:32000}] }
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Embedding
-Store related data in one document. Good for 1-to-Few.
+### Embed = Tempel di Kartu
+Cocok: sedikit (alamat 1-3), dibaca bareng, jarang berubah sendiri.
 
-### Referencing
-Store reference (_id) to another document. Good for 1-to-Many.
+### Reference + `$lookup` = Pisah + Gabung Saat Perlu
+Cocok: banyak (pesanan ribuan), tumbuh terus. `$lookup` = JOIN Mongo.
 
-### $lookup
-Left outer join between collections.
-
-### Bucket Pattern
-Group time-series data by time.
-
-### Outlier Pattern
-Rarely used fields in separate document.
+### Aturan Jempol (MongoDB Docs)
+- 1-to-Few → embed. 1-to-Many → reference. Sering dibaca bareng → embed.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Subdocument vs reference
-- Array of references
-- Computed pattern
-- Schema versioning
+### Analogi: Amplop & Arsip
+- **Embed = tempel kwitansi di amplop pelanggan**: sedikit, buka amplop langsung lihat.
+- **Reference = arsip terpisah + nomor**: 10.000 nota tidak muat di amplop → simpan di lemari, catat nomor.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `mongosh` + `pelanggan` + `pesanan`.
+
+### Cara Komputer Membaca
+1. `findOne` pelanggan → 1 dokumen sudah termasuk `alamat` (tanpa query lagi).
+2. `$lookup` → cocokkan `email` = `pelanggan_email` → tempel array `riwayat`.
+
+### 3 Istilah Wajib
+1. **Embed/reference**: tempel/pisah
+2. **$lookup**: gabung
 
 ---
 
-## Challenge
+## Eksperimen
 
-Design e-commerce schema: customers, orders, products with appropriate patterns.
+- **Hijau:** `findOne` Budi → `alamat.length` 2?
+- **Kuning:** Tanpa `$lookup`, `pesanan` tidak ikut `findOne` pelanggan? (benar, pisah)
+- **Merah:** Tempel 1000 pesanan ke 1 pelanggan → dokumen >16MB error? (Itulah kenapa pisah!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 5 of 10: **Schema Design Patterns** (Beginner).
+**Desain Warung Benar:** `produk` embed `ulasan` (sedikit, max 5) + `pesanan` reference `pelanggan_email` + `$lookup` laporan Budi. Tulis alasan tiap pilihan 1 kalimat. **Selesai Beginner MongoDB!**
+
+---
+
+## Glosarium Mini
+
+- **Embed/reference/$lookup**: tempel/pisah/gabung
+- **16MB**: batas kartu
+
+---
+
+## Ringkasan
+
+Minggu 5 dari 5: **Desain Kartu** (Level: Pemula). **Selesai Beginner MongoDB!** Lanjut: **Aggregation Lanjutan** (Menengah).
