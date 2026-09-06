@@ -1,114 +1,100 @@
-# Aggregation Basics
+# Aggregation Dasar — Pabrik Laporan MongoDB
 
 > **Kategori:** MongoDB | **Level:** Pemula | **Minggu 4:** Aggregation Basics
 
 ## Tujuan Pembelajaran
 
-- $match untuk filter
-- $group untuk agregasi
-- $project untuk bentuk output
-- $unwind untuk expand array
-- $sort dan $limit
+- `aggregate([{ $match }, { $group }])` pipa laporan: saring → kelompok → hitung (sumber: mongodb.com/docs/manual/aggregation)
+- `$match` saring, `$group: { _id: "$kategori", total: { $sum: "$harga" } }` kelompok, `$sort` urut
 
 ---
 
-## Program: Pipeline Agregasi
+## Kenapa Ini Penting Buat Kamu?
+
+Bos tanya "total per kategori?" — tanpa aggregation, ambil semua ke JS lalu loop manual (lambat, boros RAM). Dengan 1 pipa `aggregate`, Mongo hitung di server → kirim hasil jadi 3 baris.
+
+---
+
+## Program: Laporan Warung 1 Pipa
 
 ```javascript
-async function main() {
-    const client = new MongoClient('mongodb://localhost:27017');
-    await client.connect();
-    const produk = client.db('toko_db').collection('produk');
+// Total & rata per kategori
+db.produk.aggregate([
+  { $match: { stok: { $gt: 0 } } },              // 1. saring stok > 0
+  { $group: {                                     // 2. kelompok per kategori
+      _id: "$kategori",
+      total: { $sum: "$harga" },
+      rata: { $avg: "$harga" },
+      jumlah: { $sum: 1 }
+  }},
+  { $sort: { total: -1 } }                        // 3. urut total besar dulu
+])
 
-    // $match: filter
-    const elektronik = await produk.aggregate([
-        { $match: { kategori: 'Elektronik' } }
-    ]).toArray();
-    console.log('Elektronik:', elektronik.length);
+// Contoh hasil:
+// { _id: "Sembako", total: 124000, rata: 62000, jumlah: 2 }
 
-    // $group: kelompokkan dan agregasi
-    const perKategori = await produk.aggregate([
-        { $group: {
-            _id: '$kategori',
-            totalProduk: { $sum: 1 },
-            rataHarga: { $avg: '$harga' },
-            maxHarga: { $max: '$harga' },
-            totalStok: { $sum: '$stok' }
-        }},
-        { $sort: { totalProduk: -1 } }
-    ]).toArray();
-    console.log('Per kategori:', perKategori);
-
-    // $project: bentuk output
-    const ringkas = await produk.aggregate([
-        { $project: {
-            nama: 1,
-            harga: 1,
-            kategori: 1,
-            nilaiStok: { $multiply: ['$harga', '$stok'] },
-            _id: 0
-        }},
-        { $sort: { nilaiStok: -1 } },
-        { $limit: 5 }
-    ]).toArray();
-    console.log('Top 5 nilai stok:', ringkas);
-
-    // $unwind: expand array
-    const tags = await produk.aggregate([
-        { $unwind: '$tags' },
-        { $group: { _id: '$tags', count: { $sum: 1 } } },
-        { $sort: { count: -1 } }
-    ]).toArray();
-    console.log('Tags:', tags);
-
-    // $count
-n    const total = await produk.aggregate([
-        { $match: { harga: { $gt: 500000 } } },
-        { $count: 'produk_mahal' }
-    ]).toArray();
-    console.log('Produk mahal:', total);
-
-    await client.close();
-}
-main().catch(console.error);
+// Tahap tambahan: hanya tampilkan nama+total
+db.produk.aggregate([
+  { $project: { _id: 0, nama: 1, total: { $multiply: ["$harga", "$stok"] } } },
+  { $sort: { total: -1 } },
+  { $limit: 3 }
+])
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Aggregasi Pipeline
-Tahapan transformasi data: $match -> $group -> $project.
+### Pipa `[]` = Ban Berjalan Pabrik
+Dokumen masuk `$match` → keluar → masuk `$group` → keluar → `$sort`. Tiap tahap ubah bentuk.
 
-### $match
-Filter dokumen, seperti WHERE di SQL.
+### `$match` / `$group` / `$sort` / `$project` / `$limit` = Mesin
+Saring / kelompok-hitung / urut / pilih kolom / potong.
 
-### $group
-Kelompokkan dan agregasi: $sum, $avg, $max, $min.
+### `$namaField` = Ambil Nilai
+`"$harga"` = nilai field harga dokumen itu.
 
-### $project
-Bentuk output: pilih field, hitung field baru.
+---
 
-### $unwind
-Expand array menjadi dokumen terpisah.
+## Penjelasan untuk Pemula
+
+### Analogi: Pabrik Laporan
+- **Dokumen = kardus** masuk ban berjalan, tiap mesin (`$match`, `$group`) kerjakan, keluar laporan jadi.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `mongosh` + koleksi `produk` isi 5 (W1-W2).
+
+### Cara Komputer Membaca
+1. `$match: { stok: { $gt: 0 } }` → buang stok 0.
+2. `$group: { _id: "$kategori" }` → kumpulkan per kategori → hitung `$sum`.
+
+### 3 Istilah Wajib
+1. **Pipeline/stage**: pipa/mesin
+2. **$match/$group**: saring/kelompok
 
 ---
 
 ## Eksperimen
 
-- $bucket untuk binning
-- $facet untuk multi-aggregation
-- $addFields
-- Lookup sederhana
+- **Hijau:** Hapus `$match` → total ikut stok 0? Pasang lagi.
+- **Kuning:** `$sort: { total: 1 }` → kecil dulu?
+- **Merah:** `$group: { _id: null, semua: { $sum: 1 } }` → hitung semua 1 baris?
 
 ---
 
 ## Tantangan
 
-Laporan penjualan: agregasi per kategori, top produk, statistik harga.
+**Laporan Warung Lengkap:** Pipa `match stok>0` → `group` per `kategori` (`total $sum`, `rata $avg`, `jumlah $sum:1`) → `sort total DESC` → tambah `$limit: 2` 2 teratas. Screenshot.
+
+---
+
+## Glosarium Mini
+
+- **aggregate/$match/$group**: pabrik/saring/kelompok
+- **$sort/$limit/$project**: urut/potong/pilih
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 10: **Aggregation Basics** (Pemula).
+Minggu 4 dari 5: **Pabrik Laporan** (Level: Pemula). 1 pipa ganti 20 baris JS. Minggu depan: **Schema Design** — kartu rapi.
