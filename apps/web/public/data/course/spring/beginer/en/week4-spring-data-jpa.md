@@ -1,128 +1,128 @@
-# Spring Data JPA
+# Spring Data JPA — Rak Otomatis Tanpa SQL
 
-> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 4:** Spring Data JPA
+> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 4:** Spring Data JPA
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- @Entity and @Table for class-to-table mapping
-- @Id, @GeneratedValue, @Column for field mapping
-- JpaRepository<T, ID> as base interface
-- Derived query methods: findByName, findByPriceGreaterThan
-- @Query for custom JPQL queries
+- `@Entity` + `@Id @GeneratedValue` cetak biru rak (sumber: docs.spring.io/spring-data/jpa)
+- `interface ProdukRepo extends JpaRepository<Produk, Long>` → `findAll()`, `save()`, `findByKategori()` otomatis (tanpa tulis SQL!)
+- `spring.datasource.url` sambung Postgres di `application.properties`
 
 ---
 
-## Program: Database Integration
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa JPA, tulis `INSERT INTO produks ...` + koneksi manual 30 baris per aksi. Dengan `repo.save(p)` 1 baris. `findByKategori("Sayur")` otomatis jadi `SELECT ... WHERE kategori=?` — tanpa SQL!
+
+---
+
+## Program: Rak JPA Warung
+
+```properties
+# application.properties — sambung gudang
+spring.datasource.url=jdbc:postgresql://localhost:5432/warung
+spring.datasource.username=postgres
+spring.datasource.password=rahasia
+spring.jpa.hibernate.ddl-auto=update
+```
 
 ```java
-// File: Product.java (Entity)
-package com.example.demo.model;
-
+// Produk.java — cetak biru
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private Double price;
-
-    private Integer stock;
-
-    // Constructors, getters, setters
-    public Product() {}
-    public Product(String name, Double price) {
-        this.name = name; this.price = price;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
-    public Integer getStock() { return stock; }
-    public void setStock(Integer stock) { this.stock = stock; }
+@Entity // tabel produks otomatis!
+public class Produk {
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String nama;
+  private Integer harga;
+  // getter/setter (atau @Data Lombok)
+  public Long getId() { return id; }
+  public String getNama() { return nama; }
+  public void setNama(String n) { nama = n; }
+  public Integer getHarga() { return harga; }
+  public void setHarga(Integer h) { harga = h; }
 }
+```
 
-// File: ProductRepository.java
-package com.example.demo.repository;
-
-import com.example.demo.model.Product;
+```java
+// ProdukRepo.java — tukang (TANPA ISI! Spring buatkan)
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 import java.util.List;
 
-@Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
-
-    // Derived query methods
-    List<Product> findByName(String name);
-    List<Product> findByPriceGreaterThan(Double price);
-    List<Product> findByNameContaining(String keyword);
-
-    // Custom query
-    @Query("SELECT p FROM Product p WHERE p.price < :maxPrice")
-    List<Product> findCheaperThan(@Param("maxPrice") Double maxPrice);
+public interface ProdukRepo extends JpaRepository<Produk, Long> {
+  List<Produk> findByNamaContaining(String cari); // otomatis LIKE!
+  List<Produk> findByHargaGreaterThan(Integer min);
 }
+```
 
-// File: application.properties
-/*
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.h2.console.enabled=true
-spring.jpa.hibernate.ddl-auto=update
-*/
+```java
+// Controller pakai repo
+private final ProdukRepo repo;
+public ProdukController(ProdukRepo repo) { this.repo = repo; }
+
+@GetMapping
+public List<Produk> semua(@RequestParam(required = false) String cari) {
+  return cari == null ? repo.findAll() : repo.findByNamaContaining(cari);
+}
+@PostMapping
+public Produk tambah(@RequestBody Produk p) { return repo.save(p); }
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### JPA Entity
-Map Java classes to database tables with @Entity.
+### `@Entity` + `@Id` = Cetak Biru Rak
+`@Entity` → tabel, `@Id @GeneratedValue` → nomor otomatis.
 
-### Field Mapping
-@Id for primary key, @GeneratedValue for auto-increment.
+### `JpaRepository` = Tukang Ajaib
+`extends JpaRepository<Produk, Long>` → dapat `findAll/save/findById/delete` + `findBy...` turunan nama method!
 
-### JpaRepository
-Interface providing CRUD operations automatically.
-
-### Derived Queries
-Method names are parsed into SQL queries.
-
-### @Query
-Custom JPQL queries with named parameters.
+### `ddl-auto=update` = Bangun Otomatis (Dev)
+Buat/ubah tabel ikut entity. Produksi pakai `validate` + migration!
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create new entity with @OneToMany relationship
-- Experiment with derived query methods
-- Try @Query with JOIN
-- Create pagination with Pageable
-- Experiment with @ManyToOne relationships
+### Analogi: Rak dengan Tukang Ajaib
+- **Entity = gambar rak**, **JpaRepository = tukang** yang paham perintah `findByNama` tanpa diajari SQL.
+
+### Langkah 0 — Siapkan Device
+- Postgres jalan + DB `warung` + `spring-boot-starter-data-jpa` + `postgresql` di `pom.xml` (via start.spring.io centang JPA + PostgreSQL).
+
+### Cara Komputer Membaca
+1. Start → `ddl-auto=update` → `CREATE TABLE produks` jika belum ada.
+2. `repo.findByNamaContaining("beras")` → `SELECT ... WHERE nama LIKE %beras%`.
+
+### 3 Istilah Wajib
+1. **Entity/Repository**: biru/tukang
+2. **ddl-auto**: bangun otomatis
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a blog system: Entity Post, Comment, User. Relationships @OneToMany, @ManyToOne. Repository with custom queries.
+- **Hijau:** `POST` 2 produk → restart → `GET` masih ada? (awet!)
+- **Kuning:** Tambah field `stok` di entity → restart → kolom muncul?
+- **Merah:** `ddl-auto=create-drop` → restart data hilang? Ganti `update`.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 4 of 14: **Spring Data JPA** (Level: Beginner). Database access without manual SQL. Next week: **REST API Best Practices**.
+**Rak Lengkap:** `Produk` + `Pelanggan` entity + 2 repo + `GET/POST` keduanya + restart cek awet.
+
+---
+
+## Glosarium Mini
+
+- **Entity/Id/Repository**: biru/nomor/tukang
+- **ddl-auto**: bangun
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 5: **Rak Otomatis** (Level: Pemula). Tanpa SQL. Minggu depan: **Best Practices**.

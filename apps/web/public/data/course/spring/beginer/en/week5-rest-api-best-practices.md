@@ -1,138 +1,110 @@
-# REST API Best Practices
+# REST API Best Practices — Warung Rapi & Aman
 
-> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 5:** REST API Best Practices
+> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 5:** REST API Best Practices
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- DTO (Data Transfer Object) for request/response
-- @RestControllerAdvice for global exception handling
-- Custom exception classes with RuntimeException
-- Consistent error response format
-- API versioning: /api/v1/products
+- DTO (`ProdukMasuk`/`ProdukKeluar`) amplop khusus — jangan expose entity langsung (sumber: spring.io/guides)
+- `@RestControllerAdvice` satpam error global + format `{ "error": "..." }` konsisten
+- `/api/v1/produk` versi agar HP lama tidak rusak saat API berubah
 
 ---
 
-## Program: DTO & Exception Handling
+## Kenapa Ini Penting Buat Kamu?
+
+Expose entity langsung → hacker lihat `password` ikut terkirim! Error mentah `500` → HP crash tidak jelas. Tanpa versi, ubah API → aplikasi pelanggan lama rusak semua.
+
+---
+
+## Program: Warung Rapi Spring
 
 ```java
-// File: ProductDTO.java
-package com.example.demo.dto;
+// DTO: amplop masuk & keluar (bukan entity!)
+public record ProdukMasuk(String nama, Integer harga) {}
+public record ProdukKeluar(Long id, String nama, Integer harga) {}
 
-public class ProductDTO {
-    private Long id;
-    private String name;
-    private Double price;
-
-    public ProductDTO() {}
-    public ProductDTO(Long id, String name, Double price) {
-        this.id = id; this.name = name; this.price = price;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
+// Controller pakai DTO
+@PostMapping
+public ProdukKeluar tambah(@Valid @RequestBody ProdukMasuk masuk) {
+  Produk p = new Produk();
+  p.setNama(masuk.nama());
+  p.setHarga(masuk.harga());
+  Produk s = repo.save(p);
+  return new ProdukKeluar(s.getId(), s.getNama(), s.getHarga());
 }
 
-// File: ProductNotFoundException.java
-package com.example.demo.exception;
-
-public class ProductNotFoundException extends RuntimeException {
-    public ProductNotFoundException(Long id) {
-        super("Product not found with id: " + id);
-    }
-}
-
-// File: GlobalExceptionHandler.java
-package com.example.demo.exception;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+// Satpam error global
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
 @RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleNotFound(ProductNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
-            "timestamp", LocalDateTime.now().toString(),
-            "status", 404,
-            "error", "Not Found",
-            "message", ex.getMessage()
-        ));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-            "timestamp", LocalDateTime.now().toString(),
-            "status", 500,
-            "error", "Internal Server Error",
-            "message", ex.getMessage()
-        ));
-    }
+public class Aman {
+  @ExceptionHandler(Exception.class)
+  public Map<String, String> tangani(Exception e) {
+    return Map.of("error", e.getMessage());
+  }
 }
+```
 
-// File: ProductController.java (updated)
-/*
-@GetMapping("/{id}")
-public ProductDTO getProduct(@PathVariable Long id) {
-    return productService.getProductById(id)
-        .orElseThrow(() -> new ProductNotFoundException(id));
-}
-*/
-
-// Best Practices:
-// 1. Gunakan DTO untuk request/response
-// 2. Global exception handling dengan @RestControllerAdvice
-// 3. Proper HTTP status codes
-// 4. Consistent error response format
-// 5. Versioning: /api/v1/products
+```java
+// Versi: /api/v1/produk (tambah di RequestMapping)
+@RequestMapping("/api/v1/produk")
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### DTO
-Separate entities from request/response objects.
+### DTO = Amplop Khusus
+`ProdukMasuk` (tanpa id) ≠ `ProdukKeluar` (dengan id) ≠ `Produk` (entity + password?). Aman + jelas.
 
-### @RestControllerAdvice
-Global exception handler for all controllers.
+### `@RestControllerAdvice` = Satpam Global
+Tangkap semua `Exception` → JSON `{ "error": "..." }` rapi, bukan HTML 500.
 
-### Custom Exceptions
-Domain-specific exceptions extending RuntimeException.
-
-### Error Response
-Consistent JSON error format.
-
-### API Versioning
-Version endpoints for backward compatibility.
+### `/api/v1` = Versi
+Ubah API → buat `/api/v2`, HP lama tetap `/api/v1`.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create separate DTOs for request and response
-- Add exception handler for validation errors
-- Try @ExceptionHandler for multiple exceptions
-- Create custom error response class
-- Experiment with API versioning
+### Analogi: Amplop & Satpam Mal
+- **DTO = amplop coklat khusus**: isi sesuai keperluan, tidak campur.
+- **Advice = satpam pusat**: semua masalah lapor 1 pintu.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + `spring-boot-starter-validation` untuk `@Valid`.
+
+### Cara Komputer Membaca
+1. `POST /api/v1/produk` JSON → `ProdukMasuk` → validasi → simpan → `ProdukKeluar`.
+2. Error → `Aman.tangani` → `{"error": "..."}` status 500.
+
+### 3 Istilah Wajib
+1. **DTO/VO**: amplop
+2. **Advice/Handler**: satpam
+3. **Versioning**: versi
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a REST API with DTOs, exception handling, and versioning. Domain: Task Manager or E-Commerce.
+- **Hijau:** POST tanpa `nama` → `{"error": ...}` rapi (bukan HTML)?
+- **Kuning:** `GET /api/v1/produk` vs `/api/v2` (belum ada) → 404?
+- **Merah:** Return entity langsung berisi field rahasia → terlihat? Ganti DTO.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 5 of 14: **REST API Best Practices** (Level: Beginner). Beginner phase complete! Next week: **Spring Security** (Intermediate).
+**Warung Rapi Lengkap:** DTO masuk/keluar + `Advice` + `/api/v1` + `curl` POST cek JSON rapi. **Selesai Beginner Spring!**
+
+---
+
+## Glosarium Mini
+
+- **DTO/Advice/version**: amplop/satpam/versi
+
+---
+
+## Ringkasan
+
+Minggu 5 dari 5: **Rapi & Aman** (Level: Pemula). **Selesai Beginner Spring!** Lanjut: **Security** (Menengah).
