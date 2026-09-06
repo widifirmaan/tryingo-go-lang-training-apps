@@ -1,104 +1,83 @@
-# Performance & Tuning
+# Performa & Tuning — Dokter Kartu MongoDB
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 8:** Performance & Tuning
+> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 8:** Performa & Tuning
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Explain allPlansExecution
-- Database profiler
-- Server status monitoring
-- Current operations
-- Compact and cache
+- `.explain("executionStats")` baca `COLLSCAN` vs `IXSCAN` + `totalDocsExamined` + `executionTimeMillis` (sumber: mongodb.com/docs/manual/reference/explain)
+- Compound index `{ kategori: 1, harga: -1 }` untuk saring+urut sekaligus
 
 ---
 
-## Program: MongoDB Optimization
+## Kenapa Ini Penting Buat Kamu?
+
+100rb kartu tanpa index = 2 detik. Dengan compound index tepat = 0.01 detik. Index salah urutan (`{harga:-1, kategori:1}` untuk query kategori-dulu) = tidak dipakai (buang RAM!).
+
+---
+
+## Program: Bedah Kartu Lambat
 
 ```javascript
-async function main() {
-    const client = new MongoClient('mongodb://localhost:27017');
-    await client.connect();
-    const db = client.db('toko_db');
-    const produk = db.collection('produk');
+// Lambat: baca semua
+db.produk.find({ kategori: "Sembako" }).sort({ harga: -1 })
+  .explain("executionStats")
+// COLLSCAN, totalDocsExamined: 100000, time: 1800ms
 
-    // Analisis query plan
-    const plan = await produk.find({
-        kategori: 'Elektronik',
-        harga: { $gt: 1000000 }
-    }).explain('allPlansExecution');
+// Obat: compound index (urutan = urutan query!)
+db.produk.createIndex({ kategori: 1, harga: -1 })
 
-    console.log('Stage:', plan.queryPlanner.winningPlan.stage);
-    console.log('Index used:', plan.queryPlanner.winningPlan.inputStage?.indexName);
-    console.log('Docs examined:', plan.executionStats.totalDocsExamined);
-    console.log('Execution time:', plan.executionStats.executionTimeMillis, 'ms');
+db.produk.find({ kategori: "Sembako" }).sort({ harga: -1 })
+  .explain("executionStats")
+// IXSCAN, totalDocsExamined: 12000, time: 12ms → 150x!
 
-    // Profiler
-    db.setProfilingLevel(2);  // Profile semua query
-    db.setProfilingLevel(1, { slowms: 100 });  // Query > 100ms
-
-    const slowQueries = db.system.profile.find(
-        { millis: { $gt: 100 } }
-    ).sort({ millis: -1 }).limit(10).toArray();
-
-    // Server status
-    const serverStatus = await db.admin().serverStatus();
-    console.log('Connections:', serverStatus.connections.current);
-    console.log('Memory resident:', serverStatus.mem.resident, 'MB');
-    console.log('Query executor:', serverStatus.metrics.queryExecutor.scanned);
-
-    // Current operations
-    const ops = await db.admin().command({ currentOp: 1 });
-    const activeOps = ops.inprog.filter(op => op.secs_running > 1);
-    console.log('Long running ops:', activeOps.length);
-
-    // Compact collection
-    await db.command({ compact: 'produk' });
-
-    // Caching strategy
-    // WiredTiger cache: 50% RAM - 1GB
-    // wiredTigerCacheSizeGB: 4
-
-    await client.close();
-}
-main().catch(console.error);
+// Cek index terpakai + hapus yang tak perlu
+db.produk.getIndexes()
+db.produk.dropIndex("kategori_1")
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Explain
-View query plan and compare indexes.
+### `COLLSCAN` vs `IXSCAN` = Baca-Semua vs Loncat
+`totalDocsExamined` ≈ hasil = bagus. 100rb vs 3 hasil = buruk.
 
-### Profiler
-Log slow queries for analysis.
-
-### Server Status
-Monitor connections, memory, operations.
-
-### Current Ops
-View running operations.
-
-### Compact
-Defragment WiredTiger storage.
+### Compound Index Urutan Penting
+Query `kategori` + `sort harga` → index `{ kategori: 1, harga: -1 }` (sama urutan!).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Index intersection
-- Covered queries
-- Projection optimization
-- Batch operations
+### Analogi: Dokter + Obat Tepat
+- **explain = rontgen**, **index = obat**, **urutan salah = obat salah penyakit**.
 
----
-
-## Challenge
-
-Optimize: identify slow queries, add indexes, setup profiler.
+### 3 Istilah Wajib
+1. **COLLSCAN/IXSCAN**: semua/loncat
+2. **Compound**: ganda-berurutan
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 8 of 10: **Performance & Tuning** (Intermediate).
+- **Hijau:** `explain` sebelum/sesudah → `executionTimeMillis` turun?
+- **Kuning:** Index `{harga:-1, kategori:1}` (terbalik) untuk query di atas → dipakai? (Tidak! Urutan penting.)
+- **Merah:** 5 index tak terpakai → `INSERT` melambat? Hapus yang tak perlu.
+
+---
+
+## Tantangan
+
+**Dokter Kartu:** 3 query lambat → `explain` catat → compound index tepat → `explain` buktikan 10x+ cepat.
+
+---
+
+## Glosarium Mini
+
+- **explain/compound**: rontgen/ganda
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 10: **Dokter Kartu** (Level: Menengah). Gratis 150x. Minggu depan: **Change Streams**.

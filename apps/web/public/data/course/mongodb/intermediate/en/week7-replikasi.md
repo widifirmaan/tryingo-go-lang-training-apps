@@ -1,99 +1,83 @@
-# Replica Sets & Sharding
+# Replica Set & Sharding — Cabang Gudang MongoDB
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 7:** Replica Sets & Sharding
+> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 7:** Replica Set & Sharding
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Replica set setup
-- Read preference
-- Write concern
-- Read concern
-- Sharding basics
+- Replica Set (1 primary + 2 secondary, failover otomatis) + `rs.status()` cek (sumber: mongodb.com/docs/manual/replication)
+- Sharding (`shard key`) bagi 1 juta kartu ke 3 gudang
 
 ---
 
-## Program: High Availability
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-// Replica Set Configuration
-// mongod --replSet rs0 --port 27017
+Server Mongo mati → warung tutup. Replica Set: mati 1 → secondary naik <10 detik (otomatis!). 10 juta kartu → sharding bagi ke 3 server (tidak numpuk 1).
 
-// Inisialisasi replica set
-rs.initiate({
-    _id: 'rs0',
-    members: [
-        { _id: 0, host: 'mongo1:27017', priority: 2 },
-        { _id: 1, host: 'mongo2:27017', priority: 1 },
-        { _id: 2, host: 'mongo3:27017', priority: 1 },
-        { _id: 3, host: 'mongo4:27017', arbiterOnly: true }
-    ]
-});
+---
 
-// Cek status replica set
-rs.status();
+## Program: Cabang Mongo (Docker)
 
-// Read preference
-const client = new MongoClient('mongodb://mongo1:27017,mongo2:27017/?replicaSet=rs0', {
-    readPreference: 'secondaryPreferred',
-    readConcern: { level: 'majority' },
-    writeConcern: { w: 'majority', j: true, wtimeout: 5000 }
-});
+```bash
+# 3 node 1 perintah (contoh belajar)
+docker compose up -d  # mongo1, mongo2, mongo3 --replSet rs0
 
-// Write concern
-await db.collection('pesanan').insertOne(
-    { nama: 'Order #1', total: 1000000 },
-    { writeConcern: { w: 'majority', j: true } }
-);
+# Bentuk regu (di salah satu):
+mongosh --eval 'rs.initiate({_id: "rs0", members: [
+  {_id: 0, host: "mongo1:27017"},
+  {_id: 1, host: "mongo2:27017"},
+  {_id: 2, host: "mongo3:27017", arbiterOnly: false}
+]})'
 
-// Read concern
-const data = await db.collection('produk')
-    .find()
-    .readConcern('majority')
-    .readPreference('secondary')
-    .toArray();
-
-// Sharding (mongos router)
-// sh.enableSharding('toko_db')
-// sh.shardCollection('toko_db.produk', { kategori: 1 })
-// sh.addShardTag('shard0000', 'elektronik')
+# Cek + tulis + matikan primary!
+mongosh --eval 'rs.status()' | grep -E 'stateStr|name'
+# Tulis di primary → baca di secondary (readPreference=secondary)
+# docker stop <primary> → secondary naik jadi primary otomatis!
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Replica Set
-Set of MongoDB servers with primary and secondaries.
+### Replica Set = Regu 3 (1 Bos + 2 Wakil)
+Tulis ke primary, baca boleh secondary. Primary mati → voting → wakil naik.
 
-### Read Preference
-Choose node for reads: primary, secondary, nearest.
-
-### Write Concern
-Write acknowledgment: w=1, w=majority.
-
-### Read Concern
-Isolation level: local, majority, linearizable.
-
-### Sharding
-Distribute data across multiple servers.
+### Sharding = Bagi Gudang
+`shard key` (misal `kota`) tentukan kartu ke gudang mana. `mongos` resepsionis arahkan.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Automatic failover
-- Sharding strategy
-- Zone sharding
-- Change streams
+### Analogi: 3 Cabang + Wilayah
+- **Replica = cabang fotokopi**: pusat tulis, cabang salin tiap detik.
+- **Sharding = wilayah**: kartu Jakarta di gudang JKT, Surabaya di SBY.
 
----
-
-## Challenge
-
-Setup replica set: 3 nodes + arbiter + monitoring.
+### 3 Istilah Wajib
+1. **Primary/secondary**: bos/wakil
+2. **Failover/shard**: ganti-otomatis/bagi
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 7 of 10: **Replica Sets & Sharding** (Intermediate).
+- **Hijau:** `rs.status()` → 1 PRIMARY + 2 SECONDARY?
+- **Kuning:** Tulis primary → baca secondary ada (delay detik)?
+- **Merah:** Matikan primary → PRIMARY pindah? Nyalakan lama → jadi secondary?
+
+---
+
+## Tantangan
+
+**Regu 3 Node:** Compose 3 + `initiate` + tulis 5 + matikan primary + buktikan tulis/baca tetap jalan.
+
+---
+
+## Glosarium Mini
+
+- **Replica/shard/mongos**: regu/bagi/resepsionis
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 10: **Regu Otomatis** (Level: Menengah). Mati 1 tetap buka. Minggu depan: **Tuning**.

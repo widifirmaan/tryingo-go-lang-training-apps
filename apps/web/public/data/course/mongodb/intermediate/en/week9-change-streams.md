@@ -1,116 +1,86 @@
-# Change Streams & Transactions
+# Change Streams & Transactions — Mata & Paket Aman MongoDB
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 9:** Change Streams & Transactions
+> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 9:** Change Streams & Transactions
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Change streams for realtime
-- Multi-document ACID
-- withTransaction
-- Read/write concern in transactions
-- Session management
+- `watch()` dengar tiap tulis (untuk live/notif) — butuh replica set! (sumber: mongodb.com/docs/manual/changeStreams)
+- `session.withTransaction()` paket all-or-nothing untuk multi-dokumen
 
 ---
 
-## Program: Realtime & ACID
+## Kenapa Ini Penting Buat Kamu?
+
+Stok kurang + pesanan tambah harus bareng (gagal 1 = batal semua). Tanpa transaction, stok kurang tapi pesanan gagal → selisih! Change streams untuk dasbor live tanpa polling tiap detik.
+
+---
+
+## Program: Dengar & Paket Aman
 
 ```javascript
-async function main() {
-    const client = new MongoClient('mongodb://localhost:27017/?replicaSet=rs0');
-    await client.connect();
-    const db = client.db('toko_db');
-    const produk = db.collection('produk');
-    const pesanan = db.collection('pesanan');
+// 1. Dengar (butuh replica set, W7!)
+const stream = db.produk.watch([{ $match: { operationType: "update" } }]);
+// (di driver Node: stream.on("change", c => console.log(c.fullDocument)))
 
-    // Change Streams: realtime monitoring
-    const changeStream = produk.watch([
-        { $match: { operationType: { $in: ['insert', 'update'] } } }
-    ]);
+// Test: update 1 produk di shell lain → stream terima!
 
-    changeStream.on('change', (change) => {
-        console.log('Operation:', change.operationType);
-        console.log('Document:', change.fullDocument);
-        console.log('Updated fields:', change.updateDescription?.updatedFields);
-    });
-
-    // Multi-document ACID transaction
-    const session = client.startSession();
-    try {
-        await session.withTransaction(async () => {
-            // Buat pesanan
-            await pesanan.insertOne({
-                pelanggan_id: ObjectId('...'),
-                items: [{ produk_id: ObjectId('...'), qty: 1, harga: 12500000 }],
-                total: 12500000,
-                status: 'pending'
-            }, { session });
-
-            // Update stok
-            await produk.updateOne(
-                { _id: ObjectId('...') },
-                { $inc: { stok: -1 } },
-                { session }
-            );
-
-            // Update status
-            await pesanan.updateOne(
-                { pelanggan_id: ObjectId('...') },
-                { $set: { status: 'completed' } },
-                { session }
-            );
-        }, {
-            readConcern: { level: 'snapshot' },
-            writeConcern: { w: 'majority' },
-            readPreference: 'primary'
-        });
-        console.log('Transaction committed');
-    } catch (err) {
-        console.error('Transaction aborted:', err);
-    } finally {
-        await session.endSession();
-    }
-
-    await client.close();
+// 2. Paket aman (transaksi multi-dokumen)
+const session = db.getMongo().startSession();
+session.startTransaction();
+try {
+  db.produk.updateOne({ nama: "Beras" }, { $inc: { stok: -2 } }, { session });
+  db.pesanan.insertOne({ produk: "Beras", qty: 2 }, { session });
+  session.commitTransaction(); // sahkan keduanya
+} catch (e) {
+  session.abortTransaction();  // batalkan keduanya!
 }
-main().catch(console.error);
+session.endSession();
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Change Streams
-Monitor data changes in realtime.
+### `watch()` = Mata Live
+Dengar insert/update/delete real-time. Butuh replica set (oplog).
 
-### ACID Transactions
-Multi-document transactions with sessions.
-
-### withTransaction
-Wrapper for auto commit/rollback.
-
-### Concerns
-Read and write concern in transactions.
-
-### Sessions
-Client sessions for transactions.
+### Transaction = Paket Batal-Bareng
+`startTransaction` → tulis 2 tempat → `commit` (sah) / `abort` (batal semua).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Resume tokens
-- Transaction retry
-- Bulk in transaction
-- Capped collections
+### Analogi: CCTV & Paket Bank
+- **Change stream = CCTV**: ada gerak → bunyi.
+- **Transaction = transfer bank**: debit+kredit 1 paket.
 
----
-
-## Challenge
-
-Order system: transaction + change stream notification.
+### 3 Istilah Wajib
+1. **watch/oplog**: mata/catatan
+2. **commit/abort**: sah/batal
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 9 of 10: **Change Streams & Transactions** (Intermediate).
+- **Hijau:** `watch()` + update manual → terima?
+- **Kuning:** Transaction gagalkan sengaja → 2 tempat batal?
+- **Merah:** `watch` di standalone (tanpa replica) → error? (Butuh W7!)
+
+---
+
+## Tantangan
+
+**Toko Aman Live:** Transaction jual (kurang stok + tambah pesanan) + `watch` log tiap update. Gagalkan 1 → buktikan batal semua.
+
+---
+
+## Glosarium Mini
+
+- **watch/transaction**: mata/paket
+
+---
+
+## Ringkasan
+
+Minggu 9 dari 10: **Mata & Paket Aman** (Level: Menengah). Live + konsisten. Minggu depan: **Capstone**.

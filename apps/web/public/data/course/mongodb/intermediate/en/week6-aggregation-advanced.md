@@ -1,126 +1,99 @@
-# Advanced Aggregation
+# Aggregation Lanjutan — Pabrik 2 Lantai MongoDB
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 6:** Advanced Aggregation
+> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 6:** Aggregation Lanjutan
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- $facet for multi-aggregation
-- $bucket for binning
-- $addFields and $switch
-- $merge to collection
-- $setWindowFields
+- `$lookup` gabung koleksi + `$unwind` buka array + `$facet` 2 laporan sekaligus (sumber: mongodb.com/docs/manual/aggregation)
 
 ---
 
-## Program: Complex Pipelines
+## Kenapa Ini Penting Buat Kamu?
+
+Laporan "total per pelanggan + top produk" tanpa `$facet` = 2 query + gabung di JS. Dengan 1 pipa `$facet`, 1 request 2 laporan. `$lookup` ganti 2 query jadi 1.
+
+---
+
+## Program: Pabrik 2 Lantai Warung
 
 ```javascript
-async function main() {
-    const client = new MongoClient('mongodb://localhost:27017');
-    await client.connect();
-    const penjualan = client.db('toko_db').collection('penjualan');
+// 1. $lookup: gabung pesanan + pelanggan (seperti JOIN)
+db.pesanan.aggregate([
+  { $lookup: {
+      from: "pelanggan",
+      localField: "pelanggan_email",
+      foreignField: "email",
+      as: "orang"
+  }},
+  { $unwind: "$orang" },  // buka array 1-elemen jadi objek
+  { $project: { _id: 0, nama: "$orang.nama", total: 1 } }
+])
 
-    // $facet: multi-aggregation dalam satu query
-    const facetResult = await penjualan.aggregate([
-        { $facet: {
-            perKategori: [
-                { $group: { _id: '$kategori', total: { $sum: '$jumlah' } } },
-                { $sort: { total: -1 } }
-            ],
-            statsHarga: [
-                { $group: { _id: null,
-                    avg: { $avg: '$harga' },
-                    min: { $min: '$harga' },
-                    max: { $max: '$harga' }
-                }}
-            ],
-            topProduk: [
-                { $sort: { jumlah: -1 } },
-                { $limit: 5 }
-            ]
-        }}
-    ]).toArray();
-
-    // $bucket: binning data
-    const buckets = await penjualan.aggregate([
-        { $bucket: {
-            groupBy: '$harga',
-            boundaries: [0, 500000, 1000000, 5000000, 15000000],
-            default: 'Lainnya',
-            output: {
-                count: { $sum: 1 },
-                produk: { $push: '$nama' }
-            }
-        }}
-    ]).toArray();
-
-    // $addFields: tambah field computed
-    const withMargin = await penjualan.aggregate([
-        { $addFields: {
-            hargaSetelahDiskon: { $multiply: ['$harga', 0.9] },
-            kategoriHarga: {
-                $switch: {
-                    branches: [
-                        { case: { $lt: ['$harga', 500000] }, then: 'Murah' },
-                        { case: { $lt: ['$harga', 2000000] }, then: 'Sedang' }
-                    ],
-                    default: 'Mahal'
-                }
-            }
-        }}
-    ]).toArray();
-
-    // $merge: output ke collection lain
-    await penjualan.aggregate([
-        { $group: {
-            _id: '$kategori',
-            totalPenjualan: { $sum: '$jumlah' },
-            revenue: { $sum: { $multiply: ['$jumlah', '$harga'] } }
-        }},
-        { $merge: { into: 'laporan_kategori', whenMatched: 'replace' } }
-    ]);
-
-    await client.close();
-}
-main().catch(console.error);
+// 2. $facet: 2 laporan 1 pipa
+db.produk.aggregate([
+  { $facet: {
+      perKategori: [
+        { $group: { _id: "$kategori", total: { $sum: "$harga" } } }
+      ],
+      termahal: [
+        { $sort: { harga: -1 } },
+        { $limit: 3 },
+        { $project: { _id: 0, nama: 1, harga: 1 } }
+      ]
+  }}
+])
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### $facet
-Multiple aggregation pipelines in one query.
+### `$lookup` + `$unwind` = Gabung + Buka
+`$lookup` tempel array, `$unwind` buka jadi baris (atau objek jika 1).
 
-### $bucket
-Binning data into range categories.
-
-### $addFields
-Add computed fields to documents.
-
-### $merge
-Output aggregation to another collection.
-
-### $setWindowFields
-Window functions: $denseRank, $shift.
+### `$facet` = 2 Pabrik Paralel
+1 input → 2 pipa (`perKategori`, `termahal`) → 1 dokumen 2 hasil.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- $redact for access control
-- $graphLookup for trees
-- $unionWith
-- Custom $function
+### Analogi: Pabrik Bercabang
+- **$lookup = stapler antar kardus**, **$facet = 2 lini produksi** dari 1 ban.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `mongosh` + `produk` + `pesanan` + `pelanggan`.
+
+### Cara Komputer Membaca
+1. `$lookup` → untuk tiap pesanan, cari pelanggan cocok → tempel array.
+2. `$facet` → jalankan 2 sub-pipa atas input sama.
+
+### 3 Istilah Wajib
+1. **$lookup/$unwind**: gabung/buka
+2. **$facet**: cabang-laporan
 
 ---
 
-## Challenge
+## Eksperimen
 
-Analytics dashboard: facet, bucket, merge to reports.
+- **Hijau:** Tanpa `$unwind` → `orang` array 1 elemen? Dengan → objek?
+- **Kuning:** `$facet` 1 cabang kosong → hasil `{}`?
+- **Merah:** `$lookup` field salah (`emial`) → array kosong semua? Betulkan.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 6 of 10: **Advanced Aggregation** (Intermediate).
+**Pabrik Ganda:** `$lookup` pesanan+pelanggan → `$group` total per nama → `$facet` (perNama + top3) 1 pipa.
+
+---
+
+## Glosarium Mini
+
+- **$lookup/$unwind/$facet**: gabung/buka/cabang
+
+---
+
+## Ringkasan
+
+Minggu 6 dari 10: **Pabrik 2 Lantai** (Level: Menengah). 1 pipa 2 laporan. Minggu depan: **Replica Set**.
