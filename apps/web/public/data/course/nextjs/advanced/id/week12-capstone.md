@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: Prisma + Auth + deploy Vercel jadi toko online beneran. Portfolio Next.js.
+
+---
+
 ## Program: Toko Capstone
 
 Fitur wajib:
@@ -27,7 +33,22 @@ prisma/schema.prisma
 
 **Tugas:** Deploy `warung-capstone.vercel.app` + video demo 2 menit (tambah produk → lihat di HP).
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Online
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- CHECKLIST (prisma + auth + deploy) lalu URL publik + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
 
 ## Ringkasan
 

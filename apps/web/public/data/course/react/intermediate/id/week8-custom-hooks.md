@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa custom hook, `useState + useEffect fetch` ditulis di 10 komponen (duplikat!). Dengan `useProduk()` 1x, 10 pakai.
+
+---
+
 ## Program: useFetch & useLocalStorage
 
 ```jsx
@@ -111,7 +117,22 @@ Return { data, loading, error }. Reusable untuk endpoint berbeda.
 
 Buat useForm hook yang handle: values, errors, handleChange, handleSubmit, reset. Gunakan di 2 form berbeda.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Resep Dapur Sendiri
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- `function useProduk() { ... return { data } }` — hook = fungsi pakai hook lain.
+
+### 3 Istilah Wajib
+- 1. **Custom hook/use**: resep/pakai
 
 ## Ringkasan
 

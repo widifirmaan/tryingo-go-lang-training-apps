@@ -1,18 +1,24 @@
 # Capstone: SvelteKit App
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 10:** Capstone: SvelteKit App
+> **Kategori:** Svelte | **Level:** Menengah | **Minggu 10:** Capstone: SvelteKit App
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all Svelte/SvelteKit concepts
+- Menggabungkan semua konsep Svelte/SvelteKit
 - SvelteKit: routing, actions, load functions
-- Database integration with Prisma
-- Auth and protected routes
+- Database integration dengan Prisma
+- Auth dan protected routes
 - Production deployment
 
 ---
 
-## Program: Course Platform
+## Kenapa Ini Penting Buat Kamu?
+
+9 minggu terpisah — capstone buktikan gabung: SvelteKit + store + deploy jadi toko. Portfolio Svelte.
+
+---
+
+## Program: Platform Kursus
 
 ```svelte
 <!-- Capstone: SvelteKit Course Platform -->
@@ -28,37 +34,52 @@ console.log('SvelteKit Course Platform siap digunakan!');
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Architecture
 SvelteKit + Prisma + SQLite.
 
 ### Routing
-File-based routing.
+File-based: routes/folder/+page.svelte.
 
 ### Data Loading
-load() returns data.
++page.js: load() return data.
 
 ### Production
-vite build with adapter.
+vite build -> adapter.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Add payment integration
-- Implement video player
-- Build comprehensive test suite
-- Deploy to production
-
----
-
-## Challenge
-
-Build a complete course platform: auth, course catalog, video player, progress tracking, admin panel.
+- Tambah payment integration
+- Implementasikan video player
+- Buat comprehensive test suite
+- Deploy ke production
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 10: **Capstone: SvelteKit App** (Level: Intermediate). Complete! 🎉
+Buat course platform lengkap: auth, course catalog, video player, progress tracking, admin panel.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Svelte
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- CHECKLIST (routes + store + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+## Ringkasan
+
+Minggu 10 dari 10: **Capstone: SvelteKit App** (Level: Menengah). Selesai! 🎉

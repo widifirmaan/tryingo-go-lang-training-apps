@@ -1,14 +1,20 @@
 # Custom Hooks & Patterns
 
-> **Kategori:** React | **Level:** Intermediate | **Minggu 8:** Custom Hooks & Patterns
+> **Kategori:** React | **Level:** Menengah | **Minggu 8:** Custom Hooks & Patterns
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Create custom hooks with "use" prefix
-- useLocalStorage: persist state to localStorage
+- Membuat custom hook dengan prefix "use"
+- useLocalStorage: persist state ke localStorage
 - useFetch: reusable data fetching logic
 - useToggle: reusable toggle logic
-- When to extract logic to custom hook vs inline
+- Kapan extract logic ke custom hook vs inline
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa custom hook, `useState + useEffect fetch` ditulis di 10 komponen (duplikat!). Dengan `useProduk()` 1x, 10 pakai.
 
 ---
 
@@ -80,39 +86,54 @@ console.log("Custom hooks siap digunakan");
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Custom Hook
-Function with "use" prefix using other hooks.
+Function dengan prefix "use" yang bisa pakai hooks lain.
 
 ### useLocalStorage
-Read initial from localStorage, sync on change.
+Baca initial dari localStorage, sync saat value berubah.
 
 ### useFetch
-Return { data, loading, error }.
+Return { data, loading, error }. Reusable untuk endpoint berbeda.
 
-### When Extract
-- Logic used in 2+ components
-- Too much logic in component
-- Want to test logic separately
-
----
-
-## Experiments
-
-- Create useDebounce hook
-- Create useMediaQuery hook
-- Create usePrevious hook
-- Create useOnlineStatus hook
+### Kapan Extract
+- Logic dipakai 2+ komponen
+- Terlalu banyak logic di component
+- Ingin test logic terpisah
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build useForm hook handling: values, errors, handleChange, handleSubmit, reset. Use in 2 different forms.
+- Buat useDebounce hook
+- Buat useMediaQuery hook
+- Buat usePrevious hook
+- Buat useOnlineStatus hook
 
 ---
 
-## Summary
+## Tantangan
 
-Week 8 of 12: **Custom Hooks & Patterns** (Level: Intermediate). Intermediate phase complete! Next week: **Advanced Patterns**.
+Buat useForm hook yang handle: values, errors, handleChange, handleSubmit, reset. Gunakan di 2 form berbeda.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Resep Dapur Sendiri
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- `function useProduk() { ... return { data } }` — hook = fungsi pakai hook lain.
+
+### 3 Istilah Wajib
+- 1. **Custom hook/use**: resep/pakai
+
+## Ringkasan
+
+Minggu 8 dari 12: **Custom Hooks & Patterns** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Advanced Patterns**.

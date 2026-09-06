@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: `fetch` bertipe + `interface` + `generics` jadi client yang autocomplete + tolak typo SEBELUM run. Ini portfolio "TypeScript production-ready".
+
+---
+
 ## Program: Client Type-Safe
 
 ```typescript
@@ -29,8 +35,30 @@ main();
 
 **Tugas capstone:** Buat `apiClient` generik untuk `Produk` + `Pelanggan` + `Pesanan` dengan `interface` masing-masing, `fetch` + `try/catch`.
 
+
 ---
 
+## Penjelasan untuk Pemula
+
+### Analogi: Penerjemah Type-Safe
+- **`apiGet<Produk>` = penerjemah**: URL mentah → objek bertipe. Salah field → merah sebelum run.
+
+### Langkah 0 — Siapkan Device
+- Sama TS W1: `npx tsc` + `node` (atau `tsx` untuk langsung).
+
+### Cara Komputer Membaca
+1. `apiGet<Produk[]>("/produk")` → fetch → `as T` → `produk[0].nama` autocomplete.
+
+### 3 Istilah Wajib
+1. **Generics/fetch**: serbaguna/ambil
+
+---
+
+## Glosarium Mini
+
+- **apiGet/generics**: ambil-bertipe/serbaguna
+
+---
 ## Ringkasan
 
 Minggu 12: **Capstone TS** — client type-safe, **Selesai TypeScript 0→Ahli!**

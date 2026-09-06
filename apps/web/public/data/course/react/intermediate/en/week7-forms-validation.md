@@ -1,18 +1,24 @@
-# Forms & Validation
+# Forms & Validasi
 
-> **Kategori:** React | **Level:** undefined | **Minggu 7:** Forms & Validation
+> **Kategori:** React | **Level:** Menengah | **Minggu 7:** Forms & Validasi
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Controlled forms: each input has value + onChange
-- Single handler for multiple inputs (name attribute)
-- Real-time validation: errors on submit and while typing
-- Error state management and conditional rendering
+- Controlled form: setiap input punya value + onChange
+- Single handler untuk multiple input (name attribute)
+- Real-time validation: error saat submit dan saat mengetik
+- Error state management dan conditional rendering
 - Form submission: preventDefault, validate, submit
 
 ---
 
-## Program: Registration Form
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa validasi, nama kosong masuk → laporan rusak. Dengan `react-hook-form` + `zod`, 3 baris validasi + pesan otomatis.
+
+---
+
+## Program: Form Registrasi
 
 ```jsx
 // Controlled forms = setiap input dikontrol React state
@@ -81,37 +87,54 @@ console.log("RegisterForm siap digunakan");
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Controlled Forms
-value + onChange = React controls input.
+### Controlled Form
+value + onChange = React kontrol input.
 
 ### Single Handler
-e.name as key for dynamic updates.
+e.name sebagai key: setForm({ ...form, [e.target.name]: e.target.value }).
 
 ### Validation
-Validate on submit, clear on type.
+Validate saat submit. Clear error saat user mulai mengetik.
 
 ### UX Pattern
-Errors below inputs, disable button, success message.
+- Error di bawah input
+- Disable button saat invalid
+- Success message setelah submit
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Add password strength validation
-- Create password confirmation field
-- Add terms & conditions checkbox
-- Implement async validation (check unique email)
-
----
-
-## Challenge
-
-Build a checkout form with validation: name, address, phone, email, payment method. Show real-time errors.
+- Tambah validasi password strength
+- Buat field konfirmasi password
+- Tambah checkbox terms & conditions
+- Implementasikan async validation (cek email unik)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 7 of 12: **Forms & Validation** (Level: Intermediate). User input handling. Next week: **Custom Hooks & Patterns**.
+Buat form checkout dengan validasi: nama, alamat, telepon, email, metode pembayaran. Tampilkan error real-time.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Satpam Formulir
+- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 track ini (lihat minggu 1 untuk install).
+
+### Cara Komputer Membaca
+- `register('nama', { required: 'Wajib' })` + `errors.nama?.message` tampil.
+
+### 3 Istilah Wajib
+- 1. **register/errors**: daftar/salah
+
+## Ringkasan
+
+Minggu 7 dari 12: **Forms & Validasi** (Level: Menengah). User input handling. Minggu depan: **Custom Hooks & Patterns**.
