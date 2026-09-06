@@ -1,73 +1,102 @@
-# Provide/Inject & Teleport
+# Provide/Inject & Teleport — Papan & Portal Warung Vue
 
-> **Kategori:** Vue | **Level:** Intermediate | **Minggu 8:** Provide/Inject & Teleport
+> **Kategori:** Vue | **Level:** Menengah | **Minggu 8:** Provide/Inject & Teleport
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- provide: share data to all descendants
-- inject: receive data from ancestor
-- When to use provide/inject vs props
-- Teleport: render to different DOM tree
-- Slots: default, named, scoped slots
+- `provide("warung", data)` papan di induk + `inject("warung")` baca di anak 10 level (tanpa props!) (sumber: vuejs.org/guide/components/provide-inject)
+- `<Teleport to="body">` portal popup ke `body` (keluar CSS sempit induk)
 
 ---
 
-## Program: Theme & Modal
+## Kenapa Ini Penting Buat Kamu?
+
+Nama warung dipakai 10 komponen dalam → props estafet 10 level (lupa 1 = putus). Dengan `provide/inject`, tulis 1x di puncak, baca di mana saja. Modal di dalam `overflow: hidden` terpotong → `Teleport` pindah ke `body`.
+
+---
+
+## Program: Papan & Portal Warung
 
 ```vue
-// Provide/Inject = share state tanpa prop drilling
-const { createApp, ref, provide, inject } = Vue;
-const App = {
-  setup() {
-    const theme = ref('light');
-    const user = ref({ name: 'Budi', role: 'admin' });
-    provide('theme', theme);
-    provide('user', user);
-    provide('toggleTheme', () => { theme.value = theme.value === 'light' ? 'dark' : 'light'; });
-    return { theme };
-  },
-};
-const ChildComponent = {
-  setup() {
-    const theme = inject('theme');
-    const user = inject('user');
-    const toggleTheme = inject('toggleTheme');
-    return { theme, user, toggleTheme };
-  },
-};
-console.log('Provide/Inject & Teleport siap digunakan');
+<!-- App.vue — pasang papan -->
+<script setup>
+import { ref, provide } from "vue";
+const warung = ref({ nama: "Bu Siti", promo: "Gratis ongkir" });
+provide("warung", warung);
+</script>
+<template><router-view /></template>
+```
+
+```vue
+<!-- Dalam/Dalam/Kartu.vue — 3 level, tanpa props! -->
+<script setup>
+import { inject } from "vue";
+const warung = inject("warung");
+</script>
+<template><p>{{ warung.nama }} — {{ warung.promo }}</p></template>
+```
+
+```vue
+<!-- Modal.vue — portal keluar -->
+<template>
+  <button @click="buka = true">Promo</button>
+  <Teleport to="body">
+    <div v-if="buka" class="popup">Diskon 10%! <button @click="buka = false">Tutup</button></div>
+  </Teleport>
+</template>
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Provide/Inject
-Parent provides, child injects.
+### `provide` / `inject` = Papan / Baca
+`provide("warung", data)` di induk, `inject("warung")` di anak mana saja di bawahnya.
 
-### When to Use
-Props for direct, provide/inject for deep.
-
-### Teleport
-Render to different DOM location.
+### `<Teleport to="body">` = Portal
+Pindahkan render ke `body` (keluar dari CSS induk yang menjepit).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create theme switcher with provide/inject
-- Implement modal with Teleport
-- Create card component with named slots
-- Create scoped slot for data table
+### Analogi: Papan Pengumuman & Pintu Ajaib
+- **provide/inject = papan**: tulis 1x di lobi, baca di lantai 10.
+- **Teleport = pintu Doraemon**: modal muncul di `body` meski kode di dalam kartu.
+
+### Langkah 0 — Siapkan Device
+- Sama Vue W1.
+
+### Cara Komputer Membaca
+1. `provide` simpan di konteks komponen.
+2. `inject` cari ke atas sampai ketemu (tidak ketemu → `undefined`! beri default `inject("x", "def")`).
+
+### 3 Istilah Wajib
+1. **provide/inject**: papan/baca
+2. **Teleport/to**: portal/tujuan
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a UI library: Modal (Teleport), Card (named slots), ThemeProvider (provide/inject).
+- **Hijau:** `inject` di 3 level tanpa props → bisa?
+- **Kuning:** `inject("salah")` → `undefined`? Tambah default.
+- **Merah:** Modal tanpa `Teleport` di dalam `overflow: hidden` → terpotong? Bungkus Teleport.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 8 of 12: **Provide/Inject & Teleport** (Level: Intermediate). Intermediate phase complete! Next week: **Testing Vue**.
+**Warung Papan Lengkap:** `provide` warung + tema + 3 level `inject` + modal `Teleport` + ganti tema dari anak (provide fungsi!).
+
+---
+
+## Glosarium Mini
+
+- **provide/inject/Teleport**: papan/baca/portal
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 12: **Papan & Portal** (Level: Menengah). Tanpa estafet. **Selesai Menengah Vue!** Lanjut: **Testing** (Lanjutan).
