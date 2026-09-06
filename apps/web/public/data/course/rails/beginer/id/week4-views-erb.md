@@ -1,116 +1,114 @@
-# Views & ERB Templates
+# Views ERB — Etalase Nyata Warung Rails
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 4:** Views & ERB Templates
 
 ## Tujuan Pembelajaran
 
-- ERB: <%= %> untuk output, <% %> untuk logic
-- Partials: render reusable template components
-- Layouts: application.html.erb sebagai master template
-- Form helpers: form_with, text_field, submit
-- Path helpers: post_path, posts_path, edit_post_path
+- `<%= %>` tampilkan (aman XSS), `<% %>` logika, `<%# %>` komentar (sumber: guides.rubyonrails.org/layouts_and_rendering)
+- `render 'shared/header'` partial `_header.html.erb`, `layouts/application.html.erb` + `yield` bingkai
+- `link_to`, `form_with`, `posts_path` path helper
 
 ---
 
-## Program: Template Engine
+## Kenapa Ini Penting Buat Kamu?
 
-```ruby
-#!/usr/bin/env ruby
-puts "=== Rails Views (ERB) ==="
-puts ""
-puts "=== ERB Syntax ==="
-posts = [
-  {id: 1, title: "First Post", body: "Hello Rails"},
-  {id: 2, title: "Second Post", body: "MVC is great"},
-  {id: 3, title: "Third Post", body: "ERB templates"},
-]
-puts "=== Loop with each ==="
-puts "<% @posts.each do |post| %>"
-posts.each do |post|
-  puts "  <h2>#{post[:title]}</h2>"
-  puts "  <p>#{post[:body]}</p>"
-end
-puts "<% end %>"
-puts ""
-puts "=== If/Else ==="
-posts.each do |post|
-  status = post[:id] == 1 ? "active" : "inactive"
-  puts "  #{post[:title]}: #{status}"
-end
-puts ""
-puts "=== Link & Path Helpers ==="
-puts "<%= link_to 'Show', post_path(post) %>"
-puts "<%= link_to 'Edit', edit_post_path(post) %>"
-puts "<%= link_to 'Delete', post_path(post), method: :delete %>"
-puts "<%= link_to 'Back', posts_path %>"
-puts ""
-puts "=== Form Helpers ==="
-puts "<%= form_with model: @post do |f| %>"
-puts "  <%= f.label :title %>"
-puts "  <%= f.text_field :title %>"
-puts "  <%= f.label :body %>"
-puts "  <%= f.text_area :body %>"
-puts "  <%= f.submit 'Save' %>"
-puts "<% end %>"
-puts ""
-puts "=== Layout & Partials ==="
-puts "<!-- app/views/layouts/application.html.erb -->"
-puts "<html>"
-puts "  <head><title><%= yield :title %></title></head>"
-puts "  <body>"
-puts "    <%= render 'shared/header' %>"
-puts "    <%= yield %>"
-puts "    <%= render 'shared/footer' %>"
-puts "  </body>"
-puts "</html>"
-puts ""
-puts "=== Render Partial ==="
-puts "<%= render @posts %>"
-puts "=> renders _post.html.erb for each post"
-puts ""
-puts "=== Instance Variables ==="
-puts "Controller: @posts = Post.all"
-puts "View: <% @posts.each do |post| %>"
+Tanpa partial/layout, header ditulis di 10 file — ganti nomor WA ubah 10x. Tanpa `link_to`, URL hardcode `/posts/1` — ganti routes, semua putus. Path helper ikut routes otomatis.
 
+---
+
+## Program: Etalase Warung Nyata
+
+```erb
+<!-- app/views/layouts/application.html.erb — bingkai -->
+<!DOCTYPE html>
+<html lang="id">
+<head><title>Warung</title></head>
+<body>
+  <%= render 'shared/header' %>
+  <%= yield %>
+  <%= render 'shared/footer' %>
+</body>
+</html>
+```
+
+```erb
+<!-- app/views/shared/_header.html.erb — partial (garis bawah _) -->
+<nav><%= link_to "Beranda", root_path %> | <%= link_to "Produk", produks_path %></nav>
+
+<!-- app/views/produks/index.html.erb — isi -->
+<h1>Katalog (<%= @produks.count %> item)</h1>
+<% @produks.each do |p| %>
+  <div>
+    <%= link_to p.nama, produk_path(p) %> - Rp<%= p.harga %>
+    <%= link_to "Ubah", edit_produk_path(p) %>
+  </div>
+<% end %>
+
+<%= form_with model: @produk do |f| %>
+  <%= f.label :nama %> <%= f.text_field :nama %>
+  <%= f.label :harga %> <%= f.number_field :harga %>
+  <%= f.submit "Tambah" %>
+<% end %>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### ERB Tags
-`<%= %>` output, `<% %>` logic only. `<%# %>` comment.
+### `<%= %>` vs `<% %>` vs `<%# %>`
+Tampilkan / logika / komentar.
 
-### Partials
-`<%= render 'shared/header' %>` - render partial file `_header.html.erb`.
+### Partial `_nama.html.erb` + `render`
+`render 'shared/header'` cari `_header.html.erb` — tanpa garis bawah di `render`.
 
-### Layout
-`application.html.erb` - master template. `yield` untuk content.
+### Layout + `yield` = Bingkai
+`application.html.erb` otomatis bungkus semua (kecuali `layout false`).
 
-### Form Helpers
-`form_with model: @post` - auto-detect create/edit. `f.text_field`, `f.submit`.
+### Path Helper = URL Otomatis
+`produks_path` → `/produks`, `produk_path(p)` → `/produks/1` — ikut `routes.rb`.
 
-### Path Helpers
-`posts_path` -> /posts, `post_path(post)` -> /posts/1, `edit_post_path(post)` -> /posts/1/edit.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Etalase Modular
+- **Layout = bingkai toko**, **partial = papan header** dipakai 10 halaman, **yield = lubang** untuk isi.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `rails server` di `3000`, routes `resources :produks` ada.
+
+### Cara Komputer Membaca
+1. `render 'shared/header'` → cari `_header.html.erb` → tempel.
+2. `link_to "Ubah", edit_produk_path(p)` → tanya routes → `/produks/1/edit`.
+
+### 3 Istilah Wajib
+1. **ERB/partial/layout**: template/potongan/bingkai
+2. **link_to/path helper**: link/URL otomatis
+3. **form_with**: form terhubung
 
 ---
 
 ## Eksperimen
 
-- Buat view dengan loop each dan conditional
-- Buat partial untuk post card
-- Implementasikan form_with untuk create/edit
-- Buat custom layout untuk admin
-- Coba content_for untuk custom section
+- **Hijau:** `<%= 2 + 3 %>` → 5? `<%# komentar %>` → hilang?
+- **Kuning:** Ganti `produk_path(p)` jadi `/produks/#{p.id}` manual → jalan tapi rapuh?
+- **Merah:** `render 'shared/header'` tanpa file `_header` → error `Missing partial`? Buat file.
 
 ---
 
 ## Tantangan
 
-Buat view lengkap untuk blog: layout, partial header/footer, list posts dengan each, form create post.
+**Warung Etalase Lengkap:** `application.html.erb` + `_header` (nav `link_to`) + `index` (`each` + `link_to` show/edit + `form_with`) + `_produk.html.erb` partial per item (`render @produks`). **Selesai Beginner Rails!**
+
+---
+
+## Glosarium Mini
+
+- **ERB/partial/yield**: template/potongan/lubang
+- **link_to/path**: link/URL
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 12: **Views & ERB Templates** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Authentication** (Intermediate).
+Minggu 4 dari 4: **Etalase Nyata** (Level: Pemula). **Selesai Beginner Rails!** Lanjut: **Authentication** (Menengah).
