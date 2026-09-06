@@ -1,143 +1,99 @@
-# Docker Compose
+# Docker Compose — Rakit Warung Sekali Jalan
 
-> **Kategori:** Docker | **Level:** Intermediate | **Minggu 7:** Docker Compose
+> **Kategori:** Docker | **Level:** Menengah | **Minggu 7:** Docker Compose
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- docker-compose.yml: services, volumes, networks
-- depends_on with health check conditions
-- Environment variables and build contexts
-- Compose commands: up, down, logs, exec, scale
-- Profiles for different environments
+- `docker-compose.yml` (`services`, `ports`, `environment`, `volumes`, `depends_on`) + `docker compose up -d` / `logs` / `down` (sumber: docs.docker.com/compose)
 
 ---
 
-## Program: Multi-Container Apps
+## Kenapa Ini Penting Buat Kamu?
 
-```bash
-# ─────────────────────────────────────────────────────────
-# DOCKER COMPOSE — Multi-Container Orchestration
-# ─────────────────────────────────────────────────────────
+Web + DB + cache = 3 perintah `docker run` panjang tiap pagi (lupa 1 flag = rusak). Dengan 1 file `compose.yml`, `up` 1x jalan semua — tim dapat file sama, hasil sama.
 
-# File: docker-compose.yml
-cat << 'EOF' > docker-compose.yml
-version: "3.8"
+---
 
+## Program: Rakit Warung 3 Peti
+
+```yaml
+# docker-compose.yml — 1 file untuk semua
 services:
   web:
-    build: ./web
-    ports:
-      - "80:80"
-    depends_on:
-      - api
-    networks:
-      - frontend
-
-  api:
-    build: ./api
-    ports:
-      - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://user:pass@db:5432/mydb
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      db:
-        condition: service_healthy
-      redis:
-        condition: service_started
-    networks:
-      - frontend
-      - backend
-
+    build: .
+    ports: ["8080:80"]
+    depends_on: [db]
   db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - backend
-
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis-data:/data
-    networks:
-      - backend
-
+    image: postgres:15
+    environment: { POSTGRES_PASSWORD: rahasia }
+    volumes: [warung-data:/var/lib/postgresql/data]
+  cache:
+    image: redis:7
 volumes:
-  pgdata:
-  redis-data:
+  warung-data:
+```
 
-networks:
-  frontend:
-  backend:
-EOF
-
-# Compose Commands
-docker-compose up -d              # Start semua services
-docker-compose up -d --build      # Build dan start
-docker-compose down               # Stop dan remove
-docker-compose down -v            # Stop + remove volumes
-docker-compose logs -f            # Follow logs
-docker-compose logs -f api        # Logs satu service
-docker-compose ps                 # List services
-docker-compose exec api bash      # Exec di service
-docker-compose restart api        # Restart service
-docker-compose scale api=3        # Scale service (v2)
-docker-compose up -d --scale api=3 # Scale (v3)
-
-# Compose profiles
-# docker-compose --profile debug up
+```bash
+docker compose up -d        # rakit + jalan semua
+docker compose ps           # 3 peti UP?
+docker compose logs db      # intip log 1 peti
+docker compose down         # matikan (+ hapus peti, volume tetap!)
+docker compose down -v      # + hapus volume (hati-hati!)
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Docker Compose
-Define and run multi-container applications.
+### `services` / `volumes` = Daftar Peti/Lemari
+Tiap service 1 peti. `volumes:` bawah = lemari bernama.
 
-### Services
-Each service maps to one container.
+### `depends_on` = Urutan
+`web` tunggu `db` start dulu (start saja, bukan siap! Untuk siap pakai `healthcheck`).
 
-### depends_on
-Wait for dependencies to be healthy.
-
-### Volumes & Networks
-Shared across services.
-
-### Commands
-Start, stop, view logs, execute commands.
-
-### Scaling
-Run multiple instances of a service.
+### `up` / `down` / `logs` = Nyalakan/Matikan/Intip
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create compose file with 3+ services
-- Experiment with depends_on conditions
-- Try scaling services
-- Create compose with profiles
-- Experiment with env_file
+### Analogi: Denah Rakit Warung
+- **compose.yml = denah**: "web di sini, db di sana, 1 lemari".
+- **up = bangun serentak** sesuai denah.
+
+### Langkah 0 — Siapkan Device
+- Docker Desktop (compose sudah termasuk) + file `docker-compose.yml`.
+
+### Cara Komputer Membaca
+1. `up` → baca YAML → buat network + volume + 3 peti berurutan.
+
+### 3 Istilah Wajib
+1. **Compose/services**: rakit/daftar-peti
+2. **depends_on/volumes**: urutan/lemari
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build full-stack app with compose: frontend, backend, database, cache. Health checks, volumes, networks.
+- **Hijau:** `up` → `ps` 3 UP? `down` → hilang?
+- **Kuning:** `down` lalu `up` → data DB tetap? (Volume!)
+- **Merah:** `down -v` → data hilang? (Hati-hati di produksi!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 7 of 12: **Docker Compose** (Level: Intermediate). Simple orchestration. Next week: **Multi-Stage Builds**.
+**Warung Rakit Lengkap:** `web` (nginx + bind `index.html`) + `db` (postgres + volume) + `up` → buka `:8080` + `exec` cek DB + `down` (tanpa `-v`).
+
+---
+
+## Glosarium Mini
+
+- **Compose/up/down**: rakit/nyala/mati
+- **depends_on**: urutan
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 12: **Rakit Sekali Jalan** (Level: Menengah). 1 file semua. Minggu depan: **Multi-Stage** — peti diet.

@@ -1,121 +1,99 @@
-# Networking
+# Networking — Telepon Antar Peti Docker
 
 > **Kategori:** Docker | **Level:** Menengah | **Minggu 6:** Networking
 
 ## Tujuan Pembelajaran
 
-- Network types: bridge, host, none, overlay, macvlan
-- Custom network: create, connect, disconnect
-- DNS resolution antar container
-- Port publishing: -p host:container
-- Network aliases dan multi-network
+- `docker network create warung-net` + `--network warung-net` agar peti panggil nama (`db:5432`) bukan IP (sumber: docs.docker.com/network)
+- Bedakan `bridge` (default), `host`, `none`
 
 ---
 
-## Program: Multi-Container Network
+## Kenapa Ini Penting Buat Kamu?
+
+Web + DB beda peti tanpa network sama = web tidak temukan DB (IP berubah tiap start!). Dengan 1 network, web panggil `db` (nama) — IP berubah pun tetap ketemu via DNS Docker otomatis.
+
+---
+
+## Program: Telepon Warung
 
 ```bash
-# ─────────────────────────────────────────────────────────
-# DOCKER NETWORKING
-# ─────────────────────────────────────────────────────────
+# 1. Buat jaringan + pasang 2 peti
+docker network create warung-net
 
-# Network types:
-# 1. Bridge — default, internal network
-# 2. Host — share host network stack
-# 3. None — no network
-# 4. Overlay — multi-host (Swarm)
-# 5. Macvlan — assign MAC address
+docker run --name db --network warung-net \
+  -e POSTGRES_PASSWORD=rahasia -d postgres
 
-# Lihat networks
+docker run --name web --network warung-net \
+  -p 8080:80 -d nginx
+
+# 2. Panggil nama (bukan IP!)
+docker exec -it web ping db -c 2
+# → db ketemu! (DNS otomatis)
+
+docker exec -it web getent hosts db
+# → 172.18.0.2 db (IP bisa beda tiap start, nama tetap!)
+
+# 3. Lihat & bersih
 docker network ls
-docker network inspect bridge
-
-# Create custom network
-docker network create my-network
-docker network create --driver bridge --subnet 172.20.0.0/16 my-net
-
-# Run container di network tertentu
-docker run -d --name web --network my-network nginx
-docker run -d --name api --network my-network node:20-alpine
-
-# Container bisa pakai nama sebagai hostname
-# curl http://api:3000 dari container web
-
-# Connect/disconnect network
-docker network connect my-network my-container
-docker network disconnect my-network my-container
-
-# Port publishing
-docker run -p 8080:80 nginx           # host:container
-docker run -p 127.0.0.1:8080:80 nginx # bind ke localhost saja
-docker run -P nginx                   # publish semua exposed ports
-
-# DNS resolution
-# Container di network yang sama bisa resolve nama container
-
-# Network aliases
-docker run --network my-network --network-alias backend nginx
-
-# Inspect network
-docker network inspect my-network
-
-# Remove network
-docker network rm my-network
-docker network prune
-
-# Host network (Linux only)
-docker run --network host nginx
-
-# None network
-docker run --network none alpine
-
-# Multi-network container
-docker run -d --name app \
-  --network frontend \
-  --network backend \
-  my-app
+docker network inspect warung-net
+docker network rm warung-net  # setelah peti dilepas
 ```
+
+Aplikasi web sambung DB via `host=db` (bukan `localhost`!).
 
 ---
 
 ## Konsep Kunci
 
-### Network Types
-- Bridge: default, internal network antar container
-- Host: share host network (Linux only)
-- None: isolated, no network
-- Overlay: multi-host networking (Swarm)
+### Network = Jaringan Telepon Pribadi
+1 network = 1 grup yang saling panggil nama. Beda network = tidak kenal.
 
-### Custom Network
-Container di network yang sama bisa communicate via container name (DNS).
+### `bridge` / `host` / `none` = 3 Jenis
+- `bridge` default (NAT, aman).
+- `host` nempel host (cepat, tidak isolasi).
+- `none` tanpa internet (rahasia).
 
-### Port Publishing
-`-p 8080:80` — port 8080 di host forward ke port 80 di container.
+---
 
-### DNS
-Docker embedded DNS server. Container resolve nama container lain di network yang sama.
+## Penjelasan untuk Pemula
 
-### Aliases
-`--network-alias` — nama tambahan untuk resolve.
+### Analogi: Grup WA Peti
+- **Network = grup WA**: anggota grup bisa panggil nama. Beda grup tidak.
+
+### Langkah 0 — Siapkan Device
+- Docker jalan + 2 peti contoh.
+
+### Cara Komputer Membaca
+1. `--network warung-net` → peti gabung + dapat IP + DNS catat nama.
+2. `ping db` → DNS jawab IP → paket sampai.
+
+### 3 Istilah Wajib
+1. **Network/bridge**: grup/default
+2. **DNS nama**: panggil-nama
 
 ---
 
 ## Eksperimen
 
-- Buat custom network dan connect 2 container
-- Test DNS resolution antar container
-- Eksperimen dengan port publishing
-- Coba host network mode
-- Buat multi-network setup
+- **Hijau:** Tanpa `--network` sama, `ping db` dari web → tidak ketemu? Gabungkan → ketemu?
+- **Kuning:** `inspect` → `Containers` ada 2?
+- **Merah:** App pakai `localhost:5432` dari peti web → gagal? (localhost = peti sendiri!) Ganti `db:5432`.
 
 ---
 
 ## Tantangan
 
-Setup multi-container app: web + api + database di network yang sama. Test communication.
+**Warung Terhubung:** Network `toko` + `db` (postgres) + `web` (node app `host=db`) + `ping` lulus + app baca DB.
+
+---
+
+## Glosarium Mini
+
+- **Network/bridge/DNS**: grup/default/nama
 
 ---
 
 ## Ringkasan
 
-Minggu 6 dari 12: **Networking** (Level: Menengah). Komunikasi antar container. Minggu depan: **Docker Compose**.
+Minggu 6 dari 12: **Telepon Antar Peti** (Level: Menengah). Panggil nama, bukan IP. Minggu depan: **Compose** — rakit sekali jalan.
