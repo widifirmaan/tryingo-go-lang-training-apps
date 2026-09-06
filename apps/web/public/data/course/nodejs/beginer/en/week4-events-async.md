@@ -1,93 +1,113 @@
-# Events & Async Programming
+# Events & Async — Telinga dan Janji Warung Node
 
-> **Kategori:** Node.js | **Level:** Beginner | **Minggu 4:** Events & Async Programming
+> **Kategori:** Node.js | **Level:** Pemula | **Minggu 4:** Events & Async Programming
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- EventEmitter: on, emit, once, removeListener
-- Callback pattern: error-first callback (Node.js convention)
-- Promise: then, catch, finally, Promise.all
-- Async/await: syntactic sugar for Promises
-- Event loop: setTimeout, setImmediate, process.nextTick
+- `EventEmitter`: `on` pasang telinga, `emit` bunyikan, `once` sekali (sumber: nodejs.org/api/events)
+- `Promise` janji + `async/await` tunggu — pesan ojek tanpa freeze
+- Aturan `callback(err, hasil)` error-dulu (konvensi Node)
 
 ---
 
-## Program: Event Emitter
+## Kenapa Ini Penting Buat Kamu?
+
+Warung: stok habis → beri tahu 3 kasir sekaligus (`emit`). Ambil harga supplier 2 detik → tanpa async layar freeze; dengan `await`, tulis seperti sync tapi tidak macet.
+
+---
+
+## Program: Telinga & Janji Warung
 
 ```javascript
 const EventEmitter = require("events");
 
-class Logger extends EventEmitter {
-  log(level, message) {
-    const timestamp = new Date().toISOString();
-    this.emit("log", { timestamp, level, message });
-  }
-}
+// 1. Telinga: stok habis beri tahu semua
+class Warung extends EventEmitter {}
+const warung = new Warung();
 
-const logger = new Logger();
-logger.on("log", (data) => {
-  console.log("[" + data.timestamp + "] " + data.level + ": " + data.message);
-});
-logger.log("INFO", "Aplikasi dimulai");
-logger.log("WARN", "Memory usage tinggi");
-logger.log("ERROR", "Koneksi database gagal");
+warung.on("habis", (nama) => console.log(`Kasir 1: ${nama} habis!`));
+warung.on("habis", (nama) => console.log(`Kasir 2: pesan ${nama} ke supplier!`));
+warung.emit("habis", "Beras"); // bunyikan → 2 kasir dengar
 
-console.log("\n=== Promise Pattern ===");
-function getUser(id) {
-  return new Promise((resolve, reject) => {
-    if (id > 0) resolve({ id, nama: "User " + id });
-    else reject(new Error("ID tidak valid"));
+warung.once("buka", () => console.log("Buka sekali saja"));
+warung.emit("buka");
+warung.emit("buka"); // tidak bunyi lagi
+
+// 2. Janji: ambil harga tanpa freeze
+function ambilHarga(nama) {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(nama === "Beras" ? 62000 : 5000), 500);
   });
 }
 
-getUser(1).then(user => {
-  console.log("User:", user.nama);
-  return getUser(2);
-}).then(user => {
-  console.log("User:", user.nama);
-}).catch(err => {
-  console.log("Error:", err.message);
-});
-
-console.log("\n=== Async/Await ===");
-async function loadUsers() {
-  const u1 = await getUser(1);
-  const u2 = await getUser(2);
-  console.log("Loaded:", u1.nama + ", " + u2.nama);
+async function belanja() {
+  console.log("Pesan Beras...");
+  const harga = await ambilHarga("Beras"); // tunggu 0.5 detik
+  console.log("Dapat harga:", harga);
+  const [a, b] = await Promise.all([ambilHarga("Beras"), ambilHarga("Bayam")]);
+  console.log("Sekaligus:", a, b);
 }
-loadUsers();
+belanja();
+console.log("→ Baris ini jalan duluan (tidak tunggu)");
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### EventEmitter
-on, emit, once.
+### `on` / `emit` / `once` = Telinga/Bunyi/Sekali
+`on("habis", fn)` pasang, `emit("habis", "Beras")` bunyikan ke semua, `once` hanya pertama.
 
-### Callbacks
-Error-first pattern.
+### `Promise` + `async/await` = Janji + Tunggu
+`new Promise((resolve) => ...)` janji, `await` tunggu tanpa freeze, `Promise.all` bareng.
 
-### Promises & Async/Await
-Promise chains and async/await syntax.
-
----
-
-## Experiments
-
-- Create your own class extending EventEmitter
-- Implement Promise.all with 3 promises
-- Try setTimeout vs setImmediate
-- Create retry logic with Promises and async/await
+### Error-First Callback = Aturan Node
+`fs.readFile(f, (err, data) => ...)` — `err` dulu, baru hasil.
 
 ---
 
-## Challenge
+## Penjelasan untuk Pemula
 
-Build an event-driven logger: EventEmitter with levels (info, warn, error), write to file, and filter by level.
+### Analogi: Bel Warung & Ojek
+- **EventEmitter = bel**: tekan `emit` → semua yang `on` dengar.
+- **Promise = janji ojek**: `await` tunggu ojek datang.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `node telinga.js`.
+
+### Cara Komputer Membaca
+1. `emit("habis", "Beras")` → panggil semua fungsi `on("habis")` berurutan.
+2. `await ambilHarga()` → jeda fungsi, kerjaan lain jalan → lanjut saat `resolve`.
+
+### 3 Istilah Wajib
+1. **on/emit**: dengar/bunyikan
+2. **Promise/await**: janji/tunggu
+3. **Callback err-dulu**: aturan Node
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 4 of 12: **Events & Async Programming** (Level: Beginner). Beginner phase complete! Next week: **Express.js & Web Server** (Intermediate).
+- **Hijau:** `emit("habis", "Gula")` → 2 kasir bunyi?
+- **Kuning:** Lupa `await` → `harga` jadi `Promise {<pending>}`?
+- **Merah:** `once` lalu `emit` 2x → hanya 1 log?
+
+---
+
+## Tantangan
+
+**Warung Event Lengkap:** `Warung` emitter + `on("jual")` kurangi stok + `Promise` `ambilDiskon()` 300ms → `async jual()` `await` diskon → cetak total. **Selesai Beginner Node!**
+
+---
+
+## Glosarium Mini
+
+- **Emitter/on/emit**: bel/dengar/bunyikan
+- **Promise/async/await**: janji/tunggu
+- **Error-first**: err dulu
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 4: **Telinga & Janji** (Level: Pemula). **Selesai Beginner Node!** Lanjut: **Express** (Menengah).

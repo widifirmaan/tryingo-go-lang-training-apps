@@ -1,80 +1,110 @@
-# Templates & Template Language
+# Templates — Meja Warung Django yang Cantik
 
 > **Kategori:** Django | **Level:** Pemula | **Minggu 4:** Templates & Template Language
 
 ## Tujuan Pembelajaran
 
-- Template syntax: {{ }}, {% %}, {{ | }}
-- Template inheritance: extends, block
-- For loop: {% for %} dan {% empty %}
-- If/Else: {% if %}, {% else %}
-- Filters: length, date, truncatewords
+- `{{ nama }}` tampilkan, `{% for %}` ulang, `{% if %}` putuskan, `|length` filter (sumber: docs.djangoproject.com/topics/templates)
+- Warisan `{% extends "base.html" %}` + `{% block content %}` — tulis header 1x, pakai 10 halaman
 
 ---
 
-## Program: Template Pertama
+## Kenapa Ini Penting Buat Kamu?
 
-```python
-print("=== Django Templates ===")
-print("=== Syntax ===")
-print("{{ variable }}     - Output variable")
-print("{% tag %}          - Template tag")
-print("{{ value|filter }} - Filter")
-print("")
-print("=== Inheritance ===")
-print("{% extends 'base.html' %}")
-print("{% block title %}Home{% endblock %}")
-print("{% block content %}")
-print("    {% for product in products %}")
-print("        <p>{{ product.name }} - ${{ product.price }}</p>")
-print("    {% endfor %}")
-print("{% endblock %}")
-print("")
-print("=== For Loop ===")
-products = ["Laptop", "Mouse", "Keyboard"]
-print("{% for product in products %}")
-for p in products:
-    print(f"  {p}")
-print("{% empty %}")
-print("  No products found")
-print("{% endfor %}"
+Tanpa warisan, header/footer ditulis di 10 file — ganti nomor WA, ubah 10x. Dengan `extends`, ubah `base.html` 1x → 10 halaman ikut. `{% empty %}` tampilkan "kosong" otomatis, tidak perlu `if` manual.
 
+---
+
+## Program: Meja Warisi Bingkai
+
+```html
+<!-- warung/templates/base.html — bingkai (tulis sekali) -->
+<!DOCTYPE html>
+<html lang="id">
+<body>
+  <header><h1>Warung Bu Siti</h1><nav><a href="/produk/">Produk</a></nav></header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer>WA 0812 — {{ tahun|default:"2026" }}</footer>
+</body>
+</html>
+```
+
+```html
+<!-- warung/templates/warung/daftar.html — isi (warisi) -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Katalog ({{ produk|length }} item)</h2>
+{% if produk %}
+<ul>
+  {% for p in produk %}
+  <li>{{ p.nama }} - Rp{{ p.harga }}{% if p.stok == 0 %} (habis){% endif %}</li>
+  {% empty %}
+  <li>Belum ada produk</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Kosong</p>
+{% endif %}
+{% endblock %}
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Template Syntax
-`{{ var }}` output, `{% tag %}` logic, `{{ val|filter }}` filter.
+### `{{ }}` vs `{% %}` vs `|`
+- `{{ nama }}` tampilkan, `{% for %}`/`{% if %}` logika, `{{ daftar|length }}` filter.
 
-### Inheritance
-`{% extends 'base.html' %}` inherit template. `{% block content %}` override block.
+### `extends` + `block` = Warisan
+`base.html` bingkai + `{% block content %}` lubang → anak isi lubang.
 
-### For Loop
-`{% for item in items %}`. `{% empty %}` jika kosong.
+### `{% empty %}` = Jika Kosong
+Di dalam `for`, tampil jika daftar kosong.
 
-### Filters
-`length`, `date`, `truncatewords`, `default`, `safe`.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Bingkai Foto & Isi
+- **base.html = bingkai**: header/footer tetap.
+- **daftar.html = foto**: ganti tiap halaman.
+- **Filter `|length` = penghitung**: hitung otomatis.
+
+### Langkah 0 — Siapkan Device
+- Sama W1-W3: `runserver`, buka `/produk/`.
+
+### Cara Komputer Membaca
+1. `{% extends "base.html" %}` → ambil bingkai.
+2. `{% block content %}` → tempel isi anak ke lubang bingkai.
+
+### 3 Istilah Wajib
+1. **extends/block**: warisi/lubang
+2. **for/empty**: ulang/kosong
+3. **Filter `|`**: olah tampil
 
 ---
 
 ## Eksperimen
 
-- Buat base template dengan block
-- Buat child template
-- Implementasikan for loop
-- Coba if/else
-- Gunakan filters
+- **Hijau:** `{{ "beras"|upper }}` → "BERAS"? `{{ produk|length }}` → 3?
+- **Kuning:** Hapus `extends` → header hilang? Pasang lagi.
+- **Merah:** `{% for p in produkkosong %}` tanpa `empty` → kosong melompong? Tambah `empty`.
 
 ---
 
 ## Tantangan
 
-Buat template: base.html, home.html (list products). Gunakan inheritance dan for loop.
+**Warung Meja Lengkap:** `base.html` (header/nav/footer) + `daftar.html` (`extends`, `for` + `empty`, `if stok==0`) + `detail.html` (`{{ p.nama }}` + `|date:"d M Y"` untuk `dibuat`). **Selesai Beginner Django!**
+
+---
+
+## Glosarium Mini
+
+- **extends/block/for**: warisi/lubang/ulang
+- **filter/date**: olah/tanggal
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 12: **Templates** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Forms**.
+Minggu 4 dari 4: **Meja Cantik** (Level: Pemula). **Selesai Beginner Django!** Lanjut: **Forms** (Menengah).

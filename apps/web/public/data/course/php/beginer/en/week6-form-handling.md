@@ -1,101 +1,113 @@
-# Form Handling & Validation
+# Form Handling — Terima Pesanan Warung PHP
 
-> **Kategori:** PHP | **Level:** Beginner | **Minggu 6:** Form Handling & Validation
+> **Kategori:** PHP | **Level:** Pemula | **Minggu 6:** Form Handling & Validasi
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Superglobals: $_GET, $_POST, $_SERVER for request data
-- Input sanitization: htmlspecialchars, strip_tags, trim
-- Validation: empty, strlen, filter_var for email
-- Password hashing: password_hash and password_verify
-- CSRF tokens and basic form security
+- `$_POST["nama"]` terima kiriman form, `htmlspecialchars(trim())` bersihkan, `empty()`/`filter_var($email, FILTER_VALIDATE_EMAIL)` validasi (sumber: php.net/reserved.variables + filter)
+- `password_hash()` untuk password, jangan simpan mentah
 
 ---
 
-## Program: Registration Form
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa validasi, pelanggan kirim nama kosong → pesanan gagal. Tanpa `htmlspecialchars`, hacker kirim `<script>` → web warung dibajak (XSS). `filter_var` email cegah typo `budi@gmaill`.
+
+---
+
+## Program: Form Pesan Aman
+
+`pesan.php` (1 file: form + proses):
 
 ```php
 <?php
-function sanitize(string $input): string {
-    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
-}
-
 $errors = [];
-$nama = $email = "";
+$nama = $wa = "";
 
-if (true) {
-    $input_nama = "  Budi Santoso  ";
-    $input_email = "budi@example.com";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  $nama = htmlspecialchars(trim($_POST["nama"] ?? ""), ENT_QUOTES, 'UTF-8');
+  $wa = trim($_POST["wa"] ?? "");
 
-    $nama = sanitize($input_nama);
-    $email = sanitize($input_email);
+  if (empty($nama)) $errors[] = "Nama wajib diisi";
+  elseif (strlen($nama) < 3) $errors[] = "Nama minimal 3 huruf";
 
-    if (empty($nama)) {
-        $errors[] = "Nama wajib diisi";
-    } elseif (strlen($nama) < 3) {
-        $errors[] = "Nama minimal 3 karakter";
-    }
-
-    if (empty($email)) {
-        $errors[] = "Email wajib diisi";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Format email tidak valid";
-    }
+  if (empty($wa)) $errors[] = "WA wajib diisi";
+  elseif (!preg_match('/^[0-9]{10,13}$/', $wa)) $errors[] = "WA harus 10-13 digit";
 }
-
-echo "=== Hasil Validasi ===<br>";
-if (empty($errors)) {
-    echo "Registrasi berhasil!<br>";
-    echo "Nama: $nama<br>";
-    echo "Email: $email<br>";
-} else {
-    echo "Terjadi error:<br>";
-    foreach ($errors as $error) {
-        echo "- $error<br>";
-    }
-}
-
-$password = "rahasia123";
-$hashed = password_hash($password, PASSWORD_DEFAULT);
-echo "<br>Password hash: " . substr($hashed, 0, 20) . "...<br>";
-echo "Verify: " . (password_verify($password, $hashed ? "Valid" : "Invalid")) . "<br>";
->
+?>
+<form method="post">
+  Nama: <input name="nama" value="<?= $nama ?>"><br>
+  WA: <input name="wa" value="<?= $wa ?>"><br>
+  <button>Pesan</button>
+</form>
+<?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>
+  <?php if (empty($errors)): ?>
+    <p>Pesanan <?= $nama ?> (<?= $wa ?>) diterima!</p>
+  <?php else: ?>
+    <ul><?php foreach ($errors as $e) echo "<li>$e</li>"; ?></ul>
+  <?php endif; ?>
+<?php endif; ?>
 ```
 
----
-
-## Key Concepts
-
-### Superglobals
-`$_POST` form data, `$_GET` query string, `$_SERVER` server info.
-
-### Sanitization
-`trim()`, `strip_tags()`, `htmlspecialchars()` for XSS prevention.
-
-### Validation
-`empty()`, `strlen()`, `filter_var()` for email.
-
-### Passwords
-`password_hash()` with `PASSWORD_DEFAULT`. Verify with `password_verify()`.
+Jalankan `php -S localhost:8000` → buka `http://localhost:8000/pesan.php` → coba kirim kosong.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Validate with regex: preg_match for custom formats
-- Create validateRequired function for multiple fields
-- Try $_FILES for file upload
-- Implement simple CSRF token
-- Use filter_input for automatic sanitization
+### `$_POST`/`$_GET` = Amplop Kiriman
+`method="post"` → `$_POST["nama"]`. `$_POST["x"] ?? ""` aman jika tidak ada.
 
----
+### `htmlspecialchars(trim())` = Cuci Tangan
+`trim` buang spasi, `htmlspecialchars` ubah `<` jadi `&lt;` — anti XSS.
 
-## Challenge
-
-Build a complete login form: email/username validation, password, remember me, with per-field error messages.
+### `filter_var` + `preg_match` = Satpam
+`filter_var($email, FILTER_VALIDATE_EMAIL)` cek email, `preg_match('/^[0-9]{10,13}$/', $wa)` cek WA digit.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 6 of 12: **Form Handling & Validation** (Level: Beginner). Beginner phase complete! Next week: **PHP Security** (Intermediate).
+### Analogi: Kasir Terima Pesanan
+- **Form = kertas pesanan**, **$_POST = amplop ke dapur**, **validasi = kasir cek** ("nama kosong? tolak").
+- **htmlspecialchars = cuci tangan**: bersihkan sebelum masak.
+
+### Langkah 0 — Siapkan Device
+- `php -S localhost:8000` → `http://localhost:8000/pesan.php`.
+
+### Cara Komputer Membaca
+1. Browser kirim `nama=Budi&wa=0812` → PHP isi `$_POST`.
+2. `trim` + `htmlspecialchars` → cek `empty` → jika lolos tampil "diterima".
+
+### 3 Istilah Wajib
+1. **$_POST/$_GET**: amplop kirim
+2. **Sanitasi/validasi**: cuci/cek
+3. **XSS**: suntik script (musuh)
+
+---
+
+## Eksperimen
+
+- **Hijau:** Kirim nama "Bo" → error "minimal 3 huruf"?
+- **Kuning:** Isi WA "abc" → error digit?
+- **Merah:** Isi nama `<b>Budi</b>` → tampil `&lt;b&gt;` mentah (aman, tidak tebal)?
+
+---
+
+## Tantangan
+
+**Form Warung Lengkap:** Tambah `email` (`filter_var`), `jumlah` number (`>= 1`), tampil struk `nama x jumlah = total` jika lolos, error list jika tidak. **Selesai Beginner PHP!**
+
+---
+
+## Glosarium Mini
+
+- **$_POST/$_GET**: kiriman
+- **htmlspecialchars/trim**: cuci
+- **filter_var/preg_match**: satpam pola
+
+---
+
+## Ringkasan
+
+Minggu 6 dari 6: **Form Aman** (Level: Pemula). Bisa terima & validasi pesanan. **Selesai Beginner PHP!** Lanjut: **Laravel** — PHP siap jual.
