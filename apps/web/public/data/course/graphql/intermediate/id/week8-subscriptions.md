@@ -1,110 +1,97 @@
-# Subscriptions
+# Subscriptions — Bel Live Warung GraphQL
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 8:** Subscriptions
 
 ## Tujuan Pembelajaran
 
-- PubSub untuk messaging
-- Subscription resolver
-- asyncIterator
-- Filter subscription
-- Trigger dari mutation
+- `type Subscription { stokHabis: Produk }` + `pubsub.asyncIterator` — server dorong, bukan client tanya (sumber: apollographql.com/docs/apollo-server/data/subscriptions)
 
 ---
 
-## Program: Realtime GraphQL
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa subscription, HP refresh tiap 5 detik cek stok (boros baterai + kuota). Dengan subscription (WebSocket), stok habis → HP bunyi detik itu juga.
+
+---
+
+## Program: Bel Stok Warung
 
 ```javascript
-// GraphQL Subscriptions dengan WebSocket
-const { ApolloServer } = require('@apollo/server');
-const { WebSocketServer } = require('ws');
-const { useServer } = require('graphql-ws/lib/use/ws');
-const { PubSub } = require('graphql-subscriptions');
-
+// Server
+const { PubSub } = require("graphql-subscriptions");
 const pubsub = new PubSub();
 
-// Schema
-type Subscription {
-  productCreated: Product!
-  orderStatusChanged(orderId: ID!): Order!
-  newMessage(roomId: ID!): Message!
-}
+const typeDefs = `#graphql
+  type Subscription { stokHabis: Produk }
+  type Mutation { jual(id: ID!): Produk }
+`;
 
-// Resolvers
+// Saat jual sampai 0 → siar!
 const resolvers = {
-  Subscription: {
-    productCreated: {
-      subscribe: () => pubsub.asyncIterator(['PRODUCT_CREATED']),
-    },
-    orderStatusChanged: {
-      subscribe: (_, { orderId }) =>
-        pubsub.asyncIterator([`ORDER_STATUS_${orderId}`]),
-    },
-    newMessage: {
-      subscribe: (_, { roomId }, context) => {
-        // Auth check
-        if (!context.currentUser) throw new Error('Unauthorized');
-        return pubsub.asyncIterator([`MESSAGE_${roomId}`]);
-      },
+  Mutation: {
+    jual: (_, { id }) => {
+      const p = kurangiStok(id);
+      if (p.stok === 0) pubsub.publish("STOK_HABIS", { stokHabis: p });
+      return p;
     },
   },
-  Mutation: {
-    createProduct: async (_, { input }) => {
-      const product = await db.products.create(input);
-      // Publish event
-      await pubsub.publish('PRODUCT_CREATED', { productCreated: product });
-      return product;
-    },
-    updateOrderStatus: async (_, { id, status }) => {
-      const order = await db.orders.update(id, { status });
-      await pubsub.publish(`ORDER_STATUS_${id}`, { orderStatusChanged: order });
-      return order;
-    },
+  Subscription: {
+    stokHabis: { subscribe: () => pubsub.asyncIterator(["STOK_HABIS"]) },
   },
 };
+```
 
-// Client subscription
-// subscription OnProductCreated {
-//   productCreated { id name price }
-// }
+```graphql
+# HP (sekali, dengar terus):
+subscription {
+  stokHabis { nama }
+}
 ```
 
 ---
 
 ## Konsep Kunci
 
-### PubSub
-In-memory event system untuk subscriptions.
+### Query/Mutation/Subscription = Tanya/Tulis/Dengar
+Query tarik, subscription dorong (WebSocket tetap buka).
 
-### Subscribe
-Return AsyncIterator dari pubsub.
+### `publish` + `asyncIterator` = Siar + Dengar
+`publish("TOPIK", data)` siar, `asyncIterator(["TOPIK"])` dengar.
 
-### Publish
-Trigger event dari mutation.
+---
 
-### Filter
-Filter subscription by payload/args.
+## Penjelasan untuk Pemula
 
-### Transport
-WebSocket untuk realtime communication.
+### Analogi: Bel Pintu vs Ketok Tiap Detik
+- **Polling = ketok tiap 5 detik** ("ada paket?").
+- **Subscription = bel pintu**: paket datang → bel bunyi.
+
+### 3 Istilah Wajib
+1. **Subscription/publish**: dengar/siar
+2. **WebSocket**: telepon-tersambung
 
 ---
 
 ## Eksperimen
 
-- Redis PubSub
-- Subscription auth
-- Presence system
-- Live queries
+- **Hijau:** Buka 2 tab subscription → jual sampai 0 → keduanya bunyi?
+- **Kuning:** Tanpa `publish` → sunyi? (Wajar, tidak ada siar.)
+- **Merah:** Refresh tiap 5 detik (polling) vs subscription → baterai/kuota mana boros?
 
 ---
 
 ## Tantangan
 
-Chat system: subscription untuk new message.
+**Warung Live:** `stokHabis` subscription + `jual` publish saat 0 + 2 tab dengar bareng screenshot.
+
+---
+
+## Glosarium Mini
+
+- **Subscription/publish**: dengar/siar
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 10: **Subscriptions** (Menengah).
+Minggu 8 dari 10: **Bel Live** (Level: Menengah). Dorong, bukan tanya. Minggu depan: **Testing**.

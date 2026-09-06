@@ -1,122 +1,92 @@
-# Testing & Error Handling
+# Testing & Error — Cicip Restoran GraphQL
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 9:** Testing & Error Handling
 
 ## Tujuan Pembelajaran
 
-- Test client setup
-- Mutation testing
-- Query testing
-- GraphQLError
-- Error extensions
+- Uji resolver langsung (tanpa server): `Query.produk()` + `expect` (vitest)
+- Error rapi: `throw new GraphQLError("...", { extensions: { code: "TIDAK_ADA" } })` (bukan `Error` mentah)
 
 ---
 
-## Program: Test GraphQL API
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa uji, ubah resolver → HP crash ketahuan pelanggan. Tanpa kode error, HP tidak tahu "tidak ada" vs "server mati" (pesan beda!). 
+
+---
+
+## Program: Cicip Dapur GraphQL
 
 ```javascript
-// Testing GraphQL API
-const { createTestClient } = require('apollo-server-testing');
-const { ApolloServer } = require('apollo-server');
+// resolvers.test.js
+import { test, expect } from "vitest";
+import { resolvers } from "./resolvers.js";
 
-// Setup test server
-const createTestServer = (context = {}) => {
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: () => ({ currentUser: { id: '1', role: 'ADMIN' }, ...context }),
-  });
-  return createTestClient(server);
-};
-
-describe('Product API', () => {
-  let mutate, query;
-
-  beforeEach(() => {
-    const client = createTestServer();
-    mutate = client.mutate;
-    query = client.query;
-  });
-
-  test('create product', async () => {
-    const CREATE_PRODUCT = gql`
-      mutation CreateProduct($input: CreateProductInput!) {
-        createProduct(input: $input) {
-          id name price inStock
-        }
-      }
-    `;
-    
-    const res = await mutate({
-      mutation: CREATE_PRODUCT,
-      variables: { input: { name: 'Test', price: 1000, stock: 10 } },
-    });
-    
-    expect(res.data.createProduct.name).toBe('Test');
-    expect(res.data.createProduct.inStock).toBe(true);
-  });
-
-  test('query products', async () => {
-    const GET_PRODUCTS = gql`
-      query { products { id name price } }
-    `;
-    const res = await query({ query: GET_PRODUCTS });
-    expect(res.data.products).toBeDefined();
-  });
+test("produk ada 2", async () => {
+  const hasil = await resolvers.Query.produk();
+  expect(hasil.length).toBe(2);
 });
 
-// Error handling
-const resolvers = {
-  Query: {
-    product: (_, { id }) => {
-      const product = findProduct(id);
-      if (!product) {
-        throw new GraphQLError('Product not found', {
-          extensions: { code: 'NOT_FOUND', http: { status: 404 } },
-        });
-      }
-      return product;
-    },
-  },
-};
+test("tambah tanpa nama ditolak", async () => {
+  await expect(resolvers.Mutation.tambahProduk(null, {}))
+    .rejects.toThrow("Nama wajib");
+});
+```
+
+```javascript
+// Error berkode (bukan mentah!)
+const { GraphQLError } = require("graphql");
+if (!produk) {
+  throw new GraphQLError("Produk tidak ada", {
+    extensions: { code: "TIDAK_ADA", id },
+  });
+}
+// HP baca: errors[0].extensions.code === "TIDAK_ADA" → tampil "habis"
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Test Client
-createTestClient untuk integration test.
+### Uji Resolver = Cicip Dapur
+Panggil fungsi langsung + `expect` — tanpa `node server.js`.
 
-### Mutation Test
-Test mutation dengan variables.
+### `GraphQLError` + `extensions.code` = Alarm Berkode
+HP bedakan `TIDAK_ADA` (tampil habis) vs `SERVER_MATI` (coba lagi).
 
-### Query Test
-Test query dan cek result.
+---
 
-### Error
-GraphQLError dengan extensions.
+## Penjelasan untuk Pemula
 
-### Extensions
-Custom error code dan HTTP status.
+### Analogi: Cicip + Alarm Kebakaran
+- **Test = cicip**: masak → cicip mesin.
+- **extensions.code = jenis alarm**: kebakaran vs pintu.
+
+### 3 Istilah Wajib
+1. **vitest/GraphQLError**: cicip/alarm-berkode
 
 ---
 
 ## Eksperimen
 
-- Mock resolvers
-- Snapshot testing
-- E2E testing
-- Federation testing
+- **Hijau:** Ubah resolver rusak → test merah?
+- **Kuning:** `Error` mentah vs `GraphQLError` → HP terima `extensions`?
+- **Merah:** Test tanpa `await` → lulus palsu? (Promise tidak ditunggu!)
 
 ---
 
 ## Tantangan
 
-Test suite: unit test, integration test, error handling.
+**Restoran Teruji:** 4 test (Query 2 + Mutation 1 + error 1) HIJAU + 2 `extensions.code` beda.
+
+---
+
+## Glosarium Mini
+
+- **vitest/GraphQLError**: cicip/alarm
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 10: **Testing & Error Handling** (Menengah).
+Minggu 9 dari 10: **Cicip Berkode** (Level: Menengah). Ubah berani. Minggu depan: **Capstone**.
