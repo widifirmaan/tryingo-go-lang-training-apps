@@ -1,103 +1,103 @@
-# Transactions & ACID
+# Transaksi & ACID — Bayar Aman Anti-Setengah
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 6:** Transactions & ACID
+> **Kategori:** MySQL | **Level:** Menengah | **Minggu 6:** Transaksi & ACID
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- START TRANSACTION, COMMIT, ROLLBACK
-- SAVEPOINT and ROLLBACK TO
-- ACID properties
-- Isolation levels
-- Locking with FOR UPDATE
+- `START TRANSACTION` + `COMMIT` sahkan + `ROLLBACK` batalkan — paket all-or-nothing (sumber: dev.mysql.com/doc/refman/8.0/en/commit)
+- ACID: Atomicity, Consistency, Isolation, Durability + `InnoDB` wajib (MyISAM tidak bisa!)
 
 ---
 
-## Program: Transaction Management
+## Kenapa Ini Penting Buat Kamu?
+
+Transfer stok gudang A→B tanpa transaksi: A kurang (sukses), B tambah (gagal, listrik mati) → stok hilang 10 karung! Dengan transaksi, gagal 1 = batal semua (seperti tidak terjadi).
+
+---
+
+## Program: Pindah Stok Aman
 
 ```sql
--- ACID Transaction
+-- Tanpa transaksi (BAHAYA): jika baris 2 gagal, baris 1 sudah jalan!
+-- UPDATE gudang_a SET stok = stok - 10 WHERE id = 1;
+-- UPDATE gudang_b SET stok = stok + 10 WHERE id = 1;
+
+-- Dengan transaksi (AMAN):
 START TRANSACTION;
 
-UPDATE produk SET stok = stok - 5 WHERE id = 1;
-UPDATE produk SET stok = stok + 5 WHERE id = 2;
+UPDATE produk SET stok = stok - 10 WHERE id = 1 AND stok >= 10;
+-- Cek: jika stok kurang, batalkan manual:
+-- (di app: cek ROW_COUNT(), jika 0 → ROLLBACK)
 
--- Cek hasil
-SELECT id, nama, stok FROM produk WHERE id IN (1, 2);
+UPDATE produk SET stok = stok + 10 WHERE id = 2;
 
-COMMIT;
+COMMIT;  -- sahkan keduanya (atau ROLLBACK untuk batalkan semua!)
 
--- Rollback example
+-- Coba batal:
 START TRANSACTION;
-
-UPDATE produk SET harga = harga * 2 WHERE kategori = 'Elektronik';
-
--- Oops, salah! Rollback
-ROLLBACK;
-
-SELECT id, nama, harga FROM produk WHERE kategori = 'Elektronik';
-
--- Savepoint
-START TRANSACTION;
-
-UPDATE produk SET stok = stok - 10 WHERE id = 1;
-SAVEPOINT sebelum_update_harga;
-
-UPDATE produk SET harga = harga * 1.1 WHERE id = 1;
-
--- Rollback ke savepoint
-ROLLBACK TO SAVEPOINT sebelum_update_harga;
-
-COMMIT;
-
--- Isolation Level
-SELECT @@transaction_isolation;
-SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
-
--- Locking
-SELECT * FROM produk WHERE id = 1 FOR UPDATE;
-
-START TRANSACTION;
-SELECT * FROM produk WHERE kategori = 'Elektronik' FOR UPDATE;
--- Proses bisnis...
-COMMIT;
+UPDATE produk SET harga = 1 WHERE id = 1;  -- salah! harga 1 rupiah
+ROLLBACK;  -- batal! harga kembali
+SELECT harga FROM produk WHERE id = 1;  -- tetap semula
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### ACID
-Atomicity, Consistency, Isolation, Durability.
+### `START TRANSACTION` / `COMMIT` / `ROLLBACK` = Mulai/Sahkan/Batalkan
+Semua di antara = 1 paket. `COMMIT` tulis permanen, `ROLLBACK` buang semua.
 
-### COMMIT & ROLLBACK
-COMMIT saves permanently. ROLLBACK cancels.
+### ACID = 4 Janji InnoDB
+- **A**tomic: semua atau tidak sama sekali.
+- **C**onsistent: aturan (FK, CHECK) selalu benar.
+- **I**solated: transaksi lain tidak lihat setengah jalan.
+- **D**urable: sudah COMMIT = selamat meski listrik mati.
 
-### SAVEPOINT
-Rollback point within transaction.
-
-### Isolation Levels
-READ UNCOMMITTED to SERIALIZABLE.
-
-### Locking
-FOR UPDATE locks rows.
+### InnoDB Wajib
+`ENGINE=InnoDB` mendukung transaksi. `MyISAM` TIDAK — cek `SHOW TABLE STATUS`.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Deadlock scenario
-- Gap locking
-- Optimistic locking
-- Transaction log
+### Analogi: Transfer Uang Bank
+- **Transaksi = transfer bank**: debit A + kredit B 1 paket. Gagal 1 = batal semua (uang tidak hilang di jalan).
+
+### Langkah 0 — Siapkan Device
+- Sama MySQL W1: `mysql -u root -p`, tabel `produk` InnoDB.
+
+### Cara Komputer Membaca
+1. `START TRANSACTION` → catat titik awal.
+2. `UPDATE...` → tulis sementara (belum permanen).
+3. `COMMIT` → permanen. `ROLLBACK` → buang semua sejak titik.
+
+### 3 Istilah Wajib
+1. **Transaction/commit/rollback**: paket/sah/batal
+2. **ACID/InnoDB**: 4-janji/mesin-aman
 
 ---
 
-## Challenge
+## Eksperimen
 
-Balance transfer system: safe transactions with rollback.
+- **Hijau:** `START; UPDATE harga=1; ROLLBACK; SELECT` → harga tetap?
+- **Kuning:** `START; UPDATE; COMMIT;` → permanen? (Tutup-buka koneksi, cek!)
+- **Merah:** Tabel `MyISAM` + `ROLLBACK` → tetap berubah? (MyISAM tidak bisa! Ganti InnoDB.)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 6 of 10: **Transactions & ACID** (Intermediate).
+**Pindah Stok Aman:** `START` → kurang A 5 (cek `stok>=5` di WHERE!) → tambah B 5 → `COMMIT` → total A+B tetap sama. Coba gagalkan 1 → `ROLLBACK` total tetap.
+
+---
+
+## Glosarium Mini
+
+- **START/COMMIT/ROLLBACK**: mulai/sah/batal
+- **ACID/InnoDB**: janji/mesin
+
+---
+
+## Ringkasan
+
+Minggu 6 dari 10: **Bayar Aman** (Level: Menengah). All-or-nothing. Minggu depan: **Performa** — cepat.

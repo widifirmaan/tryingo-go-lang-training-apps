@@ -1,94 +1,99 @@
-# Performance & Tuning
+# Performa & Tuning — Gudang MySQL Tetap Cepat 1 Juta Baris
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 7:** Performance & Tuning
+> **Kategori:** MySQL | **Level:** Menengah | **Minggu 7:** Performa & Tuning
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- EXPLAIN ANALYZE
-- Slow query log
-- InnoDB buffer pool
-- Status monitoring
-- OPTIMIZE TABLE
+- `EXPLAIN SELECT ...` baca `type: ALL` (baca semua) vs `ref/range` (loncat) + `rows` + `Extra` (sumber: dev.mysql.com/doc/refman/8.0/en/explain)
+- `ANALYZE TABLE` segarkan statistik, `OPTIMIZE TABLE` rapikan, `SHOW INDEX` cek
 
 ---
 
-## Program: MySQL Optimization
+## Kenapa Ini Penting Buat Kamu?
+
+100rb baris tanpa index = 2 detik per cari → pelanggan tunggu. Dengan `EXPLAIN`, tahu query mana baca semua → tambah index → 0.01 detik (200x!). Tanpa tuning, server upgrade (mahal) padahal index gratis.
+
+---
+
+## Program: Bedah Query Lambat
 
 ```sql
-EXPLAIN ANALYZE
-    SELECT p.nama, SUM(dp.jumlah * dp.harga_satuan) AS total
-    FROM detail_pesanan dp
-    JOIN pesanan ps ON ps.id = dp.pesanan_id
-    JOIN pelanggan p ON p.id = ps.pelanggan_id
-    WHERE ps.tanggal > DATE_SUB(NOW(), INTERVAL 30 DAY)
-    GROUP BY p.nama ORDER BY total DESC;
+-- 1. Cari lambat
+EXPLAIN SELECT * FROM produk WHERE kategori = 'Sembako';
+-- type: ALL, rows: 100000 → BAHAYA (baca semua!)
 
--- Query cache & optimizer
-SELECT @@query_cache_type;
-SELECT @@innodb_buffer_pool_size;
+-- 2. Tambah index
+CREATE INDEX idx_kategori ON produk(kategori);
 
--- Slow query log
-SET GLOBAL slow_query_log = 'ON';
-SET GLOBAL long_query_time = 1;
+-- 3. Cek lagi
+EXPLAIN SELECT * FROM produk WHERE kategori = 'Sembako';
+-- type: ref, key: idx_kategori, rows: 12000 → BAGUS
 
--- Cek status
-SHOW STATUS LIKE 'Threads_connected';
-SHOW STATUS LIKE 'Slow_queries';
-SHOW STATUS LIKE 'Innodb_buffer_pool_read%';
+-- 4. Rawat
+ANALYZE TABLE produk;   -- segarkan statistik perencana
+OPTIMIZE TABLE produk;  -- rapikan fragmentasi
+SHOW INDEX FROM produk; -- daftar index
 
--- Cek proses aktif
-SHOW PROCESSLIST;
-
--- Optimize table
-OPTIMIZE TABLE produk;
-
--- Analisis tabel
-ANALYZE TABLE produk;
-
--- Konfigurasi penting
--- innodb_buffer_pool_size = 70% RAM
--- innodb_log_file_size = 1GB
--- max_connections = 200
--- query_cache_size = 64M
--- tmp_table_size = 256M
+-- 5. Perangkap: SELECT * + LIKE '%x%' (depan %) tidak pakai index!
+EXPLAIN SELECT * FROM produk WHERE nama LIKE '%ber%'; -- ALL (wajar, depan %)
+EXPLAIN SELECT * FROM produk WHERE nama LIKE 'ber%';  -- range (belakang % OK!)
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### EXPLAIN ANALYZE
-Shows execution plan and time.
+### `EXPLAIN` Kolom Penting
+- `type`: `ALL` (buruk) → `index` → `range` → `ref` → `const` (bagus).
+- `key`: index dipakai (NULL = tidak ada!).
+- `rows`: perkiraan baca (semakin kecil bagus).
+- `Extra`: `Using filesort` (urut manual, lambat) / `Using index` (hanya index, cepat!).
 
-### Slow Query Log
-Log slow queries for analysis.
-
-### InnoDB Buffer Pool
-Cache data and indexes in memory.
-
-### Monitoring
-SHOW STATUS for server metrics.
-
-### OPTIMIZE
-Defragment InnoDB tables.
+### `LIKE '%x'` vs `'x%'`
+Depan `%` = tidak bisa index. Belakang saja = bisa.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Buffer pool tuning
-- Query cache
-- Partitioning
-- Connection pooling
+### Analogi: Dokter Query
+- **EXPLAIN = rontgen**: lihat dalam tanpa bedah.
+- **Index = obat**, **ANALYZE = cek lab berkala**.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + tabel `produk` isi agak banyak (loop `INSERT` 1000x via script/CLI).
+
+### Cara Komputer Membaca
+1. `EXPLAIN` → perencana MySQL tampilkan rencana (tanpa jalankan).
+2. `CREATE INDEX` → B-Tree baru → rencana berubah.
+
+### 3 Istilah Wajib
+1. **EXPLAIN/type/rows**: rontgen/jenis/baris
+2. **ANALYZE/OPTIMIZE**: segarkan/rapikan
 
 ---
 
-## Challenge
+## Eksperimen
 
-Optimize: identify slow queries, tune config.
+- **Hijau:** `EXPLAIN` 2 query (dengan/tanpa index) → `rows` beda?
+- **Kuning:** `LIKE '%ber'` vs `'ber%'` → `type` beda?
+- **Merah:** Index di kolom `UPDATE`-sering → `INSERT` melambat? (Timbang!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 7 of 10: **Performance & Tuning** (Intermediate).
+**Dokter Warung:** 3 query lambat → `EXPLAIN` catat `type+rows` → tambah index → `EXPLAIN` lagi → buktikan `rows` turun 10x+. Screenshot sebelum/sesudah.
+
+---
+
+## Glosarium Mini
+
+- **EXPLAIN/ANALYZE/OPTIMIZE**: rontgen/segar/rapi
+- **ALL/ref**: semua/loncat
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 10: **Dokter Query** (Level: Menengah). Gratis 200x cepat. Minggu depan: **Replikasi** — cabang gudang.
