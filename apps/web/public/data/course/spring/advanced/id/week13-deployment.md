@@ -1,124 +1,100 @@
-# Deployment
+# Deployment — Buka Cabang Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 13:** Deployment
 
 ## Tujuan Pembelajaran
 
-- Dockerfile untuk containerize Spring Boot app
-- Multi-stage build untuk optimize image size
-- Docker Compose untuk multi-container setup
-- Environment variables untuk configuration
-- Production profile dan health checks
+- `./mvnw package` jadi `warung-1.0.jar` 1 kardus, `java -jar` jalan di mana saja (sumber: docs.spring.io/spring-boot/deployment)
+- `Dockerfile` peti + `SPRING_PROFILES_ACTIVE=prod` bedakan dev/prod
 
 ---
 
-## Program: Docker & Cloud
+## Kenapa Ini Penting Buat Kamu?
 
-```java
-// File: Dockerfile
-/*
-# Build stage
-FROM maven:3.9-eclipse-temurin-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+Lokal `localhost:8080` hanya di laptop. Deploy = sewa ruko online (`Railway`/`VPS`) agar HP pelanggan bisa buka. Tanpa profil, password dev ikut ke produksi (bocor!).
 
-# Run stage
+---
+
+## Program: Kardus & Peti Warung
+
+```bash
+# 1. Bungkus 1 kardus
+./mvnw clean package -DskipTests
+ls target/warung-1.0.jar
+java -jar target/warung-1.0.jar
+```
+
+```dockerfile
+# 2. Peti (Dockerfile)
 FROM eclipse-temurin:17-jre
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
+COPY target/warung-1.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
-*/
+```
 
-// File: docker-compose.yml
-/*
-version: '3.8'
-services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydb
-      - SPRING_REDIS_HOST=redis
-    depends_on:
-      - db
-      - redis
+```bash
+docker build -t warung:1.0 .
+docker run -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/warung warung:1.0
+```
 
-  db:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-
-volumes:
-  pgdata:
-*/
-
-// File: application-prod.properties
-/*
-spring.datasource.url=${DATABASE_URL}
-spring.datasource.username=${DB_USER}
+```properties
+# application-prod.properties — rahasia produksi (jangan commit!)
 spring.datasource.password=${DB_PASSWORD}
-spring.jpa.hibernate.ddl-auto=validate
-server.port=8080
-management.endpoints.web.exposure.include=health
-*/
-
-// Deployment Commands:
-// mvn clean package -DskipTests
-// docker build -t myapp .
-// docker run -p 8080:8080 myapp
-// docker-compose up -d
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Dockerfile
-Define container image. Multi-stage: build di maven, run di JRE.
+### `jar` = Kardus Jadi
+`mvn package` → 1 `jar` berisi app + Tomcat di dalam. `java -jar` jalan tanpa install Tomcat.
 
-### Multi-Stage Build
-Stage 1: compile dengan Maven. Stage 2: run dengan JRE. Image lebih kecil.
+### `Dockerfile` = Peti
+`FROM eclipse-temurin:17-jre` (ringan, tanpa Maven) + `COPY jar`.
 
-### Docker Compose
-Orchestrasi multiple container: app, database, redis.
+### Profil `prod` = Aturan Cabang
+`SPRING_PROFILES_ACTIVE=prod` → baca `application-prod.properties` (password dari env, bukan file!).
 
-### Environment Variables
-Config via env vars. Different values untuk dev/staging/prod.
+---
 
-### Production
-`ddl-auto=validate` — tidak auto-create table. Health check untuk monitoring.
+## Penjelasan untuk Pemula
+
+### Analogi: Kardus & Peti Kemas
+- **jar = kardus**: semua + mesin di dalam.
+- **Docker = peti kemas**: kardus + alamat, kirim ke server mana saja.
+
+### Langkah 0 — Siapkan Device
+- JDK 17 + Docker + akun `Railway`/`VPS`.
+
+### Cara Komputer Membaca
+1. `mvn package` → compile + test + bungkus `jar`.
+2. `docker run` → Java dalam peti → app dengar 8080.
+
+### 3 Istilah Wajib
+1. **jar/package**: kardus/bungkus
+2. **Dockerfile/profil**: peti/aturan-cabang
 
 ---
 
 ## Eksperimen
 
-- Buat Dockerfile dengan multi-stage build
-- Eksperimen dengan Docker Compose
-- Coba environment-specific profiles
-- Buat health check endpoint
-- Eksperimen dengan Kubernetes deployment
+- **Hijau:** `java -jar` tanpa `mvn` ulang setelah ubah kode → versi lama? (Harus `package` lagi!)
+- **Kuning:** `docker run` tanpa `-p` → tidak bisa buka? Tambah `-p`.
+- **Merah:** Commit password di `application.properties` → bocor di GitHub? Pindah ke env!
 
 ---
 
 ## Tantangan
 
-Buat Docker setup untuk Spring Boot app: Dockerfile, docker-compose dengan database, environment config.
+**Cabang Online:** `package` + `Dockerfile` + `docker run` lokal lulus + deploy `Railway` (`railway up`) + buka URL publik.
+
+---
+
+## Glosarium Mini
+
+- **jar/Docker/profil**: kardus/peti/cabang
 
 ---
 
 ## Ringkasan
 
-Minggu 13 dari 14: **Deployment** (Level: Lanjutan). Production deployment. Minggu depan: **Capstone Project**!
+Minggu 13 dari 14: **Buka Cabang** (Level: Lanjutan). Online! Minggu depan: **Capstone**.

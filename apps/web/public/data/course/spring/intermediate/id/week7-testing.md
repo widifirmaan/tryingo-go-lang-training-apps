@@ -1,160 +1,114 @@
-# Testing
+# Testing — Cicip Otomatis Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 7:** Testing
 
 ## Tujuan Pembelajaran
 
-- Unit test dengan JUnit 5 dan Mockito
-- @Mock dan @InjectMocks untuk mock dependency
-- @WebMvcTest untuk test controller layer
-- @DataJpaTest untuk test repository layer
-- AssertJ untuk fluent assertions
+- `@SpringBootTest` + `MockMvc` `perform(get("/produk")).andExpect(status().isOk())` uji pintu tanpa buka server (sumber: docs.spring.io/spring-framework/testing)
+- `@DataJpaTest` uji rak + `assertEquals` cicip
 
 ---
 
-## Program: Unit & Integration Test
+## Kenapa Ini Penting Buat Kamu?
+
+Ubah `ProdukController` tanpa uji → `/produk` 500 ketahuan pelanggan. Dengan `MockMvc`, ubah → `FAIL` merah sebelum deploy. `@DataJpaTest` pakai DB sementara (H2) — data asli aman.
+
+---
+
+## Program: Cicip Pintu & Rak
 
 ```java
-// File: ProductServiceTest.java
-package com.example.demo.service;
-
-import com.example.demo.model.Product;
-import com.example.demo.repository.ProductRepository;
+// ProdukControllerTest.java — cicip pintu (tanpa server beneran!)
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Optional;
+@SpringBootTest
+@AutoConfigureMockMvc
+class ProdukControllerTest {
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+  @Autowired MockMvc mvc; // pelayan bohongan
 
-@ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+  @Test
+  void daftarBalas200() throws Exception {
+    mvc.perform(get("/produk"))
+       .andExpect(status().isOk());
+  }
 
-    @Mock
-    private ProductRepository productRepository;
-
-    @InjectMocks
-    private ProductService productService;
-
-    @Test
-    void shouldReturnProductById() {
-        // Arrange
-        Product product = new Product("Laptop", 15000000.0);
-        product.setId(1L);
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-
-        // Act
-        Optional<Product> result = productService.getProductById(1L);
-
-        // Assert
-        assertThat(result).isPresent();
-        assertThat(result.get().getName()).isEqualTo("Laptop");
-        verify(productRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void shouldReturnEmptyWhenProductNotFound() {
-        when(productRepository.findById(99L)).thenReturn(Optional.empty());
-
-        Optional<Product> result = productService.getProductById(99L);
-
-        assertThat(result).isEmpty();
-    }
+  @Test
+  void tambahLaluAda() throws Exception {
+    mvc.perform(post("/produk")
+      .contentType("application/json")
+      .content("{\"nama\":\"Kopi\",\"harga\":12000}"))
+      .andExpect(status().isOk());
+  }
 }
+```
 
-// File: ProductControllerTest.java
-/*
-@WebMvcTest(ProductController.class)
-public class ProductControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private ProductService productService;
-
-    @Test
-    void shouldReturnProduct() throws Exception {
-        Product product = new Product("Laptop", 15000000.0);
-        when(productService.getProductById(1L)).thenReturn(Optional.of(product));
-
-        mockMvc.perform(get("/api/products/1"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name").value("Laptop"));
-    }
-}
-*/
-
-// File: ProductRepositoryTest.java
-/*
-@DataJpaTest
-public class ProductRepositoryTest {
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Test
-    void shouldSaveProduct() {
-        Product product = new Product("Mouse", 250000.0);
-        Product saved = productRepository.save(product);
-
-        assertThat(saved.getId()).isNotNull();
-        assertThat(saved.getName()).isEqualTo("Mouse");
-    }
-}
-*/
-
-// Dependencies:
-/*
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-test</artifactId>
-    <scope>test</scope>
-</dependency>
-*/
+```bash
+./mvnw test
+# Tests run: 2, Failures: 0, Errors: 0 — HIJAU
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Unit Test
-Test individual components. Mock dependencies dengan Mockito.
+### `MockMvc` = Pelayan Bohongan
+`perform(get(...))` pura-pura jadi browser, `andExpect(status().isOk())` cicip status.
 
-### @Mock & @InjectMocks
-`@Mock` — buat mock object. `@InjectMocks` — inject mock ke class yang di-test.
+### `@SpringBootTest` = Buka Warung Bohongan
+Nyalakan Spring tanpa port — cepat untuk uji.
 
-### @WebMvcTest
-Test controller layer tanpa start full server. Gunakan MockMvc.
+### TDD Mini = Tulis Uji Dulu
+Uji merah → tulis kode → hijau. Untuk 1 fungsi, 2 menit.
 
-### @DataJpaTest
-Test repository layer dengan in-memory database.
+---
 
-### AssertJ
-Fluent assertions: `assertThat(x).isEqualTo(y).isNotNull()`.
+## Penjelasan untuk Pemula
+
+### Analogi: Cicip Masakan
+- **Test = cicip**: masak `tambah` → cicip `GET` ada? → saji.
+- **MockMvc = food critic bohongan**: datang, pesan, nilai — tanpa pelanggan asli.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + `./mvnw test` (Maven unduh JUnit otomatis).
+
+### Cara Komputer Membaca
+1. `./mvnw test` → cari `*Test.java` → jalankan tiap `@Test`.
+2. `andExpect` gagal → `FAIL` merah + baris salah.
+
+### 3 Istilah Wajib
+1. **MockMvc/perform**: pelayan-bohongan/pesan
+2. **andExpect/assert**: cicip
 
 ---
 
 ## Eksperimen
 
-- Buat test untuk service method lain
-- Eksperimen dengan @MockBean di @WebMvcTest
-- Coba integration test dengan @SpringBootTest
-- Buat test untuk exception handling
-- Eksperimen dengan parameterized test
+- **Hijau:** Sengaja `expected 200` jadi `201` → FAIL merah? Betulkan.
+- **Kuning:** Tambah produk lalu `GET` cek ada?
+- **Merah:** Hapus `@SpringBootTest` → error context? Pasang.
 
 ---
 
 ## Tantangan
 
-Buat test suite lengkap untuk Product API: unit test service, integration test repository, controller test dengan MockMvc.
+**Warung Teruji:** Test `GET /produk` 200 + `POST` tambah + `GET` jumlah +1. `./mvnw test` HIJAU 3/3.
+
+---
+
+## Glosarium Mini
+
+- **MockMvc/Test**: bohongan/uji
+- **andExpect**: cicip
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 14: **Testing** (Level: Menengah). Kualitas kode dan keandalan. Minggu depan: **Validation**.
+Minggu 7 dari 10: **Cicip Otomatis** (Level: Menengah). Ubah berani. Minggu depan: **Validation** — satpam input.

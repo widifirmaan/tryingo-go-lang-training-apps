@@ -1,128 +1,100 @@
-# Async & Scheduling
+# Async & Scheduling — Alarm Rutin Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 12:** Async & Scheduling
 
 ## Tujuan Pembelajaran
 
-- @Scheduled untuk task berjadwal
-- Cron expression untuk scheduling
-- fixedRate vs fixedDelay
-- @Async untuk asynchronous execution
-- CompletableFuture untuk async return
+- `@Scheduled(cron = "0 0 7 * * *")` alarm tiap jam 7 pagi + `@EnableScheduling` saklar (sumber: docs.spring.io/spring-framework/integration/scheduling)
+- `fixedRate` tiap X vs `cron` jam pasti
 
 ---
 
-## Program: Scheduled Tasks
+## Kenapa Ini Penting Buat Kamu?
+
+Laporan harian + cek stok tiap jam 7 tanpa `@Scheduled` = buka laptop manual tiap pagi. Dengan cron, server kerja sendiri. Tanpa `@EnableScheduling`, alarm mati total (diam-diam!).
+
+---
+
+## Program: Alarm Warung Spring
 
 ```java
-// File: ScheduledTasks.java
-package com.example.demo.scheduler;
+// Aktifkan di main: @EnableScheduling + @EnableAsync
 
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CompletableFuture;
-
 @Component
-@EnableScheduling
-@EnableAsync
-public class ScheduledTasks {
+public class AlarmWarung {
 
-    // Fixed rate: setiap 5 detik
-    @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        System.out.println("Waktu sekarang: " + java.time.LocalDateTime.now());
-    }
+  @Scheduled(cron = "0 0 7 * * *") // tiap jam 07:00:00
+  public void laporanPagi() {
+    System.out.println("Laporan: " + repo.count() + " produk");
+  }
 
-    // Cron expression: setiap jam
-    @Scheduled(cron = "0 0 * * * *")
-    public void hourlyTask() {
-        System.out.println("Task jam dieksekusi");
-    }
+  @Scheduled(fixedRate = 60000) // tiap 60 detik
+  public void cekStok() {
+    repo.findByStokLessThan(5).forEach(p ->
+      System.out.println("STOK TIPIS: " + p.getNama()));
+  }
 
-    // Fixed delay: 3 detik setelah selesai
-    @Scheduled(fixedDelay = 3000, initialDelay = 1000)
-    public void cleanupTask() {
-        System.out.println("Cleanup dijalankan");
-    }
-
-    // Async method
-    @Async
-    public CompletableFuture<String> processOrder(Long orderId) {
-        // Simulasi proses async
-        try { Thread.sleep(2000); } catch (InterruptedException e) {}
-        return CompletableFuture.completedFuture("Order " + orderId + " processed");
-    }
-
-    @Async
-    public void sendNotification(String message) {
-        System.out.println("Notification: " + message);
-    }
+  @Async // jalan background (butuh @EnableAsync!)
+  public void kirimLaporan() { /* ... */ }
 }
-
-// File: AsyncService.java
-/*
-@Service
-public class ReportService {
-
-    @Async
-    public CompletableFuture<Report> generateReport() {
-        // Simulasi generate report yang lama
-        Report report = new Report();
-        // ... proses lama ...
-        return CompletableFuture.completedFuture(report);
-    }
-}
-*/
-
-// Cron Expression Format:
-// second minute hour day month weekday
-// "0 0 * * * *" — setiap jam
-// "0 0 0 * * *" — setiap hari tengah malam
-// "0 */5 * * * *" — setiap 5 menit
 ```
+
+Cron `detik menit jam hari bulan hari-minggu`: `0 0 7 * * *` = 07:00 tiap hari.
 
 ---
 
 ## Konsep Kunci
 
-### @Scheduled
-Task berjadwal otomatis. Cron expression untuk fleksibilitas.
+### `@Scheduled` + `@EnableScheduling` = Alarm + Saklar
+Tanpa saklar utama, semua alarm mati.
 
-### Cron Expression
-`second minute hour day month weekday`. `*` = setiap, `*/5` = setiap 5.
+### `cron` vs `fixedRate` = Jam Pasti vs Tiap X
+`cron "0 0 7 * * *"` jam 7 tepat. `fixedRate = 60000` tiap 60 detik dari mulai.
 
-### fixedRate vs fixedDelay
-- fixedRate: interval tetap dari start
-- fixedDelay: interval dari selesai
+---
 
-### @Async
-Method dijalankan di thread pool terpisah.
+## Penjelasan untuk Pemula
 
-### CompletableFuture
-Return value dari async method.
+### Analogi: Alarm Toko
+- **cron = alarm jam 7**: bunyi tiap pagi.
+- **fixedRate = timer masak**: tiap 60 detik cek.
+
+### Langkah 0 — Siapkan Device
+- Sama W1. Lihat log console (tidak perlu browser).
+
+### Cara Komputer Membaca
+1. Start → baca `@Scheduled` → daftarkan timer.
+2. Jam 7 → panggil `laporanPagi()`.
+
+### 3 Istilah Wajib
+1. **Scheduled/cron**: alarm/jadwal
+2. **EnableScheduling**: saklar
 
 ---
 
 ## Eksperimen
 
-- Buat scheduled task dengan cron expression
-- Eksperimen dengan fixedRate vs fixedDelay
-- Coba @Async dengan CompletableFuture
-- Buat async method dengan exception handling
-- Eksperimen dengan custom TaskScheduler
+- **Hijau:** `fixedRate = 5000` → log tiap 5 detik?
+- **Kuning:** Hapus `@EnableScheduling` → tidak ada log? (Saklar mati!)
+- **Merah:** cron `0 * * * * *` (tiap menit detik 0) → tiap menit?
 
 ---
 
 ## Tantangan
 
-Buat sistem reporting: scheduled task generate report setiap jam, async process, email notification.
+**Warung Otomatis:** `laporanPagi` cron 07:00 + `cekStok` tiap 60 detik + screenshot 2 log.
+
+---
+
+## Glosarium Mini
+
+- **Scheduled/cron/fixedRate**: alarm/jadwal/tiap-X
 
 ---
 
 ## Ringkasan
 
-Minggu 12 dari 14: **Async & Scheduling** (Level: Lanjutan). Background processing. Minggu depan: **Deployment**.
+Minggu 12 dari 14: **Alarm Rutin** (Level: Lanjutan). Kerja sendiri. Minggu depan: **Deployment**.

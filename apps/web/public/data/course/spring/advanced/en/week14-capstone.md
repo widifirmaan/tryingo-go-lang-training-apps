@@ -1,148 +1,78 @@
-# Capstone: E-Commerce API
+# Capstone: E-Commerce API — Warung Spring Grand Opening
 
-> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 14:** Capstone: E-Commerce API
+> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 14:** Capstone: E-Commerce API
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all concepts: Security, JPA, REST, Testing, Caching
-- Layered architecture: Controller → Service → Repository
-- Event-driven: OrderCreated → Email Notification
-- Docker deployment with multi-container
-- Production-ready: monitoring, health checks, caching
+- Gabung W1-W13: `JPA` rak + `Security` satpam + `REST` pintu + `Cache` laci + `Actuator` panel + `Docker` peti jadi 1 toko online
 
 ---
 
-## Program: Full Stack Backend
+## Kenapa Ini Penting Buat Kamu?
 
-```java
-// Capstone: E-Commerce REST API
-// Features: Auth, Products, Orders, Payment, Notifications
+13 minggu terpisah — capstone buktikan gabung jadi produk: daftar → login → pesan → bayar → notif. Ini portfolio "Spring production-ready" untuk kerja.
 
-// File: Project Structure
-/*
-src/main/java/com/example/ecommerce/
-├── ECommerceApplication.java
-├── config/
-│   ├── SecurityConfig.java
-│   ├── CacheConfig.java
-│   └── AsyncConfig.java
-├── controller/
-│   ├── AuthController.java
-│   ├── ProductController.java
-│   ├── OrderController.java
-│   └── PaymentController.java
-├── service/
-│   ├── UserService.java
-│   ├── ProductService.java
-│   ├── OrderService.java
-│   └── PaymentService.java
-├── repository/
-│   ├── UserRepository.java
-│   ├── ProductRepository.java
-│   └── OrderRepository.java
-├── model/
-│   ├── User.java
-│   ├── Product.java
-│   ├── Order.java
-│   └── Payment.java
-├── dto/
-│   ├── LoginRequest.java
-│   ├── RegisterRequest.java
-│   ├── ProductDTO.java
-│   └── OrderDTO.java
-├── exception/
-│   ├── GlobalExceptionHandler.java
-│   └── ProductNotFoundException.java
-└── event/
-    ├── OrderEvent.java
-    └── OrderEventListener.java
-*/
+---
 
-// File: OrderController.java (capstone example)
-/*
-@RestController
-@RequestMapping("/api/v1/orders")
-public class OrderController {
+## Program: Toko Spring Lengkap (Checklist Capstone)
 
-    private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    @GetMapping
-    @PreAuthorize("hasRole('USER')")
-    public List<OrderDTO> getUserOrders(Authentication auth) {
-        return orderService.getOrdersByCustomer(auth.getName());
-    }
-
-    @PostMapping
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<OrderDTO> createOrder(
-            @Valid @RequestBody CreateOrderRequest request,
-            Authentication auth) {
-        OrderDTO order = orderService.createOrder(auth.getName(), request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(order);
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
-    public OrderDTO getOrder(@PathVariable Long id) {
-        return orderService.getOrderById(id);
-    }
-}
-*/
-
-// Capstone Checklist:
-// ✅ Spring Security + JWT
-// ✅ CRUD REST API
-// ✅ Validation
-// ✅ Exception Handling
-// ✅ Caching (Redis)
-// ✅ Async + Events
-// ✅ Testing (Unit + Integration)
-// ✅ Docker + Docker Compose
-// ✅ Actuator + Monitoring
-// ✅ Production Config
+Struktur gabungan semua minggu:
+```
+src/main/java/com/warung/
+  WarungApplication.java     (W1: @SpringBootApplication + @EnableCaching + @EnableScheduling + @EnableAsync)
+  produk/ (W4: Entity + Repo + W3: Controller + W5: DTO)
+  keamanan/ (W6: SecurityConfig)
+  pesanan/ (W10: Event + Async)
+  laporan/ (W12: @Scheduled)
 ```
 
----
+Fitur wajib (cek 1 per 1):
+- [ ] `GET /api/v1/produk` + `POST` (W3+W5) + `validasi` (W8)
+- [ ] `SecurityConfig` `/admin` login (W6) + `test` hijau (W7)
+- [ ] `@Cacheable` daftar (W11) + `/actuator/health` UP (W9)
+- [ ] `Dockerfile` + `docker run` (W13) + deploy `Railway`
+- [ ] `README.md` cara jalan + screenshot
 
-## Key Concepts
+```bash
+./mvnw test          # hijau semua?
+./mvnw package       # jar jadi?
+docker build -t warung:1.0 . && docker run -p 8080:8080 warung:1.0
+curl localhost:8080/actuator/health  # {"status":"UP"}?
+```
 
-### Capstone
-Complete application combining all learned concepts.
-
-### Architecture
-Layered architecture with separation of concerns.
-
-### Security
-JWT authentication with role-based access.
-
-### Performance
-Redis caching and async processing.
-
-### Deployment
-Docker containerization with production config.
+**Tugas capstone:** Deploy publik + video 2 menit (daftar → login → pesan → cek health) + `README`.
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Add search and filter for products
-- Implement payment integration
-- Create admin dashboard endpoints
-- Add unit tests for all layers
-- Deploy to cloud platform
+### Capstone = Gabung 13 Minggu
+Rak + satpam + pintu + laci + panel + peti = 1 toko.
 
 ---
 
-## Challenge
+## Penjelasan untuk Pemula
 
-Build a complete E-Commerce API: Auth, Products, Orders, Payment, Notifications. Docker + Testing + Monitoring.
+### Analogi: Grand Opening Mal
+- **W1-W5 fondasi** (gedung, rak), **W6-W10 mesin** (satpam, pesan), **W11-W13 finishing** (laci, peti), **W14 = buka mal**.
+
+### 3 Istilah Wajib
+1. **Capstone/deploy/README**: gabung/buka/panduan
 
 ---
 
-## Summary
+## Tantangan
 
-Week 14 of 14: **Capstone: E-Commerce API** (Level: Advanced). Complete! 🎉 You've mastered Spring Boot from scratch to production-ready.
+**Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Spring 0→Ahli!** 🎉
+
+---
+
+## Glosarium Mini
+
+- **Capstone/deploy**: gabung/buka
+
+---
+
+## Ringkasan
+
+Minggu 14 dari 14: **Grand Opening** (Level: Lanjutan). **Selesai Spring 0→Ahli dari nol!** 🎉

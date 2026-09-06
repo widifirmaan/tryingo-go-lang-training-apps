@@ -1,139 +1,93 @@
-# Actuator & Monitoring
+# Actuator & Monitoring — Dasbor Sehat Warung Spring
 
-> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 9:** Actuator & Monitoring
+> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 9:** Actuator & Monitoring
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Spring Boot Actuator for monitoring and management
-- Health check endpoints with HealthIndicator
-- Custom metrics with Micrometer
-- Prometheus integration for metrics
-- Info endpoint and environment exposure
+- `spring-boot-starter-actuator` + `/actuator/health` cek sehat, `/actuator/metrics` angka (sumber: docs.spring.io/spring-boot/reference/actuator)
+- `management.endpoints.web.exposure.include` buka pintu yang perlu saja
 
 ---
 
-## Program: Health & Metrics
+## Kenapa Ini Penting Buat Kamu?
 
-```java
-// File: application.properties (Actuator config)
-/*
-management.endpoints.web.exposure.include=health,info,metrics,env
+Server mati jam 2 pagi tanpa tahu → pelanggan kabur. Dengan `/actuator/health` + monitoring (Prometheus), HP bunyi saat `DOWN`. Tanpa ini, tahu dari komplain.
+
+---
+
+## Program: Dasbor Sehat Warung
+
+```properties
+# application.properties — buka pintu perlu saja!
+management.endpoints.web.exposure.include=health,info,metrics
 management.endpoint.health.show-details=always
-management.info.env.enabled=true
-
-info.app.name=My Spring Boot App
-info.app.version=1.0.0
-info.app.description=Demo Spring Boot Actuator
-*/
-
-// File: HealthCheck.java
-/*
-@Component
-public class CustomHealthIndicator implements HealthIndicator {
-
-    @Override
-    public Health health() {
-        // Cek koneksi database, external service, dll
-        boolean isHealthy = checkDatabaseConnection();
-
-        if (isHealthy) {
-            return Health.up()
-                .withDetail("database", "Connected")
-                .withDetail("timestamp", LocalDateTime.now())
-                .build();
-        } else {
-            return Health.down()
-                .withDetail("database", "Disconnected")
-                .build();
-        }
-    }
-
-    private boolean checkDatabaseConnection() {
-        // Simulasi cek database
-        return true;
-    }
-}
-*/
-
-// File: MetricsConfig.java
-/*
-@Component
-public class OrderMetrics {
-
-    private final MeterRegistry meterRegistry;
-
-    public OrderMetrics(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
-    }
-
-    public void recordOrderCreated() {
-        meterRegistry.counter("orders.created").increment();
-    }
-
-    public void recordOrderTotal(double amount) {
-        meterRegistry.summary("orders.total").record(amount);
-    }
-}
-*/
-
-// Actuator Endpoints:
-// GET /actuator/health — health check
-// GET /actuator/info — app info
-// GET /actuator/metrics — metrics
-// GET /actuator/env — environment
-// GET /actuator/beans — Spring beans
-// GET /actuator/mappings — URL mappings
-
-// Dependencies:
-/*
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-actuator</artifactId>
-</dependency>
-<dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-registry-prometheus</artifactId>
-</dependency>
-*/
+info.app.nama=Warung Bu Siti
+info.app.versi=1.0.0
 ```
 
----
+```bash
+curl http://localhost:8080/actuator/health
+# {"status":"UP","components":{"db":{"status":"UP"},"diskSpace":{"status":"UP"}}}
 
-## Key Concepts
+curl http://localhost:8080/actuator/info
+# {"app":{"nama":"Warung Bu Siti","versi":"1.0.0"}}
 
-### Actuator
-Production-ready monitoring and management features.
+curl http://localhost:8080/actuator/metrics/http.server.requests
+```
 
-### Health Checks
-Custom health indicators for database, external services.
-
-### Metrics
-Micrometer for application metrics.
-
-### Prometheus
-Export metrics in Prometheus format.
-
-### Endpoints
-Health, metrics, info endpoints for monitoring.
+Matikan DB → `/health` jadi `DOWN` (bukti hidup!).
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Create custom health indicator
-- Add custom metrics counter
-- Experiment with Timer for duration measurement
-- Try Prometheus scraping
-- Create custom actuator endpoint
+### `/health` / `/info` / `/metrics` = Sehat/Info/Angka
+`health` UP/DOWN, `info` info app, `metrics` angka (request, JVM).
 
----
-
-## Challenge
-
-Build a monitoring dashboard: custom health check, metrics for order creation, Prometheus integration.
+### `exposure.include` = Buka Seperlunya
+Jangan `*` di produksi (bocor `env` berisi password!). Cukup `health,info`.
 
 ---
 
-## Summary
+## Penjelasan untuk Pemula
 
-Week 9 of 14: **Actuator & Monitoring** (Level: Intermediate). Production observability. Next week: **Messaging**.
+### Analogi: Panel Kesehatan Warung
+- **Actuator = panel di dinding**: lampu hijau UP, merah DOWN.
+- **Metrics = spedometer**: berapa request/detik.
+
+### Langkah 0 — Siapkan Device
+- Tambah `spring-boot-starter-actuator` + restart + buka `/actuator/health`.
+
+### Cara Komputer Membaca
+1. `GET /actuator/health` → cek DB + disk → `{"status":"UP"}`.
+2. DB mati → `DOWN`.
+
+### 3 Istilah Wajib
+1. **Actuator/health**: panel/sehat
+2. **exposure**: buka pintu
+
+---
+
+## Eksperimen
+
+- **Hijau:** Matikan DB → `health` DOWN? Nyalakan → UP?
+- **Kuning:** `exposure.include=*` → `/actuator/env` terlihat (bahaya!)? Kembalikan.
+- **Merah:** `show-details=never` → detail hilang (produksi aman)?
+
+---
+
+## Tantangan
+
+**Warung Terpantau:** `health` + `info` custom + `metrics` + screenshot UP + simulasi DOWN (matikan DB).
+
+---
+
+## Glosarium Mini
+
+- **Actuator/health/metrics**: panel/sehat/angka
+
+---
+
+## Ringkasan
+
+Minggu 9 dari 10: **Dasbor Sehat** (Level: Menengah). Mati ketahuan duluan. Minggu depan: **Messaging** — pesan antar dapur.
