@@ -1,151 +1,109 @@
-# Orchestration
+# Orchestration — Mandor 100 Peti Docker
 
 > **Kategori:** Docker | **Level:** Lanjutan | **Minggu 11:** Orchestration
 
 ## Tujuan Pembelajaran
 
-- Kubernetes concepts: Pod, Deployment, Service
-- kubectl: get, apply, logs, exec, scale
-- Deployment YAML: replicas, resources, probes
-- Service: ClusterIP, NodePort, LoadBalancer
-- Docker Swarm sebagai alternatif ringan
+- `docker compose --scale web=3` 3 peti + Kubernetes `Deployment replicas: 3` + `Service` pintu (sumber: kubernetes.io/docs/concepts)
+- `kubectl apply/get/logs/scale` perintah mandor
 
 ---
 
-## Program: Kubernetes Basics
+## Kenapa Ini Penting Buat Kamu?
+
+Promo 12.12 → 1 web peti antre panjang. Butuh 3 peti + mati 1 diganti otomatis. Manual `docker run` 3x + cek mati tiap jam = tidak tidur. Orchestrator = mandor 24 jam.
+
+---
+
+## Program: Mandor Warung
 
 ```bash
-# ─────────────────────────────────────────────────────────
-# KUBERNETES ORCHESTRATION — Basics
-# ─────────────────────────────────────────────────────────
+# Ringan: Compose scale (coba dulu!)
+docker compose up -d --scale web=3
+docker compose ps  # 3 web jalan
+```
 
-# Kubernetes Concepts:
-# Pod = smallest unit (1+ containers)
-# Deployment = manage Pod replicas
-# Service = network endpoint
-# Namespace = logical grouping
-# ConfigMap/Secret = configuration
-
-# kubectl basics
-kubectl version
-kubectl cluster-info
-kubectl get nodes
-kubectl get pods
-kubectl get services
-kubectl get deployments
-
-# File: deployment.yml
-cat << 'EOF' > deployment.yml
+```yaml
+# Berat: Kubernetes Deployment (k8s)
+# k8s/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: my-app
-  labels:
-    app: my-app
+metadata: { name: warung }
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: my-app
+  replicas: 3  # selalu 3 peti!
+  selector: { matchLabels: { app: warung } }
   template:
-    metadata:
-      labels:
-        app: my-app
+    metadata: { labels: { app: warung } }
     spec:
       containers:
-      - name: my-app
-        image: myapp:1.0
-        ports:
-        - containerPort: 3000
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3000
-          initialDelaySeconds: 10
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 3000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: my-app-service
-spec:
-  selector:
-    app: my-app
-  ports:
-  - port: 80
-    targetPort: 3000
-  type: LoadBalancer
-EOF
+        - name: web
+          image: warung:1.0
+          ports: [{ containerPort: 80 }]
+```
 
-# Apply dan manage
-kubectl apply -f deployment.yml
-kubectl get pods -w                    # Watch pods
-kubectl logs my-app-xxx               # Pod logs
-kubectl exec -it my-app-xxx -- bash    # Exec di pod
-kubectl scale deployment my-app --replicas=5
-kubectl rollout status deployment/my-app
-kubectl rollout undo deployment/my-app
-
-# Docker Swarm (alternative)
-docker swarm init
-docker service create --name web --replicas 3 -p 80:80 nginx
-docker service ls
-docker service scale web=5
-docker stack deploy -c docker-compose.yml myapp
+```bash
+kubectl apply -f k8s/
+kubectl get pods          # 3 RUNNING?
+kubectl scale deployment warung --replicas=5
+kubectl delete pod <nama> # mati 1 → otomatis ganti baru!
+kubectl logs -l app=warung
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Kubernetes
-Container orchestration platform. Manage deployment, scaling, dan operations.
+### `replicas: 3` = Selalu 3
+Mati 1 → buat baru otomatis (self-healing).
 
-### Pod
-Smallest deployable unit. Bisa berisi 1+ container.
+### `Service` = Pintu Tetap
+Pod IP berubah-ubah → Service 1 pintu stabil + bagi beban.
 
-### Deployment
-Manage Pod replicas. Rolling update, rollback.
+### Compose Scale vs K8s = Warung vs Mal
+`--scale` cukup untuk 1 server. K8s untuk banyak server.
 
-### Service
-Network endpoint untuk akses Pod. Types: ClusterIP, NodePort, LoadBalancer.
+---
 
-### Probes
-- Liveness: restart jika unhealthy
-- Readiness: mulai terima traffic jika ready
+## Penjelasan untuk Pemula
 
-### Docker Swarm
-Lighter alternative. Built into Docker. Less features dari K8s.
+### Analogi: Mandor Pabrik
+- **Orchestrator = mandor**: "selalu 3 kasir!" → kasir pingsan → ganti baru.
+- **Service = resepsionis**: pelanggan ke 1 pintu, dibagi ke kasir kosong.
+
+### Langkah 0 — Siapkan Device
+- Docker + `minikube start` (K8s lokal) atau `kind`.
+
+### Cara Komputer Membaca
+1. `apply` → K8s catat "mau 3" → buat 3 Pod.
+2. Pod mati → controller lihat 2 ≠ 3 → buat 1.
+
+### 3 Istilah Wajib
+1. **Pod/Deployment/Service**: peti/mandor/pintu
+2. **replicas/scale**: jumlah/tambah
 
 ---
 
 ## Eksperimen
 
-- Deploy app ke Minikube atau kind
-- Eksperimen dengan scaling
-- Coba rolling update
-- Buat Service dengan LoadBalancer
-- Eksperimen dengan ConfigMap
+- **Hijau:** `scale --replicas=1` → 1 Pod?
+- **Kuning:** `delete pod` → Pod baru muncul otomatis?
+- **Merah:** Tanpa `Service`, akses Pod langsung via IP → IP berubah setelah restart? (Itulah gunanya Service!)
 
 ---
 
 ## Tantangan
 
-Deploy multi-service app ke Kubernetes: frontend, backend, database. Gunakan Deployment dan Service.
+**Mal Terorkestrasi:** `Deployment replicas: 3` + `Service` + `scale 5` + `delete` 1 Pod buktikan ganti otomatis + screenshot `get pods`.
+
+---
+
+## Glosarium Mini
+
+- **Pod/Deployment/Service**: peti/mandor/pintu
+- **kubectl/scale**: perintah/tambah
 
 ---
 
 ## Ringkasan
 
-Minggu 11 dari 12: **Orchestration** (Level: Lanjutan). Kubernetes dan Swarm. Minggu depan: **Capstone Project**!
+Minggu 11 dari 12: **Mandor 24 Jam** (Level: Lanjutan). Mati diganti otomatis. Minggu depan: **Capstone**.
