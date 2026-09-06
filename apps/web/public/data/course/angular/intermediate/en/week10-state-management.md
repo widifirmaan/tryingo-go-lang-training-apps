@@ -1,14 +1,14 @@
 # State Management
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 10:** State Management
+> **Kategori:** Angular | **Level:** Menengah | **Minggu 10:** State Management
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
 - NgRx: Store, Actions, Reducers
-- Selectors for derived state
-- Effects for side effects
+- Selectors untuk derived state
+- Effects untuk side effects
 - Angular Signals: signal, computed, effect
-- When to use NgRx vs Signals
+- Kapan pakai NgRx vs Signals
 
 ---
 
@@ -26,31 +26,31 @@ console.log('State Management siap digunakan');
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### NgRx
-Redux pattern.
+Redux pattern: unidirectional data flow.
 
 ### Signals
-Reactive primitives.
+Reactive primitives: signal(), computed(), effect().
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create NgRx store with CRUD
-- Implement Signal-based state
-- Create custom selector
-- Add effect for API call
-
----
-
-## Challenge
-
-Build a shopping cart with Signals: add/remove items, total price, persist state.
+- Buat NgRx store dengan CRUD
+- Implementasikan Signal-based state
+- Buat custom selector
+- Tambah effect untuk API call
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 14: **State Management** (Level: Intermediate). Intermediate phase complete! Next week: **Testing**.
+Buat shopping cart dengan Signals: add/remove items, total price, persist state.
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 14: **State Management** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Testing**.

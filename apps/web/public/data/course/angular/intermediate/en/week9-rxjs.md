@@ -1,14 +1,14 @@
 # RxJS Fundamentals
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 9:** RxJS Fundamentals
+> **Kategori:** Angular | **Level:** Menengah | **Minggu 9:** RxJS Fundamentals
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
 - Observable: stream of data
 - Operators: map, filter, switchMap
-- Subject and BehaviorSubject
-- Subscription and unsubscribe
-- Error handling with catchError
+- Subject dan BehaviorSubject
+- Subscription dan unsubscribe
+- Error handling dengan catchError
 
 ---
 
@@ -28,34 +28,34 @@ console.log('RxJS Fundamentals siap digunakan');
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Observable
-Lazy data stream.
+Lazy stream of data.
 
 ### Operators
-Transform streams.
+Transform stream: map, filter, switchMap.
 
 ### Subject
 Multi-cast observable.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create observable from array
-- Implement search with debounce
-- Use BehaviorSubject for state
-- Create custom operator
-
----
-
-## Challenge
-
-Build a search component with RxJS: debounce, distinctUntilChanged, switchMap to API.
+- Buat observable dari array
+- Implementasikan search dengan debounce
+- Gunakan BehaviorSubject untuk state
+- Buat custom operator
 
 ---
 
-## Summary
+## Tantangan
 
-Week 9 of 14: **RxJS Fundamentals** (Level: Intermediate). Next week: **State Management**.
+Buat search component dengan RxJS: debounce, distinctUntilChanged, switchMap ke API.
+
+---
+
+## Ringkasan
+
+Minggu 9 dari 14: **RxJS Fundamentals** (Level: Menengah). Minggu depan: **State Management**.
