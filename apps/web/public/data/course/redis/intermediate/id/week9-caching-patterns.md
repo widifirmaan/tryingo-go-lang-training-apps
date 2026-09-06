@@ -1,101 +1,83 @@
-# Caching Patterns
+# Caching Patterns — Strategi Laci Redis
 
 > **Kategori:** Redis | **Level:** Menengah | **Minggu 9:** Caching Patterns
 
 ## Tujuan Pembelajaran
 
-- Cache-aside pattern
-- Write-through pattern
-- Cache invalidation
-- Cache stampede prevention
-- TTL strategy
+- Cache-Aside (baca laci dulu), Write-Through (tulis laci+DB), TTL + `EXPIRE`, anti `cache stampede` + `penetration` (sumber: redis.io/docs/manual/patterns + AWS caching whitepaper)
 
 ---
 
-## Program: Strategi Caching
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# Cache-Aside Pattern
-# 1. Cek cache
-GET product:123
-# 2. Jika miss, baca dari DB
-# 3. Simpan ke cache
-SET product:123 "{...}" EX 3600
+Tanpa pola, cache basi (harga lama) atau DB jebol saat laci kosong bareng (stampede 1000 request). Pola benar = cepat + benar.
 
-# Write-Through Pattern
-# 1. Tulis ke DB
-# 2. Tulis ke cache
-SET product:123 "{...}" EX 3600
+---
 
-# Write-Behind (Write-Back)
-# 1. Tulis ke cache
-# 2. Async flush ke DB
+## Program: 3 Pola Warung
 
-# Cache invalidation
-DEL product:123
-# Atau pattern-based
-EVAL "
-local keys = redis.call('KEYS', ARGV[1])
-for _, key in ipairs(keys) do
-    redis.call('DEL', key)
-end
-return #keys
-" 0 "product:*"
+```bash
+# 1. Cache-Aside (paling umum): baca laci → tidak ada → DB → isi laci
+GET produk:1
+# (kosong) → SELECT dari DB → SET produk:1 ... EX 60
 
-# Cache stampede prevention
-# Gunakan lock untuk regenerate cache
-EVAL "
-if redis.call('SET', KEYS[1], 'regenerating', 'NX', 'EX', 30) then
-    return 'regenerate'
-end
-return 'wait'
-" 1 cache:lock:product:123
+# 2. TTL wajib (anti basi):
+SET produk:1 "..." EX 60  # 60 detik, lalu segar lagi
 
-# TTL strategy
-# - Short TTL untuk data sering berubah
-# - Long TTL untuk data statis
-# - Random TTL untuk hindari thundering herd
+# 3. Stampede guard: kunci bangun
+# SET lock:produk:1 1 NX EX 10  → hanya 1 yang ke DB, lain tunggu
+SET lock:produk:1 1 NX EX 10
 
-# Cache warming
-# Pre-populate cache sebelum peak traffic
+# 4. Penetration guard: cache juga "tidak ada" (ersects, TTL pendek)
+SET produk:999 "NULL" EX 30
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Cache-Aside
-App cek cache, jika miss baca DB, simpan ke cache.
+### Cache-Aside / Write-Through / TTL
+- Aside: baca laci dulu (umum).
+- Through: tulis laci + DB bareng (konsisten, lambat tulis).
+- TTL: kadaluarsa wajib (anti basi selamanya).
 
-### Write-Through
-Tulis ke DB dan cache bersamaan.
+### Stampede / Penetration = Serbuan
+- Stampede: laci kosong bareng → 1000 ke DB. Obat: kunci `NX`.
+- Penetration: tanya yang tidak ada terus → DB terus. Obat: cache `"NULL"` pendek.
 
-### Invalidation
-Hapus cache saat data berubah.
+---
 
-### Stampede
-Lock untuk mencegah banyak request regenerate cache.
+## Penjelasan untuk Pemula
 
-### TTL Strategy
-Random TTL untuk hindari thundering herd.
+### Analogi: Laci Kasir + Aturan
+- **Aside = cek laci dulu**, **TTL = label kadaluarsa**, **kunci NX = nomor antre 1 bangun**.
+
+### 3 Istilah Wajib
+1. **Aside/Through/TTL**: cek-dulu/tulis-bareng/kadaluarsa
+2. **Stampede/penetration**: serbuan/tanya-ngawur
 
 ---
 
 ## Eksperimen
 
-- Cache hit ratio monitoring
-- LRU eviction policy
-- Cache warming script
-- Multi-level cache
+- **Hijau:** `SET x 1 EX 2` → tunggu 3 detik → `GET` hilang?
+- **Kuning:** `SET k 1 NX` 2x → kedua `nil` (kunci dipegang)?
+- **Merah:** Tanpa TTL + harga berubah → basi selamanya? Pasang TTL.
 
 ---
 
 ## Tantangan
 
-Cache layer: implement cache-aside dengan stampede prevention.
+**Laci Benar:** Cache-Aside + TTL 60 + kunci stampede + `"NULL"` penetration untuk `produk` + buktikan basi maks 60 detik.
+
+---
+
+## Glosarium Mini
+
+- **Aside/TTL/NX**: cek/kadaluarsa/kunci
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 10: **Caching Patterns** (Menengah).
+Minggu 9 dari 10: **Strategi Laci** (Level: Menengah). Cepat + benar. Minggu depan: **Capstone**.

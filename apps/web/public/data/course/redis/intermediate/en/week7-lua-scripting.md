@@ -1,102 +1,73 @@
-# Lua Scripting
+# Lua Scripting — Resep di Server Redis
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 7:** Lua Scripting
+> **Kategori:** Redis | **Level:** Menengah | **Minggu 7:** Lua Scripting
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- EVAL for atomic scripts
-- Rate limiter with Lua
-- Distributed locks
-- Safe lock release
-- SCRIPT LOAD and EVALSHA
+- `EVAL "return redis.call('GET', KEYS[1])" 1 stok:beras` jalankan resep di server (atomik!) (sumber: redis.io/docs/data-types/functions + scripting)
 
 ---
 
-## Program: Redis Lua Scripts
+## Kenapa Ini Penting Buat Kamu?
 
-```shell
-# Lua scripting: operasi atomic
-# Rate limiter
-EVAL "
-local current = redis.call('GET', KEYS[1])
-if current and tonumber(current) >= tonumber(ARGV[1]) then
-    return 0
-end
-redis.call('INCR', KEYS[1])
-if redis.call('TTL', KEYS[1]) == -1 then
-    redis.call('EXPIRE', KEYS[1], tonumber(ARGV[2]))
-end
-return 1
-" 1 rate:limit:user:1001 10 60
+Cek stok + kurang 1 = 2 perintah (rebutan 2 kasir!). Dengan Lua 1 script, cek+kurang atomik di server — tidak ada jeda rebutan.
 
-# Distributed lock
-EVAL "
-if redis.call('SET', KEYS[1], ARGV[1], 'NX', 'PX', ARGV[2]) then
-    return 1
-end
-return 0
-" 1 lock:resource "owner_id" 10000
+---
 
-# Release lock (hanya pemilik)
-EVAL "
-if redis.call('GET', KEYS[1]) == ARGV[1] then
-    return redis.call('DEL', KEYS[1])
-end
-return 0
-" 1 lock:resource "owner_id"
+## Program: Kurang Stok Atomik
 
-# Atomic transfer
-EVAL "
-local saldo = tonumber(redis.call('GET', KEYS[1]))
-if saldo >= tonumber(ARGV[1]) then
-    redis.call('DECRBY', KEYS[1], ARGV[1])
-    redis.call('INCRBY', KEYS[2], ARGV[1])
-    return 1
-end
-return 0
-" 2 saldo:user:1 saldo:user:2 500000
+```bash
+EVAL "local s = tonumber(redis.call('GET', KEYS[1])); if s > 0 then redis.call('DECR', KEYS[1]); return s - 1; else return -1; end" 1 stok:beras
+```
 
-# Load script untuk reuse
-SCRIPT LOAD "return redis.call('GET', KEYS[1])"
-# EVALSHA <sha> 1 key
+```bash
+SET stok:beras 10
+# Jalankan script di atas → 9 (atomik, aman 10 kasir bareng!)
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### EVAL
-Run Lua scripts in Redis. Atomic.
+### `EVAL script jumlah KEY...` = Resep di Server
+Script Lua jalan di server sekaligus (atomik). `KEYS[1]` kunci, `ARGV` data.
 
-### Rate Limiter
-Check counter, increment, set TTL.
-
-### Distributed Lock
-SET NX for locking, DEL with owner verification.
-
-### Atomic Transfer
-Check balance, debit, credit in one script.
-
-### SCRIPT LOAD
-Cache scripts for reuse with SHA.
+### Atomik = Tidak Rebutan
+2 kasir jalan bareng → server antrekan, hasil tepat.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Token bucket rate limiter
-- Redlock algorithm
-- Atomic inventory decrement
-- Lua script debugging
+### Analogi: Resep di Dapur (Bukan Telepon)
+- **Tanpa Lua = telepon 2x**: "cek stok?" ... "kurang 1" (di antaranya diserobot!).
+- **Lua = tulis resep, dapur kerjakan sekaligus**.
 
----
-
-## Challenge
-
-Distributed lock manager: acquire, release, renew.
+### 3 Istilah Wajib
+1. **EVAL/KEYS**: resep/kunci
+2. **Atomik**: sekaligus-aman
 
 ---
 
-## Summary
+## Eksperimen
 
-Week 7 of 10: **Lua Scripting** (Intermediate).
+- **Hijau:** Stok 1 + 2x script cepat → hasil 0 dan -1 (tolak)?
+- **Kuning:** Bandingkan GET+DECR manual 2 terminal bareng → bisa minus?
+
+---
+
+## Tantangan
+
+**Kasir Atomik:** Script `beli(kunci, qty)`: jika stok >= qty kurangi + return sisa, else return -1. Test 2 terminal bareng.
+
+---
+
+## Glosarium Mini
+
+- **EVAL/Lua**: resep
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 10: **Resep Atomik** (Level: Menengah). Tanpa rebutan. Minggu depan: **Cluster**.
