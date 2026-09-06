@@ -1,109 +1,143 @@
-# Database & TypeORM
+# Database TypeORM — Rak Permanen NestJS
 
-> **Kategori:** NestJS | **Level:** Beginner | **Minggu 4:** Database & TypeORM
+> **Kategori:** NestJS | **Level:** Pemula | **Minggu 4:** Database & TypeORM
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- TypeORM Entity: @Entity, @Column, @PrimaryGeneratedColumn
-- Repository pattern: inject into service
-- Database config: TypeOrmModule.forRoot
-- Relationships: OneToMany, ManyToOne, ManyToMany
-- Migrations and synchronize
+- `@Entity()` + `@Column()` + `@PrimaryGeneratedColumn()` cetak biru rak (sumber: typeorm.io/entities)
+- `TypeOrmModule.forRoot({...})` + `forFeature([Produk])` sambung DB, `@InjectRepository(Produk)` suntik rak
+- `synchronize: true` untuk belajar (jangan di produksi!)
 
 ---
 
-## Program: Entity & Repository
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+Array di service hilang saat restart — warung tutup buka stok nol lagi. Dengan TypeORM + Postgres, data awet. `synchronize: true` bikin tabel otomatis dari entity (tanpa `CREATE TABLE` manual) — cocok belajar.
 
-@Entity('users')
-export class User {
+---
+
+## Program: Rak TypeORM Warung
+
+```bash
+npm install @nestjs/typeorm typeorm pg
+```
+
+```typescript
+// produk.entity.ts — cetak biru (bukan tabel SQL manual!)
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+@Entity('produks')
+export class Produk {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 100 })
   nama: string;
-  
-  @Column({ unique: true })
-  email: string;
 
-  @Column({ default: 'user' })
-  role: string;
+  @Column()
+  harga: number;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column({ default: 0 })
+  stok: number;
 }
-
-console.log('NestJS + TypeORM Simulation:');
-console.log('');
-console.log('=== Entity Definition ===');
-console.log("@Entity('users')");
-console.log('class User {');
-console.log('  @PrimaryGeneratedColumn() id: number');
-console.log('  @Column() nama: string');
-console.log('  @Column({ unique: true }) email: string');
-console.log('}');
-console.log('');
-console.log('=== Repository Pattern ===');
-console.log('constructor(
-  @InjectRepository(User)
-  private usersRepository: Repository<User>
-) {}');
-console.log('');
-console.log('=== CRUD Operations ===');
-const userRepo = {
-  findAll: () => [{ id: 1, nama: 'Budi', email: 'budi@mail.com' }],
-  findOne: (id) => ({ id, nama: 'User ' + id, email: 'user' + id + '@mail.com' }),
-  create: (data) => ({ id: 3, ...data, role: 'user', createdAt: new Date() }),
-  update: (id, data) => ({ id, ...data }),
-  delete: (id) => true,
-};
-
-console.log('findAll():', userRepo.findAll().length, 'users');
-console.log('findOne(1):', userRepo.findOne(1).nama);
-console.log('create():', userRepo.create({ nama: 'Andi', email: 'andi@mail.com' }));
-console.log('update():', userRepo.update(1, { nama: 'Budi Updated' }));
-console.log('delete():', userRepo.delete(2));
-console.log('');
-console.log('=== Module Config ===');
-console.log('TypeOrmModule.forRoot({ type: "postgres", host: "localhost" })');
-console.log('TypeOrmModule.forFeature([User])');
 ```
 
+```typescript
+// app.module.ts — sambung DB
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Produk } from './produk/produk.entity';
+
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      username: 'postgres',
+      password: 'rahasia',
+      database: 'warung',
+      entities: [Produk],
+      synchronize: true, // belajar saja! produksi pakai migration
+    }),
+    TypeOrmModule.forFeature([Produk]),
+  ],
+})
+export class AppModule {}
+```
+
+```typescript
+// produk.service.ts — suntik rak
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Produk } from './produk.entity';
+
+@Injectable()
+export class ProdukService {
+  constructor(@InjectRepository(Produk) private repo: Repository<Produk>) {}
+
+  semua() { return this.repo.find(); }
+  tambah(p: Partial<Produk>) { return this.repo.save(p); }
+  cari(nama: string) { return this.repo.find({ where: { nama } }); }
+}
+```
+
+Test: `curl -X POST .../produk` → restart server → `GET` data masih ada!
+
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Entity
-Maps class to database table.
+### `@Entity` + `@Column` = Cetak Biru
+`@Entity('produks')` nama tabel, `@Column()` kolom, `@PrimaryGeneratedColumn()` nomor otomatis.
 
-### Repository
-Injected into services.
+### `forRoot` + `forFeature` = Sambung + Daftarkan
+`forRoot` koneksi DB 1x, `forFeature([Produk])` daftarkan rak ke module.
 
-### Config
-Database connection setup.
-
-### Relationships
-Table relations.
+### `Repository` = Tukang Gudang
+`find()`, `save()`, `findOneBy({id})`, `delete(id)` — tanpa SQL.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create Product entity with User relation
-- Implement pagination with findAndCount
-- Add query builder for complex queries
-- Create migration for schema changes
+### Analogi: Rak dengan Tukang
+- **Entity = gambar rak**, **Repository = tukang** yang ambil/simpan, **forRoot = sambung listrik gudang**.
+
+### Langkah 0 — Siapkan Device
+- Postgres jalan (`docker run -e POSTGRES_PASSWORD=rahasia -p 5432:5432 -d postgres`) + DB `warung` dibuat.
+
+### Cara Komputer Membaca
+1. Start → `forRoot` konek → `synchronize` buat tabel `produks` jika belum ada.
+2. `repo.save({nama:"Beras"})` → `INSERT INTO produks ...`.
+
+### 3 Istilah Wajib
+1. **Entity/Repository**: biru/tukang
+2. **synchronize**: bikin otomatis (dev saja)
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build blog database: User, Post, Comment entities with relationships and CRUD.
+- **Hijau:** `POST` 2 produk → restart → `GET` masih 2? (awet!)
+- **Kuning:** Ubah entity tambah `kategori` → restart → kolom muncul otomatis?
+- **Merah:** `synchronize: false` + entity baru → tabel tidak dibuat? (Itulah kenapa dev pakai true)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 4 of 12: **Database & TypeORM** (Level: Beginner). Beginner phase complete! Next week: **Pipes & Validation** (Intermediate).
+**Rak Lengkap:** `Produk` + `Pelanggan` entity + 2 service `Repository` + `GET/POST` keduanya + restart cek awet. **Selesai Beginner NestJS!**
+
+---
+
+## Glosarium Mini
+
+- **Entity/Column/Repository**: biru/kolom/tukang
+- **forRoot/forFeature**: sambung/daftar
+- **synchronize**: otomatis (dev)
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 4: **Rak Permanen** (Level: Pemula). **Selesai Beginner NestJS!** Lanjut: **Auth/JWT** (Menengah).
