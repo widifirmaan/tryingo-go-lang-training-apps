@@ -1,106 +1,102 @@
-# Stored Procedure & Function
+# Stored Procedure — Resep Tersimpan di Gudang MySQL
 
-> **Kategori:** MySQL | **Level:** Pemula | **Minggu 5:** Stored Procedure & Function
+> **Kategori:** MySQL | **Level:** Pemula | **Minggu 5:** Stored Procedure
 
 ## Tujuan Pembelajaran
 
-- CREATE PROCEDURE dengan parameter IN/OUT
-- CREATE FUNCTION deterministic
-- IF/ELSE dalam prosedur
-- DECLARE variabel
-- CALL prosedur
+- `DELIMITER //` ganti titik-koma sementara, `CREATE PROCEDURE hitungTotal()` simpan resep di server, `CALL hitungTotal()` panggil, `DROP PROCEDURE` hapus (sumber: MySQL 8.0 docs)
+- Parameter `IN kategori VARCHAR(50)` untuk resep fleksibel
 
 ---
 
-## Program: Prosedur Tersimpan
+## Kenapa Ini Penting Buat Kamu?
+
+Laporan "total Sembako" dihitung tiap pagi dengan query 5 baris — copy-paste rawan salah. Dengan procedure, simpan sekali di gudang → pagi cukup `CALL hitungTotal('Sembako')` 1 baris. Resep baku, semua kasir sama.
+
+---
+
+## Program: Resep di Gudang
 
 ```sql
+-- Ganti pembatas dulu (karena resep berisi ; di dalam)
 DELIMITER //
 
-CREATE PROCEDURE hitung_total_pajak(
-    IN harga DECIMAL(10,2),
-    IN persen_pajak DECIMAL(5,2),
-    OUT total DECIMAL(10,2)
-)
+CREATE PROCEDURE hitungTotal(IN kat VARCHAR(50))
 BEGIN
-    SET total = harga + (harga * persen_pajak / 100);
+  SELECT kategori, SUM(harga * stok) AS total_nilai
+  FROM produk
+  WHERE kategori = kat
+  GROUP BY kategori;
 END //
 
+-- Kembalikan pembatas
 DELIMITER ;
 
-CALL hitung_total_pajak(100000, 11, @result);
-SELECT @result AS total_dengan_pajak;
+-- Panggil resep (1 baris!)
+CALL hitungTotal('Sembako');
+CALL hitungTotal('Sayur');
 
-DELIMITER //
-
-CREATE FUNCTION diskon_by_total(total_belanja DECIMAL(12,2))
-RETURNS DECIMAL(12,2)
-DETERMINISTIC
-BEGIN
-    DECLARE diskon DECIMAL(12,2);
-    IF total_belanja >= 1000000 THEN
-        SET diskon = total_belanja * 0.1;
-    ELSEIF total_belanja >= 500000 THEN
-        SET diskon = total_belanja * 0.05;
-    ELSE
-        SET diskon = 0;
-    END IF;
-    RETURN diskon;
-END //
-
-DELIMITER ;
-
-SELECT nama, harga, diskon_by_total(harga) AS diskon FROM produk;
-
-DELIMITER //
-
-CREATE PROCEDURE laporan_penjualan(IN bulan VARCHAR(7))
-BEGIN
-    SELECT kategori, COUNT(*) AS jumlah, SUM(harga * stok) AS nilai_stok
-    FROM produk GROUP BY kategori;
-END //
-
-DELIMITER ;
-
-CALL laporan_penjualan('2024-01');
+-- Lihat & hapus resep
+SHOW PROCEDURE STATUS WHERE Db = 'toko_db';
+DROP PROCEDURE IF EXISTS hitungTotal;
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Stored Procedure
-Prosedur tersimpan di database. Parameter: IN, OUT, INOUT.
+### `DELIMITER //` = Ganti Titik
+MySQL baca `;` sebagai "jalankan". Resep berisi banyak `;` → ganti pembatas jadi `//` dulu, kembalikan setelahnya.
 
-### Function
-Fungsi mengembalikan nilai. Harus DETERMINISTIC atau READS SQL DATA.
+### `CREATE PROCEDURE` + `CALL` = Simpan & Panggil
+`CREATE PROCEDURE nama(IN param TIPE)` simpan, `CALL nama('isi')` jalankan.
 
-### IF/ELSE
-Kondisi dalam prosedur MySQL.
+### `IN` = Bahan Masuk
+`IN kat VARCHAR(50)` = resep terima 1 bahan `kat`.
 
-### DECLARE
-Deklarasi variabel lokal.
+---
 
-### CALL
-Memanggil stored procedure.
+## Penjelasan untuk Pemula
+
+### Analogi: Resep Ditempel di Dinding Gudang
+- **Query biasa = resep di kertas lepas**: tiap pagi tulis ulang, bisa salah.
+- **Procedure = resep ditempel di dinding**: `CALL` = tunjuk resep, gudang kerjakan.
+
+### Langkah 0 — Siapkan Device
+- Sama W1. `DELIMITER` hanya di client (`mysql`, `db-fiddle` console) — bukan bagian SQL server.
+
+### Cara Komputer Membaca
+1. `CREATE PROCEDURE ...` → MySQL simpan teks resep + cek syntax sekali.
+2. `CALL hitungTotal('Sembako')` → MySQL ambil resep, isi `kat='Sembako'`, jalankan `SELECT ... WHERE kategori = 'Sembako'`.
+
+### 3 Istilah Wajib
+1. **Procedure**: resep tersimpan
+2. **DELIMITER**: pembatas perintah
+3. **CALL**: panggil resep
 
 ---
 
 ## Eksperimen
 
-- Procedure dengan cursor
-- Function kalkulasi
-- Error handler
-- Loop dalam prosedur
+- **Hijau:** `CALL hitungTotal('Protein')` → total kategori Protein?
+- **Kuning:** Buat `stokRendah()` tanpa parameter: `SELECT * FROM produk WHERE stok < 5` → `CALL stokRendah()`?
+- **Merah:** Lupa `DELIMITER //` → error `syntax` di `;` pertama? Tambah delimiter.
 
 ---
 
 ## Tantangan
 
-Sistem prosedur: kalkulasi diskon, laporan stok, validasi data.
+**Resep Warung Lengkap:** Buat `diskonKategori(IN kat VARCHAR(50), IN persen INT)` yang `UPDATE produk SET harga = harga * (1 - persen/100) WHERE kategori = kat` → `CALL diskonKategori('Sayur', 10)` → `SELECT` cek harga turun 10%.
+
+---
+
+## Glosarium Mini
+
+- **PROCEDURE/CALL/DROP**: simpan/panggil/hapus resep
+- **DELIMITER/IN**: pembatas/bahan
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 10: **Stored Procedure & Function** (Pemula).
+Minggu 5 dari 5: **Resep Gudang** (Level: Pemula). **Selesai Beginner MySQL!** Minggu depan: **Advanced Query** (Menengah).

@@ -1,160 +1,111 @@
-# OOP: Class & Object
+# OOP Class & Object — Cetak Biru Kartu Warung C#
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 4:** OOP: Class & Object
 
 ## Tujuan Pembelajaran
 
-- Class dan object: properties, method, constructor
-- Inheritance: base class dan derived class
-- Interface: definisi kontrak method
-- Collection: List<T> untuk kumpulan object
-- Object initializer dan auto-properties
+- `class Produk { ... }` cetak biru, `new Produk(...)` kartu, `constructor` isi awal (sumber: Microsoft Learn classes)
+- `{ get; set; }` properti, `public/private`, ` : Produk` warisan, `List<Produk>` rak kartu
 
 ---
 
-## Program: Sistem Toko
+## Kenapa Ini Penting Buat Kamu?
+
+50 produk tanpa cetak biru → tulis `nama, harga, stok` 50x. Dengan `class` tulis sekali, `new` 50 kartu — ubah rumus diskon 1 tempat. `List<Produk>` rak khusus kartu (tidak campur).
+
+---
+
+## Program: Kartu Produk C#
 
 ```csharp
-using System;
-using System.Collections.Generic;
+class Produk {
+  public string Nama { get; set; } = "";  // properti auto
+  public decimal Harga { get; set; }
+  public int Stok { get; set; }
 
-class Product
-{
-    // Properties
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public double Price { get; set; }
-    public int Stock { get; set; }
+  public Produk(string nama, decimal harga, int stok = 0) { // constructor
+    Nama = nama; Harga = harga; Stok = stok;
+  }
 
-    // Constructor
-    public Product(int id, string name, double price)
-    {
-        Id = id;
-        Name = name;
-        Price = price;
-        Stock = 0;
-    }
-
-    // Method
-    public string Info()
-    {
-        return $"{Name}: Rp{Price:N0} (stok: {Stock})";
-    }
-
-    public void ApplyDiscount(double percent)
-    {
-        Price -= Price * (percent / 100);
-    }
-
-    public void Restock(int amount)
-    {
-        Stock += amount;
-    }
+  public string Info() => $"{Nama}: Rp{Harga:N0} (stok {Stok})";
+  public void Diskon(int persen) => Harga -= Harga * persen / 100;
 }
 
-// Inheritance
-class Electronics : Product
-{
-    public int WarrantyYears { get; set; }
-
-    public Electronics(int id, string name, double price, int warranty)
-        : base(id, name, price)
-    {
-        WarrantyYears = warranty;
-    }
-
-    public new string Info()
-    {
-        return $"{base.Info()}, Garansi: {WarrantyYears} tahun";
-    }
+class Elektronik : Produk { // warisan
+  public int Garansi { get; set; }
+  public Elektronik(string nama, decimal harga, int stok, int garansi)
+    : base(nama, harga, stok) { Garansi = garansi; }
 }
 
-// Interface
-interface IDiscountable
-{
-    void ApplyDiscount(double percent);
-}
+var beras = new Produk("Beras 5kg", 62000, 10);
+Console.WriteLine(beras.Info());
+beras.Diskon(10);
+Console.WriteLine("Setelah diskon: " + beras.Info());
 
-class Program
-{
-    static void Main()
-    {
-        // Object
-        Product p1 = new Product(1, "Laptop", 15000000);
-        p1.Restock(10);
-        Console.WriteLine(p1.Info());
-
-        p1.ApplyDiscount(10);
-        Console.WriteLine($"Setelah diskon: {p1.Info()}");
-
-        // Inheritance
-        Electronics laptop = new Electronics(2, "Laptop Pro", 20000000, 3);
-        Console.WriteLine(laptop.Info());
-
-        // Collection
-        List<Product> products = new List<Product>
-        {
-            p1,
-            laptop,
-            new Product(3, "Mouse", 250000)
-        };
-
-        Console.WriteLine("\n=== Daftar Produk ===");
-        foreach (var p in products)
-        {
-            Console.WriteLine(p.Info());
-        }
-
-        // Object initializer
-        Product p4 = new Product(4, "Keyboard", 500000)
-        {
-            Stock = 15
-        };
-        Console.WriteLine(p4.Info());
-    }
-}
+// Rak kartu
+var rak = new List<Produk> { beras, new Produk("Bayam", 5000, 20) };
+foreach (var p in rak) Console.WriteLine(p.Info());
+Console.WriteLine($"Total item: {rak.Count}");
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Class & Object
-Class adalah blueprint. Object adalah instance. Properties dengan get/set.
+### `class` + `new` + Constructor
+`class` biru, `new Produk(...)` kartu, constructor `public Produk(...)` isi awal.
 
-### Constructor
-Method khusus untuk inisialisasi object. Bisa multiple (overloading).
+### `{ get; set; }` = Properti
+`public string Nama { get; set; }` baca-tulis. `private` kunci.
 
-### Inheritance
-`class Electronics : Product` — warisi semua member. `base()` untuk panggil parent constructor.
+### `: Produk` = Warisan
+`Elektronik : Produk` punya semua + `Garansi`. `base(...)` panggil constructor induk.
 
-### Interface
-`interface IDiscountable { void ApplyDiscount(); }` — kontrak yang harus diimplement.
+### `List<Produk>` = Rak Kartu
+`new List<Produk>()`, `Add()`, `Count`, `foreach`.
 
-### List<T>
-Generic collection. `Add`, `Remove`, `foreach`.
+---
 
-### Object Initializer
-`new Product { Id = 1, Name = "X" }` — set property saat buat object.
+## Penjelasan untuk Pemula
+
+### Analogi: Cetak Biru & Rak
+- **class = cetak biru**, **new = cetak kartu**, **List = rak** khusus kartu.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `dotnet run`.
+
+### Cara Komputer Membaca
+1. `new Produk("Beras", 62000, 10)` → alokasi kartu → constructor isi 3 field.
+2. `beras.Diskon(10)` → `Harga` kartu itu jadi 55800.
+
+### 3 Istilah Wajib
+1. **Class/object**: biru/kartu
+2. **Properti/constructor**: akses/isi awal
+3. **Inheritance/List**: warisan/rak
 
 ---
 
 ## Eksperimen
 
-- Tambah method baru pada Product
-- Buat class baru yang inherit dari Product
-- Eksperimen dengan interface implementation
-- Coba List<T> dengan Sort dan Find
-- Buat constructor overloading
+- **Hijau:** `new Produk("Gula", 15000)` → `Info()`?
+- **Kuning:** `rak.Add(new Produk("Kopi", 12000, 5))` → `Count` 3?
+- **Merah:** `beras.Harga = -100` bisa? (Ya, belum validasi — minggu validasi!) Coba `private set`.
 
 ---
 
 ## Tantangan
 
-Buat sistem perpustakaan: class Book, Member, Loan. Method: Borrow, Return, Search. Gunakan List<T> dan inheritance.
+**Toko OOP:** `class Keranjang { public List<Produk> Items = new(); public void Tambah(Produk p) => Items.Add(p); public decimal Total() { decimal s = 0; foreach (var i in Items) s += i.Harga; return s; } }` → isi 3 → `Total()`. **Selesai Beginner C#!**
+
+---
+
+## Glosarium Mini
+
+- **class/new/get-set**: biru/kartu/akses
+- **base/List**: induk/rak
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 12: **OOP: Class & Object** (Level: Pemula). Selesai fase Beginner! Minggu depan: **LINQ** (Intermediate).
+Minggu 4 dari 4: **OOP C#** (Level: Pemula). **Selesai Beginner C#!** Lanjut: **LINQ** (Menengah).

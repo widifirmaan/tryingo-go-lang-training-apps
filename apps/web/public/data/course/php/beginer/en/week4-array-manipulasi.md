@@ -1,97 +1,117 @@
-# Arrays & Manipulation
+# Array & Manipulasi — Rak dan Kartu Warung PHP
 
-> **Kategori:** PHP | **Level:** Beginner | **Minggu 4:** Arrays & Manipulation
+> **Kategori:** PHP | **Level:** Pemula | **Minggu 4:** Array & Manipulasi
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Indexed arrays: numerically indexed arrays
-- Associative arrays: string-keyed arrays
-- Array manipulation: sort, array_filter, array_map, array_reduce
-- Multi-dimensional arrays for complex data
-- Array loops with foreach and nested iteration
+- Rak urut `["apel","mangga"]` + tambah `$buah[] = "jeruk"`, hitung `count()`, gabung `implode()` (sumber: php.net/language.types.array)
+- Kartu label `["nama"=>"Budi"]` akses `$siswa["nama"]`, tambah `$siswa["alamat"] = "Jakarta"`
+- Olah rak: `sort()`, `array_filter()`, `array_map()`, `array_sum()`, `max()`/`min()`
 
 ---
 
-## Program: Data Manager
+## Kenapa Ini Penting Buat Kamu?
+
+Warung tidak hanya 1 beras — ada 30 produk dan 100 pelanggan. Tanpa array, tulis `$produk1, $produk2...` 30x. Dengan rak (indexed) dan kartu (associative), **1 variabel untuk semua** + saring "hanya murah" 1 baris.
+
+---
+
+## Program: Rak & Kartu Warung
 
 ```php
 <?php
+// Rak urut (indexed)
 $buah = ["apel", "mangga", "pisang"];
-$buah[] = "jeruk";
-echo "Buah: " . implode(", ", $buah) . "<br>";
-echo "Jumlah: " . count($buah) . "<br>";
+$buah[] = "jeruk"; // tambah belakang
+echo "Buah: " . implode(", ", $buah) . "\n";
+echo "Jumlah: " . count($buah) . "\n";
 
+// Olah angka
 $nilai = [85, 92, 78, 90, 88];
-echo "Max: " . max($nilai) . ", Min: " . min($nilai) . "<br>";
-echo "Sum: " . array_sum($nilai) . ", Avg: " . (array_sum($nilai) / count($nilai)) . "<br>";
-
+echo "Max: " . max($nilai) . ", Rata: " . (array_sum($nilai) / count($nilai)) . "\n";
 sort($nilai);
-echo "Sorted: " . implode(", ", $nilai) . "<br>";
+echo "Urut: " . implode(", ", $nilai) . "\n";
 
-$siswa = [
-    "nama" => "Budi",
-    "umur" => 25,
-    "nilai" => [90, 85, 88],
+// Kartu label (associative)
+$pelanggan = ["nama" => "Budi", "umur" => 25, "kota" => "Jakarta"];
+echo "Nama: " . $pelanggan["nama"] . "\n";
+$pelanggan["hp"] = "08123456789"; // tambah field
+unset($pelanggan["umur"]); // hapus field
+
+// Saring & ubah (seperti map/filter JS)
+$harga = [10000, 15000, 20000, 25000];
+$murah = array_filter($harga, fn($h) => $h < 20000);
+$naik = array_map(fn($h) => $h * 1.1, $harga);
+echo "Murah: " . implode(", ", $murah) . "\n";
+echo "Naik 10%: " . implode(", ", $naik) . "\n";
+
+// Rak 2D: daftar belanja
+$keranjang = [
+  ["nama" => "Beras", "harga" => 62000],
+  ["nama" => "Bayam", "harga" => 5000],
 ];
-echo "Nama: " . $siswa["nama"] . "<br>";
-$siswa["alamat"] = "Jakarta";
-
-foreach ($siswa as $key => $value) {
-    if (is_array($value)) {
-        echo "$key: " . implode(", ", $value) . "<br>";
-    } else {
-        echo "$key: $value<br>";
-    }
+foreach ($keranjang as $item) {
+  echo $item["nama"] . " Rp " . $item["harga"] . "\n";
 }
-
-$matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-echo "<br>Matrix:<br>";
-foreach ($matrix as $row) {
-    echo implode(" ", $row) . "<br>";
-}
-
-$genap = array_filter($nilai, fn($n) => $n % 2 == 0);
-echo "<br>Genap: " . implode(", ", $genap) . "<br>";
-
-$doubled = array_map(fn($n) => $n * 2, $nilai);
-echo "Doubled: " . implode(", ", $doubled) . "<br>";
->
+?>
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Indexed & Associative
-`["a", "b"]` numeric. `["key" => "val"]` string keys.
+### Indexed vs Associative
+- `["apel","mangga"]` urutan 0,1,2. `$buah[] = "jeruk"` tambah belakang.
+- `["nama"=>"Budi"]` label. `$p["nama"]` ambil, `unset($p["umur"])` hapus.
 
-### Array Functions
-`sort()`, `array_filter()`, `array_map()`, `array_reduce()`.
-
-### Multi-dimensional
-Arrays within arrays for matrices/tables.
-
-### Foreach
-`foreach ($arr as $key => $value)` — primary array iteration.
+### Fungsi Olah Rak
+`count()`, `implode(", ",$arr)`, `sort()`, `array_sum()`, `max()`, `array_filter()`, `array_map()`.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create array_merge to combine 2 arrays
-- Try array_unique to remove duplicates
-- Use array_slice to extract partial array
-- Implement nested loop for matrix multiplication
-- Create flatten function for nested arrays
+### Analogi: Rak Buah & Kartu Anggota
+- **Indexed = rak berbaris**: nomor 0,1,2. `implode` = rangkai jadi 1 kalimat.
+- **Associative = kartu anggota**: label `nama`, bukan nomor.
+- **`array_filter` = saringan**: hanya murah lolos.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `php rak.php`.
+
+### Cara Komputer Membaca
+1. `$buah[] = "jeruk"` → tambah di belakang, index 3.
+2. `array_filter($harga, fn($h) => $h < 20000)` → cek tiap `h`, kumpulkan yang lolos.
+
+### 3 Istilah Wajib
+1. **Indexed/associative**: rak/kartu
+2. **implode/count**: rangkai/hitung
+3. **filter/map**: saring/ubah
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build an inventory system: add/remove products (associative array), sort by price, filter by category.
+- **Hijau:** `$sayur = ["bayam","kangkung"]; $sayur[] = "sawi"; count($sayur)` → 3?
+- **Kuning:** `array_filter($harga, fn($h) => $h >= 20000)` → mahal?
+- **Merah:** `$pelanggan["umur"]` setelah `unset` → warning `Undefined array key`? Cek `isset($pelanggan["umur"])` dulu.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 4 of 12: **Arrays & Manipulation** (Level: Beginner). PHP's primary data structure. Next week: **Object-Oriented Programming**.
+**Inventaris Warung:** `$produk = [["nama"=>"Beras","harga"=>62000,"kategori"=>"Sembako"], ... 5 item]` → `array_filter` hanya Sembako → `array_map` ambil `nama` → `implode` cetak → `array_sum(array_column($produk,"harga"))` total.
+
+---
+
+## Glosarium Mini
+
+- **Array indexed/associative**: daftar/kartu
+- **implode/explode**: gabung/pecah
+- **filter/map**: saring/ubah
+
+---
+
+## Ringkasan
+
+Minggu 4 dari 6: **Array PHP** (Level: Pemula). Bisa rak & kartu + olah. Minggu depan: **OOP** — cetak biru.

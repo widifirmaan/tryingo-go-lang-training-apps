@@ -1,111 +1,114 @@
-# Eloquent ORM
+# Eloquent ORM — Rak Otomatis Laravel
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 4:** Eloquent ORM
 
 ## Tujuan Pembelajaran
 
-- Eloquent Model: representasi tabel database sebagai class
-- CRUD: create, find, where, update, delete
-- Mass assignment: fillable dan guarded properties
-- Query builder: where, orderBy, limit, get, first
-- Timestamps: created_at dan updated_at otomatis
+- `php artisan make:model Produk -m` buat model + migration, `php artisan migrate` bangun rak (sumber: laravel.com/docs/eloquent)
+- `Produk::create()`, `all()`, `find()`, `where()->get()` isi & ambil
+- `$fillable` anti mass-assignment nakal
 
 ---
 
-## Program: Database dengan Eloquent
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa Eloquent, tulis `INSERT INTO produk ...` SQL manual + koneksi manual. Dengan `Produk::create(["nama"=>"Beras"])` 1 baris — plus `created_at` otomatis. `$fillable` cegah hacker isi `is_admin=1` lewat form.
+
+---
+
+## Program: Rak Eloquent Warung
+
+```bash
+php artisan make:model Produk -m
+php artisan migrate
+```
 
 ```php
-<?php
-echo "=== Eloquent ORM ===<br><br>";
+// database/migrations/xxxx_create_produks_table.php (cek, sudah jadi)
+Schema::create('produks', function (Blueprint $table) {
+  $table->id();
+  $table->string('nama');
+  $table->integer('harga');
+  $table->integer('stok')->default(0);
+  $table->timestamps();
+});
 
-echo "=== Model & Migration ===<br>";
-echo "// app/Models/Post.php<br>";
-echo "class Post extends Model {<br>";
-echo "    protected $fillable = ['title', 'body', 'user_id'];<br>";
-echo "    public function user() { return $this->belongsTo(User::class); }<br>";
-echo "}<br><br>";
+// app/Models/Produk.php
+class Produk extends Model {
+  protected $fillable = ['nama', 'harga', 'stok']; // hanya ini boleh mass-assign
+}
 
-echo "=== CRUD Operations ===<br>";
-$posts = [
-    ["id" => 1, "title" => "Belajar Laravel", "body" => "...", "user_id" => 1],
-    ["id" => 2, "title" => "Eloquent Dasar", "body" => "...", "user_id" => 2],
-    ["id" => 3, "title" => "Blade Template", "body" => "...", "user_id" => 1],
-];
+// Controller
+use App\Models\Produk;
 
-echo "// Create<br>";
-echo "Post::create(['title' => 'New Post', 'body' => 'Content', 'user_id' => 1]);<br><br>";
+public function index() {
+  return view('produk', ["produk" => Produk::orderBy('harga')->get()]);
+}
+public function simpan(Request $req) {
+  Produk::create($req->only(['nama', 'harga', 'stok']));
+  return redirect('/produk');
+}
 
-echo "// Read<br>";
-echo "Post::all();           // All posts<br>";
-echo "Post::find(1);         // By primary key<br>";
-echo "Post::where('user_id', 1)->get();  // With condition<br>";
-echo "Post::first();         // First record<br><br>";
-
-echo "// Update<br>";
-echo "$post = Post::find(1);<br>";
-echo "$post->title = 'Updated';<br>";
-echo "$post->save();<br>";
-echo "Post::where('id', 1)->update(['title' => 'Updated']);<br><br>";
-
-echo "// Delete<br>";
-echo "$post->delete();<br>";
-echo "Post::destroy(1);<br><br>";
-
-echo "=== Query Builder ===<br>";
-echo "Post::where('user_id', 1)<br>";
-echo "    ->where('published', true)<br>";
-echo "    ->orderBy('created_at', 'desc')<br>";
-echo "    ->limit(10)<br>";
-echo "    ->get();<br><br>";
-
-echo "=== Mass Assignment ===<br>";
-echo "protected $fillable = ['title', 'body'];<br>";
-echo "protected $guarded = ['is_admin'];<br><br>";
-
-echo "=== Timestamps ===<br>";
-echo "public $timestamps = true;  // created_at & updated_at<br>";
-echo "const CREATED_AT = 'created_at';<br>";
-echo "const UPDATED_AT = 'updated_at';<br>";
->
+// Tinker coba cepat
+// php artisan tinker → Produk::create(["nama"=>"Beras","harga"=>62000]) → Produk::all()
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Model
-Setiap tabel punya model. Convention: model `Post` → tabel `posts`.
+### `make:model -m` + `migrate` = Model + Rak
+`-m` buatkan migration, `migrate` bangun tabel `produks` (jamak otomatis).
 
-### CRUD
-`Model::create($data)`, `Model::find($id)`, `Model::where()->get()`, `$model->save()`, `$model->delete()`.
+### `create/all/find/where` = Tukang Gudang
+`Produk::create([...])`, `Produk::all()`, `Produk::find(1)`, `Produk::where('stok','>',5)->get()`.
 
-### Mass Assignment
-`$fillable` — field yang boleh diisi mass. `$guarded` — field yang dilarang.
+### `$fillable` = Daftar Boleh
+Hanya field di `$fillable` yang bisa `create($req->all())` — keamanan mass-assignment.
 
-### Query Builder
-Chain methods: `where()`, `orderBy()`, `limit()`, `get()`, `first()`, `count()`.
+---
 
-### Timestamps
-Otomatis manage `created_at` dan `updated_at`. Set `public $timestamps = false` untuk disable.
+## Penjelasan untuk Pemula
+
+### Analogi: Tukang Gudang Otomatis
+- **Model = mandor**: `Produk::create()` perintahkan mandor, mandor tulis SQL.
+- **$fillable = daftar belanja sah**: di luar daftar, ditolak.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + DB `.env` (`DB_DATABASE=warung`) → `php artisan migrate`.
+
+### Cara Komputer Membaca
+1. `Produk::create(["nama"=>"Beras"])` → cek `$fillable` → `INSERT INTO produks ...` → `created_at` otomatis.
+2. `Produk::where('stok','>',5)->get()` → `SELECT * FROM produks WHERE stok > 5`.
+
+### 3 Istilah Wajib
+1. **Model/migration**: mandor/cetak biru
+2. **fillable**: daftar sah
+3. **tinker**: coba cepat
 
 ---
 
 ## Eksperimen
 
-- Buat model dengan migration dan coba CRUD
-- Gunakan firstOrCreate untuk avoid duplicate
-- Coba chunk untuk proses data besar
-- Implementasikan soft delete
-- Buat scope query dengan local scope
+- **Hijau:** `Produk::create(["nama"=>"Kopi","harga"=>12000])` di tinker → `all()` ada 3?
+- **Kuning:** `Produk::where('harga','>',20000)->get()` → hanya mahal?
+- **Merah:** Hapus `$fillable` lalu `create` → error `MassAssignmentException`? Pasang lagi.
 
 ---
 
 ## Tantangan
 
-Buat model Post dengan migration. Implementasikan CRUD lengkap: create, read (all, by id, by user), update, delete. Gunakan mass assignment.
+**Rak Warung Lengkap:** `make:model Produk -m` + `migrate` → `tinker` isi 5 produk → `index()` `orderBy('harga')` → `simpan()` validasi + `create`. **Selesai Beginner Laravel!**
+
+---
+
+## Glosarium Mini
+
+- **Model/migrate/fillable**: mandor/bangun/sah
+- **tinker**: coba cepat
 
 ---
 
 ## Ringkasan
 
-Minggu 4 dari 12: **Eloquent ORM** (Level: Pemula). Selesai fase Beginner! Minggu depan: **Authentication** (Intermediate).
+Minggu 4 dari 4: **Rak Otomatis** (Level: Pemula). **Selesai Beginner Laravel!** Lanjut: **Auth** (Menengah).
