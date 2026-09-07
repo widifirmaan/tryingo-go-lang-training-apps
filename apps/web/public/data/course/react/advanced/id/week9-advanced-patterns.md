@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa pola, `Card` 5 varian = 5 file duplikat 80%. Dengan Compound (`Card.Header`), 1 kartu + susun bebas. Render Props/HOC bagi logika tanpa duplikat.
+
+---
+
 ## Program: Pola Compound
 
 ```jsx
@@ -25,7 +31,28 @@ export default function App(){
 }
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Lego Technic
+- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
+
+### Cara Komputer Membaca
+- `Card.Header = ...` tempel sub-komponen ke induk; `children` isi lubang.
+
+### 3 Istilah Wajib
+- 1. **Compound/children**: susun/lubang
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

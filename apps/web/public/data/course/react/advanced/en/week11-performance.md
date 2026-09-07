@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar 1000 produk tanpa `memo` → ketik 1 huruf, 1000 kartu gambar ulang (ngos-ngosan). Dengan `memo` + `useMemo` + `lazy`, hanya yang berubah. Beda terasa di HP kentang.
+
+---
+
 ## Program
 
 ```jsx
@@ -29,7 +35,28 @@ export default function App(){
 }
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Warung Hemat Energi
+- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
+
+### Cara Komputer Membaca
+- `memo` bungkus: props sama → lewati. `useMemo` ingat hitungan. `lazy` unduh saat perlu.
+
+### 3 Istilah Wajib
+- 1. **memo/useMemo/lazy**: lewati/ingat/nanti
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
