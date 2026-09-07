@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `venv`, pinjam `requests` v2 untuk proyek A merusak proyek B yang butuh v1 (tabrakan!). Dengan laci terpisah per proyek + `requirements.txt`, tim install sama persis.
+
+---
+
 ## Program
 
 ```bash
@@ -28,7 +34,28 @@ import json, os
 print("json & os sudah bawaan — tidak perlu pip")
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Laci Alat per Proyek
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Python W1: `python --version` + folder proyek.
+
+### Cara Komputer Membaca
+- `python -m venv warung-env` buat laci; `activate` masuk; `pip install` taruh di laci itu saja.
+
+### 3 Istilah Wajib
+- 1. **venv/pip/requirements**: laci/pinjam/daftar
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `pytest`, ubah rumus → salah ketahuan pelanggan. Dengan `assert` + `pytest -v`, ubah → merah → perbaiki. `parametrize` cicip 10 kasus 3 baris.
+
+---
+
 ## Program
 
 ```python
@@ -25,7 +31,28 @@ test_hitung()
 # Jalankan: pytest -v atau python -m unittest
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Cicip Dapur Python
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Python W1: `python --version` + folder proyek.
+
+### Cara Komputer Membaca
+- `pytest` cari `test_*.py`; `assert a == b` cocok? Lanjut : merah + nilai.
+
+### 3 Istilah Wajib
+- 1. **pytest/assert/parametrize**: dapur/cicip/borong
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
