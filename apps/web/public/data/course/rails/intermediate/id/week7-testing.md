@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa RSpec, ubah model → rusak ketahuan pelanggan. Dengan `rspec` + `FactoryBot`, ubah → merah → perbaiki.
+
+---
+
 ## Program: Test Suite
 
 ```ruby
@@ -124,7 +130,28 @@ Capybara-based: `visit`, `fill_in`, `click_button`, `expect(page).to have_text()
 
 Buat test suite lengkap untuk Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Cicip Dapur Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `bundle exec rspec` cari `*_spec.rb`; `expect(...).to eq(...)` cicip.
+
+### 3 Istilah Wajib
+- 1. **RSpec/expect**: dapur/harap
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

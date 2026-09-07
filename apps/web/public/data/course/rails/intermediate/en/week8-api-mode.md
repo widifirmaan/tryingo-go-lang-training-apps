@@ -1,14 +1,20 @@
 # Rails API Mode
 
-> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 8:** Rails API Mode
+> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 8:** Rails API Mode
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- API mode: rails new --api to skip views
+- API mode: rails new --api untuk skip views
 - Namespaced routes: api/v1/posts
-- JSON responses: render json: with status codes
+- JSON responses: render json: dengan status codes
 - Serializers: format JSON output
 - CORS: cross-origin resource sharing
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+HP butuh JSON, bukan HTML. `rails new --api` ramping (tanpa views) + `jbuilder`/serializer untuk JSON rapi.
 
 ---
 
@@ -85,44 +91,65 @@ puts "token = request.headers['Authorization']"
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### API Mode
-`rails new name --api` - skips views, assets, cookies.
+`rails new name --api` - skip views, assets, cookies. Lighter stack.
 
 ### Namespaced Routes
-`namespace :api do namespace :v1 do resources :posts end end`.
+`namespace :api do namespace :v1 do resources :posts end end` -> `/api/v1/posts`.
 
 ### JSON Response
-`render json: posts, status: :ok`. Status: :ok (200), :created (201).
+`render json: posts, status: :ok`. Status: :ok (200), :created (201), :not_found (404).
 
 ### Serializers
-`ActiveModel::Serializer` or `blueprinter` for JSON formatting.
+`ActiveModel::Serializer` atau `blueprinter` untuk format JSON.
 
 ### CORS
-`rack-cors` gem allows cross-origin requests.
+`rack-cors` gem untuk allow cross-origin requests.
 
 ### Auth
 Token-based: `Authorization: Bearer <token>` header.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create API project with --api flag
-- Implement namespaced routes
-- Create serializer for Post model
-- Try API versioning
-- Implement JWT authentication
-
----
-
-## Challenge
-
-Build a complete REST API for a blog: CRUD posts, comments, auth with JWT, serializers, CORS.
+- Buat API project dengan --api flag
+- Implementasikan namespaced routes
+- Buat serializer untuk Post model
+- Coba API versioning
+- Implementasikan JWT authentication
 
 ---
 
-## Summary
+## Tantangan
 
-Week 8 of 12: **Rails API Mode** (Level: Intermediate). Intermediate phase complete! Next week: **Performance** (Advanced).
+Buat REST API lengkap untuk blog: CRUD posts, comments, auth dengan JWT, serializers, CORS.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Drive-Thru JSON Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `--api` skip views/assets; controller `render json:` langsung.
+
+### 3 Istilah Wajib
+- 1. **--api/render-json**: ramping/balas
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 8 dari 12: **Rails API Mode** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Performance** (Advanced).

@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Lokal `localhost:3000` hanya laptop. Kamal/Docker + `RAILS_MASTER_KEY` rahasia aman → URL publik.
+
+---
+
 ## Program: Production Deploy
 
 ```ruby
@@ -117,7 +123,28 @@ New Relic: APM. Sentry: error tracking. Lograge: structured logs.
 
 Deploy Rails app ke production: setup env vars, precompile assets, configure database, enable SSL, setup monitoring.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Buka Cabang Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `kamal deploy` / Docker build; `credentials` terenkripsi, bukan di git!
+
+### 3 Istilah Wajib
+- 1. **Kamal/credentials**: buka/kunci-enkripsi
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

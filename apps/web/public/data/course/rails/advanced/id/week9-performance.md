@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+1000 produk tanpa `includes` = 1001 query (10 detik). Dengan eager loading + `counter_cache` + index = 0.1 detik.
+
+---
+
 ## Program: Optimization
 
 ```ruby
@@ -115,7 +121,28 @@ Fragment: cache partial. Russian doll: nested cache. Low-level: `Rails.cache.fet
 
 Optimasi blog: detect N+1, add indexes, implement caching, add pagination. Benchmark before/after.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Warung Kilat Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `includes` 2 query; `counter_cache` hitung tanpa query; `EXPLAIN` cek.
+
+### 3 Istilah Wajib
+- 1. **includes/counter_cache**: borong/penghitung
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

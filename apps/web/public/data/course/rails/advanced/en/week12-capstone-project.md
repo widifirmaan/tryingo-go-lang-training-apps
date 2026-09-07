@@ -1,14 +1,20 @@
 # Capstone: E-Commerce Platform
 
-> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 12:** Capstone: E-Commerce Platform
+> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce Platform
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all concepts: MVC, auth, associations, testing, API
+- Menggabungkan semua konsep: MVC, auth, associations, testing, API
 - E-commerce domain: products, orders, cart, payments
-- Service objects: extract business logic from controllers
-- Background jobs: async processing for email and payment
+- Service objects: extract business logic dari controllers
+- Background jobs: async processing untuk email dan payment
 - Full-stack deployment: Docker, PostgreSQL, Redis, Sidekiq
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: auth + API + job + deploy jadi toko. Portfolio Rails.
 
 ---
 
@@ -80,10 +86,10 @@ puts "SSL with Let's Encrypt"
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Architecture
-MVC + Service Layer. Controller -> Service -> Model. Jobs for async.
+MVC + Service Layer. Controller -> Service -> Model. Jobs untuk async.
 
 ### E-Commerce Flow
 Browse -> Add to cart -> Checkout -> Payment -> Order created -> Email sent.
@@ -102,22 +108,43 @@ Docker + Compose. PostgreSQL + Redis. Nginx + SSL.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Add payment webhook handler
-- Implement coupon/discount system
-- Create product review and rating
-- Add real-time notifications with ActionCable
-- Create admin dashboard with Blazer
-
----
-
-## Challenge
-
-Build a complete e-commerce platform: auth, products CRUD, cart, orders, payment, admin, API, testing, deployment.
+- Tambah payment webhook handler
+- Implementasikan coupon/discount system
+- Buat product review dan rating
+- Tambah real-time notifications dengan ActionCable
+- Buat admin dashboard dengn Blazer
 
 ---
 
-## Summary
+## Tantangan
 
-Week 12 of 12: **Capstone: E-Commerce Platform** (Level: Advanced). Complete! You've mastered Ruby on Rails from basics to production.
+Buat e-commerce platform lengkap: auth, products CRUD, cart, orders, payment, admin, API, testing, deployment.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- CHECKLIST (auth + API + test + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 12 dari 12: **Capstone: E-Commerce Platform** (Level: Lanjutan). Selesai! Anda sudah menguasai Ruby on Rails dari dasar hingga produksi.

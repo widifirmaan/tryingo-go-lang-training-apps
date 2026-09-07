@@ -1,14 +1,20 @@
 # Performance Optimization
 
-> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 9:** Performance Optimization
+> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 9:** Performance Optimization
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- N+1 queries: detect and solve with eager loading
-- Bullet gem: auto-detect N+1 and unused eager loading
-- Database indexing: add_index for fast queries
+- N+1 queries: detect dan solve dengan eager loading
+- Bullet gem: auto-detect N+1 dan unused eager loading
+- Database indexing: add_index untuk query cepat
 - Caching: fragment, Russian doll, low-level caching
-- Background jobs: perform_later for async processing
+- Background jobs: perform_later untuk async processing
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+1000 produk tanpa `includes` = 1001 query (10 detik). Dengan eager loading + `counter_cache` + index = 0.1 detik.
 
 ---
 
@@ -79,44 +85,65 @@ puts "# users.posts_count column"
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### N+1 Problem
-Loop with relations = N+1 queries. Solve: `includes(:author)`.
+Loop dengan relasi = N+1 query. Solve: `includes(:author)`.
 
 ### Bullet
-Auto-detects N+1, unused eager loading, missing counter cache.
+Auto-detect N+1, unused eager loading, missing counter cache.
 
 ### Indexing
-`add_index :posts, :user_id` speeds up WHERE queries.
+`add_index :posts, :user_id` - speed up WHERE queries. Unique index untuk uniqueness.
 
 ### Caching
-Fragment: cache partials. Russian doll: nested cache. Low-level: `Rails.cache.fetch`.
+Fragment: cache partial. Russian doll: nested cache. Low-level: `Rails.cache.fetch`.
 
 ### Background Jobs
-`perform_later` enqueues jobs. Sidekiq/Resque for processing.
+`perform_later` - enqueue job. Sidekiq/Resque untuk processing.
 
 ### Pagination
-`kaminari` or `pagy` limits records per page.
+`kaminari` atau `pagy` - limit records per page.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Detect N+1 with Bullet and solve
-- Add index and benchmark query
-- Implement fragment caching
-- Create background job with Sidekiq
-- Try pagination with kaminari
-
----
-
-## Challenge
-
-Optimize a blog: detect N+1, add indexes, implement caching, add pagination. Benchmark before/after.
+- Detect N+1 dengan Bullet dan solve
+- Add index dan benchmark query
+- Implementasikan fragment caching
+- Buat background job dengan Sidekiq
+- Coba pagination dengan kaminari
 
 ---
 
-## Summary
+## Tantangan
 
-Week 9 of 12: **Performance Optimization** (Level: Advanced). Speed matters. Next week: **Background Jobs**.
+Optimasi blog: detect N+1, add indexes, implement caching, add pagination. Benchmark before/after.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Warung Kilat Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `includes` 2 query; `counter_cache` hitung tanpa query; `EXPLAIN` cek.
+
+### 3 Istilah Wajib
+- 1. **includes/counter_cache**: borong/penghitung
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 9 dari 12: **Performance Optimization** (Level: Lanjutan). Speed matters. Minggu depan: **Background Jobs**.

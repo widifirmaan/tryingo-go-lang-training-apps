@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Kirim WA 5 detik di request → pelanggan tunggu loading. Dengan Sidekiq, simpan langsung balas, WA background.
+
+---
+
 ## Program: Async Processing
 
 ```ruby
@@ -122,7 +128,28 @@ Sidekiq Web UI di `/sidekiq`. Monitor queues, retries, dead jobs.
 
 Buat sistem email notification: queue email sending, retry 3x on failure, batch send, monitor dengan Sidekiq.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Kurir Motor Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `perform_later` antre; worker ambil; `redis` sebagai antrean.
+
+### 3 Istilah Wajib
+- 1. **Sidekiq/perform_later**: kurir/antre
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

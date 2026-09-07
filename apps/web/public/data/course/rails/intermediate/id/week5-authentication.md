@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa auth, `/admin` dibuka siapa saja. `has_secure_password` + `session` = KTP + gelang 5 baris (Devise untuk produksi).
+
+---
+
 ## Program
 
 ```ruby
@@ -34,7 +40,28 @@ def require_login
 end
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Gelang Konser Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `has_secure_password` butuh kolom `password_digest`; `authenticate` cek; `session[:user_id]` ingat.
+
+### 3 Istilah Wajib
+- 1. **has_secure_password/session**: brankas/gelang
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
