@@ -1,98 +1,123 @@
-# Microservices
+# Microservices — Warung Bercabang NestJS
 
-> **Kategori:** NestJS | **Level:** Advanced | **Minggu 11:** Microservices
+> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 11:** Microservices
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Microservices architecture in NestJS
-- Transport layers: TCP, Redis, NATS, RabbitMQ
-- Message pattern: request-response
-- Event pattern: fire-and-forget
-- API Gateway pattern
+- `@MessagePattern("hitung")` tanya-jawab + `@EventPattern("pesan")` siar-lupa via TCP (sumber: docs.nestjs.com/microservices/basics)
+- `ClientProxy` telepon cabang dari gateway
 
 ---
 
-## Program: Service Communication
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { MessagePattern, EventPattern } from '@nestjs/microservices';
+1 server untuk 10.000 pelanggan = antre. Pecah: `gateway` (pintu) + `produk` (rak) + `pesanan` (kasir) — sibuk 1, lain tetap. Cabang mati 1 → lain jalan.
 
-console.log('NestJS Microservices:');
-console.log('');
-console.log('=== Transport Layers ===');
-const transports = [
-  'TCP (default) — Transport.TCP',
-  'Redis — Transport.REDIS',
-  'NATS — Transport.NATS',
-  'RabbitMQ — Transport.RMQ',
-  'Kafka — Transport.KAFKA',
-  'gRPC — Transport.GRPC',
-];
-for (const t of transports) console.log('  - ' + t);
+---
 
-console.log('');
-console.log('=== Message Pattern (Request-Response) ===');
-console.log('@MessagePattern({ cmd: "sum" })');
-console.log('accumulate(data: number[]): number {');
-console.log('  return data.reduce((a, b) => a + b, 0);');
-console.log('}');
-console.log('');
-console.log('=== Event Pattern (Fire-and-Forget) ===');
-console.log('@EventPattern("user_created")');
-console.log('handleUserCreated(data: Record<string, unknown>) {');
-console.log('  console.log("User created:", data);');
-console.log('}');
-console.log('');
-console.log('=== Client (Sender) ===');
-console.log('const client = ClientProxyFactory.create({');
-console.log('  transport: Transport.TCP,');
-console.log('  options: { host: "localhost", port: 3001 }');
-console.log('});');
-console.log('client.send({ cmd: "sum" }, [1, 2, 3]).subscribe();');
-console.log('client.emit("user_created", { id: 1, nama: "Budi" });');
-console.log('');
-console.log('=== Architecture ===');
-console.log('API Gateway (:3000)');
-console.log('  |-- Users Service (:3001)');
-console.log('  |-- Orders Service (:3002)');
-console.log('  |-- Products Service (:3003)');
-console.log('  |-- Message Broker (Redis/NATS)');
+## Program: 2 Cabang TCP Warung
+
+```bash
+npm install @nestjs/microservices
+```
+
+```typescript
+// CABANG produk (port 3001): main.ts
+import { NestFactory } from "@nestjs/core";
+import { MicroserviceOptions, Transport } from "@nestjs/microservices";
+
+async function mulai() {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(ProdukModule, {
+    transport: Transport.TCP,
+    options: { port: 3001 },
+  });
+  await app.listen();
+}
+mulai();
+```
+
+```typescript
+// produk.controller.ts (cabang) — jawab pola
+import { MessagePattern, EventPattern } from "@nestjs/microservices";
+
+@Controller()
+export class ProdukController {
+  @MessagePattern("cari-produk")   // tanya → TUNGGU jawab
+  cari(data: any) {
+    return { nama: "Beras", harga: 62000 };
+  }
+
+  @EventPattern("stok-habis")      // siar → TIDAK tunggu
+  catat(data: any) {
+    console.log("Stok habis:", data);
+  }
+}
+```
+
+```typescript
+// GATEWAY (port 3000): telepon cabang
+import { ClientProxyFactory, Transport } from "@nestjs/microservices";
+
+const cabang = ClientProxyFactory.create({
+  transport: Transport.TCP,
+  options: { port: 3001 },
+});
+
+@Get("cari")
+async cari() {
+  return cabang.send("cari-produk", {}); // tunggu jawab
+}
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Transport
-Multiple transport options.
+### `MessagePattern` vs `EventPattern` = Telepon vs Pengeras
+`MessagePattern` tanya-tunggu jawab. `EventPattern` siar-lupa.
 
-### Message Pattern
-Request-response communication.
-
-### Event Pattern
-Fire-and-forget events.
-
-### Client
-Send messages to other services.
+### TCP Transport = Kabel Telepon
+`port: 3001` cabang dengar. Nanti ganti Redis/RabbitMQ tanpa ubah pola!
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Setup microservices with Redis transport
-- Implement saga pattern for distributed transaction
-- Create API Gateway with load balancing
-- Add health check for each service
+### Analogi: Kantor Cabang
+- **Gateway = resepsionis**, **cabang = divisi**, **MessagePattern = telepon**, **EventPattern = pengeras**.
+
+### Langkah 0 — Siapkan Device
+- 2 terminal: `cabang` (3001) + `gateway` (3000).
+
+### Cara Komputer Membaca
+1. `GET /cari` → gateway `send("cari-produk")` → TCP ke 3001 → cabang jawab → gateway balas.
+
+### 3 Istilah Wajib
+1. **Message/Event**: telepon/pengeras
+2. **Gateway/cabang**: resepsionis/divisi
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build microservices system: API Gateway + Users Service + Orders Service with event-driven communication.
+- **Hijau:** Matikan cabang → gateway timeout? (Butuh retry! W12.)
+- **Kuning:** `EventPattern` → gateway tidak tunggu (langsung balas)?
+- **Merah:** Port cabang salah → `ECONNREFUSED`? Betulkan 3001.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 11 of 12: **Microservices** (Level: Advanced). Next week: **Capstone Project**!
+**Warung Bercabang:** Gateway + 2 cabang (`produk`, `pesanan`) + `MessagePattern` 2 + `EventPattern` 1 + `curl` lulus.
+
+---
+
+## Glosarium Mini
+
+- **Message/Event/TCP**: telepon/pengeras/kabel
+
+---
+
+## Ringkasan
+
+Minggu 11 dari 12: **Bercabang** (Level: Lanjutan). Anti antre. Minggu depan: **Capstone**.

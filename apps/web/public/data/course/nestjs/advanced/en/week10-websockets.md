@@ -1,109 +1,104 @@
-# WebSockets & Real-time
+# WebSocket — Bel Live Warung NestJS
 
-> **Kategori:** NestJS | **Level:** Advanced | **Minggu 10:** WebSockets & Real-time
+> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 10:** WebSockets & Real-time
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- WebSocketGateway decorator
-- @SubscribeMessage for event handling
-- @WebSocketServer for emitting
-- Rooms and namespaces
-- Real-time patterns: chat, notifications, live updates
+- `@WebSocketGateway()` + `@SubscribeMessage("pesan")` dengar + `server.emit` siar (sumber: docs.nestjs.com/websockets/gateways)
+- `socket.io` HP tetap tersambung (bukan refresh!)
 
 ---
 
-## Program: Chat Gateway
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { WebSocketGateway, WebSocketServer, SubscribeMessage, MessageBody, ConnectedSocket } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+Tanpa WebSocket, HP refresh tiap 5 detik cek pesanan (boros baterai). Dengan gateway, pesanan masuk → HP bunyi detik itu. Kasir + dapur + kurir sinkron live.
 
-@WebSocketGateway({ cors: { origin: '*' } })
-export class ChatGateway {
+---
+
+## Program: Bel Pesanan Warung
+
+```bash
+npm install @nestjs/websockets @nestjs/platform-socket.io socket.io
+```
+
+```typescript
+// pesanan.gateway.ts — bel
+import { WebSocketGateway, WebSocketServer, SubscribeMessage, MessageBody } from "@nestjs/websockets";
+import { Server } from "socket.io";
+
+@WebSocketGateway({ cors: { origin: "*" } })
+export class PesananGateway {
   @WebSocketServer()
   server: Server;
 
-  private users = new Map<string, string>();
-
-  handleConnection(client: Socket) {
-    console.log('Client connected: ' + client.id);
+  @SubscribeMessage("pesan-baru")
+  tangani(@MessageBody() data: any) {
+    console.log("Pesanan:", data);
+    this.server.emit("dapur", data); // siar ke SEMUA dapur!
+    return { ok: true };
   }
 
-  handleDisconnect(client: Socket) {
-    this.users.delete(client.id);
-    console.log('Client disconnected: ' + client.id);
-  }
-
-  @SubscribeMessage('join')
-  handleJoin(@MessageBody() data: { username: string }, @ConnectedSocket() client: Socket) {
-    this.users.set(client.id, data.username);
-    this.server.emit('message', { system: true, text: data.username + ' joined' });
-  }
-
-  @SubscribeMessage('message')
-  handleMessage(@MessageBody() data: { text: string }, @ConnectedSocket() client: Socket) {
-    const username = this.users.get(client.id) || 'Anonymous';
-    this.server.emit('message', { username, text: data.text, time: new Date() });
+  // Panggil dari service biasa (misal setelah save):
+  siarStokHabis(nama: string) {
+    this.server.emit("stok-habis", { nama });
   }
 }
+```
 
-console.log('NestJS WebSockets:');
-console.log('');
-console.log('=== Gateway Setup ===');
-console.log('@WebSocketGateway({ cors: { origin: "*" } })');
-console.log('export class ChatGateway {');
-console.log('  @WebSocketServer() server: Server');
-console.log('}');
-console.log('');
-console.log('=== Events ===');
-console.log("@SubscribeMessage('join')");
-console.log("@SubscribeMessage('message')");
-console.log("@SubscribeMessage('typing')");
-console.log('');
-console.log('=== Emit ===');
-console.log('this.server.emit("message", data)  // all clients');
-console.log('client.broadcast.emit("message", data)  // except sender');
-console.log('client.emit("message", data)  // only sender');
-console.log('');
-console.log('=== Client (Browser) ===');
-console.log("const socket = io('http://localhost:3000')");
-console.log("socket.emit('join', { username: 'Budi' })");
-console.log("socket.on('message', (data) => console.log(data))");
+```javascript
+// HP (socket.io-client): dengar terus, tanpa refresh!
+socket.on("dapur", (data) => tampilkan(data));
+socket.on("stok-habis", (d) => bunyikan(d.nama));
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Gateway
-WebSocket server setup.
+### `@WebSocketGateway` = Menara Siar
+1 gateway, banyak HP tersambung WebSocket.
 
-### Events
-Handle incoming events.
-
-### Emit
-Broadcast to clients.
-
-### Rooms
-Targeted messaging.
+### `@SubscribeMessage` + `emit` = Dengar + Siar
+`SubscribeMessage("pesan-baru")` dengar topik, `server.emit` siar ke semua.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create room-based chat
-- Implement typing indicator
-- Add presence (online/offline status)
-- Create real-time notification system
+### Analogi: Radio Warung
+- **Gateway = menara radio**, **emit = siar**, **HP = radio** menyala terus.
+
+### Langkah 0 — Siapkan Device
+- `npm install` paket di atas + 2 HP/browser tab untuk test siar.
+
+### Cara Komputer Membaca
+1. HP A `emit("pesan-baru")` → gateway → `tanggapi` → `server.emit("dapur")` → HP B + C terima.
+
+### 3 Istilah Wajib
+1. **Gateway/emit/subscribe**: menara/siar/dengar
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build real-time chat app: rooms, typing indicators, presence, message history.
+- **Hijau:** 2 tab: A kirim → B terima?
+- **Kuning:** Matikan 1 tab → lain tetap?
+- **Merah:** Tanpa `cors` → HP beda domain ditolak? Tambah.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 12: **WebSockets & Real-time** (Level: Advanced). Next week: **Microservices**.
+**Warung Live:** Gateway `pesan-baru` + `stok-habis` + 2 tab dengar bareng screenshot.
+
+---
+
+## Glosarium Mini
+
+- **Gateway/emit**: menara/siar
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 12: **Bel Live** (Level: Lanjutan). Tanpa refresh. Minggu depan: **Microservices**.

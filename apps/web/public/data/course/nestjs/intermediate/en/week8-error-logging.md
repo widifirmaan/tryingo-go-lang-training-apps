@@ -1,113 +1,109 @@
-# Error Handling & Logging
+# Error & Logging — Alarm + CCTV Warung NestJS
 
-> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 8:** Error Handling & Logging
+> **Kategori:** NestJS | **Level:** Menengah | **Minggu 8:** Error Handling & Logging
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- ExceptionFilter: catch all exceptions
-- Built-in HTTP exceptions: 400, 401, 404, 500
-- Custom exceptions with HttpException
-- Logger: log levels (log, warn, error, debug)
-- Global filters and interceptors
+- `@Catch()` + `ExceptionFilter` satpam error global + `HttpException` kode rapi (sumber: docs.nestjs.com/exception-filters)
+- `Logger` CCTV (`log/warn/error`) — bukan `console.log` buta
 
 ---
 
-## Program: Exception Filter
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
+Tanpa filter, error jadi HTML 500 acak → HP crash tidak jelas. Dengan filter, semua error JSON `{ status, pesan }` konsisten. Tanpa log, bug produksi = tebak-tebakan. Dengan `Logger`, jejak jelas.
+
+---
+
+## Program: Alarm + CCTV Warung
+
+```typescript
+// filter global — 1 satpam semua error
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from "@nestjs/common";
 
 @Catch()
-class AllExceptionsFilter implements ExceptionFilter {
-  private logger = new Logger('ExceptionFilter');
+export class SemuaErrorFilter implements ExceptionFilter {
+  private log = new Logger("Error");
 
-  catch(exception: unknown, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
-    const response = ctx.getResponse();
-    const request = ctx.getRequest();
-
-    const status = exception instanceof HttpException
-      ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    const message = exception instanceof Error ? exception.message : 'Internal error';
-
-    this.logger.error(`${request.method} ${request.url} - ${status}: ${message}`);
-
-    response.status(status).json({
-      statusCode: status,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-      message,
-    });
+  catch(err: unknown, host: ArgumentsHost) {
+    const res = host.switchToHttp().getResponse();
+    const status = err instanceof HttpException ? err.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    const pesan = err instanceof HttpException ? err.message : "Server sibuk, coba lagi";
+    this.log.error(pesan); // CCTV catat!
+    res.status(status).json({ status, pesan, kapan: new Date() });
   }
 }
+```
 
-console.log('NestJS Error Handling & Logging:');
-console.log('');
-console.log('=== Built-in Exceptions ===');
-const exceptions = [
-  'BadRequestException (400)',
-  'UnauthorizedException (401)',
-  'ForbiddenException (403)',
-  'NotFoundException (404)',
-  'ConflictException (409)',
-  'InternalServerErrorException (500)',
-];
-for (const e of exceptions) console.log('  throw new ' + e);
+```typescript
+// main.ts — pasang 1x
+app.useGlobalFilters(new SemuaErrorFilter());
+```
 
-console.log('');
-console.log('=== Custom Exception ===');
-console.log('class BusinessException extends HttpException {');
-console.log('  constructor(message: string) {');
-console.log('    super({ error: "BUSINESS_ERROR", message }, 422);');
-console.log('  }');
-console.log('}');
-console.log('');
-console.log('=== Logger ===');
-console.log('private logger = new Logger(UsersService.name);');
-console.log('this.logger.log("User created: " + user.id);');
-console.log('this.logger.warn("Deprecated API called");');
-console.log('this.logger.error("Database error", error.stack);');
-console.log('');
-console.log('=== Global Filter ===');
-console.log('app.useGlobalFilters(new AllExceptionsFilter());');
-console.log('// Atau di main.ts: app.useGlobalPipes(new ValidationPipe())');
+```typescript
+// pakai di controller
+import { NotFoundException } from "@nestjs/common";
+
+satu(id: number) {
+  const p = this.cari(id);
+  if (!p) throw new NotFoundException(`Produk ${id} tidak ada`); // → 404 JSON rapi!
+}
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### ExceptionFilter
-Catch all exceptions.
+### `@Catch()` = Jaring Pengaman Global
+Tangkap semua error tak tertangani → JSON rapi (bukan HTML 500).
 
-### HTTP Exceptions
-Built-in exception classes.
+### `HttpException` = Alarm Berkode
+`NotFoundException` (404), `BadRequestException` (400), `UnauthorizedException` (401).
 
-### Logger
-Multiple log levels.
-
-### Global
-Apply filters app-wide.
+### `Logger` = CCTV Beda Level
+`log` info, `warn` waspada, `error` bahaya (beda warna + filter).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create custom exception for business logic errors
-- Implement request logging interceptor
-- Add error reporting to external service
-- Create HTTP exception filter with custom format
+### Analogi: Satpam + CCTV Mal
+- **Filter = satpam pusat**: semua masalah lapor 1 pintu, format sama.
+- **Logger = CCTV**: rekam tiap kejadian per level.
+
+### Langkah 0 — Siapkan Device
+- Sama W1. Lihat terminal: log Nest berwarna.
+
+### Cara Komputer Membaca
+1. `throw new NotFoundException` → filter tangkap → `404 { status, pesan }`.
+2. Error asing → `500 { pesan: "Server sibuk" }` (sembunyikan detail ke hacker!).
+
+### 3 Istilah Wajib
+1. **Filter/Catch**: jaring/tangkap
+2. **Logger/log-warn-error**: CCTV/level
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build comprehensive error handling: custom exceptions, global filter, logging interceptor.
+- **Hijau:** Tanpa filter, `throw` → HTML 500? Dengan → JSON?
+- **Kuning:** `Logger` `error` vs `log` → warna beda di terminal?
+- **Merah:** Bocorkan `err.stack` ke client? Jangan! (Hacker baca struktur!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 8 of 12: **Error Handling & Logging** (Level: Intermediate). Intermediate phase complete! Next week: **Testing** (Advanced).
+**Warung Aman Terpantau:** Filter global + 3 `HttpException` beda + `Logger` tiap aksi + `curl` cek JSON rapi semua. **Selesai Menengah NestJS!**
+
+---
+
+## Glosarium Mini
+
+- **Filter/Logger/HttpException**: jaring/CCTV/alarm-berkode
+
+---
+
+## Ringkasan
+
+Minggu 8 dari 12: **Alarm + CCTV** (Level: Menengah). **Selesai Menengah NestJS!** Lanjut: **Testing** (Lanjutan).

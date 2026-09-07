@@ -1,110 +1,112 @@
-# Testing NestJS
+# Testing NestJS — Cicip Warung Beneran
 
 > **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 9:** Testing NestJS
 
 ## Tujuan Pembelajaran
 
-- Unit testing: Test.createTestingModule
-- Mocking dependencies dengan useValue
-- E2E testing: supertest + INestApplication
-- Test coverage: jest --coverage
-- Testing pipes, guards, dan interceptors
+- `Test.createTestingModule` + `compile()` + `useValue` mock (sumber: docs.nestjs.com/fundamentals/testing)
+- E2E `supertest` `request(app).get("/produk").expect(200)` beneran (bukan `console.log`!)
 
 ---
 
-## Program: Unit & E2E Test
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
+Simulasi `console.log("test...")` tidak menangkap bug (tidak dicek mesin!). Test beneran: ubah service → merah → perbaiki. E2E buktikan pintu + DB + auth jalan bareng.
 
-console.log('NestJS Testing:');
-console.log('');
-console.log('=== Unit Test Setup ===');
-console.log('describe("UsersService", () => {');
-console.log('  let service: UsersService;');
-console.log('  let repo: Repository<User>;');
-console.log('');
-console.log('  beforeEach(async () => {
-    const module = await Test.createTestingModule({
+---
+
+## Program: Cicip Beneran NestJS
+
+```bash
+npm install --save-dev jest supertest @types/supertest
+```
+
+```typescript
+// produk.service.spec.ts — unit + mock DB!
+import { Test } from "@nestjs/testing";
+import { ProdukService } from "./produk.service";
+
+describe("ProdukService", () => {
+  let service: ProdukService;
+
+  beforeEach(async () => {
+    const modul = await Test.createTestingModule({
       providers: [
-        UsersService,
-        { provide: getRepositoryToken(User), useValue: mockRepo }
+        ProdukService,
+        { provide: "REPO", useValue: { find: async () => [{ nama: "Beras" }] } },
       ],
     }).compile();
-    service = module.get(UsersService);
-    repo = module.get(getRepositoryToken(User));
-  });');
-console.log('})');
-console.log('');
-console.log('=== Mock Repository ===');
-const mockRepo = {
-  find: () => Promise.resolve([{ id: 1, nama: 'Budi' }]),
-  findOne: (id) => Promise.resolve({ id, nama: 'User ' + id }),
-  create: (data) => ({ id: 3, ...data }),
-  save: (data) => Promise.resolve(data),
-  delete: () => Promise.resolve({ affected: 1 }),
-};
-console.log('const mockRepo = {');
-console.log('  find: jest.fn().mockResolvedValue([...]),');
-console.log('  findOne: jest.fn().mockResolvedValue({...}),');
-console.log('  save: jest.fn().mockResolvedValue({...}),');
-console.log('}');
-console.log('');
-console.log('=== E2E Test ===');
-console.log('describe("Users (e2e)", () => {');
-console.log('  let app: INestApplication;');
-console.log('');
-console.log('  beforeEach(async () => {
-    const module = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = module.createNestApplication();
-    await app.init();
-  });');
-console.log('');
-console.log('  it("GET /users", () => {
-    return request(app.getHttpServer())
-      .get("/users")
-      .expect(200)
-      .expect([{ id: 1, nama: "Budi" }]);
-  });');
-console.log('})');
+    service = modul.get(ProdukService);
+  });
+
+  it("semua ada Beras", async () => {
+    expect((await service.semua())[0].nama).toBe("Beras");
+  });
+});
+```
+
+```typescript
+// app.e2e-spec.ts — pintu beneran!
+import * as request from "supertest";
+
+it("GET /produk 200", () => {
+  return request("http://localhost:3000").get("/produk").expect(200);
+});
+```
+
+```bash
+npm test  # HIJAU beneran
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Unit Test
-Test.createTestingModule() untuk setup test module. Mock dependencies.
+### `Test.createTestingModule` = Warung Bohongan
+Bangun module khusus uji + `useValue` mock DB (tanpa Postgres beneran!).
 
-### Mock
-{ provide: Token, useValue: mockObject } untuk replace real service.
+### E2E `supertest` = Pelanggan Bohongan
+HTTP beneran ke app jalan → `expect(200)`.
 
-### E2E
-app.getHttpServer() + supertest untuk HTTP-level testing.
+---
 
-### Coverage
-jest --coverage untuk lihat code coverage.
+## Penjelasan untuk Pemula
+
+### Analogi: Dapur Uji + Mystery Shopper
+- **Unit = cicip dapur** (service + mock), **E2E = mystery shopper** (pintu beneran).
+
+### Langkah 0 — Siapkan Device
+- `npm install --save-dev jest supertest` + `npm test`.
+
+### Cara Komputer Membaca
+1. `createTestingModule` → DI bohongan → `service` pakai mock.
+2. `supertest` → HTTP nyata → status cocok?
+
+### 3 Istilah Wajib
+1. **Unit/E2E/mock**: dapur/pintu/palsu
 
 ---
 
 ## Eksperimen
 
-- Buat test untuk semua service methods
-- Implementasikan test untuk guards dan pipes
-- Tambah database integration test dengan test DB
-- Buat factory untuk test data generation
+- **Hijau:** Ubah service rusak → merah?
+- **Kuning:** Tanpa mock DB → test sentuh DB asli? (Jangan! Mock.)
+- **Merah:** File tanpa `.spec.ts` → tidak jalan? Ganti nama.
 
 ---
 
 ## Tantangan
 
-Buat comprehensive test suite: unit tests, e2e tests, 80%+ coverage.
+**Warung Teruji:** Unit service (mock) 3 test + E2E 2 pintu HIJAU + screenshot.
+
+---
+
+## Glosarium Mini
+
+- **spec/mock/supertest**: uji/palsu/pintu-bohongan
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 12: **Testing NestJS** (Level: Lanjutan). Minggu depan: **WebSockets & Real-time**.
+Minggu 9 dari 12: **Cicip Beneran** (Level: Lanjutan). Tanpa simulasi. Minggu depan: **WebSocket**.

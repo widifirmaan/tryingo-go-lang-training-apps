@@ -1,107 +1,123 @@
-# Guards & Authentication
+# Guards & Auth — Satpam KTP NestJS
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 6:** Guards & Authentication
+> **Kategori:** NestJS | **Level:** Menengah | **Minggu 6:** Guards & Auth
 
 ## Tujuan Pembelajaran
 
-- Guard: implement CanActivate interface
-- JWT: generate dan verify token
-- Auth flow: login, token, protected routes
-- Role-based access dengan custom decorator
-- Global guards dan per-route guards
+- `CanActivate` + `@UseGuards(AuthGuard)` satpam per pintu + JWT `sign/verify` KTP (sumber: docs.nestjs.com/security/authentication)
 
 ---
 
-## Program: JWT Auth
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+Tanpa guard, `/admin/hapus-semua` dibuka siapa saja. Dengan `@UseGuards` 1 baris per pintu + JWT, aman. Beda pintu beda guard (admin vs kasir).
+
+---
+
+## Program: KTP Warung NestJS
+
+```bash
+npm install @nestjs/jwt
+```
+
+```typescript
+// auth.guard.ts — satpam (1x, pakai di mana-mana)
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
-class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+export class AuthGuard implements CanActivate {
+  constructor(private jwt: JwtService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractToken(request);
-    if (!token) throw new UnauthorizedException();
+  async canActivate(ctx: ExecutionContext): Promise<boolean> {
+    const req = ctx.switchToHttp().getRequest();
+    const token = (req.headers.authorization || "").replace("Bearer ", "");
     try {
-      const payload = await this.jwtService.verifyAsync(token);
-      request.user = payload;
+      req.user = await this.jwt.verifyAsync(token); // KTP sah?
       return true;
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("Login dulu!");
     }
   }
+}
+```
 
-  private extractToken(request: any): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+```typescript
+// auth.controller.ts — loket KTP
+import { JwtService } from "@nestjs/jwt";
+
+@Post("login")
+login(@Body() b: any) {
+  if (b.email === "admin@warung.com" && b.password === "123") {
+    return { token: this.jwt.sign({ email: b.email }) };
   }
+  throw new UnauthorizedException("Salah");
 }
 
-console.log('NestJS Guards & Auth:');
-console.log('');
-console.log('=== Auth Flow ===');
-console.log('1. Client POST /auth/login { email, password }');
-console.log('2. Server verify, return JWT');
-console.log('3. Client store JWT, send as Authorization: Bearer <token>');
-console.log('4. Guard verify JWT di setiap request');
-console.log('');
-console.log('=== JWT Structure ===');
-console.log('Header: { alg: "HS256", typ: "JWT" }');
-console.log('Payload: { sub: 1, email: "budi@mail.com", role: "admin" }');
-console.log('Signature: HMACSHA256(header + payload, secret)');
-console.log('');
-console.log('=== Guard Usage ===');
-console.log('@UseGuards(AuthGuard)');
-console.log('@Controller("users")');
-console.log('export class UsersController {');
-console.log('  @Get("profile")');
-console.log('  getProfile(@Request() req) {');
-console.log('    return req.user;');
-console.log('  }');
-console.log('}');
-console.log('');
-console.log('=== Roles Guard ===');
-console.log('@SetMetadata("roles", ["admin"])');
-console.log('@UseGuards(RolesGuard)');
+// produk.controller.ts — pintu dijaga
+@UseGuards(AuthGuard)
+@Post()
+tambah(@Body() dto: BuatProdukDto) { /* ... */ }
+
+@Get()  // bebas (tanpa guard)
+semua() { /* ... */ }
 ```
+
+Test: `POST /login` → token → `POST /produk` + header `Authorization: Bearer TOKEN` → lolos. Tanpa → 401.
 
 ---
 
 ## Konsep Kunci
 
-### Guard
-Class implements canActivate(). Return true/false untuk allow/deny.
+### `CanActivate` = Kartu Satpam
+`canActivate()` return `true` (lolos) / throw (tendang).
 
-### JWT
-Header + Payload + Signature. Stateless auth.
+### `@UseGuards` = Tempel di Pintu
+Per method (1 pintu) atau controller (semua pintu).
 
-### Auth Flow
-Login -> verify credentials -> generate JWT -> client stores -> send in header.
+### JWT = Gelang
+`sign` buat, `verify` cek. Rahasia di env!
 
-### Roles
-@SetMetadata('roles', ['admin']) + RolesGuard untuk check permission.
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Gelang Konser + Satpam
+- **login = tukar tiket jadi gelang (JWT)**, **Guard = satpam cek gelang** tiap pintu VIP.
+
+### Langkah 0 — Siapkan Device
+- Sama W1 + `npm install @nestjs/jwt` + `JwtModule.register({ secret: "rahasia" })`.
+
+### Cara Komputer Membaca
+1. `POST /produk` + header → Guard `verify` → `req.user` isi → controller.
+2. Tanpa header → `UnauthorizedException` → 401.
+
+### 3 Istilah Wajib
+1. **Guard/CanActivate**: satpam/bisa-masuk?
+2. **JWT/Bearer**: gelang/bawa
 
 ---
 
 ## Eksperimen
 
-- Implementasikan refresh token mechanism
-- Buat RolesGuard dengan multiple roles
-- Tambah @Public() decorator untuk skip auth
-- Implementasikan token blacklist
+- **Hijau:** Tanpa header → 401?
+- **Kuning:** Token palsu → 401?
+- **Merah:** Guard di `GET` juga → daftar butuh login (jualan sepi)? Pilih pintu!
 
 ---
 
 ## Tantangan
 
-Buat auth system: register, login, JWT, role guards, refresh token.
+**Restoran Ber-KTP:** `login` + `GET` bebas + `POST/DELETE` jaga + `curl` 3 test (bebas/tanpa/palsu/asli).
+
+---
+
+## Glosarium Mini
+
+- **Guard/JWT/UseGuards**: satpam/gelang/tempel
 
 ---
 
 ## Ringkasan
 
-Minggu 6 dari 12: **Guards & Authentication** (Level: Menengah). Minggu depan: **ORM Advanced & Relations**.
+Minggu 6 dari 12: **Satpam KTP** (Level: Menengah). Pintu terjaga. Minggu depan: **ORM Lanjutan**.

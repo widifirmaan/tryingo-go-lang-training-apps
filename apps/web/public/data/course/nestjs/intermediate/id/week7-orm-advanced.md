@@ -1,118 +1,109 @@
-# ORM Advanced & Relations
+# ORM Relations — Tali Antar Rak NestJS
 
 > **Kategori:** NestJS | **Level:** Menengah | **Minggu 7:** ORM Advanced & Relations
 
 ## Tujuan Pembelajaran
 
-- One-to-Many dan Many-to-One relations
-- Many-to-Many dengan join table
-- Eager vs Lazy loading
-- Query Builder untuk complex queries
-- Cascade operations dan transactions
+- `@OneToMany` + `@ManyToOne` tali (1 pelanggan - banyak pesanan) (sumber: typeorm.io/relations)
+- `relations: ["pesanans"]` ikut ambil (eager manual) vs N+1 lambat
 
 ---
 
-## Program: Relasi Database
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+Tanpa relasi, ambil pelanggan + pesanannya = 2 query manual + gabung di JS. Dengan `@OneToMany`, 1 baris ikut ambil. Tanpa sadar N+1, 100 pelanggan = 101 query (lambat!).
 
-@Entity('users')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+---
 
-  @Column()
-  nama: string;
+## Program: Tali Warung NestJS
 
-  @OneToMany(() => Post, post => post.author)
-  posts: Post[];
+```typescript
+// pelanggan.entity.ts — 1 punya banyak
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Pesanan } from "./pesanan.entity";
+
+@Entity()
+export class Pelanggan {
+  @PrimaryGeneratedColumn() id: number;
+  @Column() nama: string;
+
+  @OneToMany(() => Pesanan, (p) => p.pelanggan)
+  pesanans: Pesanan[];
 }
+```
 
-@Entity('posts')
-export class Post {
-  @PrimaryGeneratedColumn()
-  id: number;
+```typescript
+// pesanan.entity.ts — banyak milik 1
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Pelanggan } from "./pelanggan.entity";
 
-  @Column()
-  title: string;
+@Entity()
+export class Pesanan {
+  @PrimaryGeneratedColumn() id: number;
+  @Column() total: number;
 
-  @ManyToOne(() => User, user => user.posts)
-  @JoinColumn({ name: 'user_id' })
-  author: User;
-
-  @OneToMany(() => Comment, comment => comment.post)
-  comments: Comment[];
+  @ManyToOne(() => Pelanggan, (p) => p.pesanans)
+  pelanggan: Pelanggan;
 }
+```
 
-@Entity('comments')
-export class Comment {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  content: string;
-
-  @ManyToOne(() => Post, post => post.comments)
-  post: Post;
+```typescript
+// service — ikut ambil (hindari N+1!)
+semua() {
+  return this.repo.find({ relations: ["pesanans"] });
 }
-
-console.log('TypeORM Relations:');
-console.log('');
-console.log('=== One-to-Many / Many-to-One ===');
-console.log('User (1) <-> (N) Post');
-console.log('@OneToMany(() => Post, post => post.author)');
-console.log('@ManyToOne(() => User, user => user.posts)');
-console.log('');
-console.log('=== Eager vs Lazy Loading ===');
-console.log('Eager: @ManyToOne(() => User, { eager: true })');
-console.log('Lazy: @ManyToOne(() => User) // returns Promise');
-console.log('');
-console.log('=== Query Builder ===');
-console.log('this.postsRepository');
-console.log('  .createQueryBuilder("post")');
-console.log('  .leftJoinAndSelect("post.author", "author")');
-console.log('  .where("post.id = :id", { id: 1 })');
-console.log('  .getOne();');
-console.log('');
-console.log('=== Cascade ===');
-console.log('@OneToMany(() => Post, post => post.author, { cascade: true })');
-console.log('// Save user -> auto-save posts');
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Relations
-@OneToMany, @ManyToOne, @ManyToMany untuk relasi antar entity.
+### `@OneToMany` / `@ManyToOne` = Punya / Milik
+1 pelanggan punya banyak pesanan; tiap pesanan milik 1 pelanggan.
 
-### Loading
-Eager: auto-load relation. Lazy: load on access (returns Promise).
+### `relations: [...]` = Ikut Ambil
+Tanpa ini, `pelanggan.pesanans` kosong! Dengan ini, 2 query (bukan 101).
 
-### Query Builder
-createQueryBuilder() untuk complex SQL queries.
+---
 
-### Cascade
-{ cascade: true } — save parent auto-save children.
+## Penjelasan untuk Pemula
+
+### Analogi: Buku Tamu & Nota Terjahit
+- **Relasi = jahitan**: nota dijahit ke halaman buku tamu pemiliknya.
+
+### Langkah 0 — Siapkan Device
+- Sama W4-beginner: TypeORM + Postgres jalan.
+
+### Cara Komputer Membaca
+1. `find({ relations: ["pesanans"] })` → `SELECT` pelanggan + `SELECT ... WHERE pelangganId IN (...)`.
+2. Tempel hasil ke tiap pelanggan.
+
+### 3 Istilah Wajib
+1. **OneToMany/ManyToOne**: punya/milik
+2. **relations**: ikut-ambil
 
 ---
 
 ## Eksperimen
 
-- Buat Many-to-Many: User <-> Role
-- Implementasikan pagination dengan Query Builder
-- Tambah transaction untuk multi-step operation
-- Buat nested relations: User -> Post -> Comment -> Like
+- **Hijau:** Tanpa `relations` → `pesanans` kosong?
+- **Kuning:** Log query: tanpa relations 101 query? Dengan 2?
+- **Merah:** `@OneToMany` tanpa `@ManyToOne` pasangan → FK tidak dibuat? Pasangkan.
 
 ---
 
 ## Tantangan
 
-Buat social media schema: User, Post, Comment, Like dengan full relations dan queries.
+**Toko Bertali:** `Pelanggan 1-N Pesanan N-1 Produk` + `relations` 2 level + buktikan 3 query (bukan 1+N+M).
+
+---
+
+## Glosarium Mini
+
+- **OneToMany/ManyToOne/relations**: punya/milik/ikut
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 12: **ORM Advanced & Relations** (Level: Menengah). Minggu depan: **Error Handling & Logging**.
+Minggu 7 dari 12: **Tali Rak** (Level: Menengah). Tanpa N+1. Minggu depan: **Error & Log**.
