@@ -1,145 +1,93 @@
-# Macros
+# Macros — Stempel Kode Rust
 
-> **Kategori:** Rust | **Level:** Advanced | **Minggu 13:** Macros
+> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 13:** Macros
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- macro_rules! for declarative macros
-- Pattern matching in macros: $expr, $ident, $ty
-- Repetition: $(...)* for multiple arguments
-- Custom derive macros (conceptual)
-- Built-in macros: format!, println!, vec!, include_str!
+- `macro_rules!` stempel kode: tulis pola → hasilkan kode (sumber: doc.rust-lang.org/book/ch19-06-macros + The Little Book of Rust Macros)
+- `vec!`, `println!`, `format!` yang dipakai tiap hari = macro bawaan (`!` tandanya!)
 
 ---
 
-## Program: Metaprogramming
+## Kenapa Ini Penting Buat Kamu?
+
+Tulis `vec![1,2,3]` vs `Vec::new(); push; push; push` — macro hemat 4 baris. `println!("Halo {}", nama)` cek jumlah `{}` vs argumen SAAT COMPILE (bukan runtime!). Buat stempel sendiri untuk pola berulang (misal `hashmap!`).
+
+---
+
+## Program: Stempel Warung Rust
 
 ```rust
-// Declarative macro (macro_rules!)
-macro_rules! say_hello {
-    () => {
-        println!("Halo dari macro!");
-    };
-}
-
-macro_rules! create_function {
-    ($func_name:ident) => {
-        fn $func_name() {
-            println!("Fungsi {} dipanggil", stringify!($func_name));
-        }
-    };
-}
-
-macro_rules! calculate {
-    ($a:expr + $b:expr) => {
-        $a + $b
-    };
-    ($a:expr * $b:expr) => {
-        $a * $b
-    };
-}
-
-// Vec! macro
-macro_rules! my_vec {
-    ($($x:expr),*) => {
-        {
-            let mut temp_vec = Vec::new();
-            $(temp_vec.push($x);)*
-            temp_vec
-        }
-    };
-}
-
-// Custom derive (konseptual)
-// #[derive(Debug, Clone, PartialEq)]
-struct Point {
-    x: i32,
-    y: i32,
-}
-
-impl std::fmt::Debug for Point {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "Point {{ x: {}, y: {} }}", self.x, self.y)
-    }
+// Stempel sendiri: hashmap! (tidak ada di std!)
+macro_rules! stok {
+  ($( $nama:expr => $jumlah:expr ),*) => {{
+    let mut m = std::collections::HashMap::new();
+    $( m.insert($nama, $jumlah); )*
+    m
+  }};
 }
 
 fn main() {
-    // Panggil macro
-    say_hello!();
+  let s = stok! { "beras" => 10, "gula" => 5 };
+  println!("{:?}", s);
 
-    // Macro buat fungsi
-    create_function!(foo);
-    foo();
-
-    // Calculate macro
-    let sum = calculate!(5 + 3);
-    let product = calculate!(4 * 7);
-    println!("5 + 3 = {}", sum);
-    println!("4 * 7 = {}", product);
-
-    // Vec macro
-    let v = my_vec![1, 2, 3, 4, 5];
-    println!("my_vec: {:?}", v);
-
-    // Debug
-    let p = Point { x: 10, y: 20 };
-    println!("{:?}", p);
-
-    // format! macro
-    let s = format!("x={}, y={}", p.x, p.y);
-    println!("format!: {}", s);
-
-    // println! dan print!
-    println!("println! dengan {} argumen", 2);
-    print!("print! tanpa newline");
-    println!();
-
-    // stringify! dan concat!
-    let ident = stringify!(hello_world);
-    println!("stringify!: {}", ident);
-
-    // include_str! (konseptual)
-    // let content = include_str!("file.txt");
+  // Bawaan yang tiap hari dipakai (semua macro!):
+  let v = vec![1, 2, 3];                    // vec!
+  println!("Halo {}!", "Budi");             // println!
+  let teks = format!("Rp{}", 62000);        // format!
+  println!("{}", teks);
 }
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Declarative Macros
-`macro_rules!` for code generation via pattern matching.
+### `macro_rules!` + `$nama:expr` = Pola + Tangkap
+`$( ... ),*` ulang koma-pisah. `$nama:expr` tangkap ekspresi.
 
-### Fragment Specifiers
-`$expr`, `$ident`, `$ty` for different token types.
-
-### Repetition
-`$(...),*` for repeating patterns.
-
-### Custom Derive
-Auto-generate trait implementations.
-
-### Built-in Macros
-Standard library macros for common tasks.
+### `!` = Tanda Macro
+`vec!`, `println!` — bukan fungsi (jumlah argumen bebas!).
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create macro to generate structs
-- Experiment with macros for DSL
-- Try macro with multiple pattern arms
-- Create macro to generate tests
-- Experiment with macros for logging
+### Analogi: Stempel Kode
+- **Macro = stempel**: `stok!{...}` cap → jadi 10 baris kode.
+
+### Langkah 0 — Siapkan Device
+- Sama W1. `cargo expand` (opsional) intip hasil stempel.
+
+### Cara Komputer Membaca
+1. Compile → macro jalan DULUAN → hasilkan kode → baru compile kode hasil.
+
+### 3 Istilah Wajib
+1. **macro_rules/!**: stempel/tanda
+2. **$expr/$( )*:** tangkap/ulang
 
 ---
 
-## Challenge
+## Eksperimen
 
-Create macro to generate builder pattern: builder_struct!(Name, field1: Type1, field2: Type2). Generate struct + impl + build method.
+- **Hijau:** `stok!{}` kosong → HashMap kosong?
+- **Kuning:** Pola tanpa koma terakhir → error pola? Tambah.
+- **Merah:** Fungsi biasa ganti `vec!` (argumen bebas)? Tidak bisa! (Itulah kenapa macro.)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 13 of 14: **Macros** (Level: Advanced). Metaprogramming in Rust. Next week: **Capstone Project**!
+**Stempel Toko:** `tambah_stok!(map, "beras", 5)` macro tambah-atau-buat + `vec!` bandingkan baris hemat.
+
+---
+
+## Glosarium Mini
+
+- **macro/!/expand**: stempel/tanda/intip
+
+---
+
+## Ringkasan
+
+Minggu 13 dari 14: **Stempel Kode** (Level: Lanjutan). Hemat baris aman. Minggu depan: **Capstone**.

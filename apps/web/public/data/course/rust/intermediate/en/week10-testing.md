@@ -1,128 +1,113 @@
-# Testing
+# Testing — Cicip Warung Rust Beneran
 
-> **Kategori:** Rust | **Level:** Intermediate | **Minggu 10:** Testing
+> **Kategori:** Rust | **Level:** Menengah | **Minggu 10:** Testing
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- #[test] attribute to mark test functions
-- assert!, assert_eq!, assert_ne! macros for verification
-- #[cfg(test)] module for test collections
-- Doc tests: tests inside code documentation
-- cargo test to run all tests
+- `#[test]` + `assert_eq!` cicip beneran + `cargo test` jalan (sumber: doc.rust-lang.org/book/ch11)
+- `#[should_panic]` harapkan meledak + doc-test di `///` otomatis jalan!
 
 ---
 
-## Program: Unit & Integration Tests
+## Kenapa Ini Penting Buat Kamu?
+
+Simulasi `println` tidak dicek mesin. `cargo test` beneran: ubah rumus → merah → perbaiki. Doc-test (contoh di `///`) ikut jalan — dokumentasi tidak basi!
+
+---
+
+## Program: Cicip Kasir Beneran
 
 ```rust
-// Fungsi yang akan diuji
-fn add(a: i32, b: i32) -> i32 {
-    a + b
+fn hitung(a: i32, b: i32) -> i32 { a + b }
+
+/// Bagi aman.
+/// /// Contoh (JALAN OTOMATIS sebagai test!):
+/// ```
+/// assert_eq!(bagi(10.0, 2.0), Ok(5.0));
+/// ```
+fn bagi(a: f64, b: f64) -> Result<f64, String> {
+  if b == 0.0 { Err("tidak bisa bagi 0".to_string()) } else { Ok(a / b) }
 }
 
-fn divide(a: f64, b: f64) -> Result<f64, String> {
-    if b == 0.0 {
-        Err("tidak bisa dibagi nol".to_string())
-    } else {
-        Ok(a / b)
-    }
+#[cfg(test)]
+mod test {
+  use super::*;
+
+  #[test]
+  fn hitung_benar() {
+    assert_eq!(hitung(2, 3), 5);
+  }
+
+  #[test]
+  fn bagi_nol_meledak() {
+    assert!(bagi(5.0, 0.0).is_err());
+  }
+
+  #[test]
+  #[should_panic]
+  fn index_lewat_meledak() {
+    let v = vec![1];
+    let _ = v[5]; // panic diharapkan!
+  }
 }
+```
 
-fn is_even(n: i32) -> bool {
-    n % 2 == 0
-}
-
-fn fibonacci(n: u32) -> u64 {
-    match n {
-        0 => 0,
-        1 => 1,
-        _ => {
-            let mut a = 0u64;
-            let mut b = 1u64;
-            for _ in 2..=n {
-                let temp = a + b;
-                a = b;
-                b = temp;
-            }
-            b
-        }
-    }
-}
-
-fn main() {
-    // Simulasi test
-    println!("=== Simulasi Unit Test ===");
-
-    // Test add
-    let result = add(2, 3);
-    assert_eq!(result, 5, "add(2,3) harus 5");
-    println!("✓ add(2,3) = {}", result);
-
-    let result = add(-1, -1);
-    assert_eq!(result, -2, "add(-1,-1) harus -2");
-    println!("✓ add(-1,-1) = {}", result);
-
-    // Test divide
-    let result = divide(10.0, 2.0);
-    assert!(result.is_ok());
-    println!("✓ divide(10,2) = {:?}", result);
-
-    let result = divide(5.0, 0.0);
-    assert!(result.is_err());
-    println!("✓ divide(5,0) = {:?}", result);
-
-    // Test is_even
-    assert!(is_even(4));
-    assert!(!is_even(3));
-    println!("✓ is_even tests passed");
-
-    // Test fibonacci
-    assert_eq!(fibonacci(0), 0);
-    assert_eq!(fibonacci(1), 1);
-    assert_eq!(fibonacci(10), 55);
-    println!("✓ fibonacci tests passed");
-
-    println!("
-=== Semua test passed! ===");
-    println!("Cargo test: cargo test");
-    println!("Doc test: cargo test --doc");
-}
+```bash
+cargo test
+# test result: ok. 3 passed + 1 doc-test — HIJAU beneran
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Unit Tests
-`#[test]` attribute. `assert_eq!` for equality checks.
+### `#[test]` + `assert_eq!` = Cicip Mesin
+`assert_eq!(hitung(2,3), 5)` — beda → merah + nilai kiri-kanan.
 
-### Test Modules
-`#[cfg(test)] mod tests { ... }` — dedicated test module.
+### `#[should_panic]` = Harapkan Meledak
+Untuk kode yang SEHARUSNYA panic.
 
-### Doc Tests
-Tests inside documentation comments.
-
-### cargo test
-Run all tests. Filter with name.
+### Doc-Test = Contoh Hidup
+`/// ``` ` ikut `cargo test` — contoh basi langsung ketahuan!
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create tests for add function with edge cases
-- Try assert_ne! and assert! with custom messages
-- Create test module with setup/teardown
-- Experiment with should_panic
-- Create doc tests for public functions
+### Analogi: Cicip Dapur
+- **test = cicip**: masak → cicip mesin.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `cargo test` (tanpa install tambahan!).
+
+### Cara Komputer Membaca
+1. `cargo test` → compile mode test → jalankan tiap `#[test]` paralel → lapor.
+
+### 3 Istilah Wajib
+1. **test/assert/doc-test**: cicip/harap/contoh-hidup
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a calculator library with unit tests: add, subtract, multiply, divide, power, factorial. Minimum 10 test cases.
+- **Hijau:** Ubah rumus → merah? Betulkan.
+- **Kuning:** Doc `///` salah → doc-test merah? (Dokumentasi basi ketahuan!)
+- **Merah:** Test tanpa `#[test]` → tidak jalan? Tambah atribut.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 14: **Testing** (Level: Intermediate). Intermediate phase complete! Next week: **Smart Pointers** (Advanced).
+**Warung Teruji:** `hitung/diskon/bagi` + 4 test + 1 doc-test HIJAU + screenshot. **Selesai Menengah Rust!**
+
+---
+
+## Glosarium Mini
+
+- **test/assert/doc-test**: cicip/harap/contoh
+
+---
+
+## Ringkasan
+
+Minggu 10 dari 14: **Cicip Beneran** (Level: Menengah). **Selesai Menengah Rust!** Lanjut: **Smart Pointers** (Lanjutan).

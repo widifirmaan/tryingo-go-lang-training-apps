@@ -1,111 +1,46 @@
-# Generics
+# Generics — Rak Serbaguna Rust
 
 > **Kategori:** Rust | **Level:** Menengah | **Minggu 8:** Generics
 
 ## Tujuan Pembelajaran
 
-- Generic function: fn name<T>(param: T)
-- Generic struct: struct Stack<T> { items: Vec<T> }
-- Trait bound pada generics: T: PartialOrd + Debug
-- Multiple type parameters: struct Pair<T, U>
-- Option<T> dan Result<T, E> sebagai generic enum
+- `struct Keranjang<T> { items: Vec<T> }` rak tipe apa saja + `fn pertama<T>(v: &[T]) -> &T` (sumber: doc.rust-lang.org/book/ch10-01-syntax)
+- `T: Kasir` batas (trait bound) — hanya yang berkontrak!
 
 ---
 
-## Program: Fungsi Generik
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa generics, `KeranjangString` + `KeranjangInt` duplikat. Dengan `<T>` 1 rak + tetap ketat (tidak `Any` longgar). `T: Kasir` cegah rak isi barang tak-berkontrak.
+
+---
+
+## Program: Rak Generik Warung
 
 ```rust
-use std::fmt::Debug;
-
-// Generic function
-fn first<T>(items: &[T]) -> Option<&T> {
-    items.first()
+struct Keranjang<T> {
+  items: Vec<T>,
 }
 
-// Generic struct
-struct Stack<T> {
-    items: Vec<T>,
-}
-
-impl<T> Stack<T> {
-    fn new() -> Self {
-        Stack { items: Vec::new() }
-    }
-
-    fn push(&mut self, item: T) {
-        self.items.push(item);
-    }
-
-    fn pop(&mut self) -> Option<T> {
-        self.items.pop()
-    }
-
-    fn peek(&self) -> Option<&T> {
-        self.items.last()
-    }
-
-    fn is_empty(&self) -> bool {
-        self.items.is_empty()
-    }
-}
-
-// Generic dengan trait bound
-fn largest<T: PartialOrd + Debug>(items: &[T]) -> Option<&T> {
-    items.iter().reduce(|a, b| if a > b { a } else { b })
-}
-
-// Generic enum
-enum Option<T> {
-    Some(T),
-    None,
-}
-
-enum Result<T, E> {
-    Ok(T),
-    Err(E),
-}
-
-// Multiple type parameters
-struct Pair<T, U> {
-    first: T,
-    second: U,
-}
-
-impl<T: Debug, U: Debug> Pair<T, U> {
-    fn display(&self) {
-        println!("{:?} {:?}", self.first, self.second);
-    }
+impl<T> Keranjang<T> {
+  fn new() -> Self { Self { items: Vec::new() } }
+  fn tambah(&mut self, item: T) { self.items.push(item); }
+  fn pertama(&self) -> Option<&T> { self.items.first() }
 }
 
 fn main() {
-    // Generic function
-    let numbers = vec![10, 20, 30];
-    println!("First int: {:?}", first(&numbers));
+  let mut ks = Keranjang { items: vec!["Beras", "Gula"] };
+  ks.tambah("Kopi");
+  println!("Pertama: {:?}", ks.pertama());
 
-    let words = vec!["a", "b", "c"];
-    println!("First str: {:?}", first(&words));
+  let mut ki: Keranjang<i32> = Keranjang::new();
+  ki.tambah(62000);
+  // ki.tambah("x"); // ERROR: bukan i32!
 
-    // Generic struct
-    let mut stack: Stack<String> = Stack::new();
-    stack.push("Rust".to_string());
-    stack.push("Go".to_string());
-    stack.push("Python".to_string());
-
-    println!("Stack peek: {:?}", stack.peek());
-    while let Some(item) = stack.pop() {
-        println!("Pop: {}", item);
-    }
-
-    // largest
-    let nums = vec![3, 1, 4, 1, 5, 9, 2, 6];
-    println!("Largest: {:?}", largest(&nums));
-
-    let chars = vec!['a', 'z', 'm'];
-    println!("Largest char: {:?}", largest(&chars));
-
-    // Pair
-    let pair = Pair { first: 42, second: "hello" };
-    pair.display();
+  // Batas trait: hanya berkontrak Kasir (W7)!
+  fn bayar_termahal<T: crate::Kasir>(a: &T, b: &T) -> u32 {
+    a.hitung().max(b.hitung())
+  }
 }
 ```
 
@@ -113,39 +48,54 @@ fn main() {
 
 ## Konsep Kunci
 
-### Generic Function
-`fn first<T>(items: &[T])` — tipe T ditentukan saat dipanggil.
+### `<T>` = Label Sementara
+`Keranjang<String>` → `T` jadi `String` di mana-mana.
 
-### Generic Struct
-`struct Stack<T>` — struct dengan tipe parameter.
+### `T: Kasir` = Syarat Rak
+Hanya tipe berkontrak boleh masuk fungsi.
 
-### Trait Bound
-`T: PartialOrd` — T harus mengimplement PartialOrd. Bisa multiple: `T: A + B`.
+### `Option<&T>` = Aman Kosong
+`first()` → `Some`/`None` (bukan panic!).
 
-### Multiple Type Params
-`struct Pair<T, U>` — dua tipe berbeda.
+---
 
-### Option & Result
-`Option<T>` dan `Result<T, E>` adalah generic enum standar Rust.
+## Penjelasan untuk Pemula
+
+### Analogi: Rak Adjustable
+- **Generics = rak adjustable**: setel `String`/`i32` — 1 rak.
+
+### Langkah 0 — Siapkan Device
+- Sama W1: `cargo run`.
+
+### Cara Komputer Membaca
+1. `Keranjang { items: vec!["Beras"] }` → tebak `T = &str`.
+2. `tambah(123)` → error tipe!
+
+### 3 Istilah Wajib
+1. **Generics/<T>/bound**: serbaguna/label/syarat
 
 ---
 
 ## Eksperimen
 
-- Buat generic function max<T: PartialOrd>
-- Buat generic struct Queue<T>
-- Coba generic dengan where clause
-- Buat trait dengan generic method
-- Eksperimen dengan PhantomData
+- **Hijau:** `Keranjang::new()` + tebak tipe dari `tambah`?
+- **Kuning:** `pertama()` rak kosong → `None`? (Aman, tidak panic!)
+- **Merah:** Hapus `: Kasir` bound → panggil `hitung` di dalam → error?
 
 ---
 
 ## Tantangan
 
-Buat generic Repository<T> dengan method: find_all, find_by_id, save, delete. Implement untuk Product dan User.
+**Gudang Generik:** `Keranjang<T>` + `total<T: Harga>()` + 2 tipe + `Option` tangani kosong.
+
+---
+
+## Glosarium Mini
+
+- **Generics/bound/Option**: serbaguna/syarat/aman
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 14: **Generics** (Level: Menengah). Reusable code dengan type safety. Minggu depan: **Lifetimes**.
+Minggu 8 dari 14: **Rak Serbaguna** (Level: Menengah). 1 rak ketat. Minggu depan: **Lifetimes**.

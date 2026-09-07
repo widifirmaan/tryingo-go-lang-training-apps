@@ -1,147 +1,98 @@
-# Smart Pointers
+# Smart Pointers — Kotak Pintar Rust
 
 > **Kategori:** Rust | **Level:** Lanjutan | **Minggu 11:** Smart Pointers
 
 ## Tujuan Pembelajaran
 
-- Box<T>: heap allocation untuk tipe dinamis dan recursive type
-- Rc<T>: reference counting untuk multiple ownership
-- RefCell<T>: interior mutability — mutable borrow saat immutable
-- Arc<T>: atomic reference counting untuk thread-safe sharing
-- Deref dan Drop trait untuk custom smart pointer
+- `Box<T>` kotak heap (untuk rekursif), `Rc<T>` hitung pemilik, `RefCell<T>` ubah-lewat-pinjam, `Arc<T>` versi thread (sumber: doc.rust-lang.org/book/ch15)
 
 ---
 
-## Program: Manajemen Memori Lanjutan
+## Kenapa Ini Penting Buat Kamu?
+
+`enum Daftar { Isi(i32, Daftar) }` tanpa `Box` → error `infinite size` (ukuran tak hingga!). Daftar belanja bersama 2 kasir butuh `Rc`. Ubah lewat `&` butuh `RefCell`.
+
+---
+
+## Program: Kotak Pintar Warung
 
 ```rust
 use std::rc::Rc;
 use std::cell::RefCell;
-use std::sync::Arc;
 
-// Box<T> — heap allocation
-fn box_example() {
-    let b = Box::new(42);
-    println!("Box: {}", b);
-
-    // Recursive type dengan Box
-    #[derive(Debug)]
-    enum List {
-        Cons(i32, Box<List>),
-        Nil,
-    }
-
-    let list = List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))));
-    println!("List: {:?}", list);
+// 1. Box: ukuran pasti (rekursif butuh!)
+#[derive(Debug)]
+enum Daftar {
+  Kosong,
+  Isi(i32, Box<Daftar>), // Box = ukuran pointer (8 byte, pasti!)
 }
+let d = Daftar::Isi(62000, Box::new(Daftar::Kosong));
+println!("{:?}", d);
 
-// Rc<T> — reference counting
-fn rc_example() {
-    let a = Rc::new(42);
-    let b = Rc::clone(&a);
-    let c = Rc::clone(&a);
-
-    println!("a = {}, b = {}, c = {}", a, b, c);
-    println!("Reference count: {}", Rc::strong_count(&a));
-}
-
-// RefCell<T> — interior mutability
-fn refcell_example() {
-    let data = RefCell::new(42);
-
-    // Borrow immutable
-    println!("data = {}", data.borrow());
-
-    // Borrow mutable
-    *data.borrow_mut() = 100;
-    println!("data after mutation = {}", data.borrow());
-}
-
-// Arc<T> — atomic reference counting (thread-safe)
-fn arc_example() {
-    let val = Arc::new(42);
-    let val2 = Arc::clone(&val);
-    println!("Arc: val={}, val2={}", val, val2);
-    println!("Arc count: {}", Arc::strong_count(&val));
-}
-
-fn main() {
-    println!("=== Box<T> ===");
-    box_example();
-
-    println!("
-=== Rc<T> ===");
-    rc_example();
-
-    println!("
-=== RefCell<T> ===");
-    refcell_example();
-
-    println!("
-=== Arc<T> ===");
-    arc_example();
-
-    // Deref trait
-    let x = Box::new(5);
-    println!("
-Deref: *x = {}", *x);
-
-    // Drop trait
-    struct CustomSmartPointer {
-        data: String,
-    }
-
-    impl Drop for CustomSmartPointer {
-        fn drop(&mut self) {
-            println!("Dropping CustomSmartPointer with data: {}", self.data);
-        }
-    }
-
-    let c = CustomSmartPointer { data: "my stuff".to_string() };
-    let d = CustomSmartPointer { data: "other stuff".to_string() };
-    println!("Created pointers");
-    drop(c);
-    println!("Dropped c");
-}
+// 2. Rc: 2 pemilik (hitung!)
+let stok = Rc::new(RefCell::new(10));
+let kasir1 = Rc::clone(&stok);
+let kasir2 = Rc::clone(&stok);
+kasir1.borrow_mut(); // ubah lewat pinjam & (RefCell!)
+*kasir1.borrow_mut() -= 1;
+println!("Stok: {}, pemilik: {}", kasir2.borrow(), Rc::strong_count(&stok)); // 9, 3
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Box<T>
-Heap allocation. Dipakai untuk: tipe dinamis (trait object), recursive type, large data.
+### `Box<T>` = Kotak Heap Pasti
+Ukuran pointer tetap → rekursif bisa. `Deref` otomatis (`*b` jarang tulis).
 
-### Rc<T>
-Reference counting. Multiple owner, single-thread. `Rc::clone()` increment count.
+### `Rc<T>` + `RefCell<T>` = Hitung + Ubah-Lewat-Pinjam
+`Rc::clone` tambah pemilik (murah, bukan copy data!). `borrow_mut` ubah meski `&`.
 
-### RefCell<T>
-Interior mutability. Borrow rules dijalankan saat runtime, bukan compile time.
+### `Arc<T>` = Rc Thread-Safe
+`Rc` untuk 1 thread, `Arc` (atomic) untuk banyak thread (W12!).
 
-### Arc<T>
-Atomic Rc — thread-safe. Dipakai bersama Mutex untuk shared mutable state.
+---
 
-### Deref & Drop
-`Deref` untuk `*x`. `Drop` untuk cleanup saat keluar scope.
+## Penjelasan untuk Pemula
+
+### Analogi: Kotak & Kunci Bersama
+- **Box = kardus pasti**: ukuran tahu, bisa susun.
+- **Rc = kunci duplikat + hitungan**: 3 pegang, kembali semua baru kunci musnah.
+- **RefCell = ganti isi lewat kaca**: pinjam baca tapi bisa tulis (aturan runtime!).
+
+### Langkah 0 — Siapkan Device
+- Sama W1.
+
+### Cara Komputer Membaca
+1. `Rc::clone(&stok)` → hitungan 2 → 3 (data 1!).
+2. Hitungan 0 → data dibuang otomatis.
+
+### 3 Istilah Wajib
+1. **Box/Rc/RefCell**: kotak/hitung/ubah-pinjam
+2. **Arc**: hitung-thread
 
 ---
 
 ## Eksperimen
 
-- Buat linked list dengan Box<Cons>
-- Eksperimen dengan Rc<RefCell<T>>
-- Coba RefCell borrow saat sudah borrowed — lihat panic
-- Buat custom smart pointer dengan Drop
-- Eksperimen dengan Weak<T> untuk break cycle
+- **Hijau:** `Rc::strong_count` setelah clone 2x → 3?
+- **Kuning:** `borrow_mut` 2x bersamaan → panic runtime? (Aturan RefCell!)
+- **Merah:** Enum rekursif tanpa `Box` → error `infinite size`? Tambah Box.
 
 ---
 
 ## Tantangan
 
-Buat graph structure: Node dengan Rc<RefCell<Node>> untuk edges. Method: add_edge, dfs, bfs.
+**Gudang Bersama:** `Rc<RefCell<Stok>>` + 2 kasir kurang bareng + `strong_count` + cetak sisa.
+
+---
+
+## Glosarium Mini
+
+- **Box/Rc/RefCell/Arc**: kotak/hitung/ubah/antar-thread
 
 ---
 
 ## Ringkasan
 
-Minggu 11 dari 14: **Smart Pointers** (Level: Lanjutan). Manajemen memori lanjutan. Minggu depan: **Concurrency**.
+Minggu 11 dari 14: **Kotak Pintar** (Level: Lanjutan). Rekursif + bersama bisa. Minggu depan: **Concurrency**.
