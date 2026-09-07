@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `vitest`, ubah rumus → salah ketahuan pelanggan. Dengan 2 test, ubah → merah → perbaiki. `vi.fn()` mock fetch tanpa internet.
+
+---
+
 ## Program
 
 ```javascript
@@ -27,7 +33,28 @@ test("hitung 0+0", () => {
 // npm test
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Cicip Dapur JS
+- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+
+### Cara Komputer Membaca
+- `test(name, fn)` + `expect(a).toBe(b)`; `npm test` cari `*.test.js`.
+
+### 3 Istilah Wajib
+- 1. **test/expect/mock**: cicip/harap/palsu
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

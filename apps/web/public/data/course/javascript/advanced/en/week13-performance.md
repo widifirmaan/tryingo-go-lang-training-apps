@@ -1,18 +1,24 @@
 # Performance Optimization
 
-> **Kategori:** JavaScript | **Level:** Advanced | **Minggu 13:** Performance Optimization
+> **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 13:** Performance Optimization
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Debounce: delay execution until user stops
+- Debounce: delay execution sampai user berhenti
 - Throttle: limit execution rate
-- Memoization: cache expensive function results
-- Lazy loading: load resources when needed
-- Web Workers: heavy computation in separate thread
+- Memoization: cache hasil fungsi mahal
+- Lazy loading: load resources saat dibutuhkan
+- Web Workers: heavy computation di thread terpisah
 
 ---
 
-## Program: Performance Optimization
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar 1000 tanpa `memo`/`lazy` = ngos-ngosan di HP kentang. Dengan split + cache + `debounce` cari, 5 detik → 0.5.
+
+---
+
+## Program: Optimasi Performa
 
 ```javascript
 // Debounce
@@ -101,44 +107,65 @@ console.log("7. Avoid memory leaks (cleanup listeners)");
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Debounce
-Wait for user to stop typing before searching. 300ms delay.
+Tunggu user berhenti mengetik sebelum search. Delay 300ms.
 
 ### Throttle
-Limit execution per time. Scroll handler max 1x per second.
+Limit execution per waktu. Scroll handler max 1x per detik.
 
 ### Memoization
-Cache results by arguments. Fibonacci O(n) from O(2^n).
+Cache hasil berdasarkan argumen. Fibonacci O(n) dari O(2^n).
 
 ### Lazy Loading
-Load image/component only when visible in viewport.
+Load image/component hanya saat terlihat di viewport.
 
 ### Web Workers
-Run heavy tasks in background thread. Doesn't block UI.
+Jalankan heavy task di background thread. Tidak block UI.
 
 ### RAF
-`requestAnimationFrame` for smooth 60fps animations.
+`requestAnimationFrame` untuk animasi smooth 60fps.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create debounce with immediate option
-- Try throttle with trailing call
-- Experiment memoization with cache size limit
-- Create lazy loading for long list
-- Try requestIdleCallback for low-priority work
-
----
-
-## Challenge
-
-Build a search component: debounced input, memoized results, lazy loaded list, with performance metrics.
+- Buat debounce dengan immediate option
+- Coba throttle dengan trailing call
+- Eksperimen memoization dengan cache size limit
+- Buat lazy loading untuk list panjang
+- Coba requestIdleCallback untuk low-priority work
 
 ---
 
-## Summary
+## Tantangan
 
-Week 13 of 14: **Performance Optimization** (Level: Advanced). Speed & efficiency. Next week: **Capstone Project**!
+Buat search component: debounced input, memoized results, lazy loaded list, dengan performance metrics.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Warung Hemat Energi
+- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+
+### Cara Komputer Membaca
+- `lazy()` split; `useMemo` ingat; `debounce` tunggu ketik berhenti; `Lighthouse` nilai.
+
+### 3 Istilah Wajib
+- 1. **lazy/memo/debounce**: nanti/ingat/tunggu
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 13 dari 14: **Performance Optimization** (Level: Lanjutan). Kecepatan & efisiensi. Minggu depan: **Capstone Project**!

@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+13 minggu terpisah — capstone buktikan gabung: modules + fetch + DOM + test + deploy jadi toko. Portfolio JS.
+
+---
+
 ## Program: Toko JS Capstone
 
 ```javascript
@@ -24,7 +30,28 @@ Deploy `Vercel` / `Netlify`.
 
 **Tugas:** Deploy `warung-js.vercel.app`.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko JS
+- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+
+### Cara Komputer Membaca
+- CHECKLIST (modul + API + DOM + test + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
