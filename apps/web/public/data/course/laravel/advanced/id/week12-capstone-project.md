@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: Blade + API + auth + queue + test + deploy jadi toko. Portfolio Laravel.
+
+---
+
 ## Program: Toko Capstone Laravel
 
 Fitur: `produk` CRUD `Eloquent` + `Blade` + `Breeze` auth + `Storage` foto + `Queue` email + `apiResource`.
@@ -16,7 +22,28 @@ Deploy `Vercel`/`Forge` + `php artisan storage:link`.
 
 **Tugas:** Deploy `warung-laravel.vercel.app` + video.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Laravel
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- CHECKLIST (CRUD + auth + API + test + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

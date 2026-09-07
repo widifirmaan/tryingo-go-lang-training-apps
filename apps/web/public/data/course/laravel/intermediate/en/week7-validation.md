@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `FormRequest`, validasi campur di controller 30 baris + duplikat tiap method. Dengan 1 class, pakai 10x.
+
+---
+
 ## Program
 
 ```bash
@@ -36,7 +42,28 @@ public function store(StoreProdukRequest $req){
 
 View: `@error('nama') <span>{{ $message }}</span> @enderror`.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Satpam Terpisah Laravel
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `php artisan make:request StoreRequest` → `rules()` → type-hint di controller → otomatis dicek.
+
+### 3 Istilah Wajib
+- 1. **FormRequest/rules**: satpam/aturan
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

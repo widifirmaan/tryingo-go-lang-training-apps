@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Foto produk tanpa Storage = path acak + tidak bisa pindah ke S3. Dengan `store('produk','public')` + `storage:link`, rapi + pindah cloud 1 config.
+
+---
+
 ## Program
 
 ```php
@@ -28,7 +34,28 @@ php artisan storage:link
 # Buka http://localhost:8000/storage/produk/xxx.jpg
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Gudang Foto Laravel
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `$req->file('foto')->store('produk','public')` simpan; `Storage::url()` link publik.
+
+### 3 Istilah Wajib
+- 1. **Storage/link**: gudang/jembatan
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

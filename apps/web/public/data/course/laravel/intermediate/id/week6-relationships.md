@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa relasi, `pesanan` + `pelanggan` = 2 query + gabung manual. Dengan `hasMany/belongsTo` + `with()`, 2 query otomatis + anti-N+1.
+
+---
+
 ## Program
 
 ```php
@@ -27,7 +33,28 @@ $pesanan = Pesanan::with('produk')->first();
 echo $pesanan->produk->nama;
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Tali Antar Rak Laravel
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `$produk->pesanans` otomatis; `Produk::with('pesanans')->get()` 2 query (bukan 101).
+
+### 3 Istilah Wajib
+- 1. **hasMany/belongsTo/with**: punya/milik/ikut
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
