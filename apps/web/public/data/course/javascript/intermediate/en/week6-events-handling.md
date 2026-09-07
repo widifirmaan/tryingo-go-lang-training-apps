@@ -12,6 +12,12 @@
 
 ---
 
+## Why This Matters (Non-IT)
+
+A shop list with 100 products — attaching 100 `addEventListener` (one per row) is heavy and leaks when rows are removed. **Delegation** = 1 guard at the lobby (`ul`) checking `e.target` for who clicked. `preventDefault` stops form reload.
+
+---
+
 ## Program: Event System
 
 ```javascript
@@ -89,8 +95,31 @@ emitter.emit("user:login", "Siti"); // hanya 1 listener
 // });
 ```
 
+
 ---
 
+## Beginner Friendly Explanation
+
+### Analogy: Lobby Guard
+- **100 listeners = 100 guards**, one per room — wasteful.
+- **Delegation = 1 lobby guard**: click Delete in room 5 → guard checks `e.target` ID 5 → removes.
+
+### Step 0 — Prepare Device
+- Same as JS W1: browser + `index.html` with `<ul>` + form.
+
+### How the Computer Reads It
+1. Click Delete → bubbles to `ul` listener → `e.target.matches(".hapus")`? Yes → `closest("li").remove()`.
+
+### 3 Must-Know Terms
+1. **Delegation/preventDefault**: 1-guard/no-reload
+
+---
+
+## Mini Glossary
+
+- **Delegation/preventDefault/stopPropagation**: one-guard/no-reload/no-leak
+
+---
 ## Key Concepts
 
 ### Event Phases

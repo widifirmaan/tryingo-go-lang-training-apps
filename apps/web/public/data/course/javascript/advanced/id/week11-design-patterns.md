@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa pola, `if` bayar 20x duplikat + tambah cara ubah 20 tempat. Dengan `Strategy` tambah 1 class; `Singleton` 1 kasir; `Observer` siar stok.
+
+---
+
 ## Program
 
 ```javascript
@@ -38,7 +44,28 @@ toko.langganan(nama=>console.log(`Stok ${nama} habis, kapan restok?`));
 toko.stokHabis("Beras");
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Colokan & Kasir Utama JS
+- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+
+### Cara Komputer Membaca
+- `new Kasir(new Tunai())` suntik cara; `getInstance()` 1 saja; `on/emit` siar.
+
+### 3 Istilah Wajib
+- 1. **Strategy/Singleton/Observer**: colokan/1/siar
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

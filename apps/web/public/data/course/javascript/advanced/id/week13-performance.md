@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Daftar 1000 tanpa `memo`/`lazy` = ngos-ngosan di HP kentang. Dengan split + cache + `debounce` cari, 5 detik → 0.5.
+
+---
+
 ## Program: Optimasi Performa
 
 ```javascript
@@ -137,7 +143,28 @@ Jalankan heavy task di background thread. Tidak block UI.
 
 Buat search component: debounced input, memoized results, lazy loaded list, dengan performance metrics.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Warung Hemat Energi
+- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+
+### Cara Komputer Membaca
+- `lazy()` split; `useMemo` ingat; `debounce` tunggu ketik berhenti; `Lighthouse` nilai.
+
+### 3 Istilah Wajib
+- 1. **lazy/memo/debounce**: nanti/ingat/tunggu
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
