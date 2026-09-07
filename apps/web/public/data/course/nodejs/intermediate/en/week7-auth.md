@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa JWT, `/admin` dibuka siapa saja. Dengan `sign` + `verify` + middleware, 10 baris jaga semua pintu.
+
+---
+
 ## Program
 
 ```javascript
@@ -36,7 +42,28 @@ app.listen(3000);
 
 Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}' http://localhost:3000/login` → token → `curl -H "Authorization: Bearer TOKEN" http://localhost:3000/admin`.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Gelang Konser Node
+- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+
+### Langkah 0 — Siapkan Device
+- Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
+
+### Cara Komputer Membaca
+- `jwt.sign` buat gelang; middleware cek `Authorization: Bearer` tiap pintu jaga.
+
+### 3 Istilah Wajib
+- 1. **JWT/middleware**: gelang/satpam
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
