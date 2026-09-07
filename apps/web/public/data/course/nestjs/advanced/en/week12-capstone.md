@@ -1,109 +1,62 @@
-# Capstone: Enterprise API
+# Capstone: Enterprise API — Warung NestJS Grand Opening
 
-> **Kategori:** NestJS | **Level:** Advanced | **Minggu 12:** Capstone: Enterprise API
+> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 12:** Capstone: Enterprise API
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all concepts: Controllers, Services, Modules, DI
-- Auth: JWT, Guards, Roles
-- Database: TypeORM, Relations, Migrations
-- Real-time: WebSocket notifications
-- Testing: Unit + E2E, Deployment: Docker
+- Gabung W1-W11: `module` + `auth` + `TypeORM` + `WebSocket` + `test` + `Docker` jadi toko beneran (bukan `console.log`!)
 
 ---
 
-## Program: Task Management API
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-console.log('=== Capstone: Task Management API ===');
-console.log('Menggabungkan semua konsep NestJS');
-console.log('');
+11 minggu terpisah — capstone buktikan gabung: daftar → login → pesan → live → teruji → deploy. Portfolio "NestJS production-ready".
 
-const project = {
-  name: 'Task Management API',
-  features: [
-    'Users: register, login, JWT auth, roles',
-    'Projects: CRUD, members, permissions',
-    'Tasks: CRUD, assignee, status, priority',
-    'Comments: nested comments on tasks',
-    'Notifications: real-time via WebSocket',
-    'File uploads: task attachments',
-    'Search: full-text search across tasks',
-    'Pagination: cursor-based pagination',
-    'Caching: Redis for frequent queries',
-    'Testing: unit + e2e with 85%+ coverage',
-  ],
-};
+---
 
-console.log('Features:');
-for (const f of project.features) console.log('  - ' + f);
+## Program: Toko Grand Opening (Checklist)
 
-console.log('');
-console.log('=== Architecture ===');
-console.log('AppModule');
-console.log('  |-- AuthModule (JWT, Guards)');
-console.log('  |-- UsersModule (CRUD, Roles)');
-console.log('  |-- ProjectsModule (CRUD, Members)');
-console.log('  |-- TasksModule (CRUD, Comments)');
-console.log('  |-- NotificationsModule (WebSocket)');
-console.log('  |-- DatabaseModule (TypeORM)');
-console.log('  |-- CacheModule (Redis)');
-console.log('');
-console.log('=== API Endpoints ===');
-const endpoints = [
-  { method: 'POST', path: '/auth/register', desc: 'Register' },
-  { method: 'POST', path: '/auth/login', desc: 'Login, get JWT' },
-  { method: 'GET', path: '/projects', desc: 'List projects' },
-  { method: 'POST', path: '/projects', desc: 'Create project' },
-  { method: 'GET', path: '/projects/:id/tasks', desc: 'List tasks' },
-  { method: 'POST', path: '/tasks', desc: 'Create task' },
-  { method: 'PATCH', path: '/tasks/:id/status', desc: 'Update status' },
-];
-for (const e of endpoints) console.log('  ' + e.method + ' ' + e.path + ' -> ' + e.desc);
-console.log('');
-console.log('=== Deployment ===');
-console.log('  Docker + Docker Compose');
-console.log('  CI/CD: GitHub Actions');
-console.log('  Monitoring: PM2 + Winston');
-console.log('  Database: PostgreSQL');
+```bash
+nest new warung
+npm install @nestjs/typeorm typeorm pg @nestjs/jwt @nestjs/websockets
 ```
 
----
+Fitur wajib (cek 1 per 1):
+- [ ] `ProdukModule` CRUD + `ValidationPipe` + `Postgres` (W2-W4)
+- [ ] `login` JWT + `@UseGuards` untuk `POST/DELETE` (W6)
+- [ ] `Gateway` siar `stok-habis` (W10)
+- [ ] 3 test HIJAU (`npm test`) (W9)
+- [ ] `Dockerfile` + `docker build` + `docker run` (W4-Docker)
 
-## Key Concepts
+```bash
+npm test          # HIJAU?
+npm run build && npm run start:prod  # jalan?
+curl localhost:3000/produk  # JSON?
+```
 
-### Architecture
-Modular domain-driven design.
-
-### Auth
-JWT + Guards + Roles.
-
-### Database
-TypeORM with relations.
-
-### Real-time
-WebSocket notifications.
-
-### Testing
-Unit + E2E tests.
+**Tugas capstone:** Repo + test hijau + URL publik (`Railway`) + video 1 menit (daftar → login → tambah → live). **Selesai NestJS 0→Ahli!** 🎉
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Add file upload with S3
-- Implement full-text search with Elasticsearch
-- Create event-driven architecture with RabbitMQ
-- Add API rate limiting and throttling
+### Capstone = Gabung 11 Minggu
+Module + auth + DB + live + test + deploy = toko.
 
 ---
 
-## Challenge
+## Tantangan
 
-Build complete Task Management API: auth, projects, tasks, notifications, tests, Docker.
+**Grand Opening:** Semua checklist + URL + video. **Selesai NestJS 0→Ahli!** 🎉
 
 ---
 
-## Summary
+## Glosarium Mini
 
-Week 12 of 12: **Capstone: Enterprise API** (Level: Advanced). Complete! You've mastered NestJS from scratch to production-ready.
+- **Capstone/deploy**: gabung/buka
+
+---
+
+## Ringkasan
+
+Minggu 12 dari 12: **Grand Opening** (Level: Lanjutan). **Selesai NestJS 0→Ahli dari nol!** 🎉

@@ -1,119 +1,121 @@
-# Pipes & Validation
+# Pipes & Validation — Satpam Pintu NestJS
 
-> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 5:** Pipes & Validation
+> **Kategori:** NestJS | **Level:** Menengah | **Minggu 5:** Pipes & Validation
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- DTO (Data Transfer Object) with class-validator
-- ValidationPipe for auto-validation
-- Built-in pipes: ParseInt, ParseBool, ParseUUID
-- Custom Pipe: implement PipeTransform
-- Error handling: BadRequestException
+- DTO + `class-validator` (`@IsString()`, `@MinLength(3)`) stempel + `ValidationPipe` satpam otomatis (sumber: docs.nestjs.com/techniques/validation)
+- `ParseIntPipe` ubah `:id` jadi angka (bukan string!)
 
 ---
 
-## Program: Input Validation
+## Kenapa Ini Penting Buat Kamu?
 
-```javascript
-import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
-import { IsString, IsEmail, MinLength, MaxLength, IsInt, Min, Max } from 'class-validator';
+Tanpa validasi, `nama: ""` masuk DB → laporan rusak. Tanpa `ParseIntPipe`, `id` string `"1"` vs number `1` bikin `find` gagal diam-diam. 3 baris cegah semua.
 
-class CreateUserDto {
-  @IsString()
-  @MinLength(3)
-  @MaxLength(50)
-  nama: string;
+---
 
-  @IsEmail()
-  email: string;
+## Program: Satpam Warung NestJS
 
-  @IsInt()
-  @Min(1)
-  @Max(150)
-  umur: number;
-}
-
-@Injectable()
-class ValidationPipe implements PipeTransform {
-  async transform(value: any, metadata: { metatype: any }) {
-    const { metatype } = metadata;
-    if (!metatype || !this.toValidate(metatype)) {
-      return value;
-    }
-    return value;
-  }
-  private toValidate(metatype: any): boolean {
-    const types: any[] = [String, Boolean, Number, Array, Object];
-    return !types.includes(metatype);
-  }
-}
-
-console.log('NestJS Pipes & Validation:');
-console.log('');
-console.log('=== DTO (Data Transfer Object) ===');
-console.log('class CreateUserDto {');
-console.log('  @IsString() @MinLength(3) nama: string');
-console.log('  @IsEmail() email: string');
-console.log('  @IsInt() @Min(1) umur: number');
-console.log('}');
-console.log('');
-console.log('=== Built-in Pipes ===');
-const pipes = [
-  'ValidationPipe — validate request body',
-  'ParseIntPipe — convert string to int',
-  'ParseBoolPipe — convert string to bool',
-  'ParseUUIDPipe — validate UUID format',
-  'DefaultValuePipe — set default value',
-];
-for (const p of pipes) console.log('  - ' + p);
-
-console.log('');
-console.log('=== Custom Pipe ===');
-console.log('@Injectable()');
-console.log('class ParseDatePipe implements PipeTransform {');
-console.log('  transform(value: string) {');
-console.log('    return new Date(value);');
-console.log('  }');
-console.log('}');
-console.log('');
-console.log('=== Usage ===');
-console.log("@Post()
-create(@Body(new ValidationPipe()) dto: CreateUserDto) {}");
+```bash
+npm install class-validator class-transformer
 ```
 
+```typescript
+// dto.ts — amplop berstempel
+import { IsString, MinLength, IsInt, Min } from "class-validator";
+
+export class BuatProdukDto {
+  @IsString()
+  @MinLength(3, { message: "Nama minimal 3 huruf" })
+  nama: string;
+
+  @IsInt()
+  @Min(1, { message: "Harga minimal 1" })
+  harga: number;
+}
+```
+
+```typescript
+// main.ts — pasang satpam GLOBAL (1x untuk semua!)
+import { ValidationPipe } from "@nestjs/common";
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  await app.listen(3000);
+}
+```
+
+```typescript
+// controller — otomatis dicek!
+@Post()
+tambah(@Body() dto: BuatProdukDto) {
+  return this.service.tambah(dto); // sampai sini = sudah lolos!
+}
+
+@Get(":id")
+satu(@Param("id", ParseIntPipe) id: number) { // "1" → 1
+  return this.service.satu(id);
+}
+```
+
+POST `{}` → `400` + pesan "Nama minimal 3 huruf" (bukan 500!).
+
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### DTO
-class-validator decorators.
+### DTO + Decorator = Amplop Berstempel
+`@IsString()` stempel di field. `whitelist: true` buang field tak dikenal (anti mass-assignment!).
 
-### ValidationPipe
-Auto-validates against DTO.
+### `ValidationPipe` Global = Satpam 1x
+Pasang di `main.ts` → semua `@Body` dicek otomatis.
 
-### Custom Pipes
-Implement PipeTransform.
-
-### Usage
-Apply pipes to parameters.
+### `ParseIntPipe` = Penerjemah
+`":id"` string → number otomatis.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create Product DTO with validation rules
-- Implement custom pipe for date parsing
-- Add whitelist: strip non-DTO properties
-- Create global validation pipe
+### Analogi: Satpam + Penerjemah
+- **ValidationPipe = satpam pintu**: cek stempel tiap amplop.
+- **ParseIntPipe = penerjemah**: "1" → 1.
+
+### Langkah 0 — Siapkan Device
+- Sama NestJS W1 + `npm install class-validator class-transformer`.
+
+### Cara Komputer Membaca
+1. POST JSON → pipe cek tiap decorator → gagal? `400` + pesan.
+2. `:id` → `ParseIntPipe` → number → controller.
+
+### 3 Istilah Wajib
+1. **DTO/Pipe**: amplop/satpam
+2. **whitelist/ParseInt**: buang-asing/terjemah
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build comprehensive validation: CreateUserDto, UpdateUserDto, custom pipes, error messages.
+- **Hijau:** POST `{}` → 400 + pesan?
+- **Kuning:** POST + field `is_admin` → dibuang (`whitelist`)?
+- **Merah:** Hapus global pipe → data jelek lolos? (Itulah kenapa wajib!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 5 of 12: **Pipes & Validation** (Level: Intermediate). Next week: **Guards & Authentication**.
+**Warung Bersatpam:** DTO `nama/harga/stok` + global pipe + `ParseIntPipe` `:id` + `curl` 3 kasus (lolos/kosong/salah-tipe).
+
+---
+
+## Glosarium Mini
+
+- **DTO/Pipe/whitelist**: amplop/satpam/buang-asing
+
+---
+
+## Ringkasan
+
+Minggu 5 dari 12: **Satpam Pintu** (Level: Menengah). Data kotor ditolak. Minggu depan: **Guards** — KTP.
