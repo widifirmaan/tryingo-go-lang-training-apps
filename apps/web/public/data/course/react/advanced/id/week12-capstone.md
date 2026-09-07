@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: Router + Context + fetch + uji + deploy jadi toko beneran. Portfolio React.
+
+---
+
 ## Program: Toko Capstone
 
 Fitur wajib:
@@ -19,7 +25,28 @@ Struktur: `src/pages`, `src/components`, `src/context/KeranjangContext.jsx`.
 
 **Tugas:** Deploy `warung-react.vercel.app` + video 2 menit tambah keranjang → checkout.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko React
+- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
+
+### Cara Komputer Membaca
+- CHECKLIST (router + gudang + uji + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
