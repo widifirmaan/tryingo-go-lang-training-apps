@@ -1,164 +1,93 @@
-# Capstone: CLI + Library
+# Capstone: CLI Warung + Library — Grand Opening Rust
 
-> **Kategori:** Rust | **Level:** Advanced | **Minggu 14:** Capstone: CLI + Library
+> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 14:** Capstone: CLI + Library
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Combine all concepts: structs, enums, traits, generics, error handling
-- Repository pattern: separate data access and business logic
-- CLI with argument parsing
-- Search and filter with iterators
-- Testing: unit tests, integration tests
+- Gabung W1-W13: `struct` + `enum` + `trait` + `Result` + `Vec` + `test` jadi CLI kasir + library teruji
 
 ---
 
-## Program: Note Manager
+## Kenapa Ini Penting Buat Kamu?
+
+13 minggu terpisah — capstone buktikan gabung: kasir terminal anti-crash + teruji + 1 binary kecil. Portfolio "Rust production-ready".
+
+---
+
+## Program: Kasir CLI Grand Opening (Checklist)
+
+```bash
+cargo new warung --bin
+```
 
 ```rust
-use std::fmt;
+// src/main.rs — gabung semua (W3 struct, W4 enum, W6 Result)
+use std::env;
 
-#[derive(Debug, Clone)]
-struct Note {
-    id: u32,
-    title: String,
-    content: String,
+#[derive(Debug)]
+struct Produk { nama: String, harga: u32 }
+
+enum Aksi { Tambah(String, u32), List }
+
+fn parse(arg: &[String]) -> Result<Aksi, String> {
+  match arg.get(1).map(|s| s.as_str()) {
+    Some("--tambah") => Ok(Aksi::Tambah(
+      arg.get(2).cloned().unwrap_or_default(),
+      arg.get(3).and_then(|h| h.parse().ok()).unwrap_or(0),
+    )),
+    _ => Ok(Aksi::List),
+  }
 }
 
-impl fmt::Display for Note {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}. {}
-   {}", self.id, self.title, self.content)
-    }
-}
-
-struct NoteManager {
-    notes: Vec<Note>,
-    next_id: u32,
-}
-
-impl NoteManager {
-    fn new() -> Self {
-        NoteManager { notes: Vec::new(), next_id: 1 }
-    }
-
-    fn add(&mut self, title: &str, content: &str) -> Note {
-        let note = Note {
-            id: self.next_id,
-            title: title.to_string(),
-            content: content.to_string(),
-        };
-        self.next_id += 1;
-        self.notes.push(note.clone());
-        note
-    }
-
-    fn get(&self, id: u32) -> Option<&Note> {
-        self.notes.iter().find(|n| n.id == id)
-    }
-
-    fn delete(&mut self, id: u32) -> bool {
-        if let Some(pos) = self.notes.iter().position(|n| n.id == id) {
-            self.notes.remove(pos);
-            true
-        } else {
-            false
-        }
-    }
-
-    fn list(&self) -> &[Note] {
-        &self.notes
-    }
-
-    fn search(&self, query: &str) -> Vec<&Note> {
-        self.notes
-            .iter()
-            .filter(|n| n.title.contains(query) || n.content.contains(query))
-            .collect()
-    }
-}
-
-fn main() {
-    let mut nm = NoteManager::new();
-
-    nm.add("Belajar Rust", "Ownership, borrowing, lifetimes");
-    nm.add("Trait & Generics", "Polimorfisme dan reusable code");
-    nm.add("Concurrency", "Thread, channel, Arc<Mutex<T>>");
-
-    println!("=== Daftar Catatan ===");
-    for note in nm.list() {
-        println!("{}", note);
-    }
-
-    println!("
-=== Cari: 'Rust' ===");
-    for note in nm.search("Rust") {
-        println!("{}", note);
-    }
-
-    println!("
-=== Get ID 2 ===");
-    if let Some(note) = nm.get(2) {
-        println!("{}", note);
-    }
-
-    println!("
-=== Delete ID 1 ===");
-    if nm.delete(1) {
-        println!("Catatan 1 dihapus");
-    }
-
-    println!("
-=== Daftar Akhir ===");
-    for note in nm.list() {
-        println!("{}", note);
-    }
-
-    println!("
-=== CLI Simulation ===");
-    println!("cargo run -- add 'Judul Baru' 'Konten'");
-    println!("cargo run -- list");
-    println!("cargo run -- search 'query'");
-    println!("cargo run -- delete 1");
+fn main() -> Result<(), String> {
+  let arg: Vec<String> = env::args().collect();
+  match parse(&arg)? {
+    Aksi::Tambah(n, h) => println!("Tambah {} Rp{}", n, h),
+    Aksi::List => println!("Daftar..."),
+  }
+  Ok(())
 }
 ```
 
----
+```bash
+cargo test   # HIJAU? (W10: tambah 3 test!)
+cargo build --release  # 1 binary kecil!
+./target/release/warung --tambah Beras 62000
+```
 
-## Key Concepts
-
-### Repository Pattern
-Separate data access from business logic.
-
-### Iterators & Filter
-Search with iterator combinators.
-
-### CLI
-Argument parsing with std::env::args().
-
-### Testing
-Unit, integration, and doc tests.
-
-### Error Handling
-Result, Option, custom errors.
+**Tugas capstone:** CLI jalan + 3 test hijau + binary release + video 1 menit. **Selesai Rust 0→Ahli!**
 
 ---
 
-## Experiments
+## Konsep Kunci
 
-- Add update method for NoteManager
-- Implement save/load from JSON file
-- Create CLI with clap crate
-- Add unit tests for all methods
-- Implement error handling with custom errors
+### Capstone = Gabung 13 Minggu
+Struct + enum + trait + Result + test = kasir.
 
 ---
 
-## Challenge
+## Penjelasan untuk Pemula
 
-Build a complete capstone application: CLI + library + JSON storage + testing. Choose domain: Task Manager, Blog, or Inventory.
+### Analogi: Grand Opening
+- **W1-W6 fondasi** + **W7-W13 mesin** = toko. **W14 = buka**.
+
+### 3 Istilah Wajib
+1. **Capstone/binary**: gabung/jadi
 
 ---
 
-## Summary
+## Tantangan
 
-Week 14 of 14: **Capstone: CLI + Library** (Level: Advanced). Complete! 🎉 You've mastered Rust from scratch to production-ready.
+**Grand Opening:** Semua checklist + README + video. **Selesai Rust 0→Ahli!**
+
+---
+
+## Glosarium Mini
+
+- **Capstone/env-args**: gabung/argumen
+
+---
+
+## Ringkasan
+
+Minggu 14 dari 14: **Grand Opening** (Level: Lanjutan). **Selesai Rust 0→Ahli dari nol!**

@@ -1,149 +1,107 @@
-# Traits
+# Trait — Kontrak Warung Rust
 
-> **Kategori:** Rust | **Level:** Intermediate | **Minggu 7:** Traits
+> **Kategori:** Rust | **Level:** Menengah | **Minggu 7:** Trait
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- Traits: define interfaces/behaviors that structs can implement
-- impl Trait for Struct: implement trait on types
-- Trait bounds: <T: Trait> for generic constraints
-- Dynamic dispatch: &dyn Trait and Box<dyn Trait>
-- Default method implementations on traits
+- `trait Kasir { fn hitung(&self) -> u32; }` kontrak + `impl Kasir for Beras` penuhi (sumber: doc.rust-lang.org/book/ch10-02-traits)
+- `fn bayar(k: &impl Kasir)` terima apa saja yang berkontrak + default method
 
 ---
 
-## Program: Polymorphism
+## Kenapa Ini Penting Buat Kamu?
+
+Beras, Minyak, Gula semua harus bisa `hitung()` — tanpa trait, tulis fungsi per tipe (duplikat!). Dengan trait 1 kontrak, 1 fungsi `bayar` untuk semua. Tambah `Kopi` tanpa ubah `bayar`.
+
+---
+
+## Program: Kontrak Kasir Rust
 
 ```rust
-trait Speak {
-    fn speak(&self) -> String;
-    fn name(&self) -> &str;
+trait Kasir {
+  fn hitung(&self) -> u32;
+  fn nama(&self) -> &str;
+  // Default method (boleh tidak ditulis ulang!)
+  fn struk(&self) -> String {
+    format!("{}: Rp{}", self.nama(), self.hitung())
+  }
 }
 
-struct Dog {
-    name: String,
+struct Beras { kg: u32, harga: u32 }
+impl Kasir for Beras {
+  fn hitung(&self) -> u32 { self.kg * self.harga }
+  fn nama(&self) -> &str { "Beras" }
 }
 
-impl Speak for Dog {
-    fn speak(&self) -> String {
-        format!("Woof! I'm {}", self.name)
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
+struct Minyak { liter: u32, harga: u32 }
+impl Kasir for Minyak {
+  fn hitung(&self) -> u32 { self.liter * self.harga }
+  fn nama(&self) -> &str { "Minyak" }
 }
 
-struct Cat {
-    name: String,
-}
-
-impl Speak for Cat {
-    fn speak(&self) -> String {
-        format!("Meow! I'm {}", self.name)
-    }
-    fn name(&self) -> &str {
-        &self.name
-    }
-}
-
-fn make_sound(s: &dyn Speak) {
-    println!("{}", s.speak());
-}
-
-// Trait bound
-fn announce<T: Speak>(item: &T) {
-    println!("{} says: {}", item.name(), item.speak());
-}
-
-// Multiple trait bounds
-fn describe(item: &dyn Speak) {
-    println!("{}: {}", item.name(), item.speak());
-}
-
-// Trait sebagai return type
-fn get_speaker(name: &str, is_dog: bool) -> Box<dyn Speak> {
-    if is_dog {
-        Box::new(Dog { name: name.to_string() })
-    } else {
-        Box::new(Cat { name: name.to_string() })
-    }
+// Terima APA SAJA yang berkontrak Kasir!
+fn bayar(k: &impl Kasir) {
+  println!("{}", k.struk());
 }
 
 fn main() {
-    let dog = Dog { name: "Buddy".to_string() };
-    let cat = Cat { name: "Kitty".to_string() };
-
-    make_sound(&dog);
-    make_sound(&cat);
-
-    announce(&dog);
-    announce(&cat);
-
-    // Dynamic dispatch
-    let speakers: Vec<Box<dyn Speak>> = vec![
-        get_speaker("Rex", true),
-        get_speaker("Whiskers", false),
-    ];
-
-    for s in &speakers {
-        describe(s);
-    }
-
-    // Default method
-    trait Greet {
-        fn name(&self) -> &str;
-        fn greet(&self) -> String {
-            format!("Hello, I'm {}", self.name())
-        }
-    }
-
-    struct Person { name: String }
-    impl Greet for Person {
-        fn name(&self) -> &str { &self.name }
-    }
-
-    let person = Person { name: "Budi".to_string() };
-    println!("{}", person.greet());
+  bayar(&Beras { kg: 2, harga: 12500 });
+  bayar(&Minyak { liter: 2, harga: 17000 });
 }
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Traits
-Define methods that structs must implement. Like interfaces.
+### `trait` + `impl ... for` = Kontrak + Penuhi
+`trait Kasir { fn hitung(...); }` kontrak, `impl Kasir for Beras` penuhi.
 
-### impl Trait
-Implement traits for specific types.
+### `&impl Kasir` = Terima Semua Berkontrak
+Fungsi 1 untuk semua tipe yang penuhi (seperti interface Go).
 
-### Trait Bounds
-Generic functions with trait constraints.
-
-### Dynamic Dispatch
-Runtime polymorphism with &dyn Trait and Box<dyn Trait>.
-
-### Default Methods
-Traits can provide default implementations.
+### Default Method = Isi Bawaan
+`struk()` ada isi di trait — boleh pakai langsung.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create Shape trait with area() — implement Circle, Rectangle
-- Try multiple trait bounds: T: Trait1 + Trait2
-- Create trait with associated types
-- Experiment with trait objects in Vec
-- Create trait inheritance (supertraits)
+### Analogi: Sertifikat Kasir
+- **Trait = sertifikat**: "bisa hitung". Beras & Minyak punya sertifikat → boleh jaga kasir (`bayar`).
+
+### Langkah 0 — Siapkan Device
+- Sama Rust W1: `cargo run`.
+
+### Cara Komputer Membaca
+1. `bayar(&Beras{...})` → cek: Beras penuhi Kasir? Ya → panggil `hitung` versi Beras.
+
+### 3 Istilah Wajib
+1. **Trait/impl**: kontrak/penuhi
+2. **impl Trait**: terima-berkontrak
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a payment system: trait PaymentMethod (process_payment), implement CreditCard, PayPal, BankTransfer. Use trait bounds for repository.
+- **Hijau:** Tambah `Gula` + `impl Kasir` → `bayar` langsung bisa?
+- **Kuning:** Hapus 1 method `impl` → error `not all trait items implemented`?
+- **Merah:** `fn bayar(k: Beras)` (tipe konkret) → Minyak ditolak? Ganti `&impl Kasir`.
 
 ---
 
-## Summary
+## Tantangan
 
-Week 7 of 14: **Traits** (Level: Intermediate). Polymorphism in Rust. Next week: **Generics**.
+**Kontrak Lengkap:** `trait Diskon { fn total(&self) -> u32; }` + 3 struct + `bayar()` + default `struk()`.
+
+---
+
+## Glosarium Mini
+
+- **Trait/impl**: kontrak/penuhi
+
+---
+
+## Ringkasan
+
+Minggu 7 dari 14: **Kontrak** (Level: Menengah). 1 fungsi semua tipe. Minggu depan: **Generics**.

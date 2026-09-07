@@ -1,135 +1,107 @@
-# Concurrency
+# Concurrency — Kasir Paralel Anti-Rebutan Rust
 
-> **Kategori:** Rust | **Level:** Advanced | **Minggu 12:** Concurrency
+> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 12:** Concurrency
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- thread::spawn to create new threads
-- move closures to transfer ownership to threads
-- mpsc::channels for inter-thread communication
-- Arc<Mutex<T>> for safe shared mutable state
-- join() to wait for threads to finish
+- `thread::spawn` kasir baru + `move` pindah milik + `mpsc::channel` ban + `Arc<Mutex<T>>` brankas bersama (sumber: doc.rust-lang.org/book/ch16)
+- Aturan: "fearless concurrency" — rebutan DITOLAK compiler!
 
 ---
 
-## Program: Threads & Channels
+## Kenapa Ini Penting Buat Kamu?
+
+2 kasir kurang stok bareng tanpa kunci = hasil salah (race!). Di C/Go, salah ketahuan saat run (kadang!). Di Rust, `Arc<Mutex>` dipaksa compiler — salah tidak compile. Tidur tenang.
+
+---
+
+## Program: 2 Kasir Brankas Rust
 
 ```rust
 use std::thread;
-use std::sync::mpsc;
-use std::sync::{Arc, Mutex};
-use std::time::Duration;
+use std::sync::{Arc, Mutex, mpsc};
 
 fn main() {
-    // Thread sederhana
-    let handle = thread::spawn(|| {
-        for i in 1..=5 {
-            println!("Thread: {}", i);
-        }
-    });
+  // Brankas bersama (hitung-thread + kunci)
+  let stok = Arc::new(Mutex::new(10));
 
-    for i in 1..=3 {
-        println!("Main: {}", i);
-    }
+  // Ban 2 kasir
+  let (kirim, terima) = mpsc::channel();
 
-    handle.join().unwrap();
+  for kasir in 1..=2 {
+    let s = Arc::clone(&stok);      // tambah pemilik
+    let k = kirim.clone();          // tambah pengirim
+    thread::spawn(move || {         // move: pindah milik ke thread!
+      let mut stok = s.lock().unwrap(); // kunci! (1 yang pegang)
+      *stok -= 1;
+      k.send(format!("Kasir {} jual, sisa {}", kasir, *stok)).unwrap();
+    }); // kunci lepas otomatis di sini
+  }
+  drop(kirim);
 
-    // Move closure
-    let data = vec![1, 2, 3];
-    let handle = thread::spawn(move || {
-        println!("Moved data: {:?}", data);
-    });
-    handle.join().unwrap();
-
-    // Channel (mpsc)
-    let (tx, rx) = mpsc::channel();
-
-    thread::spawn(move || {
-        let messages = vec!["halo", "dari", "thread"];
-        for msg in messages {
-            tx.send(msg.to_string()).unwrap();
-        }
-    });
-
-    for _ in 0..3 {
-        let received = rx.recv().unwrap();
-        println!("Received: {}", received);
-    }
-
-    // Arc + Mutex untuk shared state
-    let counter = Arc::new(Mutex::new(0));
-    let mut handles = vec![];
-
-    for _ in 0..5 {
-        let counter = Arc::clone(&counter);
-        let handle = thread::spawn(move || {
-            let mut num = counter.lock().unwrap();
-            *num += 1;
-        });
-        handles.push(handle);
-    }
-
-    for handle in handles {
-        handle.join().unwrap();
-    }
-
-    println!("Counter: {}", *counter.lock().unwrap());
-
-    // Multiple producers
-    let (tx, rx) = mpsc::channel();
-    let tx2 = tx.clone();
-
-    thread::spawn(move || {
-        tx.send("from thread 1").unwrap();
-    });
-
-    thread::spawn(move || {
-        tx2.send("from thread 2").unwrap();
-    });
-
-    for _ in 0..2 {
-        println!("Multi-producer: {}", rx.recv().unwrap());
-    }
+  for pesan in terima {
+    println!("{}", pesan);
+  }
+  println!("Stok akhir: {} (tepat 8!)", stok.lock().unwrap());
 }
 ```
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
-### Threads
-`thread::spawn()` creates new threads. `join()` waits for completion.
+### `thread::spawn(move || ...)` = Kasir Baru Bawa Bekal
+`move` pindahkan milik ke thread (tanpa ini, pinjam mati duluan → ditolak!).
 
-### Move Closures
-Transfer ownership to threads with `move`.
+### `Arc<Mutex<T>>` = Brankas Bersama
+`Arc` bagi milik antar thread, `Mutex` kunci (1 pegang). `lock()` tunggu giliran.
 
-### Channels
-`mpsc::channel()` for message passing between threads.
-
-### Arc<Mutex<T>>
-Shared ownership with Arc, mutual exclusion with Mutex.
-
-### Thread Safety
-Rust guarantees thread safety at compile time via Send and Sync traits.
+### `mpsc::channel` = Ban Pesan
+`send` kirim, `for terima` terima sampai pengirim habis.
 
 ---
 
-## Experiments
+## Penjelasan untuk Pemula
 
-- Create simple thread pool
-- Experiment with channel timeouts
-- Try deadlock with nested Mutex locks
-- Create producer-consumer pattern
-- Experiment with scoped threads
+### Analogi: 2 Kasir + 1 Brankas
+- **Mutex = kunci brankas**: 1 pegang, lain antre.
+- **Arc = kunci duplikat terhitung**: habis dipakai semua → brankas musnah aman.
+
+### Langkah 0 — Siapkan Device
+- Sama W1.
+
+### Cara Komputer Membaca
+1. `Arc::clone` → hitungan 3 (main + 2 thread).
+2. Tiap thread `lock` → kurang → lepas. Hasil TEPAT 8 (tak pernah 9!).
+
+### 3 Istilah Wajib
+1. **spawn/move**: kasir-baru/bawa-bekal
+2. **Arc/Mutex**: bagi/kunci
+3. **mpsc**: ban-pesan
 
 ---
 
-## Challenge
+## Eksperimen
 
-Build a concurrent web crawler: fetch multiple URLs in parallel with threads + channels. Limit concurrency.
+- **Hijau:** Tanpa `Mutex` (pakai `Rc<RefCell>`)? → error `not Send`! (Compiler jaga! Ganti Arc.)
+- **Kuning:** Lupa `move` → error borrow? Tambah.
+- **Merah:** Lupa `drop(kirim)` → `for terima` tunggu selamanya? (Pengirim masih ada!)
 
 ---
 
-## Summary
+## Tantangan
 
-Week 12 of 14: **Concurrency** (Level: Advanced). Rust's fearless concurrency. Next week: **Macros**.
+**Dapur Paralel:** 3 thread masak + `Arc<Mutex<Stok>>` + `channel` lapor + hasil tepat (tidak lebih!).
+
+---
+
+## Glosarium Mini
+
+- **spawn/Mutex/Arc**: kasir/kunci/bagi
+- **mpsc/move**: ban/bawa
+
+---
+
+## Ringkasan
+
+Minggu 12 dari 14: **Paralel Anti-Rebutan** (Level: Lanjutan). Compiler jaga. Minggu depan: **Macros**.

@@ -1,110 +1,98 @@
-# Lifetimes
+# Lifetimes — KTP Pinjaman Rust
 
 > **Kategori:** Rust | **Level:** Menengah | **Minggu 9:** Lifetimes
 
 ## Tujuan Pembelajaran
 
-- Lifetime annotation: 'a untuk menandai umur reference
-- Compiler infer lifetime dengan lifetime elision rules
-- Lifetime pada struct: struct yang menyimpan reference
-- Static lifetime: 'static untuk string literal dan global data
-- Multiple lifetime: 'a, 'b untuk reference dengan umur berbeda
+- `fn terpanjang<'a>(x: &'a str, y: &'a str) -> &'a str` — hasil hidup selama yang TERPENDEK (sumber: doc.rust-lang.org/book/ch10-03-lifetime-syntax)
+- Elision: 1 input → output ikut itu (tak perlu tulis `'a`)
 
 ---
 
-## Program: Validasi Referensi
+## Kenapa Ini Penting Buat Kamu?
+
+Pinjam buku A (balik Senin) + B (balik Jumat) → fotokopi gabungan berlaku sampai... Senin (terpendek!). Tanpa lifetimes, Rust tolak (takut fotokopi basi Jumat!). Dengan `'a`, compiler buktikan aman SEBELUM run (bukan segfault saat run seperti C!).
+
+---
+
+## Program: Fotokopi Terpendek (Contoh Resmi Book)
 
 ```rust
+// 'a = umur pinjaman. Hasil hidup selama yang TERPENDEK dari x, y.
+fn terpanjang<'a>(x: &'a str, y: &'a str) -> &'a str {
+  if x.len() > y.len() { x } else { y }
+}
+
 fn main() {
-    // Lifetime: memastikan reference valid selama masih digunakan
-    let string1 = String::from("livedan string yang panjang");
-    let result;
-    {
-        let string2 = String::from("xyz");
-        result = longest(string1.as_str(), string2.as_str());
-        println!("String terpanjang: {}", result);
-    }
-    // println!("{}", result); // ERROR: result tidak valid di sini
-
-    // Lifetime pada struct
-    #[derive(Debug)]
-    struct Excerpt {
-        part: String,
-    }
-
-    let novel = String::from("Call me Ishmael. Some years ago...");
-    let first_sentence = novel.split('.').next().unwrap();
-    let excerpt = Excerpt {
-        part: first_sentence.to_string(),
-    };
-    println!("{:?}", excerpt);
-
-    // Static lifetime
-    let s: &'static str = "ini string literal, hidup selamanya";
-    println!("Static: {}", s);
-
-    // Lifetime omission (compiler infer)
-    fn first_word(s: &str) -> &str {
-        s.split_whitespace().next().unwrap_or("")
-    }
-
-    let sentence = "Halo Dunia Rust";
-    println!("First word: {}", first_word(sentence));
-
-    // Multiple lifetimes
-    fn mix<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
-        println!("y: {}", y);
-        x
-    }
-
-    let a = "halo";
-    let b = "dunia";
-    let r = mix(a, b);
-    println!("Result: {}", r);
+  let s1 = String::from("beras pulen"); // hidup sampai akhir main
+  let hasil;
+  {
+    let s2 = String::from("gula"); // hidup sampai akhir blok ini
+    hasil = terpanjang(s1.as_str(), s2.as_str());
+    println!("Terpanjang: {}", hasil); // OK: s2 masih hidup!
+  }
+  // println!("{}", hasil); // ERROR! s2 sudah mati (borrow checker jaga)
 }
+```
 
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
-    if x.len() > y.len() { x } else { y }
-}
+Elision (tak perlu tulis — compiler tebak):
+```rust
+fn pertama(teks: &str) -> &str { teks } // 1 input → output ikut umurnya
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Lifetime Annotation
-`'a` menandai bahwa reference hidup setidaknya selama 'a. `fn longest<'a>(x: &'a str, y: &'a str) -> &'a str`.
+### `'a` = Cap Umur Pinjaman
+`fn f<'a>(x: &'a str) -> &'a str` — output hidup selama `x`.
 
-### Elision Rules
-Compiler bisa infer lifetime jika: 1 param input, atau 1 param + &self.
+### Terpendek Menang
+2 input beda umur → hasil ikut yang pendek. Compiler tolak jika dipakai lewat itu.
 
-### Struct Lifetime
-Struct yang punya reference field perlu lifetime annotation.
+### Elision = Tak Perlu Tulis
+1 input → otomatis. Tulis `'a` jika 2+ input atau struct simpan reference.
 
-### Static Lifetime
-`'static` — hidup selama program berjalan. String literal selalu 'static.
+---
 
-### Multiple Lifetimes
-`fn mix<'a, 'b>(x: &'a str, y: &'b str)` — dua lifetime berbeda.
+## Penjelasan untuk Pemula
+
+### Analogi: Fotokopi 2 Buku Beda Jatuh Tempo
+- **'a = masa berlaku fotokopi** = min(Senin, Jumat) = Senin.
+- **Borrow checker = pustakawan galak**: tolak sebelum buku basi (compile-time, bukan saat baca!).
+
+### Langkah 0 — Siapkan Device
+- Sama W1. Baca error `borrowed value does not live long enough` — itu PETUNJUK, bukan musuh!
+
+### Cara Komputer Membaca
+1. `terpanjang(s1, s2)` → umur hasil = min(umur s1, umur s2).
+2. Pakai `hasil` setelah s2 mati → DITOLAK.
+
+### 3 Istilah Wajib
+1. **Lifetime/'a/elision**: umur/cap/otomatis
 
 ---
 
 ## Eksperimen
 
-- Buat fungsi dengan explicit lifetime annotation
-- Coba struct dengan reference field
-- Eksperimen dengan lifetime di method
-- Buat fungsi dengan multiple lifetime params
-- Coba break lifetime rules dan lihat error
+- **Hijau:** Pakai `hasil` DI DALAM blok → jalan?
+- **Kuning:** Hapus `<'a>` → error `missing lifetime specifier`? (Butuh karena 2 input!)
+- **Merah:** Baca error `does not live long enough` → tunjuk baris s2 mati? Pahami!
 
 ---
 
 ## Tantangan
 
-Buat struct Document dengan title (String) dan excerpt (&str). Method: summary(), word_count(). Gunakan lifetime annotation.
+**Perpustakaan Aman:** `fn pinjam<'a>(a: &'a str, b: &'a str) -> &'a str` + 2 umur beda + buktikan pakai-lewat-mati ditolak + elision 1-input.
+
+---
+
+## Glosarium Mini
+
+- **Lifetime/elision/borrow-checker**: umur/otomatis/pustakawan
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 14: **Lifetimes** (Level: Menengah). Memastikan reference aman. Minggu depan: **Testing**.
+Minggu 9 dari 14: **KTP Pinjaman** (Level: Menengah). Aman sebelum run. Minggu depan: **Testing**.
