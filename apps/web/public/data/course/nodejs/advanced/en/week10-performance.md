@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+100 req/detik tanpa `pm2` cluster = 1 core kerja, 7 nganggur + mati tidak bangun. Dengan `pm2 -i max`, semua core + mati hidup lagi.
+
+---
+
 ## Program
 
 ```bash
@@ -28,7 +34,28 @@ app.get("/produk", (req,res)=>{
 });
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Warung 8 Kasir
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).
+
+### Cara Komputer Membaca
+- `pm2 start -i max` 1 proses per core; `pm2 logs` intip; `pm2 restart` segarkan.
+
+### 3 Istilah Wajib
+- 1. **pm2/cluster**: mandor/kasir-banyak
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

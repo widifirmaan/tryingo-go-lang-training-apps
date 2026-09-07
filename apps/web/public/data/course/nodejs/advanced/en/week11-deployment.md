@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Lokal `localhost` hanya laptop. `vercel --prod` / `Railway` + `PORT` env + `DATABASE_URL` env = URL publik. Tanpa env, password ikut git (bocor!).
+
+---
+
 ## Program
 
 ```bash
@@ -20,7 +26,28 @@ pm2 save
 
 **Checklist:** `PORT` dari `process.env.PORT`, `cors` aktif, `helmet` aman.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Buka Cabang Online
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).
+
+### Cara Komputer Membaca
+- `PORT=process.env.PORT` dengar; env di dashboard (bukan file!).
+
+### 3 Istilah Wajib
+- 1. **deploy/env**: buka/rahasia-luar
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

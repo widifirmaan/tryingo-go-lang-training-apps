@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+HP butuh `GET` daftar + `POST` tambah + `DELETE` hapus. Tanpa `status` benar (201/404), HP tidak tahu sukses/gagal. Express 10 baris jadi API.
+
+---
+
 ## Program: API Warung
 
 ```javascript
@@ -36,7 +42,28 @@ app.listen(3000, ()=>console.log("http://localhost:3000/produk"));
 
 Test: `curl http://localhost:3000/produk` dan `curl -X POST -H "Content-Type: application/json" -d '{"nama":"Gula","harga":15000}' http://localhost:3000/produk`
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Drive-Thru JSON Node
+- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+
+### Langkah 0 — Siapkan Device
+- Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
+
+### Cara Komputer Membaca
+- `app.get/post/delete` daftar pintu; `express.json()` buka amplop; `res.status(201)` stempel sukses.
+
+### 3 Istilah Wajib
+- 1. **Express/status**: pelayan/stempel
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

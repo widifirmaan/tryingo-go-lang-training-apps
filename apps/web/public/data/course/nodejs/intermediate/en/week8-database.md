@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Array hilang saat restart. Dengan Prisma + Postgres, data awet + jutaan baris. `schema.prisma` 1 cetak biru untuk semua.
+
+---
+
 ## Program
 
 ```bash
@@ -36,7 +42,28 @@ app.get("/produk", async (req,res)=>res.json(await prisma.produk.findMany()));
 app.post("/produk", async (req,res)=>res.json(await prisma.produk.create({ data: req.body })));
 ```
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Gudang Prisma Node
+- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+
+### Langkah 0 — Siapkan Device
+- Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
+
+### Cara Komputer Membaca
+- `schema.prisma` gambar; `migrate` bangun; `prisma.produk.findMany()` ambil tanpa SQL.
+
+### 3 Istilah Wajib
+- 1. **Prisma/migrate**: tukang/bangun
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
