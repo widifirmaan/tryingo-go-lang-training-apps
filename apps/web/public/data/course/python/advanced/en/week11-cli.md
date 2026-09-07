@@ -1,14 +1,20 @@
 # CLI & Automation
 
-> **Kategori:** Python | **Level:** Advanced | **Minggu 11:** CLI & Automation
+> **Kategori:** Python | **Level:** Lanjutan | **Minggu 11:** CLI & Automation
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
 - argparse: ArgumentParser, add_argument, subparsers
 - CLI patterns: commands, flags, positional args
-- JSON persistence for CLI apps
-- click and typer: modern argparse alternatives
-- Automation: scheduled tasks, file watching, web scraping
+- JSON persistence untuk CLI apps
+- click dan typer: alternatif argparse yang lebih modern
+- Automation: schedule tasks, file watching, web scraping
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+Kasir terminal tanpa browser: `warung tambah --nama Beras` lebih cepat dari buka admin. `argparse` + `subparsers` bikin CLI profesional (bukan `input()` tanya 1-1).
 
 ---
 
@@ -109,44 +115,65 @@ print("\nDemo complete")
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### argparse
-Standard library CLI framework.
+`ArgumentParser`, `add_argument`, `add_subparsers` untuk command-based CLI.
 
 ### CLI Patterns
-Commands, flags, and positional arguments.
+Commands (add, list, delete), flags (--json, --verbose), positional args.
 
 ### click & typer
-Modern CLI frameworks.
+`@click.command()`, `@click.argument()`. typer: modern, type-hint based.
 
 ### Persistence
-JSON, SQLite, or database storage.
+JSON file, SQLite, atau database untuk simpan state.
 
 ### Automation
-Scheduled tasks, file watching, web scraping.
+`schedule` untuk periodic tasks, `watchdog` untuk file watching, `requests + BeautifulSoup` untuk scraping.
 
 ### Best Practice
-Entry points and console_scripts.
+`if __name__ == "__main__":` entry point. `setup.py` atau `pyproject.toml` console_scripts.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create CLI with subcommands: init, run, status
-- Try click to build the same CLI
-- Build progress bar with tqdm
-- Implement config file (YAML/TOML)
-- Build automation script: backup files, send email
-
----
-
-## Challenge
-
-Build a complete CLI tool: task manager with add/list/done/delete, JSON persistence, colored output, --json flag. Package with pyproject.toml.
+- Buat CLI dengan subcommands: init, run, status
+- Coba click untuk membuat CLI yang sama
+- Buat progress bar dengan tqdm
+- Implementasikan config file (YAML/TOML)
+- Buat automation script: backup files, send email
 
 ---
 
-## Summary
+## Tantangan
 
-Week 11 of 12: **CLI & Automation** (Level: Advanced). Tooling and productivity. Next week: **Capstone Project**!
+Buat CLI tool lengkap: task manager dengan add/list/done/delete, JSON persistence, colored output, --json flag. Package dengan pyproject.toml.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Kasir Terminal Beneran
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Python W1: `python --version` + folder proyek.
+
+### Cara Komputer Membaca
+- `add_argument('--nama')` → `args.nama`; `subparsers` bagi perintah `tambah/hapus`.
+
+### 3 Istilah Wajib
+- 1. **argparse/subparsers**: tombol/cabang-perintah
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 11 dari 12: **CLI & Automation** (Level: Lanjutan). Tooling dan produktivitas. Minggu depan: **Capstone Project**!

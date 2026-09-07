@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Kasir terminal tanpa browser: `warung tambah --nama Beras` lebih cepat dari buka admin. `argparse` + `subparsers` bikin CLI profesional (bukan `input()` tanya 1-1).
+
+---
+
 ## Program: Task CLI
 
 ```python
@@ -145,7 +151,28 @@ JSON file, SQLite, atau database untuk simpan state.
 
 Buat CLI tool lengkap: task manager dengan add/list/done/delete, JSON persistence, colored output, --json flag. Package dengan pyproject.toml.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Kasir Terminal Beneran
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Python W1: `python --version` + folder proyek.
+
+### Cara Komputer Membaca
+- `add_argument('--nama')` → `args.nama`; `subparsers` bagi perintah `tambah/hapus`.
+
+### 3 Istilah Wajib
+- 1. **argparse/subparsers**: tombol/cabang-perintah
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: Flask API + pandas laporan + CLI + test jadi warung beneran. Portfolio Python.
+
+---
+
 ## Program: Warung Python Capstone
 
 ```python
@@ -28,7 +34,28 @@ print(df.describe())
 
 **Tugas:** Deploy `Railway` + `pytest`.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Warung Python
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Python W1: `python --version` + folder proyek.
+
+### Cara Komputer Membaca
+- CHECKLIST (API + laporan + CLI + test) lalu demo + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/demo**: gabung/tunjuk
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
