@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Query berat 100x/menit tanpa cache = DB kepanasan. Dengan `cache.get/set` 60 detik, 99x dari laci (0.1ms).
+
+---
+
 ## Program
 
 ```python
@@ -23,7 +29,28 @@ def daftar(request):
 
 `settings.py`: `CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}`
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Laci Cepat Django
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `cache.get` cek laci; kosong → hitung → `cache.set(kunci, data, 60)`.
+
+### 3 Istilah Wajib
+- 1. **cache.get/set**: cek/simpan-laci
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

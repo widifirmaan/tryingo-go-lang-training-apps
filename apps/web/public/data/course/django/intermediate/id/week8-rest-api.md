@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+HP butuh JSON, bukan HTML. DRF `ViewSet` + `router` 5 baris jadi API lengkap (tanpa tulis JsonResponse manual).
+
+---
+
 ## Program
 
 ```bash
@@ -38,7 +44,28 @@ urlpatterns = [path('api/', include(router.urls))]
 
 Buka `http://localhost:8000/api/produk/` → JSON.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Drive-Thru JSON Django
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `ModelViewSet` sediakan list/create/retrieve/update/destroy; `router` daftarkan URL.
+
+### 3 Istilah Wajib
+- 1. **ViewSet/router**: sediakan/daftar
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

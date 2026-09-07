@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: models + auth + DRF + test + deploy jadi toko. Portfolio Django.
+
+---
+
 ## Program: Toko Capstone Django
 
 Fitur: `Produk` CRUD via `ModelForm` + `admin` + `api/produk/` DRF + `auth` + `deploy` Railway.
@@ -16,7 +22,28 @@ Struktur: `warung/models.py`, `warung/views.py`, `warung/serializers.py`, `warun
 
 **Tugas:** Deploy `warung-django.railway.app` + video.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Django
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- CHECKLIST (model + auth + API + test + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
