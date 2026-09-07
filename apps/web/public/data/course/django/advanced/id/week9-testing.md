@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `TestCase`, ubah view → 500 ketahuan pelanggan. Dengan `self.client.get` + `assertEqual`, ubah → merah → perbaiki.
+
+---
+
 ## Program
 
 ```python
@@ -28,7 +34,28 @@ class ProdukTest(TestCase):
 
 `python manage.py test` → OK.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Cicip Dapur Django
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `TestCase` siapkan DB uji; `client.get/post` pura-pura browser; `assertEqual` cicip.
+
+### 3 Istilah Wajib
+- 1. **TestCase/client**: dapur-uji/pura-pura
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

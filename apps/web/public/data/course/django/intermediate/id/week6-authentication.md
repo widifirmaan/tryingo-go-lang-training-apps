@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `authenticate` + `login_required`, `/admin` dibuka siapa saja. Django 3 baris jaga semua.
+
+---
+
 ## Program
 
 ```bash
@@ -36,7 +42,28 @@ def admin_warung(request):
 
 `login.html`: `{% csrf_token %}` + `username`/`password`.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: KTP Django
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `authenticate()` cek; `login()` beri session; `@login_required` tendang tanpa session.
+
+### 3 Istilah Wajib
+- 1. **authenticate/login_required**: cek/jaga
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

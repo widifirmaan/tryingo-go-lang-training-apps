@@ -8,6 +8,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa `ModelForm`, tulis HTML + validasi manual 50 baris per form. Dengan `ModelForm` + `is_valid()`, 5 baris + error otomatis.
+
+---
+
 ## Program
 
 ```python
@@ -34,7 +40,28 @@ def tambah(request):
 
 `form.html`: `{{ form.as_p }}` + `{% csrf_token %}`.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Formulir Terhubung Model
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+
+### Cara Komputer Membaca
+- `ModelForm` baca model → buat field; `is_valid()` cek; `save()` simpan.
+
+### 3 Istilah Wajib
+- 1. **ModelForm/is_valid**: terhubung/cek
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 
