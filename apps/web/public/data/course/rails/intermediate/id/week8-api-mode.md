@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+HP butuh JSON, bukan HTML. `rails new --api` ramping (tanpa views) + `jbuilder`/serializer untuk JSON rapi.
+
+---
+
 ## Program: REST API
 
 ```ruby
@@ -121,7 +127,28 @@ Token-based: `Authorization: Bearer <token>` header.
 
 Buat REST API lengkap untuk blog: CRUD posts, comments, auth dengan JWT, serializers, CORS.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Drive-Thru JSON Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `--api` skip views/assets; controller `render json:` langsung.
+
+### 3 Istilah Wajib
+- 1. **--api/render-json**: ramping/balas
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

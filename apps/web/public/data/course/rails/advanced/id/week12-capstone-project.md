@@ -12,6 +12,12 @@
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+11 minggu terpisah — capstone buktikan gabung: auth + API + job + deploy jadi toko. Portfolio Rails.
+
+---
+
 ## Program: E-Commerce Rails
 
 ```ruby
@@ -116,7 +122,28 @@ Docker + Compose. PostgreSQL + Redis. Nginx + SSL.
 
 Buat e-commerce platform lengkap: auth, products CRUD, cart, orders, payment, admin, API, testing, deployment.
 
+
 ---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Grand Opening Toko Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- CHECKLIST (auth + API + test + deploy) lalu URL + video.
+
+### 3 Istilah Wajib
+- 1. **Capstone/deploy**: gabung/buka
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
 
 ## Ringkasan
 

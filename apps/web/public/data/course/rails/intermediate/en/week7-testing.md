@@ -1,14 +1,20 @@
-# Testing with RSpec
+# Testing dengan RSpec
 
-> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 7:** Testing with RSpec
+> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 7:** Testing dengan RSpec
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
-- RSpec: testing framework for Rails
-- Model specs: test validations and business logic
+- RSpec: testing framework untuk Rails
+- Model specs: test validasi dan business logic
 - Request specs: test HTTP endpoints
 - Factory Bot: test data generation
 - System specs: browser-like integration tests
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+Tanpa RSpec, ubah model → rusak ketahuan pelanggan. Dengan `rspec` + `FactoryBot`, ubah → merah → perbaiki.
 
 ---
 
@@ -88,44 +94,65 @@ puts "end"
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### RSpec Setup
 `gem 'rspec-rails'`, `rails g rspec:install`.
 
 ### Model Spec
-Test validations, methods, scopes. `expect(post).to be_valid`.
+Test validasi, method, dan scope. `expect(post).to be_valid`.
 
 ### Request Spec
 Test HTTP: `get posts_path`, `expect(response).to have_http_status(:ok)`.
 
 ### Factory Bot
-Define factories for test data. `create(:post)`, `build(:post)`.
+Define factories untuk test data. `create(:post)`, `build(:post)`.
 
 ### System Spec
-Capybara-based: `visit`, `fill_in`, `click_button`.
+Capybara-based: `visit`, `fill_in`, `click_button`, `expect(page).to have_text()`.
 
 ### Helpers
 `let(:user) { create(:user) }`, `before { sign_in user }`.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create model spec with validations
-- Test controller with request spec
-- Create factory with Faker
-- Implement system test
-- Try test with mocking
-
----
-
-## Challenge
-
-Create a complete test suite for Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
+- Buat model spec dengan validasi
+- Test controller dengan request spec
+- Buat factory dengan Faker
+- Implementasikan system test
+- Coba test dengan mocking
 
 ---
 
-## Summary
+## Tantangan
 
-Week 7 of 12: **Testing with RSpec** (Level: Intermediate). Code quality guaranteed. Next week: **API Mode**.
+Buat test suite lengkap untuk Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Cicip Dapur Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `bundle exec rspec` cari `*_spec.rb`; `expect(...).to eq(...)` cicip.
+
+### 3 Istilah Wajib
+- 1. **RSpec/expect**: dapur/harap
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 7 dari 12: **Testing dengan RSpec** (Level: Menengah). Kualitas kode terjamin. Minggu depan: **API Mode**.

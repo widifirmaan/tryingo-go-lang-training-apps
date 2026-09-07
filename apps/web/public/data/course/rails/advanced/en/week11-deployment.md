@@ -1,14 +1,20 @@
 # Deployment & DevOps
 
-> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 11:** Deployment & DevOps
+> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 11:** Deployment & DevOps
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
 - Production checklist: env vars, database, assets
 - Asset precompile: rails assets:precompile
 - Deployment platforms: Heroku, Render, Fly.io, AWS
 - Docker: containerize Rails app
 - Monitoring: New Relic, Sentry, Lograge
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+Lokal `localhost:3000` hanya laptop. Kamal/Docker + `RAILS_MASTER_KEY` rahasia aman → URL publik.
 
 ---
 
@@ -81,19 +87,19 @@ puts "}"
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Production Checklist
 Set env vars, configure DB, precompile assets, enable SSL.
 
 ### Asset Precompile
-`rails assets:precompile` compiles CSS/JS for production.
+`rails assets:precompile` - compile CSS/JS untuk production.
 
 ### Platforms
 Heroku: `git push heroku main`. Render: auto-deploy. Fly.io: `fly launch`.
 
 ### Docker
-Containerize app. Multi-stage builds optimize image size.
+Containerize app. Multi-stage build untuk optimize image size.
 
 ### Monitoring
 New Relic: APM. Sentry: error tracking. Lograge: structured logs.
@@ -103,22 +109,43 @@ New Relic: APM. Sentry: error tracking. Lograge: structured logs.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Deploy to Heroku or Render
-- Setup Docker for Rails app
-- Implement CI/CD pipeline
-- Setup monitoring with Sentry
-- Try zero-downtime deployment
-
----
-
-## Challenge
-
-Deploy Rails app to production: setup env vars, precompile assets, configure database, enable SSL, setup monitoring.
+- Deploy ke Heroku atau Render
+- Setup Docker untuk Rails app
+- Implementasikan CI/CD pipeline
+- Setup monitoring dengan Sentry
+- Coba zero-downtime deployment
 
 ---
 
-## Summary
+## Tantangan
 
-Week 11 of 12: **Deployment & DevOps** (Level: Advanced). Go live! Next week: **Capstone Project**!
+Deploy Rails app ke production: setup env vars, precompile assets, configure database, enable SSL, setup monitoring.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Buka Cabang Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `kamal deploy` / Docker build; `credentials` terenkripsi, bukan di git!
+
+### 3 Istilah Wajib
+- 1. **Kamal/credentials**: buka/kunci-enkripsi
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 11 dari 12: **Deployment & DevOps** (Level: Lanjutan). Go live! Minggu depan: **Capstone Project**!

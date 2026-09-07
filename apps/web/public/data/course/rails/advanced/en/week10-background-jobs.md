@@ -1,14 +1,20 @@
 # Background Jobs & Sidekiq
 
-> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 10:** Background Jobs & Sidekiq
+> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 10:** Background Jobs & Sidekiq
 
-## Learning Objectives
+## Tujuan Pembelajaran
 
 - Active Job: framework-agnostic job interface
 - Sidekiq: Redis-backed job processing
 - Dispatch: perform_later, perform_now, set options
 - Job chaining: multiple jobs in sequence
 - Error handling: retry_on, discard_on
+
+---
+
+## Kenapa Ini Penting Buat Kamu?
+
+Kirim WA 5 detik di request → pelanggan tunggu loading. Dengan Sidekiq, simpan langsung balas, WA background.
 
 ---
 
@@ -86,44 +92,65 @@ puts "Sidekiq::RetrySet.new.size"
 
 ---
 
-## Key Concepts
+## Konsep Kunci
 
 ### Active Job
-Interface for background jobs. Adapters: Sidekiq, Resque, Delayed Job.
+Interface untuk background jobs. Adapter: Sidekiq, Resque, Delayed Job.
 
 ### Sidekiq
-Redis-based. Fast, efficient. `bundle exec sidekiq` starts worker.
+Redis-based. Fast, efficient. `bundle exec sidekiq` untuk start worker.
 
 ### Dispatch
-`perform_later` async, `perform_now` sync, `set(wait:)` delay.
+`perform_later` async, `perform_now` sync, `set(wait: 5.minutes)` delay.
 
 ### Chaining
-Multiple jobs in sequence.
+Multiple jobs: `Job1.perform_later.then { Job2.perform_later }`.
 
 ### Error Handling
-`retry_on` retries with backoff. `discard_on` skips job.
+`retry_on` retry dengan backoff. `discard_on` skip job.
 
 ### Monitoring
-Sidekiq Web UI at `/sidekiq`. Monitor queues, retries, dead jobs.
+Sidekiq Web UI di `/sidekiq`. Monitor queues, retries, dead jobs.
 
 ---
 
-## Experiments
+## Eksperimen
 
-- Create job and dispatch to Sidekiq
-- Implement job with retry_on
-- Try scheduled jobs with cron
-- Create batch jobs
-- Monitor jobs with Sidekiq Web UI
-
----
-
-## Challenge
-
-Build an email notification system: queue email sending, retry 3x on failure, batch send, monitor with Sidekiq.
+- Buat job dan dispatch ke Sidekiq
+- Implementasikan job dengan retry_on
+- Coba scheduled jobs dengan cron
+- Buat batch jobs
+- Monitor jobs dengan Sidekiq Web UI
 
 ---
 
-## Summary
+## Tantangan
 
-Week 10 of 12: **Background Jobs & Sidekiq** (Level: Advanced). Async processing. Next week: **Deployment**.
+Buat sistem email notification: queue email sending, retry 3x on failure, batch send, monitor dengan Sidekiq.
+
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Kurir Motor Rails
+- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+
+### Langkah 0 — Siapkan Device
+- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+
+### Cara Komputer Membaca
+- `perform_later` antre; worker ambil; `redis` sebagai antrean.
+
+### 3 Istilah Wajib
+- 1. **Sidekiq/perform_later**: kurir/antre
+
+---
+
+## Glosarium Mini
+
+- Lihat Istilah Wajib di atas.
+
+## Ringkasan
+
+Minggu 10 dari 12: **Background Jobs & Sidekiq** (Level: Lanjutan). Async processing. Minggu depan: **Deployment**.
