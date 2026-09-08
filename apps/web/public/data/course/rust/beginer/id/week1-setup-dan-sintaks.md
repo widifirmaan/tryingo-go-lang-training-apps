@@ -52,7 +52,23 @@ fn main() {
     let x = x + 1; // kotak baru, bukan ubah
     println!("x shadow: {}", x);
 
+    // 4. Kilat: if/loop/fungsi (ala Rust Book Ch3 — wajib sebelum W2!)
+    let stok = 3;
+    if stok > 0 {
+        println!("Stok ada: {}", stok);
+    } else {
+        println!("Habis!");
+    }
+    for i in 1..=3 {
+        println!("Hitung: {}", i);
+    }
+    println!("Diskon: {}", diskon(62000, 10));
+
     println!("\nTool: cargo run (jalan), cargo fmt (rapikan), cargo build (cetak binary)");
+}
+
+fn diskon(harga: i32, persen: i32) -> i32 {
+    harga - harga * persen / 100 // tanpa ; = return!
 }
 ```
 
@@ -93,6 +109,7 @@ fn main() {
 1. **let/mut**: kunci/bisa ubah
 2. **String/&str**: punya/pinjam
 3. **cargo**: tukang
+4. **if/for/fn**: putuskan/ulang/resep (tanpa `;` = return!)
 
 ---
 
