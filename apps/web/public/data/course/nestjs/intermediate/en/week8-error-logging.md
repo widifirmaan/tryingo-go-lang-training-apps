@@ -92,6 +92,34 @@ Catches all unhandled errors → neat JSON (not HTML 500).
 
 ---
 
+### Bonus: Interceptor — CCTV + Translator (Interceptors chapter, docs.nestjs.com!)
+
+Filters catch ERRORS. Interceptors wrap SUCCESSES: time + reshape replies. Install globally 1x!
+
+```typescript
+// timing.interceptor.ts — stopwatch for all doors
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from "@nestjs/common";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+
+@Injectable()
+export class TimingInterceptor implements NestInterceptor {
+  intercept(ctx: ExecutionContext, next: CallHandler): Observable<any> {
+    const start = Date.now();
+    const req = ctx.switchToHttp().getRequest();
+    return next.handle().pipe(
+      tap(() => console.log(`${req.method} ${req.url} — ${Date.now() - start}ms`))
+    );
+  }
+}
+
+// main.ts — install 1x for all!
+// app.useGlobalInterceptors(new TimingInterceptor());
+```
+- `intercept()` receives + forwards `next.handle()` + `pipe(tap())` logs. Distinguish: Middleware = raw (req/res), Interceptor = rich (context + reshape replies)!
+
+---
+
 ## Challenge
 
 **Safe Monitored Shop:** Global filter + 3 different `HttpException`s + `Logger` per action + `curl` verifying neat JSON everywhere. **Intermediate NestJS DONE!**

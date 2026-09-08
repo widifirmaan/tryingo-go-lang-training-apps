@@ -106,6 +106,36 @@ Per method (1 door) or controller (all doors).
 
 ---
 
+### Bonus: Middleware + Nest Pipeline Order (Middleware chapter, docs.nestjs.com!)
+
+Requests travel a pipeline in order: **Middleware → Guard → Interceptor → Pipe → Controller**. Middleware = frontmost guard (logs every request!).
+
+```typescript
+// logger.middleware.ts — greets every guest
+import { Injectable, NestMiddleware } from "@nestjs/common";
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: any, res: any, next: () => void) {
+    console.log(`${req.method} ${req.url} — ${new Date().toLocaleTimeString()}`);
+    next(); // MUST forward! forgotten = request hangs forever!
+  }
+}
+
+// app.module.ts — attach to doors
+import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+
+@Module({ /* ... */ })
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes("products"); // only /products
+    // .forRoutes("*") = all doors
+  }
+}
+```
+
+---
+
 ## Challenge
 
 **ID-Protected Restaurant:** `login` + free `GET` + guarded `POST/DELETE` + `curl` 4 tests (free/none/fake/real).

@@ -106,6 +106,36 @@ Per method (1 pintu) atau controller (semua pintu).
 
 ---
 
+### Bonus: Middleware + Urutan Pipa Nest (bab Middleware docs.nestjs.com!)
+
+Request lewat PIPA berurutan: **Middleware → Guard → Interceptor → Pipe → Controller**. Middleware = satpam paling depan (log semua request!).
+
+```typescript
+// logger.middleware.ts — catat tiap tamu
+import { Injectable, NestMiddleware } from "@nestjs/common";
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: any, res: any, next: () => void) {
+    console.log(`${req.method} ${req.url} — ${new Date().toLocaleTimeString()}`);
+    next(); // WAJIB teruskan! lupa = request gantung selamanya!
+  }
+}
+
+// app.module.ts — pasang ke pintu
+import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
+
+@Module({ /* ... */ })
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes("produk"); // hanya /produk
+    // .forRoutes("*") = semua pintu
+  }
+}
+```
+
+---
+
 ## Tantangan
 
 **Restoran Ber-KTP:** `login` + `GET` bebas + `POST/DELETE` jaga + `curl` 3 test (bebas/tanpa/palsu/asli).

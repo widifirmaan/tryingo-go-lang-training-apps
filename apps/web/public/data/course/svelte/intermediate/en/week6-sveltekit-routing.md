@@ -100,3 +100,40 @@ Wraps all pages below it (nav, footer).
 ## Summary
 
 Week 6: **SvelteKit Map** — folders = addresses. Next: **Actions & Forms**.
+
+### Bonus: Load Data + API Server (SvelteKit core — routing alone isn't enough!)
+
+Pages above use static data. Real data: `+page.js` fetches FIRST (server!), passes as `data`. Own API: `+server.js`.
+
+```javascript
+// src/routes/products/+page.js — fetch before showing!
+export async function load({ fetch }) {
+  const res = await fetch("/api/products"); // to +server.js below!
+  return { list: await res.json() };    // becomes { data.list } in page!
+}
+```
+
+```svelte
+<!-- src/routes/products/+page.svelte — use data -->
+<script>
+  export let data; // { list } from load()!
+</script>
+<ul>{#each data.list as p}<li>{p.name}</li>{/each}</ul>
+```
+
+```javascript
+// src/routes/api/products/+server.js — own API!
+import { json } from "@sveltejs/kit";
+
+let list = [{ id: 1, name: "Rice" }];
+
+export function GET() {
+  return json(list); // reply JSON
+}
+export async function POST({ request }) {
+  const fresh = await request.json();
+  list = [...list, { id: Date.now(), ...fresh }];
+  return json(fresh, { status: 201 });
+}
+```
+- `load()` runs on the SERVER first → HTML arrives filled (SEO + fast!). `+server.js` = `GET/POST/...` per file.
