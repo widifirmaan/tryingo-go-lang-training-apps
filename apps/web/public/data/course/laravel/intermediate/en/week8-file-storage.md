@@ -1,16 +1,16 @@
-# File Storage — Gudang Foto Laravel
+# File Storage — Laravel Photo Warehouse
 
-> **Kategori:** Laravel | **Level:** Menengah | **Minggu 8:** File Storage
+> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 8:** File Storage
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Storage::disk('public')->put()` simpan foto produk, `php artisan storage:link` buka ke public
+- `Storage::disk('public')->put()` stores product photos, `php artisan storage:link` opens to public
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Foto produk tanpa Storage = path acak + tidak bisa pindah ke S3. Dengan `store('produk','public')` + `storage:link`, rapi + pindah cloud 1 config.
+Product photos without Storage = random paths + can't move to S3. With `store('products','public')` + `storage:link`, neat + 1-config cloud moves.
 
 ---
 
@@ -20,43 +20,43 @@ Foto produk tanpa Storage = path acak + tidak bisa pindah ke S3. Dengan `store('
 // Controller
 use Illuminate\Support\Facades\Storage;
 
-public function simpan(Request $req){
-  $path = $req->file('foto')->store('produk', 'public');
-  Produk::create(["nama"=>$req->nama, "foto"=>$path]);
-  return redirect('/produk');
+public function save(Request $req){
+  $path = $req->file('photo')->store('products', 'public');
+  Product::create(["name"=>$req->name, "photo"=>$path]);
+  return redirect('/products');
 }
 
-// View: <form enctype="multipart/form-data"><input type="file" name="foto">
+// View: <form enctype="multipart/form-data"><input type="file" name="photo">
 ```
 
 ```bash
 php artisan storage:link
-# Buka http://localhost:8000/storage/produk/xxx.jpg
+# Open http://localhost:8000/storage/products/xxx.jpg
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Gudang Foto Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Laravel Photo Warehouse
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `$req->file('foto')->store('produk','public')` simpan; `Storage::url()` link publik.
+### How the Computer Reads It
+- `$req->file('photo')->store('products','public')` stores; `Storage::url()` public link.
 
-### 3 Istilah Wajib
-- 1. **Storage/link**: gudang/jembatan
+### 3 Must-Know Terms
+- 1. **Storage/link**: warehouse/bridge
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 8: **Gudang Foto** — Storage Laravel.
+Week 8: **Photo Warehouse** — Laravel Storage. Next: **Testing**.

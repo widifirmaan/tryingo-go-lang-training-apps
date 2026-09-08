@@ -1,61 +1,61 @@
-# Relationships — Tali Antar Rak Laravel
+# Relationships — Ropes Between Laravel Racks
 
-> **Kategori:** Laravel | **Level:** Menengah | **Minggu 6:** Relationships
+> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 6:** Relationships
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `hasMany`, `belongsTo` — `Produk hasMany Pesanan`, `Pesanan belongsTo Produk`
+- `hasMany`, `belongsTo` — `Product hasMany Orders`, `Order belongsTo Product`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa relasi, `pesanan` + `pelanggan` = 2 query + gabung manual. Dengan `hasMany/belongsTo` + `with()`, 2 query otomatis + anti-N+1.
+Without relations, `orders` + `customers` = 2 queries + manual merge. With `hasMany/belongsTo` + `with()`, 2 automatic queries + anti-N+1.
 
 ---
 
 ## Program
 
 ```php
-// app/Models/Produk.php
-class Produk extends Model {
-  public function pesanans(){ return $this->hasMany(Pesanan::class); }
+// app/Models/Product.php
+class Product extends Model {
+  public function orders(){ return $this->hasMany(Order::class); }
 }
-// app/Models/Pesanan.php
-class Pesanan extends Model {
-  public function produk(){ return $this->belongsTo(Produk::class); }
+// app/Models/Order.php
+class Order extends Model {
+  public function product(){ return $this->belongsTo(Product::class); }
 }
 
-$produk = Produk::with('pesanans')->find(1);
-echo $produk->nama . " dipesan " . $produk->pesanans->count() . "x";
+$product = Product::with('orders')->find(1);
+echo $product->name . " ordered " . $product->orders->count() . "x";
 
-$pesanan = Pesanan::with('produk')->first();
-echo $pesanan->produk->nama;
+$order = Order::with('product')->first();
+echo $order->product->name;
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Tali Antar Rak Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Ropes Between Laravel Racks
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `$produk->pesanans` otomatis; `Produk::with('pesanans')->get()` 2 query (bukan 101).
+### How the Computer Reads It
+- `$product->orders` automatic; `Product::with('orders')->get()` 2 queries (not 101).
 
-### 3 Istilah Wajib
-- 1. **hasMany/belongsTo/with**: punya/milik/ikut
+### 3 Must-Know Terms
+- 1. **hasMany/belongsTo/with**: owns/belongs/along
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 6: **Tali Rak** — `hasMany`/`belongsTo`.
+Week 6: **Rack Ropes** — `hasMany`/`belongsTo`. Next: **Validation**.

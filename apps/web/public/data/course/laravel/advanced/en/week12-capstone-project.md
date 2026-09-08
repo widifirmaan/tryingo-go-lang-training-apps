@@ -1,50 +1,50 @@
-# Capstone: Toko Laravel Lengkap
+# Capstone: Complete Laravel Store
 
-> **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 12:** Capstone Project
+> **Kategori:** Laravel | **Level:** Advanced | **Minggu 12:** Capstone Project
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `Eloquent` + `Blade` + `Auth` + `Storage` + `Queue` + `deploy` jadi toko `produk` + `keranjang` + `pesanan`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: Blade + API + auth + queue + test + deploy jadi toko. Portfolio Laravel.
+- Combine `Eloquent` + `Blade` + `Auth` + `Storage` + `Queue` + `deploy` into a store with `products` + `cart` + `orders`
 
 ---
 
-## Program: Toko Capstone Laravel
+## Why This Matters (Non-IT)
 
-Fitur: `produk` CRUD `Eloquent` + `Blade` + `Breeze` auth + `Storage` foto + `Queue` email + `apiResource`.
+11 separate weeks — capstone proves the combination: Blade + API + auth + queue + tests + deploy become a store. Laravel portfolio.
+
+---
+
+## Program: Laravel Capstone Store
+
+Features: product `CRUD` `Eloquent` + `Blade` + `Breeze` auth + `Storage` photos + `Queue` email + `apiResource`.
 
 Deploy `Vercel`/`Forge` + `php artisan storage:link`.
 
-**Tugas:** Deploy `warung-laravel.vercel.app` + video.
+**Task:** Deploy `shop-laravel.vercel.app` + video.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Grand Opening Toko Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Laravel Store Grand Opening
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- CHECKLIST (CRUD + auth + API + test + deploy) lalu URL + video.
+### How the Computer Reads It
+- CHECKLIST (CRUD + auth + API + test + deploy) then URL + video.
 
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 12: **Capstone Laravel** — toko lengkap, **Selesai Laravel 0→Ahli!**
+Week 12: **Laravel Capstone** — complete store, **Laravel 0→Expert DONE!**
