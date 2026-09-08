@@ -1,120 +1,120 @@
-# Routing & Controllers — Pintu dan Pelayan Laravel
+# Routing & Controllers — Laravel Doors and Waiters
 
-> **Kategori:** Laravel | **Level:** Pemula | **Minggu 2:** Routing & Controllers
+> **Kategori:** Laravel | **Level:** Beginner | **Minggu 2:** Routing & Controllers
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Route::get('/produk', [ProdukController::class, 'index'])` pintu di `routes/web.php` (sumber: laravel.com/docs/routing)
-- `php artisan make:controller ProdukController` buat pelayan, `$request->input('cari')` baca ketikan (sumber: laravel.com/docs/controllers)
-- `Route::get('/produk/{id}', ...)` pintu dinamis
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa route, `http://localhost:8000/produk` 404 meski controller sudah benar. Tanpa controller, semua logika di route closure → `web.php` 500 baris berantakan. Pisah: route = papan pintu (1 baris), controller = pelayan (logika).
+- `Route::get('/products', [ProductController::class, 'index'])` doors in `routes/web.php` (source: laravel.com/docs/routing)
+- `php artisan make:controller ProductController` builds waiters, `$request->input('find')` reads typing (source: laravel.com/docs/controllers)
+- `Route::get('/products/{id}', ...)` dynamic doors
 
 ---
 
-## Program: Pintu & Pelayan Warung
+## Why This Matters (Non-IT)
+
+Without routes, `http://localhost:8000/products` 404s though controllers are correct. Without controllers, all logic in route closures → 500-line `web.php` mess. Split: routes = door boards (1 line), controllers = waiters (logic).
+
+---
+
+## Program: Shop Doors & Waiters
 
 ```bash
-php artisan make:controller ProdukController
+php artisan make:controller ProductController
 ```
 
 ```php
-// routes/web.php — papan pintu (1 baris per pintu)
-use App\Http\Controllers\ProdukController;
+// routes/web.php — door board (1 line per door)
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () { return view('welcome'); });
-Route::get('/produk', [ProdukController::class, 'index']);
-Route::get('/produk/{id}', [ProdukController::class, 'show']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
 ```
 
 ```php
-// app/Http/Controllers/ProdukController.php — pelayan
+// app/Http/Controllers/ProductController.php — waiter
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
-class ProdukController extends Controller {
-  private $daftar = [
-    ["id" => 1, "nama" => "Beras", "harga" => 62000],
-    ["id" => 2, "nama" => "Bayam", "harga" => 5000],
+class ProductController extends Controller {
+  private $list = [
+    ["id" => 1, "name" => "Rice", "price" => 62000],
+    ["id" => 2, "name" => "Spinach", "price" => 5000],
   ];
 
   public function index(Request $req) {
-    $cari = $req->input('cari', '');
-    $produk = $cari
-      ? array_filter($this->daftar, fn($p) => str_contains(strtolower($p["nama"]), strtolower($cari)))
-      : $this->daftar;
-    return view('produk', ["produk" => $produk, "cari" => $cari]);
+    $find = $req->input('find', '');
+    $products = $find
+      ? array_filter($this->list, fn($p) => str_contains(strtolower($p["name"]), strtolower($find)))
+      : $this->list;
+    return view('products', ["products" => $products, "find" => $find]);
   }
 
   public function show($id) {
-    foreach ($this->daftar as $p) if ($p["id"] == $id) return view('detail', ["p" => $p]);
+    foreach ($this->list as $p) if ($p["id"] == $id) return view('detail', ["p" => $p]);
     abort(404);
   }
 }
 ```
 
-Buka `http://localhost:8000/produk` → semua. `?cari=beras` → saring. `/produk/1` → detail.
+Open `http://localhost:8000/products` → all. `?find=rice` → filtered. `/products/1` → detail.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Route::get()` = Papan Pintu
-`Route::get('/produk', [ProdukController::class, 'index'])` — GET `/produk` → method `index`.
+### `Route::get()` = Door Board
+`Route::get('/products', [ProductController::class, 'index'])` — GET `/products` → `index` method.
 
-### Controller = Pelayan
-`index(Request $req)` terima `$req`, `view('produk', [...])` antar. `$req->input('cari')` baca ketikan.
+### Controller = Waiter
+`index(Request $req)` takes `$req`, `view('products', [...])` delivers. `$req->input('find')` reads typing.
 
-### `{id}` = Pintu Dinamis
-`/produk/{id}` → `show($id)`. `abort(404)` jika tidak ada.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Restoran
-- **routes/web.php = papan pintu**: "/produk → pelayan Produk, meja index".
-- **Controller = pelayan**: ambil dari dapur, antar ke meja (`view`).
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `php artisan serve` di `8000`.
-
-### Cara Komputer Membaca
-1. `GET /produk?cari=beras` → `web.php` cocok `get('/produk')` → `index($req)`.
-2. `$req->input('cari')` = "beras" → `array_filter` → `view('produk')`.
-
-### 3 Istilah Wajib
-1. **Route**: pintu (1 baris)
-2. **Controller**: pelayan (logika)
-3. **Request**: pesanan masuk
+### `{id}` = Dynamic Door
+`/products/{id}` → `show($id)`. `abort(404)` when missing.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Buka `/produk/2` → Bayam? `/produk/99` → 404?
-- **Kuning:** `?cari=BAYAM` kapital → tetap ketemu? (`strtolower` dua sisi)
-- **Merah:** Hapus `use App\Http\Controllers\ProdukController;` → error `Class not found`? Pasang lagi.
+### Analogy: Restaurant
+- **routes/web.php = door board**: "/products → Products waiter, index table".
+- **Controller = waiter**: fetches from kitchen, delivers to table (`view`).
+
+### Step 0 — Prepare Device
+- Same as W1: `php artisan serve` on `8000`.
+
+### How the Computer Reads It
+1. `GET /products?find=rice` → `web.php` matches `get('/products')` → `index($req)`.
+2. `$req->input('find')` = "rice" → `array_filter` → `view('products')`.
+
+### 3 Must-Know Terms
+1. **Route**: door (1 line)
+2. **Controller**: waiter (logic)
+3. **Request**: incoming order
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung 3 Pintu:** `get('/')` sambutan, `get('/produk')` + `?cari`, `get('/produk/{id}')` detail + `abort(404)`. `php artisan route:list` screenshot 3 pintu.
-
----
-
-## Glosarium Mini
-
-- **Route/Controller/Request**: pintu/pelayan/pesanan
-- **{id}/abort**: dinamis/gagal
+- **Green:** Open `/products/2` → Spinach? `/products/99` → 404?
+- **Yellow:** `?find=RICE` caps → still found? (`strtolower` both sides)
+- **Red:** Remove `use App\Http\Controllers\ProductController;` → `Class not found` error? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 4: **Pintu & Pelayan** (Level: Pemula). Bisa tampilkan + cari + detail. Minggu depan: **Blade** — etalase warisi.
+**3-Door Shop:** `get('/')` welcome, `get('/products')` + `?find`, `get('/products/{id}')` detail + `abort(404)`. `php artisan route:list` screenshot 3 doors.
+
+---
+
+## Mini Glossary
+
+- **Route/Controller/Request**: door/waiter/order
+- **{id}/abort**: dynamic/fail
+
+---
+
+## Summary
+
+Week 2 of 4: **Doors & Waiters** (Level: Beginner). Can display + find + detail. Next: **Blade** — inheriting showcase.
