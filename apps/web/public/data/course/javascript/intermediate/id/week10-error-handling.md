@@ -71,6 +71,22 @@ Buat error sendiri `throw new Error("stok habis")`.
 
 ---
 
+### Bonus: Debugging — Cari Salahnya (modul wajib freeCodeCamp!)
+
+Error tertangkap, tapi KENAPA salah? 3 alat:
+1. `console.table(keranjang)` — array tampil tabel rapi (bukan `[object]`!).
+2. `console.log(typeof x, x)` — cek tipe + isi sekaligus (jebakan `undefined`!).
+3. `debugger;` + DevTools (`F12` → Sources → Run) — jeda di baris itu, intip semua variabel. Atau klik nomor baris = breakpoint merah.
+
+```javascript
+const keranjang = [{ nama: "Beras", harga: 62000 }, { nama: "Bayam" }];
+console.table(keranjang); // harga Bayam undefined → ketahuan!
+debugger; // jeda di sini saat DevTools terbuka
+console.log("lanjut...");
+```
+
+---
+
 ## Tantangan
 
 **Warung Aman:** `function hitung(harga,qty){ if(qty<=0) throw new Error("Qty salah"); return harga*qty }` → `try { hitung(62000,0)} catch(e){ console.log(e.message)}`.

@@ -59,6 +59,20 @@ console.log(new PayCashier(transfer).checkout(62000));
 
 ## Beginner Friendly Explanation
 
+### 2-Minute Class Primer (mandatory before patterns! à la freeCodeCamp Shopping Cart)
+```javascript
+class Product {
+  constructor(name, price){ this.name = name; this.price = price; } // initial fill
+  info(){ return `${this.name}: Rp${this.price}`; } // this = this card
+}
+class Member extends Product { // inherit + add
+  constructor(name, price, points){ super(name, price); this.points = points; }
+}
+const b = new Member("Rice", 62000, 10);
+console.log(b.info(), "| points", b.points);
+```
+- `class` = blueprint, `new` = print card, `this` = this card, `extends`/`super` = inherit/parent.
+
 ### Analogy: Plugs & Main Cashier JS
 - See Program: run (`node`/browser), change 1 thing, see the difference.
 

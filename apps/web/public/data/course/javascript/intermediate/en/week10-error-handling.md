@@ -89,6 +89,22 @@ Failed `await` needs `try/catch`, not just `.catch`.
 
 ---
 
+### Bonus: Debugging — Find the Wrong (mandatory freeCodeCamp module!)
+
+Caught the error, but WHY wrong? 3 tools:
+1. `console.table(cart)` — arrays as neat tables (not `[object]`!).
+2. `console.log(typeof x, x)` — type + value together (`undefined` traps!).
+3. `debugger;` + DevTools (`F12` → Sources → Run) — pauses at that line, peeks all variables. Or click a line number = red breakpoint.
+
+```javascript
+const cart = [{ name: "Rice", price: 62000 }, { name: "Spinach" }];
+console.table(cart); // Spinach price undefined → caught!
+debugger; // pauses here when DevTools open
+console.log("continuing...");
+```
+
+---
+
 ## Challenge
 
 **Safe Shop:** `function calc(price,qty){ if(qty<=0) throw new Error("Bad qty"); return price*qty }` → `try { calc(62000,0)} catch(e){ console.log(e.message)}`.
