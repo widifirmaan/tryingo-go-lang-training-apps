@@ -17,14 +17,29 @@ Tanpa uji, ubah `Kartu` → harga hilang ketahuan pelanggan. Dengan `mount` + `e
 ## Program: Cicip Kartu Beneran
 
 ```bash
-npm install -D vitest @vue/test-utils jsdom
+npm install -D vitest @vue/test-utils jsdom @vitejs/plugin-vue
+```
+
+```javascript
+// vitest.config.js — WAJIB 2 hal: plugin .vue + DOM palsu!
+import { defineConfig } from "vitest/config";
+import vue from "@vitejs/plugin-vue"; // tanpa ini: "Failed to parse .vue"!
+
+export default defineConfig({
+  plugins: [vue()],
+  test: { environment: "jsdom" }, // tanpa ini: "document is not defined"!
+});
 ```
 
 ```vue
 <!-- Kartu.vue -->
-<template><div class="kartu"><h3>{{ nama }}</h3><p>Rp {{ harga }}</p></div></template>
+<template>
+  <div class="kartu"><h3>{{ nama }}</h3><p>Rp {{ harga }}</p></div>
+  <button @click="emit('beli', nama)">Beli</button>
+</template>
 <script setup>
 defineProps({ nama: String, harga: Number });
+const emit = defineEmits(["beli"]);
 </script>
 ```
 

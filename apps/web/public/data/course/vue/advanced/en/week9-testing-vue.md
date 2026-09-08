@@ -17,14 +17,29 @@ Without tests, editing `Card` → missing price found by customers. With `mount`
 ## Program: Real Card Taste-Test
 
 ```bash
-npm install -D vitest @vue/test-utils jsdom
+npm install -D vitest @vue/test-utils jsdom @vitejs/plugin-vue
+```
+
+```javascript
+// vitest.config.js — MANDATORY 2 things: .vue plugin + fake DOM!
+import { defineConfig } from "vitest/config";
+import vue from "@vitejs/plugin-vue"; // without it: "Failed to parse .vue"!
+
+export default defineConfig({
+  plugins: [vue()],
+  test: { environment: "jsdom" }, // without it: "document is not defined"!
+});
 ```
 
 ```vue
 <!-- Card.vue -->
-<template><div class="card"><h3>{{ name }}</h3><p>Rp {{ price }}</p></div></template>
+<template>
+  <div class="card"><h3>{{ name }}</h3><p>Rp {{ price }}</p></div>
+  <button @click="emit('buy', name)">Buy</button>
+</template>
 <script setup>
 defineProps({ name: String, price: Number });
+const emit = defineEmits(["buy"]);
 </script>
 ```
 
