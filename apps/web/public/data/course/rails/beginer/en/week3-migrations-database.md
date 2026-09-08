@@ -1,102 +1,102 @@
-# Migrations — Cetak Biru Rak Rails yang Aman
+# Migrations — Safe Rails Rack Blueprints
 
-> **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 3:** Migrations & Database
+> **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 3:** Migrations & Database
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `rails generate migration AddKategoriToProduks kategori:string` tulis cetak biru, `rails db:migrate` bangun, `rails db:rollback` batalkan (sumber: guides.rubyonrails.org/active_record_migrations)
-- `rails db:migrate:status` cek, `schema.rb` foto rak terakhir
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tambah kolom `kategori` langsung via SQL di produksi → data 10.000 baris bisa hilang jika salah. Dengan migration, perubahan tercatat + bisa `rollback` — seperti `git` untuk database.
+- `rails generate migration AddCategoryToProducts category:string` writes blueprints, `rails db:migrate` builds, `rails db:rollback` cancels (source: guides.rubyonrails.org/active_record_migrations)
+- `rails db:migrate:status` checks, `schema.rb` latest rack photo
 
 ---
 
-## Program: Tambah Kolom Aman
+## Why This Matters (Non-IT)
+
+Adding a `category` column via direct production SQL → 10,000 rows could vanish on mistakes. With migrations, changes are recorded + `rollback`-able — like `git` for databases.
+
+---
+
+## Program: Safe Column Add
 
 ```bash
-# 1. Tulis cetak biru
-rails generate migration AddKategoriToProduks kategori:string
-# → db/migrate/20260825000000_add_kategori_to_produks.rb:
+# 1. Write blueprint
+rails generate migration AddCategoryToProducts category:string
+# → db/migrate/20260825000000_add_category_to_products.rb:
 #    def change
-#      add_column :produks, :kategori, :string
+#      add_column :products, :category, :string
 #    end
 
-# 2. Cek status (up = sudah jalan, down = belum)
+# 2. Check status (up = ran, down = pending)
 rails db:migrate:status
 
-# 3. Bangun
+# 3. Build
 rails db:migrate
 
-# 4. Model otomatis punya kategori (tanpa ubah model!)
+# 4. Model auto-gains category (no model edit!)
 rails console
->> Produk.column_names
->> p = Produk.first
->> p.update(kategori: "Sembako")
+>> Product.column_names
+>> p = Product.first
+>> p.update(category: "Staples")
 
-# 5. Batalkan jika salah
-rails db:rollback  # hapus kolom lagi
-rails db:migrate   # bangun lagi
+# 5. Cancel when wrong
+rails db:rollback  # removes column again
+rails db:migrate   # rebuilds
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `generate migration` + `migrate` + `rollback` = Tulis/Bangun/Batal
-- `generate` tulis file `db/migrate/xxx_...rb`.
-- `migrate` jalankan yang `down`.
-- `rollback` batalkan terakhir.
+### `generate migration` + `migrate` + `rollback` = Write/Build/Cancel
+- `generate` writes `db/migrate/xxx_...rb` files.
+- `migrate` runs `down` ones.
+- `rollback` cancels the last.
 
-### `schema.rb` = Foto Rak
-Otomatis update tiap `migrate` — jangan edit manual.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Renovasi Warung dengan Cetak Biru
-- **Migration = gambar renovasi**: "tambah rak kategori".
-- **migrate = tukang bangun**, **rollback = bongkar lagi**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `rails db:migrate:status` pastikan `up` semua dulu.
-
-### Cara Komputer Membaca
-1. `rails db:migrate` → cari file `down` → jalankan `change` → catat di `schema_migrations`.
-2. `rollback` → jalankan kebalikan `change` (hapus kolom).
-
-### 3 Istilah Wajib
-1. **Migration**: cetak biru DB
-2. **migrate/rollback**: bangun/batal
-3. **schema.rb**: foto terakhir
+### `schema.rb` = Rack Photo
+Auto-updated every `migrate` — never hand-edit.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `rails generate migration AddStokToProduks stok:integer` → `migrate` → `Produk.column_names` ada `stok`?
-- **Kuning:** `rails db:migrate:status` → semua `up`?
-- **Merah:** Edit `schema.rb` manual → `migrate` timpa lagi? (Jangan edit manual!)
+### Analogy: Shop Renovation with Blueprints
+- **Migration = renovation drawing**: "add category rack".
+- **migrate = builder builds**, **rollback = demolish again**.
+
+### Step 0 — Prepare Device
+- Same as W1: `rails db:migrate:status` ensures all `up` first.
+
+### How the Computer Reads It
+1. `rails db:migrate` → finds `down` files → runs `change` → records in `schema_migrations`.
+2. `rollback` → runs reverse of `change` (drops column).
+
+### 3 Must-Know Terms
+1. **Migration**: DB blueprint
+2. **migrate/rollback**: build/cancel
+3. **schema.rb**: latest photo
 
 ---
 
-## Tantangan
+## Experiments
 
-**Renovasi Warung:** `AddDiskonToProduks diskon:integer` (default 0 via `change` + `add_column :produks, :diskon, :integer, default: 0`) → `migrate` → `update` 1 produk → `rollback` → cek hilang → `migrate` lagi.
-
----
-
-## Glosarium Mini
-
-- **migration/migrate/rollback**: biru/bangun/batal
-- **schema.rb**: foto rak
+- **Green:** `rails generate migration AddStockToProducts stock:integer` → `migrate` → `Product.column_names` has `stock`?
+- **Yellow:** `rails db:migrate:status` → all `up`?
+- **Red:** Hand-edit `schema.rb` → `migrate` overwrites? (Never hand-edit!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 4: **Cetak Biru Aman** (Level: Pemula). Ubah rak tanpa takut. Minggu depan: **Views ERB** — etalase nyata.
+**Shop Renovation:** `AddDiscountToProducts discount:integer` (default 0 via `change` + `add_column :products, :discount, :integer, default: 0`) → `migrate` → `update` 1 product → `rollback` → verify gone → `migrate` again.
+
+---
+
+## Mini Glossary
+
+- **migration/migrate/rollback**: blueprint/build/cancel
+- **schema.rb**: rack photo
+
+---
+
+## Summary
+
+Week 3 of 4: **Safe Blueprints** (Level: Beginner). Change racks fearlessly. Next: **ERB Views** — real showcase.
