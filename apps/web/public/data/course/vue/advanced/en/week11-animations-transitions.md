@@ -1,95 +1,95 @@
-# Animations & Transitions — Warung Halus Vue
+# Animations & Transitions — Smooth Vue Shop
 
-> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 11:** Animations & Transitions
+> **Kategori:** Vue | **Level:** Advanced | **Minggu 11:** Animations & Transitions
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `<Transition name="pudar">` + CSS `.pudar-enter-active` + `<TransitionGroup>` daftar (sumber: vuejs.org/guide/built-ins/transition)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tambah/hapus produk langsung hilang → kasar, pelanggan kaget. Dengan `Transition`, masuk geser + keluar pudar 0.3 detik — terasa mahal.
+- `<Transition name="fade">` + CSS `.fade-enter-active` + `<TransitionGroup>` lists (source: vuejs.org/guide/built-ins/transition)
 
 ---
 
-## Program: Daftar Halus Warung
+## Why This Matters (Non-IT)
+
+Adding/removing products vanishing instantly → harsh, customers startled. With `Transition`, enter slides + exit fades 0.3s — feels premium.
+
+---
+
+## Program: Smooth Shop List
 
 ```vue
 <script setup>
 import { ref } from "vue";
-const daftar = ref([{ id: 1, nama: "Beras" }]);
-function tambah() { daftar.value.push({ id: Date.now(), nama: "Bayam" }); }
-function hapus(id) { daftar.value = daftar.value.filter(p => p.id !== id); }
+const list = ref([{ id: 1, name: "Rice" }]);
+function add() { list.value.push({ id: Date.now(), name: "Spinach" }); }
+function remove(id) { list.value = list.value.filter(p => p.id !== id); }
 </script>
 
 <template>
-  <button @click="tambah">Tambah Bayam</button>
-  <TransitionGroup name="geser" tag="ul">
-    <li v-for="p in daftar" :key="p.id">
-      {{ p.nama }} <button @click="hapus(p.id)">Hapus</button>
+  <button @click="add">Add Spinach</button>
+  <TransitionGroup name="slide" tag="ul">
+    <li v-for="p in list" :key="p.id">
+      {{ p.name }} <button @click="remove(p.id)">Remove</button>
     </li>
   </TransitionGroup>
 </template>
 
 <style>
-.geser-enter-active, .geser-leave-active { transition: all 0.3s; }
-.geser-enter-from { opacity: 0; transform: translateX(30px); }
-.geser-leave-to { opacity: 0; transform: translateX(-30px); }
+.slide-enter-active, .slide-leave-active { transition: all 0.3s; }
+.slide-enter-from { opacity: 0; transform: translateX(30px); }
+.slide-leave-to { opacity: 0; transform: translateX(-30px); }
 </style>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `<Transition>` / `<TransitionGroup>` = 1 / Banyak
-`Transition` 1 elemen, `TransitionGroup` daftar (wajib `:key`!).
+### `<Transition>` / `<TransitionGroup>` = 1 / Many
+`Transition` 1 element, `TransitionGroup` lists (mandatory `:key`!).
 
-### `name="geser"` + 4 Kelas = Aturan Gerak
-`geser-enter-from/active` masuk, `geser-leave-to/active` keluar.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Pintu Geser Mal
-- **Transition = pintu geser**: masuk/keluar halus, bukan tembok hilang.
-
-### Langkah 0 — Siapkan Device
-- Sama Vue W1.
-
-### Cara Komputer Membaca
-1. Tambah item → Vue sisipkan class `enter-from` → animasi → lepas.
-2. Hapus → class `leave-to` → 0.3 detik → baru hapus DOM.
-
-### 3 Istilah Wajib
-1. **Transition/Group**: 1/banyak
-2. **enter/leave**: masuk/keluar
+### `name="slide"` + 4 Classes = Motion Rules
+`slide-enter-from/active` enter, `slide-leave-to/active` exit.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `0.3s` → `1s` → lambat dramatis?
-- **Kuning:** Hapus `:key` → animasi rusak + warning?
-- **Merah:** Tanpa CSS kelas → langsung (tidak halus)? Tambah.
+### Analogy: Mall Sliding Doors
+- **Transition = sliding door**: smooth enter/exit, not vanishing walls.
 
----
+### Step 0 — Prepare Device
+- Same as Vue W1.
 
-## Tantangan
+### How the Computer Reads It
+1. Add item → Vue inserts `enter-from` class → animates → releases.
+2. Remove → `leave-to` class → 0.3s → then removes DOM.
 
-**Warung Halus Lengkap:** Tambah/hapus + `TransitionGroup` + CSS 4 kelas + beda arah masuk/keluar.
-
----
-
-## Glosarium Mini
-
-- **Transition/enter/leave**: gerak/masuk/keluar
+### 3 Must-Know Terms
+1. **Transition/Group**: one/many
+2. **enter/leave**: in/out
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 11 dari 12: **Halus** (Level: Lanjutan). Terasa mahal. Minggu depan: **Capstone**.
+- **Green:** `0.3s` → `1s` → dramatically slow?
+- **Yellow:** Remove `:key` → broken animation + warning?
+- **Red:** No CSS classes → instant (not smooth)? Add them.
+
+---
+
+## Challenge
+
+**Complete Smooth Shop:** Add/remove + `TransitionGroup` + 4-class CSS + different in/out directions.
+
+---
+
+## Mini Glossary
+
+- **Transition/enter/leave**: motion/in/out
+
+---
+
+## Summary
+
+Week 11 of 12: **Smooth** (Level: Advanced). Feels premium. Next: **Capstone**.
