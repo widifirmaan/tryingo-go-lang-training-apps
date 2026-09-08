@@ -1,28 +1,28 @@
-# Forms & Validasi
+# Forms & Validation
 
-> **Kategori:** React | **Level:** Menengah | **Minggu 7:** Forms & Validasi
+> **Kategori:** React | **Level:** Intermediate | **Minggu 7:** Forms & Validasi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Controlled form: setiap input punya value + onChange
-- Single handler untuk multiple input (name attribute)
-- Real-time validation: error saat submit dan saat mengetik
-- Error state management dan conditional rendering
+- Controlled form: every input has value + onChange
+- Single handler for multiple inputs (name attribute)
+- Real-time validation: errors on submit and while typing
+- Error state management and conditional rendering
 - Form submission: preventDefault, validate, submit
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa validasi, nama kosong masuk → laporan rusak. Dengan `react-hook-form` + `zod`, 3 baris validasi + pesan otomatis.
+Without validation, empty names enter → reports break. With `react-hook-form` + `zod`, 3 lines of validation + automatic messages.
 
 ---
 
-## Program: Form Registrasi
+## Program: Registration Form
 
 ```jsx
-// Controlled forms = setiap input dikontrol React state
-// Validasi: real-time feedback, error messages, prevent submit
+// Controlled forms = every input controlled by React state
+// Validation: real-time feedback, error messages, prevent submit
 
 import { useState } from "react";
 
@@ -33,16 +33,16 @@ function RegisterForm() {
 
   function validate() {
     const errs = {};
-    if (!form.name.trim()) errs.name = "Nama wajib diisi";
-    if (!form.email.includes("@")) errs.email = "Email tidak valid";
-    if (form.password.length < 6) errs.password = "Min 6 karakter";
+    if (!form.name.trim()) errs.name = "Name is required";
+    if (!form.email.includes("@")) errs.email = "Invalid email";
+    if (form.password.length < 6) errs.password = "Min 6 characters";
     return errs;
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
-    // Clear error saat user mulai mengetik
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -56,17 +56,17 @@ function RegisterForm() {
       return;
     }
     setSubmitted(true);
-    console.log("Data terkirim:", form);
+    console.log("Data sent:", form);
   }
 
   if (submitted) {
-    return <p>Registrasi berhasil! Selamat, {form.name}!</p>;
+    return <p>Registration successful! Welcome, {form.name}!</p>;
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <input name="name" value={form.name} onChange={handleChange} placeholder="Nama" />
+        <input name="name" value={form.name} onChange={handleChange} placeholder="Name" />
         {errors.name && <span className="error">{errors.name}</span>}
       </div>
       <div>
@@ -77,64 +77,64 @@ function RegisterForm() {
         <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
         {errors.password && <span className="error">{errors.password}</span>}
       </div>
-      <button type="submit">Daftar</button>
+      <button type="submit">Register</button>
     </form>
   );
 }
 
-console.log("RegisterForm siap digunakan");
+console.log("RegisterForm ready to use");
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Controlled Form
-value + onChange = React kontrol input.
+value + onChange = React controls the input.
 
 ### Single Handler
-e.name sebagai key: setForm({ ...form, [e.target.name]: e.target.value }).
+e.name as key: setForm({ ...form, [e.target.name]: e.target.value }).
 
 ### Validation
-Validate saat submit. Clear error saat user mulai mengetik.
+Validate on submit. Clear errors when the user starts typing.
 
 ### UX Pattern
-- Error di bawah input
-- Disable button saat invalid
-- Success message setelah submit
+- Error under the input
+- Disable button when invalid
+- Success message after submit
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Tambah validasi password strength
-- Buat field konfirmasi password
-- Tambah checkbox terms & conditions
-- Implementasikan async validation (cek email unik)
-
----
-
-## Tantangan
-
-Buat form checkout dengan validasi: nama, alamat, telepon, email, metode pembayaran. Tampilkan error real-time.
-
+- Add password strength validation
+- Build a confirm-password field
+- Add a terms & conditions checkbox
+- Implement async validation (check unique email)
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Satpam Formulir
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+Build a checkout form with validation: name, address, phone, email, payment method. Show real-time errors.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (lihat minggu 1 untuk install).
 
-### Cara Komputer Membaca
-- `register('nama', { required: 'Wajib' })` + `errors.nama?.message` tampil.
+---
 
-### 3 Istilah Wajib
-- 1. **register/errors**: daftar/salah
+## Beginner Friendly Explanation
 
-## Ringkasan
+### Analogy: Form Security Guard
+- See Program: run line by line, change 1 number, see the difference.
 
-Minggu 7 dari 12: **Forms & Validasi** (Level: Menengah). User input handling. Minggu depan: **Custom Hooks & Patterns**.
+### Step 0 — Prepare Device
+- Same as this track's W1 (see week 1 for install).
+
+### How the Computer Reads It
+- `register('name', { required: 'Required' })` + `errors.name?.message` shows.
+
+### 3 Must-Know Terms
+- 1. **register/errors**: register/wrong
+
+## Summary
+
+Week 7 of 12: **Forms & Validation** (Level: Intermediate). User input handling. Next: **Custom Hooks & Patterns**.

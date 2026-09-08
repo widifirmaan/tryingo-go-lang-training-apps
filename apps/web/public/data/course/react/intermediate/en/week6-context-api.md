@@ -1,70 +1,107 @@
-# Context API — Gudang Bersama Warung
+# Context API — Shared Shop Warehouse
 
-> **Kategori:** React | **Level:** Menengah | **Minggu 6:** Context API & useReducer
+> **Kategori:** React | **Level:** Intermediate | **Minggu 6:** Context API & useReducer
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `createContext` + `Provider` = gudang bersama, `useContext` ambil — tanpa `props` 5 level
-- `useReducer` untuk keranjang kompleks (tambah/hapus/kosongkan)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung 10 komponen butuh `keranjang` — kirim via props 5 level = estafet melelahkan. Context = **gudang di tengah**, semua ambil langsung.
+- `createContext` + `Provider` = shared warehouse, `useContext` takes — no 5-level `props`
+- `useReducer` for complex carts (add/remove/clear)
 
 ---
 
-## Program: Gudang Keranjang
+## Why This Matters (Non-IT)
+
+A shop with 10 components needing `cart` — passing via 5-level props = exhausting relay. Context = **warehouse in the middle**, everyone takes directly.
+
+---
+
+## Program: Cart Warehouse
 
 ```jsx
 import { createContext, useContext, useReducer } from "react";
 
-const KeranjangContext = createContext();
+const CartContext = createContext();
 
-function keranjangReducer(state, action){
-  if(action.type === "tambah") return [...state, action.item];
-  if(action.type === "hapus") return state.filter(i => i.id !== action.id);
-  if(action.type === "kosong") return [];
+function cartReducer(state, action){
+  if(action.type === "add") return [...state, action.item];
+  if(action.type === "remove") return state.filter(i => i.id !== action.id);
+  if(action.type === "clear") return [];
   return state;
 }
 
-function KeranjangProvider({ children }){
-  const [keranjang, dispatch] = useReducer(keranjangReducer, []);
+function CartProvider({ children }){
+  const [cart, dispatch] = useReducer(cartReducer, []);
   return (
-    <KeranjangContext.Provider value={{ keranjang, dispatch }}>
+    <CartContext.Provider value={{ cart, dispatch }}>
       {children}
-    </KeranjangContext.Provider>
+    </CartContext.Provider>
   );
 }
 
-function Produk(){
-  const { dispatch } = useContext(KeranjangContext);
-  return <button onClick={() => dispatch({ type: "tambah", item: { id: Date.now(), nama: "Beras" } })}>Tambah Beras</button>;
+function Product(){
+  const { dispatch } = useContext(CartContext);
+  return <button onClick={() => dispatch({ type: "add", item: { id: Date.now(), name: "Rice" } })}>Add Rice</button>;
 }
 
-function Tampilkan(){
-  const { keranjang } = useContext(KeranjangContext);
-  return <p>Isi: {keranjang.length} | {keranjang.map(i=>i.nama).join(", ")}</p>;
+function Show(){
+  const { cart } = useContext(CartContext);
+  return <p>Items: {cart.length} | {cart.map(i=>i.name).join(", ")}</p>;
 }
 
 export default function App(){
-  return <KeranjangProvider><Produk /><Tampilkan /></KeranjangProvider>;
+  return <CartProvider><Product /><Show /></CartProvider>;
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `createContext` + `Provider` = Gudang
-Bungkus `App` dengan `Provider value={{ keranjang, dispatch }}`, semua anak `useContext` ambil tanpa props.
+### `createContext` + `Provider` = Warehouse
+Wrap `App` with `Provider value={{ cart, dispatch }}`, all children `useContext` take without props.
 
-### `useReducer` = Kasir Aturan
-`dispatch({type:"tambah"})` → `reducer` tentukan cara ubah.
+### `useReducer` = Rule Cashier
+`dispatch({type:"add"})` → `reducer` decides how to change.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 6: **Gudang Bersama** — Context tanpa estafet. Minggu depan: **Forms**.
+### Analogy: Central Warehouse
+- **Props drilling = relay race** passing the box 5 runners. **Context = central warehouse**, everyone picks up directly.
+
+### Step 0 — Prepare Device
+- Vite React project, paste program, add from `Product`, watch `Show` update.
+
+### How the Computer Reads It
+1. `dispatch({type:"add"})` → `cartReducer(state, action)` → new array.
+2. New array → all `useContext` consumers re-render.
+
+### 3 Must-Know Terms
+1. **Context/Provider/dispatch**: warehouse/door/order
+
+---
+
+## Experiments
+
+- **Green:** Add 3 items → `Show` lists all?
+- **Yellow:** `dispatch({type:"clear"})` → cart empties?
+- **Red:** `useContext` outside `Provider` → `undefined` crash? Wrap it.
+
+---
+
+## Challenge
+
+**Warehouse Cart:** `add` + `remove` by id + `clear` + count + total price via `useReducer` + 2 components sharing.
+
+---
+
+## Mini Glossary
+
+- **Context/reducer**: warehouse/cashier
+
+---
+
+## Summary
+
+Week 6: **Shared Warehouse** — Context without relay. Next: **Forms**.
