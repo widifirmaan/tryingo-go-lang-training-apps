@@ -82,6 +82,25 @@ Base image / copy files / run at build / run at start.
 
 ---
 
+### Bonus: HEALTHCHECK + .dockerignore (best practice, docs.docker.com!)
+
+```dockerfile
+# Add to Dockerfile — Docker checks the shop alive every 30s!
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:80/ || exit 1
+```
+
+```
+# .dockerignore — NEVER carry trash into images (beside Dockerfile)!
+node_modules
+.git
+*.log
+.env
+```
+- Without `.dockerignore`, `COPY . .` carries 500MB `node_modules` + LEAKED `.env` secrets into images! `docker build` also slows down.
+- Health check: `docker ps` STATUS column → `healthy` (not just `Up`)!
+
+---
+
 ## Summary
 
 Week 4: **Box Recipe** — Dockerfile `FROM/COPY/RUN`. **Beginner Docker DONE!** Next: **Volumes** (Intermediate).

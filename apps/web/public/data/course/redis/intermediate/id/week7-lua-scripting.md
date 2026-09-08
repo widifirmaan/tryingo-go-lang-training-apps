@@ -56,6 +56,22 @@ Script Lua jalan di server sekaligus (atomik). `KEYS[1]` kunci, `ARGV` data.
 
 ---
 
+### Bonus: MULTI/EXEC — Paket Sederhana (vs Lua!)
+
+Lua untuk logika (if). Jika hanya "jalankan 3 perintah sekaligus tanpa diserobot", `MULTI/EXEC` lebih ringan:
+
+```bash
+MULTI                  # mulai paket
+DECR stok:beras        # antre, belum jalan!
+HINCRBY terjual 1
+EXEC                   # JALANKAN semua sekaligus (atomik!)
+# Balasan: 1) (integer) 9  2) (integer) 1
+DISCARD                # batalkan paket (sebelum EXEC)
+```
+- Bedakan: `MULTI` = antre-buta (tanpa if), Lua = pintar (ada if). WATCH = kunci optimis (batal jika berubah — lanjut Redis advanced!).
+
+---
+
 ## Tantangan
 
 **Kasir Atomik:** Script `beli(kunci, qty)`: jika stok >= qty kurangi + return sisa, else return -1. Test 2 terminal bareng.

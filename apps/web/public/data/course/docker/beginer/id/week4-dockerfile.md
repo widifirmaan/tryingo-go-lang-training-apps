@@ -38,6 +38,25 @@ docker push warung:1.0 # jika mau ke Hub
 
 ---
 
+### Bonus: HEALTHCHECK + .dockerignore (best practice docs.docker.com!)
+
+```dockerfile
+# Tambah di Dockerfile — Docker cek warung hidup tiap 30 detik!
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:80/ || exit 1
+```
+
+```
+# .dockerignore — JANGAN bawa sampah ke image (sebelah Dockerfile)!
+node_modules
+.git
+*.log
+.env
+```
+- Tanpa `.dockerignore`, `COPY . .` bawa `node_modules` 500MB + `.env` rahasia BOCOR ke image! `docker build` juga jadi lambat.
+- Cek sehat: `docker ps` kolom STATUS → `healthy` (bukan cuma `Up`)!
+
+---
+
 ## Ringkasan
 
 Minggu 4: **Resep Peti** — Dockerfile `FROM/COPY/RUN`.

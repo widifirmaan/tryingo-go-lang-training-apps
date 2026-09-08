@@ -74,6 +74,15 @@ String + Hash + List + Set + ZSet + Streams + Pub/Sub + TTL = live dashboard.
 
 ---
 
+### Bonus: Durable Drawer — RDB vs AOF (production mandatory! redis.io/docs/management/persistence)
+
+RAM drawers vanish on blackout! 2 saviors (set in `redis.conf` / `docker run` flags):
+- **RDB** (`save 60 1000`): photo every 60s when 1000 change. Fast, but may lose the last 60 seconds.
+- **AOF** (`appendonly yes`): logs EVERY write (safe, bigger file + slightly slower).
+- Check: `LASTSAVE` (last photo when?), `INFO persistence`. Serious production = BOTH AOF + RDB!
+
+---
+
 ## Challenge
 
 **Grand Opening:** All checklist + `INFO` + 1-min order→ranking-shift-live video. **Redis 0→Expert DONE!** 🎉

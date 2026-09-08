@@ -64,6 +64,22 @@ Lua scripts run on the server at once (atomic). `KEYS[1]` keys, `ARGV` data.
 
 ---
 
+### Bonus: MULTI/EXEC — Simple Packages (vs Lua!)
+
+Lua for logic (if). When only "run 3 commands together uninterruptibly", `MULTI/EXEC` is lighter:
+
+```bash
+MULTI                  # start package
+DECR stock:rice        # queued, not yet run!
+HINCRBY sold 1
+EXEC                   # RUN all at once (atomic!)
+# Reply: 1) (integer) 9  2) (integer) 1
+DISCARD                # cancel package (before EXEC)
+```
+- Distinguish: `MULTI` = blind queue (no if), Lua = smart (has if). WATCH = optimistic lock (cancels when changed — advanced Redis next!).
+
+---
+
 ## Challenge
 
 **Atomic Cashier:** Script `buy(key, qty)`: when stock >= qty decrement + return remainder, else return -1. Test 2 terminals together.
