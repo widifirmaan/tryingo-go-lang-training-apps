@@ -51,6 +51,8 @@ Light gray text on white → elderly customers can't read (contrast fails). `lin
 
 ### `color` / `background` + 3 Ways to Write Colors
 - `red` name (limited), `#2E5B44` hex (popular), `rgb(46,91,68)` numbers.
+- `hsl(150, 40%, 30%)` = hue/saturation/lightness (more human than rgb!). `hsl(150 40% 30% / 0.8)` with transparency.
+- Gradients: `background: linear-gradient(#2E5B44, #EFECE6);` (top→bottom). `radial-gradient(circle, ...)` sun.
 
 ### `font-family` + Fallbacks
 `Georgia, serif` — if Georgia missing, use any serif.

@@ -63,6 +63,15 @@ Tombol `Beli` yang langsung ganti warna terasa kasar. Dengan `transition: all 0.
 ### `transform` Performa
 `transform: translate/scale` tidak ganggu box model, lebih cepat dari `width`/`font-size` (MDN).
 
+### Jurus Transform Lengkap (ala freeCodeCamp Penguin)
+- `rotate(15deg)` putar, `skewX(10deg)` miring, `scale(1.2)` besar, `translateX(20px)` geser.
+- `transform-origin: bottom center` = titik putar (kaki penguin, bukan tengah!).
+- Gabung: `transform: translateX(10px) rotate(15deg) scale(1.1);` (urutan dibaca kanan→kiri efeknya!).
+
+```css
+.tombol:hover { transform: rotate(-2deg) scale(1.05); transform-origin: center; }
+.stiker-miring { transform: skewX(-8deg); } /* spanduk miring gaul */
+
 ---
 
 ## Penjelasan untuk Pemula

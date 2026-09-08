@@ -81,6 +81,21 @@ a[href^="https"] { color: #2E5B44; font-weight: bold; } /* link luar */
 ### `.card p` / `:hover` / `[href^="https"]`
 Di dalam / saat sentuh / atribut diawali.
 
+### Cascade: Siapa Menang Jika Rebutan? (Inti The Odin Project!)
+3 aturan (urutan penting!): **1. Specificity** — `#id` kalahkan `.class` kalahkan `p` (ingat: 100/10/1, TAPI ini cara-ingat saja — 11 class tetap kalah lawan 1 id!). **`!important` darurat saja!** **2. Urutan** — specificity sama → yang ditulis TERAKHIR menang. **3. Inheritance** — `color`/`font` di `body` turun ke anak otomatis (cek MDN: tiap properti tulis Inherited Yes/No).
+
+```css
+p { color: black; }        /* 1 */
+.card p { color: #555; }   /* 1+10=11 → menang! */
+#header p { color: white; } /* 100+1 → menang mutlak */
+body { font-family: sans-serif; } /* anak ikut tanpa tulis ulang */
+```
+
+### Pseudo Sakti (ala freeCodeCamp Balance Sheet)
+- `li:first-child` / `li:last-child` / `li:nth-child(2)` — anak ke-1/terakhir/2.
+- `input:focus` — saat diketik (ganti border!). `:not(.promo)` — kecuali promo.
+- `p::before { content: "★ "; }` — tempel bintang TANPA ubah HTML! (`::` = elemen palsu)
+
 ---
 
 ## Penjelasan untuk Pemula
@@ -100,6 +115,7 @@ Di dalam / saat sentuh / atribut diawali.
 1. **Selector/deklarasi**: bidik/aturan (`color: red`)
 2. **Class/id**: titik/pagar
 3. **External/internal/inline**: toko/kaleng/kuas
+4. **Specificity/inherit**: nilai-bidik/warisan (`#id` 100 > `.class` 10 > tag 1)
 
 ---
 
@@ -108,6 +124,7 @@ Di dalam / saat sentuh / atribut diawali.
 - **Hijau:** Ganti `.card` background `yellow` → 2 kartu ikut?
 - **Kuning:** `#header` dipakai 2x → tetap jalan tapi salah (id harus 1)! Ganti 1 jadi class.
 - **Merah:** Hapus `<link>` → polos? Pasang lagi.
+- **Bonus cascade:** `p{color:red}` + `.card p{color:green}` → hijau menang? Tambah `#x p{color:blue}` → biru!
 
 ---
 

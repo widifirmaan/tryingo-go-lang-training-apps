@@ -63,6 +63,15 @@ A `Buy` button that instantly changes color feels harsh. With `transition: all 0
 ### `transform` Performance
 `transform: translate/scale` doesn't disturb box model, faster than `width`/`font-size` (MDN).
 
+### Full Transform Moves (à la freeCodeCamp Penguin)
+- `rotate(15deg)` spins, `skewX(10deg)` slants, `scale(1.2)` grows, `translateX(20px)` slides.
+- `transform-origin: bottom center` = pivot point (penguin feet, not middle!).
+- Combine: `transform: translateX(10px) rotate(15deg) scale(1.1);` (order reads right-to-left in effect!).
+
+```css
+.btn:hover { transform: rotate(-2deg) scale(1.05); transform-origin: center; }
+.slant-sticker { transform: skewX(-8deg); } /* groovy slanted banner */
+
 ---
 
 ## Beginner Friendly Explanation

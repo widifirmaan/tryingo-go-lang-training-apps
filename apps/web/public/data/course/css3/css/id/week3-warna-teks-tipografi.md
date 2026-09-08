@@ -51,6 +51,8 @@ Teks abu terang di putih → pelanggan tua tidak bisa baca (kontras gagal). `lin
 
 ### `color` / `background` + 3 Cara Tulis Warna
 - `red` nama (terbatas), `#2E5B44` hex (populer), `rgb(46,91,68)` angka.
+- `hsl(150, 40%, 30%)` = rona/jenuh/cerah (lebih manusiawi dari rgb!). `hsl(150 40% 30% / 0.8)` pakai transparan.
+- Gradasi: `background: linear-gradient(#2E5B44, #EFECE6);` (atas→bawah). `radial-gradient(circle, ...)` matahari.
 
 ### `font-family` + Cadangan
 `Georgia, serif` — jika Georgia hilang, pakai serif apa saja.
