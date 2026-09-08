@@ -1,52 +1,61 @@
-# Typed Functions — Recipes with Ingredient Labels
+# Typed Functions — Recipes with Labeled Ingredients
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 3:** Functions & Signatures
 
 ## Learning Objectives
 
-- Write typed functions: `(name: string) => string`, `void` if no return
-- Optional `name?: string` and default `name = "Guest"`
-- Typed `Rest` `(...nums: number[])`
-- Typed callback `(n: number) => number` and `readonly` array
-- Simple overload for `greet` with different input
+- Write typed functions: `(name: string) => string`, `void` when no return
+- Optional params `name?: string` and defaults `name = "Guest"`
+- Typed `rest` `(...nums: number[])`
+- Typed callbacks `(n: number) => number` and `readonly` arrays
+- Simple overloads for `greet` with different inputs
 
 ---
 
 ## Why This Matters (Non-IT)
 
-Recipe `calcTotal` if wrongly sent `string` → total becomes `"6210"` (text join). With `(price: number)` wrong send red. Callback `map` without type, `n` becomes `any` → typo not caught.
+Recipe `calcTotal` wrongly sent a `string` → total becomes `"6210"` (text glued). With type `(price: number)` wrong sends go instantly red. Untyped `map` callbacks make `n` `any` → typos go unnoticed.
 
 ---
 
-## Program: Typed Kitchen Functions
+## Program: Typed Function Kitchen
 
 ```typescript
+// 1. Basic typed function
 function greet(name: string): string {
   return `Hello, ${name}`;
 }
 console.log(greet("Budi"));
+// greet(123); // ❌
 
+// 2. Optional & default
 function greet2(name: string = "Guest", title?: string): string {
   return title ? `Hello ${title} ${name}` : `Hello ${name}`;
+  // title? = may be omitted (string | undefined)
 }
 console.log(greet2());
-console.log(greet2("Siti", "Ms."));
+console.log(greet2("Siti", "Ms"));
 
+// 3. Typed rest
 function total(...nums: number[]): number {
   return nums.reduce((a, b) => a + b, 0);
 }
 console.log("\nTotal:", total(1, 2, 3, 4));
 
+// 4. Typed callback
 function process(data: number[], work: (n: number) => number): number[] {
   return data.map(work);
 }
-console.log("Doubled:", process([1, 2, 3], n => n * 2));
+console.log("Times2:", process([1, 2, 3], n => n * 2));
 
-function print(prices: readonly number[]) {
+// 5. Readonly — don't touch others' racks
+function printPrices(prices: readonly number[]) {
   console.log("Prices:", prices);
+  // prices.push(999); // ❌ Error: readonly
 }
-print([10000, 20000]);
+printPrices([10000, 20000]);
 
+// 6. Real shop example
 type Cart = { price: number; qty: number };
 function calcTotal(cart: Cart[], discount: number = 0): number {
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
@@ -62,40 +71,53 @@ console.log("10% off:", calcTotal(cart, 10));
 ## Key Concepts
 
 ### `(a: string): string`
-Inside parentheses = input type, after = output type. `void` = no return.
+Inside parens = input types, after parens = output type. `void` = no return.
 
-### `?:` & Default
-`title?: string` may be missing, `name = "Guest"` default fill.
+### `?:` & Defaults
+`title?: string` may be empty, `name = "Guest"` default fill.
 
 ### `...nums: number[]`
-Rest must be typed array. `number[]` = rack only for numbers.
+Rest must be a typed array. `number[]` = numbers-only rack.
 
 ### Callback `(n: number) => number`
-Full function type. `readonly number[]` cannot `push`.
+Function types written in full. `readonly number[]` forbids `push`.
 
 ---
 
 ## Beginner Friendly Explanation
 
-### Analogy: Labeled Recipe
+### Analogy: Labeled Recipes
 
-- **`(name: string): string`** = label on ingredient bowl and finished plate. Wrong ingredient → rejected.
-- **`readonly`** = sign "Do Not Touch".
-- **Callback** = delegate "cut this way" — way must be `(item: number) => result`.
+- **`(name: string): string`** = labels on ingredient jar and result plate. Wrong ingredient → rejected.
+- **`readonly`** = "Do Not Touch" sign.
+- **Callback** = entrust "cut following this pattern" — pattern must be `(item: number) => result`.
+
+### Step 0 — Prepare Device
+- Same as W1: `receipt.ts` + `npx tsc`, hover types in VS Code.
+
+### How the Computer Reads It
+1. `calcTotal("2", 12500)` → `string` vs `number` → red before run.
+2. `readonly Item[]` → `push` call → compile error.
+
+### 3 Must-Know Terms
+
+1. **Signature**: function shape `(a: string) => number`
+2. **Optional `?:`**: may be missing
+3. **Readonly**: forbidden to change
 
 ---
 
 ## Experiments
 
 - **Green:** `function mul(a:number,b:number):number { return a*b }` → `mul(2,3)`?
-- **Yellow:** `total(1,2,"3")` → error? Must all numbers.
-- **Red:** `print` then `push` → readonly error.
+- **Yellow:** `total(1,2,"3")` → error? Must be all numbers.
+- **Red:** `printPrices` then `push` → readonly error.
 
 ---
 
 ## Challenge
 
-**Typed Shop Calculator:** `type Item={price:number; qty:number}`, `function delivery(weight:number,distance:number):number`, `function receipt(items: readonly Item[], distance:number): string` return `` `Total Rp ${calcTotal(items)}` ``. Try send `price:"62000"` → red.
+**Typed Shop Calculator:** `type Item={price:number; qty:number}`, `function shipping(weight:number,dist:number):number`, `function receipt(items: readonly Item[], dist:number): string` returning `` `Total Rp ${calcTotal(items)}` ``. Try sending `price:"62000"` → red.
 
 ---
 
@@ -103,7 +125,7 @@ Full function type. `readonly number[]` cannot `push`.
 
 - **Signature**: function type
 - **void**: no return
-- **readonly**: cannot change
+- **readonly**: forbidden to change
 
 ---
 
