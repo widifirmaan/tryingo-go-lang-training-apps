@@ -28,7 +28,8 @@ Structure: `shop/models.py`, `shop/views.py`, `shop/serializers.py`, `shop/admin
 ## Beginner Friendly Explanation
 
 ### Analogy: Django Store Grand Opening
-- See Program: run the commands, change 1 thing, see the difference.
+- **11 weeks = building parts**: racks (models), waiters (views), tables (templates), IDs (auth), drive-thru (API).
+- **Capstone = grand opening**: all parts open together + tested (`test` green) + online branch (deploy). One part stalls → opening fails — hence the checklist!
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).

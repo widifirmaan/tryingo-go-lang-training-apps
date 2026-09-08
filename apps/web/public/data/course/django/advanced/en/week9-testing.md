@@ -40,7 +40,8 @@ class ProductTest(TestCase):
 ## Beginner Friendly Explanation
 
 ### Analogy: Django Kitchen Taste
-- See Program: run the commands, change 1 thing, see the difference.
+- **`TestCase` = separate test kitchen**: every test starts with an empty DB + gets thrown away after — tests never pollute real data/open stores.
+- **`self.client` = mock customer**: clicks/gets/posts for real through URLs, `assertEqual` tastes status + content. Red = broken recipe, fix BEFORE customers complain.
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).

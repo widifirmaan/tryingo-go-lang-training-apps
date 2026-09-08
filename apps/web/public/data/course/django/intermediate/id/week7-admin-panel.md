@@ -37,7 +37,8 @@ Buka `http://localhost:8000/admin/warung/produk/` → filter kategori, cari nama
 ## Penjelasan untuk Pemula
 
 ### Analogi: Kasir Otomatis Rapi
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Admin bawaan = meja kasir polos**: bisa jual, tapi cari barang selam 1000 baris.
+- **`list_display` + `search_fields` + `list_filter` = rak berlabel + kotak cari + sekat kategori**: kasir ketemu barang 3 detik. `list_editable` = ubah harga langsung di daftar, tanpa buka kartu!
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

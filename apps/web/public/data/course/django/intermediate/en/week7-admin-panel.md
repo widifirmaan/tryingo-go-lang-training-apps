@@ -37,7 +37,8 @@ Open `http://localhost:8000/admin/shop/product/` → filter category, find names
 ## Beginner Friendly Explanation
 
 ### Analogy: Neat Automatic Cashier
-- See Program: run the commands, change 1 thing, see the difference.
+- **Stock admin = plain cashier desk**: can sell, but finding goods means scrolling 1000 rows.
+- **`list_display` + `search_fields` + `list_filter` = labeled racks + search box + category dividers**: cashiers find goods in 3 seconds. `list_editable` = edit prices right in the list, no card opening!
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).

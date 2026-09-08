@@ -35,7 +35,8 @@ def daftar(request):
 ## Penjelasan untuk Pemula
 
 ### Analogi: Laci Cepat Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Tanpa cache = tiap pembeli tanya gudang**: 100x/menit → gudang (DB) kepanasan, toko lambat.
+- **`cache.get` cek laci dulu**: ada → 0.1ms; kosong → hitung sekali → `cache.set(kunci, data, 60)` → 99 pembeli berikut dari laci. Kunci + detik = nama laci + kadaluarsa!
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

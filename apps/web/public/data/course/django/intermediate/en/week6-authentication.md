@@ -48,7 +48,8 @@ def admin_shop(request):
 ## Beginner Friendly Explanation
 
 ### Analogy: Django ID
-- See Program: run the commands, change 1 thing, see the difference.
+- **`authenticate()` = match ID + password** against the resident book; match → `login()` straps a session wristband on the browser.
+- **`@login_required` = door guard**: no wristband → kicked to `/login/` remembering the original goal (`?next=/admin/`).
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).
