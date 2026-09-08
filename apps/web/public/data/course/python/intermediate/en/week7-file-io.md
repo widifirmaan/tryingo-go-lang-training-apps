@@ -38,6 +38,39 @@ with open("log.txt", "a") as f:
 # Read text
 with open("log.txt", "r") as f:
     print(f.read())
+
+# Safe: missing file / broken JSON → try/except (never crash!)
+try:
+    with open("products.json", "r") as f:
+        data = json.load(f)
+except FileNotFoundError:
+    print("No file yet → start empty")
+    data = []
+except json.JSONDecodeError:
+    print("Broken file → start empty")
+    data = []
+else:
+    print("Read OK", len(data), "products")
+finally:
+    print("Check done (finally always runs)")
+```
+
+### Bonus: SQLite — Real Ledger Book (à la freeCodeCamp!)
+
+`products.json` suffices for learning, but real stores need fast search + 10,000 rows. `sqlite3` ships WITH Python (no install!) — mini SQL in 1 file.
+
+```python
+import sqlite3
+
+db = sqlite3.connect("shop.db")  # creates file when missing
+db.execute("CREATE TABLE IF NOT EXISTS products (name TEXT, price INTEGER)")
+db.execute("INSERT INTO products VALUES (?, ?)", ("Rice", 62000))  # ? = safe, anti SQL-injection!
+db.execute("INSERT INTO products VALUES (?, ?)", ("Spinach", 5000))
+db.commit()  # MANDATORY save!
+
+for name, price in db.execute("SELECT name, price FROM products WHERE price < 20000"):
+    print(f"Cheap: {name} Rp{price:,}")
+db.close()
 ```
 
 **Rule:** `with open` auto closes, no `f.close()` needed.
@@ -51,6 +84,12 @@ with open("log.txt", "r") as f:
 
 ### `json`
 `json.dump(obj, file)` writes, `json.load(file)` reads — for `list`/`dict`.
+
+### `try/except` = Safety Net (mandatory CS50P!)
+`try` attempts → `except FileNotFoundError` catches specific → `else` on success → `finally` always runs. Order specific→general!
+
+### `sqlite3` = SQL Without Install
+`connect()` + `execute("... ? ...", (val,))` (`?` stops SQL-injection!) + mandatory `commit()` + `close()`.
 
 ---
 
