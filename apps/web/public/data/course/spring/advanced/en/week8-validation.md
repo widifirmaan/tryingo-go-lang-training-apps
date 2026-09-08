@@ -1,60 +1,60 @@
-# Validation — Satpam Spring Lanjutan
+# Validation — Advanced Spring Guard
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 8:** Validation
+> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 8:** Validation
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Valid` + `@NotBlank` `message = "Nama wajib"` di `Produk`, `BindingResult` cek
+- `@Valid` + `@NotBlank` `message = "Name required"` on `Product`, `BindingResult` checks
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `@Valid`, nama kosong + harga minus masuk DB → laporan rusak. Dengan stempel + `BindingResult`, tolak 400 rapi sebelum simpan.
+Without `@Valid`, blank names + negative prices enter the DB → broken reports. With stamps + `BindingResult`, neat 400 rejects before saving.
 
 ---
 
 ## Program
 
 ```java
-public class Produk {
-  @NotBlank(message = "Nama wajib") String nama;
-  @Min(1) Integer harga;
+public class Product {
+  @NotBlank(message = "Name required") String name;
+  @Min(1) Integer price;
 }
 
-@PostMapping("/produk")
-public String tambah(@Valid @ModelAttribute Produk p, BindingResult br){
+@PostMapping("/products")
+public String add(@Valid @ModelAttribute Product p, BindingResult br){
   if(br.hasErrors()) return "form";
   repo.save(p);
-  return "redirect:/produk";
+  return "redirect:/products";
 }
 ```
 
-View: `<span th:errors="*{nama}"></span>`.
+View: `<span th:errors="*{name}"></span>`.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Satpam Stempel Spring
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Spring Stamp Guard
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Spring W1 + `./mvnw test` untuk W7.
+### Step 0 — Prepare Device
+- Same as Spring W1 + `./mvnw test` for W7.
 
-### Cara Komputer Membaca
-- `@NotBlank` stempel; `@Valid` picu; `BindingResult` tampung; gagal → 400.
+### How the Computer Reads It
+- `@NotBlank` stamps; `@Valid` triggers; `BindingResult` holds; fail → 400.
 
-### 3 Istilah Wajib
-- 1. **NotBlank/Valid**: stempel/picu
+### 3 Must-Know Terms
+- 1. **NotBlank/Valid**: stamp/trigger
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 8: **Satpam Lanjutan** — `@Valid`.
+Week 8: **Advanced Guard** — `@Valid`. Next: **Caching**.

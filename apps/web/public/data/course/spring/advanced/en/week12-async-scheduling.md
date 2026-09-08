@@ -1,100 +1,99 @@
-# Async & Scheduling — Alarm Rutin Warung Spring
+# Async & Scheduling — Spring Shop Routine Alarms
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 12:** Async & Scheduling
+> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 12:** Async & Scheduling
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Scheduled(cron = "0 0 7 * * *")` alarm tiap jam 7 pagi + `@EnableScheduling` saklar (sumber: docs.spring.io/spring-framework/integration/scheduling)
-- `fixedRate` tiap X vs `cron` jam pasti
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Laporan harian + cek stok tiap jam 7 tanpa `@Scheduled` = buka laptop manual tiap pagi. Dengan cron, server kerja sendiri. Tanpa `@EnableScheduling`, alarm mati total (diam-diam!).
+- `@Scheduled(cron = "0 0 7 * * *")` alarm every 7am + `@EnableScheduling` switch (source: docs.spring.io/spring-framework/integration/scheduling)
+- `fixedRate` every X vs `cron` exact times
 
 ---
 
-## Program: Alarm Warung Spring
+## Why This Matters (Non-IT)
+
+Daily reports + 7am stock checks without `@Scheduled` = manual laptop opening every morning. With cron, servers work alone. Without `@EnableScheduling`, alarms totally dead (silently!).
+
+---
+
+## Program: Shop Alarm Clock
 
 ```java
-// Aktifkan di main: @EnableScheduling + @EnableAsync
+// Enable on main: @EnableScheduling + @EnableAsync
 
 import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AlarmWarung {
+public class ShopAlarm {
 
-  @Scheduled(cron = "0 0 7 * * *") // tiap jam 07:00:00
-  public void laporanPagi() {
-    System.out.println("Laporan: " + repo.count() + " produk");
+  @Scheduled(cron = "0 0 7 * * *") // every 07:00:00
+  public void morningReport() {
+    System.out.println("Report: " + repo.count() + " products");
   }
 
-  @Scheduled(fixedRate = 60000) // tiap 60 detik
-  public void cekStok() {
-    repo.findByStokLessThan(5).forEach(p ->
-      System.out.println("STOK TIPIS: " + p.getNama()));
+  @Scheduled(fixedRate = 60000) // every 60 seconds
+  public void checkStock() {
+    repo.findByStockLessThan(5).forEach(p ->
+      System.out.println("THIN STOCK: " + p.getName()));
   }
 
-  @Async // jalan background (butuh @EnableAsync!)
-  public void kirimLaporan() { /* ... */ }
+  @Async // runs in background (needs @EnableAsync!)
+  public void sendReport() { /* ... */ }
 }
 ```
 
-Cron `detik menit jam hari bulan hari-minggu`: `0 0 7 * * *` = 07:00 tiap hari.
+Cron `second minute hour day month weekday`: `0 0 7 * * *` = 07:00 daily.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Scheduled` + `@EnableScheduling` = Alarm + Saklar
-Tanpa saklar utama, semua alarm mati.
+### `@Scheduled` + `@EnableScheduling` = Alarm + Switch
+Without the master switch, all alarms dead.
 
-### `cron` vs `fixedRate` = Jam Pasti vs Tiap X
-`cron "0 0 7 * * *"` jam 7 tepat. `fixedRate = 60000` tiap 60 detik dari mulai.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Alarm Toko
-- **cron = alarm jam 7**: bunyi tiap pagi.
-- **fixedRate = timer masak**: tiap 60 detik cek.
-
-### Langkah 0 — Siapkan Device
-- Sama W1. Lihat log console (tidak perlu browser).
-
-### Cara Komputer Membaca
-1. Start → baca `@Scheduled` → daftarkan timer.
-2. Jam 7 → panggil `laporanPagi()`.
-
-### 3 Istilah Wajib
-1. **Scheduled/cron**: alarm/jadwal
-2. **EnableScheduling**: saklar
+### `cron` vs `fixedRate` = Exact Time vs Every X
+`cron "0 0 7 * * *"` exactly 7. `fixedRate = 60000` every 60 seconds from start.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `fixedRate = 5000` → log tiap 5 detik?
-- **Kuning:** Hapus `@EnableScheduling` → tidak ada log? (Saklar mati!)
-- **Merah:** cron `0 * * * * *` (tiap menit detik 0) → tiap menit?
+### Analogy: Alarm Clock
+- **@Scheduled = alarm**, **cron = exact time**, **@EnableScheduling = master switch**.
 
----
+### Step 0 — Prepare Device
+- Same as W1 + scheduling enabled on main.
 
-## Tantangan
+### How the Computer Reads It
+1. 07:00:00 → Spring calls `morningReport()`.
+2. Every 60000ms → `checkStock()` runs.
 
-**Warung Otomatis:** `laporanPagi` cron 07:00 + `cekStok` tiap 60 detik + screenshot 2 log.
-
----
-
-## Glosarium Mini
-
-- **Scheduled/cron/fixedRate**: alarm/jadwal/tiap-X
+### 3 Must-Know Terms
+1. **Scheduled/cron**: alarm/schedule
+2. **EnableScheduling**: switch
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 12 dari 14: **Alarm Rutin** (Level: Lanjutan). Kerja sendiri. Minggu depan: **Deployment**.
+- **Green:** `fixedRate = 5000` → log every 5 seconds?
+- **Yellow:** Remove `@EnableScheduling` → no logs? (Switch off!)
+- **Red:** cron `0 * * * * *` (minute 0 every minute) → every minute?
+
+---
+
+## Challenge
+
+**Automatic Shop:** `morningReport` cron 07:00 + `checkStock` every 60s + 2-log screenshot.
+
+---
+
+## Mini Glossary
+
+- **Scheduled/cron/fixedRate**: alarm/schedule/every-X
+
+---
+
+## Summary
+
+Week 12 of 14: **Routine Alarms** (Level: Advanced). Works alone. Next: **Deployment**.

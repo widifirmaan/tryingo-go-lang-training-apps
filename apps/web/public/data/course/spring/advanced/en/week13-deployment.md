@@ -1,100 +1,99 @@
-# Deployment — Buka Cabang Warung Spring
+# Deployment — Open Spring Shop Branch
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 13:** Deployment
+> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 13:** Deployment
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `./mvnw package` jadi `warung-1.0.jar` 1 kardus, `java -jar` jalan di mana saja (sumber: docs.spring.io/spring-boot/deployment)
-- `Dockerfile` peti + `SPRING_PROFILES_ACTIVE=prod` bedakan dev/prod
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Lokal `localhost:8080` hanya di laptop. Deploy = sewa ruko online (`Railway`/`VPS`) agar HP pelanggan bisa buka. Tanpa profil, password dev ikut ke produksi (bocor!).
+- `./mvnw package` becomes 1-box `shop-1.0.jar`, `java -jar` runs anywhere (source: docs.spring.io/spring-boot/deployment)
+- `Dockerfile` box + `SPRING_PROFILES_ACTIVE=prod` separates dev/prod
 
 ---
 
-## Program: Kardus & Peti Warung
+## Why This Matters (Non-IT)
+
+Local `localhost:8080` lives only on the laptop. Deploy = rent an online shophouse (`Railway`/`VPS`) so customer phones can open it. Without profiles, dev passwords ship to production (leak!).
+
+---
+
+## Program: Shop Box & Crate
 
 ```bash
-# 1. Bungkus 1 kardus
+# 1. Pack 1 crate
 ./mvnw clean package -DskipTests
-ls target/warung-1.0.jar
-java -jar target/warung-1.0.jar
+ls target/shop-1.0.jar
+java -jar target/shop-1.0.jar
 ```
 
 ```dockerfile
-# 2. Peti (Dockerfile)
+# 2. Box (Dockerfile)
 FROM eclipse-temurin:17-jre
-COPY target/warung-1.0.jar app.jar
+COPY target/shop-1.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 ```
 
 ```bash
-docker build -t warung:1.0 .
-docker run -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/warung warung:1.0
+docker build -t shop:1.0 .
+docker run -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shop shop:1.0
 ```
 
 ```properties
-# application-prod.properties — rahasia produksi (jangan commit!)
+# application-prod.properties — production secrets (never commit!)
 spring.datasource.password=${DB_PASSWORD}
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `jar` = Kardus Jadi
-`mvn package` → 1 `jar` berisi app + Tomcat di dalam. `java -jar` jalan tanpa install Tomcat.
+### `jar` = Finished Crate
+`mvn package` → 1 `jar` holding app + embedded Tomcat. `java -jar` runs without installing Tomcat.
 
-### `Dockerfile` = Peti
-`FROM eclipse-temurin:17-jre` (ringan, tanpa Maven) + `COPY jar`.
+### `Dockerfile` = Box
+`FROM eclipse-temurin:17-jre` (slim, no Maven) + `COPY jar`.
 
-### Profil `prod` = Aturan Cabang
-`SPRING_PROFILES_ACTIVE=prod` → baca `application-prod.properties` (password dari env, bukan file!).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kardus & Peti Kemas
-- **jar = kardus**: semua + mesin di dalam.
-- **Docker = peti kemas**: kardus + alamat, kirim ke server mana saja.
-
-### Langkah 0 — Siapkan Device
-- JDK 17 + Docker + akun `Railway`/`VPS`.
-
-### Cara Komputer Membaca
-1. `mvn package` → compile + test + bungkus `jar`.
-2. `docker run` → Java dalam peti → app dengar 8080.
-
-### 3 Istilah Wajib
-1. **jar/package**: kardus/bungkus
-2. **Dockerfile/profil**: peti/aturan-cabang
+### Profiles = Branch Rules
+`prod` profile → production secrets via env.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `java -jar` tanpa `mvn` ulang setelah ubah kode → versi lama? (Harus `package` lagi!)
-- **Kuning:** `docker run` tanpa `-p` → tidak bisa buka? Tambah `-p`.
-- **Merah:** Commit password di `application.properties` → bocor di GitHub? Pindah ke env!
+### Analogy: Crate & Branch
+- **`jar` = finished crate**: everything inside. **`Dockerfile` = shipping box**. **Profile = branch rules**.
 
----
+### Step 0 — Prepare Device
+- JDK 17 + Maven wrapper + Docker for the box step.
 
-## Tantangan
+### How the Computer Reads It
+1. `mvn package` → compiles + tests + wraps `jar`.
+2. `docker run` → Java in box → app listens on 8080.
 
-**Cabang Online:** `package` + `Dockerfile` + `docker run` lokal lulus + deploy `Railway` (`railway up`) + buka URL publik.
-
----
-
-## Glosarium Mini
-
-- **jar/Docker/profil**: kardus/peti/cabang
+### 3 Must-Know Terms
+1. **jar/package**: crate/pack
+2. **Dockerfile/profile**: box/branch-rules
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 13 dari 14: **Buka Cabang** (Level: Lanjutan). Online! Minggu depan: **Capstone**.
+- **Green:** `java -jar` without re-`mvn` after code edit → old version? (Must `package` again!)
+- **Yellow:** `docker run` without `-p` → unreachable? Add `-p`.
+- **Red:** Password committed in `application.properties` → leaked on GitHub? Move to env!
+
+---
+
+## Challenge
+
+**Online Branch:** `package` + `Dockerfile` + passing local `docker run` + `Railway` deploy (`railway up`) + public URL.
+
+---
+
+## Mini Glossary
+
+- **jar/Docker/profile**: crate/box/branch
+
+---
+
+## Summary
+
+Week 13 of 14: **Online Branch** (Level: Advanced). Jar + Docker + profiles. Next: **Capstone**.
