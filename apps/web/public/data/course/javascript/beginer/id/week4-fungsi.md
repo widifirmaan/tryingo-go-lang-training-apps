@@ -74,6 +74,22 @@ function hitungTotal(belanja, diskonPersen = 0) {
 const keranjang = [{ harga: 62000, qty: 1 }, { harga: 5000, qty: 2 }];
 console.log("\nTotal tanpa diskon:", hitungTotal(keranjang));
 console.log("Total diskon 10%:", hitungTotal(keranjang, 10));
+
+// 8. Rekursi — fungsi panggil dirinya (ala freeCodeCamp Decimal-ke-Biner!)
+// Syarat: kasus berhenti (n<=1) + langkah kecil (n-1). Tanpa berhenti = stack overflow!
+function hitungMundur(n) {
+  if (n <= 0) { console.log("Mulai!"); return; } // BERHENTI
+  console.log(n);
+  hitungMundur(n - 1); // panggil diri lebih kecil
+}
+console.log("\n=== Rekursi ===");
+hitungMundur(3);
+
+function faktorial(n) {
+  if (n <= 1) return 1;       // berhenti
+  return n * faktorial(n - 1); // 3! = 3 * 2!
+}
+console.log("3! =", faktorial(3)); // 6
 ```
 
 ---
@@ -92,6 +108,9 @@ console.log("Total diskon 10%:", hitungTotal(keranjang, 10));
 ### Callback & Closure
 - **Callback**: fungsi dikirim sebagai argumen `proses(data, n => n*2)`
 - **Closure**: fungsi di dalam ingat variabel luar `let hitung` meski induk sudah selesai — untuk counter, private data.
+
+### Rekursi = Cermin Berhadapan
+Fungsi panggil dirinya dengan masalah LEBIH KECIL + titik berhenti. `faktorial(3)` = 3 × `faktorial(2)` = 3×2×1.
 
 ---
 

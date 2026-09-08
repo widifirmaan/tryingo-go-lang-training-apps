@@ -76,6 +76,24 @@ add("Eggs"); remove("Spinach");
 console.log(data2); // ["Rice","Eggs"]
 ```
 
+### Bonus: localStorage — Cart Survives Refresh! (à la freeCodeCamp Todo)
+`localStorage` = browser drawer (5MB, per domain). Close tab → reopen → contents stay! Rule: store TEXT → `JSON.stringify` when saving, `JSON.parse` when reading.
+
+```javascript
+// Save cart (inside render() after data changes!)
+function save() {
+  localStorage.setItem("cart", JSON.stringify(data));
+}
+
+// Load when page opens (before first render!)
+function load() {
+  const raw = localStorage.getItem("cart");
+  if (raw) data = JSON.parse(raw); // JSON string → array again
+}
+load();   // call before render()
+render(); // render uses drawer data (or default when drawer empty)
+```
+
 ---
 
 ## Key Concepts
