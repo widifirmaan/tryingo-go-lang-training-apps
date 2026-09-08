@@ -1,102 +1,102 @@
-# Stored Procedure — Resep Tersimpan di Gudang MySQL
+# Stored Procedure — Recipes Stored in MySQL Warehouse
 
-> **Kategori:** MySQL | **Level:** Pemula | **Minggu 5:** Stored Procedure
+> **Kategori:** MySQL | **Level:** Beginner | **Minggu 5:** Stored Procedure
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `DELIMITER //` ganti titik-koma sementara, `CREATE PROCEDURE hitungTotal()` simpan resep di server, `CALL hitungTotal()` panggil, `DROP PROCEDURE` hapus (sumber: MySQL 8.0 docs)
-- Parameter `IN kategori VARCHAR(50)` untuk resep fleksibel
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Laporan "total Sembako" dihitung tiap pagi dengan query 5 baris — copy-paste rawan salah. Dengan procedure, simpan sekali di gudang → pagi cukup `CALL hitungTotal('Sembako')` 1 baris. Resep baku, semua kasir sama.
+- `DELIMITER //` swaps the semicolon temporarily, `CREATE PROCEDURE calcTotal()` stores the recipe on the server, `CALL calcTotal()` invokes, `DROP PROCEDURE` removes (source: MySQL 8.0 docs)
+- `IN category VARCHAR(50)` parameter for flexible recipes
 
 ---
 
-## Program: Resep di Gudang
+## Why This Matters (Non-IT)
+
+The "Staples total" report computed every morning with a 5-line query — copy-paste risks mistakes. With a procedure, store once in the warehouse → mornings need only `CALL calcTotal('Staples')` 1 line. Standard recipe, same for all cashiers.
+
+---
+
+## Program: Recipe in Warehouse
 
 ```sql
--- Ganti pembatas dulu (karena resep berisi ; di dalam)
+-- Swap the delimiter first (recipes contain ; inside)
 DELIMITER //
 
-CREATE PROCEDURE hitungTotal(IN kat VARCHAR(50))
+CREATE PROCEDURE calcTotal(IN cat VARCHAR(50))
 BEGIN
-  SELECT kategori, SUM(harga * stok) AS total_nilai
-  FROM produk
-  WHERE kategori = kat
-  GROUP BY kategori;
+  SELECT category, SUM(price * stock) AS total_value
+  FROM products
+  WHERE category = cat
+  GROUP BY category;
 END //
 
--- Kembalikan pembatas
+-- Restore delimiter
 DELIMITER ;
 
--- Panggil resep (1 baris!)
-CALL hitungTotal('Sembako');
-CALL hitungTotal('Sayur');
+-- Call the recipe (1 line!)
+CALL calcTotal('Staples');
+CALL calcTotal('Veggies');
 
--- Lihat & hapus resep
-SHOW PROCEDURE STATUS WHERE Db = 'toko_db';
-DROP PROCEDURE IF EXISTS hitungTotal;
+-- View & remove recipes
+SHOW PROCEDURE STATUS WHERE Db = 'shop_db';
+DROP PROCEDURE IF EXISTS calcTotal;
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `DELIMITER //` = Ganti Titik
-MySQL baca `;` sebagai "jalankan". Resep berisi banyak `;` → ganti pembatas jadi `//` dulu, kembalikan setelahnya.
+### `DELIMITER //` = Swap the Dot
+MySQL reads `;` as "run". Recipes contain many `;` → swap delimiter to `//` first, restore after.
 
-### `CREATE PROCEDURE` + `CALL` = Simpan & Panggil
-`CREATE PROCEDURE nama(IN param TIPE)` simpan, `CALL nama('isi')` jalankan.
+### `CREATE PROCEDURE` + `CALL` = Store & Call
+`CREATE PROCEDURE name(IN param TYPE)` stores, `CALL name('value')` runs.
 
-### `IN` = Bahan Masuk
-`IN kat VARCHAR(50)` = resep terima 1 bahan `kat`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Resep Ditempel di Dinding Gudang
-- **Query biasa = resep di kertas lepas**: tiap pagi tulis ulang, bisa salah.
-- **Procedure = resep ditempel di dinding**: `CALL` = tunjuk resep, gudang kerjakan.
-
-### Langkah 0 — Siapkan Device
-- Sama W1. `DELIMITER` hanya di client (`mysql`, `db-fiddle` console) — bukan bagian SQL server.
-
-### Cara Komputer Membaca
-1. `CREATE PROCEDURE ...` → MySQL simpan teks resep + cek syntax sekali.
-2. `CALL hitungTotal('Sembako')` → MySQL ambil resep, isi `kat='Sembako'`, jalankan `SELECT ... WHERE kategori = 'Sembako'`.
-
-### 3 Istilah Wajib
-1. **Procedure**: resep tersimpan
-2. **DELIMITER**: pembatas perintah
-3. **CALL**: panggil resep
+### `IN` = Incoming Ingredient
+`IN cat VARCHAR(50)` = recipe accepts 1 ingredient `cat`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `CALL hitungTotal('Protein')` → total kategori Protein?
-- **Kuning:** Buat `stokRendah()` tanpa parameter: `SELECT * FROM produk WHERE stok < 5` → `CALL stokRendah()`?
-- **Merah:** Lupa `DELIMITER //` → error `syntax` di `;` pertama? Tambah delimiter.
+### Analogy: Recipe Pinned on Warehouse Wall
+- **Plain query = recipe on loose paper**: rewritten every morning, can err.
+- **Procedure = recipe pinned on wall**: `CALL` = point at recipe, warehouse executes.
+
+### Step 0 — Prepare Device
+- Same as W1. `DELIMITER` only exists in clients (`mysql`, `db-fiddle` console) — not part of server SQL.
+
+### How the Computer Reads It
+1. `CREATE PROCEDURE ...` → MySQL stores recipe text + checks syntax once.
+2. `CALL calcTotal('Staples')` → MySQL fetches recipe, fills `cat='Staples'`, runs `SELECT ... WHERE category = 'Staples'`.
+
+### 3 Must-Know Terms
+1. **Procedure**: stored recipe
+2. **DELIMITER**: command delimiter
+3. **CALL**: call recipe
 
 ---
 
-## Tantangan
+## Experiments
 
-**Resep Warung Lengkap:** Buat `diskonKategori(IN kat VARCHAR(50), IN persen INT)` yang `UPDATE produk SET harga = harga * (1 - persen/100) WHERE kategori = kat` → `CALL diskonKategori('Sayur', 10)` → `SELECT` cek harga turun 10%.
-
----
-
-## Glosarium Mini
-
-- **PROCEDURE/CALL/DROP**: simpan/panggil/hapus resep
-- **DELIMITER/IN**: pembatas/bahan
+- **Green:** `CALL calcTotal('Protein')` → Protein category total?
+- **Yellow:** Build parameterless `lowStock()`: `SELECT * FROM products WHERE stock < 5` → `CALL lowStock()`?
+- **Red:** Forget `DELIMITER //` → `syntax` error at first `;`? Add delimiter.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 5: **Resep Gudang** (Level: Pemula). **Selesai Beginner MySQL!** Minggu depan: **Advanced Query** (Menengah).
+**Complete Shop Recipes:** Build `discountCategory(IN cat VARCHAR(50), IN pct INT)` that `UPDATE products SET price = price * (1 - pct/100) WHERE category = cat` → `CALL discountCategory('Veggies', 10)` → `SELECT` verifies 10% drop.
+
+---
+
+## Mini Glossary
+
+- **PROCEDURE/CALL/DROP**: store/call/remove recipe
+- **DELIMITER/IN**: delimiter/ingredient
+
+---
+
+## Summary
+
+Week 5 of 5: **Warehouse Recipes** (Level: Beginner). **Beginner MySQL DONE!** Next: **Advanced Query** (Intermediate).
