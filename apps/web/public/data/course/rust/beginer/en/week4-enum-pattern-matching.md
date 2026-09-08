@@ -1,113 +1,113 @@
-# Enum & Pattern Matching — Pilihan Warung yang Wajib Lengkap
+# Enum & Pattern Matching — Shop Choices That Must Be Complete
 
-> **Kategori:** Rust | **Level:** Pemula | **Minggu 4:** Enum & Pattern Matching
+> **Kategori:** Rust | **Level:** Beginner | **Minggu 4:** Enum & Pattern Matching
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `enum Status { Ada, Habis, Preorder }` pilihan terbatas (sumber: doc.rust-lang.org/book/ch06)
-- `match` wajib tangani SEMUA varian (compiler cegah lupa), `if let` untuk 1 kasus
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Status warung hanya 3: ada/habis/preorder. Dengan `String` bebas, typo `"adA"` lolos → bug. Dengan `enum`, typo = error compile. `match` wajib lengkap = tambah varian `Rusak` tanpa update `match` → error, tidak ada cabang terlupakan.
+- `enum Status { In, Out, Preorder }` limited choices (source: doc.rust-lang.org/book/ch06)
+- `match` must handle ALL variants (compiler prevents forgetting), `if let` for 1 case
 
 ---
 
-## Program: Status Warung Anti-Lupa
+## Why This Matters (Non-IT)
+
+Shop status is only 3: in/out/preorder. With free `String`s, typo `"iN"` slips → bug. With `enum`, typo = compile error. Complete `match` = adding a `Broken` variant without updating `match` → error, no forgotten branch.
+
+---
+
+## Program: Forget-Proof Shop Status
 
 ```rust
-enum Status { Ada, Habis, Preorder }
+enum Status { In, Out, Preorder }
 
 fn label(s: Status) -> String {
   match s {
-    Status::Ada => "Tersedia".to_string(),
-    Status::Habis => "Habis".to_string(),
+    Status::In => "Available".to_string(),
+    Status::Out => "Out".to_string(),
     Status::Preorder => "Preorder".to_string(),
-    // Hapus 1 baris di atas → ERROR: non-exhaustive patterns! (compiler jaga)
+    // Delete 1 line above → ERROR: non-exhaustive patterns! (compiler guards)
   }
 }
 
 fn main() {
-  println!("{}", label(Status::Ada));
+  println!("{}", label(Status::In));
 
-  let s = Status::Habis;
-  if let Status::Ada = s {
-    println!("Ada");
+  let s = Status::Out;
+  if let Status::In = s {
+    println!("In");
   } else {
-    println!("Tidak ada");
+    println!("Not in");
   }
 
-  // Enum bawa data (khas Rust!)
-  enum Bayar { Tunai(u32), Transfer { bank: String, nominal: u32 } }
-  let b = Bayar::Transfer { bank: "BCA".to_string(), nominal: 62000 };
+  // Enums carrying data (Rust special!)
+  enum Pay { Cash(u32), Transfer { bank: String, amount: u32 } }
+  let b = Pay::Transfer { bank: "BCA".to_string(), amount: 62000 };
   match b {
-    Bayar::Tunai(n) => println!("Tunai Rp{}", n),
-    Bayar::Transfer { bank, nominal } => println!("{} Rp{}", bank, nominal),
+    Pay::Cash(n) => println!("Cash Rp{}", n),
+    Pay::Transfer { bank, amount } => println!("{} Rp{}", bank, amount),
   }
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `enum` = Pilihan Terbatas
-`enum Status { Ada, Habis }` — hanya itu, tidak bisa `"adA"`.
+### `enum` = Limited Choices
+`enum Status { In, Out }` — only those, `"iN"` impossible.
 
-### `match` Wajib Lengkap (Exhaustive)
-Semua varian harus ada cabang. Compiler tolak jika kurang — tidak ada `default` yang sembunyikan bug.
+### `match` Must Be Complete (Exhaustive)
+Every variant needs a branch. The compiler rejects gaps — no `default` hiding bugs.
 
-### `if let` = 1 Kasus
-`if let Status::Ada = s` untuk peduli 1 varian saja.
+### `if let` = 1 Case
+`if let Status::In = s` for caring about 1 variant only.
 
-### Enum Bawa Data
-`Tunai(u32)` / `Transfer { bank, nominal }` — pilihan + data sekaligus.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Stempel 3 Pilihan
-- **enum = kotak stempel 3**: Ada/Habis/Preorder, tidak bisa stempel ke-4.
-- **match = petugas wajib cap semua**: tambah stempel ke-4 tanpa update petugas → ditolak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `cargo run`.
-
-### Cara Komputer Membaca
-1. `label(Status::Ada)` → cocokkan cabang 1 → "Tersedia".
-2. Hapus cabang `Preorder` → compile error `non-exhaustive`.
-
-### 3 Istilah Wajib
-1. **Enum**: pilihan terbatas
-2. **match**: wajib lengkap
-3. **if let**: 1 kasus
+### Enums Carry Data
+`Cash(u32)` / `Transfer { bank, amount }` — choice + data at once.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tambah varian `Rusak` → error? Tambah cabang → jalan?
-- **Kuning:** `Bayar::Tunai(50000)` → "Tunai Rp50000"?
-- **Merah:** `match` tanpa cabang `Preorder` → error compile (baca pesannya!)?
+### Analogy: 3-Choice Stamps
+- **enum = 3-stamp box**: In/Out/Preorder, no 4th stamp.
+- **match = officer stamping all**: add a 4th stamp without updating the officer → rejected.
+
+### Step 0 — Prepare Device
+- Same as W1: `cargo run`.
+
+### How the Computer Reads It
+1. `label(Status::In)` → matches branch 1 → "Available".
+2. Delete the `Preorder` branch → compile error `non-exhaustive`.
+
+### 3 Must-Know Terms
+1. **Enum**: limited choices
+2. **match**: must be complete
+3. **if let**: 1 case
 
 ---
 
-## Tantangan
+## Experiments
 
-**Status Pesanan:** `enum Pesanan { Baru, Kirim(String), Selesai }` (`Kirim` bawa resi!) + `match` info tiap status + `if let Pesanan::Kirim(resi)`.
-
----
-
-## Glosarium Mini
-
-- **enum/match/if let**: pilihan/lengkap/satu
-- **Exhaustive**: wajib semua
+- **Green:** Add variant `Broken` → error? Add branch → runs?
+- **Yellow:** `Pay::Cash(50000)` → "Cash Rp50000"?
+- **Red:** `match` without the `Preorder` branch → compile error (read the message!)?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 4 dari 6: **Pilihan Anti-Lupa** (Level: Pemula). Compiler jaga cabang. Minggu depan: **Collections** — rak.
+**Order Status:** `enum Order { New, Ship(String), Done }` (`Ship` carries receipt!) + `match` info per status + `if let Order::Ship(receipt)`.
+
+---
+
+## Mini Glossary
+
+- **enum/match/if let**: choices/complete/one
+- **Exhaustive**: all mandatory
+
+---
+
+## Summary
+
+Week 4 of 6: **Forget-Proof Choices** (Level: Beginner). Compiler guards branches. Next: **Collections** — racks.
