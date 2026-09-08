@@ -1,45 +1,82 @@
-# Setup Rails — Warung Kilat Convention
+# Rails Setup — Convention-Speed Shop
 
-> **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 1:** Setup Rails
+> **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 1:** Setup Rails
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Instal `gem install rails`, `rails new warung --database=postgresql`, `rails server` di `3000`
-- Rails = **warung kilat**: `convention over configuration` — tidak perlu setting, ikuti aturan nama
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Rails paling cepat bikin warung online dari nol: 1 perintah `rails generate scaffold Produk nama:string harga:integer` langsung jadi CRUD + DB + views.
+- Install `gem install rails`, `rails new shop --database=postgresql`, `rails server` on `3000`
+- Rails = **speedy shop**: `convention over configuration` — no setup, follow name rules
 
 ---
 
-## Program: Warung Kilat
+## Why This Matters (Non-IT)
+
+Rails builds online shops from zero fastest: 1 command `rails generate scaffold Product name:string price:integer` instantly yields CRUD + DB + views.
+
+---
+
+## Program: Speedy Shop
 
 ```bash
-rails new warung --database=postgresql
-cd warung
-rails generate scaffold Produk nama:string harga:integer stok:integer
+rails new shop --database=postgresql
+cd shop
+rails generate scaffold Product name:string price:integer stock:integer
 rails db:migrate
 rails server
-# Buka http://localhost:3000/produks
+# Open http://localhost:3000/products
 ```
 
-Buka `http://localhost:3000/produks` → CRUD jadi! Tambah produk langsung tanpa coding.
+Open `http://localhost:3000/products` → instant CRUD! Add products without coding.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `scaffold` = Warung Jadi
-1 perintah jadi Model + View + Controller + DB.
+### `scaffold` = Instant Shop
+1 command yields Model + View + Controller + DB.
 
 ### Convention
-File `produk.rb` otomatis tabel `produks`, `Produk` class.
+`product.rb` file auto-maps `products` table, `Product` class.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 1: **Warung Kilat Rails** — `scaffold` langsung jadi. Minggu depan: **MVC**.
+### Analogy: Instant Shop Kit
+- **Scaffold = furniture kit**: 1 box, whole shop assembled.
+
+### Step 0 — Prepare Device
+- Ruby + Rails installed (`rails -v`), Postgres running, `rails server` on 3000.
+
+### How the Computer Reads It
+1. `generate scaffold` → creates model + migration + controller + views.
+2. `db:migrate` → builds table → `/products` CRUD live.
+
+### 3 Must-Know Terms
+1. **scaffold/convention**: instant-kit/naming-rules
+
+---
+
+## Experiments
+
+- **Green:** Add a product via browser → listed?
+- **Yellow:** `rails routes` → products routes listed?
+- **Red:** Skip `db:migrate` → table missing error? Run it.
+
+---
+
+## Challenge
+
+**Instant Shop:** Scaffold `Customer(name, email)` + migrate + add 2 via browser + `/products` screenshot.
+
+---
+
+## Mini Glossary
+
+- **scaffold/routes**: instant-kit/doors
+
+---
+
+## Summary
+
+Week 1: **Speedy Rails Shop** — `scaffold` instantly done. Next: **MVC**.

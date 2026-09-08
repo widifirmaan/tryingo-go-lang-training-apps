@@ -1,42 +1,42 @@
-# MVC — Dapur, Pelayan, Etalase Rails
+# MVC — Rails Kitchen, Waiter, Showcase
 
-> **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 2:** MVC Architecture
+> **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 2:** MVC Architecture
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Pisah `Model` (dapur data, `app/models/produk.rb`), `View` (etalase, `index.html.erb`), `Controller` (pelayan) — pola MVC resmi Rails (sumber: guides.rubyonrails.org/getting_started)
-- `validates :nama, presence: true` tolak kosong, `<%= %>` tampilkan, `form_with` form
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa MVC, 1 file campur SQL + HTML + logika 500 baris — ubah harga takut merusak tampilan. Dengan MVC, dapur (Model), pelayan (Controller), etalase (View) terpisah — masing-masing 20 baris, aman diubah.
+- Split `Model` (data kitchen, `app/models/product.rb`), `View` (showcase, `index.html.erb`), `Controller` (waiter) — official Rails MVC pattern (source: guides.rubyonrails.org/getting_started)
+- `validates :name, presence: true` rejects blanks, `<%= %>` displays, `form_with` forms
 
 ---
 
-## Program: MVC Warung Rails
+## Why This Matters (Non-IT)
+
+Without MVC, 1 file mixes SQL + HTML + logic 500 lines — price edits fear breaking display. With MVC, kitchen (Model), waiter (Controller), showcase (View) separate — 20 lines each, safe to edit.
+
+---
+
+## Program: Rails MVC Shop
 
 ```ruby
-# model: app/models/produk.rb — dapur (aturan data)
-class Produk < ApplicationRecord
-  validates :nama, presence: true
-  validates :harga, numericality: { greater_than: 0 }
+# model: app/models/product.rb — kitchen (data rules)
+class Product < ApplicationRecord
+  validates :name, presence: true
+  validates :price, numericality: { greater_than: 0 }
 end
 
-# controller: app/controllers/produks_controller.rb — pelayan
-class ProduksController < ApplicationController
+# controller: app/controllers/products_controller.rb — waiter
+class ProductsController < ApplicationController
   def index
-    @produks = Produk.all
-    @produk = Produk.new
+    @products = Product.all
+    @product = Product.new
   end
 
   def create
-    @produk = Produk.new(params.require(:produk).permit(:nama, :harga))
-    if @produk.save
-      redirect_to produks_path
+    @product = Product.new(params.require(:product).permit(:name, :price))
+    if @product.save
+      redirect_to products_path
     else
-      @produks = Produk.all
+      @products = Product.all
       render :index
     end
   end
@@ -44,76 +44,76 @@ end
 ```
 
 ```erb
-<!-- view: app/views/produks/index.html.erb — etalase -->
-<h1>Katalog</h1>
-<% @produks.each do |p| %>
-  <div><%= p.nama %> - Rp<%= p.harga %></div>
+<!-- view: app/views/products/index.html.erb — showcase -->
+<h1>Catalog</h1>
+<% @products.each do |p| %>
+  <div><%= p.name %> - Rp<%= p.price %></div>
 <% end %>
-<%= form_with model: @produk do |f| %>
-  <%= f.text_field :nama, placeholder: "Nama" %>
-  <%= f.number_field :harga, placeholder: "Harga" %>
-  <%= f.submit "Tambah" %>
+<%= form_with model: @product do |f| %>
+  <%= f.text_field :name, placeholder: "Name" %>
+  <%= f.number_field :price, placeholder: "Price" %>
+  <%= f.submit "Add" %>
 <% end %>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Model = Dapur + Aturan
-`validates :nama, presence: true` tolak kosong sebelum simpan.
+### Model = Kitchen + Rules
+`validates :name, presence: true` rejects blanks before saving.
 
-### Controller = Pelayan
-`index` ambil `@produks`, `create` simpan + `redirect` atau `render` lagi jika gagal.
+### Controller = Waiter
+`index` fetches `@products`, `create` saves + `redirect` or re-`render` on failure.
 
-### View `<%= %>` = Etalase
-`<%= p.nama %>` tampilkan (otomatis aman XSS), `form_with` form terhubung model.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Restoran 3 Ruang
-- **Model = dapur**: masak + cicip (`validates`).
-- **Controller = pelayan**: antar pesanan dapur ↔ meja.
-- **View = meja + etalase**: pajang.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `rails server` di `3000`, `rails generate scaffold` sudah (atau buat manual 3 file).
-
-### Cara Komputer Membaca
-1. `GET /produks` → routes → `index` → `@produks = Produk.all` → `index.html.erb`.
-2. Submit form → `POST /produks` → `create` → `save` lolos? `redirect` : `render :index` + error.
-
-### 3 Istilah Wajib
-1. **MVC**: dapur/pelayan/etalase
-2. **validates**: aturan dapur
-3. **form_with**: form terhubung
+### View `<%= %>` = Showcase
+`<%= p.name %>` displays (auto XSS-safe), `form_with` model-connected form.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Submit nama kosong → gagal + error? Isi → redirect?
-- **Kuning:** `validates :harga, numericality: { greater_than: 0 }` → harga -5 ditolak?
-- **Merah:** Hapus `permit(:harga)` → harga tidak tersimpan (strong params)? Pasang lagi.
+### Analogy: 3-Room Restaurant
+- **Model = kitchen**: cooks + tastes (`validates`).
+- **Controller = waiter**: delivers orders kitchen ↔ table.
+- **View = table + showcase**: displays.
+
+### Step 0 — Prepare Device
+- Same as W1: `rails server` on `3000`, `rails generate scaffold` done (or hand-make 3 files).
+
+### How the Computer Reads It
+1. `GET /products` → routes → `index` → `@products = Product.all` → `index.html.erb`.
+2. Submit form → `POST /products` → `create` → `save` passes? `redirect` : `render :index` + errors.
+
+### 3 Must-Know Terms
+1. **MVC**: kitchen/waiter/showcase
+2. **validates**: kitchen rules
+3. **form_with**: connected form
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung MVC Lengkap:** `Pelanggan(nama, email)` + `validates :email, uniqueness: true` + `index/create` + `index.html.erb` daftar + form. Submit email kembar → error?
-
----
-
-## Glosarium Mini
-
-- **Model/View/Controller**: dapur/etalase/pelayan
-- **validates/permit**: aturan/izin
-- **redirect/render**: pindah/tampilkan
+- **Green:** Submit blank name → fails + error? Fill → redirect?
+- **Yellow:** `validates :price, numericality: { greater_than: 0 }` → price -5 rejected?
+- **Red:** Remove `permit(:price)` → price unsaved (strong params)? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 4: **MVC Rails** (Level: Pemula). Dapur, pelayan, etalase terpisah. Minggu depan: **Migrations** — cetak biru rak.
+**Complete MVC Shop:** `Customer(name, email)` + `validates :email, uniqueness: true` + `index/create` + `index.html.erb` list + form. Duplicate email submit → error?
+
+---
+
+## Mini Glossary
+
+- **Model/View/Controller**: kitchen/showcase/waiter
+- **validates/permit**: rules/permit
+- **redirect/render**: move/show
+
+---
+
+## Summary
+
+Week 2 of 4: **MVC Split** (Level: Beginner). Kitchen/waiter/showcase separated. Next: **Migrations**.

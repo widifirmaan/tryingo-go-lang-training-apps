@@ -1,28 +1,28 @@
-# Views ERB — Etalase Nyata Warung Rails
+# ERB Views — Real Rails Shop Showcase
 
-> **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 4:** Views & ERB Templates
+> **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 4:** Views & ERB Templates
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `<%= %>` tampilkan (aman XSS), `<% %>` logika, `<%# %>` komentar (sumber: guides.rubyonrails.org/layouts_and_rendering)
-- `render 'shared/header'` partial `_header.html.erb`, `layouts/application.html.erb` + `yield` bingkai
-- `link_to`, `form_with`, `posts_path` path helper
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa partial/layout, header ditulis di 10 file — ganti nomor WA ubah 10x. Tanpa `link_to`, URL hardcode `/posts/1` — ganti routes, semua putus. Path helper ikut routes otomatis.
+- `<%= %>` displays (XSS-safe), `<% %>` logic, `<%# %>` comments (source: guides.rubyonrails.org/layouts_and_rendering)
+- `render 'shared/header'` partial `_header.html.erb`, `layouts/application.html.erb` + `yield` frame
+- `link_to`, `form_with`, `posts_path` path helpers
 
 ---
 
-## Program: Etalase Warung Nyata
+## Why This Matters (Non-IT)
+
+Without partials/layouts, headers written in 10 files — changing the WA number edits 10x. Without `link_to`, hardcoded `/posts/1` URLs — route changes break all. Path helpers follow routes automatically.
+
+---
+
+## Program: Real Shop Showcase
 
 ```erb
-<!-- app/views/layouts/application.html.erb — bingkai -->
+<!-- app/views/layouts/application.html.erb — frame -->
 <!DOCTYPE html>
-<html lang="id">
-<head><title>Warung</title></head>
+<html lang="en">
+<head><title>Shop</title></head>
 <body>
   <%= render 'shared/header' %>
   <%= yield %>
@@ -32,83 +32,83 @@ Tanpa partial/layout, header ditulis di 10 file — ganti nomor WA ubah 10x. Tan
 ```
 
 ```erb
-<!-- app/views/shared/_header.html.erb — partial (garis bawah _) -->
-<nav><%= link_to "Beranda", root_path %> | <%= link_to "Produk", produks_path %></nav>
+<!-- app/views/shared/_header.html.erb — partial (underscore _) -->
+<nav><%= link_to "Home", root_path %> | <%= link_to "Products", products_path %></nav>
 
-<!-- app/views/produks/index.html.erb — isi -->
-<h1>Katalog (<%= @produks.count %> item)</h1>
-<% @produks.each do |p| %>
+<!-- app/views/products/index.html.erb — content -->
+<h1>Catalog (<%= @products.count %> items)</h1>
+<% @products.each do |p| %>
   <div>
-    <%= link_to p.nama, produk_path(p) %> - Rp<%= p.harga %>
-    <%= link_to "Ubah", edit_produk_path(p) %>
+    <%= link_to p.name, product_path(p) %> - Rp<%= p.price %>
+    <%= link_to "Edit", edit_product_path(p) %>
   </div>
 <% end %>
 
-<%= form_with model: @produk do |f| %>
-  <%= f.label :nama %> <%= f.text_field :nama %>
-  <%= f.label :harga %> <%= f.number_field :harga %>
-  <%= f.submit "Tambah" %>
+<%= form_with model: @product do |f| %>
+  <%= f.label :name %> <%= f.text_field :name %>
+  <%= f.label :price %> <%= f.number_field :price %>
+  <%= f.submit "Add" %>
 <% end %>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `<%= %>` vs `<% %>` vs `<%# %>`
-Tampilkan / logika / komentar.
+Display / logic / comment.
 
-### Partial `_nama.html.erb` + `render`
-`render 'shared/header'` cari `_header.html.erb` — tanpa garis bawah di `render`.
+### Partial `_name.html.erb` + `render`
+`render 'shared/header'` finds `_header.html.erb` — no underscore in `render`.
 
-### Layout + `yield` = Bingkai
-`application.html.erb` otomatis bungkus semua (kecuali `layout false`).
+### Layout + `yield` = Frame
+`application.html.erb` auto-wraps everything (except `layout false`).
 
-### Path Helper = URL Otomatis
-`produks_path` → `/produks`, `produk_path(p)` → `/produks/1` — ikut `routes.rb`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Etalase Modular
-- **Layout = bingkai toko**, **partial = papan header** dipakai 10 halaman, **yield = lubang** untuk isi.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `rails server` di `3000`, routes `resources :produks` ada.
-
-### Cara Komputer Membaca
-1. `render 'shared/header'` → cari `_header.html.erb` → tempel.
-2. `link_to "Ubah", edit_produk_path(p)` → tanya routes → `/produks/1/edit`.
-
-### 3 Istilah Wajib
-1. **ERB/partial/layout**: template/potongan/bingkai
-2. **link_to/path helper**: link/URL otomatis
-3. **form_with**: form terhubung
+### Path Helper = Automatic URLs
+`products_path` → `/products`, `product_path(p)` → `/products/1` — follows `routes.rb`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `<%= 2 + 3 %>` → 5? `<%# komentar %>` → hilang?
-- **Kuning:** Ganti `produk_path(p)` jadi `/produks/#{p.id}` manual → jalan tapi rapuh?
-- **Merah:** `render 'shared/header'` tanpa file `_header` → error `Missing partial`? Buat file.
+### Analogy: Modular Showcase
+- **Layout = store frame**, **partial = header board** used by 10 pages, **yield = hole** for content.
+
+### Step 0 — Prepare Device
+- Same as W1: `rails server` on `3000`, `resources :products` routes present.
+
+### How the Computer Reads It
+1. `render 'shared/header'` → finds `_header.html.erb` → pastes.
+2. `link_to "Edit", edit_product_path(p)` → asks routes → `/products/1/edit`.
+
+### 3 Must-Know Terms
+1. **ERB/partial/layout**: template/piece/frame
+2. **link_to/path helper**: link/auto-URL
+3. **form_with**: connected form
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Etalase Lengkap:** `application.html.erb` + `_header` (nav `link_to`) + `index` (`each` + `link_to` show/edit + `form_with`) + `_produk.html.erb` partial per item (`render @produks`). **Selesai Beginner Rails!**
+- **Green:** `<%= 2 + 3 %>` → 5? `<%# comment %>` → gone?
+- **Yellow:** Swap `product_path(p)` for manual `/products/#{p.id}` → works but brittle?
+- **Red:** `render 'shared/header'` without `_header` file → `Missing partial` error? Create it.
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **ERB/partial/yield**: template/potongan/lubang
+**Complete Showcase Shop:** `application.html.erb` + `_header` (nav `link_to`) + `index` (`each` + `link_to` show/edit + `form_with`) + `_product.html.erb` per-item partial (`render @products`). **Beginner Rails DONE!**
+
+---
+
+## Mini Glossary
+
+- **ERB/partial/yield**: template/piece/hole
 - **link_to/path**: link/URL
 
 ---
 
-## Ringkasan
+## Summary
 
-Minggu 4 dari 4: **Etalase Nyata** (Level: Pemula). **Selesai Beginner Rails!** Lanjut: **Authentication** (Menengah).
+Week 4 of 4: **Real Showcase** (Level: Beginner). **Beginner Rails DONE!** Next: **Authentication** (Intermediate).
