@@ -85,6 +85,22 @@ console.log(full);
 
 ---
 
+### Bonus: Regex — Validation Patterns (mandatory freeCodeCamp module!)
+
+Regex = text-finder patterns `/pattern/flags`. `test()` asks match or not. Mandatory for email/WA validation (HTML W8 `pattern` is regex too!).
+
+```javascript
+const wa = "08123456789";
+console.log(/^08[0-9]{8,11}$/.test(wa)); // true: 08 + 8-11 digits
+console.log(/\d/.test("abc"));          // false: no digits
+console.log("Rice 5kg".match(/[0-9]+/)[0]); // "5": first number
+const email = "budi@email.com";
+console.log(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)); // true
+// Read pattern: ^ start, [^@\s] not-@-not-space, + 1 or more, $ end
+```
+
+---
+
 ## Challenge
 
 **ES6 Catalog:** `const p = {name:"Rice", price:62000, stock:10}` → `const {name, price} = p`, `const fresh = {...p, discount:10}`, `const city = customer?.address?.city ?? "Jakarta"`.
