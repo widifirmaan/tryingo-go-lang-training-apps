@@ -16,6 +16,11 @@
 
 ## Program: Warung Python Capstone
 
+```bash
+pip install flask pandas openpyxl
+```
+
+Simpan sebagai `app.py`, lalu:
 ```python
 from flask import Flask, jsonify
 app = Flask(__name__)
@@ -24,12 +29,15 @@ produk = [{"id":1,"nama":"Beras","harga":62000}]
 @app.route("/produk")
 def daftar(): return jsonify(produk)
 
-# Laporan pandas
+# Laporan pandas (+ Excel beneran)
 import pandas as pd
 df = pd.DataFrame(produk)
 print(df.describe())
+df.to_excel("laporan.xlsx", index=False)  # butuh openpyxl
+print("Excel tersimpan: laporan.xlsx")
 
 # Jalankan: flask --app app run
+# Buka http://127.0.0.1:5000/produk → JSON
 ```
 
 **Tugas:** Deploy `Railway` + `pytest`.
