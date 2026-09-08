@@ -1,43 +1,43 @@
-# Authentication — KTP Django
+# Authentication — Django ID
 
-> **Kategori:** Django | **Level:** Menengah | **Minggu 6:** Authentication
+> **Kategori:** Django | **Level:** Intermediate | **Minggu 6:** Authentication
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `django.contrib.auth` KTP: `User`, `login()`, `logout()`, `@login_required` jaga `/admin`
+- `django.contrib.auth` ID: `User`, `login()`, `logout()`, `@login_required` guards `/admin`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `authenticate` + `login_required`, `/admin` dibuka siapa saja. Django 3 baris jaga semua.
+Without `authenticate` + `login_required`, anyone opens `/admin`. Django guards everything in 3 lines.
 
 ---
 
 ## Program
 
 ```bash
-python manage.py startapp akun
+python manage.py startapp accounts
 ```
 
 ```python
-# akun/views.py
+# accounts/views.py
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect, render
 
-def masuk(request):
+def login_view(request):
     if request.method == "POST":
         user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
         if user:
             login(request, user)
-            return redirect("daftar")
-    return render(request, "akun/login.html")
+            return redirect("list")
+    return render(request, "accounts/login.html")
 
-# warung/views.py
+# shop/views.py
 from django.contrib.auth.decorators import login_required
 @login_required
-def admin_warung(request):
-    return render(request, "warung/admin.html")
+def admin_shop(request):
+    return render(request, "shop/admin.html")
 ```
 
 `login.html`: `{% csrf_token %}` + `username`/`password`.
@@ -45,26 +45,26 @@ def admin_warung(request):
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: KTP Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Django ID
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `authenticate()` cek; `login()` beri session; `@login_required` tendang tanpa session.
+### How the Computer Reads It
+- `authenticate()` checks; `login()` grants session; `@login_required` kicks session-less.
 
-### 3 Istilah Wajib
-- 1. **authenticate/login_required**: cek/jaga
+### 3 Must-Know Terms
+- 1. **authenticate/login_required**: check/guard
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 6: **KTP Django** — `authenticate` + `login_required`.
+Week 6: **Django ID** — auth in 3 lines. Next: **Admin**.

@@ -1,16 +1,16 @@
-# REST API — Warung Django Online
+# REST API — Online Django Shop
 
-> **Kategori:** Django | **Level:** Menengah | **Minggu 8:** REST API
+> **Kategori:** Django | **Level:** Intermediate | **Minggu 8:** REST API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `djangorestframework` — `ModelSerializer` + `ViewSet` + `router` jadi API tanpa tulis `JsonResponse` manual
+- `djangorestframework` — `ModelSerializer` + `ViewSet` + `router` becomes an API without hand-written `JsonResponse`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-HP butuh JSON, bukan HTML. DRF `ViewSet` + `router` 5 baris jadi API lengkap (tanpa tulis JsonResponse manual).
+Phones need JSON, not HTML. DRF `ViewSet` + `router` in 5 lines becomes a complete API (no manual JsonResponse).
 
 ---
 
@@ -21,52 +21,52 @@ pip install djangorestframework
 ```
 
 ```python
-# warung/serializers.py
+# shop/serializers.py
 from rest_framework import serializers
-from .models import Produk
-class ProdukSerializer(serializers.ModelSerializer):
+from .models import Product
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Produk
+        model = Product
         fields = "__all__"
 
-# warung/views.py
+# shop/views.py
 from rest_framework import viewsets
-class ProdukViewSet(viewsets.ModelViewSet):
-    queryset = Produk.objects.all()
-    serializer_class = ProdukSerializer
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-# warung/urls.py
+# shop/urls.py
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
-router.register(r'produk', ProdukViewSet)
+router.register(r'products', ProductViewSet)
 urlpatterns = [path('api/', include(router.urls))]
 ```
 
-Buka `http://localhost:8000/api/produk/` → JSON.
+Open `http://localhost:8000/api/products/` → JSON.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Drive-Thru JSON Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Django JSON Drive-Thru
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `ModelViewSet` sediakan list/create/retrieve/update/destroy; `router` daftarkan URL.
+### How the Computer Reads It
+- `ModelViewSet` provides list/create/retrieve/update/destroy; `router` registers URLs.
 
-### 3 Istilah Wajib
-- 1. **ViewSet/router**: sediakan/daftar
+### 3 Must-Know Terms
+- 1. **ViewSet/router**: provide/register
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 8: **API Django** — DRF `ViewSet` jadi REST.
+Week 8: **Django API** — DRF `ViewSet` becomes REST. Next: **Testing**.

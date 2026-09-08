@@ -1,41 +1,41 @@
-# Forms & Validasi — Formulir Warung Django
+# Forms & Validation — Django Shop Forms
 
-> **Kategori:** Django | **Level:** Menengah | **Minggu 5:** Forms & Validasi
+> **Kategori:** Django | **Level:** Intermediate | **Minggu 5:** Forms & Validasi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
 - `forms.Form` / `ModelForm` — `CharField`, `IntegerField` + `is_valid()` + `cleaned_data`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `ModelForm`, tulis HTML + validasi manual 50 baris per form. Dengan `ModelForm` + `is_valid()`, 5 baris + error otomatis.
+Without `ModelForm`, hand-write HTML + manual validation 50 lines per form. With `ModelForm` + `is_valid()`, 5 lines + automatic errors.
 
 ---
 
 ## Program
 
 ```python
-# warung/forms.py
+# shop/forms.py
 from django import forms
-from .models import Produk
+from .models import Product
 
-class ProdukForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
     class Meta:
-        model = Produk
-        fields = ["nama", "harga", "stok"]
+        model = Product
+        fields = ["name", "price", "stock"]
 
 # views.py
-def tambah(request):
+def add(request):
     if request.method == "POST":
-        form = ProdukForm(request.POST)
+        form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("daftar")
+            return redirect("list")
     else:
-        form = ProdukForm()
-    return render(request, "warung/form.html", {"form": form})
+        form = ProductForm()
+    return render(request, "shop/form.html", {"form": form})
 ```
 
 `form.html`: `{{ form.as_p }}` + `{% csrf_token %}`.
@@ -43,26 +43,26 @@ def tambah(request):
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Formulir Terhubung Model
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Model-Connected Form
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `ModelForm` baca model → buat field; `is_valid()` cek; `save()` simpan.
+### How the Computer Reads It
+- `ModelForm` reads the model → builds fields; `is_valid()` checks; `save()` stores.
 
-### 3 Istilah Wajib
-- 1. **ModelForm/is_valid**: terhubung/cek
+### 3 Must-Know Terms
+- 1. **ModelForm/is_valid**: connected/check
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 5: **Formulir** — `ModelForm` + `is_valid()`.
+Week 5: **Forms** — `ModelForm` + `is_valid()`. Next: **Auth**.
