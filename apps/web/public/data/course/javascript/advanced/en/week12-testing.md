@@ -1,34 +1,34 @@
-# Testing JavaScript — Uji Sebelum Buka
+# Testing JavaScript — Test Before Opening
 
-> **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 12:** Testing
+> **Kategori:** JavaScript | **Level:** Advanced | **Minggu 12:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `npm install --save-dev vitest`, `test("hitung", ()=> expect(hitung(2,3)).toBe(5))`
+- `npm install --save-dev vitest`, `test("calc", ()=> expect(calc(2,3)).toBe(5))`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `vitest`, ubah rumus → salah ketahuan pelanggan. Dengan 2 test, ubah → merah → perbaiki. `vi.fn()` mock fetch tanpa internet.
+Without `vitest`, formula changes → mistakes found by customers. With 2 tests, change → red → fix. `vi.fn()` mocks fetch without internet.
 
 ---
 
 ## Program
 
 ```javascript
-// hitung.js
-export function hitung(a,b){ return a+b; }
+// calc.js
+export function calc(a,b){ return a+b; }
 
-// hitung.test.js
+// calc.test.js
 import { test, expect } from "vitest";
-import { hitung } from "./hitung.js";
+import { calc } from "./calc.js";
 
-test("hitung 2+3", () => {
-  expect(hitung(2,3)).toBe(5);
+test("calc 2+3", () => {
+  expect(calc(2,3)).toBe(5);
 });
-test("hitung 0+0", () => {
-  expect(hitung(0,0)).toBe(0);
+test("calc 0+0", () => {
+  expect(calc(0,0)).toBe(0);
 });
 // npm test
 ```
@@ -36,26 +36,26 @@ test("hitung 0+0", () => {
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cicip Dapur JS
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+### Analogy: Kitchen Taste-Test JS
+- See Program: run (`node`/browser), change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+### Step 0 — Prepare Device
+- Same as JS W1: `node -v` / browser + `npm test` for W12.
 
-### Cara Komputer Membaca
-- `test(name, fn)` + `expect(a).toBe(b)`; `npm test` cari `*.test.js`.
+### How the Computer Reads It
+- `test(name, fn)` + `expect(a).toBe(b)`; `npm test` finds `*.test.js`.
 
-### 3 Istilah Wajib
-- 1. **test/expect/mock**: cicip/harap/palsu
+### 3 Must-Know Terms
+- 1. **test/expect/mock**: taste/expect/fake
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 12: **Uji** — Vitest sebelum buka warung.
+Week 12: **Test** — Vitest before opening shop.

@@ -1,82 +1,106 @@
-# Error Handling — Alarm Warung Tidak Panik
+# Error Handling — No-Panic Shop Alarm
 
-> **Kategori:** JavaScript | **Level:** Menengah | **Minggu 10:** Error Handling
+> **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 10:** Error Handling
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `try { ... } catch (err) { ... } finally { ... }` — coba, jika gagal tangkap, akhirnya tutup
-- `throw new Error("stok habis")` buat alarm sendiri
-- `async try/catch` untuk `await fetch`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `try/catch`, `JSON.parse` data rusak → warung crash, layar putih. Dengan `try`, tampil "Data rusak, coba lagi" — tidak panik.
+- `try { ... } catch (err) { ... } finally { ... }` — try, catch on fail, finally close
+- `throw new Error("out of stock")` make your own alarm
+- `async try/catch` for `await fetch`
 
 ---
 
-## Program: Kasir Anti-Crash
+## Why This Matters (Non-IT)
+
+Without `try/catch`, `JSON.parse` on broken data → shop crashes, white screen. With `try`, show "Broken data, try again" — no panic.
+
+---
+
+## Program: Crash-Proof Cashier
 
 ```javascript
-function parseStok(json){
+function parseStock(json){
   try {
-    const data = JSON.parse(json); // bisa gagal jika json rusak
-    if (!data.nama) throw new Error("Nama wajib");
-    console.log("Sukses:", data);
+    const data = JSON.parse(json); // can fail if json broken
+    if (!data.name) throw new Error("Name required");
+    console.log("Success:", data);
     return data;
   } catch (err) {
-    console.log("Gagal:", err.message);
-    return { nama: "Tidak diketahui", stok: 0 };
+    console.log("Failed:", err.message);
+    return { name: "Unknown", stock: 0 };
   } finally {
-    console.log("Selesai cek");
+    console.log("Check done");
   }
 }
 
-parseStok('{"nama":"Beras","stok":10}');
-parseStok('rusak{');
-parseStok('{"stok":10}'); // tanpa nama → throw
+parseStock('{"name":"Rice","stock":10}');
+parseStock('broken{');
+parseStock('{"stock":10}'); // no name → throw
 
-async function ambil(){
+async function fetchIt(){
   try {
-    const res = await fetch("https://api.warung.com/produk");
-    if (!res.ok) throw new Error("Gagal fetch " + res.status);
+    const res = await fetch("https://api.shop.com/products");
+    if (!res.ok) throw new Error("Fetch failed " + res.status);
     const data = await res.json();
     console.log(data);
   } catch (err){
-    console.log("Ambil gagal:", err.message);
+    console.log("Fetch failed:", err.message);
   }
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `try/catch/finally`
-`try` coba, `catch` tangkap error, `finally` selalu jalan (tutup pintu).
+`try` attempt, `catch` catches error, `finally` always runs (close the door).
 
 ### `throw`
-Buat error sendiri `throw new Error("stok habis")`.
+Make your own error `throw new Error("out of stock")`.
 
 ### `async` + `try`
-`await` yang gagal harus `try/catch`, tidak `.catch` saja.
+Failed `await` needs `try/catch`, not just `.catch`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Alarm Kebakaran
-- **`try` = coba masak**, **`catch` = jika kompor meledak, padamkan**, **`finally` = matikan gas**.
+### Analogy: Fire Alarm
+- **`try` = try cooking**, **`catch` = if stove explodes, extinguish**, **`finally` = turn off gas**.
+
+### Step 0 — Prepare Device
+- Node.js or browser console, feed valid + broken JSON, compare.
+
+### How the Computer Reads It
+1. `JSON.parse('broken{')` → throws → jumps to `catch`.
+2. `finally` runs regardless — success or fail.
+
+### 3 Must-Know Terms
+1. **try/catch/throw**: attempt/catch/raise
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Aman:** `function hitung(harga,qty){ if(qty<=0) throw new Error("Qty salah"); return harga*qty }` → `try { hitung(62000,0)} catch(e){ console.log(e.message)}`.
+- **Green:** Valid JSON → `Success` path?
+- **Yellow:** Broken JSON → `catch` + fallback object?
+- **Red:** Remove `try` → white-screen crash? Restore.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 10: **Alarm Anti-Panik** — `try/catch` biar warung tidak crash.
+**Safe Shop:** `function calc(price,qty){ if(qty<=0) throw new Error("Bad qty"); return price*qty }` → `try { calc(62000,0)} catch(e){ console.log(e.message)}`.
+
+---
+
+## Mini Glossary
+
+- **try/catch/finally**: attempt/catch/always
+
+---
+
+## Summary
+
+Week 10: **No-Panic Alarm** — `try/catch` so the shop never crashes. Intermediate DONE → Advanced next.
