@@ -120,6 +120,24 @@ console.log("Ringkas:", ringkas);
 
 ---
 
+### Bonus: Enum vs Union (bab Enums di TypeScript Handbook!)
+
+```typescript
+// Enum: pilihan bernama + angka otomatis (0,1,2)
+enum Level { Biasa, Member, VIP }
+let lv: Level = Level.Member; // 1
+console.log(lv, Level[1]); // 1 "Member" (mapping bolak-balik!)
+
+// Union literal W2 (string murni, tanpa angka)
+type Status = "baru" | "kirim" | "selesai";
+
+// Kapan mana? Enum jika butuh angka/kode (level, role). Union jika teks murni.
+// const enum (hemat, tanpa objek runtime) & string enum ("VIP" bukan angka):
+const enum Peran { Admin = "ADMIN", Kasir = "KASIR" }
+```
+
+---
+
 ## Tantangan
 
 **Kartu Siswa Bertingkat:** `interface Orang { nama: string; umur: number }`, `interface Siswa extends Orang { nis: string; nilai: number }`, `type Status = "lulus" | "remidi"`. Buat `function status(s: Siswa): Status { return s.nilai >= 70 ? "lulus" : "remidi" }` dan array `Siswa[]` hitung rata-rata.

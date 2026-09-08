@@ -127,6 +127,19 @@ Each variant has a distinguishing `kind`. `switch(p.kind)` TS knows which fields
 
 ---
 
+### Bonus: keyof — Automatic Key List (TypeScript Handbook!)
+
+```typescript
+interface Product { name: string; price: number; stock: number }
+type Keys = keyof Product; // "name" | "price" | "stock" AUTOMATIC!
+function take(p: Product, k: Keys) { return p[k]; } // k only real keys
+console.log(take({ name: "Rice", price: 62000, stock: 10 }, "price")); // 62000
+// take(p, "color") // ❌ Error: not a Product key!
+// Add a discount field to the interface → Keys grows AUTOMATICALLY (no hand edits!)
+```
+
+---
+
 ## Challenge
 
 **Order Status Machine:** `type Order = { status: "new" } | { status: "ship", receipt: string } | { status: "done" }`. Function `info(o: Order)` → switch status, if `ship` show `receipt`. Try `info({status:"ship"})` without `receipt` → error, must be complete.

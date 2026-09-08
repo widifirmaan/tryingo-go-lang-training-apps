@@ -54,9 +54,44 @@ main();
 
 ---
 
+### Bonus: Pecah Modul export/import (bab Modules di Handbook!)
+
+1 file 300 baris = sesat. Pecah 3 file (butuh `"type": "module"` di `package.json` atau `.mts`!):
+
+```typescript
+// types.ts — cetak biru (export agar bisa dipinjam!)
+export interface Produk { id: number; nama: string; harga: number; }
+```
+
+```typescript
+// api.ts — tukang ambil (import + export lagi!)
+import type { Produk } from "./types.js"; // .js BUKAN .ts (aturan NodeNext!)
+export async function apiGet<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Gagal");
+  return res.json() as T;
+}
+export type DaftarProduk = Produk[];
+```
+
+```typescript
+// app.ts — pakai keduanya
+import { apiGet } from "./api.js";
+import type { Produk } from "./types.js";
+const produk = await apiGet<Produk[]>("/produk");
+console.log(produk[0].nama);
+```
+
+- `export` = bagi, `import` = pinjam. `import type` khusus tipe (hilang saat compile, ringan!).
+- Jebakan #1: `from "./types"` tanpa `.js` → error NodeNext! Tulis `.js` meski file `.ts`.
+- Jebakan #2: tanpa `"type": "module"`, `import` ditolak → pakai `require` (CommonJS lama).
+
+---
+
 ## Glosarium Mini
 
 - **apiGet/generics**: ambil-bertipe/serbaguna
+- **export/import**: bagi/pinjam
 
 ---
 ## Ringkasan
