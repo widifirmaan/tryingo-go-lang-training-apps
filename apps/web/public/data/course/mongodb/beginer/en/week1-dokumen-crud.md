@@ -1,94 +1,104 @@
-# Dokumen & CRUD — Kartu Fleksibel
+# Documents & CRUD — Flexible Cards
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 1:** Dokumen & CRUD
+> **Kategori:** MongoDB | **Level:** Beginner | **Minggu 1:** Dokumen & CRUD
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Paham MongoDB = **kardus kartu fleksibel** (JSON), bukan rak kaku SQL — tiap kartu bisa beda field
-- `db.produk.insertOne({ nama: "Beras", harga: 62000 })` masukkan kartu
-- `find()`, `findOne()`, `find({ kategori: "Sembako" })` saring, `countDocuments()`
-- `_id` otomatis seperti KTP kartu
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung kadang kartu produk ada `stok`, kadang tidak. SQL harus isi semua kolom, Mongo **bebas** — kartu 1 ada `warna`, kartu 2 tidak, tidak error. Cocok untuk katalog yang sering ganti.
+- Understand MongoDB = **flexible card boxes** (JSON), not rigid SQL racks — each card can have different fields
+- `db.products.insertOne({ name: "Rice", price: 62000 })` inserts a card
+- `find()`, `findOne()`, `find({ category: "Staples" })` filters, `countDocuments()`
+- Auto `_id` like a card ID
 
 ---
 
-## Program: Kartu Mongo
+## Why This Matters (Non-IT)
 
-Jalankan di **MongoDB Compass** atau `mongosh` (atau `onecompiler.com/mongodb`).
+Shop product cards sometimes have `stock`, sometimes not. SQL must fill every column, Mongo is **free** — card 1 has `color`, card 2 doesn't, no error. Perfect for ever-changing catalogs.
+
+---
+
+## Program: Mongo Cards
+
+Run in **MongoDB Compass** or `mongosh` (or `onecompiler.com/mongodb`).
 
 ```javascript
-// Bikin koleksi produk (otomatis jika belum ada)
-db.produk.insertOne({ nama: "Beras 5kg", harga: 62000, stok: 10, kategori: "Sembako" })
-db.produk.insertMany([
-  { nama: "Bayam", harga: 5000, stok: 20, kategori: "Sayur" },
-  { nama: "Telur", harga: 28000, stok: 15 },
-  { nama: "Gula", harga: 15000, kategori: "Sembako" } // tanpa stok, boleh!
+// Create products collection (auto if missing)
+db.products.insertOne({ name: "Rice 5kg", price: 62000, stock: 10, category: "Staples" })
+db.products.insertMany([
+  { name: "Spinach", price: 5000, stock: 20, category: "Veggies" },
+  { name: "Eggs", price: 28000, stock: 15 },
+  { name: "Sugar", price: 15000, category: "Staples" } // no stock, allowed!
 ])
 
-// Lihat
-db.produk.find() // semua kartu
-db.produk.find({ kategori: "Sembako" }) // saring
-db.produk.findOne({ nama: "Bayam" }) // 1 kartu
-db.produk.countDocuments() // hitung
-db.produk.find({}, { nama: 1, harga: 1, _id: 0 }) // hanya 2 kolom
+// View
+db.products.find() // all cards
+db.products.find({ category: "Staples" }) // filter
+db.products.findOne({ name: "Spinach" }) // 1 card
+db.products.countDocuments() // count
+db.products.find({}, { name: 1, price: 1, _id: 0 }) // only 2 columns
 
-// Cari mirip
-db.produk.find({ nama: /ber/i }) // regex: mengandung "ber"
+// Fuzzy find
+db.products.find({ name: /ric/i }) // regex: contains "ric"
 ```
 
-**Tanpa install:** `mongodb.com` → Atlas Free → Connect → Compass, atau `onecompiler.com`.
+**No install:** `mongodb.com` → Atlas Free → Connect → Compass, or `onecompiler.com`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Dokumen = Kartu JSON
-`{ nama: "Beras", harga: 62000 }` — tiap kartu bebas field.
+### Document = JSON Card
+`{ name: "Rice", price: 62000 }` — each card free fields.
 
-### Koleksi = Kardus Kartu
-`db.produk` kardus berisi banyak kartu. `insertOne/Many`, `find()`.
+### Collection = Card Box
+`db.products` box holding many cards. `insertOne/Many`, `find()`.
 
-### `_id` = KTP Otomatis
-Mongo buat `_id: ObjectId("...")` jika tidak diisi.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kardus Kartu Warung
-
-- **SQL = rak kaku**: tiap baris harus isi semua kolom.
-- **Mongo = kardus kartu**: kartu 1 ada `stok`, kartu 2 tidak — tidak apa.
+### `_id` = Auto ID
+Mongo creates `_id: ObjectId("...")` when unfilled.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `insertOne({ nama: "Kopi", harga: 12000 })` → `find({ nama: "Kopi" })`?
-- **Kuning:** `find({ harga: { $gt: 10000 } })` → harga >10k?
-- **Merah:** `find({}, { nama: 1 })` tanpa `_id:0` → `_id` ikut?
+### Analogy: Shop Card Box
 
----
+- **SQL = rigid rack**: every row must fill all columns.
+- **Mongo = card box**: card 1 has `stock`, card 2 doesn't — fine.
 
-## Tantangan
+### Step 0 — Prepare Device
+- Atlas Free account + Compass (or `mongosh`), paste commands one by one.
 
-**Kartu Pelanggan:** `db.pelanggan.insertMany([{ nama:"Budi", hp:"081", kota:"Jakarta"}, {nama:"Siti"}])` → `find({ kota: { $exists: false }})` cari tanpa kota.
+### How the Computer Reads It
+1. `insertOne({...})` → Mongo stamps `_id` → card stored.
+2. `find({ category: "Staples" })` → scans box, returns matches.
 
----
-
-## Glosarium Mini
-
-- **Dokumen/Koleksi**: kartu/kardus
-- **insert/find**: masuk/cari
-- **_id**: KTP
+### 3 Must-Know Terms
+1. **Document/collection/_id**: card/box/ID
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 1: **Kartu Fleksibel** — masuk & cari kartu. Minggu depan: **Update & Hapus**.
+- **Green:** `insertOne({ name: "Coffee", price: 12000 })` → `find({ name: "Coffee" })`?
+- **Yellow:** `find({ price: { $gt: 10000 } })` → prices >10k?
+- **Red:** `find({}, { name: 1 })` without `_id:0` → `_id` joins?
+
+---
+
+## Challenge
+
+**Customer Cards:** `db.customers.insertMany([{ name:"Budi", phone:"081", city:"Jakarta"}, {name:"Siti"}])` → `find({ city: { $exists: false }})` finds city-less.
+
+---
+
+## Mini Glossary
+
+- **Document/Collection**: card/box
+- **insert/find**: in/search
+- **_id**: ID
+
+---
+
+## Summary
+
+Week 1: **Flexible Cards** — insert & find cards. Next: **Update & Delete**.

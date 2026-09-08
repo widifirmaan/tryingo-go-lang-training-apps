@@ -1,41 +1,41 @@
-# Aggregation Dasar — Pabrik Laporan MongoDB
+# Basic Aggregation — MongoDB Report Factory
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 4:** Aggregation Basics
+> **Kategori:** MongoDB | **Level:** Beginner | **Minggu 4:** Aggregation Basics
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `aggregate([{ $match }, { $group }])` pipa laporan: saring → kelompok → hitung (sumber: mongodb.com/docs/manual/aggregation)
-- `$match` saring, `$group: { _id: "$kategori", total: { $sum: "$harga" } }` kelompok, `$sort` urut
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Bos tanya "total per kategori?" — tanpa aggregation, ambil semua ke JS lalu loop manual (lambat, boros RAM). Dengan 1 pipa `aggregate`, Mongo hitung di server → kirim hasil jadi 3 baris.
+- `aggregate([{ $match }, { $group }])` report pipeline: filter → group → count (source: mongodb.com/docs/manual/aggregation)
+- `$match` filters, `$group: { _id: "$category", total: { $sum: "$price" } }` groups, `$sort` sorts
 
 ---
 
-## Program: Laporan Warung 1 Pipa
+## Why This Matters (Non-IT)
+
+The boss asks "total per category?" — without aggregation, fetch all to JS then hand-loop (slow, RAM-hungry). With 1 `aggregate` pipeline, Mongo computes on-server → sends a finished 3-row result.
+
+---
+
+## Program: 1-Pipeline Shop Report
 
 ```javascript
-// Total & rata per kategori
-db.produk.aggregate([
-  { $match: { stok: { $gt: 0 } } },              // 1. saring stok > 0
-  { $group: {                                     // 2. kelompok per kategori
-      _id: "$kategori",
-      total: { $sum: "$harga" },
-      rata: { $avg: "$harga" },
-      jumlah: { $sum: 1 }
+// Total & average per category
+db.products.aggregate([
+  { $match: { stock: { $gt: 0 } } },              // 1. filter stock > 0
+  { $group: {                                     // 2. group per category
+      _id: "$category",
+      total: { $sum: "$price" },
+      avg: { $avg: "$price" },
+      count: { $sum: 1 }
   }},
-  { $sort: { total: -1 } }                        // 3. urut total besar dulu
+  { $sort: { total: -1 } }                        // 3. biggest total first
 ])
 
-// Contoh hasil:
-// { _id: "Sembako", total: 124000, rata: 62000, jumlah: 2 }
+// Example result:
+// { _id: "Staples", total: 124000, avg: 62000, count: 2 }
 
-// Tahap tambahan: hanya tampilkan nama+total
-db.produk.aggregate([
-  { $project: { _id: 0, nama: 1, total: { $multiply: ["$harga", "$stok"] } } },
+// Extra stage: show only name+total
+db.products.aggregate([
+  { $project: { _id: 0, name: 1, total: { $multiply: ["$price", "$stock"] } } },
   { $sort: { total: -1 } },
   { $limit: 3 }
 ])
@@ -43,58 +43,58 @@ db.produk.aggregate([
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Pipa `[]` = Ban Berjalan Pabrik
-Dokumen masuk `$match` → keluar → masuk `$group` → keluar → `$sort`. Tiap tahap ubah bentuk.
+### Pipeline `[]` = Factory Conveyor Belt
+Documents enter `$match` → exit → enter `$group` → exit → `$sort`. Each stage reshapes.
 
-### `$match` / `$group` / `$sort` / `$project` / `$limit` = Mesin
-Saring / kelompok-hitung / urut / pilih kolom / potong.
+### `$match` / `$group` / `$sort` / `$project` / `$limit` = Machines
+Filter / group-count / sort / pick columns / cut.
 
-### `$namaField` = Ambil Nilai
-`"$harga"` = nilai field harga dokumen itu.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Pabrik Laporan
-- **Dokumen = kardus** masuk ban berjalan, tiap mesin (`$match`, `$group`) kerjakan, keluar laporan jadi.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `mongosh` + koleksi `produk` isi 5 (W1-W2).
-
-### Cara Komputer Membaca
-1. `$match: { stok: { $gt: 0 } }` → buang stok 0.
-2. `$group: { _id: "$kategori" }` → kumpulkan per kategori → hitung `$sum`.
-
-### 3 Istilah Wajib
-1. **Pipeline/stage**: pipa/mesin
-2. **$match/$group**: saring/kelompok
+### `$fieldName` = Take Value
+`"$price"` = that document's price-field value.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Hapus `$match` → total ikut stok 0? Pasang lagi.
-- **Kuning:** `$sort: { total: 1 }` → kecil dulu?
-- **Merah:** `$group: { _id: null, semua: { $sum: 1 } }` → hitung semua 1 baris?
+### Analogy: Report Factory
+- **Documents = boxes** on a conveyor belt, each machine (`$match`, `$group`) works, finished report exits.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `mongosh` + 5-item `products` collection (W1-W2).
 
-## Tantangan
+### How the Computer Reads It
+1. `$match: { stock: { $gt: 0 } }` → discards zero stock.
+2. `$group: { _id: "$category" }` → gathers per category → computes `$sum`.
 
-**Laporan Warung Lengkap:** Pipa `match stok>0` → `group` per `kategori` (`total $sum`, `rata $avg`, `jumlah $sum:1`) → `sort total DESC` → tambah `$limit: 2` 2 teratas. Screenshot.
-
----
-
-## Glosarium Mini
-
-- **aggregate/$match/$group**: pabrik/saring/kelompok
-- **$sort/$limit/$project**: urut/potong/pilih
+### 3 Must-Know Terms
+1. **Pipeline/stage**: pipe/machine
+2. **$match/$group**: filter/group
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 5: **Pabrik Laporan** (Level: Pemula). 1 pipa ganti 20 baris JS. Minggu depan: **Schema Design** — kartu rapi.
+- **Green:** Remove `$match` → zero-stock joins totals? Reattach.
+- **Yellow:** `$sort: { total: 1 }` → smallest first?
+- **Red:** `$group: { _id: null, all: { $sum: 1 } }` → counts everything in 1 row?
+
+---
+
+## Challenge
+
+**Complete Shop Report:** Pipeline `match stock>0` → `group` per `category` (`total $sum`, `avg $avg`, `count $sum:1`) → `sort total DESC` → add `$limit: 2` top 2. Screenshot.
+
+---
+
+## Mini Glossary
+
+- **aggregate/$match/$group**: factory/filter/group
+- **$sort/$limit/$project**: sort/cut/pick
+
+---
+
+## Summary
+
+Week 4 of 5: **Report Factory** (Level: Beginner). 1 pipeline replaces 20 JS lines. Next: **Schema Design** — neat cards.

@@ -1,88 +1,88 @@
-# Index — Daftar Isi Kardus MongoDB
+# Index — MongoDB Card-Box Contents
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 3:** Index
+> **Kategori:** MongoDB | **Level:** Beginner | **Minggu 3:** Index
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `createIndex({ email: 1 })` daftar isi naik (`1`) / turun (`-1`), `{ unique: true }` anti kembar (sumber: mongodb.com/docs/manual/indexes)
-- `explain("executionStats")` bedakan `COLLSCAN` (baca semua) vs `IXSCAN` (loncat index)
-- `getIndexes()` / `dropIndex()` kelola
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-100rb kartu pelanggan, cari `email` tanpa index = baca 100rb kartu. Dengan index = loncat langsung. Tanpa `explain`, tidak tahu query-mu baca semua atau loncat.
+- `createIndex({ email: 1 })` ascending (`1`) / descending (`-1`) contents, `{ unique: true }` anti-duplicate (source: mongodb.com/docs/manual/indexes)
+- `explain("executionStats")` distinguishes `COLLSCAN` (reads all) vs `IXSCAN` (index jump)
+- `getIndexes()` / `dropIndex()` manage
 
 ---
 
-## Program: Daftar Isi Warung
+## Why This Matters (Non-IT)
+
+100k customer cards, email lookup without index = reading 100k cards. With index = jump straight there. Without `explain`, you never know whether your query reads all or jumps.
+
+---
+
+## Program: Shop Contents
 
 ```javascript
-// di mongosh atau Compass
-db.pelanggan.createIndex({ email: 1 }, { unique: true })
-db.produk.createIndex({ kategori: 1 })
-db.produk.createIndex({ harga: -1 }) // turun untukurut mahal dulu
+// in mongosh or Compass
+db.customers.createIndex({ email: 1 }, { unique: true })
+db.products.createIndex({ category: 1 })
+db.products.createIndex({ price: -1 }) // descending for expensive-first
 
-// Bandingkan rencana
-db.pelanggan.find({ email: "siti@email.com" }).explain("executionStats")
-// Cari: "stage": "IXSCAN" (bagus) vs "COLLSCAN" (baca semua)
+// Compare plans
+db.customers.find({ email: "siti@email.com" }).explain("executionStats")
+// Look for: "stage": "IXSCAN" (good) vs "COLLSCAN" (reads all)
 
-db.produk.getIndexes()
-db.produk.dropIndex("kategori_1")
+db.products.getIndexes()
+db.products.dropIndex("category_1")
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `createIndex({ field: 1 })` = Daftar Isi
-`1` naik, `-1` turun, `unique: true` tolak kembar (email ganda).
+### `createIndex({ field: 1 })` = Contents
+`1` ascending, `-1` descending, `unique: true` rejects duplicates (double emails).
 
-### `COLLSCAN` vs `IXSCAN` = Baca Semua vs Loncat
-`explain("executionStats")` → `stage` + `totalDocsExamined` (semakin kecil semakin bagus).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Buku Telepon
-- **Tanpa index = tumpukan kartu**: baca 1 per 1.
-- **Dengan index = buku telepon abjad**: langsung ke S.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `mongosh` atau Compass Atlas Free.
-
-### Cara Komputer Membaca
-1. `createIndex({ email: 1 })` → Mongo buat B-Tree abjad di samping koleksi.
-2. `find({ email: "..." })` → cek ada index? Ya → `IXSCAN` loncat.
-
-### 3 Istilah Wajib
-1. **Index/unique**: daftar isi/anti kembar
-2. **COLLSCAN/IXSCAN**: baca semua/loncat
+### `COLLSCAN` vs `IXSCAN` = Read-All vs Jump
+`explain("executionStats")` → `stage` + `totalDocsExamined` (smaller is better).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `explain` sebelum/sesudah index → `stage` berubah?
-- **Kuning:** `insertOne` email kembar → error `duplicate key`?
-- **Merah:** `dropIndex` → `explain` balik `COLLSCAN`?
+### Analogy: Phone Book
+- **No index = card stack**: read 1 by 1.
+- **With index = alphabetical phone book**: straight to S.
+
+### Step 0 — Prepare Device
+- Same as W1: `mongosh` or Compass Atlas Free.
+
+### How the Computer Reads It
+1. `createIndex({ email: 1 })` → Mongo builds an alphabetical B-Tree beside the collection.
+2. `find({ email: "..." })` → index? Yes → `IXSCAN` jump.
+
+### 3 Must-Know Terms
+1. **Index/unique**: contents/anti-duplicate
+2. **COLLSCAN/IXSCAN**: read-all/jump
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Cepat:** `createIndex({ nama: 1 })` + `unique` di `email` + `explain` 2 query → screenshot `IXSCAN` 2x.
-
----
-
-## Glosarium Mini
-
-- **Index/unique/explain**: daftar/anti-kembar/rencana
+- **Green:** `explain` before/after index → `stage` flips?
+- **Yellow:** `insertOne` duplicate email → `duplicate key` error?
+- **Red:** `dropIndex` → `explain` back to `COLLSCAN`?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 5: **Daftar Isi** (Level: Pemula). 100rb kartu tetap cepat. Minggu depan: **Aggregation** — laporan.
+**Fast Shop:** `createIndex({ name: 1 })` + `unique` on `email` + `explain` 2 queries → screenshot `IXSCAN` 2x.
+
+---
+
+## Mini Glossary
+
+- **Index/unique/explain**: contents/anti-duplicate/plan
+
+---
+
+## Summary
+
+Week 3 of 5: **Contents** (Level: Beginner). 100k cards stay fast. Next: **Aggregation** — reports.
