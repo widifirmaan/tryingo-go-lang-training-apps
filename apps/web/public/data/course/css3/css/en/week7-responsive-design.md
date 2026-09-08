@@ -1,21 +1,21 @@
-# Responsive Design — Warung Muat HP & Laptop
+# Responsive Design — Shop Fits Phones & Laptops
 
-> **Kategori:** CSS3 | **Level:** Pemula | **Minggu 7:** Responsive Design
+> **Kategori:** CSS3 | **Level:** Beginner | **Minggu 7:** Responsive Design
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `<meta name="viewport" content="width=device-width, initial-scale=1.0">` wajib (tanpa ini HP zoom-out!) (sumber: MDN viewport)
-- `@media (max-width: 600px) { ... }` aturan khusus HP, mobile-first vs desktop-first
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-80% pembeli buka di HP. Tanpa `viewport`, HP tampil seperti laptop dikecilkan (tulisan semut). Tanpa `@media`, grid 3 kolom di HP 360px = gepeng tak terbaca.
+- `<meta name="viewport" content="width=device-width, initial-scale=1.0">` mandatory (without it phones zoom out!) (source: MDN viewport)
+- `@media (max-width: 600px) { ... }` phone-only rules, mobile-first vs desktop-first
 
 ---
 
-## Program: Warung Responsif HP-Laptop
+## Why This Matters (Non-IT)
+
+80% of buyers open on phones. Without `viewport`, phones render like a shrunken laptop (ant text). Without `@media`, a 3-column grid on a 360px phone = squished unreadable.
+
+---
+
+## Program: Responsive Phone-Laptop Shop
 
 ```html
 <head>
@@ -24,7 +24,7 @@
     .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .menu { display: flex; gap: 16px; }
 
-    /* HP ≤600px: 1 kolom + menu turun */
+    /* Phones ≤600px: 1 column + stacked menu */
     @media (max-width: 600px) {
       .grid { grid-template-columns: 1fr; }
       .menu { flex-direction: column; gap: 8px; }
@@ -33,68 +33,68 @@
   </style>
 </head>
 <body>
-  <h1>Warung Bu Siti</h1>
-  <nav class="menu"><a>Beranda</a><a>Produk</a><a>Kontak</a></nav>
-  <div class="grid"><div>Beras</div><div>Bayam</div><div>Telur</div></div>
+  <h1>Siti's Shop</h1>
+  <nav class="menu"><a>Home</a><a>Products</a><a>Contact</a></nav>
+  <div class="grid"><div>Rice</div><div>Spinach</div><div>Eggs</div></div>
 </body>
 ```
 
-Test: Chrome `F12` → `Toggle device toolbar` (`Ctrl+Shift+M`) → pilih `iPhone SE` vs `Desktop`.
+Test: Chrome `F12` → `Toggle device toolbar` (`Ctrl+Shift+M`) → pick `iPhone SE` vs `Desktop`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `viewport` = Kacamata HP
-`width=device-width` = "layar selebar HP". Tanpa ini, HP anggap 980px → zoom-out.
+### `viewport` = Phone Glasses
+`width=device-width` = "screen as wide as the phone". Without it, phones assume 980px → zoom-out.
 
-### `@media (max-width: 600px)` = Aturan Khusus HP
-Di dalam kurung hanya jalan jika layar ≤600px. `min-width` sebaliknya (khusus besar).
+### `@media (max-width: 600px)` = Phone-Only Rules
+Inside only runs when screen ≤600px. `min-width` the opposite (big-only).
 
 ### Mobile-First vs Desktop-First
-- Tulis HP dulu + `@media (min-width: 600px)` untuk laptop (modern, disarankan).
-- Atau laptop dulu + `max-width` (di atas, mudah dipahami).
+- Write phones first + `@media (min-width: 600px)` for laptops (modern, recommended).
+- Or laptops first + `max-width` (above, easier to grasp).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Baju S-M-L
-- **Desktop = L**, **HP = S**: 1 baju (`grid`) muat semua dengan `media` penjahit.
+### Analogy: S-M-L Clothes
+- **Desktop = L**, **phone = S**: 1 outfit (`grid`) fits all with `media` tailor.
 
-### Langkah 0 — Siapkan Device
+### Step 0 — Prepare Device
 - Chrome DevTools `F12` → device toolbar. Test 360px & 1280px.
 
-### Cara Komputer Membaca
-1. HP 360px → `@media (max-width: 600px)` cocok → `grid 1fr`.
-2. Laptop → tidak cocok → tetap 3 kolom.
+### How the Computer Reads It
+1. 360px phone → `@media (max-width: 600px)` matches → `grid 1fr`.
+2. Laptop → no match → stays 3 columns.
 
-### 3 Istilah Wajib
-1. **Viewport/media query**: kacamata/aturan-layar
-2. **max/min-width**: khusus-kecil/besar
-
----
-
-## Eksperimen
-
-- **Hijau:** Hapus `viewport` meta → buka di mode HP → semut? Pasang.
-- **Kuning:** `600px` → `900px` → tablet ikut 1 kolom?
-- **Merah:** Tulis `@media (max-width: 600px)` tanpa kurung tutup → semua CSS bawah rusak? Tutup.
+### 3 Must-Know Terms
+1. **Viewport/media query**: glasses/screen-rules
+2. **max/min-width**: small-only/big-only
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Responsif Lengkap:** Grid 3→1 kolom + menu baris→kolom + `h1` 28→22px + screenshot HP & laptop berdampingan.
-
----
-
-## Glosarium Mini
-
-- **viewport/media/max-width**: kacamata/aturan/kecil
+- **Green:** Remove `viewport` meta → open in phone mode → ants? Reattach.
+- **Yellow:** `600px` → `900px` → tablets join 1 column?
+- **Red:** Write `@media (max-width: 600px)` without closing brace → all CSS below breaks? Close it.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7 dari 12: **Muat Semua Layar** (Level: Pemula). HP & laptop rapi. Minggu depan: **Animasi** — gerak halus.
+**Complete Responsive Shop:** Grid 3→1 columns + menu row→column + `h1` 28→22px + side-by-side phone & laptop screenshots.
+
+---
+
+## Mini Glossary
+
+- **viewport/media/max-width**: glasses/rules/small
+
+---
+
+## Summary
+
+Week 7 of 12: **Fits All Screens** (Level: Beginner). Phones & laptops neat. Next: **Animation** — smooth motion.

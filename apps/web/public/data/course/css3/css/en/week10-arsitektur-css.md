@@ -1,100 +1,100 @@
-# Arsitektur CSS — Lemari Rapi BEM
+# CSS Architecture — Neat BEM Wardrobe
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 10:** Arsitektur CSS
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 10:** Arsitektur CSS
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Paham BEM `block__element--modifier` (sumber: CSS-Tricks BEM 101, Yandex) — `.kartu`, `.kartu__judul`, `.kartu--promo`
-- Bedakan `block` (komponen mandiri), `element` (`__` bagian block), `modifier` (`--` variasi) — specificity flat
-- Hindari `tag + class` dan `nested` dalam — pakai 1 class per elemen
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa BEM, `.judul` di `kartu` bentrok dengan `.judul` di `header` — ubah 1, rusak semua. Dengan BEM `.kartu__judul` vs `.header__judul` tidak bentrok, cari cepat, tim tidak bertengkar.
+- Understand BEM `block__element--modifier` (source: CSS-Tricks BEM 101, Yandex) — `.card`, `.card__title`, `.card--promo`
+- Distinguish `block` (standalone component), `element` (`__` block part), `modifier` (`--` variation) — flat specificity
+- Avoid `tag + class` and deep `nested` — use 1 class per element
 
 ---
 
-## Program: Lemari BEM Warung (CSS-Tricks)
+## Why This Matters (Non-IT)
+
+Without BEM, `.title` in `card` clashes with `.title` in `header` — change 1, break everything. With BEM `.card__title` vs `.header__title` no clash, fast search, no team fights.
+
+---
+
+## Program: Shop BEM Wardrobe (CSS-Tricks)
 
 ```html
-<div class="kartu kartu--promo">
-  <h3 class="kartu__judul">Beras 5kg</h3>
-  <p class="kartu__harga">Rp 62.000</p>
-  <button class="kartu__tombol kartu__tombol--beli">Beli</button>
+<div class="card card--promo">
+  <h3 class="card__title">Rice 5kg</h3>
+  <p class="card__price">Rp 62,000</p>
+  <button class="card__btn card__btn--buy">Buy</button>
 </div>
 
 <style>
-  .kartu { border: 1px solid #ddd; padding: 16px; border-radius: 12px; }
-  .kartu--promo { border-color: #2E5B44; } /* modifier variasi */
-  .kartu__judul { font-weight: bold; font-size: 18px; } /* element bagian kartu */
-  .kartu__harga { color: #2E5B44; }
-  .kartu__tombol { padding: 8px; border-radius: 8px; }
-  .kartu__tombol--beli { background: #2E5B44; color: white; }
+  .card { border: 1px solid #ddd; padding: 16px; border-radius: 12px; }
+  .card--promo { border-color: #2E5B44; } /* modifier variation */
+  .card__title { font-weight: bold; font-size: 18px; } /* element part of card */
+  .card__price { color: #2E5B44; }
+  .card__btn { padding: 8px; border-radius: 8px; }
+  .card__btn--buy { background: #2E5B44; color: white; }
 </style>
 ```
 
-**Aturan BEM (Yandex):** `block__element--modifier` — `block` mandiri, `element` pakai `__`, `modifier` pakai `--`, semua 1 class, tidak nested.
+**BEM rules (Yandex):** `block__element--modifier` — `block` standalone, `element` uses `__`, `modifier` uses `--`, all 1 class, no nesting.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `block` vs `element` vs `modifier`
-- `kartu` block — komponen mandiri
-- `kartu__judul` element — bagian block, tidak ada tanpa `kartu`
-- `kartu--promo` modifier — variasi block
+- `card` block — standalone component
+- `card__title` element — block part, meaningless without `card`
+- `card--promo` modifier — block variation
 
-### Specificity Flat
-Semua 1 class → tidak rebutan `tag + class` (MDN).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Lemari Warung Berlabel
-
-- **BEM = label lemari**: `kartu` lemari, `kartu__judul` laci di lemari `kartu`, `kartu--promo` lemari `kartu` versi promo (border hijau).
-- **Tanpa BEM = label `judul` saja**: laci `judul` di `kartu` dan `header` bentrok.
-
-### Langkah 0 — Device
-
-VS Code + browser, buat `bem.html`, buka, ubah `kartu--promo` jadi `kartu` → border hilang? Tambah modifier.
-
-### Cara Komputer Membaca
-
-1. `<div class="kartu kartu--promo">` → 2 class: `kartu` border, `kartu--promo` border hijau timpa.
-2. `.kartu__judul` → cari elemen dengan class itu, tidak peduli tag.
-
-### 3 Istilah Wajib
-
-1. **Block**: komponen mandiri
-2. **Element `__`**: bagian block
-3. **Modifier `--`**: variasi
+### Flat Specificity
+All 1 class → no `tag + class` wars (MDN).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Ganti `kartu--promo` jadi `kartu` → border hijau hilang?
-- **Kuning:** `kartu__judul--besar` modifier element → `.kartu__judul--besar { font-size: 24px }`?
-- **Merah:** Tulis `div.kartu` (tag+class) → specificity tinggi, `kartu--promo` tidak timpa. Ganti jadi `.kartu--promo` saja.
+### Analogy: Labeled Shop Wardrobe
+
+- **BEM = wardrobe labels**: `card` wardrobe, `card__title` drawer inside `card` wardrobe, `card--promo` promo-version `card` wardrobe (green border).
+- **Without BEM = label `title` only**: `title` drawers in `card` and `header` clash.
+
+### Step 0 — Prepare Device
+
+VS Code + browser, create `bem.html`, open, change `card--promo` to `card` → green border gone? Add modifier.
+
+### How the Computer Reads It
+
+1. `<div class="card card--promo">` → 2 classes: `card` border, `card--promo` green border overrides.
+2. `.card__title` → finds elements with that class, tag irrelevant.
+
+### 3 Must-Know Terms
+
+1. **Block**: standalone component
+2. **Element `__`**: block part
+3. **Modifier `--`**: variation
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung BEM Lengkap:** Buat `header`, `header__logo`, `header__nav`, `header__nav--aktif` + `kartu`, `kartu__harga--diskon` (coret + merah) — BEM 1 class per elemen, tidak nested.
-
----
-
-## Glosarium Mini
-
-- **BEM/block/element/modifier**: metodologi
+- **Green:** Change `card--promo` to `card` → green border gone?
+- **Yellow:** `card__title--big` element modifier → `.card__title--big { font-size: 24px }`?
+- **Red:** Write `div.card` (tag+class) → high specificity, `card--promo` can't override. Use `.card--promo` alone.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 10 dari 12: **Lemari Rapi BEM** (Level: Lengkap). Bisa komponen tidak bentrok. Minggu depan: **Modern CSS** — `clamp`.
+**Complete BEM Shop:** `header`, `header__logo`, `header__nav`, `header__nav--active` + `card`, `card__price--discount` (strike + red) — BEM 1 class per element, no nesting.
+
+---
+
+## Mini Glossary
+
+- **BEM/block/element/modifier**: methodology
+
+---
+
+## Summary
+
+Week 10 of 12: **Neat BEM Wardrobe** (Level: Complete). Clash-free components. Next: **Modern CSS** — `clamp`.

@@ -1,42 +1,42 @@
-# Animasi & Transisi — Warung Bergerak Halus (MDN)
+# Animation & Transitions — Smooth-Moving Shop (MDN)
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 8:** Animasi & Transisi
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 8:** Animasi & Transisi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `transition: property duration timing-function delay` — ubah `background` halus 0.3s (sumber: MDN Using transitions)
-- `@keyframes` + `animation: name duration timing` — `slide-in` `translate` dan `scale` (sumber: MDN Using animations)
-- `transform` tidak ganggu layout — pakai `translate/scale` bukan `font-size` untuk performa
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tombol `Beli` yang langsung ganti warna terasa kasar. Dengan `transition: all 0.3s`, warna ganti halus 0.3 detik — pelanggan merasa warung halus. `animation` untuk promo kedip tanpa JS.
+- `transition: property duration timing-function delay` — smooth `background` change in 0.3s (source: MDN Using transitions)
+- `@keyframes` + `animation: name duration timing` — `slide-in` `translate` and `scale` (source: MDN Using animations)
+- `transform` doesn't disturb layout — use `translate/scale` not `font-size` for performance
 
 ---
 
-## Program: Tombol Halus & Promo Kedip (MDN)
+## Why This Matters (Non-IT)
+
+A `Buy` button that instantly changes color feels harsh. With `transition: all 0.3s`, colors change smoothly in 0.3 seconds — customers feel the shop is smooth. `animation` for blinking promos without JS.
+
+---
+
+## Program: Smooth Button & Blinking Promo (MDN)
 
 ```html
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Animasi Warung</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Shop Animation</title>
 <style>
-  .tombol {
+  .btn {
     background: #2E5B44; color: white; padding: 12px 24px; border: none; border-radius: 8px;
     transition: background 0.3s ease, transform 0.3s ease; /* MDN shorthand */
   }
-  .tombol:hover { background: #1a3326; transform: scale(1.05); }
+  .btn:hover { background: #1a3326; transform: scale(1.05); }
 
   .promo {
     background: #EFECE6; padding: 8px; border-radius: 8px;
-    animation: kedip 1s infinite alternate; /* name duration iteration direction */
+    animation: blink 1s infinite alternate; /* name duration iteration direction */
   }
-  @keyframes kedip {
+  @keyframes blink {
     from { opacity: 1; }
     to { opacity: 0.6; }
   }
 
-  /* Slide-in dari MDN */
+  /* Slide-in from MDN */
   @keyframes slide-in {
     from { translate: 100vw 0; scale: 120% 1; }
     to { translate: 0 0; scale: 100% 1; }
@@ -44,72 +44,72 @@ Tombol `Beli` yang langsung ganti warna terasa kasar. Dengan `transition: all 0.
   h1 { animation: slide-in 1s ease; }
 </style></head>
 <body>
-  <h1>Warung Bu Siti</h1>
-  <button class="tombol">Beli Sekarang</button>
-  <div class="promo">Gratis ongkir hari ini!</div>
+  <h1>Siti's Shop</h1>
+  <button class="btn">Buy Now</button>
+  <div class="promo">Free delivery today!</div>
 </body></html>
 ```
 
-**Sumber:** MDN `transition: <property> <duration> <timing-function> <delay>` dan `@keyframes slide-in`.
+**Source:** MDN `transition: <property> <duration> <timing-function> <delay>` and `@keyframes slide-in`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `transition` vs `animation`
-- `transition` untuk **perubahan** (hover) — `transition: background 0.3s`
-- `animation` untuk **berulang** (kedip) — `animation: kedip 1s infinite`
+- `transition` for **changes** (hover) — `transition: background 0.3s`
+- `animation` for **repeats** (blink) — `animation: blink 1s infinite`
 
-### `transform` Performa
-`transform: translate/scale` tidak ganggu box model, lebih cepat dari `width`/`font-size` (MDN).
+### `transform` Performance
+`transform: translate/scale` doesn't disturb box model, faster than `width`/`font-size` (MDN).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Warung Halus
+### Analogy: Smooth Shop
 
-- **`transition` = pintu geser halus**: tidak banting, geser 0.3 detik.
-- **`@keyframes` = flipbook**: gambar 0% dan 100%, browser isi tengahnya.
+- **`transition` = smooth sliding door**: no slamming, slides 0.3 seconds.
+- **`@keyframes` = flipbook**: draw 0% and 100%, browser fills the middle.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-VS Code + browser, buat `animasi.html`, buka, hover tombol.
+VS Code + browser, create `animation.html`, open, hover button.
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. `transition: background 0.3s` → browser catat "jika background ganti, animasi 0.3s".
-2. `hover` → `background` ganti → browser animasi 0.3 detik.
+1. `transition: background 0.3s` → browser notes "if background changes, animate 0.3s".
+2. `hover` → `background` changes → browser animates 0.3 seconds.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
-1. **transition**: perubahan halus
+1. **transition**: smooth change
 2. **keyframes**: flipbook
-3. **transform**: geser/scale
+3. **transform**: slide/scale
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** Ganti `0.3s` jadi `1s` → lebih lambat?
-- **Kuning:** `animation: kedip 1s infinite alternate` ganti `alternate` jadi `normal` → kedip balik?
-- **Merah:** Pakai `font-size` di `transition` vs `transform: scale` → `scale` lebih halus (MDN).
-
----
-
-## Tantangan
-
-**Warung Halus Lengkap:** Tombol `transition: all 0.3s` + `hover scale`, promo `animation: kedip 1s infinite`, `h1` `slide-in 1s`, buka di browser → `Lighthouse` cek performa.
+- **Green:** Change `0.3s` to `1s` → slower?
+- **Yellow:** Change `alternate` to `normal` in `blink 1s infinite alternate` → blink jumps back?
+- **Red:** Use `font-size` in `transition` vs `transform: scale` → `scale` smoother (MDN).
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **transition/animation**: halus/berulang
-- **keyframes/transform**: flipbook/geser
+**Complete Smooth Shop:** Button `transition: all 0.3s` + `hover scale`, promo `animation: blink 1s infinite`, `h1` `slide-in 1s`, open in browser → `Lighthouse` performance check.
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 8 dari 12: **Gerak Halus** (Level: Lengkap). Bisa tombol halus & promo kedip. Minggu depan: **Variables** — palet sekali ubah.
+- **transition/animation**: smooth/repeat
+- **keyframes/transform**: flipbook/slide
+
+---
+
+## Summary
+
+Week 8 of 12: **Smooth Motion** (Level: Complete). Smooth buttons & blinking promos. Next: **Variables** — one-change palette.
