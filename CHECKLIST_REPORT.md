@@ -410,3 +410,15 @@ Prinsip: tiap contoh kode diverifikasi EKSEKUSI (`node`/`python3`/`tsc --strict`
 | NestJS/Node/Django/Laravel/Rails/CI4/Spring/DB/Docker | Review + riset docs | 5 fix: Node W9 test-script; Django W8 `rest_framework` INSTALLED_APPS; Laravel W11 wiring Sanctum lengkap (`install:api`+trait+login); MySQL W8 sintaks replikasi modern (SLAVE deprecated 8.0.22); PG W8 `CREATE EXTENSION` prasyarat |
 
 **Total: 30+ perbaikan terverifikasi** (9 bug eksekusi-terbukti, sisanya klaim faktual + runnable-gap). `npm run build ✓`, index rebuilt, validator kurikulum 0 errors, tree clean.
+
+## UPGRADE GENERATOR KUIS v2 — SOAL TRACE + CARI-BUG TERVERIFIKASI EKSEKUSI (2026-09-08)
+
+Masalah: 4953 soal lama 100% template hafalan ("Apa topik Minggu X?", Benar/Salah judul), 106 minggu <5 soal. Tidak menguji pemahaman.
+
+Solusi: `scripts/quiz-codegen.mjs` baru (hook di `build-quiz.mjs`), 2 tipe soal BARU khusus JS/Python:
+- **trace** (18 soal): ambil blok program asli materi → EKSEKUSI (node/python3, temp-dir, timeout) → tanya output baris terakhir. Distraktor near-miss numerik + baris lain, semua diverifikasi beda dari jawaban.
+- **bug** (26 soal): 10 template jebakan klasik (const-reassign, ==/===, missing-await, index-oob, typeof-null, range, floordiv, alias, strmul, none-eq) — ditampilkan HANYA di minggu yang materinya mengajarkan konstruk terkait, jawaban DIVERIFIKASI run, template dipakai maks 1x per track+bahasa (anti-bosan).
+- Fail-safe: yang gagal verifikasi → skip diam-diam (tidak ada soal ngawur). Deterministik penuh (konten identik antar-build; hanya timestamp beda).
+- Kompatibel QuizModal tanpa ubah UI (`type: mcq`, kode di `context` mono-block).
+
+Hasil: total 4997 soal (4953 + 44 terverifikasi), 0 malformed. Keterbatasan jujur: minggu konten-pendek (JS W12/W14, Python W9/W10/W12: 3 soal) tetap tipis — butuh materi lebih panjang dulu, bukan generator lebih pintar.
