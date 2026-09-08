@@ -37,10 +37,16 @@ fn main() {
   ki.add(62000);
   // ki.add("x"); // ERROR: not i32!
 
-  // Trait bound: only Cashier-contracted (W7)!
-  fn priciest<T: crate::Cashier>(a: &T, b: &T) -> u32 {
+  // Trait bound: only contracted types (W7 Cashier trait summarized here so the example runs!)
+  trait Cashier { fn calc(&self) -> u32; }
+  struct Rice;
+  impl Cashier for Rice {
+    fn calc(&self) -> u32 { 25000 }
+  }
+  fn priciest<T: Cashier>(a: &T, b: &T) -> u32 {
     a.calc().max(b.calc())
   }
+  println!("Priciest: {}", priciest(&Rice, &Rice));
 }
 ```
 

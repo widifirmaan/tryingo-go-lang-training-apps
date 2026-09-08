@@ -37,10 +37,16 @@ fn main() {
   ki.tambah(62000);
   // ki.tambah("x"); // ERROR: bukan i32!
 
-  // Batas trait: hanya berkontrak Kasir (W7)!
-  fn bayar_termahal<T: crate::Kasir>(a: &T, b: &T) -> u32 {
+  // Batas trait: hanya yang berkontrak (trait Kasir W7 diringkas di sini agar contoh jalan!)
+  trait Kasir { fn hitung(&self) -> u32; }
+  struct Beras;
+  impl Kasir for Beras {
+    fn hitung(&self) -> u32 { 25000 }
+  }
+  fn bayar_termahal<T: Kasir>(a: &T, b: &T) -> u32 {
     a.hitung().max(b.hitung())
   }
+  println!("Termahal: {}", bayar_termahal(&Beras, &Beras));
 }
 ```
 

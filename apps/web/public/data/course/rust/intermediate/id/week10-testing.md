@@ -5,13 +5,13 @@
 ## Tujuan Pembelajaran
 
 - `#[test]` + `assert_eq!` cicip beneran + `cargo test` jalan (sumber: doc.rust-lang.org/book/ch11)
-- `#[should_panic]` harapkan meledak + doc-test di `///` otomatis jalan!
+- `#[should_panic]` harapkan meledak + doc-test di `///` (otomatis jalan di library crate!)
 
 ---
 
 ## Kenapa Ini Penting Buat Kamu?
 
-Simulasi `println` tidak dicek mesin. `cargo test` beneran: ubah rumus → merah → perbaiki. Doc-test (contoh di `///`) ikut jalan — dokumentasi tidak basi!
+Simulasi `println` tidak dicek mesin. `cargo test` beneran: ubah rumus → merah → perbaiki. Doc-test (contoh di `///`) ikut jalan di library crate — dokumentasi tidak basi!
 
 ---
 
@@ -21,7 +21,8 @@ Simulasi `println` tidak dicek mesin. `cargo test` beneran: ubah rumus → merah
 fn hitung(a: i32, b: i32) -> i32 { a + b }
 
 /// Bagi aman.
-/// /// Contoh (JALAN OTOMATIS sebagai test!):
+///
+/// Contoh (lihat catatan doc-test di bawah!):
 /// ```
 /// assert_eq!(bagi(10.0, 2.0), Ok(5.0));
 /// ```
@@ -54,8 +55,10 @@ mod test {
 
 ```bash
 cargo test
-# test result: ok. 3 passed + 1 doc-test — HIJAU beneran
+# test result: ok. 3 passed — HIJAU beneran
 ```
+
+> **Catatan jujur (hasil riset):** contoh `///` di atas disebut **doc-test**, tapi `cargo test` HANYA menjalankannya untuk **library crate** (`src/lib.rs` via `cargo new --lib`). Di binary crate (`src/main.rs` seperti di sini), contoh itu hanya dokumentasi — tidak ikut jalan. Mau doc-test beneran jalan? Pindah `hitung`/`bagi` ke `src/lib.rs`, lalu `cargo test` tampil `Doc-tests` terpisah. Unit test `#[test]` jalan di keduanya.
 
 ---
 
@@ -91,14 +94,14 @@ Untuk kode yang SEHARUSNYA panic.
 ## Eksperimen
 
 - **Hijau:** Ubah rumus → merah? Betulkan.
-- **Kuning:** Doc `///` salah → doc-test merah? (Dokumentasi basi ketahuan!)
+- **Kuning:** Pindah `bagi` ke `src/lib.rs`, salah-kan contoh `///` → `cargo test` tampil Doc-tests MERAH? (Dokumentasi basi ketahuan!)
 - **Merah:** Test tanpa `#[test]` → tidak jalan? Tambah atribut.
 
 ---
 
 ## Tantangan
 
-**Warung Teruji:** `hitung/diskon/bagi` + 4 test + 1 doc-test HIJAU + screenshot. **Selesai Menengah Rust!**
+**Warung Teruji:** `hitung/diskon/bagi` + 4 test HIJAU + screenshot + (bonus) pindah ke `lib.rs` hingga Doc-tests ikut HIJAU. **Selesai Menengah Rust!**
 
 ---
 
