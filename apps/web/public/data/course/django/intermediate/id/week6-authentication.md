@@ -59,6 +59,25 @@ def admin_warung(request):
 ### 3 Istilah Wajib
 - 1. **authenticate/login_required**: cek/jaga
 
+### Bonus: Session — Ingat Keranjang Tanpa Login (bab MDN Django Auth!)
+
+`@login_required` untuk admin. Keranjang belanja? Pakai **session** (cookie bertanda-tangan, server-side default DB):
+
+```python
+def tambah(request, id):
+    keranjang = request.session.get("keranjang", [])  # baca (default kosong)
+    keranjang.append(id)
+    request.session["keranjang"] = keranjang          # tulis → otomatis simpan!
+    request.session.modified = True                   # paksa simpan jika ragu
+    return redirect("daftar")
+
+def lihat(request):
+    ids = request.session.get("keranjang", [])
+    produk = Produk.objects.filter(id__in=ids)
+    return render(request, "warung/keranjang.html", {"produk": produk})
+```
+- Session hidup meski browser tutup (sampai expired). `request.session.flush()` = logout total (hapus semua!).
+
 ---
 
 ## Glosarium Mini

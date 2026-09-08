@@ -107,6 +107,34 @@ Sidekiq Web UI at `/sidekiq`. Monitors queues, retries, dead jobs.
 
 ---
 
+### Bonus: Action Mailer — Automatic Newsletter (Action Mailer chapter, guides.rubyonrails.org!)
+
+Jobs + email = mandatory pair (receipts sent in background!). Mailers look like controllers:
+
+```ruby
+# app/mailers/receipt_mailer.rb — postman
+class ReceiptMailer < ApplicationMailer
+  def receipt(user, total)
+    @user, @total = user, total
+    mail(to: user.email, subject: "Receipt Rp#{total}")
+  end
+end
+```
+
+```erb
+<!-- app/views/receipt_mailer/receipt.html.erb — letter body -->
+<h1>Hello <%= @user.name %>!</h1>
+<p>Total: Rp<%= @total %>. Thank you.</p>
+```
+
+```ruby
+# Send from a Job (never from controller — 5s loading!)
+ReceiptMailer.receipt(user, 62000).deliver_later # queue via Sidekiq!
+# deliver_now = send at once (wait). deliver_later = queue (fast)!
+```
+
+---
+
 ## Challenge
 
 Build an email notification system: queue email sending, retry 3x on failure, batch send, monitor with Sidekiq.

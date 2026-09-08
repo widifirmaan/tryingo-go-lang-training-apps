@@ -92,6 +92,25 @@ Inside `for`, shows when the list is empty.
 
 ---
 
+### Bonus: Static Files — Own CSS/Logo (MDN Django Tutorial chapter!)
+
+Templates without CSS = plain. `{% static %}` serves from `static/` (never hand-write paths!).
+
+```html
+{% load static %}
+<link rel="stylesheet" href="{% static 'shop/style.css' %}">
+<img src="{% static 'shop/logo.png' %}" alt="Logo" width="120">
+```
+```
+shop/
+  static/shop/style.css   # Quinn CSS
+  static/shop/logo.png
+  templates/shop/list.html
+```
+- `{% load static %}` mandatory per file! Production: `python manage.py collectstatic` gathers 1 folder.
+
+---
+
 ## Challenge
 
 **Complete Table Shop:** `base.html` (header/nav/footer) + `list.html` (`extends`, `for` + `empty`, `if stock==0`) + `detail.html` (`{{ p.name }}` + `|date:"d M Y"` for `created`). **Beginner Django DONE!**

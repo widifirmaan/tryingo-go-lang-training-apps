@@ -97,6 +97,28 @@ Di luar daftar, `save()` buang diam-diam (aman!).
 
 ---
 
+### Bonus: Query Builder + Pagination (inti user_guide/dbmgmt!)
+
+Model enak, tapi kadang butuh SQL lentur (JOIN manual, agregat). Query Builder = tulis rantai, CI4 terjemahkan + amankan:
+
+```php
+$db = \Config\Database::connect();
+$murah = $db->table('produk')
+  ->select('nama, harga')
+  ->where('harga <', 20000)
+  ->orderBy('harga', 'ASC')
+  ->get()->getResultArray(); // selalu array rapi!
+
+// Pagination 5 per halaman (1 baris + view links!)
+$model = new \App\Models\ProdukModel();
+$data['produk'] = $model->paginate(5);
+$data['pager'] = $model->pager;
+// di view: <?= $pager->links() ?> → « 1 2 3 »
+```
+- `where('harga <', 20000)` otomatis escape (anti SQL-injection!). `paginate(5)` baca `?page=` sendiri.
+
+---
+
 ## Tantangan
 
 **Rak Lengkap:** `ProdukModel` + `findAll` + `where stok>5` + `like` cari + `save` 2 + `delete` 1 + tampil di view.

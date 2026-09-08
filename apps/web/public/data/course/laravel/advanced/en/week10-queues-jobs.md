@@ -47,6 +47,29 @@ SendEmail::dispatch($user); // queued, no waiting
 ### 3 Must-Know Terms
 - 1. **dispatch/queue:work**: queue/take
 
+### Bonus: Mail + Auto Schedule (docs: Mail & Task Scheduling!)
+
+Jobs sending real email + running every morning WITHOUT manual cron:
+
+```bash
+php artisan make:mail ReceiptMail --markdown=emails.receipt
+```
+
+```php
+// app/Mail/ReceiptMail.php — render() shows receipt
+public function content() {
+  return new Content(markdown: 'emails.receipt', with: ['total' => 62000]);
+}
+// Send from Job: Mail::to($user->email)->send(new ReceiptMail());
+```
+
+```php
+// routes/console.php — schedule (replaces manual cron!)
+use Illuminate\Support\Facades\Schedule;
+Schedule::job(new SendPromo)->dailyAt("07:00"); // every 7am
+// Server: 1 cron only → * * * * * php artisan schedule:run
+```
+
 ---
 
 ## Mini Glossary

@@ -79,6 +79,23 @@ public Product add(@RequestBody Product p) { return repo.save(p); }
 ### `JpaRepository` = Magic Worker
 `extends JpaRepository<Product, Long>` → gains `findAll/save/findById/delete` + name-derived `findBy...`!
 
+### `@Transactional` = All-or-Nothing Package (mandatory for money!)
+
+Sell = decrement stock + add order. 1 fails without transactions = lost stock, missing order (MISMATCH!). 1 annotation = 2 writes 1 package:
+
+```java
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional // fails midway? Automatic ROLLBACK of all!
+public void sell(Long id, int qty) {
+  Product p = repo.findById(id).orElseThrow();
+  p.setStock(p.getStock() - qty);
+  repo.save(p);
+  orderRepo.save(new Order(p.getName(), qty)); // fails here → stock RESTORED!
+}
+```
+- Without `@Transactional`, line 1 succeeds + line 2 fails = corrupt data. With it = all or nothing!
+
 ### `ddl-auto=update` = Auto Build (Dev)
 Creates/updates tables following entities. Production uses `validate` + migrations!
 

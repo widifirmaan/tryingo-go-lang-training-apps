@@ -145,6 +145,32 @@ Buat sistem email notification: queue email sending, retry 3x on failure, batch 
 ### 3 Istilah Wajib
 - 1. **Sidekiq/perform_later**: kurir/antre
 
+### Bonus: Action Mailer — Surat Kabar Otomatis (bab Action Mailer guides.rubyonrails.org!)
+
+Job + email = pasangan wajib (struk terkirim background!). Mailer mirip controller:
+
+```ruby
+# app/mailers/struk_mailer.rb — tukang surat
+class StrukMailer < ApplicationMailer
+  def struk(user, total)
+    @user, @total = user, total
+    mail(to: user.email, subject: "Struk belanja Rp#{total}")
+  end
+end
+```
+
+```erb
+<!-- app/views/struk_mailer/struk.html.erb — isi surat -->
+<h1>Halo <%= @user.nama %>!</h1>
+<p>Total: Rp<%= @total %>. Terima kasih.</p>
+```
+
+```ruby
+# Kirim dari Job (jangan dari controller — 5 detik loading!)
+StrukMailer.struk(user, 62000).deliver_later # antre via Sidekiq!
+# deliver_now = kirim langsung (tunggu). deliver_later = antre (cepat)!
+```
+
 ---
 
 ## Glosarium Mini
