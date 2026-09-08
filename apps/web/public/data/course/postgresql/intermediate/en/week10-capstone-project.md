@@ -1,42 +1,42 @@
-# Capstone: Gudang Warung Lengkap
+# Capstone: Complete Shop Warehouse
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 10:** Capstone Project
+> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 10:** Capstone Project
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `CREATE TABLE` + `JOIN` + `INDEX` + `JSONB` + `replikasi` jadi gudang warung 10rb baris + laporan `GROUP BY` + `Window`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-9 minggu terpisah — capstone buktikan gabung: gudang 10rb baris + laporan + backup/restore. Portfolio PostgreSQL.
+- Combine `CREATE TABLE` + `JOIN` + `INDEX` + `JSONB` + `replication` into a 10k-row shop warehouse + `GROUP BY` + `Window` report
 
 ---
 
-## Program: Gudang Capstone
+## Why This Matters (Non-IT)
 
-Buat `produk`, `pelanggan`, `pesanan` + `INDEX` + `JSONB` untuk `pesanan.data` + `replica` + `EXPLAIN ANALYZE`.
+9 separate weeks — capstone proves the combination: 10k-row warehouse + reports + backup/restore. PostgreSQL portfolio.
 
-**Tugas:** Import 10rb baris `COPY FROM csv`, buat laporan `SELECT kategori, SUM(harga) OVER (PARTITION BY kategori)`.
+---
+
+## Program: Warehouse Capstone
+
+Build `products`, `customers`, `orders` + `INDEX` + `JSONB` for `orders.data` + `replica` + `EXPLAIN ANALYZE`.
+
+**Task:** Import 10k rows `COPY FROM csv`, build report `SELECT category, SUM(price) OVER (PARTITION BY category)`.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Grand Opening Gudang
-- Lihat Program: jalankan baris per baris di Supabase/`psql`, ubah 1 angka, lihat bedanya.
+### Analogy: Warehouse Grand Opening
+- See Program: run line by line in Supabase/`psql`, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (Supabase tanpa install / lokal).
+### Step 0 — Prepare Device
+- Same as this track's W1 (Supabase no-install / local).
 
-### Cara Komputer Membaca
-- CHECKLIST semua (index + view + backup) lalu `pg_dump` + restore + data sama.
+### How the Computer Reads It
+- CHECKLIST everything (index + view + backup) then `pg_dump` + restore + same data.
 
-### 3 Istilah Wajib
-- 1. **Capstone/pg_dump**: gabung/cadangan
+### 3 Must-Know Terms
+- 1. **Capstone/pg_dump**: combine/backup
 
-## Ringkasan
+## Summary
 
-Minggu 10: **Capstone Gudang** — gudang lengkap, **Selesai PostgreSQL 0→Ahli!**
+Week 10: **Warehouse Capstone** — complete warehouse, **PostgreSQL 0→Expert DONE!**

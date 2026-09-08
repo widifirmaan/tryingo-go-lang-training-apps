@@ -1,34 +1,78 @@
-# Window Functions — Peringkat Tanpa GROUP
+# Window Functions — Rankings Without GROUP
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 6:** Window Functions
+> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 6:** Window Functions
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `ROW_NUMBER() OVER (ORDER BY harga DESC)`, `RANK()`, `SUM() OVER (PARTITION BY kategori)` — hitung peringkat & total per kategori tanpa `GROUP BY`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Laporan "produk termahal per kategori" tanpa window = `GROUP BY` + `JOIN` rumit. Window = 1 query.
+- `ROW_NUMBER() OVER (ORDER BY price DESC)`, `RANK()`, `SUM() OVER (PARTITION BY category)` — rank & totals per category without `GROUP BY`
 
 ---
 
-## Program: Peringkat Warung
+## Why This Matters (Non-IT)
+
+A "most expensive product per category" report without windows = complex `GROUP BY` + `JOIN`. Windows = 1 query.
+
+---
+
+## Program: Shop Rankings
 
 ```sql
-SELECT nama, kategori, harga,
-  ROW_NUMBER() OVER (ORDER BY harga DESC) AS peringkat,
-  RANK() OVER (PARTITION BY kategori ORDER BY harga DESC) AS rank_kategori,
-  SUM(harga) OVER (PARTITION BY kategori) AS total_kategori
-FROM produk
-ORDER BY harga DESC;
+SELECT name, category, price,
+  ROW_NUMBER() OVER (ORDER BY price DESC) AS rank,
+  RANK() OVER (PARTITION BY category ORDER BY price DESC) AS category_rank,
+  SUM(price) OVER (PARTITION BY category) AS category_total
+FROM products
+ORDER BY price DESC;
 ```
 
-`PARTITION BY kategori` = hitung per kategori, `ORDER BY` = urut.
+`PARTITION BY category` = compute per category, `ORDER BY` = sort.
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 6: **Peringkat** — Window Functions.
+### `OVER` / `PARTITION BY` = Compute Without Collapsing
+`GROUP BY` collapses rows; `OVER` keeps rows + adds computed columns.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Race Rankings per Class
+- **`PARTITION BY category` = separate races per class**, **`ROW_NUMBER` = finish order**.
+
+### Step 0 — Prepare Device
+- Supabase / `psql`, `products` table from W1-W5, run query row by row.
+
+### How the Computer Reads It
+1. `PARTITION BY category` → splits rows per category.
+2. `ROW_NUMBER() OVER (ORDER BY price DESC)` → numbers within each split.
+
+### 3 Must-Know Terms
+1. **OVER/PARTITION**: compute/split
+
+---
+
+## Experiments
+
+- **Green:** Remove `PARTITION BY` → global ranking?
+- **Yellow:** `RANK()` vs `ROW_NUMBER()` with tied prices → gaps vs no gaps?
+- **Red:** `ORDER BY` inside `OVER` missing → arbitrary order? Add it.
+
+---
+
+## Challenge
+
+**Ranking Report:** Top-3 most expensive per category + category total, 1 query, `RANK()` + `SUM() OVER`.
+
+---
+
+## Mini Glossary
+
+- **window/partition**: compute/split
+
+---
+
+## Summary
+
+Week 6: **Rankings** — Window Functions. Next: **JSONB**.

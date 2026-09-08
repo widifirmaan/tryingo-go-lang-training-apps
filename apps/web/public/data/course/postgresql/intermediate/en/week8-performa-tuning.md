@@ -1,46 +1,46 @@
-# Performa Tuning — Gudang Tetap Cepat 1 Juta Baris
+# Performance Tuning — Warehouse Fast at 1M Rows
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 8:** Performa Tuning
+> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 8:** Performa Tuning
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `EXPLAIN ANALYZE` waktu nyata, `VACUUM`, `ANALYZE`, `pg_stat_statements` cari query lambat
+- `EXPLAIN ANALYZE` real time, `VACUUM`, `ANALYZE`, `pg_stat_statements` find slow queries
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `EXPLAIN ANALYZE`, query lambat ketahuan dari komplain (bukan data). Dengan rontgen waktu-nyata + `VACUUM`, buktikan 100x sebelum deploy.
+Without `EXPLAIN ANALYZE`, slow queries surface via complaints (not data). With real-time X-ray + `VACUUM`, prove 100x before deploy.
 
 ---
 
 ## Program
 
 ```sql
-EXPLAIN ANALYZE SELECT * FROM produk WHERE kategori = 'Sembako';
+EXPLAIN ANALYZE SELECT * FROM products WHERE category = 'Staples';
 -- Seq Scan cost=... time=1.2ms → Index Scan time=0.1ms
 
-VACUUM ANALYZE produk;
+VACUUM ANALYZE products;
 SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 5;
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Dokter Gudang
-- Lihat Program: jalankan baris per baris di Supabase/`psql`, ubah 1 angka, lihat bedanya.
+### Analogy: Warehouse Doctor
+- See Program: run line by line in Supabase/`psql`, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (Supabase tanpa install / lokal).
+### Step 0 — Prepare Device
+- Same as this track's W1 (Supabase no-install / local).
 
-### Cara Komputer Membaca
-- EXPLAIN ANALYZE tunjukkan waktu nyata tiap tahap; VACUUM sapu data mati.
+### How the Computer Reads It
+- EXPLAIN ANALYZE shows real time per stage; VACUUM sweeps dead data.
 
-### 3 Istilah Wajib
-- 1. **EXPLAIN ANALYZE/VACUUM**: rontgen-waktu/sapu
+### 3 Must-Know Terms
+- 1. **EXPLAIN ANALYZE/VACUUM**: time-xray/sweep
 
-## Ringkasan
+## Summary
 
-Minggu 8: **Gudang Cepat** — `EXPLAIN ANALYZE` + `VACUUM`.
+Week 8: **Fast Warehouse** — `EXPLAIN ANALYZE` + `VACUUM`.

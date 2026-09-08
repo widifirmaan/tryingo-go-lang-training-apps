@@ -1,39 +1,83 @@
-# JSONB Semi-Struktural — Kardus Campur
+# JSONB Semi-Structured — Mixed Box
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 7:** JSONB Semi-Struktural
+> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 7:** JSONB Semi-Struktural
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `JSONB` kolom fleksibel seperti Mongo: `data JSONB`, `->>` ambil teks, `GIN` index
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Produk warung kadang ada `warna`, kadang tidak — `JSONB` tidak perlu `ALTER TABLE` tiap tambah field.
+- `JSONB` flexible column like Mongo: `data JSONB`, `->>` get text, `GIN` index
 
 ---
 
-## Program: Kardus Campur
+## Why This Matters (Non-IT)
+
+Shop products sometimes have `color`, sometimes not — `JSONB` needs no `ALTER TABLE` for each new field.
+
+---
+
+## Program: Mixed Box
 
 ```sql
-CREATE TABLE produk_fleksibel (
+CREATE TABLE flexible_products (
   id SERIAL PRIMARY KEY,
-  nama TEXT NOT NULL,
+  name TEXT NOT NULL,
   data JSONB
 );
 
-INSERT INTO produk_fleksibel (nama, data) VALUES
-  ('Beras', '{"harga": 62000, "stok": 10}'),
-  ('Bayam', '{"harga": 5000, "warna": "hijau"}');
+INSERT INTO flexible_products (name, data) VALUES
+  ('Rice', '{"price": 62000, "stock": 10}'),
+  ('Spinach', '{"price": 5000, "color": "green"}');
 
-SELECT nama, data->>'harga' AS harga FROM produk_fleksibel;
-SELECT * FROM produk_fleksibel WHERE data->>'warna' = 'hijau';
-CREATE INDEX idx_data_harga ON produk_fleksibel USING GIN (data);
+SELECT name, data->>'price' AS price FROM flexible_products;
+SELECT * FROM flexible_products WHERE data->>'color' = 'green';
+CREATE INDEX idx_data_price ON flexible_products USING GIN (data);
 ```
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 7: **Kardus Campur** — JSONB fleksibel.
+### `JSONB` / `->>` / `GIN`
+`JSONB` binary JSON column, `->>` extracts text, `GIN` index speeds key searches.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Mixed Box with Labels
+- **`JSONB` = box where each item carries its own label** — no shelf rebuild per new label.
+
+### Step 0 — Prepare Device
+- Supabase / `psql`, run CREATE + INSERT + SELECT.
+
+### How the Computer Reads It
+1. `data->>'price'` → dive into JSON → return text `"62000"`.
+2. `GIN (data)` → index all keys for fast `WHERE`.
+
+### 3 Must-Know Terms
+1. **JSONB/GIN**: flex-box/fast-index
+
+---
+
+## Experiments
+
+- **Green:** `data->>'color'` on Rice (missing) → NULL?
+- **Yellow:** `WHERE (data->>'price')::int > 10000` → cast + filter?
+- **Red:** Query without `GIN` on 100k rows → slow? Add index.
+
+---
+
+## Challenge
+
+**Flex Catalog:** 5 products with different keys + `->>` price list + `GIN` index + 1 filtered query.
+
+---
+
+## Mini Glossary
+
+- **JSONB/->>/GIN**: flex/get/index
+
+---
+
+## Summary
+
+Week 7: **Mixed Box** — flexible JSONB. Next: **Performance**.
