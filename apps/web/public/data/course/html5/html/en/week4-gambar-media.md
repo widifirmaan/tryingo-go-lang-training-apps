@@ -5,7 +5,7 @@
 ## Learning Objectives
 
 - `img src alt width height` photos, mandatory `alt` for blind users, `figure+figcaption` frame + caption
-- `srcset` for phone vs laptop (later in CSS)
+- `srcset`/`sizes` responsive images for phones vs laptops (still HTML: `srcset="small.jpg 480w, big.jpg 800w"`)
 
 ---
 
@@ -22,7 +22,7 @@ A shop without photos = customers don't trust. `alt` = description when photo fa
   <img src="rice.jpg" alt="5kg rice sack" width="300" height="200">
   <figcaption>Rice 5kg — Rp 62,000</figcaption>
 </figure>
-<img src="https://via.placeholder.com/300" alt="Product placeholder" width="300" height="200">
+<img src="https://placehold.co/300" alt="Product placeholder" width="300" height="200">
 <p>If the photo fails, <code>alt</code> shows: "5kg rice sack"</p>
 ```
 

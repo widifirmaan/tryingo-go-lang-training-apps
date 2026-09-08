@@ -10,7 +10,7 @@
 
 ## Why This Matters (Non-IT)
 
-Without `description`, Google grabs random text. With a 150-char `description`, the shop looks beautiful on Google & WA.
+Without `description`, Google grabs random text for the snippet. With a ~150-char `description`, you suggest a snippet to Google (Google sometimes rewrites it, but good suggestions are often used). `og:` controls the pretty preview when links are shared on WA/FB.
 
 ---
 

@@ -27,7 +27,7 @@ Judul warung `font-size: 2.5vw` di HP jadi 10px kekecilan, di TV jadi 60px kebes
 </style></head>
 <body>
   <h1>Warung Bu Siti</h1>
-  <img class="foto" src="https://via.placeholder.com/640x360" alt="Warung" width="640" height="360">
+  <img class="foto" src="https://placehold.co/640x360" alt="Warung" width="640" height="360">
   <div class="grid"><div class="kartu">Beras</div><div class="kartu">Bayam</div><div class="kartu">Telur</div></div>
 </body></html>
 ```

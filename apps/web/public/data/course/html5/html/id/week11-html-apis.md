@@ -67,7 +67,7 @@ Klik `summary` → buka/tutup. `open` atribut untuk buka default.
 - **dialog = etalase kaca**: muncul di depan, ESC tutup.
 
 ### Langkah 0 — Siapkan Device
-- VS Code + browser modern (Chrome 90+ untuk `dialog`).
+- VS Code + browser modern (`dialog` Baseline 2022 — Chrome 37+, Firefox 98+, Safari 15.4+).
 
 ### Cara Komputer Membaca
 1. Klik `summary` → browser toggle `open` → tampil isi.
