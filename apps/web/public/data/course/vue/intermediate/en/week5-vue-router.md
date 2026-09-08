@@ -37,6 +37,15 @@ export default createRouter({
 });
 ```
 
+```javascript
+// src/main.js — MUST register router (forgotten = blank pages!)
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+
+createApp(App).use(router).mount("#app");
+```
+
 ```vue
 <!-- App.vue -->
 <script setup>
