@@ -1,114 +1,114 @@
-# Models & Database — Rak CI4 Beneran
+# Models & Database — Real CI4 Racks
 
-> **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 4:** Models & Database
+> **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 4:** Models & Database
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php spark make:model ProdukModel` + `protected $table` + `$allowedFields` anti mass-assignment (sumber: codeigniter.com/user_guide/models/model)
-- `findAll()`, `find($id)`, `where()->findAll()`, `save()`, `delete()` (sumber: user_guide/models/model)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa Model, tiap controller tulis SQL mentah 10x (typo 1 = error 10 tempat). Dengan `ProdukModel`, 1 rak dipakai 10 controller. `$allowedFields` cegah hacker isi `is_admin` lewat form (seperti `$fillable` Laravel).
+- `php spark make:model ProductModel` + `protected $table` + `$allowedFields` anti mass-assignment (source: codeigniter.com/user_guide/models/model)
+- `findAll()`, `find($id)`, `where()->findAll()`, `save()`, `delete()` (source: user_guide/models/model)
 
 ---
 
-## Program: Rak Produk CI4 Beneran
+## Why This Matters (Non-IT)
+
+Without Models, every controller hand-writes raw SQL 10x (1 typo = errors in 10 places). With `ProductModel`, 1 rack serves 10 controllers. `$allowedFields` stops hackers filling `is_admin` via forms (like Laravel's `$fillable`).
+
+---
+
+## Program: Real CI4 Product Rack
 
 ```bash
-php spark make:model ProdukModel
+php spark make:model ProductModel
 ```
 
 ```php
-// app/Models/ProdukModel.php — rak
+// app/Models/ProductModel.php — rack
 namespace App\Models;
 use CodeIgniter\Model;
 
-class ProdukModel extends Model {
-  protected $table = 'produk';
+class ProductModel extends Model {
+  protected $table = 'products';
   protected $primaryKey = 'id';
-  protected $allowedFields = ['nama', 'harga', 'stok']; // HANYA ini boleh save()!
+  protected $allowedFields = ['name', 'price', 'stock']; // ONLY these pass save()!
   protected $returnType = 'array';
 }
 ```
 
 ```php
-// Controller — pakai rak
-$model = new \App\Models\ProdukModel();
+// Controller — use the rack
+$model = new \App\Models\ProductModel();
 
-// Baca
-$data["semua"] = $model->findAll();
-$data["satu"] = $model->find(1);
-$data["murah"] = $model->where('harga <', 20000)->findAll();
-$data["cari"] = $model->like('nama', 'beras')->findAll();
+// Read
+$data["all"] = $model->findAll();
+$data["one"] = $model->find(1);
+$data["cheap"] = $model->where('price <', 20000)->findAll();
+$data["search"] = $model->like('name', 'rice')->findAll();
 
-// Tulis (hanya allowedFields lolos!)
-$model->save(["nama" => "Kopi", "harga" => 12000, "is_admin" => 1]); // is_admin DITOLAK!
+// Write (only allowedFields pass!)
+$model->save(["name" => "Coffee", "price" => 12000, "is_admin" => 1]); // is_admin REJECTED!
 
-// Hapus
+// Delete
 $model->delete(99);
 
-return view('produk', $data);
+return view('products', $data);
 ```
 
-Atur DB di `app/Config/Database.php` (`database` = `warung`) + pastikan tabel ada (W5 migration).
+Set DB in `app/Config/Database.php` (`database` = `shop`) + ensure table exists (W5 migration).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Model` + `$table` = Rak Siap
-`extends Model` + `$table = 'produk'` → `findAll/save` langsung jalan.
+### `Model` + `$table` = Ready Rack
+`extends Model` + `$table = 'products'` → `findAll/save` just work.
 
-### `$allowedFields` = Daftar Sah
-Di luar daftar, `save()` buang diam-diam (aman!).
+### `$allowedFields` = Guest List
+Outside the list, `save()` silently drops (safe!).
 
-### `where/like/find` = Tukang Cari
-`where('harga <', 20000)->findAll()`, `like('nama','beras')`, `find(1)`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Rak dengan Penjaga
-- **Model = rak + penjaga**: ambil/simpan lewat penjaga.
-- **$allowedFields = daftar tamu**: di luar daftar, tolak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + tabel `produk` ada (W5 atau SQL manual).
-
-### Cara Komputer Membaca
-1. `$model->where(...)->findAll()` → bangun `SELECT ... WHERE ...` → jalankan → array.
-2. `save(["is_admin"=>1])` → saring allowedFields → buang `is_admin`.
-
-### 3 Istilah Wajib
-1. **Model/allowedFields**: rak/daftar-sah
-2. **findAll/save**: ambil/simpan
+### `where/like/find` = Finders
+`where('price <', 20000)->findAll()`, `like('name','rice')`, `find(1)`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `find(1)` → 1 barang? `findAll()` → semua?
-- **Kuning:** `save` dengan `is_admin` → kolom tidak ada (ditolak)?
-- **Merah:** `$table` salah ketik → error `Table not found`? Betulkan.
+### Analogy: Rack with Guard
+- **Model = rack + guard**: take/store via guard.
+- **$allowedFields = guest list**: off-list, rejected.
+
+### Step 0 — Prepare Device
+- Same as W1 + `products` table present (W5 or manual SQL).
+
+### How the Computer Reads It
+1. `$model->where(...)->findAll()` → builds `SELECT ... WHERE ...` → runs → array.
+2. `save(["is_admin"=>1])` → filters allowedFields → drops `is_admin`.
+
+### 3 Must-Know Terms
+1. **Model/allowedFields**: rack/guest-list
+2. **findAll/save**: take/store
 
 ---
 
-## Tantangan
+## Experiments
 
-**Rak Lengkap:** `ProdukModel` + `findAll` + `where stok>5` + `like` cari + `save` 2 + `delete` 1 + tampil di view.
-
----
-
-## Glosarium Mini
-
-- **Model/allowedFields/findAll**: rak/sah/ambil
+- **Green:** `find(1)` → 1 item? `findAll()` → all?
+- **Yellow:** `save` with `is_admin` → column missing (rejected)?
+- **Red:** Misspelled `$table` → `Table not found` error? Fix it.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 4 dari 5: **Rak Beneran** (Level: Pemula). Tanpa SQL mentah. Minggu depan: **Migrations** — cetak biru.
+**Complete Rack:** `ProductModel` + `findAll` + `where stock>5` + `like` search + `save` 2 + `delete` 1 + display in view.
+
+---
+
+## Mini Glossary
+
+- **Model/allowedFields/findAll**: rack/valid/take
+
+---
+
+## Summary
+
+Week 4 of 5: **Real Racks** (Level: Beginner). No raw SQL. Next: **Migrations** — blueprints.

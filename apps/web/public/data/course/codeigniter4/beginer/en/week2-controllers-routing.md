@@ -1,118 +1,118 @@
-# Controllers & Routing — Pintu Warung CI4 Resmi
+# Controllers & Routing — Official CI4 Shop Doors
 
-> **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 2:** Controllers & Routing
+> **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 2:** Controllers & Routing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Pahami `app/Config/Routes.php` dengan `$routes->get('produk', 'Produk::index')` (sumber: routing.html)
-- Bedakan `get()` vs `add()` — pakai `get()` untuk GET, `post()` untuk POST (aman, bukan `add()` legacy)
-- `(:segment)` untuk `produk/(:segment)` → `Produk::detail/$1`, dan `(:num)` untuk angka
-- `php spark routes` cek peta
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `Routes.php` yang benar, `http://localhost:8080/produk` error 404. Dengan `$routes->get('produk', 'Produk::index')`, 1 baris jadi pintu. `add()` legacy CI3 tidak aman — pakai `get()`/`post()`.
+- Understand `app/Config/Routes.php` with `$routes->get('products', 'Products::index')` (source: routing.html)
+- Distinguish `get()` vs `add()` — use `get()` for GET, `post()` for POST (safe, not legacy `add()`)
+- `(:segment)` for `products/(:segment)` → `Products::detail/$1`, and `(:num)` for numbers
+- `php spark routes` checks the map
 
 ---
 
-## Program: Pintu Produk Resmi
+## Why This Matters (Non-IT)
+
+Without a correct `Routes.php`, `http://localhost:8080/products` 404s. With `$routes->get('products', 'Products::index')`, 1 line becomes a door. Legacy CI3 `add()` is unsafe — use `get()`/`post()`.
+
+---
+
+## Program: Official Product Doors
 
 ```php
-// app/Config/Routes.php — resmi (userguide)
+// app/Config/Routes.php — official (userguide)
 use CodeIgniter\Router\RouteCollection;
 /** @var RouteCollection $routes */
 $routes->get('/', 'Home::index');
-$routes->get('produk', 'Produk::index');          // GET /produk → Produk::index
-$routes->get('produk/(:segment)', 'Produk::detail/$1'); // /produk/beras → detail("beras")
-$routes->post('produk', 'Produk::simpan');       // POST untuk form
-$routes->get('produk/(:num)/edit', 'Produk::edit/$1'); // (:num) hanya angka
+$routes->get('products', 'Products::index');          // GET /products → Products::index
+$routes->get('products/(:segment)', 'Products::detail/$1'); // /products/rice → detail("rice")
+$routes->post('products', 'Products::save');       // POST for forms
+$routes->get('products/(:num)/edit', 'Products::edit/$1'); // (:num) numbers only
 
-// app/Controllers/Produk.php
+// app/Controllers/Products.php
 namespace App\Controllers;
-class Produk extends BaseController {
+class Products extends BaseController {
   public function index(){
-    $data["produk"] = [["nama"=>"Beras","harga"=>62000],["nama"=>"Bayam","harga"=>5000]];
-    return view('produk', $data);
+    $data["products"] = [["name"=>"Rice","price"=>62000],["name"=>"Spinach","price"=>5000]];
+    return view('products', $data);
   }
   public function detail($slug){
     return "Detail: " . esc($slug);
   }
-  public function simpan(){
-    $nama = $this->request->getPost('nama');
-    return "Simpan $nama";
+  public function save(){
+    $name = $this->request->getPost('name');
+    return "Save $name";
   }
 }
 ```
 
-**Cek peta:**
+**Check the map:**
 ```bash
 php spark routes
-# GET  produk → Produk::index
-# GET  produk/(:segment) → Produk::detail/$1
+# GET  products → Products::index
+# GET  products/(:segment) → Products::detail/$1
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `$routes->get()` vs `add()`
-`get('produk', 'Produk::index')` hanya GET. `add()` terima semua verb (tidak aman) — jangan pakai kecuali legacy.
+`get('products', 'Products::index')` GET only. `add()` accepts all verbs (unsafe) — avoid except legacy.
 
 ### Placeholder `(:segment)` vs `(:num)`
-`(:segment)` untuk teks `beras`, `(:num)` untuk `123`.
+`(:segment)` for `rice` text, `(:num)` for `123`.
 
 ### `php spark routes`
-Lihat semua pintu yang terdaftar.
+Lists all registered doors.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Pintu Warung dengan Label
-- **`Routes.php` = papan pintu**: `get('produk', 'Produk::index')` label "Pintu Produk → Pelayan Produk, meja index".
-- **`(:segment)` = pintu geser**: `produk/beras` dan `produk/bayam` 1 pintu geser, `detail($slug)` baca label `beras`.
+### Analogy: Shop Doors with Labels
+- **`Routes.php` = door board**: `get('products', 'Products::index')` label "Products Door → Products Waiter, index table".
+- **`(:segment)` = sliding door**: `products/rice` and `products/spinach` 1 sliding door, `detail($slug)` reads the `rice` label.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-Sudah siap dari W1: `php -v`, `composer`, `php spark serve` di `8080`. Tidak perlu XAMPP untuk dev.
+Ready from W1: `php -v`, `composer`, `php spark serve` on `8080`. No XAMPP needed for dev.
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. Browser `GET /produk` → `Routes.php` cari `get('produk', ...)` → `Produk::index()` → `view('produk')`.
-2. Browser `GET /produk/beras` → cocok `produk/(:segment)` → `detail("beras")`.
+1. Browser `GET /products` → `Routes.php` finds `get('products', ...)` → `Products::index()` → `view('products')`.
+2. Browser `GET /products/rice` → matches `products/(:segment)` → `detail("rice")`.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
-1. **Routes.php**: papan pintu
-2. **get/post**: pintu GET/POST
-3. **(:segment)**: variabel URL
-
----
-
-## Eksperimen
-
-- **Hijau:** Tambah `$routes->get('kontak', 'Kontak::index')` → `http://localhost:8080/kontak`?
-- **Kuning:** Ganti `(:segment)` jadi `(:num)` lalu buka `/produk/beras` → 404? Ganti balik.
-- **Merah:** Pakai `$routes->add('produk', ...)` lalu POST → bisa GET juga (tidak aman). Ganti ke `get`.
+1. **Routes.php**: door board
+2. **get/post**: GET/POST doors
+3. **(:segment)**: URL variable
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung 3 Pintu:** `get('')` Beranda, `get('produk')` index, `get('produk/(:num)')` detail angka, `post('produk')` simpan. `php spark routes` screenshot.
-
----
-
-## Glosarium Mini
-
-- **Routes.php/$routes**: papan & koleksi
-- **get/post**: pintu HTTP
-- **(:segment)/(:num)**: placeholder
+- **Green:** Add `$routes->get('contact', 'Contact::index')` → `http://localhost:8080/contact`?
+- **Yellow:** Change `(:segment)` to `(:num)` then open `/products/rice` → 404? Change back.
+- **Red:** Use `$routes->add('products', ...)` then POST → also accepts GET (unsafe). Switch to `get`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 5: **Pintu CI4 Resmi** (Level: Pemula). Peta `get` aman terpasang. Minggu depan: **Views & Templates** — etalase `view()`.
+**3-Door Shop:** `get('')` Home, `get('products')` index, `get('products/(:num)')` numeric detail, `post('products')` save. `php spark routes` screenshot.
+
+---
+
+## Mini Glossary
+
+- **Routes.php/$routes**: board & collection
+- **get/post**: HTTP doors
+- **(:segment)/(:num)**: placeholders
+
+---
+
+## Summary
+
+Week 2 of 5: **Official CI4 Doors** (Level: Beginner). Safe `get` map installed. Next: **Views & Templates** — `view()` showcase.

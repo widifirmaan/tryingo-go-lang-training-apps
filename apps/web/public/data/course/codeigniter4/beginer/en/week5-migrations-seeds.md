@@ -1,60 +1,60 @@
-# Migrations & Seeds — Cetak Biru dan Isi Awal CI4
+# Migrations & Seeds — CI4 Blueprints and Starter Stock
 
-> **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 5:** Migrations & Seeds
+> **Kategori:** CodeIgniter 4 | **Level:** Beginner | **Minggu 5:** Migrations & Seeds
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php spark make:migration BuatProduk` + `up()` (`forge->addField/addKey/createTable`) + `down()` (`dropTable`) (sumber: codeigniter.com/user_guide/dbmgmt/migration)
-- `php spark migrate` bangun, `migrate:rollback` batal, `migrate:status` cek
-- `php spark make:seeder` + `db->table()->insertBatch()` isi awal + `php spark db:seed`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa migration, tambah kolom = edit DB manual tiap laptop/server (lupa 1 = error). Dengan migration, `migrate` di mana saja hasilnya sama. Seeds isi produk contoh otomatis — tidak input manual 20x tiap install baru.
+- `php spark make:migration CreateProducts` + `up()` (`forge->addField/addKey/createTable`) + `down()` (`dropTable`) (source: codeigniter.com/user_guide/dbmgmt/migration)
+- `php spark migrate` builds, `migrate:rollback` cancels, `migrate:status` checks
+- `php spark make:seeder` + `db->table()->insertBatch()` starter stock + `php spark db:seed`
 
 ---
 
-## Program: Cetak Biru + Isi CI4 Beneran
+## Why This Matters (Non-IT)
+
+Without migrations, adding columns = hand-editing DBs on every laptop/server (forget 1 = error). With migrations, `migrate` anywhere gives identical results. Seeds auto-fill sample products — no 20x manual input per fresh install.
+
+---
+
+## Program: Real CI4 Blueprint + Stock
 
 ```bash
-php spark make:migration BuatProduk
-php spark make:seeder IsiProduk
+php spark make:migration CreateProducts
+php spark make:seeder FillProducts
 ```
 
 ```php
-// app/Database/Migrations/2026-08-25-BuatProduk.php
+// app/Database/Migrations/2026-08-25-CreateProducts.php
 namespace App\Database\Migrations;
 use CodeIgniter\Database\Migration;
 
-class BuatProduk extends Migration {
+class CreateProducts extends Migration {
   public function up() {
     $this->forge->addField([
       'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
-      'nama' => ['type' => 'VARCHAR', 'constraint' => 100],
-      'harga' => ['type' => 'INT'],
-      'stok' => ['type' => 'INT', 'default' => 0],
+      'name' => ['type' => 'VARCHAR', 'constraint' => 100],
+      'price' => ['type' => 'INT'],
+      'stock' => ['type' => 'INT', 'default' => 0],
     ]);
     $this->forge->addKey('id', true);
-    $this->forge->createTable('produk');
+    $this->forge->createTable('products');
   }
   public function down() {
-    $this->forge->dropTable('produk');
+    $this->forge->dropTable('products');
   }
 }
 ```
 
 ```php
-// app/Database/Seeds/IsiProduk.php
+// app/Database/Seeds/FillProducts.php
 namespace App\Database\Seeds;
 use CodeIgniter\Database\Seeder;
 
-class IsiProduk extends Seeder {
+class FillProducts extends Seeder {
   public function run() {
-    $this->db->table('produk')->insertBatch([
-      ["nama" => "Beras", "harga" => 62000, "stok" => 10],
-      ["nama" => "Bayam", "harga" => 5000, "stok" => 20],
+    $this->db->table('products')->insertBatch([
+      ["name" => "Rice", "price" => 62000, "stock" => 10],
+      ["name" => "Spinach", "price" => 5000, "stock" => 20],
     ]);
   }
 }
@@ -63,63 +63,63 @@ class IsiProduk extends Seeder {
 ```bash
 php spark migrate
 php spark migrate:status
-php spark db:seed IsiProduk
-php spark migrate:rollback  # batalkan terakhir
+php spark db:seed FillProducts
+php spark migrate:rollback  # cancel last
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `up()` / `down()` = Bangun/Bongkar
-`up` jalankan `migrate`, `down` jalankan `rollback`.
+### `up()` / `down()` = Build/Demolish
+`up` runs on `migrate`, `down` on `rollback`.
 
-### `forge` = Tukang Bangunan
+### `forge` = Builder
 `addField`, `addKey('id', true)` PK, `createTable`, `dropTable`.
 
-### Seeder = Pengisi Awal
-`insertBatch([...])` banyak sekaligus. `db:seed Nama`.
+### Seeder = Starter Stock
+`insertBatch([...])` many at once. `db:seed Name`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cetak Biru + Stok Awal
-- **Migration = gambar renovasi**, **seeder = isi rak pertama** (20 produk contoh).
+### Analogy: Blueprints + Starter Stock
+- **Migration = renovation drawing**, **seeder = first rack fill** (20 sample products).
 
-### Langkah 0 — Siapkan Device
-- Sama W1 + DB di `.env` benar + `php spark migrate:status` cek.
+### Step 0 — Prepare Device
+- Same as W1 + correct DB in `.env` + `php spark migrate:status` check.
 
-### Cara Komputer Membaca
-1. `migrate` → baca file `up()` belum jalan → `createTable`.
+### How the Computer Reads It
+1. `migrate` → reads un-run file `up()`s → `createTable`.
 2. `db:seed` → `run()` → `insertBatch`.
 
-### 3 Istilah Wajib
-1. **Migration/up/down**: biru/bangun/bongkar
-2. **Seeder/insertBatch**: pengisi/borong
+### 3 Must-Know Terms
+1. **Migration/up/down**: blueprint/build/demolish
+2. **Seeder/insertBatch**: filler/bulk
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** `migrate:status` → semua `up`?
-- **Kuning:** `rollback` → tabel hilang? `migrate` lagi.
-- **Merah:** Jalankan `migrate` 2x → "Nothing to migrate" (tidak ganda)?
-
----
-
-## Tantangan
-
-**Gudang Lengkap:** Migration `BuatPelanggan` + seeder 3 pelanggan + `migrate` + `seed` + cek di `phpMyAdmin`/SQLite. **Selesai Beginner CI4!**
+- **Green:** `migrate:status` → all `up`?
+- **Yellow:** `rollback` → table gone? `migrate` again.
+- **Red:** Run `migrate` 2x → "Nothing to migrate" (no duplicates)?
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **Migration/Seeder/forge**: biru/isi/tukang
+**Complete Warehouse:** `CreateCustomers` migration + 3-customer seeder + `migrate` + `seed` + check in `phpMyAdmin`/SQLite. **Beginner CI4 DONE!**
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 5 dari 5: **Cetak Biru & Isi** (Level: Pemula). **Selesai Beginner CI4!** Lanjut: **Validation** (Menengah).
+- **Migration/Seeder/forge**: blueprint/fill/builder
+
+---
+
+## Summary
+
+Week 5 of 5: **Blueprints & Stock** (Level: Beginner). **Beginner CI4 DONE!** Next: **Validation** (Intermediate).
