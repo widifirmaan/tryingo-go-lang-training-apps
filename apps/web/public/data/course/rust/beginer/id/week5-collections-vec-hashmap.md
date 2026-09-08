@@ -46,6 +46,24 @@ fn main() {
   for (nama, h) in &harga {
     println!("{}: Rp{}", nama, h);
   }
+
+  // Slice — pinjam sebagian (ala Rust Book 4.3)!
+  let semua = vec![10, 20, 30, 40];
+  let tengah: &[i32] = &semua[1..3]; // pinjam index 1-2 → [20, 30]
+  println!("Tengah: {:?}", tengah);
+
+  // String dalam — tambah, gabung, hati-hati potong!
+  let mut sapa = String::from("Halo");
+  sapa.push_str(", Budi"); // tambah di belakang
+  sapa.push('!');          // 1 huruf
+  let gabung = sapa + " Sip!"; // + PINDAH milik sapa!
+  println!("{}", gabung);
+  // &sapa[0..4] → "Halo" aman; potong tengah huruf aneh (misal é 2-byte) = PANIC!
+
+  // Iterator + closure — ban berjalan fungsional (ala Rust Book Ch13)!
+  let angka = vec![1, 2, 3, 4];
+  let genap_dobel: Vec<i32> = angka.iter().filter(|&&x| x % 2 == 0).map(|&x| x * 2).collect();
+  println!("Genap dobel: {:?}", genap_dobel); // [4, 8]
 }
 ```
 
@@ -61,6 +79,15 @@ fn main() {
 
 ### `{:?}` Debug
 `println!("{:?}", stok)` cetak array untuk debug.
+
+### Slice `&semua[1..3]` = Pinjam Sebagian
+`&[i32]` tanpa punya. Batas ikut panjang (`1..3` = index 1,2).
+
+### String: `push_str`/`push`/`+`
+`+` PINDAH milik kiri! Potong string HANYA di batas huruf (é = 2 byte, potong tengah = panic).
+
+### Iterator + Closure `|x| ...`
+`.iter().filter().map().collect()` ban berjalan tanpa `for`. Closure `|&x| x*2` fungsi kilat tangkap sekitar.
 
 ---
 
