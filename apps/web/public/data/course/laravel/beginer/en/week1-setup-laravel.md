@@ -1,53 +1,97 @@
-# Setup Laravel — Warung Siap Jual dengan Artisan
+# Laravel Setup — Sell-Ready Shop with Artisan
 
-> **Kategori:** Laravel | **Level:** Pemula | **Minggu 1:** Setup Laravel
+> **Kategori:** Laravel | **Level:** Beginner | **Minggu 1:** Setup Laravel
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Instal `composer create-project laravel/laravel warung`, `php artisan serve` di `localhost:8000`
-- Paham `artisan` tukang, `routes/web.php` pintu, `resources/views` etalase, `.env` buku alamat
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Laravel = PHP warung siap jual: `artisan` bikinkan rak, kasir, admin — tidak dari nol. Paling cepat buat toko online untuk non-IT.
+- Install `composer create-project laravel/laravel shop`, `php artisan serve` on `localhost:8000`
+- Understand `artisan` the worker, `routes/web.php` doors, `resources/views` showcase, `.env` address book
 
 ---
 
-## Program: Toko Laravel 5 Menit
+## Why This Matters (Non-IT)
+
+Laravel = sell-ready PHP shops: `artisan` builds racks, cashiers, admin — not from zero. Fastest online store for non-IT.
+
+---
+
+## Program: 5-Minute Laravel Store
 
 ```bash
-composer create-project laravel/laravel warung
-cd warung
+composer create-project laravel/laravel shop
+cd shop
 php artisan serve
-# Buka http://localhost:8000 → Laravel welcome
+# Open http://localhost:8000 → Laravel welcome
 ```
 
-**Buat pintu & etalase:**
+**Doors & showcase:**
 ```php
 // routes/web.php
 Route::get('/', function () { return view('welcome'); });
-Route::get('/produk', function () {
-  $produk = [["nama"=>"Beras","harga"=>62000],["nama"=>"Bayam","harga"=>5000]];
-  return view('produk', ["produk"=>$produk]);
+Route::get('/products', function () {
+  $products = [["name"=>"Rice","price"=>62000],["name"=>"Spinach","price"=>5000]];
+  return view('products', ["products"=>$products]);
 });
 ```
 
 ```html
-<!-- resources/views/produk.blade.php -->
-<h1>Katalog</h1>
+<!-- resources/views/products.blade.php -->
+<h1>Catalog</h1>
 <ul>
-@foreach($produk as $p)
-  <li>{{ $p["nama"] }} - Rp{{ number_format($p["harga"]) }}</li>
+@foreach($products as $p)
+  <li>{{ $p["name"] }} - Rp{{ number_format($p["price"]) }}</li>
 @endforeach
 </ul>
 ```
 
-Buka `http://localhost:8000/produk`.
+Open `http://localhost:8000/products`.
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 1: **Artisan & Pintu** — Laravel hidup. Minggu depan: **Routing & Controller**.
+### `artisan` / `routes` / `views` / `.env`
+`artisan` builds, `routes/web.php` doors, `views` showcase, `.env` secrets.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Sell-Ready Shop
+- **artisan = handyman**: `make:controller`, `make:model` build files for you.
+
+### Step 0 — Prepare Device
+- PHP 8.1+ + Composer + `composer create-project laravel/laravel shop`.
+
+### How the Computer Reads It
+1. `php artisan serve` → dev server on 8000.
+2. `GET /products` → route closure → `view('products')`.
+
+### 3 Must-Know Terms
+1. **artisan/route/view**: worker/door/showcase
+
+---
+
+## Experiments
+
+- **Green:** `/products` → catalog lists 2?
+- **Yellow:** Change price → refresh shows new?
+- **Red:** Wrong view name → `View not found` error? Fix name.
+
+---
+
+## Challenge
+
+**Live Store:** Project + `/products` route + Blade list + `artisan serve` screenshot.
+
+---
+
+## Mini Glossary
+
+- **artisan/route**: worker/door
+
+---
+
+## Summary
+
+Week 1: **Artisan & Doors** — Laravel alive. Next: **Routing & Controller**.

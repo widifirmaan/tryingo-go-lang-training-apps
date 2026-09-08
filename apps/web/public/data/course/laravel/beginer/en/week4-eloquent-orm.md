@@ -1,114 +1,114 @@
-# Eloquent ORM — Rak Otomatis Laravel
+# Eloquent ORM — Automatic Laravel Racks
 
-> **Kategori:** Laravel | **Level:** Pemula | **Minggu 4:** Eloquent ORM
+> **Kategori:** Laravel | **Level:** Beginner | **Minggu 4:** Eloquent ORM
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php artisan make:model Produk -m` buat model + migration, `php artisan migrate` bangun rak (sumber: laravel.com/docs/eloquent)
-- `Produk::create()`, `all()`, `find()`, `where()->get()` isi & ambil
-- `$fillable` anti mass-assignment nakal
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa Eloquent, tulis `INSERT INTO produk ...` SQL manual + koneksi manual. Dengan `Produk::create(["nama"=>"Beras"])` 1 baris — plus `created_at` otomatis. `$fillable` cegah hacker isi `is_admin=1` lewat form.
+- `php artisan make:model Product -m` builds model + migration, `php artisan migrate` builds racks (source: laravel.com/docs/eloquent)
+- `Product::create()`, `all()`, `find()`, `where()->get()` fill & fetch
+- `$fillable` anti-sneaky mass-assignment
 
 ---
 
-## Program: Rak Eloquent Warung
+## Why This Matters (Non-IT)
+
+Without Eloquent, hand-write `INSERT INTO products ...` SQL + manual connections. With `Product::create(["name"=>"Rice"])` 1 line — plus automatic `created_at`. `$fillable` stops hackers filling `is_admin=1` via forms.
+
+---
+
+## Program: Shop Eloquent Rack
 
 ```bash
-php artisan make:model Produk -m
+php artisan make:model Product -m
 php artisan migrate
 ```
 
 ```php
-// database/migrations/xxxx_create_produks_table.php (cek, sudah jadi)
-Schema::create('produks', function (Blueprint $table) {
+// database/migrations/xxxx_create_products_table.php (check, already made)
+Schema::create('products', function (Blueprint $table) {
   $table->id();
-  $table->string('nama');
-  $table->integer('harga');
-  $table->integer('stok')->default(0);
+  $table->string('name');
+  $table->integer('price');
+  $table->integer('stock')->default(0);
   $table->timestamps();
 });
 
-// app/Models/Produk.php
-class Produk extends Model {
-  protected $fillable = ['nama', 'harga', 'stok']; // hanya ini boleh mass-assign
+// app/Models/Product.php
+class Product extends Model {
+  protected $fillable = ['name', 'price', 'stock']; // only these mass-assignable
 }
 
 // Controller
-use App\Models\Produk;
+use App\Models\Product;
 
 public function index() {
-  return view('produk', ["produk" => Produk::orderBy('harga')->get()]);
+  return view('products', ["products" => Product::orderBy('price')->get()]);
 }
-public function simpan(Request $req) {
-  Produk::create($req->only(['nama', 'harga', 'stok']));
-  return redirect('/produk');
+public function save(Request $req) {
+  Product::create($req->only(['name', 'price', 'stock']));
+  return redirect('/products');
 }
 
-// Tinker coba cepat
-// php artisan tinker → Produk::create(["nama"=>"Beras","harga"=>62000]) → Produk::all()
+// Quick try with Tinker
+// php artisan tinker → Product::create(["name"=>"Rice","price"=>62000]) → Product::all()
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `make:model -m` + `migrate` = Model + Rak
-`-m` buatkan migration, `migrate` bangun tabel `produks` (jamak otomatis).
+### `make:model -m` + `migrate` = Model + Rack
+`-m` creates the migration, `migrate` builds the `products` table (auto plural).
 
-### `create/all/find/where` = Tukang Gudang
-`Produk::create([...])`, `Produk::all()`, `Produk::find(1)`, `Produk::where('stok','>',5)->get()`.
+### `create/all/find/where` = Warehouse Workers
+`Product::create([...])`, `Product::all()`, `Product::find(1)`, `Product::where('stock','>',5)->get()`.
 
-### `$fillable` = Daftar Boleh
-Hanya field di `$fillable` yang bisa `create($req->all())` — keamanan mass-assignment.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Tukang Gudang Otomatis
-- **Model = mandor**: `Produk::create()` perintahkan mandor, mandor tulis SQL.
-- **$fillable = daftar belanja sah**: di luar daftar, ditolak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + DB `.env` (`DB_DATABASE=warung`) → `php artisan migrate`.
-
-### Cara Komputer Membaca
-1. `Produk::create(["nama"=>"Beras"])` → cek `$fillable` → `INSERT INTO produks ...` → `created_at` otomatis.
-2. `Produk::where('stok','>',5)->get()` → `SELECT * FROM produks WHERE stok > 5`.
-
-### 3 Istilah Wajib
-1. **Model/migration**: mandor/cetak biru
-2. **fillable**: daftar sah
-3. **tinker**: coba cepat
+### `$fillable` = Allowed List
+Only `$fillable` fields accept `create($req->all())` — mass-assignment security.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `Produk::create(["nama"=>"Kopi","harga"=>12000])` di tinker → `all()` ada 3?
-- **Kuning:** `Produk::where('harga','>',20000)->get()` → hanya mahal?
-- **Merah:** Hapus `$fillable` lalu `create` → error `MassAssignmentException`? Pasang lagi.
+### Analogy: Automatic Warehouse Worker
+- **Model = foreman**: `Product::create()` orders the foreman, foreman writes SQL.
+- **$fillable = valid shopping list**: off-list, rejected.
+
+### Step 0 — Prepare Device
+- Same as W1 + DB `.env` (`DB_DATABASE=shop`) → `php artisan migrate`.
+
+### How the Computer Reads It
+1. `Product::create(["name"=>"Rice"])` → checks `$fillable` → `INSERT INTO products ...` → automatic `created_at`.
+2. `Product::where('stock','>',5)->get()` → `SELECT * FROM products WHERE stock > 5`.
+
+### 3 Must-Know Terms
+1. **Model/migration**: foreman/blueprint
+2. **fillable**: valid list
+3. **tinker**: quick try
 
 ---
 
-## Tantangan
+## Experiments
 
-**Rak Warung Lengkap:** `make:model Produk -m` + `migrate` → `tinker` isi 5 produk → `index()` `orderBy('harga')` → `simpan()` validasi + `create`. **Selesai Beginner Laravel!**
-
----
-
-## Glosarium Mini
-
-- **Model/migrate/fillable**: mandor/bangun/sah
-- **tinker**: coba cepat
+- **Green:** `Product::create(["name"=>"Coffee","price"=>12000])` in tinker → `all()` shows 3?
+- **Yellow:** `Product::where('price','>',20000)->get()` → pricey only?
+- **Red:** Remove `$fillable` then `create` → `MassAssignmentException` error? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 4 dari 4: **Rak Otomatis** (Level: Pemula). **Selesai Beginner Laravel!** Lanjut: **Auth** (Menengah).
+**Complete Shop Rack:** `make:model Product -m` + `migrate` → tinker fills 5 products → `index()` `orderBy('price')` → `save()` validate + `create`. **Beginner Laravel DONE!**
+
+---
+
+## Mini Glossary
+
+- **Model/migrate/fillable**: foreman/build/valid
+- **tinker**: quick try
+
+---
+
+## Summary
+
+Week 4 of 4: **Automatic Racks** (Level: Beginner). **Beginner Laravel DONE!** Next: **Auth** (Intermediate).

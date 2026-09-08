@@ -1,106 +1,106 @@
-# Blade Templates — Etalase Warisi Bingkai Laravel
+# Blade Templates — Showcase Inheriting Laravel Frame
 
-> **Kategori:** Laravel | **Level:** Pemula | **Minggu 3:** Blade Templates
+> **Kategori:** Laravel | **Level:** Beginner | **Minggu 3:** Blade Templates
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `{{ $nama }}` cetak aman (otomatis `htmlspecialchars`), `{!! !!}` mentah (hati-hati) (sumber: laravel.com/docs/blade)
-- `@if`, `@foreach` (+ `@empty`, `@forelse`), `@extends` + `@section` warisan layout
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa warisan, header/footer ditulis di 10 file — ganti nomor WA ubah 10x. Dengan `@extends('layout')`, ubah 1x. `{{ }}` otomatis aman dari XSS `<script>` — `<?php echo ?>` mentah tidak.
+- `{{ $name }}` safe print (automatic `htmlspecialchars`), `{!! !!}` raw (careful) (source: laravel.com/docs/blade)
+- `@if`, `@foreach` (+ `@empty`, `@forelse`), `@extends` + `@section` layout inheritance
 
 ---
 
-## Program: Etalase Warisi Bingkai
+## Why This Matters (Non-IT)
+
+Without inheritance, headers/footers written in 10 files — changing the WA number edits 10x. With `@extends('layout')`, edit 1x. `{{ }}` auto-safe from `<script>` XSS — raw `<?php echo ?>` isn't.
+
+---
+
+## Program: Showcase Inheriting Frame
 
 ```html
-<!-- resources/views/layouts/app.blade.php — bingkai (1x) -->
+<!-- resources/views/layouts/app.blade.php — frame (1x) -->
 <!DOCTYPE html>
-<html lang="id"><body>
-<header><h1>Warung Bu Siti</h1><nav><a href="/produk">Produk</a></nav></header>
+<html lang="en"><body>
+<header><h1>Siti's Shop</h1><nav><a href="/products">Products</a></nav></header>
 <main>@yield('content')</main>
 <footer>WA 0812</footer>
 </body></html>
 ```
 
 ```html
-<!-- resources/views/produk.blade.php — isi -->
+<!-- resources/views/products.blade.php — content -->
 @extends('layouts.app')
 @section('content')
-<h2>Katalog</h2>
-@forelse($produk as $p)
-  <div>{{ $p["nama"] }} - Rp{{ number_format($p["harga"]) }}</div>
+<h2>Catalog</h2>
+@forelse($products as $p)
+  <div>{{ $p["name"] }} - Rp{{ number_format($p["price"]) }}</div>
 @empty
-  <p>Kosong — coba kata lain</p>
+  <p>Empty — try other words</p>
 @endforelse
 @endsection
 ```
 
 ```php
-// Controller kirim
-return view('produk', ["produk" => $produk]);
+// Controller sends
+return view('products', ["products" => $products]);
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `{{ }}` Aman vs `{!! !!}` Mentah
-`{{ $nama }}` → `htmlspecialchars` otomatis. `{!! $html !!}` → mentah, hanya untuk HTML sendiri.
+### `{{ }}` Safe vs `{!! !!}` Raw
+`{{ $name }}` → automatic `htmlspecialchars`. `{!! $html !!}` → raw, only for own HTML.
 
-### `@extends` + `@section` + `@yield` = Warisan
-Layout `@yield('content')` lubang → anak `@section('content')` isi.
+### `@extends` + `@section` + `@yield` = Inheritance
+Layout `@yield('content')` hole → child `@section('content')` fills.
 
-### `@forelse` + `@empty` = Ulang + Kosong
-`@forelse` gabung `foreach` + kosong, tidak perlu `if count`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Bingkai Foto & Isi
-- **Layout = bingkai toko**: header/footer tetap.
-- **Section = foto**: ganti tiap halaman.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `php artisan serve` di `8000`.
-
-### Cara Komputer Membaca
-1. `view('produk', [...])` → Blade cari `produk.blade.php`.
-2. `@extends('layouts.app')` → ambil bingkai → tempel `section` ke `yield`.
-
-### 3 Istilah Wajib
-1. **Blade/{{ }}**: template/cetak aman
-2. **extends/section**: warisi/isi
-3. **forelse/empty**: ulang/kosong
+### `@forelse` + `@empty` = Repeat + Empty
+`@forelse` merges `foreach` + empty, no `if count` needed.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `$nama = "<b>Budi</b>"` → `{{ $nama }}` tampil `&lt;b&gt;` mentah (aman)?
-- **Kuning:** Ganti `@forelse` jadi `@foreach` tanpa `empty` → daftar kosong melompong?
-- **Merah:** `{!! "<b>Budi</b>" !!}` → jadi tebal (mentah, hanya untuk milik sendiri)?
+### Analogy: Photo Frame & Picture
+- **Layout = store frame**: fixed header/footer.
+- **Section = photo**: swaps per page.
+
+### Step 0 — Prepare Device
+- Same as W1: `php artisan serve` on `8000`.
+
+### How the Computer Reads It
+1. `view('products', [...])` → Blade finds `products.blade.php`.
+2. `@extends('layouts.app')` → takes frame → pastes `section` into `yield`.
+
+### 3 Must-Know Terms
+1. **Blade/{{ }}**: template/safe-print
+2. **extends/section**: inherit/fill
+3. **forelse/empty**: repeat/empty
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Etalase Lengkap:** `layouts/app` (header/nav/footer) + `produk` (`extends`, `forelse`, `number_format`) + `detail` (`{{ $p["nama"] }}` + link kembali). `php artisan serve` screenshot.
-
----
-
-## Glosarium Mini
-
-- **Blade/extends/section**: template/warisi/isi
-- **{{ }}/@forelse**: cetak/ulang
+- **Green:** `$name = "<b>Budi</b>"` → `{{ $name }}` shows raw `&lt;b&gt;` (safe)?
+- **Yellow:** Swap `@forelse` for `@foreach` without `empty` → empty list gapes?
+- **Red:** `{!! "<b>Budi</b>" !!}` → bold (raw, own HTML only)?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 4: **Etalase Warisi** (Level: Pemula). Dapur & etalase terpisah aman. Minggu depan: **Eloquent** — rak otomatis.
+**Complete Showcase Shop:** `layouts/app` (header/nav/footer) + `products` (`extends`, `forelse`, `number_format`) + `detail` (`{{ $p["name"] }}` + back link). `php artisan serve` screenshot.
+
+---
+
+## Mini Glossary
+
+- **Blade/extends/section**: template/inherit/fill
+- **{{ }}/@forelse**: print/repeat
+
+---
+
+## Summary
+
+Week 3 of 4: **Inheriting Showcase** (Level: Beginner). Separate safe kitchen & showcase. Next: **Eloquent** — automatic racks.
