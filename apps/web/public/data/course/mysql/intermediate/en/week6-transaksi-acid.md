@@ -1,103 +1,103 @@
-# Transaksi & ACID — Bayar Aman Anti-Setengah
+# Transactions & ACID — Safe Anti-Half Payment
 
-> **Kategori:** MySQL | **Level:** Menengah | **Minggu 6:** Transaksi & ACID
+> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 6:** Transaksi & ACID
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `START TRANSACTION` + `COMMIT` sahkan + `ROLLBACK` batalkan — paket all-or-nothing (sumber: dev.mysql.com/doc/refman/8.0/en/commit)
-- ACID: Atomicity, Consistency, Isolation, Durability + `InnoDB` wajib (MyISAM tidak bisa!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Transfer stok gudang A→B tanpa transaksi: A kurang (sukses), B tambah (gagal, listrik mati) → stok hilang 10 karung! Dengan transaksi, gagal 1 = batal semua (seperti tidak terjadi).
+- `START TRANSACTION` + `COMMIT` validates + `ROLLBACK` cancels — all-or-nothing package (source: dev.mysql.com/doc/refman/8.0/en/commit)
+- ACID: Atomicity, Consistency, Isolation, Durability + `InnoDB` mandatory (MyISAM can't!)
 
 ---
 
-## Program: Pindah Stok Aman
+## Why This Matters (Non-IT)
+
+Moving stock warehouse A→B without transactions: A decrements (success), B increments (fails, blackout) → 10 boxes of stock vanish! With transactions, 1 failure = all cancelled (as if nothing happened).
+
+---
+
+## Program: Safe Stock Move
 
 ```sql
--- Tanpa transaksi (BAHAYA): jika baris 2 gagal, baris 1 sudah jalan!
--- UPDATE gudang_a SET stok = stok - 10 WHERE id = 1;
--- UPDATE gudang_b SET stok = stok + 10 WHERE id = 1;
+-- Without transaction (DANGEROUS): if line 2 fails, line 1 already ran!
+-- UPDATE warehouse_a SET stock = stock - 10 WHERE id = 1;
+-- UPDATE warehouse_b SET stock = stock + 10 WHERE id = 1;
 
--- Dengan transaksi (AMAN):
+-- With transaction (SAFE):
 START TRANSACTION;
 
-UPDATE produk SET stok = stok - 10 WHERE id = 1 AND stok >= 10;
--- Cek: jika stok kurang, batalkan manual:
--- (di app: cek ROW_COUNT(), jika 0 → ROLLBACK)
+UPDATE products SET stock = stock - 10 WHERE id = 1 AND stock >= 10;
+-- Check: if stock short, cancel manually:
+-- (in app: check ROW_COUNT(), if 0 → ROLLBACK)
 
-UPDATE produk SET stok = stok + 10 WHERE id = 2;
+UPDATE products SET stock = stock + 10 WHERE id = 2;
 
-COMMIT;  -- sahkan keduanya (atau ROLLBACK untuk batalkan semua!)
+COMMIT;  -- validate both (or ROLLBACK to cancel all!)
 
--- Coba batal:
+-- Try cancelling:
 START TRANSACTION;
-UPDATE produk SET harga = 1 WHERE id = 1;  -- salah! harga 1 rupiah
-ROLLBACK;  -- batal! harga kembali
-SELECT harga FROM produk WHERE id = 1;  -- tetap semula
+UPDATE products SET price = 1 WHERE id = 1;  -- wrong! 1-rupiah price
+ROLLBACK;  -- cancelled! price restored
+SELECT price FROM products WHERE id = 1;  -- still original
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `START TRANSACTION` / `COMMIT` / `ROLLBACK` = Mulai/Sahkan/Batalkan
-Semua di antara = 1 paket. `COMMIT` tulis permanen, `ROLLBACK` buang semua.
+### `START TRANSACTION` / `COMMIT` / `ROLLBACK` = Start/Validate/Cancel
+Everything between = 1 package. `COMMIT` writes permanently, `ROLLBACK` discards all.
 
-### ACID = 4 Janji InnoDB
-- **A**tomic: semua atau tidak sama sekali.
-- **C**onsistent: aturan (FK, CHECK) selalu benar.
-- **I**solated: transaksi lain tidak lihat setengah jalan.
-- **D**urable: sudah COMMIT = selamat meski listrik mati.
+### ACID = 4 InnoDB Promises
+- **A**tomic: all or nothing.
+- **C**onsistent: rules (FK, CHECK) always true.
+- **I**solated: other transactions never see halfway.
+- **D**urable: once COMMITted = survives blackouts.
 
-### InnoDB Wajib
-`ENGINE=InnoDB` mendukung transaksi. `MyISAM` TIDAK — cek `SHOW TABLE STATUS`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Transfer Uang Bank
-- **Transaksi = transfer bank**: debit A + kredit B 1 paket. Gagal 1 = batal semua (uang tidak hilang di jalan).
-
-### Langkah 0 — Siapkan Device
-- Sama MySQL W1: `mysql -u root -p`, tabel `produk` InnoDB.
-
-### Cara Komputer Membaca
-1. `START TRANSACTION` → catat titik awal.
-2. `UPDATE...` → tulis sementara (belum permanen).
-3. `COMMIT` → permanen. `ROLLBACK` → buang semua sejak titik.
-
-### 3 Istilah Wajib
-1. **Transaction/commit/rollback**: paket/sah/batal
-2. **ACID/InnoDB**: 4-janji/mesin-aman
+### InnoDB Mandatory
+`ENGINE=InnoDB` supports transactions. `MyISAM` does NOT — check `SHOW TABLE STATUS`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `START; UPDATE harga=1; ROLLBACK; SELECT` → harga tetap?
-- **Kuning:** `START; UPDATE; COMMIT;` → permanen? (Tutup-buka koneksi, cek!)
-- **Merah:** Tabel `MyISAM` + `ROLLBACK` → tetap berubah? (MyISAM tidak bisa! Ganti InnoDB.)
+### Analogy: Bank Transfer
+- **Transaction = bank transfer**: debit A + credit B in 1 package. 1 failure = all cancelled (money never lost in transit).
 
----
+### Step 0 — Prepare Device
+- Same as MySQL W1: `mysql -u root -p`, `products` table InnoDB.
 
-## Tantangan
+### How the Computer Reads It
+1. `START TRANSACTION` → marks the starting point.
+2. `UPDATE...` → writes temporarily (not permanent yet).
+3. `COMMIT` → permanent. `ROLLBACK` → discards everything since the mark.
 
-**Pindah Stok Aman:** `START` → kurang A 5 (cek `stok>=5` di WHERE!) → tambah B 5 → `COMMIT` → total A+B tetap sama. Coba gagalkan 1 → `ROLLBACK` total tetap.
-
----
-
-## Glosarium Mini
-
-- **START/COMMIT/ROLLBACK**: mulai/sah/batal
-- **ACID/InnoDB**: janji/mesin
+### 3 Must-Know Terms
+1. **Transaction/commit/rollback**: package/validate/cancel
+2. **ACID/InnoDB**: 4-promises/safe-engine
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 10: **Bayar Aman** (Level: Menengah). All-or-nothing. Minggu depan: **Performa** — cepat.
+- **Green:** `START; UPDATE price=1; ROLLBACK; SELECT` → price unchanged?
+- **Yellow:** `START; UPDATE; COMMIT;` → permanent? (Close-reopen connection, check!)
+- **Red:** `MyISAM` table + `ROLLBACK` → still changed? (MyISAM can't! Switch to InnoDB.)
+
+---
+
+## Challenge
+
+**Safe Stock Move:** `START` → decrement A by 5 (check `stock>=5` in WHERE!) → increment B by 5 → `COMMIT` → A+B total unchanged. Fail 1 → `ROLLBACK`, total intact.
+
+---
+
+## Mini Glossary
+
+- **START/COMMIT/ROLLBACK**: start/validate/cancel
+- **ACID/InnoDB**: promises/engine
+
+---
+
+## Summary
+
+Week 6 of 10: **Safe Payment** (Level: Intermediate). All-or-nothing. Next: **Performance** — speed.

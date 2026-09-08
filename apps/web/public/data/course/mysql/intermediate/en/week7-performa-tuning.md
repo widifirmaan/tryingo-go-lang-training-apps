@@ -1,99 +1,99 @@
-# Performa & Tuning — Gudang MySQL Tetap Cepat 1 Juta Baris
+# Performance & Tuning — MySQL Warehouse Fast at 1M Rows
 
-> **Kategori:** MySQL | **Level:** Menengah | **Minggu 7:** Performa & Tuning
+> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 7:** Performa & Tuning
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `EXPLAIN SELECT ...` baca `type: ALL` (baca semua) vs `ref/range` (loncat) + `rows` + `Extra` (sumber: dev.mysql.com/doc/refman/8.0/en/explain)
-- `ANALYZE TABLE` segarkan statistik, `OPTIMIZE TABLE` rapikan, `SHOW INDEX` cek
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-100rb baris tanpa index = 2 detik per cari → pelanggan tunggu. Dengan `EXPLAIN`, tahu query mana baca semua → tambah index → 0.01 detik (200x!). Tanpa tuning, server upgrade (mahal) padahal index gratis.
+- `EXPLAIN SELECT ...` reads `type: ALL` (reads all) vs `ref/range` (jumps) + `rows` + `Extra` (source: dev.mysql.com/doc/refman/8.0/en/explain)
+- `ANALYZE TABLE` refreshes stats, `OPTIMIZE TABLE` tidies, `SHOW INDEX` checks
 
 ---
 
-## Program: Bedah Query Lambat
+## Why This Matters (Non-IT)
+
+100k rows without index = 2 seconds per lookup → customers wait. With `EXPLAIN`, you know which query full-scans → add index → 0.01s (200x!). Without tuning, server upgrades (expensive) when indexes are free.
+
+---
+
+## Program: Slow-Query Autopsy
 
 ```sql
--- 1. Cari lambat
-EXPLAIN SELECT * FROM produk WHERE kategori = 'Sembako';
--- type: ALL, rows: 100000 → BAHAYA (baca semua!)
+-- 1. Find slow
+EXPLAIN SELECT * FROM products WHERE category = 'Staples';
+-- type: ALL, rows: 100000 → DANGER (reads all!)
 
--- 2. Tambah index
-CREATE INDEX idx_kategori ON produk(kategori);
+-- 2. Add index
+CREATE INDEX idx_category ON products(category);
 
--- 3. Cek lagi
-EXPLAIN SELECT * FROM produk WHERE kategori = 'Sembako';
--- type: ref, key: idx_kategori, rows: 12000 → BAGUS
+-- 3. Check again
+EXPLAIN SELECT * FROM products WHERE category = 'Staples';
+-- type: ref, key: idx_category, rows: 12000 → GOOD
 
--- 4. Rawat
-ANALYZE TABLE produk;   -- segarkan statistik perencana
-OPTIMIZE TABLE produk;  -- rapikan fragmentasi
-SHOW INDEX FROM produk; -- daftar index
+-- 4. Maintain
+ANALYZE TABLE products;   -- refresh planner stats
+OPTIMIZE TABLE products;  -- tidy fragmentation
+SHOW INDEX FROM products; -- list indexes
 
--- 5. Perangkap: SELECT * + LIKE '%x%' (depan %) tidak pakai index!
-EXPLAIN SELECT * FROM produk WHERE nama LIKE '%ber%'; -- ALL (wajar, depan %)
-EXPLAIN SELECT * FROM produk WHERE nama LIKE 'ber%';  -- range (belakang % OK!)
+-- 5. Trap: SELECT * + LIKE '%x%' (leading %) skips indexes!
+EXPLAIN SELECT * FROM products WHERE name LIKE '%ric%'; -- ALL (fair, leading %)
+EXPLAIN SELECT * FROM products WHERE name LIKE 'ric%';  -- range (trailing % OK!)
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `EXPLAIN` Kolom Penting
-- `type`: `ALL` (buruk) → `index` → `range` → `ref` → `const` (bagus).
-- `key`: index dipakai (NULL = tidak ada!).
-- `rows`: perkiraan baca (semakin kecil bagus).
-- `Extra`: `Using filesort` (urut manual, lambat) / `Using index` (hanya index, cepat!).
+### `EXPLAIN` Key Columns
+- `type`: `ALL` (bad) → `index` → `range` → `ref` → `const` (good).
+- `key`: index used (NULL = none!).
+- `rows`: estimated reads (smaller is better).
+- `Extra`: `Using filesort` (manual sort, slow) / `Using index` (index-only, fast!).
 
 ### `LIKE '%x'` vs `'x%'`
-Depan `%` = tidak bisa index. Belakang saja = bisa.
+Leading `%` = can't index. Trailing only = can.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Dokter Query
-- **EXPLAIN = rontgen**: lihat dalam tanpa bedah.
-- **Index = obat**, **ANALYZE = cek lab berkala**.
+### Analogy: Query Doctor
+- **EXPLAIN = X-ray**: see inside without surgery.
+- **Index = medicine**, **ANALYZE = periodic lab checks**.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 + tabel `produk` isi agak banyak (loop `INSERT` 1000x via script/CLI).
+### Step 0 — Prepare Device
+- Same as W1 + a fairly-filled `products` table (loop `INSERT` 1000x via script/CLI).
 
-### Cara Komputer Membaca
-1. `EXPLAIN` → perencana MySQL tampilkan rencana (tanpa jalankan).
-2. `CREATE INDEX` → B-Tree baru → rencana berubah.
+### How the Computer Reads It
+1. `EXPLAIN` → MySQL planner shows the plan (without running).
+2. `CREATE INDEX` → new B-Tree → plan changes.
 
-### 3 Istilah Wajib
-1. **EXPLAIN/type/rows**: rontgen/jenis/baris
-2. **ANALYZE/OPTIMIZE**: segarkan/rapikan
-
----
-
-## Eksperimen
-
-- **Hijau:** `EXPLAIN` 2 query (dengan/tanpa index) → `rows` beda?
-- **Kuning:** `LIKE '%ber'` vs `'ber%'` → `type` beda?
-- **Merah:** Index di kolom `UPDATE`-sering → `INSERT` melambat? (Timbang!)
+### 3 Must-Know Terms
+1. **EXPLAIN/type/rows**: xray/kind/rows
+2. **ANALYZE/OPTIMIZE**: refresh/tidy
 
 ---
 
-## Tantangan
+## Experiments
 
-**Dokter Warung:** 3 query lambat → `EXPLAIN` catat `type+rows` → tambah index → `EXPLAIN` lagi → buktikan `rows` turun 10x+. Screenshot sebelum/sesudah.
-
----
-
-## Glosarium Mini
-
-- **EXPLAIN/ANALYZE/OPTIMIZE**: rontgen/segar/rapi
-- **ALL/ref**: semua/loncat
+- **Green:** `EXPLAIN` 2 queries (with/without index) → `rows` differ?
+- **Yellow:** `LIKE '%ric'` vs `'ric%'` → `type` differs?
+- **Red:** Index on often-`UPDATE`d column → `INSERT` slows? (Weigh it!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7 dari 10: **Dokter Query** (Level: Menengah). Gratis 200x cepat. Minggu depan: **Replikasi** — cabang gudang.
+**Shop Doctor:** 3 slow queries → `EXPLAIN` note `type+rows` → add indexes → `EXPLAIN` again → prove `rows` dropped 10x+. Before/after screenshot.
+
+---
+
+## Mini Glossary
+
+- **EXPLAIN/ANALYZE/OPTIMIZE**: xray/fresh/tidy
+- **ALL/ref**: all/jump
+
+---
+
+## Summary
+
+Week 7 of 10: **Query Doctor** (Level: Intermediate). Free 200x speed. Next: **Replication** — warehouse branches.
