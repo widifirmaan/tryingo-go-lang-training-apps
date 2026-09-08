@@ -67,6 +67,22 @@ console.log(lengkap);
 
 ---
 
+### Bonus: Regex — Pola Validasi (modul wajib freeCodeCamp!)
+
+Regex = pola pencari teks `/pola/flag`. `test()` tanya cocok/tidak. Wajib untuk validasi email/WA (HTML W8 `pattern` juga regex!).
+
+```javascript
+const wa = "08123456789";
+console.log(/^08[0-9]{8,11}$/.test(wa)); // true: 08 + 8-11 digit
+console.log(/\d/.test("abc"));          // false: tak ada digit
+console.log("Beras 5kg".match(/[0-9]+/)[0]); // "5": angka pertama
+const email = "budi@email.com";
+console.log(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)); // true
+// Baca pola: ^ awal, [^@\s] bukan-@-bukan-spasi, + 1+, $ akhir
+```
+
+---
+
 ## Tantangan
 
 **Katalog ES6:** `const p = {nama:"Beras", harga:62000, stok:10}` → `const {nama, harga} = p`, `const baru = {...p, diskon:10}`, `const kota = pelanggan?.alamat?.kota ?? "Jakarta"`.
