@@ -1,118 +1,118 @@
-# Props & Components — Bata LEGO Svelte
+# Props & Components — Svelte LEGO Bricks
 
-> **Kategori:** Svelte | **Level:** Pemula | **Minggu 3:** Props & Components
+> **Kategori:** Svelte | **Level:** Beginner | **Minggu 3:** Props & Components
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `export let nama` terima amplop dari induk (sumber: svelte.dev/docs/svelte/$props? Svelte 4: `export let`)
-- `createEventDispatcher` + `dispatch("beli", nama)` lapor balik, induk dengar `on:beli`
-- `<slot>` lubang isi bebas
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-50 produk jika semua di `App` → 500 baris. Dengan `Kartu` bata, `App` hanya `{#each}` 3 baris — tambah produk tanpa tulis kartu baru. `dispatch` biar tombol di anak bisa tambah keranjang induk.
+- `export let name` receives an envelope from the parent (source: svelte.dev/docs Svelte 4 `export let`)
+- `createEventDispatcher` + `dispatch("buy", name)` reports back, parent hears `on:buy`
+- `<slot>` free-fill hole
 
 ---
 
-## Program: Katalog Bata Svelte
+## Why This Matters (Non-IT)
+
+50 products all in `App` → 500 lines. With `Card` bricks, `App` is only a 3-line `{#each}` — add products without writing new cards. `dispatch` lets child buttons add to the parent cart.
+
+---
+
+## Program: Svelte Brick Catalog
 
 ```svelte
-<!-- Kartu.svelte — bata -->
+<!-- Card.svelte — brick -->
 <script>
-  export let nama;
-  export let harga;
-  export let stok = 10;
+  export let name;
+  export let price;
+  export let stock = 10;
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 </script>
 
 <div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
-  <h3>{nama}</h3>
-  <p>Rp {harga.toLocaleString("id-ID")} — Stok: {stok}</p>
-  <button on:click={() => dispatch("beli", nama)} disabled={stok <= 0}>
-    {stok > 0 ? "Beli" : "Habis"}
+  <h3>{name}</h3>
+  <p>Rp {price.toLocaleString("en-US")} — Stock: {stock}</p>
+  <button on:click={() => dispatch("buy", name)} disabled={stock <= 0}>
+    {stock > 0 ? "Buy" : "Out"}
   </button>
-  <slot><small>Gratis ongkir &gt;100rb</small></slot>
+  <slot><small>Free delivery &gt;Rp 100,000</small></slot>
 </div>
 ```
 
 ```svelte
-<!-- +page.svelte — susun -->
+<!-- +page.svelte — assemble -->
 <script>
-  import Kartu from "./Kartu.svelte";
-  let daftar = [
-    { nama: "Beras", harga: 62000, stok: 5 },
-    { nama: "Bayam", harga: 5000, stok: 0 },
+  import Card from "./Card.svelte";
+  let list = [
+    { name: "Rice", price: 62000, stock: 5 },
+    { name: "Spinach", price: 5000, stock: 0 },
   ];
-  let keranjang = [];
-  function handleBeli(e) {
-    keranjang = [...keranjang, e.detail];
-    alert("Beli " + e.detail);
+  let cart = [];
+  function handleBuy(e) {
+    cart = [...cart, e.detail];
+    alert("Buy " + e.detail);
   }
 </script>
 
-{#each daftar as p}
-  <Kartu nama={p.nama} harga={p.harga} stok={p.stok} on:beli={handleBeli} />
+{#each list as p}
+  <Card name={p.name} price={p.price} stock={p.stock} on:buy={handleBuy} />
 {/each}
-<p>Keranjang: {keranjang.join(", ") || "kosong"}</p>
+<p>Cart: {cart.join(", ") || "empty"}</p>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `export let` = Amplop Masuk
-`export let nama` → induk kirim `nama="Beras"`. `export let stok = 10` default jika tidak dikirim.
+### `export let` = Incoming Envelope
+`export let name` → parent sends `name="Rice"`. `export let stock = 10` default when unsent.
 
-### `dispatch` + `on:` = Bel & Telinga
-Anak `dispatch("beli", nama)` tekan bel → induk `on:beli={handleBeli}` dengar, `e.detail` = nama.
+### `dispatch` + `on:` = Bell & Ears
+Child `dispatch("buy", name)` rings bell → parent `on:buy={handleBuy}` hears, `e.detail` = name.
 
-### `<slot>` = Lubang LEGO
-Induk tulis di dalam `<Kartu>...</Kartu>` → anak tampilkan `<slot />`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Bata Bertulis & Bel
-- **Props = tulisan di bata**, **dispatch = bel pintu**, **slot = kotak kosong**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `npm run dev`.
-
-### Cara Komputer Membaca
-1. `<Kartu nama="Beras" />` → `export let nama` = "Beras".
-2. Klik Beli → `dispatch("beli", "Beras")` → `handleBeli(e)` dengan `e.detail` = "Beras".
-
-### 3 Istilah Wajib
-1. **export let/dispatch/on:**: terima/lapor/dengar
-2. **slot**: lubang isi
+### `<slot>` = LEGO Hole
+Parent writes inside `<Card>...</Card>` → child renders `<slot />`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `stok={0}` → tombol "Habis" + `disabled`?
-- **Kuning:** `dispatch("beli", { nama, harga })` objek → `e.detail.nama`?
-- **Merah:** Anak `nama = "X"` langsung → warning? (Jangan ubah props, kirim event!)
+### Analogy: Labeled Bricks & Bells
+- **Props = writing on bricks**, **dispatch = doorbell**, **slot = empty box**.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `npm run dev`.
 
-## Tantangan
+### How the Computer Reads It
+1. `<Card name="Rice" />` → `export let name` = "Rice".
+2. Click Buy → `dispatch("buy", "Rice")` → `handleBuy(e)` with `e.detail` = "Rice".
 
-**Warung Bata Lengkap:** `Kartu` (`export let` + `dispatch` + `slot`) + `App` (`{#each}` 4 produk + `keranjang` + total `reduce`).
-
----
-
-## Glosarium Mini
-
-- **export let/dispatch/slot**: terima/lapor/lubang
-- **e.detail**: isi bel
+### 3 Must-Know Terms
+1. **export let/dispatch/on:**: receive/report/hear
+2. **slot**: fill hole
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 3 dari 5: **Bata LEGO** (Level: Pemula). Bagi & lapor. Minggu depan: **Events** — telinga & tali.
+- **Green:** `stock={0}` → "Out" button + `disabled`?
+- **Yellow:** `dispatch("buy", { name, price })` object → `e.detail.name`?
+- **Red:** Child sets `name = "X"` directly → warning? (Don't mutate props, send events!)
+
+---
+
+## Challenge
+
+**Complete Brick Shop:** `Card` (`export let` + `dispatch` + `slot`) + `App` (`{#each}` 4 products + `cart` + `reduce` total).
+
+---
+
+## Mini Glossary
+
+- **export let/dispatch/slot**: receive/report/hole
+- **e.detail**: bell content
+
+---
+
+## Summary
+
+Week 3 of 5: **LEGO Bricks** (Level: Beginner). Split & report. Next: **Events** — ears & strings.

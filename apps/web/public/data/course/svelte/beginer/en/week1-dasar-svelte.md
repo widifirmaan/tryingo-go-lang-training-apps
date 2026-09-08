@@ -1,47 +1,47 @@
-# Dasar Svelte — Kompilasi Ajaib Tanpa Virtual DOM
+# Svelte Basics — Magic Compilation Without Virtual DOM
 
-> **Kategori:** Svelte | **Level:** Pemula | **Minggu 1:** Dasar Svelte
+> **Kategori:** Svelte | **Level:** Beginner | **Minggu 1:** Dasar Svelte
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Paham Svelte = **kompilasi ajaib**: tulis `let count = 0` biasa, Svelte ubah jadi reaktif otomatis — tanpa `ref` atau `useState`
-- Buat `npm create svelte@latest warung-svelte`, `npm run dev` di `5173`
-- `let` biasa reaktif, `on:click` klik, `{nama}` stiker
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Vue butuh `ref`, React butuh `useState`. Svelte **cukup `let`** — paling mirip buku tulis biasa. Cocok untuk non-IT yang pusing dengan `.value`.
+- Understand Svelte = **magic compilation**: write plain `let count = 0`, Svelte turns it reactive automatically — no `ref` or `useState`
+- Create `npm create svelte@latest shop-svelte`, `npm run dev` on `5173`
+- Plain `let` is reactive, `on:click` clicks, `{name}` stickers
 
 ---
 
-## Program: Warung Svelte Pertama
+## Why This Matters (Non-IT)
+
+Vue needs `ref`, React needs `useState`. Svelte needs only **`let`** — closest to an ordinary notebook. Perfect for non-IT learners dizzy from `.value`.
+
+---
+
+## Program: First Svelte Shop
 
 `src/routes/+page.svelte`
 
 ```svelte
 <script>
-  let namaWarung = "Warung Bu Siti";
-  let pelanggan = "Budi";
-  let berasKg = 2;
-  let hargaPerKg = 12500;
-  $: total = berasKg * hargaPerKg; // $: = hitung otomatis jika berasKg berubah
+  let shopName = "Siti's Shop";
+  let customer = "Budi";
+  let riceKg = 2;
+  let pricePerKg = 12500;
+  $: total = riceKg * pricePerKg; // $: = auto-calc when riceKg changes
 
-  function tambah() { berasKg += 1; }
+  function add() { riceKg += 1; }
 </script>
 
-<h1>{namaWarung} 🥬</h1>
-<p>Halo {pelanggan}, total: Rp {total.toLocaleString("id-ID")}</p>
+<h1>{shopName} 🥬</h1>
+<p>Hello {customer}, total: Rp {total.toLocaleString("en-US")}</p>
 
-<input bind:value={pelanggan} placeholder="Nama" />
-<button on:click={tambah}>+ Beras ({berasKg}kg)</button>
-<button on:click={() => berasKg -= 1} disabled={berasKg <= 0}>−</button>
+<input bind:value={customer} placeholder="Name" />
+<button on:click={add}>+ Rice ({riceKg}kg)</button>
+<button on:click={() => riceKg -= 1} disabled={riceKg <= 0}>−</button>
 
 {#if total > 50000}
-  <p style="color: green;">Gratis ongkir!</p>
+  <p style="color: green;">Free delivery!</p>
 {:else}
-  <p>Belanja lagi Rp {(50000 - total).toLocaleString("id-ID")}</p>
+  <p>Shop Rp {(50000 - total).toLocaleString("en-US")} more</p>
 {/if}
 
 <style>
@@ -49,46 +49,70 @@ Vue butuh `ref`, React butuh `useState`. Svelte **cukup `let`** — paling mirip
 </style>
 ```
 
-**Jalankan:**
+**Run:**
 ```
-npm create svelte@latest warung-svelte
-cd warung-svelte
+npm create svelte@latest shop-svelte
+cd shop-svelte
 npm install
 npm run dev
-# Buka http://localhost:5173 → ganti src/routes/+page.svelte
+# Open http://localhost:5173 → edit src/routes/+page.svelte
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `let` Biasa = Reaktif
-`let count = 0; count += 1` → HTML `{count}` otomatis update. Tidak perlu `ref`.
+### Plain `let` = Reactive
+`let count = 0; count += 1` → HTML `{count}` auto-updates. No `ref` needed.
 
-### `$:` = Kalkulator Otomatis
-`$: total = berasKg * harga` → jika `berasKg` ganti, `total` hitung ulang.
+### `$:` = Auto Calculator
+`$: total = riceKg * price` → when `riceKg` changes, `total` recalculates.
 
 ### `on:click` & `bind:value`
-`on:click={tambah}`, `bind:value={pelanggan}` 2 arah.
+`on:click={add}`, `bind:value={customer}` two-way.
 
 ### `{#if}` & `{#each}`
-`{#if total>50000}...{:else}...{/if}`, `{#each daftar as item}...{/each}`
+`{#if total>50000}...{:else}...{/if}`, `{#each list as item}...{/each}`
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Buku Ajaib
-- **Svelte = buku yang tulisannya bergerak**: tulis `let`, buku otomatis ubah angka di halaman lain (`$:`).
+### Analogy: Magic Notebook
+- **Svelte = notebook whose writing moves**: write `let`, the book auto-changes numbers on other pages (`$:`).
+
+### Step 0 — Prepare Device
+- Node + `npm create svelte@latest`, open `5173`, edit `+page.svelte`.
+
+### How the Computer Reads It
+1. `riceKg += 1` → Svelte marks dirty → updates `{riceKg}` + `$: total`.
+2. `bind:value={customer}` → typing updates variable, variable updates input.
+
+### 3 Must-Know Terms
+1. **let/$:/bind**: plain/auto/two-way
 
 ---
 
-## Tantangan
+## Experiments
 
-Tambah `let diskon=10; $: totalDiskon = total * (1 - diskon/100)` + input `bind:value={diskon}`.
+- **Green:** Type in the input → greeting name changes live?
+- **Yellow:** Remove `$:` → total frozen after clicking +? (That's why `$:`!)
+- **Red:** `disabled={riceKg <= 0}` removed → negative kg? Keep guard.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 1: **Svelte Ajaib** — `let` biasa reaktif. Minggu depan: **Reactivity** lanjutan.
+Add `let discount=10; $: totalAfter = total * (1 - discount/100)` + input `bind:value={discount}`.
+
+---
+
+## Mini Glossary
+
+- **let/$:/bind**: plain/auto/tie
+
+---
+
+## Summary
+
+Week 1: **Magic Svelte** — plain `let` is reactive. Next: **Reactivity** deep-dive.

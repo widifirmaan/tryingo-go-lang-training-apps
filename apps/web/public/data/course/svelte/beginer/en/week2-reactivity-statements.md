@@ -1,99 +1,99 @@
-# Reactivity Lanjutan — Kalkulator Otomatis `$:` dan Gudang Store
+# Advanced Reactivity — Auto `$:` Calculator and Store Warehouse
 
-> **Kategori:** Svelte | **Level:** Pemula | **Minggu 2:** Reactivity & Statements
+> **Kategori:** Svelte | **Level:** Beginner | **Minggu 2:** Reactivity & Statements
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `$: total = beras * 12500` hitung otomatis saat `beras` berubah (sumber: svelte.dev/docs/svelte/$effect? Svelte 4: `$:` label)
-- `$: if (...)` logika reaktif, `writable` + `$keranjang` gudang bersama (sumber: svelte.dev/docs/svelte/svelte-store)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `$:`, tiap `beras++` harus tulis `total = beras * 12500` manual — lupa 1 tempat, struk salah. Dengan `$:`, tulis sekali, Svelte hitung ulang otomatis. `writable` bagi keranjang ke 10 halaman tanpa props estafet.
+- `$: total = rice * 12500` auto-calcs when `rice` changes (source: svelte.dev/docs Svelte 4 `$:` labels)
+- `$: if (...)` reactive logic, `writable` + `$cart` shared warehouse (source: svelte.dev/docs/svelte/svelte-store)
 
 ---
 
-## Program: Kasir Otomatis + Gudang
+## Why This Matters (Non-IT)
+
+Without `$:`, every `rice++` needs a manual `total = rice * 12500` — forget 1 place, receipt wrong. With `$:`, write once, Svelte recalculates automatically. `writable` shares carts across 10 pages without prop relays.
+
+---
+
+## Program: Auto Cashier + Warehouse
 
 ```svelte
 <script>
   import { writable } from "svelte/store";
 
-  let beras = 2;
-  $: total = beras * 12500; // otomatis jika beras berubah
-  $: if (total > 50000) console.log("Gratis ongkir!");
+  let rice = 2;
+  $: total = rice * 12500; // automatic when rice changes
+  $: if (total > 50000) console.log("Free delivery!");
 
-  const keranjang = writable([{ nama: "Beras", qty: 1 }]);
-  function tambah() {
-    $keranjang = [...$keranjang, { nama: "Telur", qty: 1 }];
+  const cart = writable([{ name: "Rice", qty: 1 }]);
+  function add() {
+    $cart = [...$cart, { name: "Eggs", qty: 1 }];
   }
 </script>
 
-<p>Beras: {beras}kg — Total: Rp {total.toLocaleString("id-ID")}</p>
-<button on:click={() => beras++}>+ Beras</button>
-<button on:click={tambah}>+ Keranjang ({$keranjang.length})</button>
+<p>Rice: {rice}kg — Total: Rp {total.toLocaleString("en-US")}</p>
+<button on:click={() => rice++}>+ Rice</button>
+<button on:click={add}>+ Cart ({$cart.length})</button>
 
 <ul>
-  {#each $keranjang as item}
-    <li>{item.nama} x{item.qty}</li>
+  {#each $cart as item}
+    <li>{item.name} x{item.qty}</li>
   {/each}
 </ul>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `$:` = Kalkulator Otomatis
-`$: total = beras * 12500` → tiap `beras` berubah, `total` hitung ulang. `$: console.log(...)` untuk efek.
+### `$:` = Auto Calculator
+`$: total = rice * 12500` → every `rice` change recalculates `total`. `$: console.log(...)` for effects.
 
-### `writable` + `$` = Gudang Bersama
-`writable([...])` buat, `$keranjang` baca/tulis di template, `keranjang.update()` di script.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kasir & Gudang Sentral
-- **`$:` = kasir otomatis**: timbang berubah → total cetak ulang.
-- **`writable` = gudang sentral**: 10 kasir ambil stok sama.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `npm run dev` di `5173`.
-
-### Cara Komputer Membaca
-1. `beras++` → Svelte tandai `beras` kotor → jalankan ulang `$: total = ...`.
-2. `$keranjang = [...]` → semua `{$keranjang}` update.
-
-### 3 Istilah Wajib
-1. **`$:`**: kalkulator reaktif
-2. **writable/$**: gudang/baca
+### `writable` + `$` = Shared Warehouse
+`writable([...])` creates, `$cart` reads/writes in template, `cart.update()` in script.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `beras = 5` → total 62500 otomatis?
-- **Kuning:** Hapus `$:` jadi `let total = ...` → klik + tidak update? (Itulah gunanya `$:`)
-- **Merah:** `$keranjang.push(...)` langsung (tanpa `=`) → tidak update? Pakai `$keranjang = [...$keranjang, x]`.
+### Analogy: Auto Cashier & Central Warehouse
+- **`$:` = auto cashier**: scale changes → receipt reprints.
+- **`writable` = central warehouse**: 10 cashiers take the same stock.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `npm run dev` on `5173`.
 
-## Tantangan
+### How the Computer Reads It
+1. `rice++` → Svelte marks `rice` dirty → re-runs `$: total = ...`.
+2. `$cart = [...]` → all `{$cart}` update.
 
-**Kasir Diskon Otomatis:** `let diskon = 10; $: totalDiskon = total * (1 - diskon/100);` + input `bind:value={diskon}` → total ikut saat ketik + `writable` keranjang 2 barang.
-
----
-
-## Glosarium Mini
-
-- **$:/writable/$**: otomatis/gudang/baca
-- **Reaktif**: ikut berubah
+### 3 Must-Know Terms
+1. **`$:`**: reactive calculator
+2. **writable/$**: warehouse/read
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 2 dari 5: **Kalkulator Otomatis** (Level: Pemula). `$:` + store. Minggu depan: **Props** — bata LEGO.
+- **Green:** `rice = 5` → total 62500 automatically?
+- **Yellow:** Remove `$:` to `let total = ...` → clicking + doesn't update? (That's what `$:` is for!)
+- **Red:** Direct `$cart.push(...)` (no `=`) → no update? Use `$cart = [...$cart, x]`.
+
+---
+
+## Challenge
+
+**Auto Discount Cashier:** `let discount = 10; $: totalAfter = total * (1 - discount/100);` + input `bind:value={discount}` → total follows typing + `writable` cart with 2 items.
+
+---
+
+## Mini Glossary
+
+- **$:/writable/$**: auto/warehouse/read
+- **Reactive**: follows changes
+
+---
+
+## Summary
+
+Week 2 of 5: **Auto Calculator** (Level: Beginner). `$:` + store. Next: **Props** — LEGO bricks.

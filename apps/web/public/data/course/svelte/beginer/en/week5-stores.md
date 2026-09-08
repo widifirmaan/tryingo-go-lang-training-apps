@@ -1,101 +1,100 @@
-# Stores — Gudang Bersama Svelte Lanjutan
+# Stores — Advanced Shared Svelte Warehouse
 
-> **Kategori:** Svelte | **Level:** Pemula | **Minggu 5:** Stores
+> **Kategori:** Svelte | **Level:** Beginner | **Minggu 5:** Stores
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Pisah `stores/keranjang.js` (`writable`, `derived` total otomatis, `readable` jam) — 1 gudang 10 komponen (sumber: svelte.dev/docs/svelte/svelte-store)
-- `store.set()` ganti, `store.update()` ubah dari lama, `$store` di template
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Keranjang dipakai header (jumlah), halaman (daftar), checkout (total) — props estafet 5 level melelahkan + lupa 1 = beda data. Store = 1 gudang sentral, semua baca sama. `derived` total otomatis tanpa hitung manual tiap tambah.
+- Split `stores/cart.js` (`writable`, auto-total `derived`, `readable` clock) — 1 warehouse 10 components (source: svelte.dev/docs/svelte/svelte-store)
+- `store.set()` replaces, `store.update()` changes from old, `$store` in template
 
 ---
 
-## Program: Gudang Keranjang Lengkap
+## Why This Matters (Non-IT)
+
+Carts are used by header (count), pages (list), checkout (total) — 5-level prop relays exhaust + 1 forgotten = divergent data. Store = 1 central warehouse, everyone reads the same. `derived` totals automatically without manual calc per add.
+
+---
+
+## Program: Complete Cart Warehouse
 
 ```javascript
-// stores/keranjang.js — gudang (bukan komponen!)
+// stores/cart.js — warehouse (not a component!)
 import { writable, derived } from "svelte/store";
 
-export const keranjang = writable([]);
-export const total = derived(keranjang, ($k) =>
-  $k.reduce((s, i) => s + i.harga * i.qty, 0)
+export const cart = writable([]);
+export const total = derived(cart, ($c) =>
+  $c.reduce((s, i) => s + i.price * i.qty, 0)
 );
 
-export function tambah(item) {
-  keranjang.update((k) => [...k, item]); // update dari lama
+export function add(item) {
+  cart.update((c) => [...c, item]); // update from old
 }
-export function kosongkan() {
-  keranjang.set([]); // ganti total
+export function clear() {
+  cart.set([]); // replace all
 }
 ```
 
 ```svelte
-<!-- App.svelte — 3 pemakai 1 gudang -->
+<!-- App.svelte — 3 users 1 warehouse -->
 <script>
-  import { keranjang, total, tambah, kosongkan } from "./stores/keranjang.js";
+  import { cart, total, add, clear } from "./stores/cart.js";
 </script>
 
-<header>Keranjang: {$keranjang.length} | Total: Rp {$total.toLocaleString("id-ID")}</header>
-<button on:click={() => tambah({ nama: "Beras", harga: 62000, qty: 1 })}>Tambah Beras</button>
-<button on:click={kosongkan}>Kosongkan</button>
-<ul>{#each $keranjang as item}<li>{item.nama} x{item.qty}</li>{/each}</ul>
+<header>Cart: {$cart.length} | Total: Rp {$total.toLocaleString("en-US")}</header>
+<button on:click={() => add({ name: "Rice", price: 62000, qty: 1 })}>Add Rice</button>
+<button on:click={clear}>Clear</button>
+<ul>{#each $cart as item}<li>{item.name} x{item.qty}</li>{/each}</ul>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `writable` / `readable` / `derived` = 3 Gudang
-- `writable` ubah bebas, `derived` hitung otomatis dari gudang lain, `readable` hanya baca (jam).
+### `writable` / `readable` / `derived` = 3 Warehouses
+- `writable` free change, `derived` auto-calcs from other warehouses, `readable` read-only (clock).
 
-### `set` / `update` / `$` = Ganti/Ubah/Baca
-`set([])` ganti, `update(k => [...k, x])` ubah dari lama, `$keranjang` baca di template.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Gudang Sentral Mal
-- **writable = gudang**, **derived = kasir otomatis** (total ikut), **$ = pintu baca**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1. File `stores/keranjang.js` biasa (bukan `.svelte`).
-
-### Cara Komputer Membaca
-1. `tambah(...)` → `update` → gudang baru → semua `$keranjang` + `derived total` update.
-
-### 3 Istilah Wajib
-1. **writable/derived**: gudang/kasir-otomatis
-2. **set/update**: ganti/ubah
+### `set` / `update` / `$` = Replace/Change/Read
+`set([])` replaces, `update(c => [...c, x])` changes from old, `$cart` reads in template.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `tambah` 2x → header + daftar + total ikut?
-- **Kuning:** `total` tanpa panggil manual — otomatis setelah `tambah`?
-- **Merah:** `keranjang.push(...)` langsung (tanpa set/update) → tidak update? Pakai `update`.
+### Analogy: Mall Central Warehouse
+- **writable = warehouse**, **derived = auto cashier** (total follows), **$ = reading door**.
 
----
+### Step 0 — Prepare Device
+- Same as W1. Plain `stores/cart.js` file (not `.svelte`).
 
-## Tantangan
+### How the Computer Reads It
+1. `add(...)` → `update` → new warehouse → all `$cart` + `derived total` update.
 
-**Mal 3 Toko:** `keranjang` store + `Header` (jumlah) + `Daftar` (tambah) + `Checkout` (`total` derived + `kosongkan`). **Selesai Beginner Svelte!**
-
----
-
-## Glosarium Mini
-
-- **writable/derived/readable**: gudang/otomatis/baca
-- **set/update/$**: ganti/ubah/baca
+### 3 Must-Know Terms
+1. **writable/derived**: warehouse/auto-cashier
+2. **set/update**: replace/change
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 5 dari 5: **Gudang Sentral** (Level: Pemula). **Selesai Beginner Svelte!** Lanjut: **SvelteKit** (Menengah).
+- **Green:** `add` 2x → header + list + total follow?
+- **Yellow:** `total` without manual calls — automatic after `add`?
+- **Red:** Direct `cart.push(...)` (no set/update) → no update? Use `update`.
+
+---
+
+## Challenge
+
+**3-Shop Mall:** `cart` store + `Header` (count) + `List` (add) + `Checkout` (`total` derived + `clear`). **Beginner Svelte DONE!**
+
+---
+
+## Mini Glossary
+
+- **writable/derived/$**: warehouse/cashier/read
+
+---
+
+## Summary
+
+Week 5: **Shared Warehouse** — stores. **Beginner Svelte DONE!** Next: **SvelteKit** (Intermediate).
