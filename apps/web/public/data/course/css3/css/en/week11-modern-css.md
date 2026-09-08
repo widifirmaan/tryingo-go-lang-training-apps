@@ -1,95 +1,95 @@
-# Modern CSS — Warung Kekinian dengan Clamp & Aspect-Ratio (MDN)
+# Modern CSS — Trendy Shop with Clamp & Aspect-Ratio (MDN)
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 11:** Modern CSS
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 11:** Modern CSS
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `clamp(1rem, 2.5vw, 2rem)` huruf ikut layar tapi tidak kekecilan/kebesaran (sumber: MDN clamp - 1.8rem, 2.5vw, 2.8rem)
-- `aspect-ratio: 16/9` foto 16:9 tetap proporsional tanpa `height` manual, `object-fit: cover` (sumber: MDN aspect-ratio)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Judul warung `font-size: 2.5vw` di HP jadi 10px kekecilan, di TV jadi 60px kebesaran. Dengan `clamp(1.8rem, 2.5vw, 2.8rem)` di HP 1.8rem, di laptop 2.5vw, di TV max 2.8rem — pas semua. Foto tanpa `aspect-ratio` saat load lompat (layout shift).
+- `clamp(1rem, 2.5vw, 2rem)` letters follow screen but never too small/big (source: MDN clamp - 1.8rem, 2.5vw, 2.8rem)
+- `aspect-ratio: 16/9` photos stay 16:9 proportional without manual `height`, `object-fit: cover` (source: MDN aspect-ratio)
 
 ---
 
-## Program: Warung Kekinian (MDN)
+## Why This Matters (Non-IT)
+
+Shop title `font-size: 2.5vw` becomes 10px tiny on phones, 60px huge on TVs. With `clamp(1.8rem, 2.5vw, 2.8rem)` phones get 1.8rem, laptops 2.5vw, TVs max 2.8rem — perfect everywhere. Photos without `aspect-ratio` jump on load (layout shift).
+
+---
+
+## Program: Trendy Shop (MDN)
 
 ```html
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Warung Kekinian</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Trendy Shop</title>
 <style>
-  h1 { font-size: clamp(1.8rem, 2.5vw, 2.8rem); } /* MDN contoh */
-  .foto { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #EFECE6; }
+  h1 { font-size: clamp(1.8rem, 2.5vw, 2.8rem); } /* MDN example */
+  .photo { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: #EFECE6; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 12px; }
-  .kartu { aspect-ratio: 1; /* kotak persegi */ display: grid; place-items: center; border: 1px solid #ddd; border-radius: 12px; }
+  .card { aspect-ratio: 1; /* square */ display: grid; place-items: center; border: 1px solid #ddd; border-radius: 12px; }
 </style></head>
 <body>
-  <h1>Warung Bu Siti</h1>
-  <img class="foto" src="https://via.placeholder.com/640x360" alt="Warung" width="640" height="360">
-  <div class="grid"><div class="kartu">Beras</div><div class="kartu">Bayam</div><div class="kartu">Telur</div></div>
+  <h1>Siti's Shop</h1>
+  <img class="photo" src="https://via.placeholder.com/640x360" alt="Shop" width="640" height="360">
+  <div class="grid"><div class="card">Rice</div><div class="card">Spinach</div><div class="card">Eggs</div></div>
 </body></html>
 ```
 
-**Sumber:** MDN `clamp(min, val, max)` dan `aspect-ratio: 16/9` + `object-fit`.
+**Source:** MDN `clamp(min, val, max)` and `aspect-ratio: 16/9` + `object-fit`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `clamp(min, val, max)` = Batas
-`clamp(1.8rem, 2.5vw, 2.8rem)` → `2.5vw` tapi tidak <1.8rem dan tidak >2.8rem.
+### `clamp(min, val, max)` = Limits
+`clamp(1.8rem, 2.5vw, 2.8rem)` → `2.5vw` but never <1.8rem and never >2.8rem.
 
 ### `aspect-ratio: 16/9` + `object-fit`
-`width:100%` + `aspect-ratio:16/9` → tinggi otomatis 56% dari lebar, `cover` potong rapi.
+`width:100%` + `aspect-ratio:16/9` → height auto 56% of width, `cover` crops neatly.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Warung Kekinian
+### Analogy: Trendy Shop
 
-- **`clamp` = baju elastis**: `2.5vw` elastis, tapi tidak kekecilan `1.8rem` dan tidak kebesaran `2.8rem`.
-- **`aspect-ratio` = bingkai foto**: 16:9 bingkai, foto `cover` isi penuh tanpa gepeng.
+- **`clamp` = elastic clothes**: `2.5vw` elastic, but never smaller than `1.8rem` nor bigger than `2.8rem`.
+- **`aspect-ratio` = photo frame**: 16:9 frame, photo `cover` fills fully without squish.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-VS Code + browser, buat `modern.html`, buka, kecilkan browser → huruf mengecil tapi tidak hilang, foto tetap 16:9.
+VS Code + browser, create `modern.html`, open, shrink browser → letters shrink but don't vanish, photo stays 16:9.
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. `font-size: clamp(1.8rem, 2.5vw, 2.8rem)` → hitung `2.5vw`, jika <1.8rem pakai 1.8rem, jika >2.8rem pakai 2.8rem.
-2. `aspect-ratio:16/9` → jika `width` 320px, `height` auto 180px.
+1. `font-size: clamp(1.8rem, 2.5vw, 2.8rem)` → compute `2.5vw`, if <1.8rem use 1.8rem, if >2.8rem use 2.8rem.
+2. `aspect-ratio:16/9` → if `width` 320px, `height` auto 180px.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
-1. **clamp**: batas min-val-max
-2. **aspect-ratio**: proporsi lebar-tinggi
-3. **object-fit**: cara isi bingkai
-
----
-
-## Eksperimen
-
-- **Hijau:** Ganti `clamp(1.8rem, 2.5vw, 2.8rem)` jadi `clamp(1rem, 5vw, 3rem)` → lebih elastis?
-- **Kuning:** `aspect-ratio: 1` → kotak persegi?
-- **Merah:** Hapus `aspect-ratio` → foto lompat saat load (layout shift).
+1. **clamp**: min-val-max limit
+2. **aspect-ratio**: width-height proportion
+3. **object-fit**: frame fill way
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Kekinian Lengkap:** `h1` `clamp(1.8rem, 4vw, 2.8rem)`, `foto` `aspect-ratio:16/9` + `object-fit:cover`, `grid` `auto-fill` + `kartu` `aspect-ratio:1` persegi, buka di HP & laptop → `Lighthouse` cek `CLS` 0.
-
----
-
-## Glosarium Mini
-
-- **clamp/aspect-ratio/object-fit**: elastis/proporsi/isi
+- **Green:** Change to `clamp(1rem, 5vw, 3rem)` → more elastic?
+- **Yellow:** `aspect-ratio: 1` → square?
+- **Red:** Remove `aspect-ratio` → photo jumps on load (layout shift).
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 11 dari 12: **Kekinian** (Level: Lengkap). Bisa huruf elastis & foto proporsional. Minggu depan: **Capstone** — warung CSS lengkap.
+**Complete Trendy Shop:** `h1` `clamp(1.8rem, 4vw, 2.8rem)`, `photo` `aspect-ratio:16/9` + `object-fit:cover`, `grid` `auto-fill` + square `aspect-ratio:1` cards, open on phone & laptop → `Lighthouse` check `CLS` 0.
+
+---
+
+## Mini Glossary
+
+- **clamp/aspect-ratio/object-fit**: elastic/proportion/fill
+
+---
+
+## Summary
+
+Week 11 of 12: **Trendy** (Level: Complete). Elastic letters & proportional photos. Next: **Capstone** — complete CSS shop.

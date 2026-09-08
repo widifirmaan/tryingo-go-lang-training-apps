@@ -1,106 +1,106 @@
-# CSS Variables — Palet Warung Sekali Ubah (MDN)
+# CSS Variables — One-Change Shop Palette (MDN)
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 9:** CSS Variables
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 9:** CSS Variables
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `:root { --hijau: #2E5B44; }` palet di akar, `var(--hijau)` pakai di mana saja, `var(--hijau, #000)` fallback jika tidak ada (sumber: MDN Using custom properties)
-- `@property --hijau { syntax: "<color>"; initial-value: #2E5B44; inherits: false; }` untuk tipe + fallback `initial-value`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung ganti tema dari hijau ke biru — tanpa variabel, ubah 30 file `background: #2E5B44` manual. Dengan `--hijau` di `:root`, ubah 1 baris → semua tombol, kartu ikut.
+- `:root { --green: #2E5B44; }` palette at root, `var(--green)` use anywhere, `var(--green, #000)` fallback if missing (source: MDN Using custom properties)
+- `@property --green { syntax: "<color>"; initial-value: #2E5B44; inherits: false; }` for type + `initial-value` fallback
 
 ---
 
-## Program: Palet Sekali Ubah (MDN)
+## Why This Matters (Non-IT)
+
+Shop rethemes from green to blue — without variables, manually change 30 `background: #2E5B44` files. With `--green` in `:root`, change 1 line → all buttons, cards follow.
+
+---
+
+## Program: One-Change Palette (MDN)
 
 ```html
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Palet Warung</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Shop Palette</title>
 <style>
   :root {
-    --hijau: #2E5B44;
-    --krem: #EFECE6;
+    --green: #2E5B44;
+    --cream: #EFECE6;
     --radius: 12px;
   }
-  /* @property untuk tipe + initial (MDN) */
-  @property --hijau {
+  /* @property for type + initial (MDN) */
+  @property --green {
     syntax: "<color>";
     inherits: false;
     initial-value: #2E5B44;
   }
 
-  .tombol { background: var(--hijau); color: white; padding: 12px; border-radius: var(--radius); border: none; }
-  .tombol:hover { background: var(--hijau, #1a3326); } /* fallback jika --hijau invalid */
-  .kartu { background: var(--krem); padding: 16px; border-radius: var(--radius); border: 1px solid var(--hijau); }
-  /* Ganti tema: ubah :root saja */
+  .btn { background: var(--green); color: white; padding: 12px; border-radius: var(--radius); border: none; }
+  .btn:hover { background: var(--green, #1a3326); } /* fallback if --green invalid */
+  .card { background: var(--cream); padding: 16px; border-radius: var(--radius); border: 1px solid var(--green); }
+  /* Retheme: change :root only */
 </style></head>
 <body>
-  <button class="tombol">Beli</button>
-  <div class="kartu">Beras 5kg — Rp 62.000</div>
+  <button class="btn">Buy</button>
+  <div class="card">Rice 5kg — Rp 62,000</div>
 </body></html>
 ```
 
-**Sumber:** MDN `var(--hijau, fallback)` dan `@property syntax`.
+**Source:** MDN `var(--green, fallback)` and `@property syntax`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `--hijau` di `:root` + `var(--hijau)`
-`--hijau: #2E5B44` di `:root` warisi ke semua, `var(--hijau)` pakai, `var(--hijau, #000)` fallback jika tidak ada.
+### `--green` in `:root` + `var(--green)`
+`--green: #2E5B44` in `:root` inherits everywhere, `var(--green)` uses it, `var(--green, #000)` fallback if missing.
 
-### `@property` = Daftar Tipe
-`@property --hijau { syntax: "<color>"; initial-value: #2E5B44; }` cegah `var(--hijau)` jadi `16px` (invalid).
+### `@property` = Type Registry
+`@property --green { syntax: "<color>"; initial-value: #2E5B44; }` stops `var(--green)` becoming `16px` (invalid).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Palet Cat Toko
+### Analogy: Store Paint Palette
 
-- **`--hijau` = kaleng cat hijau**: taruh di gudang `:root`, semua tukang ambil `var(--hijau)`.
-- **`var(--hijau, #000)` = cat cadangan**: jika kaleng hilang, pakai hitam.
+- **`--green` = green paint can**: stored in `:root` warehouse, all workers take `var(--green)`.
+- **`var(--green, #000)` = spare paint**: if the can is gone, use black.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-VS Code + browser, buat `palet.html`, buka, ubah `--hijau` di `:root` → semua ikut.
+VS Code + browser, create `palette.html`, open, change `--green` in `:root` → all follow.
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. `:root { --hijau: #2E5B44 }` → simpan di akar.
-2. `.tombol { background: var(--hijau) }` → ambil `#2E5B44`.
+1. `:root { --green: #2E5B44 }` → stored at root.
+2. `.btn { background: var(--green) }` → takes `#2E5B44`.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
 1. **--var**: custom property
-2. **var()**: pakai + fallback
-3. **@property**: daftar tipe
+2. **var()**: use + fallback
+3. **@property**: type registry
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** Ganti `--hijau: #2E5B44` jadi `#1572B6` (biru) → semua tombol biru?
-- **Kuning:** Hapus `--hijau` → `var(--hijau, #000)` jadi hitam?
-- **Merah:** `var(--hijau, red, blue)` → fallback `red, blue`?
-
----
-
-## Tantangan
-
-**Warung 2 Tema:** `:root { --hijau: #2E5B44 }` + tombol `Ganti Tema` yang `document.documentElement.style.setProperty('--hijau', '#E34F26')` (JS) → klik ganti hijau→orange.
+- **Green:** Change `--green: #2E5B44` to `#1572B6` (blue) → all buttons blue?
+- **Yellow:** Delete `--green` → `var(--green, #000)` becomes black?
+- **Red:** `var(--green, red, blue)` → fallback `red, blue`?
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **--var/var()/@property**: variabel/pakai/daftar
+**2-Theme Shop:** `:root { --green: #2E5B44 }` + `Change Theme` button running `document.documentElement.style.setProperty('--green', '#E34F26')` (JS) → click switches green→orange.
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 9 dari 12: **Palet Sekali Ubah** (Level: Lengkap). Bisa ganti tema 1 baris. Minggu depan: **Arsitektur** — BEM.
+- **--var/var()/@property**: variable/use/registry
+
+---
+
+## Summary
+
+Week 9 of 12: **One-Change Palette** (Level: Complete). Retheme in 1 line. Next: **Architecture** — BEM.
