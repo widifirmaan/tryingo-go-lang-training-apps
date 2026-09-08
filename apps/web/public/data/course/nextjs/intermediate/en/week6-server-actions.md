@@ -1,50 +1,50 @@
-# Server Actions — Kirim Pesanan Tanpa API Manual
+# Server Actions — Submit Orders Without Manual API
 
-> **Kategori:** Next.js | **Level:** Menengah | **Minggu 6:** Server Actions & Mutations
+> **Kategori:** Next.js | **Level:** Intermediate | **Minggu 6:** Server Actions & Mutations
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `"use server"` di `actions.js` — fungsi di server, dipanggil dari Client `form` tanpa `fetch` manual
-- `revalidatePath("/produk")` segarkan daftar setelah tambah
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Form tambah produk tanpa Server Actions = bikin `fetch("/api/produk", {method:"POST"})` manual + `route.ts`. Dengan Actions = tulis fungsi `tambah(formData)` di server, di Client `action={tambah}` — selesai.
+- `"use server"` in `actions.js` — function on the server, called from Client `form` without manual `fetch`
+- `revalidatePath("/products")` refreshes the list after adding
 
 ---
 
-## Program: Tambah Produk via Action
+## Why This Matters (Non-IT)
+
+A product-add form without Server Actions = hand-built `fetch("/api/products", {method:"POST"})` + `route.ts`. With Actions = write `add(formData)` on the server, in Client `action={add}` — done.
+
+---
+
+## Program: Add Product via Action
 
 ```jsx
-// app/produk/actions.js — di server
+// app/products/actions.js — on the server
 "use server";
 import { revalidatePath } from "next/cache";
 
-let produk = [{ id: 1, nama: "Beras", harga: 62000 }];
+let products = [{ id: 1, name: "Rice", price: 62000 }];
 
-export async function tambah(formData) {
-  const nama = formData.get("nama");
-  const harga = Number(formData.get("harga"));
-  if (!nama || !harga) throw new Error("Isi nama & harga");
-  produk.push({ id: Date.now(), nama, harga });
-  revalidatePath("/produk"); // segarkan cache /produk
+export async function add(formData) {
+  const name = formData.get("name");
+  const price = Number(formData.get("price"));
+  if (!name || !price) throw new Error("Fill name & price");
+  products.push({ id: Date.now(), name, price });
+  revalidatePath("/products"); // refresh /products cache
 }
 
-// app/produk/page.js — Server
-import { tambah } from "./actions";
+// app/products/page.js — Server
+import { add } from "./actions";
 
-export default async function ProdukPage() {
-  // ... ambil produk
+export default async function ProductsPage() {
+  // ... fetch products
   return (
     <div>
-      <form action={tambah}>
-        <input name="nama" placeholder="Nama" required />
-        <input name="harga" type="number" placeholder="Harga" required />
-        <button>Tambah</button>
+      <form action={add}>
+        <input name="name" placeholder="Name" required />
+        <input name="price" type="number" placeholder="Price" required />
+        <button>Add</button>
       </form>
-      {/* daftar */}
+      {/* list */}
     </div>
   );
 }
@@ -52,16 +52,53 @@ export default async function ProdukPage() {
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `"use server"` = Dapur
-Fungsi jalan di server, aman akses DB, tidak kirim ke browser.
+### `"use server"` = Kitchen
+Functions run on the server, safe DB access, never sent to browser.
 
-### `form action={tambah}` = Pesan Antar
-Klik Tambah → browser kirim `FormData` ke server → `tambah` jalan → `revalidatePath` segarkan.
+### `form action={add}` = Delivery Order
+Click Add → browser sends `FormData` to server → `add` runs → `revalidatePath` refreshes.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 6: **Kirim Tanpa API** — Server Actions. Minggu depan: **Loading & Error**.
+### Analogy: Kitchen Order Slip
+- **`form` = order slip**, **Server Action = kitchen** receiving it directly — no courier (`fetch`) needed.
+
+### Step 0 — Prepare Device
+- Next.js project, add the form, submit, watch the list refresh.
+
+### How the Computer Reads It
+1. Submit → Next.js serializes form → calls `add` on server.
+2. `revalidatePath("/products")` → cache cleared → fresh list.
+
+### 3 Must-Know Terms
+1. **Action/revalidate**: kitchen/refresh
+
+---
+
+## Experiments
+
+- **Green:** Submit empty → `required` blocks?
+- **Yellow:** Remove `revalidatePath` → new product missing until manual refresh?
+- **Red:** `"use server"` missing → client tries to run DB code → error? Add directive.
+
+---
+
+## Challenge
+
+**Action Shop:** Add + delete (second action) + `revalidatePath` + validation error display.
+
+---
+
+## Mini Glossary
+
+- **action/server**: kitchen/order
+
+---
+
+## Summary
+
+Week 6: **Submit Without API** — Server Actions. Next: **Loading & Error**.

@@ -1,28 +1,28 @@
-# Middleware & Auth Dasar — Satpam Pintu
+# Middleware & Basic Auth — Door Guard
 
-> **Kategori:** Next.js | **Level:** Menengah | **Minggu 8:** Middleware & Auth Dasar
+> **Kategori:** Next.js | **Level:** Intermediate | **Minggu 8:** Middleware & Auth Dasar
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `middleware.js` satpam di pintu: cek `cookies` sebelum masuk `/admin` → `redirect` jika belum login
-- `matcher` atur pintu mana yang dijaga
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa satpam, siapa saja buka `/admin` → ubah harga. Middleware cegat di pintu sebelum `page.js` jalan.
+- `middleware.js` guard at the door: checks `cookies` before entering `/admin` → `redirect` when not logged in
+- `matcher` configures which doors are guarded
 
 ---
 
-## Program: Satpam Admin
+## Why This Matters (Non-IT)
+
+Without a guard, anyone opens `/admin` → edits prices. Middleware intercepts at the door before `page.js` runs.
+
+---
+
+## Program: Admin Guard
 
 ```javascript
-// middleware.js di root (sejajar app/)
+// middleware.js at root (beside app/)
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  const isLogin = request.cookies.get("login")?.value === "ya";
+  const isLogin = request.cookies.get("login")?.value === "yes";
   const isAdmin = request.nextUrl.pathname.startsWith("/admin");
 
   if (isAdmin && !isLogin) {
@@ -32,11 +32,11 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"], // hanya jaga /admin
+  matcher: ["/admin/:path*"], // guard /admin only
 };
 ```
 
-**Login dummy:**
+**Dummy login:**
 ```jsx
 // app/login/actions.js
 "use server";
@@ -44,25 +44,62 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function login() {
-  cookies().set("login", "ya");
+  cookies().set("login", "yes");
   redirect("/admin");
 }
 ```
 
-Buka `/admin` tanpa login → tendang ke `/login`.
+Open `/admin` without login → kicked to `/login`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `middleware.js` = Satpam
-Jalan **sebelum** `page.js`, bisa `redirect` atau `next()`.
+### `middleware.js` = Guard
+Runs **before** `page.js`, can `redirect` or `next()`.
 
-### `matcher` = Daftar Pintu Dijaga
-`["/admin/:path*"]` hanya satpam untuk admin.
+### `matcher` = Guarded Doors List
+`["/admin/:path*"]` guards admin only.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 8: **Satpam Pintu** — middleware. Selesai Menengah Next.js!
+### Analogy: Mall Security
+- **Middleware = security at the mall door** checking member cards before the elevator (`page.js`).
+
+### Step 0 — Prepare Device
+- Next.js project, add `middleware.js`, visit `/admin` logged-out → redirected.
+
+### How the Computer Reads It
+1. Request `/admin` → middleware runs first → no cookie → 307 to `/login`.
+2. Cookie present → `NextResponse.next()` → page renders.
+
+### 3 Must-Know Terms
+1. **middleware/matcher**: guard/doors
+
+---
+
+## Experiments
+
+- **Green:** Logged-out `/admin` → redirected to `/login`?
+- **Yellow:** `matcher: ["/:path*"]` → every page guarded (annoying)? Scope to admin.
+- **Red:** No `matcher` → middleware runs on static files too (slow)? Add it.
+
+---
+
+## Challenge
+
+**Guarded Admin:** `/admin` guarded + dummy login setting cookie + logout clearing it + redirect loop check.
+
+---
+
+## Mini Glossary
+
+- **middleware/cookies**: guard/stamp
+
+---
+
+## Summary
+
+Week 8: **Door Guard** — middleware. Intermediate Next.js DONE!
