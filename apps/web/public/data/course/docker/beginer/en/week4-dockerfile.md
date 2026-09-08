@@ -1,23 +1,23 @@
-# Dockerfile — Resep Peti Sendiri
+# Dockerfile — Own Box Recipe
 
-> **Kategori:** Docker | **Level:** Pemula | **Minggu 4:** Dockerfile
+> **Kategori:** Docker | **Level:** Beginner | **Minggu 4:** Dockerfile
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Tulis `Dockerfile` `FROM`, `COPY`, `RUN`, `CMD`, `docker build -t warung:1.0 .` bikin cetak biru sendiri
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa Dockerfile, pakai `nginx` orang lain. Dengan Dockerfile, bikin peti warung dengan `index.html` sendiri.
+- Write `Dockerfile` `FROM`, `COPY`, `RUN`, `CMD`, `docker build -t shop:1.0 .` makes your own blueprint
 
 ---
 
-## Program: Resep Warung
+## Why This Matters (Non-IT)
+
+Without Dockerfiles, you use someone else's `nginx`. With a Dockerfile, build a shop box with your own `index.html`.
+
+---
+
+## Program: Shop Recipe
 
 ```dockerfile
-# Dockerfile — di folder warung/
+# Dockerfile — in shop/ folder
 FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
@@ -26,18 +26,62 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ```html
 <!-- index.html -->
-<h1>Warung Bu Siti — Docker</h1><p>Buka 07.00-20.00</p>
+<h1>Siti's Shop — Docker</h1><p>Open 07.00-20.00</p>
 ```
 
 ```bash
-docker build -t warung:1.0 .
-docker run -p 8080:80 -d warung:1.0
-# Buka http://localhost:8080 → "Warung Bu Siti"
-docker push warung:1.0 # jika mau ke Hub
+docker build -t shop:1.0 .
+docker run -p 8080:80 -d shop:1.0
+# Open http://localhost:8080 → "Siti's Shop"
+docker push shop:1.0 # to Hub if wanted
 ```
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 4: **Resep Peti** — Dockerfile `FROM/COPY/RUN`.
+### `FROM` / `COPY` / `RUN` / `CMD`
+Base image / copy files / run at build / run at start.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Cake Recipe
+- **`FROM` = ready mix**, **`COPY` = add own toppings**, **`RUN` = bake steps**, **`CMD` = serve instruction**.
+
+### Step 0 — Prepare Device
+- Folder with `Dockerfile` + `index.html`, `docker build`.
+
+### How the Computer Reads It
+1. `docker build` → executes lines top-to-bottom → layers → image.
+2. `docker run` → box from your image serves your HTML.
+
+### 3 Must-Know Terms
+1. **FROM/COPY/CMD**: base/add/serve
+
+---
+
+## Experiments
+
+- **Green:** Edit `index.html` → rebuild → new content?
+- **Yellow:** Wrong `COPY` path → build error? Fix path.
+- **Red:** No `EXPOSE` → still works with `-p`? (EXPOSE is documentation!)
+
+---
+
+## Challenge
+
+**Own Box:** `Dockerfile` + custom `index.html` (name + hours + 1 image) + `build` + `run` + browser screenshot. **Beginner Docker DONE!**
+
+---
+
+## Mini Glossary
+
+- **Dockerfile/build**: recipe/bake
+
+---
+
+## Summary
+
+Week 4: **Box Recipe** — Dockerfile `FROM/COPY/RUN`. **Beginner Docker DONE!** Next: **Volumes** (Intermediate).

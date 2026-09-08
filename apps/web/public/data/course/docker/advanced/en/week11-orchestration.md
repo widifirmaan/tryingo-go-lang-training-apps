@@ -1,109 +1,108 @@
-# Orchestration — Mandor 100 Peti Docker
+# Orchestration — Foreman of 100 Docker Boxes
 
-> **Kategori:** Docker | **Level:** Lanjutan | **Minggu 11:** Orchestration
+> **Kategori:** Docker | **Level:** Advanced | **Minggu 11:** Orchestration
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `docker compose --scale web=3` 3 peti + Kubernetes `Deployment replicas: 3` + `Service` pintu (sumber: kubernetes.io/docs/concepts)
-- `kubectl apply/get/logs/scale` perintah mandor
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Promo 12.12 → 1 web peti antre panjang. Butuh 3 peti + mati 1 diganti otomatis. Manual `docker run` 3x + cek mati tiap jam = tidak tidur. Orchestrator = mandor 24 jam.
+- `docker compose --scale web=3` 3 boxes + Kubernetes `Deployment replicas: 3` + `Service` door (source: kubernetes.io/docs/concepts)
+- `kubectl apply/get/logs/scale` foreman commands
 
 ---
 
-## Program: Mandor Warung
+## Why This Matters (Non-IT)
+
+12.12 promo → 1 web box, endless queue. Needs 3 boxes + auto-replacement when 1 dies. Manual 3x `docker run` + hourly death-checks = no sleep. Orchestrator = 24-hour foreman.
+
+---
+
+## Program: Shop Foreman
 
 ```bash
-# Ringan: Compose scale (coba dulu!)
+# Light: Compose scale (try first!)
 docker compose up -d --scale web=3
-docker compose ps  # 3 web jalan
+docker compose ps  # 3 web running
 ```
 
 ```yaml
-# Berat: Kubernetes Deployment (k8s)
+# Heavy: Kubernetes Deployment (k8s)
 # k8s/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
-metadata: { name: warung }
+metadata: { name: shop }
 spec:
-  replicas: 3  # selalu 3 peti!
-  selector: { matchLabels: { app: warung } }
+  replicas: 3  # always 3 boxes!
+  selector: { matchLabels: { app: shop } }
   template:
-    metadata: { labels: { app: warung } }
+    metadata: { labels: { app: shop } }
     spec:
       containers:
         - name: web
-          image: warung:1.0
+          image: shop:1.0
           ports: [{ containerPort: 80 }]
 ```
 
 ```bash
 kubectl apply -f k8s/
 kubectl get pods          # 3 RUNNING?
-kubectl scale deployment warung --replicas=5
-kubectl delete pod <nama> # mati 1 → otomatis ganti baru!
-kubectl logs -l app=warung
+kubectl scale deployment shop --replicas=5
+kubectl delete pod <name> # kill 1 → auto-replaced with new!
+kubectl logs -l app=shop
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `replicas: 3` = Selalu 3
-Mati 1 → buat baru otomatis (self-healing).
+### `replicas: 3` = Always 3
+1 death → new one auto-created (self-healing).
 
-### `Service` = Pintu Tetap
-Pod IP berubah-ubah → Service 1 pintu stabil + bagi beban.
+### `Service` = Fixed Door
+Pod IPs keep changing → Service 1 stable door + load balancing.
 
-### Compose Scale vs K8s = Warung vs Mal
-`--scale` cukup untuk 1 server. K8s untuk banyak server.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Mandor Pabrik
-- **Orchestrator = mandor**: "selalu 3 kasir!" → kasir pingsan → ganti baru.
-- **Service = resepsionis**: pelanggan ke 1 pintu, dibagi ke kasir kosong.
-
-### Langkah 0 — Siapkan Device
-- Docker + `minikube start` (K8s lokal) atau `kind`.
-
-### Cara Komputer Membaca
-1. `apply` → K8s catat "mau 3" → buat 3 Pod.
-2. Pod mati → controller lihat 2 ≠ 3 → buat 1.
-
-### 3 Istilah Wajib
-1. **Pod/Deployment/Service**: peti/mandor/pintu
-2. **replicas/scale**: jumlah/tambah
+### Compose Scale vs K8s = Shop vs Mall
+`--scale` suffices for 1 server. K8s for many servers.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `scale --replicas=1` → 1 Pod?
-- **Kuning:** `delete pod` → Pod baru muncul otomatis?
-- **Merah:** Tanpa `Service`, akses Pod langsung via IP → IP berubah setelah restart? (Itulah gunanya Service!)
+### Analogy: Factory Foreman
+- **Orchestrator = foreman**: "always 3 cashiers!" → cashier faints → new replacement.
+- **Service = receptionist**: customers use 1 door, routed to empty cashiers.
 
----
+### Step 0 — Prepare Device
+- Docker + `minikube start` (local K8s) or `kind`.
 
-## Tantangan
+### How the Computer Reads It
+1. `apply` → K8s records "want 3" → creates 3 Pods.
+2. Pod dies → controller sees 2 ≠ 3 → creates 1.
 
-**Mal Terorkestrasi:** `Deployment replicas: 3` + `Service` + `scale 5` + `delete` 1 Pod buktikan ganti otomatis + screenshot `get pods`.
-
----
-
-## Glosarium Mini
-
-- **Pod/Deployment/Service**: peti/mandor/pintu
-- **kubectl/scale**: perintah/tambah
+### 3 Must-Know Terms
+1. **Pod/Deployment/Service**: box/foreman/door
+2. **replicas/scale**: count/add
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 11 dari 12: **Mandor 24 Jam** (Level: Lanjutan). Mati diganti otomatis. Minggu depan: **Capstone**.
+- **Green:** `scale --replicas=1` → 1 Pod?
+- **Yellow:** `delete pod` → new Pod auto-appears?
+- **Red:** No `Service`, direct Pod IP access → IP changes after restart? (That's why Services!)
+
+---
+
+## Challenge
+
+**Scaled Shop:** Compose `--scale web=3` + K8s manifest `replicas: 3` + kill-1-pod survival proof.
+
+---
+
+## Mini Glossary
+
+- **K8s/Pod/Service**: foreman/box/door
+
+---
+
+## Summary
+
+Week 11 of 12: **Foreman** (Level: Advanced). Always-N boxes. Next: **Capstone**.

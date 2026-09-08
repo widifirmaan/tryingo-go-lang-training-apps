@@ -1,90 +1,105 @@
-# Capstone: Production Pipeline — Warung Docker Grand Opening
+# Capstone: Production Pipeline — Docker Shop Grand Opening
 
-> **Kategori:** Docker | **Level:** Lanjutan | **Minggu 12:** Capstone: Production Pipeline
+> **Kategori:** Docker | **Level:** Advanced | **Minggu 12:** Capstone: Production Pipeline
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W11: `Dockerfile` diet + `compose` rakit + `CI/CD` pabrik + `security` gembok + `volume` lemari jadi pipeline produksi warung
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung jadi pipeline: `git push` → test → scan → deploy → monitor. Ini portfolio "Docker production-ready".
+- Combine W1-W11: diet `Dockerfile` + `compose` assembly + `CI/CD` factory + `security` locks + `volume` wardrobe into a production shop pipeline
 
 ---
 
-## Program: Pipeline Warung Lengkap (Checklist)
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combined pipeline: `git push` → test → scan → deploy → monitor. Your "production-ready Docker" portfolio.
+
+---
+
+## Program: Complete Shop Pipeline (Checklist)
 
 ```dockerfile
-# Dockerfile — diet + aman (W4+W8+W9)
+# Dockerfile — diet + secure (W4+W8+W9)
 FROM golang:1.22 AS build
 WORKDIR /app
 COPY go.mod ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 go build -o warung .
+RUN CGO_ENABLED=0 go build -o shop .
 FROM alpine:3.19
-RUN adduser -S warung
-USER warung
-COPY --from=build /app/warung /warung
-CMD ["/warung"]
+RUN adduser -S shop
+USER shop
+COPY --from=build /app/shop /shop
+CMD ["/shop"]
 ```
 
 ```yaml
-# docker-compose.yml — rakit (W7) + lemari (W5)
+# docker-compose.yml — assembly (W7) + wardrobe (W5)
 services:
   web: { build: ., ports: ["8080:80"] }
-  db: { image: postgres:15, environment: { POSTGRES_PASSWORD: rahasia }, volumes: [data:/var/lib/postgresql/data] }
+  db: { image: postgres:15, environment: { POSTGRES_PASSWORD: secret }, volumes: [data:/var/lib/postgresql/data] }
 volumes: { data: }
 ```
 
 ```yaml
-# .github/workflows/docker.yml — pabrik (W10)
+# .github/workflows/docker.yml — factory (W10)
 # on: push → build → trivy → push GHCR
 ```
 
 ```bash
 # Grand opening checklist:
-trivy image warung:1.0        # 0 CRITICAL? (W9)
-docker compose up -d          # UP semua? (W7)
-curl localhost:8080/actuator/health  # UP? (pantau)
-docker images warung          # <50MB? (W8 diet)
+trivy image shop:1.0        # 0 CRITICAL? (W9)
+docker compose up -d          # all UP? (W7)
+curl localhost:8080/health  # UP? (monitor)
+docker images shop          # <50MB? (W8 diet)
 ```
 
-**Tugas capstone:** Repo publik + pipeline hijau + image <50MB + 0 CRITICAL + deploy + video 2 menit. **Selesai Docker 0→Ahli!** 🎉
+**Capstone task:** Public repo + green pipeline + <50MB image + 0 CRITICAL + deploy + 2-min video. **Docker 0→Expert DONE!** 🎉
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Pipeline = Gabung 11 Minggu
-Diet + rakit + pabrik + gembok + lemari = produksi.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grand Opening Pabrik
-- **W1-W4 fondasi** + **W5-W8 mesin** + **W9-W11 pengaman** = pabrik. **W12 = buka**.
-
-### 3 Istilah Wajib
-1. **Capstone/pipeline**: gabung/alur-produksi
+### Pipeline = Combine 11 Weeks
+Diet + assembly + factory + locks + wardrobe = production.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Docker 0→Ahli!** 🎉
+### Analogy: Factory Grand Opening
+- **W1-W4 foundation** + **W5-W8 engine** + **W9-W11 guards** = factory. **W12 = open**.
+
+### Step 0 — Prepare Device
+- Docker + registry account + deploy target ready.
+
+### How the Computer Reads It
+1. `git push` → factory builds → scans → ships.
+2. Checklist all green → production pipeline live.
+
+### 3 Must-Know Terms
+1. **Capstone/pipeline**: combine/prod-flow
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Capstone/pipeline**: gabung/alur
+- **Green:** All checklist items pass locally?
+- **Yellow:** Image >50MB → which stage bloated? Diet it.
+- **Red:** Trivy CRITICAL → ship anyway? Never — fix base.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 12 dari 12: **Grand Opening** (Level: Lanjutan). **Selesai Docker 0→Ahli dari nol!** 🎉
+**Grand Opening:** All-green checklist + public URL + video. **Docker 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/pipeline**: combine/prod-flow
+
+---
+
+## Summary
+
+Week 12 of 12: **Production Pipeline** (Level: Advanced). **Docker 0→Expert from zero DONE!** 🎉
