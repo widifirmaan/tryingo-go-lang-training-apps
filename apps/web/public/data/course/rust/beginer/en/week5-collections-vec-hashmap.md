@@ -46,6 +46,24 @@ fn main() {
   for (name, h) in &prices {
     println!("{}: Rp{}", name, h);
   }
+
+  // Slices — borrow a part (à la Rust Book 4.3)!
+  let all = vec![10, 20, 30, 40];
+  let middle: &[i32] = &all[1..3]; // borrow indexes 1-2 → [20, 30]
+  println!("Middle: {:?}", middle);
+
+  // Strings deep — append, combine, careful slicing!
+  let mut hi = String::from("Hello");
+  hi.push_str(", Budi"); // append back
+  hi.push('!');          // 1 char
+  let joined = hi + " Yup!"; // + MOVES hi's ownership!
+  println!("{}", joined);
+  // &hi[0..5] → "Hello" safe; slicing mid-multibyte-char (é is 2 bytes) = PANIC!
+
+  // Iterators + closures — functional conveyor (à la Rust Book Ch13)!
+  let nums = vec![1, 2, 3, 4];
+  let even_doubled: Vec<i32> = nums.iter().filter(|&&x| x % 2 == 0).map(|&x| x * 2).collect();
+  println!("Even doubled: {:?}", even_doubled); // [4, 8]
 }
 ```
 
@@ -61,6 +79,15 @@ fn main() {
 
 ### `{:?}` Debug
 `println!("{:?}", stock)` prints arrays for debug.
+
+### Slice `&all[1..3]` = Borrow a Part
+`&[i32]` without owning. Bounds follow length (`1..3` = indexes 1,2).
+
+### Strings: `push_str`/`push`/`+`
+`+` MOVES left ownership! Slice strings ONLY at char boundaries (é = 2 bytes, mid-slice = panic).
+
+### Iterators + Closures `|x| ...`
+`.iter().filter().map().collect()` conveyor without `for`. Closure `|&x| x*2` quick function capturing surroundings.
 
 ---
 
