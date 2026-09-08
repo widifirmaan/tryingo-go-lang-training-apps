@@ -55,6 +55,8 @@ export class KartuComponent {
 ### `*ngIf` + `else` = Saklar
 `*ngIf="total > 50000"` tampil jika ya. `else bayarOngkir` + `<ng-template #bayarOngkir>` jika tidak. (`*` = structural, ubah DOM.)
 
+> **Catatan versi (riset 2026):** `*ngIf`/`*ngFor` masih jalan penuh, tapi sejak Angular 20 statusnya **deprecated** — gaya modernnya `@if (total > 50000) { ... } @else { ... }` dan `@for (p of daftar; track p.id) { ... }`. Kuasai `*ngIf` dulu (masih ada di jutaan kode lama), lalu pelajari `@if` sebagai langkah berikut.
+
 ### `*ngFor` = Fotokopi
 `*ngFor="let p of daftar; let i = index"` → `p` barang, `i` nomor 0,1,2.
 
