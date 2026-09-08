@@ -1,108 +1,108 @@
-# Testing — Cicip Warung C# Beneran
+# Testing — Real C# Shop Taste-Test
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 10:** Testing
+> **Kategori:** C# | **Level:** Advanced | **Minggu 10:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `dotnet new xunit` + `[Fact]` + `Assert.Equal` cicip beneran (sumber: Microsoft Learn unit testing C#)
-- `Theory` + `[InlineData]` cicip banyak sekaligus
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Simulasi `Console.WriteLine` tidak menangkap bug (tidak dicek mesin). xUnit beneran: ubah rumus → merah → perbaiki. Tanpa ini, "testing" pajangan.
+- `dotnet new xunit` + `[Fact]` + `Assert.Equal` real tasting (source: Microsoft Learn unit testing C#)
+- `Theory` + `[InlineData]` tastes many at once
 
 ---
 
-## Program: Cicip Kasir Beneran
+## Why This Matters (Non-IT)
+
+`Console.WriteLine` simulation catches no bugs (never machine-checked). Real xUnit: change formula → red → fix. Without it, "testing" is decoration.
+
+---
+
+## Program: Real Cashier Taste-Test
 
 ```bash
-dotnet new xunit -n Warung.Test
-dotnet add Warung.Test reference Warung
+dotnet new xunit -n Shop.Test
+dotnet add Shop.Test reference Shop
 ```
 
 ```csharp
-// KasirTest.cs — beneran!
+// CashierTest.cs — real!
 using Xunit;
 
-public class KasirTest {
+public class CashierTest {
   [Fact]
-  public void Hitung_DuaTambahTiga_Lima() {
-    var k = new Kasir();
-    Assert.Equal(5, k.Hitung(2, 3));
+  public void Calc_TwoPlusThree_Five() {
+    var k = new Cashier();
+    Assert.Equal(5, k.Calc(2, 3));
   }
 
-  [Theory] // cicip banyak!
+  [Theory] // tastes many!
   [InlineData(62000, 10, 55800)]
   [InlineData(5000, 0, 5000)]
   [InlineData(5000, 100, 0)]
-  public void Diskon_Benar(int harga, int persen, int mau) {
-    var k = new Kasir();
-    Assert.Equal(mau, k.Diskon(harga, persen));
+  public void Discount_Correct(int price, int pct, int want) {
+    var k = new Cashier();
+    Assert.Equal(want, k.Discount(price, pct));
   }
 
   [Fact]
-  public void BagiNol_Meledak() {
-    var k = new Kasir();
-    Assert.Throws<DivideByZeroException>(() => k.Bagi(10, 0));
+  public void DivideZero_Explodes() {
+    var k = new Cashier();
+    Assert.Throws<DivideByZeroException>(() => k.Divide(10, 0));
   }
 }
 ```
 
 ```bash
 dotnet test
-# Passed! - Failed: 0, Passed: 5 — HIJAU beneran
+# Passed! - Failed: 0, Passed: 5 — GREEN for real
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `[Fact]` / `[Theory]` = Cicip 1 / Banyak
-`Fact` 1 kasus, `Theory` + `InlineData` banyak kasus 1 fungsi.
+### `[Fact]` / `[Theory]` = Taste 1 / Many
+`Fact` 1 case, `Theory` + `InlineData` many cases 1 function.
 
-### `Assert.Equal/Throws` = Harap/Meledak
-`Equal(5, hasil)` samakan, `Throws` harapkan meledak.
+### `Assert.Equal/Throws` = Expect/Explode
+`Equal(5, result)` matches, `Throws` expects explosion.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cicip Dapur
-- **Test = cicip**: masak → cicip mesin → pas? Saji.
+### Analogy: Kitchen Taste
+- **Test = taste**: cook → machine tastes → fits? Serve.
 
-### Langkah 0 — Siapkan Device
+### Step 0 — Prepare Device
 - `dotnet new xunit` + `dotnet add reference` + `dotnet test`.
 
-### Cara Komputer Membaca
-1. `dotnet test` → cari `[Fact]`/`[Theory]` → jalankan → hijau/merah per kasus.
+### How the Computer Reads It
+1. `dotnet test` → finds `[Fact]`/`[Theory]` → runs → green/red per case.
 
-### 3 Istilah Wajib
-1. **Fact/Theory/Assert**: 1/banyak/harap
-
----
-
-## Eksperimen
-
-- **Hijau:** Ubah rumus → merah? Betulkan.
-- **Kuning:** Tambah `[InlineData]` ke-4 → ikut jalan?
-- **Merah:** File tanpa `[Fact]` → tidak jalan? Tambah atribut.
+### 3 Must-Know Terms
+1. **Fact/Theory/Assert**: one/many/expect
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Teruji:** `Hitung/Diskon/Bagi` + 5 test HIJAU + screenshot.
-
----
-
-## Glosarium Mini
-
-- **xUnit/Fact/Theory**: dapur/1/banyak
+- **Green:** Change formula → red? Fix it.
+- **Yellow:** Add 4th `[InlineData]` → runs along?
+- **Red:** File without `[Fact]` → not run? Add attribute.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 10 dari 12: **Cicip Beneran** (Level: Lanjutan). Tanpa simulasi. Minggu depan: **Web API**.
+**Tested Shop:** `Calc/Discount/Divide` + 5 GREEN tests + screenshot.
+
+---
+
+## Mini Glossary
+
+- **xUnit/Fact/Theory**: taste-kitchen/taste/expect
+
+---
+
+## Summary
+
+Week 10 of 12: **Real Tasting** (Level: Advanced). No simulation. Next: **Web API**.

@@ -1,49 +1,81 @@
-# Capstone: Full Stack App — Warung C# Grand Opening
+# Capstone: Full Stack App — C# Shop Grand Opening
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 12:** Capstone: Full Stack App
+> **Kategori:** C# | **Level:** Advanced | **Minggu 12:** Capstone: Full Stack App
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W11: `OOP` + `LINQ` + `async` + `API` + `test` jadi toko + deploy
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: API JSON + uji hijau + deploy. Portfolio "C# full-stack".
+- Combine W1-W11: `OOP` + `LINQ` + `async` + `API` + `test` into store + deploy
 
 ---
 
-## Program: Toko Capstone (Checklist)
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combination: JSON API + green tests + deploy. Your "full-stack C#" portfolio.
+
+---
+
+## Program: Capstone Store (Checklist)
 
 ```bash
-dotnet new webapi -n Warung
-# + Produk (OOP) + LINQ saring + async ambil + xUnit 5 test HIJAU
-dotnet test   # hijau?
+dotnet new webapi -n Shop
+# + Product (OOP) + LINQ filter + async fetch + xUnit 5 GREEN tests
+dotnet test   # green?
 dotnet run    # :7000 + /swagger?
 ```
 
-Fitur wajib:
-- [ ] `GET /api/produk` + `?cari` (`Where`) + `GET {id}` (`FirstOrDefault`)
-- [ ] `POST` + validasi + `201`
-- [ ] 5 test HIJAU + `README.md`
+Required features:
+- [ ] `GET /api/products` + `?find` (`Where`) + `GET {id}` (`FirstOrDefault`)
+- [ ] `POST` + validation + `201`
+- [ ] 5 GREEN tests + `README.md`
 
-**Tugas capstone:** Repo + test hijau + Swagger screenshot + video 1 menit. **Selesai C# 0→Ahli!** 🎉
-
----
-
-## Tantangan
-
-**Grand Opening:** Semua checklist + deploy (`Azure`/`VPS`) + video. **Selesai C# 0→Ahli!** 🎉
+**Capstone task:** Repo + green tests + Swagger screenshot + 1-min video. **C# 0→Expert DONE!** 🎉
 
 ---
 
-## Glosarium Mini
+## Key Concepts
 
-- **Capstone/deploy**: gabung/buka
+### Capstone = Combine 11 Weeks
+OOP + LINQ + async + API + tests = store.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 12 dari 12: **Grand Opening** (Level: Lanjutan). **Selesai C# 0→Ahli dari nol!** 🎉
+### Analogy: Grand Opening
+- **W1-W4 foundation** + **W5-W11 engine** = store. **W12 = open**.
+
+### Step 0 — Prepare Device
+- .NET SDK + test project + deploy target ready.
+
+### How the Computer Reads It
+1. Checklist top-to-bottom → production C# store.
+2. Green tests + video → portfolio done.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy**: combine/open
+
+---
+
+## Experiments
+
+- **Green:** All checklist items pass?
+- **Yellow:** 1 failing test → fix before ship?
+- **Red:** Skip deploy → portfolio incomplete? Ship it.
+
+---
+
+## Challenge
+
+**Grand Opening:** All checklist + deploy (`Azure`/`VPS`) + video. **C# 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/deploy**: combine/open
+
+---
+
+## Summary
+
+Week 12 of 12: **Grand Opening** (Level: Advanced). **C# 0→Expert from zero DONE!** 🎉
