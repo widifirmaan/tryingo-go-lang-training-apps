@@ -1,16 +1,16 @@
-# Auth — KTP Node
+# Auth — Node ID
 
-> **Kategori:** Node.js | **Level:** Menengah | **Minggu 7:** Auth
+> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 7:** Auth
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `jsonwebtoken` KTP: `jwt.sign({id}, "rahasia")`, `jwt.verify`, `middleware` cek `Authorization` header
+- `jsonwebtoken` ID: `jwt.sign({id}, "secret")`, `jwt.verify`, `middleware` checks `Authorization` header
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa JWT, `/admin` dibuka siapa saja. Dengan `sign` + `verify` + middleware, 10 baris jaga semua pintu.
+Without JWT, anyone opens `/admin`. With `sign` + `verify` + middleware, 10 lines guard all doors.
 
 ---
 
@@ -22,7 +22,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-const SECRET = "rahasia-warung";
+const SECRET = "shop-secret";
 
 app.post("/login", (req,res)=>{
   const { username } = req.body;
@@ -30,13 +30,13 @@ app.post("/login", (req,res)=>{
   res.json({ token });
 });
 
-function cek(req,res,next){
+function check(req,res,next){
   const token = req.headers.authorization?.split(" ")[1];
   try{ req.user = jwt.verify(token, SECRET); next(); }
-  catch{ res.status(401).json({ error: "Belum login" }); }
+  catch{ res.status(401).json({ error: "Not logged in" }); }
 }
 
-app.get("/admin", cek, (req,res)=>res.json({ pesan: `Halo ${req.user.username}` }));
+app.get("/admin", check, (req,res)=>res.json({ msg: `Hello ${req.user.username}` }));
 app.listen(3000);
 ```
 
@@ -45,26 +45,26 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Gelang Konser Node
-- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+### Analogy: Node Concert Wristband
+- See Program: run (`node server.js`), `curl` each door, change 1 thing.
 
-### Langkah 0 — Siapkan Device
-- Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
+### Step 0 — Prepare Device
+- Same as Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` per week).
 
-### Cara Komputer Membaca
-- `jwt.sign` buat gelang; middleware cek `Authorization: Bearer` tiap pintu jaga.
+### How the Computer Reads It
+- `jwt.sign` makes the wristband; middleware checks `Authorization: Bearer` at every guarded door.
 
-### 3 Istilah Wajib
-- 1. **JWT/middleware**: gelang/satpam
+### 3 Must-Know Terms
+- 1. **JWT/middleware**: wristband/guard
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 7: **KTP Node** — JWT + middleware.
+Week 7: **Node ID** — JWT + middleware. Next: **Database**.

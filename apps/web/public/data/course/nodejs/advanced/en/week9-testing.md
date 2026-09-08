@@ -1,56 +1,56 @@
-# Testing — Uji Warung Node Sebelum Buka
+# Testing — Test Node Shop Before Opening
 
-> **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 9:** Testing
+> **Kategori:** Node.js | **Level:** Advanced | **Minggu 9:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `npm install --save-dev vitest`, `test("hitung", ()=> expect(hitung(2,3)).toBe(5))` — uji sebelum deploy
+- `npm install --save-dev vitest`, `test("calc", ()=> expect(calc(2,3)).toBe(5))` — test before deploy
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `vitest`, ubah rumus → salah ketahuan pelanggan. Dengan 2 test, ubah → merah → perbaiki. `npm test` 3 detik.
+Without `vitest`, formula edits → mistakes found by customers. With 2 tests, edit → red → fix. `npm test` 3 seconds.
 
 ---
 
 ## Program
 
 ```javascript
-// hitung.js
-export function hitung(a,b){ return a+b; }
+// calc.js
+export function calc(a,b){ return a+b; }
 
-// hitung.test.js
+// calc.test.js
 import { test, expect } from "vitest";
-import { hitung } from "./hitung.js";
-test("2+3=5", ()=> expect(hitung(2,3)).toBe(5));
-test("0+0=0", ()=> expect(hitung(0,0)).toBe(0));
+import { calc } from "./calc.js";
+test("2+3=5", ()=> expect(calc(2,3)).toBe(5));
+test("0+0=0", ()=> expect(calc(0,0)).toBe(0));
 // npm test
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cicip Dapur Node
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Node Kitchen Taste
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).
+### Step 0 — Prepare Device
+- Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).
 
-### Cara Komputer Membaca
-- `test(name, fn)` + `expect(a).toBe(b)`; `npm test` cari `*.test.js`.
+### How the Computer Reads It
+- `test(name, fn)` + `expect(a).toBe(b)`; `npm test` finds `*.test.js`.
 
-### 3 Istilah Wajib
-- 1. **test/expect**: cicip/harap
+### 3 Must-Know Terms
+- 1. **test/expect**: taste/expect
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 9: **Uji Node** — `vitest` sebelum buka.
+Week 9: **Test Node** — `vitest` before opening. Next: **Performance**.

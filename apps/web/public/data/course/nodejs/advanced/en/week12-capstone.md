@@ -1,53 +1,53 @@
-# Capstone: Toko Node Lengkap
+# Capstone: Complete Node Store
 
-> **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 12:** Capstone
+> **Kategori:** Node.js | **Level:** Advanced | **Minggu 12:** Capstone
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `express` + `prisma` + `jwt` + `pm2` + `vercel` jadi toko `produk` + `keranjang` + `auth` + `deploy`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: Express + Prisma + JWT + test + deploy jadi toko. Portfolio Node.
+- Combine `express` + `prisma` + `jwt` + `pm2` + `vercel` into a store with `products` + `cart` + `auth` + `deploy`
 
 ---
 
-## Program: Toko Capstone Node
+## Why This Matters (Non-IT)
 
-Fitur wajib:
-- `GET /produk` + `POST /produk` + `DELETE` via Express + Prisma
-- `POST /login` JWT + `middleware` cek
+11 separate weeks — capstone proves the combination: Express + Prisma + JWT + tests + deploy become a store. Node portfolio.
+
+---
+
+## Program: Node Capstone Store
+
+Required features:
+- `GET /products` + `POST /products` + `DELETE` via Express + Prisma
+- `POST /login` JWT + `middleware` check
 - `pm2` + `vercel --prod`
 
-Struktur: `server.js`, `prisma/schema.prisma`, `routes/produk.js`, `middleware/auth.js`.
+Structure: `server.js`, `prisma/schema.prisma`, `routes/products.js`, `middleware/auth.js`.
 
-**Tugas:** Deploy `warung-node.vercel.app` + video 2 menit tambah produk → cek di HP.
+**Task:** Deploy `shop-node.vercel.app` + 2-min video adding products → checking on phone.
 
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grand Opening Toko Node
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
-
-### Langkah 0 — Siapkan Device
-- Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).
-
-### Cara Komputer Membaca
-- CHECKLIST (API + DB + auth + test + deploy) lalu URL + video.
-
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Node Store Grand Opening
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).
 
-Minggu 12: **Capstone Node** — toko lengkap, **Selesai Node 0→Ahli!**
+### How the Computer Reads It
+- CHECKLIST (API + DB + auth + test + deploy) then URL + video.
+
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 12: **Node Capstone** — complete store, **Node 0→Expert DONE!**

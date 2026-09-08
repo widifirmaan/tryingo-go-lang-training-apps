@@ -1,54 +1,54 @@
-# Deployment — Buka Cabang Node
+# Deployment — Open Node Branch
 
-> **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 11:** Deployment
+> **Kategori:** Node.js | **Level:** Advanced | **Minggu 11:** Deployment
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `npm run build` + `pm2` + `Vercel`/`Railway` deploy `warung-node.vercel.app`, `env` untuk `DATABASE_URL`
+- `npm run build` + `pm2` + `Vercel`/`Railway` deploy `shop-node.vercel.app`, `env` for `DATABASE_URL`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Lokal `localhost` hanya laptop. `vercel --prod` / `Railway` + `PORT` env + `DATABASE_URL` env = URL publik. Tanpa env, password ikut git (bocor!).
+Local `localhost` is laptop-only. `vercel --prod` / `Railway` + `PORT` env + `DATABASE_URL` env = public URL. Without env, passwords join git (leak!).
 
 ---
 
 ## Program
 
 ```bash
-npm run build # jika ada
-pm2 start server.js --name warung
+npm run build # when present
+pm2 start server.js --name shop
 pm2 save
 # Deploy Vercel: vercel --prod
-# Atur Env di dashboard: DATABASE_URL
+# Set Env in dashboard: DATABASE_URL
 ```
 
-**Checklist:** `PORT` dari `process.env.PORT`, `cors` aktif, `helmet` aman.
+**Checklist:** `PORT` from `process.env.PORT`, `cors` on, `helmet` safe.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Buka Cabang Online
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Open Online Branch
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).
+### Step 0 — Prepare Device
+- Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).
 
-### Cara Komputer Membaca
-- `PORT=process.env.PORT` dengar; env di dashboard (bukan file!).
+### How the Computer Reads It
+- `PORT=process.env.PORT` listens; env in dashboard (not files!).
 
-### 3 Istilah Wajib
-- 1. **deploy/env**: buka/rahasia-luar
+### 3 Must-Know Terms
+- 1. **deploy/env**: open/outside-secrets
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 11: **Buka Cabang** — deploy Node.
+Week 11: **Open Branch** — deploy Node. Next: **Capstone**.
