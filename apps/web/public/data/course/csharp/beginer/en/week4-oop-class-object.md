@@ -1,111 +1,111 @@
-# OOP Class & Object — Cetak Biru Kartu Warung C#
+# OOP Class & Object — C# Shop Card Blueprints
 
-> **Kategori:** C# | **Level:** Pemula | **Minggu 4:** OOP: Class & Object
+> **Kategori:** C# | **Level:** Beginner | **Minggu 4:** OOP: Class & Object
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Produk { ... }` cetak biru, `new Produk(...)` kartu, `constructor` isi awal (sumber: Microsoft Learn classes)
-- `{ get; set; }` properti, `public/private`, ` : Produk` warisan, `List<Produk>` rak kartu
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-50 produk tanpa cetak biru → tulis `nama, harga, stok` 50x. Dengan `class` tulis sekali, `new` 50 kartu — ubah rumus diskon 1 tempat. `List<Produk>` rak khusus kartu (tidak campur).
+- `class Product { ... }` blueprints, `new Product(...)` cards, `constructor` initial fill (source: Microsoft Learn classes)
+- `{ get; set; }` properties, `public/private`, ` : Product` inheritance, `List<Product>` card racks
 
 ---
 
-## Program: Kartu Produk C#
+## Why This Matters (Non-IT)
+
+50 products without blueprints → write `name, price, stock` 50x. With `class` write once, `new` 50 cards — discount formula changes in 1 place. `List<Product>` dedicated card rack (no mixing).
+
+---
+
+## Program: C# Product Cards
 
 ```csharp
-class Produk {
-  public string Nama { get; set; } = "";  // properti auto
-  public decimal Harga { get; set; }
-  public int Stok { get; set; }
+class Product {
+  public string Name { get; set; } = "";  // auto property
+  public decimal Price { get; set; }
+  public int Stock { get; set; }
 
-  public Produk(string nama, decimal harga, int stok = 0) { // constructor
-    Nama = nama; Harga = harga; Stok = stok;
+  public Product(string name, decimal price, int stock = 0) { // constructor
+    Name = name; Price = price; Stock = stock;
   }
 
-  public string Info() => $"{Nama}: Rp{Harga:N0} (stok {Stok})";
-  public void Diskon(int persen) => Harga -= Harga * persen / 100;
+  public string Info() => $"{Name}: Rp{Price:N0} (stock {Stock})";
+  public void Discount(int pct) => Price -= Price * pct / 100;
 }
 
-class Elektronik : Produk { // warisan
-  public int Garansi { get; set; }
-  public Elektronik(string nama, decimal harga, int stok, int garansi)
-    : base(nama, harga, stok) { Garansi = garansi; }
+class Electronics : Product { // inheritance
+  public int Warranty { get; set; }
+  public Electronics(string name, decimal price, int stock, int warranty)
+    : base(name, price, stock) { Warranty = warranty; }
 }
 
-var beras = new Produk("Beras 5kg", 62000, 10);
-Console.WriteLine(beras.Info());
-beras.Diskon(10);
-Console.WriteLine("Setelah diskon: " + beras.Info());
+var rice = new Product("Rice 5kg", 62000, 10);
+Console.WriteLine(rice.Info());
+rice.Discount(10);
+Console.WriteLine("After discount: " + rice.Info());
 
-// Rak kartu
-var rak = new List<Produk> { beras, new Produk("Bayam", 5000, 20) };
-foreach (var p in rak) Console.WriteLine(p.Info());
-Console.WriteLine($"Total item: {rak.Count}");
+// Card rack
+var rack = new List<Product> { rice, new Product("Spinach", 5000, 20) };
+foreach (var p in rack) Console.WriteLine(p.Info());
+Console.WriteLine($"Total items: {rack.Count}");
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `class` + `new` + Constructor
-`class` biru, `new Produk(...)` kartu, constructor `public Produk(...)` isi awal.
+`class` blueprint, `new Product(...)` card, `public Product(...)` constructor initial fill.
 
-### `{ get; set; }` = Properti
-`public string Nama { get; set; }` baca-tulis. `private` kunci.
+### `{ get; set; }` = Properties
+`public string Name { get; set; }` read-write. `private` locks.
 
-### `: Produk` = Warisan
-`Elektronik : Produk` punya semua + `Garansi`. `base(...)` panggil constructor induk.
+### `: Product` = Inheritance
+`Electronics : Product` owns all + `Warranty`. `base(...)` calls parent constructor.
 
-### `List<Produk>` = Rak Kartu
-`new List<Produk>()`, `Add()`, `Count`, `foreach`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Cetak Biru & Rak
-- **class = cetak biru**, **new = cetak kartu**, **List = rak** khusus kartu.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `dotnet run`.
-
-### Cara Komputer Membaca
-1. `new Produk("Beras", 62000, 10)` → alokasi kartu → constructor isi 3 field.
-2. `beras.Diskon(10)` → `Harga` kartu itu jadi 55800.
-
-### 3 Istilah Wajib
-1. **Class/object**: biru/kartu
-2. **Properti/constructor**: akses/isi awal
-3. **Inheritance/List**: warisan/rak
+### `List<Product>` = Card Rack
+`new List<Product>()`, `Add()`, `Count`, `foreach`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `new Produk("Gula", 15000)` → `Info()`?
-- **Kuning:** `rak.Add(new Produk("Kopi", 12000, 5))` → `Count` 3?
-- **Merah:** `beras.Harga = -100` bisa? (Ya, belum validasi — minggu validasi!) Coba `private set`.
+### Analogy: Blueprints & Racks
+- **class = blueprint**, **new = print card**, **List = rack** for cards only.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `dotnet run`.
 
-## Tantangan
+### How the Computer Reads It
+1. `new Product("Rice", 62000, 10)` → allocates card → constructor fills 3 fields.
+2. `rice.Discount(10)` → that card's `Price` becomes 55800.
 
-**Toko OOP:** `class Keranjang { public List<Produk> Items = new(); public void Tambah(Produk p) => Items.Add(p); public decimal Total() { decimal s = 0; foreach (var i in Items) s += i.Harga; return s; } }` → isi 3 → `Total()`. **Selesai Beginner C#!**
-
----
-
-## Glosarium Mini
-
-- **class/new/get-set**: biru/kartu/akses
-- **base/List**: induk/rak
+### 3 Must-Know Terms
+1. **Class/object**: blueprint/card
+2. **Property/constructor**: access/initial-fill
+3. **Inheritance/List**: heir/rack
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 4: **OOP C#** (Level: Pemula). **Selesai Beginner C#!** Lanjut: **LINQ** (Menengah).
+- **Green:** `new Product("Sugar", 15000)` → `Info()`?
+- **Yellow:** `rack.Add(new Product("Coffee", 12000, 5))` → `Count` 3?
+- **Red:** `rice.Price = -100` allowed? (Yes, no validation yet — validation week!) Try `private set`.
+
+---
+
+## Challenge
+
+**OOP Store:** `class Cart { public List<Product> Items = new(); public void Add(Product p) => Items.Add(p); public decimal Total() { decimal s = 0; foreach (var i in Items) s += i.Price; return s; } }` → fill 3 → `Total()`. **Beginner C# DONE!**
+
+---
+
+## Mini Glossary
+
+- **class/new/get-set**: blueprint/card/access
+- **base/List**: parent/rack
+
+---
+
+## Summary
+
+Week 4 of 4: **C# OOP** (Level: Beginner). **Beginner C# DONE!** Next: **LINQ** (Intermediate).
