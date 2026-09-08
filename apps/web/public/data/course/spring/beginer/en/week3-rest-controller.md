@@ -1,116 +1,116 @@
-# REST Controller — Pelayan Pintu Spring
+# REST Controller — Spring Door Waiters
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 3:** REST Controller
+> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 3:** REST Controller
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@RestController` + `@RequestMapping("/produk")` + `@GetMapping/@PostMapping/@DeleteMapping("/{id}")` pintu REST (sumber: docs.spring.io/spring-framework/reference/web/webmvc)
-- `@PathVariable` ambil `{id}`, `@RequestParam` ambil `?cari=`, `@RequestBody` amplop JSON
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-HP butuh `GET /produk` daftar + `POST` tambah + `DELETE /produk/1` hapus. Tanpa `@RestController`, return `String` dianggap nama file HTML (404 membingungkan!). Dengan `@RestController`, otomatis JSON.
+- `@RestController` + `@RequestMapping("/products")` + `@GetMapping/@PostMapping/@DeleteMapping("/{id}")` REST doors (source: docs.spring.io/spring-framework/reference/web/webmvc)
+- `@PathVariable` takes `{id}`, `@RequestParam` takes `?find=`, `@RequestBody` JSON envelopes
 
 ---
 
-## Program: Pintu CRUD Warung
+## Why This Matters (Non-IT)
+
+Phones need list-`GET /products` + add-`POST` + `DELETE /products/1`. Without `@RestController`, returned `String`s are treated as HTML filenames (confusing 404s!). With `@RestController`, automatic JSON.
+
+---
+
+## Program: Shop CRUD Doors
 
 ```java
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
-@RestController // otomatis JSON (bukan HTML)!
-@RequestMapping("/produk")
-public class ProdukController {
-  private List<Map<String, Object>> daftar = new ArrayList<>(List.of(
-    Map.of("id", 1, "nama", "Beras", "harga", 62000)
+@RestController // automatic JSON (not HTML)!
+@RequestMapping("/products")
+public class ProductController {
+  private List<Map<String, Object>> list = new ArrayList<>(List.of(
+    Map.of("id", 1, "name", "Rice", "price", 62000)
   ));
 
   @GetMapping
-  public List<?> semua(@RequestParam(required = false) String cari) {
-    if (cari == null) return daftar;
-    return daftar.stream().filter(p -> p.get("nama").toString().contains(cari)).toList();
+  public List<?> all(@RequestParam(required = false) String find) {
+    if (find == null) return list;
+    return list.stream().filter(p -> p.get("name").toString().contains(find)).toList();
   }
 
   @GetMapping("/{id}")
-  public Object satu(@PathVariable int id) {
-    return daftar.stream().filter(p -> (int) p.get("id") == id).findFirst().orElse(Map.of("error", "Tidak ada"));
+  public Object one(@PathVariable int id) {
+    return list.stream().filter(p -> (int) p.get("id") == id).findFirst().orElse(Map.of("error", "Missing"));
   }
 
   @PostMapping
-  public Object tambah(@RequestBody Map<String, Object> body) {
-    body.put("id", daftar.size() + 1);
-    daftar.add(body);
+  public Object add(@RequestBody Map<String, Object> body) {
+    body.put("id", list.size() + 1);
+    list.add(body);
     return body;
   }
 
   @DeleteMapping("/{id}")
-  public Object hapus(@PathVariable int id) {
-    daftar.removeIf(p -> (int) p.get("id") == id);
+  public Object remove(@PathVariable int id) {
+    list.removeIf(p -> (int) p.get("id") == id);
     return Map.of("ok", true);
   }
 }
 ```
 
-Test: `curl localhost:8080/produk` → `curl -X POST -H "Content-Type: application/json" -d '{"nama":"Gula","harga":15000}' localhost:8080/produk`.
+Test: `curl localhost:8080/products` → `curl -X POST -H "Content-Type: application/json" -d '{"name":"Sugar","price":15000}' localhost:8080/products`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@RestController` = Pelayan JSON
-`@Controller` return nama view (HTML), `@RestController` return JSON langsung.
+### `@RestController` = JSON Waiter
+`@Controller` returns view names (HTML), `@RestController` returns JSON directly.
 
-### `@GetMapping/@PostMapping/@DeleteMapping` = Pintu per Aksi
-`@GetMapping("/{id}")` + `@PathVariable int id` ambil dari URL.
+### `@GetMapping/@PostMapping/@DeleteMapping` = Door per Action
+`@GetMapping("/{id}")` + `@PathVariable int id` takes from URL.
 
-### `@RequestParam` vs `@RequestBody` = Kertas vs Amplop
-`?cari=beras` kertas tempel (`@RequestParam`), JSON body amplop (`@RequestBody`).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Pelayan 4 Pintu
-- **GET = lihat etalase**, **POST = titip barang**, **DELETE = buang**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + `curl` atau Postman untuk test POST.
-
-### Cara Komputer Membaca
-1. `POST /produk` + JSON → `@RequestBody Map` → `daftar.add` → balas JSON baru.
-2. `GET /produk/99` → tidak ketemu → `{"error": ...}`.
-
-### 3 Istilah Wajib
-1. **RestController/RequestMapping**: pelayan JSON/pintu
-2. **PathVariable/RequestParam**: dari-URL/dari-? 
-3. **RequestBody**: amplop JSON
+### `@RequestParam` vs `@RequestBody` = Paper vs Envelope
+`?find=rice` pasted paper (`@RequestParam`), JSON body envelope (`@RequestBody`).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `GET /produk/1` → Beras? `/produk/99` → error JSON?
-- **Kuning:** POST tanpa `Content-Type: application/json` → error 415? Tambah header.
-- **Merah:** Ganti `@RestController` jadi `@Controller` → return JSON dianggap nama view → error? Kembalikan.
+### Analogy: 4-Door Waiter
+- **GET = view showcase**, **POST = deposit goods**, **DELETE = discard**.
 
----
+### Step 0 — Prepare Device
+- Same as W1 + `curl` or Postman for POST tests.
 
-## Tantangan
+### How the Computer Reads It
+1. `POST /products` + JSON → `@RequestBody Map` → `list.add` → replies new JSON.
+2. `GET /products/99` → not found → `{"error": ...}`.
 
-**Warung CRUD Lengkap:** `GET` + `?cari` + `GET {id}` + `POST` + `DELETE` → `curl` 5 perintah lulus semua.
-
----
-
-## Glosarium Mini
-
-- **RestController/GetMapping**: pelayan JSON/pintu-ambil
-- **PathVariable/RequestBody**: URL/amplop
+### 3 Must-Know Terms
+1. **RestController/RequestMapping**: JSON-waiter/door
+2. **PathVariable/RequestParam**: from-URL/from-?
+3. **RequestBody**: JSON envelope
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 3 dari 5: **Pelayan Pintu** (Level: Pemula). CRUD JSON. Minggu depan: **JPA** — rak permanen.
+- **Green:** `GET /products/1` → Rice? `/products/99` → error JSON?
+- **Yellow:** POST without `Content-Type: application/json` → 415 error? Add header.
+- **Red:** Swap `@RestController` for `@Controller` → JSON return treated as view name → error? Revert.
+
+---
+
+## Challenge
+
+**Complete CRUD Shop:** `GET` + `?find` + `GET {id}` + `POST` + `DELETE` → 5 passing `curl` commands.
+
+---
+
+## Mini Glossary
+
+- **RestController/GetMapping**: JSON-waiter/fetch-door
+- **PathVariable/RequestBody**: URL/envelope
+
+---
+
+## Summary
+
+Week 3 of 5: **JSON Doors** (Level: Beginner). Full CRUD via annotations. Next: **JPA** — automatic racks.
