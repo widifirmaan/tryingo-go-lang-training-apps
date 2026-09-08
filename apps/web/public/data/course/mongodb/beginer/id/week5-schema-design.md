@@ -88,6 +88,30 @@ Cocok: banyak (pesanan ribuan), tumbuh terus. `$lookup` = JOIN Mongo.
 
 ---
 
+### Bonus: Validasi Skema — Satpam Koleksi (mongodb.com/docs/manual/schema-validation!)
+
+Fleksibel ≠ bebas sampah! Kunci aturan di DB (bukan cuma di aplikasi — aplikasi bisa lupa!):
+
+```javascript
+db.createCollection("produk_rapi", {
+  validator: {
+    $jsonSchema: {
+      required: ["nama", "harga"],
+      properties: {
+        nama: { bsonType: "string", minLength: 3 },
+        harga: { bsonType: ["int", "double"], minimum: 0 }
+      }
+    }
+  },
+  validationAction: "error" // tolak (bukan warning!)
+})
+
+db.produk_rapi.insertOne({ nama: "X", harga: -5 }) // GAGAL: nama pendek + harga minus!
+db.produk_rapi.insertOne({ nama: "Beras", harga: 62000 }) // lolos
+```
+
+---
+
 ## Tantangan
 
 **Desain Warung Benar:** `produk` embed `ulasan` (sedikit, max 5) + `pesanan` reference `pelanggan_email` + `$lookup` laporan Budi. Tulis alasan tiap pilihan 1 kalimat. **Selesai Beginner MongoDB!**
