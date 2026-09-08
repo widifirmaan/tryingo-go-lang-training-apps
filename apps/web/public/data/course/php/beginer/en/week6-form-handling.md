@@ -1,113 +1,113 @@
-# Form Handling — Terima Pesanan Warung PHP
+# Form Handling — Accept PHP Shop Orders
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 6:** Form Handling & Validasi
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 6:** Form Handling & Validasi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `$_POST["nama"]` terima kiriman form, `htmlspecialchars(trim())` bersihkan, `empty()`/`filter_var($email, FILTER_VALIDATE_EMAIL)` validasi (sumber: php.net/reserved.variables + filter)
-- `password_hash()` untuk password, jangan simpan mentah
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa validasi, pelanggan kirim nama kosong → pesanan gagal. Tanpa `htmlspecialchars`, hacker kirim `<script>` → web warung dibajak (XSS). `filter_var` email cegah typo `budi@gmaill`.
+- `$_POST["name"]` receives form posts, `htmlspecialchars(trim())` cleans, `empty()`/`filter_var($email, FILTER_VALIDATE_EMAIL)` validates (source: php.net/reserved.variables + filter)
+- `password_hash()` for passwords, never store raw
 
 ---
 
-## Program: Form Pesan Aman
+## Why This Matters (Non-IT)
 
-`pesan.php` (1 file: form + proses):
+Without validation, customers submit empty names → orders fail. Without `htmlspecialchars`, hackers submit `<script>` → shop web hijacked (XSS). `filter_var` email stops `budi@gmaill` typos.
+
+---
+
+## Program: Safe Order Form
+
+`order.php` (1 file: form + process):
 
 ```php
 <?php
 $errors = [];
-$nama = $wa = "";
+$name = $wa = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $nama = htmlspecialchars(trim($_POST["nama"] ?? ""), ENT_QUOTES, 'UTF-8');
+  $name = htmlspecialchars(trim($_POST["name"] ?? ""), ENT_QUOTES, 'UTF-8');
   $wa = trim($_POST["wa"] ?? "");
 
-  if (empty($nama)) $errors[] = "Nama wajib diisi";
-  elseif (strlen($nama) < 3) $errors[] = "Nama minimal 3 huruf";
+  if (empty($name)) $errors[] = "Name is required";
+  elseif (strlen($name) < 3) $errors[] = "Name min 3 letters";
 
-  if (empty($wa)) $errors[] = "WA wajib diisi";
-  elseif (!preg_match('/^[0-9]{10,13}$/', $wa)) $errors[] = "WA harus 10-13 digit";
+  if (empty($wa)) $errors[] = "WA is required";
+  elseif (!preg_match('/^[0-9]{10,13}$/', $wa)) $errors[] = "WA must be 10-13 digits";
 }
 ?>
 <form method="post">
-  Nama: <input name="nama" value="<?= $nama ?>"><br>
+  Name: <input name="name" value="<?= $name ?>"><br>
   WA: <input name="wa" value="<?= $wa ?>"><br>
-  <button>Pesan</button>
+  <button>Order</button>
 </form>
 <?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>
   <?php if (empty($errors)): ?>
-    <p>Pesanan <?= $nama ?> (<?= $wa ?>) diterima!</p>
+    <p>Order <?= $name ?> (<?= $wa ?>) received!</p>
   <?php else: ?>
     <ul><?php foreach ($errors as $e) echo "<li>$e</li>"; ?></ul>
   <?php endif; ?>
 <?php endif; ?>
 ```
 
-Jalankan `php -S localhost:8000` → buka `http://localhost:8000/pesan.php` → coba kirim kosong.
+Run `php -S localhost:8000` → open `http://localhost:8000/order.php` → try empty submit.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `$_POST`/`$_GET` = Amplop Kiriman
-`method="post"` → `$_POST["nama"]`. `$_POST["x"] ?? ""` aman jika tidak ada.
+### `$_POST`/`$_GET` = Delivery Envelopes
+`method="post"` → `$_POST["name"]`. `$_POST["x"] ?? ""` safe when missing.
 
-### `htmlspecialchars(trim())` = Cuci Tangan
-`trim` buang spasi, `htmlspecialchars` ubah `<` jadi `&lt;` — anti XSS.
+### `htmlspecialchars(trim())` = Wash Hands
+`trim` trims spaces, `htmlspecialchars` turns `<` into `&lt;` — anti XSS.
 
-### `filter_var` + `preg_match` = Satpam
-`filter_var($email, FILTER_VALIDATE_EMAIL)` cek email, `preg_match('/^[0-9]{10,13}$/', $wa)` cek WA digit.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kasir Terima Pesanan
-- **Form = kertas pesanan**, **$_POST = amplop ke dapur**, **validasi = kasir cek** ("nama kosong? tolak").
-- **htmlspecialchars = cuci tangan**: bersihkan sebelum masak.
-
-### Langkah 0 — Siapkan Device
-- `php -S localhost:8000` → `http://localhost:8000/pesan.php`.
-
-### Cara Komputer Membaca
-1. Browser kirim `nama=Budi&wa=0812` → PHP isi `$_POST`.
-2. `trim` + `htmlspecialchars` → cek `empty` → jika lolos tampil "diterima".
-
-### 3 Istilah Wajib
-1. **$_POST/$_GET**: amplop kirim
-2. **Sanitasi/validasi**: cuci/cek
-3. **XSS**: suntik script (musuh)
+### `filter_var` + `preg_match` = Guards
+`filter_var($email, FILTER_VALIDATE_EMAIL)` checks email, `preg_match('/^[0-9]{10,13}$/', $wa)` checks WA digits.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Kirim nama "Bo" → error "minimal 3 huruf"?
-- **Kuning:** Isi WA "abc" → error digit?
-- **Merah:** Isi nama `<b>Budi</b>` → tampil `&lt;b&gt;` mentah (aman, tidak tebal)?
+### Analogy: Cashier Takes Orders
+- **Form = order paper**, **$_POST = envelope to kitchen**, **validation = cashier checks** ("empty name? reject").
+- **htmlspecialchars = wash hands**: clean before cooking.
 
----
+### Step 0 — Prepare Device
+- `php -S localhost:8000` → `http://localhost:8000/order.php`.
 
-## Tantangan
+### How the Computer Reads It
+1. Browser sends `name=Budi&wa=0812` → PHP fills `$_POST`.
+2. `trim` + `htmlspecialchars` → `empty` checks → pass shows "received".
 
-**Form Warung Lengkap:** Tambah `email` (`filter_var`), `jumlah` number (`>= 1`), tampil struk `nama x jumlah = total` jika lolos, error list jika tidak. **Selesai Beginner PHP!**
-
----
-
-## Glosarium Mini
-
-- **$_POST/$_GET**: kiriman
-- **htmlspecialchars/trim**: cuci
-- **filter_var/preg_match**: satpam pola
+### 3 Must-Know Terms
+1. **$_POST/$_GET**: send envelopes
+2. **Sanitize/validate**: wash/check
+3. **XSS**: script injection (enemy)
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 6: **Form Aman** (Level: Pemula). Bisa terima & validasi pesanan. **Selesai Beginner PHP!** Lanjut: **Laravel** — PHP siap jual.
+- **Green:** Submit name "Bo" → "min 3 letters" error?
+- **Yellow:** WA "abc" → digit error?
+- **Red:** Name `<b>Budi</b>` → shows raw `&lt;b&gt;` (safe, not bold)?
+
+---
+
+## Challenge
+
+**Complete Shop Form:** Add `email` (`filter_var`), numeric `qty` (`>= 1`), show receipt `name x qty = total` when passing, error list when not. **Beginner PHP DONE!**
+
+---
+
+## Mini Glossary
+
+- **$_POST/$_GET**: posts
+- **htmlspecialchars/trim**: wash
+- **filter_var/preg_match**: pattern guards
+
+---
+
+## Summary
+
+Week 6 of 6: **Safe Forms** (Level: Beginner). Can receive & validate orders. **Beginner PHP DONE!** Next: **Laravel** — sell-ready PHP.

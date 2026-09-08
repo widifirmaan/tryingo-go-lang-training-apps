@@ -1,85 +1,109 @@
-# Sintaks Dasar PHP — Buku Kas Warung yang Jalan di Server
+# Basic PHP Syntax — Server-Side Shop Ledger Book
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 1:** Sintaks Dasar
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 1:** Sintaks Dasar
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Instal PHP `php -v`, `php -S localhost:8000`, file `index.php` diawali `<?php`
-- Variabel `$nama = "Budi"` (wajib `$`), tipe `string/int/float/bool`, `echo` cetak
-- Gabung `"."` titik, interpolasi `"Halo $nama"` dan `"Halo {$nama}"`
-- `var_dump` cek tipe
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-PHP = bahasa warung online paling banyak (WordPress, toko). Jalan di server, bukan browser — `<?php echo "Halo"; ?>` jadi HTML. Hari ini bikin struk `<?php $total = 62000*2; echo "Rp $total"; ?>`.
+- Install PHP `php -v`, `php -S localhost:8000`, `index.php` files start with `<?php`
+- Variables `$name = "Budi"` (mandatory `$`), types `string/int/float/bool`, `echo` prints
+- Concatenate with `"."` dot, interpolation `"Hello $name"` and `"Hello {$name}"`
+- `var_dump` type checks
 
 ---
 
-## Program: Struk PHP Pertama
+## Why This Matters (Non-IT)
 
-Simpan `struk.php`
+PHP = the most common online-shop language (WordPress, stores). It runs on the server, not the browser — `<?php echo "Hello"; ?>` becomes HTML. Today build a receipt `<?php $total = 62000*2; echo "Rp $total"; ?>`.
+
+---
+
+## Program: First PHP Receipt
+
+Save `receipt.php`
 
 ```php
 <?php
-$namaWarung = "Warung Bu Siti";
-$pelanggan = "Budi";
-$berasKg = 2;
-$hargaPerKg = 12500;
-$total = $berasKg * $hargaPerKg;
+$shopName = "Siti's Shop";
+$customer = "Budi";
+$riceKg = 2;
+$pricePerKg = 12500;
+$total = $riceKg * $pricePerKg;
 
-echo "Warung: $namaWarung <br>";
-echo "Pelanggan: $pelanggan <br>";
+echo "Shop: $shopName <br>";
+echo "Customer: $customer <br>";
 echo "Total: Rp " . number_format($total, 0, ',', '.') . "<br>";
 
-echo "<br>=== Cek Tipe ===<br>";
-var_dump($namaWarung); // string
-var_dump($berasKg);    // int
+echo "<br>=== Type Check ===<br>";
+var_dump($shopName); // string
+var_dump($riceKg);    // int
 var_dump($total);      // int
 
-$pesan = "Halo $pelanggan, totalmu Rp " . number_format($total, 0, ',', '.');
-echo "<br>$pesan<br>";
+$msg = "Hello $customer, your total Rp " . number_format($total, 0, ',', '.');
+echo "<br>$msg<br>";
 
-$pelanggan = "Siti";
+$customer = "Siti";
 $total += 5000;
-echo "Setelah ganti: $pelanggan, Total baru: Rp " . number_format($total, 0, ',', '.');
+echo "After change: $customer, New total: Rp " . number_format($total, 0, ',', '.');
 ?>
 ```
 
-**Jalankan:**
-- Tanpa server: `php struk.php` di Terminal
-- Dengan server: `php -S localhost:8000` → buka `http://localhost:8000/struk.php`
+**Run:**
+- No server: `php receipt.php` in Terminal
+- With server: `php -S localhost:8000` → open `http://localhost:8000/receipt.php`
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `<?php` + `$` Wajib
-Tiap file PHP diawali `<?php`, tiap variabel `$nama`. Lupa `$` → error.
+### `<?php` + Mandatory `$`
+Every PHP file starts with `<?php`, every variable `$name`. Forgetting `$` → error.
 
-### `echo` + `.` Gabung
-`echo "Halo $nama"` interpolasi, `"Halo " . $nama` titik. `number_format(62000)` → `62.000`.
+### `echo` + `.` Concatenation
+`echo "Hello $name"` interpolates, `"Hello " . $name` dots. `number_format(62000)` → `62.000`.
 
-### `var_dump` Cek
-`var_dump($total)` tampil `int(124000)`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Buku Kas Server
-- **PHP = buku kas di gudang (server)**, `echo` kirim hasil ke etalase (browser).
-- **`$` = label harga**: tiap kotak harus `$`.
+### `var_dump` Checks
+`var_dump($total)` shows `int(124000)`.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Ongkir PHP:** `$berat=2.5; $jarak=8; $ongkir = $berat*5000 + $jarak*2000; echo "Rp " . number_format($ongkir);` + `var_dump($ongkir)`.
+### Analogy: Server Ledger Book
+- **PHP = ledger book in the warehouse (server)**, `echo` sends results to the showcase (browser).
+- **`$` = price label**: every box needs `$`.
+
+### Step 0 — Prepare Device
+- PHP 8.1+ (`php -v`), file `receipt.php`, run `php receipt.php`.
+
+### How the Computer Reads It
+1. `<?php $total = 2 * 12500;` → server computes 25000.
+2. `echo "Rp $total"` → sends text to browser.
+
+### 3 Must-Know Terms
+1. **$/echo/var_dump**: label/print/inspect
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 1: **Sintaks PHP** — `$` dan `echo`. Minggu depan: **Operator & Kontrol**.
+- **Green:** Change `$riceKg = 5` → new total?
+- **Yellow:** Forget `$` (`total = 5`) → error? Add `$`.
+- **Red:** `echo 'Hello $customer'` single quotes → literal `$customer`? Use double quotes.
+
+---
+
+## Challenge
+
+**Delivery PHP:** `$weight=2.5; $dist=8; $fee = $weight*5000 + $dist*2000; echo "Rp " . number_format($fee);` + `var_dump($fee)`.
+
+---
+
+## Mini Glossary
+
+- **$/echo/number_format**: label/print/format
+
+---
+
+## Summary
+
+Week 1: **PHP Syntax** — `$` and `echo`. Next: **Operators & Control**.

@@ -1,117 +1,117 @@
-# Array & Manipulasi — Rak dan Kartu Warung PHP
+# Array & Manipulation — PHP Shop Racks and Cards
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 4:** Array & Manipulasi
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 4:** Array & Manipulasi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Rak urut `["apel","mangga"]` + tambah `$buah[] = "jeruk"`, hitung `count()`, gabung `implode()` (sumber: php.net/language.types.array)
-- Kartu label `["nama"=>"Budi"]` akses `$siswa["nama"]`, tambah `$siswa["alamat"] = "Jakarta"`
-- Olah rak: `sort()`, `array_filter()`, `array_map()`, `array_sum()`, `max()`/`min()`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung tidak hanya 1 beras — ada 30 produk dan 100 pelanggan. Tanpa array, tulis `$produk1, $produk2...` 30x. Dengan rak (indexed) dan kartu (associative), **1 variabel untuk semua** + saring "hanya murah" 1 baris.
+- Ordered rack `["apple","mango"]` + append `$fruits[] = "orange"`, count `count()`, join `implode()` (source: php.net/language.types.array)
+- Label card `["name"=>"Budi"]` access `$student["name"]`, add `$student["address"] = "Jakarta"`
+- Rack processing: `sort()`, `array_filter()`, `array_map()`, `array_sum()`, `max()`/`min()`
 
 ---
 
-## Program: Rak & Kartu Warung
+## Why This Matters (Non-IT)
+
+Shops don't stock 1 rice — 30 products and 100 customers. Without arrays, write `$product1, $product2...` 30x. With racks (indexed) and cards (associative), **1 variable for all** + filter "cheap only" in 1 line.
+
+---
+
+## Program: Shop Racks & Cards
 
 ```php
 <?php
-// Rak urut (indexed)
-$buah = ["apel", "mangga", "pisang"];
-$buah[] = "jeruk"; // tambah belakang
-echo "Buah: " . implode(", ", $buah) . "\n";
-echo "Jumlah: " . count($buah) . "\n";
+// Ordered rack (indexed)
+$fruits = ["apple", "mango", "banana"];
+$fruits[] = "orange"; // append back
+echo "Fruits: " . implode(", ", $fruits) . "\n";
+echo "Count: " . count($fruits) . "\n";
 
-// Olah angka
-$nilai = [85, 92, 78, 90, 88];
-echo "Max: " . max($nilai) . ", Rata: " . (array_sum($nilai) / count($nilai)) . "\n";
-sort($nilai);
-echo "Urut: " . implode(", ", $nilai) . "\n";
+// Process numbers
+$scores = [85, 92, 78, 90, 88];
+echo "Max: " . max($scores) . ", Avg: " . (array_sum($scores) / count($scores)) . "\n";
+sort($scores);
+echo "Sorted: " . implode(", ", $scores) . "\n";
 
-// Kartu label (associative)
-$pelanggan = ["nama" => "Budi", "umur" => 25, "kota" => "Jakarta"];
-echo "Nama: " . $pelanggan["nama"] . "\n";
-$pelanggan["hp"] = "08123456789"; // tambah field
-unset($pelanggan["umur"]); // hapus field
+// Label card (associative)
+$customer = ["name" => "Budi", "age" => 25, "city" => "Jakarta"];
+echo "Name: " . $customer["name"] . "\n";
+$customer["phone"] = "08123456789"; // add field
+unset($customer["age"]); // remove field
 
-// Saring & ubah (seperti map/filter JS)
-$harga = [10000, 15000, 20000, 25000];
-$murah = array_filter($harga, fn($h) => $h < 20000);
-$naik = array_map(fn($h) => $h * 1.1, $harga);
-echo "Murah: " . implode(", ", $murah) . "\n";
-echo "Naik 10%: " . implode(", ", $naik) . "\n";
+// Filter & transform (like JS map/filter)
+$prices = [10000, 15000, 20000, 25000];
+$cheap = array_filter($prices, fn($h) => $h < 20000);
+$raised = array_map(fn($h) => $h * 1.1, $prices);
+echo "Cheap: " . implode(", ", $cheap) . "\n";
+echo "Up 10%: " . implode(", ", $raised) . "\n";
 
-// Rak 2D: daftar belanja
-$keranjang = [
-  ["nama" => "Beras", "harga" => 62000],
-  ["nama" => "Bayam", "harga" => 5000],
+// 2D rack: shopping list
+$cart = [
+  ["name" => "Rice", "price" => 62000],
+  ["name" => "Spinach", "price" => 5000],
 ];
-foreach ($keranjang as $item) {
-  echo $item["nama"] . " Rp " . $item["harga"] . "\n";
+foreach ($cart as $item) {
+  echo $item["name"] . " Rp " . $item["price"] . "\n";
 }
 ?>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Indexed vs Associative
-- `["apel","mangga"]` urutan 0,1,2. `$buah[] = "jeruk"` tambah belakang.
-- `["nama"=>"Budi"]` label. `$p["nama"]` ambil, `unset($p["umur"])` hapus.
+- `["apple","mango"]` order 0,1,2. `$fruits[] = "orange"` appends back.
+- `["name"=>"Budi"]` labels. `$p["name"]` takes, `unset($p["age"])` removes.
 
-### Fungsi Olah Rak
+### Rack-Processing Functions
 `count()`, `implode(", ",$arr)`, `sort()`, `array_sum()`, `max()`, `array_filter()`, `array_map()`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Rak Buah & Kartu Anggota
-- **Indexed = rak berbaris**: nomor 0,1,2. `implode` = rangkai jadi 1 kalimat.
-- **Associative = kartu anggota**: label `nama`, bukan nomor.
-- **`array_filter` = saringan**: hanya murah lolos.
+### Analogy: Fruit Racks & Member Cards
+- **Indexed = lined rack**: numbers 0,1,2. `implode` = strings into 1 sentence.
+- **Associative = member card**: `name` labels, not numbers.
+- **`array_filter` = strainer**: only cheap passes.
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `php rak.php`.
+### Step 0 — Prepare Device
+- Same as W1: `php rack.php`.
 
-### Cara Komputer Membaca
-1. `$buah[] = "jeruk"` → tambah di belakang, index 3.
-2. `array_filter($harga, fn($h) => $h < 20000)` → cek tiap `h`, kumpulkan yang lolos.
+### How the Computer Reads It
+1. `$fruits[] = "orange"` → appends at back, index 3.
+2. `array_filter($prices, fn($h) => $h < 20000)` → checks each `h`, gathers passers.
 
-### 3 Istilah Wajib
-1. **Indexed/associative**: rak/kartu
-2. **implode/count**: rangkai/hitung
-3. **filter/map**: saring/ubah
-
----
-
-## Eksperimen
-
-- **Hijau:** `$sayur = ["bayam","kangkung"]; $sayur[] = "sawi"; count($sayur)` → 3?
-- **Kuning:** `array_filter($harga, fn($h) => $h >= 20000)` → mahal?
-- **Merah:** `$pelanggan["umur"]` setelah `unset` → warning `Undefined array key`? Cek `isset($pelanggan["umur"])` dulu.
+### 3 Must-Know Terms
+1. **Indexed/associative**: rack/card
+2. **implode/count**: join/count
+3. **filter/map**: strain/transform
 
 ---
 
-## Tantangan
+## Experiments
 
-**Inventaris Warung:** `$produk = [["nama"=>"Beras","harga"=>62000,"kategori"=>"Sembako"], ... 5 item]` → `array_filter` hanya Sembako → `array_map` ambil `nama` → `implode` cetak → `array_sum(array_column($produk,"harga"))` total.
-
----
-
-## Glosarium Mini
-
-- **Array indexed/associative**: daftar/kartu
-- **implode/explode**: gabung/pecah
-- **filter/map**: saring/ubah
+- **Green:** `$veggies = ["spinach","kale"]; $veggies[] = "mustard"; count($veggies)` → 3?
+- **Yellow:** `array_filter($prices, fn($h) => $h >= 20000)` → pricey?
+- **Red:** `$customer["age"]` after `unset` → `Undefined array key` warning? Check `isset($customer["age"])` first.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 4 dari 6: **Array PHP** (Level: Pemula). Bisa rak & kartu + olah. Minggu depan: **OOP** — cetak biru.
+**Shop Inventory:** `$products = [["name"=>"Rice","price"=>62000,"category"=>"Staples"], ... 5 items]` → `array_filter` Staples only → `array_map` takes `name` → `implode` prints → `array_sum(array_column($products,"price"))` totals.
+
+---
+
+## Mini Glossary
+
+- **Array indexed/associative**: list/card
+- **implode/explode**: join/split
+- **filter/map**: strain/transform
+
+---
+
+## Summary
+
+Week 4 of 6: **PHP Arrays** (Level: Beginner). Can rack & card + process. Next: **OOP** — blueprints.
