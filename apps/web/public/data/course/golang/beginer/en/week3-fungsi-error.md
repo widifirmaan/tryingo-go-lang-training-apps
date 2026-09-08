@@ -47,8 +47,23 @@ func average(nums ...float64) float64 {
 	return total / float64(len(nums))
 }
 
+// panic = emergency alarm, recover = extinguish (à la Effective Go!)
+func safeSell(stock int) {
+	defer func() {
+		if r := recover(); r != nil { // catch panic!
+			fmt.Println("Saved! panic caught:", r)
+		}
+	}()
+	if stock < 0 {
+		panic("negative stock!") // sound alarm
+	}
+	fmt.Println("Sell, left:", stock)
+}
+
 func main() {
 	defer fmt.Println("Done — defer runs last")
+	safeSell(5)
+	safeSell(-1) // panic → caught → program CONTINUES!
 	result, err := divide(10, 2)
 	if err != nil {
 		fmt.Println("Error:", err)

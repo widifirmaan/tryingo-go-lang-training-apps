@@ -51,8 +51,23 @@ func rataRata(angka ...float64) float64 { // borong
 	return total / float64(len(angka))
 }
 
+// panic = alarm darurat, recover = padamkan (ala Effective Go!)
+func amanJual(stok int) {
+	defer func() {
+		if r := recover(); r != nil { // tangkap panic!
+			fmt.Println("Selamat! panic ditangkap:", r)
+		}
+	}()
+	if stok < 0 {
+		panic("stok minus!") // bunyikan alarm
+	}
+	fmt.Println("Jual, sisa:", stok)
+}
+
 func main() {
 	defer fmt.Println("Selesai — defer jalan terakhir")
+	amanJual(5)
+	amanJual(-1) // panic → ditangkap → program LANJUT!
 
 	hasil, err := bagi(10, 2)
 	if err != nil {
@@ -75,6 +90,9 @@ func main() {
 ---
 
 ## Konsep Kunci
+
+### `panic` + `recover` = Alarm + Pemadam
+`panic("...")` hentikan + `recover()` (di `defer`!) tangkap agar program lanjut. Untuk error biasa pakai `(hasil, error)` — panic hanya darurat!
 
 ### ` (float64, error)` — Dua Kembar
 Go tidak pakai `try/catch`. Tiap yang bisa gagal return `(hasil, error)`. Wajib cek `if err != nil`.

@@ -20,7 +20,10 @@
 ```go
 package main
 
-import "fmt"
+import (
+  "fmt"
+  "sync"
+)
 
 func kasir(nama string, ch chan string) {
   ch <- "Done " + nama
@@ -40,6 +43,22 @@ func main() {
   for p := range pesanan {
     fmt.Println("Process order", p)
   }
+
+  // Mutex: safe for shared variables (à la Tour of Go!)
+  var mu sync.Mutex
+  stock := 10
+  done := make(chan bool, 2)
+  sell := func() {
+    mu.Lock()         // lock! 1 cashier only
+    stock--
+    mu.Unlock()       // release
+    done <- true
+  }
+  go sell()
+  go sell()
+  <-done
+  <-done
+  fmt.Println("Left (exactly 8!):", stock)
 }
 ```
 
@@ -56,6 +75,9 @@ Function runs alone (concurrent). Cheap: thousands of goroutines normal.
 
 ### `close` + `range` = Close + Finish
 `close(ch)` closes belt → `for v := range ch` stops when empty.
+
+### `sync.Mutex` + `go run -race` = Safe + Race Guard
+2 cashiers `stock--` together unlocked = random result (race!). `Lock/Unlock` locks the safe. `go run -race main.go` detects races AUTOMATICALLY — mandatory before deploy!
 
 ---
 
