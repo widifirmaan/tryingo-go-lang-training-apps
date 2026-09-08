@@ -59,6 +59,20 @@ console.log(new KasirBayar(transfer).checkout(62000));
 
 ## Penjelasan untuk Pemula
 
+### Primer Class 2 Menit (wajib sebelum pola! ala freeCodeCamp Shopping Cart)
+```javascript
+class Produk {
+  constructor(nama, harga){ this.nama = nama; this.harga = harga; } // isi awal
+  info(){ return `${this.nama}: Rp${this.harga}`; } // this = kartu ini
+}
+class Member extends Produk { // warisi + tambah
+  constructor(nama, harga, poin){ super(nama, harga); this.poin = poin; }
+}
+const b = new Member("Beras", 62000, 10);
+console.log(b.info(), "| poin", b.poin);
+```
+- `class` = cetak biru, `new` = cetak kartu, `this` = kartu ini, `extends`/`super` = warisi/induk.
+
 ### Analogi: Colokan & Kasir Utama JS
 - Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
 
