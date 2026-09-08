@@ -1,94 +1,94 @@
-# Hash — Kartu Produk di Laci Redis
+# Hash — Product Cards in Redis Drawer
 
-> **Kategori:** Redis | **Level:** Pemula | **Minggu 2:** Hash
+> **Kategori:** Redis | **Level:** Beginner | **Minggu 2:** Hash
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `HSET produk:1 nama "Beras" harga 62000` kartu banyak field 1 kunci (sumber: redis.io/docs/data-types/hashes)
-- `HGET`, `HGETALL`, `HINCRBY produk:1 stok -1` kurang stok atomik, `HDEL`, `EXISTS`
-- Kapan Hash vs String: kartu vs 1 nilai
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Produk punya 4 data (nama, harga, stok, kategori). Dengan String butuh 4 kunci (`produk:1:nama`...). Dengan Hash 1 kunci `produk:1` isi 4 field — rapi + `HINCRBY stok -1` aman untuk 2 kasir bareng (atomik, tidak rebutan).
+- `HSET product:1 name "Rice" price 62000` card with many fields, 1 key (source: redis.io/docs/data-types/hashes)
+- `HGET`, `HGETALL`, `HINCRBY product:1 stock -1` atomic stock decrement, `HDEL`, `EXISTS`
+- When Hash vs String: cards vs 1 value
 
 ---
 
-## Program: Kartu di Laci
+## Why This Matters (Non-IT)
 
-Jalankan di `try.redis.io` atau `docker run -p 6379:6379 -d redis` + `redis-cli`.
+Products have 4 data (name, price, stock, category). With Strings that's 4 keys (`product:1:name`...). With Hash 1 key `product:1` holds 4 fields — neat + `HINCRBY stock -1` safe for 2 simultaneous cashiers (atomic, no fights).
+
+---
+
+## Program: Card in Drawer
+
+Run on `try.redis.io` or `docker run -p 6379:6379 -d redis` + `redis-cli`.
 
 ```bash
-HSET produk:1 nama "Beras 5kg" harga 62000 stok 10 kategori "Sembako"
-HGET produk:1 nama
-HGETALL produk:1
-HINCRBY produk:1 stok -1
-HGET produk:1 stok
-HDEL produk:1 kategori
-EXISTS produk:1
-TTL produk:1
-DEL produk:1
+HSET product:1 name "Rice 5kg" price 62000 stock 10 category "Staples"
+HGET product:1 name
+HGETALL product:1
+HINCRBY product:1 stock -1
+HGET product:1 stock
+HDEL product:1 category
+EXISTS product:1
+TTL product:1
+DEL product:1
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Hash = Kartu di Laci
-`HSET produk:1 field value ...` — 1 kunci, banyak field. `HGETALL` ambil semua.
+### Hash = Card in Drawer
+`HSET product:1 field value ...` — 1 key, many fields. `HGETALL` takes all.
 
-### `HINCRBY` = Kurang/Tambah Aman
-`HINCRBY produk:1 stok -1` atomik — 2 kasir jual bareng tidak tabrakan (beda `GET`+`SET` manual).
+### `HINCRBY` = Safe Decrement/Increment
+`HINCRBY product:1 stock -1` atomic — 2 simultaneous cashiers never collide (unlike manual `GET`+`SET`).
 
 ### Hash vs String
-- String: 1 kunci 1 nilai (`SET nama "Budi"`).
-- Hash: 1 kunci banyak field (kartu produk).
+- String: 1 key 1 value (`SET name "Budi"`).
+- Hash: 1 key many fields (product card).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Kartu di Laci Meja
-- **String = secarik kertas**: 1 info.
-- **Hash = kartu nama**: nama + harga + stok 1 kartu.
+### Analogy: Card in Desk Drawer
+- **String = slip of paper**: 1 info.
+- **Hash = name card**: name + price + stock on 1 card.
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `try.redis.io` (browser) atau `docker` + `redis-cli`.
+### Step 0 — Prepare Device
+- Same as W1: `try.redis.io` (browser) or `docker` + `redis-cli`.
 
-### Cara Komputer Membaca
-1. `HSET produk:1 stok 10` → simpan field `stok=10` di hash `produk:1` (RAM).
-2. `HINCRBY produk:1 stok -1` → baca + kurang + tulis sekaligus (atomik).
+### How the Computer Reads It
+1. `HSET product:1 stock 10` → stores field `stock=10` in hash `product:1` (RAM).
+2. `HINCRBY product:1 stock -1` → reads + decrements + writes at once (atomic).
 
-### 3 Istilah Wajib
-1. **Hash/HSET/HGET**: kartu/tulis/baca
-2. **HINCRBY**: tambah atomik
-3. **Atomik**: tidak rebutan
-
----
-
-## Eksperimen
-
-- **Hijau:** `HGETALL produk:1` → 4 field?
-- **Kuning:** `HINCRBY produk:1 stok -5` → stok 5?
-- **Merah:** 2x `HINCRBY -1` cepat → tepat -2 (atomik)? Bandingkan `GET`+`SET` manual yang bisa tabrakan.
+### 3 Must-Know Terms
+1. **Hash/HSET/HGET**: card/write/read
+2. **HINCRBY**: atomic add
+3. **Atomic**: no fights
 
 ---
 
-## Tantangan
+## Experiments
 
-**Kartu Lengkap:** `HSET pelanggan:1 nama Budi poin 100` → `HINCRBY pelanggan:1 poin 50` → `HGETALL` → `EXPIRE pelanggan:1 3600` → `TTL`.
-
----
-
-## Glosarium Mini
-
-- **Hash/HSET/HGETALL**: kartu/tulis/baca-semua
-- **HINCRBY/EXPIRE**: atomik/kadaluarsa
+- **Green:** `HGETALL product:1` → 4 fields?
+- **Yellow:** `HINCRBY product:1 stock -5` → stock 5?
+- **Red:** 2 fast `HINCRBY -1` → exactly -2 (atomic)? Compare manual `GET`+`SET` that can collide.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 5: **Kartu di Laci** (Level: Pemula). Bisa kartu + kurang aman. Minggu depan: **List** — antrian.
+**Complete Card:** `HSET customer:1 name Budi points 100` → `HINCRBY customer:1 points 50` → `HGETALL` → `EXPIRE customer:1 3600` → `TTL`.
+
+---
+
+## Mini Glossary
+
+- **Hash/HSET/HGETALL**: card/write/read-all
+- **HINCRBY/EXPIRE**: atomic/expiry
+
+---
+
+## Summary
+
+Week 2 of 5: **Drawer Cards** (Level: Beginner). 1 key, many fields. Next: **List** — queues.

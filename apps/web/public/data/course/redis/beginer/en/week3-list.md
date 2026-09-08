@@ -1,87 +1,87 @@
-# List — Antrian Kasir Redis
+# List — Redis Cashier Queue
 
-> **Kategori:** Redis | **Level:** Pemula | **Minggu 3:** List
+> **Kategori:** Redis | **Level:** Beginner | **Minggu 3:** List
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `RPUSH antrian Budi` masuk kanan, `LPOP antrian` keluar kiri (FIFO), `LRANGE antrian 0 -1` intip (sumber: redis.io/docs/data-types/lists)
-- `BLPOP` tunggu jika kosong (antrian pesanan), `LLEN` panjang
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Pesanan online datang 10 bareng — proses 1 per 1 berurutan (FIFO). List = antrian: `RPUSH` (masuk), `LPOP` (layani). `BLPOP` kasir tunggu otomatis jika kosong, tidak `while` boros CPU.
+- `RPUSH queue Budi` enters right, `LPOP queue` exits left (FIFO), `LRANGE queue 0 -1` peeks (source: redis.io/docs/data-types/lists)
+- `BLPOP` waits when empty (order queue), `LLEN` length
 
 ---
 
-## Program: Antrian Pesanan
+## Why This Matters (Non-IT)
+
+10 online orders arrive together — process 1 by 1 in order (FIFO). List = queue: `RPUSH` (enter), `LPOP` (serve). `BLPOP` cashiers auto-wait when empty, no CPU-wasting `while`.
+
+---
+
+## Program: Order Queue
 
 ```bash
-RPUSH antrian "Budi:beras" "Siti:bayam" "Andi:telur"
-LRANGE antrian 0 -1
-LLEN antrian
-LPOP antrian
-LRANGE antrian 0 -1
-BLPOP antrian 30
+RPUSH queue "Budi:rice" "Siti:spinach" "Andi:eggs"
+LRANGE queue 0 -1
+LLEN queue
+LPOP queue
+LRANGE queue 0 -1
+BLPOP queue 30
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `RPUSH` + `LPOP` = FIFO
-Masuk kanan, keluar kiri — seperti antrian kasir.
+Enters right, exits left — like a cashier queue.
 
-### `LRANGE 0 -1` = Intip Semua
-`0` awal, `-1` akhir. `LRANGE antrian 0 1` 2 terdepan.
+### `LRANGE 0 -1` = Peek All
+`0` start, `-1` end. `LRANGE queue 0 1` front 2.
 
-### `BLPOP` = Tunggu Sabar
-`BLPOP antrian 30` tunggu 30 detik jika kosong (untuk worker).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Antrian Kasir
-- **List = barisan**: `RPUSH` orang datang, `LPOP` dilayani.
-- **BLPOP = kasir tunggu**: tidak teriak "ada yang mau bayar?" tiap detik.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `try.redis.io` / `redis-cli`.
-
-### Cara Komputer Membaca
-1. `RPUSH antrian "Budi"` → tambah kanan.
-2. `LPOP antrian` → ambil + hapus kiri.
-
-### 3 Istilah Wajib
-1. **LPUSH/RPUSH/LPOP**: kiri/masuk-kiri/keluar-kiri (FIFO = RPUSH+LPOP)
-2. **LRANGE/LLEN**: intip/panjang
-3. **BLPOP**: tunggu blokir
+### `BLPOP` = Patient Wait
+`BLPOP queue 30` waits 30 seconds when empty (for workers).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `RPUSH` 3 → `LLEN` 3? `LPOP` → yang pertama keluar?
-- **Kuning:** `LRANGE antrian 0 0` → hanya terdepan?
-- **Merah:** `BLPOP kosong 5` → tunggu 5 detik lalu `(nil)`? Di terminal lain `RPUSH` saat tunggu → langsung dapat?
+### Analogy: Cashier Queue
+- **List = line**: `RPUSH` people arrive, `LPOP` served.
+- **BLPOP = waiting cashier**: doesn't shout "anyone paying?" every second.
+
+### Step 0 — Prepare Device
+- Same as W1: `try.redis.io` / `redis-cli`.
+
+### How the Computer Reads It
+1. `RPUSH queue "Budi"` → appends right.
+2. `LPOP queue` → takes + removes left.
+
+### 3 Must-Know Terms
+1. **LPUSH/RPUSH/LPOP**: left/enter-right/exit-left (FIFO = RPUSH+LPOP)
+2. **LRANGE/LLEN**: peek/length
+3. **BLPOP**: blocking wait
 
 ---
 
-## Tantangan
+## Experiments
 
-**Antrian Warung:** `RPUSH pesanan ...` 5 pesanan → `while` `LPOP` + `print` sampai kosong (`LLEN` 0) → `BLPOP` demo tunggu.
-
----
-
-## Glosarium Mini
-
-- **List/LPUSH/LPOP**: antrian/masuk/keluar
-- **BLPOP/LRANGE**: tunggu/intip
+- **Green:** `RPUSH` 3 → `LLEN` 3? `LPOP` → first one exits?
+- **Yellow:** `LRANGE queue 0 0` → only front?
+- **Red:** `BLPOP empty 5` → waits 5s then `(nil)`? In another terminal `RPUSH` while waiting → instantly gets it?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 5: **Antrian** (Level: Pemula). FIFO + tunggu sabar. Minggu depan: **Set** — tas unik.
+**Shop Queue:** `RPUSH orders ...` 5 orders → `while` `LPOP` + `print` until empty (`LLEN` 0) → `BLPOP` wait demo.
+
+---
+
+## Mini Glossary
+
+- **List/LPUSH/LPOP**: queue/enter/exit
+- **BLPOP/LRANGE**: wait/peek
+
+---
+
+## Summary
+
+Week 3 of 5: **Queue** (Level: Beginner). FIFO + patient wait. Next: **Set** — unique bags.
