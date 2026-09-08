@@ -356,3 +356,31 @@ Semua 283 + 5 upgrade file generator-lama (HTML5 W1 id+en, TS W1-W4 en) dikerjak
 - CJK stray scan bersih, `npm run build ✓` (vite 4.24s)
 - Catatan: duplikat ID `csharp/intermediate/week4-oop-class-object.md` identik dengan beginner (bawaan repo) — EN diterjemahkan konsisten + label level Intermediate.
 - Catatan: repo NTFS Windows (`.../Users/w/Github/tryingo-go-lang-training-apps`) KOSONG per 2026-09-08 (cek `ls` = 0 file); repo hidup di `/home/widifirmaan/Github/tryingo-go-lang-training-apps` (HEAD = commit ini). **Push ke GitHub WAJIB dari clone baru / restore folder Windows.**
+
+## AUDIT VALIDITAS KURIKULUM vs MATERI (2026-09-08)
+
+Validator: `/tmp/validate_curriculum.py` (struktur) + `/tmp/validate_deep.py` (isi).
+Path yang dicek = persis path yang di-fetch `CoursePage.tsx:82-84`: `/data/course/<slug>/<levelId>/<lang>/week<week>-<topicId>.md`.
+
+**Hasil akhir: 0 ERROR.**
+- Registry: 27 slug SLUG_MAP == 27 CUSTOM_CURRICULA == 27 direktori course (1:1:1).
+- 321 entri kurikulum x 2 bahasa = 642 file referensi — semua ADA di disk (0 missing).
+- 642 file di disk — semua TEREFERENSI kurikulum (0 orphan, setelah karantina di bawah).
+- Nomor `Minggu N` di quote-line md == nomor week kurikulum (0 salah).
+- Section wajib ID (`Tujuan/Kenapa/Ringkasan`) + EN (`Objectives/Why/Summary`) lengkap (0 gap).
+- `quiz-index.json`: setiap minggu kurikulum punya >=1 soal (0 minggu kosong, total 4931 soal).
+- Judul H1 vs judul kurikulum: 0 mismatch topik nyata (sisa flag = beda gaya bahasa: singkatan DI/OOP/API, plural, analogi warung di H1 — disengaja).
+
+**Temuan & perbaikan:**
+1. `2512c2c` — KARANTINA 12 file orphan (ada di disk, tak tereferensi kurikulum mana pun = unreachable di aplikasi + mencemari search/quiz index):
+   - `csharp/intermediate/{id,en}/week4-oop-class-object.md` — duplikat byte-identik beginner W4.
+   - `csharp/advanced/{id,en}/week7-generics.md`, `week8-error-handling.md` — varian "advanced" tak tereferensi (kurikulum advanced = W9-W12).
+   - `spring/advanced/{id,en}/week7-testing.md`, `week8-validation.md` — sama (kurikulum advanced = W11-W14).
+   - `svelte/advanced/{id,en}/week12-capstone.md` — kurikulum svelte TANPA level advanced (capstone = intermediate W10).
+   - Restore bila ingin di-wire ke kurikulum: `git show 2512c2c^:<path>`. Alternatif (belum diputuskan): tambah level/weeks ke `csharp.ts`/`spring.ts`/`svelte.ts`.
+2. `7e35bb4` — angular W7 en header `## Ringkasan` → `## Summary` (satu-satunya section-gap).
+3. `2ac6f79` — Rails W10 en: kembalikan interpolasi Ruby `#{...}` (escape merusak contoh).
+4. Duplikat ID `csharp/intermediate/week4-oop-class-object.md` identik beginner (dihapus via #1).
+5. Konvensi seragam terverifikasi: semua 321 file en pakai quote-label `**Minggu N:**`; tidak ada marker ID bocor ke en (dan sebaliknya); scan CJK bersih.
+
+**Angka pasca-audit:** `total=642` md (321 id + 321 en), `full=654→642` (100% scaffold), `enDebt=0`, `enWhy=321`, `idKenapa=321`. `npm run build ✓`, index rebuilt.
