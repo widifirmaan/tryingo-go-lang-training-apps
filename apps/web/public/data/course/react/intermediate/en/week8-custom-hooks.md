@@ -123,7 +123,8 @@ Build a useForm hook handling: values, errors, handleChange, handleSubmit, reset
 ## Beginner Friendly Explanation
 
 ### Analogy: Own Kitchen Recipes
-- See Program: run line by line, change 1 number, see the difference.
+- **Copy-pasting `useState+useEffect` 10x = 10 photocopied recipes**: 1 wrong, all wrong.
+- **Custom hook = own recipe**: write `useFetch()` 1x → 10 components use it. Rule: names MUST be `use...` (React recognizes!) + call at TOP level (never in if/loops!).
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (see week 1 for install).

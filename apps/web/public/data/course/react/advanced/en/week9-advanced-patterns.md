@@ -37,7 +37,8 @@ export default function App(){
 ## Beginner Friendly Explanation
 
 ### Analogy: Lego Technic
-- See Program: run it, change 1 number/prop, see the difference.
+- **5 Card variants = 5 files 80% identical**: change a border → edit 5 places, forget 1 = divergent.
+- **Compound (`Card.Header`) = LEGO Technic**: 1 brick set + free assembly per page. Render Props/HOC = borrow engines without photocopying code!
 
 ### Step 0 — Prepare Device
 - Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).

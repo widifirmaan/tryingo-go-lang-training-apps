@@ -31,7 +31,8 @@ Structure: `src/pages`, `src/components`, `src/context/CartContext.jsx`.
 ## Beginner Friendly Explanation
 
 ### Analogy: React Store Grand Opening
-- See Program: run it, change 1 number/prop, see the difference.
+- **11 weeks = building a mall**: maps (Router), warehouse (Context), showcase (components), guards (forms).
+- **Capstone = grand opening**: Router + Context + fetch + memo + tests + deploy RUN TOGETHER. Portfolio = proof, not promises!
 
 ### Step 0 — Prepare Device
 - Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).

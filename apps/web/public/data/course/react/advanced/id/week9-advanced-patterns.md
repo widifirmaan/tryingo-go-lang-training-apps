@@ -37,7 +37,8 @@ export default function App(){
 ## Penjelasan untuk Pemula
 
 ### Analogi: Lego Technic
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+- **5 varian Card = 5 file 80% sama**: ubah border → ubah 5 tempat, lupa 1 = beda.
+- **Compound (`Card.Header`) = LEGO Technic**: 1 set bata + susun bebas per halaman. Render Props/HOC = pinjam mesin tanpa fotokopi kode!
 
 ### Langkah 0 — Siapkan Device
 - Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).

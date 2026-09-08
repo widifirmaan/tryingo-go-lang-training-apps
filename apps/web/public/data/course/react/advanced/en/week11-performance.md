@@ -41,7 +41,8 @@ export default function App(){
 ## Beginner Friendly Explanation
 
 ### Analogy: Energy-Saving Shop
-- See Program: run it, change 1 number/prop, see the difference.
+- **1000 cards re-rendering per keystroke = 1000 waiters running per 1 coughing guest**: potato phones cry.
+- **`memo` = chill waiter**: same props → silent. `useMemo` = expensive-calc cheat sheet. `lazy` = call waiters WHEN needed (not all standby)!
 
 ### Step 0 — Prepare Device
 - Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).

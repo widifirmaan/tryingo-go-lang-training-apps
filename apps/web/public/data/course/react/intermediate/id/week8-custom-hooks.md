@@ -123,7 +123,8 @@ Buat useForm hook yang handle: values, errors, handleChange, handleSubmit, reset
 ## Penjelasan untuk Pemula
 
 ### Analogi: Resep Dapur Sendiri
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+- **Copy-paste `useState+useEffect` 10x = 10 resep fotokopi**: 1 salah, semua salah.
+- **Custom hook = resep sendiri**: `useFetch()` tulis 1x → 10 komponen pakai. Aturan: nama HARUS `use...` (React kenali!) + panggil di TOP level (jangan di if/loop!).
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (lihat minggu 1 untuk install).
