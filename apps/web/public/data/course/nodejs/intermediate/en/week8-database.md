@@ -1,16 +1,16 @@
-# Database — Gudang Node dengan Prisma
+# Database — Node Warehouse with Prisma
 
-> **Kategori:** Node.js | **Level:** Menengah | **Minggu 8:** Database
+> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 8:** Database
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Hubungkan Express ke **Postgres** via `Prisma` — `prisma.produk.findMany()` tanpa SQL
+- Connect Express to **Postgres** via `Prisma` — `prisma.products.findMany()` without SQL
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Array hilang saat restart. Dengan Prisma + Postgres, data awet + jutaan baris. `schema.prisma` 1 cetak biru untuk semua.
+Arrays vanish on restart. With Prisma + Postgres, data lasts + millions of rows. 1 `schema.prisma` blueprint for all.
 
 ---
 
@@ -19,15 +19,15 @@ Array hilang saat restart. Dengan Prisma + Postgres, data awet + jutaan baris. `
 ```bash
 npm install prisma @prisma/client
 npx prisma init
-# Atur DATABASE_URL di .env
+# Set DATABASE_URL in .env
 ```
 
 ```prisma
 // prisma/schema.prisma
-model Produk {
+model Product {
   id    Int    @id @default(autoincrement())
-  nama  String
-  harga Int
+  name  String
+  price Int
 }
 ```
 
@@ -38,33 +38,33 @@ npx prisma migrate dev --name init
 ```javascript
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-app.get("/produk", async (req,res)=>res.json(await prisma.produk.findMany()));
-app.post("/produk", async (req,res)=>res.json(await prisma.produk.create({ data: req.body })));
+app.get("/products", async (req,res)=>res.json(await prisma.product.findMany()));
+app.post("/products", async (req,res)=>res.json(await prisma.product.create({ data: req.body })));
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Gudang Prisma Node
-- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+### Analogy: Node Prisma Warehouse
+- See Program: run (`node server.js`), `curl` each door, change 1 thing.
 
-### Langkah 0 — Siapkan Device
-- Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
+### Step 0 — Prepare Device
+- Same as Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` per week).
 
-### Cara Komputer Membaca
-- `schema.prisma` gambar; `migrate` bangun; `prisma.produk.findMany()` ambil tanpa SQL.
+### How the Computer Reads It
+- `schema.prisma` draws; `migrate` builds; `prisma.product.findMany()` fetches without SQL.
 
-### 3 Istilah Wajib
-- 1. **Prisma/migrate**: tukang/bangun
+### 3 Must-Know Terms
+- 1. **Prisma/migrate**: mover/builder
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 8: **Gudang Prisma** — Node + DB tanpa SQL.
+Week 8: **Prisma Warehouse** — Node + DB without SQL. Next: **Testing**.

@@ -1,70 +1,70 @@
-# REST API — Warung Online Lengkap Node
+# REST API — Complete Online Node Shop
 
-> **Kategori:** Node.js | **Level:** Menengah | **Minggu 6:** REST API
+> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 6:** REST API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `GET /produk`, `POST /produk` `req.body`, `PUT /produk/:id`, `DELETE` — CRUD API, `status 201/404`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-HP butuh `GET` daftar + `POST` tambah + `DELETE` hapus. Tanpa `status` benar (201/404), HP tidak tahu sukses/gagal. Express 10 baris jadi API.
+- `GET /products`, `POST /products` `req.body`, `PUT /products/:id`, `DELETE` — CRUD API, `status 201/404`
 
 ---
 
-## Program: API Warung
+## Why This Matters (Non-IT)
+
+Phones need list-`GET` + add-`POST` + delete-`DELETE`. Without correct `status` (201/404), phones can't tell success/failure. Express does APIs in 10 lines.
+
+---
+
+## Program: Shop API
 
 ```javascript
 const express = require("express");
 const app = express();
 app.use(express.json());
-let produk = [{ id: 1, nama: "Beras", harga: 62000 }];
+let products = [{ id: 1, name: "Rice", price: 62000 }];
 
-app.get("/produk", (req,res)=>res.json(produk));
-app.get("/produk/:id", (req,res)=>{
-  const p = produk.find(x=>x.id==req.params.id);
-  if(!p) return res.status(404).json({ error: "Tidak ada" });
+app.get("/products", (req,res)=>res.json(products));
+app.get("/products/:id", (req,res)=>{
+  const p = products.find(x=>x.id==req.params.id);
+  if(!p) return res.status(404).json({ error: "Missing" });
   res.json(p);
 });
-app.post("/produk", (req,res)=>{
-  const baru = { id: Date.now(), ...req.body };
-  produk.push(baru);
-  res.status(201).json(baru);
+app.post("/products", (req,res)=>{
+  const fresh = { id: Date.now(), ...req.body };
+  products.push(fresh);
+  res.status(201).json(fresh);
 });
-app.delete("/produk/:id", (req,res)=>{
-  produk = produk.filter(x=>x.id != req.params.id);
+app.delete("/products/:id", (req,res)=>{
+  products = products.filter(x=>x.id != req.params.id);
   res.json({ ok: true });
 });
-app.listen(3000, ()=>console.log("http://localhost:3000/produk"));
+app.listen(3000, ()=>console.log("http://localhost:3000/products"));
 ```
 
-Test: `curl http://localhost:3000/produk` dan `curl -X POST -H "Content-Type: application/json" -d '{"nama":"Gula","harga":15000}' http://localhost:3000/produk`
+Test: `curl http://localhost:3000/products` and `curl -X POST -H "Content-Type: application/json" -d '{"name":"Sugar","price":15000}' http://localhost:3000/products`
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Drive-Thru JSON Node
-- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+### Analogy: JSON Drive-Thru Node
+- See Program: run (`node server.js`), `curl` each door, change 1 thing.
 
-### Langkah 0 — Siapkan Device
-- Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
+### Step 0 — Prepare Device
+- Same as Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` per week).
 
-### Cara Komputer Membaca
-- `app.get/post/delete` daftar pintu; `express.json()` buka amplop; `res.status(201)` stempel sukses.
+### How the Computer Reads It
+- `app.get/post/delete` lists doors; `express.json()` opens envelopes; `res.status(201)` stamps success.
 
-### 3 Istilah Wajib
-- 1. **Express/status**: pelayan/stempel
+### 3 Must-Know Terms
+- 1. **Express/status**: waiter/stamp
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 6: **REST Warung** — `GET/POST/DELETE` JSON.
+Week 6: **Shop REST** — `GET/POST/DELETE` JSON. Next: **Auth**.
