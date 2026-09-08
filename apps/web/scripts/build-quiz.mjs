@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { buildCodeQuestions } from './quiz-codegen.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = join(__dirname, '..', 'public', 'data', 'course');
@@ -279,7 +280,7 @@ async function buildQuiz() {
           const objectives = extractObjectives(pickSection(sections, OBJ_SECTION_KEYS));
 
           for (const c of concepts) allConceptTitles[lang].push({ level, week, title: c.title });
-          weeks.push({ week, topic, levelMeta, objectives, concepts });
+          weeks.push({ week, topic, levelMeta, objectives, concepts, raw: content });
         }
         weeks.sort((a, b) => a.week - b.week);
         if (weeks.length) {
@@ -354,6 +355,14 @@ async function buildQuiz() {
             } else if (w.objectives.length > 1) {
               questions.push(buildObjectiveTf(w.objectives[1], w.week, lang, false));
             }
+          }
+
+          // 3b) Code-verified questions (trace-output + find-the-bug, JS/Python)
+          try {
+            const codeQs = buildCodeQuestions({ slug, lang, week: w, level: lv.level, content: w.raw || '', rng });
+            for (const q of codeQs) questions.push(q);
+          } catch (e) {
+            console.error(`codegen skipped for ${slug}/${lang}/week${w.week}:`, e.message);
           }
 
           // 4) Fallback: no concepts parsed → objective-based coverage
