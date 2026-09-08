@@ -91,6 +91,38 @@ Struct + enum + trait + Result + test = cashier.
 
 ---
 
+### Bonus: Split Modules (à la Rust Book Ch7 — mandatory for real projects!)
+
+1 file of 500 lines = lost. Split: `mod cashier;` connects `src/cashier.rs`.
+
+```rust
+// src/cashier.rs — kitchen module
+pub struct Product { pub name: String, pub price: u32 }
+
+pub fn total(items: &[Product]) -> u32 {
+    items.iter().map(|p| p.price).sum()
+}
+```
+
+```rust
+// src/main.rs — use the module
+mod cashier; // connects cashier.rs! (without it: unresolved module)
+use cashier::{Product, total};
+
+fn main() {
+    let rack = vec![
+        Product { name: "Rice".to_string(), price: 62000 },
+        Product { name: "Spinach".to_string(), price: 5000 },
+    ];
+    println!("Total: Rp{}", total(&rack)); // Total: Rp67000
+}
+```
+
+- `mod cashier;` = plugs the file. `pub` = usable outside (without `pub` = private, error!).
+- `use cashier::{Product, total};` = imports for short names.
+
+---
+
 ## Challenge
 
 **Grand Opening CLI:** Full program + 3 tests + release binary + video. **Rust 0→Expert DONE!**
