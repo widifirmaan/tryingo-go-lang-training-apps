@@ -1,95 +1,95 @@
-# Template Forms — Formulir 2 Arah Warung Angular
+# Template Forms — Two-Way Angular Shop Forms
 
-> **Kategori:** Angular | **Level:** Pemula | **Minggu 5:** Template Forms
+> **Kategori:** Angular | **Level:** Beginner | **Minggu 5:** Template Forms
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `FormsModule` + `[(ngModel)]` tali 2 arah + `name` wajib + `#f="ngForm"` + `required` (sumber: angular.dev/guide/forms/template-driven-forms)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `ngModel`, ambil input manual `document.getElementById` (jadul). Dengan `[(ngModel)]`, ketik ↔ variabel otomatis + tombol mati jika `f.invalid` (tidak perlu `if` cek kosong).
+- `FormsModule` + `[(ngModel)]` two-way string + mandatory `name` + `#f="ngForm"` + `required` (source: angular.dev/guide/forms/template-driven-forms)
 
 ---
 
-## Program: Form Tambah Warung
+## Why This Matters (Non-IT)
+
+Without `ngModel`, grab inputs manually via `document.getElementById` (old-fashioned). With `[(ngModel)]`, typing ↔ variable automatically + button dies when `f.invalid` (no empty-check `if` needed).
+
+---
+
+## Program: Shop Add Form
 
 ```typescript
-// app.module.ts (atau imports jika standalone)
+// app.module.ts (or imports when standalone)
 import { FormsModule } from "@angular/forms";
 // imports: [FormsModule]
 ```
 
 ```html
-<form #f="ngForm" (ngSubmit)="tambah()">
-  <input name="nama" [(ngModel)]="nama" required placeholder="Nama" />
-  <input name="harga" [(ngModel)]="harga" type="number" required min="1" />
-  <button [disabled]="f.invalid">Tambah</button>
+<form #f="ngForm" (ngSubmit)="add()">
+  <input name="name" [(ngModel)]="name" required placeholder="Name" />
+  <input name="price" [(ngModel)]="price" type="number" required min="1" />
+  <button [disabled]="f.invalid">Add</button>
 </form>
-<p>Nilai: {{ nama }} - {{ harga }}</p>
+<p>Value: {{ name }} - {{ price }}</p>
 ```
 
 ```typescript
-nama = "";
-harga = 0;
-tambah() { console.log(this.nama, this.harga); this.nama = ""; }
+name = "";
+price = 0;
+add() { console.log(this.name, this.price); this.name = ""; }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `[(ngModel)]` = Tali 2 Arah (Banana in a Box)
-`[ngModel]` tampil + `(ngModelChange)` update = `[()]`. Ketik ↔ variabel.
+### `[(ngModel)]` = Two-Way String (Banana in a Box)
+`[ngModel]` displays + `(ngModelChange)` updates = `[()]`. Typing ↔ variable.
 
-### `name` + `#f="ngForm"` = Syarat & Wasit
-`ngModel` wajib di dalam `form` + punya `name`. `#f="ngForm"` wasit: `f.invalid` jika ada `required` kosong.
+### `name` + `#f="ngForm"` = Requirement & Referee
+`ngModel` must sit inside a `form` + have `name`. `#f="ngForm"` referee: `f.invalid` when a `required` is empty.
 
-### `[disabled]="f.invalid"` = Tombol Pintar
-Mati otomatis jika form cacat.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Formulir Karbon
-- **`ngModel` = kertas karbon**: tulis di input, tembus ke variabel (dan sebaliknya).
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + `FormsModule` di `imports` (lupa = error `Can't bind to 'ngModel'`).
-
-### Cara Komputer Membaca
-1. Ketik "Beras" → `ngModelChange` → `nama = "Beras"`.
-2. `required` kosong → `f.invalid` true → tombol mati.
-
-### 3 Istilah Wajib
-1. **ngModel/[()]/name**: tali/2-arah/wajib
-2. **ngForm/invalid**: wasit/cacat
+### `[disabled]="f.invalid"` = Smart Button
+Auto-dies when the form is defective.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Ketik nama → `{{ nama }}` ikut?
-- **Kuning:** Kosongkan → tombol mati?
-- **Merah:** Hapus `name="nama"` → error `If ngModel is used within a form tag`? Pasang lagi.
+### Analogy: Carbon Forms
+- **`ngModel` = carbon paper**: write on input, bleeds into variable (and back).
 
----
+### Step 0 — Prepare Device
+- Same as W1 + `FormsModule` in `imports` (forget = `Can't bind to 'ngModel'` error).
 
-## Tantangan
+### How the Computer Reads It
+1. Type "Rice" → `ngModelChange` → `name = "Rice"`.
+2. Empty `required` → `f.invalid` true → button dead.
 
-**Form Warung Lengkap:** `nama` + `harga` + `stok` (`required`, `min`) + tombol pintar + `tambah()` push ke `daftar` + tampil `*ngFor`. **Selesai Beginner Angular!**
-
----
-
-## Glosarium Mini
-
-- **ngModel/ngForm/required**: tali/wasit/wajib
+### 3 Must-Know Terms
+1. **ngModel/[()]/name**: string/two-way/required
+2. **ngForm/invalid**: referee/defective
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 5 dari 5: **Formulir 2 Arah** (Level: Pemula). **Selesai Beginner Angular!** Lanjut: **Router** (Menengah).
+- **Green:** Type name → `{{ name }}` follows?
+- **Yellow:** Empty it → button dies?
+- **Red:** Delete `name="name"` → `If ngModel is used within a form tag` error? Reattach.
+
+---
+
+## Challenge
+
+**Complete Shop Form:** `name` + `price` + `stock` (`required`, `min`) + smart button + `add()` pushing to `list` + `*ngFor` display. **Beginner Angular DONE!**
+
+---
+
+## Mini Glossary
+
+- **ngModel/ngForm/required**: string/referee/required
+
+---
+
+## Summary
+
+Week 5 of 5: **Two-Way Forms** (Level: Beginner). **Beginner Angular DONE!** Next: **Router** (Intermediate).

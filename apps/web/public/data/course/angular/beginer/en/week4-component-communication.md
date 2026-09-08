@@ -1,114 +1,114 @@
-# Component Communication — Amplop Antar Cabang Angular
+# Component Communication — Envelopes Between Angular Branches
 
-> **Kategori:** Angular | **Level:** Pemula | **Minggu 4:** Component Communication
+> **Kategori:** Angular | **Level:** Beginner | **Minggu 4:** Component Communication
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Input()` amplop masuk (`nama="Beras"`, `[harga]="62000"`), `@Output() EventEmitter` bel keluar, `(beli)` telinga induk (sumber: angular.dev/guide/components/inputs-outputs)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-50 kartu produk jika semua di `App` → 500 baris. Dengan `KartuComponent` bata + `@Input`/`@Output`, `App` hanya `*ngFor` 3 baris. Tanpa `@Output`, tombol di anak tidak bisa tambah keranjang induk.
+- `@Input()` incoming envelope (`name="Rice"`, `[price]="62000"`), `@Output() EventEmitter` outgoing bell, `(buy)` parent ears (source: angular.dev/guide/components/inputs-outputs)
 
 ---
 
-## Program: Kartu Berbel Angular
+## Why This Matters (Non-IT)
+
+50 product cards all in `App` → 500 lines. With `CardComponent` bricks + `@Input`/`@Output`, `App` is only a 3-line `*ngFor`. Without `@Output`, child buttons can't add to the parent cart.
+
+---
+
+## Program: Bell-Equipped Card
 
 ```typescript
-// kartu.component.ts — bata
+// card.component.ts — brick
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-  selector: "app-kartu",
+  selector: "app-card",
   template: `
     <div style="border: 1px solid #ddd; padding: 12px; border-radius: 8px;">
-      <h3>{{ nama }}</h3>
-      <p>Rp {{ harga }}</p>
-      <button (click)="beli.emit(nama)">Beli</button>
+      <h3>{{ name }}</h3>
+      <p>Rp {{ price }}</p>
+      <button (click)="buy.emit(name)">Buy</button>
       <ng-content></ng-content>
     </div>`
 })
-export class KartuComponent {
-  @Input() nama!: string;   // amplop: nama="Beras"
-  @Input() harga!: number;  // amplop: [harga]="62000"
-  @Output() beli = new EventEmitter<string>(); // bel
+export class CardComponent {
+  @Input() name!: string;   // envelope: name="Rice"
+  @Input() price!: number;  // envelope: [price]="62000"
+  @Output() buy = new EventEmitter<string>(); // bell
 }
 ```
 
 ```html
-<!-- app.component.html — susun -->
-<app-kartu *ngFor="let p of daftar"
-  [nama]="p.nama" [harga]="p.harga"
-  (beli)="tambah($event)">
-  <small>Gratis ongkir &gt;100rb</small>
-</app-kartu>
-<p>Keranjang: {{ keranjang.join(", ") }}</p>
+<!-- app.component.html — assemble -->
+<app-card *ngFor="let p of list"
+  [name]="p.name" [price]="p.price"
+  (buy)="add($event)">
+  <small>Free delivery &gt;Rp 100,000</small>
+</app-card>
+<p>Cart: {{ cart.join(", ") }}</p>
 ```
 
 ```typescript
 // app.component.ts
-daftar = [{ nama: "Beras", harga: 62000 }];
-keranjang: string[] = [];
-tambah(nama: string) { this.keranjang.push(nama); }
+list = [{ name: "Rice", price: 62000 }];
+cart: string[] = [];
+add(name: string) { this.cart.push(name); }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Input()` = Amplop Masuk
-`nama="Beras"` (teks) vs `[harga]="62000"` (ekspresi, tanpa `[]` jadi string `"62000"`!).
+### `@Input()` = Incoming Envelope
+`name="Rice"` (text) vs `[price]="62000"` (expression — without `[]` becomes string `"62000"`!).
 
-### `@Output()` + `EventEmitter` = Bel Keluar
-`beli.emit(nama)` tekan → induk `(beli)="tambah($event)"` dengar, `$event` = nama.
+### `@Output()` + `EventEmitter` = Outgoing Bell
+`buy.emit(name)` pressed → parent `(buy)="add($event)"` hears, `$event` = name.
 
-### `<ng-content>` = Lubang
-Isi di dalam `<app-kartu>...</app-kartu>` tampil di `<ng-content>`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Bata Bertulis & Bel
-- **@Input = tulisan di bata**, **@Output = bel pintu**, **ng-content = kotak kosong**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `ng generate component kartu` (CLI buatkan 4 file!).
-
-### Cara Komputer Membaca
-1. `[nama]="p.nama"` → isi `@Input() nama`.
-2. Klik → `beli.emit("Beras")` → `tambah("Beras")`.
-
-### 3 Istilah Wajib
-1. **Input/Output**: masuk/keluar
-2. **EventEmitter/$event**: bel/isi bel
-3. **ng-content**: lubang
+### `<ng-content>` = Hole
+Content inside `<app-card>...</app-card>` shows at `<ng-content>`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `nama="Beras"` vs `[nama]="'Beras'"` → sama? `harga="62000"` (tanpa []) → string?
-- **Kuning:** `beli.emit({ nama, harga })` objek → `$event.nama`?
-- **Merah:** Anak `this.nama = "X"` langsung → jalan tapi sesat (sumber kebenaran ganda)! Kirim event saja.
+### Analogy: Labeled Bricks & Bells
+- **@Input = writing on bricks**, **@Output = doorbell**, **ng-content = empty box**.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `ng generate component card` (CLI creates 4 files!).
 
-## Tantangan
+### How the Computer Reads It
+1. `[name]="p.name"` → fills `@Input() name`.
+2. Click → `buy.emit("Rice")` → `add("Rice")`.
 
-**Warung Bata Lengkap:** `Kartu` (`@Input` + `@Output` + `ng-content`) + `App` (`*ngFor` 4 + `keranjang`).
-
----
-
-## Glosarium Mini
-
-- **Input/Output/ng-content**: masuk/keluar/lubang
-- **EventEmitter/$event**: bel/isi
+### 3 Must-Know Terms
+1. **Input/Output**: in/out
+2. **EventEmitter/$event**: bell/bell-content
+3. **ng-content**: hole
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 5: **Amplop Antar Cabang** (Level: Pemula). Bagi & lapor. Minggu depan: **Forms** — formulir 2 arah.
+- **Green:** `name="Rice"` vs `[name]="'Rice'"` → same? `price="62000"` (no []) → string?
+- **Yellow:** `buy.emit({ name, price })` object → `$event.name`?
+- **Red:** Child setting `this.name = "X"` directly → works but misleads (dual truth)! Send events only.
+
+---
+
+## Challenge
+
+**Complete Brick Shop:** `Card` (`@Input` + `@Output` + `ng-content`) + `App` (`*ngFor` 4 + `cart`).
+
+---
+
+## Mini Glossary
+
+- **Input/Output/ng-content**: in/out/hole
+- **EventEmitter/$event**: bell/content
+
+---
+
+## Summary
+
+Week 4 of 5: **Branch Envelopes** (Level: Beginner). Split & report. Next: **Forms** — two-way forms.

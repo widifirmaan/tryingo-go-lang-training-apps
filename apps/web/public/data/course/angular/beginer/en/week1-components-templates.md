@@ -1,60 +1,97 @@
-# Components & Templates — Cabang Warung Enterprise
+# Components & Templates — Enterprise Shop Branch
 
-> **Kategori:** Angular | **Level:** Pemula | **Minggu 1:** Components & Templates
+> **Kategori:** Angular | **Level:** Beginner | **Minggu 1:** Components & Templates
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Instal `npm install -g @angular/cli`, `ng new warung-angular`, `ng serve` di `4200`
-- Paham Angular = **warung enterprise**: banyak aturan, tapi rapi untuk 100 cabang — butuh `TypeScript` dulu
-- `component` = toko, `template` = etalase `{{ nama }}`, `selector: 'app-kartu'`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Angular untuk perusahaan besar: jika warung mau jadi minimarket 100 cabang, butuh aturan ketat (TypeScript, DI) — tidak untuk warung 1 cabang (pakai Vue/React saja). Jika tetap mau, ini gerbangnya — **butuh 3 bulan JS+TS dulu**.
+- Install `npm install -g @angular/cli`, `ng new shop-angular`, `ng serve` on `4200`
+- Understand Angular = **enterprise shop**: many rules, but neat for 100 branches — needs `TypeScript` first
+- `component` = store, `template` = showcase `{{ name }}`, `selector: 'app-card'`
 
 ---
 
-## Program: Kartu Angular
+## Why This Matters (Non-IT)
+
+Angular is for big companies: if the shop wants to become a 100-branch minimarket, it needs strict rules (TypeScript, DI) — not for 1-branch shops (use Vue/React instead). If you still want it, this is the gate — **needs 3 months of JS+TS first**.
+
+---
+
+## Program: Angular Card
 
 ```bash
-npx @angular/cli new warung-angular --style=css --routing
-cd warung-angular
+npx @angular/cli new shop-angular --style=css --routing
+cd shop-angular
 ng serve
-# Buka http://localhost:4200
+# Open http://localhost:4200
 ```
 
 ```typescript
-// src/app/kartu/kartu.component.ts
+// src/app/card/card.component.ts
 import { Component, Input } from '@angular/core';
 @Component({
-  selector: 'app-kartu',
+  selector: 'app-card',
   template: `<div style="border: 1px solid #ddd; padding: 12px;">
-    <h3>{{ nama }}</h3><p>Rp {{ harga }}</p>
-    <button (click)="beli.emit(nama)">Beli</button>
+    <h3>{{ name }}</h3><p>Rp {{ price }}</p>
+    <button (click)="buy.emit(name)">Buy</button>
   </div>`
 })
-export class KartuComponent {
-  @Input() nama!: string;
-  @Input() harga!: number;
+export class CardComponent {
+  @Input() name!: string;
+  @Input() price!: number;
 }
 ```
 
-Gunakan di `app.component.html`: `<app-kartu nama="Beras" [harga]="62000"></app-kartu>`
+Use in `app.component.html`: `<app-card name="Rice" [price]="62000"></app-card>`
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `ng new` + `ng serve`
-Buat gedung enterprise, jalan di `4200`.
+Builds the enterprise building, runs on `4200`.
 
 ### `@Component` + `{{ }}`
-`selector` nama tag, `template` HTML dengan `{{ nama }}`.
+`selector` tag name, `template` HTML with `{{ name }}`.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 1: **Enterprise Component** — butuh TS, untuk skala besar. Minggu depan: **Directives & Pipes**.
+### Analogy: Franchise Blueprint
+- **Component = branch blueprint**: `selector` branch name, `template` storefront design, `{{ }}` live price stickers.
+
+### Step 0 — Prepare Device
+- Node + Angular CLI (`npm install -g @angular/cli`), `ng serve`, open `4200`.
+
+### How the Computer Reads It
+1. `<app-card name="Rice">` → `@Input() name` = "Rice".
+2. `(click)` → `buy.emit("Rice")` → parent hears.
+
+### 3 Must-Know Terms
+1. **Component/selector/template**: store/sign/showcase
+
+---
+
+## Experiments
+
+- **Green:** Change `name="Rice"` → showcase updates?
+- **Yellow:** Remove `[price]` binding → `undefined` shown? Add it.
+- **Red:** `ng serve` fails on TS error → red before browser? Fix type.
+
+---
+
+## Challenge
+
+**First Branch:** `CardComponent` (`@Input` name + price + Buy button) + used twice in `App` with different products.
+
+---
+
+## Mini Glossary
+
+- **Component/Input**: store/envelope
+
+---
+
+## Summary
+
+Week 1: **Enterprise Component** — needs TS, for big scale. Next: **Directives & Pipes**.

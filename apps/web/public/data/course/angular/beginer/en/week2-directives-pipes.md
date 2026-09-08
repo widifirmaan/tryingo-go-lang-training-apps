@@ -1,113 +1,113 @@
-# Directives & Pipes — Saklar dan Saringan Warung Angular
+# Directives & Pipes — Angular Shop Switches and Strainers
 
-> **Kategori:** Angular | **Level:** Pemula | **Minggu 2:** Directives & Pipes
+> **Kategori:** Angular | **Level:** Beginner | **Minggu 2:** Directives & Pipes
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `*ngIf` saklar tampil, `*ngFor` fotokopi daftar, `[ngClass]` baju dinamis, `| currency:'IDR'` saring harga (sumber: angular.dev/guide/directives + pipes)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `*ngIf`, tombol "Beli" tampil meski stok 0 → pelanggan kecewa. Tanpa `*ngFor`, tulis 30 `<li>` manual. Tanpa `| currency`, `62000` tampil mentah (bukan `Rp62.000`).
+- `*ngIf` display switch, `*ngFor` list photocopy, `[ngClass]` dynamic outfit, `| currency:'IDR'` price strainer (source: angular.dev/guide/directives + pipes)
 
 ---
 
-## Program: Etalase Saklar Warung
+## Why This Matters (Non-IT)
+
+Without `*ngIf`, the "Buy" button shows even at stock 0 → disappointed customers. Without `*ngFor`, hand-write 30 `<li>`s. Without `| currency`, `62000` shows raw (not `Rp62,000`).
+
+---
+
+## Program: Switch Showcase Shop
 
 ```typescript
-// kartu.component.ts
+// card.component.ts
 import { Component } from "@angular/core";
 @Component({
-  selector: "app-kartu",
-  templateUrl: "./kartu.component.html"
+  selector: "app-card",
+  templateUrl: "./card.component.html"
 })
-export class KartuComponent {
+export class CardComponent {
   total = 75000;
-  daftar = [
-    { nama: "Beras", harga: 62000 },
-    { nama: "Bayam", harga: 5000 },
+  list = [
+    { name: "Rice", price: 62000 },
+    { name: "Spinach", price: 5000 },
   ];
 }
 ```
 
 ```html
-<!-- kartu.component.html -->
-<p *ngIf="total > 50000; else bayarOngkir" style="color: green;">Gratis ongkir!</p>
-<ng-template #bayarOngkir><p>Belanja lagi untuk gratis ongkir</p></ng-template>
+<!-- card.component.html -->
+<p *ngIf="total > 50000; else payShipping" style="color: green;">Free delivery!</p>
+<ng-template #payShipping><p>Shop more for free delivery</p></ng-template>
 
 <ul>
-  <li *ngFor="let p of daftar; let i = index">
-    {{ i + 1 }}. {{ p.nama }} - {{ p.harga | currency:'IDR':'symbol':'1.0-0' }}
+  <li *ngFor="let p of list; let i = index">
+    {{ i + 1 }}. {{ p.name }} - {{ p.price | currency:'IDR':'symbol':'1.0-0' }}
   </li>
 </ul>
 
-<div [ngClass]="{ mahal: total > 50000, murah: total <= 50000 }">
+<div [ngClass]="{ expensive: total > 50000, cheap: total <= 50000 }">
   Total: {{ total | currency:'IDR' }}
 </div>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `*ngIf` + `else` = Saklar
-`*ngIf="total > 50000"` tampil jika ya. `else bayarOngkir` + `<ng-template #bayarOngkir>` jika tidak. (`*` = structural, ubah DOM.)
+### `*ngIf` + `else` = Switch
+`*ngIf="total > 50000"` shows when true. `else payShipping` + `<ng-template #payShipping>` when false. (`*` = structural, changes DOM.)
 
-### `*ngFor` = Fotokopi
-`*ngFor="let p of daftar; let i = index"` → `p` barang, `i` nomor 0,1,2.
+### `*ngFor` = Photocopy
+`*ngFor="let p of list; let i = index"` → `p` item, `i` number 0,1,2.
 
-### `| currency` = Saringan Uang
-`{{ 62000 | currency:'IDR':'symbol':'1.0-0' }}` → `Rp62.000`.
+### `| currency` = Money Strainer
+`{{ 62000 | currency:'IDR':'symbol':'1.0-0' }}` → `Rp62,000`.
 
-### `[ngClass]` = Baju Dinamis
-`[ngClass]="{ mahal: total > 50000 }"` → class `mahal` jika benar.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Saklar Lampu & Mesin Fotokopi
-- **`*ngIf` = saklar**: total >50rb → lampu hijau nyala.
-- **`*ngFor` = fotokopi**: 1 template `<li>`, fotokopi per barang.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `ng serve` di `4200`.
-
-### Cara Komputer Membaca
-1. `*ngIf="total > 50000"` → true → tampil `<p>`, `else` disembunyikan (komentar DOM).
-2. `*ngFor` → loop `daftar`, tiap `p` buat `<li>`.
-
-### 3 Istilah Wajib
-1. **Directive `*`/`[]`**: saklar struktural/atribut
-2. **Pipe `|`**: saringan tampil
-3. **ng-template**: cetakan cadangan
+### `[ngClass]` = Dynamic Outfit
+`[ngClass]="{ expensive: total > 50000 }"` → class `expensive` when true.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `total = 30000` → tampil yang mana?
-- **Kuning:** `currency:'USD'` → `$62,000.00`?
-- **Merah:** Lupa `*` tulis `ngIf=` saja → error `Can't bind`? Tambah `*`.
+### Analogy: Light Switches & Photocopiers
+- **`*ngIf` = switch**: total >50k → green lamp on.
+- **`*ngFor` = photocopier**: 1 `<li>` template, photocopied per item.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `ng serve` on `4200`.
 
-## Tantangan
+### How the Computer Reads It
+1. `*ngIf="total > 50000"` → true → `<p>` shows, `else` hidden (DOM comment).
+2. `*ngFor` → loops `list`, each `p` makes an `<li>`.
 
-**Etalase Saklar Lengkap:** `*ngIf` gratis-ongkir + `else`, `*ngFor` 5 produk + `index`, `| currency:'IDR'`, `[ngClass]` mahal/murah.
-
----
-
-## Glosarium Mini
-
-- **ngIf/ngFor/ngClass**: saklar/fotokopi/baju
-- **Pipe currency**: saring uang
-- **ng-template**: cadangan
+### 3 Must-Know Terms
+1. **Directive `*`/`[]`**: structural/attribute switch
+2. **Pipe `|`**: display strainer
+3. **ng-template**: spare mold
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 2 dari 5: **Saklar & Saringan** (Level: Pemula). Tampil cerdas + uang rapi. Minggu depan: **Services** — gudang bersama.
+- **Green:** `total = 30000` → which shows?
+- **Yellow:** `currency:'USD'` → `$62,000.00`?
+- **Red:** Forget `*`, write bare `ngIf=` → `Can't bind` error? Add `*`.
+
+---
+
+## Challenge
+
+**Complete Switch Showcase:** `*ngIf` free-delivery + `else`, `*ngFor` 5 products + `index`, `| currency:'IDR'`, `[ngClass]` expensive/cheap.
+
+---
+
+## Mini Glossary
+
+- **ngIf/ngFor/ngClass**: switch/photocopy/outfit
+- **Pipe currency**: money strainer
+- **ng-template**: spare
+
+---
+
+## Summary
+
+Week 2 of 5: **Switches & Strainers** (Level: Beginner). Smart display + neat money. Next: **Services** — shared warehouse.
