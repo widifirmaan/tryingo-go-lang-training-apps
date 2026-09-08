@@ -59,7 +59,8 @@ Open `http://localhost:8000/api/products/` → JSON.
 ## Beginner Friendly Explanation
 
 ### Analogy: Django JSON Drive-Thru
-- See Program: run the commands, change 1 thing, see the difference.
+- **ViewSet = 1 counter serving 5 needs** (list one, list all, add, edit, delete) — no 5 hand-written functions.
+- **Router = automatic queue-number board**: register a ViewSet in 1 line → `/api/products/`, `/api/products/1/` appear by themselves.
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).

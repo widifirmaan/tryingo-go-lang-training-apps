@@ -46,7 +46,8 @@ def tambah(request):
 ## Penjelasan untuk Pemula
 
 ### Analogi: Formulir Terhubung Model
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **ModelForm = formulir fotokopi dari kartu model**: ganti model (tambah field `stok`) → form ikut berubah, tanpa tulis HTML baru.
+- **`is_valid()` = kasir cek**: kosong/salah format → tolak + catat `form.errors` (tampilkan di template!).
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

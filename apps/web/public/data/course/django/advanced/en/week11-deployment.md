@@ -31,7 +31,8 @@ gunicorn store.wsgi
 ## Beginner Friendly Explanation
 
 ### Analogy: Open Django Branch
-- See Program: run the commands, change 1 thing, see the difference.
+- **`runserver` = pushcart**: nice for roaming (dev), forbidden for permanent branches (1 buyer, dies when the laptop closes!).
+- **`gunicorn` = shophouse + staff**: serves many buyers together + lives on. `collectstatic` = moves paint/banners (CSS) into 1 warehouse so the production shophouse finds them. `DEBUG=False` + env = branch vault keys!
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).

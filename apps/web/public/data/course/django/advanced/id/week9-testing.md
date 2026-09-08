@@ -40,7 +40,8 @@ class ProdukTest(TestCase):
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Dapur Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`TestCase` = dapur uji terpisah**: tiap test mulai DB kosong + selesai dibuang — test tak cemari data asli/toko buka.
+- **`self.client` = pelanggan bohongan**: klik/get/post beneran lewat URL, `assertEqual` cicip status + isi. Merah = resep rusak, betulkan SEBELUM pelanggan komplain.
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

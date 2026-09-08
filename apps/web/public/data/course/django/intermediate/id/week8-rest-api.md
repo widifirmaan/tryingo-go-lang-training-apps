@@ -59,7 +59,8 @@ Buka `http://localhost:8000/api/produk/` → JSON.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Drive-Thru JSON Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **ViewSet = 1 loket layani 5 keperluan** (lihat daftar, lihat 1, tambah, ubah, hapus) — tanpa tulis 5 fungsi.
+- **Router = papan nomor antre otomatis**: daftarkan ViewSet 1 baris → URL `/api/produk/`, `/api/produk/1/` jadi sendiri.
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

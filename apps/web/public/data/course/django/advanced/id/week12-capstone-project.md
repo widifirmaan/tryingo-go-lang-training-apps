@@ -28,7 +28,8 @@ Struktur: `warung/models.py`, `warung/views.py`, `warung/serializers.py`, `warun
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **11 minggu = bangun bagian**: rak (models), pelayan (views), meja (templates), KTP (auth), drive-thru (API).
+- **Capstone = grand opening**: semua bagian buka bareng + diuji (`test` hijau) + cabang online (deploy). Satu saja mogok → opening gagal — makanya checklist!
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

@@ -31,7 +31,8 @@ gunicorn toko.wsgi
 ## Penjelasan untuk Pemula
 
 ### Analogi: Buka Cabang Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`runserver` = gerobak dorong**: enak keliling (dev), haram untuk cabang tetap (1 pembeli, mati saat tutup laptop!).
+- **`gunicorn` = ruko + pegawai**: layani banyak pembeli bareng + hidup terus. `collectstatic` = pindahkan cat/spanduk (CSS) ke 1 gudang agar ruko produksi ketemu. `DEBUG=False` + env = kunci brankas cabang!
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

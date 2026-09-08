@@ -48,7 +48,8 @@ def admin_warung(request):
 ## Penjelasan untuk Pemula
 
 ### Analogi: KTP Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`authenticate()` = cocokkan KTP + password** di buku warga; cocok → `login()` tempel gelang session di tangan browser.
+- **`@login_required` = satpam pintu**: tak bergelang → tendang ke `/login/` + ingat tujuan awal (`?next=/admin/`).
 
 ### Langkah 0 — Siapkan Device
 - Sama Django W1: `runserver` di `8000` (+ paket minggu ini).

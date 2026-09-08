@@ -35,7 +35,8 @@ def list(request):
 ## Beginner Friendly Explanation
 
 ### Analogy: Fast Django Drawer
-- See Program: run the commands, change 1 thing, see the difference.
+- **No cache = every buyer asks the warehouse**: 100x/minute → warehouse (DB) overheats, store slows.
+- **`cache.get` checks the drawer first**: hit → 0.1ms; miss → compute once → `cache.set(key, data, 60)` → next 99 buyers from drawer. Key + seconds = drawer name + expiry!
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).

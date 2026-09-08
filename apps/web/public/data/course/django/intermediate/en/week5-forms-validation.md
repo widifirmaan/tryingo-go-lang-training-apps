@@ -46,7 +46,8 @@ def add(request):
 ## Beginner Friendly Explanation
 
 ### Analogy: Model-Connected Form
-- See Program: run the commands, change 1 thing, see the difference.
+- **ModelForm = form photocopied from the model card**: change the model (add a `stock` field) → the form follows, no new HTML.
+- **`is_valid()` = cashier check**: empty/wrong format → reject + record `form.errors` (show in template!).
 
 ### Step 0 — Prepare Device
 - Same as Django W1: `runserver` on `8000` (+ this week's package).
