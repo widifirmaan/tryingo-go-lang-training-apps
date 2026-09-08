@@ -16,6 +16,32 @@ Without tests, editing `Card` → missing price found by customers. With `render
 
 ## Program
 
+```bash
+# 1. Install (Vite doesn't ship these!)
+npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
+
+```javascript
+// vitest.config.js — MANDATORY for JSX + fake DOM
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react"; // already in Vite template
+
+export default defineConfig({
+  plugins: [react()],
+  test: { environment: "jsdom", setupFiles: ["./test-setup.js"] },
+});
+```
+
+```javascript
+// test-setup.js — MANDATORY so toBeInTheDocument() is known!
+import "@testing-library/jest-dom";
+```
+
+```json
+// package.json — add script:
+{ "scripts": { "test": "vitest run" } }
+```
+
 ```jsx
 // Card.jsx
 export function Card({ name }){ return <div>{name}</div>; }

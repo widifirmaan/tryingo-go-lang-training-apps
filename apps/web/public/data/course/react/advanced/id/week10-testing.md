@@ -16,6 +16,32 @@ Tanpa uji, ubah `Card` → harga hilang ketahuan pelanggan. Dengan `render` + `s
 
 ## Program
 
+```bash
+# 1. Install (Vite belum bawa ini!)
+npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
+```
+
+```javascript
+// vitest.config.js — WAJIB agar JSX + DOM palsu jalan
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react"; // sudah ada di template Vite
+
+export default defineConfig({
+  plugins: [react()],
+  test: { environment: "jsdom", setupFiles: ["./test-setup.js"] },
+});
+```
+
+```javascript
+// test-setup.js — WAJIB agar toBeInTheDocument() dikenal!
+import "@testing-library/jest-dom";
+```
+
+```json
+// package.json — tambah script:
+{ "scripts": { "test": "vitest run" } }
+```
+
 ```jsx
 // Card.jsx
 export function Card({ nama }){ return <div>{nama}</div>; }
