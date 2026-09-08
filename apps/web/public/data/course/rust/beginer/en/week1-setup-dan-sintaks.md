@@ -52,7 +52,23 @@ fn main() {
     let x = x + 1; // new box, not a change
     println!("x shadow: {}", x);
 
+    // 4. Express: if/loop/functions (à la Rust Book Ch3 — mandatory before W2!)
+    let stock = 3;
+    if stock > 0 {
+        println!("Stock present: {}", stock);
+    } else {
+        println!("Gone!");
+    }
+    for i in 1..=3 {
+        println!("Count: {}", i);
+    }
+    println!("Discount: {}", discount(62000, 10));
+
     println!("\nTool: cargo run (run), cargo fmt (tidy), cargo build (print binary)");
+}
+
+fn discount(price: i32, pct: i32) -> i32 {
+    price - price * pct / 100 // no ; = return!
 }
 ```
 
@@ -100,6 +116,7 @@ fn main() {
 1. **let/mut**: locked/changeable
 2. **String/&str**: own/borrow
 3. **cargo**: worker
+4. **if/for/fn**: decide/repeat/recipe (no `;` = return!)
 
 ---
 
