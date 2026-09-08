@@ -1,91 +1,106 @@
-# Capstone: Warung PHP Lengkap — Toko Online Jadi
+# Capstone: Complete PHP Shop — Finished Online Store
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 12:** Capstone: Aplikasi Blog
+> **Kategori:** PHP | **Level:** Intermediate | **Minggu 12:** Capstone: Aplikasi Blog
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W11: `OOP` kartu + `PDO` gudang + `Composer` alat + `PHPUnit` uji + `satpam` jadi toko `produk` CRUD + `deploy`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung jadi produk nyata yang bisa dibuka HP + lulus uji. Ini portfolio "PHP production-ready".
+- Combine W1-W11: `OOP` cards + `PDO` warehouse + `Composer` tools + `PHPUnit` tests + `guard` into a store with product `CRUD` + `deploy`
 
 ---
 
-## Program: Toko Warung Capstone (Struktur)
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combination into a real product openable on phones + passing tests. Your "production-ready PHP" portfolio.
+
+---
+
+## Program: Capstone Shop Store (Structure)
 
 ```
-warung/
-  composer.json (autoload App\ → src/)
-  public/index.php (pintu: route ?halaman=)
-  src/Produk.php (OOP kartu)
-  src/Keranjang.php (OOP + PDO simpan)
-  tests/WarungTest.php (PHPUnit 5 test)
+shop/
+  composer.json (autoload App\\ → src/)
+  public/index.php (door: route ?page=)
+  src/Product.php (OOP card)
+  src/Cart.php (OOP + PDO save)
+  tests/ShopTest.php (PHPUnit 5 tests)
 ```
 
 ```php
-// public/index.php — pintu + satpam + gudang
+// public/index.php — door + guard + warehouse
 <?php
 require __DIR__ . "/../vendor/autoload.php";
-$pdo = new PDO("mysql:host=localhost;dbname=warung;charset=utf8mb4", "root", "",
+$pdo = new PDO("mysql:host=localhost;dbname=shop;charset=utf8mb4", "root", "",
   [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-$halaman = $_GET["halaman"] ?? "daftar";
-if ($halaman === "daftar") {
-  $stmt = $pdo->query("SELECT * FROM produk ORDER BY nama");
-  foreach ($stmt as $p) echo "<div>" . htmlspecialchars($p["nama"]) . " Rp" . $p["harga"] . "</div>";
-} elseif ($halaman === "tambah" && $_SERVER["REQUEST_METHOD"] === "POST") {
-  $nama = trim($_POST["nama"] ?? "");
-  if ($nama === "" || (int)$_POST["harga"] <= 0) die("Data salah");
-  $ins = $pdo->prepare("INSERT INTO produk (nama, harga) VALUES (?, ?)");
-  $ins->execute([$nama, (int)$_POST["harga"]]);
-  header("Location: ?halaman=daftar");
+$page = $_GET["page"] ?? "list";
+if ($page === "list") {
+  $stmt = $pdo->query("SELECT * FROM products ORDER BY name");
+  foreach ($stmt as $p) echo "<div>" . htmlspecialchars($p["name"]) . " Rp" . $p["price"] . "</div>";
+} elseif ($page === "add" && $_SERVER["REQUEST_METHOD"] === "POST") {
+  $name = trim($_POST["name"] ?? "");
+  if ($name === "" || (int)$_POST["price"] <= 0) die("Bad data");
+  $ins = $pdo->prepare("INSERT INTO products (name, price) VALUES (?, ?)");
+  $ins->execute([$name, (int)$_POST["price"]]);
+  header("Location: ?page=list");
 }
 ?>
-<form method="post" action="?halaman=tambah">
-  <input name="nama" required> <input name="harga" type="number" min="1" required>
-  <button>Tambah</button>
+<form method="post" action="?page=add">
+  <input name="name" required> <input name="price" type="number" min="1" required>
+  <button>Add</button>
 </form>
 ```
 
 ```bash
 php -S localhost:8000 -t public
-./vendor/bin/phpunit tests  # HIJAU 5/5?
+./vendor/bin/phpunit tests  # GREEN 5/5?
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 11 Minggu
-OOP + PDO + Composer + uji + satpam = 1 toko.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grand Opening
-- **W1-W6 fondasi** + **W7-W11 mesin** = toko. **W12 = buka**.
-
-### 3 Istilah Wajib
-1. **Capstone/deploy**: gabung/buka
+### Capstone = Combine 11 Weeks
+OOP + PDO + Composer + tests + guard = 1 store.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Grand Opening Warung PHP:** CRUD jalan + satpam (XSS/SQLi gagal) + PHPUnit 5 hijau + screenshot. **Selesai PHP 0→Ahli!** 🎉
+### Analogy: Grand Opening
+- **W1-W6 foundation** + **W7-W11 engine** = store. **W12 = open**.
+
+### Step 0 — Prepare Device
+- `php -S localhost:8000 -t public` + `./vendor/bin/phpunit`.
+
+### How the Computer Reads It
+1. `?page=list` → `query` → HTML list.
+2. POST `?page=add` → validate → `prepare` INSERT → redirect.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy**: combine/open
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Capstone**: gabung semua
+- **Green:** `?page=list` shows products?
+- **Yellow:** POST empty name → "Bad data"?
+- **Red:** Raw `$_POST` echoed → XSS? `htmlspecialchars` it.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 12 dari 12: **Grand Opening** (Level: Menengah). **Selesai PHP 0→Ahli dari nol!** 🎉
+**PHP Shop Grand Opening:** Working CRUD + guard (XSS/SQLi fail) + 5 green PHPUnit + screenshot. **PHP 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone**: combine all
+
+---
+
+## Summary
+
+Week 12 of 12: **Grand Opening** (Level: Intermediate). **PHP 0→Expert from zero DONE!** 🎉

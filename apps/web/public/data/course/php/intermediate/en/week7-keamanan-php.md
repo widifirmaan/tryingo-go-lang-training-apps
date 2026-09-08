@@ -1,101 +1,101 @@
-# Keamanan PHP — Satpam Warung Anti-Bajak
+# PHP Security — Anti-Hijack Shop Guard
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 7:** Keamanan PHP
+> **Kategori:** PHP | **Level:** Intermediate | **Minggu 7:** Keamanan PHP
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `htmlspecialchars()` anti-XSS, `PDO prepare` anti-SQL-injection, `password_hash()` brankas, `session_regenerate_id()` anti-bajak sesi (sumber: php.net/security)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung tanpa satpam: hacker kirim `<script>` di nama → admin buka → password dicuri (XSS). Ketik `' OR 1=1` di login → masuk tanpa password (SQL injection). 2 fungsi cegah 90% serangan.
+- `htmlspecialchars()` anti-XSS, `PDO prepare` anti-SQL-injection, `password_hash()` vault, `session_regenerate_id()` anti-session-hijack (source: php.net/security)
 
 ---
 
-## Program: Satpam Warung PHP
+## Why This Matters (Non-IT)
+
+Shops without guards: hackers submit `<script>` in names → admin opens → passwords stolen (XSS). Typing `' OR 1=1` in login → entry without password (SQL injection). 2 functions stop 90% of attacks.
+
+---
+
+## Program: PHP Shop Guard
 
 ```php
 <?php
-// 1. XSS: cuci output
-$nama = '<script>alert("bajak")</script>Budi';
-echo htmlspecialchars($nama, ENT_QUOTES, 'UTF-8'); // tampil mentah, tidak jalan!
+// 1. XSS: wash output
+$name = '<script>alert("hijack")</script>Budi';
+echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); // shows raw, never runs!
 
-// 2. SQL injection: JANGAN tempel string!
-// $sql = "SELECT * FROM user WHERE nama = '$nama'"; // BAHAYA!
-$pdo = new PDO("mysql:host=localhost;dbname=warung", "root", "");
-$stmt = $pdo->prepare("SELECT * FROM user WHERE nama = ?"); // ? = lubang aman
-$stmt->execute([$nama]); // kirim terpisah, tidak bisa suntik
+// 2. SQL injection: NEVER glue strings!
+// $sql = "SELECT * FROM user WHERE name = '$name'"; // DANGER!
+$pdo = new PDO("mysql:host=localhost;dbname=shop", "root", "");
+$stmt = $pdo->prepare("SELECT * FROM user WHERE name = ?"); // ? = safe hole
+$stmt->execute([$name]); // sent separately, can't inject
 
-// 3. Password: JANGAN md5/sha1!
-$hash = password_hash("rahasia123", PASSWORD_DEFAULT); // $2y$... acak
-var_dump(password_verify("rahasia123", $hash)); // true
-var_dump(password_verify("salah", $hash));      // false
+// 3. Password: NEVER md5/sha1!
+$hash = password_hash("secret123", PASSWORD_DEFAULT); // $2y$... random
+var_dump(password_verify("secret123", $hash)); // true
+var_dump(password_verify("wrong", $hash));      // false
 
-// 4. Sesi: ganti kunci setelah login
+// 4. Session: swap keys after login
 session_start();
 $_SESSION["user"] = "Budi";
-session_regenerate_id(true); // kunci baru, kunci lama hangus
+session_regenerate_id(true); // new key, old key dead
 ?>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `htmlspecialchars` = Cuci Output
-Ubah `<` jadi `&lt;` — script tidak jalan. Pakai di SEMUA `echo` data user.
+### `htmlspecialchars` = Wash Output
+Turns `<` into `&lt;` — scripts never run. Use on ALL user-data `echo`s.
 
-### `prepare` + `?` = Lubang Aman
-Query + data dikirim terpisah — suntikan jadi teks biasa.
+### `prepare` + `?` = Safe Holes
+Query + data sent separately — injections become plain text.
 
-### `password_hash`/`verify` = Brankas
-`PASSWORD_DEFAULT` (bcrypt) acak tiap hash. Verifikasi pakai `verify`, bukan `==`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Satpam 3 Lapis
-- **htmlspecialchars = cuci tangan**: bersihkan sebelum saji.
-- **prepare = loket kaca**: uang lewat lubang kecil, perampok tidak masuk.
-- **hash = brankas**: password jadi acak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + MySQL jalan untuk PDO test.
-
-### Cara Komputer Membaca
-1. `prepare("... ? ...")` → MySQL compile pola.
-2. `execute([$nama])` → kirim data terpisah → tidak bisa ubah pola.
-
-### 3 Istilah Wajib
-1. **XSS/SQLi**: suntik-script/suntik-SQL
-2. **prepare/hash**: lubang/brankas
+### `password_hash`/`verify` = Vault
+`PASSWORD_DEFAULT` (bcrypt) random per hash. Verify with `verify`, not `==`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `htmlspecialchars('<b>x</b>')` → `&lt;b&gt;`?
-- **Kuning:** Login `' OR '1'='1` via prepare → gagal (aman)?
-- **Merah:** `md5("123")` selalu `202cb9...` (sama → brute force mudah)? `password_hash` 2x beda?
+### Analogy: 3-Layer Guard
+- **htmlspecialchars = wash hands**: clean before serving.
+- **prepare = glass counter**: money passes a small hole, robbers can't enter.
+- **hash = vault**: passwords become random.
+
+### Step 0 — Prepare Device
+- Same as W1 + running MySQL for the PDO test.
+
+### How the Computer Reads It
+1. `prepare("... ? ...")` → MySQL compiles the pattern.
+2. `execute([$name])` → sends data separately → can't reshape the pattern.
+
+### 3 Must-Know Terms
+1. **XSS/SQLi**: script-injection/SQL-injection
+2. **prepare/hash**: hole/vault
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Bersatpam:** Form login (`htmlspecialchars` tampil + `prepare` cek + `password_verify` + `session_regenerate_id`) → coba bajak diri sendiri 3 cara, semua gagal.
-
----
-
-## Glosarium Mini
-
-- **XSS/SQLi/CSRF**: suntik script/SQL/palsu-request
-- **prepare/hash/session**: lubang/brankas/kunci
+- **Green:** `htmlspecialchars('<b>x</b>')` → `&lt;b&gt;`?
+- **Yellow:** Login `' OR '1'='1` via prepare → fails (safe)?
+- **Red:** `md5("123")` always `202cb9...` (same → easy brute force)? `password_hash` twice differs?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7 dari 12: **Satpam Anti-Bajak** (Level: Menengah). 90% serangan tertahan. Minggu depan: **PDO** — supir database.
+**Guarded Shop:** Login form (`htmlspecialchars` display + `prepare` check + `password_verify` + `session_regenerate_id`) → hijack yourself 3 ways, all fail.
+
+---
+
+## Mini Glossary
+
+- **XSS/SQLi/CSRF**: script/SQL/fake-request injection
+- **prepare/hash/session**: hole/vault/key
+
+---
+
+## Summary
+
+Week 7 of 12: **Anti-Hijack Guard** (Level: Intermediate). 90% of attacks stopped. Next: **PDO** — database driver.

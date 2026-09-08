@@ -1,115 +1,115 @@
-# Testing PHPUnit — Cicip Warung Beneran
+# PHPUnit Testing — Real Taste-Test
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 10:** Testing dengan PHPUnit
+> **Kategori:** PHP | **Level:** Intermediate | **Minggu 10:** Testing dengan PHPUnit
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `composer require --dev phpunit/phpunit` + `./vendor/bin/phpunit` jalan beneran (sumber: phpunit.de)
-- `TestCase` + `assertEquals` + `expectException` (bukan simulasi `echo`!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Simulasi `echo` tidak menangkap bug (selalu "lulus" karena tidak dicek mesin). PHPUnit beneran: ubah rumus → merah → perbaiki. Tanpa ini, "testing" hanya pajangan.
+- `composer require --dev phpunit/phpunit` + `./vendor/bin/phpunit` truly runs (source: phpunit.de)
+- `TestCase` + `assertEquals` + `expectException` (not `echo` simulation!)
 
 ---
 
-## Program: Cicip Beneran PHPUnit
+## Why This Matters (Non-IT)
+
+`echo` simulation catches no bugs (always "passes" since never machine-checked). Real PHPUnit: change formula → red → fix. Without it, "testing" is decoration.
+
+---
+
+## Program: Real PHPUnit Taste-Test
 
 ```bash
 composer require --dev phpunit/phpunit
 ```
 
 ```php
-// src/Kasir.php (dari W9)
+// src/Cashier.php (from W9)
 <?php
 namespace App;
-class Kasir {
+class Cashier {
   public function total(array $items): int {
     $s = 0;
-    foreach ($items as $i) $s += $i["harga"] * $i["qty"];
+    foreach ($items as $i) $s += $i["price"] * $i["qty"];
     return $s;
   }
-  public function bagi(float $a, float $b): float {
-    if ($b == 0) throw new \InvalidArgumentException("Tidak bisa bagi 0");
+  public function divide(float $a, float $b): float {
+    if ($b == 0) throw new \InvalidArgumentException("Can't divide by 0");
     return $a / $b;
   }
 }
 ```
 
 ```php
-// tests/KasirTest.php — NAMA *Test.php!
+// tests/CashierTest.php — *Test.php NAME!
 <?php
 use PHPUnit\Framework\TestCase;
-use App\Kasir;
+use App\Cashier;
 
-class KasirTest extends TestCase {
+class CashierTest extends TestCase {
   public function testTotal(): void {
-    $k = new Kasir();
-    $this->assertEquals(72000, $k->total([["harga"=>62000,"qty"=>1],["harga"=>5000,"qty"=>2]]));
+    $k = new Cashier();
+    $this->assertEquals(72000, $k->total([["price"=>62000,"qty"=>1],["price"=>5000,"qty"=>2]]));
   }
 
-  public function testBagiNol(): void {
+  public function testDivideZero(): void {
     $this->expectException(\InvalidArgumentException::class);
-    (new Kasir())->bagi(10, 0);
+    (new Cashier())->divide(10, 0);
   }
 }
 ```
 
 ```bash
 ./vendor/bin/phpunit tests
-# OK (2 tests, 3 assertions) — HIJAU beneran
+# OK (2 tests, 3 assertions) — GREEN for real
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `TestCase` + `assertEquals` = Cicip Mesin
-`assertEquals(72000, hasil)` — beda → merah + baris salah.
+### `TestCase` + `assertEquals` = Machine Taste
+`assertEquals(72000, result)` — mismatch → red + wrong line.
 
-### `expectException` = Harapkan Meledak
-Uji `bagi(10,0)` HARUS meledak `InvalidArgumentException`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Cicip Dapur
-- **Test = cicip**: masak → cicip mesin → pas? Saji.
-
-### Langkah 0 — Siapkan Device
-- `composer require --dev phpunit/phpunit` + folder `tests/`.
-
-### Cara Komputer Membaca
-1. `./vendor/bin/phpunit tests` → cari `*Test.php` → jalankan `test*` → lapor hijau/merah.
-
-### 3 Istilah Wajib
-1. **TestCase/assert**: dapur-uji/cicip
+### `expectException` = Expect Explosion
+Tests `divide(10,0)` MUST explode `InvalidArgumentException`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Ubah `total` jadi `-` → merah? Betulkan.
-- **Kuning:** Hapus `expectException` → test `bagi(10,0)` error (bukan lulus)?
-- **Merah:** File `KasirCoba.php` (tanpa Test) → tidak jalan? Ganti `KasirTest.php`.
+### Analogy: Kitchen Taste
+- **Test = taste**: cook → machine tastes → fits? Serve.
 
----
+### Step 0 — Prepare Device
+- `composer require --dev phpunit/phpunit` + `tests/` folder.
 
-## Tantangan
+### How the Computer Reads It
+1. `./vendor/bin/phpunit tests` → finds `*Test.php` → runs `test*` → reports green/red.
 
-**Warung Teruji:** `Kasir::diskon($total, $persen)` + 3 test (normal/0%/100%) → `./vendor/bin/phpunit` HIJAU 5/5.
-
----
-
-## Glosarium Mini
-
-- **PHPUnit/TestCase/assert**: dapur-uji/cicip
+### 3 Must-Know Terms
+1. **TestCase/assert**: test-kitchen/taste
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 10 dari 12: **Cicip Beneran** (Level: Menengah). Tanpa simulasi. Minggu depan: **Patterns**.
+- **Green:** Change `total` to `-` → red? Fix it.
+- **Yellow:** Remove `expectException` → `divide(10,0)` test errors (not passes)?
+- **Red:** File `CashierTry.php` (no Test) → not run? Rename to `CashierTest.php`.
+
+---
+
+## Challenge
+
+**Tested Shop:** `Cashier::discount($total, $pct)` + 3 tests (normal/0%/100%) → `./vendor/bin/phpunit` GREEN 5/5.
+
+---
+
+## Mini Glossary
+
+- **PHPUnit/TestCase/assert**: test-kitchen/taste
+
+---
+
+## Summary
+
+Week 10 of 12: **Real Tasting** (Level: Intermediate). No simulation. Next: **Patterns**.
