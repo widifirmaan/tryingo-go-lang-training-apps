@@ -1,83 +1,95 @@
-# Utility Types — Alat Potong Warung (typescriptlang.org)
+# Utility Types — Shop Cutting Tools (typescriptlang.org)
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 7:** Utility Types
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 7:** Utility Types
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Pick<Produk, "nama" | "harga">` ambil 2, `Omit<Produk, "stok">` buang 1, `Partial` jadi opsional, `Required` wajib (sumber: typescriptlang.org/docs/handbook/utility-types)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Produk punya 5 field, tapi kartu ringkas hanya butuh `nama` + `harga` — tanpa `Pick`, tulis ulang `interface Ringkas { nama, harga }` duplikat. Dengan `Pick`, 1 baris.
+- `Pick<Product, "name" | "price">` take 2, `Omit<Product, "stock">` drop 1, `Partial` all-optional, `Required` all-required (source: typescriptlang.org/docs/handbook/utility-types)
 
 ---
 
-## Program: Alat Potong Warung (typescriptlang.org)
+## Why This Matters (Non-IT)
+
+Products have 5 fields, but the brief card only needs `name` + `price` — without `Pick`, rewrite `interface Brief { name, price }` duplicated. With `Pick`, 1 line.
+
+---
+
+## Program: Shop Cutting Tools (typescriptlang.org)
 
 ```typescript
-interface Produk { id: number; nama: string; harga: number; stok: number; kategori: string; }
+interface Product { id: number; name: string; price: number; stock: number; category: string; }
 
-type Ringkas = Pick<Produk, "nama" | "harga">; // hanya nama & harga
-const r: Ringkas = { nama: "Beras", harga: 62000 };
+type Brief = Pick<Product, "name" | "price">; // only name & price
+const r: Brief = { name: "Rice", price: 62000 };
 
-type TanpaStok = Omit<Produk, "stok">; // semua kecuali stok
-type Opsional = Partial<Produk>; // semua jadi ?
-type Wajib = Required<Opsional>; // semua wajib lagi
+type NoStock = Omit<Product, "stock">; // everything except stock
+type Optional = Partial<Product>; // all become ?
+type Mandatory = Required<Optional>; // all required again
 
-// Contoh warung: update hanya nama
-function update(produk: Produk, patch: Partial<Produk>): Produk {
-  return { ...produk, ...patch };
+// Shop example: update only name
+function update(product: Product, patch: Partial<Product>): Product {
+  return { ...product, ...patch };
 }
-console.log(update({ id: 1, nama: "Beras", harga: 62000, stok: 10, kategori: "Sembako" }, { harga: 65000 }));
+console.log(update({ id: 1, name: "Rice", price: 62000, stock: 10, category: "Staples" }, { price: 65000 }));
 ```
 
-**Sumber:** `typescriptlang.org/docs/handbook/utility-types` — `Pick`, `Omit`, `Partial`.
+**Source:** `typescriptlang.org/docs/handbook/utility-types` — `Pick`, `Omit`, `Partial`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Pick`/`Omit` = Potong
-`Pick` ambil, `Omit` buang.
+### `Pick`/`Omit` = Cut
+`Pick` takes, `Omit` drops.
 
-### `Partial`/`Required` = Opsional/Wajib
-`Partial` semua `?`, `Required` semua wajib.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Alat Potong Kertas
-
-- **`Pick` = gunting**: potong `nama` dan `harga` saja.
-- **`Omit` = buang**: buang `stok`.
-- **`Partial` = pensil tipis**: semua opsional.
-
-### Langkah 0 — Device
-
-`npx tsc` cek, `tsc --version` 5.x (sudah W1).
-
-### 3 Istilah Wajib
-
-1. **Pick/Omit**: ambil/buang
-2. **Partial/Required**: opsional/wajib
+### `Partial`/`Required` = Optional/Mandatory
+`Partial` all `?`, `Required` all required.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Warung Potong Lengkap:** `Produk` 5 field → `Ringkas = Pick<Produk, "nama"|"harga">` + `TanpaStok = Omit<Produk,"stok">` + `update(produk, Partial<Produk>)`.
+### Analogy: Paper Cutting Tools
+
+- **`Pick` = scissors**: cut `name` and `price` only.
+- **`Omit` = discard**: drop `stock`.
+- **`Partial` = light pencil**: all optional.
+
+### Step 0 — Prepare Device
+
+`npx tsc` check, `tsc --version` 5.x (done in W1).
+
+### How the Computer Reads It
+1. `Pick<Product, "name"|"price">` → new type with only those 2 fields.
+2. `update(p, { price: 65000 })` → `Partial` allows subset → merged object still full `Product`.
+
+### 3 Must-Know Terms
+
+1. **Pick/Omit**: take/drop
+2. **Partial/Required**: optional/mandatory
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Pick/Omit/Partial**: potong/buang/opsional
+- **Green:** `Pick<Product,"name">` → object with only `name` valid?
+- **Yellow:** `Omit<Product,"stock"|"category">` → drops both?
+- **Red:** Full `Product` assigned to `Brief` → extra fields error? Trim.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7 dari 12: **Alat Potong** — `Pick`/`Omit`. Minggu depan: **Config**.
+**Complete Cutting Shop:** `Product` 5 fields → `Brief = Pick<Product, "name"|"price">` + `NoStock = Omit<Product,"stock">` + `update(product, Partial<Product>)`.
+
+---
+
+## Mini Glossary
+
+- **Pick/Omit/Partial**: cut/drop/optional
+
+---
+
+## Summary
+
+Week 7 of 12: **Cutting Tools** — `Pick`/`Omit`. Next: **Config**.
