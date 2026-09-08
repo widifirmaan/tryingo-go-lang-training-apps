@@ -1,92 +1,99 @@
-# Testing & Error — Cicip Restoran GraphQL
+# Testing & Errors — Taste-Test GraphQL Restaurant
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 9:** Testing & Error Handling
+> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 9:** Testing & Error Handling
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Uji resolver langsung (tanpa server): `Query.produk()` + `expect` (vitest)
-- Error rapi: `throw new GraphQLError("...", { extensions: { code: "TIDAK_ADA" } })` (bukan `Error` mentah)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa uji, ubah resolver → HP crash ketahuan pelanggan. Tanpa kode error, HP tidak tahu "tidak ada" vs "server mati" (pesan beda!). 
+- Test resolvers directly (no server): `Query.products()` + `expect` (vitest)
+- Neat errors: `throw new GraphQLError("...", { extensions: { code: "NOT_FOUND" } })` (not raw `Error`)
 
 ---
 
-## Program: Cicip Dapur GraphQL
+## Why This Matters (Non-IT)
+
+Without tests, resolver edits → phone crashes found by customers. Without error codes, phones can't tell "missing" vs "server dead" (different messages!).
+
+---
+
+## Program: Taste-Test GraphQL Kitchen
 
 ```javascript
 // resolvers.test.js
 import { test, expect } from "vitest";
 import { resolvers } from "./resolvers.js";
 
-test("produk ada 2", async () => {
-  const hasil = await resolvers.Query.produk();
-  expect(hasil.length).toBe(2);
+test("2 products present", async () => {
+  const result = await resolvers.Query.products();
+  expect(result.length).toBe(2);
 });
 
-test("tambah tanpa nama ditolak", async () => {
-  await expect(resolvers.Mutation.tambahProduk(null, {}))
-    .rejects.toThrow("Nama wajib");
+test("nameless add rejected", async () => {
+  await expect(resolvers.Mutation.addProduct(null, {}))
+    .rejects.toThrow("Name required");
 });
 ```
 
 ```javascript
-// Error berkode (bukan mentah!)
+// Coded errors (not raw!)
 const { GraphQLError } = require("graphql");
-if (!produk) {
-  throw new GraphQLError("Produk tidak ada", {
-    extensions: { code: "TIDAK_ADA", id },
+if (!product) {
+  throw new GraphQLError("Product missing", {
+    extensions: { code: "NOT_FOUND", id },
   });
 }
-// HP baca: errors[0].extensions.code === "TIDAK_ADA" → tampil "habis"
+// Phone reads: errors[0].extensions.code === "NOT_FOUND" → shows "gone"
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Uji Resolver = Cicip Dapur
-Panggil fungsi langsung + `expect` — tanpa `node server.js`.
+### Test Resolver = Taste Kitchen
+Call functions directly + `expect` — no `node server.js`.
 
-### `GraphQLError` + `extensions.code` = Alarm Berkode
-HP bedakan `TIDAK_ADA` (tampil habis) vs `SERVER_MATI` (coba lagi).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Cicip + Alarm Kebakaran
-- **Test = cicip**: masak → cicip mesin.
-- **extensions.code = jenis alarm**: kebakaran vs pintu.
-
-### 3 Istilah Wajib
-1. **vitest/GraphQLError**: cicip/alarm-berkode
+### `GraphQLError` + `extensions.code` = Coded Alarm
+Phones distinguish `NOT_FOUND` (show gone) vs `SERVER_DOWN` (retry).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Ubah resolver rusak → test merah?
-- **Kuning:** `Error` mentah vs `GraphQLError` → HP terima `extensions`?
-- **Merah:** Test tanpa `await` → lulus palsu? (Promise tidak ditunggu!)
+### Analogy: Taste + Fire Alarm
+- **Test = taste**: cook → machine tastes.
+- **extensions.code = alarm kind**: fire vs door.
 
----
+### Step 0 — Prepare Device
+- `resolvers.js` from W4 + `npm install -D vitest`, run `npx vitest run`.
 
-## Tantangan
+### How the Computer Reads It
+1. `test(...)` calls resolver directly → asserts result.
+2. `GraphQLError` with `code` → client reads `errors[0].extensions.code`.
 
-**Restoran Teruji:** 4 test (Query 2 + Mutation 1 + error 1) HIJAU + 2 `extensions.code` beda.
-
----
-
-## Glosarium Mini
-
-- **vitest/GraphQLError**: cicip/alarm
+### 3 Must-Know Terms
+1. **vitest/GraphQLError**: taste/coded-alarm
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 9 dari 10: **Cicip Berkode** (Level: Menengah). Ubah berani. Minggu depan: **Capstone**.
+- **Green:** Break resolver → test red?
+- **Yellow:** Raw `Error` vs `GraphQLError` → does phone receive `extensions`?
+- **Red:** Test without `await` → fake pass? (Promise unawaited!)
+
+---
+
+## Challenge
+
+**Tested Restaurant:** 4 tests (2 Queries + 1 Mutation + 1 error) GREEN + 2 different `extensions.code`s.
+
+---
+
+## Mini Glossary
+
+- **vitest/GraphQLError**: taste/alarm
+
+---
+
+## Summary
+
+Week 9 of 10: **Coded Tasting** (Level: Intermediate). Edit boldly. Next: **Capstone**.

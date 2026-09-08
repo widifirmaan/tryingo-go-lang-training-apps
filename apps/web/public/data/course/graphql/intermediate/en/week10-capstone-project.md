@@ -1,59 +1,84 @@
-# Capstone: E-Commerce GraphQL — Restoran Grand Opening
+# Capstone: GraphQL E-Commerce — Restaurant Grand Opening
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce GraphQL
+> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce GraphQL
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W9: `schema` + `resolvers` + `auth` + `DataLoader` + `subscription` + `test` jadi toko GraphQL produksi
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-9 minggu terpisah — capstone buktikan gabung: HP hemat kuota (pilih field) + cepat (DataLoader) + live (subscription) + aman (auth) + teruji. Portfolio "GraphQL production-ready".
+- Combine W1-W9: `schema` + `resolvers` + `auth` + `DataLoader` + `subscription` + `test` into a production GraphQL store
 
 ---
 
-## Program: Restoran Lengkap (Checklist)
+## Why This Matters (Non-IT)
+
+9 separate weeks — capstone proves the combination: data-saving phones (picked fields) + fast (DataLoader) + live (subscription) + safe (auth) + tested. Your "production-ready GraphQL" portfolio.
+
+---
+
+## Program: Complete Restaurant (Checklist)
 
 ```javascript
-// server.js — gabung semua
-// typeDefs: Produk, Query (produk + args), Mutation (tambah/ubah/hapus + login), Subscription (stokHabis)
-// resolvers: Query + Mutation (auth cek!) + Subscription + Produk.kategori (DataLoader!)
+// server.js — combine all
+// typeDefs: Product, Query (products + args), Mutation (add/edit/delete + login), Subscription (outOfStock)
+// resolvers: Query + Mutation (auth check!) + Subscription + Product.category (DataLoader!)
 // context: JWT → user
-// test: 4 hijau
+// test: 4 green
 ```
 
-Fitur wajib:
-- [ ] `query` pilih field + argumen + fragment
-- [ ] `mutation` auth (tanpa token ditolak)
-- [ ] `Produk.kategori` via DataLoader (log 2 query, bukan 101)
-- [ ] `subscription stokHabis` 2 tab bunyi
-- [ ] 4 test HIJAU + deploy (`Railway`/`Vercel`)
+Required features:
+- [ ] `query` picked fields + arguments + fragment
+- [ ] `mutation` auth (rejected without token)
+- [ ] `Product.category` via DataLoader (log 2 queries, not 101)
+- [ ] `subscription outOfStock` 2 tabs ring
+- [ ] 4 GREEN tests + deploy (`Railway`/`Vercel`)
 
-**Tugas capstone:** URL publik + GraphiQL screenshot tambah produk + video 1 menit. **Selesai GraphQL 0→Ahli!** 🎉
-
----
-
-## Konsep Kunci
-
-### Capstone = Gabung 9 Minggu
-Menu + dapur + KTP + gerobak + bel + cicip = restoran.
+**Capstone task:** Public URL + GraphiQL screenshot adding a product + 1-min video. **GraphQL 0→Expert DONE!** 🎉
 
 ---
 
-## Tantangan
+## Key Concepts
 
-**Grand Opening:** Semua checklist + URL + video. **Selesai GraphQL 0→Ahli!** 🎉
-
----
-
-## Glosarium Mini
-
-- **Capstone/deploy**: gabung/buka
+### Capstone = Combine 9 Weeks
+Menu + kitchen + ID + cart + bell + taste = restaurant.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 10 dari 10: **Grand Opening** (Level: Menengah). **Selesai GraphQL 0→Ahli dari nol!** 🎉
+### Analogy: Grand Opening
+- **W1-W4 foundation** + **W6-W9 engine** = restaurant. **W10 = open**.
+
+### Step 0 — Prepare Device
+- Full server from W5-W9 + deploy target account.
+
+### How the Computer Reads It
+1. Checklist top-to-bottom → production GraphQL store.
+2. Public URL + video → portfolio done.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy**: combine/open
+
+---
+
+## Experiments
+
+- **Green:** Auth-less mutation → rejected?
+- **Yellow:** 101 queries without DataLoader → 2 with? Log proof.
+- **Red:** Subscription silent → `publish` missing? Add it.
+
+---
+
+## Challenge
+
+**Grand Opening:** All checklist + URL + video. **GraphQL 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/deploy**: combine/open
+
+---
+
+## Summary
+
+Week 10 of 10: **Grand Opening** (Level: Intermediate). **GraphQL 0→Expert from zero DONE!** 🎉
