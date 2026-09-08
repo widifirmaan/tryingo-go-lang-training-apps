@@ -133,7 +133,8 @@ Buat REST API lengkap untuk blog: CRUD posts, comments, auth dengan JWT, seriali
 ## Penjelasan untuk Pemula
 
 ### Analogi: Drive-Thru JSON Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`--api` = warung tanpa ruang makan**: buang views/assets/cookies → ringan untuk HP.
+- **`namespace :api :v1` = papan versi**: v1 jalan terus meski v2 lahir. Serializer = bungkus cantik (sembunyikan `password_digest`!), CORS = izin tamu luar domain!
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

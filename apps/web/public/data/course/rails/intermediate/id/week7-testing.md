@@ -136,7 +136,8 @@ Buat test suite lengkap untuk Post: model spec (validations), request spec (CRUD
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Dapur Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Model spec = cicip resep**: validasi + method diuji tanpa browser (cepat!).
+- **Request spec = mystery shopper**: GET/POST beneran → status + isi dicek. **System spec = food critic lengkap**: buka browser bohongan, klik, isi form, nilai. `FactoryBot` = dapur siapkan bahan uji sekali, pakai 10 test!
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

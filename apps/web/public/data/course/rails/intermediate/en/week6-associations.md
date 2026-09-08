@@ -36,7 +36,8 @@ product.orders.map(&:customer)
 ## Beginner Friendly Explanation
 
 ### Analogy: Ropes Between Racks
-- See Program: run the commands, change 1 thing, see the difference.
+- **`has_many`/`belongs_to` = two-way ropes**: customers pull their `orders`, orders know their `customer` — no hand-written JOIN SQL.
+- **`includes` = group haul**: without it 1 + N queries (101x to DB!). `has_many :through` = relay ropes (customer → order → product).
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

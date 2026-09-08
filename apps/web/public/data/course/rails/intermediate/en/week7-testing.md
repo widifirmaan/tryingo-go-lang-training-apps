@@ -136,7 +136,8 @@ Build a complete test suite for Post: model spec (validations), request spec (CR
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Kitchen Taste
-- See Program: run the commands, change 1 thing, see the difference.
+- **Model spec = taste the recipe**: validations + methods tested without browsers (fast!).
+- **Request spec = mystery shopper**: real GET/POST → status + content checked. **System spec = full food critic**: opens a fake browser, clicks, fills forms, scores. `FactoryBot` = kitchen prepping test ingredients once, used by 10 tests!
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

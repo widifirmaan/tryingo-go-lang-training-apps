@@ -127,7 +127,8 @@ Optimasi blog: detect N+1, add indexes, implement caching, add pagination. Bench
 ## Penjelasan untuk Pemula
 
 ### Analogi: Warung Kilat Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **N+1 = pelayan bolak-balik gudang 101x** untuk 100 tamu. `includes` = bawa nampan besar 2x jalan. `counter_cache` = papan hitung (tak perlu hitung ulang!).
+- **Russian-doll caching = bungkus bertingkat**: luar berubah → dalam pakai bungkus lama. Index DB = daftar isi (tanpa ini: baca 100rb baris tiap cari!).
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

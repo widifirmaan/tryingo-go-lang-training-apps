@@ -119,7 +119,8 @@ Deploy a Rails app to production: set up env vars, precompile assets, configure 
 ## Beginner Friendly Explanation
 
 ### Analogy: Open Rails Branch
-- See Program: run the commands, change 1 thing, see the difference.
+- **`localhost` = cart in front of the house**: only neighbors can buy.
+- **Deploy = renting a shophouse**: `RAILS_ENV=production` + `assets:precompile` (packs showcase) + encrypted `credentials` (keys, NOT in git!) + Kamal/Docker delivers boxes. Monitoring (Sentry) = shophouse CCTV!
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

@@ -145,7 +145,8 @@ Build an email notification system: queue email sending, retry 3x on failure, ba
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Motorbike Courier
-- See Program: run the commands, change 1 thing, see the difference.
+- **Email in-request = cashier cooking + delivering 5 seconds**: customers stare blankly.
+- **Sidekiq = courier fleet**: `perform_later` drops the package → replies instantly → couriers deliver via Redis. `retry_on` = retries when dropped, `discard_on` = discards when stale. `/sidekiq` Web UI = fleet monitor!
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

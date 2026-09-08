@@ -134,7 +134,8 @@ Buat sistem email notification: queue email sending, retry 3x on failure, batch 
 ## Penjelasan untuk Pemula
 
 ### Analogi: Kurir Motor Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Email di request = kasir masak + antar 5 detik**: pelanggan bengong.
+- **Sidekiq = armada kurir**: `perform_later` titip paket → balas langsung → kurir antar via Redis. `retry_on` = coba lagi jika jatuh, `discard_on` = buang jika basi. Web UI `/sidekiq` = pantau armada!
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

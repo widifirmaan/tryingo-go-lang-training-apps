@@ -36,7 +36,8 @@ produk.pesanans.map(&:pelanggan)
 ## Penjelasan untuk Pemula
 
 ### Analogi: Tali Antar Rak
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`has_many`/`belongs_to` = tali dua arah**: pelanggan tarik `pesanans`-nya, pesanan tahu `pelanggan`-nya — tanpa tulis SQL JOIN manual.
+- **`includes` = tarik rombongan**: tanpa ini 1 + N query (101x ke DB!). `has_many :through` = tali estafet (pelanggan → pesanan → produk).
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

@@ -129,7 +129,8 @@ Deploy Rails app ke production: setup env vars, precompile assets, configure dat
 ## Penjelasan untuk Pemula
 
 ### Analogi: Buka Cabang Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`localhost` = gerobak depan rumah**: cuma tetangga bisa beli.
+- **Deploy = sewa ruko**: `RAILS_ENV=production` + `assets:precompile` (bungkus etalase) + `credentials` terenkripsi (kunci, BUKAN di git!) + Kamal/Docker antar kardus. Monitoring (Sentry) = CCTV ruko!
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
