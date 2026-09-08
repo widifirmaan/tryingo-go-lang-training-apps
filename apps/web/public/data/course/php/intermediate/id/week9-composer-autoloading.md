@@ -79,6 +79,21 @@ Unduh ke `vendor/` + catat di `composer.json` + kunci versi `composer.lock`.
 ### PSR-4 `App\` → `src/` = Aturan Alamat
 `App\Kasir` → `src/Kasir.php` otomatis.
 
+### `namespace` = Nama Marga (dipakai di atas, kini dijelaskan!)
+Tanpa marga, 2 `Kasir` (tokomu + library) tabrakan fatal. Dengan `namespace App;`, punyamu `App\Kasir`, punya orang `Monolog\Kasir` — damai.
+
+```php
+<?php
+namespace App; // marga file ini (WAJIB baris pertama setelah <?php!)
+class Kasir { /* ... */ }
+
+// File lain:
+require "vendor/autoload.php";
+use App\Kasir; // panggil marga (tanpa ini: tulis \App\Kasir tiap kali!)
+$k = new Kasir();
+```
+- Aturan: 1 file 1 marga, nama marga = nama folder (`App\Struk` → `src/Struk.php`).
+
 ---
 
 ## Penjelasan untuk Pemula

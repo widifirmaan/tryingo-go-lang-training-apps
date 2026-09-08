@@ -61,6 +61,26 @@ Run `php -S localhost:8000` → open `http://localhost:8000/order.php` → try e
 ### `htmlspecialchars(trim())` = Wash Hands
 `trim` trims spaces, `htmlspecialchars` turns `<` into `&lt;` — anti XSS.
 
+### Photo Upload (`$_FILES`) — Transfer Proof!
+```html
+<!-- MANDATORY enctype! without it files never send -->
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="proof" accept="image/*">
+  <button>Send</button>
+</form>
+```
+```php
+<?php
+if (isset($_FILES["proof"]) && $_FILES["proof"]["error"] === UPLOAD_ERR_OK) {
+  $src = $_FILES["proof"]["tmp_name"]; // file in temp warehouse
+  $dst = "uploads/" . basename($_FILES["proof"]["name"]);
+  move_uploaded_file($src, $dst); // MOVE (not copy!) → safe
+  echo "Saved: $dst";
+}
+// Check: ["error"] (0 = OK), ["size"] 2MB cap, ["type"] image/jpeg
+?>
+```
+
 ### `filter_var` + `preg_match` = Guards
 `filter_var($email, FILTER_VALIDATE_EMAIL)` checks email, `preg_match('/^[0-9]{10,13}$/', $wa)` checks WA digits.
 

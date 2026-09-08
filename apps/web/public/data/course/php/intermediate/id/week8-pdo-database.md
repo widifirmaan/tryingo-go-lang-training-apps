@@ -60,6 +60,17 @@ Tetap → `query`. Ada input user → `prepare` + `?`.
 
 ### `fetchAll()` / `lastInsertId()` = Ambil Semua / ID Baru
 
+### `try/catch` = Jaring (dipakai di atas — kini dijelaskan!)
+```php
+try {
+  $pdo = new PDO(/* ... */); // coba sambung
+} catch (PDOException $e) {  // gagal? tangkap!
+  die("Gagal sambung: " . $e->getMessage());
+} finally {
+  // selalu jalan (tutup log, dsb)
+}
+// throw new Exception("Stok minus") = bunyikan alarm sendiri!
+
 ---
 
 ## Penjelasan untuk Pemula
