@@ -113,6 +113,6 @@ Ready from W1: `ng new` + `ng serve` on `4200`, `ReactiveFormsModule` already in
 
 ---
 
-## Ringkasan
+## Summary
 
 Week 7 of 12: **Reactive Forms** (Level: Intermediate). Can do `FormGroup` + `Validators` without manual `if`. Next: **HttpClient**.
