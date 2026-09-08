@@ -1,20 +1,20 @@
 # Performance Optimization
 
-> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 9:** Performance Optimization
+> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 9:** Performance Optimization
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- N+1 queries: detect dan solve dengan eager loading
-- Bullet gem: auto-detect N+1 dan unused eager loading
-- Database indexing: add_index untuk query cepat
+- N+1 queries: detect and solve with eager loading
+- Bullet gem: auto-detect N+1 and unused eager loading
+- Database indexing: add_index for fast queries
 - Caching: fragment, Russian doll, low-level caching
-- Background jobs: perform_later untuk async processing
+- Background jobs: perform_later for async processing
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-1000 produk tanpa `includes` = 1001 query (10 detik). Dengan eager loading + `counter_cache` + index = 0.1 detik.
+1000 products without `includes` = 1001 queries (10 seconds). With eager loading + `counter_cache` + index = 0.1 seconds.
 
 ---
 
@@ -49,12 +49,17 @@ puts "<% cache post do %>"
 puts "  <%= post.title %>"
 puts "<% end %>"
 puts ""
-puts "# Russian doll caching"
+puts "=== Pagination ==="
+puts "# Gemfile: gem 'kaminari'"
+puts "Post.page(1).per(10)"
+puts "Post.order(:created_at).page(params[:page])"
+puts ""
+puts "=== Russian Doll Caching ==="
 puts "<% cache @posts do %>"
 puts "  <%= render @posts %>"
 puts "<% end %>"
 puts ""
-puts "# Low-level caching"
+puts "=== Low-Level Caching ==="
 puts "Rails.cache.fetch('recent_posts', expires_in: 1.hour) do"
 puts "  Post.recent.to_a"
 puts "end"
@@ -67,83 +72,69 @@ puts "    UserMailer.welcome(user).deliver_now"
 puts "  end"
 puts "end"
 puts "SendEmailJob.perform_later(user)"
-puts ""
-puts "=== Pagination ==="
-puts "# Gemfile: gem 'kaminari'"
-puts "Post.page(1).per(10)"
-puts "Post.order(:created_at).page(params[:page])"
-puts ""
-puts "=== Database Optimization ==="
-puts "# EXPLAIN query"
-puts "Post.where(user_id: 1).explain"
-puts ""
-puts "# Counter cache"
-puts "belongs_to :user, counter_cache: true"
-puts "# users.posts_count column"
-
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### N+1 Problem
-Loop dengan relasi = N+1 query. Solve: `includes(:author)`.
+### Eager Loading
+`includes(:author)` - preload associations. Solves N+1.
 
 ### Bullet
-Auto-detect N+1, unused eager loading, missing counter cache.
+Auto-detect N+1 in development with footer alerts.
 
 ### Indexing
-`add_index :posts, :user_id` - speed up WHERE queries. Unique index untuk uniqueness.
+`add_index :posts, :user_id` - speeds up WHERE queries. Unique index for uniqueness.
 
 ### Caching
-Fragment: cache partial. Russian doll: nested cache. Low-level: `Rails.cache.fetch`.
+Fragment: caches partials. Russian doll: nested cache. Low-level: `Rails.cache.fetch`.
 
 ### Background Jobs
-`perform_later` - enqueue job. Sidekiq/Resque untuk processing.
+`perform_later` - enqueues jobs. Sidekiq/Resque for processing.
 
 ### Pagination
-`kaminari` atau `pagy` - limit records per page.
+`kaminari` or `pagy` - limits records per page.
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Detect N+1 dengan Bullet dan solve
-- Add index dan benchmark query
-- Implementasikan fragment caching
-- Buat background job dengan Sidekiq
-- Coba pagination dengan kaminari
-
----
-
-## Tantangan
-
-Optimasi blog: detect N+1, add indexes, implement caching, add pagination. Benchmark before/after.
-
+- Detect N+1 with Bullet and solve it
+- Add an index and benchmark the query
+- Implement fragment caching
+- Build a background job with Sidekiq
+- Try pagination with kaminari
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Warung Kilat Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+Optimize a blog: detect N+1, add indexes, implement caching, add pagination. Benchmark before/after.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
-
-### Cara Komputer Membaca
-- `includes` 2 query; `counter_cache` hitung tanpa query; `EXPLAIN` cek.
-
-### 3 Istilah Wajib
-- 1. **includes/counter_cache**: borong/penghitung
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Speedy Rails Shop
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-Minggu 9 dari 12: **Performance Optimization** (Level: Lanjutan). Speed matters. Minggu depan: **Background Jobs**.
+### How the Computer Reads It
+- `includes` 2 queries; `counter_cache` counts without queries; `EXPLAIN` checks.
+
+### 3 Must-Know Terms
+- 1. **includes/counter_cache**: bulk/counter
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 9 of 12: **Performance Optimization** (Level: Advanced). Speed matters. Next: **Background Jobs**.

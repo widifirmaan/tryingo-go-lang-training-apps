@@ -1,58 +1,58 @@
-# Associations — Tali Antar Rak Rails
+# Associations — Ropes Between Rails Racks
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 6:** Associations
+> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 6:** Associations
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `has_many`, `belongs_to`, `has_many :through` — tali
+- `has_many`, `belongs_to`, `has_many :through` — ropes
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa tali, `pesanan.pelanggan` = query manual + N+1 lambat. Dengan `has_many/belongs_to`, 1 baris + `includes` anti-N+1.
+Without ropes, `order.customer` = manual query + slow N+1. With `has_many/belongs_to`, 1 line + `includes` anti-N+1.
 
 ---
 
 ## Program
 
 ```ruby
-class Pelanggan < ApplicationRecord
-  has_many :pesanans
-  has_many :produks, through: :pesanans
+class Customer < ApplicationRecord
+  has_many :orders
+  has_many :products, through: :orders
 end
-class Pesanan < ApplicationRecord
-  belongs_to :pelanggan
-  belongs_to :produk
+class Order < ApplicationRecord
+  belongs_to :customer
+  belongs_to :product
 end
 
-pelanggan.pesanans.count
-produk.pesanans.map(&:pelanggan)
+customer.orders.count
+product.orders.map(&:customer)
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Tali Antar Rak
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Ropes Between Racks
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-### Cara Komputer Membaca
-- `pelanggan.pesanans` otomatis `WHERE pelanggan_id = ?`; `includes(:pesanans)` 2 query (bukan 101).
+### How the Computer Reads It
+- `customer.orders` auto-`WHERE customer_id = ?`; `includes(:orders)` 2 queries (not 101).
 
-### 3 Istilah Wajib
-- 1. **has_many/belongs_to**: punya/milik
+### 3 Must-Know Terms
+- 1. **has_many/belongs_to**: owns/belongs
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 6: **Tali Rak** — associations.
+Week 6: **Rack Ropes** — associations. Next: **Testing**.

@@ -1,20 +1,20 @@
 # Rails API Mode
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 8:** Rails API Mode
+> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 8:** Rails API Mode
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- API mode: rails new --api untuk skip views
+- API mode: rails new --api to skip views
 - Namespaced routes: api/v1/posts
-- JSON responses: render json: dengan status codes
+- JSON responses: render json: with status codes
 - Serializers: format JSON output
 - CORS: cross-origin resource sharing
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-HP butuh JSON, bukan HTML. `rails new --api` ramping (tanpa views) + `jbuilder`/serializer untuk JSON rapi.
+Phones need JSON, not HTML. `rails new --api` is slim (no views) + `jbuilder`/serializers for neat JSON.
 
 ---
 
@@ -63,35 +63,20 @@ controller.create
 puts ""
 puts "=== JSON Response ==="
 puts "render json: posts, status: :ok"
-puts "render json: { errors: post.errors }, status: :unprocessable_entity"
-puts "render json: { error: 'Not found' }, status: :not_found"
 puts ""
-puts "=== Serializers (ActiveModel::Serializer) ==="
-puts "class PostSerializer < ActiveModel::Serializer"
-puts "  attributes :id, :title, :body, :created_at"
-puts "  belongs_to :user"
-puts "  has_many :comments"
-puts "end"
+puts "=== Serializers ==="
+puts "ActiveModel::Serializer or blueprinter for JSON format"
 puts ""
 puts "=== CORS ==="
-puts "# Gemfile: gem 'rack-cors'"
-puts "config.middleware.insert_before 0, Rack::Cors do"
-puts "  allow do"
-puts "    origins '*'"
-puts "    resource '*', headers: :any, methods: [:get, :post, :put, :delete]"
-puts "  end"
-puts "end"
+puts "rack-cors gem for cross-origin requests"
 puts ""
-puts "=== API Authentication ==="
-puts "# Token-based"
-puts "before_action :authenticate_user!"
-puts "token = request.headers['Authorization']"
-
+puts "=== Auth ==="
+puts "Token-based: Authorization: Bearer <token> header"
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### API Mode
 `rails new name --api` - skip views, assets, cookies. Lighter stack.
@@ -103,53 +88,53 @@ puts "token = request.headers['Authorization']"
 `render json: posts, status: :ok`. Status: :ok (200), :created (201), :not_found (404).
 
 ### Serializers
-`ActiveModel::Serializer` atau `blueprinter` untuk format JSON.
+`ActiveModel::Serializer` or `blueprinter` for JSON format.
 
 ### CORS
-`rack-cors` gem untuk allow cross-origin requests.
+`rack-cors` gem to allow cross-origin requests.
 
 ### Auth
 Token-based: `Authorization: Bearer <token>` header.
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Buat API project dengan --api flag
-- Implementasikan namespaced routes
-- Buat serializer untuk Post model
-- Coba API versioning
-- Implementasikan JWT authentication
-
----
-
-## Tantangan
-
-Buat REST API lengkap untuk blog: CRUD posts, comments, auth dengan JWT, serializers, CORS.
-
+- Build an API project with the --api flag
+- Implement namespaced routes
+- Build a serializer for the Post model
+- Try API versioning
+- Implement JWT authentication
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Drive-Thru JSON Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+Build a complete REST API for a blog: CRUD posts, comments, auth with JWT, serializers, CORS.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
-
-### Cara Komputer Membaca
-- `--api` skip views/assets; controller `render json:` langsung.
-
-### 3 Istilah Wajib
-- 1. **--api/render-json**: ramping/balas
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Rails JSON Drive-Thru
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-Minggu 8 dari 12: **Rails API Mode** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Performance** (Advanced).
+### How the Computer Reads It
+- `--api` skips views/assets; controllers `render json:` directly.
+
+### 3 Must-Know Terms
+- 1. **--api/render-json**: slim/reply
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 8 of 12: **Rails API Mode** (Level: Intermediate). Intermediate phase done! Next: **Performance** (Advanced).

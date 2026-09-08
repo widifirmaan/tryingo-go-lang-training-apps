@@ -1,20 +1,20 @@
-# Testing dengan RSpec
+# Testing with RSpec
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 7:** Testing dengan RSpec
+> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 7:** Testing dengan RSpec
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- RSpec: testing framework untuk Rails
-- Model specs: test validasi dan business logic
+- RSpec: testing framework for Rails
+- Model specs: test validations and business logic
 - Request specs: test HTTP endpoints
 - Factory Bot: test data generation
 - System specs: browser-like integration tests
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa RSpec, ubah model → rusak ketahuan pelanggan. Dengan `rspec` + `FactoryBot`, ubah → merah → perbaiki.
+Without RSpec, model edits → breakage found by customers. With `rspec` + `FactoryBot`, edit → red → fix.
 
 ---
 
@@ -94,19 +94,19 @@ puts "end"
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### RSpec Setup
 `gem 'rspec-rails'`, `rails g rspec:install`.
 
 ### Model Spec
-Test validasi, method, dan scope. `expect(post).to be_valid`.
+Tests validations, methods, and scopes. `expect(post).to be_valid`.
 
 ### Request Spec
-Test HTTP: `get posts_path`, `expect(response).to have_http_status(:ok)`.
+Tests HTTP: `get posts_path`, `expect(response).to have_http_status(:ok)`.
 
 ### Factory Bot
-Define factories untuk test data. `create(:post)`, `build(:post)`.
+Defines factories for test data. `create(:post)`, `build(:post)`.
 
 ### System Spec
 Capybara-based: `visit`, `fill_in`, `click_button`, `expect(page).to have_text()`.
@@ -116,43 +116,43 @@ Capybara-based: `visit`, `fill_in`, `click_button`, `expect(page).to have_text()
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Buat model spec dengan validasi
-- Test controller dengan request spec
-- Buat factory dengan Faker
-- Implementasikan system test
-- Coba test dengan mocking
-
----
-
-## Tantangan
-
-Buat test suite lengkap untuk Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
-
+- Build a model spec with validations
+- Test a controller with a request spec
+- Build a factory with Faker
+- Implement a system test
+- Try tests with mocking
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Cicip Dapur Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+Build a complete test suite for Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
-
-### Cara Komputer Membaca
-- `bundle exec rspec` cari `*_spec.rb`; `expect(...).to eq(...)` cicip.
-
-### 3 Istilah Wajib
-- 1. **RSpec/expect**: dapur/harap
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Rails Kitchen Taste
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-Minggu 7 dari 12: **Testing dengan RSpec** (Level: Menengah). Kualitas kode terjamin. Minggu depan: **API Mode**.
+### How the Computer Reads It
+- `bundle exec rspec` finds `*_spec.rb`; `expect(...).to eq(...)` tastes.
+
+### 3 Must-Know Terms
+- 1. **RSpec/expect**: kitchen/expect
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 7 of 12: **Testing with RSpec** (Level: Intermediate). Code quality assured. Next: **API Mode**.
