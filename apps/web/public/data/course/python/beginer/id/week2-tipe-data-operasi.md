@@ -61,6 +61,16 @@ print(f"10 <= {nilai} <= 100 ? {10 <= nilai <= 100}")  # rantai, enak!
 print(f"Butuh and: {nilai >= 70 and nilai <= 90}")
 print(f"Butuh or: {nilai < 70 or nilai > 90}")
 
+print("\n=== Regex (ala CS50P!) ===")
+import re
+wa = "08123456789"
+print("WA valid?", bool(re.match(r"^08\d{8,11}$", wa)))  # 08 + 8-11 digit
+print("Ada digit?", bool(re.search(r"\d", "abc")))       # False
+print("Angka pertama:", re.findall(r"\d+", "Beras 5kg, Gula 2kg"))  # ['5', '2']
+email = "budi@email.com"
+print("Email valid?", bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email)))
+# ^ awal, \d digit, + 1+, $ akhir, [^@\\s] bukan-@-bukan-spasi
+
 print("\n=== None ===")
 catatan = None
 print(f"catatan is None? {catatan is None}")  # pakai is, bukan ==

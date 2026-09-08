@@ -38,6 +38,40 @@ with open("log.txt", "a") as f:
 # Baca teks
 with open("log.txt", "r") as f:
     print(f.read())
+
+# Aman: file hilang / JSON rusak → try/except (jangan biarkan crash!)
+try:
+    with open("produk.json", "r") as f:
+        data = json.load(f)
+except FileNotFoundError:
+    print("File belum ada → mulai kosong")
+    data = []
+except json.JSONDecodeError:
+    print("File rusak → mulai kosong")
+    data = []
+else:
+    print("Sukses baca", len(data), "produk")
+finally:
+    print("Cek selesai (finally selalu jalan)")
+```
+
+### Bonus: SQLite — Buku Kas Beneran (ala freeCodeCamp!)
+
+`produk.json` cukup untuk belajar, tapi toko beneran butuh cari cepat + 10.000 baris. `sqlite3` BAWAAN Python (tanpa install!) — SQL mini di 1 file.
+
+```python
+import sqlite3
+
+db = sqlite3.connect("warung.db")  # bikin file jika belum ada
+db.execute("CREATE TABLE IF NOT EXISTS produk (nama TEXT, harga INTEGER)")
+db.execute("INSERT INTO produk VALUES (?, ?)", ("Beras", 62000))  # ? = aman, anti SQL-injection!
+db.execute("INSERT INTO produk VALUES (?, ?)", ("Bayam", 5000))
+db.commit()  # WAJIB simpan!
+
+for nama, harga in db.execute("SELECT nama, harga FROM produk WHERE harga < 20000"):
+    print(f"Murah: {nama} Rp{harga:,}")
+
+db.close()
 ```
 
 **Aturan:** `with open` otomatis tutup, tidak perlu `f.close()`.
@@ -51,6 +85,12 @@ with open("log.txt", "r") as f:
 
 ### `json`
 `json.dump(obj, file)` tulis, `json.load(file)` baca — untuk `list`/`dict`.
+
+### `try/except` = Jaring Pengaman (wajib CS50P!)
+`try` coba → `except FileNotFoundError` tangkap spesifik → `else` jika sukses → `finally` selalu jalan. Urut spesifik→umum!
+
+### `sqlite3` = SQL Tanpa Install
+`connect()` + `execute("... ? ...", (isi,))` (`?` cegah SQL-injection!) + `commit()` wajib + `close()`.
 
 ---
 

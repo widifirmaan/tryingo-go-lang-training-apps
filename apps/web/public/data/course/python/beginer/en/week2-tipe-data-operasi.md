@@ -60,6 +60,16 @@ print(f"10 <= {score} <= 100 ? {10 <= score <= 100}")
 print(f"Need and: {score >= 70 and score <= 90}")
 print(f"Need or: {score < 70 or score > 90}")
 
+print("\n=== Regex (ala CS50P!) ===")
+import re
+wa = "08123456789"
+print("WA valid?", bool(re.match(r"^08\d{8,11}$", wa)))  # 08 + 8-11 digits
+print("Has digits?", bool(re.search(r"\d", "abc")))      # False
+print("First numbers:", re.findall(r"\d+", "Rice 5kg, Sugar 2kg"))  # ['5', '2']
+email = "budi@email.com"
+print("Email valid?", bool(re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email)))
+# ^ start, \d digit, + 1 or more, $ end, [^@\s] not-@-not-space
+
 print("\n=== None ===")
 note = None
 print(f"note is None? {note is None}")
