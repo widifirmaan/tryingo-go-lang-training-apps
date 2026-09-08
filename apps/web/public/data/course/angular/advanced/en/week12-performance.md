@@ -1,109 +1,109 @@
-# Performance — Cepat Enterprise dengan OnPush (angular.dev)
+# Performance — Enterprise Fast with OnPush (angular.dev)
 
-> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 12:** Performance
+> **Kategori:** Angular | **Level:** Advanced | **Minggu 12:** Performance
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `ChangeDetectionStrategy.OnPush` — hanya cek jika `Input` baru (referensi baru) atau `event` di dalam, bukan tiap detik (sumber: angular.dev/api/core/ChangeDetectionStrategy)
-- `trackBy` untuk `*ngFor` agar tidak gambar ulang semua
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung 1000 produk tanpa `OnPush` → tiap klik, Angular cek 1000 komponen (lambat). Dengan `OnPush`, hanya cek yang `Input` baru — 10x lebih cepat (angular.dev).
+- `ChangeDetectionStrategy.OnPush` — checks only when `Input` is new (new reference) or inner `event`, not every second (source: angular.dev/api/core/ChangeDetectionStrategy)
+- `trackBy` for `*ngFor` so it doesn't re-render everything
 
 ---
 
-## Program: Warung Cepat OnPush (angular.dev)
+## Why This Matters (Non-IT)
+
+A 1000-product shop without `OnPush` → every click, Angular checks 1000 components (slow). With `OnPush`, only checks with new `Input` — 10x faster (angular.dev).
+
+---
+
+## Program: Fast OnPush Shop (angular.dev)
 
 ```typescript
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 
 @Component({
-  selector: "app-kartu",
-  changeDetection: ChangeDetectionStrategy.OnPush, // hanya cek jika Input baru
-  template: `<div>{{ nama }} - Rp{{ harga }}</div>`
+  selector: "app-card",
+  changeDetection: ChangeDetectionStrategy.OnPush, // checks only on new Input
+  template: `<div>{{ name }} - Rp{{ price }}</div>`
 })
-export class KartuComponent {
-  @Input() nama!: string;
-  @Input() harga!: number;
+export class CardComponent {
+  @Input() name!: string;
+  @Input() price!: number;
 }
 
-// Daftar
+// List
 @Component({
-  selector: "app-daftar",
+  selector: "app-list",
   template: `
-    <div *ngFor="let p of daftar; trackBy: trackById">
-      <app-kartu [nama]="p.nama" [harga]="p.harga"></app-kartu>
+    <div *ngFor="let p of list; trackBy: trackById">
+      <app-card [name]="p.name" [price]="p.price"></app-card>
     </div>
   `
 })
-export class DaftarComponent {
-  daftar = [{ id: 1, nama: "Beras", harga: 62000 }];
+export class ListComponent {
+  list = [{ id: 1, name: "Rice", price: 62000 }];
   trackById(index, item){ return item.id; }
 }
 ```
 
-**Aturan OnPush (angular.dev):** cek hanya jika `Input` referensi baru (bukan mutasi `daftar[0].harga = 0`), atau `event` di dalam. Mutasi langsung tidak terdeteksi — buat array baru `[...daftar]`.
+**OnPush rules (angular.dev):** checks only when `Input` is a new reference (not `list[0].price = 0` mutation), or inner `event`. Direct mutation is undetected — make a new array `[...list]`.
 
-**Sumber:** `angular.dev/api/core/ChangeDetectionStrategy` — `OnPush` `CheckOnce`.
-
----
-
-## Konsep Kunci
-
-### `OnPush` = Hanya Cek Jika Perlu
-`Default` cek tiap detik, `OnPush` cek jika `Input` baru atau `event`.
-
-### `trackBy` = KTP `*ngFor`
-`trackById` biar `*ngFor` tidak gambar ulang semua saat 1 tambah.
+**Source:** `angular.dev/api/core/ChangeDetectionStrategy` — `OnPush` `CheckOnce`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Key Concepts
 
-### Analogi: Satpam Hemat
+### `OnPush` = Check Only When Needed
+`Default` checks every second, `OnPush` checks on new `Input` or `event`.
 
-- **`Default` = satpam cek 1000 kamar tiap detik** — capek.
-- **`OnPush` = satpam cek hanya kamar yang ada tamu baru** — hemat.
-
-### Langkah 0 — Device
-
-`ng new` + `ng serve` di `4200` (sudah W1).
-
-### Cara Komputer Membaca
-
-1. `daftar = [...daftar, baru]` → referensi baru → `OnPush` cek.
-2. `daftar[0].harga = 0` → referensi sama → `OnPush` tidak cek (salah).
-
-### 3 Istilah Wajib
-
-1. **OnPush**: cek hemat
-2. **trackBy**: KTP list
+### `trackBy` = `*ngFor` ID Card
+`trackById` so `*ngFor` doesn't re-render all on 1 add.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `OnPush` + `daftar = [...daftar, baru]` → cek? Ya.
-- **Kuning:** `daftar[0].harga = 0` mutasi → tidak cek? Buat baru.
-- **Merah:** Lupa `trackBy` → `*ngFor` 1000 gambar ulang tiap tambah.
+### Analogy: Thrifty Guard
+
+- **`Default` = guard checking 1000 rooms every second** — exhausting.
+- **`OnPush` = guard checking only rooms with new guests** — thrifty.
+
+### Step 0 — Prepare Device
+
+`ng new` + `ng serve` on `4200` (done in W1).
+
+### How the Computer Reads It
+
+1. `list = [...list, fresh]` → new reference → `OnPush` checks.
+2. `list[0].price = 0` → same reference → `OnPush` skips (wrong).
+
+### 3 Must-Know Terms
+
+1. **OnPush**: thrifty check
+2. **trackBy**: list ID
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Cepat Lengkap:** `KartuComponent` `OnPush` + `Daftar` `trackById` + `daftar = [...daftar, baru]` (bukan `push` mutasi), `ng serve` cek `Augury` tidak cek semua.
-
----
-
-## Glosarium Mini
-
-- **OnPush/trackBy**: hemat/KTP
+- **Green:** `OnPush` + `list = [...list, fresh]` → checked? Yes.
+- **Yellow:** `list[0].price = 0` mutation → not checked? Make new.
+- **Red:** Forget `trackBy` → 1000-item `*ngFor` re-renders per add.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 12 dari 14: **Cepat Enterprise** — `OnPush`. Minggu depan: **Capstone**.
+**Complete Fast Shop:** `CardComponent` `OnPush` + `List` `trackById` + `list = [...list, fresh]` (not `push` mutation), `ng serve` check that not everything is checked.
+
+---
+
+## Mini Glossary
+
+- **OnPush/trackBy**: thrifty/ID
+
+---
+
+## Summary
+
+Week 12 of 14: **Enterprise Fast** — `OnPush`. Next: **Capstone**.
