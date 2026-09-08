@@ -1,94 +1,94 @@
-# CSS Grid — Rak Kotak-Kotak Warung
+# CSS Grid — Checkered Shop Racks
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 5:** CSS Grid
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 5:** CSS Grid
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `display: grid` + `grid-template-columns: repeat(3, 1fr)` 3 kolom sama, `gap`, `auto-fill minmax(180px, 1fr)` responsif otomatis (sumber: MDN CSS grid)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Flexbox = 1 arah (baris). Grid = 2 arah (baris + kolom) — katalog 3×2 rapi. `auto-fill minmax(180px, 1fr)` = HP 1 kolom, laptop 4 kolom OTOMATIS tanpa `@media` 1 baris pun.
+- `display: grid` + `grid-template-columns: repeat(3, 1fr)` 3 equal columns, `gap`, `auto-fill minmax(180px, 1fr)` auto responsive (source: MDN CSS grid)
 
 ---
 
-## Program: Katalog Kotak Otomatis
+## Why This Matters (Non-IT)
+
+Flexbox = 1 direction (rows). Grid = 2 directions (rows + columns) — neat 3×2 catalog. `auto-fill minmax(180px, 1fr)` = phone 1 column, laptop 4 columns AUTOMATICALLY without a single `@media`.
+
+---
+
+## Program: Auto Box Catalog
 
 ```html
-<div class="katalog">
-  <div class="kartu">Beras<br>Rp 62.000</div>
-  <div class="kartu">Bayam<br>Rp 5.000</div>
-  <div class="kartu">Telur<br>Rp 28.000</div>
-  <div class="kartu">Gula<br>Rp 15.000</div>
-  <div class="kartu">Minyak<br>Rp 34.000</div>
-  <div class="kartu">Kopi<br>Rp 12.000</div>
+<div class="catalog">
+  <div class="card">Rice<br>Rp 62,000</div>
+  <div class="card">Spinach<br>Rp 5,000</div>
+  <div class="card">Eggs<br>Rp 28,000</div>
+  <div class="card">Sugar<br>Rp 15,000</div>
+  <div class="card">Oil<br>Rp 34,000</div>
+  <div class="card">Coffee<br>Rp 12,000</div>
 </div>
 ```
 
 ```css
-.katalog {
+.catalog {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 12px;
 }
-.kartu { border: 1px solid #ddd; padding: 16px; border-radius: 12px; }
+.card { border: 1px solid #ddd; padding: 16px; border-radius: 12px; }
 ```
 
-Kecilkan browser → 4→2→1 kolom otomatis. Ganti `auto-fill` jadi `3` → selalu 3 (gepeng di HP!).
+Shrink browser → 4→2→1 columns automatically. Change `auto-fill` to `3` → always 3 (squished on phones!).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `grid-template-columns` = Gambar Petak
-`repeat(3, 1fr)` 3 kolom sama (`fr` = bagian bebas). `auto-fill minmax(180px, 1fr)` = isi sebanyak muat, min 180px.
+### `grid-template-columns` = Draw Squares
+`repeat(3, 1fr)` 3 equal columns (`fr` = free share). `auto-fill minmax(180px, 1fr)` = fill as many as fit, min 180px.
 
 ### Flex vs Grid = 1D vs 2D
-- Flex: 1 arah (nav, rak).
-- Grid: 2 arah (katalog, galeri).
+- Flex: 1 direction (nav, racks).
+- Grid: 2 directions (catalog, gallery).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Petak Sawah
-- **Grid = petak sawah**: `repeat(3, 1fr)` 3 petak sama. `auto-fill` = tambah petak selama muat.
+### Analogy: Rice Paddy Plots
+- **Grid = paddy plots**: `repeat(3, 1fr)` 3 equal plots. `auto-fill` = add plots while they fit.
 
-### Langkah 0 — Siapkan Device
-- Sama W1.
+### Step 0 — Prepare Device
+- Same as W1.
 
-### Cara Komputer Membaca
-1. `auto-fill minmax(180px, 1fr)` → lebar 800px → 4 kolom 180px+ (sisa dibagi `1fr`).
+### How the Computer Reads It
+1. `auto-fill minmax(180px, 1fr)` → 800px wide → 4 columns 180px+ (leftover split by `1fr`).
 
-### 3 Istilah Wajib
-1. **Grid/fr**: petak/bagian
-2. **auto-fill/minmax**: isi-otomatis/min-maks
-
----
-
-## Eksperimen
-
-- **Hijau:** `minmax(180px, 1fr)` → `250px` → kolom lebih sedikit?
-- **Kuning:** `repeat(3, 1fr)` tetap + HP → gepeng? (Itulah kenapa auto-fill!)
-- **Merah:** Hapus `gap` → kartu nempel? Pasang.
+### 3 Must-Know Terms
+1. **Grid/fr**: plots/share
+2. **auto-fill/minmax**: auto-fill/min-max
 
 ---
 
-## Tantangan
+## Experiments
 
-**Katalog 6 Produk:** `auto-fill minmax(200px,1fr)` + `gap: 16px` + kecilkan browser screenshot 4→1 kolom.
-
----
-
-## Glosarium Mini
-
-- **grid/fr/gap**: petak/bagian/jarak
-- **auto-fill**: isi otomatis
+- **Green:** `minmax(180px, 1fr)` → `250px` → fewer columns?
+- **Yellow:** Fixed `repeat(3, 1fr)` + phone → squished? (That's why auto-fill!)
+- **Red:** Remove `gap` → cards stick? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 12: **Rak Kotak** (Level: Lengkap). Responsif tanpa media query. Minggu depan: **Positioning** — tempel.
+**6-Product Catalog:** `auto-fill minmax(200px,1fr)` + `gap: 16px` + shrink browser, screenshot 4→1 columns.
+
+---
+
+## Mini Glossary
+
+- **grid/fr/gap**: plots/share/gap
+- **auto-fill**: auto fill
+
+---
+
+## Summary
+
+Week 5 of 12: **Box Rack** (Level: Complete). Responsive without media queries. Next: **Positioning** — stick.
