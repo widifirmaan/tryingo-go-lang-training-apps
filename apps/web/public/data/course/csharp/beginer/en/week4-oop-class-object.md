@@ -83,6 +83,19 @@ Console.WriteLine($"Total items: {rack.Count}");
 2. **Property/constructor**: access/initial-fill
 3. **Inheritance/List**: heir/rack
 
+### Bonus: Dictionary — Labeled Rack (List's partner!)
+
+```csharp
+var prices = new Dictionary<string, decimal>(); // string key → price
+prices["Rice"] = 62000;  // fill/overwrite
+prices["Spinach"] = 5000;
+Console.WriteLine(prices["Rice"]); // 62000
+Console.WriteLine(prices.ContainsKey("Coffee")); // False
+foreach (var kv in prices) Console.WriteLine($"{kv.Key}: Rp{kv.Value:N0}");
+// prices["Coffee"] directly → KeyNotFoundException! use TryGetValue:
+// if (prices.TryGetValue("Coffee", out decimal h)) Console.WriteLine(h);
+```
+
 ---
 
 ## Experiments

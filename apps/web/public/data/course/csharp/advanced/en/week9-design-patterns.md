@@ -64,6 +64,16 @@ Console.WriteLine(HeadCashier.Take() == HeadCashier.Take()); // True
 
 ## Beginner Friendly Explanation
 
+### 2-Minute Interface Primer (mandatory before patterns!)
+```csharp
+interface IPay { void Pay(decimal total); } // CONTRACT: must Pay!
+class Cash : IPay { // sign the contract
+  public void Pay(decimal total) => Console.WriteLine($"Cash Rp{total:N0}");
+}
+// interface = promise without body; classes MUST fill all. Unlike abstract classes:
+// interfaces allow multi-inheritance (class A : IA, IB), abstract allows 1 parent!
+```
+
 ### Analogy: Plugs & Head Cashier
 - **Strategy = power plug**: plug Cash/Transfer, same cashier.
 - **Singleton = head cashier**: only 1 in store.

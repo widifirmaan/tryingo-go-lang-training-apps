@@ -85,6 +85,21 @@ Console.WriteLine($"Total item: {rak.Count}");
 
 ---
 
+### Bonus: Dictionary — Rak Berlabel (pasangan List!)
+
+```csharp
+var harga = new Dictionary<string, decimal>(); // kunci string → harga
+harga["Beras"] = 62000;  // isi/timpa
+harga["Bayam"] = 5000;
+Console.WriteLine(harga["Beras"]); // 62000
+Console.WriteLine(harga.ContainsKey("Kopi")); // False
+foreach (var kv in harga) Console.WriteLine($"{kv.Key}: Rp{kv.Value:N0}");
+// harga["Kopi"] langsung → KeyNotFoundException! pakai TryGetValue:
+// if (harga.TryGetValue("Kopi", out decimal h)) Console.WriteLine(h);
+```
+
+---
+
 ## Eksperimen
 
 - **Hijau:** `new Produk("Gula", 15000)` → `Info()`?

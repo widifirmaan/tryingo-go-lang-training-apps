@@ -75,6 +75,20 @@ Console.WriteLine($"Active: {active}, Height: {height}");
 2. **var**: guess then lock
 3. **Interpolation `$""`**: embed variables
 
+### Bonus: DateTime & Nullable (mandatory Microsoft Learn!)
+
+```csharp
+DateTime open = DateTime.Now; // right now!
+Console.WriteLine(open.ToString("dd MMMM yyyy")); // 08 September 2026
+DateTime tomorrow = open.AddDays(1); // add days
+TimeSpan span = tomorrow - open;     // difference → 1.00:00:00
+Console.WriteLine($"Tomorrow: {tomorrow:dd-MM-yyyy}, span: {span.TotalHours} hours");
+
+int? stock = null; // int ALLOWED empty (? mark)
+Console.WriteLine(stock ?? 0);          // ?? = when null use 0
+Console.WriteLine(stock?.ToString() ?? "empty"); // ?. = when null don't touch!
+```
+
 ---
 
 ## Experiments

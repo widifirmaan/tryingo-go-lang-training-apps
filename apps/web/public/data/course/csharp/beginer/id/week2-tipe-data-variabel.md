@@ -77,6 +77,22 @@ Console.WriteLine($"Aktif: {aktif}, Tinggi: {tinggi}");
 
 ---
 
+### Bonus: DateTime & Nullable (wajib Microsoft Learn!)
+
+```csharp
+DateTime buka = DateTime.Now; // sekarang!
+Console.WriteLine(buka.ToString("dd MMMM yyyy")); // 08 September 2026
+DateTime besok = buka.AddDays(1); // tambah hari
+TimeSpan lama = besok - buka;     // selisih → 1.00:00:00
+Console.WriteLine($"Besok: {besok:dd-MM-yyyy}, lama: {lama.TotalHours} jam");
+
+int? stok = null; // int BOLEH kosong (tanda ?)
+Console.WriteLine(stok ?? 0);          // ?? = jika null pakai 0
+Console.WriteLine(stok?.ToString() ?? "kosong"); // ?. = jika null jangan sentuh!
+```
+
+---
+
 ## Eksperimen
 
 - **Hijau:** `decimal ongkir = 8500.75m;` → cetak?
