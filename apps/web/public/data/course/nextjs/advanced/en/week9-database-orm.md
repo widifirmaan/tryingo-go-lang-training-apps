@@ -1,36 +1,36 @@
-# Database & ORM — Gudang dengan Penerjemah
+# Database & ORM — Warehouse with Translator
 
-> **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 9:** Database & ORM
+> **Kategori:** Next.js | **Level:** Advanced | **Minggu 9:** Database & ORM
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Hubungkan Next.js ke **Postgres** via `Prisma` — penerjemah: tulis `prisma.produk.findMany()` bukan SQL
-- `npx prisma init`, `schema.prisma` cetak biru rak, `npx prisma migrate dev` bangun rak
-- `await prisma.produk.create({ data: { nama, harga } })` di Server Action
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa DB, produk hilang saat restart. Dengan Prisma + Postgres (Supabase), data awet.
+- Connect Next.js to **Postgres** via `Prisma` — translator: write `prisma.products.findMany()` not SQL
+- `npx prisma init`, `schema.prisma` rack blueprint, `npx prisma migrate dev` builds racks
+- `await prisma.products.create({ data: { name, price } })` in Server Actions
 
 ---
 
-## Program: Gudang Prisma
+## Why This Matters (Non-IT)
+
+Without a DB, products vanish on restart. With Prisma + Postgres (Supabase), data lasts.
+
+---
+
+## Program: Prisma Warehouse
 
 ```bash
 npm install prisma @prisma/client
 npx prisma init
-# Atur DATABASE_URL di .env = "postgresql://..."
+# Set DATABASE_URL in .env = "postgresql://..."
 ```
 
 ```prisma
 // prisma/schema.prisma
-model Produk {
+model Product {
   id        Int      @id @default(autoincrement())
-  nama      String
-  harga     Int
-  stok      Int      @default(0)
+  name      String
+  price     Int
+  stock     Int      @default(0)
   createdAt DateTime @default(now())
 }
 ```
@@ -41,26 +41,73 @@ npx prisma generate
 ```
 
 ```javascript
-// app/produk/actions.js
+// app/products/actions.js
 "use server";
 import { prisma } from "@/lib/prisma";
 
-export async function tambah(formData){
-  await prisma.produk.create({
-    data: { nama: formData.get("nama"), harga: Number(formData.get("harga")) }
+export async function add(formData){
+  await prisma.product.create({
+    data: { name: formData.get("name"), price: Number(formData.get("price")) }
   });
 }
 
-// app/produk/page.js
+// app/products/page.js
 import { prisma } from "@/lib/prisma";
 export default async function Page(){
-  const produk = await prisma.produk.findMany();
-  return <ul>{produk.map(p=><li key={p.id}>{p.nama} - Rp{p.harga}</li>)}</ul>;
+  const products = await prisma.product.findMany();
+  return <ul>{products.map(p=><li key={p.id}>{p.name} - Rp{p.price}</li>)}</ul>;
 }
 ```
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`.
+### `schema.prisma` = Rack Blueprint
+`model Product` draws tables; `migrate dev` builds them in Postgres.
+
+### Server Action + Prisma = Kitchen to Warehouse
+`add(formData)` runs on server → writes straight to DB → `revalidatePath` refreshes.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Warehouse with Translator
+- **SQL = warehouse native tongue**, **Prisma = translator**: you speak JS objects, it speaks SQL.
+
+### Step 0 — Prepare Device
+- Supabase project (free) + `DATABASE_URL` in `.env` + `npx prisma migrate dev`.
+
+### How the Computer Reads It
+1. `prisma.product.create({data})` → SQL INSERT → row saved.
+2. `findMany()` → SQL SELECT → array of products.
+
+### 3 Must-Know Terms
+1. **Prisma/migrate/schema**: translator/build/blueprint
+
+---
+
+## Experiments
+
+- **Green:** Prisma Studio (`npx prisma studio`) → see rows visually?
+- **Yellow:** Wrong `DATABASE_URL` → connection error? Fix env.
+- **Red:** Skip `migrate` → table missing error? Run migrate.
+
+---
+
+## Challenge
+
+**Prisma Warehouse:** `Product` model + migrate + seed 5 products + Server Action add + list page.
+
+---
+
+## Mini Glossary
+
+- **Prisma/ORM**: translator
+
+---
+
+## Summary
+
+Week 9: **Prisma Warehouse** — `schema` + `migrate` + `findMany`. Next: **Auth**.

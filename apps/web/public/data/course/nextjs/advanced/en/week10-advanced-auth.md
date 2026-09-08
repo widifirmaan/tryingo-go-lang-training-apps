@@ -1,20 +1,20 @@
-# Advanced Auth — KTP & Satpam Warung
+# Advanced Auth — Shop ID Cards & Guards
 
-> **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 10:** Advanced Auth & Security
+> **Kategori:** Next.js | **Level:** Advanced | **Minggu 10:** Advanced Auth & Security
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `NextAuth` / `Auth.js` — KTP digital: `signIn`, `session`, lindungi `/admin` dengan `auth()`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa auth, `/admin` dibuka siapa saja → harga diubah iseng. Dengan NextAuth + `auth()` di Server Component, 5 baris lindungi + session siap pakai.
+- `NextAuth` / `Auth.js` — digital ID: `signIn`, `session`, protect `/admin` with `auth()`
 
 ---
 
-## Program: KTP Warung
+## Why This Matters (Non-IT)
+
+Without auth, anyone opens `/admin` → prices edited for fun. With NextAuth + `auth()` in Server Components, 5 lines protect + session ready.
+
+---
+
+## Program: Shop ID Card
 
 ```bash
 npm install next-auth
@@ -27,7 +27,7 @@ import Credentials from "next-auth/providers/credentials";
 export const { handlers, auth, signIn } = NextAuth({
   providers: [Credentials({
     credentials: { email: {}, password: {} },
-    authorize: async (c) => c.email === "admin@warung.com" && c.password === "123" ? { id: "1", name: "Admin" } : null
+    authorize: async (c) => c.email === "admin@shop.com" && c.password === "123" ? { id: "1", name: "Admin" } : null
   })]
 });
 
@@ -35,28 +35,28 @@ export const { handlers, auth, signIn } = NextAuth({
 import { auth } from "@/auth";
 export default async function Admin(){
   const session = await auth();
-  if (!session) return <p>Belum login — <a href="/login">Login</a></p>;
-  return <p>Halo {session.user.name} — Admin Warung</p>;
+  if (!session) return <p>Not logged in — <a href="/login">Login</a></p>;
+  return <p>Hello {session.user.name} — Shop Admin</p>;
 }
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: KTP Digital Warung
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+### Analogy: Digital Shop ID
+- See Program: run line by line, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (lihat minggu 1 untuk install).
+### Step 0 — Prepare Device
+- Same as this track's W1 (see week 1 for install).
 
-### Cara Komputer Membaca
-- `auth()` di Server Component baca session; tanpa session tampilkan login.
+### How the Computer Reads It
+- `auth()` in Server Component reads session; without session show login.
 
-### 3 Istilah Wajib
-- 1. **NextAuth/session**: KTP/periksa
+### 3 Must-Know Terms
+- 1. **NextAuth/session**: ID/check
 
-## Ringkasan
+## Summary
 
-Minggu 10: **KTP Digital** — NextAuth lindungi admin.
+Week 10: **Digital ID** — NextAuth protects admin. Next: **Deploy**.

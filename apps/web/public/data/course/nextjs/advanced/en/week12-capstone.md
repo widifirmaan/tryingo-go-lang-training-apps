@@ -1,55 +1,55 @@
-# Capstone: Toko Online Lengkap
+# Capstone: Complete Online Store
 
-> **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 12:** Capstone: SaaS App
+> **Kategori:** Next.js | **Level:** Advanced | **Minggu 12:** Capstone: SaaS App
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung semua: `prisma` gudang + `Server Actions` pesan + `auth` KTP + `deploy` cabang = toko online jadi
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: Prisma + Auth + deploy Vercel jadi toko online beneran. Portfolio Next.js.
+- Combine all: `prisma` warehouse + `Server Actions` orders + `auth` ID + `deploy` branch = finished online store
 
 ---
 
-## Program: Toko Capstone
+## Why This Matters (Non-IT)
 
-Fitur wajib:
-- `produk` CRUD (tambah/hapus) via Server Actions + Prisma
-- `keranjang` via `cookies` + `auth` admin
+11 separate weeks — capstone proves the combination: Prisma + Auth + Vercel deploy become a real online store. Next.js portfolio.
+
+---
+
+## Program: Capstone Store
+
+Required features:
+- `products` CRUD (add/remove) via Server Actions + Prisma
+- `cart` via `cookies` + `auth` admin
 - `deploy` Vercel
 
-Struktur:
+Structure:
 ```
 app/
-  produk/page.js (Server fetch prisma)
-  produk/actions.js (use server tambah)
+  products/page.js (Server fetch prisma)
+  products/actions.js (use server add)
   admin/page.js (auth)
-  api/produk/route.js (opsional)
+  api/products/route.js (optional)
 prisma/schema.prisma
 ```
 
-**Tugas:** Deploy `warung-capstone.vercel.app` + video demo 2 menit (tambah produk → lihat di HP).
+**Task:** Deploy `shop-capstone.vercel.app` + 2-min demo video (add product → view on phone).
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Grand Opening Toko Online
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+### Analogy: Online Store Grand Opening
+- See Program: run line by line, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (lihat minggu 1 untuk install).
+### Step 0 — Prepare Device
+- Same as this track's W1 (see week 1 for install).
 
-### Cara Komputer Membaca
-- CHECKLIST (prisma + auth + deploy) lalu URL publik + video.
+### How the Computer Reads It
+- CHECKLIST (prisma + auth + deploy) then public URL + video.
 
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
 
-## Ringkasan
+## Summary
 
-Minggu 12: **Capstone** — toko online lengkap, **Selesai Next.js 0→Ahli!**
+Week 12: **Capstone** — complete online store, **Next.js 0→Expert DONE!**
