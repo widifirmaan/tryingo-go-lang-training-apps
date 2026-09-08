@@ -1,31 +1,31 @@
-# Routing — Peta Warung Angular
+# Routing — Angular Shop Map
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 6:** Routing
+> **Kategori:** Angular | **Level:** Intermediate | **Minggu 6:** Routing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `RouterModule` peta, `path: 'produk/:id'` variabel, `routerLink` pintu, `ActivatedRoute` baca `id`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Sama seperti React/Vue — pindah tanpa reload header.
+- `RouterModule` map, `path: 'products/:id'` variable, `routerLink` doors, `ActivatedRoute` reads `id`
 
 ---
 
-## Program: Toko Angular 3 Halaman
+## Why This Matters (Non-IT)
+
+Same as React/Vue — move without reloading the header.
+
+---
+
+## Program: 3-Page Angular Store
 
 ```typescript
 // app.routes.ts
 export const routes: Routes = [
-  { path: '', component: BerandaComponent },
-  { path: 'produk', component: DaftarComponent },
-  { path: 'produk/:id', component: DetailComponent },
+  { path: '', component: HomeComponent },
+  { path: 'products', component: ListComponent },
+  { path: 'products/:id', component: DetailComponent },
 ];
 
 // app.component.html
-<nav><a routerLink="/">Beranda</a> | <a routerLink="/produk">Produk</a></nav>
+<nav><a routerLink="/">Home</a> | <a routerLink="/products">Products</a></nav>
 <router-outlet />
 
 // detail.component.ts
@@ -34,10 +34,10 @@ export class DetailComponent {
 }
 ```
 
-Gunakan `routerLink="/produk/1"` vs `href` (reload).
+Use `routerLink="/products/1"` vs `href` (reload).
 
 ---
 
-## Ringkasan
+## Summary
 
-Minggu 6: **Peta Angular** — `Routes` + `routerLink`.
+Week 6: **Angular Map** — `Routes` + `routerLink`.

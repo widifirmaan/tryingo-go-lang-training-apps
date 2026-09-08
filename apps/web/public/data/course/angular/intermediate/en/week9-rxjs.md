@@ -1,107 +1,107 @@
-# RxJS — Aliran Data Warung (angular.io)
+# RxJS — Shop Data Streams (angular.io)
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 9:** RxJS
+> **Kategori:** Angular | **Level:** Intermediate | **Minggu 9:** RxJS
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Observable` aliran, `of(1,2,3).pipe(map(x=>x*x)).subscribe(v=>...)` saring, `async` pipe `| async` di template (sumber: angular.io/guide/rx-library, rxjs.dev)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Harga warung 100 item — tulis `for` manual 100x. Dengan `Observable` + `pipe(map)`, 1 baris saring semua `harga < 20000` tanpa `for`.
+- `Observable` streams, `of(1,2,3).pipe(map(x=>x*x)).subscribe(v=>...)` filters, `async` pipe `| async` in template (source: angular.io/guide/rx-library, rxjs.dev)
 
 ---
 
-## Program: Aliran Harga Warung (angular.io)
+## Why This Matters (Non-IT)
+
+100 shop prices — hand-write `for` 100x. With `Observable` + `pipe(map)`, 1 line filters all `price < 20000` without `for`.
+
+---
+
+## Program: Shop Price Stream (angular.io)
 
 ```typescript
 import { of } from "rxjs";
 import { map, filter } from "rxjs/operators";
 
-// Aliran harga
-const harga$ = of(62000, 5000, 28000, 15000);
+// Price stream
+const prices$ = of(62000, 5000, 28000, 15000);
 
-harga$.pipe(
-  filter(h => h < 20000), // saring murah
-  map(h => `Rp ${h}`)     // ubah jadi teks
+prices$.pipe(
+  filter(h => h < 20000), // filter cheap
+  map(h => `Rp ${h}`)     // turn into text
 ).subscribe(teks => console.log(teks));
 // Rp 5000
 // Rp 15000
 
-// Di Angular template: {{ harga$ | async }}
+// In Angular template: {{ prices$ | async }}
 import { Component } from "@angular/core";
 import { Observable, of } from "rxjs";
 
 @Component({
-  selector: "app-warung",
-  template: `<div *ngFor="let h of harga$ | async">{{ h }}</div>`
+  selector: "app-shop",
+  template: `<div *ngFor="let h of prices$ | async">{{ h }}</div>`
 })
-export class WarungComponent {
-  harga$ = of([62000, 5000]).pipe(map(arr => arr.filter(h => h < 20000)));
+export class ShopComponent {
+  prices$ = of([62000, 5000]).pipe(map(arr => arr.filter(h => h < 20000)));
 }
 ```
 
-**Sumber:** `angular.io/guide/rx-library` — `Observable` + `pipe` + `subscribe`, `rxjs.dev/guide/operators` — `map`, `filter`.
+**Source:** `angular.io/guide/rx-library` — `Observable` + `pipe` + `subscribe`, `rxjs.dev/guide/operators` — `map`, `filter`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Observable` + `pipe` + `subscribe` = Aliran + Saring + Dengar
+### `Observable` + `pipe` + `subscribe` = Stream + Filter + Listen
 `of(1,2,3).pipe(map(x=>x*x)).subscribe(v=> console.log(v))` → `1,4,9`.
 
-### `async` pipe = Langganan di Template
-`{{ harga$ | async }}` otomatis `subscribe` + `unsubscribe`.
+### `async` pipe = Template Subscription
+`{{ prices$ | async }}` auto `subscribe` + `unsubscribe`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Aliran Air Warung
+### Analogy: Shop Water Flow
 
-- **`Observable` = pipa air**: `of(62000,5000)` pipa dengan 2 tetes.
-- **`pipe(map)` = saringan**: `filter(h=>h<20000)` saring murah.
-- **`subscribe` = ember**: tangkap tetes yang lolos.
+- **`Observable` = water pipe**: `of(62000,5000)` pipe with 2 drops.
+- **`pipe(map)` = strainer**: `filter(h=>h<20000)` strains cheap.
+- **`subscribe` = bucket**: catches drops that pass.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-`ng new` + `ng serve` di `4200` (sudah W1) + `npm install rxjs` (sudah di Angular).
+`ng new` + `ng serve` on `4200` (done in W1) + `npm install rxjs` (already in Angular).
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. `of(62000,5000).pipe(filter(h=>h<20000))` → buat aliran baru yang hanya `5000`.
-2. `.subscribe(v=> console.log(v))` → ember tangkap `5000`.
+1. `of(62000,5000).pipe(filter(h=>h<20000))` → creates a new stream with only `5000`.
+2. `.subscribe(v=> console.log(v))` → bucket catches `5000`.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
-1. **Observable**: pipa aliran
-2. **pipe/map/filter**: saringan
-3. **subscribe/async**: ember/langganan template
-
----
-
-## Eksperimen
-
-- **Hijau:** `of(1,2,3).pipe(map(x=>x*2)).subscribe(console.log)` → `2,4,6`?
-- **Kuning:** `filter(h=>h<20000)` ganti `>50000` → hanya `62000`?
-- **Merah:** Lupa `subscribe` → tidak ada log? Tambah `subscribe`.
+1. **Observable**: flow pipe
+2. **pipe/map/filter**: strainers
+3. **subscribe/async**: bucket/template subscription
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Aliran Lengkap:** `of([62000,5000,28000]).pipe(map(arr=>arr.filter(h=>h<20000)), map(arr=>arr.map(h=>`Rp ${h}`))).subscribe(console.log)` → `["Rp 5000"]`.
-
----
-
-## Glosarium Mini
-
-- **Observable/pipe/subscribe**: pipa/saringan/ember
+- **Green:** `of(1,2,3).pipe(map(x=>x*2)).subscribe(console.log)` → `2,4,6`?
+- **Yellow:** change `filter(h=>h<20000)` to `>50000` → only `62000`?
+- **Red:** Forget `subscribe` → no log? Add `subscribe`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Aliran** — `Observable` + `pipe`. Minggu depan: **State Management**.
+**Complete Stream Shop:** `of([62000,5000,28000]).pipe(map(arr=>arr.filter(h=>h<20000)), map(arr=>arr.map(h=>`Rp ${h}`))).subscribe(console.log)` → `["Rp 5000"]`.
+
+---
+
+## Mini Glossary
+
+- **Observable/pipe/subscribe**: pipe/strainer/bucket
+
+---
+
+## Summary
+
+Week 9 of 12: **Streams** — `Observable` + `pipe`. Next: **State Management**.

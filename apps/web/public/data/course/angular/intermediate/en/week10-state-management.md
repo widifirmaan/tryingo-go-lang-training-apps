@@ -1,90 +1,90 @@
-# State Management — Gudang Besar Angular (ngrx.io)
+# State Management — Big Angular Warehouse (ngrx.io)
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 10:** State Management
+> **Kategori:** Angular | **Level:** Intermediate | **Minggu 10:** State Management
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@ngrx/component-store` gudang komponen — `store` + `updater` + `selector` + `dispatch` (sumber: ngrx.io/guide/component-store)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung 10 komponen butuh `keranjang` — `props` estafet 5 level melelahkan. `ComponentStore` = gudang di tengah, semua ambil.
+- `@ngrx/component-store` component warehouse — `store` + `updater` + `selector` + `dispatch` (source: ngrx.io/guide/component-store)
 
 ---
 
-## Program: Gudang NgRx Warung (ngrx.io)
+## Why This Matters (Non-IT)
+
+10 shop components needing `cart` — 5-level `props` relay exhausts. `ComponentStore` = warehouse in the middle, everyone takes.
+
+---
+
+## Program: NgRx Shop Warehouse (ngrx.io)
 
 ```bash
 npm install @ngrx/component-store
 ```
 
 ```typescript
-// keranjang.store.ts
+// cart.store.ts
 import { ComponentStore } from "@ngrx/component-store";
 import { Injectable } from "@angular/core";
 
-interface KeranjangState { items: { nama: string }[]; }
+interface CartState { items: { name: string }[]; }
 
 @Injectable({ providedIn: "root" })
-export class KeranjangStore extends ComponentStore<KeranjangState> {
+export class CartStore extends ComponentStore<CartState> {
   constructor(){ super({ items: [] }); }
 
   readonly items$ = this.select(state => state.items);
-  readonly tambah = this.updater((state, item: { nama: string }) => ({
+  readonly add = this.updater((state, item: { name: string }) => ({
     items: [...state.items, item]
   }));
 }
 
 // component.ts
-constructor(private store: KeranjangStore) {}
-tambah(){ this.store.tambah({ nama: "Beras" }); }
+constructor(private store: CartStore) {}
+add(){ this.store.add({ name: "Rice" }); }
 
 // template.html
-<button (click)="tambah()">Tambah Beras</button>
-<div *ngFor="let i of store.items$ | async">{{ i.nama }}</div>
+<button (click)="add()">Add Rice</button>
+<div *ngFor="let i of store.items$ | async">{{ i.name }}</div>
 ```
 
-**Sumber:** `ngrx.io/guide/component-store` — `ComponentStore` + `select`/`updater`.
+**Source:** `ngrx.io/guide/component-store` — `ComponentStore` + `select`/`updater`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `ComponentStore` = Gudang Komponen
-`select` baca, `updater` ubah, `| async` di template.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Gudang Besar
-
-- **`ComponentStore` = gudang**: `tambah` masukkan, `items$` lihat.
-
-### Langkah 0 — Device
-
-`ng new` + `npm install @ngrx/component-store` + `ng serve` di `4200`.
-
-### 3 Istilah Wajib
-
-1. **Store/select/updater**: gudang/baca/ubah
+### `ComponentStore` = Component Warehouse
+`select` reads, `updater` mutates, `| async` in template.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Warung Gudang Lengkap:** `KeranjangStore` `items: {nama, harga}[]` + `tambah` + `hapus` `updater`, `items$ | async` tampil, `ng serve` cek.
+### Analogy: Big Warehouse
+
+- **`ComponentStore` = warehouse**: `add` inserts, `items$` views.
+
+### Step 0 — Prepare Device
+
+`ng new` + `npm install @ngrx/component-store` + `ng serve` on `4200`.
+
+### 3 Must-Know Terms
+
+1. **Store/select/updater**: warehouse/read/mutate
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **ComponentStore**: gudang komponen
+**Complete Warehouse Shop:** `CartStore` `items: {name, price}[]` + `add` + `remove` `updater`, `items$ | async` display, `ng serve` check.
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 10 dari 12: **Gudang Besar** — `ComponentStore`. Minggu depan: **Testing**.
+- **ComponentStore**: component warehouse
+
+---
+
+## Summary
+
+Week 10 of 12: **Big Warehouse** — `ComponentStore`. Next: **Testing**.

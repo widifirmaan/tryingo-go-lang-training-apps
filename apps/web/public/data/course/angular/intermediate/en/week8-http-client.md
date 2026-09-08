@@ -1,115 +1,115 @@
-# HttpClient — Ambil Stok dari Gudang (angular.dev)
+# HttpClient — Fetch Stock from Warehouse (angular.dev)
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 8:** HttpClient
+> **Kategori:** Angular | **Level:** Intermediate | **Minggu 8:** HttpClient
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `HttpClient` `get`/`post` ambil API warung — `http.get<Produk[]>('/api/produk').subscribe(produk => ...)` dan `http.post` kirim `body` JSON (sumber: angular.dev/guide/http/making-requests)
-- Wajib `subscribe()` agar request terkirim — tanpa itu tidak jalan
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `HttpClient`, warung tidak bisa ambil stok dari gudang pusat `api.warung.com`. Dengan `get`/`post`, 1 baris ambil/kirim.
+- `HttpClient` `get`/`post` fetches the shop API — `http.get<Product[]>('/api/products').subscribe(products => ...)` and `http.post` sends `body` JSON (source: angular.dev/guide/http/making-requests)
+- `subscribe()` is mandatory for the request to send — without it nothing happens
 
 ---
 
-## Program: Ambil & Kirim Warung (angular.dev)
+## Why This Matters (Non-IT)
+
+Without `HttpClient`, the shop can't fetch stock from the central warehouse `api.shop.com`. With `get`/`post`, 1 line fetches/sends.
+
+---
+
+## Program: Fetch & Send Shop (angular.dev)
 
 ```typescript
-// service: produk.service.ts
+// service: product.service.ts
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: "root" })
-export class ProdukService {
+export class ProductService {
   constructor(private http: HttpClient) {}
 
   getAll(){
-    return this.http.get<any[]>("/api/produk"); // GET → Observable
+    return this.http.get<any[]>("/api/products"); // GET → Observable
   }
 
-  tambah(nama: string){
-    return this.http.post("/api/produk", { nama }); // POST + body JSON
+  add(name: string){
+    return this.http.post("/api/products", { name }); // POST + body JSON
   }
 }
 
 // component.ts
-produk$ = this.produkService.getAll(); // di template: | async
+products$ = this.productService.getAll(); // in template: | async
 
 ngOnInit(){
-  this.produkService.getAll().subscribe(data => console.log(data));
-  this.produkService.tambah("Beras").subscribe(res => console.log("Tambah:", res));
+  this.productService.getAll().subscribe(data => console.log(data));
+  this.productService.add("Rice").subscribe(res => console.log("Add:", res));
 }
 ```
 
 ```html
 <!-- template -->
-<li *ngFor="let p of produk$ | async">{{ p.nama }}</li>
+<li *ngFor="let p of products$ | async">{{ p.name }}</li>
 ```
 
-**Sumber:** `angular.dev/guide/http/making-requests` — `http.get`/`post` + `subscribe`.
+**Source:** `angular.dev/guide/http/making-requests` — `http.get`/`post` + `subscribe`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `HttpClient.get`/`post` = Ambil/Kirim
-`get("/api/produk")` ambil, `post("/api/produk", { nama })` kirim `body` JSON otomatis.
+### `HttpClient.get`/`post` = Fetch/Send
+`get("/api/products")` fetches, `post("/api/products", { name })` sends `body` JSON automatically.
 
-### `subscribe()` = Tekan Kirim
-`http.get(...).subscribe(data => ...)` tanpa `subscribe` request tidak terkirim — lupa ini = tidak ada data.
+### `subscribe()` = Press Send
+`http.get(...).subscribe(data => ...)` without `subscribe` the request never sends — forgetting this = no data.
 
-### `async` pipe = Langganan di Template
-`produk$ | async` otomatis `subscribe` + `unsubscribe`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kurir Gudang
-
-- **`HttpClient` = kurir**: `get` ambil kardus dari gudang, `post` kirim kardus baru.
-- **`subscribe` = tanda terima**: tanpa tanda terima, kurir tidak jalan.
-
-### Langkah 0 — Device
-
-Sudah siap W1: `ng serve` di `4200`, `HttpClient` sudah `provideHttpClient()` di `app.config.ts`.
-
-### Cara Komputer Membaca
-
-1. `http.get("/api/produk").subscribe(data => ...)` → kirim GET → server balas JSON → `data` isi.
-2. `http.post("/api/produk", { nama })` → kirim POST + `body` JSON → server simpan.
-
-### 3 Istilah Wajib
-
-1. **HttpClient/get/post**: kurir ambil/kirim
-2. **subscribe**: tekan kirim
-3. **Observable/async pipe**: aliran + langganan template
+### `async` pipe = Template Subscription
+`products$ | async` auto `subscribe` + `unsubscribe`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `getAll()` tanpa `subscribe` → tidak ada log? Tambah `subscribe`.
-- **Kuning:** `post` dengan `nama: "Bayam"` → `subscribe` log `Tambah`?
-- **Merah:** `http.get` tanpa `| async` di template → tidak tampil? Tambah `| async`.
+### Analogy: Warehouse Courier
+
+- **`HttpClient` = courier**: `get` picks boxes from the warehouse, `post` sends new boxes.
+- **`subscribe` = receipt**: without a receipt, the courier doesn't go.
+
+### Step 0 — Prepare Device
+
+Ready from W1: `ng serve` on `4200`, `HttpClient` already `provideHttpClient()` in `app.config.ts`.
+
+### How the Computer Reads It
+
+1. `http.get("/api/products").subscribe(data => ...)` → sends GET → server replies JSON → `data` filled.
+2. `http.post("/api/products", { name })` → sends POST + `body` JSON → server saves.
+
+### 3 Must-Know Terms
+
+1. **HttpClient/get/post**: courier fetch/send
+2. **subscribe**: press send
+3. **Observable/async pipe**: stream + template subscription
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung HttpClient Lengkap:** `getAll()` tampil `*ngFor` + `| async`, `tambah("Beras")` + `subscribe` log, `ng serve` cek.
-
----
-
-## Glosarium Mini
-
-- **HttpClient/get/post/subscribe**: kurir/ambil/kirim/tekan
+- **Green:** `getAll()` without `subscribe` → no log? Add `subscribe`.
+- **Yellow:** `post` with `name: "Spinach"` → `subscribe` logs `Add`?
+- **Red:** `http.get` without `| async` in template → not shown? Add `| async`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Ambil Stok** — `HttpClient` + `subscribe`. Selesai Menengah Angular!
+**Complete HttpClient Shop:** `getAll()` displayed with `*ngFor` + `| async`, `add("Rice")` + `subscribe` log, `ng serve` check.
+
+---
+
+## Mini Glossary
+
+- **HttpClient/get/post/subscribe**: courier/fetch/send/press
+
+---
+
+## Summary
+
+Week 8 of 12: **Fetch Stock** — `HttpClient` + `subscribe`. Intermediate Angular DONE!
