@@ -1,41 +1,41 @@
-# Testing TypeScript — Uji Warung TS (vitest.dev)
+# Testing TypeScript — Test TS Shop (vitest.dev)
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 9:** Testing TypeScript
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 9:** Testing TypeScript
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `vitest` `test("buat user", () => expect(user).toEqual(...))` — `vitest` jalan di Vite, TS langsung tanpa `ts-jest` (sumber: vitest.dev/guide)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa uji, `hitungTotal` salah → pelanggan rugi tidak ketahuan. Dengan `vitest`, ubah → test merah → perbaiki sebelum deploy.
+- `vitest` `test("make user", () => expect(user).toEqual(...))` — `vitest` runs on Vite, TS directly without `ts-jest` (source: vitest.dev/guide)
 
 ---
 
-## Program: Uji Warung TS (vitest.dev)
+## Why This Matters (Non-IT)
+
+Without tests, wrong `calcTotal` → customers lose money unnoticed. With `vitest`, change → red test → fix before deploy.
+
+---
+
+## Program: Test TS Shop (vitest.dev)
 
 ```bash
 npm install -D vitest
 ```
 
 ```typescript
-// hitung.ts
-export function hitung(a: number, b: number): number { return a + b; }
+// calc.ts
+export function calc(a: number, b: number): number { return a + b; }
 
-// hitung.test.ts — .test.ts langsung TS
+// calc.test.ts — .test.ts directly TS
 import { test, expect } from "vitest";
-import { hitung } from "./hitung";
+import { calc } from "./calc";
 
 test("2+3=5", () => {
-  expect(hitung(2, 3)).toBe(5);
+  expect(calc(2, 3)).toBe(5);
 });
 
-test("buat user", () => {
+test("make user", () => {
   interface User { name: string; age: number; }
-  function buatUser(name: string, age: number): User { return { name, age }; }
-  const user = buatUser("Budi", 25);
+  function makeUser(name: string, age: number): User { return { name, age }; }
+  const user = makeUser("Budi", 25);
   expect(user).toEqual({ name: "Budi", age: 25 });
 });
 ```
@@ -45,52 +45,64 @@ test("buat user", () => {
 { "scripts": { "test": "vitest" } }
 ```
 
-`npm test` → PASS. `npx vitest --typecheck` untuk cek tipe.
+`npm test` → PASS. `npx vitest --typecheck` for type checking.
 
-**Sumber:** `vitest.dev/guide` — TS works out of the box.
-
----
-
-## Konsep Kunci
-
-### `vitest` + `expect` = Uji Warung
-`test("nama", () => expect(hitung(2,3)).toBe(5))` — nama, harap, cek.
-
-### `.test.ts` Langsung TS
-Tidak perlu `ts-jest`, Vite transform TS on the fly.
+**Source:** `vitest.dev/guide` — TS works out of the box.
 
 ---
 
-## Penjelasan untuk Pemula
+## Key Concepts
 
-### Analogi: Uji Rasa Warung
+### `vitest` + `expect` = Shop Test
+`test("name", () => expect(calc(2,3)).toBe(5))` — name, expect, check.
 
-- **`test` = cicip**: `hitung(2,3)` harus `5`, jika `6` → merah.
-- **`vitest` = dapur uji**: `npm test` cicip semua.
-
-### Langkah 0 — Device
-
-`npm create vite` + `npm install -D vitest` + `npm test` di terminal.
-
-### 3 Istilah Wajib
-
-1. **test/expect**: cicip/harap
-2. **vitest**: dapur uji Vite
+### `.test.ts` Directly TS
+No `ts-jest` needed, Vite transforms TS on the fly.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Warung Uji Lengkap:** `hitungTotal` + `test` 2 kasus `2+3=5` dan `buatUser` 1 kasus, `npm test` PASS screenshot.
+### Analogy: Shop Taste-Test
+
+- **`test` = taste**: `calc(2,3)` must be `5`, if `6` → red.
+- **`vitest` = test kitchen**: `npm test` tastes all.
+
+### Step 0 — Prepare Device
+
+`npm create vite` + `npm install -D vitest` + `npm test` in terminal.
+
+### How the Computer Reads It
+1. `npm test` → vitest finds `*.test.ts` → runs each `test()`.
+2. `expect(6).toBe(5)` → red + diff shown.
+
+### 3 Must-Know Terms
+
+1. **test/expect**: taste/expect
+2. **vitest**: Vite test kitchen
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **vitest/test/expect**: uji
+- **Green:** Break `calc` to `a-b` → test red? Fix back.
+- **Yellow:** Add 3rd test → all 3 run?
+- **Red:** Delete `expect` → test passes vacuously? Restore assertion.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Uji Warung TS** — `vitest`. Minggu depan: **Patterns**.
+**Complete Tested Shop:** `calcTotal` + 2-case `test` for `2+3=5` and 1-case `makeUser`, `npm test` PASS screenshot.
+
+---
+
+## Mini Glossary
+
+- **vitest/test/expect**: test
+
+---
+
+## Summary
+
+Week 9 of 12: **Test TS Shop** — `vitest`. Next: **Patterns**.

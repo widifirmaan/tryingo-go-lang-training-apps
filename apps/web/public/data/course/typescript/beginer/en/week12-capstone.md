@@ -1,64 +1,64 @@
-# Capstone: Type-Safe Warung API Client
+# Capstone: Type-Safe Shop API Client
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 12:** Capstone: Type-Safe API Client
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 12:** Capstone: Type-Safe API Client
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `interface` + `fetch` bertipe + `generics` jadi client `api.get<Produk>("/produk")` type-safe
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: `fetch` bertipe + `interface` + `generics` jadi client yang autocomplete + tolak typo SEBELUM run. Ini portfolio "TypeScript production-ready".
+- Combine `interface` + typed `fetch` + `generics` into a type-safe client `api.get<Product>("/products")`
 
 ---
 
-## Program: Client Type-Safe
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combination: typed `fetch` + `interface` + `generics` become a client with autocomplete + typo rejection BEFORE run. This is your "production-ready TypeScript" portfolio.
+
+---
+
+## Program: Type-Safe Client
 
 ```typescript
-interface Produk { id: number; nama: string; harga: number; }
+interface Product { id: number; name: string; price: number; }
 
 async function apiGet<T>(url: string): Promise<T> {
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Gagal");
+  if (!res.ok) throw new Error("Failed");
   return res.json() as T;
 }
 
 async function main(){
-  const produk = await apiGet<Produk[]>("/produk");
-  console.log(produk[0].nama); // autocomplete, typo langsung merah
+  const products = await apiGet<Product[]>("/products");
+  console.log(products[0].name); // autocomplete, typos instantly red
 }
 
 main();
 ```
 
-**Tugas capstone:** Buat `apiClient` generik untuk `Produk` + `Pelanggan` + `Pesanan` dengan `interface` masing-masing, `fetch` + `try/catch`.
+**Capstone task:** Build a generic `apiClient` for `Product` + `Customer` + `Order` with respective `interface`s, `fetch` + `try/catch`.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Penerjemah Type-Safe
-- **`apiGet<Produk>` = penerjemah**: URL mentah → objek bertipe. Salah field → merah sebelum run.
+### Analogy: Type-Safe Translator
+- **`apiGet<Product>` = translator**: raw URL → typed object. Wrong field → red before run.
 
-### Langkah 0 — Siapkan Device
-- Sama TS W1: `npx tsc` + `node` (atau `tsx` untuk langsung).
+### Step 0 — Prepare Device
+- Same as TS W1: `npx tsc` + `node` (or `tsx` for direct run).
 
-### Cara Komputer Membaca
-1. `apiGet<Produk[]>("/produk")` → fetch → `as T` → `produk[0].nama` autocomplete.
+### How the Computer Reads It
+1. `apiGet<Product[]>("/products")` → fetch → `as T` → `products[0].name` autocompletes.
 
-### 3 Istilah Wajib
-1. **Generics/fetch**: serbaguna/ambil
-
----
-
-## Glosarium Mini
-
-- **apiGet/generics**: ambil-bertipe/serbaguna
+### 3 Must-Know Terms
+1. **Generics/fetch**: multipurpose/fetch
 
 ---
-## Ringkasan
 
-Minggu 12: **Capstone TS** — client type-safe, **Selesai TypeScript 0→Ahli!**
+## Mini Glossary
+
+- **apiGet/generics**: typed-fetch/multipurpose
+
+---
+## Summary
+
+Week 12: **TS Capstone** — type-safe client, **TypeScript 0→Expert DONE!**

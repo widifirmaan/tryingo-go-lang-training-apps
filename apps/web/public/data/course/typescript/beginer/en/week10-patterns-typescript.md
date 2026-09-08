@@ -1,100 +1,112 @@
-# Design Patterns TS — Pola Warung Rapi (TechPulse 2026)
+# Design Patterns TS — Neat Shop Patterns (TechPulse 2026)
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 10:** Design Patterns TS
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 10:** Design Patterns TS
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Singleton` 1 kasir, `Factory` pabrik `buatProduk("beras")`, `Observer` langganan `stokHabis` (sumber: TechPulse 2026 + refactoring.guru)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa pola, `if (tipe==="beras")` 20x duplikat. Dengan `Factory`, 1 pabrik untuk semua. `Observer` untuk "jika stok habis, beri tahu 3 cabang" tanpa `if` manual.
+- `Singleton` 1 cashier, `Factory` factory `makeProduct("rice")`, `Observer` subscribers of `outOfStock` (source: TechPulse 2026 + refactoring.guru)
 
 ---
 
-## Program: Pola Warung TS (TechPulse)
+## Why This Matters (Non-IT)
+
+Without patterns, `if (type==="rice")` duplicated 20x. With `Factory`, 1 factory for all. `Observer` for "when stock empties, notify 3 branches" without manual `if`.
+
+---
+
+## Program: TS Shop Patterns (TechPulse)
 
 ```typescript
-// Singleton — 1 kasir (TechPulse)
-class Kasir {
-  private static instance: Kasir;
+// Singleton — 1 cashier (TechPulse)
+class Cashier {
+  private static instance: Cashier;
   private constructor(){}
-  static getInstance(): Kasir {
-    if(!Kasir.instance) Kasir.instance = new Kasir();
-    return Kasir.instance;
+  static getInstance(): Cashier {
+    if(!Cashier.instance) Cashier.instance = new Cashier();
+    return Cashier.instance;
   }
 }
-const a = Kasir.getInstance();
-const b = Kasir.getInstance();
-console.log(a === b); // true, sama
+const a = Cashier.getInstance();
+const b = Cashier.getInstance();
+console.log(a === b); // true, same
 
-// Factory — pabrik (refactoring.guru)
-function buatProduk(tipe: "beras" | "bayam"){
-  if(tipe === "beras") return { nama: "Beras", harga: 62000 };
-  return { nama: "Bayam", harga: 5000 };
+// Factory — factory (refactoring.guru)
+function makeProduct(type: "rice" | "spinach"){
+  if(type === "rice") return { name: "Rice", price: 62000 };
+  return { name: "Spinach", price: 5000 };
 }
-console.log(buatProduk("beras"));
+console.log(makeProduct("rice"));
 
-// Observer — langganan (TechPulse)
-class Toko {
-  private pelanggan: ((nama:string)=>void)[] = [];
-  langganan(fn: (nama:string)=>void){ this.pelanggan.push(fn); }
-  stokHabis(nama: string){ this.pelanggan.forEach(fn=>fn(nama)); }
+// Observer — subscribers (TechPulse)
+class Store {
+  private customers: ((name:string)=>void)[] = [];
+  subscribe(fn: (name:string)=>void){ this.customers.push(fn); }
+  outOfStock(name: string){ this.customers.forEach(fn=>fn(name)); }
 }
-const toko = new Toko();
-toko.langganan(nama=>console.log(`Stok ${nama} habis, restok?`));
-toko.stokHabis("Beras");
+const store = new Store();
+store.subscribe(name=>console.log(`Stock ${name} empty, restock?`));
+store.outOfStock("Rice");
 ```
 
-**Sumber:** `techpulsesite.com/typescript-design-patterns-2026` — Singleton/Factory/Observer + `refactoring.guru`.
+**Source:** `techpulsesite.com/typescript-design-patterns-2026` — Singleton/Factory/Observer + `refactoring.guru`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Singleton` = 1 Kasir
+### `Singleton` = 1 Cashier
 `private constructor` + `static getInstance` — 1 instance.
 
-### `Factory` = Pabrik
-`buatProduk(tipe)` → objek, tanpa `new` manual 20x.
+### `Factory` = Factory
+`makeProduct(type)` → object, without 20x manual `new`.
 
-### `Observer` = Langganan
-`langganan(fn)` + `stokHabis` → panggil semua.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Warung Rapi
-
-- **Singleton = 1 kasir utama**: tidak ada 2 kasir utama.
-- **Factory = pabrik kardus**: minta "beras" → pabrik buat kardus beras.
-- **Observer = grup WA**: stok habis → broadcast ke 3 cabang.
-
-### Langkah 0 — Device
-
-`npx tsc` cek, `tsc --version` 5.x (sudah W1).
-
-### 3 Istilah Wajib
-
-1. **Singleton/Factory/Observer**: 1/pabrik/langganan
+### `Observer` = Subscribers
+`subscribe(fn)` + `outOfStock` → calls all.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Warung Pola Lengkap:** `Kasir` Singleton + `buatProduk` Factory 3 tipe + `Toko` Observer 2 pelanggan langganan `stokHabis`.
+### Analogy: Neat Shop
+
+- **Singleton = 1 head cashier**: no 2 head cashiers.
+- **Factory = box factory**: ask "rice" → factory builds rice box.
+- **Observer = WA group**: stock empty → broadcast to 3 branches.
+
+### Step 0 — Prepare Device
+
+`npx tsc` check, `tsc --version` 5.x (done in W1).
+
+### How the Computer Reads It
+1. `getInstance()` twice → same object (`===` true).
+2. `outOfStock("Rice")` → all 2 subscribers called.
+
+### 3 Must-Know Terms
+
+1. **Singleton/Factory/Observer**: one/factory/subscribers
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Singleton/Factory/Observer**: pola
+- **Green:** `getInstance() === getInstance()` → true?
+- **Yellow:** `makeProduct("spinach")` → spinach object?
+- **Red:** `new Cashier()` directly → `private constructor` error? Use `getInstance`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 10 dari 12: **Pola Rapi** — Singleton, Factory, Observer.
+**Complete Pattern Shop:** `Cashier` Singleton + `makeProduct` Factory 3 types + `Store` Observer 2 customers subscribed to `outOfStock`.
+
+---
+
+## Mini Glossary
+
+- **Singleton/Factory/Observer**: patterns
+
+---
+
+## Summary
+
+Week 10 of 12: **Neat Patterns** — Singleton, Factory, Observer. Next: **Advanced Types**.
