@@ -1,98 +1,98 @@
-# Lifetimes — KTP Pinjaman Rust
+# Lifetimes — Rust Borrowing ID Cards
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 9:** Lifetimes
+> **Kategori:** Rust | **Level:** Intermediate | **Minggu 9:** Lifetimes
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `fn terpanjang<'a>(x: &'a str, y: &'a str) -> &'a str` — hasil hidup selama yang TERPENDEK (sumber: doc.rust-lang.org/book/ch10-03-lifetime-syntax)
-- Elision: 1 input → output ikut itu (tak perlu tulis `'a`)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Pinjam buku A (balik Senin) + B (balik Jumat) → fotokopi gabungan berlaku sampai... Senin (terpendek!). Tanpa lifetimes, Rust tolak (takut fotokopi basi Jumat!). Dengan `'a`, compiler buktikan aman SEBELUM run (bukan segfault saat run seperti C!).
+- `fn longest<'a>(x: &'a str, y: &'a str) -> &'a str` — result lives as long as the SHORTER (source: doc.rust-lang.org/book/ch10-03-lifetime-syntax)
+- Elision: 1 input → output follows it (no need to write `'a`)
 
 ---
 
-## Program: Fotokopi Terpendek (Contoh Resmi Book)
+## Why This Matters (Non-IT)
+
+Borrow book A (due Monday) + B (due Friday) → combined photocopy valid until... Monday (shorter!). Without lifetimes, Rust refuses (fearing a stale Friday photocopy!). With `'a`, the compiler proves safety BEFORE run (not a runtime segfault like C!).
+
+---
+
+## Program: Shortest Photocopy (Official Book Example)
 
 ```rust
-// 'a = umur pinjaman. Hasil hidup selama yang TERPENDEK dari x, y.
-fn terpanjang<'a>(x: &'a str, y: &'a str) -> &'a str {
+// 'a = borrowing age. Result lives as long as the SHORTER of x, y.
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
   if x.len() > y.len() { x } else { y }
 }
 
 fn main() {
-  let s1 = String::from("beras pulen"); // hidup sampai akhir main
-  let hasil;
+  let s1 = String::from("fluffy rice"); // lives until end of main
+  let result;
   {
-    let s2 = String::from("gula"); // hidup sampai akhir blok ini
-    hasil = terpanjang(s1.as_str(), s2.as_str());
-    println!("Terpanjang: {}", hasil); // OK: s2 masih hidup!
+    let s2 = String::from("sugar"); // lives until end of this block
+    result = longest(s1.as_str(), s2.as_str());
+    println!("Longest: {}", result); // OK: s2 still alive!
   }
-  // println!("{}", hasil); // ERROR! s2 sudah mati (borrow checker jaga)
+  // println!("{}", result); // ERROR! s2 already dead (borrow checker guards)
 }
 ```
 
-Elision (tak perlu tulis — compiler tebak):
+Elision (no need to write — compiler guesses):
 ```rust
-fn pertama(teks: &str) -> &str { teks } // 1 input → output ikut umurnya
+fn first(text: &str) -> &str { text } // 1 input → output follows its age
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `'a` = Cap Umur Pinjaman
-`fn f<'a>(x: &'a str) -> &'a str` — output hidup selama `x`.
+### `'a` = Borrowing Age Stamp
+`fn f<'a>(x: &'a str) -> &'a str` — output lives as long as `x`.
 
-### Terpendek Menang
-2 input beda umur → hasil ikut yang pendek. Compiler tolak jika dipakai lewat itu.
+### Shortest Wins
+2 inputs different ages → result follows the short one. The compiler rejects use past that.
 
-### Elision = Tak Perlu Tulis
-1 input → otomatis. Tulis `'a` jika 2+ input atau struct simpan reference.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Fotokopi 2 Buku Beda Jatuh Tempo
-- **'a = masa berlaku fotokopi** = min(Senin, Jumat) = Senin.
-- **Borrow checker = pustakawan galak**: tolak sebelum buku basi (compile-time, bukan saat baca!).
-
-### Langkah 0 — Siapkan Device
-- Sama W1. Baca error `borrowed value does not live long enough` — itu PETUNJUK, bukan musuh!
-
-### Cara Komputer Membaca
-1. `terpanjang(s1, s2)` → umur hasil = min(umur s1, umur s2).
-2. Pakai `hasil` setelah s2 mati → DITOLAK.
-
-### 3 Istilah Wajib
-1. **Lifetime/'a/elision**: umur/cap/otomatis
+### Elision = No Need to Write
+1 input → automatic. Write `'a` for 2+ inputs or structs storing references.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Pakai `hasil` DI DALAM blok → jalan?
-- **Kuning:** Hapus `<'a>` → error `missing lifetime specifier`? (Butuh karena 2 input!)
-- **Merah:** Baca error `does not live long enough` → tunjuk baris s2 mati? Pahami!
+### Analogy: Photocopy of 2 Books with Different Due Dates
+- **'a = photocopy validity** = min(Monday, Friday) = Monday.
+- **Borrow checker = fierce librarian**: rejects before books go stale (compile-time, not reading-time!).
 
----
+### Step 0 — Prepare Device
+- Same as W1. Read the `borrowed value does not live long enough` error — it's a HINT, not an enemy!
 
-## Tantangan
+### How the Computer Reads It
+1. `longest(s1, s2)` → result age = min(age s1, age s2).
+2. Using `result` after s2 dies → REJECTED.
 
-**Perpustakaan Aman:** `fn pinjam<'a>(a: &'a str, b: &'a str) -> &'a str` + 2 umur beda + buktikan pakai-lewat-mati ditolak + elision 1-input.
-
----
-
-## Glosarium Mini
-
-- **Lifetime/elision/borrow-checker**: umur/otomatis/pustakawan
+### 3 Must-Know Terms
+1. **Lifetime/'a/elision**: age/stamp/automatic
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 9 dari 14: **KTP Pinjaman** (Level: Menengah). Aman sebelum run. Minggu depan: **Testing**.
+- **Green:** Use `result` INSIDE the block → runs?
+- **Yellow:** Remove `<'a>` → `missing lifetime specifier` error? (Needed for 2 inputs!)
+- **Red:** Read the `does not live long enough` error → points at dead s2's line? Understand it!
+
+---
+
+## Challenge
+
+**Safe Library:** `fn borrow<'a>(a: &'a str, b: &'a str) -> &'a str` + 2 different ages + prove use-past-death is rejected + 1-input elision.
+
+---
+
+## Mini Glossary
+
+- **Lifetime/elision/borrow-checker**: age/automatic/librarian
+
+---
+
+## Summary
+
+Week 9 of 14: **Borrowing ID** (Level: Intermediate). Safe before run. Next: **Testing**.

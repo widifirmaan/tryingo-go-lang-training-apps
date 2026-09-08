@@ -1,101 +1,101 @@
-# Generics — Rak Serbaguna Rust
+# Generics — Multipurpose Rust Racks
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 8:** Generics
+> **Kategori:** Rust | **Level:** Intermediate | **Minggu 8:** Generics
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `struct Keranjang<T> { items: Vec<T> }` rak tipe apa saja + `fn pertama<T>(v: &[T]) -> &T` (sumber: doc.rust-lang.org/book/ch10-01-syntax)
-- `T: Kasir` batas (trait bound) — hanya yang berkontrak!
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa generics, `KeranjangString` + `KeranjangInt` duplikat. Dengan `<T>` 1 rak + tetap ketat (tidak `Any` longgar). `T: Kasir` cegah rak isi barang tak-berkontrak.
+- `struct Cart<T> { items: Vec<T> }` any-type rack + `fn first<T>(v: &[T]) -> &T` (source: doc.rust-lang.org/book/ch10-01-syntax)
+- `T: Cashier` bound (trait bound) — contracted only!
 
 ---
 
-## Program: Rak Generik Warung
+## Why This Matters (Non-IT)
+
+Without generics, `StringCart` + `IntCart` duplicates. With `<T>` 1 rack + still strict (no loose `Any`). `T: Cashier` stops uncontracted goods entering the rack.
+
+---
+
+## Program: Generic Shop Rack
 
 ```rust
-struct Keranjang<T> {
+struct Cart<T> {
   items: Vec<T>,
 }
 
-impl<T> Keranjang<T> {
+impl<T> Cart<T> {
   fn new() -> Self { Self { items: Vec::new() } }
-  fn tambah(&mut self, item: T) { self.items.push(item); }
-  fn pertama(&self) -> Option<&T> { self.items.first() }
+  fn add(&mut self, item: T) { self.items.push(item); }
+  fn first(&self) -> Option<&T> { self.items.first() }
 }
 
 fn main() {
-  let mut ks = Keranjang { items: vec!["Beras", "Gula"] };
-  ks.tambah("Kopi");
-  println!("Pertama: {:?}", ks.pertama());
+  let mut ks = Cart { items: vec!["Rice", "Sugar"] };
+  ks.add("Coffee");
+  println!("First: {:?}", ks.first());
 
-  let mut ki: Keranjang<i32> = Keranjang::new();
-  ki.tambah(62000);
-  // ki.tambah("x"); // ERROR: bukan i32!
+  let mut ki: Cart<i32> = Cart::new();
+  ki.add(62000);
+  // ki.add("x"); // ERROR: not i32!
 
-  // Batas trait: hanya berkontrak Kasir (W7)!
-  fn bayar_termahal<T: crate::Kasir>(a: &T, b: &T) -> u32 {
-    a.hitung().max(b.hitung())
+  // Trait bound: only Cashier-contracted (W7)!
+  fn priciest<T: crate::Cashier>(a: &T, b: &T) -> u32 {
+    a.calc().max(b.calc())
   }
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `<T>` = Label Sementara
-`Keranjang<String>` → `T` jadi `String` di mana-mana.
+### `<T>` = Temporary Label
+`Cart<String>` → `T` becomes `String` everywhere.
 
-### `T: Kasir` = Syarat Rak
-Hanya tipe berkontrak boleh masuk fungsi.
+### `T: Cashier` = Rack Requirement
+Only contracted types may enter the function.
 
-### `Option<&T>` = Aman Kosong
-`first()` → `Some`/`None` (bukan panic!).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Rak Adjustable
-- **Generics = rak adjustable**: setel `String`/`i32` — 1 rak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `cargo run`.
-
-### Cara Komputer Membaca
-1. `Keranjang { items: vec!["Beras"] }` → tebak `T = &str`.
-2. `tambah(123)` → error tipe!
-
-### 3 Istilah Wajib
-1. **Generics/<T>/bound**: serbaguna/label/syarat
+### `Option<&T>` = Safe Empty
+`first()` → `Some`/`None` (not panic!).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `Keranjang::new()` + tebak tipe dari `tambah`?
-- **Kuning:** `pertama()` rak kosong → `None`? (Aman, tidak panic!)
-- **Merah:** Hapus `: Kasir` bound → panggil `hitung` di dalam → error?
+### Analogy: Adjustable Rack
+- **Generics = adjustable rack**: set `String`/`i32` — 1 rack.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `cargo run`.
 
-## Tantangan
+### How the Computer Reads It
+1. `Cart { items: vec!["Rice"] }` → guesses `T = &str`.
+2. `add(123)` → type error!
 
-**Gudang Generik:** `Keranjang<T>` + `total<T: Harga>()` + 2 tipe + `Option` tangani kosong.
-
----
-
-## Glosarium Mini
-
-- **Generics/bound/Option**: serbaguna/syarat/aman
+### 3 Must-Know Terms
+1. **Generics/<T>/bound**: multipurpose/label/requirement
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 8 dari 14: **Rak Serbaguna** (Level: Menengah). 1 rak ketat. Minggu depan: **Lifetimes**.
+- **Green:** `Cart::new()` + guess type from `add`?
+- **Yellow:** `first()` on empty rack → `None`? (Safe, no panic!)
+- **Red:** Remove the `: Cashier` bound → calling `calc` inside → error?
+
+---
+
+## Challenge
+
+**Generic Warehouse:** `Cart<T>` + `total<T: Priced>()` + 2 types + `Option` handles empty.
+
+---
+
+## Mini Glossary
+
+- **Generics/bound/Option**: multipurpose/requirement/safe
+
+---
+
+## Summary
+
+Week 8 of 14: **Multipurpose Rack** (Level: Intermediate). 1 strict rack. Next: **Lifetimes**.

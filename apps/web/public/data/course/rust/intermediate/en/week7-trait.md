@@ -1,107 +1,107 @@
-# Trait — Kontrak Warung Rust
+# Trait — Rust Shop Contract
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 7:** Trait
+> **Kategori:** Rust | **Level:** Intermediate | **Minggu 7:** Trait
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `trait Kasir { fn hitung(&self) -> u32; }` kontrak + `impl Kasir for Beras` penuhi (sumber: doc.rust-lang.org/book/ch10-02-traits)
-- `fn bayar(k: &impl Kasir)` terima apa saja yang berkontrak + default method
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Beras, Minyak, Gula semua harus bisa `hitung()` — tanpa trait, tulis fungsi per tipe (duplikat!). Dengan trait 1 kontrak, 1 fungsi `bayar` untuk semua. Tambah `Kopi` tanpa ubah `bayar`.
+- `trait Cashier { fn calc(&self) -> u32; }` contract + `impl Cashier for Rice` fulfills (source: doc.rust-lang.org/book/ch10-02-traits)
+- `fn pay(k: &impl Cashier)` accepts anything contracted + default methods
 
 ---
 
-## Program: Kontrak Kasir Rust
+## Why This Matters (Non-IT)
+
+Rice, Oil, Sugar must all `calc()` — without traits, write a function per type (duplicates!). With 1 trait contract, 1 `pay` function for all. Add `Coffee` without touching `pay`.
+
+---
+
+## Program: Rust Cashier Contract
 
 ```rust
-trait Kasir {
-  fn hitung(&self) -> u32;
-  fn nama(&self) -> &str;
-  // Default method (boleh tidak ditulis ulang!)
-  fn struk(&self) -> String {
-    format!("{}: Rp{}", self.nama(), self.hitung())
+trait Cashier {
+  fn calc(&self) -> u32;
+  fn name(&self) -> &str;
+  // Default method (may skip rewriting!)
+  fn receipt(&self) -> String {
+    format!("{}: Rp{}", self.name(), self.calc())
   }
 }
 
-struct Beras { kg: u32, harga: u32 }
-impl Kasir for Beras {
-  fn hitung(&self) -> u32 { self.kg * self.harga }
-  fn nama(&self) -> &str { "Beras" }
+struct Rice { kg: u32, price: u32 }
+impl Cashier for Rice {
+  fn calc(&self) -> u32 { self.kg * self.price }
+  fn name(&self) -> &str { "Rice" }
 }
 
-struct Minyak { liter: u32, harga: u32 }
-impl Kasir for Minyak {
-  fn hitung(&self) -> u32 { self.liter * self.harga }
-  fn nama(&self) -> &str { "Minyak" }
+struct Oil { liter: u32, price: u32 }
+impl Cashier for Oil {
+  fn calc(&self) -> u32 { self.liter * self.price }
+  fn name(&self) -> &str { "Oil" }
 }
 
-// Terima APA SAJA yang berkontrak Kasir!
-fn bayar(k: &impl Kasir) {
-  println!("{}", k.struk());
+// Accepts ANYTHING contracted to Cashier!
+fn pay(k: &impl Cashier) {
+  println!("{}", k.receipt());
 }
 
 fn main() {
-  bayar(&Beras { kg: 2, harga: 12500 });
-  bayar(&Minyak { liter: 2, harga: 17000 });
+  pay(&Rice { kg: 2, price: 12500 });
+  pay(&Oil { liter: 2, price: 17000 });
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `trait` + `impl ... for` = Kontrak + Penuhi
-`trait Kasir { fn hitung(...); }` kontrak, `impl Kasir for Beras` penuhi.
+### `trait` + `impl ... for` = Contract + Fulfill
+`trait Cashier { fn calc(...); }` contract, `impl Cashier for Rice` fulfills.
 
-### `&impl Kasir` = Terima Semua Berkontrak
-Fungsi 1 untuk semua tipe yang penuhi (seperti interface Go).
+### `&impl Cashier` = Accept All Contracted
+1 function for every fulfilling type (like Go interfaces).
 
-### Default Method = Isi Bawaan
-`struk()` ada isi di trait — boleh pakai langsung.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Sertifikat Kasir
-- **Trait = sertifikat**: "bisa hitung". Beras & Minyak punya sertifikat → boleh jaga kasir (`bayar`).
-
-### Langkah 0 — Siapkan Device
-- Sama Rust W1: `cargo run`.
-
-### Cara Komputer Membaca
-1. `bayar(&Beras{...})` → cek: Beras penuhi Kasir? Ya → panggil `hitung` versi Beras.
-
-### 3 Istilah Wajib
-1. **Trait/impl**: kontrak/penuhi
-2. **impl Trait**: terima-berkontrak
+### Default Method = Built-in Content
+`receipt()` has a body in the trait — use directly.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tambah `Gula` + `impl Kasir` → `bayar` langsung bisa?
-- **Kuning:** Hapus 1 method `impl` → error `not all trait items implemented`?
-- **Merah:** `fn bayar(k: Beras)` (tipe konkret) → Minyak ditolak? Ganti `&impl Kasir`.
+### Analogy: Cashier Certificate
+- **Trait = certificate**: "can calculate". Rice & Oil certified → may guard the cashier (`pay`).
 
----
+### Step 0 — Prepare Device
+- Same as Rust W1: `cargo run`.
 
-## Tantangan
+### How the Computer Reads It
+1. `pay(&Rice{...})` → check: does Rice fulfill Cashier? Yes → calls Rice's `calc`.
 
-**Kontrak Lengkap:** `trait Diskon { fn total(&self) -> u32; }` + 3 struct + `bayar()` + default `struk()`.
-
----
-
-## Glosarium Mini
-
-- **Trait/impl**: kontrak/penuhi
+### 3 Must-Know Terms
+1. **Trait/impl**: contract/fulfill
+2. **impl Trait**: accept-contracted
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 7 dari 14: **Kontrak** (Level: Menengah). 1 fungsi semua tipe. Minggu depan: **Generics**.
+- **Green:** Add `Sugar` + `impl Cashier` → `pay` works immediately?
+- **Yellow:** Delete 1 `impl` method → `not all trait items implemented` error?
+- **Red:** `fn pay(k: Rice)` (concrete type) → Oil rejected? Switch to `&impl Cashier`.
+
+---
+
+## Challenge
+
+**Complete Contract:** `trait Discount { fn total(&self) -> u32; }` + 3 structs + `pay()` + default `receipt()`.
+
+---
+
+## Mini Glossary
+
+- **Trait/impl**: contract/fulfill
+
+---
+
+## Summary
+
+Week 7 of 14: **Contract** (Level: Intermediate). 1 function for all types. Next: **Generics**.
