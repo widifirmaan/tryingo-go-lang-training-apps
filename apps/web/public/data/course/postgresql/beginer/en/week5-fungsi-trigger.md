@@ -1,107 +1,107 @@
-# Fungsi & Trigger — Resep Otomatis Gudang PostgreSQL
+# Functions & Triggers — Automatic PostgreSQL Warehouse Recipes
 
-> **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 5:** Fungsi & Trigger
+> **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 5:** Fungsi & Trigger
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `CREATE FUNCTION hitung_pajak(harga) RETURNS DECIMAL ... LANGUAGE plpgsql` resep di gudang (sumber: postgresql.org/docs/plpgsql)
-- `CREATE TRIGGER ... BEFORE INSERT` alarm otomatis tiap tambah barang
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Hitung pajak 11% di 10 tempat (JS, Python, laporan) → 1 tempat lupa, total beda. Dengan `FUNCTION` di DB, semua pakai rumus sama. Trigger cegah `stok` minus otomatis — tanpa andalkan aplikasi.
+- `CREATE FUNCTION calc_tax(price) RETURNS DECIMAL ... LANGUAGE plpgsql` recipe in the warehouse (source: postgresql.org/docs/plpgsql)
+- `CREATE TRIGGER ... BEFORE INSERT` automatic alarm on every item add
 
 ---
 
-## Program: Resep & Alarm Gudang
+## Why This Matters (Non-IT)
+
+Computing 11% tax in 10 places (JS, Python, reports) → 1 place forgotten, totals differ. With a DB `FUNCTION`, everyone uses the same formula. Triggers auto-reject negative `stock` — no relying on apps.
+
+---
+
+## Program: Warehouse Recipes & Alarms
 
 ```sql
--- 1. Fungsi: resep pajak (sekali simpan, pakai selamanya)
-CREATE OR REPLACE FUNCTION hitung_total_pajak(harga DECIMAL, persen DECIMAL DEFAULT 11)
+-- 1. Function: tax recipe (store once, use forever)
+CREATE OR REPLACE FUNCTION calc_total_tax(price DECIMAL, pct DECIMAL DEFAULT 11)
 RETURNS DECIMAL AS $$
 BEGIN
-  RETURN harga + (harga * persen / 100);
+  RETURN price + (price * pct / 100);
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT nama, harga, hitung_total_pajak(harga) AS total FROM produk;
+SELECT name, price, calc_total_tax(price) AS total FROM products;
 
--- 2. Trigger: alarm tolak stok minus
-CREATE OR REPLACE FUNCTION tolak_stok_minus()
+-- 2. Trigger: alarm rejecting negative stock
+CREATE OR REPLACE FUNCTION reject_negative_stock()
 RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.stok < 0 THEN
-    RAISE EXCEPTION 'Stok % tidak boleh minus!', NEW.nama;
+  IF NEW.stock < 0 THEN
+    RAISE EXCEPTION 'Stock % must not be negative!', NEW.name;
   END IF;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER cek_stok
-BEFORE INSERT OR UPDATE ON produk
-FOR EACH ROW EXECUTE FUNCTION tolak_stok_minus();
+CREATE TRIGGER check_stock
+BEFORE INSERT OR UPDATE ON products
+FOR EACH ROW EXECUTE FUNCTION reject_negative_stock();
 
--- Coba langgar!
-UPDATE produk SET stok = -5 WHERE id = 1;
--- ERROR: Stok Beras tidak boleh minus!
+-- Try violating!
+UPDATE products SET stock = -5 WHERE id = 1;
+-- ERROR: Stock Rice must not be negative!
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `FUNCTION` = Resep di Gudang
-`CREATE FUNCTION ... RETURNS ... AS $$ BEGIN ... END; $$ LANGUAGE plpgsql` — panggil seperti `hitung_total_pajak(harga)`.
+### `FUNCTION` = Recipe in Warehouse
+`CREATE FUNCTION ... RETURNS ... AS $$ BEGIN ... END; $$ LANGUAGE plpgsql` — call like `calc_total_tax(price)`.
 
-### `TRIGGER` = Alarm Otomatis
-`BEFORE INSERT OR UPDATE ... FOR EACH ROW` → cek tiap baris → `RAISE EXCEPTION` tolak.
+### `TRIGGER` = Automatic Alarm
+`BEFORE INSERT OR UPDATE ... FOR EACH ROW` → checks each row → `RAISE EXCEPTION` rejects.
 
-### `NEW` = Barang Baru
-`NEW.stok` nilai yang mau masuk. `RETURN NEW` loloskan, `RAISE` tolak.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Resep Dinding & Alarm
-- **Function = resep ditempel**: semua kasir pakai rumus sama.
-- **Trigger = alarm pintu**: barang minus → bunyi, tolak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: Supabase SQL Editor / `psql`.
-
-### Cara Komputer Membaca
-1. `SELECT hitung_total_pajak(62000)` → jalankan `BEGIN...END` → 68820.
-2. `UPDATE stok=-5` → trigger `BEFORE` → `RAISE` → batal + pesan.
-
-### 3 Istilah Wajib
-1. **Function/plpgsql**: resep/bahasa-resep
-2. **Trigger/NEW**: alarm/barang-baru
+### `NEW` = New Goods
+`NEW.stock` the incoming value. `RETURN NEW` passes, `RAISE` rejects.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `SELECT hitung_total_pajak(100000, 10)` → 110000?
-- **Kuning:** `UPDATE stok = 0` (tidak minus) → lolos?
-- **Merah:** `DROP FUNCTION hitung_total_pajak` → query laporan error? Buat lagi.
+### Analogy: Wall Recipe & Alarm
+- **Function = posted recipe**: all cashiers use the same formula.
+- **Trigger = door alarm**: negative goods → rings, rejected.
+
+### Step 0 — Prepare Device
+- Same as W1: Supabase SQL Editor / `psql`.
+
+### How the Computer Reads It
+1. `SELECT calc_total_tax(62000)` → runs `BEGIN...END` → 68820.
+2. `UPDATE stock=-5` → `BEFORE` trigger → `RAISE` → cancelled + message.
+
+### 3 Must-Know Terms
+1. **Function/plpgsql**: recipe/recipe-language
+2. **Trigger/NEW**: alarm/new-goods
 
 ---
 
-## Tantangan
+## Experiments
 
-**Gudang Otomatis:** Function `diskon(harga, persen)` + trigger tolak `harga <= 0` + `SELECT` 3 produk pakai function. **Selesai Beginner PostgreSQL!**
-
----
-
-## Glosarium Mini
-
-- **Function/Trigger/RAISE**: resep/alarm/tolak
+- **Green:** `SELECT calc_total_tax(100000, 10)` → 110000?
+- **Yellow:** `UPDATE stock = 0` (not negative) → passes?
+- **Red:** `DROP FUNCTION calc_total_tax` → report query errors? Recreate.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 5: **Resep & Alarm Otomatis** (Level: Pemula). **Selesai Beginner PostgreSQL!** Lanjut: **Window Functions** (Menengah).
+**Automatic Warehouse:** Function `discount(price, pct)` + trigger rejecting `price <= 0` + `SELECT` 3 products via function. **Beginner PostgreSQL DONE!**
+
+---
+
+## Mini Glossary
+
+- **Function/Trigger/RAISE**: recipe/alarm/reject
+
+---
+
+## Summary
+
+Week 5 of 5: **Automatic Recipes & Alarms** (Level: Beginner). **Beginner PostgreSQL DONE!** Next: **Window Functions** (Intermediate).
