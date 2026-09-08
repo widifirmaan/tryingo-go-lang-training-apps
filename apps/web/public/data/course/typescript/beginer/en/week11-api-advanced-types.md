@@ -18,9 +18,9 @@ Shop route `/products/123` typoed `/products//123` → 404. With `` `/products/$
 
 ```typescript
 type Product = "rice" | "spinach";
-type Event = `on${Capitalize<Product>}`; // "onRice" | "onSpinach"
+type ShopEvent = `on${Capitalize<Product>}`; // "onRice" | "onSpinach"
 
-function on(event: Event, cb: () => void) {}
+function on(event: ShopEvent, cb: () => void) {}
 on("onRice", () => console.log("Rice"));
 // on("onrice", () => {}); // ❌ must be Capitalized
 
