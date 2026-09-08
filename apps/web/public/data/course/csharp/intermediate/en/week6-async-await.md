@@ -1,97 +1,97 @@
-# Async/Await — Pesan Antar Tanpa Freeze C#
+# Async/Await — Delivery Orders Without C# Freeze
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 6:** Async/Await
+> **Kategori:** C# | **Level:** Intermediate | **Minggu 6:** Async/Await
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `async Task<T>` janji + `await` tunggu tanpa freeze UI/thread (sumber: Microsoft Learn asynchronous programming)
-- `Task.WhenAll` pesan bareng, `try/catch` untuk `await` gagal
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Ambil 3 harga supplier berurutan = 3x tunggu (2.4 detik). Dengan `await` + `WhenAll` = 0.8 detik. Tanpa `async`, UI freeze (toko "hang"). `async void` (kecuali event) = error hilang diam-diam!
+- `async Task<T>` promises + `await` waits without freezing UI/threads (source: Microsoft Learn asynchronous programming)
+- `Task.WhenAll` joint orders, `try/catch` for failed `await`
 
 ---
 
-## Program: Ojek Harga C#
+## Why This Matters (Non-IT)
+
+Fetching 3 supplier prices sequentially = 3 waits (2.4 seconds). With `await` + `WhenAll` = 0.8 seconds. Without `async`, UI freezes (shop "hangs"). `async void` (except events) = errors vanish silently!
+
+---
+
+## Program: C# Price Rides
 
 ```csharp
-async Task<Produk> Ambil(string nama) {
-  await Task.Delay(800); // simulasi ojek 0.8 detik
-  return new Produk { Nama = nama, Harga = 62000 };
+async Task<Product> Fetch(string name) {
+  await Task.Delay(800); // simulate 0.8s ride
+  return new Product { Name = name, Price = 62000 };
 }
 
-async Task Belanja() {
-  Console.WriteLine("Pesan Beras...");
-  var beras = await Ambil("Beras"); // tunggu tanpa freeze
-  Console.WriteLine("Dapat: " + beras.Nama);
+async Task Buy() {
+  Console.WriteLine("Ordering Rice...");
+  var rice = await Fetch("Rice"); // wait without freezing
+  Console.WriteLine("Got: " + rice.Name);
 
-  // 3 bareng (bukan berurutan!)
-  var tasks = new[] { Ambil("Beras"), Ambil("Bayam"), Ambil("Telur") };
-  var semua = await Task.WhenAll(tasks); // 0.8 detik untuk 3!
-  Console.WriteLine($"Dapat {semua.Length} sekaligus");
+  // 3 together (not sequential!)
+  var tasks = new[] { Fetch("Rice"), Fetch("Spinach"), Fetch("Eggs") };
+  var all = await Task.WhenAll(tasks); // 0.8s for 3!
+  Console.WriteLine($"Got {all.Length} at once");
 }
 
-await Belanja();
-Console.WriteLine("→ Baris ini jalan duluan (tidak tunggu)");
+await Buy();
+Console.WriteLine("→ This line runs first (doesn't wait)");
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `async` + `await` = Janji + Tunggu
-`async Task<T>` kembalikan janji, `await` tunggu tanpa blokir thread.
+### `async` + `await` = Promise + Wait
+`async Task<T>` returns promises, `await` waits without blocking threads.
 
-### `Task.WhenAll` = Pesan Bareng
-`await Task.WhenAll(t1, t2)` → 0.8 detik untuk 2 (bukan 1.6).
+### `Task.WhenAll` = Joint Order
+`await Task.WhenAll(t1, t2)` → 0.8s for 2 (not 1.6).
 
-### `async Task` Bukan `async void`!
-`async void` hanya untuk event handler — error di dalamnya hilang!
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Ojek Makanan
-- **Sync = tunggu di warung** sampai ojek datang (freeze).
-- **await = pulang dulu**, ojek telpon saat sampai.
-
-### Langkah 0 — Siapkan Device
-- Sama C# W1: `dotnet run` (.NET 8+, top-level statements boleh `await` langsung).
-
-### Cara Komputer Membaca
-1. `await Ambil()` → kembalikan thread → lanjut baris bawah.
-2. Ojek selesai → lanjutkan fungsi setelah `await`.
-
-### 3 Istilah Wajib
-1. **async/await/Task**: janji/tunggu/pekerjaan
-2. **WhenAll**: bareng
+### `async Task` Not `async void`!
+`async void` only for event handlers — errors inside vanish!
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `await` 3 berurutan vs `WhenAll` → waktu beda? (`DateTime.Now` ukur!)
-- **Kuning:** Lupa `await` → `Task` mentah (belum jalan)?
-- **Merah:** `async void` + `throw` di dalam → crash tanpa pesan? Ganti `async Task`.
+### Analogy: Food Rides
+- **Sync = wait at shop** until the ride arrives (freeze).
+- **await = go home first**, the ride calls on arrival.
+
+### Step 0 — Prepare Device
+- Same as C# W1: `dotnet run` (.NET 8+, top-level statements allow direct `await`).
+
+### How the Computer Reads It
+1. `await Fetch()` → returns thread → continues lines below.
+2. Ride done → resumes function after `await`.
+
+### 3 Must-Know Terms
+1. **async/await/Task**: promise/wait/job
+2. **WhenAll**: together
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Async:** `Ambil(nama)` 500ms + `Belanja()` `WhenAll` 3 + total + `try/catch` jika `nama` kosong.
-
----
-
-## Glosarium Mini
-
-- **async/await/WhenAll**: janji/tunggu/bareng
+- **Green:** 3 sequential `await`s vs `WhenAll` → time differs? (Measure with `DateTime.Now`!)
+- **Yellow:** Forgotten `await` → raw `Task` (not run)?
+- **Red:** `async void` + `throw` inside → crash without message? Switch to `async Task`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 6 dari 12: **Pesan Tanpa Freeze** (Level: Menengah). Cepat 3x. Minggu depan: **Generics** — rak serbaguna.
+**Async Shop:** `Fetch(name)` 500ms + `Buy()` `WhenAll` 3 + total + `try/catch` when `name` empty.
+
+---
+
+## Mini Glossary
+
+- **async/await/WhenAll**: promise/wait/together
+
+---
+
+## Summary
+
+Week 6 of 12: **Orders Without Freeze** (Level: Intermediate). 3x fast. Next: **Generics** — multipurpose racks.

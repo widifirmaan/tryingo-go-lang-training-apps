@@ -1,97 +1,97 @@
-# Generics — Rak Serbaguna C#
+# Generics — Multipurpose C# Racks
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 7:** Generics
+> **Kategori:** C# | **Level:** Intermediate | **Minggu 7:** Generics
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Keranjang<T>` rak untuk tipe apa saja + `where T : Produk` batas (sumber: Microsoft Learn generics)
-- Method generik `T Pertama<T>(List<T> list)`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa generics, `KeranjangString` + `KeranjangInt` 2 class sama (duplikat!). Dengan `<T>` 1 rak untuk semua + tetap ketat tipe (tidak `object` longgar yang perlu cast).
+- `class Cart<T>` rack for any type + `where T : Product` bounds (source: Microsoft Learn generics)
+- Generic methods `T First<T>(List<T> list)`
 
 ---
 
-## Program: Rak Generik Warung
+## Why This Matters (Non-IT)
+
+Without generics, `StringCart` + `IntCart` 2 identical classes (duplicates!). With `<T>` 1 rack for all + still strictly typed (no loose `object` needing casts).
+
+---
+
+## Program: Generic Shop Rack
 
 ```csharp
-class Keranjang<T> {
+class Cart<T> {
   public List<T> Items = new();
-  public void Tambah(T item) => Items.Add(item);
-  public T Pertama() => Items[0];
+  public void Add(T item) => Items.Add(item);
+  public T First() => Items[0];
 }
 
-var ks = new Keranjang<string>();
-ks.Tambah("Beras");
+var ks = new Cart<string>();
+ks.Add("Rice");
 Console.WriteLine(string.Join(", ", ks.Items));
 
-var ki = new Keranjang<int>();
-ki.Tambah(62000);
+var ki = new Cart<int>();
+ki.Add(62000);
 
-// Batas: hanya Produk ke bawah
-class Gudang<T> where T : Produk {
-  public void StokRendah(List<T> list) {
-    foreach (var p in list) if (p.Stok < 5) Console.WriteLine(p.Nama);
+// Bound: Product and below only
+class Warehouse<T> where T : Product {
+  public void LowStock(List<T> list) {
+    foreach (var p in list) if (p.Stock < 5) Console.WriteLine(p.Name);
   }
 }
 
-// Method generik
-static T AmbilPertama<T>(List<T> list) => list[0];
-Console.WriteLine(AmbilPertama(new List<string> { "a", "b" }));
+// Generic method
+static T TakeFirst<T>(List<T> list) => list[0];
+Console.WriteLine(TakeFirst(new List<string> { "a", "b" }));
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `<T>` = Label Sementara
-`Keranjang<string>` → `T` jadi `string` di mana-mana. Ketat, tanpa cast.
+### `<T>` = Temporary Label
+`Cart<string>` → `T` becomes `string` everywhere. Strict, no casts.
 
-### `where T : ...` = Syarat Rak
-`where T : Produk` (harus turunan), `where T : new()` (bisa `new T()`).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Rak Serbaguna
-- **Generics = rak adjustable**: setel `string` untuk teks, `int` untuk angka — 1 rak.
-
-### Langkah 0 — Siapkan Device
-- Sama W1.
-
-### Cara Komputer Membaca
-1. `new Keranjang<string>()` → buat versi string khusus.
-2. `Tambah(123)` → error (bukan string)!
-
-### 3 Istilah Wajib
-1. **Generics/<T>/where**: serbaguna/label/syarat
+### `where T : ...` = Rack Requirement
+`where T : Product` (must derive), `where T : new()` (can `new T()`).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `Keranjang<int>` + `Tambah("x")` → error?
-- **Kuning:** `where T : new()` + `new T()` di dalam → bisa?
-- **Merah:** Pakai `object` + cast manual vs generics → mana aman compile-time?
+### Analogy: Adjustable Rack
+- **Generics = adjustable rack**: set `string` for text, `int` for numbers — 1 rack.
 
----
+### Step 0 — Prepare Device
+- Same as W1.
 
-## Tantangan
+### How the Computer Reads It
+1. `new Cart<string>()` → builds string-specialized version.
+2. `Add(123)` → error (not a string)!
 
-**Gudang Generik:** `Keranjang<T>` + `Total<T>(List<T>, Func<T,int>)` + `where T : Produk` + 2 tipe beda.
-
----
-
-## Glosarium Mini
-
-- **Generics/where**: serbaguna/syarat
+### 3 Must-Know Terms
+1. **Generics/<T>/where**: multipurpose/label/requirement
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 7 dari 12: **Rak Serbaguna** (Level: Menengah). 1 rak semua tipe. Minggu depan: **Error Handling**.
+- **Green:** `Cart<int>` + `Add("x")` → error?
+- **Yellow:** `where T : new()` + `new T()` inside → works?
+- **Red:** Manual `object` + casts vs generics → which is compile-time safe?
+
+---
+
+## Challenge
+
+**Generic Warehouse:** `Cart<T>` + `Total<T>(List<T>, Func<T,int>)` + `where T : Product` + 2 different types.
+
+---
+
+## Mini Glossary
+
+- **Generics/where**: multipurpose/requirement
+
+---
+
+## Summary
+
+Week 7 of 12: **Multipurpose Rack** (Level: Intermediate). 1 strict rack. Next: **Errors**.
