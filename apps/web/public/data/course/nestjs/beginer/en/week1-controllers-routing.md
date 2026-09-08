@@ -1,66 +1,103 @@
-# Controllers & Routing — Pelayan Warung Terstruktur
+# Controllers & Routing — Structured Shop Waiters
 
-> **Kategori:** NestJS | **Level:** Pemula | **Minggu 1:** Controllers & Routing
+> **Kategori:** NestJS | **Level:** Beginner | **Minggu 1:** Controllers & Routing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Paham NestJS = **Node.js yang terstruktur** seperti warung dengan SOP: `controller` pelayan, `service` dapur, `module` gedung
-- `npm i -g @nestjs/cli`, `nest new warung-nest`, `npm run start:dev` di `3000`
-- `@Controller('produk')` + `@Get()` pintu, `return` otomatis JSON
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Express bebas, tapi berantakan saat besar. NestJS pakai **SOP** — tiap pelayan punya tugas jelas, cocok untuk tim warung yang mau jadi minimarket.
+- Understand NestJS = **structured Node.js** like a shop with SOP: `controller` waiters, `service` kitchen, `module` building
+- `npm i -g @nestjs/cli`, `nest new shop-nest`, `npm run start:dev` on `3000`
+- `@Controller('products')` + `@Get()` doors, `return` auto-JSON
 
 ---
 
-## Program: Pelayan Produk
+## Why This Matters (Non-IT)
+
+Express is free but messy at scale. NestJS uses **SOP** — every waiter has clear duties, perfect for shop teams growing into minimarkets.
+
+---
+
+## Program: Product Waiters
 
 ```bash
 npm i -g @nestjs/cli
-nest new warung-nest
-cd warung-nest
+nest new shop-nest
+cd shop-nest
 npm run start:dev
-# Buka http://localhost:3000
+# Open http://localhost:3000
 ```
 
 ```typescript
-// src/produk/produk.controller.ts
+// src/products/products.controller.ts
 import { Controller, Get, Param } from '@nestjs/common';
 
-@Controller('produk')
-export class ProdukController {
-  private daftar = [
-    { id: 1, nama: "Beras 5kg", harga: 62000 },
-    { id: 2, nama: "Bayam", harga: 5000 },
+@Controller('products')
+export class ProductsController {
+  private list = [
+    { id: 1, name: "Rice 5kg", price: 62000 },
+    { id: 2, name: "Spinach", price: 5000 },
   ];
 
   @Get()
-  semua() { return this.daftar; } // GET /produk
+  all() { return this.list; } // GET /products
 
   @Get(':id')
-  satu(@Param('id') id: string) {
-    return this.daftar.find(p => p.id === Number(id)) || { error: "Tidak ada" };
+  one(@Param('id') id: string) {
+    return this.list.find(p => p.id === Number(id)) || { error: "Missing" };
   }
 }
 ```
 
-Buka `http://localhost:3000/produk` → JSON, `/produk/1` → 1 produk.
+Open `http://localhost:3000/products` → JSON, `/products/1` → 1 product.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Controller('produk')` = Meja Pelayan
-`@Get()` = pintu GET, `@Param('id')` = ambil variabel URL.
+### `@Controller('products')` = Waiter Station
+`@Get()` = GET door, `@Param('id')` = takes URL variable.
 
-### SOP NestJS
-`controller` (pelayan) → `service` (dapur) → `module` (gedung). Minggu depan service.
+### NestJS SOP
+`controller` (waiter) → `service` (kitchen) → `module` (building). Next week: services.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 1: **Pelayan Terstruktur** — NestJS SOP. Minggu depan: **Providers & Services**.
+### Analogy: SOP Restaurant
+- **Controller = waiter**: takes orders, serves. **Service = kitchen** (next week). **Module = building**.
+
+### Step 0 — Prepare Device
+- Node 20+ + Nest CLI (`npm i -g @nestjs/cli`), `nest new`, `npm run start:dev` on 3000.
+
+### How the Computer Reads It
+1. `GET /products` → `ProductsController.all()` → JSON array.
+2. `GET /products/1` → `:id` → `Param('id')` → finds item.
+
+### 3 Must-Know Terms
+1. **Controller/Get/Param**: waiter/door/variable
+
+---
+
+## Experiments
+
+- **Green:** `GET /products` → 2 items JSON?
+- **Yellow:** `GET /products/99` → `{ error }`?
+- **Red:** Wrong `@Controller('product')` singular → 404? Fix plural.
+
+---
+
+## Challenge
+
+**Waiter Shop:** `ProductsController` with `GET /` + `GET /:id` + second controller `OrdersController`, both serving JSON.
+
+---
+
+## Mini Glossary
+
+- **Controller/Module**: waiter/building
+
+---
+
+## Summary
+
+Week 1: **Structured Waiters** — NestJS SOP. Next: **Providers & Services**.

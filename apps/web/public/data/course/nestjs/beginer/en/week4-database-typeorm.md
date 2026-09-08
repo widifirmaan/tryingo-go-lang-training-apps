@@ -1,51 +1,51 @@
-# Database TypeORM — Rak Permanen NestJS
+# Database TypeORM — Permanent NestJS Racks
 
-> **Kategori:** NestJS | **Level:** Pemula | **Minggu 4:** Database & TypeORM
+> **Kategori:** NestJS | **Level:** Beginner | **Minggu 4:** Database & TypeORM
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Entity()` + `@Column()` + `@PrimaryGeneratedColumn()` cetak biru rak (sumber: typeorm.io/entities)
-- `TypeOrmModule.forRoot({...})` + `forFeature([Produk])` sambung DB, `@InjectRepository(Produk)` suntik rak
-- `synchronize: true` untuk belajar (jangan di produksi!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Array di service hilang saat restart — warung tutup buka stok nol lagi. Dengan TypeORM + Postgres, data awet. `synchronize: true` bikin tabel otomatis dari entity (tanpa `CREATE TABLE` manual) — cocok belajar.
+- `@Entity()` + `@Column()` + `@PrimaryGeneratedColumn()` rack blueprints (source: typeorm.io/entities)
+- `TypeOrmModule.forRoot({...})` + `forFeature([Product])` connects DB, `@InjectRepository(Product)` injects rack
+- `synchronize: true` for learning (never in production!)
 
 ---
 
-## Program: Rak TypeORM Warung
+## Why This Matters (Non-IT)
+
+Service arrays vanish on restart — shop closes/opens with zero stock again. With TypeORM + Postgres, data lasts. `synchronize: true` auto-creates tables from entities (no manual `CREATE TABLE`) — perfect for learning.
+
+---
+
+## Program: Shop TypeORM Rack
 
 ```bash
 npm install @nestjs/typeorm typeorm pg
 ```
 
 ```typescript
-// produk.entity.ts — cetak biru (bukan tabel SQL manual!)
+// product.entity.ts — blueprint (not manual SQL tables!)
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('produks')
-export class Produk {
+@Entity('products')
+export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 100 })
-  nama: string;
+  name: string;
 
   @Column()
-  harga: number;
+  price: number;
 
   @Column({ default: 0 })
-  stok: number;
+  stock: number;
 }
 ```
 
 ```typescript
-// app.module.ts — sambung DB
+// app.module.ts — connect DB
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Produk } from './produk/produk.entity';
+import { Product } from './products/product.entity';
 
 @Module({
   imports: [
@@ -53,91 +53,86 @@ import { Produk } from './produk/produk.entity';
       type: 'postgres',
       host: 'localhost',
       username: 'postgres',
-      password: 'rahasia',
-      database: 'warung',
-      entities: [Produk],
-      synchronize: true, // belajar saja! produksi pakai migration
+      password: 'secret',
+      database: 'shop',
+      entities: [Product],
+      synchronize: true, // learning only! production uses migrations
     }),
-    TypeOrmModule.forFeature([Produk]),
+    TypeOrmModule.forFeature([Product]),
   ],
 })
 export class AppModule {}
 ```
 
 ```typescript
-// produk.service.ts — suntik rak
+// products.service.ts — inject rack
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Produk } from './produk.entity';
+import { Product } from './product.entity';
 
 @Injectable()
-export class ProdukService {
-  constructor(@InjectRepository(Produk) private repo: Repository<Produk>) {}
+export class ProductService {
+  constructor(@InjectRepository(Product) private repo: Repository<Product>) {}
 
-  semua() { return this.repo.find(); }
-  tambah(p: Partial<Produk>) { return this.repo.save(p); }
-  cari(nama: string) { return this.repo.find({ where: { nama } }); }
+  all() { return this.repo.find(); }
+  add(p: Partial<Product>) { return this.repo.save(p); }
+  find(name: string) { return this.repo.find({ where: { name } }); }
 }
 ```
 
-Test: `curl -X POST .../produk` → restart server → `GET` data masih ada!
+---
+
+## Key Concepts
+
+### `@Entity` / `@Column` / Repository
+Entity draws tables, `forRoot` connects, `forFeature` + `@InjectRepository` uses.
+
+### `synchronize: true` = Auto Build (Dev Only)
+Creates tables from entities — never in production (use migrations!).
 
 ---
 
-## Konsep Kunci
+## Beginner Friendly Explanation
 
-### `@Entity` + `@Column` = Cetak Biru
-`@Entity('produks')` nama tabel, `@Column()` kolom, `@PrimaryGeneratedColumn()` nomor otomatis.
+### Analogy: Warehouse with Blueprints
+- **Entity = rack blueprint**, **repository = forklift** fetching/storing, **synchronize = auto-builder**.
 
-### `forRoot` + `forFeature` = Sambung + Daftarkan
-`forRoot` koneksi DB 1x, `forFeature([Produk])` daftarkan rak ke module.
+### Step 0 — Prepare Device
+- Postgres running (`docker run -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres`) + `shop` DB created.
 
-### `Repository` = Tukang Gudang
-`find()`, `save()`, `findOneBy({id})`, `delete(id)` — tanpa SQL.
+### How the Computer Reads It
+1. Start → `forRoot` connects → `synchronize` creates `products` table when missing.
+2. `repo.save({name:"Rice"})` → `INSERT INTO products ...`.
 
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Rak dengan Tukang
-- **Entity = gambar rak**, **Repository = tukang** yang ambil/simpan, **forRoot = sambung listrik gudang**.
-
-### Langkah 0 — Siapkan Device
-- Postgres jalan (`docker run -e POSTGRES_PASSWORD=rahasia -p 5432:5432 -d postgres`) + DB `warung` dibuat.
-
-### Cara Komputer Membaca
-1. Start → `forRoot` konek → `synchronize` buat tabel `produks` jika belum ada.
-2. `repo.save({nama:"Beras"})` → `INSERT INTO produks ...`.
-
-### 3 Istilah Wajib
-1. **Entity/Repository**: biru/tukang
-2. **synchronize**: bikin otomatis (dev saja)
+### 3 Must-Know Terms
+1. **Entity/Repository**: blueprint/forklift
+2. **synchronize**: auto-build (dev only)
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** `POST` 2 produk → restart → `GET` masih 2? (awet!)
-- **Kuning:** Ubah entity tambah `kategori` → restart → kolom muncul otomatis?
-- **Merah:** `synchronize: false` + entity baru → tabel tidak dibuat? (Itulah kenapa dev pakai true)
-
----
-
-## Tantangan
-
-**Rak Lengkap:** `Produk` + `Pelanggan` entity + 2 service `Repository` + `GET/POST` keduanya + restart cek awet. **Selesai Beginner NestJS!**
+- **Green:** `POST` 2 products → restart → `GET` still 2? (durable!)
+- **Yellow:** Add `category` to entity → restart → column auto-appears?
+- **Red:** `synchronize: false` + new entity → table not created? (That's why dev uses true)
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **Entity/Column/Repository**: biru/kolom/tukang
-- **forRoot/forFeature**: sambung/daftar
-- **synchronize**: otomatis (dev)
+**Complete Rack:** `Product` + `Customer` entities + 2 `Repository` services + `GET/POST` both + restart durability check. **Beginner NestJS DONE!**
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 4 dari 4: **Rak Permanen** (Level: Pemula). **Selesai Beginner NestJS!** Lanjut: **Auth/JWT** (Menengah).
+- **Entity/Column/Repository**: blueprint/column/forklift
+- **forRoot/forFeature**: connect/register
+- **synchronize**: automatic (dev)
+
+---
+
+## Summary
+
+Week 4 of 4: **Permanent Racks** (Level: Beginner). **Beginner NestJS DONE!** Next: **Auth/JWT** (Intermediate).
