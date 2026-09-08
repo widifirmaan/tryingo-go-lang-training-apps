@@ -28,7 +28,11 @@ import react from "@vitejs/plugin-react"; // sudah ada di template Vite
 
 export default defineConfig({
   plugins: [react()],
-  test: { environment: "jsdom", setupFiles: ["./test-setup.js"] },
+  test: {
+    environment: "jsdom",
+    globals: true, // WAJIB untuk jest-dom!
+    setupFiles: ["./test-setup.js"],
+  },
 });
 ```
 
