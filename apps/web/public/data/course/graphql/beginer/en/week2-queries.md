@@ -1,115 +1,115 @@
-# Queries — Pesan Tepat yang Dimau (GraphQL)
+# Queries — Order Exactly What You Want (GraphQL)
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 2:** Queries
+> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 2:** Queries
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `produk(kategori: "Sembako")` argumen saring, `murah: produk(...)` alias 2x, `fragment Kartu` potongan pakai ulang (sumber: graphql.org/learn/queries)
-- Variabel `$kategori: String!` + JSON variables (aman, tanpa tempel string)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-REST `/api/produk` kirim SEMUA field (nama, harga, deskripsi, stok, created_at) padahal daftar HP butuh nama+harga saja → kuota boros. GraphQL minta `nama harga` → dapat itu saja. 1 endpoint `/graphql` untuk semua, tidak 20 endpoint.
+- `products(category: "Staples")` filter arguments, `cheap: products(...)` double alias, `fragment Card` reusable snippets (source: graphql.org/learn/queries)
+- `$category: String!` variables + JSON variables (safe, no string gluing)
 
 ---
 
-## Program: Pesan Warung Tepat
+## Why This Matters (Non-IT)
+
+REST `/api/products` sends ALL fields (name, price, description, stock, created_at) though phone lists need name+price only → wasted data. GraphQL asks `name price` → gets just that. 1 `/graphql` endpoint for all, not 20 endpoints.
+
+---
+
+## Program: Exact Shop Orders
 
 ```graphql
-# 1. Argumen: saring di server
+# 1. Arguments: filter on server
 query {
-  produk(kategori: "Sembako") {
-    nama
-    harga
+  products(category: "Staples") {
+    name
+    price
   }
 }
 
-# 2. Alias: 2 pesanan sekaligus (murah + mahal)
-query Dua {
-  murah: produk(kategori: "Sayur") { nama harga }
-  mahal: produk(kategori: "Sembako") { nama harga }
+# 2. Alias: 2 orders at once (cheap + pricey)
+query Two {
+  cheap: products(category: "Veggies") { name price }
+  pricey: products(category: "Staples") { name price }
 }
 
-# 3. Fragment: potongan kartu pakai ulang
-fragment Kartu on Produk {
-  nama
-  harga
-  stok
+# 3. Fragment: reusable card snippet
+fragment Card on Product {
+  name
+  price
+  stock
 }
 query {
-  produk { ...Kartu }
+  products { ...Card }
 }
 
-# 4. Variabel: aman (jangan tempel string!)
-query Cari($kategori: String!) {
-  produk(kategori: $kategori) {
-    nama
-    harga
+# 4. Variables: safe (never glue strings!)
+query Find($category: String!) {
+  products(category: $category) {
+    name
+    price
   }
 }
-# Variables JSON: { "kategori": "Sembako" }
+# Variables JSON: { "category": "Staples" }
 ```
 
-Coba di `onecompiler.com/graphql` atau `GraphiQL` (`/graphql` di server).
+Try at `onecompiler.com/graphql` or `GraphiQL` (`/graphql` on server).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Field Pilih = Hemat Kuota
-Tulis yang dimau saja (`nama harga`), server kirim itu saja.
+### Selected Fields = Data Savings
+Write only what's wanted (`name price`), server sends just that.
 
-### Argumen/Alias/Fragment/Variabel = Alat Pesan
-- `produk(kategori: "Sembako")` saring.
-- `murah: produk(...)` 2 nama beda 1 query.
-- `fragment` potongan kartu.
-- `$kategori` variabel + JSON (anti SQL-injection ala GraphQL).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Restoran Prasmanan vs Paket
-- **REST = prasmanan paket**: pesan "paket A" dapat 10 lauk (maunya 2).
-- **GraphQL = pesan ala carte**: tulis `nama harga` → dapat 2.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `GraphiQL` di browser (tanpa install) atau `onecompiler.com/graphql`.
-
-### Cara Komputer Membaca
-1. `query { produk { nama } }` → server cek schema → ambil `nama` tiap produk → JSON `{ data: { produk: [...] } }`.
-2. Selalu bungkus `data` (atau `errors` jika gagal).
-
-### 3 Istilah Wajib
-1. **Query/field**: pesan/kolom
-2. **Argumen/alias**: saring/nama ganda
-3. **Fragment/variabel**: potongan/aman
+### Arguments/Alias/Fragment/Variables = Order Tools
+- `products(category: "Staples")` filters.
+- `cheap: products(...)` 2 names 1 query.
+- `fragment` card snippet.
+- `$category` variables + JSON (GraphQL-style injection-proof).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Minta hanya `nama` (tanpa `harga`) → JSON tanpa harga?
-- **Kuning:** 1 query 2 alias `a` + `b` kategori beda → 2 hasil?
-- **Merah:** Tempel `kategori` langsung `"Say" + "ur"`? Jangan — pakai `$variabel`.
+### Analogy: Buffet vs A La Carte
+- **REST = set buffet**: order "package A" get 10 dishes (wanted 2).
+- **GraphQL = a la carte**: write `name price` → get 2.
+
+### Step 0 — Prepare Device
+- Same as W1: browser `GraphiQL` (no install) or `onecompiler.com/graphql`.
+
+### How the Computer Reads It
+1. `query { products { name } }` → server checks schema → fetches `name` per product → JSON `{ data: { products: [...] } }`.
+2. Always wrapped in `data` (or `errors` on failure).
+
+### 3 Must-Know Terms
+1. **Query/field**: order/column
+2. **Arguments/alias**: filter/double-name
+3. **Fragment/variables**: snippet/safe
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Pesan Lengkap:** 1 query: `semua: produk { ...Kartu }` + `sayur: produk(kategori:"Sayur") { nama }` + variabel `$kat` untuk 1 lagi. 3 hasil 1 request.
-
----
-
-## Glosarium Mini
-
-- **Query/argumen/alias**: pesan/saring/ganda
-- **Fragment/variabel**: potongan/aman
+- **Green:** Ask only `name` (no `price`) → JSON without price?
+- **Yellow:** 1 query 2 aliases `a` + `b` different categories → 2 results?
+- **Red:** Gluing `category` directly `"St" + "aples"`? Don't — use `$variables`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 5: **Pesan Tepat** (Level: Pemula). Hemat kuota, 1 endpoint. Minggu depan: **Mutations** — tulis & ubah.
+**Complete Order Shop:** 1 query: `all: products { ...Card }` + `veggies: products(category:"Veggies") { name }` + `$cat` variable for 1 more. 3 results 1 request.
+
+---
+
+## Mini Glossary
+
+- **Query/arguments/alias**: order/filter/double
+- **Fragment/variables**: snippet/safe
+
+---
+
+## Summary
+
+Week 2 of 5: **Exact Orders** (Level: Beginner). Data savings, 1 endpoint. Next: **Mutations** — write & edit.
