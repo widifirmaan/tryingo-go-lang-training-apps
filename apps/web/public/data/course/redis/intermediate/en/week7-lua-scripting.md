@@ -1,73 +1,81 @@
-# Lua Scripting — Resep di Server Redis
+# Lua Scripting — Recipes on Redis Server
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 7:** Lua Scripting
+> **Kategori:** Redis | **Level:** Intermediate | **Minggu 7:** Lua Scripting
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `EVAL "return redis.call('GET', KEYS[1])" 1 stok:beras` jalankan resep di server (atomik!) (sumber: redis.io/docs/data-types/functions + scripting)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Cek stok + kurang 1 = 2 perintah (rebutan 2 kasir!). Dengan Lua 1 script, cek+kurang atomik di server — tidak ada jeda rebutan.
+- `EVAL "return redis.call('GET', KEYS[1])" 1 stock:rice` runs recipes on the server (atomic!) (source: redis.io/docs/data-types/functions + scripting)
 
 ---
 
-## Program: Kurang Stok Atomik
+## Why This Matters (Non-IT)
+
+Check-stock + decrement-1 = 2 commands (2-cashier race!). With 1 Lua script, check+decrement runs atomically on the server — no racing gap.
+
+---
+
+## Program: Atomic Stock Decrement
 
 ```bash
-EVAL "local s = tonumber(redis.call('GET', KEYS[1])); if s > 0 then redis.call('DECR', KEYS[1]); return s - 1; else return -1; end" 1 stok:beras
+EVAL "local s = tonumber(redis.call('GET', KEYS[1])); if s > 0 then redis.call('DECR', KEYS[1]); return s - 1; else return -1; end" 1 stock:rice
 ```
 
 ```bash
-SET stok:beras 10
-# Jalankan script di atas → 9 (atomik, aman 10 kasir bareng!)
+SET stock:rice 10
+# Run the script above → 9 (atomic, safe for 10 simultaneous cashiers!)
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `EVAL script jumlah KEY...` = Resep di Server
-Script Lua jalan di server sekaligus (atomik). `KEYS[1]` kunci, `ARGV` data.
+### `EVAL script count KEY...` = Recipe on Server
+Lua scripts run on the server at once (atomic). `KEYS[1]` keys, `ARGV` data.
 
-### Atomik = Tidak Rebutan
-2 kasir jalan bareng → server antrekan, hasil tepat.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Resep di Dapur (Bukan Telepon)
-- **Tanpa Lua = telepon 2x**: "cek stok?" ... "kurang 1" (di antaranya diserobot!).
-- **Lua = tulis resep, dapur kerjakan sekaligus**.
-
-### 3 Istilah Wajib
-1. **EVAL/KEYS**: resep/kunci
-2. **Atomik**: sekaligus-aman
+### Atomic = No Fights
+2 cashiers running together → server queues, exact results.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Stok 1 + 2x script cepat → hasil 0 dan -1 (tolak)?
-- **Kuning:** Bandingkan GET+DECR manual 2 terminal bareng → bisa minus?
+### Analogy: Recipe in Kitchen (Not Phone)
+- **No Lua = 2 phone calls**: "check stock?" ... "decrement 1" (hijacked in between!).
+- **Lua = write recipe, kitchen executes at once**.
+
+### Step 0 — Prepare Device
+- `try.redis.io` or `redis-cli`, `SET stock:rice 10` first.
+
+### How the Computer Reads It
+1. `EVAL` script → server runs whole script without interleaving.
+2. Returns remaining stock or -1 (reject).
+
+### 3 Must-Know Terms
+1. **EVAL/KEYS**: recipe/keys
+2. **Atomic**: at-once-safe
 
 ---
 
-## Tantangan
+## Experiments
 
-**Kasir Atomik:** Script `beli(kunci, qty)`: jika stok >= qty kurangi + return sisa, else return -1. Test 2 terminal bareng.
-
----
-
-## Glosarium Mini
-
-- **EVAL/Lua**: resep
+- **Green:** Stock 1 + 2 fast script runs → results 0 and -1 (reject)?
+- **Yellow:** Compare manual GET+DECR from 2 terminals together → can go negative?
+- **Red:** Script with syntax slip → error before running? Fix.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7 dari 10: **Resep Atomik** (Level: Menengah). Tanpa rebutan. Minggu depan: **Cluster**.
+**Atomic Cashier:** Script `buy(key, qty)`: when stock >= qty decrement + return remainder, else return -1. Test 2 terminals together.
+
+---
+
+## Mini Glossary
+
+- **EVAL/Lua**: recipe
+
+---
+
+## Summary
+
+Week 7 of 10: **Atomic Recipes** (Level: Intermediate). No fights. Next: **Cluster**.
