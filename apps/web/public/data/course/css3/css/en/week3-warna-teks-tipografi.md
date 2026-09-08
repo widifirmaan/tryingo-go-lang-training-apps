@@ -1,38 +1,38 @@
-# Warna & Tipografi — Cat dan Huruf Warung
+# Colors & Typography — Shop Paint and Letters
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 3:** Warna & Tipografi
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 3:** Warna & Tipografi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `color` tinta, `background` cat tembok, `#2E5B44` hex vs `red` nama vs `rgb()` (sumber: MDN color)
-- `font-family`, `font-size: 16px` vs `1.2rem`, `line-height: 1.6` napas, `text-align` rata (sumber: MDN font)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Teks abu terang di putih → pelanggan tua tidak bisa baca (kontras gagal). `line-height: 1` → baris nempel susah baca. Warna + huruf yang benar = warung terbaca semua umur + terlihat profesional.
+- `color` ink, `background` wall paint, `#2E5B44` hex vs `red` name vs `rgb()` (source: MDN color)
+- `font-family`, `font-size: 16px` vs `1.2rem`, `line-height: 1.6` breathing, `text-align` alignment (source: MDN font)
 
 ---
 
-## Program: Warung Berwarna & Rapi Huruf
+## Why This Matters (Non-IT)
+
+Light gray text on white → elderly customers can't read (contrast fails). `line-height: 1` → lines stick, hard to read. Right colors + letters = shop readable for all ages + looks professional.
+
+---
+
+## Program: Colorful Shop with Neat Letters
 
 ```html
-<h1 class="judul">Warung Bu Siti</h1>
-<p class="deskripsi">Beras pulen, sayur segar tiap pagi dari petani lokal.</p>
-<p class="promo">Promo: Gratis ongkir belanja &gt;Rp 100.000</p>
+<h1 class="title">Siti's Shop</h1>
+<p class="desc">Fluffy rice, fresh vegetables every morning from local farmers.</p>
+<p class="promo">Promo: Free delivery for orders &gt;Rp 100,000</p>
 ```
 
 ```css
-.judul {
-  color: #2E5B44;              /* hex hijau warung */
-  font-family: Georgia, serif; /* cadangan serif jika Georgia hilang */
+.title {
+  color: #2E5B44;              /* shop green hex */
+  font-family: Georgia, serif; /* serif fallback if Georgia missing */
   font-size: 28px;
   text-align: center;
 }
-.deskripsi {
-  color: #333;        /* abu tua, bukan #999 (terlalu terang!) */
-  line-height: 1.6;   /* napas antar baris */
+.desc {
+  color: #333;        /* dark gray, not #999 (too light!) */
+  line-height: 1.6;   /* breathing between lines */
   font-size: 16px;
 }
 .promo {
@@ -47,59 +47,59 @@ Teks abu terang di putih → pelanggan tua tidak bisa baca (kontras gagal). `lin
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `color` / `background` + 3 Cara Tulis Warna
-- `red` nama (terbatas), `#2E5B44` hex (populer), `rgb(46,91,68)` angka.
+### `color` / `background` + 3 Ways to Write Colors
+- `red` name (limited), `#2E5B44` hex (popular), `rgb(46,91,68)` numbers.
 
-### `font-family` + Cadangan
-`Georgia, serif` — jika Georgia hilang, pakai serif apa saja.
+### `font-family` + Fallbacks
+`Georgia, serif` — if Georgia missing, use any serif.
 
 ### `font-size` + `line-height` + `text-align`
-`16px` tetap, `1.2rem` ikut akar, `line-height: 1.6` napas, `center/left/justify` rata.
+`16px` fixed, `1.2rem` follows root, `line-height: 1.6` breathing, `center/left/justify` alignment.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cat & Cetakan
-- **color/background = tinta/kertas**, **font-family = jenis huruf spanduk**, **line-height = spasi baris buku**.
+### Analogy: Paint & Print
+- **color/background = ink/paper**, **font-family = banner letter style**, **line-height = book line spacing**.
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `style.css` + reload.
+### Step 0 — Prepare Device
+- Same as W1: `style.css` + reload.
 
-### Cara Komputer Membaca
-1. `.judul { color: #2E5B44 }` → cari class `judul` → cat hijau.
-2. `font-family: Georgia, serif` → ada Georgia? Pakai. Tidak? Serif.
+### How the Computer Reads It
+1. `.title { color: #2E5B44 }` → find class `title` → paint green.
+2. `font-family: Georgia, serif` → Georgia there? Use it. Not? Serif.
 
-### 3 Istilah Wajib
-1. **Hex/rgb**: kode warna
-2. **line-height**: napas baris
-3. **Serif/sans**: berkait/polosan
-
----
-
-## Eksperimen
-
-- **Hijau:** `color: #999` di paragraf → susah baca? Ganti `#333`.
-- **Kuning:** `line-height: 1` vs `2` → mana enak?
-- **Merah:** `font-family: "HurufAneh"` (tidak ada) → fallback serif? Tambah cadangan.
+### 3 Must-Know Terms
+1. **Hex/rgb**: color codes
+2. **line-height**: line breathing
+3. **Serif/sans**: with-feet/plain
 
 ---
 
-## Tantangan
+## Experiments
 
-**Spanduk Warna Lengkap:** Judul hijau `28px center` + 2 paragraf (`#333`, `1.6`) + promo box (`background` + `bold`) + 1 warna `rgb()`.
-
----
-
-## Glosarium Mini
-
-- **color/background**: tinta/kertas
-- **line-height/align**: napas/rata
+- **Green:** `color: #999` on paragraph → hard to read? Change to `#333`.
+- **Yellow:** `line-height: 1` vs `2` → which is comfy?
+- **Red:** `font-family: "WeirdFont"` (missing) → serif fallback? Add fallback.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 12: **Cat & Huruf** (Level: Lengkap). Terbaca semua umur. Minggu depan: **Flexbox** — rak geser.
+**Complete Color Banner:** green title `28px center` + 2 paragraphs (`#333`, `1.6`) + promo box (`background` + `bold`) + 1 `rgb()` color.
+
+---
+
+## Mini Glossary
+
+- **color/background**: ink/paper
+- **line-height/align**: breathing/alignment
+
+---
+
+## Summary
+
+Week 3 of 12: **Paint & Letters** (Level: Complete). Readable for all ages. Next: **Flexbox** — sliding racks.

@@ -1,38 +1,38 @@
-# Flexbox — Rak Geser Warung
+# Flexbox — Sliding Shop Racks
 
-> **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 4:** Flexbox
+> **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 4:** Flexbox
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `display: flex` aktifkan rak geser, `justify-content` atur kiri-tengah-kanan, `align-items` atas-tengah-bawah, `gap` jarak, `flex-wrap` pindah baris (sumber: MDN CSS flexbox)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-3 kartu produk tanpa flex = turun ke bawah 1 kolom (sempit di laptop lebar). Dengan `display: flex; gap: 12px`, sejajar 3 + jarak rapi. `flex-wrap: wrap` otomatis turun jika HP sempit — 1 aturan untuk semua layar.
+- `display: flex` activates sliding rack, `justify-content` left-center-right, `align-items` top-center-bottom, `gap` spacing, `flex-wrap` next row (source: MDN CSS flexbox)
 
 ---
 
-## Program: Rak 3 Kartu Geser
+## Why This Matters (Non-IT)
+
+3 product cards without flex = stacked 1 column (narrow on wide laptop). With `display: flex; gap: 12px`, 3 side-by-side + neat gaps. `flex-wrap: wrap` auto drops on narrow phones — 1 rule for all screens.
+
+---
+
+## Program: 3-Card Sliding Rack
 
 ```html
-<div class="rak">
-  <div class="kartu"><h3>Beras</h3><p>Rp 62.000</p></div>
-  <div class="kartu"><h3>Bayam</h3><p>Rp 5.000</p></div>
-  <div class="kartu"><h3>Telur</h3><p>Rp 28.000</p></div>
+<div class="rack">
+  <div class="card"><h3>Rice</h3><p>Rp 62,000</p></div>
+  <div class="card"><h3>Spinach</h3><p>Rp 5,000</p></div>
+  <div class="card"><h3>Eggs</h3><p>Rp 28,000</p></div>
 </div>
 ```
 
 ```css
-.rak {
-  display: flex;          /* AKTIFKAN rak geser */
-  gap: 12px;              /* jarak antar kartu */
-  flex-wrap: wrap;        /* pindah baris jika sempit */
-  justify-content: center; /* tengah: flex-start | center | space-between */
-  align-items: stretch;   /* tinggi sama */
+.rack {
+  display: flex;          /* ACTIVATE sliding rack */
+  gap: 12px;              /* gap between cards */
+  flex-wrap: wrap;        /* next row when narrow */
+  justify-content: center; /* center: flex-start | center | space-between */
+  align-items: stretch;   /* equal height */
 }
-.kartu {
+.card {
   border: 1px solid #ddd;
   padding: 16px;
   border-radius: 12px;
@@ -40,64 +40,64 @@
 }
 ```
 
-Kecilkan browser → kartu turun otomatis (`wrap`). Hapus `wrap` → kartu gepeng dipaksa!
+Shrink browser → cards drop automatically (`wrap`). Remove `wrap` → cards squished!
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `display: flex` = Aktifkan Rak
-Anak (`.kartu`) jadi sejajar horizontal (default `row`).
+### `display: flex` = Activate Rack
+Children (`.card`) line up horizontal (default `row`).
 
-### `justify-content` vs `align-items` = Kiri-Kanan vs Atas-Bawah
-- `justify-content`: sumbu utama (horizontal): `flex-start`, `center`, `space-between`.
-- `align-items`: sumbu silang (vertikal): `stretch`, `center`.
+### `justify-content` vs `align-items` = Left-Right vs Top-Bottom
+- `justify-content`: main axis (horizontal): `flex-start`, `center`, `space-between`.
+- `align-items`: cross axis (vertical): `stretch`, `center`.
 
-### `gap` + `flex-wrap` = Jarak + Pindah
-`gap: 12px` ganti `margin` manual. `wrap` responsif tanpa `@media`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Rak Geser Toko
-- **flex = rak**: barang sejajar. **justify = geser kiri/kanan**, **wrap = rak lipat** saat gang sempit.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `index.html` + `style.css`.
-
-### Cara Komputer Membaca
-1. `display: flex` → anak jadi flex items sejajar.
-2. `justify-content: center` → sisa ruang bagi kiri-kanan.
-
-### 3 Istilah Wajib
-1. **Flex container/item**: rak/barang
-2. **Main/cross axis**: horizontal/vertikal
-3. **gap/wrap**: jarak/lipat
+### `gap` + `flex-wrap` = Gap + Fold
+`gap: 12px` replaces manual `margin`. `wrap` responsive without `@media`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `justify-content: space-between` → kartu ke tepi?
-- **Kuning:** Hapus `flex-wrap` + kecilkan browser → gepeng?
-- **Merah:** `flex-direction: column` → turun vertikal? (Rak jadi tower)
+### Analogy: Store Sliding Rack
+- **flex = rack**: goods lined up. **justify = slide left/right**, **wrap = folding rack** when aisle narrows.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `index.html` + `style.css`.
 
-## Tantangan
+### How the Computer Reads It
+1. `display: flex` → children become flex items in a row.
+2. `justify-content: center` → leftover space split left-right.
 
-**Rak Warung Lengkap:** 6 kartu `flex` + `gap` + `wrap` + `justify-content: center` + 1 `header` `display: flex; justify-content: space-between` (logo kiri, nav kanan).
-
----
-
-## Glosarium Mini
-
-- **flex/justify/align**: rak/sejajar/rata
-- **gap/wrap**: jarak/lipat
+### 3 Must-Know Terms
+1. **Flex container/item**: rack/goods
+2. **Main/cross axis**: horizontal/vertical
+3. **gap/wrap**: gap/fold
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 12: **Rak Geser** (Level: Lengkap). Sejajar + responsif 1 aturan. Minggu depan: **Grid** — kotak-kotak.
+- **Green:** `justify-content: space-between` → cards to edges?
+- **Yellow:** Remove `flex-wrap` + shrink browser → squished?
+- **Red:** `flex-direction: column` → stacked vertical? (Rack becomes tower)
+
+---
+
+## Challenge
+
+**Complete Shop Rack:** 6 cards `flex` + `gap` + `wrap` + `justify-content: center` + 1 `header` `display: flex; justify-content: space-between` (logo left, nav right).
+
+---
+
+## Mini Glossary
+
+- **flex/justify/align**: rack/line-up/even
+- **gap/wrap**: gap/fold
+
+---
+
+## Summary
+
+Week 4 of 12: **Sliding Rack** (Level: Complete). Lined up + responsive in 1 rule. Next: **Grid** — boxes.
