@@ -48,7 +48,8 @@ View: `@error('name') <span>{{ $message }}</span> @enderror`.
 ## Beginner Friendly Explanation
 
 ### Analogy: Separate Laravel Guard
-- See Program: run the commands, change 1 thing, see the difference.
+- **Validation in controllers = guard doubling as cashier**: 30 mixed lines + duplicated per method.
+- **`FormRequest` = dedicated door guard**: 1 class `rules()` used by 10 controllers. Fails? Auto-kicked back + `old()` old input + `@error` messages!
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

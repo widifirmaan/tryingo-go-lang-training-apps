@@ -36,7 +36,8 @@ KirimEmail::dispatch($user); // masuk antrian, tidak tunggu
 ## Penjelasan untuk Pemula
 
 ### Analogi: Antrian Kurir Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Kirim WA di request = kasir antar sendiri 5 detik**: pelanggan bengong nunggu loading.
+- **`dispatch()` = panggil kurir**: balas OK 0.1 detik, kurir antar background. `queue:work` = kurirnya; gagal? `failed_jobs` catat + coba lagi!
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

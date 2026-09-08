@@ -39,7 +39,8 @@ echo $pesanan->produk->nama;
 ## Penjelasan untuk Pemula
 
 ### Analogi: Tali Antar Rak Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`hasMany` = tali keluar**: 1 produk diikat BANYAK pesanan (`$produk->pesanans`).
+- **`belongsTo` = tali balik**: tiap pesanan milik 1 produk (`$pesanan->produk`). `with('pesanans')` = tarik tali sekaligus (tanpa ini: 1 + N query = lambat!).
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

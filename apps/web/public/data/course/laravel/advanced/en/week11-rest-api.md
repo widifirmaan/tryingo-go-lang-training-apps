@@ -66,7 +66,8 @@ Test: `curl -X POST -d '{"email":"admin@shop.com","password":"123"}' localhost:8
 ## Beginner Friendly Explanation
 
 ### Analogy: Laravel Token Drive-Thru
-- See Program: run the commands, change 1 thing, see the difference.
+- **`apiResource` = 5 drive-thru windows in 1 line**: index/store/show/update/delete without 5 hand routes.
+- **Sanctum = phone wristband**: `createToken()` issues wristbands, `auth:sanctum` checks every door. Leaked token? Delete 1 row, other phones keep running!
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

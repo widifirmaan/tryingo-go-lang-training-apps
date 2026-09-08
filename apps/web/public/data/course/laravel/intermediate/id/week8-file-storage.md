@@ -40,7 +40,8 @@ php artisan storage:link
 ## Penjelasan untuk Pemula
 
 ### Analogi: Gudang Foto Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Upload tanpa Storage = tumpuk foto di meja**: path acak + pindah server hilang semua.
+- **`store('produk','public')` = masukkan laci berlabel** + `storage:link` = jembatan ke etalase (`/storage/...`). Pindah ke S3? Ganti 1 config, kode tetap!
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
