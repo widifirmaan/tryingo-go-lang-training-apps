@@ -1,37 +1,81 @@
-# SEO & Meta — Papan Nama Google
+# SEO & Meta — Google Signboard
 
-> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 13:** SEO & Meta Tags
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 13:** SEO & Meta Tags
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `<title>` + `<meta name="description" content="Warung Bu Siti — beras 5kg Rp 62.000">` + `<meta property="og:image" content="beras.jpg">` untuk Google & WA preview
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `description`, Google ambil teks acak. Dengan `description` 150 huruf, warung muncul cantik di Google & WA.
+- `<title>` + `<meta name="description" content="Siti's Shop — rice 5kg Rp 62,000">` + `<meta property="og:image" content="rice.jpg">` for Google & WA preview
 
 ---
 
-## Program: SEO Warung
+## Why This Matters (Non-IT)
+
+Without `description`, Google grabs random text. With a 150-char `description`, the shop looks beautiful on Google & WA.
+
+---
+
+## Program: Shop SEO
 
 ```html
 <head>
   <meta charset="UTF-8">
-  <title>Warung Bu Siti — Beras 5kg Rp 62.000</title>
-  <meta name="description" content="Warung Bu Siti — beras pulen 5kg Rp 62.000, bayam segar, gratis ongkir RW 01-03. Buka 07.00-20.00.">
-  <meta property="og:title" content="Warung Bu Siti">
-  <meta property="og:description" content="Beras 5kg Rp 62.000">
-  <meta property="og:image" content="https://warung.com/beras.jpg">
+  <title>Siti's Shop — Rice 5kg Rp 62,000</title>
+  <meta name="description" content="Siti's Shop — fluffy rice 5kg Rp 62,000, fresh spinach, free delivery RW 01-03. Open 07.00-20.00.">
+  <meta property="og:title" content="Siti's Shop">
+  <meta property="og:description" content="Rice 5kg Rp 62,000">
+  <meta property="og:image" content="https://shop.com/rice.jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 ```
 
-Test di `search.google.com/test/rich-results` dan WA `wa.me` preview.
+Test at `search.google.com/test/rich-results` and WA preview.
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 13: **Papan Nama Google** — `title` + `description` + `og:`.
+### `title` / `description` / `og:`
+`title` tab + Google headline, `description` snippet, `og:` social/WA card.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Google Business Sign
+- **`title` = big sign**, **`description` = tagline**, **`og:image` = display photo** on WA shares.
+
+### Step 0 — Prepare Device
+- VS Code + browser, view page source → find your tags.
+
+### How the Computer Reads It
+1. Google crawls → reads `title` + `description` → shows in results.
+2. WA share → reads `og:` → builds preview card.
+
+### 3 Must-Know Terms
+1. **title/description/og**: sign/tagline/card
+
+---
+
+## Experiments
+
+- **Green:** Change `title` → browser tab changes?
+- **Yellow:** Share link on WA → preview card shows `og:image`?
+- **Red:** No `description` → Google snippet random? Add 150-char one.
+
+---
+
+## Challenge
+
+**Google-Ready:** `title` with keyword + price, `description` 150 chars, full `og:` set + `viewport` → test rich-results.
+
+---
+
+## Mini Glossary
+
+- **SEO/meta/og**: found/sign/card
+
+---
+
+## Summary
+
+Week 13 of 14: **Google Signboard** — `title` + `description` + `og:`. Next: **Final Project**.
