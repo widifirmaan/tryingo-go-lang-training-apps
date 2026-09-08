@@ -42,7 +42,7 @@ Warung tanpa gabung = 5 file terpisah berantakan. Dengan 1 `warung.css` + `BEM` 
 
 Deploy: `netlify.com` → drag `index.html` + `warung.css` → `warung.netlify.app`.
 
-**Tugas capstone:** Deploy + `Lighthouse` (Chrome DevTools → Lighthouse) 90+ Performance, 100 Accessibility (pakai `alt`, `label` dari W6-W9).
+**Tugas capstone:** Deploy + `Lighthouse` (Chrome DevTools → Lighthouse) 90+ Performance, 100 Accessibility (pakai `alt`, `label` dari materi HTML5 W4/W7/W12).
 
 ---
 
