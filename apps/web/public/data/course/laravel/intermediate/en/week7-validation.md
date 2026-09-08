@@ -1,70 +1,70 @@
-# Validasi — Satpam Laravel Lanjutan
+# Validation — Advanced Laravel Guard
 
-> **Kategori:** Laravel | **Level:** Menengah | **Minggu 7:** Validasi
+> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 7:** Validasi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `FormRequest` satpam terpisah: `php artisan make:request StoreProdukRequest` + `rules()` + `messages()`
+- Separate guard `FormRequest`: `php artisan make:request StoreProductRequest` + `rules()` + `messages()`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `FormRequest`, validasi campur di controller 30 baris + duplikat tiap method. Dengan 1 class, pakai 10x.
+Without `FormRequest`, validation mixes into controllers 30 lines + duplicated per method. With 1 class, used 10x.
 
 ---
 
 ## Program
 
 ```bash
-php artisan make:request StoreProdukRequest
+php artisan make:request StoreProductRequest
 ```
 
 ```php
-// app/Http/Requests/StoreProdukRequest.php
+// app/Http/Requests/StoreProductRequest.php
 public function rules(){
   return [
-    'nama' => 'required|min:3',
-    'harga' => 'required|numeric|min:1',
-    'stok' => 'required|integer|min:0'
+    'name' => 'required|min:3',
+    'price' => 'required|numeric|min:1',
+    'stock' => 'required|integer|min:0'
   ];
 }
 public function messages(){
-  return ['nama.required' => 'Nama wajib', 'harga.min' => 'Harga minimal 1'];
+  return ['name.required' => 'Name required', 'price.min' => 'Price min 1'];
 }
 
 // Controller
-public function store(StoreProdukRequest $req){
-  Produk::create($req->validated());
-  return redirect('/produk');
+public function store(StoreProductRequest $req){
+  Product::create($req->validated());
+  return redirect('/products');
 }
 ```
 
-View: `@error('nama') <span>{{ $message }}</span> @enderror`.
+View: `@error('name') <span>{{ $message }}</span> @enderror`.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Satpam Terpisah Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Separate Laravel Guard
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `php artisan make:request StoreRequest` → `rules()` → type-hint di controller → otomatis dicek.
+### How the Computer Reads It
+- `php artisan make:request StoreRequest` → `rules()` → type-hint in controller → auto-checked.
 
-### 3 Istilah Wajib
-- 1. **FormRequest/rules**: satpam/aturan
+### 3 Must-Know Terms
+- 1. **FormRequest/rules**: guard/rules
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 7: **Satpam Terpisah** — FormRequest.
+Week 7: **Guard Class** (Level: Intermediate). Validation out of controllers. Next: **Storage**.

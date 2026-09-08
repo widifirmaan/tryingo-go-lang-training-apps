@@ -1,58 +1,58 @@
-# Queues & Jobs — Antrian Warung Laravel
+# Queues & Jobs — Laravel Shop Queue
 
-> **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 10:** Queues & Jobs
+> **Kategori:** Laravel | **Level:** Advanced | **Minggu 10:** Queues & Jobs
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php artisan make:job KirimEmail` antrian, `dispatch` kirim, `queue:work` proses
+- `php artisan make:job SendEmail` queue, `dispatch` sends, `queue:work` processes
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Kirim WA 5 detik di request → loading 5 detik. Dengan `dispatch()` + `queue:work`, balas langsung, WA background.
+5-second WA sends in-request → 5-second loading. With `dispatch()` + `queue:work`, instant reply, background WA.
 
 ---
 
 ## Program
 
 ```bash
-php artisan make:job KirimEmail
+php artisan make:job SendEmail
 ```
 
 ```php
-// app/Jobs/KirimEmail.php
-public function handle(){ Mail::to($this->user->email)->send(new StrukMail()); }
+// app/Jobs/SendEmail.php
+public function handle(){ Mail::to($this->user->email)->send(new ReceiptMail()); }
 
 // Controller
-KirimEmail::dispatch($user); // masuk antrian, tidak tunggu
+SendEmail::dispatch($user); // queued, no waiting
 ```
 
-`php artisan queue:work` → proses antrian.
+`php artisan queue:work` → processes queue.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Antrian Kurir Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Laravel Courier Queue
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `Job::dispatch()` antre; `queue:work` ambil; `failed` jika gagal 3x.
+### How the Computer Reads It
+- `Job::dispatch()` queues; `queue:work` takes; `failed` after 3 failures.
 
-### 3 Istilah Wajib
-- 1. **dispatch/queue:work**: antre/ambil
+### 3 Must-Know Terms
+- 1. **dispatch/queue:work**: queue/take
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 10: **Antrian** — Jobs tidak tunggu.
+Week 10: **Queue** — Jobs don't wait. Next: **REST API**.

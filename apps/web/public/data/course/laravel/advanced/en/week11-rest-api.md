@@ -1,16 +1,16 @@
-# REST API — Warung Online Laravel
+# REST API — Online Laravel Shop
 
-> **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 11:** REST API
+> **Kategori:** Laravel | **Level:** Advanced | **Minggu 11:** REST API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php artisan make:controller Api/ProdukController --api` + `Route::apiResource` jadi JSON
+- `php artisan make:controller Api/ProductController --api` + `Route::apiResource` becomes JSON
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-HP butuh JSON + Sanctum token (bukan session cookie). Dengan `apiResource` + `Sanctum`, 1 baris 5 pintu + token aman.
+Phones need JSON + Sanctum tokens (not session cookies). With `apiResource` + `Sanctum`, 1 line 5 doors + safe tokens.
 
 ---
 
@@ -18,38 +18,38 @@ HP butuh JSON + Sanctum token (bukan session cookie). Dengan `apiResource` + `Sa
 
 ```php
 // routes/api.php
-Route::apiResource('produk', App\Http\Controllers\Api\ProdukController::class);
+Route::apiResource('products', App\Http\Controllers\Api\ProductController::class);
 
 // Controller
-public function index(){ return Produk::all(); }
-public function store(Request $req){ return Produk::create($req->validated()); }
+public function index(){ return Product::all(); }
+public function store(Request $req){ return Product::create($req->validated()); }
 ```
 
-`curl http://localhost:8000/api/produk` → JSON.
+`curl http://localhost:8000/api/products` → JSON.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Drive-Thru Token Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Laravel Token Drive-Thru
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `Route::apiResource()` 5 pintu; `Sanctum::actingAs` di test; token per HP.
+### How the Computer Reads It
+- `Route::apiResource()` 5 doors; `Sanctum::actingAs` in tests; token per phone.
 
-### 3 Istilah Wajib
-- 1. **apiResource/Sanctum**: 5-pintu/token
+### 3 Must-Know Terms
+- 1. **apiResource/Sanctum**: 5-doors/token
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 11: **API Laravel** — `apiResource`.
+Week 11: **Laravel API** — `apiResource`. Next: **Capstone**.

@@ -1,16 +1,16 @@
-# Authentication — KTP Laravel
+# Authentication — Laravel ID
 
-> **Kategori:** Laravel | **Level:** Menengah | **Minggu 5:** Authentication
+> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 5:** Authentication
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php artisan make:auth` atau `Breeze` — `Auth::attempt`, `middleware('auth')` jaga `/admin`
+- `php artisan make:auth` or `Breeze` — `Auth::attempt`, `middleware('auth')` guards `/admin`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa auth, `/admin` dibuka siapa saja → harga diubah iseng. Breeze 1 perintah jadi login/register/logout + `middleware('auth')` jaga.
+Without auth, anyone opens `/admin` → prices edited for fun. Breeze builds login/register/logout in 1 command + `middleware('auth')` guards.
 
 ---
 
@@ -29,34 +29,34 @@ Route::middleware('auth')->group(function(){
   Route::get('/admin', function(){ return view('admin'); });
 });
 
-// Login otomatis di /login, /register
+// Login automatic at /login, /register
 ```
 
-Buka `http://localhost:8000/login` → daftar → `/admin` terproteksi.
+Open `http://localhost:8000/login` → register → `/admin` protected.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: KTP Siap Pakai Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Ready-Made Laravel ID
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `composer require laravel/breeze` → `php artisan breeze:install` → `migrate` → `/login` jadi.
+### How the Computer Reads It
+- `composer require laravel/breeze` → `php artisan breeze:install` → `migrate` → `/login` done.
 
-### 3 Istilah Wajib
-- 1. **Breeze/middleware**: KTP-jadi/satpam
+### 3 Must-Know Terms
+- 1. **Breeze/middleware**: ready-ID/guard
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 5: **KTP Laravel** — Breeze `auth` + `middleware`.
+Week 5: **Laravel ID** — Breeze `auth` + `middleware`. Next: **Relations**.

@@ -1,27 +1,27 @@
-# Testing — Uji Warung Laravel
+# Testing — Test Laravel Shop
 
-> **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 9:** Testing
+> **Kategori:** Laravel | **Level:** Advanced | **Minggu 9:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `php artisan test` — `it("buat produk", fn()=> $this->post('/produk', ["nama"=>"Beras"])->assertStatus(302))`
+- `php artisan test` — `it("creates product", fn()=> $this->post('/products', ["name"=>"Rice"])->assertStatus(302))`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa test, ubah route → 404 ketahuan pelanggan. Dengan `php artisan test` + `assertDatabaseHas`, ubah → merah → perbaiki.
+Without tests, route edits → 404s found by customers. With `php artisan test` + `assertDatabaseHas`, edit → red → fix.
 
 ---
 
 ## Program
 
 ```php
-// tests/Feature/ProdukTest.php
-public function test_buat(){
-  $res = $this->post('/produk', ["nama"=>"Beras","harga"=>62000]);
-  $res->assertRedirect('/produk');
-  $this->assertDatabaseHas('produks', ["nama"=>"Beras"]);
+// tests/Feature/ProductTest.php
+public function test_create(){
+  $res = $this->post('/products', ["name"=>"Rice","price"=>62000]);
+  $res->assertRedirect('/products');
+  $this->assertDatabaseHas('products', ["name"=>"Rice"]);
 }
 ```
 
@@ -30,26 +30,26 @@ public function test_buat(){
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cicip Warung Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Laravel Shop Taste
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `$this->post(...)->assertRedirect()`; `assertDatabaseHas()` cek DB beneran.
+### How the Computer Reads It
+- `$this->post(...)->assertRedirect()`; `assertDatabaseHas()` checks the real DB.
 
-### 3 Istilah Wajib
-- 1. **test/assertDatabaseHas**: cicip/cek-DB
+### 3 Must-Know Terms
+- 1. **test/assertDatabaseHas**: taste/check-DB
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 9: **Uji Laravel** — `php artisan test`.
+Week 9: **Test Laravel** — `php artisan test`. Next: **Queues**.
