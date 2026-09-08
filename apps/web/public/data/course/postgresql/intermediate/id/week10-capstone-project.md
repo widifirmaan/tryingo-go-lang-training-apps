@@ -26,7 +26,8 @@ Buat `produk`, `pelanggan`, `pesanan` + `INDEX` + `JSONB` untuk `pesanan.data` +
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Gudang
-- Lihat Program: jalankan baris per baris di Supabase/`psql`, ubah 1 angka, lihat bedanya.
+- **9 minggu = bangun gudang**: rak (tabel), tali (FK), daftar isi (index), resep (function), alarm (trigger).
+- **Capstone = grand opening**: gudang 10rb baris + laporan + backup/restore TERBUKTI (`pg_dump` + restore + data sama!). Tanpa backup = gudang tanpa asuransi!
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (Supabase tanpa install / lokal).

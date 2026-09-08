@@ -26,7 +26,8 @@ Build `products`, `customers`, `orders` + `INDEX` + `JSONB` for `orders.data` + 
 ## Beginner Friendly Explanation
 
 ### Analogy: Warehouse Grand Opening
-- See Program: run line by line in Supabase/`psql`, change 1 number, see the difference.
+- **9 weeks = building a warehouse**: racks (tables), ropes (FKs), contents (indexes), recipes (functions), alarms (triggers).
+- **Capstone = grand opening**: 10k-row warehouse + reports + backup/restore PROVEN (`pg_dump` + restore + same data!). No backup = warehouse without insurance!
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (Supabase no-install / local).

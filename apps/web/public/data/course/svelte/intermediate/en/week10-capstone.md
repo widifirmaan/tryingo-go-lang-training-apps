@@ -53,7 +53,8 @@ vite build -> adapter.
 ## Beginner Friendly Explanation
 
 ### Analogy: Svelte Store Grand Opening
-- See Program: run line by line, change 1 number, see the difference.
+- **9 weeks = assembling a store**: bricks (`let`/stores), maps (SvelteKit), smooth tiles (transitions).
+- **Capstone = grand opening**: SvelteKit + Prisma + auth + deploy RUN TOGETHER. Course platform = store selling KNOWLEDGE (eat your own cooking!).
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (see week 1 for install).

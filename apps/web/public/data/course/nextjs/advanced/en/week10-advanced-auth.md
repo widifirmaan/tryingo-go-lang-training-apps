@@ -50,7 +50,8 @@ export default async function Admin(){
 ## Beginner Friendly Explanation
 
 ### Analogy: Digital Shop ID
-- See Program: run line by line, change 1 number, see the difference.
+- **No auth = shop without guards**: anyone opens `/admin` → edits prices for fun.
+- **NextAuth = digital ID + automatic guards**: `signIn` prints IDs (JWT), `auth()` checks every server page. `[...nextauth]/route.js` = ID office (without it login NEVER works!).
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (see week 1 for install).
