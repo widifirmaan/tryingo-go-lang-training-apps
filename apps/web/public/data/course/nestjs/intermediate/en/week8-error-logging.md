@@ -1,109 +1,109 @@
-# Error & Logging — Alarm + CCTV Warung NestJS
+# Error & Logging — NestJS Shop Alarm + CCTV
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 8:** Error Handling & Logging
+> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 8:** Error Handling & Logging
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Catch()` + `ExceptionFilter` satpam error global + `HttpException` kode rapi (sumber: docs.nestjs.com/exception-filters)
-- `Logger` CCTV (`log/warn/error`) — bukan `console.log` buta
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa filter, error jadi HTML 500 acak → HP crash tidak jelas. Dengan filter, semua error JSON `{ status, pesan }` konsisten. Tanpa log, bug produksi = tebak-tebakan. Dengan `Logger`, jejak jelas.
+- `@Catch()` + `ExceptionFilter` global error guard + `HttpException` neat codes (source: docs.nestjs.com/exception-filters)
+- `Logger` CCTV (`log/warn/error`) — not blind `console.log`
 
 ---
 
-## Program: Alarm + CCTV Warung
+## Why This Matters (Non-IT)
+
+Without filters, errors become random HTML 500s → phones crash unclearly. With filters, all errors are consistent JSON `{ status, message }`. Without logs, production bugs = guessing. With `Logger`, clear trails.
+
+---
+
+## Program: Shop Alarm + CCTV
 
 ```typescript
-// filter global — 1 satpam semua error
+// global filter — 1 guard for all errors
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from "@nestjs/common";
 
 @Catch()
-export class SemuaErrorFilter implements ExceptionFilter {
+export class AllErrorsFilter implements ExceptionFilter {
   private log = new Logger("Error");
 
   catch(err: unknown, host: ArgumentsHost) {
     const res = host.switchToHttp().getResponse();
     const status = err instanceof HttpException ? err.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-    const pesan = err instanceof HttpException ? err.message : "Server sibuk, coba lagi";
-    this.log.error(pesan); // CCTV catat!
-    res.status(status).json({ status, pesan, kapan: new Date() });
+    const message = err instanceof HttpException ? err.message : "Server busy, retry";
+    this.log.error(message); // CCTV records!
+    res.status(status).json({ status, message, when: new Date() });
   }
 }
 ```
 
 ```typescript
-// main.ts — pasang 1x
-app.useGlobalFilters(new SemuaErrorFilter());
+// main.ts — install 1x
+app.useGlobalFilters(new AllErrorsFilter());
 ```
 
 ```typescript
-// pakai di controller
+// use in controller
 import { NotFoundException } from "@nestjs/common";
 
-satu(id: number) {
-  const p = this.cari(id);
-  if (!p) throw new NotFoundException(`Produk ${id} tidak ada`); // → 404 JSON rapi!
+one(id: number) {
+  const p = this.find(id);
+  if (!p) throw new NotFoundException(`Product ${id} missing`); // → neat 404 JSON!
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Catch()` = Jaring Pengaman Global
-Tangkap semua error tak tertangani → JSON rapi (bukan HTML 500).
+### `@Catch()` = Global Safety Net
+Catches all unhandled errors → neat JSON (not HTML 500).
 
-### `HttpException` = Alarm Berkode
+### `HttpException` = Coded Alarm
 `NotFoundException` (404), `BadRequestException` (400), `UnauthorizedException` (401).
 
-### `Logger` = CCTV Beda Level
-`log` info, `warn` waspada, `error` bahaya (beda warna + filter).
+### `Logger` = Leveled CCTV
+`log` info, `warn` caution, `error` danger (different colors + filters).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Satpam + CCTV Mal
-- **Filter = satpam pusat**: semua masalah lapor 1 pintu, format sama.
-- **Logger = CCTV**: rekam tiap kejadian per level.
+### Analogy: Mall Guard + CCTV
+- **Filter = central guard**: all issues report to 1 door, same format.
+- **Logger = CCTV**: records every event per level.
 
-### Langkah 0 — Siapkan Device
-- Sama W1. Lihat terminal: log Nest berwarna.
+### Step 0 — Prepare Device
+- Same as W1. Watch the terminal: colored Nest logs.
 
-### Cara Komputer Membaca
-1. `throw new NotFoundException` → filter tangkap → `404 { status, pesan }`.
-2. Error asing → `500 { pesan: "Server sibuk" }` (sembunyikan detail ke hacker!).
+### How the Computer Reads It
+1. `throw new NotFoundException` → filter catches → `404 { status, message }`.
+2. Foreign error → `500 { message: "Server busy" }` (hides details from hackers!).
 
-### 3 Istilah Wajib
-1. **Filter/Catch**: jaring/tangkap
-2. **Logger/log-warn-error**: CCTV/level
-
----
-
-## Eksperimen
-
-- **Hijau:** Tanpa filter, `throw` → HTML 500? Dengan → JSON?
-- **Kuning:** `Logger` `error` vs `log` → warna beda di terminal?
-- **Merah:** Bocorkan `err.stack` ke client? Jangan! (Hacker baca struktur!)
+### 3 Must-Know Terms
+1. **Filter/Catch**: net/catch
+2. **Logger/log-warn-error**: CCTV/levels
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Aman Terpantau:** Filter global + 3 `HttpException` beda + `Logger` tiap aksi + `curl` cek JSON rapi semua. **Selesai Menengah NestJS!**
-
----
-
-## Glosarium Mini
-
-- **Filter/Logger/HttpException**: jaring/CCTV/alarm-berkode
+- **Green:** Without filter, `throw` → HTML 500? With → JSON?
+- **Yellow:** `Logger` `error` vs `log` → different terminal colors?
+- **Red:** Leak `err.stack` to client? Don't! (Hackers read structure!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Alarm + CCTV** (Level: Menengah). **Selesai Menengah NestJS!** Lanjut: **Testing** (Lanjutan).
+**Safe Monitored Shop:** Global filter + 3 different `HttpException`s + `Logger` per action + `curl` verifying neat JSON everywhere. **Intermediate NestJS DONE!**
+
+---
+
+## Mini Glossary
+
+- **Filter/Logger/HttpException**: net/CCTV/coded-alarm
+
+---
+
+## Summary
+
+Week 8 of 12: **Alarm + CCTV** (Level: Intermediate). **Intermediate NestJS DONE!** Next: **Testing** (Advanced).

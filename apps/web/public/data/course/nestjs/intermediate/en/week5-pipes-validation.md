@@ -1,43 +1,43 @@
-# Pipes & Validation — Satpam Pintu NestJS
+# Pipes & Validation — NestJS Door Guards
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 5:** Pipes & Validation
+> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 5:** Pipes & Validation
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- DTO + `class-validator` (`@IsString()`, `@MinLength(3)`) stempel + `ValidationPipe` satpam otomatis (sumber: docs.nestjs.com/techniques/validation)
-- `ParseIntPipe` ubah `:id` jadi angka (bukan string!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa validasi, `nama: ""` masuk DB → laporan rusak. Tanpa `ParseIntPipe`, `id` string `"1"` vs number `1` bikin `find` gagal diam-diam. 3 baris cegah semua.
+- DTO + `class-validator` (`@IsString()`, `@MinLength(3)`) stamps + `ValidationPipe` automatic guard (source: docs.nestjs.com/techniques/validation)
+- `ParseIntPipe` turns `:id` into numbers (not strings!)
 
 ---
 
-## Program: Satpam Warung NestJS
+## Why This Matters (Non-IT)
+
+Without validation, `name: ""` enters the DB → reports break. Without `ParseIntPipe`, string `"1"` vs number `1` ids silently break `find`. 3 lines stop all of it.
+
+---
+
+## Program: NestJS Shop Guard
 
 ```bash
 npm install class-validator class-transformer
 ```
 
 ```typescript
-// dto.ts — amplop berstempel
+// dto.ts — stamped envelope
 import { IsString, MinLength, IsInt, Min } from "class-validator";
 
-export class BuatProdukDto {
+export class CreateProductDto {
   @IsString()
-  @MinLength(3, { message: "Nama minimal 3 huruf" })
-  nama: string;
+  @MinLength(3, { message: "Name min 3 letters" })
+  name: string;
 
   @IsInt()
-  @Min(1, { message: "Harga minimal 1" })
-  harga: number;
+  @Min(1, { message: "Price min 1" })
+  price: number;
 }
 ```
 
 ```typescript
-// main.ts — pasang satpam GLOBAL (1x untuk semua!)
+// main.ts — install GLOBAL guard (1x for all!)
 import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
@@ -48,74 +48,74 @@ async function bootstrap() {
 ```
 
 ```typescript
-// controller — otomatis dicek!
+// controller — auto-checked!
 @Post()
-tambah(@Body() dto: BuatProdukDto) {
-  return this.service.tambah(dto); // sampai sini = sudah lolos!
+add(@Body() dto: CreateProductDto) {
+  return this.service.add(dto); // reaching here = already passed!
 }
 
 @Get(":id")
-satu(@Param("id", ParseIntPipe) id: number) { // "1" → 1
-  return this.service.satu(id);
+one(@Param("id", ParseIntPipe) id: number) { // "1" → 1
+  return this.service.one(id);
 }
 ```
 
-POST `{}` → `400` + pesan "Nama minimal 3 huruf" (bukan 500!).
+POST `{}` → `400` + "Name min 3 letters" message (not 500!).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### DTO + Decorator = Amplop Berstempel
-`@IsString()` stempel di field. `whitelist: true` buang field tak dikenal (anti mass-assignment!).
+### DTO + Decorator = Stamped Envelope
+`@IsString()` stamp on field. `whitelist: true` drops unknown fields (anti mass-assignment!).
 
-### `ValidationPipe` Global = Satpam 1x
-Pasang di `main.ts` → semua `@Body` dicek otomatis.
+### Global `ValidationPipe` = 1x Guard
+Installed in `main.ts` → every `@Body` auto-checked.
 
-### `ParseIntPipe` = Penerjemah
-`":id"` string → number otomatis.
+### `ParseIntPipe` = Translator
+`":id"` string → number automatically.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Satpam + Penerjemah
-- **ValidationPipe = satpam pintu**: cek stempel tiap amplop.
-- **ParseIntPipe = penerjemah**: "1" → 1.
+### Analogy: Guard + Translator
+- **ValidationPipe = door guard**: checks stamps on every envelope.
+- **ParseIntPipe = translator**: "1" → 1.
 
-### Langkah 0 — Siapkan Device
-- Sama NestJS W1 + `npm install class-validator class-transformer`.
+### Step 0 — Prepare Device
+- Same as NestJS W1 + `npm install class-validator class-transformer`.
 
-### Cara Komputer Membaca
-1. POST JSON → pipe cek tiap decorator → gagal? `400` + pesan.
+### How the Computer Reads It
+1. POST JSON → pipe checks each decorator → fail? `400` + message.
 2. `:id` → `ParseIntPipe` → number → controller.
 
-### 3 Istilah Wajib
-1. **DTO/Pipe**: amplop/satpam
-2. **whitelist/ParseInt**: buang-asing/terjemah
+### 3 Must-Know Terms
+1. **DTO/Pipe**: envelope/guard
+2. **whitelist/ParseInt**: drop-strangers/translate
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** POST `{}` → 400 + pesan?
-- **Kuning:** POST + field `is_admin` → dibuang (`whitelist`)?
-- **Merah:** Hapus global pipe → data jelek lolos? (Itulah kenapa wajib!)
-
----
-
-## Tantangan
-
-**Warung Bersatpam:** DTO `nama/harga/stok` + global pipe + `ParseIntPipe` `:id` + `curl` 3 kasus (lolos/kosong/salah-tipe).
+- **Green:** POST `{}` → 400 + message?
+- **Yellow:** POST with `is_admin` field → dropped (`whitelist`)?
+- **Red:** Remove global pipe → bad data passes? (That's why it's mandatory!)
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **DTO/Pipe/whitelist**: amplop/satpam/buang-asing
+**Guarded Shop:** DTO `name/price/stock` + global pipe + `ParseIntPipe` `:id` + `curl` 3 cases (pass/empty/wrong-type).
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 5 dari 12: **Satpam Pintu** (Level: Menengah). Data kotor ditolak. Minggu depan: **Guards** — KTP.
+- **DTO/Pipe/whitelist**: envelope/guard/drop-strangers
+
+---
+
+## Summary
+
+Week 5 of 12: **Door Guard** (Level: Intermediate). Dirty data rejected. Next: **Guards** — ID.

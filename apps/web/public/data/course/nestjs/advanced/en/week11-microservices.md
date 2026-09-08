@@ -1,123 +1,123 @@
-# Microservices — Warung Bercabang NestJS
+# Microservices — Branched NestJS Shop
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 11:** Microservices
+> **Kategori:** NestJS | **Level:** Advanced | **Minggu 11:** Microservices
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@MessagePattern("hitung")` tanya-jawab + `@EventPattern("pesan")` siar-lupa via TCP (sumber: docs.nestjs.com/microservices/basics)
-- `ClientProxy` telepon cabang dari gateway
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-1 server untuk 10.000 pelanggan = antre. Pecah: `gateway` (pintu) + `produk` (rak) + `pesanan` (kasir) — sibuk 1, lain tetap. Cabang mati 1 → lain jalan.
+- `@MessagePattern("calc")` ask-answer + `@EventPattern("order")` broadcast-forget over TCP (source: docs.nestjs.com/microservices/basics)
+- `ClientProxy` phones branches from the gateway
 
 ---
 
-## Program: 2 Cabang TCP Warung
+## Why This Matters (Non-IT)
+
+1 server for 10,000 customers = queues. Split: `gateway` (door) + `products` (rack) + `orders` (cashier) — 1 busy, others fine. 1 dead branch → others run.
+
+---
+
+## Program: 2 TCP Shop Branches
 
 ```bash
 npm install @nestjs/microservices
 ```
 
 ```typescript
-// CABANG produk (port 3001): main.ts
+// products BRANCH (port 3001): main.ts
 import { NestFactory } from "@nestjs/core";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
-async function mulai() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(ProdukModule, {
+async function start() {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(ProductsModule, {
     transport: Transport.TCP,
     options: { port: 3001 },
   });
   await app.listen();
 }
-mulai();
+start();
 ```
 
 ```typescript
-// produk.controller.ts (cabang) — jawab pola
+// products.controller.ts (branch) — answers patterns
 import { MessagePattern, EventPattern } from "@nestjs/microservices";
 
 @Controller()
-export class ProdukController {
-  @MessagePattern("cari-produk")   // tanya → TUNGGU jawab
-  cari(data: any) {
-    return { nama: "Beras", harga: 62000 };
+export class ProductsController {
+  @MessagePattern("find-product")   // ask → WAIT for answer
+  find(data: any) {
+    return { name: "Rice", price: 62000 };
   }
 
-  @EventPattern("stok-habis")      // siar → TIDAK tunggu
-  catat(data: any) {
-    console.log("Stok habis:", data);
+  @EventPattern("out-of-stock")      // broadcast → DON'T wait
+  log(data: any) {
+    console.log("Out of stock:", data);
   }
 }
 ```
 
 ```typescript
-// GATEWAY (port 3000): telepon cabang
+// GATEWAY (port 3000): phones the branch
 import { ClientProxyFactory, Transport } from "@nestjs/microservices";
 
-const cabang = ClientProxyFactory.create({
+const branch = ClientProxyFactory.create({
   transport: Transport.TCP,
   options: { port: 3001 },
 });
 
-@Get("cari")
-async cari() {
-  return cabang.send("cari-produk", {}); // tunggu jawab
+@Get("find")
+async find() {
+  return branch.send("find-product", {}); // wait for answer
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `MessagePattern` vs `EventPattern` = Telepon vs Pengeras
-`MessagePattern` tanya-tunggu jawab. `EventPattern` siar-lupa.
+### `MessagePattern` vs `EventPattern` = Phone vs Loudspeaker
+`MessagePattern` asks-waits for answers. `EventPattern` broadcasts-forgets.
 
-### TCP Transport = Kabel Telepon
-`port: 3001` cabang dengar. Nanti ganti Redis/RabbitMQ tanpa ubah pola!
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kantor Cabang
-- **Gateway = resepsionis**, **cabang = divisi**, **MessagePattern = telepon**, **EventPattern = pengeras**.
-
-### Langkah 0 — Siapkan Device
-- 2 terminal: `cabang` (3001) + `gateway` (3000).
-
-### Cara Komputer Membaca
-1. `GET /cari` → gateway `send("cari-produk")` → TCP ke 3001 → cabang jawab → gateway balas.
-
-### 3 Istilah Wajib
-1. **Message/Event**: telepon/pengeras
-2. **Gateway/cabang**: resepsionis/divisi
+### TCP Transport = Phone Cable
+`port: 3001` branch listens. Later swap to Redis/RabbitMQ without changing patterns!
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Matikan cabang → gateway timeout? (Butuh retry! W12.)
-- **Kuning:** `EventPattern` → gateway tidak tunggu (langsung balas)?
-- **Merah:** Port cabang salah → `ECONNREFUSED`? Betulkan 3001.
+### Analogy: Branch Office
+- **Gateway = receptionist**, **branch = division**, **MessagePattern = phone**, **EventPattern = loudspeaker**.
 
----
+### Step 0 — Prepare Device
+- 2 terminals: `branch` (3001) + `gateway` (3000).
 
-## Tantangan
+### How the Computer Reads It
+1. `GET /find` → gateway `send("find-product")` → TCP to 3001 → branch answers → gateway replies.
 
-**Warung Bercabang:** Gateway + 2 cabang (`produk`, `pesanan`) + `MessagePattern` 2 + `EventPattern` 1 + `curl` lulus.
-
----
-
-## Glosarium Mini
-
-- **Message/Event/TCP**: telepon/pengeras/kabel
+### 3 Must-Know Terms
+1. **Message/Event**: phone/loudspeaker
+2. **Gateway/branch**: receptionist/division
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 11 dari 12: **Bercabang** (Level: Lanjutan). Anti antre. Minggu depan: **Capstone**.
+- **Green:** Kill branch → gateway timeout? (Needs retry! W12.)
+- **Yellow:** `EventPattern` → gateway doesn't wait (replies instantly)?
+- **Red:** Wrong branch port → `ECONNREFUSED`? Fix to 3001.
+
+---
+
+## Challenge
+
+**Branched Shop:** Gateway + 2 branches (`products`, `orders`) + 2 `MessagePattern`s + 1 `EventPattern` + passing `curl`.
+
+---
+
+## Mini Glossary
+
+- **Message/Event/TCP**: phone/loudspeaker/cable
+
+---
+
+## Summary
+
+Week 11 of 12: **Branched** (Level: Advanced). Anti-queue. Next: **Capstone**.

@@ -1,62 +1,87 @@
-# Capstone: Enterprise API — Warung NestJS Grand Opening
+# Capstone: Enterprise API — NestJS Shop Grand Opening
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 12:** Capstone: Enterprise API
+> **Kategori:** NestJS | **Level:** Advanced | **Minggu 12:** Capstone: Enterprise API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W11: `module` + `auth` + `TypeORM` + `WebSocket` + `test` + `Docker` jadi toko beneran (bukan `console.log`!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: daftar → login → pesan → live → teruji → deploy. Portfolio "NestJS production-ready".
+- Combine W1-W11: `module` + `auth` + `TypeORM` + `WebSocket` + `test` + `Docker` into a real store (not `console.log`!)
 
 ---
 
-## Program: Toko Grand Opening (Checklist)
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combination: list → login → order → live → tested → deployed. Your "production-ready NestJS" portfolio.
+
+---
+
+## Program: Grand Opening Store (Checklist)
 
 ```bash
-nest new warung
+nest new shop
 npm install @nestjs/typeorm typeorm pg @nestjs/jwt @nestjs/websockets
 ```
 
-Fitur wajib (cek 1 per 1):
-- [ ] `ProdukModule` CRUD + `ValidationPipe` + `Postgres` (W2-W4)
-- [ ] `login` JWT + `@UseGuards` untuk `POST/DELETE` (W6)
-- [ ] `Gateway` siar `stok-habis` (W10)
-- [ ] 3 test HIJAU (`npm test`) (W9)
+Required features (check 1 by 1):
+- [ ] `ProductsModule` CRUD + `ValidationPipe` + `Postgres` (W2-W4)
+- [ ] `login` JWT + `@UseGuards` for `POST/DELETE` (W6)
+- [ ] `Gateway` broadcasts `out-of-stock` (W10)
+- [ ] 3 GREEN tests (`npm test`) (W9)
 - [ ] `Dockerfile` + `docker build` + `docker run` (W4-Docker)
 
 ```bash
-npm test          # HIJAU?
-npm run build && npm run start:prod  # jalan?
-curl localhost:3000/produk  # JSON?
+npm test          # GREEN?
+npm run build && npm run start:prod  # runs?
+curl localhost:3000/products  # JSON?
 ```
 
-**Tugas capstone:** Repo + test hijau + URL publik (`Railway`) + video 1 menit (daftar → login → tambah → live). **Selesai NestJS 0→Ahli!** 🎉
+**Capstone task:** Repo + green tests + public URL (`Railway`) + 1-min video (list → login → add → live). **NestJS 0→Expert DONE!** 🎉
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 11 Minggu
-Module + auth + DB + live + test + deploy = toko.
-
----
-
-## Tantangan
-
-**Grand Opening:** Semua checklist + URL + video. **Selesai NestJS 0→Ahli!** 🎉
+### Capstone = Combine 11 Weeks
+Module + auth + DB + live + test + deploy = store.
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- **Capstone/deploy**: gabung/buka
+### Analogy: Grand Opening
+- **W1-W4 foundation** + **W6-W11 engine** = store. **W12 = open**.
+
+### Step 0 — Prepare Device
+- Nest CLI + test runner + deploy target ready.
+
+### How the Computer Reads It
+1. Checklist top-to-bottom → production NestJS store.
+2. Public URL + video → portfolio done.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy**: combine/open
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 12 dari 12: **Grand Opening** (Level: Lanjutan). **Selesai NestJS 0→Ahli dari nol!** 🎉
+- **Green:** `npm test` GREEN?
+- **Yellow:** `curl` products → JSON array?
+- **Red:** Guard-less delete → open hole? Add guard.
+
+---
+
+## Challenge
+
+**Grand Opening:** All checklist + URL + video. **NestJS 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/deploy**: combine/open
+
+---
+
+## Summary
+
+Week 12 of 12: **Grand Opening** (Level: Advanced). **NestJS 0→Expert from zero DONE!** 🎉
