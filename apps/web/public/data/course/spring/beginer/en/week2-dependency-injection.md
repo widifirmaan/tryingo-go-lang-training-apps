@@ -1,116 +1,116 @@
-# Dependency Injection — Gudang Otomatis Spring
+# Dependency Injection — Automatic Spring Warehouse
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 2:** Dependency Injection
+> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 2:** Dependency Injection
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Service` tandai dapur, `@Autowired`/`constructor` suntik otomatis — tanpa `new` manual (sumber: docs.spring.io/spring-framework/reference/core/beans)
-- Bedakan `new ProdukService()` manual (2 gudang beda!) vs suntik (1 gudang sama)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-10 controller butuh `ProdukService` — `new` manual di 10 tempat = 10 gudang beda data (tambah di 1, 9 lain tidak tahu!). Dengan DI, Spring buatkan 1 (`singleton`) untuk semua.
+- `@Service` marks the kitchen, `@Autowired`/`constructor` auto-injects — no manual `new` (source: docs.spring.io/spring-framework/reference/core/beans)
+- Distinguish manual `new ProductService()` (2 different warehouses!) vs injection (1 same warehouse)
 
 ---
 
-## Program: Gudang Disuntik Spring
+## Why This Matters (Non-IT)
+
+10 controllers needing `ProductService` — manual `new` in 10 places = 10 warehouses with different data (add in 1, 9 others unaware!). With DI, Spring builds 1 (`singleton`) for all.
+
+---
+
+## Program: Injected Spring Warehouse
 
 ```java
-// ProdukService.java — dapur (1 untuk semua)
+// ProductService.java — kitchen (1 for all)
 import org.springframework.stereotype.Service;
 import java.util.*;
 
-@Service // kartu dapur! tanpa ini Spring tidak kenal
-public class ProdukService {
-  private List<String> daftar = new ArrayList<>(List.of("Beras", "Bayam"));
-  public List<String> semua() { return daftar; }
-  public void tambah(String nama) { daftar.add(nama); }
+@Service // kitchen card! without it Spring doesn't know
+public class ProductService {
+  private List<String> list = new ArrayList<>(List.of("Rice", "Spinach"));
+  public List<String> all() { return list; }
+  public void add(String name) { list.add(name); }
 }
 ```
 
 ```java
-// ProdukController.java — pelayan disuntik
+// ProductController.java — injected waiter
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/produk")
-public class ProdukController {
-  private final ProdukService service;
+@RequestMapping("/products")
+public class ProductController {
+  private final ProductService service;
 
-  // Suntik via constructor (cara modern, disarankan Spring)
-  public ProdukController(ProdukService service) {
+  // Constructor injection (modern way, Spring-recommended)
+  public ProductController(ProductService service) {
     this.service = service;
   }
 
   @GetMapping
-  public List<String> semua() { return service.semua(); }
+  public List<String> all() { return service.all(); }
 
   @PostMapping
-  public String tambah(@RequestParam String nama) {
-    service.tambah(nama);
-    return "Tambah " + nama;
+  public String add(@RequestParam String name) {
+    service.add(name);
+    return "Add " + name;
   }
 }
 ```
 
-Test: `curl http://localhost:8080/produk` → `["Beras","Bayam"]`.
+Test: `curl http://localhost:8080/products` → `["Rice","Spinach"]`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Service` = Kartu Dapur
-Tanpa `@Service`, Spring tidak buatkan → error `NoSuchBeanDefinition`.
+### `@Service` = Kitchen Card
+Without `@Service`, Spring never builds → `NoSuchBeanDefinition` error.
 
-### Constructor Inject = Suntik (Modern)
-`public ProdukController(ProdukService s)` — Spring isi otomatis. `@Autowired` field cara lama.
+### Constructor Inject = Injection (Modern)
+`public ProductController(ProductService s)` — Spring auto-fills. Field `@Autowired` is the old way.
 
-### Singleton = 1 Gudang
-Default Spring: 1 instance untuk semua (hemat + konsisten).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Dapur Sentral Mal
-- **Service = dapur sentral**, **controller = pelayan**, **DI = pipa otomatis** (Spring pasang, bukan kamu `new`).
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `start.spring.io` + `Spring Web`, `./mvnw spring-boot:run` di `8080`.
-
-### Cara Komputer Membaca
-1. Start → scan `@Service` → buat 1 `ProdukService`.
-2. `GET /produk` → buat controller + suntik service yang sama.
-
-### 3 Istilah Wajib
-1. **Service/Inject**: dapur/suntik
-2. **Singleton/Bean**: 1/biji Spring
+### Singleton = 1 Warehouse
+Spring default: 1 instance for all (thrifty + consistent).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `POST /produk?nama=Kopi` → `GET` ada 3?
-- **Kuning:** Hapus `@Service` → error `NoSuchBean`? Pasang lagi.
-- **Merah:** `new ProdukService()` manual di 2 controller → tambah di 1, lain tidak ikut? (Itulah kenapa DI!)
+### Analogy: Central Mall Kitchen
+- **Service = central kitchen**, **controller = waiter**, **DI = automatic pipes** (Spring installs, not you with `new`).
 
----
+### Step 0 — Prepare Device
+- Same as W1: `start.spring.io` + `Spring Web`, `./mvnw spring-boot:run` on `8080`.
 
-## Tantangan
+### How the Computer Reads It
+1. Start → scans `@Service` → builds 1 `ProductService`.
+2. `GET /products` → creates controller + injects the same service.
 
-**Mal 2 Pelayan:** `ProdukService` + `ProdukController` (`GET/POST`) + `StokController` (`GET /stok/jumlah` pakai service sama) → tambah via 1, baca via 2 sama?
-
----
-
-## Glosarium Mini
-
-- **Service/Autowired/singleton**: dapur/suntik/1
+### 3 Must-Know Terms
+1. **Service/Inject**: kitchen/inject
+2. **Singleton/Bean**: one/Spring-bean
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 2 dari 5: **Gudang Otomatis** (Level: Pemula). 1 data semua. Minggu depan: **REST Controller** — pintu.
+- **Green:** `POST /products?name=Coffee` → `GET` shows 3?
+- **Yellow:** Remove `@Service` → `NoSuchBean` error? Reattach.
+- **Red:** Manual `new ProductService()` in 2 controllers → add in 1, other doesn't follow? (That's why DI!)
+
+---
+
+## Challenge
+
+**2-Waiter Mall:** `ProductService` + `ProductController` (`GET/POST`) + `StockController` (`GET /stock/count` using same service) → add via 1, read via 2, same?
+
+---
+
+## Mini Glossary
+
+- **Service/Autowired/singleton**: kitchen/inject/one
+
+---
+
+## Summary
+
+Week 2 of 5: **Automatic Warehouse** (Level: Beginner). 1 data for all. Next: **REST Controller** — doors.

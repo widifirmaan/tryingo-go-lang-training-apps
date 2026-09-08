@@ -1,110 +1,110 @@
-# REST API Best Practices — Warung Rapi & Aman
+# REST API Best Practices — Neat & Safe Shop
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 5:** REST API Best Practices
+> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 5:** REST API Best Practices
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- DTO (`ProdukMasuk`/`ProdukKeluar`) amplop khusus — jangan expose entity langsung (sumber: spring.io/guides)
-- `@RestControllerAdvice` satpam error global + format `{ "error": "..." }` konsisten
-- `/api/v1/produk` versi agar HP lama tidak rusak saat API berubah
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Expose entity langsung → hacker lihat `password` ikut terkirim! Error mentah `500` → HP crash tidak jelas. Tanpa versi, ubah API → aplikasi pelanggan lama rusak semua.
+- DTOs (`ProductIn`/`ProductOut`) special envelopes — never expose entities directly (source: spring.io/guides)
+- `@RestControllerAdvice` global error guard + consistent `{ "error": "..." }` format
+- `/api/v1/products` versioning so old phones never break when APIs change
 
 ---
 
-## Program: Warung Rapi Spring
+## Why This Matters (Non-IT)
+
+Exposing entities directly → hackers see `password` shipped along! Raw `500` errors → phones crash unclearly. Without versions, API changes → all old customer apps break.
+
+---
+
+## Program: Neat Spring Shop
 
 ```java
-// DTO: amplop masuk & keluar (bukan entity!)
-public record ProdukMasuk(String nama, Integer harga) {}
-public record ProdukKeluar(Long id, String nama, Integer harga) {}
+// DTOs: in & out envelopes (not entities!)
+public record ProductIn(String name, Integer price) {}
+public record ProductOut(Long id, String name, Integer price) {}
 
-// Controller pakai DTO
+// Controller uses DTOs
 @PostMapping
-public ProdukKeluar tambah(@Valid @RequestBody ProdukMasuk masuk) {
-  Produk p = new Produk();
-  p.setNama(masuk.nama());
-  p.setHarga(masuk.harga());
-  Produk s = repo.save(p);
-  return new ProdukKeluar(s.getId(), s.getNama(), s.getHarga());
+public ProductOut add(@Valid @RequestBody ProductIn in) {
+  Product p = new Product();
+  p.setName(in.name());
+  p.setPrice(in.price());
+  Product s = repo.save(p);
+  return new ProductOut(s.getId(), s.getName(), s.getPrice());
 }
 
-// Satpam error global
+// Global error guard
 import org.springframework.web.bind.annotation.*;
 
 @RestControllerAdvice
-public class Aman {
+public class Safe {
   @ExceptionHandler(Exception.class)
-  public Map<String, String> tangani(Exception e) {
+  public Map<String, String> handle(Exception e) {
     return Map.of("error", e.getMessage());
   }
 }
 ```
 
 ```java
-// Versi: /api/v1/produk (tambah di RequestMapping)
-@RequestMapping("/api/v1/produk")
+// Version: /api/v1/products (add to RequestMapping)
+@RequestMapping("/api/v1/products")
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### DTO = Amplop Khusus
-`ProdukMasuk` (tanpa id) ≠ `ProdukKeluar` (dengan id) ≠ `Produk` (entity + password?). Aman + jelas.
+### DTO = Special Envelope
+`ProductIn` (no id) ≠ `ProductOut` (with id) ≠ `Product` (entity + password?). Safe + clear.
 
-### `@RestControllerAdvice` = Satpam Global
-Tangkap semua `Exception` → JSON `{ "error": "..." }` rapi, bukan HTML 500.
+### `@RestControllerAdvice` = Global Guard
+Catches all `Exception`s → neat `{ "error": "..." }` JSON, not HTML 500.
 
-### `/api/v1` = Versi
-Ubah API → buat `/api/v2`, HP lama tetap `/api/v1`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Amplop & Satpam Mal
-- **DTO = amplop coklat khusus**: isi sesuai keperluan, tidak campur.
-- **Advice = satpam pusat**: semua masalah lapor 1 pintu.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + `spring-boot-starter-validation` untuk `@Valid`.
-
-### Cara Komputer Membaca
-1. `POST /api/v1/produk` JSON → `ProdukMasuk` → validasi → simpan → `ProdukKeluar`.
-2. Error → `Aman.tangani` → `{"error": "..."}` status 500.
-
-### 3 Istilah Wajib
-1. **DTO/VO**: amplop
-2. **Advice/Handler**: satpam
-3. **Versioning**: versi
+### `/api/v1` = Version
+API change → build `/api/v2`, old phones stay on `/api/v1`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** POST tanpa `nama` → `{"error": ...}` rapi (bukan HTML)?
-- **Kuning:** `GET /api/v1/produk` vs `/api/v2` (belum ada) → 404?
-- **Merah:** Return entity langsung berisi field rahasia → terlihat? Ganti DTO.
+### Analogy: Mall Envelopes & Guards
+- **DTO = special brown envelope**: contents fit the need, no mixing.
+- **Advice = central guard**: all issues report to 1 door.
+
+### Step 0 — Prepare Device
+- Same as W1 + `spring-boot-starter-validation` for `@Valid`.
+
+### How the Computer Reads It
+1. `POST /api/v1/products` JSON → `ProductIn` → validate → save → `ProductOut`.
+2. Error → `Safe.handle` → `{"error": "..."}` status 500.
+
+### 3 Must-Know Terms
+1. **DTO/VO**: envelope
+2. **Advice/Handler**: guard
+3. **Versioning**: version
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Rapi Lengkap:** DTO masuk/keluar + `Advice` + `/api/v1` + `curl` POST cek JSON rapi. **Selesai Beginner Spring!**
-
----
-
-## Glosarium Mini
-
-- **DTO/Advice/version**: amplop/satpam/versi
+- **Green:** POST without `name` → neat `{"error": ...}` (not HTML)?
+- **Yellow:** `GET /api/v1/products` vs `/api/v2` (missing) → 404?
+- **Red:** Return entity with secret field directly → visible? Switch to DTO.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 5: **Rapi & Aman** (Level: Pemula). **Selesai Beginner Spring!** Lanjut: **Security** (Menengah).
+**Complete Neat Shop:** In/out DTOs + `Advice` + `/api/v1` + `curl` POST verifying neat JSON. **Beginner Spring DONE!**
+
+---
+
+## Mini Glossary
+
+- **DTO/Advice/version**: envelope/guard/version
+
+---
+
+## Summary
+
+Week 5 of 5: **Neat & Safe** (Level: Beginner). **Beginner Spring DONE!** Next: **Security** (Intermediate).

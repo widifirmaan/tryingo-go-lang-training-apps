@@ -1,128 +1,128 @@
-# Spring Data JPA — Rak Otomatis Tanpa SQL
+# Spring Data JPA — SQL-Free Automatic Racks
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 4:** Spring Data JPA
+> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 4:** Spring Data JPA
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Entity` + `@Id @GeneratedValue` cetak biru rak (sumber: docs.spring.io/spring-data/jpa)
-- `interface ProdukRepo extends JpaRepository<Produk, Long>` → `findAll()`, `save()`, `findByKategori()` otomatis (tanpa tulis SQL!)
-- `spring.datasource.url` sambung Postgres di `application.properties`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa JPA, tulis `INSERT INTO produks ...` + koneksi manual 30 baris per aksi. Dengan `repo.save(p)` 1 baris. `findByKategori("Sayur")` otomatis jadi `SELECT ... WHERE kategori=?` — tanpa SQL!
+- `@Entity` + `@Id @GeneratedValue` rack blueprints (source: docs.spring.io/spring-data/jpa)
+- `interface ProductRepo extends JpaRepository<Product, Long>` → `findAll()`, `save()`, `findByCategory()` automatic (zero SQL!)
+- `spring.datasource.url` connects Postgres in `application.properties`
 
 ---
 
-## Program: Rak JPA Warung
+## Why This Matters (Non-IT)
+
+Without JPA, hand-write `INSERT INTO products ...` + manual connections 30 lines per action. With `repo.save(p)` 1 line. `findByCategory("Veggies")` auto-becomes `SELECT ... WHERE category=?` — no SQL!
+
+---
+
+## Program: Shop JPA Rack
 
 ```properties
-# application.properties — sambung gudang
-spring.datasource.url=jdbc:postgresql://localhost:5432/warung
+# application.properties — connect warehouse
+spring.datasource.url=jdbc:postgresql://localhost:5432/shop
 spring.datasource.username=postgres
-spring.datasource.password=rahasia
+spring.datasource.password=secret
 spring.jpa.hibernate.ddl-auto=update
 ```
 
 ```java
-// Produk.java — cetak biru
+// Product.java — blueprint
 import jakarta.persistence.*;
 
-@Entity // tabel produks otomatis!
-public class Produk {
+@Entity // products table automatic!
+public class Product {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String nama;
-  private Integer harga;
-  // getter/setter (atau @Data Lombok)
+  private String name;
+  private Integer price;
+  // getters/setters (or Lombok @Data)
   public Long getId() { return id; }
-  public String getNama() { return nama; }
-  public void setNama(String n) { nama = n; }
-  public Integer getHarga() { return harga; }
-  public void setHarga(Integer h) { harga = h; }
+  public String getName() { return name; }
+  public void setName(String n) { name = n; }
+  public Integer getPrice() { return price; }
+  public void setPrice(Integer p) { price = p; }
 }
 ```
 
 ```java
-// ProdukRepo.java — tukang (TANPA ISI! Spring buatkan)
+// ProductRepo.java — worker (EMPTY! Spring builds it)
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-public interface ProdukRepo extends JpaRepository<Produk, Long> {
-  List<Produk> findByNamaContaining(String cari); // otomatis LIKE!
-  List<Produk> findByHargaGreaterThan(Integer min);
+public interface ProductRepo extends JpaRepository<Product, Long> {
+  List<Product> findByNameContaining(String find); // automatic LIKE!
+  List<Product> findByPriceGreaterThan(Integer min);
 }
 ```
 
 ```java
-// Controller pakai repo
-private final ProdukRepo repo;
-public ProdukController(ProdukRepo repo) { this.repo = repo; }
+// Controller uses repo
+private final ProductRepo repo;
+public ProductController(ProductRepo repo) { this.repo = repo; }
 
 @GetMapping
-public List<Produk> semua(@RequestParam(required = false) String cari) {
-  return cari == null ? repo.findAll() : repo.findByNamaContaining(cari);
+public List<Product> all(@RequestParam(required = false) String find) {
+  return find == null ? repo.findAll() : repo.findByNameContaining(find);
 }
 @PostMapping
-public Produk tambah(@RequestBody Produk p) { return repo.save(p); }
+public Product add(@RequestBody Product p) { return repo.save(p); }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Entity` + `@Id` = Cetak Biru Rak
-`@Entity` → tabel, `@Id @GeneratedValue` → nomor otomatis.
+### `@Entity` + `@Id` = Rack Blueprint
+`@Entity` → table, `@Id @GeneratedValue` → automatic numbers.
 
-### `JpaRepository` = Tukang Ajaib
-`extends JpaRepository<Produk, Long>` → dapat `findAll/save/findById/delete` + `findBy...` turunan nama method!
+### `JpaRepository` = Magic Worker
+`extends JpaRepository<Product, Long>` → gains `findAll/save/findById/delete` + name-derived `findBy...`!
 
-### `ddl-auto=update` = Bangun Otomatis (Dev)
-Buat/ubah tabel ikut entity. Produksi pakai `validate` + migration!
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Rak dengan Tukang Ajaib
-- **Entity = gambar rak**, **JpaRepository = tukang** yang paham perintah `findByNama` tanpa diajari SQL.
-
-### Langkah 0 — Siapkan Device
-- Postgres jalan + DB `warung` + `spring-boot-starter-data-jpa` + `postgresql` di `pom.xml` (via start.spring.io centang JPA + PostgreSQL).
-
-### Cara Komputer Membaca
-1. Start → `ddl-auto=update` → `CREATE TABLE produks` jika belum ada.
-2. `repo.findByNamaContaining("beras")` → `SELECT ... WHERE nama LIKE %beras%`.
-
-### 3 Istilah Wajib
-1. **Entity/Repository**: biru/tukang
-2. **ddl-auto**: bangun otomatis
+### `ddl-auto=update` = Auto Build (Dev)
+Creates/updates tables following entities. Production uses `validate` + migrations!
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `POST` 2 produk → restart → `GET` masih ada? (awet!)
-- **Kuning:** Tambah field `stok` di entity → restart → kolom muncul?
-- **Merah:** `ddl-auto=create-drop` → restart data hilang? Ganti `update`.
+### Analogy: Rack with Magic Worker
+- **Entity = rack drawing**, **JpaRepository = worker** understanding `findByName` commands without SQL lessons.
 
----
+### Step 0 — Prepare Device
+- Postgres running + `shop` DB + `spring-boot-starter-data-jpa` + `postgresql` in `pom.xml` (via start.spring.io checking JPA + PostgreSQL).
 
-## Tantangan
+### How the Computer Reads It
+1. Start → `ddl-auto=update` → `CREATE TABLE products` when missing.
+2. `repo.findByNameContaining("rice")` → `SELECT ... WHERE name LIKE %rice%`.
 
-**Rak Lengkap:** `Produk` + `Pelanggan` entity + 2 repo + `GET/POST` keduanya + restart cek awet.
-
----
-
-## Glosarium Mini
-
-- **Entity/Id/Repository**: biru/nomor/tukang
-- **ddl-auto**: bangun
+### 3 Must-Know Terms
+1. **Entity/Repository**: blueprint/worker
+2. **ddl-auto**: auto-build
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 5: **Rak Otomatis** (Level: Pemula). Tanpa SQL. Minggu depan: **Best Practices**.
+- **Green:** `POST` 2 products → restart → `GET` still there? (durable!)
+- **Yellow:** Add `stock` field to entity → restart → column appears?
+- **Red:** `ddl-auto=create-drop` → restart loses data? Switch to `update`.
+
+---
+
+## Challenge
+
+**Complete Rack:** `Product` + `Customer` entities + 2 repos + `GET/POST` both + restart durability check.
+
+---
+
+## Mini Glossary
+
+- **Entity/Id/Repository**: blueprint/number/worker
+- **ddl-auto**: build
+
+---
+
+## Summary
+
+Week 4 of 5: **Automatic Racks** (Level: Beginner). No SQL. Next: **Best Practices**.
