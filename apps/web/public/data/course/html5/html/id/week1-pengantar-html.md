@@ -45,15 +45,22 @@ Tag: `<p>` (opening) dan `</p>` (closing). Elemen = opening + content + closing.
 
 ---
 
+## Kenapa Ini Penting Buat Kamu?
+
+Setiap halaman warung — daftar harga, form pesan, spanduk promo — intinya HTML. Tanpa fondasi ini, W2-W14 tidak ada tempat berdiri. Hari ini kamu terbitkan halaman pertamamu yang nyata.
+
+---
+
 ## Penjelasan untuk Pemula
+
+### Analogi: Kerangka Rumah
 
 Materi ini untuk orang yang benar-benar baru. Anggap HTML seperti **kerangka rumah**: kita tentukan tata letak ruangannya, lalu browser yang mengecat dan mengisinya.
 
-**3 istilah yang wajib dipahami dulu:**
+### Langkah 0 — Siapkan Device
+- VS Code + browser, buat `pertama.html`, tempel program, buka via `Ctrl+O`.
 
-1. **Tag** — perintah yang diapit `<` dan `>`. Contoh `<p>` = mulai paragraf, `</p>` = akhir paragraf.
-2. **Elemen** — pasangan tag + isinya. `<p>Halo</p>` adalah satu elemen paragraf.
-3. **Dokumen** — halaman lengkap diawali `<!DOCTYPE html>` (memberi tahu browser "ini HTML versi 5"), lalu `<html>`, lalu dibagi menjadi `<head>` (pengaturan, tidak terlihat) dan `<body>` (yang tampil di layar).
+### Cara Komputer Membaca
 
 **Baca program minggu ini langkah demi langkah:**
 - Baris 1: `<!DOCTYPE html>` — penanda yang dibaca browser.
@@ -61,23 +68,33 @@ Materi ini untuk orang yang benar-benar baru. Anggap HTML seperti **kerangka rum
 - Baris 5-8: `<head>` berisi `meta charset` (agar huruf Indonesia terbaca) dan `title` (judul tab browser).
 - Baris 10-14: `<body>` berisi `h1` (judul besar) dan dua `p` (paragraf).
 
+### 3 Istilah Wajib
+
+1. **Tag** — perintah yang diapit `<` dan `>`. Contoh `<p>` = mulai paragraf, `</p>` = akhir paragraf.
+2. **Elemen** — pasangan tag + isinya. `<p>Halo</p>` adalah satu elemen paragraf.
+3. **Dokumen** — halaman lengkap diawali `<!DOCTYPE html>` (memberi tahu browser "ini HTML versi 5"), lalu `<html>`, lalu dibagi menjadi `<head>` (pengaturan, tidak terlihat) dan `<body>` (yang tampil di layar).
+
 **Tips:** Jangan hafal semua tag. Salin kodenya ke playground, ubah teksnya, lalu jalankan — melihat hasilnya langsung adalah cara tercepat memahami fungsi tiap tag.
 
 ---
 
 ## Eksperimen
 
-- Tambah heading level berbeda (h2, h3) di bawah h1
-- Buat multiple paragraf dengan teks berbeda
-- Ubah atribut lang dari "id" ke "en"
-- Tambah meta description di dalam head
-- Eksperimen dengan tag self-closing seperti <br> dan <hr>
+- **Hijau:** Tambah heading level berbeda (h2, h3) di bawah h1 → hierarki tampil?
+- **Kuning:** Ubah atribut lang dari "id" ke "en" → bahasa screen reader ganti?
+- **Merah:** Hapus `<!DOCTYPE html>` → halaman tetap tampil tapi mode quirks? Pasang lagi.
 
 ---
 
 ## Tantangan
 
-Buat halaman profil sederhana: nama, foto placeholder, biodata singkat, dan hobi. Gunakan heading, paragraf, br, dan hr.
+**Halaman Profil Pertama:** nama, foto placeholder, biodata singkat, hobi. Gunakan heading, paragraf, br, dan hr. Buka di browser — halaman terbit pertamamu!
+
+---
+
+## Glosarium Mini
+
+- **tag/elemen/dokumen**: perintah/blok/halaman
 
 ---
 
