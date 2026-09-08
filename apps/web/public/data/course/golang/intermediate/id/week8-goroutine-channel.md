@@ -20,7 +20,10 @@
 ```go
 package main
 
-import "fmt"
+import (
+  "fmt"
+  "sync"
+)
 
 func kasir(nama string, ch chan string) {
   ch <- "Selesai " + nama // kirim ke ban (tunggu jika tidak ada penerima!)
@@ -41,6 +44,22 @@ func main() {
   for p := range pesanan {
     fmt.Println("Proses pesanan", p)
   }
+
+  // Mutex: brankas untuk variabel bersama (ala Tour of Go!)
+  var mu sync.Mutex
+  stok := 10
+  selesai := make(chan bool, 2)
+  jual := func() {
+    mu.Lock()         // kunci! 1 kasir saja
+    stok--
+    mu.Unlock()       // lepas
+    selesai <- true
+  }
+  go jual()
+  go jual()
+  <-selesai
+  <-selesai
+  fmt.Println("Sisa stok (tepat 8!):", stok)
 }
 ```
 
@@ -57,6 +76,9 @@ Fungsi jalan sendiri (concurrent). Murah: ribuan goroutine normal.
 
 ### `close` + `range` = Tutup + Habiskan
 `close(ch)` tutup ban → `for v := range ch` berhenti saat habis.
+
+### `sync.Mutex` + `go run -race` = Brankas + Satpam Balapan
+2 kasir `stok--` bareng tanpa kunci = hasil acak (race!). `Lock/Unlock` kunci brankas. `go run -race main.go` deteksi balapan OTOMATIS — wajib sebelum deploy!
 
 ---
 
