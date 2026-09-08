@@ -1,127 +1,127 @@
-# Providers & Services — Dapur Terpisah NestJS
+# Providers & Services — Separate NestJS Kitchen
 
-> **Kategori:** NestJS | **Level:** Pemula | **Minggu 2:** Providers & Services
+> **Kategori:** NestJS | **Level:** Beginner | **Minggu 2:** Providers & Services
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Injectable()` tandai dapur, `constructor(private produkService: ProdukService)` suntik otomatis (sumber: docs.nestjs.com/providers)
-- Controller tipis (antar), Service gemuk (masak + simpan)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Jika hitung total di controller, ganti rumus → ubah 5 controller. Jika di service 1 tempat → ubah 1x. Suntik otomatis = tidak `new ProdukService()` manual di tiap controller (lupa 1 = data beda).
+- `@Injectable()` marks the kitchen, `constructor(private productService: ProductService)` auto-injects (source: docs.nestjs.com/providers)
+- Thin controllers (deliver), fat services (cook + store)
 
 ---
 
-## Program: Dapur Disuntik ke Pelayan
+## Why This Matters (Non-IT)
+
+Counting totals in controllers → formula change edits 5 controllers. In 1 service → 1 edit. Auto-injection = no manual `new ProductService()` per controller (forget 1 = divergent data).
+
+---
+
+## Program: Kitchen Injected into Waiters
 
 ```typescript
-// produk.service.ts — dapur (masak + simpan)
+// products.service.ts — kitchen (cooks + stores)
 import { Injectable } from '@nestjs/common';
 
-@Injectable() // wajib! tanpa ini Nest tidak kenal
-export class ProdukService {
-  private daftar = [{ id: 1, nama: "Beras", harga: 62000 }];
+@Injectable() // mandatory! without it Nest doesn't know
+export class ProductService {
+  private list = [{ id: 1, name: "Rice", price: 62000 }];
 
-  semua() { return this.daftar; }
+  all() { return this.list; }
 
-  tambah(p: any) {
-    const baru = { id: Date.now(), ...p };
-    this.daftar.push(baru);
-    return baru;
+  add(p: any) {
+    const fresh = { id: Date.now(), ...p };
+    this.list.push(fresh);
+    return fresh;
   }
 }
 ```
 
 ```typescript
-// produk.controller.ts — pelayan (antar saja)
+// products.controller.ts — waiter (delivers only)
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { ProdukService } from './produk.service';
+import { ProductService } from './products.service';
 
-@Controller('produk')
-export class ProdukController {
-  // Suntik otomatis: Nest buatkan 1 ProdukService untuk semua
-  constructor(private produkService: ProdukService) {}
+@Controller('products')
+export class ProductsController {
+  // Auto-inject: Nest builds 1 ProductService for all
+  constructor(private productService: ProductService) {}
 
   @Get()
-  semua() { return this.produkService.semua(); }
+  all() { return this.productService.all(); }
 
   @Post()
-  tambah(@Body() body: any) { return this.produkService.tambah(body); }
+  add(@Body() body: any) { return this.productService.add(body); }
 }
 ```
 
 ```typescript
-// produk.module.ts — daftarkan (jangan lupa!)
+// products.module.ts — register (don't forget!)
 import { Module } from '@nestjs/common';
-import { ProdukController } from './produk.controller';
-import { ProdukService } from './produk.service';
+import { ProductsController } from './products.controller';
+import { ProductService } from './products.service';
 
-@Module({ controllers: [ProdukController], providers: [ProdukService] })
-export class ProdukModule {}
+@Module({ controllers: [ProductsController], providers: [ProductService] })
+export class ProductsModule {}
 ```
 
-Test: `curl http://localhost:3000/produk` → daftar. `curl -X POST -H "Content-Type: application/json" -d '{"nama":"Gula","harga":15000}' http://localhost:3000/produk` → tambah.
+Test: `curl http://localhost:3000/products` → list. `curl -X POST -H "Content-Type: application/json" -d '{"name":"Sugar","price":15000}' http://localhost:3000/products` → added.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Injectable()` = Kartu Dapur
-Tanpa `@Injectable()`, Nest tolak suntik (`Nest can't resolve dependencies`).
+### `@Injectable()` = Kitchen Card
+Without `@Injectable()`, Nest refuses injection (`Nest can't resolve dependencies`).
 
-### Constructor Inject = Suntik Otomatis
-`constructor(private x: Y)` → Nest buatkan 1 `Y` (singleton) untuk semua pemakai.
+### Constructor Inject = Auto Injection
+`constructor(private x: Y)` → Nest builds 1 `Y` (singleton) for all users.
 
-### Daftarkan di Module
-`providers: [ProdukService]` wajib — lupa = error resolve.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Dapur Sentral Restoran
-- **Service = dapur sentral**: 1 dapur masak untuk 5 pelayan.
-- **Controller = pelayan**: antar, tidak masak.
-- **Module = gedung**: daftarkan siapa kerja di mana.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `nest new` + `npm run start:dev` di `3000`.
-
-### Cara Komputer Membaca
-1. Start → baca `providers` → buat 1 `ProdukService`.
-2. `GET /produk` → `ProdukController` (disuntik service yang sama) → `semua()`.
-
-### 3 Istilah Wajib
-1. **Service/Injectable**: dapur/kartu
-2. **Inject/constructor**: suntik
-3. **Module/providers**: gedung/daftar
+### Register in Module
+`providers: [ProductService]` mandatory — forgotten = resolve error.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `POST` Gula → `GET` ada 2?
-- **Kuning:** Hapus `@Injectable()` → error `can't resolve`? Pasang lagi.
-- **Merah:** Hapus dari `providers` → error sama? Daftarkan.
+### Analogy: Central Restaurant Kitchen
+- **Service = central kitchen**: 1 kitchen cooks for 5 waiters.
+- **Controller = waiter**: delivers, doesn't cook.
+- **Module = building**: registers who works where.
+
+### Step 0 — Prepare Device
+- Same as W1: `nest new` + `npm run start:dev` on `3000`.
+
+### How the Computer Reads It
+1. Start → reads `providers` → builds 1 `ProductService`.
+2. `GET /products` → `ProductsController` (injected with the same service) → `all()`.
+
+### 3 Must-Know Terms
+1. **Service/Injectable**: kitchen/card
+2. **Inject/constructor**: inject
+3. **Module/providers**: building/list
 
 ---
 
-## Tantangan
+## Experiments
 
-**Dapur Lengkap:** `ProdukService` + `tambah/hapus/cari` + `ProdukController` `GET/POST/DELETE` + `curl` 3 perintah lulus.
-
----
-
-## Glosarium Mini
-
-- **Service/Controller/Module**: dapur/pelayan/gedung
-- **Injectable/providers**: kartu/daftar
+- **Green:** `POST` Sugar → `GET` shows 2?
+- **Yellow:** Remove `@Injectable()` → `can't resolve` error? Reattach.
+- **Red:** Remove from `providers` → same error? Register it.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 4: **Dapur Terpisah** (Level: Pemula). Controller tipis, service gemuk. Minggu depan: **Modules & DI** — gedung.
+**Complete Kitchen:** `ProductService` + `add/remove/find` + `ProductsController` `GET/POST/DELETE` + 3 passing `curl` commands.
+
+---
+
+## Mini Glossary
+
+- **Service/Controller/Module**: kitchen/waiter/building
+- **Injectable/providers**: card/list
+
+---
+
+## Summary
+
+Week 2 of 4: **Separate Kitchen** (Level: Beginner). Thin controllers, fat service. Next: **Modules & DI** — buildings.

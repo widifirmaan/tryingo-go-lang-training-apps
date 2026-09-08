@@ -1,126 +1,125 @@
-# Modules & DI — Gedung Warung NestJS
+# Modules & DI — NestJS Shop Buildings
 
-> **Kategori:** NestJS | **Level:** Pemula | **Minggu 3:** Modules & DI
+> **Kategori:** NestJS | **Level:** Beginner | **Minggu 3:** Modules & DI
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@Module({ controllers, providers, imports, exports })` gedung: kumpulkan + hubungkan (sumber: docs.nestjs.com/modules)
-- `imports: [ProdukModule]` di `AppModule`, `exports: [ProdukService]` bagi ke gedung lain
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa module, 20 controller + 20 service 1 gedung — cari `ProdukService` tenggelam. Dengan `ProdukModule` (gedung produk) + `PesananModule` (gedung pesanan), rapi per toko. `exports` bagi dapur antar gedung tanpa duplikat.
+- `@Module({ controllers, providers, imports, exports })` building: gathers + connects (source: docs.nestjs.com/modules)
+- `imports: [ProductsModule]` in `AppModule`, `exports: [ProductService]` shares with other buildings
 
 ---
 
-## Program: 2 Gedung Terhubung
+## Why This Matters (Non-IT)
+
+Without modules, 20 controllers + 20 services in 1 building — `ProductService` drowns. With `ProductsModule` (products building) + `OrdersModule` (cashier building), neat per store. `exports` shares kitchens across buildings without duplicates.
+
+---
+
+## Program: 2 Connected Buildings
 
 ```typescript
-// produk/produk.module.ts — gedung produk
+// products/products.module.ts — products building
 import { Module } from '@nestjs/common';
-import { ProdukController } from './produk.controller';
-import { ProdukService } from './produk.service';
+import { ProductsController } from './products.controller';
+import { ProductService } from './products.service';
 
 @Module({
-  controllers: [ProdukController],
-  providers: [ProdukService],
-  exports: [ProdukService], // bagi dapur ke gedung lain
+  controllers: [ProductsController],
+  providers: [ProductService],
+  exports: [ProductService], // share kitchen with other buildings
 })
-export class ProdukModule {}
+export class ProductsModule {}
 
-// pesanan/pesanan.module.ts — gedung pesanan pakai dapur produk
+// orders/orders.module.ts — orders building uses products kitchen
 import { Module } from '@nestjs/common';
-import { ProdukModule } from '../produk/produk.module';
-import { PesananService } from './pesanan.service';
+import { ProductsModule } from '../products/products.module';
+import { OrdersService } from './orders.service';
 
 @Module({
-  imports: [ProdukModule], // hubungkan gedung
-  providers: [PesananService],
+  imports: [ProductsModule], // connect buildings
+  providers: [OrdersService],
 })
-export class PesananModule {}
+export class OrdersModule {}
 ```
 
 ```typescript
-// pesanan.service.ts — suntik dapur gedung lain (bisa karena exports!)
+// orders.service.ts — inject another building's kitchen (works via exports!)
 import { Injectable } from '@nestjs/common';
-import { ProdukService } from '../produk/produk.service';
+import { ProductService } from '../products/products.service';
 
 @Injectable()
-export class PesananService {
-  constructor(private produkService: ProdukService) {}
+export class OrdersService {
+  constructor(private productService: ProductService) {}
   total() {
-    return this.produkService.semua().reduce((s: any, p: any) => s + p.harga, 0);
+    return this.productService.all().reduce((s: any, p: any) => s + p.price, 0);
   }
 }
 ```
 
 ```typescript
-// app.module.ts — gedung utama
+// app.module.ts — main building
 import { Module } from '@nestjs/common';
-import { ProdukModule } from './produk/produk.module';
-import { PesananModule } from './pesanan/pesanan.module';
+import { ProductsModule } from './products/products.module';
+import { OrdersModule } from './orders/orders.module';
 
-@Module({ imports: [ProdukModule, PesananModule] })
+@Module({ imports: [ProductsModule, OrdersModule] })
 export class AppModule {}
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `controllers` / `providers` / `imports` / `exports` = 4 Daftar Gedung
-- `controllers`: pelayan gedung ini.
-- `providers`: dapur gedung ini.
-- `imports`: hubungkan gedung lain.
-- `exports`: bagi dapur ke luar.
+### `controllers` / `providers` / `imports` / `exports` = 4 Building Lists
+- `controllers`: this building's waiters.
+- `providers`: this building's kitchens.
+- `imports`: connects other buildings.
+- `exports`: shares kitchens outward.
 
-### Tanpa `exports` = Dapur Terkunci
-`PesananService` suntik `ProdukService` tanpa `exports` → error resolve.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Mal dengan 2 Toko
-- **Module = toko di mal**: `ProdukModule` toko beras, `PesananModule` toko kasir.
-- **imports = pintu penghubung**, **exports = bagi dapur**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `nest generate module pesanan` + `nest generate service pesanan` (CLI buatkan file!).
-
-### Cara Komputer Membaca
-1. Start → `AppModule` → `imports` → bangun `ProdukModule` (+ `exports` catat).
-2. `PesananModule` minta `ProdukService` → cek `exports` → boleh → suntik.
-
-### 3 Istilah Wajib
-1. **Module/imports**: gedung/hubungkan
-2. **exports/providers**: bagi/daftar dapur
+### Without `exports` = Locked Kitchen
+`OrdersService` injecting `ProductService` without `exports` → resolve error.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `nest generate resource pesanan` → 4 file jadi?
-- **Kuning:** Hapus `exports` → `PesananService` error? Pasang lagi.
-- **Merah:** Lupa `imports: [ProdukModule]` di `PesananModule` → error? Tambah.
+### Analogy: Mall with 2 Stores
+- **Module = mall store**: `ProductsModule` rice store, `OrdersModule` cashier store.
+- **imports = connecting doors**, **exports = share kitchen**.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `nest generate module orders` + `nest generate service orders` (CLI creates files!).
 
-## Tantangan
+### How the Computer Reads It
+1. Start → `AppModule` → `imports` → builds `ProductsModule` (+ records `exports`).
+2. `OrdersModule` asks for `ProductService` → checks `exports` → allowed → inject.
 
-**Mal 2 Toko:** `ProdukModule` (CRUD) + `PelangganModule` (CRUD) + `PesananModule` (`imports` keduanya, `total()` gabung) → `curl` 3 pintu lulus.
-
----
-
-## Glosarium Mini
-
-- **Module/imports/exports**: gedung/hubung/bagi
-- **generate resource**: buat 4 file
+### 3 Must-Know Terms
+1. **Module/imports**: building/connect
+2. **exports/providers**: share/kitchen-list
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 3 dari 4: **Gedung Terhubung** (Level: Pemula). Bisa bagi dapur antar toko. Minggu depan: **Database** — rak permanen.
+- **Green:** `nest generate resource orders` → 4 files created?
+- **Yellow:** Remove `exports` → `OrdersService` errors? Reattach.
+- **Red:** Forget `imports: [ProductsModule]` in `OrdersModule` → error? Add it.
+
+---
+
+## Challenge
+
+**Connected Mall:** `ProductsModule` + `OrdersModule` (imports + injects service) + `GET /orders/total` proving shared kitchen.
+
+---
+
+## Mini Glossary
+
+- **Module/imports/exports**: building/connect/share
+
+---
+
+## Summary
+
+Week 3 of 4: **Connected Buildings** (Level: Beginner). Can share kitchens across stores. Next: **Database** — permanent racks.
