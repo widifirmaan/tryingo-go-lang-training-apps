@@ -1,118 +1,118 @@
-# OOP Dasar — Cetak Biru Kartu Warung PHP
+# Basic OOP — PHP Shop Card Blueprints
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 5:** OOP Dasar
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 5:** OOP Dasar
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Produk { ... }` cetak biru, `new Produk(...)` cetak kartu, `__construct` isi awal (sumber: php.net/oop)
-- `$this->nama` = "kartu ini", `public` boleh diakses, `extends` warisan + `parent::__construct`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-50 produk tanpa cetak biru → tulis `nama, harga, stok` 50x, 1 typo harga salah. Dengan `class` tulis sekali, cetak 50 kartu — ubah rumus diskon 1 tempat.
+- `class Product { ... }` blueprint, `new Product(...)` prints card, `__construct` initial fill (source: php.net/oop)
+- `$this->name` = "this card", `public` accessible, `extends` inheritance + `parent::__construct`
 
 ---
 
-## Program: Kartu Produk OOP
+## Why This Matters (Non-IT)
+
+50 products without blueprints → write `name, price, stock` 50x, 1 price typo. With `class` write once, print 50 cards — discount formula changes in 1 place.
+
+---
+
+## Program: OOP Product Cards
 
 ```php
 <?php
-class Produk {
-  public string $nama;
-  public float $harga;
-  public int $stok;
+class Product {
+  public string $name;
+  public float $price;
+  public int $stock;
 
-  public function __construct(string $nama, float $harga, int $stok = 0) {
-    $this->nama = $nama;   // $this = kartu ini
-    $this->harga = $harga;
-    $this->stok = $stok;
+  public function __construct(string $name, float $price, int $stock = 0) {
+    $this->name = $name;   // $this = this card
+    $this->price = $price;
+    $this->stock = $stock;
   }
 
   public function info(): string {
-    return "{$this->nama}: Rp" . number_format($this->harga, 0, ',', '.') . " (stok {$this->stok})";
+    return "{$this->name}: Rp" . number_format($this->price, 0, ',', '.') . " (stock {$this->stock})";
   }
 
-  public function diskon(float $persen): void {
-    $this->harga -= $this->harga * ($persen / 100);
-  }
-}
-
-class Elektronik extends Produk { // warisi semua Produk
-  public int $garansi;
-  public function __construct(string $nama, float $harga, int $stok, int $garansi) {
-    parent::__construct($nama, $harga, $stok);
-    $this->garansi = $garansi;
+  public function discount(float $pct): void {
+    $this->price -= $this->price * ($pct / 100);
   }
 }
 
-$beras = new Produk("Beras 5kg", 62000, 10);
-echo $beras->info() . "\n";
-$beras->diskon(10);
-echo "Setelah diskon: " . $beras->info() . "\n";
+class Electronics extends Product { // inherits all Product
+  public int $warranty;
+  public function __construct(string $name, float $price, int $stock, int $warranty) {
+    parent::__construct($name, $price, $stock);
+    $this->warranty = $warranty;
+  }
+}
 
-$laptop = new Elektronik("Laptop", 15000000, 5, 3);
-echo $laptop->info() . " [Garansi {$laptop->garansi} thn]\n";
+$rice = new Product("Rice 5kg", 62000, 10);
+echo $rice->info() . "\n";
+$rice->discount(10);
+echo "After discount: " . $rice->info() . "\n";
+
+$laptop = new Electronics("Laptop", 15000000, 5, 3);
+echo $laptop->info() . " [{$laptop->warranty}yr warranty]\n";
 ?>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `class` + `new` + `__construct`
-`class` cetak biru, `new Produk(...)` kartu jadi, `__construct` isi awal otomatis.
+`class` blueprint, `new Product(...)` finished card, `__construct` auto initial fill.
 
-### `$this` = Kartu Ini
-`$this->nama` = nama kartu ini (bukan `$nama` biasa).
+### `$this` = This Card
+`$this->name` = this card's name (not plain `$name`).
 
 ### `extends` + `parent::`
-`Elektronik extends Produk` warisi semua + tambah `garansi`.
+`Electronics extends Product` inherits all + adds `warranty`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cetak Biru Kartu
-- **class = cetak biru**, **new = cetak kartu**, **$this = "saya"** (kartu ini).
-- **extends = fotokopi + tambah**: `Elektronik` fotokopi `Produk` + `garansi`.
+### Analogy: Card Blueprints
+- **class = blueprint**, **new = print card**, **$this = "me"** (this card).
+- **extends = photocopy + add**: `Electronics` photocopies `Product` + `warranty`.
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `php kartu.php`.
+### Step 0 — Prepare Device
+- Same as W1: `php card.php`.
 
-### Cara Komputer Membaca
-1. `new Produk("Beras", 62000, 10)` → buat kartu → panggil `__construct` → isi 3 field.
-2. `$beras->diskon(10)` → ubah `harga` kartu itu jadi 55800.
+### How the Computer Reads It
+1. `new Product("Rice", 62000, 10)` → creates card → calls `__construct` → fills 3 fields.
+2. `$rice->discount(10)` → edits that card's `price` to 55800.
 
-### 3 Istilah Wajib
-1. **Class/object**: biru/kartu
-2. **$this**: kartu ini
-3. **extends**: warisan
-
----
-
-## Eksperimen
-
-- **Hijau:** `new Produk("Gula", 15000)` → `info()`?
-- **Kuning:** `$beras->diskon(20)` → harga?
-- **Merah:** Lupa `$this->` tulis `$nama = ...` di method → buat variabel lokal, kartu tidak berubah!
+### 3 Must-Know Terms
+1. **Class/object**: blueprint/card
+2. **$this**: this card
+3. **extends**: inheritance
 
 ---
 
-## Tantangan
+## Experiments
 
-**Toko OOP:** `class Keranjang { public array $items = []; public function tambah($p){ $this->items[] = $p; } public function total(){ $s=0; foreach($this->items as $i) $s += $i->harga*$i->qty; return $s; } }` → isi 3 `Produk` → `total()`.
-
----
-
-## Glosarium Mini
-
-- **class/new/$this**: biru/kartu/saya
-- **extends/parent**: warisan/induk
+- **Green:** `new Product("Sugar", 15000)` → `info()`?
+- **Yellow:** `$rice->discount(20)` → price?
+- **Red:** Forget `$this->`, write `$name = ...` in method → creates local variable, card unchanged!
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 6: **OOP PHP** (Level: Pemula). Punya cetak biru kartu. Minggu depan: **Form** — terima pesanan.
+**OOP Store:** `class Cart { public array $items = []; public function add($p){ $this->items[] = $p; } public function total(){ $s=0; foreach($this->items as $i) $s += $i->price*$i->qty; return $s; } }` → fill 3 `Product`s → `total()`.
+
+---
+
+## Mini Glossary
+
+- **class/new/$this**: blueprint/card/me
+- **extends/parent**: heir/parent
+
+---
+
+## Summary
+
+Week 5 of 6: **PHP OOP** (Level: Beginner). Blueprints owned. Next: **Forms** — safe orders.

@@ -1,129 +1,129 @@
-# Operator & Kontrol — Cabang dan Timbangan Warung PHP
+# Operators & Control — PHP Shop Branches and Scales
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 2:** Operator & Kontrol
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 2:** Operator & Kontrol
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Hitung `+ - * / % **` dan gabung teks `.` titik (sumber: php.net/manual/language.operators)
-- Bedakan `==` longgar vs `===` ketat — `"62.000" == 62000` true tapi `===` false (sumber: php.net type-juggling)
-- Cabang `if / elseif / else`, `switch` dengan `break`, ulang `for`, `while`, `foreach` untuk array (sumber: php.net control-structures)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Kasir warung tiap transaksi putuskan: **jika total > 100rb → gratis ongkir, jika stok 0 → "Habis"**. Tanpa `if`, tulis manual tiap kasus. Tanpa `foreach`, hitung 30 barang satu per satu. `==` vs `===` salah paham → `"0" == false` true, diskon bocor!
+- Compute `+ - * / % **` and join text with `.` dot (source: php.net/manual/language.operators)
+- Distinguish loose `==` vs strict `===` — `"62.000" == 62000` true but `===` false (source: php.net type-juggling)
+- Branch `if / elseif / else`, `switch` with `break`, repeat `for`, `while`, `foreach` for arrays (source: php.net control-structures)
 
 ---
 
-## Program: Kasir Otomatis Warung
+## Why This Matters (Non-IT)
 
-Simpan `kasir.php` → `php kasir.php` atau `php -S localhost:8000` → buka browser.
+Shop cashiers decide every transaction: **total > 100k → free delivery, stock 0 → "Gone"**. Without `if`, hand-write every case. Without `foreach`, count 30 items one by one. Misunderstanding `==` vs `===` → `"0" == false` true, discount leaks!
+
+---
+
+## Program: Automatic Shop Cashier
+
+Save `cashier.php` → `php cashier.php` or `php -S localhost:8000` → open browser.
 
 ```php
 <?php
-$nilai = 85;
-if ($nilai >= 90) echo "Grade A";
-elseif ($nilai >= 80) echo "Grade B";
+$score = 85;
+if ($score >= 90) echo "Grade A";
+elseif ($score >= 80) echo "Grade B";
 else echo "Grade C";
 echo "\n";
 
-// Hati-hati == vs === (PHP juggling!)
-$harga = "62000";
-if ($harga == 62000) echo "== cocok (longgar)\n";
-if ($harga === 62000) echo "=== cocok\n"; else echo "=== TIDAK cocok (ketat: string vs int)\n";
+// Beware == vs === (PHP juggling!)
+$price = "62000";
+if ($price == 62000) echo "== match (loose)\n";
+if ($price === 62000) echo "=== match\n"; else echo "=== NO match (strict: string vs int)\n";
 
-$hari = "Jumat";
-switch ($hari) {
-  case "Jumat": echo "Besok libur!\n"; break;
-  case "Senin": echo "Semangat!\n"; break;
-  default: echo "Hari kerja\n";
+$day = "Friday";
+switch ($day) {
+  case "Friday": echo "Holiday tomorrow!\n"; break;
+  case "Monday": echo "Go go!\n"; break;
+  default: echo "Workday\n";
 }
 
-echo "Hitung: ";
+echo "Count: ";
 for ($i = 1; $i <= 5; $i++) echo "$i ";
 echo "\n";
 
-$buah = ["apel", "mangga", "pisang"];
-foreach ($buah as $no => $b) echo "$no: $b\n";
+$fruits = ["apple", "mango", "banana"];
+foreach ($fruits as $no => $f) echo "$no: $f\n";
 
-// Nyata: total keranjang yang stok ada
-$keranjang = [
-  ["nama"=>"Beras", "harga"=>62000, "ada"=>true],
-  ["nama"=>"Gula", "harga"=>15000, "ada"=>false],
-  ["nama"=>"Minyak", "harga"=>34000, "ada"=>true],
+// Real: cart total of available items
+$cart = [
+  ["name"=>"Rice", "price"=>62000, "in"=>true],
+  ["name"=>"Sugar", "price"=>15000, "in"=>false],
+  ["name"=>"Oil", "price"=>34000, "in"=>true],
 ];
 $total = 0;
-foreach ($keranjang as $item) {
-  if (!$item["ada"]) continue;
-  $total += $item["harga"];
+foreach ($cart as $item) {
+  if (!$item["in"]) continue;
+  $total += $item["price"];
 }
-echo "Total yang bisa dibeli: Rp " . number_format($total, 0, ',', '.') . "\n";
+echo "Buyable total: Rp " . number_format($total, 0, ',', '.') . "\n";
 ?>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `.` Gabung Teks (Bukan `+`)
-`"Halo " . $nama` — `+` di PHP untuk angka, jangan gabung teks pakai `+`.
+### `.` Joins Text (Not `+`)
+`"Hello " . $name` — `+` in PHP is for numbers, never join text with `+`.
 
 ### `==` vs `===` (Juggling)
-- `==` longgar: `"62000" == 62000` → true (PHP ubah tipe otomatis).
-- `===` ketat: tipe + nilai harus sama. **Untuk uang & password, selalu `===`.**
+- `==` loose: `"62000" == 62000` → true (PHP auto-converts types).
+- `===` strict: type + value must match. **For money & passwords, always `===`.**
 
-### `elseif` Satu Kata
-PHP pakai `elseif` (atau `else if` juga bisa, tapi `elseif` idiomatik).
+### `elseif` One Word
+PHP uses `elseif` (`else if` also works, but `elseif` is idiomatic).
 
-### `foreach` = Cek Rak
-`foreach ($buah as $b)` langsung barang, `foreach ($buah as $i => $b)` dengan nomor.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Timbangan & Satpam
-- **`if` = satpam**: "Jika total ≥100rb, gratis ongkir."
-- **`switch` = papan hari**: Senin A, Jumat B.
-- **`foreach` = cek rak**: ambil tiap barang, timbang.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `php -v` 8.1+, file `kasir.php`, `php kasir.php`.
-
-### Cara Komputer Membaca
-1. `if ($nilai >= 90)` → 85>=90? tidak → `elseif (85>=80)` ya → cetak B → stop.
-2. `foreach ($keranjang as $item)` → 3x loop, `continue` loncat yang `ada=false`.
-
-### 3 Istilah Wajib
-1. **Kondisi**: pertanyaan ya/tidak
-2. **Loop**: ulang otomatis
-3. **Juggling**: PHP ubah tipe diam-diam (waspada `==`)
+### `foreach` = Check Racks
+`foreach ($fruits as $f)` items directly, `foreach ($fruits as $i => $f)` with numbers.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `$nilai = 95` → grade? `$hari = "Senin"` → apa?
-- **Kuning:** `"0" == false` → true? `"0" === false` → false? Coba!
-- **Merah:** Hapus `break` di `switch` Jumat → bocor cetak 2 baris? Pasang lagi.
+### Analogy: Scales & Guards
+- **`if` = guard**: "Total ≥100k? free delivery."
+- **`switch` = day board**: Monday A, Friday B.
+- **`foreach` = check racks**: take each item, weigh.
+
+### Step 0 — Prepare Device
+- Same as W1: `php -v` 8.1+, file `cashier.php`, `php cashier.php`.
+
+### How the Computer Reads It
+1. `if ($score >= 90)` → 85>=90? no → `elseif (85>=80)` yes → prints B → stops.
+2. `foreach ($cart as $item)` → 3 loops, `continue` skips `in=false`.
+
+### 3 Must-Know Terms
+1. **Condition**: yes/no question
+2. **Loop**: auto repeat
+3. **Juggling**: PHP silently converts types (beware `==`)
 
 ---
 
-## Tantangan
+## Experiments
 
-**Diskon Otomatis:** `$total = 120000; if ($total >= 100000) $diskon = $total*0.1; elseif ($total >= 50000) $diskon = $total*0.05; else $diskon = 0;` → cetak `Diskon Rp ... Bayar Rp ...` dengan `number_format`. Tambah `foreach` 5 barang hitung total dulu.
-
----
-
-## Glosarium Mini
-
-- **if/elseif/switch**: cabang
-- **for/foreach/while**: ulang
-- **==/===**: longgar/ketat
+- **Green:** `$score = 95` → grade? `$day = "Monday"` → what?
+- **Yellow:** `"0" == false` → true? `"0" === false` → false? Try!
+- **Red:** Delete `break` in Friday `switch` → leaks printing 2 lines? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 6: **Kontrol PHP** (Level: Pemula). Bisa cabang, ulang, dan waspada `==`. Minggu depan: **Fungsi** — resep pakai ulang.
+**Auto Discount:** `$total = 120000; if ($total >= 100000) $discount = $total*0.1; elseif ($total >= 50000) $discount = $total*0.05; else $discount = 0;` → print `Discount Rp ... Pay Rp ...` with `number_format`. Add a `foreach` over 5 items computing total first.
+
+---
+
+## Mini Glossary
+
+- **if/elseif/switch**: branches
+- **for/foreach/while**: repeats
+- **==/===**: loose/strict
+
+---
+
+## Summary
+
+Week 2 of 6: **PHP Control** (Level: Beginner). Can branch, loop, and beware `==`. Next: **Functions** — reusable recipes.

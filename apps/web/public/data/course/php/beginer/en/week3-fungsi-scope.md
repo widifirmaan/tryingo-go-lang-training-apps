@@ -1,115 +1,115 @@
-# Fungsi & Scope — Resep Warung PHP Pakai Ulang
+# Functions & Scope — Reusable PHP Shop Recipes
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 3:** Fungsi & Scope
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 3:** Fungsi & Scope
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `function sapa($nama){ return "Halo $nama"; }` tulis sekali, panggil 100x (sumber: php.net/functions)
-- `return` kembalikan hasil, default `$nama = "Tamu"`, borong `...$angka` + `array_sum`
-- Scope: variabel di dalam fungsi tidak terlihat di luar (kecuali `global`, hindari)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Rumus "total + diskon + ongkir" dipakai 30x sehari. Tanpa fungsi, tulis 30x dan 1 typo merusak semua. Dengan `hitungTotal($keranjang, 10)` tulis sekali — ubah rumus cukup 1 tempat.
+- `function greet($name){ return "Hello $name"; }` write once, call 100x (source: php.net/functions)
+- `return` gives results, defaults `$name = "Guest"`, bulk `...$nums` + `array_sum`
+- Scope: variables inside functions invisible outside (except `global`, avoid)
 
 ---
 
-## Program: Dapur Fungsi Warung
+## Why This Matters (Non-IT)
+
+The "total + discount + delivery" formula runs 30x daily. Without functions, write 30x and 1 typo ruins all. With `calcTotal($cart, 10)` write once — formula changes in 1 place.
+
+---
+
+## Program: Shop Function Kitchen
 
 ```php
 <?php
-function sapa($nama = "Tamu") {
-  return "Halo, $nama! Selamat belanja";
+function greet($name = "Guest") {
+  return "Hello, $name! Happy shopping";
 }
-echo sapa("Budi") . "\n";
-echo sapa() . "\n"; // pakai default "Tamu"
+echo greet("Budi") . "\n";
+echo greet() . "\n"; // uses default "Guest"
 
-function total(...$angka) {
-  return array_sum($angka); // borong jadi array
+function total(...$nums) {
+  return array_sum($nums); // bulk into array
 }
 echo "Total: " . total(1, 2, 3, 4, 5) . "\n";
 
-function hitungTotal($belanja, $diskon = 0) {
+function calcTotal($cart, $discount = 0) {
   $total = 0;
-  foreach ($belanja as $item) {
-    $total += $item["harga"] * $item["qty"];
+  foreach ($cart as $item) {
+    $total += $item["price"] * $item["qty"];
   }
-  return $total * (1 - $diskon / 100);
+  return $total * (1 - $discount / 100);
 }
 
-$keranjang = [
-  ["harga" => 62000, "qty" => 1],
-  ["harga" => 5000, "qty" => 2],
+$cart = [
+  ["price" => 62000, "qty" => 1],
+  ["price" => 5000, "qty" => 2],
 ];
-echo "Tanpa diskon: Rp " . number_format(hitungTotal($keranjang), 0, ',', '.') . "\n";
-echo "Diskon 10%: Rp " . number_format(hitungTotal($keranjang, 10), 0, ',', '.') . "\n";
+echo "No discount: Rp " . number_format(calcTotal($cart), 0, ',', '.') . "\n";
+echo "10% off: Rp " . number_format(calcTotal($cart, 10), 0, ',', '.') . "\n";
 
-// Scope: $total di dalam fungsi beda dengan di luar
-$totalLuar = 999;
-echo "Luar tetap: $totalLuar\n";
+// Scope: $total inside differs from outside
+$outsideTotal = 999;
+echo "Outside stays: $outsideTotal\n";
 ?>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `function` + `return` = Resep + Hidangan
-`function hitungTotal($belanja)` terima bahan, `return` antar hidangan. Tanpa `return` → `null`.
+### `function` + `return` = Recipe + Dish
+`function calcTotal($cart)` takes ingredients, `return` serves the dish. No `return` → `null`.
 
-### Default & `...` (Variadic)
-- `($nama = "Tamu")` jika tidak dikirim pakai cadangan.
-- `(...$angka)` tampung semua jadi array.
+### Defaults & `...` (Variadic)
+- `($name = "Guest")` fallback when unsent.
+- `(...$nums)` gathers all into an array.
 
-### Scope = Dinding Dapur
-`$total` di dalam `hitungTotal` tidak sama dengan `$totalLuar` — dinding dapur. Jangan `global` kecuali terpaksa.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Resep Dapur
-- **Fungsi = resep**: tulis "soto: ayam + bumbu → rebus" sekali, masak 100 mangkok `soto($ayam)`.
-- **Parameter = bahan**, **return = hidangan**, **default = bumbu cadangan**.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `php -v`, file `dapur.php`, `php dapur.php`.
-
-### Cara Komputer Membaca
-1. `hitungTotal($keranjang, 10)` → masuk fungsi, `$belanja` = keranjang, `$diskon` = 10.
-2. Loop jumlahkan → `72000 * 0.9 = 64800` → `return` → cetak.
-
-### 3 Istilah Wajib
-1. **Fungsi**: resep pakai ulang
-2. **Return**: hasil kembalikan
-3. **Scope**: wilayah variabel
+### Scope = Kitchen Walls
+`$total` inside `calcTotal` differs from `$outsideTotal` — kitchen walls. Avoid `global` unless forced.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `sapa("Siti")` → apa? `total(10, 20)` → 30?
-- **Kuning:** `hitungTotal($keranjang, 20)` diskon 20% → berapa?
-- **Merah:** Lupa `return` di `sapa` → cetak kosong (`null`). Tambah `return`.
+### Analogy: Kitchen Recipes
+- **Function = recipe**: write "soto: chicken + spices → boil" once, cook 100 bowls `soto($chicken)`.
+- **Parameter = ingredients**, **return = dish**, **default = spare spices**.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `php -v`, file `kitchen.php`, `php kitchen.php`.
 
-## Tantangan
+### How the Computer Reads It
+1. `calcTotal($cart, 10)` → enters function, `$cart` = cart, `$discount` = 10.
+2. Loops summing → `72000 * 0.9 = 64800` → `return` → prints.
 
-**Struk Lengkap:** Buat `subtotal($keranjang)`, `ongkir($berat, $jarak)`, `cetakStruk($keranjang, $berat, $jarak)` yang gabung ketiganya + `sapa($nama)` → return string struk. Panggil 2 keranjang beda.
-
----
-
-## Glosarium Mini
-
-- **function/return**: resep/hasil
-- **default/...**: cadangan/borong
-- **scope**: dinding dapur
+### 3 Must-Know Terms
+1. **Function**: reusable recipe
+2. **Return**: result given back
+3. **Scope**: variable territory
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 3 dari 6: **Fungsi PHP** (Level: Pemula). Punya resep pakai ulang. Minggu depan: **Array** — rak dinamis.
+- **Green:** `greet("Siti")` → what? `total(10, 20)` → 30?
+- **Yellow:** `calcTotal($cart, 20)` 20% off → how much?
+- **Red:** Forget `return` in `greet` → prints empty (`null`). Add `return`.
+
+---
+
+## Challenge
+
+**Complete Receipt:** Build `subtotal($cart)`, `delivery($weight, $dist)`, `printReceipt($cart, $weight, $dist)` combining all three + `greet($name)` → return receipt string. Call with 2 different carts.
+
+---
+
+## Mini Glossary
+
+- **function/return**: recipe/result
+- **default/...**: spare/bulk
+- **scope**: kitchen walls
+
+---
+
+## Summary
+
+Week 3 of 6: **PHP Functions** (Level: Beginner). Owns reusable recipes. Next: **Array** — dynamic racks.
