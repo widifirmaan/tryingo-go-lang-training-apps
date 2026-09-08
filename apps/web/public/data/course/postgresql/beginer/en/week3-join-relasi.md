@@ -72,6 +72,25 @@ GROUP BY customers.name ORDER BY total_spent DESC;
 
 ---
 
+### Bonus: VIEW + Subquery (save-use reports!)
+
+```sql
+-- VIEW = stored query as "virtual table"
+CREATE VIEW report AS
+SELECT customers.name, COUNT(orders.id) AS cnt, SUM(orders.total) AS spent
+FROM customers LEFT JOIN orders ON customers.id = orders.customer_id
+GROUP BY customers.name;
+
+SELECT * FROM report WHERE spent > 100000;
+DROP VIEW IF EXISTS report;
+
+-- Subquery = filter using another query's result
+SELECT name FROM products
+WHERE price > (SELECT AVG(price) FROM products); -- above average
+```
+
+---
+
 ## Challenge
 
 **Library:** `loans(id, book_id FK, member_id FK, date)` → `SELECT members.name, books.title FROM loans JOIN members ON ... JOIN books ON ...` + `GROUP BY members.name` count.

@@ -81,6 +81,25 @@ ORDER BY total_belanja DESC;
 
 ---
 
+### Bonus: VIEW + Subquery (laporan simpan-pakai!)
+
+```sql
+-- VIEW = query tersimpan jadi "tabel maya"
+CREATE VIEW laporan AS
+SELECT pelanggan.nama, COUNT(pesanan.id) AS jml, SUM(pesanan.total) AS belanja
+FROM pelanggan LEFT JOIN pesanan ON pelanggan.id = pesanan.pelanggan_id
+GROUP BY pelanggan.nama;
+
+SELECT * FROM laporan WHERE belanja > 100000;
+DROP VIEW IF EXISTS laporan;
+
+-- Subquery = saring pakai hasil query lain
+SELECT nama FROM produk
+WHERE harga > (SELECT AVG(harga) FROM produk); -- di atas rata-rata
+```
+
+---
+
 ## Tantangan
 
 **Perpustakaan:** `peminjaman(id, buku_id FK, anggota_id FK, tgl)` → `SELECT anggota.nama, buku.judul FROM peminjaman JOIN anggota ON ... JOIN buku ON ...` + `GROUP BY anggota.nama` hitung pinjam.

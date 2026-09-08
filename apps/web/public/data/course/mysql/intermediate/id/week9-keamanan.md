@@ -84,6 +84,16 @@ Hapus anonymous, matikan root remote, buang test DB.
 
 ---
 
+### Bonus: Backup & Restore (gembok + cadangan = aman beneran!)
+
+```bash
+mysqldump -u root -p warung > backup.sql       # CADANGKAN (teks SQL semua!)
+mysql -u root -p warung_baru < backup.sql      # RESTORE ke DB baru
+```
+- Latihan wajib: backup → `DROP DATABASE warung;` → buat baru → restore → data kembali! Tanpa ini, gembok kuat tapi kebakaran tetap hilang semua.
+
+---
+
 ## Tantangan
 
 **Gudang Tergembok:** 3 user (`kasir` SELECT/INSERT produk, `lapor` SELECT semua, `admin` ALL) + buktikan `kasir` DROP ditolak + `SHOW GRANTS` 3 screenshot.

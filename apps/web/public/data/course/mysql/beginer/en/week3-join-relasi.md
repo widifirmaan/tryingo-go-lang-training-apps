@@ -95,6 +95,25 @@ ORDER BY total_spent DESC;
 
 ---
 
+### Bonus: VIEW + Subquery (write-once reports!)
+
+```sql
+-- VIEW = saved query as "virtual table" (used in W10 capstone!)
+CREATE VIEW report AS
+SELECT customers.name, COUNT(orders.id) AS cnt, SUM(orders.total) AS spent
+FROM customers LEFT JOIN orders ON customers.id = orders.customer_id
+GROUP BY customers.name;
+
+SELECT * FROM report WHERE spent > 100000; -- use like a table!
+DROP VIEW IF EXISTS report; -- drop when wrong
+
+-- Subquery = query inside query (filter using other results)
+SELECT name FROM products
+WHERE price > (SELECT AVG(price) FROM products); -- above average
+```
+
+---
+
 ## Challenge
 
 **Library JOIN:** Build `loans(id AUTO_INCREMENT PK, book_id INT, member_id INT, date DATE)` + FKs to `books` & `members` → `SELECT members.name, books.title FROM loans JOIN members ON ... JOIN books ON ...` → `GROUP BY members.name` counts loans per member.
