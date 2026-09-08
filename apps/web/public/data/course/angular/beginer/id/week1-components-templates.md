@@ -20,6 +20,9 @@ Angular untuk perusahaan besar: jika warung mau jadi minimarket 100 cabang, butu
 
 ```bash
 npx @angular/cli new warung-angular --style=css --routing
+# CATATAN VERSI (riset 2026): Angular 20+ bikin proyek standalone TANPA NgModule.
+# Materi ini pakai gaya NgModule (masih jalan penuh). Mau ikut materi persis?
+#   npx @angular/cli new warung-angular --style=css --routing --no-standalone
 cd warung-angular
 ng serve
 # Buka http://localhost:4200

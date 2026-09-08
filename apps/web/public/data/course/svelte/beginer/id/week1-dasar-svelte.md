@@ -89,6 +89,12 @@ Tambah `let diskon=10; $: totalDiskon = total * (1 - diskon/100)` + input `bind:
 
 ---
 
+## Catatan Versi (Riset 2026)
+
+Svelte 5 (runes: `$state`, `onclick`) adalah gaya modern, TAPI sintaks Svelte 4 di materi ini (`let`, `on:click`, `export let`) **tetap jalan penuh** di Svelte 5 (legacy mode resmi, svelte.dev/docs/svelte/legacy-overview). Belajar yang ini dulu sampai paham, migrasi ke runes nanti 1-1.
+
+---
+
 ## Ringkasan
 
 Minggu 1: **Svelte Ajaib** — `let` biasa reaktif. Minggu depan: **Reactivity** lanjutan.

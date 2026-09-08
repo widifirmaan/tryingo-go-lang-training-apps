@@ -20,6 +20,9 @@ Angular is for big companies: if the shop wants to become a 100-branch minimarke
 
 ```bash
 npx @angular/cli new shop-angular --style=css --routing
+# VERSION NOTE (researched 2026): Angular 20+ scaffolds standalone projects with NO NgModules.
+# This course uses the NgModule style (still fully working). To follow along exactly:
+#   npx @angular/cli new shop-angular --style=css --routing --no-standalone
 cd shop-angular
 ng serve
 # Open http://localhost:4200
