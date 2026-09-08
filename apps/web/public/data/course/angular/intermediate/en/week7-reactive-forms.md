@@ -1,21 +1,21 @@
-# Reactive Forms — Formulir Reaktif Angular (angular.dev)
+# Reactive Forms — Reactive Angular Forms (angular.dev)
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 7:** Reactive Forms
+> **Kategori:** Angular | **Level:** Intermediate | **Minggu 7:** Reactive Forms
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Buat `FormGroup` + `FormControl` di `component` (sumber: angular.dev/guide/forms/reactive-forms) — `new FormGroup({ nama: new FormControl('', Validators.required) })`
-- Hubungkan `formGroup` di `template` + `formControlName="nama"` + `Validators` + `form.value` + `ngSubmit`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Form warung tanpa validasi → pelanggan kirim nama kosong. Dengan `ReactiveForms` + `Validators.required`, tombol `Tambah` mati jika `nama` kosong — tidak perlu `if` manual.
+- Build `FormGroup` + `FormControl` in the `component` (source: angular.dev/guide/forms/reactive-forms) — `new FormGroup({ name: new FormControl('', Validators.required) })`
+- Connect `formGroup` in `template` + `formControlName="name"` + `Validators` + `form.value` + `ngSubmit`
 
 ---
 
-## Program: Formulir Warung Reaktif (angular.dev)
+## Why This Matters (Non-IT)
+
+A shop form without validation → customers submit empty names. With `ReactiveForms` + `Validators.required`, the `Add` button dies when `name` is empty — no manual `if` needed.
+
+---
+
+## Program: Reactive Shop Form (angular.dev)
 
 ```typescript
 // component.ts — model-driven (angular.dev)
@@ -23,96 +23,96 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
-  selector: "app-warung",
+  selector: "app-shop",
   imports: [ReactiveFormsModule],
-  templateUrl: "./warung.component.html"
+  templateUrl: "./shop.component.html"
 })
-export class WarungComponent {
-  warungForm = new FormGroup({
-    nama: new FormControl("", [Validators.required, Validators.minLength(3)]),
-    harga: new FormControl(0, [Validators.required, Validators.min(1)])
+export class ShopComponent {
+  shopForm = new FormGroup({
+    name: new FormControl("", [Validators.required, Validators.minLength(3)]),
+    price: new FormControl(0, [Validators.required, Validators.min(1)])
   });
 
-  tambah(){
-    if(this.warungForm.valid){
-      console.log(this.warungForm.value); // { nama: "Beras", harga: 62000 }
-      this.warungForm.reset();
+  add(){
+    if(this.shopForm.valid){
+      console.log(this.shopForm.value); // { name: "Rice", price: 62000 }
+      this.shopForm.reset();
     }
   }
 }
 ```
 
 ```html
-<!-- warung.component.html — hubungkan -->
-<form [formGroup]="warungForm" (ngSubmit)="tambah()">
-  <label>Nama <input formControlName="nama" placeholder="Beras"></label>
-  <p *ngIf="warungForm.get('nama')?.hasError('required')">Nama wajib</p>
-  <label>Harga <input formControlName="harga" type="number"></label>
-  <button [disabled]="warungForm.invalid">Tambah</button>
+<!-- shop.component.html — connect -->
+<form [formGroup]="shopForm" (ngSubmit)="add()">
+  <label>Name <input formControlName="name" placeholder="Rice"></label>
+  <p *ngIf="shopForm.get('name')?.hasError('required')">Name required</p>
+  <label>Price <input formControlName="price" type="number"></label>
+  <button [disabled]="shopForm.invalid">Add</button>
 </form>
-<p>Value: {{ warungForm.value | json }}</p>
+<p>Value: {{ shopForm.value | json }}</p>
 ```
 
-**Sumber:** `angular.dev/guide/forms/reactive-forms` — `FormGroup`/`FormControl` + `Validators`.
+**Source:** `angular.dev/guide/forms/reactive-forms` — `FormGroup`/`FormControl` + `Validators`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `FormGroup` + `FormControl` = Model
-`new FormGroup({ nama: new FormControl('') })` di `component` → `formGroup` di `template` → `formControlName="nama"`.
+`new FormGroup({ name: new FormControl('') })` in `component` → `formGroup` in `template` → `formControlName="name"`.
 
 ### `Validators` + `form.value`/`valid`
-`Validators.required` cek wajib, `warungForm.valid` true jika semua valid, `warungForm.value` = `{ nama, harga }`.
+`Validators.required` checks required, `shopForm.valid` true when all valid, `shopForm.value` = `{ name, price }`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Formulir Kertas dengan Stempel Valid
+### Analogy: Paper Form with Valid Stamps
 
-- **`FormGroup` = kertas formulir**: `nama` dan `harga` 2 kolom.
-- **`FormControl` = kotak isian**: `new FormControl('', Validators.required)` kotak wajib.
-- **`Validators` = satpam**: cek kosong → `hasError('required')` → tampil "Nama wajib".
+- **`FormGroup` = paper form**: `name` and `price` 2 columns.
+- **`FormControl` = fill box**: `new FormControl('', Validators.required)` required box.
+- **`Validators` = guard**: checks empty → `hasError('required')` → shows "Name required".
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-Sudah siap dari W1: `ng new` + `ng serve` di `4200`, `ReactiveFormsModule` sudah `imports`.
+Ready from W1: `ng new` + `ng serve` on `4200`, `ReactiveFormsModule` already in `imports`.
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. `warungForm = new FormGroup({ nama: new FormControl('') })` → buat model.
-2. `[formGroup]="warungForm"` → hubungkan model ke `<form>`.
-3. Ketik `Beras` → `FormControl` update → `warungForm.value` = `{ nama: "Beras" }`.
+1. `shopForm = new FormGroup({ name: new FormControl('') })` → builds the model.
+2. `[formGroup]="shopForm"` → connects the model to `<form>`.
+3. Type `Rice` → `FormControl` updates → `shopForm.value` = `{ name: "Rice" }`.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
-1. **FormGroup/FormControl**: kertas/kotak
-2. **Validators**: satpam
-3. **formControlName**: hubungkan
-
----
-
-## Eksperimen
-
-- **Hijau:** Kosongkan `nama` → `warungForm.invalid` true → tombol mati?
-- **Kuning:** `Validators.minLength(3)` → ketik "Ab" → error?
-- **Merah:** Hapus `ReactiveFormsModule` di `imports` → `formGroup` error?
+1. **FormGroup/FormControl**: paper/box
+2. **Validators**: guard
+3. **formControlName**: connect
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Reaktif Lengkap:** `nama` `required` + `minLength(3)`, `harga` `required` + `min(1)`, `stok` `required`, tampil `*ngIf` error tiap field, `tambah()` `console.log` + `reset()`, `ng serve` screenshot.
+- **Green:** Empty `name` → `shopForm.invalid` true → button dead?
+- **Yellow:** `Validators.minLength(3)` → type "Ab" → error?
+- **Red:** Remove `ReactiveFormsModule` from `imports` → `formGroup` error?
+
+---
+
+## Challenge
+
+**Complete Reactive Shop:** `name` `required` + `minLength(3)`, `price` `required` + `min(1)`, `stock` `required`, `*ngIf` error per field, `add()` `console.log` + `reset()`, `ng serve` screenshot.
 
 ---
 
 ## Glosarium Mini
 
-- **FormGroup/FormControl/Validators**: kertas/kotak/satpam
+- **FormGroup/FormControl/Validators**: paper/box/guard
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 12: **Formulir Reaktif** (Level: Menengah). Bisa `FormGroup` + `Validators` tanpa `if` manual. Minggu depan: **HttpClient**.
+Week 7 of 12: **Reactive Forms** (Level: Intermediate). Can do `FormGroup` + `Validators` without manual `if`. Next: **HttpClient**.
