@@ -1,72 +1,109 @@
-# Schema & Types — Menu Restoran
+# Schema & Types — Restaurant Menu
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 1:** Schema & Types
+> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 1:** Schema & Types
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- GraphQL = **menu restoran**: client pesan "saya mau nama & harga saja", server kirim itu saja (tidak lebih)
-- `type Produk { id: ID!, nama: String!, harga: Int! }` stiker menu
-- `!` wajib, `[]` daftar, `query` ambil
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-REST `/api/produk` kirim semua field (nama, harga, deskripsi, stok) padahal HP butuh harga saja → buang kuota. GraphQL minta pas.
+- GraphQL = **restaurant menu**: client orders "I want name & price only", server sends just that (no more)
+- `type Product { id: ID!, name: String!, price: Int! }` menu stickers
+- `!` required, `[]` list, `query` fetch
 
 ---
 
-## Program: Menu Produk
+## Why This Matters (Non-IT)
+
+REST `/api/products` sends all fields (name, price, description, stock) though phones need only prices → wasted data. GraphQL asks exact.
+
+---
+
+## Program: Product Menu
 
 ```graphql
 # Schema — menu
-type Produk {
+type Product {
   id: ID!
-  nama: String!
-  harga: Int!
-  stok: Int
-  kategori: String
+  name: String!
+  price: Int!
+  stock: Int
+  category: String
 }
 
 type Query {
-  produk: [Produk!]!
-  produkById(id: ID!): Produk
+  products: [Product!]!
+  productById(id: ID!): Product
 }
 
-# Query — pesan
+# Query — order
 query {
-  produk {
-    nama
-    harga
+  products {
+    name
+    price
   }
 }
 
 query {
-  produkById(id: "1") {
-    nama
-    harga
-    stok
+  productById(id: "1") {
+    name
+    price
+    stock
   }
 }
 ```
 
-Coba di `onecompiler.com/graphql` atau `graphql.org/swapi-graphql`.
+Try at `onecompiler.com/graphql` or `graphql.org/swapi-graphql`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Schema = Menu
-`type Produk` daftar kolom yang ada.
+`type Product` lists available columns.
 
 ### `!` & `[]`
-`String!` wajib, `String` boleh kosong. `[Produk!]!` daftar wajib, isinya wajib.
+`String!` required, `String` nullable. `[Product!]!` required list, required items.
 
-### Query = Pesan
-Minta field yang mau, dapat itu saja.
+### Query = Order
+Ask for wanted fields, get just those.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 1: **Menu** — schema & query dasar. Minggu depan: **Queries** lanjutan.
+### Analogy: Restaurant Menu
+- **Schema = menu**: what can be ordered. **Query = order slip**: name + price only.
+
+### Step 0 — Prepare Device
+- Browser + `onecompiler.com/graphql` (no install) or GraphiQL.
+
+### How the Computer Reads It
+1. `query { products { name } }` → server checks schema → returns `data.products`.
+2. Asking for unlisted field → `Cannot query field` error.
+
+### 3 Must-Know Terms
+1. **Schema/query/type**: menu/order/dish
+
+---
+
+## Experiments
+
+- **Green:** Ask only `name` → JSON without price?
+- **Yellow:** Ask unknown field → `Cannot query field` error?
+- **Red:** Missing `!` → nullable accepted? Add `!` for required.
+
+---
+
+## Challenge
+
+**Menu Order:** Query `products { name price }` + `productById(id:"1") { name price stock }` in GraphiQL, screenshot JSON.
+
+---
+
+## Mini Glossary
+
+- **Schema/!/query**: menu/required/order
+
+---
+
+## Summary
+
+Week 1: **Menu** — basic schema & query. Next: **Queries** advanced.

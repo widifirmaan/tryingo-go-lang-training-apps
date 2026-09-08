@@ -1,21 +1,21 @@
-# Apollo Server — Buka Restoran GraphQL
+# Apollo Server — Open GraphQL Restaurant
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 5:** Apollo Server & Client
+> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 5:** Apollo Server & Client
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `npm install @apollo/server graphql` + `startStandaloneServer(server, { listen: { port: 4000 } })` buka di `localhost:4000` (sumber: apollographql.com/docs)
-- Gabung `typeDefs` (menu W1) + `resolvers` (dapur W4) → restoran jadi
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Menu + dapur tanpa restoran = tidak bisa pesan. Apollo Server = gedung restoran: 1 perintah, dapat `GraphiQL` coba-coba + endpoint `/` siap di-`fetch` HP.
+- `npm install @apollo/server graphql` + `startStandaloneServer(server, { listen: { port: 4000 } })` opens on `localhost:4000` (source: apollographql.com/docs)
+- Combine `typeDefs` (W1 menu) + `resolvers` (W4 kitchen) → finished restaurant
 
 ---
 
-## Program: Restoran Warung Jadi
+## Why This Matters (Non-IT)
+
+Menu + kitchen without a restaurant = can't order. Apollo Server = restaurant building: 1 command gets `GraphiQL` playground + `/` endpoint ready for phone `fetch`.
+
+---
+
+## Program: Finished Shop Restaurant
 
 ```bash
 npm init -y
@@ -23,96 +23,96 @@ npm install @apollo/server graphql
 ```
 
 ```javascript
-// index.js — gedung (menu + dapur)
+// index.js — building (menu + kitchen)
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
 
 const typeDefs = `#graphql
-  type Produk { id: ID!, nama: String!, harga: Int!, stok: Int }
-  type Query { produk: [Produk!]!, produkById(id: ID!): Produk }
-  type Mutation { tambahProduk(nama: String!, harga: Int!): Produk! }
+  type Product { id: ID!, name: String!, price: Int!, stock: Int }
+  type Query { products: [Product!]!, productById(id: ID!): Product }
+  type Mutation { addProduct(name: String!, price: Int!): Product! }
 `;
 
-let produk = [
-  { id: "1", nama: "Beras", harga: 62000, stok: 10 },
-  { id: "2", nama: "Bayam", harga: 5000, stok: 20 },
+let products = [
+  { id: "1", name: "Rice", price: 62000, stock: 10 },
+  { id: "2", name: "Spinach", price: 5000, stock: 20 },
 ];
 
 const resolvers = {
   Query: {
-    produk: () => produk,
-    produkById: (_, { id }) => produk.find(p => p.id === id),
+    products: () => products,
+    productById: (_, { id }) => products.find(p => p.id === id),
   },
   Mutation: {
-    tambahProduk: (_, { nama, harga }) => {
-      const baru = { id: String(Date.now()), nama, harga, stok: 0 };
-      produk.push(baru);
-      return baru;
+    addProduct: (_, { name, price }) => {
+      const fresh = { id: String(Date.now()), name, price, stock: 0 };
+      products.push(fresh);
+      return fresh;
     },
   },
 };
 
-async function mulai() {
+async function start() {
   const server = new ApolloServer({ typeDefs, resolvers });
   const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
-  console.log(`Restoran buka di ${url}`);
+  console.log(`Restaurant open at ${url}`);
 }
-mulai();
+start();
 ```
 
-Buka `http://localhost:4000` → GraphiQL → coba `query { produk { nama harga } }` + `mutation { tambahProduk(nama:"Gula", harga:15000) { id } }`.
+Open `http://localhost:4000` → GraphiQL → try `query { products { name price } }` + `mutation { addProduct(name:"Sugar", price:15000) { id } }`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `typeDefs` + `resolvers` = Menu + Dapur
-`ApolloServer({ typeDefs, resolvers })` gabung → restoran.
+### `typeDefs` + `resolvers` = Menu + Kitchen
+`ApolloServer({ typeDefs, resolvers })` combines → restaurant.
 
-### `startStandaloneServer` = Buka Pintu
+### `startStandaloneServer` = Open Doors
 `listen: { port: 4000 }` → `http://localhost:4000`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Buka Restoran
-- **typeDefs = menu**, **resolvers = koki**, **ApolloServer = gedung**, **port 4000 = alamat**.
+### Analogy: Open Restaurant
+- **typeDefs = menu**, **resolvers = cooks**, **ApolloServer = building**, **port 4000 = address**.
 
-### Langkah 0 — Siapkan Device
-- `node -v` 20+, folder `warung-graphql`, `npm init -y`, install 2 paket.
+### Step 0 — Prepare Device
+- `node -v` 20+, `shop-graphql` folder, `npm init -y`, install 2 packages.
 
-### Cara Komputer Membaca
-1. `node index.js` → server dengar 4000.
-2. Browser kirim `query` → server panggil resolver → JSON `{ data }`.
+### How the Computer Reads It
+1. `node index.js` → server listens on 4000.
+2. Browser sends `query` → server calls resolver → JSON `{ data }`.
 
-### 3 Istilah Wajib
-1. **ApolloServer/typeDefs**: gedung/menu
-2. **startStandaloneServer**: buka pintu
-
----
-
-## Eksperimen
-
-- **Hijau:** `query { produk { nama } }` di GraphiQL → 2 nama?
-- **Kuning:** Ganti port `4001` → buka `:4001`?
-- **Merah:** Hapus 1 resolver → query itu error? Pasang lagi.
+### 3 Must-Know Terms
+1. **ApolloServer/typeDefs**: building/menu
+2. **startStandaloneServer**: open doors
 
 ---
 
-## Tantangan
+## Experiments
 
-**Restoran Lengkap:** `typeDefs` + `resolvers` (Query 2 + Mutation 2) + `node index.js` + GraphiQL screenshot tambah produk. **Selesai Beginner GraphQL!**
-
----
-
-## Glosarium Mini
-
-- **Apollo/typeDefs/resolvers**: gedung/menu/dapur
-- **GraphiQL**: coba-coba
+- **Green:** `query { products { name } }` in GraphiQL → 2 names?
+- **Yellow:** Change port `4001` → opens `:4001`?
+- **Red:** Delete 1 resolver → that query errors? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 5: **Restoran Jadi** (Level: Pemula). **Selesai Beginner GraphQL!** Lanjut: **Auth & Client** (Menengah).
+**Complete Restaurant:** `typeDefs` + `resolvers` (2 Queries + 2 Mutations) + `node index.js` + GraphiQL screenshot adding a product. **Beginner GraphQL DONE!**
+
+---
+
+## Mini Glossary
+
+- **Apollo/typeDefs/resolvers**: building/menu/kitchen
+- **GraphiQL**: playground
+
+---
+
+## Summary
+
+Week 5 of 5: **Finished Restaurant** (Level: Beginner). **Beginner GraphQL DONE!** Next: **Auth & Client** (Intermediate).

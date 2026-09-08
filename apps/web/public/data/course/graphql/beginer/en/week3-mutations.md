@@ -1,108 +1,108 @@
-# Mutations — Tulis & Ubah Warung GraphQL
+# Mutations — Write & Edit GraphQL Shop
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 3:** Mutations
+> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 3:** Mutations
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `mutation { tambahProduk(input: {...}) { id nama } }` tulis, `input` amplop, pilih field balikan (sumber: graphql.org/learn/mutations)
-- Bedakan `query` (baca) vs `mutation` (tulis) — tulis berurutan, baca boleh bareng
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Query hanya baca — tambah produk butuh tulis. Mutation = kasir tulis nota: kirim `input` 1 amplop → server simpan → kembalikan `id nama` yang diminta (tidak lebih). Beda REST `POST` yang balas full object.
+- `mutation { addProduct(input: {...}) { id name } }` writes, `input` envelope, pick return fields (source: graphql.org/learn/mutations)
+- Distinguish `query` (read) vs `mutation` (write) — writes sequential, reads may parallel
 
 ---
 
-## Program: Kasir Tulis Warung
+## Why This Matters (Non-IT)
+
+Queries only read — adding products needs writing. Mutation = cashier writing receipts: send 1-envelope `input` → server saves → returns requested `id name` (no more). Unlike REST `POST` replying full objects.
+
+---
+
+## Program: Shop Writing Cashier
 
 ```graphql
-# 1. Tambah produk (input = amplop)
+# 1. Add product (input = envelope)
 mutation {
-  tambahProduk(input: { nama: "Gula", harga: 15000, stok: 20 }) {
+  addProduct(input: { name: "Sugar", price: 15000, stock: 20 }) {
     id
-    nama
-    harga
+    name
+    price
   }
 }
-# Balikan: { "data": { "tambahProduk": { "id": "4", "nama": "Gula", "harga": 15000 } } }
+# Returns: { "data": { "addProduct": { "id": "4", "name": "Sugar", "price": 15000 } } }
 
-# 2. Ubah harga
+# 2. Change price
 mutation {
-  ubahHarga(id: "4", harga: 14000) {
-    nama
-    harga
+  changePrice(id: "4", price: 14000) {
+    name
+    price
   }
 }
 
-# 3. Hapus (balikan Boolean)
+# 3. Delete (Boolean return)
 mutation {
-  hapusProduk(id: "4")
+  deleteProduct(id: "4")
 }
-# Balikan: { "data": { "hapusProduk": true } }
+# Returns: { "data": { "deleteProduct": true } }
 
-# 4. 2 tulis sekaligus (berurutan! tidak bareng)
-mutation Dua {
-  a: tambahProduk(input: { nama: "Kopi", harga: 12000, stok: 5 }) { id nama }
-  b: tambahProduk(input: { nama: "Teh", harga: 8000, stok: 5 }) { id nama }
+# 4. 2 writes at once (sequential! not parallel)
+mutation Two {
+  a: addProduct(input: { name: "Coffee", price: 12000, stock: 5 }) { id name }
+  b: addProduct(input: { name: "Tea", price: 8000, stock: 5 }) { id name }
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `mutation` vs `query` = Tulis vs Baca
-`query` baca (boleh paralel), `mutation` tulis (berurutan 1-2-3).
+### `mutation` vs `query` = Write vs Read
+`query` reads (may parallel), `mutation` writes (sequential 1-2-3).
 
-### `input` = Amplop
-`input: { nama, harga, stok }` 1 amplop, server buka + validasi.
+### `input` = Envelope
+`input: { name, price, stock }` 1 envelope, server opens + validates.
 
-### Pilih Balikan = Hemat
-`{ id nama }` → dapat 2 field saja, bukan 10.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kasir Tulis Nota
-- **Query = lihat etalase**, **mutation = tulis nota** (`tambahProduk`).
-- **Input = formulir**: isi 1 lembar, serahkan.
-
-### Langkah 0 — Siapkan Device
-- Sama W1-W2: `GraphiQL`.
-
-### Cara Komputer Membaca
-1. `mutation { tambahProduk(input: {...}) { id } }` → resolver simpan → balas `{ data: { tambahProduk: { id } } }`.
-2. `hapusProduk` → balas `true/false`.
-
-### 3 Istilah Wajib
-1. **Mutation/input**: tulis/amplop
-2. **Resolver**: pelayan tulis
+### Pick Returns = Savings
+`{ id name }` → gets 2 fields only, not 10.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `tambahProduk` tanpa `harga` → error `wajib`?
-- **Kuning:** Minta balikan hanya `id` → tanpa `nama`?
-- **Merah:** 2 `tambahProduk` alias `a` + `b` → 2 ID beda?
+### Analogy: Cashier Writing Receipts
+- **Query = view showcase**, **mutation = write receipt** (`addProduct`).
+- **Input = form**: fill 1 sheet, hand over.
+
+### Step 0 — Prepare Device
+- Same as W1-W2: `GraphiQL`.
+
+### How the Computer Reads It
+1. `mutation { addProduct(input: {...}) { id } }` → resolver saves → replies `{ data: { addProduct: { id } } }`.
+2. `deleteProduct` → replies `true/false`.
+
+### 3 Must-Know Terms
+1. **Mutation/input**: write/envelope
+2. **Resolver**: writing waiter
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Tulis Lengkap:** `mutation` tambah 2 produk (`a`, `b`) → `query` cek ada → `mutation` ubah 1 harga → `query` cek berubah. 4 langkah berurutan.
-
----
-
-## Glosarium Mini
-
-- **Mutation/input/resolver**: tulis/amplop/pelayan
+- **Green:** `addProduct` without `price` → `required` error?
+- **Yellow:** Ask return of only `id` → without `name`?
+- **Red:** 2 `addProduct` aliases `a` + `b` → 2 different IDs?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 5: **Tulis Warung** (Level: Pemula). Bisa tambah/ubah/hapus. Minggu depan: **Resolvers** — dapur server.
+**Complete Writing Shop:** `mutation` adds 2 products (`a`, `b`) → `query` verifies present → `mutation` edits 1 price → `query` verifies change. 4 sequential steps.
+
+---
+
+## Mini Glossary
+
+- **Mutation/input/resolver**: write/envelope/waiter
+
+---
+
+## Summary
+
+Week 3 of 5: **Write Shop** (Level: Beginner). Can add/edit/delete. Next: **Resolvers** — server kitchen.

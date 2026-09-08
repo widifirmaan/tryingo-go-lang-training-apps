@@ -1,49 +1,49 @@
-# Resolvers — Dapur Server GraphQL
+# Resolvers — GraphQL Server Kitchen
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 4:** Resolvers
+> **Kategori:** GraphQL | **Level:** Beginner | **Minggu 4:** Resolvers
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `resolvers = { Query: { produk: () => [...] }, Mutation: { tambahProduk: (_, { input }) => ... } }` dapur tiap field (sumber: apollographql.com/docs)
-- `parent, args, context` = piring, pesanan, dapur bersama
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Schema (W1) hanya menu — tanpa resolver, pesan "tambahProduk" tidak ada yang masak (error `Cannot query field`). Resolver = koki tiap menu: `Query.produk` ambil rak, `Mutation.tambahProduk` simpan.
+- `resolvers = { Query: { products: () => [...] }, Mutation: { addProduct: (_, { input }) => ... } }` kitchen per field (source: apollographql.com/docs)
+- `parent, args, context` = plate, order, shared kitchen
 
 ---
 
-## Program: Dapur Warung Resolver
+## Why This Matters (Non-IT)
+
+Schema (W1) is only the menu — without resolvers, "addProduct" orders have no cook (`Cannot query field` error). Resolver = cook per menu: `Query.products` fetches the rack, `Mutation.addProduct` saves.
+
+---
+
+## Program: Shop Resolver Kitchen
 
 ```javascript
-// db.js — rak (sementara array, nanti DB beneran)
-let produk = [
-  { id: "1", nama: "Beras", harga: 62000 },
-  { id: "2", nama: "Bayam", harga: 5000 },
+// db.js — rack (temporary array, real DB later)
+let products = [
+  { id: "1", name: "Rice", price: 62000 },
+  { id: "2", name: "Spinach", price: 5000 },
 ];
 
-// resolvers.js — koki tiap field
+// resolvers.js — cook per field
 const resolvers = {
   Query: {
-    produk: () => produk,                          // baca semua
-    produkById: (_, { id }) => produk.find(p => p.id === id), // args = pesanan
+    products: () => products,                          // read all
+    productById: (_, { id }) => products.find(p => p.id === id), // args = order
   },
   Mutation: {
-    tambahProduk: (_, { input }) => {              // input = amplop
-      const baru = { id: String(Date.now()), ...input };
-      produk.push(baru);
-      return baru;
+    addProduct: (_, { input }) => {              // input = envelope
+      const fresh = { id: String(Date.now()), ...input };
+      products.push(fresh);
+      return fresh;
     },
-    hapusProduk: (_, { id }) => {
-      produk = produk.filter(p => p.id !== id);
+    deleteProduct: (_, { id }) => {
+      products = products.filter(p => p.id !== id);
       return true;
     },
   },
-  // Field resolver: Produk.kategori ambil dari rak lain
-  Produk: {
-    kategori: (parent) => parent.kategori || "Umum",
+  // Field resolver: Product.category fetches from another rack
+  Product: {
+    category: (parent) => parent.category || "General",
   },
 };
 
@@ -52,58 +52,58 @@ module.exports = { resolvers };
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Query` / `Mutation` / `Produk` = Koki Menu/Kasir/Lauk
-- `Query.produk` masak bacaan, `Mutation.tambahProduk` masak tulisan.
-- `Produk.kategori` masak field khusus.
+### `Query` / `Mutation` / `Product` = Menu Cooks/Cashier/Side
+- `Query.products` cooks reads, `Mutation.addProduct` cooks writes.
+- `Product.category` cooks a special field.
 
-### `(parent, args, context)` = Piring/Pesanan/Dapur
-- `parent` hasil induk, `args` pesanan (`{ id }`), `context` bersama (user login).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Dapur Restoran
-- **Schema = menu**, **resolver = koki**: tiap menu ada koki.
-- **args = kertas pesanan**: `id: "1"`.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `node -v`, folder `warung-graphql` (server minggu depan).
-
-### Cara Komputer Membaca
-1. `query { produk { nama } }` → panggil `Query.produk()` → array → ambil `nama` tiap item.
-2. `mutation { tambahProduk(input:...) }` → panggil `Mutation.tambahProduk(_, { input })` → push → balas.
-
-### 3 Istilah Wajib
-1. **Resolver**: koki field
-2. **args/context**: pesanan/dapur
-3. **parent**: hasil induk
+### `(parent, args, context)` = Plate/Order/Kitchen
+- `parent` parent result, `args` order (`{ id }`), `context` shared (logged-in user).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `Query.produk()` langsung di node → array 2?
-- **Kuning:** `tambahProduk` tanpa `input.nama` → `undefined`? Tambah validasi `if (!input.nama) throw new Error("Nama wajib")`.
-- **Merah:** Hapus `Mutation` → `mutation { tambahProduk }` error `Cannot query field`? Pasang lagi.
+### Analogy: Restaurant Kitchen
+- **Schema = menu**, **resolver = cook**: every menu has a cook.
+- **args = order slip**: `id: "1"`.
+
+### Step 0 — Prepare Device
+- Same as W1: `node -v`, `shop-graphql` folder (server next week).
+
+### How the Computer Reads It
+1. `query { products { name } }` → calls `Query.products()` → array → takes `name` per item.
+2. `mutation { addProduct(input:...) }` → calls `Mutation.addProduct(_, { input })` → pushes → replies.
+
+### 3 Must-Know Terms
+1. **Resolver**: field cook
+2. **args/context**: order/kitchen
+3. **parent**: parent result
 
 ---
 
-## Tantangan
+## Experiments
 
-**Dapur Lengkap:** `Query.produk` + `produkByKategori(kategori)` (`filter`) + `Mutation.ubahHarga/hapusProduk` + `Produk.total = harga * stok` field resolver. Test 4 via `node` langsung (tanpa server).
-
----
-
-## Glosarium Mini
-
-- **Resolver/args/context**: koki/pesanan/dapur
-- **parent**: induk
+- **Green:** `Query.products()` directly in node → array of 2?
+- **Yellow:** `addProduct` without `input.name` → `undefined`? Add validation `if (!input.name) throw new Error("Name required")`.
+- **Red:** Delete `Mutation` → `mutation { addProduct }` `Cannot query field` error? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 4 dari 5: **Dapur Server** (Level: Pemula). Tiap menu ada koki. Minggu depan: **Apollo Server** — buka restoran.
+**Complete Kitchen:** `Query.products` + `productsByCategory(category)` (`filter`) + `Mutation.changePrice/deleteProduct` + `Product.total = price * stock` field resolver. Test all 4 via plain `node` (no server).
+
+---
+
+## Mini Glossary
+
+- **Resolver/args/context**: cook/order/kitchen
+- **parent**: parent
+
+---
+
+## Summary
+
+Week 4 of 5: **Server Kitchen** (Level: Beginner). Every menu has a cook. Next: **Apollo Server** — open restaurant.
