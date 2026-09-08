@@ -4,7 +4,7 @@
 
 ## Learning Objectives
 
-- Primary writes + Replica reads (`CHANGE MASTER TO` + `START SLAVE`), `SHOW SLAVE STATUS` checks `Seconds_Behind_Master` (source: dev.mysql.com/doc/refman/8.0/en/replication)
+- Primary writes + Replica reads (`CHANGE REPLICATION SOURCE TO` + `START REPLICA`), `SHOW REPLICA STATUS` checks `Seconds_Behind_Source` (source: dev.mysql.com/doc/refman/8.0/en/replication — old `SLAVE` names deprecated since 8.0.22, removed in newer versions!)
 - `read-only = 1` on replica (rejects stray writes)
 
 ---
@@ -36,18 +36,18 @@ read-only = 1
 CREATE USER 'repl'@'%' IDENTIFIED BY 'secret';
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
 
--- On REPLICA: connect
-CHANGE MASTER TO
-  MASTER_HOST = 'primary-ip',
-  MASTER_USER = 'repl',
-  MASTER_PASSWORD = 'secret',
-  MASTER_AUTO_POSITION = 1;
-START SLAVE;
+-- On REPLICA: connect (NEW syntax — old MASTER/SLAVE deprecated!)
+CHANGE REPLICATION SOURCE TO
+  SOURCE_HOST = 'primary-ip',
+  SOURCE_USER = 'repl',
+  SOURCE_PASSWORD = 'secret',
+  SOURCE_AUTO_POSITION = 1;
+START REPLICA;
 
 -- Health check (on REPLICA):
-SHOW SLAVE STATUS\G
--- Slave_IO_Running: Yes, Slave_SQL_Running: Yes
--- Seconds_Behind_Master: 0 (not late!)
+SHOW REPLICA STATUS\G
+-- Replica_IO_Running: Yes, Replica_SQL_Running: Yes
+-- Seconds_Behind_Source: 0 (not late!)
 ```
 
 Test: `INSERT` on primary → 1 second → `SELECT` on replica present!
@@ -62,8 +62,8 @@ Write to primary, read from replica. `read-only` stops stray writes.
 ### Unique `server-id` + Binlog
 Each server a different ID. Binlog records all writes for copying.
 
-### `Seconds_Behind_Master` = Lateness
-0 = healthy. 3600 = 1 hour late (danger!).
+### `Seconds_Behind_Source` = Lateness
+0 = healthy. 3600 = 1 hour late (danger!). (Old tutorials call it `Seconds_Behind_Master`.)
 
 ---
 
@@ -96,7 +96,7 @@ Each server a different ID. Binlog records all writes for copying.
 
 ## Challenge
 
-**Shop Branch:** Primary + replica + `INSERT` 5 → `SELECT` 5 on replica + `SHOW SLAVE STATUS` 2 Yeses + screenshot.
+**Shop Branch:** Primary + replica + `INSERT` 5 → `SELECT` 5 on replica + `SHOW REPLICA STATUS` 2 Yeses + screenshot.
 
 ---
 
