@@ -108,6 +108,31 @@ export default async function Page(){
 
 ---
 
+### Bonus: `route.js` Route Handler — Raw API (Routing chapter, nextjs.org!)
+
+Server Actions for forms. But webhooks/payment gateways need raw API URLs → `route.js` (GET/POST/PUT/DELETE):
+
+```javascript
+// app/api/products/route.js — NO page.js!
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const all = await prisma.product.findMany();
+  return Response.json(all); // raw JSON!
+}
+
+export async function POST(req) {
+  const body = await req.json(); // open JSON envelope
+  const fresh = await prisma.product.create({ data: body });
+  return Response.json(fresh, { status: 201 });
+}
+```
+
+- `GET/POST/...` = function name = HTTP method. `Response.json(data, { status })` replies + code.
+- When route.js vs Server Actions? Webhooks/public APIs/non-React phones → `route.js`. React forms → Actions.
+
+---
+
 ## Summary
 
 Week 9: **Prisma Warehouse** — `schema` + `migrate` + `findMany`. Next: **Auth**.

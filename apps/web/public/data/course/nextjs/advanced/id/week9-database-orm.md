@@ -61,6 +61,31 @@ export default async function Page(){
 
 ---
 
+### Bonus: Route Handler `route.js` — API Mentah (bab Routing nextjs.org!)
+
+Server Actions untuk form. Tapi webhook/payment-gateway butuh URL API mentah → `route.js` (GET/POST/PUT/DELETE):
+
+```javascript
+// app/api/produk/route.js — TANPA page.js!
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const semua = await prisma.produk.findMany();
+  return Response.json(semua); // JSON mentah!
+}
+
+export async function POST(req) {
+  const body = await req.json(); // baca amplop JSON
+  const baru = await prisma.produk.create({ data: body });
+  return Response.json(baru, { status: 201 });
+}
+```
+
+- `GET/POST/...` = nama fungsi = method HTTP. `Response.json(data, { status })` balas + kode.
+- Kapan route.js vs Server Actions? Webhook/API publik/HP non-React → `route.js`. Form React → Actions.
+
+---
+
 ## Ringkasan
 
 Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`.

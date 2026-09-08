@@ -183,6 +183,35 @@ function App() { fetch(...).then(setData) } // tiap render fetch → setData →
 
 ---
 
+### Bonus: useRef — Kotak yang Tak Bikin Render Ulang (hook inti react.dev!)
+
+`useState` berubah → render ulang. `useRef` berubah → DIAM (tapi ingat!). 2 guna: pegang elemen DOM (fokus input) + simpan nilai antar-render (ID timer, render-ke-berapa).
+
+```jsx
+import { useRef, useEffect } from "react";
+
+function CariOtomatis() {
+  const inputRef = useRef(null); // kotak untuk elemen!
+  const renderKe = useRef(0);    // kotak penghitung (tak picu render)
+  renderKe.current += 1;
+
+  useEffect(() => {
+    inputRef.current.focus(); // kursor langsung di input saat buka!
+  }, []);
+
+  return (
+    <div>
+      <input ref={inputRef} placeholder="Ketik..." />
+      <p>Render ke-{renderKe.current} (ubah ini tak picu render!)</p>
+    </div>
+  );
+}
+```
+- `ref={inputRef}` colok elemen → `inputRef.current` = elemennya. `.current` boleh tulis bebas.
+- Bedakan: `useState` = tampil + picu render. `useRef` = ingat diam-diam.
+
+---
+
 ## Tantangan
 
 **Pilih satu:**

@@ -162,6 +162,35 @@ function App() { fetch(...).then(setData) } // every render fetches → setData 
 
 ---
 
+### Bonus: useRef — Box That Never Re-Renders (core react.dev hook!)
+
+`useState` changes → re-render. `useRef` changes → SILENT (but remembers!). 2 uses: hold DOM elements (focus inputs) + keep values across renders (timer IDs, render counts).
+
+```jsx
+import { useRef, useEffect } from "react";
+
+function AutoSearch() {
+  const inputRef = useRef(null); // box for element!
+  const renderNo = useRef(0);    // counter box (never triggers render)
+  renderNo.current += 1;
+
+  useEffect(() => {
+    inputRef.current.focus(); // cursor straight into input on open!
+  }, []);
+
+  return (
+    <div>
+      <input ref={inputRef} placeholder="Type..." />
+      <p>Render #{renderNo.current} (changing this never renders!)</p>
+    </div>
+  );
+}
+```
+- `ref={inputRef}` plugs element → `inputRef.current` = the element. `.current` freely writable.
+- Distinguish: `useState` = display + trigger render. `useRef` = remember silently.
+
+---
+
 ## Challenge
 
 **Pick one:**
