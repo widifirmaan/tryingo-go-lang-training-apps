@@ -42,7 +42,7 @@ A shop uncombined = 5 messy separate files. With 1 `shop.css` + `BEM` + `clamp` 
 
 Deploy: `netlify.com` → drag `index.html` + `shop.css` → `shop.netlify.app`.
 
-**Capstone task:** Deploy + `Lighthouse` (Chrome DevTools → Lighthouse) 90+ Performance, 100 Accessibility (use `alt`, `label` from W6-W9).
+**Capstone task:** Deploy + `Lighthouse` (Chrome DevTools → Lighthouse) 90+ Performance, 100 Accessibility (use `alt`, `label` from HTML5 material W4/W7/W12).
 
 ---
 
