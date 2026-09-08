@@ -81,6 +81,21 @@ a[href^="https"] { color: #2E5B44; font-weight: bold; } /* outside links */
 ### `.card p` / `:hover` / `[href^="https"]`
 Inside / on touch / attribute starts-with.
 
+### Cascade: Who Wins Ties? (The Odin Project Core!)
+3 rules (order matters!): **1. Specificity** — `#id` beats `.class` beats `p` (remember 100/10/1, BUT that's just a memory aid — 11 classes still lose to 1 id!). **Emergencies only for `!important`!** **2. Order** — tied specificity → LAST written wins. **3. Inheritance** — `color`/`font` on `body` flows to children automatically (check MDN: each property says Inherited Yes/No).
+
+```css
+p { color: black; }        /* 1 */
+.card p { color: #555; }   /* 1+10=11 → wins! */
+#header p { color: white; } /* 100+1 → absolute win */
+body { font-family: sans-serif; } /* children follow without rewriting */
+```
+
+### Mighty Pseudos (à la freeCodeCamp Balance Sheet)
+- `li:first-child` / `li:last-child` / `li:nth-child(2)` — 1st/last/2nd child.
+- `input:focus` — while typing (swap border!). `:not(.promo)` — except promo.
+- `p::before { content: "★ "; }` — pins a star WITHOUT touching HTML! (`::` = fake element)
+
 ---
 
 ## Beginner Friendly Explanation
@@ -108,6 +123,7 @@ Inside / on touch / attribute starts-with.
 - **Green:** Change `.card` background `yellow` → both cards follow?
 - **Yellow:** Use `#header` twice → still works but wrong (id must be 1)! Change 1 to class.
 - **Red:** Delete `<link>` → plain? Reattach.
+- **Cascade bonus:** `p{color:red}` + `.card p{color:green}` → green wins? Add `#x p{color:blue}` → blue!
 
 ---
 
