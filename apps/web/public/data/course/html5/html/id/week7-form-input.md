@@ -38,6 +38,38 @@ Tanpa `label for`, klik tulisan "Nama" tidak fokus input — susah di HP. Tanpa 
 
 **Wajib:** `label for="nama"` sama `id="nama"`, `name="nama"` untuk server, `required` wajib.
 
+### Program Tambahan: Semua Jenis Input (ala freeCodeCamp Registration Form)
+
+```html
+<form action="/daftar" method="post">
+  <fieldset>
+    <legend>Akun</legend>
+    <label for="email2">Email</label>
+    <input id="email2" name="email" type="email" required>
+    <label for="pass">Password</label>
+    <input id="pass" name="pass" type="password" minlength="6" required>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pesanan</legend>
+    <p>Ambil sendiri atau antar?</p>
+    <label><input type="radio" name="cara" value="ambil" checked> Ambil</label>
+    <label><input type="radio" name="cara" value="antar"> Antar</label>
+    <p>Topping (boleh banyak):</p>
+    <label><input type="checkbox" name="toping" value="telur" checked> Telur</label>
+    <label><input type="checkbox" name="toping" value="kerupuk"> Kerupuk</label>
+    <label for="tgl">Tanggal antar</label>
+    <input id="tgl" name="tgl" type="date">
+    <label for="bukti">Bukti transfer</label>
+    <input id="bukti" name="bukti" type="file" accept="image/*">
+  </fieldset>
+</form>
+```
+
+- `radio` 1 nama = pilih 1 (`checked` bawaan). `checkbox` 1 nama = boleh banyak.
+- `fieldset` + `legend` = kotak + judul (wajib untuk aksesibilitas radio/checkbox — freeCodeCamp tekankan ini!).
+- `select` alternatif jika opsi >5: `<select name="kota"><option>Jakarta</option>...</select>`.
+
 ---
 
 ## Konsep Kunci
@@ -47,6 +79,10 @@ Tanpa `label for`, klik tulisan "Nama" tidak fokus input — susah di HP. Tanpa 
 
 ### `name` + `required` + `type`
 `name` kunci kirim, `required` wajib, `type="email"` validasi email.
+
+### Radio / Checkbox / Fieldset
+- `type="radio" name="cara"` sama = 1 pilihan. `checked` = bawaan.
+- `type="checkbox"` = banyak pilihan. `fieldset` + `legend` bungkus + judul (screen reader baca judul dulu).
 
 ---
 
