@@ -1,8 +1,8 @@
 # Background Jobs & Sidekiq
 
-> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 10:** Background Jobs & Sidekiq
+> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 10:** Background Jobs & Sidekiq
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
 - Active Job: framework-agnostic job interface
 - Sidekiq: Redis-backed job processing
@@ -12,9 +12,9 @@
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Kirim WA 5 detik di request → pelanggan tunggu loading. Dengan Sidekiq, simpan langsung balas, WA background.
+5-second WA sends in-request → customers wait on loading. With Sidekiq, save replies instantly, background WA.
 
 ---
 
@@ -30,7 +30,7 @@ puts "  queue_as :default"
 puts ""
 puts "  def perform(user)"
 puts "    UserMailer.welcome(user).deliver_now"
-puts "    Rails.logger.info "Email sent to #{user.email}""
+puts "    Rails.logger.info \"Email sent to \#{user.email}\""
 puts "  end"
 puts "end"
 puts ""
@@ -65,40 +65,23 @@ jobs = [
 puts "ID | Job | Status | Duration"
 puts "---|-----|--------|----------"
 jobs.each do |j|
-  puts "#{j[:id]} | #{j[:name]} | #{j[:status]} | #{j[:duration]}"
+  puts "\#{j[:id]} | \#{j[:name]} | \#{j[:status]} | \#{j[:duration]}"
 end
 puts ""
-puts "=== Job Chaining ==="
-puts "class OnboardingFlow"
-puts "  def self.start(user)"
-puts "    SendWelcomeEmailJob.perform_later(user)"
-puts "    SetupAccountJob.perform_later(user)"
-puts "    NotifyAdminJob.perform_later(user)"
-puts "  end"
-puts "end"
-puts ""
 puts "=== Error Handling ==="
-puts "class SendEmailJob < ApplicationJob"
-puts "  retry_on StandardError, wait: :exponentially_longer, attempts: 3"
-puts "  discard_on ActiveRecord::RecordNotFound"
-puts "end"
+puts "retry_on StandardError, wait: 5.seconds, attempts: 3"
+puts "discard_on ActiveJob::DeserializationError"
 puts ""
 puts "=== Monitoring ==="
-puts "Sidekiq Web UI: /sidekiq"
-puts "Sidekiq::Queue.new.size"
-puts "Sidekiq::RetrySet.new.size"
-
+puts "Sidekiq Web UI at /sidekiq"
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Active Job
-Interface untuk background jobs. Adapter: Sidekiq, Resque, Delayed Job.
-
-### Sidekiq
-Redis-based. Fast, efficient. `bundle exec sidekiq` untuk start worker.
+Framework-agnostic interface: `perform_later` vs `perform_now`.
 
 ### Dispatch
 `perform_later` async, `perform_now` sync, `set(wait: 5.minutes)` delay.
@@ -107,50 +90,50 @@ Redis-based. Fast, efficient. `bundle exec sidekiq` untuk start worker.
 Multiple jobs: `Job1.perform_later.then { Job2.perform_later }`.
 
 ### Error Handling
-`retry_on` retry dengan backoff. `discard_on` skip job.
+`retry_on` retries with backoff. `discard_on` skips jobs.
 
 ### Monitoring
-Sidekiq Web UI di `/sidekiq`. Monitor queues, retries, dead jobs.
+Sidekiq Web UI at `/sidekiq`. Monitors queues, retries, dead jobs.
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Buat job dan dispatch ke Sidekiq
-- Implementasikan job dengan retry_on
-- Coba scheduled jobs dengan cron
-- Buat batch jobs
-- Monitor jobs dengan Sidekiq Web UI
-
----
-
-## Tantangan
-
-Buat sistem email notification: queue email sending, retry 3x on failure, batch send, monitor dengan Sidekiq.
-
+- Build a job and dispatch it to Sidekiq
+- Implement a job with retry_on
+- Try scheduled jobs with cron
+- Build batch jobs
+- Monitor jobs with the Sidekiq Web UI
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Kurir Motor Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+Build an email notification system: queue email sending, retry 3x on failure, batch send, monitor with Sidekiq.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
-
-### Cara Komputer Membaca
-- `perform_later` antre; worker ambil; `redis` sebagai antrean.
-
-### 3 Istilah Wajib
-- 1. **Sidekiq/perform_later**: kurir/antre
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Rails Motorbike Courier
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-Minggu 10 dari 12: **Background Jobs & Sidekiq** (Level: Lanjutan). Async processing. Minggu depan: **Deployment**.
+### How the Computer Reads It
+- `perform_later` queues; workers take; `redis` as the queue.
+
+### 3 Must-Know Terms
+- 1. **Sidekiq/perform_later**: courier/queue
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 10 of 12: **Background Jobs & Sidekiq** (Level: Advanced). Async processing. Next: **Deployment**.

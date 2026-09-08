@@ -1,8 +1,8 @@
 # Deployment & DevOps
 
-> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 11:** Deployment & DevOps
+> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 11:** Deployment & DevOps
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
 - Production checklist: env vars, database, assets
 - Asset precompile: rails assets:precompile
@@ -12,9 +12,9 @@
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Lokal `localhost:3000` hanya laptop. Kamal/Docker + `RAILS_MASTER_KEY` rahasia aman → URL publik.
+Local `localhost:3000` is laptop-only. Kamal/Docker + safe `RAILS_MASTER_KEY` secrets → public URL.
 
 ---
 
@@ -60,11 +60,11 @@ puts "=== Docker ==="
 puts "FROM ruby:3.2"
 puts "RUN apt-get update && apt-get install -y nodejs postgresql-client"
 puts "WORKDIR /app"
-puts "COPY Gemfile* .⁄"
+puts "COPY Gemfile* ./"
 puts "RUN bundle install"
 puts "COPY . ."
 puts "RUN rails assets:precompile"
-puts "CMD ["rails", "server", "-b", "0.0.0.0"]"
+puts "CMD [\"rails\", \"server\", \"-b\", \"0.0.0.0\"]"
 puts ""
 puts "=== Capistrano ==="
 puts "gem 'capistrano', group: :development"
@@ -78,74 +78,64 @@ puts "Skylight: Rails performance"
 puts ""
 puts "=== Security ==="
 puts "force_ssl = true"
-puts "config.action_dispatch.default_headers = {"
-puts "  'X-Frame-Options' => 'DENY',"
-puts "  'X-Content-Type-Options' => 'nosniff',"
-puts "}"
-
+puts "Security headers: X-Frame-Options, X-Content-Type-Options"
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Production Checklist
-Set env vars, configure DB, precompile assets, enable SSL.
-
-### Asset Precompile
-`rails assets:precompile` - compile CSS/JS untuk production.
-
-### Platforms
-Heroku: `git push heroku main`. Render: auto-deploy. Fly.io: `fly launch`.
+Env vars, database, assets, SSL — all green before launch.
 
 ### Docker
-Containerize app. Multi-stage build untuk optimize image size.
+Containerized Rails: ruby base, bundle install, precompile, serve.
 
 ### Monitoring
-New Relic: APM. Sentry: error tracking. Lograge: structured logs.
+New Relic APM, Sentry errors, Lograge structured logs.
 
 ### Security
 `force_ssl = true`. Security headers: X-Frame-Options, X-Content-Type-Options.
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Deploy ke Heroku atau Render
-- Setup Docker untuk Rails app
-- Implementasikan CI/CD pipeline
-- Setup monitoring dengan Sentry
-- Coba zero-downtime deployment
-
----
-
-## Tantangan
-
-Deploy Rails app ke production: setup env vars, precompile assets, configure database, enable SSL, setup monitoring.
-
+- Deploy to Heroku or Render
+- Set up Docker for a Rails app
+- Implement a CI/CD pipeline
+- Set up monitoring with Sentry
+- Try zero-downtime deployment
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Buka Cabang Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+Deploy a Rails app to production: set up env vars, precompile assets, configure database, enable SSL, set up monitoring.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
-
-### Cara Komputer Membaca
-- `kamal deploy` / Docker build; `credentials` terenkripsi, bukan di git!
-
-### 3 Istilah Wajib
-- 1. **Kamal/credentials**: buka/kunci-enkripsi
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Open Rails Branch
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-Minggu 11 dari 12: **Deployment & DevOps** (Level: Lanjutan). Go live! Minggu depan: **Capstone Project**!
+### How the Computer Reads It
+- `kamal deploy` / Docker build; encrypted `credentials`, never in git!
+
+### 3 Must-Know Terms
+- 1. **Kamal/credentials**: open/encrypted-keys
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 11 of 12: **Deployment & DevOps** (Level: Advanced). Go live! Next: **Capstone Project**!

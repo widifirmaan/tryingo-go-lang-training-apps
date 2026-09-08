@@ -1,16 +1,16 @@
-# Authentication — KTP Rails
+# Authentication — Rails ID
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 5:** Authentication
+> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 5:** Authentication
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `has_secure_password` KTP, `session[:user_id]` stempel, `before_action :require_login`
+- `has_secure_password` ID, `session[:user_id]` stamp, `before_action :require_login`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa auth, `/admin` dibuka siapa saja. `has_secure_password` + `session` = KTP + gelang 5 baris (Devise untuk produksi).
+Without auth, anyone opens `/admin`. `has_secure_password` + `session` = 5-line ID + wristband (Devise for production).
 
 ---
 
@@ -26,9 +26,9 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email])
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to "/produks"
+      redirect_to "/products"
     else
-      flash[:alert] = "Salah"
+      flash[:alert] = "Wrong"
       render :new
     end
   end
@@ -43,26 +43,26 @@ end
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Gelang Konser Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Rails Concert Wristband
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).
+### Step 0 — Prepare Device
+- Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
 
-### Cara Komputer Membaca
-- `has_secure_password` butuh kolom `password_digest`; `authenticate` cek; `session[:user_id]` ingat.
+### How the Computer Reads It
+- `has_secure_password` needs a `password_digest` column; `authenticate` checks; `session[:user_id]` remembers.
 
-### 3 Istilah Wajib
-- 1. **has_secure_password/session**: brankas/gelang
+### 3 Must-Know Terms
+- 1. **has_secure_password/session**: vault/wristband
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 5: **KTP Rails** — `has_secure_password` + `session`.
+Week 5: **Rails ID** — `has_secure_password` + `session`. Next: **Associations**.
