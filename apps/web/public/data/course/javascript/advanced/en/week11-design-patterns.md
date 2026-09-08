@@ -1,72 +1,72 @@
-# Design Patterns — Cetak Biru Warung Rapi
+# Design Patterns — Neat Shop Blueprints
 
-> **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 11:** Design Patterns
+> **Kategori:** JavaScript | **Level:** Advanced | **Minggu 11:** Design Patterns
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Singleton` 1 kasir, `Factory` pabrik produk, `Observer` langganan stok habis
+- `Singleton` 1 cashier, `Factory` product factory, `Observer` out-of-stock subscribers
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa pola, `if` bayar 20x duplikat + tambah cara ubah 20 tempat. Dengan `Strategy` tambah 1 class; `Singleton` 1 kasir; `Observer` siar stok.
+Without patterns, payment `if` duplicated 20x + adding a method edits 20 places. With `Strategy` add 1 class; `Singleton` 1 cashier; `Observer` broadcasts stock.
 
 ---
 
 ## Program
 
 ```javascript
-// Singleton — 1 kasir
-class Kasir {
+// Singleton — 1 cashier
+class Cashier {
   static instance = null;
-  static getInstance(){ if(!Kasir.instance) Kasir.instance = new Kasir(); return Kasir.instance; }
+  static getInstance(){ if(!Cashier.instance) Cashier.instance = new Cashier(); return Cashier.instance; }
 }
-const a = Kasir.getInstance();
-const b = Kasir.getInstance();
-console.log(a === b); // true, sama
+const a = Cashier.getInstance();
+const b = Cashier.getInstance();
+console.log(a === b); // true, same
 
-// Factory — pabrik
-function buatProduk(tipe){
-  if(tipe==="beras") return { nama:"Beras", harga:62000 };
-  if(tipe==="bayam") return { nama:"Bayam", harga:5000 };
+// Factory — factory
+function makeProduct(type){
+  if(type==="rice") return { name:"Rice", price:62000 };
+  if(type==="spinach") return { name:"Spinach", price:5000 };
 }
-console.log(buatProduk("beras"));
+console.log(makeProduct("rice"));
 
-// Observer — langganan
-class Toko {
-  constructor(){ this.pelanggan=[]; }
-  langganan(fn){ this.pelanggan.push(fn); }
-  stokHabis(nama){ this.pelanggan.forEach(fn=>fn(nama)); }
+// Observer — subscribers
+class Store {
+  constructor(){ this.customers=[]; }
+  subscribe(fn){ this.customers.push(fn); }
+  outOfStock(name){ this.customers.forEach(fn=>fn(name)); }
 }
-const toko = new Toko();
-toko.langganan(nama=>console.log(`Stok ${nama} habis, kapan restok?`));
-toko.stokHabis("Beras");
+const store = new Store();
+store.subscribe(name=>console.log(`Stock ${name} empty, when restock?`));
+store.outOfStock("Rice");
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Colokan & Kasir Utama JS
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+### Analogy: Plugs & Main Cashier JS
+- See Program: run (`node`/browser), change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+### Step 0 — Prepare Device
+- Same as JS W1: `node -v` / browser.
 
-### Cara Komputer Membaca
-- `new Kasir(new Tunai())` suntik cara; `getInstance()` 1 saja; `on/emit` siar.
+### How the Computer Reads It
+- `getInstance()` returns the one instance; `subscribe/emit` broadcasts.
 
-### 3 Istilah Wajib
-- 1. **Strategy/Singleton/Observer**: colokan/1/siar
+### 3 Must-Know Terms
+- 1. **Strategy/Singleton/Observer**: plug/one/broadcast
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 11: **Cetak Biru** — Singleton, Factory, Observer.
+Week 11: **Blueprints** — Singleton, Factory, Observer.

@@ -1,58 +1,58 @@
-# Async JavaScript — Pesan Antar Tanpa Nunggu di Warung
+# Async JavaScript — Delivery Orders Without Waiting at the Shop
 
-> **Kategori:** JavaScript | **Level:** Menengah | **Minggu 7:** Async JavaScript
+> **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 7:** Async JavaScript
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Paham `callback` → `Promise` (janji) → `async/await` (tunggu janji) — seperti pesan ojek
-- `fetch` ambil data warung tanpa freeze, `then/catch` dan `try/catch` untuk `await`
-- `Promise.all` pesan 3 warung sekaligus
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung ambil harga dari supplier via `fetch`. Tanpa async, layar freeze 3 detik. Dengan `async`, tulis `await fetch(...)` seperti pesan ojek: pesan, tunggu, lanjut.
+- Understand `callback` → `Promise` (promise) → `async/await` (wait for promise) — like ordering a ride
+- `fetch` shop data without freezing, `then/catch` and `try/catch` for `await`
+- `Promise.all` order from 3 shops at once
 
 ---
 
-## Program: Ambil Harga Supplier
+## Why This Matters (Non-IT)
+
+Shops fetch prices from suppliers via `fetch`. Without async, the screen freezes 3 seconds. With `async`, write `await fetch(...)` like ordering a ride: order, wait, continue.
+
+---
+
+## Program: Fetch Supplier Prices
 
 ```javascript
-// Simulasi fetch tanpa internet (pakai Promise)
-function ambilHarga(nama) {
+// Simulated fetch without internet (using Promise)
+function getPrice(name) {
   return new Promise((resolve) => {
-    setTimeout(() => resolve({ nama, harga: nama === "Beras" ? 62000 : 5000 }), 800);
+    setTimeout(() => resolve({ name, price: name === "Rice" ? 62000 : 5000 }), 800);
   });
 }
 
-// Cara lama: callback hell
-// ambilHarga("Beras", (data) => { console.log(data); });
+// Old way: callback hell
+// getPrice("Rice", (data) => { console.log(data); });
 
-// Cara modern: async/await — seperti tunggu ojek
-async function belanja() {
-  console.log("Pesan Beras...");
+// Modern way: async/await — like waiting for a ride
+async function shop() {
+  console.log("Ordering Rice...");
   try {
-    const beras = await ambilHarga("Beras"); // tunggu 0.8 detik, tidak freeze
-    console.log("Dapat:", beras);
+    const rice = await getPrice("Rice"); // wait 0.8s, no freeze
+    console.log("Got:", rice);
 
-    const bayam = await ambilHarga("Bayam");
-    console.log("Dapat:", bayam);
+    const spinach = await getPrice("Spinach");
+    console.log("Got:", spinach);
 
-    // 2 pesan sekaligus (lebih cepat)
-    const [a, b] = await Promise.all([ambilHarga("Beras"), ambilHarga("Bayam")]);
-    console.log("Sekaligus:", a, b);
+    // 2 orders at once (faster)
+    const [a, b] = await Promise.all([getPrice("Rice"), getPrice("Spinach")]);
+    console.log("Together:", a, b);
   } catch (err) {
-    console.log("Gagal:", err);
+    console.log("Failed:", err);
   }
 }
 
-belanja();
-console.log("→ Baris ini jalan duluan (tidak tunggu belanja)");
+shop();
+console.log("→ This line runs first (doesn't wait for shop)");
 
-// Fetch beneran (jika ada internet):
-// async function ambilAPI() {
-//   const res = await fetch("https://api.warung.com/produk");
+// Real fetch (with internet):
+// async function fetchAPI() {
+//   const res = await fetch("https://api.shop.com/products");
 //   const data = await res.json();
 //   console.log(data);
 // }
@@ -60,53 +60,65 @@ console.log("→ Baris ini jalan duluan (tidak tunggu belanja)");
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Promise` = Janji Ojek
-`new Promise((resolve) => setTimeout(() => resolve(data), 800))` — janji "800ms lagi saya antar".
+### `Promise` = Ride Promise
+`new Promise((resolve) => setTimeout(() => resolve(data), 800))` — promise "I'll deliver in 800ms".
 
-### `async/await` = Tunggu Janji
-`async function belanja(){ const data = await ambilHarga() }` — tulis seperti sync, tapi tidak freeze.
+### `async/await` = Wait for Promise
+`async function shop(){ const data = await getPrice() }` — write like sync, but no freeze.
 
-### `try/catch` untuk `await`
-`await` yang gagal → `catch`.
+### `try/catch` for `await`
+Failed `await` → `catch`.
 
-### `Promise.all` = Pesan 3 Ojek Sekaligus
-`await Promise.all([ambil("Beras"), ambil("Bayam")])` → 0.8 detik untuk 2, bukan 1.6 detik.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Ojek
-
-- **`fetch` = pesan ojek**: kamu pesan, ojek jalan 0.8 detik, kamu tunggu `await`.
-- **`Promise.all` = pesan 2 ojek bareng**: 2 ojek jalan bersamaan, tiba hampir bareng.
+### `Promise.all` = Order 3 Rides at Once
+`await Promise.all([get("Rice"), get("Spinach")])` → 0.8s for 2, not 1.6s.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `await ambilHarga("Beras")` → `harga` berapa?
-- **Kuning:** `Promise.all` 3 ambil → waktu tetap 0.8 detik?
-- **Merah:** Lupa `await` → `beras` jadi `Promise { <pending> }`, bukan data.
+### Analogy: Ride-Hailing
+
+- **`fetch` = order a ride**: you order, the driver rides 0.8s, you wait with `await`.
+- **`Promise.all` = order 2 rides together**: 2 drivers ride simultaneously, arrive almost together.
+
+### Step 0 — Prepare Device
+- Node.js or browser console, paste program, watch order of logs.
+
+### How the Computer Reads It
+1. `await getPrice("Rice")` → pauses function 0.8s, other code keeps running.
+2. `Promise.all([...])` → starts both, waits for both.
+
+### 3 Must-Know Terms
+1. **Promise/async/await**: promise & wait
+2. **fetch**: grab data
+3. **Promise.all**: together
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Async:** `ambilStok(nama)` Promise 500ms return stok, `async belanja()` `await` 3 produk `Promise.all`, hitung total `harga*stok`, `try/catch` jika `nama` tidak ada.
-
----
-
-## Glosarium Mini
-
-- **Promise/async/await**: janji & tunggu
-- **fetch**: ambil data
-- **Promise.all**: bareng
+- **Green:** `await getPrice("Rice")` → what `price`?
+- **Yellow:** `Promise.all` 3 fetches → still 0.8s total?
+- **Red:** Forget `await` → `rice` becomes `Promise { <pending> }`, not data.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7: **Async** — pesan tanpa nunggu freeze. Minggu depan: **ES6+** — spread & destructuring singkat.
+**Async Shop:** `getStock(name)` Promise 500ms returns stock, `async shop()` `await` 3 products via `Promise.all`, compute total `price*stock`, `try/catch` if `name` missing.
+
+---
+
+## Mini Glossary
+
+- **Promise/async/await**: promise & wait
+- **fetch**: fetch data
+- **Promise.all**: together
+
+---
+
+## Summary
+
+Week 7: **Async** — order without freezing. Next: **ES6+** — short spread & destructuring.

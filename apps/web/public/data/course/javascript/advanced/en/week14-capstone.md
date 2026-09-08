@@ -1,58 +1,58 @@
-# Capstone: Toko JavaScript Lengkap
+# Capstone: Complete JavaScript Store
 
-> **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 14:** Capstone
+> **Kategori:** JavaScript | **Level:** Advanced | **Minggu 14:** Capstone
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `modules` + `fetch` + `DOM` + `test` jadi toko `produk` + `keranjang` + `deploy`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-13 minggu terpisah — capstone buktikan gabung: modules + fetch + DOM + test + deploy jadi toko. Portfolio JS.
+- Combine `modules` + `fetch` + `DOM` + `test` into a store with `products` + `cart` + `deploy`
 
 ---
 
-## Program: Toko JS Capstone
+## Why This Matters (Non-IT)
+
+13 separate weeks — capstone proves the combination: modules + fetch + DOM + test + deploy become a store. JS portfolio.
+
+---
+
+## Program: JS Capstone Store
 
 ```javascript
 // api.js
-export async function getProduk(){ const res = await fetch("/api/produk"); return res.json(); }
+export async function getProducts(){ const res = await fetch("/api/products"); return res.json(); }
 
 // app.js
-import { getProduk } from "./api.js";
-const produk = await getProduk();
-document.getElementById("daftar").innerHTML = produk.map(p=>`<li>${p.nama}</li>`).join("");
+import { getProducts } from "./api.js";
+const products = await getProducts();
+document.getElementById("list").innerHTML = products.map(p=>`<li>${p.name}</li>`).join("");
 ```
 
 Deploy `Vercel` / `Netlify`.
 
-**Tugas:** Deploy `warung-js.vercel.app`.
+**Task:** Deploy `shop-js.vercel.app`.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Grand Opening Toko JS
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+### Analogy: JS Store Grand Opening
+- See Program: run (`node`/browser), change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama JS W1: `node -v` / browser + `npm test` untuk W12.
+### Step 0 — Prepare Device
+- Same as JS W1: `node -v` / browser + `npm test` for W12.
 
-### Cara Komputer Membaca
-- CHECKLIST (modul + API + DOM + test + deploy) lalu URL + video.
+### How the Computer Reads It
+- CHECKLIST (modules + API + DOM + test + deploy) then URL + video.
 
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 14: **Capstone JS** — toko lengkap, **Selesai JS 0→Ahli!**
+Week 14: **JS Capstone** — complete store, **JavaScript 0→Expert DONE!**

@@ -1,77 +1,101 @@
-# Modules — Bagi Warung Jadi File Terpisah
+# Modules — Split Shop into Separate Files
 
-> **Kategori:** JavaScript | **Level:** Menengah | **Minggu 9:** Modules
+> **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 9:** Modules
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `export` / `import` — bagi `warung.js` jadi `produk.js` + `kasir.js` biar tidak 1 file 500 baris
-- `import { hitung } from "./kasir.js"` dan `import * as Warung from "./warung.js"`
-- `type="module"` di `<script>`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung 50 fungsi di 1 file → cari `hitungTotal` scroll 10 menit. Bagi jadi `produk.js` (rak), `kasir.js` (hitung) → rapi.
+- `export` / `import` — split `shop.js` into `products.js` + `cashier.js` so it's not 1 file of 500 lines
+- `import { calc } from "./cashier.js"` and `import * as Shop from "./shop.js"`
+- `type="module"` on `<script>`
 
 ---
 
-## Program: Bagi File Warung
+## Why This Matters (Non-IT)
+
+Shop with 50 functions in 1 file → finding `calcTotal` takes 10 minutes of scrolling. Split into `products.js` (racks), `cashier.js` (calc) → neat.
+
+---
+
+## Program: Split Shop Files
 
 ```javascript
-// kasir.js — alat hitung
-export function hitungTotal(belanja, diskon=0){
-  const total = belanja.reduce((s,i)=>s+i.harga*i.qty,0);
-  return total * (1 - diskon/100);
+// cashier.js — calc tools
+export function calcTotal(cart, discount=0){
+  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  return total * (1 - discount/100);
 }
-export const ongkir = (berat,jarak) => berat*5000 + jarak*2000;
+export const shipping = (weight,dist) => weight*5000 + dist*2000;
 
-// produk.js — daftar
-export const daftar = [
-  { nama: "Beras", harga: 62000 },
-  { nama: "Bayam", harga: 5000 }
+// products.js — list
+export const list = [
+  { name: "Rice", price: 62000 },
+  { name: "Spinach", price: 5000 }
 ];
 
-// app.js — susun
-import { hitungTotal, ongkir } from "./kasir.js";
-import { daftar } from "./produk.js";
+// app.js — assemble
+import { calcTotal, shipping } from "./cashier.js";
+import { list } from "./products.js";
 
-console.log("Daftar:", daftar);
-console.log("Total:", hitungTotal([{harga:62000,qty:1}], 10));
-console.log("Ongkir:", ongkir(2,5));
+console.log("List:", list);
+console.log("Total:", calcTotal([{price:62000,qty:1}], 10));
+console.log("Shipping:", shipping(2,5));
 ```
 
-**HTML:** `<script type="module" src="app.js"></script>` — wajib `type="module"`.
+**HTML:** `<script type="module" src="app.js"></script>` — `type="module"` mandatory.
 
-**Node:** `import` butuh `"type": "module"` di `package.json` atau pakai `require` (CommonJS).
+**Node:** `import` needs `"type": "module"` in `package.json` or use `require` (CommonJS).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `export` / `import` = Bagi & Pinjam
-`export function hitung` → `import { hitung } from "./kasir.js"` — seperti pinjam alat dari laci lain.
+### `export` / `import` = Share & Borrow
+`export function calc` → `import { calc } from "./cashier.js"` — like borrowing tools from another drawer.
 
 ### `default` vs `named`
-- `export default hitung` → `import hitung from "./kasir.js"` (1 per file)
-- `export function hitung` → `import { hitung }` (banyak)
+- `export default calc` → `import calc from "./cashier.js"` (1 per file)
+- `export function calc` → `import { calc }` (many)
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Bagi Buku Kas
-- **1 file 500 baris = buku tebal** → susah cari.
-- **Bagi jadi 3 buku tipis** = `produk.js`, `kasir.js`, `app.js` → cari cepat.
+### Analogy: Split Ledger Books
+- **1 file 500 lines = thick book** → hard to search.
+- **Split into 3 thin books** = `products.js`, `cashier.js`, `app.js` → fast search.
+
+### Step 0 — Prepare Device
+- Create 3 files in one folder + `index.html` with `type="module"`, serve via `npx serve` (modules need http).
+
+### How the Computer Reads It
+1. `app.js` imports → browser fetches `cashier.js` + `products.js`.
+2. Missing file → `Failed to fetch` error in console.
+
+### 3 Must-Know Terms
+1. **export/import/module**: share/borrow/books
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Modul:** `produk.js` export `daftar`, `kasir.js` export `hitungTotal` + `ongkir`, `app.js` import keduanya, hitung struk lengkap + `console.log`.
+- **Green:** Rename export → import breaks? Fix names.
+- **Yellow:** Remove `type="module"` → imports fail? Restore.
+- **Red:** `import` without `./` → treated as package? Add `./`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9: **Bagi File** — `export/import` biar rapi. Minggu depan: **Error Handling**.
+**Module Shop:** `products.js` exports `list`, `cashier.js` exports `calcTotal` + `shipping`, `app.js` imports both, computes full receipt + `console.log`.
+
+---
+
+## Mini Glossary
+
+- **export/import**: share/borrow
+
+---
+
+## Summary
+
+Week 9: **Split Files** — `export/import` for neatness. Next: **Error Handling**.

@@ -1,78 +1,102 @@
-# ES6+ Features — Alat Singkat Modern
+# ES6+ Features — Modern Shortcut Tools
 
-> **Kategori:** JavaScript | **Level:** Menengah | **Minggu 8:** ES6+ Features
+> **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 8:** ES6+ Features
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `destructuring` bongkar `const {nama} = pelanggan`, `spread` fotokopi `[...lama, baru]`, `rest` sisa
-- `template` `` `Halo ${nama}` ``, `default` param, `arrow` singkat
-- `optional chaining` `pelanggan?.alamat?.kota` aman jika kosong, `nullish` `??` default
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung list 10 produk — tulis `const nama = p.nama; const harga = p.harga` 10x capek. `const {nama, harga} = p` 1 baris.
+- `destructuring` unpack `const {name} = customer`, `spread` photocopy `[...old, new]`, `rest` remainder
+- `template` `` `Hello ${name}` ``, `default` params, short `arrow`
+- `optional chaining` `customer?.address?.city` safe when empty, `nullish` `??` default
 
 ---
 
-## Program: Bongkar & Gabung Cepat
+## Why This Matters (Non-IT)
+
+Shop lists 10 products — writing `const name = p.name; const price = p.price` 10x is exhausting. `const {name, price} = p` 1 line.
+
+---
+
+## Program: Fast Unpack & Combine
 
 ```javascript
-const pelanggan = { nama: "Budi", umur: 25, alamat: { kota: "Jakarta" } };
-const { nama, umur } = pelanggan; // bongkar
-console.log(nama, umur);
+const customer = { name: "Budi", age: 25, address: { city: "Jakarta" } };
+const { name, age } = customer; // unpack
+console.log(name, age);
 
-const buah = ["apel", "mangga"];
-const semua = [...buah, "durian"]; // fotokopi + tambah
-console.log(semua);
+const fruits = ["apple", "mango"];
+const all = [...fruits, "durian"]; // photocopy + add
+console.log(all);
 
-function total(...angka){ return angka.reduce((a,b)=>a+b,0); } // rest sisa
+function total(...nums){ return nums.reduce((a,b)=>a+b,0); } // rest remainder
 console.log(total(1,2,3,4));
 
-const kota = pelanggan.alamat?.kota ?? "Tidak ada"; // aman jika alamat null
-console.log(kota);
+const city = customer.address?.city ?? "None"; // safe if address null
+console.log(city);
 
-const sapa = (nama="Tamu") => `Halo ${nama}`; // arrow + default
-console.log(sapa());
-console.log(sapa("Siti"));
+const greet = (name="Guest") => `Hello ${name}`; // arrow + default
+console.log(greet());
+console.log(greet("Siti"));
 
-// Gabung object
-const base = { nama: "Beras", harga: 62000 };
-const lengkap = { ...base, stok: 10, kategori: "Sembako" };
-console.log(lengkap);
+// Combine objects
+const base = { name: "Rice", price: 62000 };
+const full = { ...base, stock: 10, category: "Staples" };
+console.log(full);
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Destructuring = Bongkar Kardus
-`const {nama, harga} = produk` langsung jadi variabel.
+### Destructuring = Unpack Box
+`const {name, price} = product` directly becomes variables.
 
 ### Spread/Rest `...`
-- `[...lama, baru]` fotokopi tambah
-- `function f(...sisa)` sisa jadi array
+- `[...old, new]` photocopy plus
+- `function f(...rest)` remainder becomes array
 
 ### `?.` & `??`
-`pelanggan?.alamat?.kota` jika `alamat` null → tidak error, `??` jika kiri null pakai kanan.
+`customer?.address?.city` if `address` null → no error, `??` if left null use right.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Bongkar & Fotokopi
-- **Destructuring = bongkar kardus**: ambil `nama` dan `harga` langsung.
-- **Spread = fotokopi + tambah**: fotokopi daftar lama tambah durian.
+### Analogy: Unpack & Photocopy
+- **Destructuring = unpack box**: take `name` and `price` directly.
+- **Spread = photocopy + add**: photocopy old list plus durian.
+
+### Step 0 — Prepare Device
+- Node.js or browser console, paste each block, predict then run.
+
+### How the Computer Reads It
+1. `const {name} = customer` → looks up key `name` → binds variable.
+2. `[...fruits, "durian"]` → copies array + appends.
+
+### 3 Must-Know Terms
+1. **Destructuring/spread/rest**: unpack/copy/remainder
 
 ---
 
-## Tantangan
+## Experiments
 
-**Katalog ES6:** `const p = {nama:"Beras", harga:62000, stok:10}` → `const {nama, harga} = p`, `const baru = {...p, diskon:10}`, `const kota = pelanggan?.alamat?.kota ?? "Jakarta"`.
+- **Green:** `const {name, price} = p` → both variables exist?
+- **Yellow:** `customer.address?.city` when `address` null → `undefined` no crash?
+- **Red:** `??` vs `||` with `0` → `??` keeps `0`? Test.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8: **ES6+** — bongkar & fotokopi cepat. Minggu depan: **Modules** — bagi file.
+**ES6 Catalog:** `const p = {name:"Rice", price:62000, stock:10}` → `const {name, price} = p`, `const fresh = {...p, discount:10}`, `const city = customer?.address?.city ?? "Jakarta"`.
+
+---
+
+## Mini Glossary
+
+- **destructuring/spread/??**: unpack/copy/default
+
+---
+
+## Summary
+
+Week 8: **ES6+** — fast unpack & photocopy. Next: **Modules** — split files.
