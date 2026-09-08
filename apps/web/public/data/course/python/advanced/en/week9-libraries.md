@@ -40,7 +40,8 @@ print("json & os are built-in — no pip needed")
 ## Beginner Friendly Explanation
 
 ### Analogy: Tool Drawer per Project
-- See Program: run the commands, change 1 thing, see the difference.
+- **No `venv` = 1 drawer for 10 projects**: project A needs requests v2, B needs v1 → collision!
+- **`venv` = drawer per project** + `requirements.txt` = shopping list: teams install EXACTLY the same (`pip install -r`). `pip` borrows, `venv` fences!
 
 ### Step 0 — Prepare Device
 - Same as Python W1: `python --version` + project folder.

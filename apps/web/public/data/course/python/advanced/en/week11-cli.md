@@ -157,7 +157,8 @@ Build a complete CLI tool: task manager with add/list/done/delete, JSON persiste
 ## Beginner Friendly Explanation
 
 ### Analogy: Real Terminal Cashier
-- See Program: run the commands, change 1 thing, see the difference.
+- **`input()` asking 1-by-1 = interrogating cashier**: slow + unscriptable.
+- **`argparse` + `subparsers` = professional cashier**: `shop add --name Rice` 1 line + automatic `--help` + `add/remove` command branches!
 
 ### Step 0 — Prepare Device
 - Same as Python W1: `python --version` + project folder.

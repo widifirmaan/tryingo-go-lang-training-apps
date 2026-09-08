@@ -36,7 +36,8 @@ Deploy `Vercel` / `Netlify`.
 ## Beginner Friendly Explanation
 
 ### Analogy: JS Store Grand Opening
-- See Program: run (`node`/browser), change 1 thing, see the difference.
+- **13 weeks = building a store**: foundation (syntax), racks (arrays), ears (events), couriers (async), patterns, tests.
+- **Capstone = grand opening**: modules + fetch + DOM + tests + deploy RUN TOGETHER + demo video. Portfolio = store NOT certificate!
 
 ### Step 0 — Prepare Device
 - Same as JS W1: `node -v` / browser + `npm test` for W12.

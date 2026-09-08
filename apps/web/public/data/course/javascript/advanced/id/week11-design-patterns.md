@@ -74,7 +74,8 @@ console.log(b.info(), "| poin", b.poin);
 - `class` = cetak biru, `new` = cetak kartu, `this` = kartu ini, `extends`/`super` = warisi/induk.
 
 ### Analogi: Colokan & Kasir Utama JS
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+- **Tanpa pola = 20 colokan beda untuk 20 lampu**: tambah 1 lampu → bobok 20 tembok.
+- **Strategy = 1 colokan universal**: colok Tunai/Transfer/QRIS, kasir SAMA. **Singleton = 1 kasir utama** (tidak ada 2!). **Observer = grup WA**: stok habis → siar ke semua cabang!
 
 ### Langkah 0 — Siapkan Device
 - Sama JS W1: `node -v` / browser + `npm test` untuk W12.

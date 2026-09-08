@@ -74,7 +74,8 @@ console.log(b.info(), "| points", b.points);
 - `class` = blueprint, `new` = print card, `this` = this card, `extends`/`super` = inherit/parent.
 
 ### Analogy: Plugs & Main Cashier JS
-- See Program: run (`node`/browser), change 1 thing, see the difference.
+- **No patterns = 20 different plugs for 20 lamps**: add 1 lamp → drill 20 walls.
+- **Strategy = 1 universal plug**: plug Cash/Transfer/QRIS, SAME cashier. **Singleton = 1 head cashier** (never 2!). **Observer = WA group**: empty stock → broadcast to all branches!
 
 ### Step 0 — Prepare Device
 - Same as JS W1: `node -v` / browser.

@@ -149,7 +149,8 @@ Build a search component: debounced input, memoized results, lazy loaded list, w
 ## Beginner Friendly Explanation
 
 ### Analogy: Energy-Saving Shop
-- See Program: run (`node`/browser), change 1 thing, see the difference.
+- **1 keystroke → 1000 cards re-render = wasteful**: potato phones gasp + batteries drain.
+- **`debounce` = wait until typing stops** (saves 10 requests into 1). **`memo` = remember expensive answers**. **`lazy` = load when visible** (don't load page bottom first!).
 
 ### Step 0 — Prepare Device
 - Same as JS W1: `node -v` / browser + `npm test` for W12.

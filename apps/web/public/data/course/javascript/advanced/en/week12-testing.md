@@ -45,7 +45,8 @@ test("calc 0+0", () => {
 ## Beginner Friendly Explanation
 
 ### Analogy: Kitchen Taste-Test JS
-- See Program: run (`node`/browser), change 1 thing, see the difference.
+- **`test` = official taste**: `calc(2,3)` MUST be 5 — differs → RED + line pointed (no guessing!).
+- **`npm test` = tastes ALL menus in 3 seconds**: change formula → red → fix BEFORE deploy. Without it = customers taste (expensive!).
 
 ### Step 0 — Prepare Device
 - Same as JS W1: `node -v` / browser + `npm test` for W12.
