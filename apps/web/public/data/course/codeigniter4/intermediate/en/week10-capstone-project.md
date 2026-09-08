@@ -1,67 +1,92 @@
-# Capstone: Warung CI4 Grand Opening
+# Capstone: CI4 Shop Grand Opening
 
-> **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 10:** Capstone: Task Management API
+> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 10:** Capstone: Task Management API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W9: `spark` + `MVC` + `validasi` + `auth filter` + `REST resource` + `test` jadi warung API + web beneran (bukan `echo`!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-9 minggu terpisah — capstone buktikan gabung: web HTML + API JSON + login + uji, semua jalan beneran (`php spark serve` + `curl` + `php spark test`). Portfolio "CI4 production-ready".
+- Combine W1-W9: `spark` + `MVC` + `validation` + `auth filter` + `REST resource` + `test` into a real shop API + web (not `echo`!)
 
 ---
 
-## Program: Warung Grand Opening (Checklist)
+## Why This Matters (Non-IT)
+
+9 separate weeks — capstone proves the combination: HTML web + JSON API + login + tests, all truly running (`php spark serve` + `curl` + `php spark test`). Your "production-ready CI4" portfolio.
+
+---
+
+## Program: Grand Opening Shop (Checklist)
 
 ```bash
-# 1. Fondasi (W1-W5)
-composer create-project codeigniter4/appstarter warung
-php spark make:model ProdukModel
-php spark make:migration BuatProduk && php spark migrate
-php spark db:seed IsiProduk
+# 1. Foundation (W1-W5)
+composer create-project codeigniter4/appstarter shop
+php spark make:model ProductModel
+php spark make:migration CreateProducts && php spark migrate
+php spark db:seed FillProducts
 ```
 
 ```php
-// 2. Web + validasi (W2,W3,W6): routes + controller + view + validate
-// 3. Auth (W7): AuthFilter jaga /admin
-// 4. API (W8): $routes->resource('api/produk')
+// 2. Web + validation (W2,W3,W6): routes + controller + view + validate
+// 3. Auth (W7): AuthFilter guards /admin
+// 4. API (W8): $routes->resource('api/products')
 ```
 
 ```bash
-# 5. Uji (W9) + buktikan
-php spark test                    # HIJAU?
+# 5. Test (W9) + prove
+php spark test                    # GREEN?
 php spark serve                   # :8080?
-curl localhost:8080/api/produk   # JSON?
+curl localhost:8080/api/products   # JSON?
 curl -X POST -H "Content-Type: application/json" \
-  -d '{"nama":"Gula","harga":15000}' localhost:8080/api/produk  # 201?
+  -d '{"name":"Sugar","price":15000}' localhost:8080/api/products  # 201?
 ```
 
-**Tugas capstone:** Semua hijau + screenshot 4 (`test`, `serve`, `curl` GET/POST) + video 1 menit. **Selesai CI4 0→Ahli!** 🎉
+**Capstone task:** All green + 4 screenshots (`test`, `serve`, `curl` GET/POST) + 1-min video. **CI4 0→Expert DONE!** 🎉
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 9 Minggu
-`spark` + MVC + validasi + auth + REST + test = warung beneran.
-
----
-
-## Tantangan
-
-**Grand Opening:** Semua checklist + `README.md` cara jalan. **Selesai CI4 0→Ahli!** 🎉
+### Capstone = Combine 9 Weeks
+`spark` + MVC + validation + auth + REST + test = real shop.
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- **Capstone/deploy**: gabung/buka
+### Analogy: Grand Opening
+- **W1-W5 foundation** + **W6-W9 engine** = shop. **W10 = open**.
+
+### Step 0 — Prepare Device
+- CI4 project + `curl` + phone to verify.
+
+### How the Computer Reads It
+1. Checklist top-to-bottom → real running shop.
+2. 4 screenshots + video → portfolio done.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy**: combine/open
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 10 dari 10: **Grand Opening** (Level: Menengah). **Selesai CI4 0→Ahli dari nol!** 🎉
+- **Green:** `php spark test` GREEN?
+- **Yellow:** `curl` GET returns JSON array?
+- **Red:** POST without JSON header → rejected? Add header.
+
+---
+
+## Challenge
+
+**Grand Opening:** All checklist + `README.md` how-to-run. **CI4 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/deploy**: combine/open
+
+---
+
+## Summary
+
+Week 10 of 10: **Grand Opening** (Level: Intermediate). **CI4 0→Expert from zero DONE!** 🎉

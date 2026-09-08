@@ -1,98 +1,98 @@
-# Validasi — Satpam Formulir CI4 Resmi
+# Validation — Official CI4 Form Guard
 
-> **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 6:** Validation & Form Handling
+> **Kategori:** CodeIgniter | **Level:** Intermediate | **Minggu 6:** Validation & Form Handling
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `$this->validate(['nama' => 'required|min_length[3]'])` cek + `redirect()->back()->withInput()` kembalikan isian (sumber: codeigniter.com/user_guide/libraries/validation)
-- `validation_list_errors()` tampilkan + `old('nama')` isi lagi
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa validasi, nama kosong masuk DB → laporan rusak. Tanpa `withInput`, gagal 1 kolom → 10 kolom diketik ulang (pelanggan kabur!). `min_length[3]` cegah "X".
+- `$this->validate(['name' => 'required|min_length[3]'])` checks + `redirect()->back()->withInput()` returns input (source: codeigniter.com/user_guide/libraries/validation)
+- `validation_list_errors()` displays + `old('name')` refills
 
 ---
 
-## Program: Satpam Warung CI4
+## Why This Matters (Non-IT)
+
+Without validation, empty names enter the DB → reports break. Without `withInput`, 1 failed column → 10 columns retyped (customers flee!). `min_length[3]` stops "X".
+
+---
+
+## Program: CI4 Shop Guard
 
 ```php
-// Controller: app/Controllers/Produk.php
-public function simpan() {
+// Controller: app/Controllers/Products.php
+public function save() {
   if (!$this->validate([
-    'nama' => 'required|min_length[3]',
-    'harga' => 'required|numeric|greater_than[0]',
+    'name' => 'required|min_length[3]',
+    'price' => 'required|numeric|greater_than[0]',
   ])) {
-    return redirect()->back()->withInput(); // kembalikan + error!
+    return redirect()->back()->withInput(); // return + errors!
   }
-  (new \App\Models\ProdukModel())->save($this->request->getPost());
-  return redirect()->to('/produk');
+  (new \App\Models\ProductModel())->save($this->request->getPost());
+  return redirect()->to('/products');
 }
 ```
 
 ```php
-<!-- View: tampilkan error + isi lama -->
+<!-- View: show errors + old input -->
 <?php if (session('errors')): ?>
   <ul><?php foreach (session('errors') as $e): ?><li><?= esc($e) ?></li><?php endforeach; ?></ul>
 <?php endif; ?>
-<form method="post" action="/produk/simpan">
-  <input name="nama" value="<?= old('nama') ?>" placeholder="Nama">
-  <input name="harga" value="<?= old('harga') ?>" placeholder="Harga">
-  <button>Simpan</button>
+<form method="post" action="/products/save">
+  <input name="name" value="<?= old('name') ?>" placeholder="Name">
+  <input name="price" value="<?= old('price') ?>" placeholder="Price">
+  <button>Save</button>
 </form>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `validate([...])` = Periksa Sekaligus
-`required|min_length[3]` pipa aturan. Gagal → `false` + error di session.
+### `validate([...])` = Check At Once
+`required|min_length[3]` piped rules. Fail → `false` + errors in session.
 
-### `withInput()` + `old()` = Jangan Ulangi
-Kembalikan isian → `old('nama')` tampil lagi.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Satpam + Fotokopi Formulir
-- **validate = satpam cek**, **withInput = fotokopi** formulir yang ditolak (tidak isi ulang).
-
-### Langkah 0 — Siapkan Device
-- Sama CI4 W1: `php spark serve` di `8080`.
-
-### Cara Komputer Membaca
-1. POST → `validate` → gagal? Simpan error + input ke session → `back()`.
-2. View baca `session('errors')` + `old('nama')`.
-
-### 3 Istilah Wajib
-1. **validate/withInput**: cek/kembalikan
-2. **old/errors**: isi-lama/salah
+### `withInput()` + `old()` = No Retyping
+Returns input → `old('name')` shows again.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Kirim kosong → error + isian kembali?
-- **Kuning:** `greater_than[0]` + harga -5 → ditolak?
-- **Merah:** Tanpa `withInput` → isian hilang (kesal)? Pasang.
+### Analogy: Guard + Form Photocopy
+- **validate = guard check**, **withInput = photocopy** of rejected forms (no refilling).
 
----
+### Step 0 — Prepare Device
+- Same as CI4 W1: `php spark serve` on `8080`.
 
-## Tantangan
+### How the Computer Reads It
+1. POST → `validate` → fail? Stores errors + input in session → `back()`.
+2. View reads `session('errors')` + `old('name')`.
 
-**Warung Bersatpam:** `nama` + `harga` + `stok` validasi + error list + `old()` semua + screenshot gagal & lolos.
-
----
-
-## Glosarium Mini
-
-- **validate/withInput/old**: cek/kembali/isi-lama
+### 3 Must-Know Terms
+1. **validate/withInput**: check/return
+2. **old/errors**: old-input/wrong
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 10: **Satpam Formulir** (Level: Menengah). Gagal tidak mengulang. Minggu depan: **Auth**.
+- **Green:** Submit empty → errors + input returns?
+- **Yellow:** `greater_than[0]` + price -5 → rejected?
+- **Red:** Without `withInput` → input lost (annoying)? Attach it.
+
+---
+
+## Challenge
+
+**Guarded Shop:** `name` + `price` + `stock` validation + error list + `old()` all + fail & pass screenshots.
+
+---
+
+## Mini Glossary
+
+- **validate/withInput/old**: check/return/old-input
+
+---
+
+## Summary
+
+Week 6 of 10: **Form Guard** (Level: Intermediate). Failures don't retype. Next: **Auth**.

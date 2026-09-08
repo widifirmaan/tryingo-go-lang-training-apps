@@ -1,111 +1,111 @@
-# Testing — Cicip Warung CI4 Beneran
+# Testing — Real CI4 Shop Taste-Test
 
-> **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 9:** Testing dengan PHPUnit
+> **Kategori:** CodeIgniter | **Level:** Intermediate | **Minggu 9:** Testing dengan PHPUnit
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `phpunit.xml` + `CIUnitTestCase` + `FeatureTestTrait` `$this->get('/produk')` beneran (sumber: codeigniter.com/user_guide/testing)
-- `seeInDatabase()` / `dontSeeInDatabase()` cek DB + `RefreshDatabase` reset
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Simulasi `echo` tidak menangkap bug (tidak dicek mesin). Test beneran: ubah route → merah → perbaiki. `RefreshDatabase` tiap test mulai bersih (tidak cemari).
+- `phpunit.xml` + `CIUnitTestCase` + `FeatureTestTrait` `$this->get('/products')` for real (source: codeigniter.com/user_guide/testing)
+- `seeInDatabase()` / `dontSeeInDatabase()` check DB + `RefreshDatabase` reset
 
 ---
 
-## Program: Cicip Beneran CI4
+## Why This Matters (Non-IT)
+
+`echo` simulation catches no bugs (not machine-checked). Real tests: change a route → red → fix. `RefreshDatabase` starts every test clean (no pollution).
+
+---
+
+## Program: Real CI4 Taste-Test
 
 ```bash
 composer require --dev phpunit/phpunit
 ```
 
 ```php
-// tests/ProdukTest.php — beneran!
+// tests/ProductsTest.php — real!
 namespace Tests;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\FeatureTestTrait;
 use CodeIgniter\Test\DatabaseTestTrait;
 
-class ProdukTest extends CIUnitTestCase {
+class ProductsTest extends CIUnitTestCase {
   use FeatureTestTrait;
   use DatabaseTestTrait;
-  protected $refresh = true; // reset DB tiap test!
-  protected $seed = 'Tests\Support\Database\Seeds\IsiProduk';
+  protected $refresh = true; // reset DB every test!
+  protected $seed = 'Tests\Support\Database\Seeds\FillProducts';
 
-  public function testDaftar200() {
-    $res = $this->get('/produk');
+  public function testList200() {
+    $res = $this->get('/products');
     $res->assertStatus(200);
   }
 
-  public function testTambahMasukDB() {
-    $this->post('/produk/simpan', ["nama" => "Kopi", "harga" => 12000]);
-    $this->seeInDatabase('produk', ["nama" => "Kopi"]);
+  public function testAddEntersDB() {
+    $this->post('/products/save', ["name" => "Coffee", "price" => 12000]);
+    $this->seeInDatabase('products', ["name" => "Coffee"]);
   }
 
-  public function testHapusHilang() {
-    $this->call('delete', '/produk/1');
-    $this->dontSeeInDatabase('produk', ["id" => 1]);
+  public function testDeleteGone() {
+    $this->call('delete', '/products/1');
+    $this->dontSeeInDatabase('products', ["id" => 1]);
   }
 }
 ```
 
 ```bash
 php spark test
-# OK (3 tests) — HIJAU beneran
+# OK (3 tests) — GREEN for real
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `FeatureTestTrait` = Pelanggan Bohongan
-`$this->get/post/call` pura-pura browser + `assertStatus(200)`.
+### `FeatureTestTrait` = Mock Customer
+`$this->get/post/call` pretends browser + `assertStatus(200)`.
 
-### `DatabaseTestTrait` + `refresh` = DB Bersih Tiap Test
-Migrasi + seeder ulang otomatis. `seeInDatabase` cek ada.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Mystery Shopper + Dapur Bersih
-- **Feature test = mystery shopper**: datang, pesan, nilai.
-- **refresh = pel bersih**: tiap tamu meja baru.
-
-### Langkah 0 — Siapkan Device
-- `composer require --dev phpunit/phpunit` + `phpunit.xml` (sudah di appstarter).
-
-### Cara Komputer Membaca
-1. `php spark test` → cari `*Test.php` → `refresh` DB → jalankan → lapor.
-
-### 3 Istilah Wajib
-1. **Feature/seeInDatabase**: bohongan/cek-DB
-2. **refresh/seed**: bersih/isi
+### `DatabaseTestTrait` + `refresh` = Clean DB per Test
+Auto migrate + reseed. `seeInDatabase` verifies presence.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Sengaja `assertStatus(201)` untuk GET → merah? Betulkan 200.
-- **Kuning:** Tanpa `refresh` → data test menumpuk? Pasang.
-- **Merah:** File `Coba.php` (tanpa Test) → tidak jalan? Ganti `CobaTest.php`.
+### Analogy: Mystery Shopper + Clean Kitchen
+- **Feature test = mystery shopper**: visits, orders, scores.
+- **refresh = clean mop**: every guest a fresh table.
 
----
+### Step 0 — Prepare Device
+- `composer require --dev phpunit/phpunit` + `phpunit.xml` (already in appstarter).
 
-## Tantangan
+### How the Computer Reads It
+1. `php spark test` → finds `*Test.php` → `refresh`es DB → runs → reports.
 
-**Warung Teruji:** 3 test (GET 200 + tambah-masuk-DB + hapus-hilang) HIJAU + seeder 2 produk.
-
----
-
-## Glosarium Mini
-
-- **FeatureTestTrait/seeInDatabase**: bohongan/cek
+### 3 Must-Know Terms
+1. **Feature/seeInDatabase**: mock/check-DB
+2. **refresh/seed**: clean/fill
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 9 dari 10: **Cicip Beneran** (Level: Menengah). Tanpa simulasi. Minggu depan: **Capstone**.
+- **Green:** Deliberate `assertStatus(201)` for GET → red? Fix to 200.
+- **Yellow:** Without `refresh` → test data piles up? Attach it.
+- **Red:** File `Try.php` (no Test) → not run? Rename to `TryTest.php`.
+
+---
+
+## Challenge
+
+**Tested Shop:** 3 tests (GET 200 + add-enters-DB + delete-gone) GREEN + 2-product seeder.
+
+---
+
+## Mini Glossary
+
+- **FeatureTestTrait/seeInDatabase**: mock/check
+
+---
+
+## Summary
+
+Week 9 of 10: **Real Tasting** (Level: Intermediate). No simulation. Next: **Capstone**.
