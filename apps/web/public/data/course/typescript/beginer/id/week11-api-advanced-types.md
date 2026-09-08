@@ -18,9 +18,9 @@ Rute warung `/produk/123` typo `/produk//123` → 404. Dengan `` `/produk/${stri
 
 ```typescript
 type Produk = "beras" | "bayam";
-type Event = `on${Capitalize<Produk>}`; // "onBeras" | "onBayam"
+type Kejadian = `on${Capitalize<Produk>}`; // "onBeras" | "onBayam"
 
-function on(event: Event, cb: () => void) {}
+function on(kejadian: Kejadian, cb: () => void) {}
 on("onBeras", () => console.log("Beras"));
 // on("onberas", () => {}); // ❌ harus Capitalize
 

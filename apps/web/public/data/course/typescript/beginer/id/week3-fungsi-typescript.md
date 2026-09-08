@@ -30,7 +30,7 @@ console.log(sapa("Budi"));
 
 // 2. Opsional & default
 function sapa2(nama: string = "Tamu", gelar?: string): string {
-  return gelar ? `${greeting} ${gelar} ${nama}` : `Halo ${nama}`;
+  return gelar ? `Halo ${gelar} ${nama}` : `Halo ${nama}`;
   // gelar? = boleh tidak diisi (string | undefined)
 }
 console.log(sapa2());
