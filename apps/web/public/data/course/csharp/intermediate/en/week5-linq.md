@@ -1,85 +1,85 @@
-# LINQ — Saringan Warung C#
+# LINQ — C# Shop Strainers
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 5:** LINQ
+> **Kategori:** C# | **Level:** Intermediate | **Minggu 5:** LINQ
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Where`, `Select`, `OrderBy` — saring rak seperti `map/filter` JS
+- `Where`, `Select`, `OrderBy` — strain racks like JS `map/filter`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Saring "hanya yang murah" tanpa LINQ = `foreach` + `if` + list baru 6 baris tiap kali. Dengan `Where`, 1 baris. `OrderBy` urut harga tanpa tulis sort manual. 90% olah data C# = LINQ.
+Filtering "cheap only" without LINQ = 6-line `foreach` + `if` + new list every time. With `Where`, 1 line. `OrderBy` sorts prices without hand-written sorts. 90% of C# data processing = LINQ.
 
 ---
 
 ## Program
 
 ```csharp
-var produk = new[] { new { Nama="Beras", Harga=62000 }, new { Nama="Bayam", Harga=5000 } };
-var murah = produk.Where(p => p.Harga < 20000).ToList();
-var nama = produk.Select(p => p.Nama).ToList();
-var urut = produk.OrderBy(p => p.Harga).ToList();
+var products = new[] { new { Name="Rice", Price=62000 }, new { Name="Spinach", Price=5000 } };
+var cheap = products.Where(p => p.Price < 20000).ToList();
+var names = products.Select(p => p.Name).ToList();
+var sorted = products.OrderBy(p => p.Price).ToList();
 
-foreach(var p in murah) Console.WriteLine(p.Nama);
+foreach(var p in cheap) Console.WriteLine(p.Name);
 ```
 
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Where` / `Select` / `OrderBy` = Saring/Pilih/Urut
-- `Where(p => p.Harga < 20000)` saring (seperti `filter` JS).
-- `Select(p => p.Nama)` pilih kolom (seperti `map`).
-- `OrderBy(p => p.Harga)` urut naik, `OrderByDescending` turun.
+### `Where` / `Select` / `OrderBy` = Strain/Pick/Sort
+- `Where(p => p.Price < 20000)` strains (like JS `filter`).
+- `Select(p => p.Name)` picks columns (like `map`).
+- `OrderBy(p => p.Price)` sorts ascending, `OrderByDescending` descending.
 
-### `ToList()` = Eksekusi
-LINQ malas (deferred) — tanpa `ToList()`/`foreach`, query belum jalan!
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Saringan Bertingkat
-- **Where = saringan**: hanya murah lolos.
-- **Select = cetak ulang**: ambil nama saja.
-
-### Langkah 0 — Siapkan Device
-- Sama C# W1: `dotnet run`.
-
-### Cara Komputer Membaca
-1. `produk.Where(p => p.Harga < 20000)` → buat query (belum jalan).
-2. `.ToList()` → jalankan → list baru.
-
-### 3 Istilah Wajib
-1. **LINQ/Where/Select**: saring semesta/saring/pilih
-2. **Deferred/ToList**: malas/eksekusi
+### `ToList()` = Execute
+LINQ is lazy (deferred) — without `ToList()`/`foreach`, the query never runs!
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `Where(p => p.Harga >= 20000)` → mahal?
-- **Kuning:** Tanpa `ToList()`, ubah `produk` dulu baru `foreach` query → ikut berubah? (Deferred!)
-- **Merah:** `Select` sebelum `Where` → tetap jalan tapi buang kerja? Urutkan `Where` dulu.
+### Analogy: Tiered Strainers
+- **Where = strainer**: only cheap passes.
+- **Select = reprint**: takes names only.
 
----
+### Step 0 — Prepare Device
+- Same as C# W1: `dotnet run`.
 
-## Tantangan
+### How the Computer Reads It
+1. `products.Where(p => p.Price < 20000)` → builds query (not yet run).
+2. `.ToList()` → runs → new list.
 
-**Rak Saring Lengkap:** 5 produk → `Where` stok > 0 → `OrderBy` harga → `Select` nama → `ToList` cetak. Tambah `FirstOrDefault` ambil termurah.
-
----
-
-## Glosarium Mini
-
-- **Where/Select/OrderBy**: saring/pilih/urut
-- **ToList/First**: eksekusi/pertama
+### 3 Must-Know Terms
+1. **LINQ/Where/Select**: universe-strain/strain/pick
+2. **Deferred/ToList**: lazy/execute
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 5: **Saringan C#** — LINQ `Where/Select`.
+- **Green:** `Where(p => p.Price >= 20000)` → pricey?
+- **Yellow:** Without `ToList()`, mutate `products` first then `foreach` the query → follows changes? (Deferred!)
+- **Red:** `Select` before `Where` → still runs but wastes work? Order `Where` first.
+
+---
+
+## Challenge
+
+**Complete Filtered Rack:** 5 products → `Where` stock > 0 → `OrderBy` price → `Select` names → `ToList` print. Add `FirstOrDefault` taking the cheapest.
+
+---
+
+## Mini Glossary
+
+- **Where/Select/OrderBy**: strain/pick/sort
+- **ToList/First**: execute/first
+
+---
+
+## Summary
+
+Week 5: **LINQ Filters** (Level: Intermediate). 1 line replaces 6. Next: **Async**.

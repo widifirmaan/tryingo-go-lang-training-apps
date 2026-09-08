@@ -1,99 +1,99 @@
-# Error Handling — Alarm Anti-Panik C#
+# Error Handling — No-Panic C# Alarms
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 8:** Error Handling
+> **Kategori:** C# | **Level:** Intermediate | **Minggu 8:** Error Handling
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `try/catch/finally` tangkap + `Exception` spesifik dulu (`FormatException` sebelum `Exception`) (sumber: Microsoft Learn exceptions)
-- `throw new` buat alarm + `using` tutup otomatis (`IDisposable`)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `try/catch`, input "abc" ke harga → crash + tutup aplikasi kasir. Dengan tangkap, tampil "Harga salah" → lanjut. `using` pastikan file tertutup meski error (tanpa ini file terkunci!).
+- `try/catch/finally` catches + specific `Exception`s first (`FormatException` before `Exception`) (source: Microsoft Learn exceptions)
+- `throw new` makes alarms + `using` auto-closes (`IDisposable`)
 
 ---
 
-## Program: Kasir Anti-Crash C#
+## Why This Matters (Non-IT)
+
+Without `try/catch`, "abc" input into prices → crash + cashier app closes. With catches, shows "Wrong price" → continues. `using` guarantees files close despite errors (otherwise files lock!).
+
+---
+
+## Program: Crash-Proof C# Cashier
 
 ```csharp
 try {
-  Console.Write("Harga: ");
-  int harga = int.Parse(Console.ReadLine() ?? "0"); // bisa meledak!
-  if (harga <= 0) throw new Exception("Harga harus > 0");
-  Console.WriteLine($"OK: Rp{harga:N0}");
+  Console.Write("Price: ");
+  int price = int.Parse(Console.ReadLine() ?? "0"); // can explode!
+  if (price <= 0) throw new Exception("Price must be > 0");
+  Console.WriteLine($"OK: Rp{price:N0}");
 }
 catch (FormatException) {
-  Console.WriteLine("Itu bukan angka!");
+  Console.WriteLine("That's not a number!");
 }
 catch (Exception ex) {
-  Console.WriteLine($"Gagal: {ex.Message}");
+  Console.WriteLine($"Failed: {ex.Message}");
 }
 finally {
-  Console.WriteLine("Kasir siap lagi");
+  Console.WriteLine("Cashier ready again");
 }
 
-// using: tutup otomatis meski error
-using (var file = new StreamWriter("struk.txt")) {
-  file.WriteLine("Beras 62000");
-} // tertutup otomatis di sini!
+// using: auto-closes despite errors
+using (var file = new StreamWriter("receipt.txt")) {
+  file.WriteLine("Rice 62000");
+} // auto-closed here!
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `try/catch/finally` = Coba/Tangkap/Selalu
-`try` coba, `catch` tangkap per tipe (spesifik dulu!), `finally` selalu jalan.
+### `try/catch/finally` = Try/Catch/Always
+`try` attempts, `catch` catches per type (specific first!), `finally` always runs.
 
-### `throw new` = Bunyikan Alarm
-`throw new Exception("...")` lempar ke `catch` terdekat.
+### `throw new` = Sound Alarm
+`throw new Exception("...")` throws to nearest `catch`.
 
-### `using` = Tutup Otomatis
-`using (var x = ...)` → `Dispose()` otomatis (file, koneksi DB).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Jaring Pengaman Sirkus
-- **try = atraksi**, **catch = jaring**, **finally = sapu panggung** (selalu).
-- **using = pintu otomatis**: tutup sendiri.
-
-### Langkah 0 — Siapkan Device
-- Sama W1.
-
-### Cara Komputer Membaca
-1. `int.Parse("abc")` → lempar `FormatException` → cari `catch` cocok.
-2. `using` selesai → `Dispose()` meski ada error.
-
-### 3 Istilah Wajib
-1. **try/catch/finally**: coba/tangkap/selalu
-2. **throw/using**: alarm/tutup-otomatis
+### `using` = Auto Close
+`using (var x = ...)` → automatic `Dispose()` (files, DB connections).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Input "abc" → "Itu bukan angka"?
-- **Kuning:** `catch (Exception)` dulu baru `FormatException` → warning unreachable? Urutkan!
-- **Merah:** Tanpa `using`, error sebelum `Close()` → file terkunci? Pakai `using`.
+### Analogy: Circus Safety Net
+- **try = act**, **catch = net**, **finally = sweep stage** (always).
+- **using = automatic door**: closes itself.
+
+### Step 0 — Prepare Device
+- Same as W1.
+
+### How the Computer Reads It
+1. `int.Parse("abc")` → throws `FormatException` → finds matching `catch`.
+2. `using` ends → `Dispose()` despite errors.
+
+### 3 Must-Know Terms
+1. **try/catch/finally**: try/catch/always
+2. **throw/using**: alarm/auto-close
 
 ---
 
-## Tantangan
+## Experiments
 
-**Kasir Aman Lengkap:** Loop input harga + `try/catch` 2 tipe + `throw` untuk <= 0 + `using` tulis struk file. **Selesai Menengah C#!**
-
----
-
-## Glosarium Mini
-
-- **try/catch/throw/using**: coba/tangkap/alarm/otomatis
+- **Green:** Input "abc" → "That's not a number"?
+- **Yellow:** `catch (Exception)` first then `FormatException` → unreachable warning? Order them!
+- **Red:** Without `using`, error before `Close()` → file locked? Use `using`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Alarm Anti-Panik** (Level: Menengah). **Selesai Menengah C#!** Lanjut: **Generics Lanjutan** (Advanced).
+**Complete Safe Cashier:** Input-price loop + 2-type `try/catch` + `throw` for <= 0 + `using` writes receipt file. **Intermediate C# DONE!**
+
+---
+
+## Mini Glossary
+
+- **try/catch/throw/using**: try/catch/alarm/automatic
+
+---
+
+## Summary
+
+Week 8 of 12: **No-Panic Alarms** (Level: Intermediate). **Intermediate C# DONE!** Next: **Advanced Generics** (Advanced).
