@@ -1,46 +1,46 @@
-# Dasar Node.js — Dapur Warung di Terminal
+# Node.js Basics — Shop Kitchen in Terminal
 
-> **Kategori:** Node.js | **Level:** Pemula | **Minggu 1:** Dasar Node.js
+> **Kategori:** Node.js | **Level:** Beginner | **Minggu 1:** Dasar Node.js
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Paham Node.js = **dapur yang jalan di terminal** (bukan browser) — `node -v`, `npm -v`
-- Buat `package.json` `npm init -y`, `app.js` dengan `console.log` dan `process.argv`
-- Jalankan `node app.js` dan `node app.js Budi 2` baca argumen
-- `global`, `process`, `__dirname` — info dapur
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung butuh dapur yang bisa hitung tanpa buka browser. Node = JS di terminal, untuk hitung stok, cetak struk di kasir, nanti jadi server.
+- Understand Node.js = **kitchen running in the terminal** (not the browser) — `node -v`, `npm -v`
+- Create `package.json` via `npm init -y`, `app.js` with `console.log` and `process.argv`
+- Run `node app.js` and `node app.js Budi 2` reading arguments
+- `global`, `process`, `__dirname` — kitchen info
 
 ---
 
-## Program: Dapur Node Pertama
+## Why This Matters (Non-IT)
 
-Simpan `app.js`
+Shops need a kitchen that computes without opening a browser. Node = JS in the terminal, for counting stock, printing cashier receipts, later becoming a server.
+
+---
+
+## Program: First Node Kitchen
+
+Save `app.js`
 
 ```javascript
-// app.js — jalan di terminal, bukan browser
-console.log("Dapur Warung Node.js");
-console.log("Versi Node:", process.version);
+// app.js — runs in terminal, not browser
+console.log("Node.js Shop Kitchen");
+console.log("Node version:", process.version);
 console.log("Folder:", __dirname);
 
-// Baca argumen: node app.js Budi 2
-const nama = process.argv[2] || "Tamu";
+// Read arguments: node app.js Budi 2
+const name = process.argv[2] || "Guest";
 const qty = Number(process.argv[3] || 1);
-console.log(`Halo ${nama}, qty: ${qty}`);
+console.log(`Hello ${name}, qty: ${qty}`);
 
-// Hitung
-const harga = 62000;
-console.log(`Total: Rp ${(harga * qty).toLocaleString("id-ID")}`);
+// Compute
+const price = 62000;
+console.log(`Total: Rp ${(price * qty).toLocaleString("en-US")}`);
 
-// Tanpa DOM: document is not defined di Node — wajar
+// No DOM: document is not defined in Node — normal
 // console.log(typeof document); // ReferenceError
 ```
 
-**Jalankan:**
+**Run:**
 ```
 node app.js
 node app.js Budi 2
@@ -48,34 +48,58 @@ node --version
 npm --version
 ```
 
-Buat `package.json`: `npm init -y` → lihat `name`, `version`, `scripts`.
+Create `package.json`: `npm init -y` → see `name`, `version`, `scripts`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Node vs Browser
-- Browser punya `document`, `window`. Node punya `process`, `fs`, `http`.
-- `process.argv` = antrian pesanan dari terminal.
+- Browsers have `document`, `window`. Node has `process`, `fs`, `http`.
+- `process.argv` = order queue from terminal.
 
 ### `npm init`
-Bikin `package.json` — KTP proyek.
+Creates `package.json` — project ID card.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Dapur Terminal
-- **Browser = ruang makan**, **Node = dapur belakang** — tidak ada meja, hanya kompor & hitungan.
+### Analogy: Terminal Kitchen
+- **Browser = dining room**, **Node = back kitchen** — no tables, only stoves & math.
+
+### Step 0 — Prepare Device
+- Node.js LTS installed (`node -v`), folder `shop-node`, run `node app.js`.
+
+### How the Computer Reads It
+1. `node app.js Budi 2` → `argv[2]="Budi"`, `argv[3]="2"`.
+2. `console.log` → prints to terminal (not a page).
+
+### 3 Must-Know Terms
+1. **Node/npm/argv**: kitchen/warehouse/orders
 
 ---
 
-## Tantangan
+## Experiments
 
-**Kasir Terminal:** `node kasir.js Siti 3` → baca `nama` dan `qty` dari `argv`, hitung `total = 62000*qty`, cetak `Halo Siti, total Rp ...`.
+- **Green:** `node app.js Siti 3` → greeting + total?
+- **Yellow:** No args → defaults Guest/1?
+- **Red:** Use `document` in Node → ReferenceError? That's normal — browsers only.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 1: **Dapur Node** — JS di terminal. Minggu depan: **Modules & npm** — pinjam alat.
+**Terminal Cashier:** `node cashier.js Siti 3` → reads `name` and `qty` from `argv`, computes `total = 62000*qty`, prints `Hello Siti, total Rp ...`.
+
+---
+
+## Mini Glossary
+
+- **node/npm/argv**: kitchen/warehouse/orders
+
+---
+
+## Summary
+
+Week 1: **Node Kitchen** — JS in terminal. Next: **Modules & npm** — borrow tools.

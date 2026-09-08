@@ -1,22 +1,22 @@
-# Modules & npm — Pinjam Alat Dapur Node
+# Modules & npm — Borrow Node Kitchen Tools
 
-> **Kategori:** Node.js | **Level:** Pemula | **Minggu 2:** Modules & npm
+> **Kategori:** Node.js | **Level:** Beginner | **Minggu 2:** Modules & npm
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `require("./kasir.js")` pinjam alat tetangga, `module.exports = {...}` bagi alat (sumber: nodejs.org/api/modules)
-- `npm install <paket>` pinjam dari gudang npm, `package.json` catat, `node_modules` gudang fisik (sumber: docs.npmjs.com)
-- Bedakan `require` (CommonJS) vs `import` (ESM) + `"type": "module"`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa modules, `app.js` 500 baris campur hitung + cetak + simpan — cari `hitungTotal` scroll 10 menit. Dengan bagi `kasir.js` (hitung) + `cetak.js` (tampil), rapi. Tanpa `npm`, tulis sendiri fungsi tanggal, warna — buang waktu, padahal 3 juta paket gratis.
+- `require("./cashier.js")` borrows neighbor tools, `module.exports = {...}` shares tools (source: nodejs.org/api/modules)
+- `npm install <package>` borrows from the npm warehouse, `package.json` records, `node_modules` physical warehouse (source: docs.npmjs.com)
+- Distinguish `require` (CommonJS) vs `import` (ESM) + `"type": "module"`
 
 ---
 
-## Program: Dapur Bagi Tugas + Pinjam Gudang
+## Why This Matters (Non-IT)
+
+Without modules, `app.js` 500 lines mixing calc + print + save — finding `calcTotal` takes 10 minutes of scrolling. Splitting `cashier.js` (calc) + `print.js` (display) stays neat. Without `npm`, hand-write date, color functions — wasted time, when 3 million packages are free.
+
+---
+
+## Program: Kitchen Task Split + Warehouse Borrow
 
 ```bash
 npm init -y
@@ -24,84 +24,84 @@ npm install chalk
 ```
 
 ```javascript
-// kasir.js — alat hitung (bagi via exports)
-function hitungTotal(belanja, diskon = 0) {
-  const total = belanja.reduce((s, i) => s + i.harga * i.qty, 0);
-  return total * (1 - diskon / 100);
+// cashier.js — calc tool (shared via exports)
+function calcTotal(cart, discount = 0) {
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  return total * (1 - discount / 100);
 }
-module.exports = { hitungTotal }; // CommonJS
+module.exports = { calcTotal }; // CommonJS
 
-// app.js — pinjam + pakai
-const { hitungTotal } = require("./kasir.js");
-const keranjang = [{ harga: 62000, qty: 1 }, { harga: 5000, qty: 2 }];
-console.log("Total:", hitungTotal(keranjang, 10));
+// app.js — borrow + use
+const { calcTotal } = require("./cashier.js");
+const cart = [{ price: 62000, qty: 1 }, { price: 5000, qty: 2 }];
+console.log("Total:", calcTotal(cart, 10));
 
-// Paket gudang: chalk untuk warna (npm install chalk)
+// Warehouse package: chalk for colors (npm install chalk)
 const chalk = require("chalk");
-console.log(chalk.green("Warung buka!"));
-console.log(chalk.red("Stok habis!"));
+console.log(chalk.green("Shop open!"));
+console.log(chalk.red("Stock empty!"));
 ```
 
-**ESM modern (opsional):** tambah `"type": "module"` di `package.json` → pakai `import { hitungTotal } from "./kasir.js"` + `export function hitungTotal`.
+**Modern ESM (optional):** add `"type": "module"` in `package.json` → use `import { calcTotal } from "./cashier.js"` + `export function calcTotal`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `require` / `module.exports` (CommonJS)
-- `module.exports = { hitungTotal }` bagi, `require("./kasir.js")` pinjam. Path `./` = file sendiri.
+- `module.exports = { calcTotal }` shares, `require("./cashier.js")` borrows. `./` path = own files.
 
 ### `npm install` / `package.json`
-- `npm install chalk` → unduh ke `node_modules` + catat di `package.json` dependencies.
-- `npm init -y` buat KTP proyek.
+- `npm install chalk` → downloads to `node_modules` + records in `package.json` dependencies.
+- `npm init -y` creates the project ID card.
 
 ### CommonJS vs ESM
-- `require` = lama tapi default Node. `import` = modern, butuh `"type": "module"`.
+- `require` = old but Node default. `import` = modern, needs `"type": "module"`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Dapur Bagi Tugas + Gudang
-- **Module = bagi dapur**: `kasir.js` khusus hitung, `app.js` atur.
-- **npm = gudang alat**: `chalk` obeng warna, tidak bikin sendiri.
+### Analogy: Kitchen Task Split + Warehouse
+- **Module = split kitchen**: `cashier.js` only calcs, `app.js` organizes.
+- **npm = tool warehouse**: `chalk` color screwdriver, don't build your own.
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `node -v`, folder `warung-node`, `npm init -y`.
+### Step 0 — Prepare Device
+- Same as W1: `node -v`, `shop-node` folder, `npm init -y`.
 
-### Cara Komputer Membaca
-1. `require("./kasir.js")` → baca file → jalankan → ambil `module.exports`.
-2. `require("chalk")` → cari di `node_modules/chalk`.
+### How the Computer Reads It
+1. `require("./cashier.js")` → reads file → runs → takes `module.exports`.
+2. `require("chalk")` → looks in `node_modules/chalk`.
 
-### 3 Istilah Wajib
-1. **Module/exports**: bagi/pinjam alat
-2. **npm/package.json**: gudang/KTP
-3. **CommonJS/ESM**: lama/modern
-
----
-
-## Eksperimen
-
-- **Hijau:** Buat `sapa.js` export `sapa(nama)` → `require` di `app.js`?
-- **Kuning:** `npm install lodash` → `_.chunk([1,2,3,4], 2)` → apa?
-- **Merah:** `require("./kasir")` tanpa `.js` → tetap jalan? (Node tebak `.js`)
+### 3 Must-Know Terms
+1. **Module/exports**: split/borrow tools
+2. **npm/package.json**: warehouse/ID
+3. **CommonJS/ESM**: old/modern
 
 ---
 
-## Tantangan
+## Experiments
 
-**Dapur 3 File:** `produk.js` export `daftar`, `kasir.js` export `hitungTotal` + `ongkir`, `app.js` import keduanya → struk lengkap + `chalk` warna total.
-
----
-
-## Glosarium Mini
-
-- **require/exports**: pinjam/bagi
-- **npm/node_modules**: gudang/fisik
-- **package.json**: KTP proyek
+- **Green:** Build `greet.js` exporting `greet(name)` → `require` in `app.js`?
+- **Yellow:** `npm install lodash` → `_.chunk([1,2,3,4], 2)` → what?
+- **Red:** `require("./cashier")` without `.js` → still runs? (Node guesses `.js`)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 4: **Pinjam Alat** (Level: Pemula). Bisa bagi file + gudang npm. Minggu depan: **File System** — buku kas file.
+**3-File Kitchen:** `products.js` exports `list`, `cashier.js` exports `calcTotal` + `shipping`, `app.js` imports both → complete receipt + `chalk`-colored total.
+
+---
+
+## Mini Glossary
+
+- **require/exports**: borrow/share
+- **npm/node_modules**: warehouse/physical
+- **package.json**: project ID
+
+---
+
+## Summary
+
+Week 2 of 4: **Borrow Tools** (Level: Beginner). Can split files + npm warehouse. Next: **File System** — file ledger.
