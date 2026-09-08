@@ -1,83 +1,90 @@
-# Performa & Tuning — Dokter Kartu MongoDB
+# Performance & Tuning — MongoDB Card Doctor
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 8:** Performa & Tuning
+> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 8:** Performa & Tuning
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `.explain("executionStats")` baca `COLLSCAN` vs `IXSCAN` + `totalDocsExamined` + `executionTimeMillis` (sumber: mongodb.com/docs/manual/reference/explain)
-- Compound index `{ kategori: 1, harga: -1 }` untuk saring+urut sekaligus
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-100rb kartu tanpa index = 2 detik. Dengan compound index tepat = 0.01 detik. Index salah urutan (`{harga:-1, kategori:1}` untuk query kategori-dulu) = tidak dipakai (buang RAM!).
+- `.explain("executionStats")` reads `COLLSCAN` vs `IXSCAN` + `totalDocsExamined` + `executionTimeMillis` (source: mongodb.com/docs/manual/reference/explain)
+- Compound index `{ category: 1, price: -1 }` for filter+sort at once
 
 ---
 
-## Program: Bedah Kartu Lambat
+## Why This Matters (Non-IT)
+
+100k cards without index = 2 seconds. With the right compound index = 0.01s. Wrong-order index (`{price:-1, category:1}` for a category-first query) = unused (wasted RAM!).
+
+---
+
+## Program: Slow-Card Autopsy
 
 ```javascript
-// Lambat: baca semua
-db.produk.find({ kategori: "Sembako" }).sort({ harga: -1 })
+// Slow: reads all
+db.products.find({ category: "Staples" }).sort({ price: -1 })
   .explain("executionStats")
 // COLLSCAN, totalDocsExamined: 100000, time: 1800ms
 
-// Obat: compound index (urutan = urutan query!)
-db.produk.createIndex({ kategori: 1, harga: -1 })
+// Cure: compound index (order = query order!)
+db.products.createIndex({ category: 1, price: -1 })
 
-db.produk.find({ kategori: "Sembako" }).sort({ harga: -1 })
+db.products.find({ category: "Staples" }).sort({ price: -1 })
   .explain("executionStats")
 // IXSCAN, totalDocsExamined: 12000, time: 12ms → 150x!
 
-// Cek index terpakai + hapus yang tak perlu
-db.produk.getIndexes()
-db.produk.dropIndex("kategori_1")
+// Check used indexes + drop unneeded
+db.products.getIndexes()
+db.products.dropIndex("category_1")
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `COLLSCAN` vs `IXSCAN` = Baca-Semua vs Loncat
-`totalDocsExamined` ≈ hasil = bagus. 100rb vs 3 hasil = buruk.
+### `COLLSCAN` vs `IXSCAN` = Read-All vs Jump
+`totalDocsExamined` ≈ results = good. 100k vs 3 results = bad.
 
-### Compound Index Urutan Penting
-Query `kategori` + `sort harga` → index `{ kategori: 1, harga: -1 }` (sama urutan!).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Dokter + Obat Tepat
-- **explain = rontgen**, **index = obat**, **urutan salah = obat salah penyakit**.
-
-### 3 Istilah Wajib
-1. **COLLSCAN/IXSCAN**: semua/loncat
-2. **Compound**: ganda-berurutan
+### Compound Index Order Matters
+Query `category` + `sort price` → index `{ category: 1, price: -1 }` (same order!).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `explain` sebelum/sesudah → `executionTimeMillis` turun?
-- **Kuning:** Index `{harga:-1, kategori:1}` (terbalik) untuk query di atas → dipakai? (Tidak! Urutan penting.)
-- **Merah:** 5 index tak terpakai → `INSERT` melambat? Hapus yang tak perlu.
+### Analogy: Doctor + Right Medicine
+- **explain = X-ray**, **index = medicine**, **wrong order = wrong medicine for the disease**.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `mongosh` + 5-item collection (or 1000 seeded via script).
 
-## Tantangan
+### How the Computer Reads It
+1. `explain` → planner shows plan (without running).
+2. `createIndex` → new B-Tree → plan changes.
 
-**Dokter Kartu:** 3 query lambat → `explain` catat → compound index tepat → `explain` buktikan 10x+ cepat.
-
----
-
-## Glosarium Mini
-
-- **explain/compound**: rontgen/ganda
+### 3 Must-Know Terms
+1. **COLLSCAN/IXSCAN**: all/jump
+2. **Compound**: ordered-combo
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 8 dari 10: **Dokter Kartu** (Level: Menengah). Gratis 150x. Minggu depan: **Change Streams**.
+- **Green:** `explain` before/after → `executionTimeMillis` drops?
+- **Yellow:** Reversed `{price:-1, category:1}` index for the query above → used? (No! Order matters.)
+- **Red:** 5 unused indexes → `INSERT` slows? Drop the unneeded.
+
+---
+
+## Challenge
+
+**Card Doctor:** 3 slow queries → `explain` notes → right compound index → `explain` proves 10x+ faster.
+
+---
+
+## Mini Glossary
+
+- **explain/compound**: xray/combo
+
+---
+
+## Summary
+
+Week 8 of 10: **Card Doctor** (Level: Intermediate). Free 150x. Next: **Change Streams**.

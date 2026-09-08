@@ -1,44 +1,44 @@
-# Aggregation Lanjutan — Pabrik 2 Lantai MongoDB
+# Advanced Aggregation — 2-Floor MongoDB Factory
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 6:** Aggregation Lanjutan
+> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 6:** Aggregation Lanjutan
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `$lookup` gabung koleksi + `$unwind` buka array + `$facet` 2 laporan sekaligus (sumber: mongodb.com/docs/manual/aggregation)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Laporan "total per pelanggan + top produk" tanpa `$facet` = 2 query + gabung di JS. Dengan 1 pipa `$facet`, 1 request 2 laporan. `$lookup` ganti 2 query jadi 1.
+- `$lookup` joins collections + `$unwind` opens arrays + `$facet` 2 reports at once (source: mongodb.com/docs/manual/aggregation)
 
 ---
 
-## Program: Pabrik 2 Lantai Warung
+## Why This Matters (Non-IT)
+
+A "total per customer + top products" report without `$facet` = 2 queries + JS-side merge. With 1 `$facet` pipeline, 1 request 2 reports. `$lookup` turns 2 queries into 1.
+
+---
+
+## Program: 2-Floor Shop Factory
 
 ```javascript
-// 1. $lookup: gabung pesanan + pelanggan (seperti JOIN)
-db.pesanan.aggregate([
+// 1. $lookup: join orders + customers (like JOIN)
+db.orders.aggregate([
   { $lookup: {
-      from: "pelanggan",
-      localField: "pelanggan_email",
+      from: "customers",
+      localField: "customer_email",
       foreignField: "email",
-      as: "orang"
+      as: "person"
   }},
-  { $unwind: "$orang" },  // buka array 1-elemen jadi objek
-  { $project: { _id: 0, nama: "$orang.nama", total: 1 } }
+  { $unwind: "$person" },  // open 1-element array into object
+  { $project: { _id: 0, name: "$person.name", total: 1 } }
 ])
 
-// 2. $facet: 2 laporan 1 pipa
-db.produk.aggregate([
+// 2. $facet: 2 reports 1 pipeline
+db.products.aggregate([
   { $facet: {
-      perKategori: [
-        { $group: { _id: "$kategori", total: { $sum: "$harga" } } }
+      perCategory: [
+        { $group: { _id: "$category", total: { $sum: "$price" } } }
       ],
-      termahal: [
-        { $sort: { harga: -1 } },
+      priciest: [
+        { $sort: { price: -1 } },
         { $limit: 3 },
-        { $project: { _id: 0, nama: 1, harga: 1 } }
+        { $project: { _id: 0, name: 1, price: 1 } }
       ]
   }}
 ])
@@ -46,54 +46,54 @@ db.produk.aggregate([
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `$lookup` + `$unwind` = Gabung + Buka
-`$lookup` tempel array, `$unwind` buka jadi baris (atau objek jika 1).
+### `$lookup` + `$unwind` = Join + Open
+`$lookup` attaches an array, `$unwind` opens it into rows (or an object when 1).
 
-### `$facet` = 2 Pabrik Paralel
-1 input → 2 pipa (`perKategori`, `termahal`) → 1 dokumen 2 hasil.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Pabrik Bercabang
-- **$lookup = stapler antar kardus**, **$facet = 2 lini produksi** dari 1 ban.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `mongosh` + `produk` + `pesanan` + `pelanggan`.
-
-### Cara Komputer Membaca
-1. `$lookup` → untuk tiap pesanan, cari pelanggan cocok → tempel array.
-2. `$facet` → jalankan 2 sub-pipa atas input sama.
-
-### 3 Istilah Wajib
-1. **$lookup/$unwind**: gabung/buka
-2. **$facet**: cabang-laporan
+### `$facet` = 2 Parallel Factories
+1 input → 2 pipelines (`perCategory`, `priciest`) → 1 document 2 results.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tanpa `$unwind` → `orang` array 1 elemen? Dengan → objek?
-- **Kuning:** `$facet` 1 cabang kosong → hasil `{}`?
-- **Merah:** `$lookup` field salah (`emial`) → array kosong semua? Betulkan.
+### Analogy: Branching Factory
+- **$lookup = stapler between boxes**, **$facet = 2 production lines** from 1 belt.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `mongosh` + `products` + `orders` + `customers`.
 
-## Tantangan
+### How the Computer Reads It
+1. `$lookup` → for each order, finds matching customer → attaches array.
+2. `$facet` → runs 2 sub-pipelines on the same input.
 
-**Pabrik Ganda:** `$lookup` pesanan+pelanggan → `$group` total per nama → `$facet` (perNama + top3) 1 pipa.
-
----
-
-## Glosarium Mini
-
-- **$lookup/$unwind/$facet**: gabung/buka/cabang
+### 3 Must-Know Terms
+1. **$lookup/$unwind**: join/open
+2. **$facet**: report-branch
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 10: **Pabrik 2 Lantai** (Level: Menengah). 1 pipa 2 laporan. Minggu depan: **Replica Set**.
+- **Green:** Without `$unwind` → `person` 1-element array? With → object?
+- **Yellow:** `$facet` with 1 empty branch → `{}` result?
+- **Red:** `$lookup` wrong field (`emial`) → all arrays empty? Fix it.
+
+---
+
+## Challenge
+
+**2-Floor Factory:** `$lookup` + `$unwind` + `$facet` (category totals + top 3) in 1 pipeline, screenshot both results.
+
+---
+
+## Mini Glossary
+
+- **$lookup/$unwind/$facet**: join/open/branch
+
+---
+
+## Summary
+
+Week 6 of 10: **2-Floor Factory** (Level: Intermediate). 1 pipeline, 2 reports. Next: **Replica Set**.
