@@ -1,46 +1,93 @@
-# List & Daftar — Rak Daftar
+# Lists — Shelf of Lists
 
-> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 5:** List & Daftar
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 5:** List & Daftar
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `ul` tidak urut (peluru), `ol` urut (1,2,3), `li` isi, `dl/dt/dd` kamus
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Daftar produk, langkah masak, FAQ — semua list. Tanpa `ul/ol`, tulis ` - Beras<br> - Bayam` berantakan.
+- `ul` unordered (bullets), `ol` ordered (1,2,3), `li` items, `dl/dt/dd` dictionary
 
 ---
 
-## Program: Daftar Warung
+## Why This Matters (Non-IT)
+
+Product lists, cooking steps, FAQ — all lists. Without `ul/ol`, writing ` - Rice<br> - Spinach` gets messy.
+
+---
+
+## Program: Shop Lists
 
 ```html
-<h2>Produk</h2>
+<h2>Products</h2>
 <ul>
-  <li>Beras 5kg — Rp 62.000</li>
-  <li>Bayam — Rp 5.000</li>
+  <li>Rice 5kg — Rp 62,000</li>
+  <li>Spinach — Rp 5,000</li>
 </ul>
 
-<h2>Langkah Pesan</h2>
+<h2>Order Steps</h2>
 <ol>
-  <li>Pilih produk</li>
+  <li>Pick products</li>
   <li>WA 0812</li>
-  <li>Bayar COD</li>
+  <li>Pay COD</li>
 </ol>
 
-<h2>Kamus</h2>
+<h2>Glossary</h2>
 <dl>
-  <dt>Beras</dt><dd>Nasi harian</dd>
-  <dt>Bayam</dt><dd>Sayur hijau</dd>
+  <dt>Rice</dt><dd>Daily staple</dd>
+  <dt>Spinach</dt><dd>Green vegetable</dd>
 </dl>
 ```
 
-**Zag `ul` vs `ol`:** `ul` peluru, `ol` nomor. `ol start="5"` mulai 5, `reversed`.
+**Zag `ul` vs `ol`:** `ul` bullets, `ol` numbers. `ol start="5"` starts at 5, `reversed`.
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 5: **Daftar** — `ul/ol` rak daftar.
+### `ul` / `ol` / `li`
+`ul` bullets (products), `ol` numbers (steps), `li` each item — never bare text in list.
+
+### `dl` / `dt` / `dd`
+Dictionary: `dt` term, `dd` definition (glossary, FAQ).
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Shelf Rows
+- **`ul` = shelf of goods** (order free), **`ol` = recipe steps** (order matters), **`dl` = dictionary**.
+
+### Step 0 — Prepare Device
+- VS Code + browser, `lists.html`, add 3 lists, see bullets vs numbers.
+
+### How the Computer Reads It
+1. `<ul><li>Rice</li></ul>` → bullet + "Rice".
+2. `<ol start="5">` → numbering starts at 5.
+
+### 3 Must-Know Terms
+1. **ul/ol/li**: bullets/numbers/items
+
+---
+
+## Experiments
+
+- **Green:** Add 1 `li` → new bullet appears?
+- **Yellow:** `ol start="5"` → starts at 5?
+- **Red:** Text directly in `ul` without `li` → invalid? Wrap it.
+
+---
+
+## Challenge
+
+**Shop Lists:** `ul` 5 products + `ol` 4 order steps + `dl` 3 terms + `start` on one list.
+
+---
+
+## Mini Glossary
+
+- **ul/ol/li/dl**: bullets/numbers/items/dictionary
+
+---
+
+## Summary
+
+Week 5 of 14: **Lists** — `ul/ol` shelf of lists. Next: **Tables**.

@@ -1,68 +1,92 @@
-# Form & Input — Pesanan Warung
+# Forms & Input — Shop Orders
 
-> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 7:** Form & Input
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 7:** Form & Input
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `<form>` + `<label for="nama">` + `<input id="nama" name="nama" required>` — `for` hubungkan label & input (klik label fokus input, a11y)
-- `type="text/email/number"` + `placeholder` + `required` + `name` untuk kirim data
-- `button type="submit"` kirim, `method="get/post"` (MDN Forms)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `label for`, klik tulisan "Nama" tidak fokus input — susah di HP. Tanpa `name`, data tidak kekirim ke server. `required` cegah kirim kosong.
+- `<form>` + `<label for="name">` + `<input id="name" name="name" required>` — `for` links label & input (click label focuses input, a11y)
+- `type="text/email/number"` + `placeholder` + `required` + `name` to send data
+- `button type="submit"` sends, `method="get/post"` (MDN Forms)
 
 ---
 
-## Program: Form Pesan Warung
+## Why This Matters (Non-IT)
+
+Without `label for`, clicking "Name" doesn't focus the input — hard on phones. Without `name`, data never reaches the server. `required` blocks empty submits.
+
+---
+
+## Program: Shop Order Form
 
 ```html
-<form action="/pesan" method="post">
+<form action="/order" method="post">
   <div>
-    <label for="nama">Nama Pelanggan</label>
-    <input id="nama" name="nama" type="text" placeholder="Budi" required>
+    <label for="name">Customer Name</label>
+    <input id="name" name="name" type="text" placeholder="Budi" required>
   </div>
   <div>
     <label for="wa">WA</label>
     <input id="wa" name="wa" type="tel" placeholder="0812..." required>
   </div>
   <div>
-    <label for="jumlah">Jumlah (kg)</label>
-    <input id="jumlah" name="jumlah" type="number" min="1" max="100" value="1" required>
+    <label for="qty">Quantity (kg)</label>
+    <input id="qty" name="qty" type="number" min="1" max="100" value="1" required>
   </div>
-  <button type="submit">Pesan</button>
+  <button type="submit">Order</button>
 </form>
 ```
 
-**Wajib:** `label for="nama"` sama `id="nama"`, `name="nama"` untuk server, `required` wajib.
+**Mandatory:** `label for="name"` matches `id="name"`, `name="name"` for server, `required` mandatory.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `label for` + `input id`
-`for="nama"` hubungkan ke `id="nama"` — klik label = fokus input.
+`for="name"` links to `id="name"` — clicking label = focuses input.
 
 ### `name` + `required` + `type`
-`name` kunci kirim, `required` wajib, `type="email"` validasi email.
+`name` send key, `required` mandatory, `type="email"` email validation.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Formulir Kertas
-- **`form` = kertas formulir**, **`label` = judul kolom**, **`input` = kotak isi**, **`button submit` = serahkan ke kasir**.
+### Analogy: Paper Form
+- **`form` = paper form**, **`label` = column title**, **`input` = fill box**, **`button submit` = hand to cashier**.
+
+### Step 0 — Prepare Device
+- VS Code + browser, `order.html`, click each label → does the input focus?
+
+### How the Computer Reads It
+1. Click `<label for="name">` → browser focuses `id="name"`.
+2. Submit → browser packs `name=value` pairs (needs `name`!) → sends to `action`.
+
+### 3 Must-Know Terms
+1. **label/input/button**: title/box/hand-in
 
 ---
 
-## Tantangan
+## Experiments
 
-**Form Warung Lengkap:** `nama` text `required`, `wa` tel, `jumlah` number, `catatan` textarea, `metode` select `COD/Transfer`, `label for` semua, `required` + `name`.
+- **Green:** Click "Customer Name" label → input focuses?
+- **Yellow:** Remove `name` → submitted data has no key?
+- **Red:** Remove `for` → clicking label does nothing? Restore it.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7: **Form** — pesan warung. Minggu depan: **Validasi**.
+**Complete Shop Form:** `name` text `required`, `wa` tel, `qty` number, `notes` textarea, `method` select `COD/Transfer`, `label for` all, `required` + `name`.
+
+---
+
+## Mini Glossary
+
+- **form/label/input**: form/title/box
+
+---
+
+## Summary
+
+Week 7 of 14: **Forms** — shop orders. Next: **Validation**.
