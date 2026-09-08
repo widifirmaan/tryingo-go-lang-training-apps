@@ -27,6 +27,39 @@ public function store(Request $req){ return Product::create($req->validated()); 
 
 `curl http://localhost:8000/api/products` → JSON.
 
+```bash
+# Sanctum tokens (mandatory for phone login! research: laravel.com/docs sanctum)
+php artisan install:api   # creates routes/api.php + personal_access_tokens table
+php artisan migrate
+```
+
+```php
+// app/Models/User.php — MANDATORY trait (most-forgotten step!)
+use Laravel\Sanctum\HasApiTokens;
+class User extends Authenticatable {
+  use HasApiTokens; // without it createToken() errors!
+}
+
+// routes/api.php — 1 login door + token group
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
+Route::post('/login', function (Request $req) {
+  $user = User::where('email', $req->email)->first();
+  if (!$user || !Hash::check($req->password, $user->password)) {
+    return response()->json(['message' => 'Wrong'], 401);
+  }
+  return ['token' => $user->createToken('phone')->plainTextToken]; // 1|xxx...
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::apiResource('products', App\Http\Controllers\Api\ProductController::class);
+});
+```
+
+Test: `curl -X POST -d '{"email":"admin@shop.com","password":"123"}' localhost:8000/api/login` → token → `curl -H "Authorization: Bearer TOKEN" localhost:8000/api/products`.
+
 
 ---
 
