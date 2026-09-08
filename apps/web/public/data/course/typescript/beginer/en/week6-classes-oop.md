@@ -1,97 +1,97 @@
-# Classes & OOP — Pabrik Kartu TypeScript
+# Classes & OOP — TypeScript Card Factory
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 6:** Classes & OOP
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 6:** Classes & OOP
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Produk { constructor(nama: string, harga: number){} }` pabrik kartu, `private`, `public`, `extends`
+- `class Product { constructor(name: string, price: number){} }` card factory, `private`, `public`, `extends`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-50 produk tanpa cetak biru → tulis `nama, harga, stok` 50x. Dengan `class` tulis sekali, `new` 50 kartu. `private stok` cegah ubah langsung dari luar (harus lewat method `diskon` yang validasi). `Member extends Produk` tambah `poin` tanpa tulis ulang.
+50 products without a blueprint → write `name, price, stock` 50x. With `class` write once, `new` 50 cards. `private stock` blocks direct outside edits (must go through validating `discount` method). `Member extends Product` adds `points` without rewriting.
 
 ---
 
 ## Program
 
 ```typescript
-class Produk {
-  constructor(public nama: string, public harga: number, private stok: number = 0){}
-  info(): string { return `${this.nama}: Rp${this.harga} (stok ${this.stok})`; }
-  diskon(persen: number){ this.harga -= this.harga * persen/100; }
+class Product {
+  constructor(public name: string, public price: number, private stock: number = 0){}
+  info(): string { return `${this.name}: Rp${this.price} (stock ${this.stock})`; }
+  discount(pct: number){ this.price -= this.price * pct/100; }
 }
 
-class Member extends Produk {
-  constructor(nama: string, harga: number, public poin: number){
-    super(nama, harga);
+class Member extends Product {
+  constructor(name: string, price: number, public points: number){
+    super(name, price);
   }
 }
 
-const beras = new Produk("Beras", 62000, 10);
-console.log(beras.info());
-beras.diskon(10);
-console.log(beras.info());
-console.log(new Member("Gula", 15000, 120).info());
+const rice = new Product("Rice", 62000, 10);
+console.log(rice.info());
+rice.discount(10);
+console.log(rice.info());
+console.log(new Member("Sugar", 15000, 120).info());
 ```
 
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `class` + `constructor(public ...)` = Cetak Biru + Isi Otomatis
-`constructor(public nama: string)` langsung jadi field — tanpa `this.nama = nama` manual.
+### `class` + `constructor(public ...)` = Blueprint + Auto Fill
+`constructor(public name: string)` directly becomes a field — no manual `this.name = name`.
 
-### `private` vs `public` = Kunci vs Buka
-`private stok` hanya method dalam class boleh ubah. `public nama` bebas.
+### `private` vs `public` = Locked vs Open
+`private stock` only in-class methods may change. `public name` free.
 
-### `extends` + `super()` = Warisan
-`Member extends Produk` warisi semua + tambah `poin`. `super(nama, harga)` panggil constructor induk.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Pabrik Kartu
-- **class = cetak biru**, **new = cetak kartu**, **private = brankas** (hanya lewat kasir `diskon`).
-
-### Langkah 0 — Siapkan Device
-- Sama TS W1: `npx tsc file.ts && node file.js`.
-
-### Cara Komputer Membaca
-1. `new Produk("Beras", 62000, 10)` → alokasi + constructor isi 3 field.
-2. `beras.diskon(10)` → `this` = beras → `harga` jadi 55800.
-
-### 3 Istilah Wajib
-1. **Class/constructor**: biru/isi-awal
-2. **private/public**: kunci/buka
-3. **extends/super**: warisan/induk
+### `extends` + `super()` = Inheritance
+`Member extends Product` inherits all + adds `points`. `super(name, price)` calls parent constructor.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `new Produk("Gula", 15000)` → `info()`?
-- **Kuning:** `beras.stok` dari luar → error `private`? Pakai method!
-- **Merah:** `Member` tanpa `super(...)` → error `must call super`? Tambah.
+### Analogy: Card Factory
+- **class = blueprint**, **new = print card**, **private = safe** (only via cashier `discount`).
 
----
+### Step 0 — Prepare Device
+- Same as TS W1: `npx tsc file.ts && node file.js`.
 
-## Tantangan
+### How the Computer Reads It
+1. `new Product("Rice", 62000, 10)` → allocate + constructor fills 3 fields.
+2. `rice.discount(10)` → `this` = rice → `price` becomes 55800.
 
-**Pabrik Lengkap:** `class Keranjang { items: Produk[] = []; tambah(p: Produk){...} total(): number {...} }` → isi 3 → `total()`.
-
----
-
-## Glosarium Mini
-
-- **class/new/private**: biru/kartu/kunci
-- **extends/super**: warisan/induk
+### 3 Must-Know Terms
+1. **Class/constructor**: blueprint/initial-fill
+2. **private/public**: locked/open
+3. **extends/super**: heir/parent
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6: **Pabrik Kartu** — `class` + `extends`.
+- **Green:** `new Product("Sugar", 15000)` → `info()`?
+- **Yellow:** `rice.stock` from outside → `private` error? Use a method!
+- **Red:** `Member` without `super(...)` → `must call super` error? Add it.
+
+---
+
+## Challenge
+
+**Complete Factory:** `class Cart { items: Product[] = []; add(p: Product){...} total(): number {...} }` → fill 3 → `total()`.
+
+---
+
+## Mini Glossary
+
+- **class/new/private**: blueprint/card/lock
+- **extends/super**: heir/parent
+
+---
+
+## Summary
+
+Week 6: **Card Factory** — `class` + `extends`. Next: **Utility Types**.

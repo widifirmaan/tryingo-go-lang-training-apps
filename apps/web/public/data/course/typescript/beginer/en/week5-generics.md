@@ -1,62 +1,102 @@
-# Generics — Rak untuk Tipe Apa Saja
+# Generics — Racks for Any Type
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 5:** Generics
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 5:** Generics
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `function pertama<T>(arr: T[]): T` — rak yang muat `string` atau `number` tergantung pakai
-- `Stack<T>` keranjang untuk apa saja, `constraint` `T extends { harga: number }`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa generics, buat `pertamaString` dan `pertamaNumber` 2 fungsi sama — duplikat. Dengan `<T>` 1 rak untuk semua.
+- `function first<T>(arr: T[]): T` — rack fitting `string` or `number` depending on use
+- `Cart<T>` basket for anything, `constraint` `T extends { price: number }`
 
 ---
 
-## Program: Rak Generik
+## Why This Matters (Non-IT)
+
+Without generics, build `firstString` and `firstNumber` 2 identical functions — duplicates. With `<T>` 1 rack for all.
+
+---
+
+## Program: Generic Rack
 
 ```typescript
-function pertama<T>(arr: T[]): T | undefined {
+function first<T>(arr: T[]): T | undefined {
   return arr[0];
 }
-console.log(pertama([1,2,3])); // T = number → 1
-console.log(pertama(["a","b"])); // T = string → "a"
+console.log(first([1,2,3])); // T = number → 1
+console.log(first(["a","b"])); // T = string → "a"
 
-class Keranjang<T> {
+class Cart<T> {
   private items: T[] = [];
-  tambah(item: T){ this.items.push(item); }
-  semua(): T[] { return this.items; }
+  add(item: T){ this.items.push(item); }
+  all(): T[] { return this.items; }
 }
 
-const keranjangString = new Keranjang<string>();
-keranjangString.tambah("Beras");
-console.log(keranjangString.semua());
+const stringCart = new Cart<string>();
+stringCart.add("Rice");
+console.log(stringCart.all());
 
-const keranjangAngka = new Keranjang<number>();
-keranjangAngka.tambah(62000);
-console.log(keranjangAngka.semua());
+const numberCart = new Cart<number>();
+numberCart.add(62000);
+console.log(numberCart.all());
 
-// Constraint — hanya yang punya harga
-function total<T extends { harga: number }>(items: T[]): number {
-  return items.reduce((s,i)=>s+i.harga,0);
+// Constraint — only those with price
+function total<T extends { price: number }>(items: T[]): number {
+  return items.reduce((s,i)=>s+i.price,0);
 }
-console.log(total([{harga:62000},{harga:5000}]));
+console.log(total([{price:62000},{price:5000}]));
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `<T>` = Label Sementara
-`function pertama<T>` → saat pakai `pertama([1,2])` T jadi `number`.
+### `<T>` = Temporary Label
+`function first<T>` → when using `first([1,2])` T becomes `number`.
 
-### `Keranjang<T>` = Rak Serbaguna
-`Keranjang<string>` rak khusus string, `Keranjang<number>` rak khusus number.
+### `Cart<T>` = Multipurpose Rack
+`Cart<string>` string-only rack, `Cart<number>` number-only rack.
+
+### `extends` Constraint = Entry Requirement
+`T extends { price: number }` → only types having `price` allowed in.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 5: **Rak Generik** — 1 rak untuk semua tipe. Minggu depan: **Classes**.
+### Analogy: Adjustable Rack
+- **`<T>` = adjustable divider**: set to string mode or number mode at use time.
+
+### Step 0 — Prepare Device
+- Same as W1: `generic.ts` + `npx tsc`, hover `T` in VS Code.
+
+### How the Computer Reads It
+1. `first([1,2,3])` → T locked to `number` → returns `number`.
+2. `new Cart<string>()` → `add(123)` → red error.
+
+### 3 Must-Know Terms
+1. **Generic/constraint**: adjustable/requirement
+
+---
+
+## Experiments
+
+- **Green:** `first(["x","y"])` → T is `string`?
+- **Yellow:** `numberCart.add("rice")` → red? Must be number.
+- **Red:** `total([{name:"x"}])` → no `price` → constraint error? Add price.
+
+---
+
+## Challenge
+
+**Generic Shop Rack:** `class Shelf<T extends { price: number }> { add / total }` → fill 3 products → `total()` + try adding priceless item → red.
+
+---
+
+## Mini Glossary
+
+- **generic/constraint**: adjustable/requirement
+
+---
+
+## Summary
+
+Week 5: **Generic Rack** — 1 rack for all types. Next: **Classes**.

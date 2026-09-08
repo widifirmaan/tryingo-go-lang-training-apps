@@ -1,28 +1,28 @@
-# TypeScript Config — Buku Aturan Warung (typescriptlang.org)
+# TypeScript Config — Shop Rulebook (typescriptlang.org)
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 8:** TypeScript Config
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 8:** TypeScript Config
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `tsconfig.json` buku aturan: `strict: true` satpam ketat, `target: "ES2020"`, `module: "ESNext"` (sumber: typescriptlang.org/tsconfig)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `strict: true`, `nama: string | null` lolos `null` → error di `nama.length`. Dengan `strict`, merah sebelum run.
+- `tsconfig.json` rulebook: `strict: true` strict guard, `target: "ES2020"`, `module: "ESNext"` (source: typescriptlang.org/tsconfig)
 
 ---
 
-## Program: Buku Aturan Warung (typescriptlang.org)
+## Why This Matters (Non-IT)
+
+Without `strict: true`, `name: string | null` lets `null` through → error at `name.length`. With `strict`, red before run.
+
+---
+
+## Program: Shop Rulebook (typescriptlang.org)
 
 ```json
-// tsconfig.json — buku aturan (typescriptlang.org)
+// tsconfig.json — rulebook (typescriptlang.org)
 {
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
-    "strict": true, // satpam ketat: null, any, this semua dicek
+    "strict": true, // strict guard: null, any, this all checked
     "esModuleInterop": true,
     "skipLibCheck": true
   },
@@ -31,52 +31,64 @@ Tanpa `strict: true`, `nama: string | null` lolos `null` → error di `nama.leng
 ```
 
 ```bash
-npx tsc --init # buat tsconfig.json
-npx tsc --noEmit # cek tanpa buat js
+npx tsc --init # create tsconfig.json
+npx tsc --noEmit # check without emitting js
 ```
 
-**Sumber:** `typescriptlang.org/tsconfig` — `strict` = 7 cek ketat.
+**Source:** `typescriptlang.org/tsconfig` — `strict` = 7 strict checks.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `strict: true` = Satpam Ketat
-Aktifkan 7 cek: `strictNullChecks`, `noImplicitAny`, dll. Tanpa `strict`, `null` lolos.
+### `strict: true` = Strict Guard
+Enables 7 checks: `strictNullChecks`, `noImplicitAny`, etc. Without `strict`, `null` slips through.
 
 ### `target`/`module`
-`target: ES2020` → `let/const` tetap, `module: ESNext` → `import`.
+`target: ES2020` → `let/const` kept, `module: ESNext` → `import`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Buku Aturan Warung
+### Analogy: Shop Rulebook
 
-- **`tsconfig.json` = buku SOP**: `strict: true` SOP ketat, `target` bahasa.
+- **`tsconfig.json` = SOP book**: `strict: true` strict SOP, `target` language.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-`npx tsc --init` di root, `npx tsc --noEmit` cek.
+`npx tsc --init` at root, `npx tsc --noEmit` check.
 
-### 3 Istilah Wajib
+### How the Computer Reads It
+1. `npx tsc --noEmit` → type-checks all included files, emits nothing.
+2. `function calc(a,b)` under `noImplicitAny` → red, add `: number`.
 
-1. **tsconfig/strict**: buku aturan/satpam
+### 3 Must-Know Terms
 
----
-
-## Tantangan
-
-**Warung Aturan Lengkap:** `strict: true` + `noImplicitAny` error `function hitung(a,b)` tanpa tipe → tambah `: number`.
+1. **tsconfig/strict**: rulebook/guard
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **tsconfig/strict/target**: buku/satpam/target
+- **Green:** `strict: false` → `null` bug slips? Re-enable.
+- **Yellow:** `npx tsc --noEmit` → errors listed, no js files?
+- **Red:** Untyped `function calc(a,b)` → `noImplicitAny` red? Add types.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Buku Aturan** — `tsconfig` + `strict`.
+**Complete Ruled Shop:** `strict: true` + `noImplicitAny` errors `function calc(a,b)` without types → add `: number`.
+
+---
+
+## Mini Glossary
+
+- **tsconfig/strict/target**: book/guard/target
+
+---
+
+## Summary
+
+Week 8 of 12: **Rulebook** — `tsconfig` + `strict`. Next: **Testing**.
