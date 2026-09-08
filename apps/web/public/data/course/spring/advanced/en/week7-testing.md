@@ -1,16 +1,16 @@
-# Testing — Uji Pabrik Spring
+# Testing — Spring Factory Test
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 7:** Testing
+> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 7:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@SpringBootTest` + `MockMvc` `perform(get("/produk")).andExpect(status().isOk())`
+- `@SpringBootTest` + `MockMvc` `perform(get("/products")).andExpect(status().isOk())`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `MockMvc`, ubah controller → 500 ketahuan pelanggan. Dengan 2 test, ubah → merah → perbaiki. `MockMvc` tanpa server beneran (cepat!).
+Without `MockMvc`, controller edits → 500s found by customers. With 2 tests, edit → red → fix. `MockMvc` without a real server (fast!).
 
 ---
 
@@ -19,11 +19,11 @@ Tanpa `MockMvc`, ubah controller → 500 ketahuan pelanggan. Dengan 2 test, ubah
 ```java
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProdukTest {
+class ProductTest {
   @Autowired MockMvc mvc;
   @Test
-  void testDaftar() throws Exception {
-    mvc.perform(get("/produk"))
+  void testList() throws Exception {
+    mvc.perform(get("/products"))
       .andExpect(status().isOk());
   }
 }
@@ -34,26 +34,26 @@ class ProdukTest {
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Pabrik Uji Spring
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Spring Test Factory
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Spring W1 + `./mvnw test` untuk W7.
+### Step 0 — Prepare Device
+- Same as Spring W1 + `./mvnw test` for W7.
 
-### Cara Komputer Membaca
-- `perform(get(...))` pura-pura browser; `andExpect(status().isOk())` cicip status.
+### How the Computer Reads It
+- `perform(get(...))` pretends browser; `andExpect(status().isOk())` tastes status.
 
-### 3 Istilah Wajib
-- 1. **MockMvc/andExpect**: pura-pura/cicip
+### 3 Must-Know Terms
+- 1. **MockMvc/andExpect**: pretend/taste
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 7: **Uji Pabrik** — `MockMvc`.
+Week 7: **Factory Test** — `MockMvc`. Next: **Validation**.

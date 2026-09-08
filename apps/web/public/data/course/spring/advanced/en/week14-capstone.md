@@ -1,78 +1,93 @@
-# Capstone: E-Commerce API — Warung Spring Grand Opening
+# Capstone: E-Commerce API — Spring Shop Grand Opening
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 14:** Capstone: E-Commerce API
+> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 14:** Capstone: E-Commerce API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W13: `JPA` rak + `Security` satpam + `REST` pintu + `Cache` laci + `Actuator` panel + `Docker` peti jadi 1 toko online
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-13 minggu terpisah — capstone buktikan gabung jadi produk: daftar → login → pesan → bayar → notif. Ini portfolio "Spring production-ready" untuk kerja.
+- Combine W1-W13: `JPA` racks + `Security` guards + `REST` doors + `Cache` drawer + `Actuator` panel + `Docker` box into 1 online store
 
 ---
 
-## Program: Toko Spring Lengkap (Checklist Capstone)
+## Why This Matters (Non-IT)
 
-Struktur gabungan semua minggu:
+13 separate weeks — capstone proves the combined product: list → login → order → pay → notify. Your "production-ready Spring" portfolio for jobs.
+
+---
+
+## Program: Complete Spring Store (Capstone Checklist)
+
+Combined structure of all weeks:
 ```
-src/main/java/com/warung/
-  WarungApplication.java     (W1: @SpringBootApplication + @EnableCaching + @EnableScheduling + @EnableAsync)
-  produk/ (W4: Entity + Repo + W3: Controller + W5: DTO)
-  keamanan/ (W6: SecurityConfig)
-  pesanan/ (W10: Event + Async)
-  laporan/ (W12: @Scheduled)
+src/main/java/com/shop/
+  ShopApplication.java     (W1: @SpringBootApplication + @EnableCaching + @EnableScheduling + @EnableAsync)
+  products/ (W4: Entity + Repo + W3: Controller + W5: DTO)
+  security/ (W6: SecurityConfig)
+  orders/ (W10: Event + Async)
+  reports/ (W12: @Scheduled)
 ```
 
-Fitur wajib (cek 1 per 1):
-- [ ] `GET /api/v1/produk` + `POST` (W3+W5) + `validasi` (W8)
-- [ ] `SecurityConfig` `/admin` login (W6) + `test` hijau (W7)
-- [ ] `@Cacheable` daftar (W11) + `/actuator/health` UP (W9)
-- [ ] `Dockerfile` + `docker run` (W13) + deploy `Railway`
-- [ ] `README.md` cara jalan + screenshot
+Required features (check 1 by 1):
+- [ ] `GET /api/v1/products` + `POST` (W3+W5) + `validation` (W8)
+- [ ] `SecurityConfig` `/admin` login (W6) + green `test` (W7)
+- [ ] `@Cacheable` list (W11) + `/actuator/health` UP (W9)
+- [ ] `Dockerfile` + `docker run` (W13) + `Railway` deploy
+- [ ] `README.md` how-to-run + screenshot
 
 ```bash
-./mvnw test          # hijau semua?
-./mvnw package       # jar jadi?
-docker build -t warung:1.0 . && docker run -p 8080:8080 warung:1.0
+./mvnw test          # all green?
+./mvnw package       # jar done?
+docker build -t shop:1.0 . && docker run -p 8080:8080 shop:1.0
 curl localhost:8080/actuator/health  # {"status":"UP"}?
 ```
 
-**Tugas capstone:** Deploy publik + video 2 menit (daftar → login → pesan → cek health) + `README`.
+**Capstone task:** Public deploy + 2-min video (list → login → order → health check) + `README`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 13 Minggu
-Rak + satpam + pintu + laci + panel + peti = 1 toko.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grand Opening Mal
-- **W1-W5 fondasi** (gedung, rak), **W6-W10 mesin** (satpam, pesan), **W11-W13 finishing** (laci, peti), **W14 = buka mal**.
-
-### 3 Istilah Wajib
-1. **Capstone/deploy/README**: gabung/buka/panduan
+### Capstone = Combine 13 Weeks
+Racks + guards + doors + drawer + panel + box = 1 store.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Spring 0→Ahli!** 🎉
+### Analogy: Mall Grand Opening
+- **W1-W5 foundation** (building, racks), **W6-W10 engine** (guards, messages), **W11-W13 finishing** (drawer, box), **W14 = open mall**.
+
+### Step 0 — Prepare Device
+- JDK 17 + built project + deploy target ready.
+
+### How the Computer Reads It
+1. Checklist top-to-bottom → production Spring store.
+2. Public URL + video → portfolio done.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy/README**: combine/open/guide
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Capstone/deploy**: gabung/buka
+- **Green:** All checklist items pass?
+- **Yellow:** `/actuator/health` DOWN → which component? Fix.
+- **Red:** Untested deploy → hidden bug? Test first.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 14 dari 14: **Grand Opening** (Level: Lanjutan). **Selesai Spring 0→Ahli dari nol!** 🎉
+**Grand Opening:** All-green checklist + public URL + video. **Spring 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/deploy**: combine/open
+
+---
+
+## Summary
+
+Week 14 of 14: **Grand Opening** (Level: Advanced). **Spring 0→Expert from zero DONE!** 🎉

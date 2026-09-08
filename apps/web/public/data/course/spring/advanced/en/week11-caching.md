@@ -1,96 +1,96 @@
-# Caching — Laci Cepat Warung Spring
+# Caching — Fast Spring Shop Drawer
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 11:** Caching
+> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 11:** Caching
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@EnableCaching` + `@Cacheable("produk")` simpan hasil di laci, `@CacheEvict` buang saat ubah (sumber: docs.spring.io/spring-framework/integration/cache)
-- Laci default (memori) vs Redis (laci bersama)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Daftar produk dihitung 100x/menit dari DB → DB kepanasan. Dengan `@Cacheable`, hitung 1x, 99x ambil laci (0.1ms). Tanpa `@CacheEvict` saat ubah harga, pelanggan lihat harga lama (basi!).
+- `@EnableCaching` + `@Cacheable("products")` stores results in drawer, `@CacheEvict` discards on change (source: docs.spring.io/spring-framework/integration/cache)
+- Default drawer (memory) vs Redis (shared drawer)
 
 ---
 
-## Program: Laci Produk Spring
+## Why This Matters (Non-IT)
+
+Product lists computed 100x/minute from DB → DB overheats. With `@Cacheable`, compute 1x, 99x from drawer (0.1ms). Without `@CacheEvict` on price edits, customers see stale prices!
+
+---
+
+## Program: Spring Product Drawer
 
 ```java
-// Aktifkan di main: @EnableCaching
+// Enable on main: @EnableCaching
 
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProdukService {
-  // Hitung 1x, simpan laci "produk". Panggil lagi → dari laci!
-  @Cacheable("produk")
-  public List<Produk> mahal() {
-    System.out.println("HITUNG dari DB..."); // hanya 1x terlihat!
+public class ProductService {
+  // Compute 1x, store in "products" drawer. Called again → from drawer!
+  @Cacheable("products")
+  public List<Product> pricey() {
+    System.out.println("COMPUTE from DB..."); // seen only 1x!
     return repo.findAll();
   }
 
-  // Ubah → buang laci biar tidak basi
-  @CacheEvict(value = "produk", allEntries = true)
-  public Produk tambah(Produk p) { return repo.save(p); }
+  // Edit → discard drawer so nothing stales
+  @CacheEvict(value = "products", allEntries = true)
+  public Product add(Product p) { return repo.save(p); }
 }
 ```
 
-`GET /produk` 1 → log "HITUNG". `GET` 2 → tanpa log (dari laci!). `POST` → laci dibuang → `GET` hitung lagi.
+`GET /products` 1 → "COMPUTE" log. `GET` 2 → no log (from drawer!). `POST` → drawer discarded → `GET` computes again.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@Cacheable` / `@CacheEvict` = Simpan/Buang Laci
-`@Cacheable("produk")` simpan hasil per argumen. `@CacheEvict(allEntries=true)` buang semua saat tulis.
+### `@Cacheable` / `@CacheEvict` = Store/Discard Drawer
+`@Cacheable("products")` stores results per arguments. `@CacheEvict(allEntries=true)` discards all on writes.
 
-### Laci Memori vs Redis
-Default: memori (hilang restart). Redis (`spring-boot-starter-data-redis`): laci bersama 2 server.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Laci Kasir
-- **@Cacheable = fotokopi struk**: pelanggan tanya lagi → kasih fotokopi, tidak hitung ulang.
-- **@CacheEvict = buang fotokopi lama** saat harga berubah.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + `spring-boot-starter-cache` (atau Redis + `docker run redis`).
-
-### Cara Komputer Membaca
-1. `mahal()` pertama → tidak ada di laci → jalankan → simpan.
-2. Kedua → ada → langsung balas tanpa jalankan.
-
-### 3 Istilah Wajib
-1. **Cacheable/Evict**: simpan/buang
-2. **TTL**: kadaluarsa (opsional)
+### Memory Drawer vs Redis
+Default: memory (lost on restart). Redis (`spring-boot-starter-data-redis`): drawer shared by 2 servers.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `GET` 2x → log "HITUNG" 1x?
-- **Kuning:** `POST` lalu `GET` → "HITUNG" lagi (laci dibuang)?
-- **Merah:** Hapus `@CacheEvict` → POST lalu GET harga lama (basi)? Pasang.
+### Analogy: Cashier Drawer
+- **@Cacheable = receipt photocopy**: customers ask again → hand photocopy, no recount.
+- **@CacheEvict = discard old photocopies** when prices change.
+
+### Step 0 — Prepare Device
+- Same as W1 + `@EnableCaching` on main class.
+
+### How the Computer Reads It
+1. First `pricey()` → computes → stores in drawer.
+2. Second call same args → drawer hit, method body skipped.
+
+### 3 Must-Know Terms
+1. **Cacheable/Evict**: store/discard
+2. **TTL**: expiry (optional)
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Cepat:** `@Cacheable` daftar + `@CacheEvict` tambah/hapus + `GET/POST/GET` buktikan hitung 2x (bukan 3x).
-
----
-
-## Glosarium Mini
-
-- **Cacheable/Evict**: simpan/buang laci
+- **Green:** `GET` 2x → "COMPUTE" log 1x?
+- **Yellow:** `POST` then `GET` → "COMPUTE" again (drawer discarded)?
+- **Red:** Remove `@CacheEvict` → POST then GET stale old price? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 11 dari 14: **Laci Cepat** (Level: Lanjutan). DB adem. Minggu depan: **Async & Jadwal**.
+**Fast Shop:** `@Cacheable` list + `@CacheEvict` add/remove + `GET/POST/GET` proving 2 computes (not 3).
+
+---
+
+## Mini Glossary
+
+- **Cacheable/Evict**: store/discard drawer
+
+---
+
+## Summary
+
+Week 11 of 14: **Fast Drawer** (Level: Advanced). DB stays cool. Next: **Async & Schedule**.
