@@ -1,107 +1,107 @@
-# CRUD & Query — Isi, Lihat, Ubah, Hapus Gudang MySQL
+# CRUD & Query — Fill, View, Edit, Delete MySQL Warehouse
 
-> **Kategori:** MySQL | **Level:** Pemula | **Minggu 2:** CRUD & Query
+> **Kategori:** MySQL | **Level:** Beginner | **Minggu 2:** CRUD & Query
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- **C**reate `INSERT` tambah kardus, **R**ead `SELECT` lihat, **U**pdate `UPDATE` ganti label, **D**elete `DELETE` buang — 4 gerakan gudang (sumber: MySQL 8.0 docs)
-- Saring `WHERE`, urut `ORDER BY ... DESC`, batasi `LIMIT 2`, cari mirip `LIKE '%ber%'`, rentang `BETWEEN 10000 AND 50000`
-- Aturan emas: `UPDATE`/`DELETE` tanpa `WHERE` = kena semua baris
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Gudang tanpa CRUD = pajangan. Kasir warung tiap hari **ubah harga** (`UPDATE produk SET harga = 6000 WHERE nama = 'Bayam'`), **buang barang kadaluarsa** (`DELETE WHERE stok = 0`), **cari beras** (`LIKE '%ber%'`). Tanpa `WHERE`, 1 klik hapus 10.000 baris — tidak bisa undo.
+- **C**reate `INSERT` adds boxes, **R**ead `SELECT` views, **U**pdate `UPDATE` relabels, **D**elete `DELETE` discards — 4 warehouse moves (source: MySQL 8.0 docs)
+- Filter `WHERE`, sort `ORDER BY ... DESC`, limit `LIMIT 2`, fuzzy-find `LIKE '%ric%'`, range `BETWEEN 10000 AND 50000`
+- Golden rule: `UPDATE`/`DELETE` without `WHERE` = hits all rows
 
 ---
 
-## Program: CRUD Warung
+## Why This Matters (Non-IT)
 
-Jalankan di `db-fiddle.com` (MySQL 8) atau `mysql -u root -p toko_db`.
+A warehouse without CRUD = display only. Shop cashiers daily **change prices** (`UPDATE products SET price = 6000 WHERE name = 'Spinach'`), **discard expired goods** (`DELETE WHERE stock = 0`), **find rice** (`LIKE '%ric%'`). Without `WHERE`, 1 click deletes 10,000 rows — no undo.
+
+---
+
+## Program: Shop CRUD
+
+Run on `db-fiddle.com` (MySQL 8) or `mysql -u root -p shop_db`.
 
 ```sql
--- R: Lihat semua + saring + urut + batasi
-SELECT * FROM produk;
-SELECT nama, harga FROM produk WHERE stok > 5 ORDER BY harga DESC LIMIT 2;
+-- R: View all + filter + sort + limit
+SELECT * FROM products;
+SELECT name, price FROM products WHERE stock > 5 ORDER BY price DESC LIMIT 2;
 
--- R: Cari mirip (LIKE, % = apa saja) + rentang
-SELECT * FROM produk WHERE nama LIKE '%ber%';
-SELECT * FROM produk WHERE harga BETWEEN 10000 AND 50000;
+-- R: Fuzzy find (LIKE, % = anything) + range
+SELECT * FROM products WHERE name LIKE '%ric%';
+SELECT * FROM products WHERE price BETWEEN 10000 AND 50000;
 
--- U: Ubah harga Bayam (cek dulu dengan SELECT di atas!)
-UPDATE produk SET harga = 6000 WHERE nama = 'Bayam';
-SELECT * FROM produk WHERE nama = 'Bayam';
+-- U: Change Spinach price (check with SELECT above first!)
+UPDATE products SET price = 6000 WHERE name = 'Spinach';
+SELECT * FROM products WHERE name = 'Spinach';
 
--- D: Hapus yang stok 0 (cek dulu!)
-DELETE FROM produk WHERE stok = 0;
+-- D: Delete zero-stock (check first!)
+DELETE FROM products WHERE stock = 0;
 
--- Tambah kolom jika lupa (ALTER)
-ALTER TABLE produk ADD COLUMN diskon INT DEFAULT 0;
-UPDATE produk SET diskon = 10 WHERE kategori = 'Sayur';
-SELECT nama, harga, diskon FROM produk;
+-- Add a column if forgotten (ALTER)
+ALTER TABLE products ADD COLUMN discount INT DEFAULT 0;
+UPDATE products SET discount = 10 WHERE category = 'Veggies';
+SELECT name, price, discount FROM products;
 ```
 
-**Aturan emas (MySQL docs):** `UPDATE`/`DELETE` tanpa `WHERE` = ubah/hapus **semua**. Selalu `SELECT ... WHERE ...` dulu untuk cek.
+**Golden rule (MySQL docs):** `UPDATE`/`DELETE` without `WHERE` = changes/deletes **everything**. Always `SELECT ... WHERE ...` first to check.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### CRUD = 4 Gerakan Gudang
-- `INSERT` tambah, `SELECT` baca, `UPDATE` ubah, `DELETE` hapus.
+### CRUD = 4 Warehouse Moves
+- `INSERT` adds, `SELECT` reads, `UPDATE` edits, `DELETE` removes.
 
-### `WHERE` + `LIKE` + `BETWEEN` = Saringan
-`WHERE harga > 10000`, `WHERE nama LIKE 'B%'` (`%` = bebas), `WHERE harga BETWEEN 10000 AND 50000`.
+### `WHERE` + `LIKE` + `BETWEEN` = Strainers
+`WHERE price > 10000`, `WHERE name LIKE 'R%'` (`%` = wild), `WHERE price BETWEEN 10000 AND 50000`.
 
-### `ORDER BY` + `LIMIT` = Urut + Potong
-`ORDER BY harga DESC` mahal dulu, `LIMIT 5` ambil 5 teratas.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Gudang Warung
-- **SELECT = ambil kardus lihat**, **UPDATE = ganti label harga**, **DELETE = buang kardus ke tempat sampah**.
-- **WHERE = filter**: "ambil yang kategori Sayur saja".
-- **Tanpa WHERE = sapu semua**: `DELETE FROM produk` → gudang kosong seketika!
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `db-fiddle.com` pilih MySQL 8 (tanpa install) atau lokal `mysql -u root -p` → `USE toko_db;` → `SHOW TABLES;` pastikan `produk` ada.
-
-### Cara Komputer Membaca
-1. `UPDATE produk SET harga = 6000 WHERE nama = 'Bayam'` → cari baris `nama='Bayam'` → ganti `harga` → lapor `Rows matched: 1`.
-2. `SELECT * FROM produk WHERE harga BETWEEN 10000 AND 50000` → cek tiap baris, tampilkan yang lolos.
-
-### 3 Istilah Wajib
-1. **CRUD**: tambah/baca/ubah/hapus
-2. **WHERE**: saringan baris
-3. **LIMIT**: batasi jumlah
+### `ORDER BY` + `LIMIT` = Sort + Cut
+`ORDER BY price DESC` expensive first, `LIMIT 5` takes top 5.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `SELECT * FROM produk WHERE kategori='Sayur' ORDER BY harga` → apa?
-- **Kuning:** `UPDATE produk SET stok=99 WHERE id=1` → `SELECT` cek?
-- **Merah:** Sengaja `DELETE FROM produk WHERE 1=0` (tidak ada yang cocok) → `0 rows affected`, aman. Jangan coba tanpa `WHERE` di data asli!
+### Analogy: Shop Warehouse
+- **SELECT = take a box to view**, **UPDATE = relabel price**, **DELETE = toss box in trash**.
+- **WHERE = filter**: "take Veggies-category only".
+- **No WHERE = sweep all**: `DELETE FROM products` → warehouse empty instantly!
+
+### Step 0 — Prepare Device
+- Same as W1: `db-fiddle.com` pick MySQL 8 (no install) or local `mysql -u root -p` → `USE shop_db;` → `SHOW TABLES;` ensure `products` exists.
+
+### How the Computer Reads It
+1. `UPDATE products SET price = 6000 WHERE name = 'Spinach'` → finds `name='Spinach'` rows → changes `price` → reports `Rows matched: 1`.
+2. `SELECT * FROM products WHERE price BETWEEN 10000 AND 50000` → checks each row, shows passers.
+
+### 3 Must-Know Terms
+1. **CRUD**: add/read/edit/delete
+2. **WHERE**: row filter
+3. **LIMIT**: cap count
 
 ---
 
-## Tantangan
+## Experiments
 
-**Buku Warung:** `UPDATE buku SET stok = stok - 1 WHERE id = 1` (pinjam 1) → `DELETE FROM anggota WHERE kota IS NULL` → `SELECT * FROM buku WHERE judul LIKE '%Java%' LIMIT 3` → screenshot 3 hasil.
-
----
-
-## Glosarium Mini
-
-- **CRUD**: 4 gerakan gudang
-- **WHERE/LIKE/BETWEEN**: saring
-- **ORDER BY/LIMIT**: urut/batasi
+- **Green:** `SELECT * FROM products WHERE category='Veggies' ORDER BY price` → what?
+- **Yellow:** `UPDATE products SET stock=99 WHERE id=1` → `SELECT` check?
+- **Red:** Deliberate `DELETE FROM products WHERE 1=0` (matches nothing) → `0 rows affected`, safe. Never try without `WHERE` on real data!
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 5: **CRUD** (Level: Pemula). Bisa isi, lihat, ubah, hapus dengan aman. Minggu depan: **JOIN** — gabung 2 rak.
+**Safe CRUD Drill:** `INSERT` 2 rows → `SELECT LIKE` find → `UPDATE` 1 price → `SELECT` verify → `DELETE` 1 row → `COUNT(*)` check.
+
+---
+
+## Mini Glossary
+
+- **CRUD**: 4 warehouse moves
+- **WHERE/LIKE/BETWEEN**: filter
+- **ORDER BY/LIMIT**: sort/cap
+
+---
+
+## Summary
+
+Week 2 of 5: **CRUD** (Level: Beginner). Can fill, view, edit, delete safely. Next: **JOIN** — combine 2 racks.

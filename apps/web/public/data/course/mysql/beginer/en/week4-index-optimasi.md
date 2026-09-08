@@ -1,102 +1,102 @@
-# Index & Optimasi — Daftar Isi Biar 100rb Baris Tetap Cepat
+# Index & Optimization — Table of Contents Keeps 100k Rows Fast
 
-> **Kategori:** MySQL | **Level:** Pemula | **Minggu 4:** Index & Optimasi
+> **Kategori:** MySQL | **Level:** Beginner | **Minggu 4:** Index & Optimasi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `CREATE INDEX idx_email ON pelanggan(email)` daftar isi — cari `WHERE email = '...'` dari baca semua jadi loncat (sumber: MySQL 8.0 docs)
-- `EXPLAIN SELECT ...` lihat rencana: `type: ALL` (baca semua) vs `ref/range` (pakai index)
-- Kapan index: kolom sering `WHERE/JOIN/ORDER BY`; jangan semua kolom (tiap `INSERT` jadi lambat)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Gudang 10 baris tidak terasa. 100 ribu pelanggan, cari `email` tanpa index = baca 100rb kardus satu per satu. Dengan index = buka daftar isi abjad langsung ke rak. Tanpa `EXPLAIN`, kamu tidak tahu query-mu baca semua atau loncat.
+- `CREATE INDEX idx_email ON customers(email)` table of contents — `WHERE email = '...'` jumps instead of full-scanning (source: MySQL 8.0 docs)
+- `EXPLAIN SELECT ...` shows the plan: `type: ALL` (reads all) vs `ref/range` (uses index)
+- When to index: columns often in `WHERE/JOIN/ORDER BY`; not every column (each `INSERT` slows)
 
 ---
 
-## Program: Index Warung
+## Why This Matters (Non-IT)
+
+A 10-row warehouse feels nothing. 100 thousand customers, email lookup without index = reading 100k boxes one by one. With index = open the alphabetical contents straight to the rack. Without `EXPLAIN`, you never know whether your query full-scans or jumps.
+
+---
+
+## Program: Shop Index
 
 ```sql
--- Lihat rencana SEBELUM index (type: ALL = baca semua, lambat)
-EXPLAIN SELECT * FROM pelanggan WHERE email = 'siti@email.com';
+-- See the plan BEFORE index (type: ALL = reads all, slow)
+EXPLAIN SELECT * FROM customers WHERE email = 'siti@email.com';
 
--- Bikin daftar isi
-CREATE INDEX idx_email ON pelanggan(email);
-CREATE INDEX idx_kategori ON produk(kategori);
+-- Build the contents
+CREATE INDEX idx_email ON customers(email);
+CREATE INDEX idx_category ON products(category);
 
--- Lihat lagi → type: ref (pakai index, cepat)
-EXPLAIN SELECT * FROM pelanggan WHERE email = 'siti@email.com';
+-- Look again → type: ref (uses index, fast)
+EXPLAIN SELECT * FROM customers WHERE email = 'siti@email.com';
 
--- Index untuk JOIN cepat (kolom FK)
-CREATE INDEX idx_pesanan_pelanggan ON pesanan(pelanggan_id);
+-- Index for fast JOINs (FK column)
+CREATE INDEX idx_orders_customer ON orders(customer_id);
 
--- Lihat index yang ada
-SHOW INDEX FROM pelanggan;
+-- See existing indexes
+SHOW INDEX FROM customers;
 
--- Hapus jika tidak perlu (tiap INSERT harus update daftar isi)
-DROP INDEX idx_kategori ON produk;
+-- Drop when unneeded (each INSERT must update contents)
+DROP INDEX idx_category ON products;
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Index = Daftar Isi Buku Telepon
-Tanpa index: baca tiap halaman. Dengan index `email`: cari "Siti" → S → halaman 200.
+### Index = Phone-Book Contents
+No index: read every page. With `email` index: find "Siti" → S → page 200.
 
-### `EXPLAIN` = Rencana Kerja
-`EXPLAIN SELECT ...` tampilkan `type`: `ALL` (baca semua, waspada), `ref`/`range` (pakai index, bagus), `key` (index yang dipakai).
+### `EXPLAIN` = Work Plan
+`EXPLAIN SELECT ...` shows `type`: `ALL` (reads all, beware), `ref`/`range` (uses index, good), `key` (index used).
 
-### Kapan Index vs Tidak
-- Sering `WHERE email`, `JOIN pelanggan_id`, `ORDER BY harga` → index.
-- Kolom `kota` jarang saring → tidak perlu (hemat waktu `INSERT`).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Buku Telepon vs Tumpukan Kertas
-- **Tanpa index = tumpukan kertas**: cari "Siti" baca 1 per 1.
-- **Dengan index = buku telepon abjad**: langsung ke S.
-
-### Langkah 0 — Siapkan Device
-- Sama W1. `EXPLAIN` jalan di `db-fiddle` maupun lokal tanpa install tambahan.
-
-### Cara Komputer Membaca
-1. `CREATE INDEX idx_email ON pelanggan(email)` → MySQL buat struktur B-Tree (daftar isi abjad) di samping tabel.
-2. `SELECT ... WHERE email = '...'` → MySQL cek: ada index? Ya → loncat (`ref`), tidak → baca semua (`ALL`).
-
-### 3 Istilah Wajib
-1. **Index**: daftar isi
-2. **EXPLAIN**: rencana kerja query
-3. **ALL vs ref**: baca semua vs loncat
+### When to Index vs Not
+- Frequent `WHERE email`, `JOIN customer_id`, `ORDER BY price` → index.
+- Rarely-filtered `city` column → skip (saves `INSERT` time).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `EXPLAIN` sebelum & sesudah `CREATE INDEX` → kolom `type` berubah `ALL` → `ref`?
-- **Kuning:** `DROP INDEX idx_email ON pelanggan` → `EXPLAIN` balik `ALL`?
-- **Merah:** Bikin index di `stok` yang jarang di-`WHERE` lalu `INSERT` 100 baris → rasakan lebih lambat? (daftar isi harus ditulis tiap insert)
+### Analogy: Phone Book vs Paper Stack
+- **No index = paper stack**: find "Siti" reading 1 by 1.
+- **With index = alphabetical phone book**: straight to S.
 
----
+### Step 0 — Prepare Device
+- Same as W1. `EXPLAIN` runs on `db-fiddle` and locally with no extra install.
 
-## Tantangan
+### How the Computer Reads It
+1. `CREATE INDEX idx_email ON customers(email)` → MySQL builds a B-Tree structure (alphabetical contents) beside the table.
+2. `SELECT ... WHERE email = '...'` → MySQL checks: index? Yes → jump (`ref`), no → read all (`ALL`).
 
-**Perpustakaan Cepat:** `CREATE INDEX idx_judul ON buku(judul)` → `EXPLAIN SELECT * FROM buku WHERE judul LIKE 'Java%'` → `type` apa? Tambah `idx_email` di `anggota` → bandingkan `rows` sebelum/sesudah.
-
----
-
-## Glosarium Mini
-
-- **Index**: daftar isi (B-Tree)
-- **EXPLAIN/SHOW INDEX**: rencana/daftar index
-- **ALL/ref**: baca semua/loncat
+### 3 Must-Know Terms
+1. **Index**: contents
+2. **EXPLAIN**: query work plan
+3. **ALL vs ref**: read-all vs jump
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 5: **Index** (Level: Pemula). Gudang besar tetap cepat. Minggu depan: **Stored Procedure** — resep di gudang.
+- **Green:** `EXPLAIN` before & after `CREATE INDEX` → `type` flips `ALL` → `ref`?
+- **Yellow:** `DROP INDEX idx_email ON customers` → `EXPLAIN` back to `ALL`?
+- **Red:** Index rarely-`WHERE`d `stock`, then `INSERT` 100 rows → feels slower? (contents rewritten per insert)
+
+---
+
+## Challenge
+
+**Fast Library:** `CREATE INDEX idx_title ON books(title)` → `EXPLAIN SELECT * FROM books WHERE title LIKE 'Java%'` → what `type`? Add `idx_email` on `members` → compare `rows` before/after.
+
+---
+
+## Mini Glossary
+
+- **Index**: contents (B-Tree)
+- **EXPLAIN/SHOW INDEX**: plan/list indexes
+- **ALL/ref**: read-all/jump
+
+---
+
+## Summary
+
+Week 4 of 5: **Index** (Level: Beginner). Big warehouses stay fast. Next: **Stored Procedure** — recipes in the warehouse.
