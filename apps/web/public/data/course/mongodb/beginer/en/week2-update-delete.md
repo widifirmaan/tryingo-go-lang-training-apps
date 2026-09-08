@@ -1,56 +1,93 @@
-# Update & Delete — Ubah dan Buang Kartu
+# Update & Delete — Edit and Discard Cards
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 2:** Update & Delete
+> **Kategori:** MongoDB | **Level:** Beginner | **Minggu 2:** Update & Delete
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `updateOne({nama:"Beras"}, {$set:{harga:65000}})` ubah 1, `updateMany` ubah banyak
-- `$inc: { stok: -1 }` tambah/kurang, `$push` tambah ke array
-- `deleteOne`, `deleteMany`, `findOneAndUpdate` ambil & ubah sekaligus
-- `upsert: true` buat jika belum ada
+- `updateOne({name:"Rice"}, {$set:{price:65000}})` edits 1, `updateMany` edits many
+- `$inc: { stock: -1 }` add/subtract, `$push` appends to array
+- `deleteOne`, `deleteMany`, `findOneAndUpdate` grabs & edits at once
+- `upsert: true` creates when missing
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Harga naik, stok berkurang 1 tiap jual — harus ubah kartu, bukan bikin baru.
+Prices rise, stock drops 1 per sale — must edit cards, not create new ones.
 
 ---
 
 ## Program
 
 ```javascript
-// Ubah harga Bayam
-db.produk.updateOne({ nama: "Bayam" }, { $set: { harga: 6000 } })
+// Change Spinach price
+db.products.updateOne({ name: "Spinach" }, { $set: { price: 6000 } })
 
-// Tambah stok +5 untuk semua Sembako
-db.produk.updateMany({ kategori: "Sembako" }, { $inc: { stok: 5 } })
+// Add +5 stock to all Staples
+db.products.updateMany({ category: "Staples" }, { $inc: { stock: 5 } })
 
-// Tambah tag array
-db.produk.updateOne({ nama: "Beras 5kg" }, { $push: { tag: "promo" } })
+// Append tag array
+db.products.updateOne({ name: "Rice 5kg" }, { $push: { tag: "promo" } })
 
-// Hapus yang stok 0
-db.produk.deleteMany({ stok: 0 })
+// Delete zero-stock
+db.products.deleteMany({ stock: 0 })
 
-// Upsert: update jika ada, insert jika belum
-db.produk.updateOne({ nama: "Kopi" }, { $set: { harga: 12000 } }, { upsert: true })
+// Upsert: update when present, insert when missing
+db.products.updateOne({ name: "Coffee" }, { $set: { price: 12000 } }, { upsert: true })
 
-// Ambil & ubah
-db.produk.findOneAndUpdate({ nama: "Gula" }, { $inc: { stok: -1 } }, { returnDocument: "after" })
+// Grab & edit
+db.products.findOneAndUpdate({ name: "Sugar" }, { $inc: { stock: -1 } }, { returnDocument: "after" })
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `$set`/`$inc`/`$push`
-`$set` ganti, `$inc` tambah, `$push` masukkan ke array.
+`$set` replaces, `$inc` adds, `$push` appends into arrays.
 
 ### `upsert` = Update or Insert
-Jika `nama:"Kopi"` belum ada, buat baru.
+When `name:"Coffee"` is missing, creates new.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 2: **Ubah & Hapus** — kartu bisa diedit, stok bisa kurang. Minggu depan: **Index**.
+### Analogy: Eraser & Pen on Cards
+- **$set = eraser + pen**: erase price, write new. **$inc = tally counter**: click -1 per sale.
+
+### Step 0 — Prepare Device
+- Same as W1: Compass/`mongosh` + `products` collection from W1.
+
+### How the Computer Reads It
+1. `updateOne({name}, {$set})` → finds first match → edits fields.
+2. `upsert: true` + no match → inserts combined document.
+
+### 3 Must-Know Terms
+1. **update/delete/upsert**: edit/discard/create-if-missing
+
+---
+
+## Experiments
+
+- **Green:** `$inc: { stock: -1 }` twice → stock drops 2?
+- **Yellow:** `upsert` on existing → updates (no duplicate)?
+- **Red:** `deleteMany({})` empty filter → deletes ALL? Never on real data!
+
+---
+
+## Challenge
+
+**Stock Opname:** Sell 3 items (`$inc: -1` each) + 1 price change (`$set`) + delete empties (`deleteMany stock 0`).
+
+---
+
+## Mini Glossary
+
+- **update/$set/$inc**: edit/replace/tally
+
+---
+
+## Summary
+
+Week 2: **Edit & Delete** — cards editable, stock decrements. Next: **Index**.

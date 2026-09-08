@@ -1,106 +1,106 @@
-# Schema Design — Kartu Rapi: Tempel atau Pisah?
+# Schema Design — Neat Cards: Embed or Split?
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 5:** Schema Design Patterns
+> **Kategori:** MongoDB | **Level:** Beginner | **Minggu 5:** Schema Design Patterns
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- **Embed** (tempel di kartu, 1-to-Few: alamat di pelanggan) vs **Reference** (pisah + `_id`, 1-to-Many: pesanan → pelanggan) (sumber: mongodb.com/docs/manual/data-modeling)
-- `$lookup` gabung (JOIN-nya Mongo)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Salah desain: pesanan 10.000 ditempel di kartu pelanggan → kartu raksasa 16MB limit, lambat. Benar: alamat (sedikit) tempel, pesanan (banyak) pisah + `$lookup` saat perlu.
+- **Embed** (stick in card, 1-to-Few: addresses in customer) vs **Reference** (split + `_id`, 1-to-Many: orders → customer) (source: mongodb.com/docs/manual/data-modeling)
+- `$lookup` joins (Mongo's JOIN)
 
 ---
 
-## Program: Tempel vs Pisah
+## Why This Matters (Non-IT)
+
+Wrong design: 10,000 orders stuck on the customer card → giant 16MB-limit card, slow. Right: addresses (few) embedded, orders (many) split + `$lookup` when needed.
+
+---
+
+## Program: Stick vs Split
 
 ```javascript
-// 1. EMBED — sedikit & sering dibaca bareng (alamat pelanggan)
-db.pelanggan.insertOne({
-  nama: "Budi",
+// 1. EMBED — few & often read together (customer addresses)
+db.customers.insertOne({
+  name: "Budi",
   email: "budi@email.com",
-  alamat: [
-    { jalan: "Jl. Melati 12", kota: "Jakarta", utama: true },
-    { jalan: "Jl. Mawar 3", kota: "Bekasi", utama: false }
+  addresses: [
+    { street: "Jl. Melati 12", city: "Jakarta", primary: true },
+    { street: "Jl. Mawar 3", city: "Bekasi", primary: false }
   ]
 })
-// Baca 1x dapat semua: db.pelanggan.findOne({ email: "budi@email.com" })
+// 1 read gets all: db.customers.findOne({ email: "budi@email.com" })
 
-// 2. REFERENCE — banyak & tumbuh terus (pesanan)
-db.pesanan.insertOne({ pelanggan_email: "budi@email.com", total: 75000 })
-db.pesanan.insertOne({ pelanggan_email: "budi@email.com", total: 32000 })
+// 2. REFERENCE — many & ever-growing (orders)
+db.orders.insertOne({ customer_email: "budi@email.com", total: 75000 })
+db.orders.insertOne({ customer_email: "budi@email.com", total: 32000 })
 
-// 3. $lookup — gabung saat perlu (seperti JOIN)
-db.pelanggan.aggregate([
+// 3. $lookup — join when needed (like JOIN)
+db.customers.aggregate([
   { $match: { email: "budi@email.com" } },
   { $lookup: {
-      from: "pesanan",
+      from: "orders",
       localField: "email",
-      foreignField: "pelanggan_email",
-      as: "riwayat"
+      foreignField: "customer_email",
+      as: "history"
   }}
 ])
-// → { nama: "Budi", ..., riwayat: [{total:75000}, {total:32000}] }
+// → { name: "Budi", ..., history: [{total:75000}, {total:32000}] }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Embed = Tempel di Kartu
-Cocok: sedikit (alamat 1-3), dibaca bareng, jarang berubah sendiri.
+### Embed = Stick on Card
+Fits: few (1-3 addresses), read together, rarely changing alone.
 
-### Reference + `$lookup` = Pisah + Gabung Saat Perlu
-Cocok: banyak (pesanan ribuan), tumbuh terus. `$lookup` = JOIN Mongo.
+### Reference + `$lookup` = Split + Join When Needed
+Fits: many (thousands of orders), ever-growing. `$lookup` = Mongo JOIN.
 
-### Aturan Jempol (MongoDB Docs)
-- 1-to-Few → embed. 1-to-Many → reference. Sering dibaca bareng → embed.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Amplop & Arsip
-- **Embed = tempel kwitansi di amplop pelanggan**: sedikit, buka amplop langsung lihat.
-- **Reference = arsip terpisah + nomor**: 10.000 nota tidak muat di amplop → simpan di lemari, catat nomor.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `mongosh` + `pelanggan` + `pesanan`.
-
-### Cara Komputer Membaca
-1. `findOne` pelanggan → 1 dokumen sudah termasuk `alamat` (tanpa query lagi).
-2. `$lookup` → cocokkan `email` = `pelanggan_email` → tempel array `riwayat`.
-
-### 3 Istilah Wajib
-1. **Embed/reference**: tempel/pisah
-2. **$lookup**: gabung
+### Rule of Thumb (MongoDB Docs)
+- 1-to-Few → embed. 1-to-Many → reference. Often read together → embed.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `findOne` Budi → `alamat.length` 2?
-- **Kuning:** Tanpa `$lookup`, `pesanan` tidak ikut `findOne` pelanggan? (benar, pisah)
-- **Merah:** Tempel 1000 pesanan ke 1 pelanggan → dokumen >16MB error? (Itulah kenapa pisah!)
+### Analogy: Envelopes & Archives
+- **Embed = staple receipts in the customer envelope**: few, open envelope and see.
+- **Reference = separate archive + number**: 10,000 receipts don't fit one envelope → store in cabinet, note the number.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `mongosh` + `customers` + `orders`.
 
-## Tantangan
+### How the Computer Reads It
+1. `findOne` customer → 1 document already includes `addresses` (no second query).
+2. `$lookup` → matches `email` = `customer_email` → attaches `history` array.
 
-**Desain Warung Benar:** `produk` embed `ulasan` (sedikit, max 5) + `pesanan` reference `pelanggan_email` + `$lookup` laporan Budi. Tulis alasan tiap pilihan 1 kalimat. **Selesai Beginner MongoDB!**
-
----
-
-## Glosarium Mini
-
-- **Embed/reference/$lookup**: tempel/pisah/gabung
-- **16MB**: batas kartu
+### 3 Must-Know Terms
+1. **Embed/reference**: stick/split
+2. **$lookup**: join
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 5 dari 5: **Desain Kartu** (Level: Pemula). **Selesai Beginner MongoDB!** Lanjut: **Aggregation Lanjutan** (Menengah).
+- **Green:** `findOne` Budi → `addresses.length` 2?
+- **Yellow:** Without `$lookup`, `orders` don't join customer `findOne`? (correct, split)
+- **Red:** Stick 1000 orders on 1 customer → >16MB document error? (That's why split!)
+
+---
+
+## Challenge
+
+**Correctly Designed Shop:** `products` embeds `reviews` (few, max 5) + `orders` references `customer_email` + `$lookup` Budi report. Write 1-sentence reasons per choice. **Beginner MongoDB DONE!**
+
+---
+
+## Mini Glossary
+
+- **Embed/reference/$lookup**: stick/split/join
+- **16MB**: card limit
+
+---
+
+## Summary
+
+Week 5 of 5: **Card Design** (Level: Beginner). **Beginner MongoDB DONE!** Next: **Advanced Aggregation** (Intermediate).
