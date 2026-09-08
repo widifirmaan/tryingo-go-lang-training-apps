@@ -4,7 +4,7 @@
 
 ## Tujuan Pembelajaran
 
-- Primary tulis + Replica baca (`CHANGE MASTER TO` + `START SLAVE`), `SHOW SLAVE STATUS` cek `Seconds_Behind_Master` (sumber: dev.mysql.com/doc/refman/8.0/en/replication)
+- Primary tulis + Replica baca (`CHANGE REPLICATION SOURCE TO` + `START REPLICA`), `SHOW REPLICA STATUS` cek `Seconds_Behind_Source` (sumber: dev.mysql.com/doc/refman/8.0/en/replication — nama lama `SLAVE` deprecated sejak 8.0.22, dihapus di versi baru!)
 - `read-only = 1` di replica (tolak tulis nyasar)
 
 ---
@@ -36,18 +36,18 @@ read-only = 1
 CREATE USER 'repl'@'%' IDENTIFIED BY 'rahasia';
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
 
--- Di REPLICA: sambung
-CHANGE MASTER TO
-  MASTER_HOST = 'primary-ip',
-  MASTER_USER = 'repl',
-  MASTER_PASSWORD = 'rahasia',
-  MASTER_AUTO_POSITION = 1;
-START SLAVE;
+-- Di REPLICA: sambung (sintaks BARU — yang lama MASTER/SLAVE deprecated!)
+CHANGE REPLICATION SOURCE TO
+  SOURCE_HOST = 'primary-ip',
+  SOURCE_USER = 'repl',
+  SOURCE_PASSWORD = 'rahasia',
+  SOURCE_AUTO_POSITION = 1;
+START REPLICA;
 
 -- Cek sehat (di REPLICA):
-SHOW SLAVE STATUS\G
--- Slave_IO_Running: Yes, Slave_SQL_Running: Yes
--- Seconds_Behind_Master: 0 (tidak telat!)
+SHOW REPLICA STATUS\G
+-- Replica_IO_Running: Yes, Replica_SQL_Running: Yes
+-- Seconds_Behind_Source: 0 (tidak telat!)
 ```
 
 Test: `INSERT` di primary → 1 detik → `SELECT` di replica ada!
@@ -62,8 +62,8 @@ Tulis ke primary, baca dari replica. `read-only` cegah tulis nyasar.
 ### `server-id` Unik + Binlog
 Tiap server ID beda. Binlog catat semua tulis untuk disalin.
 
-### `Seconds_Behind_Master` = Keterlambatan
-0 = sehat. 3600 = telat 1 jam (bahaya!).
+### `Seconds_Behind_Source` = Keterlambatan
+0 = sehat. 3600 = telat 1 jam (bahaya!). (Di tutorial lama bernama `Seconds_Behind_Master`.)
 
 ---
 
@@ -96,7 +96,7 @@ Tiap server ID beda. Binlog catat semua tulis untuk disalin.
 
 ## Tantangan
 
-**Cabang Warung:** Primary + replica + `INSERT` 5 → `SELECT` replica 5 + `SHOW SLAVE STATUS` 2 Yes + screenshot.
+**Cabang Warung:** Primary + replica + `INSERT` 5 → `SELECT` replica 5 + `SHOW REPLICA STATUS` 2 Yes + screenshot.
 
 ---
 
