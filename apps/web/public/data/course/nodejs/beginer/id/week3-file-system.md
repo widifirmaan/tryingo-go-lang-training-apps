@@ -88,6 +88,24 @@ console.log("Backup selesai");
 
 ---
 
+### Bonus: Streams — Baca File 1GB Tanpa RAM Jebol (inti nodejs.org!)
+
+`readFileSync` file 1GB = RAM 1GB (laptop nangis!). Stream = baca TETES demi tetes via pipa:
+
+```javascript
+const fs = require("fs");
+const baca = fs.createReadStream("besar.csv", { encoding: "utf8" });
+let baris = 0;
+baca.on("data", (potong) => { // tiap tetes datang!
+  baris += potong.split("\n").length - 1;
+});
+baca.on("end", () => console.log("Total baris:", baris));
+baca.on("error", (e) => console.log("Gagal:", e.message));
+```
+- Stream = `EventEmitter` juga! (`on("data")`, `on("end")` — nyambung W4!). `pipe()` sambung baca→tulis tanpa tampung.
+
+---
+
 ## Tantangan
 
 **Kasir File:** `jual.js` baca `produk.json` → kurangi `stok` Beras 1 → tulis lagi → cetak sisa. Jalankan 3x → stok 10→7?

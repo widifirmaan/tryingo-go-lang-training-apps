@@ -73,6 +73,34 @@ tambah(){ this.store.tambah({ nama: "Beras" }); }
 
 ---
 
+### Bonus: Signals — Reaktivitas Modern Angular (inti angular.dev v16+!)
+
+`ComponentStore` kuat, tapi Angular modern pakai **signals**: `signal()` kotak reaktif, `computed()` hitung otomatis, `effect()` pantau. Tanpa RxJS!
+
+```typescript
+import { signal, computed, effect } from "@angular/core";
+
+export class KeranjangComponent {
+  items = signal<{ nama: string; harga: number }[]>([]);
+  total = computed(() => this.items().reduce((s, i) => s + i.harga, 0));
+
+  constructor() {
+    effect(() => console.log("Total jadi:", this.total())); // jalan tiap total berubah!
+  }
+
+  tambah(nama: string, harga: number) {
+    this.items.update(daftar => [...daftar, { nama, harga }]); // update() wajib (bukan push!)
+  }
+}
+```
+```html
+<p>Isi: {{ items().length }} | Total: {{ total() }}</p>
+<!-- template BACA pakai ()! items BUKAN items() = fungsi mentah -->
+```
+- `signal()` baca-tulis, `computed()` baca-saja otomatis, `effect()` efek samping. Aturan emas: ubah via `set/update`, BUKAN `push` langsung (tidak terdeteksi)!
+
+---
+
 ## Tantangan
 
 **Warung Gudang Lengkap:** `KeranjangStore` `items: {nama, harga}[]` + `tambah` + `hapus` `updater`, `items$ | async` tampil, `ng serve` cek.

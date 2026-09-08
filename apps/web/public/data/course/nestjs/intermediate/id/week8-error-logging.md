@@ -92,6 +92,34 @@ Tangkap semua error tak tertangani → JSON rapi (bukan HTML 500).
 
 ---
 
+### Bonus: Interceptor — CCTV + Penerjemah (bab Interceptors docs.nestjs.com!)
+
+Filter tangkap ERROR. Interceptor bungkus SUKSES: catat waktu + ubah bentuk balikan. Pasang global 1x!
+
+```typescript
+// waktu.interceptor.ts — stopwatch semua pintu
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from "@nestjs/common";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+
+@Injectable()
+export class WaktuInterceptor implements NestInterceptor {
+  intercept(ctx: ExecutionContext, lanjut: CallHandler): Observable<any> {
+    const mulai = Date.now();
+    const req = ctx.switchToHttp().getRequest();
+    return lanjut.handle().pipe(
+      tap(() => console.log(`${req.method} ${req.url} — ${Date.now() - mulai}ms`))
+    );
+  }
+}
+
+// main.ts — pasang 1x untuk semua!
+// app.useGlobalInterceptors(new WaktuInterceptor());
+```
+- `intercept()` terima + teruskan `lanjut.handle()` + `pipe(tap())` catat. Bedakan: Middleware = mentah (req/res), Interceptor = kaya (context + ubah balikan)!
+
+---
+
 ## Tantangan
 
 **Warung Aman Terpantau:** Filter global + 3 `HttpException` beda + `Logger` tiap aksi + `curl` cek JSON rapi semua. **Selesai Menengah NestJS!**

@@ -50,6 +50,45 @@ src/routes/
 
 ---
 
+### Bonus: Load Data + API Server (inti SvelteKit — routing saja belum cukup!)
+
+Halaman di atas data statis. Data asli: `+page.js` ambil DULU (server!), kirim sebagai `data`. API sendiri: `+server.js`.
+
+```javascript
+// src/routes/produk/+page.js — ambil sebelum tampil!
+export async function load({ fetch }) {
+  const res = await fetch("/api/produk"); // ke +server.js di bawah!
+  return { daftar: await res.json() };    // jadi { data.daftar } di page!
+}
+```
+
+```svelte
+<!-- src/routes/produk/+page.svelte — pakai data -->
+<script>
+  export let data; // { daftar } dari load()!
+</script>
+<ul>{#each data.daftar as p}<li>{p.nama}</li>{/each}</ul>
+```
+
+```javascript
+// src/routes/api/produk/+server.js — API sendiri!
+import { json } from "@sveltejs/kit";
+
+let daftar = [{ id: 1, nama: "Beras" }];
+
+export function GET() {
+  return json(daftar); // balas JSON
+}
+export async function POST({ request }) {
+  const baru = await request.json();
+  daftar = [...daftar, { id: Date.now(), ...baru }];
+  return json(baru, { status: 201 });
+}
+```
+- `load()` jalan di SERVER dulu → HTML sudah isi (SEO + cepat!). `+server.js` = `GET/POST/...` per file.
+
+---
+
 ## Ringkasan
 
 Minggu 6: **Peta SvelteKit** — folder = alamat. Minggu depan: **Actions & Forms**.

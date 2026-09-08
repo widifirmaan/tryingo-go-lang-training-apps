@@ -100,6 +100,12 @@ console.log("→ This line runs first (doesn't wait)");
 
 ---
 
+### Bonus: Debug Node (no guessing!)
+
+`console.log` everywhere = slow. Pro way: `node --inspect sell.js` → open `chrome://inspect` in Chrome → click **inspect** → Sources → click a line number (blue breakpoint!) → code PAUSES → peek whether `await` resolved. Mysterious async instantly visible!
+
+---
+
 ## Mini Glossary
 
 - **Emitter/on/emit**: bell/hear/ring

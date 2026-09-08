@@ -88,6 +88,24 @@ console.log("Backup done");
 
 ---
 
+### Bonus: Streams — Read 1GB Files Without RAM Bursting (core nodejs.org!)
+
+`readFileSync` on 1GB = 1GB RAM (laptop cries!). Streams = read DROP by drop through pipes:
+
+```javascript
+const fs = require("fs");
+const reader = fs.createReadStream("big.csv", { encoding: "utf8" });
+let rows = 0;
+reader.on("data", (drop) => { // every drop arrives!
+  rows += drop.split("\n").length - 1;
+});
+reader.on("end", () => console.log("Total rows:", rows));
+reader.on("error", (e) => console.log("Failed:", e.message));
+```
+- Streams are `EventEmitter`s too! (`on("data")`, `on("end")` — connects to W4!). `pipe()` joins read→write without holding.
+
+---
+
 ## Challenge
 
 **File Cashier:** `sell.js` reads `products.json` → decrements Rice `stock` 1 → rewrites → prints remainder. Run 3x → stock 10→7?

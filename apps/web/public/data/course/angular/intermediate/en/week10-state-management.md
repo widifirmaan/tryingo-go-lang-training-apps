@@ -73,6 +73,34 @@ add(){ this.store.add({ name: "Rice" }); }
 
 ---
 
+### Bonus: Signals — Modern Angular Reactivity (core angular.dev v16+!)
+
+`ComponentStore` is strong, but modern Angular uses **signals**: `signal()` reactive box, `computed()` auto-calc, `effect()` watcher. No RxJS!
+
+```typescript
+import { signal, computed, effect } from "@angular/core";
+
+export class CartComponent {
+  items = signal<{ name: string; price: number }[]>([]);
+  total = computed(() => this.items().reduce((s, i) => s + i.price, 0));
+
+  constructor() {
+    effect(() => console.log("Total now:", this.total())); // runs every total change!
+  }
+
+  add(name: string, price: number) {
+    this.items.update(list => [...list, { name, price }]); // update() mandatory (not push!)
+  }
+}
+```
+```html
+<p>Items: {{ items().length }} | Total: {{ total() }}</p>
+<!-- templates READ with ()! items WITHOUT () = raw function -->
+```
+- `signal()` read-write, `computed()` auto read-only, `effect()` side effects. Golden rule: mutate via `set/update`, NOT direct `push` (undetected)!
+
+---
+
 ## Challenge
 
 **Complete Warehouse Shop:** `CartStore` `items: {name, price}[]` + `add` + `remove` `updater`, `items$ | async` display, `ng serve` check.
