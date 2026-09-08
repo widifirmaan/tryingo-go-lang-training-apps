@@ -28,7 +28,8 @@ def test_hitung():
 
 test_hitung()
 
-# Jalankan: pytest -v atau python -m unittest
+# Jalankan: pytest -v
+# (python -m unittest butuh class TestCase — gaya fungsi polos ini untuk pytest)
 ```
 
 

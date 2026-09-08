@@ -95,6 +95,7 @@ print(f"\nTotal yang bisa dibeli: Rp {total:,}")
 
 ### `if/elif/else` Pakai Spasi
 ```python
+nilai = 85
 if nilai >= 90:
     grade = "A"  # menjorok 4 spasi
 elif nilai >= 80:

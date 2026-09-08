@@ -16,6 +16,11 @@
 
 ## Program: Python Capstone Shop
 
+```bash
+pip install flask pandas openpyxl
+```
+
+Save as `app.py`, then:
 ```python
 from flask import Flask, jsonify
 app = Flask(__name__)
@@ -24,12 +29,15 @@ products = [{"id":1,"name":"Rice","price":62000}]
 @app.route("/products")
 def list(): return jsonify(products)
 
-# pandas report
+# pandas report (+ real Excel)
 import pandas as pd
 df = pd.DataFrame(products)
 print(df.describe())
+df.to_excel("report.xlsx", index=False)  # needs openpyxl
+print("Excel saved: report.xlsx")
 
 # Run: flask --app app run
+# Open http://127.0.0.1:5000/products → JSON
 ```
 
 **Task:** Deploy `Railway` + `pytest`.

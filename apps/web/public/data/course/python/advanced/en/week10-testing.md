@@ -28,7 +28,8 @@ def test_calc():
 
 test_calc()
 
-# Run: pytest -v or python -m unittest
+# Run: pytest -v
+# (python -m unittest needs TestCase classes — this plain-function style is for pytest)
 ```
 
 
