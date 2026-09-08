@@ -31,7 +31,8 @@ Structure: `server.js`, `prisma/schema.prisma`, `routes/products.js`, `middlewar
 ## Beginner Friendly Explanation
 
 ### Analogy: Node Store Grand Opening
-- See Program: run the commands, change 1 thing, see the difference.
+- **11 weeks = assemble shop**: kitchen (Node) + waiters (Express) + warehouse (Prisma) + IDs (JWT).
+- **Capstone = grand opening**: API + DB + auth + deploy RUN TOGETHER, `routes/` never mixes dining room!
 
 ### Step 0 — Prepare Device
 - Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).

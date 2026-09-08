@@ -48,7 +48,8 @@ app.post("/produk", async (req,res)=>res.json(await prisma.produk.create({ data:
 ## Penjelasan untuk Pemula
 
 ### Analogi: Gudang Prisma Node
-- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+- **Array = laci meja**: tutup laptop hilang. **Prisma + Postgres = gudang beneran**.
+- **`schema.prisma` = gambar rak**: tulis model, `migrate` bangun, `findMany()` TANPA SQL!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).

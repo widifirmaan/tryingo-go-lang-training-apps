@@ -48,7 +48,8 @@ app.post("/products", async (req,res)=>res.json(await prisma.product.create({ da
 ## Beginner Friendly Explanation
 
 ### Analogy: Node Prisma Warehouse
-- See Program: run (`node server.js`), `curl` each door, change 1 thing.
+- **Array = desk drawer**: close laptop, gone. **Prisma + Postgres = real warehouse**.
+- **`schema.prisma` = rack drawing**: write model, `migrate` builds, `findMany()` with NO SQL!
 
 ### Step 0 — Prepare Device
 - Same as Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` per week).

@@ -40,7 +40,8 @@ app.get("/produk", (req,res)=>{
 ## Penjelasan untuk Pemula
 
 ### Analogi: Warung 8 Kasir
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **1 proses = 1 kasir**: 7 inti nganggur + mati tak bangun!
+- **`pm2 -i max` = buka kasir per inti** + hidup lagi. `Map` cache = contekan tanpa hitung ulang!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).

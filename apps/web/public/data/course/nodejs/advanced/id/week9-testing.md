@@ -40,7 +40,8 @@ test("0+0=0", ()=> expect(hitung(0,0)).toBe(0));
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Dapur Node
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`test` + `expect` = cicip mesin**: salah → MERAH + baris ditunjuk.
+- **Tanpa test = masak buta**: `npm test` 3 detik cicip SEMUA resep!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).

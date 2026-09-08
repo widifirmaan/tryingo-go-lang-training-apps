@@ -48,7 +48,8 @@ Test: `curl http://localhost:3000/products` and `curl -X POST -H "Content-Type: 
 ## Beginner Friendly Explanation
 
 ### Analogy: JSON Drive-Thru Node
-- See Program: run (`node server.js`), `curl` each door, change 1 thing.
+- **Express = ready waiter**: 1 line 1 door + automatic JSON.
+- **`res.status(201/404)` = stamps**: phones know success vs missing!
 
 ### Step 0 — Prepare Device
 - Same as Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` per week).

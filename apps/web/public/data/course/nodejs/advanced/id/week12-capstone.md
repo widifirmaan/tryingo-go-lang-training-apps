@@ -31,7 +31,8 @@ Struktur: `server.js`, `prisma/schema.prisma`, `routes/produk.js`, `middleware/a
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Node
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **11 minggu = rakit warung**: dapur (Node) + pelayan (Express) + gudang (Prisma) + KTP (JWT).
+- **Capstone = grand opening**: API + DB + auth + deploy JALAN BARENG, `routes/` tak campur ruang makan!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).
