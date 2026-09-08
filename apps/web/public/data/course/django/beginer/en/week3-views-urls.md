@@ -1,131 +1,131 @@
-# Views & URLs — Pelayan dan Pintu Warung Django
+# Views & URLs — Django Shop Waiters and Doors
 
-> **Kategori:** Django | **Level:** Pemula | **Minggu 3:** Views & URLs
+> **Kategori:** Django | **Level:** Beginner | **Minggu 3:** Views & URLs
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `def daftar(request)` pelayan di `views.py` → `render(request, "warung/daftar.html", {...})` antar (sumber: docs.djangoproject.com/topics/http/views)
-- `path('produk/', views.daftar)` pintu di `urls.py` + `include("warung.urls")` di pintu utama (sumber: docs.djangoproject.com/topics/http/urls)
-- `request.GET.get("cari", "")` baca ketikan, `nama__icontains` saring mirip
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Rak (`models`) tanpa pelayan = pelanggan tidak bisa lihat. Views = pelayan yang ambil dari rak + antar ke meja (template). URLs = papan pintu (`/produk/` → pelayan `daftar`). Tanpa `urls.py`, browser 404 meski views sudah benar.
+- `def list(request)` waiter in `views.py` → `render(request, "shop/list.html", {...})` delivers (source: docs.djangoproject.com/topics/http/views)
+- `path('products/', views.list)` door in `urls.py` + `include("shop.urls")` in main doors (source: docs.djangoproject.com/topics/http/urls)
+- `request.GET.get("find", "")` reads typing, `name__icontains` fuzzy-filters
 
 ---
 
-## Program: Pelayan Cari Produk
+## Why This Matters (Non-IT)
+
+Racks (`models`) without waiters = customers can't see. Views = waiters fetching from racks + delivering to tables (templates). URLs = door boards (`/products/` → `list` waiter). Without `urls.py`, browsers 404 though views are correct.
+
+---
+
+## Program: Product-Finding Waiter
 
 ```python
-# warung/views.py — pelayan
+# shop/views.py — waiter
 from django.shortcuts import render
-from .models import Produk
+from .models import Product
 
-def daftar(request):
-    cari = request.GET.get("cari", "")  # baca ?cari=beras
-    if cari:
-        produk = Produk.objects.filter(nama__icontains=cari)
+def list(request):
+    find = request.GET.get("find", "")  # reads ?find=rice
+    if find:
+        products = Product.objects.filter(name__icontains=find)
     else:
-        produk = Produk.objects.all()
-    return render(request, "warung/daftar.html", {"produk": produk, "cari": cari})
+        products = Product.objects.all()
+    return render(request, "shop/list.html", {"products": products, "find": find})
 ```
 
 ```python
-# warung/urls.py — pintu toko (buat file baru!)
+# shop/urls.py — store doors (create new file!)
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("produk/", views.daftar, name="daftar"),
+    path("products/", views.list, name="list"),
 ]
 ```
 
 ```python
-# toko/urls.py — pintu gedung (tambah 1 baris)
+# store/urls.py — building doors (add 1 line)
 from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("warung.urls")),  # semua /... teruskan ke warung
+    path("", include("shop.urls")),  # forwards all /... to shop
 ]
 ```
 
 ```html
-<!-- warung/templates/warung/daftar.html — meja -->
+<!-- shop/templates/shop/list.html — table -->
 <form method="get">
-  <input name="cari" value="{{ cari }}" placeholder="Cari: beras">
-  <button>Cari</button>
+  <input name="find" value="{{ find }}" placeholder="Find: rice">
+  <button>Find</button>
 </form>
 <ul>
-  {% for p in produk %}
-    <li>{{ p.nama }} - Rp{{ p.harga }}</li>
+  {% for p in products %}
+    <li>{{ p.name }} - Rp{{ p.price }}</li>
   {% empty %}
-    <li>Tidak ada hasil untuk "{{ cari }}"</li>
+    <li>No results for "{{ find }}"</li>
   {% endfor %}
 </ul>
 ```
 
-Buka `http://localhost:8000/produk/` → semua. Ketik `beras` → `http://localhost:8000/produk/?cari=beras` → saring.
+Open `http://localhost:8000/products/` → all. Type `rice` → `http://localhost:8000/products/?find=rice` → filtered.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `request` = Pesanan Pelanggan
-`request.GET` = tulisan di kertas (`?cari=beras`), `request.POST` = amplop tertutup (form).
+### `request` = Customer Order
+`request.GET` = writing on paper (`?find=rice`), `request.POST` = sealed envelope (forms).
 
-### `render(request, template, context)` = Antar ke Meja
-`{"produk": produk}` = baki berisi data untuk template `{{ }}`.
+### `render(request, template, context)` = Deliver to Table
+`{"products": products}` = tray of data for `{{ }}` templates.
 
-### `path()` + `include()` = Pintu
-`path("produk/", views.daftar)` pintu toko, `include("warung.urls")` teruskan dari gedung.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Restoran
-- **URLs = papan pintu**: `/produk/` → meja pelayan `daftar`.
-- **Views = pelayan**: terima pesanan (`request`), ambil dari dapur (`models`), antar ke meja (`render`).
-- **Template = meja**: pajang `{{ p.nama }}`.
-
-### Langkah 0 — Siapkan Device
-- Sama W1-W2: `runserver` jalan, `Produk` sudah ada isi (buat 3 via admin).
-
-### Cara Komputer Membaca
-1. Browser `GET /produk/?cari=beras` → `toko/urls.py` → `include` → `warung/urls.py` → `path("produk/")` cocok → `daftar(request)`.
-2. `daftar` baca `cari="beras"` → `filter(nama__icontains="beras")` → `render` → HTML.
-
-### 3 Istilah Wajib
-1. **View**: pelayan (fungsi)
-2. **URL/path**: pintu
-3. **Context**: baki data ke template
+### `path()` + `include()` = Doors
+`path("products/", views.list)` store door, `include("shop.urls")` forwards from building.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Buka `/produk/?cari=bayam` → hanya Bayam?
-- **Kuning:** Hapus `include("warung.urls")` → `/produk/` 404? Pasang lagi.
-- **Merah:** Ganti `render` jadi `return HttpResponse("Halo")` → teks mentah? (render = template, HttpResponse = mentah)
+### Analogy: Restaurant
+- **URLs = door boards**: `/products/` → `list` waiter table.
+- **Views = waiters**: take orders (`request`), fetch from kitchen (`models`), deliver to tables (`render`).
+- **Template = table**: displays `{{ p.name }}`.
+
+### Step 0 — Prepare Device
+- Same as W1-W2: `runserver` running, `Product` pre-filled (create 3 via admin).
+
+### How the Computer Reads It
+1. Browser `GET /products/?find=rice` → `store/urls.py` → `include` → `shop/urls.py` → `path("products/")` matches → `list(request)`.
+2. `list` reads `find="rice"` → `filter(name__icontains="rice")` → `render` → HTML.
+
+### 3 Must-Know Terms
+1. **View**: waiter (function)
+2. **URL/path**: door
+3. **Context**: data tray to template
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Cari Lengkap:** Tambah `?kategori=sayur` kedua: `daftar` baca `cari` + `kategori` → filter dua-duanya → template 2 input + link `?cari=&kategori=sembako`.
-
----
-
-## Glosarium Mini
-
-- **request.GET/POST**: kertas/amplop
-- **render/path/include**: antar/pintu/teruskan
-- **icontains/empty**: mirip/kosong
+- **Green:** Open `/products/?find=spinach` → only Spinach?
+- **Yellow:** Remove `include("shop.urls")` → `/products/` 404? Reattach.
+- **Red:** Swap `render` for `return HttpResponse("Hello")` → raw text? (render = template, HttpResponse = raw)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 4: **Pelayan & Pintu** (Level: Pemula). Bisa tampilkan + cari. Minggu depan: **Templates** — meja cantik.
+**Complete Finding Shop:** Add second `?category=veggies`: `list` reads `find` + `category` → filters both → template 2 inputs + link `?find=&category=staples`.
+
+---
+
+## Mini Glossary
+
+- **request.GET/POST**: paper/envelope
+- **render/path/include**: deliver/door/forward
+- **icontains/empty**: fuzzy/empty
+
+---
+
+## Summary
+
+Week 3 of 4: **Waiters & Doors** (Level: Beginner). Can display + find. Next: **Templates** — pretty tables.

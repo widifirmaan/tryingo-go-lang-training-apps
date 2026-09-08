@@ -1,110 +1,110 @@
-# Templates — Meja Warung Django yang Cantik
+# Templates — Pretty Django Shop Tables
 
-> **Kategori:** Django | **Level:** Pemula | **Minggu 4:** Templates & Template Language
+> **Kategori:** Django | **Level:** Beginner | **Minggu 4:** Templates & Template Language
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `{{ nama }}` tampilkan, `{% for %}` ulang, `{% if %}` putuskan, `|length` filter (sumber: docs.djangoproject.com/topics/templates)
-- Warisan `{% extends "base.html" %}` + `{% block content %}` — tulis header 1x, pakai 10 halaman
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa warisan, header/footer ditulis di 10 file — ganti nomor WA, ubah 10x. Dengan `extends`, ubah `base.html` 1x → 10 halaman ikut. `{% empty %}` tampilkan "kosong" otomatis, tidak perlu `if` manual.
+- `{{ name }}` displays, `{% for %}` repeats, `{% if %}` decides, `|length` filters (source: docs.djangoproject.com/topics/templates)
+- Inheritance `{% extends "base.html" %}` + `{% block content %}` — write header 1x, use on 10 pages
 
 ---
 
-## Program: Meja Warisi Bingkai
+## Why This Matters (Non-IT)
+
+Without inheritance, headers/footers written in 10 files — changing the WA number edits 10x. With `extends`, edit `base.html` 1x → 10 pages follow. `{% empty %}` shows "empty" automatically, no manual `if`.
+
+---
+
+## Program: Table Inheriting Frame
 
 ```html
-<!-- warung/templates/base.html — bingkai (tulis sekali) -->
+<!-- shop/templates/base.html — frame (write once) -->
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <body>
-  <header><h1>Warung Bu Siti</h1><nav><a href="/produk/">Produk</a></nav></header>
+  <header><h1>Siti's Shop</h1><nav><a href="/products/">Products</a></nav></header>
   <main>{% block content %}{% endblock %}</main>
-  <footer>WA 0812 — {{ tahun|default:"2026" }}</footer>
+  <footer>WA 0812 — {{ year|default:"2026" }}</footer>
 </body>
 </html>
 ```
 
 ```html
-<!-- warung/templates/warung/daftar.html — isi (warisi) -->
+<!-- shop/templates/shop/list.html — content (inherits) -->
 {% extends "base.html" %}
 {% block content %}
-<h2>Katalog ({{ produk|length }} item)</h2>
-{% if produk %}
+<h2>Catalog ({{ products|length }} items)</h2>
+{% if products %}
 <ul>
-  {% for p in produk %}
-  <li>{{ p.nama }} - Rp{{ p.harga }}{% if p.stok == 0 %} (habis){% endif %}</li>
+  {% for p in products %}
+  <li>{{ p.name }} - Rp{{ p.price }}{% if p.stock == 0 %} (gone){% endif %}</li>
   {% empty %}
-  <li>Belum ada produk</li>
+  <li>No products yet</li>
   {% endfor %}
 </ul>
 {% else %}
-<p>Kosong</p>
+<p>Empty</p>
 {% endif %}
 {% endblock %}
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `{{ }}` vs `{% %}` vs `|`
-- `{{ nama }}` tampilkan, `{% for %}`/`{% if %}` logika, `{{ daftar|length }}` filter.
+- `{{ name }}` displays, `{% for %}`/`{% if %}` logic, `{{ list|length }}` filters.
 
-### `extends` + `block` = Warisan
-`base.html` bingkai + `{% block content %}` lubang → anak isi lubang.
+### `extends` + `block` = Inheritance
+`base.html` frame + `{% block content %}` hole → children fill the hole.
 
-### `{% empty %}` = Jika Kosong
-Di dalam `for`, tampil jika daftar kosong.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Bingkai Foto & Isi
-- **base.html = bingkai**: header/footer tetap.
-- **daftar.html = foto**: ganti tiap halaman.
-- **Filter `|length` = penghitung**: hitung otomatis.
-
-### Langkah 0 — Siapkan Device
-- Sama W1-W3: `runserver`, buka `/produk/`.
-
-### Cara Komputer Membaca
-1. `{% extends "base.html" %}` → ambil bingkai.
-2. `{% block content %}` → tempel isi anak ke lubang bingkai.
-
-### 3 Istilah Wajib
-1. **extends/block**: warisi/lubang
-2. **for/empty**: ulang/kosong
-3. **Filter `|`**: olah tampil
+### `{% empty %}` = When Empty
+Inside `for`, shows when the list is empty.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `{{ "beras"|upper }}` → "BERAS"? `{{ produk|length }}` → 3?
-- **Kuning:** Hapus `extends` → header hilang? Pasang lagi.
-- **Merah:** `{% for p in produkkosong %}` tanpa `empty` → kosong melompong? Tambah `empty`.
+### Analogy: Photo Frame & Picture
+- **base.html = frame**: fixed header/footer.
+- **list.html = photo**: swaps per page.
+- **`|length` filter = counter**: auto-counts.
+
+### Step 0 — Prepare Device
+- Same as W1-W3: `runserver`, open `/products/`.
+
+### How the Computer Reads It
+1. `{% extends "base.html" %}` → takes the frame.
+2. `{% block content %}` → pastes child content into the frame hole.
+
+### 3 Must-Know Terms
+1. **extends/block**: inherit/hole
+2. **for/empty**: repeat/empty
+3. **Filter `|`**: display processing
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Meja Lengkap:** `base.html` (header/nav/footer) + `daftar.html` (`extends`, `for` + `empty`, `if stok==0`) + `detail.html` (`{{ p.nama }}` + `|date:"d M Y"` untuk `dibuat`). **Selesai Beginner Django!**
-
----
-
-## Glosarium Mini
-
-- **extends/block/for**: warisi/lubang/ulang
-- **filter/date**: olah/tanggal
+- **Green:** `{{ "rice"|upper }}` → "RICE"? `{{ products|length }}` → 3?
+- **Yellow:** Remove `extends` → header gone? Reattach.
+- **Red:** `{% for p in emptyproducts %}` without `empty` → gaping blank? Add `empty`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 4 dari 4: **Meja Cantik** (Level: Pemula). **Selesai Beginner Django!** Lanjut: **Forms** (Menengah).
+**Complete Table Shop:** `base.html` (header/nav/footer) + `list.html` (`extends`, `for` + `empty`, `if stock==0`) + `detail.html` (`{{ p.name }}` + `|date:"d M Y"` for `created`). **Beginner Django DONE!**
+
+---
+
+## Mini Glossary
+
+- **extends/block/for**: inherit/hole/repeat
+- **filter/date**: process/date
+
+---
+
+## Summary
+
+Week 4 of 4: **Pretty Tables** (Level: Beginner). **Beginner Django DONE!** Next: **Forms** (Intermediate).

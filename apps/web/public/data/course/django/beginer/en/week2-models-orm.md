@@ -1,122 +1,122 @@
-# Models & ORM — Rak Otomatis Django
+# Models & ORM — Automatic Django Racks
 
-> **Kategori:** Django | **Level:** Pemula | **Minggu 2:** Models & ORM
+> **Kategori:** Django | **Level:** Beginner | **Minggu 2:** Models & ORM
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Produk(models.Model)` tulis rak Python → Django buatkan tabel SQL (sumber: docs.djangoproject.com/topics/db/models)
-- `CharField`, `DecimalField`, `IntegerField`, `ForeignKey` label rak
-- `makemigrations` (cetak biru) + `migrate` (bangun rak) — 2 langkah wajib
-- `objects.create()`, `all()`, `filter(nama__icontains=...)` isi & ambil (sumber: docs.djangoproject.com/topics/db/queries)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa ORM, tulis `CREATE TABLE produk (...)` SQL manual — 1 typo kolom, error. Dengan `models.py`, tulis Python yang sudah kamu bisa → Django terjemahkan + buatkan tombol admin CRUD gratis. Ubah model (tambah `diskon`)? `makemigrations` lagi, data lama aman.
+- `class Product(models.Model)` writes Python racks → Django builds SQL tables (source: docs.djangoproject.com/topics/db/models)
+- `CharField`, `DecimalField`, `IntegerField`, `ForeignKey` rack labels
+- `makemigrations` (blueprint) + `migrate` (build racks) — mandatory 2 steps
+- `objects.create()`, `all()`, `filter(name__icontains=...)` fill & fetch (source: docs.djangoproject.com/topics/db/queries)
 
 ---
 
-## Program: Rak Warung ORM
+## Why This Matters (Non-IT)
+
+Without ORM, hand-write `CREATE TABLE products (...)` SQL — 1 column typo, error. With `models.py`, write Python you already know → Django translates + builds free admin CRUD buttons. Model change (add `discount`)? `makemigrations` again, old data safe.
+
+---
+
+## Program: Shop ORM Rack
 
 ```python
-# warung/models.py — tulis Python, jadi tabel SQL
+# shop/models.py — write Python, becomes SQL tables
 from django.db import models
 
-class Produk(models.Model):
-    nama = models.CharField(max_length=100)
-    harga = models.DecimalField(max_digits=10, decimal_places=2)
-    stok = models.IntegerField(default=0)
-    kategori = models.CharField(max_length=50, blank=True)
-    dibuat = models.DateTimeField(auto_now_add=True)
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.IntegerField(default=0)
+    category = models.CharField(max_length=50, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.nama} - Rp{self.harga}"
+        return f"{self.name} - Rp{self.price}"
 
-class Pelanggan(models.Model):
-    nama = models.CharField(max_length=100)
+class Customer(models.Model):
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    kota = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=50, blank=True)
 ```
 
 ```bash
-# 2 langkah wajib (urutan jangan terbalik!)
-python manage.py makemigrations  # tulis cetak biru (file 0001_initial.py)
-python manage.py migrate         # bangun rak di DB
+# Mandatory 2 steps (never reversed!)
+python manage.py makemigrations  # write blueprint (0001_initial.py file)
+python manage.py migrate         # build racks in DB
 ```
 
 ```bash
-# Coba di shell
+# Try in shell
 python manage.py shell
->>> from warung.models import Produk
->>> Produk.objects.create(nama="Beras 5kg", harga=62000, stok=10)
->>> Produk.objects.all()
->>> Produk.objects.filter(kategori="Sayur")
->>> Produk.objects.filter(nama__icontains="beras")  # icontains = cari mirip
+>>> from shop.models import Product
+>>> Product.objects.create(name="Rice 5kg", price=62000, stock=10)
+>>> Product.objects.all()
+>>> Product.objects.filter(category="Veggies")
+>>> Product.objects.filter(name__icontains="rice")  # icontains = fuzzy find
 >>> exit()
 ```
 
-Daftarkan ke admin `warung/admin.py`: `from .models import Produk, Pelanggan` + `admin.site.register(Produk)` → buka `http://localhost:8000/admin` → tambah produk tanpa coding!
+Register to admin in `shop/admin.py`: `from .models import Product, Customer` + `admin.site.register(Product)` → open `http://localhost:8000/admin` → add products without coding!
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `models.Model` = Tulis Python, Jadi Tabel
-`class Produk(models.Model)` → tabel `warung_produk` otomatis.
+### `models.Model` = Write Python, Becomes Tables
+`class Product(models.Model)` → `shop_product` table automatically.
 
 ### `makemigrations` vs `migrate`
-- `makemigrations` = gambar cetak biru (file migrasi).
-- `migrate` = bangun rak sesuai biru. Ubah model → ulangi keduanya.
+- `makemigrations` = draws the blueprint (migration file).
+- `migrate` = builds racks per blueprint. Model change → repeat both.
 
-### ORM `objects` = Tukang Gudang
-`create()` isi, `all()` semua, `filter()` saring, `get(id=1)` satu.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Tukang + Penerjemah
-- **Kamu = arsitek**: gambar rak Python.
-- **Django = tukang + penerjemah**: terjemahkan ke SQL + bangun + buatkan admin.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `toko` + `warung` app sudah ada, `pip install django`, `python manage.py runserver`.
-
-### Cara Komputer Membaca
-1. `makemigrations` → baca `models.py` → tulis `migrations/0001_initial.py`.
-2. `migrate` → jalankan SQL `CREATE TABLE warung_produk (...)`.
-3. `Produk.objects.create(...)` → `INSERT INTO warung_produk ...`.
-
-### 3 Istilah Wajib
-1. **Model**: cetak biru rak Python
-2. **Migration**: cetak biru → bangun (2 langkah)
-3. **ORM**: tukang SQL otomatis
+### ORM `objects` = Warehouse Worker
+`create()` fills, `all()` all, `filter()` strains, `get(id=1)` one.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `Produk.objects.create(nama="Kopi", harga=12000)` → `all()` ada 3?
-- **Kuning:** `filter(harga__gte=20000)` (`gte` = >=) → hanya mahal?
-- **Merah:** Ubah model tambah `diskon`, lupa `makemigrations` → `filter(diskon=10)` error `no such column`? Jalankan 2 langkah.
+### Analogy: Worker + Translator
+- **You = architect**: draws Python racks.
+- **Django = worker + translator**: translates to SQL + builds + creates admin.
+
+### Step 0 — Prepare Device
+- Same as W1: `store` + `shop` app present, `pip install django`, `python manage.py runserver`.
+
+### How the Computer Reads It
+1. `makemigrations` → reads `models.py` → writes `migrations/0001_initial.py`.
+2. `migrate` → runs `CREATE TABLE shop_product (...)` SQL.
+3. `Product.objects.create(...)` → `INSERT INTO shop_product ...`.
+
+### 3 Must-Know Terms
+1. **Model**: Python rack blueprint
+2. **Migration**: blueprint → build (2 steps)
+3. **ORM**: automatic SQL worker
 
 ---
 
-## Tantangan
+## Experiments
 
-**Rak Perpustakaan:** `Buku(judul, stok)` + `Anggota(nama, email unique)` → `makemigrations` + `migrate` → `create` 3 buku → `filter(stok__lt=5)` (< 5) → daftarkan ke `admin.py`.
-
----
-
-## Glosarium Mini
-
-- **Model/migrate**: biru/bangun
-- **objects.create/all/filter**: isi/semua/saring
-- **admin.site.register**: daftarkan ke kasir
+- **Green:** `Product.objects.create(name="Coffee", price=12000)` → `all()` shows 3?
+- **Yellow:** `filter(price__gte=20000)` (`gte` = >=) → pricey only?
+- **Red:** Model change adding `discount`, forgetting `makemigrations` → `filter(discount=10)` `no such column` error? Run the 2 steps.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 4: **Rak ORM** (Level: Pemula). Python jadi tabel + admin gratis. Minggu depan: **Views & URLs** — pelayan & pintu.
+**Library Rack:** `Book(title, stock)` + `Member(name, unique email)` → `makemigrations` + `migrate` → `create` 3 books → `filter(stock__lt=5)` (< 5) → register in `admin.py`.
+
+---
+
+## Mini Glossary
+
+- **Model/migrate**: blueprint/build
+- **objects.create/all/filter**: fill/all/strain
+- **admin.site.register**: register to cashier
+
+---
+
+## Summary
+
+Week 2 of 4: **ORM Racks** (Level: Beginner). Python becomes tables + free admin. Next: **Views & URLs** — waiters & doors.
