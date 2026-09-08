@@ -1,101 +1,101 @@
-# Keamanan — Gembok Gudang MySQL
+# Security — Locking the MySQL Warehouse
 
-> **Kategori:** MySQL | **Level:** Menengah | **Minggu 9:** Keamanan & User Management
+> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 9:** Keamanan & User Management
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `CREATE USER 'kasir'@'localhost' IDENTIFIED BY '...'`, `GRANT SELECT, INSERT ON warung.produk` secukupnya (sumber: dev.mysql.com/doc/refman/8.0/en/privileges)
-- Jangan root untuk app! `REVOKE` cabut, `mysql_secure_installation` awal
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-App pakai `root` + SQL injection → hacker `DROP DATABASE` (root bisa semua!). Dengan user `kasir` (hanya SELECT/INSERT produk), jebol pun tidak bisa hapus. 90% jebol = password lemah + root.
+- `CREATE USER 'cashier'@'localhost' IDENTIFIED BY '...'`, `GRANT SELECT, INSERT ON shop.products` just-enough (source: dev.mysql.com/doc/refman/8.0/en/privileges)
+- Never root for apps! `REVOKE` removes, `mysql_secure_installation` first
 
 ---
 
-## Program: Kunci Warung MySQL
+## Why This Matters (Non-IT)
+
+Apps on `root` + SQL injection → hackers `DROP DATABASE` (root can do everything!). With a `cashier` user (only SELECT/INSERT products), even breached can't delete. 90% of breaches = weak passwords + root.
+
+---
+
+## Program: Lock MySQL Shop
 
 ```sql
--- 1. Amankan awal (jawab Y semua!)
+-- 1. Secure first (answer Y to all!)
 -- mysql_secure_installation
 
--- 2. User secukupnya (prinsip least privilege!)
-CREATE USER 'kasir'@'localhost' IDENTIFIED BY 'Kasir#2026!';
-GRANT SELECT, INSERT ON warung.produk TO 'kasir'@'localhost';
+-- 2. Just-enough users (least-privilege principle!)
+CREATE USER 'cashier'@'localhost' IDENTIFIED BY 'Cashier#2026!';
+GRANT SELECT, INSERT ON shop.products TO 'cashier'@'localhost';
 
-CREATE USER 'lapor'@'%' IDENTIFIED BY 'Lapor#2026!';
-GRANT SELECT ON warung.* TO 'lapor'@'%';
+CREATE USER 'reporter'@'%' IDENTIFIED BY 'Reporter#2026!';
+GRANT SELECT ON shop.* TO 'reporter'@'%';
 
--- 3. Cabut jika perlu
-REVOKE INSERT ON warung.produk FROM 'kasir'@'localhost';
-DROP USER 'lapor'@'%';
+-- 3. Revoke when needed
+REVOKE INSERT ON shop.products FROM 'cashier'@'localhost';
+DROP USER 'reporter'@'%';
 
--- 4. Cek siapa bisa apa
-SHOW GRANTS FOR 'kasir'@'localhost';
+-- 4. Check who can do what
+SHOW GRANTS FOR 'cashier'@'localhost';
 
--- 5. Test: login sebagai kasir
--- mysql -u kasir -p
--- DROP TABLE produk;  → ERROR 1142 (ditolak! bagus)
--- SELECT * FROM produk; → bisa
+-- 5. Test: log in as cashier
+-- mysql -u cashier -p
+-- DROP TABLE products;  → ERROR 1142 (rejected! good)
+-- SELECT * FROM products; → works
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `GRANT ... ON db.tabel` = Kunci Ruangan
-`SELECT, INSERT ON warung.produk` — hanya 2 aksi, 1 tabel. Bukan `ALL`!
+### `GRANT ... ON db.table` = Room Keys
+`SELECT, INSERT ON shop.products` — only 2 actions, 1 table. Not `ALL`!
 
-### Jangan `root` untuk App
-`root` hanya manusia darurat. App = user khusus secukupnya.
+### Never `root` for Apps
+`root` for human emergencies only. Apps = dedicated just-enough users.
 
-### `mysql_secure_installation` = Gembok Awal
-Hapus anonymous, matikan root remote, buang test DB.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kunci Kamar Kos
-- **root = kunci master**: pegang pemilik.
-- **kasir = kunci kamar**: buka kamarnya saja.
-- **GRANT = tukang kunci**: ukir secukupnya.
-
-### Langkah 0 — Siapkan Device
-- MySQL lokal + akses root awal.
-
-### Cara Komputer Membaca
-1. Login `kasir` → MySQL cek `mysql.user` + `db` privileges.
-2. `DROP` → tidak ada privilege → `ERROR 1142`.
-
-### 3 Istilah Wajib
-1. **GRANT/REVOKE**: beri/cabut
-2. **Least privilege**: secukupnya
+### `mysql_secure_installation` = First Lock
+Removes anonymous, disables remote root, drops test DB.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `SHOW GRANTS` kasir → hanya 2?
-- **Kuning:** `GRANT ALL` ke `coba` → bisa DROP? (Jangan di produksi!) `REVOKE` + `DROP USER`.
-- **Merah:** Password `123` → `crack` 1 detik? Ganti 12+ acak.
+### Analogy: Boarding-House Keys
+- **root = master key**: held by owner.
+- **cashier = room key**: opens its room only.
+- **GRANT = locksmith**: carves just enough.
+
+### Step 0 — Prepare Device
+- Local MySQL + initial root access.
+
+### How the Computer Reads It
+1. `cashier` login → MySQL checks `mysql.user` + `db` privileges.
+2. `DROP` → no privilege → `ERROR 1142`.
+
+### 3 Must-Know Terms
+1. **GRANT/REVOKE**: give/take
+2. **Least privilege**: just-enough
 
 ---
 
-## Tantangan
+## Experiments
 
-**Gudang Tergembok:** 3 user (`kasir` SELECT/INSERT produk, `lapor` SELECT semua, `admin` ALL) + buktikan `kasir` DROP ditolak + `SHOW GRANTS` 3 screenshot.
-
----
-
-## Glosarium Mini
-
-- **GRANT/REVOKE/privilege**: beri/cabut/izin
+- **Green:** `SHOW GRANTS` for cashier → only 2?
+- **Yellow:** `GRANT ALL` to `trial` → can DROP? (Not in production!) `REVOKE` + `DROP USER`.
+- **Red:** Password `123` → cracked in 1 second? Change to 12+ random.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 10: **Gembok Gudang** (Level: Menengah). Secukupnya. Minggu depan: **Capstone**.
+**Locked Warehouse:** 3 users (`cashier` SELECT/INSERT products, `reporter` SELECT all, `admin` ALL) + prove `cashier` DROP rejected + `SHOW GRANTS` 3 screenshots.
+
+---
+
+## Mini Glossary
+
+- **GRANT/REVOKE/privilege**: give/take/permit
+
+---
+
+## Summary
+
+Week 9 of 10: **Warehouse Lock** (Level: Intermediate). Just-enough. Next: **Capstone**.

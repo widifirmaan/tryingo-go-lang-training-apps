@@ -1,24 +1,24 @@
-# Replikasi — Cabang Gudang MySQL
+# Replication — MySQL Warehouse Branches
 
-> **Kategori:** MySQL | **Level:** Menengah | **Minggu 8:** Replikasi & High Availability
+> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 8:** Replikasi & High Availability
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Primary tulis + Replica baca (`CHANGE MASTER TO` + `START SLAVE`), `SHOW SLAVE STATUS` cek `Seconds_Behind_Master` (sumber: dev.mysql.com/doc/refman/8.0/en/replication)
-- `read-only = 1` di replica (tolak tulis nyasar)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung buka 24 jam: DB utama mati → toko tutup. Dengan replica, baca pindah ke cabang (toko tetap buka baca). Laporan berat di replica → utama adem untuk transaksi.
+- Primary writes + Replica reads (`CHANGE MASTER TO` + `START SLAVE`), `SHOW SLAVE STATUS` checks `Seconds_Behind_Master` (source: dev.mysql.com/doc/refman/8.0/en/replication)
+- `read-only = 1` on replica (rejects stray writes)
 
 ---
 
-## Program: Cabang Baca MySQL
+## Why This Matters (Non-IT)
+
+24-hour shops: main DB dies → store closes. With a replica, reads move to the branch (store stays open for reading). Heavy reports on replica → primary stays cool for transactions.
+
+---
+
+## Program: MySQL Read Branch
 
 ```ini
-# my.cnf PRIMARY (id unik!)
+# my.cnf PRIMARY (unique id!)
 [mysqld]
 server-id = 1
 log-bin = mysql-bin
@@ -32,80 +32,80 @@ read-only = 1
 ```
 
 ```sql
--- Di PRIMARY: buat user replikasi
-CREATE USER 'repl'@'%' IDENTIFIED BY 'rahasia';
+-- On PRIMARY: create replication user
+CREATE USER 'repl'@'%' IDENTIFIED BY 'secret';
 GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
 
--- Di REPLICA: sambung
+-- On REPLICA: connect
 CHANGE MASTER TO
   MASTER_HOST = 'primary-ip',
   MASTER_USER = 'repl',
-  MASTER_PASSWORD = 'rahasia',
+  MASTER_PASSWORD = 'secret',
   MASTER_AUTO_POSITION = 1;
 START SLAVE;
 
--- Cek sehat (di REPLICA):
+-- Health check (on REPLICA):
 SHOW SLAVE STATUS\G
 -- Slave_IO_Running: Yes, Slave_SQL_Running: Yes
--- Seconds_Behind_Master: 0 (tidak telat!)
+-- Seconds_Behind_Master: 0 (not late!)
 ```
 
-Test: `INSERT` di primary → 1 detik → `SELECT` di replica ada!
+Test: `INSERT` on primary → 1 second → `SELECT` on replica present!
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Primary/Replica = Tulis/Baca
-Tulis ke primary, baca dari replica. `read-only` cegah tulis nyasar.
+### Primary/Replica = Write/Read
+Write to primary, read from replica. `read-only` stops stray writes.
 
-### `server-id` Unik + Binlog
-Tiap server ID beda. Binlog catat semua tulis untuk disalin.
+### Unique `server-id` + Binlog
+Each server a different ID. Binlog records all writes for copying.
 
-### `Seconds_Behind_Master` = Keterlambatan
-0 = sehat. 3600 = telat 1 jam (bahaya!).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kantor Pusat & Cabang
-- **Primary = pusat**: terima setoran (tulis).
-- **Replica = cabang**: fotokopi buku tiap detik, layani lihat (baca).
-
-### Langkah 0 — Siapkan Device
-- 2 MySQL (2 `docker run` port 3306 + 3307) + `server-id` beda.
-
-### Cara Komputer Membaca
-1. `INSERT` primary → tulis binlog.
-2. Replica tarik binlog → jalankan → sama persis.
-
-### 3 Istilah Wajib
-1. **Primary/replica**: tulis/baca
-2. **Binlog/behind**: catatan/telat
+### `Seconds_Behind_Master` = Lateness
+0 = healthy. 3600 = 1 hour late (danger!).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `INSERT` primary → `SELECT` replica 1 detik kemudian ada?
-- **Kuning:** Matikan replica 1 menit → `Behind` naik? Nyalakan → kejar 0?
-- **Merah:** Tulis langsung ke replica → error `read-only`? (Bagus, cegah!)
+### Analogy: Head Office & Branch
+- **Primary = head office**: receives deposits (writes).
+- **Replica = branch**: photocopies the book every second, serves viewing (reads).
+
+### Step 0 — Prepare Device
+- 2 MySQLs (2 `docker run` ports 3306 + 3307) + different `server-id`.
+
+### How the Computer Reads It
+1. `INSERT` on primary → writes binlog.
+2. Replica pulls binlog → replays → exactly equal.
+
+### 3 Must-Know Terms
+1. **Primary/replica**: write/read
+2. **Binlog/behind**: log/late
 
 ---
 
-## Tantangan
+## Experiments
 
-**Cabang Warung:** Primary + replica + `INSERT` 5 → `SELECT` replica 5 + `SHOW SLAVE STATUS` 2 Yes + screenshot.
-
----
-
-## Glosarium Mini
-
-- **Replica/binlog/behind**: cabang/catatan/telat
+- **Green:** `INSERT` on primary → `SELECT` on replica 1 second later present?
+- **Yellow:** Kill replica 1 minute → `Behind` rises? Restart → catches to 0?
+- **Red:** Write directly to replica → `read-only` error? (Good, prevents!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 10: **Cabang Gudang** (Level: Menengah). Tulis 1, baca banyak. Minggu depan: **Keamanan**.
+**Shop Branch:** Primary + replica + `INSERT` 5 → `SELECT` 5 on replica + `SHOW SLAVE STATUS` 2 Yeses + screenshot.
+
+---
+
+## Mini Glossary
+
+- **Replica/binlog/behind**: branch/log/late
+
+---
+
+## Summary
+
+Week 8 of 10: **Warehouse Branch** (Level: Intermediate). Write 1, read many. Next: **Security**.
