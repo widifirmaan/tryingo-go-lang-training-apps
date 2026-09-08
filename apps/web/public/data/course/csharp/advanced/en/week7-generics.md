@@ -1,57 +1,57 @@
-# Generics — Rak Serbaguna C#
+# Generics — Multipurpose C# Racks
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 7:** Generics
+> **Kategori:** C# | **Level:** Advanced | **Minggu 7:** Generics
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Keranjang<T> { List<T> items; }` rak untuk `string` atau `int`, `where T : Produk` batas
+- `class Cart<T> { List<T> items; }` rack for `string` or `int`, `where T : Product` bounds
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Versi intermediate sudah bisa; versi advanced untuk produksi: where T : new() + factory + variance dasar. Tanpa ini, kode menengah jebol di edge-case produksi.
+The intermediate version works; the advanced version is for production: where T : new() + factory + basic variance. Without it, intermediate code breaks on production edge cases.
 
 ---
 
 ## Program
 
 ```csharp
-class Keranjang<T> {
+class Cart<T> {
   public List<T> Items = new();
-  public void Tambah(T item) => Items.Add(item);
+  public void Add(T item) => Items.Add(item);
 }
 
-var keranjangString = new Keranjang<string>();
-keranjangString.Tambah("Beras");
-Console.WriteLine(string.Join(", ", keranjangString.Items));
+var stringCart = new Cart<string>();
+stringCart.Add("Rice");
+Console.WriteLine(string.Join(", ", stringCart.Items));
 
-var keranjangInt = new Keranjang<int>();
-keranjangInt.Tambah(62000);
+var intCart = new Cart<int>();
+intCart.Add(62000);
 ```
 
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Rak Serbaguna Produksi
-- Lihat Program: tiap baris ada komentar. Jalankan `dotnet run`, ubah 1 angka, lihat bedanya.
+### Analogy: Production Multipurpose Rack
+- See Program: every line commented. Run `dotnet run`, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama C# W1: `.NET SDK`, `dotnet run`.
+### Step 0 — Prepare Device
+- Same as C# W1: `.NET SDK`, `dotnet run`.
 
-### Cara Komputer Membaca
-- `where T : new()` + `Activator`/`new T()` + factory method `Buat<T>()`.
+### How the Computer Reads It
+- `where T : new()` + `Activator`/`new T()` + factory method `Make<T>()`.
 
-### 3 Istilah Wajib
-- 1. **Generics/where/new()**: serbaguna/syarat/buat
+### 3 Must-Know Terms
+- 1. **Generics/where/new()**: multipurpose/requirement/make
 
-## Glosarium Mini
+## Mini Glossary
 
-- **Lanjutan**: rak generik lanjutan produksi
+- **Advanced**: advanced production generic racks
 
-## Ringkasan
+## Summary
 
-Minggu 7: **Rak Generik** — `Keranjang<T>`.
+Week 7: **Generic Rack** — `Cart<T>`.

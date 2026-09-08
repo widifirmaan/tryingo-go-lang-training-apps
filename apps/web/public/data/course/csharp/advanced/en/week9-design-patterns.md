@@ -1,106 +1,106 @@
-# Design Patterns — Pola Warung Rapi C#
+# Design Patterns — Neat C# Shop Patterns
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 9:** Design Patterns
+> **Kategori:** C# | **Level:** Advanced | **Minggu 9:** Design Patterns
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Strategy` colokan ganti cara bayar tanpa `if` 20x, `Singleton` 1 kasir utama, `Repository` tukang gudang (sumber: refactoring.guru/design-patterns/csharp)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tambah QRIS dengan `if` 20x → ubah 20 tempat, lupa 1 = bug. Dengan `Strategy`, tambah 1 class. `Repository` pisahkan SQL dari logika — ganti DB tanpa ubah kasir.
+- `Strategy` plug swaps payment ways without 20x `if`, `Singleton` 1 head cashier, `Repository` warehouse worker (source: refactoring.guru/design-patterns/csharp)
 
 ---
 
-## Program: Pola Bayar Warung
+## Why This Matters (Non-IT)
+
+Adding QRIS with 20x `if` → edits 20 places, forget 1 = bug. With `Strategy`, add 1 class. `Repository` separates SQL from logic — swap DBs without touching cashiers.
+
+---
+
+## Program: Shop Payment Patterns
 
 ```csharp
-// Strategy: 1 colokan, banyak cara
-interface IBayar { void Bayar(decimal total); }
+// Strategy: 1 plug, many ways
+interface IPay { void Pay(decimal total); }
 
-class Tunai : IBayar {
-  public void Bayar(decimal total) => Console.WriteLine($"Tunai Rp{total:N0}");
+class Cash : IPay {
+  public void Pay(decimal total) => Console.WriteLine($"Cash Rp{total:N0}");
 }
-class Transfer : IBayar {
-  public void Bayar(decimal total) => Console.WriteLine($"Transfer Rp{total:N0}");
-}
-
-class Kasir {
-  private readonly IBayar _cara;
-  public Kasir(IBayar cara) { _cara = cara; } // suntik colokan!
-  public void Checkout(decimal total) => _cara.Bayar(total);
+class Transfer : IPay {
+  public void Pay(decimal total) => Console.WriteLine($"Transfer Rp{total:N0}");
 }
 
-var k1 = new Kasir(new Tunai());
+class Cashier {
+  private readonly IPay _way;
+  public Cashier(IPay way) { _way = way; } // plug injection!
+  public void Checkout(decimal total) => _way.Pay(total);
+}
+
+var k1 = new Cashier(new Cash());
 k1.Checkout(62000);
-var k2 = new Kasir(new Transfer());
+var k2 = new Cashier(new Transfer());
 k2.Checkout(62000);
 
-// Singleton: 1 kasir utama
-class KasirUtama {
-  private static KasirUtama? _satu;
-  private KasirUtama() {}
-  public static KasirUtama Ambil() => _satu ??= new KasirUtama();
+// Singleton: 1 head cashier
+class HeadCashier {
+  private static HeadCashier? _one;
+  private HeadCashier() {}
+  public static HeadCashier Take() => _one ??= new HeadCashier();
 }
-Console.WriteLine(KasirUtama.Ambil() == KasirUtama.Ambil()); // True
+Console.WriteLine(HeadCashier.Take() == HeadCashier.Take()); // True
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Strategy` = Colokan
-`Kasir(IBayar cara)` terima apa saja yang pas. Tambah `Qris` tanpa ubah `Kasir`.
+### `Strategy` = Plug
+`Cashier(IPay way)` accepts anything fitting. Add `Qris` without touching `Cashier`.
 
-### `Singleton` = 1 Saja
-`private` constructor + `static Ambil()` — `new` dari luar ditolak.
+### `Singleton` = Only 1
+`private` constructor + `static Take()` — outside `new` rejected.
 
-### `Repository` = Tukang Gudang
-`interface IRepo { List<Produk> Semua(); }` — kasir tidak tahu SQL.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Colokan & Kasir Utama
-- **Strategy = colokan listrik**: colok Tunai/Transfer, kasir sama.
-- **Singleton = kasir utama**: cuma 1 di toko.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `dotnet run`.
-
-### Cara Komputer Membaca
-1. `new Kasir(new Tunai())` → simpan cara.
-2. `Checkout(62000)` → panggil `cara.Bayar()` (polimorfisme).
-
-### 3 Istilah Wajib
-1. **Strategy/Singleton**: colokan/1-saja
-2. **Interface**: kontrak colokan
+### `Repository` = Warehouse Worker
+`interface IRepo { List<Product> All(); }` — cashier never knows SQL.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tambah `class Qris : IBayar` → `new Kasir(new Qris())` tanpa ubah `Kasir`?
-- **Kuning:** `new KasirUtama()` langsung → error `private`?
-- **Merah:** 20 `if` vs Strategy — tambah cara ke-21, mana 1 tempat?
+### Analogy: Plugs & Head Cashier
+- **Strategy = power plug**: plug Cash/Transfer, same cashier.
+- **Singleton = head cashier**: only 1 in store.
+
+### Step 0 — Prepare Device
+- Same as W1: `dotnet run`.
+
+### How the Computer Reads It
+1. `new Cashier(new Cash())` → stores the way.
+2. `Checkout(62000)` → calls `way.Pay()` (polymorphism).
+
+### 3 Must-Know Terms
+1. **Strategy/Singleton**: plug/only-1
+2. **Interface**: plug contract
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Pola Lengkap:** `IBayar` + 3 cara + `Kasir` + test 3 + `Singleton` log.
-
----
-
-## Glosarium Mini
-
-- **Strategy/Singleton/Repository**: colokan/1/tukang
+- **Green:** Add `class Qris : IPay` → `new Cashier(new Qris())` without touching `Cashier`?
+- **Yellow:** Direct `new HeadCashier()` → `private` error?
+- **Red:** 20 `if`s vs Strategy — adding way #21, which edits 1 place?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Pola Rapi** (Level: Lanjutan). Tambah tanpa ubah lama. Minggu depan: **Testing**.
+**Complete Pattern Shop:** `IPay` + 3 ways + `Cashier` + 3 tests + `Singleton` log.
+
+---
+
+## Mini Glossary
+
+- **Strategy/Singleton/Repository**: plug/one/worker
+
+---
+
+## Summary
+
+Week 9 of 12: **Neat Patterns** (Level: Advanced). Add without touching old. Next: **Testing**.

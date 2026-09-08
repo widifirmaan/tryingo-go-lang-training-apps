@@ -1,118 +1,115 @@
-# Web API — Warung Online C#
+# Web API — Online C# Shop
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 11:** Web API
+> **Kategori:** C# | **Level:** Advanced | **Minggu 11:** Web API
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `dotnet new webapi` + `[ApiController]` + `[HttpGet/Post/Delete]` pintu JSON (sumber: Microsoft Learn web-api)
-- `[FromBody]` amplop, `Results.Ok/NotFound` balas (minimal API alternatif)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-HP butuh JSON, bukan console. Web API = `console` jadi `http://localhost:5000/produk` — 1 codebase C# melayani HP + web.
+- `dotnet new webapi` + `[ApiController]` + `[HttpGet/Post/Delete]` JSON doors (source: Microsoft Learn web-api)
+- `[FromBody]` envelopes, `Results.Ok/NotFound` replies (minimal API alternative)
 
 ---
 
-## Program: API Warung C#
+## Why This Matters (Non-IT)
+
+Phones need JSON, not console. Web API = `console` becomes `http://localhost:5000/products` — 1 C# codebase serves phones + web.
+
+---
+
+## Program: C# Shop API
 
 ```bash
-dotnet new webapi -n WarungApi
-cd WarungApi
+dotnet new webapi -n ShopApi
+cd ShopApi
 dotnet run  # https://localhost:7000/swagger !
 ```
 
 ```csharp
-// Controllers/ProdukController.cs
+// Controllers/ProductsController.cs
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]")] // → api/produk
-public class ProdukController : ControllerBase {
-  private static List<Produk> daftar = new() {
-    new() { Id = 1, Nama = "Beras", Harga = 62000 }
+[Route("api/[controller]")] // → api/products
+public class ProductsController : ControllerBase {
+  private static List<Product> list = new() {
+    new() { Id = 1, Name = "Rice", Price = 62000 }
   };
 
   [HttpGet]
-  public ActionResult<List<Produk>> Semua() => daftar;
+  public ActionResult<List<Product>> All() => list;
 
   [HttpGet("{id}")]
-  public ActionResult<Produk> Satu(int id) {
-    var p = daftar.FirstOrDefault(x => x.Id == id);
+  public ActionResult<Product> One(int id) {
+    var p = list.FirstOrDefault(x => x.Id == id);
     return p is null ? NotFound() : p;
   }
 
   [HttpPost]
-  public ActionResult<Produk> Tambah(Produk p) { // [FromBody] otomatis!
-    p.Id = daftar.Count + 1;
-    daftar.Add(p);
-    return CreatedAtAction(nameof(Satu), new { id = p.Id }, p);
+  public ActionResult<Product> Add(Product p) { // [FromBody] automatic!
+    p.Id = list.Count + 1;
+    list.Add(p);
+    return CreatedAtAction(nameof(One), new { id = p.Id }, p);
   }
 
   [HttpDelete("{id}")]
-  public IActionResult Hapus(int id) {
-    daftar.RemoveAll(x => x.Id == id);
+  public IActionResult Remove(int id) {
+    list.RemoveAll(x => x.Id == id);
     return NoContent();
   }
 }
 ```
 
-Buka `https://localhost:7000/swagger` → coba langsung dari browser! `curl` juga bisa.
+Open `https://localhost:7000/swagger` → try straight from the browser! `curl` works too.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `[ApiController]` + `[Route]` = Pelayan JSON
-Otomatis validasi + JSON (tanpa `View`).
+### `[ApiController]` + `[Route]` = JSON Waiter
+Automatic validation + JSON (no `View`).
 
-### `[HttpGet/Post/Delete]` = Pintu per Aksi
-`[HttpGet("{id}")]` + `(int id)` ambil dari URL.
-
-### Swagger = Menu Coba
-`/swagger` UI coba API tanpa `curl`.
+### `[HttpGet/Post/Delete]` = Door per Action
+`[HttpGet("{id}")]` `:id` door, `[HttpPost]` add door.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Drive-Thru JSON
-- **Controller = 5 jendela**, **Swagger = menu coba**.
+### Analogy: JSON Drive-Thru
+- **ApiController = drive-thru waiter**: takes JSON orders, serves JSON.
 
-### Langkah 0 — Siapkan Device
-- `.NET SDK` + `dotnet new webapi` + `dotnet run` + buka `/swagger`.
+### Step 0 — Prepare Device
+- `.NET SDK` + `dotnet new webapi` + `dotnet run` + open `/swagger`.
 
-### Cara Komputer Membaca
-1. `POST /api/produk` JSON → `[FromBody]` (otomatis!) → `Tambah` → `201 + Location`.
-2. `GET /api/produk/99` → null → `404`.
+### How the Computer Reads It
+1. `POST /api/products` JSON → `[FromBody]` (automatic!) → `Add` → `201 + Location`.
+2. `GET /api/products/99` → null → `404`.
 
-### 3 Istilah Wajib
-1. **ApiController/Route**: pelayan-JSON/pintu
-2. **Swagger/FromBody**: coba/amplop
-
----
-
-## Eksperimen
-
-- **Hijau:** Swagger coba POST → 201 + `Location` header?
-- **Kuning:** GET 99 → 404 JSON?
-- **Merah:** Hapus `[ApiController]` → validasi otomatis hilang? Pasang.
+### 3 Must-Know Terms
+1. **ApiController/Route**: JSON-waiter/door
+2. **Swagger/FromBody**: try/envelope
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Online Lengkap:** CRUD 4 pintu + Swagger screenshot + `curl` 5 perintah lulus.
-
----
-
-## Glosarium Mini
-
-- **ApiController/Swagger**: JSON/coba
+- **Green:** Swagger tries POST → 201 + `Location` header?
+- **Yellow:** GET 99 → 404 JSON?
+- **Red:** Remove `[ApiController]` → automatic validation gone? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 11 dari 12: **Drive-Thru JSON** (Level: Lanjutan). HP bisa belanja. Minggu depan: **Capstone**.
+**Complete Online Shop:** 4-door CRUD + Swagger screenshot + 5 passing `curl` commands.
+
+---
+
+## Mini Glossary
+
+- **ApiController/FromBody**: JSON-waiter/envelope
+
+---
+
+## Summary
+
+Week 11 of 12: **Online API** (Level: Advanced). Phones served. Next: **Capstone**.

@@ -1,16 +1,16 @@
-# Error Handling — Alarm C#
+# Error Handling — C# Alarms
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 8:** Error Handling
+> **Kategori:** C# | **Level:** Advanced | **Minggu 8:** Error Handling
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `try { ... } catch (Exception ex) { ... } finally { ... }` tangkap alarm
+- `try { ... } catch (Exception ex) { ... } finally { ... }` catches alarms
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Versi intermediate sudah bisa; versi advanced untuk produksi: custom Exception + throw + using + global handler. Tanpa ini, kode menengah jebol di edge-case produksi.
+The intermediate version works; the advanced version is for production: custom Exceptions + throw + using + global handler. Without it, intermediate code breaks on production edge cases.
 
 ---
 
@@ -18,13 +18,13 @@ Versi intermediate sudah bisa; versi advanced untuk produksi: custom Exception +
 
 ```csharp
 try {
-  int stok = 0;
-  if (stok == 0) throw new Exception("Stok habis");
-  Console.WriteLine("Jual");
+  int stock = 0;
+  if (stock == 0) throw new Exception("Out of stock");
+  Console.WriteLine("Sell");
 } catch (Exception ex) {
-  Console.WriteLine($"Gagal: {ex.Message}");
+  Console.WriteLine($"Failed: {ex.Message}");
 } finally {
-  Console.WriteLine("Tutup kasir");
+  Console.WriteLine("Close cashier");
 }
 ```
 
@@ -32,24 +32,24 @@ try {
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Alarm Produksi Berlapis
-- Lihat Program: tiap baris ada komentar. Jalankan `dotnet run`, ubah 1 angka, lihat bedanya.
+### Analogy: Layered Production Alarm
+- See Program: every line commented. Run `dotnet run`, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama C# W1: `.NET SDK`, `dotnet run`.
+### Step 0 — Prepare Device
+- Same as C# W1: `.NET SDK`, `dotnet run`.
 
-### Cara Komputer Membaca
-- `class KasirException : Exception` + middleware/handler global + log.
+### How the Computer Reads It
+- `class CashierException : Exception` + global middleware/handler + log.
 
-### 3 Istilah Wajib
-- 1. **Custom/global/log**: khusus/pusat/catat
+### 3 Must-Know Terms
+- 1. **Custom/global/log**: special/central/record
 
-## Glosarium Mini
+## Mini Glossary
 
-- **Lanjutan**: alarm lanjutan produksi
+- **Advanced**: advanced production alarms
 
-## Ringkasan
+## Summary
 
-Minggu 8: **Alarm C#** — `try/catch`.
+Week 8: **C# Alarms** — `try/catch`.
