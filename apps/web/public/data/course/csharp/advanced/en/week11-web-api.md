@@ -20,7 +20,7 @@ Phones need JSON, not console. Web API = `console` becomes `http://localhost:500
 ```bash
 dotnet new webapi -n ShopApi
 cd ShopApi
-dotnet run  # https://localhost:7000/swagger !
+dotnet run  # check terminal for URL (usually https://localhost:7xxx/swagger)!
 ```
 
 ```csharp
@@ -58,7 +58,7 @@ public class ProductsController : ControllerBase {
 }
 ```
 
-Open `https://localhost:7000/swagger` → try straight from the browser! `curl` works too.
+Open the terminal's `/swagger` URL → try straight from the browser! `curl` works too.
 
 ---
 
