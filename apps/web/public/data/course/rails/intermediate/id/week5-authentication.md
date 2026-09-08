@@ -46,7 +46,8 @@ end
 ## Penjelasan untuk Pemula
 
 ### Analogi: Gelang Konser Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`has_secure_password` = brankas di kartu user**: password mentah TAK PERNAH disimpan — cuma hash `password_digest`. `authenticate` cocokkan tanpa buka brankas.
+- **`session[:user_id]` = gelang konser**: login → gelang, tiap request cek gelang. `before_action :require_login` = satpam yang cek SEMUA pintu kecuali loket login!
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

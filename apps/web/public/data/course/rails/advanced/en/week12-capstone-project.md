@@ -113,7 +113,8 @@ Build a complete e-commerce platform: auth, products CRUD, cart, orders, payment
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Store Grand Opening
-- See Program: run the commands, change 1 thing, see the difference.
+- **11 weeks = building a mall**: showcase (views), kitchen (models), IDs (auth), ropes (associations), couriers (jobs), drive-thru (API).
+- **Capstone = grand opening**: auth + payment + email + admin + deploy RUNNING TOGETHER. Service objects = split kitchens so controllers stay skinny (fat = hard to test!).
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

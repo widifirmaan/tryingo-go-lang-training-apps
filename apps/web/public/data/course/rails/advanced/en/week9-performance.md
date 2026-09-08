@@ -118,7 +118,8 @@ Optimize a blog: detect N+1, add indexes, implement caching, add pagination. Ben
 ## Beginner Friendly Explanation
 
 ### Analogy: Speedy Rails Shop
-- See Program: run the commands, change 1 thing, see the difference.
+- **N+1 = waiter shuttling to the warehouse 101x** for 100 guests. `includes` = carries big trays in 2 trips. `counter_cache` = tally board (never recount!).
+- **Russian-doll caching = nested wrapping**: outer changes → inner reuses old wrap. DB indexes = table of contents (without it: reads 100k rows per search!).
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

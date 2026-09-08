@@ -46,7 +46,8 @@ end
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Concert Wristband
-- See Program: run the commands, change 1 thing, see the difference.
+- **`has_secure_password` = vault on the user card**: raw passwords NEVER stored — only `password_digest` hash. `authenticate` matches without opening the vault.
+- **`session[:user_id]` = concert wristband**: login → wristband, every request checks wristbands. `before_action :require_login` = guards checking ALL doors except the login counter!
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).

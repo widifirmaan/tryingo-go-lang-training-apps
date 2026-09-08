@@ -128,7 +128,8 @@ Buat e-commerce platform lengkap: auth, products CRUD, cart, orders, payment, ad
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Rails
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **11 minggu = bangun mal**: etalase (views), dapur (models), KTP (auth), tali (associations), kurir (jobs), drive-thru (API).
+- **Capstone = grand opening**: auth + bayar + email + admin + deploy JALAN BARENG. Service objects = bagi dapur agar controller kurus (gemuk = susah uji!).
 
 ### Langkah 0 — Siapkan Device
 - Sama Rails W1: `rails server` di `3000` (+ `redis` untuk W10).

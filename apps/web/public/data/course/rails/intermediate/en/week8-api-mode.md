@@ -118,7 +118,8 @@ Build a complete REST API for a blog: CRUD posts, comments, auth with JWT, seria
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails JSON Drive-Thru
-- See Program: run the commands, change 1 thing, see the difference.
+- **`--api` = shop without dining room**: drops views/assets/cookies → light for phones.
+- **`namespace :api :v1` = version boards**: v1 keeps running even after v2 is born. Serializers = pretty wrapping (hide `password_digest`!), CORS = permits out-of-domain guests!
 
 ### Step 0 — Prepare Device
 - Same as Rails W1: `rails server` on `3000` (+ `redis` for W10).
