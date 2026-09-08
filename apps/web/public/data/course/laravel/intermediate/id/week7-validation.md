@@ -48,7 +48,8 @@ View: `@error('nama') <span>{{ $message }}</span> @enderror`.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Satpam Terpisah Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Validasi di controller = satpam rangkap kasir**: campur 30 baris + duplikat tiap method.
+- **`FormRequest` = satpam khusus pintu**: 1 class `rules()` dipakai 10 controller. Gagal? Otomatis tendang balik + `old()` isi lama + `@error` pesan!
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

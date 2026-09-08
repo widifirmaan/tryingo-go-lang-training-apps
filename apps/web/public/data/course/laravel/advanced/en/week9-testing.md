@@ -33,7 +33,8 @@ public function test_create(){
 ## Beginner Friendly Explanation
 
 ### Analogy: Laravel Shop Taste
-- See Program: run the commands, change 1 thing, see the difference.
+- **`$this->post()` = mock customer**: orders for real through doors, `assertRedirect` + `assertDatabaseHas` taste receipts + ledgers.
+- **No tests = opening without tasting**: the first customer finds the spoiled dish. `php artisan test` = tastes ALL menus in 1 command!
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

@@ -36,7 +36,8 @@ SendEmail::dispatch($user); // queued, no waiting
 ## Beginner Friendly Explanation
 
 ### Analogy: Laravel Courier Queue
-- See Program: run the commands, change 1 thing, see the difference.
+- **Sending WA in-request = cashier delivering 5 seconds personally**: customers stare at loading.
+- **`dispatch()` = call courier**: replies OK in 0.1s, courier delivers in background. `queue:work` = the courier; fails? `failed_jobs` records + retries!
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

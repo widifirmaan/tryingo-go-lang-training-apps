@@ -28,7 +28,8 @@ Deploy `Vercel`/`Forge` + `php artisan storage:link`.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **11 minggu = bangun mal**: etalase (Blade), gudang (Eloquent), KTP (Breeze), foto (Storage), kurir (Queue), drive-thru (API).
+- **Capstone = grand opening**: semua buka bareng + antrean jalan + deploy. 1 macet (queue mati?) → opening gagal — cek checklist!
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

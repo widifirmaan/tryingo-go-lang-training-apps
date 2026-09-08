@@ -33,7 +33,8 @@ public function test_buat(){
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Warung Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`$this->post()` = pelanggan bohongan**: pesan beneran lewat pintu, `assertRedirect` + `assertDatabaseHas` cicip struk + buku kas.
+- **Tanpa test = buka warung tanpa cicip**: pelanggan pertama yang temukan basi. `php artisan test` = cicip SEMUA menu 1 perintah!
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

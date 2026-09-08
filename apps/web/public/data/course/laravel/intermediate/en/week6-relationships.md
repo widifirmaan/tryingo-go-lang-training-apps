@@ -39,7 +39,8 @@ echo $order->product->name;
 ## Beginner Friendly Explanation
 
 ### Analogy: Ropes Between Laravel Racks
-- See Program: run the commands, change 1 thing, see the difference.
+- **`hasMany` = outgoing rope**: 1 product tied to MANY orders (`$product->orders`).
+- **`belongsTo` = return rope**: each order belongs to 1 product (`$order->product`). `with('orders')` = pull ropes at once (without it: 1 + N queries = slow!).
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

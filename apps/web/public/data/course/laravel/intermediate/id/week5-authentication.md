@@ -40,7 +40,8 @@ Buka `http://localhost:8000/login` → daftar → `/admin` terproteksi.
 ## Penjelasan untuk Pemula
 
 ### Analogi: KTP Siap Pakai Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Breeze = KTP jadi dalam 1 perintah**: `breeze:install` cetak halaman login/register + route + view — tanpa tulis 200 baris.
+- **`middleware('auth')` = gelang konser**: halaman `/admin` cek gelang, tak ada → tendang ke `/login`.
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

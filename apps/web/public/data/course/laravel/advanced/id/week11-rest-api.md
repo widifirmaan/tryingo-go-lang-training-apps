@@ -66,7 +66,8 @@ Test: `curl -X POST -d '{"email":"admin@warung.com","password":"123"}' localhost
 ## Penjelasan untuk Pemula
 
 ### Analogi: Drive-Thru Token Laravel
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`apiResource` = 5 jendela drive-thru 1 baris**: index/store/show/update/destroy tanpa tulis 5 route.
+- **Sanctum = gelang HP**: `createToken()` beri gelang, `auth:sanctum` cek tiap pintu. Token bocor? Hapus 1 baris, HP lain tetap jalan!
 
 ### Langkah 0 — Siapkan Device
 - Sama Laravel W1: `php artisan serve` di `8000` (+ paket minggu ini).

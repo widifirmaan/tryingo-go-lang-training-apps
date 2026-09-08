@@ -40,7 +40,8 @@ Open `http://localhost:8000/login` → register → `/admin` protected.
 ## Beginner Friendly Explanation
 
 ### Analogy: Ready-Made Laravel ID
-- See Program: run the commands, change 1 thing, see the difference.
+- **Breeze = ready-made ID in 1 command**: `breeze:install` prints login/register pages + routes + views — no 200 hand-written lines.
+- **`middleware('auth')` = concert wristband**: `/admin` pages check wristbands, none → kicked to `/login`.
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

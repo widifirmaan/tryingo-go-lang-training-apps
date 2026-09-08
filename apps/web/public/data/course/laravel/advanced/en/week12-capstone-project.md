@@ -28,7 +28,8 @@ Deploy `Vercel`/`Forge` + `php artisan storage:link`.
 ## Beginner Friendly Explanation
 
 ### Analogy: Laravel Store Grand Opening
-- See Program: run the commands, change 1 thing, see the difference.
+- **11 weeks = building a mall**: showcase (Blade), warehouse (Eloquent), IDs (Breeze), photos (Storage), couriers (Queue), drive-thru (API).
+- **Capstone = grand opening**: everything opens together + queues running + deploy. 1 jam (dead queue?) → opening fails — check the checklist!
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).

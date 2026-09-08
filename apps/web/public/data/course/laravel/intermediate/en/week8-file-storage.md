@@ -40,7 +40,8 @@ php artisan storage:link
 ## Beginner Friendly Explanation
 
 ### Analogy: Laravel Photo Warehouse
-- See Program: run the commands, change 1 thing, see the difference.
+- **Uploads without Storage = photos piled on tables**: random paths + moving servers loses everything.
+- **`store('products','public')` = labeled drawer** + `storage:link` = bridge to showcase (`/storage/...`). Moving to S3? Change 1 config, code stays!
 
 ### Step 0 — Prepare Device
 - Same as Laravel W1: `php artisan serve` on `8000` (+ this week's package).
