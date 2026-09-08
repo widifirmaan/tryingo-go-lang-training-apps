@@ -1,62 +1,62 @@
-# Capstone: Warung Python Lengkap
+# Capstone: Complete Python Shop
 
-> **Kategori:** Python | **Level:** Lanjutan | **Minggu 12:** Capstone
+> **Kategori:** Python | **Level:** Advanced | **Minggu 12:** Capstone
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `Flask` + `pandas` + `json` + `test` jadi warung `produk` API + laporan Excel
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: Flask API + pandas laporan + CLI + test jadi warung beneran. Portfolio Python.
+- Combine `Flask` + `pandas` + `json` + `test` into a shop with product `API` + Excel report
 
 ---
 
-## Program: Warung Python Capstone
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combination: Flask API + pandas report + CLI + test become a real shop. Python portfolio.
+
+---
+
+## Program: Python Capstone Shop
 
 ```python
 from flask import Flask, jsonify
 app = Flask(__name__)
-produk = [{"id":1,"nama":"Beras","harga":62000}]
+products = [{"id":1,"name":"Rice","price":62000}]
 
-@app.route("/produk")
-def daftar(): return jsonify(produk)
+@app.route("/products")
+def list(): return jsonify(products)
 
-# Laporan pandas
+# pandas report
 import pandas as pd
-df = pd.DataFrame(produk)
+df = pd.DataFrame(products)
 print(df.describe())
 
-# Jalankan: flask --app app run
+# Run: flask --app app run
 ```
 
-**Tugas:** Deploy `Railway` + `pytest`.
+**Task:** Deploy `Railway` + `pytest`.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Grand Opening Warung Python
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Python Shop Grand Opening
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Python W1: `python --version` + folder proyek.
+### Step 0 — Prepare Device
+- Same as Python W1: `python --version` + project folder.
 
-### Cara Komputer Membaca
-- CHECKLIST (API + laporan + CLI + test) lalu demo + video.
+### How the Computer Reads It
+- CHECKLIST (API + report + CLI + test) then demo + video.
 
-### 3 Istilah Wajib
-- 1. **Capstone/demo**: gabung/tunjuk
+### 3 Must-Know Terms
+- 1. **Capstone/demo**: combine/show
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 12: **Capstone Python** — warung + laporan, **Selesai Python 0→Ahli!**
+Week 12: **Python Capstone** — shop + report, **Python 0→Expert DONE!**

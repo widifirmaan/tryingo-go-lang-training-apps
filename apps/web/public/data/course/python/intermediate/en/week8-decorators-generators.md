@@ -1,77 +1,101 @@
-# Decorators & Generators — Stempel dan Antrian
+# Decorators & Generators — Stamps and Queues
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 8:** Decorators & Generators
+> **Kategori:** Python | **Level:** Intermediate | **Minggu 8:** Decorators & Generators
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `decorator` = stempel di fungsi — `@catat` log sebelum/ sesudah
-- `generator` `yield` = antrian: beri 1, tunggu, beri lagi (hemat RAM)
+- `decorator` = stamp on function — `@log` logs before/after
+- `generator` `yield` = queue: give 1, wait, give again (saves RAM)
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Warung ingin `hitungTotal` otomatis log "mulai" dan "selesai" tanpa tulis `print` di tiap fungsi — decorator stempel sekali untuk semua.
+Shops want `calcTotal` to auto log "start" and "done" without writing `print` in every function — one decorator stamp for all.
 
 ---
 
 ## Program
 
 ```python
-# Decorator = stempel
-def catat(func):
-    def bungkus(*args, **kwargs):
-        print(f"Mulai {func.__name__}")
-        hasil = func(*args, **kwargs)
-        print(f"Selesai {func.__name__}: {hasil}")
-        return hasil
-    return bungkus
+# Decorator = stamp
+def log(func):
+    def wrapper(*args, **kwargs):
+        print(f"Start {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"Done {func.__name__}: {result}")
+        return result
+    return wrapper
 
-@catat
-def hitung(a, b):
+@log
+def calc(a, b):
     return a + b
 
-print(hitung(2, 3))
+print(calc(2, 3))
 
-# Generator = antrian hemat
-def antrian_produk(daftar):
-    for p in daftar:
-        print(f"Siapkan {p}")
-        yield p  # beri 1, pause, lanjut saat next()
+# Generator = thrifty queue
+def product_queue(items):
+    for p in items:
+        print(f"Prepare {p}")
+        yield p  # give 1, pause, continue on next()
 
-for item in antrian_produk(["Beras", "Bayam", "Telur"]):
-    print("Kirim:", item)
+for item in product_queue(["Rice", "Spinach", "Eggs"]):
+    print("Send:", item)
 
-# Hemat RAM: range(1_000_000) tidak buat list 1jt, tapi yield 1 per 1
+# Saves RAM: range(1_000_000) doesn't build a 1M list, but yields 1 by 1
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Decorator `@catat`
-Fungsi yang bungkus fungsi lain — tambah log tanpa ubah isi.
+### Decorator `@log`
+Function wrapping another function — adds logging without changing content.
 
 ### Generator `yield`
-`return` sekali habis, `yield` beri 1, jeda, beri lagi — untuk 1jt produk hemat.
+`return` finishes once, `yield` gives 1, pauses, gives again — for 1M products thrifty.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi
+### Analogy
 
-- **Decorator = stempel**: tempel `@catat` di resep, otomatis cap "Mulai/Selesai".
-- **Generator = antrian warung**: panggil 1, layani 1, panggil lagi.
+- **Decorator = stamp**: stick `@log` on recipe, auto stamps "Start/Done".
+- **Generator = shop queue**: call 1, serve 1, call again.
+
+### Step 0 — Prepare Device
+- Python terminal, paste decorator, apply to 2 functions.
+
+### How the Computer Reads It
+1. `@log` above `calc` → `calc = log(calc)` (wrapped).
+2. `yield p` → pauses, resumes on next loop step.
+
+### 3 Must-Know Terms
+1. **decorator/yield**: stamp/queue
 
 ---
 
-## Tantangan
+## Experiments
 
-**Stempel Waktu:** Buat `@timer` yang `start = time.time()` sebelum `func` dan `print(time.time()-start)` sesudah. Pakai di `hitung(a,b)`.
+- **Green:** `@log` on another function → logs too?
+- **Yellow:** Loop generator twice → second loop empty (exhausted)? Recreate.
+- **Red:** `return` in generator → stops early? Use `yield`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8: **Stempel & Antrian** — decorator & generator. Selesai Intermediate Python!
+**Time Stamp:** Build `@timer` that `start = time.time()` before `func` and `print(time.time()-start)` after. Use on `calc(a,b)`.
+
+---
+
+## Mini Glossary
+
+- **decorator/generator**: stamp/queue
+
+---
+
+## Summary
+
+Week 8: **Stamps & Queues** — decorators & generators. Intermediate Python DONE!

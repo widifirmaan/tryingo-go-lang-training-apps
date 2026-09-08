@@ -1,62 +1,62 @@
-# Libraries — Pinjam Alat Tetangga
+# Libraries — Borrow Neighbor's Tools
 
-> **Kategori:** Python | **Level:** Lanjutan | **Minggu 9:** Libraries
+> **Kategori:** Python | **Level:** Advanced | **Minggu 9:** Libraries
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `pip install requests pandas` pinjam, `import requests` pakai, `venv` laci terpisah
+- `pip install requests pandas` borrow, `import requests` use, `venv` separate drawer
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `venv`, pinjam `requests` v2 untuk proyek A merusak proyek B yang butuh v1 (tabrakan!). Dengan laci terpisah per proyek + `requirements.txt`, tim install sama persis.
+Without `venv`, borrowing `requests` v2 for project A breaks project B needing v1 (clash!). With a separate drawer per project + `requirements.txt`, the team installs exactly the same.
 
 ---
 
 ## Program
 
 ```bash
-python -m venv warung-env
-# Windows: warung-env\Scripts\activate
-# Mac/Linux: source warung-env/bin/activate
+python -m venv shop-env
+# Windows: shop-env\Scripts\activate
+# Mac/Linux: source shop-env/bin/activate
 pip install requests
 pip freeze > requirements.txt
 ```
 
 ```python
 import requests
-# Tanpa API beneran, simulasi
-data = [{"nama": "Beras", "harga": 62000}]
-print("Pinjam requests:", data)
+# Without a real API, simulate
+data = [{"name": "Rice", "price": 62000}]
+print("Borrowed requests:", data)
 
 import json, os
-print("json & os sudah bawaan — tidak perlu pip")
+print("json & os are built-in — no pip needed")
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Laci Alat per Proyek
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Tool Drawer per Project
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Python W1: `python --version` + folder proyek.
+### Step 0 — Prepare Device
+- Same as Python W1: `python --version` + project folder.
 
-### Cara Komputer Membaca
-- `python -m venv warung-env` buat laci; `activate` masuk; `pip install` taruh di laci itu saja.
+### How the Computer Reads It
+- `python -m venv shop-env` makes a drawer; `activate` enters it; `pip install` puts packages in that drawer only.
 
-### 3 Istilah Wajib
-- 1. **venv/pip/requirements**: laci/pinjam/daftar
+### 3 Must-Know Terms
+- 1. **venv/pip/requirements**: drawer/borrow/list
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 9: **Pinjam Alat** — `pip` + `venv`.
+Week 9: **Borrow Tools** — `pip` + `venv`.

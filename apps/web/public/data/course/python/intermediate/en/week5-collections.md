@@ -1,88 +1,112 @@
-# Collections — Rak, Buku Alamat, dan Tas Unik
+# Collections — Racks, Address Books, and Unique Bags
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 5:** Collections
+> **Kategori:** Python | **Level:** Intermediate | **Minggu 5:** Collections
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `list` rak urut `["beras","minyak"]`, `dict` buku alamat `{"Budi": 081}`, `set` tas unik `{"beras","beras"} → {"beras"}`, `tuple` kardus kunci `(1,2)`
-- `list` method `append`, `dict` `get`, `set` `add`, `tuple` tidak bisa ubah
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Stok warung butuh rak urut (list), harga per nama butuh buku alamat (dict), daftar kategori tanpa kembar butuh tas unik (set).
+- `list` ordered rack `["rice","oil"]`, `dict` address book `{"Budi": 081}`, `set` unique bag `{"rice","rice"} → {"rice"}`, `tuple` locked box `(1,2)`
+- `list` method `append`, `dict` `get`, `set` `add`, `tuple` can't change
 
 ---
 
-## Program: Koleksi Warung
+## Why This Matters (Non-IT)
+
+Shop stock needs an ordered rack (list), prices by name need an address book (dict), duplicate-free category lists need a unique bag (set).
+
+---
+
+## Program: Shop Collections
 
 ```python
-# List — rak urut
-stok = ["beras", "minyak", "gula"]
-stok.append("telur")
-print(stok, "panjang", len(stok))
-print("Pertama:", stok[0])
+# List — ordered rack
+stock = ["rice", "oil", "sugar"]
+stock.append("eggs")
+print(stock, "length", len(stock))
+print("First:", stock[0])
 
-# Dict — buku alamat
-harga = {"beras": 62000, "gula": 15000}
-print("Harga beras:", harga["beras"])
-print("Harga kopi (aman):", harga.get("kopi", 0)) # tidak error, default 0
-harga["kopi"] = 12000
-print(harga)
+# Dict — address book
+prices = {"rice": 62000, "sugar": 15000}
+print("Rice price:", prices["rice"])
+print("Coffee price (safe):", prices.get("coffee", 0)) # no error, default 0
+prices["coffee"] = 12000
+print(prices)
 
-# Set — tas unik (tidak kembar)
-kategori = {"Sembako", "Sayur", "Sembako"}
-print("Kategori:", kategori) # {'Sembako','Sayur'}
-kategori.add("Protein")
-print("Setelah add:", kategori)
+# Set — unique bag (no duplicates)
+categories = {"Staples", "Veggies", "Staples"}
+print("Categories:", categories) # {'Staples','Veggies'}
+categories.add("Protein")
+print("After add:", categories)
 
-# Tuple — kardus kunci (tidak bisa ubah)
-lokasi = (106.8, -6.2) # koordinat
-print("Lokasi:", lokasi)
-# lokasi[0] = 107 # ❌ error: tuple tidak bisa ubah
+# Tuple — locked box (can't change)
+location = (106.8, -6.2) # coordinates
+print("Location:", location)
+# location[0] = 107 # ❌ error: tuple can't change
 
-# Loop koleksi
-for nama, h in harga.items():
-    print(f"{nama}: Rp{h:,}")
+# Loop collections
+for name, p in prices.items():
+    print(f"{name}: Rp{p:,}")
 
-# Comprehension cepat
-murah = [nama for nama, h in harga.items() if h < 20000]
-print("Murah:", murah)
+# Fast comprehension
+cheap = [name for name, p in prices.items() if p < 20000]
+print("Cheap:", cheap)
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `list` vs `tuple` vs `dict` vs `set`
-- `list` `[]` urut, bisa ubah
-- `tuple` `()` urut, tidak bisa ubah (kunci)
-- `dict` `{kunci: nilai}` cari cepat
-- `set` `{}` unik, tidak kembar
+- `list` `[]` ordered, changeable
+- `tuple` `()` ordered, unchangeable (locked)
+- `dict` `{key: value}` fast lookup
+- `set` `{}` unique, no duplicates
 
-### `get` Aman
-`harga.get("kopi", 0)` tidak error jika tidak ada.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi
-
-- **List = rak**: urutan 0,1,2
-- **Dict = buku alamat**: cari "Budi" → 081
-- **Set = tas unik**: masukkan "beras" 2x tetap 1
-- **Tuple = kardus segel**: tidak bisa ubah
+### Safe `get`
+`prices.get("coffee", 0)` no error when missing.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Inventaris:** `stok = ["beras","gula","beras"]` → `set(stok)` unik? `harga = {"beras":62000}` → `harga.get("beras")` + `for k,v in harga.items()` print.
+### Analogy
+
+- **List = rack**: order 0,1,2
+- **Dict = address book**: look up "Budi" → 081
+- **Set = unique bag**: insert "rice" 2x stays 1
+- **Tuple = sealed box**: can't change
+
+### Step 0 — Prepare Device
+- Python installed (`python --version`), run snippets in terminal or playground.
+
+### How the Computer Reads It
+1. `stock.append("eggs")` → adds to rack end.
+2. `prices.get("coffee", 0)` → missing key → returns 0, no crash.
+
+### 3 Must-Know Terms
+1. **list/dict/set/tuple**: rack/book/bag/box
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 5: **Koleksi** — rak, buku, tas, kardus. Minggu depan: **OOP**.
+- **Green:** `stock.append("salt")` → rack grows?
+- **Yellow:** `prices["tea"]` missing key → KeyError? Use `.get("tea", 0)`.
+- **Red:** `location[0] = 107` → TypeError (tuple locked)? Keep locked.
+
+---
+
+## Challenge
+
+**Inventory:** `stock = ["rice","sugar","rice"]` → `set(stock)` unique? `prices = {"rice":62000}` → `prices.get("rice")` + `for k,v in prices.items()` print.
+
+---
+
+## Mini Glossary
+
+- **list/dict/set/tuple**: rack/book/bag/box
+
+---
+
+## Summary
+
+Week 5: **Collections** — racks, books, bags, boxes. Next: **OOP**.

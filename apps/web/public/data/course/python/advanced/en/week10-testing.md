@@ -1,59 +1,59 @@
-# Testing — Uji Rasa Sebelum Saji
+# Testing — Taste Before Serving
 
-> **Kategori:** Python | **Level:** Lanjutan | **Minggu 10:** Testing
+> **Kategori:** Python | **Level:** Advanced | **Minggu 10:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `pytest` atau `unittest` — cicip sebelum saji, `assert` cek
+- `pytest` or `unittest` — taste before serving, `assert` checks
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa `pytest`, ubah rumus → salah ketahuan pelanggan. Dengan `assert` + `pytest -v`, ubah → merah → perbaiki. `parametrize` cicip 10 kasus 3 baris.
+Without `pytest`, formula changes → mistakes found by customers. With `assert` + `pytest -v`, change → red → fix. `parametrize` tastes 10 cases in 3 lines.
 
 ---
 
 ## Program
 
 ```python
-# hitung.py
-def hitung(a,b): return a+b
+# calc.py
+def calc(a,b): return a+b
 
-# test_hitung.py
-def test_hitung():
-    assert hitung(2,3) == 5
-    assert hitung(0,0) == 0
-    print("Lulus")
+# test_calc.py
+def test_calc():
+    assert calc(2,3) == 5
+    assert calc(0,0) == 0
+    print("Pass")
 
-test_hitung()
+test_calc()
 
-# Jalankan: pytest -v atau python -m unittest
+# Run: pytest -v or python -m unittest
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Cicip Dapur Python
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Python Kitchen Taste-Test
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Python W1: `python --version` + folder proyek.
+### Step 0 — Prepare Device
+- Same as Python W1: `python --version` + project folder.
 
-### Cara Komputer Membaca
-- `pytest` cari `test_*.py`; `assert a == b` cocok? Lanjut : merah + nilai.
+### How the Computer Reads It
+- `pytest` finds `test_*.py`; `assert a == b` match? Continue : red + value.
 
-### 3 Istilah Wajib
-- 1. **pytest/assert/parametrize**: dapur/cicip/borong
+### 3 Must-Know Terms
+- 1. **pytest/assert/parametrize**: kitchen/taste/bulk
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 10: **Uji Rasa** — `assert` sebelum deploy.
+Week 10: **Taste Test** — `assert` before deploy.
