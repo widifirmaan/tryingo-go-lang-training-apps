@@ -31,6 +31,10 @@ export const { handlers, auth, signIn } = NextAuth({
   })]
 });
 
+// app/api/auth/[...nextauth]/route.js — WAJIB agar login jalan!
+import { handlers } from "@/auth";
+export const { GET, POST } = handlers;
+
 // app/admin/page.js
 import { auth } from "@/auth";
 export default async function Admin(){
