@@ -1,102 +1,102 @@
-# Provide/Inject & Teleport — Papan & Portal Warung Vue
+# Provide/Inject & Teleport — Vue Shop Boards & Portals
 
-> **Kategori:** Vue | **Level:** Menengah | **Minggu 8:** Provide/Inject & Teleport
+> **Kategori:** Vue | **Level:** Intermediate | **Minggu 8:** Provide/Inject & Teleport
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `provide("warung", data)` papan di induk + `inject("warung")` baca di anak 10 level (tanpa props!) (sumber: vuejs.org/guide/components/provide-inject)
-- `<Teleport to="body">` portal popup ke `body` (keluar CSS sempit induk)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Nama warung dipakai 10 komponen dalam → props estafet 10 level (lupa 1 = putus). Dengan `provide/inject`, tulis 1x di puncak, baca di mana saja. Modal di dalam `overflow: hidden` terpotong → `Teleport` pindah ke `body`.
+- `provide("shop", data)` board at parent + `inject("shop")` read in 10-deep child (no props!) (source: vuejs.org/guide/components/provide-inject)
+- `<Teleport to="body">` portal popup to `body` (escapes tight parent CSS)
 
 ---
 
-## Program: Papan & Portal Warung
+## Why This Matters (Non-IT)
+
+Shop names used by 10 deep components → 10-level prop relay (1 forgotten = broken). With `provide/inject`, write 1x at top, read anywhere. Modals inside `overflow: hidden` get clipped → `Teleport` moves to `body`.
+
+---
+
+## Program: Boards & Portals
 
 ```vue
-<!-- App.vue — pasang papan -->
+<!-- App.vue — mount board -->
 <script setup>
 import { ref, provide } from "vue";
-const warung = ref({ nama: "Bu Siti", promo: "Gratis ongkir" });
-provide("warung", warung);
+const shop = ref({ name: "Siti", promo: "Free delivery" });
+provide("shop", shop);
 </script>
 <template><router-view /></template>
 ```
 
 ```vue
-<!-- Dalam/Dalam/Kartu.vue — 3 level, tanpa props! -->
+<!-- Deep/Deep/Card.vue — 3 levels, no props! -->
 <script setup>
 import { inject } from "vue";
-const warung = inject("warung");
+const shop = inject("shop");
 </script>
-<template><p>{{ warung.nama }} — {{ warung.promo }}</p></template>
+<template><p>{{ shop.name }} — {{ shop.promo }}</p></template>
 ```
 
 ```vue
-<!-- Modal.vue — portal keluar -->
+<!-- Modal.vue — portal out -->
 <template>
-  <button @click="buka = true">Promo</button>
+  <button @click="open = true">Promo</button>
   <Teleport to="body">
-    <div v-if="buka" class="popup">Diskon 10%! <button @click="buka = false">Tutup</button></div>
+    <div v-if="open" class="popup">10% off! <button @click="open = false">Close</button></div>
   </Teleport>
 </template>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `provide` / `inject` = Papan / Baca
-`provide("warung", data)` di induk, `inject("warung")` di anak mana saja di bawahnya.
+### `provide` / `inject` = Board / Read
+`provide("shop", data)` at parent, `inject("shop")` in any child below.
 
 ### `<Teleport to="body">` = Portal
-Pindahkan render ke `body` (keluar dari CSS induk yang menjepit).
+Moves rendering to `body` (out of squeezing parent CSS).
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Papan Pengumuman & Pintu Ajaib
-- **provide/inject = papan**: tulis 1x di lobi, baca di lantai 10.
-- **Teleport = pintu Doraemon**: modal muncul di `body` meski kode di dalam kartu.
+### Analogy: Notice Board & Magic Door
+- **provide/inject = board**: write 1x in lobby, read on floor 10.
+- **Teleport = magic door**: modal appears in `body` though coded inside a card.
 
-### Langkah 0 — Siapkan Device
-- Sama Vue W1.
+### Step 0 — Prepare Device
+- Same as Vue W1.
 
-### Cara Komputer Membaca
-1. `provide` simpan di konteks komponen.
-2. `inject` cari ke atas sampai ketemu (tidak ketemu → `undefined`! beri default `inject("x", "def")`).
+### How the Computer Reads It
+1. `provide` stores in component context.
+2. `inject` searches upward until found (not found → `undefined`! give default `inject("x", "def")`).
 
-### 3 Istilah Wajib
-1. **provide/inject**: papan/baca
-2. **Teleport/to**: portal/tujuan
-
----
-
-## Eksperimen
-
-- **Hijau:** `inject` di 3 level tanpa props → bisa?
-- **Kuning:** `inject("salah")` → `undefined`? Tambah default.
-- **Merah:** Modal tanpa `Teleport` di dalam `overflow: hidden` → terpotong? Bungkus Teleport.
+### 3 Must-Know Terms
+1. **provide/inject**: board/read
+2. **Teleport/to**: portal/target
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Papan Lengkap:** `provide` warung + tema + 3 level `inject` + modal `Teleport` + ganti tema dari anak (provide fungsi!).
-
----
-
-## Glosarium Mini
-
-- **provide/inject/Teleport**: papan/baca/portal
+- **Green:** `inject` at 3 levels without props → works?
+- **Yellow:** `inject("wrong")` → `undefined`? Add default.
+- **Red:** Modal without `Teleport` inside `overflow: hidden` → clipped? Wrap Teleport.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Papan & Portal** (Level: Menengah). Tanpa estafet. **Selesai Menengah Vue!** Lanjut: **Testing** (Lanjutan).
+**Complete Board Shop:** `provide` shop + theme + 3-level `inject` + `Teleport` modal + change theme from child (provide a function!).
+
+---
+
+## Mini Glossary
+
+- **provide/inject/Teleport**: board/read/portal
+
+---
+
+## Summary
+
+Week 8 of 12: **Boards & Portals** (Level: Intermediate). No relay. **Intermediate Vue DONE!** Next: **Testing** (Advanced).
