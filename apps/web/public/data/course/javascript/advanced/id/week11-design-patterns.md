@@ -4,7 +4,7 @@
 
 ## Tujuan Pembelajaran
 
-- `Singleton` 1 kasir, `Factory` pabrik produk, `Observer` langganan stok habis
+- `Singleton` 1 kasir, `Factory` pabrik produk, `Observer` langganan stok habis, `Strategy` colokan cara bayar
 
 ---
 
@@ -42,6 +42,16 @@ class Toko {
 const toko = new Toko();
 toko.langganan(nama=>console.log(`Stok ${nama} habis, kapan restok?`));
 toko.stokHabis("Beras");
+
+// Strategy — colokan cara bayar (tambah cara tanpa ubah kasir)
+class KasirBayar {
+  constructor(cara){ this.cara = cara; } // colok Tunai/Transfer
+  checkout(total){ return this.cara.bayar(total); }
+}
+const tunai = { bayar: t => `Tunai Rp${t}` };
+const transfer = { bayar: t => `Transfer Rp${t}` };
+console.log(new KasirBayar(tunai).checkout(62000));
+console.log(new KasirBayar(transfer).checkout(62000));
 ```
 
 
@@ -56,7 +66,7 @@ toko.stokHabis("Beras");
 - Sama JS W1: `node -v` / browser + `npm test` untuk W12.
 
 ### Cara Komputer Membaca
-- `new Kasir(new Tunai())` suntik cara; `getInstance()` 1 saja; `on/emit` siar.
+- `new KasirBayar(tunai)` colok cara bayar; `getInstance()` 1 kasir saja; `langganan/stokHabis` siar.
 
 ### 3 Istilah Wajib
 - 1. **Strategy/Singleton/Observer**: colokan/1/siar
