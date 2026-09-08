@@ -1,72 +1,96 @@
-# File I/O — Buku Kas di File
+# File I/O — Ledger Book in a File
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 7:** File I/O
+> **Kategori:** Python | **Level:** Intermediate | **Minggu 7:** File I/O
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `open("struk.txt", "w")` tulis, `"r"` baca, `"a"` tambah, `with open(...) as f:` otomatis tutup
-- `json.dump` simpan dict ke file, `json.load` baca
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Stok warung jika hanya di `list` → tutup laptop hilang. Simpan ke `produk.json` → buka lagi tetap ada.
+- `open("receipt.txt", "w")` write, `"r"` read, `"a"` append, `with open(...) as f:` auto close
+- `json.dump` save dict to file, `json.load` read
 
 ---
 
-## Program: Buku Kas File
+## Why This Matters (Non-IT)
+
+Shop stock only in a `list` → close laptop, gone. Save to `products.json` → reopen, still there.
+
+---
+
+## Program: File Ledger
 
 ```python
 import json
 
-# Tulis
-produk = [{"nama": "Beras", "harga": 62000}, {"nama": "Bayam", "harga": 5000}]
-with open("produk.json", "w") as f:
-    json.dump(produk, f, indent=2) # indent biar rapi
-print("Tulis selesai")
+# Write
+products = [{"name": "Rice", "price": 62000}, {"name": "Spinach", "price": 5000}]
+with open("products.json", "w") as f:
+    json.dump(products, f, indent=2) # indent for neatness
+print("Write done")
 
-# Baca
-with open("produk.json", "r") as f:
+# Read
+with open("products.json", "r") as f:
     data = json.load(f)
-print("Baca:", data)
+print("Read:", data)
 
-# Tambah log
+# Append log
 with open("log.txt", "a") as f:
-    f.write("Tambah Beras\n")
+    f.write("Add Rice\n")
 
-# Baca teks
+# Read text
 with open("log.txt", "r") as f:
     print(f.read())
 ```
 
-**Aturan:** `with open` otomatis tutup, tidak perlu `f.close()`.
+**Rule:** `with open` auto closes, no `f.close()` needed.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `w`/`r`/`a`
-- `w` tulis (hapus lama), `r` baca, `a` tambah di belakang
+- `w` write (erases old), `r` read, `a` append at end
 
 ### `json`
-`json.dump(obj, file)` tulis, `json.load(file)` baca — untuk `list`/`dict`.
+`json.dump(obj, file)` writes, `json.load(file)` reads — for `list`/`dict`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Buku Kas Kertas
-- **`open("produk.json","w")` = buka buku tulis**, `json.dump` = tulis, `with` = tutup otomatis.
+### Analogy: Paper Ledger
+- **`open("products.json","w")` = open writing book**, `json.dump` = write, `with` = auto close.
+
+### Step 0 — Prepare Device
+- Python + empty folder, run program, check created files.
+
+### How the Computer Reads It
+1. `json.dump(products, f)` → list becomes text in file.
+2. `json.load(f)` → text becomes list again.
+
+### 3 Must-Know Terms
+1. **open/with/json**: open/auto-close/format
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung File:** Simpan `keranjang = [{"nama":"Beras","qty":2}]` ke `keranjang.json` dengan `json.dump`, baca lagi, tambah 1 item, tulis lagi.
+- **Green:** Open `products.json` in editor → readable text?
+- **Yellow:** Mode `"w"` twice → old content erased? Use `"a"` to keep.
+- **Red:** Forget `with` (plain `open` no close) → file locked? Use `with`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7: **Buku Kas File** — simpan ke `json` biar tidak hilang.
+**Shop File:** Save `cart = [{"name":"Rice","qty":2}]` to `cart.json` with `json.dump`, read back, add 1 item, write again.
+
+---
+
+## Mini Glossary
+
+- **w/r/a/json**: write/read/append/format
+
+---
+
+## Summary
+
+Week 7: **File Ledger** — save to `json` so nothing is lost. Next: **Decorators**.

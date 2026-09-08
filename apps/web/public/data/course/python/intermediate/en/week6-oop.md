@@ -1,76 +1,100 @@
-# OOP — Cetak Biru Warung
+# OOP — Shop Blueprint
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 6:** OOP
+> **Kategori:** Python | **Level:** Intermediate | **Minggu 6:** OOP
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `class Produk:` cetak biru, `__init__` isi awal, `self` = diri sendiri, `method` stempel
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-50 produk tanpa cetak biru → tulis `nama, harga, stok` 50x. Dengan `class` tulis sekali, cetak 50 kartu.
+- `class Product:` blueprint, `__init__` initial fill, `self` = itself, `method` stamp
 
 ---
 
-## Program: Kartu Produk OOP
+## Why This Matters (Non-IT)
+
+50 products without a blueprint → write `name, price, stock` 50x. With `class` write once, print 50 cards.
+
+---
+
+## Program: OOP Product Cards
 
 ```python
-class Produk:
-    def __init__(self, nama, harga, stok=0):
-        self.nama = nama      # self = kartu ini
-        self.harga = harga
-        self.stok = stok
+class Product:
+    def __init__(self, name, price, stock=0):
+        self.name = name      # self = this card
+        self.price = price
+        self.stock = stock
 
     def info(self):
-        return f"{self.nama}: Rp{self.harga:,} (stok {self.stok})"
+        return f"{self.name}: Rp{self.price:,} (stock {self.stock})"
 
-    def diskon(self, persen):
-        self.harga = int(self.harga * (1 - persen/100))
+    def discount(self, percent):
+        self.price = int(self.price * (1 - percent/100))
 
-# Cetak kartu
-beras = Produk("Beras 5kg", 62000, 10)
-print(beras.info())
-beras.diskon(10)
-print("Setelah diskon:", beras.info())
+# Print cards
+rice = Product("Rice 5kg", 62000, 10)
+print(rice.info())
+rice.discount(10)
+print("After discount:", rice.info())
 
-# Warisan
-class Member(Produk):
-    def __init__(self, nama, harga, stok, poin):
-        super().__init__(nama, harga, stok)
-        self.poin = poin
+# Inheritance
+class Member(Product):
+    def __init__(self, name, price, stock, points):
+        super().__init__(name, price, stock)
+        self.points = points
 
-m = Member("Gula", 15000, 5, 120)
-print(m.info(), f"poin {m.poin}")
+m = Member("Sugar", 15000, 5, 120)
+print(m.info(), f"points {m.points}")
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `class` + `__init__` + `self`
-`class` cetak biru, `__init__` isi awal, `self` kartu ini.
+`class` blueprint, `__init__` initial fill, `self` this card.
 
-### Warisan `class Member(Produk)`
-`Member` punya semua `Produk` + tambahan `poin`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Cetak Biru Kartu
-- **class = cetak biru**, **object = kartu jadi** `Produk("Beras",62000)`.
-- **self = "saya"**: `self.nama` = nama kartu ini.
+### Inheritance `class Member(Product)`
+`Member` has everything `Product` has + extra `points`.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Keranjang OOP:** `class Keranjang: def __init__(self): self.items=[]; def tambah(self, p): self.items.append(p); def total(self): return sum(i.harga*i.stok for i in self.items)`
+### Analogy: Card Blueprint
+- **class = blueprint**, **object = finished card** `Product("Rice",62000)`.
+- **self = "me"**: `self.name` = this card's name.
+
+### Step 0 — Prepare Device
+- Python terminal, paste class, create 2 products, compare.
+
+### How the Computer Reads It
+1. `Product("Rice", 62000, 10)` → `__init__` fills `self`.
+2. `rice.discount(10)` → method edits this card's price.
+
+### 3 Must-Know Terms
+1. **class/object/self**: blueprint/card/me
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6: **OOP** — cetak biru warung. Minggu depan: **File I/O**.
+- **Green:** New `Product("Tea", 8000, 3)` → `info()` works?
+- **Yellow:** `discount(50)` twice → price halves twice?
+- **Red:** Forget `self` in method → TypeError? Add `self`.
+
+---
+
+## Challenge
+
+**OOP Cart:** `class Cart: def __init__(self): self.items=[]; def add(self, p): self.items.append(p); def total(self): return sum(i.price*i.stock for i in self.items)`
+
+---
+
+## Mini Glossary
+
+- **class/self/inheritance**: blueprint/me/heir
+
+---
+
+## Summary
+
+Week 6: **OOP** — shop blueprint. Next: **File I/O**.

@@ -1,20 +1,20 @@
 # CLI & Automation
 
-> **Kategori:** Python | **Level:** Lanjutan | **Minggu 11:** CLI & Automation
+> **Kategori:** Python | **Level:** Advanced | **Minggu 11:** CLI & Automation
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
 - argparse: ArgumentParser, add_argument, subparsers
 - CLI patterns: commands, flags, positional args
-- JSON persistence untuk CLI apps
-- click dan typer: alternatif argparse yang lebih modern
+- JSON persistence for CLI apps
+- click and typer: more modern argparse alternatives
 - Automation: schedule tasks, file watching, web scraping
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Kasir terminal tanpa browser: `warung tambah --nama Beras` lebih cepat dari buka admin. `argparse` + `subparsers` bikin CLI profesional (bukan `input()` tanya 1-1).
+Terminal cashier without a browser: `shop add --name Rice` is faster than opening admin. `argparse` + `subparsers` make a professional CLI (not `input()` asking 1-by-1).
 
 ---
 
@@ -115,10 +115,10 @@ print("\nDemo complete")
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### argparse
-`ArgumentParser`, `add_argument`, `add_subparsers` untuk command-based CLI.
+`ArgumentParser`, `add_argument`, `add_subparsers` for command-based CLI.
 
 ### CLI Patterns
 Commands (add, list, delete), flags (--json, --verbose), positional args.
@@ -127,53 +127,53 @@ Commands (add, list, delete), flags (--json, --verbose), positional args.
 `@click.command()`, `@click.argument()`. typer: modern, type-hint based.
 
 ### Persistence
-JSON file, SQLite, atau database untuk simpan state.
+JSON file, SQLite, or database to persist state.
 
 ### Automation
-`schedule` untuk periodic tasks, `watchdog` untuk file watching, `requests + BeautifulSoup` untuk scraping.
+`schedule` for periodic tasks, `watchdog` for file watching, `requests + BeautifulSoup` for scraping.
 
 ### Best Practice
-`if __name__ == "__main__":` entry point. `setup.py` atau `pyproject.toml` console_scripts.
+`if __name__ == "__main__":` entry point. `setup.py` or `pyproject.toml` console_scripts.
 
 ---
 
-## Eksperimen
+## Experiments
 
-- Buat CLI dengan subcommands: init, run, status
-- Coba click untuk membuat CLI yang sama
-- Buat progress bar dengan tqdm
-- Implementasikan config file (YAML/TOML)
-- Buat automation script: backup files, send email
-
----
-
-## Tantangan
-
-Buat CLI tool lengkap: task manager dengan add/list/done/delete, JSON persistence, colored output, --json flag. Package dengan pyproject.toml.
-
+- Build a CLI with subcommands: init, run, status
+- Try click to build the same CLI
+- Build a progress bar with tqdm
+- Implement a config file (YAML/TOML)
+- Build an automation script: backup files, send email
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Kasir Terminal Beneran
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+Build a complete CLI tool: task manager with add/list/done/delete, JSON persistence, colored output, --json flag. Package with pyproject.toml.
 
-### Langkah 0 — Siapkan Device
-- Sama Python W1: `python --version` + folder proyek.
-
-### Cara Komputer Membaca
-- `add_argument('--nama')` → `args.nama`; `subparsers` bagi perintah `tambah/hapus`.
-
-### 3 Istilah Wajib
-- 1. **argparse/subparsers**: tombol/cabang-perintah
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: Real Terminal Cashier
+- See Program: run the commands, change 1 thing, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as Python W1: `python --version` + project folder.
 
-Minggu 11 dari 12: **CLI & Automation** (Level: Lanjutan). Tooling dan produktivitas. Minggu depan: **Capstone Project**!
+### How the Computer Reads It
+- `add_argument('--name')` → `args.name`; `subparsers` splits commands `add/remove`.
+
+### 3 Must-Know Terms
+- 1. **argparse/subparsers**: buttons/command-branches
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 11 of 12: **CLI & Automation** (Level: Advanced). Tooling and productivity. Next: **Capstone Project**!
