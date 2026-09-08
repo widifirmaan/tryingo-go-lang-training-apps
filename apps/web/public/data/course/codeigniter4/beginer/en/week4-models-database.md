@@ -97,6 +97,28 @@ Outside the list, `save()` silently drops (safe!).
 
 ---
 
+### Bonus: Query Builder + Pagination (core user_guide/dbmgmt!)
+
+Models are nice, but sometimes flexible SQL needed (manual JOINs, aggregates). Query Builder = write chains, CI4 translates + secures:
+
+```php
+$db = \Config\Database::connect();
+$cheap = $db->table('products')
+  ->select('name, price')
+  ->where('price <', 20000)
+  ->orderBy('price', 'ASC')
+  ->get()->getResultArray(); // always neat array!
+
+// Pagination 5 per page (1 line + view links!)
+$model = new \App\Models\ProductModel();
+$data['products'] = $model->paginate(5);
+$data['pager'] = $model->pager;
+// in view: <?= $pager->links() ?> → « 1 2 3 »
+```
+- `where('price <', 20000)` auto-escapes (anti SQL-injection!). `paginate(5)` reads `?page=` itself.
+
+---
+
 ## Challenge
 
 **Complete Rack:** `ProductModel` + `findAll` + `where stock>5` + `like` search + `save` 2 + `delete` 1 + display in view.

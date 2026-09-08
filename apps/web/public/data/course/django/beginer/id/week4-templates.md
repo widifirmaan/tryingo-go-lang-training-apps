@@ -92,6 +92,25 @@ Di dalam `for`, tampil jika daftar kosong.
 
 ---
 
+### Bonus: File Statis — CSS/Logo Sendiri (bab MDN Django Tutorial!)
+
+Template tanpa CSS = polos. `{% static %}` ambil dari `static/` (bukan tulis path manual!).
+
+```html
+{% load static %}
+<link rel="stylesheet" href="{% static 'warung/style.css' %}">
+<img src="{% static 'warung/logo.png' %}" alt="Logo" width="120">
+```
+```
+warung/
+  static/warung/style.css   # CSS Quinn
+  static/warung/logo.png
+  templates/warung/daftar.html
+```
+- `{% load static %}` wajib tiap file! Produksi: `python manage.py collectstatic` kumpulkan 1 folder.
+
+---
+
 ## Tantangan
 
 **Warung Meja Lengkap:** `base.html` (header/nav/footer) + `daftar.html` (`extends`, `for` + `empty`, `if stok==0`) + `detail.html` (`{{ p.nama }}` + `|date:"d M Y"` untuk `dibuat`). **Selesai Beginner Django!**

@@ -79,6 +79,23 @@ public Produk tambah(@RequestBody Produk p) { return repo.save(p); }
 ### `JpaRepository` = Tukang Ajaib
 `extends JpaRepository<Produk, Long>` → dapat `findAll/save/findById/delete` + `findBy...` turunan nama method!
 
+### `@Transactional` = Paket All-or-Nothing (wajib data uang!)
+
+Jual = kurang stok + tambah pesanan. Gagal 1 tanpa transaksi = stok hilang, pesanan tak ada (SELISIH!). 1 anotasi = 2 tulis 1 paket:
+
+```java
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional // gagal di tengah? ROLLBACK semua otomatis!
+public void jual(Long id, int qty) {
+  Produk p = repo.findById(id).orElseThrow();
+  p.setStok(p.getStok() - qty);
+  repo.save(p);
+  pesananRepo.save(new Pesanan(p.getNama(), qty)); // gagal di sini → stok KEMBALI!
+}
+```
+- Tanpa `@Transactional`, baris 1 sukses + baris 2 gagal = data rusak. Dengan ini = semua atau tidak sama sekali!
+
 ### `ddl-auto=update` = Bangun Otomatis (Dev)
 Buat/ubah tabel ikut entity. Produksi pakai `validate` + migration!
 

@@ -51,6 +51,33 @@ Buka `http://localhost:8000/login` → daftar → `/admin` terproteksi.
 ### 3 Istilah Wajib
 - 1. **Breeze/middleware**: KTP-jadi/satpam
 
+### Bonus: Middleware Sendiri (docs: Middleware Laravel!)
+
+Breeze pakai `auth` bawaan. Butuh aturan sendiri (misal: hanya jam buka!)? Bikin 1x, tempel ke pintu mana saja:
+
+```bash
+php artisan make:middleware JamBuka
+```
+
+```php
+// app/Http/Middleware/JamBuka.php
+public function handle(Request $req, Closure $next) {
+  $jam = (int) date("H");
+  if ($jam < 7 || $jam >= 20) {
+    return response("Warung tutup (07-20)", 403); // TOLAK sebelum controller!
+  }
+  return $next($req); // lolos → lanjut
+}
+```
+
+```php
+// routes/web.php — tempel ke pintu (alias daftarkan di bootstrap/app.php!)
+Route::middleware('jambuka')->group(function(){
+  Route::get('/pesan', function(){ return view('pesan'); });
+});
+```
+- Urutan: request → middleware → controller. `return $next($req)` = teruskan, `return response(...)` = stop!
+
 ---
 
 ## Glosarium Mini

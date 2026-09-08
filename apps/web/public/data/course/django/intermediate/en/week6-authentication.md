@@ -59,6 +59,25 @@ def admin_shop(request):
 ### 3 Must-Know Terms
 - 1. **authenticate/login_required**: check/guard
 
+### Bonus: Sessions — Remember Carts Without Login (MDN Django Auth chapter!)
+
+`@login_required` for admins. Shopping carts? Use **sessions** (signed cookies, server-side DB by default):
+
+```python
+def add(request, id):
+    cart = request.session.get("cart", [])  # read (default empty)
+    cart.append(id)
+    request.session["cart"] = cart          # write → auto-saved!
+    request.session.modified = True         # force-save when unsure
+    return redirect("list")
+
+def view(request):
+    ids = request.session.get("cart", [])
+    products = Product.objects.filter(id__in=ids)
+    return render(request, "shop/cart.html", {"products": products})
+```
+- Sessions survive browser restarts (until expiry). `request.session.flush()` = total logout (wipes all!).
+
 ---
 
 ## Mini Glossary

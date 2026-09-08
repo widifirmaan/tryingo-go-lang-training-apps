@@ -51,6 +51,33 @@ Open `http://localhost:8000/login` → register → `/admin` protected.
 ### 3 Must-Know Terms
 - 1. **Breeze/middleware**: ready-ID/guard
 
+### Bonus: Own Middleware (docs: Laravel Middleware!)
+
+Breeze uses built-in `auth`. Need own rules (e.g., open-hours only)? Build 1x, stick on any door:
+
+```bash
+php artisan make:middleware OpenHours
+```
+
+```php
+// app/Http/Middleware/OpenHours.php
+public function handle(Request $req, Closure $next) {
+  $hour = (int) date("H");
+  if ($hour < 7 || $hour >= 20) {
+    return response("Shop closed (07-20)", 403); // REJECT before controller!
+  }
+  return $next($req); // pass → continue
+}
+```
+
+```php
+// routes/web.php — stick on doors (register alias in bootstrap/app.php!)
+Route::middleware('openhours')->group(function(){
+  Route::get('/order', function(){ return view('order'); });
+});
+```
+- Order: request → middleware → controller. `return $next($req)` = forward, `return response(...)` = stop!
+
 ---
 
 ## Mini Glossary

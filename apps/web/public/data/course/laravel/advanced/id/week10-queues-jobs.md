@@ -47,6 +47,28 @@ KirimEmail::dispatch($user); // masuk antrian, tidak tunggu
 ### 3 Istilah Wajib
 - 1. **dispatch/queue:work**: antre/ambil
 
+### Bonus: Mail + Jadwal Otomatis (docs: Mail & Task Scheduling!)
+
+Job kirim email beneran + jalan tiap pagi TANPA cron manual:
+
+```bash
+php artisan make:mail StrukMail --markdown=emails.struk
+```
+
+```php
+// app/Mail/StrukMail.php — render() tampilkan struk
+public function content() {
+  return new Content(markdown: 'emails.struk', with: ['total' => 62000]);
+}
+// Kirim dari Job: Mail::to($user->email)->send(new StrukMail());
+```
+
+```php
+// routes/console.php — jadwal (ganti cron manual!)
+use Illuminate\Support\Facades\Schedule;
+Schedule::job(new KirimPromo)->dailyAt("07:00"); // tiap jam 7 pagi
+// Server: 1 cron saja → * * * * * php artisan schedule:run
+```
 ---
 
 ## Glosarium Mini
