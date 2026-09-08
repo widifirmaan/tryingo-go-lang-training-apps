@@ -38,6 +38,38 @@ Without `label for`, clicking "Name" doesn't focus the input — hard on phones.
 
 **Mandatory:** `label for="name"` matches `id="name"`, `name="name"` for server, `required` mandatory.
 
+### Extra Program: All Input Types (à la freeCodeCamp Registration Form)
+
+```html
+<form action="/register" method="post">
+  <fieldset>
+    <legend>Account</legend>
+    <label for="email2">Email</label>
+    <input id="email2" name="email" type="email" required>
+    <label for="pass">Password</label>
+    <input id="pass" name="pass" type="password" minlength="6" required>
+  </fieldset>
+
+  <fieldset>
+    <legend>Order</legend>
+    <p>Pickup or delivery?</p>
+    <label><input type="radio" name="way" value="pickup" checked> Pickup</label>
+    <label><input type="radio" name="way" value="delivery"> Delivery</label>
+    <p>Toppings (many allowed):</p>
+    <label><input type="checkbox" name="topping" value="eggs" checked> Eggs</label>
+    <label><input type="checkbox" name="topping" value="crackers"> Crackers</label>
+    <label for="date">Delivery date</label>
+    <input id="date" name="date" type="date">
+    <label for="proof">Transfer proof</label>
+    <input id="proof" name="proof" type="file" accept="image/*">
+  </fieldset>
+</form>
+```
+
+- `radio` one name = pick 1 (`checked` default). `checkbox` one name = many allowed.
+- `fieldset` + `legend` = box + title (mandatory for radio/checkbox accessibility — freeCodeCamp stresses this!).
+- `select` alternative when options >5: `<select name="city"><option>Jakarta</option>...</select>`.
+
 ---
 
 ## Key Concepts
@@ -47,6 +79,10 @@ Without `label for`, clicking "Name" doesn't focus the input — hard on phones.
 
 ### `name` + `required` + `type`
 `name` send key, `required` mandatory, `type="email"` email validation.
+
+### Radio / Checkbox / Fieldset
+- `type="radio" name="way"` shared = 1 choice. `checked` = default.
+- `type="checkbox"` = many choices. `fieldset` + `legend` wraps + titles (screen readers read the title first).
 
 ---
 
