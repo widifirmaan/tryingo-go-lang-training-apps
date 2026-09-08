@@ -1,26 +1,26 @@
-# Advanced Patterns — Pola Enterprise Lazy (angular.dev)
+# Advanced Patterns — Lazy Enterprise Patterns (angular.dev)
 
-> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 13:** Advanced Patterns
+> **Kategori:** Angular | **Level:** Advanced | **Minggu 13:** Advanced Patterns
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `loadComponent: () => import('./admin/admin.component')` muat lambat, `loadChildren` muat anak (sumber: angular.dev/guide/routing/loading-strategies)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung admin jarang dibuka — tanpa lazy, `admin` 500KB ikut di `Beranda` → lambat. Dengan `loadComponent`, `admin` jadi chunk terpisah, hanya di-load saat `/admin`.
+- `loadComponent: () => import('./admin/admin.component')` lazy loads, `loadChildren` loads children (source: angular.dev/guide/routing/loading-strategies)
 
 ---
 
-## Program: Pola Lazy Warung (angular.dev)
+## Why This Matters (Non-IT)
+
+Rarely-opened shop admin — without lazy, 500KB `admin` rides along in `Home` → slow. With `loadComponent`, `admin` becomes a separate chunk, loaded only at `/admin`.
+
+---
+
+## Program: Lazy Shop Patterns (angular.dev)
 
 ```typescript
 import { Routes } from "@angular/router";
 
 export const routes: Routes = [
-  { path: "", loadComponent: () => import("./beranda/beranda.component").then(m => m.BerandaComponent) }, // eager untuk landing
+  { path: "", loadComponent: () => import("./home/home.component").then(m => m.HomeComponent) }, // eager for landing
   {
     path: "admin",
     loadComponent: () => import("./admin/admin.component").then(m => m.AdminComponent),
@@ -29,7 +29,7 @@ export const routes: Routes = [
   {
     path: "dashboard",
     loadComponent: () => {
-      // injection context: bisa inject FeatureFlags
+      // injection context: can inject FeatureFlags
       const flags = inject(FeatureFlags);
       return flags.isPremium
         ? import("./dashboard/premium-dashboard")
@@ -39,49 +39,61 @@ export const routes: Routes = [
 ];
 ```
 
-**Sumber:** `angular.dev/guide/routing/loading-strategies` — `loadComponent`/`loadChildren` lazy.
+**Source:** `angular.dev/guide/routing/loading-strategies` — `loadComponent`/`loadChildren` lazy.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `loadComponent` vs `loadChildren` = Muat Lambat
-`loadComponent` muat 1 komponen, `loadChildren` muat anak routes — jadi chunk terpisah.
+### `loadComponent` vs `loadChildren` = Lazy Load
+`loadComponent` loads 1 component, `loadChildren` loads child routes — separate chunks.
 
 ### Eager vs Lazy
-Landing `Beranda` eager, `admin` lazy — `ng serve` `chunk` terpisah di `Network`.
+Landing `Home` eager, `admin` lazy — `ng serve` separate `chunk` in `Network`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Gudang Warung
+### Analogy: Shop Warehouse
 
-- **`loadComponent` = buka gudang saat perlu**: `admin` di gudang, buka hanya saat `admin` dikunjungi.
+- **`loadComponent` = open warehouse when needed**: `admin` sits in the warehouse, opened only when `admin` is visited.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-`ng new` + `ng serve` di `4200` (sudah W1).
+`ng new` + `ng serve` on `4200` (done in W1).
 
-### 3 Istilah Wajib
+### How the Computer Reads It
+1. Visit `/admin` → downloads admin chunk → renders.
+2. Visit `/` → admin chunk never downloaded.
 
-1. **loadComponent/loadChildren**: muat lambat
-2. **chunk**: potongan JS
+### 3 Must-Know Terms
 
----
-
-## Tantangan
-
-**Warung Lazy Lengkap:** `Beranda` eager, `admin` `loadComponent`, `admin` anak `loadChildren`, `Network` cek chunk `admin` hanya saat `/admin`.
+1. **loadComponent/loadChildren**: lazy load
+2. **chunk**: JS piece
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **loadComponent/loadChildren/chunk**: muat/muat anak/potongan
+- **Green:** Network tab → `admin` chunk only on `/admin` visit?
+- **Yellow:** All eager → 1 giant bundle? (That's why lazy!)
+- **Red:** Wrong import path → chunk 404? Fix path.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 13 dari 14: **Pola Lazy** — `loadComponent`. Minggu depan: **Capstone**.
+**Complete Lazy Shop:** `Home` eager, `admin` `loadComponent`, admin children `loadChildren`, `Network` check `admin` chunk only at `/admin`.
+
+---
+
+## Mini Glossary
+
+- **loadComponent/loadChildren/chunk**: load/load-children/piece
+
+---
+
+## Summary
+
+Week 13 of 14: **Lazy Patterns** — `loadComponent`. Next: **Capstone**.

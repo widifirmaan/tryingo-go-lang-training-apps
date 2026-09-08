@@ -1,92 +1,104 @@
-# Testing Angular — Uji Pabrik (angular.dev)
+# Testing Angular — Factory Test (angular.dev)
 
-> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 11:** Testing Angular
+> **Kategori:** Angular | **Level:** Advanced | **Minggu 11:** Testing Angular
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `TestBed.createComponent(Kartu)` + `fixture.detectChanges()` + `fixture.nativeElement.querySelector` uji `Kartu` (sumber: angular.dev/api/core/testing/TestBed)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa uji, ubah `Kartu` → harga hilang tidak ketahuan. Dengan `TestBed`, ubah → test merah → perbaiki sebelum deploy.
+- `TestBed.createComponent(Card)` + `fixture.detectChanges()` + `fixture.nativeElement.querySelector` tests `Card` (source: angular.dev/api/core/testing/TestBed)
 
 ---
 
-## Program: Uji Kartu Angular (angular.dev)
+## Why This Matters (Non-IT)
+
+Without tests, editing `Card` → missing price unnoticed. With `TestBed`, edit → red test → fix before deploy.
+
+---
+
+## Program: Test Angular Card (angular.dev)
 
 ```typescript
 import { TestBed, ComponentFixture } from "@angular/core/testing";
-import { KartuComponent } from "./kartu.component";
+import { CardComponent } from "./card.component";
 
-describe("Kartu", () => {
-  let fixture: ComponentFixture<KartuComponent>;
+describe("Card", () => {
+  let fixture: ComponentFixture<CardComponent>;
   let el: HTMLElement;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [KartuComponent] });
-    fixture = TestBed.createComponent(KartuComponent);
-    fixture.componentInstance.nama = "Beras";
+    TestBed.configureTestingModule({ imports: [CardComponent] });
+    fixture = TestBed.createComponent(CardComponent);
+    fixture.componentInstance.name = "Rice";
     fixture.detectChanges();
     el = fixture.nativeElement;
   });
 
-  it("tampil nama", () => {
-    expect(el.textContent).toContain("Beras");
+  it("shows name", () => {
+    expect(el.textContent).toContain("Rice");
   });
 
   it("detectChanges update", async () => {
-    fixture.componentInstance.nama = "Bayam";
+    fixture.componentInstance.name = "Spinach";
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(el.textContent).toContain("Bayam");
+    expect(el.textContent).toContain("Spinach");
   });
 });
 ```
 
-`ng test` → PASS. `fixture.detectChanges()` = gambar ulang, `whenStable()` tunggu.
+`ng test` → PASS. `fixture.detectChanges()` = re-render, `whenStable()` waits.
 
-**Sumber:** `angular.dev/api/core/testing/TestBed` + `ComponentFixture`.
+**Source:** `angular.dev/api/core/testing/TestBed` + `ComponentFixture`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `TestBed.createComponent` + `detectChanges`
-`createComponent` buat, `detectChanges` gambar, `nativeElement.querySelector` ambil.
+`createComponent` creates, `detectChanges` renders, `nativeElement.querySelector` grabs.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Uji Pabrik
+### Analogy: Test Factory
 
-- **`TestBed` = pabrik uji**: buat `Kartu` di pabrik, `detectChanges` hidupkan, cek `textContent`.
+- **`TestBed` = test factory**: builds `Card` in the factory, `detectChanges` powers on, checks `textContent`.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-`ng new` + `ng test` di `4200` (sudah W1) + `npm install`.
+`ng new` + `ng test` on `4200` (done in W1) + `npm install`.
 
-### 3 Istilah Wajib
+### How the Computer Reads It
+1. `createComponent` → instance built, not yet rendered.
+2. `detectChanges()` → renders → `textContent` contains "Rice".
 
-1. **TestBed/fixture**: pabrik/uji
-2. **detectChanges/whenStable**: gambar/tunggu
+### 3 Must-Know Terms
 
----
-
-## Tantangan
-
-**Warung Uji Lengkap:** `Kartu` `nama` + `harga` + test `tampil nama` & `tampil harga` 2 test, `ng test` PASS.
+1. **TestBed/fixture**: factory/test
+2. **detectChanges/whenStable**: render/wait
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **TestBed/fixture**: pabrik uji
+- **Green:** Change name to "Sugar" → test red? Fix.
+- **Yellow:** Skip `detectChanges` → empty text? Add it.
+- **Red:** `whenStable` without async → flaky? Keep async.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 11 dari 14: **Uji Pabrik** — `TestBed`. Minggu depan: **Performance**.
+**Complete Tested Shop:** `Card` `name` + `price` + tests `shows name` & `shows price` 2 tests, `ng test` PASS.
+
+---
+
+## Mini Glossary
+
+- **TestBed/fixture**: test factory
+
+---
+
+## Summary
+
+Week 11 of 14: **Test Factory** — `TestBed`. Next: **Performance**.
