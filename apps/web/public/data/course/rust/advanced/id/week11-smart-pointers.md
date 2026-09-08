@@ -26,6 +26,8 @@ enum Daftar {
   Kosong,
   Isi(i32, Box<Daftar>), // Box = ukuran pointer (8 byte, pasti!)
 }
+
+fn main() {
 let d = Daftar::Isi(62000, Box::new(Daftar::Kosong));
 println!("{:?}", d);
 
@@ -36,6 +38,7 @@ let kasir2 = Rc::clone(&stok);
 kasir1.borrow_mut(); // ubah lewat pinjam & (RefCell!)
 *kasir1.borrow_mut() -= 1;
 println!("Stok: {}, pemilik: {}", kasir2.borrow(), Rc::strong_count(&stok)); // 9, 3
+}
 ```
 
 ---

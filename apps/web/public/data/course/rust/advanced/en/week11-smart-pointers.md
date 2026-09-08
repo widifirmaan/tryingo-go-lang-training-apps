@@ -26,6 +26,8 @@ enum List {
   Empty,
   Item(i32, Box<List>), // Box = pointer size (8 bytes, definite!)
 }
+
+fn main() {
 let d = List::Item(62000, Box::new(List::Empty));
 println!("{:?}", d);
 
@@ -36,6 +38,7 @@ let cashier2 = Rc::clone(&stock);
 cashier1.borrow_mut(); // mutate through & borrow (RefCell!)
 *cashier1.borrow_mut() -= 1;
 println!("Stock: {}, owners: {}", cashier2.borrow(), Rc::strong_count(&stock)); // 9, 3
+}
 ```
 
 ---

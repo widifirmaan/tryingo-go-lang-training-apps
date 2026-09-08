@@ -5,13 +5,13 @@
 ## Learning Objectives
 
 - `#[test]` + `assert_eq!` real tasting + `cargo test` runs (source: doc.rust-lang.org/book/ch11)
-- `#[should_panic]` expects explosion + doc-tests in `///` run automatically!
+- `#[should_panic]` expects explosion + `///` doc-tests (auto-run in library crates!)
 
 ---
 
 ## Why This Matters (Non-IT)
 
-`println` simulation isn't machine-checked. Real `cargo test`: change formula → red → fix. Doc-tests (examples in `///`) run too — docs never go stale!
+`println` simulation isn't machine-checked. Real `cargo test`: change formula → red → fix. Doc-tests (examples in `///`) run too in library crates — docs never go stale!
 
 ---
 
@@ -21,7 +21,8 @@
 fn calc(a: i32, b: i32) -> i32 { a + b }
 
 /// Safe divide.
-/// /// Example (RUNS AUTOMATICALLY as a test!):
+///
+/// Example (see doc-test note below!):
 /// ```
 /// assert_eq!(divide(10.0, 2.0), Ok(5.0));
 /// ```
@@ -54,8 +55,10 @@ mod test {
 
 ```bash
 cargo test
-# test result: ok. 3 passed + 1 doc-test — GREEN for real
+# test result: ok. 3 passed — GREEN for real
 ```
+
+> **Honest note (researched):** the `///` example above is called a **doc-test**, but `cargo test` ONLY runs those for **library crates** (`src/lib.rs` via `cargo new --lib`). In a binary crate (`src/main.rs` as here), the example is documentation only — never executed. Want real auto-running doc-tests? Move `calc`/`divide` into `src/lib.rs`, then `cargo test` shows a separate `Doc-tests` section. `#[test]` unit tests run in both.
 
 ---
 
@@ -91,14 +94,14 @@ For code that SHOULD panic.
 ## Experiments
 
 - **Green:** Change formula → red? Fix it.
-- **Yellow:** Wrong `///` doc → doc-test red? (Stale docs caught!)
+- **Yellow:** Move `divide` into `src/lib.rs`, break the `///` example → `cargo test` shows RED Doc-tests? (Stale docs caught!)
 - **Red:** Test without `#[test]` → not run? Add attribute.
 
 ---
 
 ## Challenge
 
-**Tested Shop:** `calc/discount/divide` + 4 tests + 1 doc-test GREEN + screenshot. **Intermediate Rust DONE!**
+**Tested Shop:** `calc/discount/divide` + 4 GREEN tests + screenshot + (bonus) move to `lib.rs` until Doc-tests go GREEN too. **Intermediate Rust DONE!**
 
 ---
 
