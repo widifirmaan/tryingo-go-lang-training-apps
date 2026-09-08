@@ -84,6 +84,16 @@ Removes anonymous, disables remote root, drops test DB.
 
 ---
 
+### Bonus: Backup & Restore (locks + copies = truly safe!)
+
+```bash
+mysqldump -u root -p shop > backup.sql       # BACK UP (all SQL text!)
+mysql -u root -p shop_new < backup.sql      # RESTORE into new DB
+```
+- Mandatory drill: backup → `DROP DATABASE shop;` → create fresh → restore → data back! Without this, strong locks still lose everything to fire.
+
+---
+
 ## Challenge
 
 **Locked Warehouse:** 3 users (`cashier` SELECT/INSERT products, `reporter` SELECT all, `admin` ALL) + prove `cashier` DROP rejected + `SHOW GRANTS` 3 screenshots.

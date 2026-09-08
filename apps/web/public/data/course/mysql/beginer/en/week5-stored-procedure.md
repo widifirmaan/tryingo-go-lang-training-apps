@@ -84,6 +84,34 @@ MySQL reads `;` as "run". Recipes contain many `;` → swap delimiter to `//` fi
 
 ---
 
+### Bonus: TRIGGER — Automatic Alarm (used in W10 capstone!)
+
+Procedures run manually (`CALL`). Triggers run THEMSELVES on every INSERT/UPDATE/DELETE:
+
+```sql
+-- Log table first (automatic note per order!)
+CREATE TABLE IF NOT EXISTS order_log (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  note VARCHAR(100)
+);
+
+DELIMITER //
+CREATE TRIGGER log_sale AFTER INSERT ON orders
+FOR EACH ROW
+BEGIN
+  INSERT INTO order_log (note)
+  VALUES (CONCAT('Order ', NEW.id, ' total ', NEW.total));
+END //
+DELIMITER ;
+-- Try: INSERT INTO orders (customer_id, total) VALUES (1, 9000);
+-- → SELECT * FROM order_log; (note appears AUTOMATICALLY!)
+-- NEW. = new row, OLD. = old row (for UPDATE/DELETE).
+SHOW TRIGGERS;
+DROP TRIGGER IF EXISTS log_sale;
+```
+
+---
+
 ## Challenge
 
 **Complete Shop Recipes:** Build `discountCategory(IN cat VARCHAR(50), IN pct INT)` that `UPDATE products SET price = price * (1 - pct/100) WHERE category = cat` → `CALL discountCategory('Veggies', 10)` → `SELECT` verifies 10% drop.

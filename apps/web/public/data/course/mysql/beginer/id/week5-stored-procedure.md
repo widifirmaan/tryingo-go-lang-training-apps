@@ -84,6 +84,34 @@ MySQL baca `;` sebagai "jalankan". Resep berisi banyak `;` → ganti pembatas ja
 
 ---
 
+### Bonus: TRIGGER — Alarm Otomatis (dipakai capstone W10!)
+
+Procedure dipanggil manual (`CALL`). Trigger JALAN SENDIRI tiap ada INSERT/UPDATE/DELETE:
+
+```sql
+-- Tabel log dulu (catatan otomatis tiap pesanan!)
+CREATE TABLE IF NOT EXISTS log_pesanan (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  catatan VARCHAR(100)
+);
+
+DELIMITER //
+CREATE TRIGGER catat_jual AFTER INSERT ON pesanan
+FOR EACH ROW
+BEGIN
+  INSERT INTO log_pesanan (catatan)
+  VALUES (CONCAT('Pesanan ', NEW.id, ' total ', NEW.total));
+END //
+DELIMITER ;
+-- Coba: INSERT INTO pesanan (pelanggan_id, total) VALUES (1, 9000);
+-- → SELECT * FROM log_pesanan; (catatan muncul OTOMATIS!)
+-- NEW. = baris baru, OLD. = baris lama (untuk UPDATE/DELETE).
+SHOW TRIGGERS;
+DROP TRIGGER IF EXISTS catat_jual;
+```
+
+---
+
 ## Tantangan
 
 **Resep Warung Lengkap:** Buat `diskonKategori(IN kat VARCHAR(50), IN persen INT)` yang `UPDATE produk SET harga = harga * (1 - persen/100) WHERE kategori = kat` → `CALL diskonKategori('Sayur', 10)` → `SELECT` cek harga turun 10%.

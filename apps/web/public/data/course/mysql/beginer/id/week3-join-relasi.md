@@ -95,6 +95,25 @@ ORDER BY total_belanja DESC;
 
 ---
 
+### Bonus: VIEW + Subquery (laporan tanpa tulis ulang!)
+
+```sql
+-- VIEW = simpan query jadi "tabel maya" (dipakai capstone W10!)
+CREATE VIEW laporan AS
+SELECT pelanggan.nama, COUNT(pesanan.id) AS jml, SUM(pesanan.total) AS belanja
+FROM pelanggan LEFT JOIN pesanan ON pelanggan.id = pesanan.pelanggan_id
+GROUP BY pelanggan.nama;
+
+SELECT * FROM laporan WHERE belanja > 100000; -- pakai seperti tabel!
+DROP VIEW IF EXISTS laporan; -- hapus jika salah
+
+-- Subquery = query dalam query (saring pakai hasil lain)
+SELECT nama FROM produk
+WHERE harga > (SELECT AVG(harga) FROM produk); -- di atas rata-rata
+```
+
+---
+
 ## Tantangan
 
 **Perpustakaan JOIN:** Buat `peminjaman(id AUTO_INCREMENT PK, buku_id INT, anggota_id INT, tgl DATE)` + FK ke `buku` & `anggota` → `SELECT anggota.nama, buku.judul FROM peminjaman JOIN anggota ON ... JOIN buku ON ...` → `GROUP BY anggota.nama` hitung pinjam per anggota.

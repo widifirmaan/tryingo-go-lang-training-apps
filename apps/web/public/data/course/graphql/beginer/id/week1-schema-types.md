@@ -65,6 +65,31 @@ Coba di `onecompiler.com/graphql` atau `graphql.org/swapi-graphql`.
 ### Query = Pesan
 Minta field yang mau, dapat itu saja.
 
+### Union & Interface = Menu Campur (graphql.org/learn/schema!)
+
+Kadang hasil cari bisa 2 bentuk (Produk ATAU Kategori). `union` gabung, `interface` syarat wajib:
+
+```graphql
+union Hasil = Produk | Kategori
+
+interface Node {
+  id: ID!
+}
+type Produk implements Node {
+  id: ID!
+  nama: String!
+  harga: Int!
+}
+
+# Query campur + pilih per bentuk:
+query {
+  cari(q: "beras") {
+    ... on Produk { nama harga }
+    ... on Kategori { nama }
+  }
+}
+```
+
 ---
 
 ## Ringkasan

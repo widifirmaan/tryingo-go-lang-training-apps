@@ -65,6 +65,31 @@ Try at `onecompiler.com/graphql` or `graphql.org/swapi-graphql`.
 ### Query = Order
 Ask for wanted fields, get just those.
 
+### Union & Interface = Mixed Menu (graphql.org/learn/schema!)
+
+Sometimes search returns 2 shapes (Product OR Category). `union` merges, `interface` mandates:
+
+```graphql
+union Result = Product | Category
+
+interface Node {
+  id: ID!
+}
+type Product implements Node {
+  id: ID!
+  name: String!
+  price: Int!
+}
+
+# Mixed query + pick per shape:
+query {
+  search(q: "rice") {
+    ... on Product { name price }
+    ... on Category { name }
+  }
+}
+```
+
 ---
 
 ## Beginner Friendly Explanation
