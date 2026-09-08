@@ -1,16 +1,16 @@
-# Testing React — Uji Rasa Komponen
+# Testing React — Component Taste-Test
 
-> **Kategori:** React | **Level:** Lanjutan | **Minggu 10:** Testing React
+> **Kategori:** React | **Level:** Advanced | **Minggu 10:** Testing React
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `vitest` + `React Testing Library` — `render(<Card />)` lalu `screen.getByText("Beras")`
+- `vitest` + `React Testing Library` — `render(<Card />)` then `screen.getByText("Rice")`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa uji, ubah `Card` → harga hilang ketahuan pelanggan. Dengan `render` + `screen`, ubah → merah → perbaiki. RTL uji seperti user lihat (teks), bukan isi state.
+Without tests, editing `Card` → missing price found by customers. With `render` + `screen`, edit → red → fix. RTL tests like users see (text), not state content.
 
 ---
 
@@ -18,44 +18,44 @@ Tanpa uji, ubah `Card` → harga hilang ketahuan pelanggan. Dengan `render` + `s
 
 ```jsx
 // Card.jsx
-export function Card({ nama }){ return <div>{nama}</div>; }
+export function Card({ name }){ return <div>{name}</div>; }
 
 // Card.test.jsx
 import { render, screen } from "@testing-library/react";
 import { Card } from "./Card";
 import { test, expect } from "vitest";
 
-test("tampil nama", () => {
-  render(<Card nama="Beras" />);
-  expect(screen.getByText("Beras")).toBeInTheDocument();
+test("shows name", () => {
+  render(<Card name="Rice" />);
+  expect(screen.getByText("Rice")).toBeInTheDocument();
 });
 ```
 
-`npm test` → lulus.
+`npm test` → passes.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Mystery Shopper Komponen
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+### Analogy: Component Mystery Shopper
+- See Program: run it, change 1 number/prop, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
+### Step 0 — Prepare Device
+- Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).
 
-### Cara Komputer Membaca
-- `render(<Card/>)` pasang di DOM palsu; `screen.getByText` cari seperti mata user.
+### How the Computer Reads It
+- `render(<Card/>)` mounts in a fake DOM; `screen.getByText` searches like user eyes.
 
-### 3 Istilah Wajib
-- 1. **render/screen**: pasang/cari
+### 3 Must-Know Terms
+- 1. **render/screen**: mount/find
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 10: **Uji Komponen** — `render` + `screen`.
+Week 10: **Test Components** — `render` + `screen`.
