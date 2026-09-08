@@ -82,6 +82,20 @@ using (var file = new StreamWriter("struk.txt")) {
 
 ---
 
+### Bonus: Anti-Null + Debugging (modul debugging ala freeCodeCamp!)
+
+`NullReferenceException` = error #1 C#. Senjata: `?.` + `??` + `!` (yakin tidak null).
+
+```csharp
+string? nama = null; // string BOLEH null (nullable reference!)
+Console.WriteLine(nama?.Length ?? 0); // 0, tidak meledak!
+// nama.Length // ❌ NullReferenceException!
+```
+
+Debug di VS (bukan Console saja!): **F9** = breakpoint merah di baris → **F5** jalan → berhenti → arahkan mouse intip variabel → **F10** baris-berikutnya, **F11** masuk-fungsi. Error `int.Parse` tadi temukan dalam 10 detik, bukan 10 menit!
+
+---
+
 ## Tantangan
 
 **Kasir Aman Lengkap:** Loop input harga + `try/catch` 2 tipe + `throw` untuk <= 0 + `using` tulis struk file. **Selesai Menengah C#!**

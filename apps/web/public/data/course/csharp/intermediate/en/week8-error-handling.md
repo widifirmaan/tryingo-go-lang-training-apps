@@ -82,6 +82,20 @@ using (var file = new StreamWriter("receipt.txt")) {
 
 ---
 
+### Bonus: Anti-Null + Debugging (freeCodeCamp-style debugging module!)
+
+`NullReferenceException` = C# error #1. Weapons: `?.` + `??` + `!` (surely not null).
+
+```csharp
+string? name = null; // string ALLOWED null (nullable reference!)
+Console.WriteLine(name?.Length ?? 0); // 0, no explosion!
+// name.Length // ❌ NullReferenceException!
+```
+
+Debug in VS (not Console only!): **F9** = red breakpoint on line → **F5** run → stops → hover to peek variables → **F10** next-line, **F11** step-into. That `int.Parse` error found in 10 seconds, not 10 minutes!
+
+---
+
 ## Challenge
 
 **Complete Safe Cashier:** Input-price loop + 2-type `try/catch` + `throw` for <= 0 + `using` writes receipt file. **Intermediate C# DONE!**

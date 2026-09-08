@@ -64,6 +64,16 @@ Console.WriteLine(KasirUtama.Ambil() == KasirUtama.Ambil()); // True
 
 ## Penjelasan untuk Pemula
 
+### Primer Interface 2 Menit (wajib sebelum pola!)
+```csharp
+interface IBayar { void Bayar(decimal total); } // KONTRAK: harus bisa Bayar!
+class Tunai : IBayar { // tanda tangan kontrak
+  public void Bayar(decimal total) => Console.WriteLine($"Tunai Rp{total:N0}");
+}
+// interface = janji tanpa isi; class WAJIB isi semua. Beda abstract class:
+// interface boleh multi-warisi (class A : IA, IB), abstract class cuma 1 induk!
+```
+
 ### Analogi: Colokan & Kasir Utama
 - **Strategy = colokan listrik**: colok Tunai/Transfer, kasir sama.
 - **Singleton = kasir utama**: cuma 1 di toko.
