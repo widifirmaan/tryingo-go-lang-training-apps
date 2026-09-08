@@ -76,6 +76,38 @@ Struct + enum + trait + Result + test = kasir.
 
 ---
 
+### Bonus: Pecah Modul (ala Rust Book Ch7 — wajib proyek asli!)
+
+1 file 500 baris = sesat. Pecah: `mod kasir;` sambung `src/kasir.rs`.
+
+```rust
+// src/kasir.rs — modul dapur
+pub struct Produk { pub nama: String, pub harga: u32 }
+
+pub fn total(items: &[Produk]) -> u32 {
+    items.iter().map(|p| p.harga).sum()
+}
+```
+
+```rust
+// src/main.rs — pakai modul
+mod kasir; // sambung file kasir.rs! (tanpa ini: unresolved module)
+use kasir::{Produk, total};
+
+fn main() {
+    let rak = vec![
+        Produk { nama: "Beras".to_string(), harga: 62000 },
+        Produk { nama: "Bayam".to_string(), harga: 5000 },
+    ];
+    println!("Total: Rp{}", total(&rak)); // Total: Rp67000
+}
+```
+
+- `mod kasir;` = colok file. `pub` = boleh dipakai luar (tanpa `pub` = private, error!).
+- `use kasir::{Produk, total};` = impor biar pendek.
+
+---
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist + README + video. **Selesai Rust 0→Ahli!**
