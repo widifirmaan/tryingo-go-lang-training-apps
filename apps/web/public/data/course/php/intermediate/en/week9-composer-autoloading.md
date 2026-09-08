@@ -1,32 +1,32 @@
-# Composer & Autoloading — Gudang Alat PHP Beneran
+# Composer & Autoloading — Real PHP Tool Warehouse
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 9:** Composer & Autoloading
+> **Kategori:** PHP | **Level:** Beginner | **Minggu 9:** Composer & Autoloading
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `composer init` + `composer require monolog/monolog` pinjam beneran (sumber: getcomposer.org)
-- `vendor/autoload.php` 1 baris muat semua, PSR-4 `App\` → `src/` (sumber: php-fig.org/psr-4)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa composer, pinjam library = download zip + `require` 20 file manual (lupa 1 = error). Dengan composer, 1 perintah + 1 `require autoload.php` — 100 class otomatis. Laravel/CodeIgniter jalan di atas ini.
+- `composer init` + `composer require monolog/monolog` real borrowing (source: getcomposer.org)
+- `vendor/autoload.php` 1 line loads all, PSR-4 `App\\` → `src/` (source: php-fig.org/psr-4)
 
 ---
 
-## Program: Gudang Composer Beneran
+## Why This Matters (Non-IT)
+
+Without composer, borrowing libraries = zip download + 20 manual `require`s (forget 1 = error). With composer, 1 command + 1 `require autoload.php` — 100 classes automatic. Laravel/CodeIgniter run on top of this.
+
+---
+
+## Program: Real Composer Warehouse
 
 ```bash
 composer --version  # 2.x?
-mkdir warung-app && cd warung-app
-composer init --name="warung/app" --no-interaction
+mkdir shop-app && cd shop-app
+composer init --name="shop/app" --no-interaction
 composer require monolog/monolog
-ls vendor/  # gudang fisik!
+ls vendor/  # physical warehouse!
 ```
 
 ```json
-// composer.json — tambah autoload sendiri
+// composer.json — add own autoload
 {
   "autoload": { "psr-4": { "App\\": "src/" } }
 }
@@ -37,89 +37,89 @@ composer dump-autoload
 ```
 
 ```php
-// src/Kasir.php
+// src/Cashier.php
 <?php
 namespace App;
-class Kasir {
+class Cashier {
   public function total(array $items): int {
     $s = 0;
-    foreach ($items as $i) $s += $i["harga"] * $i["qty"];
+    foreach ($items as $i) $s += $i["price"] * $i["qty"];
     return $s;
   }
 }
 ```
 
 ```php
-// app.php — 1 baris muat SEMUA (pinjaman + sendiri)
+// app.php — 1 line loads EVERYTHING (borrowed + own)
 <?php
 require __DIR__ . "/vendor/autoload.php";
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use App\Kasir;
+use App\Cashier;
 
-$log = new Logger("warung");
-$log->pushHandler(new StreamHandler("warung.log"));
-$log->info("Buka toko");
+$log = new Logger("shop");
+$log->pushHandler(new StreamHandler("shop.log"));
+$log->info("Open store");
 
-$kasir = new Kasir();
-echo "Total: " . $kasir->total([["harga"=>62000,"qty"=>1]]) . "\n";
+$cashier = new Cashier();
+echo "Total: " . $cashier->total([["price"=>62000,"qty"=>1]]) . "\n";
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `composer require` = Pinjam + Catat
-Unduh ke `vendor/` + catat di `composer.json` + kunci versi `composer.lock`.
+### `composer require` = Borrow + Record
+Downloads to `vendor/` + records in `composer.json` + pins versions in `composer.lock`.
 
-### `vendor/autoload.php` = Pintu Ajaib
-1 `require` muat semua class (pinjaman + `App\` sendiri).
+### `vendor/autoload.php` = Magic Door
+1 `require` loads all classes (borrowed + own `App\\`).
 
-### PSR-4 `App\` → `src/` = Aturan Alamat
-`App\Kasir` → `src/Kasir.php` otomatis.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Gudang + Peta
-- **Composer = mandor gudang**: `require` = "ambilkan Monolog".
-- **autoload.php = peta**: semua class ketemu tanpa `require` manual.
-
-### Langkah 0 — Siapkan Device
-- `composer --version` 2.x (getcomposer.org) + folder `warung-app`.
-
-### Cara Komputer Membaca
-1. `new Kasir()` → autoloader cari `App\Kasir` → `src/Kasir.php` → muat.
-2. `composer install` di laptop lain → baca `composer.lock` → versi SAMA persis.
-
-### 3 Istilah Wajib
-1. **Composer/vendor**: mandor/gudang
-2. **autoload/PSR-4**: peta/aturan
+### PSR-4 `App\\` → `src/` = Address Rule
+`App\\Cashier` → `src/Cashier.php` automatically.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Hapus `require autoload.php` → `Class not found`? Pasang.
-- **Kuning:** `composer show monolog/monolog` → versi?
-- **Merah:** Edit `src/Kasir.php` tambah method → langsung bisa (tanpa dump)? Ya, PSR-4 dinamis!
+### Analogy: Warehouse + Map
+- **Composer = warehouse foreman**: `require` = "fetch me Monolog".
+- **autoload.php = map**: every class found without manual `require`.
+
+### Step 0 — Prepare Device
+- `composer --version` 2.x (getcomposer.org) + `shop-app` folder.
+
+### How the Computer Reads It
+1. `new Cashier()` → autoloader looks up `App\\Cashier` → `src/Cashier.php` → loads.
+2. `composer install` on another laptop → reads `composer.lock` → EXACT same versions.
+
+### 3 Must-Know Terms
+1. **Composer/vendor**: foreman/warehouse
+2. **autoload/PSR-4**: map/rules
 
 ---
 
-## Tantangan
+## Experiments
 
-**Gudang Sendiri:** `composer init` + `require nesbot/carbon` (tanggal) → `Carbon::now()->addDays(7)` jatuh tempo + class `App\Struk` sendiri → `app.php` gabung.
-
----
-
-## Glosarium Mini
-
-- **Composer/autoload/PSR-4**: mandor/peta/aturan
+- **Green:** Delete `require autoload.php` → `Class not found`? Reattach.
+- **Yellow:** `composer show monolog/monolog` → version?
+- **Red:** Edit `src/Cashier.php` adding a method → instantly usable (no dump)? Yes, dynamic PSR-4!
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Gudang Alat Beneran** (Level: Menengah). Tanpa simulasi. Minggu depan: **Testing**.
+**Own Warehouse:** `composer init` + `require nesbot/carbon` (dates) → `Carbon::now()->addDays(7)` due date + own `App\\Receipt` class → `app.php` combines.
+
+---
+
+## Mini Glossary
+
+- **Composer/autoload/PSR-4**: foreman/map/rules
+
+---
+
+## Summary
+
+Week 9 of 12: **Real Tool Warehouse** (Level: Intermediate). No simulation. Next: **Testing**.

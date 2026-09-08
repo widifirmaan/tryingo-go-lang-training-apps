@@ -1,106 +1,106 @@
-# PDO Database — Supir Gudang PHP Beneran
+# PDO Database — Real PHP Warehouse Driver
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 8:** PDO & Database
+> **Kategori:** PHP | **Level:** Intermediate | **Minggu 8:** PDO & Database
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `new PDO("mysql:host=...;dbname=warung", "root", "")` sambung + `ERRMODE_EXCEPTION` (sumber: php.net/pdo)
-- `query()` untuk tetap, `prepare()` + `execute()` untuk ada input user, `fetchAll()` ambil
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Simulasi array hilang saat restart. PDO + MySQL beneran = data awet + bisa jutaan baris. 1 supir PDO untuk MySQL/Postgres/SQLite (ganti DSN saja).
+- `new PDO("mysql:host=...;dbname=shop", "root", "")` connects + `ERRMODE_EXCEPTION` (source: php.net/pdo)
+- `query()` for fixed, `prepare()` + `execute()` for user input, `fetchAll()` fetches
 
 ---
 
-## Program: Gudang PDO Beneran
+## Why This Matters (Non-IT)
+
+Array simulations vanish on restart. Real PDO + MySQL = durable data + millions of rows. 1 PDO driver serves MySQL/Postgres/SQLite (just swap DSN).
+
+---
+
+## Program: Real PDO Warehouse
 
 ```php
 <?php
 try {
   $pdo = new PDO(
-    "mysql:host=localhost;dbname=warung;charset=utf8mb4",
+    "mysql:host=localhost;dbname=shop;charset=utf8mb4",
     "root", "",
-    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // error jadi exception!
+    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION] // errors explode!
   );
 } catch (PDOException $e) {
-  die("Gagal sambung: " . $e->getMessage());
+  die("Connect failed: " . $e->getMessage());
 }
 
-// Tetap (tanpa input user): query langsung
-foreach ($pdo->query("SELECT nama, harga FROM produk WHERE stok > 5") as $row) {
-  echo $row["nama"] . " Rp" . $row["harga"] . "\n";
+// Fixed (no user input): direct query
+foreach ($pdo->query("SELECT name, price FROM products WHERE stock > 5") as $row) {
+  echo $row["name"] . " Rp" . $row["price"] . "\n";
 }
 
-// Ada input user: WAJIB prepare!
-$cari = $_GET["cari"] ?? "";
-$stmt = $pdo->prepare("SELECT * FROM produk WHERE nama LIKE ?");
-$stmt->execute(["%$cari%"]);
-$hasil = $stmt->fetchAll(PDO::FETCH_ASSOC);
-echo "Ketemu: " . count($hasil) . "\n";
+// User input: MUST prepare!
+$find = $_GET["find"] ?? "";
+$stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE ?");
+$stmt->execute(["%$find%"]);
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo "Found: " . count($results) . "\n";
 
-// Tulis
-$ins = $pdo->prepare("INSERT INTO produk (nama, harga, stok) VALUES (?, ?, ?)");
-$ins->execute(["Kopi", 12000, 7]);
-echo "ID baru: " . $pdo->lastInsertId() . "\n";
+// Write
+$ins = $pdo->prepare("INSERT INTO products (name, price, stock) VALUES (?, ?, ?)");
+$ins->execute(["Coffee", 12000, 7]);
+echo "New ID: " . $pdo->lastInsertId() . "\n";
 ?>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `new PDO(dsn, user, pass)` = Sambung Gudang
-`mysql:host=...;dbname=...` alamat. `ERRMODE_EXCEPTION` agar error meledak (jangan diam!).
+### `new PDO(dsn, user, pass)` = Connect Warehouse
+`mysql:host=...;dbname=...` address. `ERRMODE_EXCEPTION` makes errors explode (never silent!).
 
-### `query()` vs `prepare()` = Tetap vs Ada-Tamu
-Tetap → `query`. Ada input user → `prepare` + `?`.
+### `query()` vs `prepare()` = Fixed vs Has-Guests
+Fixed → `query`. User input present → `prepare` + `?`.
 
-### `fetchAll()` / `lastInsertId()` = Ambil Semua / ID Baru
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Supir Gudang
-- **PDO = supir**: 1 supir bisa ke gudang MySQL/Postgres (ganti alamat).
-- **prepare = surat jalan resmi**: barang (data) diperiksa, tidak selundupan.
-
-### Langkah 0 — Siapkan Device
-- MySQL jalan + DB `warung` + tabel `produk` (W1 MySQL) + `php -m | grep -i pdo` ada `pdo_mysql`.
-
-### Cara Komputer Membaca
-1. `new PDO(...)` → konek TCP ke MySQL.
-2. `prepare` → MySQL compile → `execute` kirim data terpisah.
-
-### 3 Istilah Wajib
-1. **DSN/PDO**: alamat/supir
-2. **prepare/fetchAll**: aman/ambil
+### `fetchAll()` / `lastInsertId()` = Fetch All / New ID
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Salah password → `PDOException` pesan jelas?
-- **Kuning:** `query("SELECT ... $cari ...")` tempel langsung + `cari = '" OR 1=1'` → bocor? Ganti prepare.
-- **Merah:** Lupa `ERRMODE_EXCEPTION` → gagal diam (false)? Pasang.
+### Analogy: Warehouse Driver
+- **PDO = driver**: 1 driver reaches MySQL/Postgres warehouses (swap address).
+- **prepare = official waybill**: goods (data) inspected, no smuggling.
+
+### Step 0 — Prepare Device
+- Running MySQL + `shop` DB + `products` table (W1 MySQL) + `php -m | grep -i pdo` lists `pdo_mysql`.
+
+### How the Computer Reads It
+1. `new PDO(...)` → TCP-connects to MySQL.
+2. `prepare` → MySQL compiles → `execute` sends data separately.
+
+### 3 Must-Know Terms
+1. **DSN/PDO**: address/driver
+2. **prepare/fetchAll**: safe/fetch
 
 ---
 
-## Tantangan
+## Experiments
 
-**Gudang PDO Lengkap:** `list.php` (`query` + `cari` prepare) + `tambah.php` (`prepare` INSERT) + `hapus.php` (`prepare` DELETE) + coba SQL-injection gagal.
-
----
-
-## Glosarium Mini
-
-- **PDO/DSN/prepare**: supir/alamat/aman
+- **Green:** Wrong password → clear `PDOException` message?
+- **Yellow:** `query("SELECT ... $find ...")` glued + `find = '" OR 1=1'` → leaks? Switch to prepare.
+- **Red:** Forget `ERRMODE_EXCEPTION` → silent failure (false)? Attach it.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Supir Gudang Beneran** (Level: Menengah). Data awet jutaan baris. Minggu depan: **Composer** — gudang alat.
+**Complete PDO Warehouse:** `list.php` (`query` + `find` prepare) + `add.php` (`prepare` INSERT) + `delete.php` (`prepare` DELETE) + failed SQL-injection attempt.
+
+---
+
+## Mini Glossary
+
+- **PDO/DSN/prepare**: driver/address/safe
+
+---
+
+## Summary
+
+Week 8 of 12: **Real Warehouse Driver** (Level: Intermediate). Million-row durable data. Next: **Composer** — tool warehouse.
