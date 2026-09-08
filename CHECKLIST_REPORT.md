@@ -384,3 +384,29 @@ Path yang dicek = persis path yang di-fetch `CoursePage.tsx:82-84`: `/data/cours
 5. Konvensi seragam terverifikasi: semua 321 file en pakai quote-label `**Minggu N:**`; tidak ada marker ID bocor ke en (dan sebaliknya); scan CJK bersih.
 
 **Angka pasca-audit:** `total=642` md (321 id + 321 en), `full=654→642` (100% scaffold), `enDebt=0`, `enWhy=321`, `idKenapa=321`. `npm run build ✓`, index rebuilt.
+
+## AUDIT KEBENARAN ISI + RISET ONLINE (2026-09-08)
+
+Prinsip: tiap contoh kode diverifikasi EKSEKUSI (`node`/`python3`/`tsc --strict`/`go vet+run`/`rustc`/`cargo test`/`vitest` real), klaim API diriset ke docs resmi (MDN, docs track, caniuse, dev.mysql.com). Bukan opini — bukti run.
+
+**Toolchain:** node 20 (nvm), python 3.14, tsc 7.0 (npx), Go 1.24 (`~/go-dist`), rustc 1.98 (`~/.cargo`). PHP/Ruby/Java/dotnet tak tersedia → review ketat + riset docs.
+
+| Track | Metode | Hasil |
+|---|---|---|
+| HTML5 (14) | Riset MDN/caniuse per klaim | 4 fix: `via.placeholder.com` MATI → `placehold.co` (W4, +CSS3 W11); `dialog` "Chrome 90+" SALAH → Baseline 2022 (W11); `srcset` bukan CSS (W4); cuplikan Google sering ditulis-ulang (W13) |
+| CSS3 (12) | Review properti MDN | 1 fix: referensi silang salah W6-W9 → HTML5 W4/W7/W12 (W12) |
+| JavaScript (14) | Eksekusi 9 blok + stub-DOM + modul-real + review | 2 fix: Strategy disebut 3x tapi tak pernah dicontohkan → tambah demo (W11, verified run); `npm test` tanpa test-script → tambah langkah (W12) |
+| Python (12) | Eksekusi 13 blok (node sandbox…) | 3 fix: fragment `nilai` NameError (W3); klaim `python -m unittest` salah utk gaya fungsi-polos (W10); W12 tanpa `pip install` + filename + klaim Excel tanpa `to_excel` |
+| TypeScript (12) | `tsc --strict` SEMUA 12 blok | 2 bug REAL: `greeting` ReferenceError (W3); `type Event` tabrakan lib DOM (W11) → `Kejadian`/`ShopEvent`, re-verified PASS |
+| Go (14) | `gofmt` + `go vet` + `go run` + `go test` SEMUA | 0 bug — semua kompilasi + output sesuai klaim materi |
+| Rust (14) | `rustc` SEMUA blok + run 13 program + `cargo test` | 3 bug REAL: `crate::Kasir` E0405 (W8 → mandirikan trait, verified run); doc-test `/// ///` + klaim "jalan di binary" SALAH — doc-test hanya library crate, dibuktikan `cargo test` 0 tests (W10); statement telanjang tanpa `fn main` (W11) |
+| PHP (12) | Review ketat (tanpa toolchain) | 0 bug — API standar (`==`/`===`, PDO, password_hash, array fn) benar |
+| C# (15) | Review ketat + riset | 1 fix: port swagger `:7000` hardcoded → bervariasi per mesin (W11) |
+| Svelte (11) | Riset svelte.dev legacy/runes | Sintaks Svelte 4 TETAP JALAN di Svelte 5 (legacy resmi) → tambah catatan versi W1, bukan rewrite |
+| Angular (14) | Riset angular.dev v20 | 2 catatan jujur: `ng new` standalone-default → flag `--no-standalone` (W1); `*ngIf/*ngFor` deprecated → pointer `@if/@for` (W2) |
+| Next.js (12) | Review Auth.js v5 | 1 fix: route `[...nextauth]` WAJIB tapi tak disebut (W10) |
+| React (12) | Eksekusi vitest 4 E2E | 2 fix: setup jsdom+jest-dom+plugin hilang total (W10); `globals:true` WAJIB (error `expect is not defined` terbukti) |
+| Vue (11) | Eksekusi vitest E2E | 3 bug: tanpa plugin-vue (parse error), tanpa jsdom (document undefined), test klik tombol yang TAK ADA di template (W9) — semua fixed + green 2/2 |
+| NestJS/Node/Django/Laravel/Rails/CI4/Spring/DB/Docker | Review + riset docs | 5 fix: Node W9 test-script; Django W8 `rest_framework` INSTALLED_APPS; Laravel W11 wiring Sanctum lengkap (`install:api`+trait+login); MySQL W8 sintaks replikasi modern (SLAVE deprecated 8.0.22); PG W8 `CREATE EXTENSION` prasyarat |
+
+**Total: 30+ perbaikan terverifikasi** (9 bug eksekusi-terbukti, sisanya klaim faktual + runnable-gap). `npm run build ✓`, index rebuilt, validator kurikulum 0 errors, tree clean.
