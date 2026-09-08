@@ -1,110 +1,110 @@
-# Actions & Forms — Stempel & Formulir Svelte (svelte.dev)
+# Actions & Forms — Svelte Stamps & Forms (svelte.dev)
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 7:** Actions & Forms
+> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 7:** Actions & Forms
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `use:action` stempel di elemen — `use:klikLuar` panggil `node` saat mount, ` $effect` cleanup saat unmount (sumber: svelte.dev/docs/svelte/use)
-- `bind:value` tali 2 arah + `on:submit|preventDefault` tanpa reload
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Form warung tanpa `bind:value` = ketik tidak masuk `pelanggan`. Dengan `bind:value`, ketik → `pelanggan` otomatis. `use:klikLuar` untuk tutup dropdown saat klik di luar tanpa `document.addEventListener` manual di tiap komponen.
+- `use:action` stamp on elements — `use:clickOutside` calls with `node` on mount, `$effect` cleanup on unmount (source: svelte.dev/docs/svelte/use)
+- `bind:value` two-way strings + `on:submit|preventDefault` without reload
 
 ---
 
-## Program: Form & Stempel Warung Svelte (svelte.dev)
+## Why This Matters (Non-IT)
+
+A shop form without `bind:value` = typing never reaches `customer`. With `bind:value`, typing → `customer` automatically. `use:clickOutside` closes dropdowns on outside clicks without manual `document.addEventListener` per component.
+
+---
+
+## Program: Svelte Form & Stamp Shop (svelte.dev)
 
 ```svelte
 <script>
-  let pelanggan = "";
-  let daftar = [];
-  function tambah(){ if(!pelanggan.trim()) return; daftar = [...daftar, { id: Date.now(), pelanggan }]; pelanggan = ""; }
+  let customer = "";
+  let list = [];
+  function add(){ if(!customer.trim()) return; list = [...list, { id: Date.now(), customer }]; customer = ""; }
 
-  // Action: stempel klik luar (svelte.dev)
+  // Action: outside-click stamp (svelte.dev)
   /** @type {import('svelte/action').Action} */
-  function klikLuar(node) {
+  function clickOutside(node) {
     $effect(() => {
-      function handle(e){ if(!node.contains(e.target)) node.dispatchEvent(new CustomEvent("klikLuar")); }
+      function handle(e){ if(!node.contains(e.target)) node.dispatchEvent(new CustomEvent("clickOutside")); }
       document.addEventListener("click", handle);
       return () => document.removeEventListener("click", handle);
     });
   }
 </script>
 
-<form on:submit|preventDefault={tambah}>
-  <input bind:value={pelanggan} placeholder="Nama" />
-  <button>Tambah</button>
+<form on:submit|preventDefault={add}>
+  <input bind:value={customer} placeholder="Name" />
+  <button>Add</button>
 </form>
 
-<div use:klikLuar on:klikLuar={() => console.log("klik luar")}>
-  <p>Klik di luar kotak ini → log</p>
+<div use:clickOutside on:clickOutside={() => console.log("outside click")}>
+  <p>Click outside this box → log</p>
 </div>
 
-<ul>{#each daftar as p}<li>{p.pelanggan}</li>{/each}</ul>
+<ul>{#each list as p}<li>{p.customer}</li>{/each}</ul>
 ```
 
-**Sumber:** `svelte.dev/docs/svelte/use` — `use:action` + `$effect` cleanup.
+**Source:** `svelte.dev/docs/svelte/use` — `use:action` + `$effect` cleanup.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `use:klikLuar` = Stempel
-`use:klikLuar` panggil `klikLuar(node)` saat `div` mount, `return () => removeEventListener` saat unmount.
+### `use:clickOutside` = Stamp
+`use:clickOutside` calls `clickOutside(node)` when the `div` mounts, `return () => removeEventListener` on unmount.
 
-### `bind:value` = Tali 2 Arah
-`bind:value={pelanggan}` ketik ↔ `pelanggan` otomatis.
+### `bind:value` = Two-Way String
+`bind:value={customer}` typing ↔ `customer` automatic.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Stempel & Tali
+### Analogy: Stamps & Strings
 
-- **`use:klikLuar` = stempel**: tempel di `div`, stempel aktif saat `div` ada, hilang saat `div` hilang.
-- **`bind:value` = tali**: tarik tali `input` ↔ `pelanggan`.
+- **`use:clickOutside` = stamp**: stuck on the `div`, active while the `div` exists, gone when it leaves.
+- **`bind:value` = string**: pull the `input` string ↔ `customer`.
 
-### Langkah 0 — Device
+### Step 0 — Prepare Device
 
-`npm create svelte@latest` + `npm run dev` di `5173` (sudah W1).
+`npm create svelte@latest` + `npm run dev` on `5173` (done in W1).
 
-### Cara Komputer Membaca
+### How the Computer Reads It
 
-1. `<div use:klikLuar>` → panggil `klikLuar(div)` → `addEventListener`.
-2. Klik di luar `div` → `dispatchEvent("klikLuar")` → `on:klikLuar` jalan.
+1. `<div use:clickOutside>` → calls `clickOutside(div)` → `addEventListener`.
+2. Click outside the `div` → `dispatchEvent("clickOutside")` → `on:clickOutside` runs.
 
-### 3 Istilah Wajib
+### 3 Must-Know Terms
 
-1. **Action `use:`**: stempel mount
-2. **bind:value**: tali 2 arah
+1. **Action `use:`**: mount stamp
+2. **bind:value**: two-way string
 3. **$effect**: setup/cleanup
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** `bind:value={pelanggan}` ketik "Budi" → `pelanggan` jadi "Budi"?
-- **Kuning:** Hapus `$effect` cleanup → `removeEventListener` tidak jalan, memory leak?
-- **Merah:** `use:klikLuar` tanpa `on:klikLuar` → tidak log.
-
----
-
-## Tantangan
-
-**Warung Stempel Lengkap:** `use:klikLuar` untuk tutup `dropdown` kategori + `bind:value` 3 input (`nama`, `qty`, `kategori`) + `on:submit|preventDefault` tambah ke `daftar`.
+- **Green:** `bind:value={customer}` type "Budi" → `customer` becomes "Budi"?
+- **Yellow:** Remove `$effect` cleanup → `removeEventListener` never runs, memory leak?
+- **Red:** `use:clickOutside` without `on:clickOutside` → no log.
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **use:action/$effect**: stempel/cleanup
-- **bind:value**: tali
+**Complete Stamp Shop:** `use:clickOutside` to close a category `dropdown` + `bind:value` 3 inputs (`name`, `qty`, `category`) + `on:submit|preventDefault` adding to `list`.
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 7 dari 12: **Stempel & Formulir** (Level: Menengah). Bisa `use:` dan `bind`. Selesai? Lanjut W8.
+- **use:action/$effect**: stamp/cleanup
+- **bind:value**: string
+
+---
+
+## Summary
+
+Week 7 of 12: **Stamps & Forms** (Level: Intermediate). Can `use:` and `bind`. Next: W8.

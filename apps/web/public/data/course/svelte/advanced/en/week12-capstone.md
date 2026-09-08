@@ -1,33 +1,33 @@
-# Capstone: Toko Svelte Lengkap — 0→Ahli (svelte.dev)
+# Capstone: Complete Svelte Store — 0→Expert (svelte.dev)
 
-> **Kategori:** Svelte | **Level:** Lanjutan | **Minggu 12:** Capstone
+> **Kategori:** Svelte | **Level:** Advanced | **Minggu 12:** Capstone
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `SvelteKit` `load` + `prerender` + `store` + `adapter-vercel` `vercel --prod` jadi toko `produk` + `keranjang` + `deploy` `warung-svelte.vercel.app` (sumber: svelte.dev/docs/kit/adapter-vercel, vercel.com/docs/frameworks/sveltekit)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa capstone, 11 minggu terpisah — tidak tahu gabung. Dengan capstone, warung `Beranda` `prerender` + `produk` `load` + `keranjang` `writable` + `deploy` Vercel → toko Svelte siap kerja, `Lighthouse` 90+.
+- Combine `SvelteKit` `load` + `prerender` + `store` + `adapter-vercel` `vercel --prod` into a store with `products` + `cart` + deployed `shop-svelte.vercel.app` (source: svelte.dev/docs/kit/adapter-vercel, vercel.com/docs/frameworks/sveltekit)
 
 ---
 
-## Program: Toko Capstone Svelte (Capstone)
+## Why This Matters (Non-IT)
 
-Fitur wajib (cek `CHECKLIST_REPORT.md:263` 27 stack):
-- `produk` `load` fetch `+page.js` + `keranjang` `writable` store + `adapter-vercel` + `deploy`
+Without a capstone, 11 separate weeks — no proof of combination. With it, shop `Home` `prerender` + `products` `load` + `cart` `writable` + Vercel `deploy` → job-ready Svelte store, `Lighthouse` 90+.
 
-Struktur:
+---
+
+## Program: Svelte Capstone Store (Capstone)
+
+Required features:
+- `products` `load` fetch `+page.js` + `cart` `writable` store + `adapter-vercel` + `deploy`
+
+Structure:
 ```
 src/routes/
   +layout.js (prerender = true)
-  +page.svelte (Beranda)
-  produk/
+  +page.svelte (Home)
+  products/
     +page.js (load)
-    +page.svelte ({#each data.produk})
-  keranjang/
+    +page.svelte ({#each data.products})
+  cart/
     +page.svelte (store)
 svelte.config.js (adapter-vercel)
 ```
@@ -42,58 +42,68 @@ export default { kit: { adapter: adapter({ runtime: "nodejs20.x" }) } };
 npm i -D @sveltejs/adapter-vercel
 npm run build # vite build → adapter-vercel → .vercel/output
 vercel --prod
-# Atur Framework Preset SvelteKit di vercel.com/dashboard
+# Set SvelteKit Framework Preset at vercel.com/dashboard
 ```
 
-**Tugas capstone:** Deploy `warung-svelte.vercel.app` + video 2 menit tambah keranjang → checkout + `Lighthouse` screenshot.
+**Capstone task:** Deploy `shop-svelte.vercel.app` + 2-min add-to-cart → checkout video + `Lighthouse` screenshot.
 
-**Sumber:** Semua W1-W11 `svelte.dev` + `CHECKLIST_REPORT.md` 27 stack.
-
----
-
-## Konsep Kunci
-
-### Capstone = Gabung Semua
-`SvelteKit` peta + `store` gudang + `load` ambil + `adapter-vercel` deploy.
+**Source:** All W1-W11 `svelte.dev`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Key Concepts
 
-### Analogi: Warung Svelte Jadi
-
-- **W1-W5 `let`/`store`** = bata
-- **W6-W10 `SvelteKit`/`load`/`prerender`** = peta & cepat
-- **W12 Capstone = warung jadi** — buka cabang `Vercel`.
-
-### Langkah 0 — Device
-
-`npm create svelte@latest` + `npm run dev` di `5173` + `npm i -D @sveltejs/adapter-vercel` + `vercel --prod` (sudah W1, W10).
-
-### 3 Istilah Wajib
-
-1. **Capstone**: gabung semua
-2. **adapter-vercel**: penerjemah Vercel
-3. **Lighthouse**: nilai warung
+### Capstone = Combine All
+`SvelteKit` map + `store` warehouse + `load` fetch + `adapter-vercel` deploy.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Warung Svelte Lengkap Deploy:** `produk` `load` + `keranjang` `writable` + `adapter-vercel` + `Vercel` deploy + `Lighthouse` 90+ screenshot.
+### Analogy: Finished Svelte Shop
 
-Kriteria: `npm run dev` + `npm run build` PASS + `https://warung-svelte.vercel.app` hidup + video.
+- **W1-W5 `let`/`store`** = bricks
+- **W6-W10 `SvelteKit`/`load`/`prerender`** = map & speed
+- **W12 Capstone = finished shop** — open a `Vercel` branch.
+
+### Step 0 — Prepare Device
+
+`npm create svelte@latest` + `npm run dev` on `5173` + `npm i -D @sveltejs/adapter-vercel` + `vercel --prod` (done in W1, W10).
+
+### How the Computer Reads It
+1. `npm run build` → adapter output → `vercel --prod` ships it.
+2. `Lighthouse` audits → 90+ score.
+
+### 3 Must-Know Terms
+
+1. **Capstone**: combine all
+2. **adapter-vercel**: Vercel translator
+3. **Lighthouse**: shop score
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Capstone/adapter-vercel/Lighthouse**: gabung/penerjemah/nilai
+- **Green:** `prerender = true` → Home pre-built HTML?
+- **Yellow:** Missing adapter → build can't target Vercel? Install it.
+- **Red:** Skip `load` → empty product page? Add `+page.js`.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 12 dari 12: **Capstone Svelte** — toko lengkap, **Selesai Svelte 0→Ahli!** 🎉
+**Complete Deployed Svelte Shop:** `products` `load` + `cart` `writable` + `adapter-vercel` + `Vercel` deploy + `Lighthouse` 90+ screenshot.
 
-**Selesai 27 stack 100% beginner (274 file) + intermediate/advanced 160 file = 434 file. Sisa 232 file capstone & polish — lanjut tanpa henti.**
+Criteria: `npm run dev` + `npm run build` PASS + `https://shop-svelte.vercel.app` live + video.
+
+---
+
+## Mini Glossary
+
+- **Capstone/adapter-vercel/Lighthouse**: combine/translator/score
+
+---
+
+## Summary
+
+Week 12 of 12: **Svelte Capstone** — complete store, **Svelte 0→Expert DONE!** 🎉
