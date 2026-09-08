@@ -1,107 +1,107 @@
-# Concurrency — Kasir Paralel Anti-Rebutan Rust
+# Concurrency — No-Fight Parallel Rust Cashiers
 
-> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 12:** Concurrency
+> **Kategori:** Rust | **Level:** Advanced | **Minggu 12:** Concurrency
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `thread::spawn` kasir baru + `move` pindah milik + `mpsc::channel` ban + `Arc<Mutex<T>>` brankas bersama (sumber: doc.rust-lang.org/book/ch16)
-- Aturan: "fearless concurrency" — rebutan DITOLAK compiler!
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-2 kasir kurang stok bareng tanpa kunci = hasil salah (race!). Di C/Go, salah ketahuan saat run (kadang!). Di Rust, `Arc<Mutex>` dipaksa compiler — salah tidak compile. Tidur tenang.
+- `thread::spawn` new cashier + `move` transfers ownership + `mpsc::channel` belt + `Arc<Mutex<T>>` shared safe (source: doc.rust-lang.org/book/ch16)
+- Rule: "fearless concurrency" — fights REJECTED by the compiler!
 
 ---
 
-## Program: 2 Kasir Brankas Rust
+## Why This Matters (Non-IT)
+
+2 cashiers decrementing stock together unlocked = wrong result (race!). In C/Go, mistakes surface at run (sometimes!). In Rust, the compiler forces `Arc<Mutex>` — wrong code doesn't compile. Sleep well.
+
+---
+
+## Program: 2 Safe Rust Cashiers
 
 ```rust
 use std::thread;
 use std::sync::{Arc, Mutex, mpsc};
 
 fn main() {
-  // Brankas bersama (hitung-thread + kunci)
-  let stok = Arc::new(Mutex::new(10));
+  // Shared safe (thread-count + lock)
+  let stock = Arc::new(Mutex::new(10));
 
-  // Ban 2 kasir
-  let (kirim, terima) = mpsc::channel();
+  // Belt for 2 cashiers
+  let (send, receive) = mpsc::channel();
 
-  for kasir in 1..=2 {
-    let s = Arc::clone(&stok);      // tambah pemilik
-    let k = kirim.clone();          // tambah pengirim
-    thread::spawn(move || {         // move: pindah milik ke thread!
-      let mut stok = s.lock().unwrap(); // kunci! (1 yang pegang)
-      *stok -= 1;
-      k.send(format!("Kasir {} jual, sisa {}", kasir, *stok)).unwrap();
-    }); // kunci lepas otomatis di sini
+  for cashier in 1..=2 {
+    let s = Arc::clone(&stock);      // add owner
+    let k = send.clone();            // add sender
+    thread::spawn(move || {          // move: transfers ownership into thread!
+      let mut stock = s.lock().unwrap(); // lock! (1 holder)
+      *stock -= 1;
+      k.send(format!("Cashier {} sold, {} left", cashier, *stock)).unwrap();
+    }); // lock auto-released here
   }
-  drop(kirim);
+  drop(send);
 
-  for pesan in terima {
-    println!("{}", pesan);
+  for msg in receive {
+    println!("{}", msg);
   }
-  println!("Stok akhir: {} (tepat 8!)", stok.lock().unwrap());
+  println!("Final stock: {} (exactly 8!)", stock.lock().unwrap());
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `thread::spawn(move || ...)` = Kasir Baru Bawa Bekal
-`move` pindahkan milik ke thread (tanpa ini, pinjam mati duluan → ditolak!).
+### `thread::spawn(move || ...)` = New Cashier Bringing Lunch
+`move` moves ownership into the thread (without it, dying borrows → rejected!).
 
-### `Arc<Mutex<T>>` = Brankas Bersama
-`Arc` bagi milik antar thread, `Mutex` kunci (1 pegang). `lock()` tunggu giliran.
+### `Arc<Mutex<T>>` = Shared Safe
+`Arc` shares ownership across threads, `Mutex` locks (1 holder). `lock()` waits its turn.
 
-### `mpsc::channel` = Ban Pesan
-`send` kirim, `for terima` terima sampai pengirim habis.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: 2 Kasir + 1 Brankas
-- **Mutex = kunci brankas**: 1 pegang, lain antre.
-- **Arc = kunci duplikat terhitung**: habis dipakai semua → brankas musnah aman.
-
-### Langkah 0 — Siapkan Device
-- Sama W1.
-
-### Cara Komputer Membaca
-1. `Arc::clone` → hitungan 3 (main + 2 thread).
-2. Tiap thread `lock` → kurang → lepas. Hasil TEPAT 8 (tak pernah 9!).
-
-### 3 Istilah Wajib
-1. **spawn/move**: kasir-baru/bawa-bekal
-2. **Arc/Mutex**: bagi/kunci
-3. **mpsc**: ban-pesan
+### `mpsc::channel` = Message Belt
+`send` sends, `for receive` receives until senders run out.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tanpa `Mutex` (pakai `Rc<RefCell>`)? → error `not Send`! (Compiler jaga! Ganti Arc.)
-- **Kuning:** Lupa `move` → error borrow? Tambah.
-- **Merah:** Lupa `drop(kirim)` → `for terima` tunggu selamanya? (Pengirim masih ada!)
+### Analogy: 2 Cashiers + 1 Safe
+- **Mutex = safe lock**: 1 holds, others queue.
+- **Arc = counted duplicate keys**: all used up → safe dies safely.
+
+### Step 0 — Prepare Device
+- Same as W1.
+
+### How the Computer Reads It
+1. `Arc::clone` → count 3 (main + 2 threads).
+2. Each thread `lock`s → decrements → releases. Result EXACTLY 8 (never 9!).
+
+### 3 Must-Know Terms
+1. **spawn/move**: new-cashier/bring-lunch
+2. **Arc/Mutex**: share/lock
+3. **mpsc**: message-belt
 
 ---
 
-## Tantangan
+## Experiments
 
-**Dapur Paralel:** 3 thread masak + `Arc<Mutex<Stok>>` + `channel` lapor + hasil tepat (tidak lebih!).
-
----
-
-## Glosarium Mini
-
-- **spawn/Mutex/Arc**: kasir/kunci/bagi
-- **mpsc/move**: ban/bawa
+- **Green:** Without `Mutex` (using `Rc<RefCell>`)? → `not Send` error! (Compiler guards! Switch to Arc.)
+- **Yellow:** Forget `move` → borrow error? Add it.
+- **Red:** Forget `drop(send)` → `for receive` waits forever? (Sender still alive!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 12 dari 14: **Paralel Anti-Rebutan** (Level: Lanjutan). Compiler jaga. Minggu depan: **Macros**.
+**Parallel Kitchen:** 3 cooking threads + `Arc<Mutex<Stock>>` + `channel` reports + exact result (no more!).
+
+---
+
+## Mini Glossary
+
+- **spawn/Mutex/Arc**: cashier/lock/share
+- **mpsc/move**: belt/carry
+
+---
+
+## Summary
+
+Week 12 of 14: **No-Fight Parallel** (Level: Advanced). Compiler guards. Next: **Macros**.
