@@ -1,14 +1,20 @@
-# Introduction to HTML
+# Introduction to HTML — Your First Shop Page
 
-> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 1:** Introduction to HTML
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 1:** Pengantar HTML
 
 ## Learning Objectives
 
-- Understand HTML as the structural markup language of the web
-- Learn the basic HTML5 document structure: DOCTYPE, html, head, body
+- Understand HTML's role as the web's structural markup language
+- Know the basic HTML5 document structure: DOCTYPE, html, head, body
 - Understand the tag system: opening tag, closing tag, and content
 - Use heading elements h1-h6 for title hierarchy
 - Use paragraph elements p for text content
+
+---
+
+## Why This Matters (Non-IT)
+
+Every shop page — price list, order form, promo banner — is HTML underneath. Without this foundation, W2-W14 have nothing to stand on. Today you publish your first real page.
 
 ---
 
@@ -16,16 +22,16 @@
 
 ```html
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Pertama Saya</title>
+    <title>My First Page</title>
 </head>
 <body>
-    <h1>Selamat Datang di HTML!</h1>
-    <p>Ini adalah halaman web pertama saya.</p>
-    <p>HTML adalah bahasa markup untuk membuat struktur halaman web.</p>
+    <h1>Welcome to HTML!</h1>
+    <p>This is my first web page.</p>
+    <p>HTML is the markup language for building web page structure.</p>
 </body>
 </html>
 ```
@@ -35,52 +41,59 @@
 ## Key Concepts
 
 ### HTML5 Document Structure
-`<!DOCTYPE html>` declares HTML5. `<html>` is root. `<head>` has metadata, `<body>` has visible content.
+`<!DOCTYPE html>` tells the browser this is an HTML5 document. `<html>` is the root element. `<head>` holds metadata, `<body>` holds visible content.
 
 ### Tags & Elements
-Tags: `<p>` opening, `</p>` closing. Element = opening + content + closing.
+Tag: `<p>` (opening) and `</p>` (closing). Element = opening + content + closing.
 
 ### Headings & Paragraphs
-`<h1>` largest (main), `<h6>` smallest. `<p>` for text paragraphs.
+`<h1>` biggest (main), `<h6>` smallest. `<p>` for text paragraphs.
 
 ---
 
 ## Beginner Friendly Explanation
 
-This material is for complete beginners. Think of HTML as a **house frame**: you decide the room layout, then the browser paints and fills it.
+### Analogy: House Frame
+Think of HTML as a **house frame**: we decide the room layout, then the browser paints and fills it.
 
-**3 terms to understand first:**
+### Step 0 — Prepare Device
+- VS Code + browser, create `first.html`, paste program, open via `Ctrl+O`.
 
-1. **Tag** — a command wrapped in `<` and `>`. Example `<p>` = start paragraph, `</p>` = end paragraph.
-2. **Element** — a tag pair plus its content. `<p>Hello</p>` is one paragraph element.
-3. **Document** — a full page starts with `<!DOCTYPE html>` (tells the browser "this is HTML version 5"), then `<html>`, split into `<head>` (settings, invisible) and `<body>` (what you see on screen).
+### How the Computer Reads It
+- Line 1: `<!DOCTYPE html>` — marker the browser reads.
+- Line 2: `<html lang="en">` — root of the whole document; `lang` tells the language.
+- Lines 5-8: `<head>` holds `meta charset` (so letters render) and `title` (browser tab title).
+- Lines 10-14: `<body>` holds `h1` (big title) and two `p` (paragraphs).
 
-**Read this week program step by step:**
-- Row 1: `<!DOCTYPE html>` — the marker the browser reads.
-- Row 2: `<html lang="id">` — the root of the whole document; `lang` tells the language.
-- Rows 5-8: `<head>` contains `meta charset` (so letters display correctly) and `title` (the browser tab title).
-- Rows 10-14: `<body>` contains `h1` (large heading) and two `p` (paragraphs).
+### 3 Must-Know Terms
+1. **Tag** — command wrapped in `<` and `>`. `<p>` = start paragraph, `</p>` = end.
+2. **Element** — tag pair + content. `<p>Hi</p>` is one paragraph element.
+3. **Document** — full page starting with `<!DOCTYPE html>`, split into `<head>` (settings, invisible) and `<body>` (shown on screen).
 
-**Tip:** Do not memorize every tag. Copy the code to the playground, change the text, then run it — seeing the result instantly teaches you what each tag does.
+**Tip:** Don't memorize all tags. Copy the code to a playground, change the text, run — seeing results instantly is the fastest way to learn each tag.
 
 ---
 
 ## Experiments
 
-- Add different heading levels (h2, h3) below h1
-- Create multiple paragraphs with different text
-- Change lang attribute from "id" to "en"
-- Add meta description inside head
-- Experiment with self-closing tags like <br> and <hr>
+- **Green:** Add different heading levels (h2, h3) under h1 → hierarchy shows?
+- **Yellow:** Change `lang` from "en" to "id" → screen reader language changes?
+- **Red:** Delete `<!DOCTYPE html>` → page still renders but quirks mode? Restore it.
 
 ---
 
 ## Challenge
 
-Build a simple profile page: name, placeholder photo, short bio, and hobbies. Use headings, paragraphs, br, and hr.
+**Simple Profile Page:** name, placeholder photo, short bio, hobbies. Use headings, paragraphs, br, and hr. Open in browser — your first published page!
+
+---
+
+## Mini Glossary
+
+- **tag/element/document**: command/block/page
 
 ---
 
 ## Summary
 
-Week 1 of 14: **Introduction to HTML** (Level: Complete HTML5). Foundation of every web page. Next week: **Text Formatting & Typography**.
+Week 1 of 14: **HTML Intro** (Level: Complete). Foundation of every web page. Next: **Text Formatting & Typography**.

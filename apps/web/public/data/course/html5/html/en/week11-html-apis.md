@@ -1,105 +1,105 @@
-# HTML APIs — Fitur Canggih Tanpa JavaScript Berat
+# HTML APIs — Advanced Features Without Heavy JavaScript
 
-> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 11:** HTML APIs
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 11:** HTML APIs
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `details` + `summary` FAQ buka-tutup murni HTML (sumber: MDN details)
-- `dialog` + `showModal()` popup + `form method="dialog"` tutup (sumber: MDN dialog)
-- `progress`/`meter` batang, `datalist` saran input
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-FAQ 10 pertanyaan tanpa `details` = 10x JS toggle + 50 baris. Dengan `details`, 0 JS. Popup promo tanpa `dialog` = div + JS + z-index manual. Dengan `showModal()`, fokus otomatis + ESC tutup + backdrop.
+- `details` + `summary` pure-HTML open/close FAQ (source: MDN details)
+- `dialog` + `showModal()` popup + `form method="dialog"` close (source: MDN dialog)
+- `progress`/`meter` bars, `datalist` input suggestions
 
 ---
 
-## Program: FAQ & Popup Murni HTML
+## Why This Matters (Non-IT)
+
+FAQ with 10 questions without `details` = 10x JS toggles + 50 lines. With `details`, 0 JS. Promo popup without `dialog` = div + JS + manual z-index. With `showModal()`, auto focus + ESC close + backdrop.
+
+---
+
+## Program: Pure-HTML FAQ & Popup
 
 ```html
-<h2>FAQ Warung</h2>
+<h2>Shop FAQ</h2>
 <details>
-  <summary>Apakah gratis ongkir?</summary>
-  <p>Ya, jika belanja &gt;Rp 100.000 (RW 01-03).</p>
+  <summary>Free delivery?</summary>
+  <p>Yes, for orders &gt;Rp 100,000 (RW 01-03).</p>
 </details>
 <details>
-  <summary>Jam buka?</summary>
-  <p>07.00 — 20.00 WIB tiap hari.</p>
+  <summary>Opening hours?</summary>
+  <p>07.00 — 20.00 daily.</p>
 </details>
 
 <dialog id="promo">
-  <h3>Promo 10% Hari Ini!</h3>
-  <p>Kode: <code>WARUNG10</code></p>
-  <form method="dialog"><button>Tutup</button></form>
+  <h3>10% Promo Today!</h3>
+  <p>Code: <code>SHOP10</code></p>
+  <form method="dialog"><button>Close</button></form>
 </dialog>
-<button onclick="promo.showModal()">Lihat Promo</button>
+<button onclick="promo.showModal()">See Promo</button>
 
-<label>Stok terjual:</label>
+<label>Stock sold:</label>
 <progress value="70" max="100">70%</progress>
-<input list="daftar" placeholder="Cari produk">
-<datalist id="daftar">
-  <option value="Beras"></option>
-  <option value="Bayam"></option>
+<input list="items" placeholder="Search products">
+<datalist id="items">
+  <option value="Rice"></option>
+  <option value="Spinach"></option>
 </datalist>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `details` + `summary` = FAQ Lipat
-Klik `summary` → buka/tutup. `open` atribut untuk buka default.
+### `details` + `summary` = Folding FAQ
+Click `summary` → open/close. `open` attribute for default open.
 
-### `dialog` + `showModal()` = Popup Resmi
-`showModal()` modal (fokus terkunci + ESC + `::backdrop`), `show()` biasa. `form method="dialog"` tutup tanpa JS.
+### `dialog` + `showModal()` = Official Popup
+`showModal()` modal (focus locked + ESC + `::backdrop`), `show()` plain. `form method="dialog"` closes without JS.
 
-### `progress`/`meter`/`datalist` = Kecil-Kecil Mantap
-`progress` progres, `datalist` saran ketik.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Kertas Lipat & Etalase Kaca
-- **details = brosur lipat**: buka lipatan baca.
-- **dialog = etalase kaca**: muncul di depan, ESC tutup.
-
-### Langkah 0 — Siapkan Device
-- VS Code + browser modern (Chrome 90+ untuk `dialog`).
-
-### Cara Komputer Membaca
-1. Klik `summary` → browser toggle `open` → tampil isi.
-2. `showModal()` → lapisan modal + fokus ke dialog.
-
-### 3 Istilah Wajib
-1. **details/summary**: lipat/judul-lipat
-2. **dialog/showModal**: popup/buka-modal
+### `progress`/`meter`/`datalist` = Small but Mighty
+`progress` progress, `datalist` typing suggestions.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tambah `open` di `details` → terbuka default?
-- **Kuning:** `dialog` tanpa `showModal` (tag saja) → tidak tampil? (Wajib panggil!)
-- **Merah:** `form` biasa (tanpa `method="dialog"`) di dialog → reload halaman? Ganti `dialog`.
+### Analogy: Folded Flyer & Glass Display
+- **details = folded brochure**: unfold to read.
+- **dialog = glass display**: pops in front, ESC closes.
 
----
+### Step 0 — Prepare Device
+- VS Code + modern browser (Chrome 90+ for `dialog`).
 
-## Tantangan
+### How the Computer Reads It
+1. Click `summary` → browser toggles `open` → shows content.
+2. `showModal()` → modal layer + focus into dialog.
 
-**Warung Interaktif Murni:** 5 FAQ `details` + 1 `dialog` promo (`showModal` + `method="dialog"`) + `progress` stok + `datalist` 6 produk. 0 JS kecuali 1 baris `onclick`.
-
----
-
-## Glosarium Mini
-
-- **details/dialog/progress**: lipat/popup/batang
-- **showModal/backdrop**: buka-modal/latar
+### 3 Must-Know Terms
+1. **details/summary**: fold/fold-title
+2. **dialog/showModal**: popup/open-modal
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 11 dari 14: **Fitur Canggih Murni HTML** (Level: Lengkap). Tanpa JS berat. Minggu depan: **Aksesibilitas**.
+- **Green:** Add `open` to `details` → open by default?
+- **Yellow:** Bare `dialog` without `showModal` → not shown? (Must call it!)
+- **Red:** Plain `form` (no `method="dialog"`) in dialog → page reloads? Switch to `dialog`.
+
+---
+
+## Challenge
+
+**Pure Interactive Shop:** 5 FAQ `details` + 1 promo `dialog` (`showModal` + `method="dialog"`) + stock `progress` + `datalist` 6 products. 0 JS except 1 `onclick` line.
+
+---
+
+## Mini Glossary
+
+- **details/dialog/progress**: fold/popup/bar
+- **showModal/backdrop**: open-modal/background
+
+---
+
+## Summary
+
+Week 11 of 14: **Pure-HTML Advanced Features** (Level: Complete). No heavy JS. Next: **Accessibility**.
