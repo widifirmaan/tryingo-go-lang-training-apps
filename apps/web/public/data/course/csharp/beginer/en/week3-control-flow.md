@@ -1,115 +1,115 @@
-# Control Flow — Cabang & Ulang Warung C#
+# Control Flow — C# Shop Branches & Loops
 
-> **Kategori:** C# | **Level:** Pemula | **Minggu 3:** Control Flow
+> **Kategori:** C# | **Level:** Beginner | **Minggu 3:** Control Flow
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `if / else if / else`, `switch` dengan `break`, `for`, `while`, `foreach` untuk `List`/`array` (sumber: Microsoft Learn selection & iteration statements)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Nilai 85 → B, stok 0 → "Habis", hitung 30 barang — tanpa `if`/`foreach` tulis manual. `switch` C# wajib `break` (tidak seperti Go) — lupa = error compile, aman.
+- `if / else if / else`, `switch` with `break`, `for`, `while`, `foreach` for `List`/`array` (source: Microsoft Learn selection & iteration statements)
 
 ---
 
-## Program: Kasir Otomatis C#
+## Why This Matters (Non-IT)
+
+Score 85 → B, stock 0 → "Gone", counting 30 items — without `if`/`foreach` hand-write everything. C# `switch` mandates `break` (unlike Go) — forgetting = compile error, safe.
+
+---
+
+## Program: Automatic C# Cashier
 
 ```csharp
-int nilai = 85;
-if (nilai >= 90) Console.WriteLine("Grade: A");
-else if (nilai >= 80) Console.WriteLine("Grade: B");
+int score = 85;
+if (score >= 90) Console.WriteLine("Grade: A");
+else if (score >= 80) Console.WriteLine("Grade: B");
 else Console.WriteLine("Grade: C");
 
-string hari = "Jumat";
-switch (hari) {
-  case "Jumat": Console.WriteLine("Besok libur!"); break;
-  case "Senin": Console.WriteLine("Semangat!"); break;
-  default: Console.WriteLine("Hari kerja"); break;
+string day = "Friday";
+switch (day) {
+  case "Friday": Console.WriteLine("Holiday tomorrow!"); break;
+  case "Monday": Console.WriteLine("Go go!"); break;
+  default: Console.WriteLine("Workday"); break;
 }
 
-Console.Write("Hitung 1-5: ");
+Console.Write("Count 1-5: ");
 for (int i = 1; i <= 5; i++) Console.Write($"{i} ");
 Console.WriteLine();
 
-string[] buah = { "apel", "mangga", "pisang" };
-foreach (var b in buah) Console.WriteLine($"Buah: {b}");
+string[] fruits = { "apple", "mango", "banana" };
+foreach (var f in fruits) Console.WriteLine($"Fruit: {f}");
 
-// Nyata: total yang stok ada
-var keranjang = new[] {
-  new { Nama = "Beras", Harga = 62000, Ada = true },
-  new { Nama = "Gula", Harga = 15000, Ada = false },
+// Real: total of available stock
+var cart = new[] {
+  new { Name = "Rice", Price = 62000, In = true },
+  new { Name = "Sugar", Price = 15000, In = false },
 };
 int total = 0;
-foreach (var item in keranjang) {
-  if (!item.Ada) continue;
-  total += item.Harga;
+foreach (var item in cart) {
+  if (!item.In) continue;
+  total += item.Price;
 }
-Console.WriteLine($"Total beli: Rp {total:N0}");
+Console.WriteLine($"Buyable total: Rp {total:N0}");
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `if / else if / else` = Cabang
-Cek atas → bawah, berhenti saat true.
+### `if / else if / else` = Branches
+Checks top → down, stops at true.
 
-### `switch` + `break` Wajib
-C# error jika `case` tanpa `break` (kecuali kosong bertumpuk). Aman dari bocor JS.
+### Mandatory `switch` + `break`
+C# errors on `case` without `break` (except stacked empties). Safe from JS leaks.
 
 ### `for` vs `foreach`
-- `for (int i=1; i<=5; i++)` tahu jumlah.
-- `foreach (var b in buah)` langsung barang.
+- `for (int i=1; i<=5; i++)` known count.
+- `foreach (var f in fruits)` items directly.
 
 ### `continue` / `break`
-`continue` loncat 1, `break` keluar.
+`continue` skips 1, `break` exits.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Satpam & Cek Rak
-- **`if` = satpam**: "Stok >0? Silakan."
-- **`foreach` = cek rak**: ambil tiap barang.
+### Analogy: Guard & Rack Check
+- **`if` = guard**: "Stock >0? Come in."
+- **`foreach` = rack check**: takes each item.
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `dotnet run`.
+### Step 0 — Prepare Device
+- Same as W1: `dotnet run`.
 
-### Cara Komputer Membaca
-1. `if (85>=90)`? tidak → `else if (85>=80)` ya → "B".
-2. `foreach` 3x, `continue` loncat Gula (`Ada=false`).
+### How the Computer Reads It
+1. `if (85>=90)`? no → `else if (85>=80)` yes → "B".
+2. `foreach` 3x, `continue` skips Sugar (`In=false`).
 
-### 3 Istilah Wajib
-1. **Kondisi/loop**: tanya/ulang
-2. **break/continue**: keluar/loncat
-3. **foreach**: untuk tiap
-
----
-
-## Eksperimen
-
-- **Hijau:** `nilai = 95` → A? `hari = "Senin"` → Semangat?
-- **Kuning:** `for (int i = 10; i >= 1; i--)` mundur?
-- **Merah:** Hapus `break` di `case "Jumat"` → error compile `Control cannot fall through`? Pasang lagi.
+### 3 Must-Know Terms
+1. **Condition/loop**: ask/repeat
+2. **break/continue**: exit/skip
+3. **foreach**: for each
 
 ---
 
-## Tantangan
+## Experiments
 
-**Tebak Stok:** `int rahasia = 7; int[] tebak = {3, 9, 7}; foreach (int t in tebak) { if (t == rahasia) { Console.WriteLine("Benar!"); break; } else if (t < rahasia) Console.WriteLine($"{t} kekecilan"); else Console.WriteLine($"{t} kebesaran"); }`
-
----
-
-## Glosarium Mini
-
-- **if/switch**: cabang
-- **for/foreach/while**: ulang
-- **break/continue**: keluar/loncat
+- **Green:** `score = 95` → A? `day = "Monday"` → Go go?
+- **Yellow:** `for (int i = 10; i >= 1; i--)` backwards?
+- **Red:** Delete `break` in `case "Friday"` → `Control cannot fall through` compile error? Reattach.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 4: **Kontrol C#** (Level: Pemula). Bisa cabang & ulang. Minggu depan: **OOP** — cetak biru.
+**Guess Stock:** `int secret = 7; int[] guesses = {3, 9, 7}; foreach (int g in guesses) { if (g == secret) { Console.WriteLine("Right!"); break; } else if (g < secret) Console.WriteLine($"{g} too small"); else Console.WriteLine($"{g} too big"); }`
+
+---
+
+## Mini Glossary
+
+- **if/switch**: branches
+- **for/foreach/while**: repeats
+- **break/continue**: exit/skip
+
+---
+
+## Summary
+
+Week 3 of 4: **C# Control** (Level: Beginner). Branches & loops. Next: **OOP** — blueprints.
