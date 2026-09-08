@@ -1,84 +1,91 @@
-# DataLoader & N+1 — Gerobak Sekaligus GraphQL
+# DataLoader & N+1 — GraphQL Cart-at-Once
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 7:** DataLoader & N+1 Problem
+> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 7:** DataLoader & N+1 Problem
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- N+1: 100 produk → 1 query daftar + 100 query kategori = 101x (lambat!) (sumber: github.com/graphql/dataloader)
-- `new DataLoader(keys => batchFn(keys))` kumpulkan 1 detik → 1 query `WHERE id IN (...)`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Daftar 100 produk + kategori tiap baris = 101 query DB (10 detik). Dengan DataLoader, 2 query (0.1 detik) — 100x cepat. Tanpa ini, GraphQL lambat di produksi.
+- N+1: 100 products → 1 list query + 100 category queries = 101x (slow!) (source: github.com/graphql/dataloader)
+- `new DataLoader(keys => batchFn(keys))` gathers 1 tick → 1 `WHERE id IN (...)` query
 
 ---
 
-## Program: Gerobak Warung
+## Why This Matters (Non-IT)
+
+100-product list + per-row category = 101 DB queries (10 seconds). With DataLoader, 2 queries (0.1s) — 100x fast. Without it, GraphQL is slow in production.
+
+---
+
+## Program: Shop Cart
 
 ```javascript
 const DataLoader = require("dataloader");
 
-// Tanpa DataLoader (N+1): 1 + 100 query!
-// Produk: { kategori: p => db.kategori(p.kategoriId) } ← 100x!
+// Without DataLoader (N+1): 1 + 100 queries!
+// Product: { category: p => db.category(p.categoryId) } ← 100x!
 
-// Dengan DataLoader: 1 + 1 query
-const kategoriLoader = new DataLoader(async (ids) => {
-  const rows = await db.kategoriByIds(ids); // 1 query IN (...)
-  return ids.map(id => rows.find(r => r.id === id)); // urut sesuai ids!
+// With DataLoader: 1 + 1 queries
+const categoryLoader = new DataLoader(async (ids) => {
+  const rows = await db.categoriesByIds(ids); // 1 query IN (...)
+  return ids.map(id => rows.find(r => r.id === id)); // order matches ids!
 });
 
 const resolvers = {
-  Produk: {
-    kategori: (parent) => kategoriLoader.load(parent.kategoriId),
+  Product: {
+    category: (parent) => categoryLoader.load(parent.categoryId),
   },
 };
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### N+1 = 1 + N Query
-Daftar (1) + tiap baris (N). DataLoader kumpulkan → 1 batch.
+### N+1 = 1 + N Queries
+List (1) + each row (N). DataLoader gathers → 1 batch.
 
-### `load()` + Batch = Gerobak
-`load(id)` naik gerobak, gerobak jalan 1x per tick dengan semua penumpang.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Ojek vs Bus
-- **Tanpa DataLoader = 100 ojek** (mahal).
-- **DataLoader = 1 bus**: kumpulkan penumpang 1 tick, jalan sekali.
-
-### 3 Istilah Wajib
-1. **N+1/batch/load**: 101x/gerobak/naik
+### `load()` + Batch = Cart
+`load(id)` boards the cart, cart runs 1x per tick with all riders.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Log tiap query kategori → 100 baris? Dengan DataLoader → 1?
-- **Kuning:** `load` id sama 2x → cache (1x)?
-- **Merah:** Return urutan acak dari batch → data tertukar? (Wajib urut sesuai ids!)
+### Analogy: Motorbikes vs Bus
+- **No DataLoader = 100 motorbikes** (expensive).
+- **DataLoader = 1 bus**: gathers riders 1 tick, runs once.
 
----
+### Step 0 — Prepare Device
+- Apollo Server from W5 + `npm install dataloader`, log query counts.
 
-## Tantangan
+### How the Computer Reads It
+1. 100 `load(id)` calls in 1 tick → 1 batch function call.
+2. Batch must return results in `ids` order!
 
-**Warung Cepat:** `Produk.kategori` via DataLoader + log hitung query: 101 → 2. Screenshot.
-
----
-
-## Glosarium Mini
-
-- **DataLoader/N+1**: gerobak/101x
+### 3 Must-Know Terms
+1. **N+1/batch/load**: 101x/cart/board
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 7 dari 10: **Gerobak Sekaligus** (Level: Menengah). 100x cepat. Minggu depan: **Subscriptions**.
+- **Green:** Log each category query → 100 lines? With DataLoader → 1?
+- **Yellow:** `load` same id 2x → cached (1x)?
+- **Red:** Batch returning random order → data swapped? (Must match ids order!)
+
+---
+
+## Challenge
+
+**Fast Shop:** `Product.category` via DataLoader + log proving query count: 101 → 2. Screenshot.
+
+---
+
+## Mini Glossary
+
+- **DataLoader/N+1**: cart/101x
+
+---
+
+## Summary
+
+Week 7 of 10: **Cart-at-Once** (Level: Intermediate). 100x fast. Next: **Subscriptions**.

@@ -1,20 +1,20 @@
-# Subscriptions — Bel Live Warung GraphQL
+# Subscriptions — Live GraphQL Shop Bell
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 8:** Subscriptions
+> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 8:** Subscriptions
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `type Subscription { stokHabis: Produk }` + `pubsub.asyncIterator` — server dorong, bukan client tanya (sumber: apollographql.com/docs/apollo-server/data/subscriptions)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa subscription, HP refresh tiap 5 detik cek stok (boros baterai + kuota). Dengan subscription (WebSocket), stok habis → HP bunyi detik itu juga.
+- `type Subscription { outOfStock: Product }` + `pubsub.asyncIterator` — server pushes, client doesn't ask (source: apollographql.com/docs/apollo-server/data/subscriptions)
 
 ---
 
-## Program: Bel Stok Warung
+## Why This Matters (Non-IT)
+
+Without subscriptions, phones refresh every 5 seconds checking stock (battery + data waste). With subscriptions (WebSocket), stock empties → phone rings that very second.
+
+---
+
+## Program: Shop Stock Bell
 
 ```javascript
 // Server
@@ -22,76 +22,83 @@ const { PubSub } = require("graphql-subscriptions");
 const pubsub = new PubSub();
 
 const typeDefs = `#graphql
-  type Subscription { stokHabis: Produk }
-  type Mutation { jual(id: ID!): Produk }
+  type Subscription { outOfStock: Product }
+  type Mutation { sell(id: ID!): Product }
 `;
 
-// Saat jual sampai 0 → siar!
+// When a sale hits 0 → broadcast!
 const resolvers = {
   Mutation: {
-    jual: (_, { id }) => {
-      const p = kurangiStok(id);
-      if (p.stok === 0) pubsub.publish("STOK_HABIS", { stokHabis: p });
+    sell: (_, { id }) => {
+      const p = decrementStock(id);
+      if (p.stock === 0) pubsub.publish("STOCK_EMPTY", { outOfStock: p });
       return p;
     },
   },
   Subscription: {
-    stokHabis: { subscribe: () => pubsub.asyncIterator(["STOK_HABIS"]) },
+    outOfStock: { subscribe: () => pubsub.asyncIterator(["STOCK_EMPTY"]) },
   },
 };
 ```
 
 ```graphql
-# HP (sekali, dengar terus):
+# Phone (once, listens forever):
 subscription {
-  stokHabis { nama }
+  outOfStock { name }
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Query/Mutation/Subscription = Tanya/Tulis/Dengar
-Query tarik, subscription dorong (WebSocket tetap buka).
+### Query/Mutation/Subscription = Ask/Write/Listen
+Queries pull, subscriptions push (WebSocket stays open).
 
-### `publish` + `asyncIterator` = Siar + Dengar
-`publish("TOPIK", data)` siar, `asyncIterator(["TOPIK"])` dengar.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Bel Pintu vs Ketok Tiap Detik
-- **Polling = ketok tiap 5 detik** ("ada paket?").
-- **Subscription = bel pintu**: paket datang → bel bunyi.
-
-### 3 Istilah Wajib
-1. **Subscription/publish**: dengar/siar
-2. **WebSocket**: telepon-tersambung
+### `publish` + `asyncIterator` = Broadcast + Listen
+`publish("TOPIC", data)` broadcasts, `asyncIterator(["TOPIC"])` listens.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Buka 2 tab subscription → jual sampai 0 → keduanya bunyi?
-- **Kuning:** Tanpa `publish` → sunyi? (Wajar, tidak ada siar.)
-- **Merah:** Refresh tiap 5 detik (polling) vs subscription → baterai/kuota mana boros?
+### Analogy: Doorbell vs Knocking Every Second
+- **Polling = knocking every 5 seconds** ("any package?").
+- **Subscription = doorbell**: package arrives → bell rings.
+
+### Step 0 — Prepare Device
+- Apollo Server from W5 + WebSocket-ready client (GraphiQL supports subscriptions).
+
+### How the Computer Reads It
+1. `sell` drops stock to 0 → `publish` fires.
+2. Subscribed phones receive `{ outOfStock: {...} }` instantly.
+
+### 3 Must-Know Terms
+1. **Subscription/publish**: listen/broadcast
+2. **WebSocket**: always-connected call
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Live:** `stokHabis` subscription + `jual` publish saat 0 + 2 tab dengar bareng screenshot.
-
----
-
-## Glosarium Mini
-
-- **Subscription/publish**: dengar/siar
+- **Green:** Open 2 subscription tabs → sell to 0 → both ring?
+- **Yellow:** No `publish` → silence? (Normal, no broadcast.)
+- **Red:** 5-second polling vs subscription → which wastes battery/data?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 10: **Bel Live** (Level: Menengah). Dorong, bukan tanya. Minggu depan: **Testing**.
+**Live Shop:** `outOfStock` subscription + `sell` publishing at 0 + 2 tabs listening together, screenshot.
+
+---
+
+## Mini Glossary
+
+- **Subscription/publish**: listen/broadcast
+
+---
+
+## Summary
+
+Week 8 of 10: **Live Bell** (Level: Intermediate). Push, don't ask. Next: **Testing**.
