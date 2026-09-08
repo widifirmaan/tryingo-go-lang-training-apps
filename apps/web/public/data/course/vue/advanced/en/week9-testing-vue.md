@@ -1,108 +1,108 @@
-# Testing Vue — Cicip Kartu Beneran
+# Testing Vue — Real Card Taste-Test
 
-> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 9:** Testing Vue Components
+> **Kategori:** Vue | **Level:** Advanced | **Minggu 9:** Testing Vue Components
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `npm install -D vitest @vue/test-utils` + `mount(Kartu, { props: { nama: "Beras" } })` + `expect(wrapper.text()).toContain("Beras")` beneran (sumber: test-utils.vuejs.org + vitest.dev)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa uji, ubah `Kartu` → harga hilang ketahuan pelanggan. Dengan `mount` + `expect`, ubah → merah → perbaiki. Simulasi `console.log` tidak dicek mesin!
+- `npm install -D vitest @vue/test-utils` + `mount(Card, { props: { name: "Rice" } })` + `expect(wrapper.text()).toContain("Rice")` for real (source: test-utils.vuejs.org + vitest.dev)
 
 ---
 
-## Program: Cicip Kartu Beneran
+## Why This Matters (Non-IT)
+
+Without tests, editing `Card` → missing price found by customers. With `mount` + `expect`, edit → red → fix. `console.log` simulation isn't machine-checked!
+
+---
+
+## Program: Real Card Taste-Test
 
 ```bash
 npm install -D vitest @vue/test-utils jsdom
 ```
 
 ```vue
-<!-- Kartu.vue -->
-<template><div class="kartu"><h3>{{ nama }}</h3><p>Rp {{ harga }}</p></div></template>
+<!-- Card.vue -->
+<template><div class="card"><h3>{{ name }}</h3><p>Rp {{ price }}</p></div></template>
 <script setup>
-defineProps({ nama: String, harga: Number });
+defineProps({ name: String, price: Number });
 </script>
 ```
 
 ```javascript
-// Kartu.test.js — beneran!
+// Card.test.js — for real!
 import { mount } from "@vue/test-utils";
 import { test, expect } from "vitest";
-import Kartu from "./Kartu.vue";
+import Card from "./Card.vue";
 
-test("tampil nama dan harga", () => {
-  const w = mount(Kartu, { props: { nama: "Beras", harga: 62000 } });
-  expect(w.text()).toContain("Beras");
+test("shows name and price", () => {
+  const w = mount(Card, { props: { name: "Rice", price: 62000 } });
+  expect(w.text()).toContain("Rice");
   expect(w.text()).toContain("62000");
 });
 
-test("klik BELI kirim event", async () => {
-  const w = mount(Kartu, { props: { nama: "Beras", harga: 1 } });
+test("BUY click sends event", async () => {
+  const w = mount(Card, { props: { name: "Rice", price: 1 } });
   await w.find("button").trigger("click");
-  expect(w.emitted("beli")[0]).toEqual(["Beras"]);
+  expect(w.emitted("buy")[0]).toEqual(["Rice"]);
 });
 ```
 
 ```bash
-npx vitest run  # HIJAU beneran (bukan echo!)
+npx vitest run  # GREEN for real (not echo!)
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `mount` + `props` = Pasang Kartu Bohongan
-`mount(Kartu, { props })` render sungguhan di `jsdom`.
+### `mount` + `props` = Mount Mock Card
+`mount(Card, { props })` truly renders in `jsdom`.
 
-### `expect(text()).toContain` = Cicip Teks
-Cek output, bukan `console.log`.
+### `expect(text()).toContain` = Taste Text
+Checks output, not `console.log`.
 
-### `trigger("click")` + `emitted()` = Klik & Dengar
-Klik bohongan + cek bel terkirim.
+### `trigger("click")` + `emitted()` = Click & Listen
+Mock click + check bell sent.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Mystery Shopper
-- **mount = toko bohongan**, **expect = cicip**, **trigger = pencet bel**.
+### Analogy: Mystery Shopper
+- **mount = mock store**, **expect = taste**, **trigger = ring bell**.
 
-### Langkah 0 — Siapkan Device
+### Step 0 — Prepare Device
 - `npm install -D vitest @vue/test-utils jsdom` + `npx vitest run`.
 
-### Cara Komputer Membaca
-1. `mount` → render `Kartu` ke DOM palsu.
-2. `expect(...).toContain(...)` → cocok? Hijau : merah + baris.
+### How the Computer Reads It
+1. `mount` → renders `Card` to fake DOM.
+2. `expect(...).toContain(...)` → match? Green : red + line.
 
-### 3 Istilah Wajib
-1. **mount/props/trigger**: pasang/kirim/pencet
-
----
-
-## Eksperimen
-
-- **Hijau:** Ubah `nama` jadi "Gula" → test merah? Betulkan.
-- **Kuning:** Hapus 1 `expect` → tetap hijau (kurang cicip)?
-- **Merah:** File tanpa `.test.js` → tidak jalan? Ganti nama.
+### 3 Must-Know Terms
+1. **mount/props/trigger**: mount/send/press
 
 ---
 
-## Tantangan
+## Experiments
 
-**Kartu Teruji:** `nama` + `harga` + tombol `Beli` → 3 test (teks, harga, event) HIJAU + screenshot.
-
----
-
-## Glosarium Mini
-
-- **mount/expect/trigger**: pasang/cicip/pencet
+- **Green:** Change `name` to "Sugar" → test red? Fix it.
+- **Yellow:** Delete 1 `expect` → still green (under-tasted)?
+- **Red:** File without `.test.js` → not run? Rename.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Cicip Beneran** (Level: Lanjutan). Tanpa simulasi. Minggu depan: **Performance**.
+**Tested Card:** `name` + `price` + `Buy` button → 3 tests (text, price, event) GREEN + screenshot.
+
+---
+
+## Mini Glossary
+
+- **mount/expect/trigger**: mount/taste/press
+
+---
+
+## Summary
+
+Week 9 of 12: **Real Tasting** (Level: Advanced). No simulation. Next: **Performance**.

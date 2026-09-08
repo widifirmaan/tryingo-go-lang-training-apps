@@ -1,62 +1,87 @@
-# Capstone: SaaS Dashboard — Warung Vue Grand Opening
+# Capstone: SaaS Dashboard — Vue Shop Grand Opening
 
-> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 12:** Capstone: SaaS Dashboard
+> **Kategori:** Vue | **Level:** Advanced | **Minggu 12:** Capstone: SaaS Dashboard
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W11: `SFC` + `Pinia` + `Router` + `test` + `Nuxt` jadi dasbor warung (stok + grafik + admin) + deploy
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: dasbor 1 layar (stok live + grafik + tambah) + login + uji hijau. Portfolio "Vue production-ready".
+- Combine W1-W11: `SFC` + `Pinia` + `Router` + `test` + `Nuxt` into a shop dashboard (stock + charts + admin) + deploy
 
 ---
 
-## Program: Dasbor Warung (Checklist)
+## Why This Matters (Non-IT)
+
+11 separate weeks — capstone proves the combination: 1-screen dashboard (live stock + charts + add) + login + green tests. Your "production-ready Vue" portfolio.
+
+---
+
+## Program: Shop Dashboard (Checklist)
 
 ```bash
-npm create vue@latest warung-dashboard
+npm create vue@latest shop-dashboard
 npm install pinia vue-router
 npm install -D vitest @vue/test-utils
 ```
 
-Fitur wajib:
-- [ ] `Router` `/` dasbor + `/produk` + `/login`
-- [ ] `Pinia` `keranjang` + `produk` store
-- [ ] `Grafik` async + `TransitionGroup` daftar
-- [ ] `login` sederhana + jaga `/admin`
-- [ ] 3 test HIJAU + deploy `Vercel`/`Netlify`
+Required features:
+- [ ] `Router` `/` dashboard + `/products` + `/login`
+- [ ] `Pinia` `cart` + `products` store
+- [ ] `Chart` async + `TransitionGroup` list
+- [ ] Simple `login` + guard `/admin`
+- [ ] 3 GREEN tests + deploy `Vercel`/`Netlify`
 
 ```bash
-npx vitest run   # HIJAU 3/3?
-npm run build    # dist/ jadi?
+npx vitest run   # GREEN 3/3?
+npm run build    # dist/ done?
 ```
 
-**Tugas capstone:** URL publik + video 1 menit (tambah → grafik berubah → login). **Selesai Vue 0→Ahli!** 🎉
+**Capstone task:** Public URL + 1-min video (add → chart changes → login). **Vue 0→Expert DONE!** 🎉
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 11 Minggu
-SFC + store + router + uji + deploy = dasbor.
-
----
-
-## Tantangan
-
-**Grand Opening:** Semua checklist + URL + video. **Selesai Vue 0→Ahli!** 🎉
+### Capstone = Combine 11 Weeks
+SFC + store + router + tests + deploy = dashboard.
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- **Capstone/deploy**: gabung/buka
+### Analogy: Dashboard Grand Opening
+- **W1-W4 foundation** + **W5-W11 wiring** = dashboard. **W12 = open**.
+
+### Step 0 — Prepare Device
+- Node + Vercel/Netlify account + phone to verify.
+
+### How the Computer Reads It
+1. `npx vitest run` → 3/3 green → logic proven.
+2. `npm run build` → `dist/` → drag to Netlify → public URL.
+
+### 3 Must-Know Terms
+1. **Capstone/deploy**: combine/open
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 12 dari 12: **Grand Opening** (Level: Lanjutan). **Selesai Vue 0→Ahli dari nol!** 🎉
+- **Green:** All 3 tests green → dashboard logic solid?
+- **Yellow:** `npm run build` fails → fix error first?
+- **Red:** Skip tests → deploy with hidden bug? Test first.
+
+---
+
+## Challenge
+
+**Grand Opening:** All checklist + URL + video. **Vue 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/deploy**: combine/open
+
+---
+
+## Summary
+
+Week 12: **Vue Capstone** — dashboard, **Vue 0→Expert DONE!** 🎉

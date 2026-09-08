@@ -1,103 +1,103 @@
-# Performance & Nuxt — Warung Kilat Vue
+# Performance & Nuxt — Lightning Vue Shop
 
-> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 10:** Performance & Nuxt
+> **Kategori:** Vue | **Level:** Advanced | **Minggu 10:** Performance & Nuxt
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `defineAsyncComponent(() => import("./Berat.vue"))` + `<Suspense>` muat lambat (sumber: vuejs.org/guide/best-practices/performance)
-- Nuxt: `npx nuxi init warung` + `useFetch` + SSR gratis (sumber: nuxt.com)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Halaman admin 500KB ikut di beranda → buka 5 detik, pelanggan kabur. Dengan async + Nuxt SSR, beranda 50KB (0.5 detik) + SEO Google baca (SPA kosong tidak!).
+- `defineAsyncComponent(() => import("./Heavy.vue"))` + `<Suspense>` lazy load (source: vuejs.org/guide/best-practices/performance)
+- Nuxt: `npx nuxi init shop` + `useFetch` + free SSR (source: nuxt.com)
 
 ---
 
-## Program: Kilat Warung Vue
+## Why This Matters (Non-IT)
+
+A 500KB admin page bundled into home → 5-second open, customers flee. With async + Nuxt SSR, home 50KB (0.5s) + Google reads SEO (empty SPAs don't!).
+
+---
+
+## Program: Lightning Vue Shop
 
 ```vue
 <script setup>
 import { defineAsyncComponent } from "vue";
-// Berat diunduh HANYA saat dipakai!
-const Grafik = defineAsyncComponent(() => import("./Grafik.vue"));
+// Heavy downloads ONLY when used!
+const Chart = defineAsyncComponent(() => import("./Chart.vue"));
 </script>
 
 <template>
-  <h1>Beranda (ringan!)</h1>
+  <h1>Home (light!)</h1>
   <Suspense>
-    <Grafik />
-    <template #fallback><p>Memuat grafik...</p></template>
+    <Chart />
+    <template #fallback><p>Loading chart...</p></template>
   </Suspense>
 </template>
 ```
 
 ```bash
-# Nuxt: SSR + routing file otomatis (seperti Next.js!)
-npx nuxi init warung-nuxt
-cd warung-nuxt && npm install && npm run dev
-# pages/index.vue → /, pages/produk/[id].vue → /produk/1
+# Nuxt: SSR + automatic file routing (like Next.js!)
+npx nuxi init shop-nuxt
+cd shop-nuxt && npm install && npm run dev
+# pages/index.vue → /, pages/products/[id].vue → /products/1
 ```
 
 ```vue
-<!-- pages/produk/index.vue — Nuxt ambil server -->
+<!-- pages/products/index.vue — Nuxt fetches on server -->
 <script setup>
-const { data } = await useFetch("/api/produk"); // SSR! HTML sudah isi
+const { data } = await useFetch("/api/products"); // SSR! HTML arrives filled
 </script>
-<template><li v-for="p in data" :key="p.id">{{ p.nama }}</li></template>
+<template><li v-for="p in data" :key="p.id">{{ p.name }}</li></template>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `defineAsyncComponent` + `Suspense` = Muat Saat Perlu
-Split otomatis → unduh saat render, tampil `fallback` dulu.
+### `defineAsyncComponent` + `Suspense` = Load When Needed
+Auto split → downloads on render, shows `fallback` first.
 
-### Nuxt = Next.js-nya Vue
-`pages/` = route, `useFetch` SSR, `nuxi` CLI.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Toko Kilat
-- **Async = gudang belakang**: barang berat diambil saat diminta.
-- **Nuxt = ruko jadi**: routing + SSR sudah termasuk.
-
-### Langkah 0 — Siapkan Device
-- Vue biasa + `npx nuxi init` untuk Nuxt.
-
-### Cara Komputer Membaca
-1. `import("./Grafik.vue")` → split chunk terpisah.
-2. Render → unduh chunk → tampil.
-
-### 3 Istilah Wajib
-1. **Async/Suspense/Nuxt**: lambat/tunggu/ruko-jadi
+### Nuxt = Vue's Next.js
+`pages/` = routes, `useFetch` SSR, `nuxi` CLI.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Network tab → `Grafik` chunk terpisah?
-- **Kuning:** Tanpa `Suspense` → kosong dulu? Pasang fallback.
-- **Merah:** Semua `import` biasa → 1 chunk raksasa? (Itulah kenapa async!)
+### Analogy: Lightning Store
+- **Async = back warehouse**: heavy goods fetched on request.
+- **Nuxt = ready shophouse**: routing + SSR included.
 
----
+### Step 0 — Prepare Device
+- Plain Vue + `npx nuxi init` for Nuxt.
 
-## Tantangan
+### How the Computer Reads It
+1. `import("./Chart.vue")` → separate split chunk.
+2. Render → download chunk → show.
 
-**Warung Kilat:** Beranda ringan + `Grafik` async + `Nuxt` 2 halaman + `useFetch` + Network screenshot 2 chunk.
-
----
-
-## Glosarium Mini
-
-- **Async/Nuxt/useFetch**: lambat/ruko/ambil-server
+### 3 Must-Know Terms
+1. **Async/Suspense/Nuxt**: lazy/wait/ready-shop
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 10 dari 12: **Kilat** (Level: Lanjutan). 5 detik → 0.5. Minggu depan: **Animasi**.
+- **Green:** Network tab → `Chart` separate chunk?
+- **Yellow:** No `Suspense` → empty first? Add fallback.
+- **Red:** All plain `import`s → 1 giant chunk? (That's why async!)
+
+---
+
+## Challenge
+
+**Lightning Shop:** Light home + async `Chart` + `Nuxt` 2 pages + `useFetch` + Network screenshot 2 chunks.
+
+---
+
+## Mini Glossary
+
+- **Async/Nuxt/useFetch**: lazy/shop/fetch-server
+
+---
+
+## Summary
+
+Week 10 of 12: **Lightning** (Level: Advanced). 5s → 0.5s. Next: **Animation**.
