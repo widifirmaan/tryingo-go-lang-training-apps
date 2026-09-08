@@ -113,6 +113,12 @@ Add `let discount=10; $: totalAfter = total * (1 - discount/100)` + input `bind:
 
 ---
 
+## Version Note (Researched 2026)
+
+Svelte 5 (runes: `$state`, `onclick`) is the modern style, BUT this course's Svelte 4 syntax (`let`, `on:click`, `export let`) **still runs fully** on Svelte 5 (official legacy mode, svelte.dev/docs/svelte/legacy-overview). Learn this first until solid, migrate to runes later 1-by-1.
+
+---
+
 ## Summary
 
 Week 1: **Magic Svelte** — plain `let` is reactive. Next: **Reactivity** deep-dive.
