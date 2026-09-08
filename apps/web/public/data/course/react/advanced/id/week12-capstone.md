@@ -31,7 +31,8 @@ Struktur: `src/pages`, `src/components`, `src/context/KeranjangContext.jsx`.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko React
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+- **11 minggu = bangun mal**: peta (Router), gudang (Context), etalase (komponen), satpam (forms).
+- **Capstone = grand opening**: Router + Context + fetch + memo + uji + deploy JALAN BARENG. Portfolio = bukti, bukan janji!
 
 ### Langkah 0 — Siapkan Device
 - Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).

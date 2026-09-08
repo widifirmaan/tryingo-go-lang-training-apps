@@ -69,7 +69,8 @@ test("shows name", () => {
 ## Beginner Friendly Explanation
 
 ### Analogy: Component Mystery Shopper
-- See Program: run it, change 1 number/prop, see the difference.
+- **Manual testing = tasting every outfit change**: exhausting + forgotten.
+- **`render` + `screen` = mystery shopper**: visits as a user (finds TEXT, not state!), scores pass/fail. Edit `Card` → red test BEFORE customers see!
 
 ### Step 0 — Prepare Device
 - Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).

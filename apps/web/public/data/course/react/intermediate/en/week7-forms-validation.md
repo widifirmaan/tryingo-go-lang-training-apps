@@ -124,7 +124,8 @@ Build a checkout form with validation: name, address, phone, email, payment meth
 ## Beginner Friendly Explanation
 
 ### Analogy: Form Security Guard
-- See Program: run line by line, change 1 number, see the difference.
+- **Forms without validation = doors without guards**: empty names pass → reports break.
+- **`errors.name` + `validate()` = guard + wrong-list**: checks BEFORE submit, shows EXACTLY under the wrong input (not generic alerts!).
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (see week 1 for install).

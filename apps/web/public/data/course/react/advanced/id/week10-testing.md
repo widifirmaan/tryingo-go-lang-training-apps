@@ -69,7 +69,8 @@ test("tampil nama", () => {
 ## Penjelasan untuk Pemula
 
 ### Analogi: Mystery Shopper Komponen
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+- **Uji manual = icip tiap ganti baju**: capek + lupa.
+- **`render` + `screen` = mystery shopper**: datang sebagai user (cari TEKS, bukan state!), nilai lulus/gagal. Ubah `Card` → test merah SEBELUM pelanggan lihat!
 
 ### Langkah 0 — Siapkan Device
 - Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).

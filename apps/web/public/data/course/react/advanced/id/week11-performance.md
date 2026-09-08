@@ -41,7 +41,8 @@ export default function App(){
 ## Penjelasan untuk Pemula
 
 ### Analogi: Warung Hemat Energi
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+- **1000 kartu render ulang tiap ketik = 1000 pelayan lari tiap 1 tamu batuk**: HP kentang nangis.
+- **`memo` = pelayan cuek**: props sama → diam. `useMemo` = contekan hitungan mahal. `lazy` = panggil pelayan SAAT dibutuhkan (bukan standby semua)!
 
 ### Langkah 0 — Siapkan Device
 - Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).

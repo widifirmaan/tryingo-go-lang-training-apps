@@ -124,7 +124,8 @@ Buat form checkout dengan validasi: nama, alamat, telepon, email, metode pembaya
 ## Penjelasan untuk Pemula
 
 ### Analogi: Satpam Formulir
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+- **Form tanpa validasi = pintu tanpa satpam**: nama kosong lolos → laporan rusak.
+- **`errors.nama` + `validate()` = satpam + daftar salah**: cek SEBELUM kirim, tampil TEPAT di bawah input yang salah (bukan alert umum!).
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (lihat minggu 1 untuk install).
