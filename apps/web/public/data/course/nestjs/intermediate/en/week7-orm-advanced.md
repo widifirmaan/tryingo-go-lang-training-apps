@@ -1,109 +1,109 @@
-# ORM Relations — Tali Antar Rak NestJS
+# ORM Relations — Ropes Between NestJS Racks
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 7:** ORM Advanced & Relations
+> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 7:** ORM Advanced & Relations
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@OneToMany` + `@ManyToOne` tali (1 pelanggan - banyak pesanan) (sumber: typeorm.io/relations)
-- `relations: ["pesanans"]` ikut ambil (eager manual) vs N+1 lambat
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa relasi, ambil pelanggan + pesanannya = 2 query manual + gabung di JS. Dengan `@OneToMany`, 1 baris ikut ambil. Tanpa sadar N+1, 100 pelanggan = 101 query (lambat!).
+- `@OneToMany` + `@ManyToOne` ropes (1 customer - many orders) (source: typeorm.io/relations)
+- `relations: ["orders"]` fetches along (manual eager) vs slow N+1
 
 ---
 
-## Program: Tali Warung NestJS
+## Why This Matters (Non-IT)
+
+Without relations, fetching a customer + their orders = 2 manual queries + JS-side merge. With `@OneToMany`, 1 line fetches along. Unaware of N+1, 100 customers = 101 queries (slow!).
+
+---
+
+## Program: NestJS Shop Ropes
 
 ```typescript
-// pelanggan.entity.ts — 1 punya banyak
+// customer.entity.ts — 1 owns many
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Pesanan } from "./pesanan.entity";
+import { Order } from "./order.entity";
 
 @Entity()
-export class Pelanggan {
+export class Customer {
   @PrimaryGeneratedColumn() id: number;
-  @Column() nama: string;
+  @Column() name: string;
 
-  @OneToMany(() => Pesanan, (p) => p.pelanggan)
-  pesanans: Pesanan[];
+  @OneToMany(() => Order, (o) => o.customer)
+  orders: Order[];
 }
 ```
 
 ```typescript
-// pesanan.entity.ts — banyak milik 1
+// order.entity.ts — many belong to 1
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Pelanggan } from "./pelanggan.entity";
+import { Customer } from "./customer.entity";
 
 @Entity()
-export class Pesanan {
+export class Order {
   @PrimaryGeneratedColumn() id: number;
   @Column() total: number;
 
-  @ManyToOne(() => Pelanggan, (p) => p.pesanans)
-  pelanggan: Pelanggan;
+  @ManyToOne(() => Customer, (c) => c.orders)
+  customer: Customer;
 }
 ```
 
 ```typescript
-// service — ikut ambil (hindari N+1!)
-semua() {
-  return this.repo.find({ relations: ["pesanans"] });
+// service — fetch along (avoids N+1!)
+all() {
+  return this.repo.find({ relations: ["orders"] });
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@OneToMany` / `@ManyToOne` = Punya / Milik
-1 pelanggan punya banyak pesanan; tiap pesanan milik 1 pelanggan.
+### `@OneToMany` / `@ManyToOne` = Owns / Belongs
+1 customer owns many orders; each order belongs to 1 customer.
 
-### `relations: [...]` = Ikut Ambil
-Tanpa ini, `pelanggan.pesanans` kosong! Dengan ini, 2 query (bukan 101).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Buku Tamu & Nota Terjahit
-- **Relasi = jahitan**: nota dijahit ke halaman buku tamu pemiliknya.
-
-### Langkah 0 — Siapkan Device
-- Sama W4-beginner: TypeORM + Postgres jalan.
-
-### Cara Komputer Membaca
-1. `find({ relations: ["pesanans"] })` → `SELECT` pelanggan + `SELECT ... WHERE pelangganId IN (...)`.
-2. Tempel hasil ke tiap pelanggan.
-
-### 3 Istilah Wajib
-1. **OneToMany/ManyToOne**: punya/milik
-2. **relations**: ikut-ambil
+### `relations: [...]` = Fetch Along
+Without it, `customer.orders` is empty! With it, 2 queries (not 101).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tanpa `relations` → `pesanans` kosong?
-- **Kuning:** Log query: tanpa relations 101 query? Dengan 2?
-- **Merah:** `@OneToMany` tanpa `@ManyToOne` pasangan → FK tidak dibuat? Pasangkan.
+### Analogy: Guest Book & Stitched Receipts
+- **Relation = stitching**: receipts stitched to their owner's guest-book page.
 
----
+### Step 0 — Prepare Device
+- Same as beginner W4: TypeORM + Postgres running.
 
-## Tantangan
+### How the Computer Reads It
+1. `find({ relations: ["orders"] })` → `SELECT` customers + `SELECT ... WHERE customerId IN (...)`.
+2. Attaches results to each customer.
 
-**Toko Bertali:** `Pelanggan 1-N Pesanan N-1 Produk` + `relations` 2 level + buktikan 3 query (bukan 1+N+M).
-
----
-
-## Glosarium Mini
-
-- **OneToMany/ManyToOne/relations**: punya/milik/ikut
+### 3 Must-Know Terms
+1. **OneToMany/ManyToOne**: owns/belongs
+2. **relations**: fetch-along
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 7 dari 12: **Tali Rak** (Level: Menengah). Tanpa N+1. Minggu depan: **Error & Log**.
+- **Green:** Without `relations` → `orders` empty?
+- **Yellow:** Query log: 101 queries without relations? 2 with?
+- **Red:** `@OneToMany` without paired `@ManyToOne` → FK not created? Pair them.
+
+---
+
+## Challenge
+
+**Roped Store:** `Customer 1-N Order N-1 Product` + 2-level `relations` + prove 3 queries (not 1+N+M).
+
+---
+
+## Mini Glossary
+
+- **OneToMany/ManyToOne/relations**: owns/belongs/along
+
+---
+
+## Summary
+
+Week 7 of 12: **Rack Ropes** (Level: Intermediate). No N+1. Next: **Error & Log**.

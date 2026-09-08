@@ -1,112 +1,112 @@
-# Testing NestJS — Cicip Warung Beneran
+# Testing NestJS — Real Shop Taste-Test
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 9:** Testing NestJS
+> **Kategori:** NestJS | **Level:** Advanced | **Minggu 9:** Testing NestJS
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Test.createTestingModule` + `compile()` + `useValue` mock (sumber: docs.nestjs.com/fundamentals/testing)
-- E2E `supertest` `request(app).get("/produk").expect(200)` beneran (bukan `console.log`!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Simulasi `console.log("test...")` tidak menangkap bug (tidak dicek mesin!). Test beneran: ubah service → merah → perbaiki. E2E buktikan pintu + DB + auth jalan bareng.
+- `Test.createTestingModule` + `compile()` + `useValue` mocks (source: docs.nestjs.com/fundamentals/testing)
+- E2E `supertest` `request(app).get("/products").expect(200)` for real (not `console.log`!)
 
 ---
 
-## Program: Cicip Beneran NestJS
+## Why This Matters (Non-IT)
+
+`console.log("test...")` simulation catches no bugs (never machine-checked!). Real tests: change service → red → fix. E2E proves doors + DB + auth work together.
+
+---
+
+## Program: Real NestJS Taste-Test
 
 ```bash
 npm install --save-dev jest supertest @types/supertest
 ```
 
 ```typescript
-// produk.service.spec.ts — unit + mock DB!
+// products.service.spec.ts — unit + mock DB!
 import { Test } from "@nestjs/testing";
-import { ProdukService } from "./produk.service";
+import { ProductService } from "./product.service";
 
-describe("ProdukService", () => {
-  let service: ProdukService;
+describe("ProductService", () => {
+  let service: ProductService;
 
   beforeEach(async () => {
-    const modul = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
-        ProdukService,
-        { provide: "REPO", useValue: { find: async () => [{ nama: "Beras" }] } },
+        ProductService,
+        { provide: "REPO", useValue: { find: async () => [{ name: "Rice" }] } },
       ],
     }).compile();
-    service = modul.get(ProdukService);
+    service = module.get(ProductService);
   });
 
-  it("semua ada Beras", async () => {
-    expect((await service.semua())[0].nama).toBe("Beras");
+  it("all has Rice", async () => {
+    expect((await service.all())[0].name).toBe("Rice");
   });
 });
 ```
 
 ```typescript
-// app.e2e-spec.ts — pintu beneran!
+// app.e2e-spec.ts — real doors!
 import * as request from "supertest";
 
-it("GET /produk 200", () => {
-  return request("http://localhost:3000").get("/produk").expect(200);
+it("GET /products 200", () => {
+  return request("http://localhost:3000").get("/products").expect(200);
 });
 ```
 
 ```bash
-npm test  # HIJAU beneran
+npm test  # GREEN for real
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `Test.createTestingModule` = Warung Bohongan
-Bangun module khusus uji + `useValue` mock DB (tanpa Postgres beneran!).
+### `Test.createTestingModule` = Mock Shop
+Builds a test-only module + `useValue` mocks DB (no real Postgres!).
 
-### E2E `supertest` = Pelanggan Bohongan
-HTTP beneran ke app jalan → `expect(200)`.
+### E2E `supertest` = Mock Customer
+Real HTTP to a running app → `expect(200)`.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Dapur Uji + Mystery Shopper
-- **Unit = cicip dapur** (service + mock), **E2E = mystery shopper** (pintu beneran).
+### Analogy: Test Kitchen + Mystery Shopper
+- **Unit = kitchen taste** (service + mock), **E2E = mystery shopper** (real doors).
 
-### Langkah 0 — Siapkan Device
+### Step 0 — Prepare Device
 - `npm install --save-dev jest supertest` + `npm test`.
 
-### Cara Komputer Membaca
-1. `createTestingModule` → DI bohongan → `service` pakai mock.
-2. `supertest` → HTTP nyata → status cocok?
+### How the Computer Reads It
+1. `createTestingModule` → fake DI → `service` uses mock.
+2. `supertest` → real HTTP → status matches?
 
-### 3 Istilah Wajib
-1. **Unit/E2E/mock**: dapur/pintu/palsu
-
----
-
-## Eksperimen
-
-- **Hijau:** Ubah service rusak → merah?
-- **Kuning:** Tanpa mock DB → test sentuh DB asli? (Jangan! Mock.)
-- **Merah:** File tanpa `.spec.ts` → tidak jalan? Ganti nama.
+### 3 Must-Know Terms
+1. **Unit/E2E/mock**: kitchen/door/fake
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Teruji:** Unit service (mock) 3 test + E2E 2 pintu HIJAU + screenshot.
-
----
-
-## Glosarium Mini
-
-- **spec/mock/supertest**: uji/palsu/pintu-bohongan
+- **Green:** Break service → red?
+- **Yellow:** No mock DB → tests touch the real DB? (Don't! Mock.)
+- **Red:** File without `.spec.ts` → not run? Rename.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Cicip Beneran** (Level: Lanjutan). Tanpa simulasi. Minggu depan: **WebSocket**.
+**Tested Shop:** Unit service (mock) 3 tests + E2E 2 doors GREEN + screenshot.
+
+---
+
+## Mini Glossary
+
+- **spec/mock/supertest**: test/fake/mock-door
+
+---
+
+## Summary
+
+Week 9 of 12: **Real Tasting** (Level: Advanced). No simulation. Next: **WebSocket**.

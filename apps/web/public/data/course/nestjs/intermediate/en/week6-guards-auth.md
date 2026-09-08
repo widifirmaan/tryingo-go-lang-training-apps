@@ -1,27 +1,27 @@
-# Guards & Auth — Satpam KTP NestJS
+# Guards & Auth — NestJS ID Guards
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 6:** Guards & Auth
+> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 6:** Guards & Auth
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `CanActivate` + `@UseGuards(AuthGuard)` satpam per pintu + JWT `sign/verify` KTP (sumber: docs.nestjs.com/security/authentication)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa guard, `/admin/hapus-semua` dibuka siapa saja. Dengan `@UseGuards` 1 baris per pintu + JWT, aman. Beda pintu beda guard (admin vs kasir).
+- `CanActivate` + `@UseGuards(AuthGuard)` guard per door + JWT `sign/verify` ID (source: docs.nestjs.com/security/authentication)
 
 ---
 
-## Program: KTP Warung NestJS
+## Why This Matters (Non-IT)
+
+Without guards, `/admin/delete-all` opens to anyone. With 1-line `@UseGuards` per door + JWT, safe. Different doors, different guards (admin vs cashier).
+
+---
+
+## Program: NestJS Shop ID
 
 ```bash
 npm install @nestjs/jwt
 ```
 
 ```typescript
-// auth.guard.ts — satpam (1x, pakai di mana-mana)
+// auth.guard.ts — guard (1x, used everywhere)
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
@@ -33,91 +33,91 @@ export class AuthGuard implements CanActivate {
     const req = ctx.switchToHttp().getRequest();
     const token = (req.headers.authorization || "").replace("Bearer ", "");
     try {
-      req.user = await this.jwt.verifyAsync(token); // KTP sah?
+      req.user = await this.jwt.verifyAsync(token); // valid ID?
       return true;
     } catch {
-      throw new UnauthorizedException("Login dulu!");
+      throw new UnauthorizedException("Login first!");
     }
   }
 }
 ```
 
 ```typescript
-// auth.controller.ts — loket KTP
+// auth.controller.ts — ID counter
 import { JwtService } from "@nestjs/jwt";
 
 @Post("login")
 login(@Body() b: any) {
-  if (b.email === "admin@warung.com" && b.password === "123") {
+  if (b.email === "admin@shop.com" && b.password === "123") {
     return { token: this.jwt.sign({ email: b.email }) };
   }
-  throw new UnauthorizedException("Salah");
+  throw new UnauthorizedException("Wrong");
 }
 
-// produk.controller.ts — pintu dijaga
+// products.controller.ts — guarded door
 @UseGuards(AuthGuard)
 @Post()
-tambah(@Body() dto: BuatProdukDto) { /* ... */ }
+add(@Body() dto: CreateProductDto) { /* ... */ }
 
-@Get()  // bebas (tanpa guard)
-semua() { /* ... */ }
+@Get()  // free (no guard)
+all() { /* ... */ }
 ```
 
-Test: `POST /login` → token → `POST /produk` + header `Authorization: Bearer TOKEN` → lolos. Tanpa → 401.
+Test: `POST /login` → token → `POST /products` + `Authorization: Bearer TOKEN` header → passes. Without → 401.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `CanActivate` = Kartu Satpam
-`canActivate()` return `true` (lolos) / throw (tendang).
+### `CanActivate` = Guard Card
+`canActivate()` returns `true` (pass) / throws (kick).
 
-### `@UseGuards` = Tempel di Pintu
-Per method (1 pintu) atau controller (semua pintu).
+### `@UseGuards` = Stick on Door
+Per method (1 door) or controller (all doors).
 
-### JWT = Gelang
-`sign` buat, `verify` cek. Rahasia di env!
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Gelang Konser + Satpam
-- **login = tukar tiket jadi gelang (JWT)**, **Guard = satpam cek gelang** tiap pintu VIP.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + `npm install @nestjs/jwt` + `JwtModule.register({ secret: "rahasia" })`.
-
-### Cara Komputer Membaca
-1. `POST /produk` + header → Guard `verify` → `req.user` isi → controller.
-2. Tanpa header → `UnauthorizedException` → 401.
-
-### 3 Istilah Wajib
-1. **Guard/CanActivate**: satpam/bisa-masuk?
-2. **JWT/Bearer**: gelang/bawa
+### JWT = Wristband
+`sign` makes, `verify` checks. Secret in env!
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tanpa header → 401?
-- **Kuning:** Token palsu → 401?
-- **Merah:** Guard di `GET` juga → daftar butuh login (jualan sepi)? Pilih pintu!
+### Analogy: Concert Wristband + Guard
+- **login = swap ticket for wristband (JWT)**, **Guard = wristband-checking guard** at every VIP door.
 
----
+### Step 0 — Prepare Device
+- Same as W1 + `npm install @nestjs/jwt` + `JwtModule.register({ secret: "secret" })`.
 
-## Tantangan
+### How the Computer Reads It
+1. `POST /products` + header → Guard `verify` → `req.user` filled → controller.
+2. No header → `UnauthorizedException` → 401.
 
-**Restoran Ber-KTP:** `login` + `GET` bebas + `POST/DELETE` jaga + `curl` 3 test (bebas/tanpa/palsu/asli).
-
----
-
-## Glosarium Mini
-
-- **Guard/JWT/UseGuards**: satpam/gelang/tempel
+### 3 Must-Know Terms
+1. **Guard/CanActivate**: guard/can-enter?
+2. **JWT/Bearer**: wristband/carry
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 12: **Satpam KTP** (Level: Menengah). Pintu terjaga. Minggu depan: **ORM Lanjutan**.
+- **Green:** No header → 401?
+- **Yellow:** Fake token → 401?
+- **Red:** Guard on `GET` too → list needs login (dead sales)? Choose doors!
+
+---
+
+## Challenge
+
+**ID-Protected Restaurant:** `login` + free `GET` + guarded `POST/DELETE` + `curl` 4 tests (free/none/fake/real).
+
+---
+
+## Mini Glossary
+
+- **Guard/JWT/UseGuards**: guard/wristband/stick
+
+---
+
+## Summary
+
+Week 6 of 12: **ID Guard** (Level: Intermediate). Doors guarded. Next: **Advanced ORM**.
