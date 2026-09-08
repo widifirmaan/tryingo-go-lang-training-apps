@@ -27,6 +27,39 @@ public function store(Request $req){ return Produk::create($req->validated()); }
 
 `curl http://localhost:8000/api/produk` → JSON.
 
+```bash
+# Token Sanctum (wajib agar HP login! riset: laravel.com/docs sanctum)
+php artisan install:api   # bikin routes/api.php + tabel personal_access_tokens
+php artisan migrate
+```
+
+```php
+// app/Models/User.php — WAJIB trait ini (paling sering lupa!)
+use Laravel\Sanctum\HasApiTokens;
+class User extends Authenticatable {
+  use HasApiTokens; // tanpa ini createToken() error!
+}
+
+// routes/api.php — 1 pintu login + grup ber-token
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
+Route::post('/login', function (Request $req) {
+  $user = User::where('email', $req->email)->first();
+  if (!$user || !Hash::check($req->password, $user->password)) {
+    return response()->json(['pesan' => 'Salah'], 401);
+  }
+  return ['token' => $user->createToken('hp')->plainTextToken]; // 1|xxx...
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::apiResource('produk', App\Http\Controllers\Api\ProdukController::class);
+});
+```
+
+Test: `curl -X POST -d '{"email":"admin@warung.com","password":"123"}' localhost:8000/api/login` → token → `curl -H "Authorization: Bearer TOKEN" localhost:8000/api/produk`.
+
 
 ---
 
