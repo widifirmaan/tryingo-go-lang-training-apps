@@ -21,6 +21,15 @@ pip install djangorestframework
 ```
 
 ```python
+# store/settings.py — MANDATORY registration (forgotten = ImproperlyConfigured error!)
+INSTALLED_APPS = [
+    ...,
+    "rest_framework",
+    "shop",
+]
+```
+
+```python
 # shop/serializers.py
 from rest_framework import serializers
 from .models import Product

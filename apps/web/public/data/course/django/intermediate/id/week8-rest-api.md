@@ -21,6 +21,15 @@ pip install djangorestframework
 ```
 
 ```python
+# toko/settings.py — WAJIB daftarkan (lupa = ImproperlyConfigured error!)
+INSTALLED_APPS = [
+    ...,
+    "rest_framework",
+    "warung",
+]
+```
+
+```python
 # warung/serializers.py
 from rest_framework import serializers
 from .models import Produk
