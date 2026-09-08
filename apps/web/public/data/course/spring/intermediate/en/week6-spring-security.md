@@ -1,28 +1,28 @@
-# Spring Security — Satpam Pabrik Warung
+# Spring Security — Shop Factory Guards
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 6:** Spring Security
+> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 6:** Spring Security
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `SecurityFilterChain` rantai satpam: `/admin/**` wajib login, `/produk` bebas (sumber: docs.spring.io/spring-security)
-- `formLogin` halaman login otomatis, `PasswordEncoder` (`BCrypt`) enkripsi password (jangan MD5!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa satpam, siapa saja `POST /produk` ubah harga + `DELETE` hapus semua. Tanpa `BCrypt`, bocor DB = password terlihat. Security = 5 baris config lindungi seluruh warung.
+- `SecurityFilterChain` guard chain: `/admin/**` login mandatory, `/products` free (source: docs.spring.io/spring-security)
+- `formLogin` automatic login page, `PasswordEncoder` (`BCrypt`) password encryption (never MD5!)
 
 ---
 
-## Program: Satpam Warung Spring
+## Why This Matters (Non-IT)
+
+Without guards, anyone `POST /products` edits prices + `DELETE`s everything. Without `BCrypt`, DB leaks expose passwords. Security = 5 config lines protecting the whole shop.
+
+---
+
+## Program: Spring Shop Guard
 
 ```bash
-# start.spring.io centang: Spring Web + Spring Security
+# start.spring.io check: Spring Web + Spring Security
 ```
 
 ```java
-// SecurityConfig.java — pos satpam
+// SecurityConfig.java — guard post
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,83 +35,83 @@ public class SecurityConfig {
   public SecurityFilterChain filter(HttpSecurity http) throws Exception {
     http
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/admin/**").authenticated() // satpam jaga
-        .requestMatchers("/produk/**").permitAll()    // etalase bebas
+        .requestMatchers("/admin/**").authenticated() // guarded door
+        .requestMatchers("/products/**").permitAll()    // free showcase
         .anyRequest().permitAll()
       )
-      .formLogin(withDefaults())   // halaman /login otomatis
-      .csrf(csrf -> csrf.disable()); // matikan untuk API test (aktifkan + token di produksi!)
+      .formLogin(withDefaults())   // automatic /login page
+      .csrf(csrf -> csrf.disable()); // off for API tests (on + token in production!)
     return http.build();
   }
 }
 ```
 
 ```properties
-# application.properties — 1 admin darurat
+# application.properties — 1 emergency admin
 spring.security.user.name=admin
 spring.security.user.password=admin123
 spring.security.user.roles=ADMIN
 ```
 
-Buka `/admin` → tendang ke `/login` → login `admin/admin123` → masuk. `/produk` bebas.
+Open `/admin` → kicked to `/login` → login `admin/admin123` → in. `/products` free.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `SecurityFilterChain` = Rantai Pos Satpam
-`authorizeHttpRequests` aturan per pintu: `authenticated()` wajib login, `permitAll()` bebas.
+### `SecurityFilterChain` = Guard-Post Chain
+`authorizeHttpRequests` rules per door: `authenticated()` login mandatory, `permitAll()` free.
 
-### `formLogin` = Pintu Login Otomatis
-Spring buatkan `/login` + cek — tanpa tulis HTML.
+### `formLogin` = Automatic Login Door
+Spring builds `/login` + checks — no HTML writing.
 
-### `BCrypt` = Brankas Password
-`new BCryptPasswordEncoder().encode("123")` → `$2a$...` acak. Bandingkan pakai `matches()`, jangan `==`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Satpam Mal
-- **FilterChain = pos satpam**: cek KTP tiap pintu sesuai daftar.
-- **formLogin = meja registrasi**: daftar → dapat gelang (`session`).
-- **BCrypt = brankas**: password jadi acak tak terbaca.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + dependency `Spring Security` (atau tambah ke `pom.xml` + restart).
-
-### Cara Komputer Membaca
-1. `GET /admin` → filter cek session → tidak ada → `302` ke `/login`.
-2. Login benar → session dibuat → `/admin` lolos.
-
-### 3 Istilah Wajib
-1. **FilterChain/authorize**: pos/aturan
-2. **formLogin/session**: registrasi/gelang
-3. **BCrypt**: brankas
+### `BCrypt` = Password Vault
+`new BCryptPasswordEncoder().encode("123")` → random `$2a$...`. Compare with `matches()`, never `==`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Buka `/admin` tanpa login → ke `/login`?
-- **Kuning:** `permitAll()` untuk `/admin/**` → bebas tanpa login? (Jangan di produksi!)
-- **Merah:** Matikan `csrf.disable` (aktifkan) → `POST /produk` tanpa token → 403? (Itulah gunanya!)
+### Analogy: Mall Guards
+- **FilterChain = guard post**: checks IDs per door per list.
+- **formLogin = registration desk**: register → wristband (`session`).
+- **BCrypt = vault**: passwords become unreadable random.
+
+### Step 0 — Prepare Device
+- Same as W1 + `Spring Security` dependency (or add to `pom.xml` + restart).
+
+### How the Computer Reads It
+1. `GET /admin` → filter checks session → missing → `302` to `/login`.
+2. Correct login → session created → `/admin` passes.
+
+### 3 Must-Know Terms
+1. **FilterChain/authorize**: post/rules
+2. **formLogin/session**: registration/wristband
+3. **BCrypt**: vault
 
 ---
 
-## Tantangan
+## Experiments
 
-**Mal Berpintu:** `/` + `/produk` bebas, `/admin/**` login, `/api/**` bebas `GET` tapi login untuk `POST` (`requestMatchers(HttpMethod.POST, "/api/**").authenticated()`).
-
----
-
-## Glosarium Mini
-
-- **FilterChain/permitAll**: pos/bebas
-- **formLogin/BCrypt**: registrasi/brankas
+- **Green:** Open `/admin` logged-out → to `/login`?
+- **Yellow:** `permitAll()` for `/admin/**` → free without login? (Never in production!)
+- **Red:** Re-enable csrf (remove disable) → `POST /products` without token → 403? (That's its job!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 6 dari 10: **Satpam Pabrik** (Level: Menengah). Pintu terjaga. Minggu depan: **Testing** — uji otomatis.
+**Doored Mall:** `/` + `/products` free, `/admin/**` login, `/api/**` free `GET` but login for `POST` (`requestMatchers(HttpMethod.POST, "/api/**").authenticated()`).
+
+---
+
+## Mini Glossary
+
+- **FilterChain/permitAll**: post/free
+- **formLogin/BCrypt**: registration/vault
+
+---
+
+## Summary
+
+Week 6 of 10: **Factory Guard** (Level: Intermediate). Doors guarded. Next: **Testing** — automatic tests.
