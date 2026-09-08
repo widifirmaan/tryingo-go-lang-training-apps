@@ -1,49 +1,49 @@
-# Format Teks & Tipografi — Spanduk Warung yang Menarik
+# Text Formatting & Typography — Eye-Catching Shop Banner
 
-> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 2:** Format Teks & Tipografi
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 2:** Format Teks & Tipografi
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Tebalkan yang penting `<strong>` (bukan `<b>`), miringkan penekanan `<em>` (bukan `<i>`)
-- Stabilo `<mark>`, garis bawah `<u>`, coret `<s>`, kecil bawah/atas `<sub>/<sup>` untuk H₂O dan x²
-- Kutipan `<blockquote>` menjorok dan `<q>` dalam baris, plus `<abbr>` singkatan
-- Tampilkan kode apa adanya `<pre>` + `<code>` agar spasi tidak hilang
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Spanduk warung " **GRATIS ONGKIR** " harus tebal, " *syarat berlaku* " miring, " H₂O " angka kecil bawah. Tanpa format, semua teks rata — pelanggan tidak lihat yang penting. Minggu ini bikin spanduk yang mata langsung tangkap promo.
+- Bold what matters with `<strong>` (not `<b>`), italicize emphasis with `<em>` (not `<i>`)
+- Highlighter `<mark>`, underline `<u>`, strikethrough `<s>`, sub/superscript `<sub>/<sup>` for H₂O and x²
+- Blockquote `<blockquote>` indented quotes and inline `<q>`, plus `<abbr>` abbreviations
+- Show code as-is with `<pre>` + `<code>` so spaces survive
 
 ---
 
-## Program: Spanduk Promo Warung
+## Why This Matters (Non-IT)
+
+A shop banner "**FREE DELIVERY**" must be bold, "*terms apply*" italic, "H₂O" small-below. Without formatting, all text looks flat — customers miss the promo. This week make banners eyes catch the deal.
+
+---
+
+## Program: Shop Promo Banner
 
 ```html
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Promo Warung</title>
+  <title>Shop Promo</title>
 </head>
 <body>
   <article style="font-family: sans-serif; max-width: 600px;">
-    <h1><strong>Gratis Ongkir</strong> <em>Syarat Berlaku</em></h1>
-    <p>Ditulis oleh <mark>Bu Siti</mark> | <time datetime="2026-08-25">25 Agustus 2026</time></p>
+    <h1><strong>Free Delivery</strong> <em>Terms Apply</em></h1>
+    <p>Written by <mark>Siti</mark> | <time datetime="2026-08-25">August 25, 2026</time></p>
     <hr>
 
-    <p>Ini <strong>tebal penting</strong>, <em>miring penekanan</em>, <u>garis bawah</u>, <s>coret harga lama Rp 70.000</s> → <mark>Rp 62.000</mark></p>
+    <p>This is <strong>bold important</strong>, <em>italic emphasis</em>, <u>underlined</u>, <s>old price Rp 70,000</s> → <mark>Rp 62,000</mark></p>
 
-    <p>Rumus: Air H<sub>2</sub>O, Pangkat x<sup>2</sup></p>
-    <p><abbr title="Warung Bu Siti">WBS</abbr> buka tiap hari.</p>
+    <p>Formula: Water H<sub>2</sub>O, Power x<sup>2</sup></p>
+    <p><abbr title="Siti's Shop">SS</abbr> open daily.</p>
 
     <blockquote>
-      <p>"Warung yang jujur, pelanggan betah."</p>
-      <footer>— Bu Siti</footer>
+      <p>"An honest shop keeps customers."</p>
+      <footer>— Siti</footer>
     </blockquote>
 
-    <p>Kode promo:</p>
-    <pre><code>GRATIS-ONGKIR-2026</code></pre>
+    <p>Promo code:</p>
+    <pre><code>FREE-DELIVERY-2026</code></pre>
   </article>
 </body>
 </html>
@@ -51,72 +51,72 @@ Spanduk warung " **GRATIS ONGKIR** " harus tebal, " *syarat berlaku* " miring, "
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `<strong>` vs `<b>`, `<em>` vs `<i>`
-- `<strong>` = penting (dibaca screen reader tegas), `<b>` hanya tebal visual — pakai `<strong>`
-- `<em>` = penekanan, `<i>` hanya miring — pakai `<em>`
+- `<strong>` = important (screen readers stress it), `<b>` only visual — use `<strong>`
+- `<em>` = emphasis, `<i>` only italic — use `<em>`
 
 ### `<mark>`, `<u>`, `<s>`
-`mark` stabilo kuning, `u` garis bawah, `s` coret (harga lama).
+`mark` yellow highlighter, `u` underline, `s` strikethrough (old price).
 
-### `<sub>`/`<sup>` dan `<abbr>`
-`H<sub>2</sub>O` bawah, `x<sup>2</sup>` atas, `abbr` singkatan hover.
+### `<sub>`/`<sup>` and `<abbr>`
+`H<sub>2</sub>O` below, `x<sup>2</sup>` above, `abbr` hover abbreviation.
 
 ### `<blockquote>` vs `<q>` vs `<pre>`
-- `blockquote` kutipan blok menjorok
-- `q` kutipan dalam baris pakai kutip otomatis
-- `pre` pertahankan spasi/baris + `code` untuk kode inline `const x = 1`
+- `blockquote` indented block quote
+- `q` inline quote with auto marks
+- `pre` keeps spaces/line breaks + `code` for inline code `const x = 1`
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Spanduk Pasar
+### Analogy: Market Banner
+- **`<strong>` = thick marker**: "FREE" thick so it's seen from far.
+- **`<em>` = stressed voice**: "terms *apply*".
+- **`<mark>` = highlighter**: yellow for "Siti".
+- **`<sub>/<sup>` = small numbers**: H₂O with small 2 below.
 
-- **`<strong>` = spidol tebal**: "GRATIS" tebal biar dari jauh kelihatan.
-- **`<em>` = suara ditekankan**: "syarat *berlaku*".
-- **`<mark>` = stabilo**: kuning untuk "Bu Siti".
-- **`<sub>/<sup>` = angka kecil**: H₂O angka 2 kecil bawah.
+### Step 0 — Prepare Device
+- VS Code + browser, create `banner.html`, open, compare each tag's look.
 
-### Cara Komputer Membaca
+### How the Computer Reads It
+1. `<strong>Free</strong>` → browser bolds + screen reader stresses.
+2. `<pre>FREE` → browser keeps spaces as-is.
 
-1. `<strong>Gratis</strong>` → browser tebalkan + screen reader baca tegas.
-2. `<pre>GRATIS` → browser jangan rapikan spasi, tampil apa adanya.
-
-### 3 Istilah Wajib
-
-1. **Inline**: format dalam baris (`strong`, `em`) tidak bikin baris baru.
-2. **Blockquote**: kutipan blok menjorok.
-3. **Pre**: preformatted.
-
----
-
-## Eksperimen
-
-- **Hijau:** Ganti `<strong>Gratis Ongkir</strong>` jadi nama warungmu → tebal?
-- **Kuning:** `H<sub>2</sub>O` ganti jadi `CO<sub>2</sub>` → bawah?
-- **Merah:** Tulis `<b>` bukan `<strong>` → tetap tebal tapi screen reader tidak tegas (cek di `Konsep Kunci`).
+### 3 Must-Know Terms
+1. **Inline**: in-line format (`strong`, `em`), no new line
+2. **Blockquote**: indented quote block
+3. **Pre**: preformatted
 
 ---
 
-## Tantangan
+## Experiments
 
-**Spanduk Warung Lengkap:** Judul `H1` **Promo**, penulis `mark` + `time`, paragraf dengan `strong/em/u/s`, `H2O` + `x2`, `blockquote` testimoni pelanggan, `pre+code` kode promo `WARUNG10`.
-
-Kriteria: `strong/em/mark` + `sub/sup` + `blockquote` + `pre` semua ada, buka di browser terlihat spanduk.
-
----
-
-## Glosarium Mini
-
-- **strong/em**: penting/penekanan
-- **mark/u/s**: stabilo/garis/coret
-- **sub/sup**: bawah/atas
-- **blockquote/q/pre**: kutipan
+- **Green:** Change `<strong>Free Delivery</strong>` to your shop name → bold?
+- **Yellow:** `H<sub>2</sub>O` → `CO<sub>2</sub>` → below?
+- **Red:** Write `<b>` not `<strong>` → still bold but screen reader not stressed (see Key Concepts).
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 2 dari 14: **Format Teks** (Level: Lengkap). Bisa bikin spanduk promo yang mata tangkap. Minggu depan: **Link & Navigasi** — sambung halaman warung.
+**Full Shop Banner:** `H1` **Promo**, author `mark` + `time`, paragraph with `strong/em/u/s`, `H2O` + `x2`, customer `blockquote`, `pre+code` promo `SHOP10`.
+
+Done when: `strong/em/mark` + `sub/sup` + `blockquote` + `pre` all present, looks like a banner in browser.
+
+---
+
+## Mini Glossary
+
+- **strong/em**: important/emphasis
+- **mark/u/s**: highlight/line/strike
+- **sub/sup**: below/above
+- **blockquote/q/pre**: quotes
+
+---
+
+## Summary
+
+Week 2 of 14: **Text Format** (Level: Complete). Can make eye-catching promo banners. Next: **Links & Navigation** — connect shop pages.

@@ -1,35 +1,82 @@
-# Gambar & Media — Etalase Foto
+# Images & Media — Photo Showcase
 
-> **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 4:** Gambar & Media
+> **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 4:** Gambar & Media
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `img src alt width height` foto, `alt` wajib untuk tunanetra, `figure+figcaption` bingkai + caption
-- `srcset` untuk HP vs laptop (nanti CSS)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung tanpa foto = pelanggan tidak percaya. `alt` = deskripsi jika foto gagal load / dibaca screen reader.
+- `img src alt width height` photos, mandatory `alt` for blind users, `figure+figcaption` frame + caption
+- `srcset` for phone vs laptop (later in CSS)
 
 ---
 
-## Program: Etalase Foto
+## Why This Matters (Non-IT)
+
+A shop without photos = customers don't trust. `alt` = description when photo fails to load / read by screen reader.
+
+---
+
+## Program: Photo Showcase
 
 ```html
 <figure>
-  <img src="beras.jpg" alt="Karung beras 5kg" width="300" height="200">
-  <figcaption>Beras 5kg — Rp 62.000</figcaption>
+  <img src="rice.jpg" alt="5kg rice sack" width="300" height="200">
+  <figcaption>Rice 5kg — Rp 62,000</figcaption>
 </figure>
-<img src="https://via.placeholder.com/300" alt="Placeholder produk" width="300" height="200">
-<p>Jika foto gagal, <code>alt</code> tampil: "Karung beras 5kg"</p>
+<img src="https://via.placeholder.com/300" alt="Product placeholder" width="300" height="200">
+<p>If the photo fails, <code>alt</code> shows: "5kg rice sack"</p>
 ```
 
-**Wajib `alt`**: kosong `alt=""` jika hiasan, isi jika produk.
+**Mandatory `alt`**: empty `alt=""` for decoration, filled for products.
 
 ---
 
-## Ringkasan
+## Key Concepts
 
-Minggu 4: **Foto** — `img` + `alt` + `figure`. Minggu depan: **List**.
+### `img` + `alt` + `figure`
+`src` photo file, `alt` text replacement, `figure/figcaption` frame + caption.
+
+### `width`/`height` Prevent Jumping
+Reserve space so page doesn't jump when photo loads.
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Shop Window + Label
+- **`img` = window display**, **`alt` = braille label** under it, **`figure` = frame**.
+
+### Step 0 — Prepare Device
+- VS Code + browser + 1 photo file beside HTML (or placeholder link).
+
+### How the Computer Reads It
+1. `<img src="rice.jpg">` → download photo → show 300×200.
+2. Fails → show `alt` text instead.
+
+### 3 Must-Know Terms
+1. **src/alt/figure**: file/label/frame
+
+---
+
+## Experiments
+
+- **Green:** Wrong `src` name → `alt` text shows?
+- **Yellow:** Remove `width/height` → page jumps on load?
+- **Red:** Empty `alt=""` on product → screen reader skips (bad for products, ok for decoration)?
+
+---
+
+## Challenge
+
+**Showcase 3 Photos:** `figure` + `img` + `figcaption` each (name + price) + meaningful `alt` + `width/height`.
+
+---
+
+## Mini Glossary
+
+- **img/alt/figure**: photo/label/frame
+
+---
+
+## Summary
+
+Week 4 of 14: **Photos** — `img` + `alt` + `figure`. Next: **Lists**.
