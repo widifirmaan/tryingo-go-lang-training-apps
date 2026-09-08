@@ -1,28 +1,28 @@
 # Custom Hooks & Patterns
 
-> **Kategori:** React | **Level:** Menengah | **Minggu 8:** Custom Hooks & Patterns
+> **Kategori:** React | **Level:** Intermediate | **Minggu 8:** Custom Hooks & Patterns
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Membuat custom hook dengan prefix "use"
-- useLocalStorage: persist state ke localStorage
+- Build custom hooks with the "use" prefix
+- useLocalStorage: persist state to localStorage
 - useFetch: reusable data fetching logic
 - useToggle: reusable toggle logic
-- Kapan extract logic ke custom hook vs inline
+- When to extract logic to a custom hook vs inline
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa custom hook, `useState + useEffect fetch` ditulis di 10 komponen (duplikat!). Dengan `useProduk()` 1x, 10 pakai.
+Without custom hooks, `useState + useEffect fetch` is written in 10 components (duplicates!). With `useProducts()` once, 10 use it.
 
 ---
 
 ## Program: useFetch & useLocalStorage
 
 ```jsx
-// Custom hooks = extract reusable logic ke function sendiri
-// Convention: prefix "use" (React convention)
+// Custom hooks = extract reusable logic into their own function
+// Convention: "use" prefix (React convention)
 
 import { useState, useEffect } from "react";
 
@@ -48,7 +48,7 @@ function useFetch(url) {
 
   useEffect(() => {
     setLoading(true);
-    // Simulasi fetch
+    // Simulated fetch
     setTimeout(() => {
       setData([{ id: 1, name: "Item A" }, { id: 2, name: "Item B" }]);
       setLoading(false);
@@ -72,8 +72,8 @@ function App() {
 
   return (
     <div>
-      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nama" />
-      <p>Halo, {name || "Guest"}!</p>
+      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+      <p>Hello, {name || "Guest"}!</p>
       <button onClick={toggle}>{isOpen ? "Tutup" : "Buka"}</button>
       {loading && <p>Loading...</p>}
       {data && data.map((item) => <p key={item.id}>{item.name}</p>)}
@@ -81,59 +81,59 @@ function App() {
   );
 }
 
-console.log("Custom hooks siap digunakan");
+console.log("Custom hooks ready to use");
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Custom Hook
-Function dengan prefix "use" yang bisa pakai hooks lain.
+Function with the "use" prefix that can use other hooks.
 
 ### useLocalStorage
-Baca initial dari localStorage, sync saat value berubah.
+Reads initial from localStorage, syncs when value changes.
 
 ### useFetch
-Return { data, loading, error }. Reusable untuk endpoint berbeda.
+Returns { data, loading, error }. Reusable for different endpoints.
 
-### Kapan Extract
-- Logic dipakai 2+ komponen
-- Terlalu banyak logic di component
-- Ingin test logic terpisah
-
----
-
-## Eksperimen
-
-- Buat useDebounce hook
-- Buat useMediaQuery hook
-- Buat usePrevious hook
-- Buat useOnlineStatus hook
+### When to Extract
+- Logic used by 2+ components
+- Too much logic in a component
+- Want to test logic separately
 
 ---
 
-## Tantangan
+## Experiments
 
-Buat useForm hook yang handle: values, errors, handleChange, handleSubmit, reset. Gunakan di 2 form berbeda.
+- Build a useDebounce hook
+- Build a useMediaQuery hook
+- Build a usePrevious hook
+- Build a useOnlineStatus hook
+
+---
+
+## Challenge
+
+Build a useForm hook handling: values, errors, handleChange, handleSubmit, reset. Use in 2 different forms.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Resep Dapur Sendiri
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+### Analogy: Own Kitchen Recipes
+- See Program: run line by line, change 1 number, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (lihat minggu 1 untuk install).
+### Step 0 — Prepare Device
+- Same as this track's W1 (see week 1 for install).
 
-### Cara Komputer Membaca
-- `function useProduk() { ... return { data } }` — hook = fungsi pakai hook lain.
+### How the Computer Reads It
+- `function useProducts() { ... return { data } }` — a hook = a function using other hooks.
 
-### 3 Istilah Wajib
-- 1. **Custom hook/use**: resep/pakai
+### 3 Must-Know Terms
+- 1. **Custom hook/use**: recipe/use
 
-## Ringkasan
+## Summary
 
-Minggu 8 dari 12: **Custom Hooks & Patterns** (Level: Menengah). Selesai fase Intermediate! Minggu depan: **Advanced Patterns**.
+Week 8 of 12: **Custom Hooks & Patterns** (Level: Intermediate). Intermediate phase done! Next: **Advanced Patterns**.
