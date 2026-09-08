@@ -1,32 +1,32 @@
-# Testing — Cicip Warung Rust Beneran
+# Testing — Real Rust Shop Taste-Test
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 10:** Testing
+> **Kategori:** Rust | **Level:** Intermediate | **Minggu 10:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `#[test]` + `assert_eq!` cicip beneran + `cargo test` jalan (sumber: doc.rust-lang.org/book/ch11)
-- `#[should_panic]` harapkan meledak + doc-test di `///` otomatis jalan!
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Simulasi `println` tidak dicek mesin. `cargo test` beneran: ubah rumus → merah → perbaiki. Doc-test (contoh di `///`) ikut jalan — dokumentasi tidak basi!
+- `#[test]` + `assert_eq!` real tasting + `cargo test` runs (source: doc.rust-lang.org/book/ch11)
+- `#[should_panic]` expects explosion + doc-tests in `///` run automatically!
 
 ---
 
-## Program: Cicip Kasir Beneran
+## Why This Matters (Non-IT)
+
+`println` simulation isn't machine-checked. Real `cargo test`: change formula → red → fix. Doc-tests (examples in `///`) run too — docs never go stale!
+
+---
+
+## Program: Real Cashier Taste-Test
 
 ```rust
-fn hitung(a: i32, b: i32) -> i32 { a + b }
+fn calc(a: i32, b: i32) -> i32 { a + b }
 
-/// Bagi aman.
-/// /// Contoh (JALAN OTOMATIS sebagai test!):
+/// Safe divide.
+/// /// Example (RUNS AUTOMATICALLY as a test!):
 /// ```
-/// assert_eq!(bagi(10.0, 2.0), Ok(5.0));
+/// assert_eq!(divide(10.0, 2.0), Ok(5.0));
 /// ```
-fn bagi(a: f64, b: f64) -> Result<f64, String> {
-  if b == 0.0 { Err("tidak bisa bagi 0".to_string()) } else { Ok(a / b) }
+fn divide(a: f64, b: f64) -> Result<f64, String> {
+  if b == 0.0 { Err("can't divide by 0".to_string()) } else { Ok(a / b) }
 }
 
 #[cfg(test)]
@@ -34,80 +34,80 @@ mod test {
   use super::*;
 
   #[test]
-  fn hitung_benar() {
-    assert_eq!(hitung(2, 3), 5);
+  fn calc_correct() {
+    assert_eq!(calc(2, 3), 5);
   }
 
   #[test]
-  fn bagi_nol_meledak() {
-    assert!(bagi(5.0, 0.0).is_err());
+  fn divide_zero_errors() {
+    assert!(divide(5.0, 0.0).is_err());
   }
 
   #[test]
   #[should_panic]
-  fn index_lewat_meledak() {
+  fn index_overflow_panics() {
     let v = vec![1];
-    let _ = v[5]; // panic diharapkan!
+    let _ = v[5]; // expected panic!
   }
 }
 ```
 
 ```bash
 cargo test
-# test result: ok. 3 passed + 1 doc-test — HIJAU beneran
+# test result: ok. 3 passed + 1 doc-test — GREEN for real
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `#[test]` + `assert_eq!` = Cicip Mesin
-`assert_eq!(hitung(2,3), 5)` — beda → merah + nilai kiri-kanan.
+### `#[test]` + `assert_eq!` = Machine Taste
+`assert_eq!(calc(2,3), 5)` — mismatch → red + left-right values.
 
-### `#[should_panic]` = Harapkan Meledak
-Untuk kode yang SEHARUSNYA panic.
+### `#[should_panic]` = Expect Explosion
+For code that SHOULD panic.
 
-### Doc-Test = Contoh Hidup
-`/// ``` ` ikut `cargo test` — contoh basi langsung ketahuan!
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Cicip Dapur
-- **test = cicip**: masak → cicip mesin.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `cargo test` (tanpa install tambahan!).
-
-### Cara Komputer Membaca
-1. `cargo test` → compile mode test → jalankan tiap `#[test]` paralel → lapor.
-
-### 3 Istilah Wajib
-1. **test/assert/doc-test**: cicip/harap/contoh-hidup
+### Doc-Test = Living Example
+`/// ``` ` joins `cargo test` — stale examples caught instantly!
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Ubah rumus → merah? Betulkan.
-- **Kuning:** Doc `///` salah → doc-test merah? (Dokumentasi basi ketahuan!)
-- **Merah:** Test tanpa `#[test]` → tidak jalan? Tambah atribut.
+### Analogy: Kitchen Taste
+- **test = taste**: cook → machine tastes.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `cargo test` (no extra install!).
 
-## Tantangan
+### How the Computer Reads It
+1. `cargo test` → compiles in test mode → runs each `#[test]` in parallel → reports.
 
-**Warung Teruji:** `hitung/diskon/bagi` + 4 test + 1 doc-test HIJAU + screenshot. **Selesai Menengah Rust!**
-
----
-
-## Glosarium Mini
-
-- **test/assert/doc-test**: cicip/harap/contoh
+### 3 Must-Know Terms
+1. **test/assert/doc-test**: taste/expect/living-example
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 10 dari 14: **Cicip Beneran** (Level: Menengah). **Selesai Menengah Rust!** Lanjut: **Smart Pointers** (Lanjutan).
+- **Green:** Change formula → red? Fix it.
+- **Yellow:** Wrong `///` doc → doc-test red? (Stale docs caught!)
+- **Red:** Test without `#[test]` → not run? Add attribute.
+
+---
+
+## Challenge
+
+**Tested Shop:** `calc/discount/divide` + 4 tests + 1 doc-test GREEN + screenshot. **Intermediate Rust DONE!**
+
+---
+
+## Mini Glossary
+
+- **test/assert/doc-test**: taste/expect/example
+
+---
+
+## Summary
+
+Week 10 of 14: **Real Tasting** (Level: Intermediate). **Intermediate Rust DONE!** Next: **Smart Pointers** (Advanced).
