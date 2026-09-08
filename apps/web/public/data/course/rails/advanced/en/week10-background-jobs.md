@@ -30,7 +30,7 @@ puts "  queue_as :default"
 puts ""
 puts "  def perform(user)"
 puts "    UserMailer.welcome(user).deliver_now"
-puts "    Rails.logger.info \"Email sent to \#{user.email}\""
+puts "    Rails.logger.info \"Email sent to #{user.email}\""
 puts "  end"
 puts "end"
 puts ""
@@ -65,7 +65,7 @@ jobs = [
 puts "ID | Job | Status | Duration"
 puts "---|-----|--------|----------"
 jobs.each do |j|
-  puts "\#{j[:id]} | \#{j[:name]} | \#{j[:status]} | \#{j[:duration]}"
+  puts "#{j[:id]} | #{j[:name]} | #{j[:status]} | #{j[:duration]}"
 end
 puts ""
 puts "=== Error Handling ==="
