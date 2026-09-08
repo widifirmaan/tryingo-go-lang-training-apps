@@ -1,75 +1,93 @@
-# Advanced Types — Template Literal Warung (typescriptlang.org)
+# Advanced Types — Shop Template Literals (typescriptlang.org)
 
-> **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 11:** Advanced Type Manipulation
+> **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 11:** Advanced Type Manipulation
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `` `on${Capitalize<key>}` `` buat `onBeras` dari `"beras"`, `` `/api/${string}` `` rute aman, `infer` parsing (sumber: typescriptlang.org/docs/handbook/2/template-literal-types)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Rute warung `/produk/123` typo `/produk//123` → 404. Dengan `` `/produk/${string}` `` typo merah sebelum run. `onBeras` dari `"beras"` otomatis, tidak tulis manual 20x.
+- `` `on${Capitalize<key>}` `` builds `onRice` from `"rice"`, `` `/api/${string}` `` safe routes, `infer` parsing (source: typescriptlang.org/docs/handbook/2/template-literal-types)
 
 ---
 
-## Program: Rute & Event Warung (typescriptlang.org)
+## Why This Matters (Non-IT)
+
+Shop route `/products/123` typoed `/products//123` → 404. With `` `/products/${string}` `` typos go red before run. `onRice` from `"rice"` automatic, no 20x handwriting.
+
+---
+
+## Program: Shop Routes & Events (typescriptlang.org)
 
 ```typescript
-type Produk = "beras" | "bayam";
-type Event = `on${Capitalize<Produk>}`; // "onBeras" | "onBayam"
+type Product = "rice" | "spinach";
+type Event = `on${Capitalize<Product>}`; // "onRice" | "onSpinach"
 
 function on(event: Event, cb: () => void) {}
-on("onBeras", () => console.log("Beras"));
-// on("onberas", () => {}); // ❌ harus Capitalize
+on("onRice", () => console.log("Rice"));
+// on("onrice", () => {}); // ❌ must be Capitalized
 
 type Route = `/api/${string}`;
-const a: Route = "/api/produk"; // ✅
- // const b: Route = "api/produk"; // ❌ harus /api/
+const a: Route = "/api/products"; // ✅
+ // const b: Route = "api/products"; // ❌ must start /api/
 
-type ExtractId<S extends string> = S extends `/produk/${infer Id}` ? Id : never;
-type Id = ExtractId<"/produk/123">; // "123"
+type ExtractId<S extends string> = S extends `/products/${infer Id}` ? Id : never;
+type Id = ExtractId<"/products/123">; // "123"
 ```
 
-**Sumber:** `typescriptlang.org/docs/handbook/2/template-literal-types` — `` `${string}` `` + `Capitalize` + `infer`.
+**Source:** `typescriptlang.org/docs/handbook/2/template-literal-types` — `` `${string}` `` + `Capitalize` + `infer`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `` `on${Capitalize<T>}` `` = Stempel Event
-`"beras"` → `"onBeras"`.
+### `` `on${Capitalize<T>}` `` = Event Stamp
+`"rice"` → `"onRice"`.
 
-### `` `/api/${string}` `` = Rute Aman
-Harus `/api/` di depan.
+### `` `/api/${string}` `` = Safe Route
+Must start with `/api/`.
 
-### `infer` = Bongkar
-`` `/produk/${infer Id}` `` ambil `Id`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Stempel Rute
-
-- **`` `on${Capitalize<Produk>}` `` = stempel event**: `beras` → cap `onBeras`.
-- **`` `/api/${string}` `` = jalan aman**: harus `/api/` di depan.
+### `infer` = Unpack
+`` `/products/${infer Id}` `` extracts `Id`.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Warung Rute Aman:** `type Route = `/warung/${string}`` → `const r: Route = "/warung/beras"` ✅, `"warung/beras"` ❌. `type Id = ExtractId<"/warung/123">` → `"123"`.
+### Analogy: Route Stamps
+
+- **`` `on${Capitalize<Product>}` `` = event stamp**: `rice` → stamped `onRice`.
+- **`` `/api/${string}` `` = safe road**: must start with `/api/`.
+
+### Step 0 — Prepare Device
+- Same as W1: `routes.ts` + `npx tsc`, deliberately mistype a route.
+
+### How the Computer Reads It
+1. `"api/products"` vs `` `/api/${string}` `` → missing prefix → red.
+2. `ExtractId<"/products/123">` → `Id` = `"123"`.
+
+### 3 Must-Know Terms
+1. **Template literal/infer/Capitalize**: stamp/unpack/capitalize
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Template literal/infer/Capitalize**: stempel/bongkar/huruf besar
+- **Green:** `"/api/rice"` → valid `Route`?
+- **Yellow:** `"api/rice"` → red (missing slash)?
+- **Red:** `on("onrice")` → red (not capitalized)? Fix case.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 11 dari 12: **Rute Aman** — template literal. Minggu depan: **Capstone**.
+**Safe Shop Routes:** `type Route = `/shop/${string}`` → `const r: Route = "/shop/rice"` ✅, `"shop/rice"` ❌. `type Id = ExtractId<"/shop/123">` → `"123"`.
+
+---
+
+## Mini Glossary
+
+- **Template literal/infer/Capitalize**: stamp/unpack/capitalize
+
+---
+
+## Summary
+
+Week 11 of 12: **Safe Routes** — template literals. Next: **Capstone**.
