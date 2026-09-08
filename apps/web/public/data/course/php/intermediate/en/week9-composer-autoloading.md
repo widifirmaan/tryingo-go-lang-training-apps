@@ -79,6 +79,21 @@ Downloads to `vendor/` + records in `composer.json` + pins versions in `composer
 ### PSR-4 `App\\` → `src/` = Address Rule
 `App\\Cashier` → `src/Cashier.php` automatically.
 
+### `namespace` = Family Name (used above — explained now!)
+Without surnames, 2 `Cashier`s (yours + library's) fatally collide. With `namespace App;`, yours is `App\\Cashier`, theirs `Monolog\\Cashier` — peace.
+
+```php
+<?php
+namespace App; // this file's surname (MANDATORY first line after <?php!)
+class Cashier { /* ... */ }
+
+// Other file:
+require "vendor/autoload.php";
+use App\\Cashier; // call surname (without it: write \\App\\Cashier every time!)
+$k = new Cashier();
+```
+- Rule: 1 file 1 surname, surname = folder name (`App\\Receipt` → `src/Receipt.php`).
+
 ---
 
 ## Beginner Friendly Explanation

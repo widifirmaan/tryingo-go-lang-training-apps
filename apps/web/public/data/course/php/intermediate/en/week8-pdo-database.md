@@ -60,6 +60,17 @@ Fixed → `query`. User input present → `prepare` + `?`.
 
 ### `fetchAll()` / `lastInsertId()` = Fetch All / New ID
 
+### `try/catch` = Net (used above — explained now!)
+```php
+try {
+  $pdo = new PDO(/* ... */); // try connecting
+} catch (PDOException $e) {  // failed? catch!
+  die("Connect failed: " . $e->getMessage());
+} finally {
+  // always runs (close logs, etc.)
+}
+// throw new Exception("Negative stock") = sound your own alarm!
+
 ---
 
 ## Beginner Friendly Explanation

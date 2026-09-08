@@ -61,6 +61,26 @@ Jalankan `php -S localhost:8000` → buka `http://localhost:8000/pesan.php` → 
 ### `htmlspecialchars(trim())` = Cuci Tangan
 `trim` buang spasi, `htmlspecialchars` ubah `<` jadi `&lt;` — anti XSS.
 
+### Upload Foto (`$_FILES`) — Bukti Transfer!
+```html
+<!-- WAJIB enctype! tanpa ini file tak kekirim -->
+<form method="post" enctype="multipart/form-data">
+  <input type="file" name="bukti" accept="image/*">
+  <button>Kirim</button>
+</form>
+```
+```php
+<?php
+if (isset($_FILES["bukti"]) && $_FILES["bukti"]["error"] === UPLOAD_ERR_OK) {
+  $asal = $_FILES["bukti"]["tmp_name"]; // file di gudang sementara
+  $tujuan = "uploads/" . basename($_FILES["bukti"]["name"]);
+  move_uploaded_file($asal, $tujuan); // PINDAH (bukan copy!) → aman
+  echo "Tersimpan: $tujuan";
+}
+// Cek: ["error"] (0 = OK), ["size"] batas 2MB, ["type"] image/jpeg
+?>
+```
+
 ### `filter_var` + `preg_match` = Satpam
 `filter_var($email, FILTER_VALIDATE_EMAIL)` cek email, `preg_match('/^[0-9]{10,13}$/', $wa)` cek WA digit.
 
