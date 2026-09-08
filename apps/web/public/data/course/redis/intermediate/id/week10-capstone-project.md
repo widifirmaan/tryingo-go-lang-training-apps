@@ -49,6 +49,15 @@ String + Hash + List + Set + ZSet + Streams + Pub/Sub + TTL = dasbor live.
 
 ---
 
+### Bonus: Laci Awet — RDB vs AOF (wajib produksi! redis.io/docs/management/persistence)
+
+Laci RAM hilang saat mati lampu! 2 penyelamat (atur di `redis.conf` / flag `docker run`):
+- **RDB** (`save 60 1000`): foto tiap 60 detik jika 1000 berubah. Cepat, tapi bisa hilang 60 detik terakhir.
+- **AOF** (`appendonly yes`): catat TIAP tulis (aman, file besar + sedikit lambat).
+- Cek: `LASTSAVE` (foto terakhir kapan?), `INFO persistence`. Produksi serius = AOF + RDB keduanya!
+
+---
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist + `INFO` + video 1 menit pesan→ranking berubah live. **Selesai Redis 0→Ahli!** 🎉
