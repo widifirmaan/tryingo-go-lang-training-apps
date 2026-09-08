@@ -1,109 +1,109 @@
-# Pinia — Gudang Bersama Warung Vue
+# Pinia — Shared Vue Shop Warehouse
 
-> **Kategori:** Vue | **Level:** Menengah | **Minggu 6:** Pinia State Management
+> **Kategori:** Vue | **Level:** Intermediate | **Minggu 6:** Pinia State Management
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `defineStore("keranjang", ...)` gudang + `store.tambah()` ubah + `$store` baca di template (sumber: pinia.vuejs.org)
-- `app.use(createPinia())` pasang sekali di `main.js`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Keranjang dipakai header + daftar + checkout — props estafet 5 level melelahkan + lupa 1 = beda data. Pinia = 1 gudang sentral (pengganti Vuex, lebih simpel, resmi Vue).
+- `defineStore("cart", ...)` warehouse + `store.add()` mutate + read in template (source: pinia.vuejs.org)
+- `app.use(createPinia())` install once in `main.js`
 
 ---
 
-## Program: Gudang Keranjang Pinia
+## Why This Matters (Non-IT)
+
+Carts are used by header + list + checkout — 5-level prop relays exhaust + 1 forgotten = divergent data. Pinia = 1 central warehouse (Vuex replacement, simpler, official Vue).
+
+---
+
+## Program: Pinia Cart Warehouse
 
 ```bash
 npm install pinia
 ```
 
 ```javascript
-// stores/keranjang.js — gudang (bukan komponen!)
+// stores/cart.js — warehouse (not a component!)
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
-export const useKeranjang = defineStore("keranjang", () => {
+export const useCart = defineStore("cart", () => {
   const items = ref([]);
-  const total = computed(() => items.value.reduce((s, i) => s + i.harga * i.qty, 0));
-  function tambah(item) { items.value.push(item); }
-  function hapus(id) { items.value = items.value.filter(i => i.id !== id); }
-  return { items, total, tambah, hapus };
+  const total = computed(() => items.value.reduce((s, i) => s + i.price * i.qty, 0));
+  function add(item) { items.value.push(item); }
+  function remove(id) { items.value = items.value.filter(i => i.id !== id); }
+  return { items, total, add, remove };
 });
 ```
 
 ```javascript
-// main.js — pasang sekali
+// main.js — install once
 import { createPinia } from "pinia";
 app.use(createPinia());
 ```
 
 ```vue
-<!-- Header.vue + Daftar.vue — 2 pemakai 1 gudang -->
+<!-- Header.vue + List.vue — 2 users 1 warehouse -->
 <script setup>
-import { useKeranjang } from "../stores/keranjang";
-const keranjang = useKeranjang();
+import { useCart } from "../stores/cart";
+const cart = useCart();
 </script>
 <template>
-  <p>Isi: {{ keranjang.items.length }} | Total: Rp {{ keranjang.total }}</p>
-  <button @click="keranjang.tambah({ id: 1, nama: 'Beras', harga: 62000, qty: 1 })">Tambah</button>
+  <p>Items: {{ cart.items.length }} | Total: Rp {{ cart.total }}</p>
+  <button @click="cart.add({ id: 1, name: 'Rice', price: 62000, qty: 1 })">Add</button>
 </template>
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `defineStore` + `useX` = Gudang + Pintu
-`defineStore("keranjang", setup-fn)` buat, `useKeranjang()` ambil di komponen mana saja.
+### `defineStore` + `useX` = Warehouse + Door
+`defineStore("cart", setup-fn)` creates, `useCart()` takes in any component.
 
-### `ref` + `computed` di Store = Isi + Kasir Otomatis
-Sama seperti komponen, tapi dibagi.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Gudang Sentral Mal
-- **Pinia = gudang**: 10 toko ambil stok sama, `total` kasir otomatis.
-
-### Langkah 0 — Siapkan Device
-- `npm install pinia` + `app.use(createPinia())` (lupa = `getActivePinia was called` error!).
-
-### Cara Komputer Membaca
-1. `useKeranjang()` pertama → buat store.
-2. `tambah()` → `items` berubah → semua `{{ keranjang.total }}` update.
-
-### 3 Istilah Wajib
-1. **Store/defineStore**: gudang/buat
-2. **use/createPinia**: ambil/pasang
+### `ref` + `computed` in Store = Contents + Auto Cashier
+Same as components, but shared.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tambah di Daftar → Header ikut?
-- **Kuning:** Lupa `app.use(createPinia())` → error apa? Pasang.
-- **Merah:** 2 `defineStore("keranjang")` beda file → 2 gudang beda? (Samakan nama = sama!)
+### Analogy: Mall Central Warehouse
+- **Pinia = warehouse**: 10 shops take the same stock, `total` auto cashier.
 
----
+### Step 0 — Prepare Device
+- `npm install pinia` + `app.use(createPinia())` (forget = `getActivePinia was called` error!).
 
-## Tantangan
+### How the Computer Reads It
+1. First `useCart()` → creates store.
+2. `add()` → `items` changes → all `{{ cart.total }}` update.
 
-**Mal 3 Toko:** Store `keranjang` + `Header` (jumlah) + `Daftar` (tambah) + `Checkout` (total + kosongkan).
-
----
-
-## Glosarium Mini
-
-- **Pinia/store**: gudang
-- **defineStore/use**: buat/ambil
+### 3 Must-Know Terms
+1. **Store/defineStore**: warehouse/make
+2. **use/createPinia**: take/install
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 12: **Gudang Bersama** (Level: Menengah). 1 data semua. Minggu depan: **Lifecycle**.
+- **Green:** Add in List → Header follows?
+- **Yellow:** Forget `app.use(createPinia())` → what error? Install it.
+- **Red:** 2 `defineStore("cart")` in different files → 2 different warehouses? (Same name = same!)
+
+---
+
+## Challenge
+
+**3-Shop Mall:** `cart` store + `Header` (count) + `List` (add) + `Checkout` (total + clear).
+
+---
+
+## Mini Glossary
+
+- **Pinia/store**: warehouse
+- **defineStore/use**: make/take
+
+---
+
+## Summary
+
+Week 6 of 12: **Shared Warehouse** (Level: Intermediate). 1 data for all. Next: **Lifecycle**.
