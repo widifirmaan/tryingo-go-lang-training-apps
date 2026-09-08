@@ -310,3 +310,49 @@ Usulan **jalur 0 → Ahli (9-13 bulan, 10-15 jam/minggu)** berbasis CourseFacts 
 
 | 2026-08-25 | `381f118` | Node.js W1-W3 + Django W1-W3 (id+en, 12 file) | Manual dapur terminal `node app.js` + admin Django otomatis |
 
+
+## EN TRACK — PROPER ENGLISH COMPLETION (2026-09-08)
+
+Audit `grep -rl 'Kenapa Ini Penting' --include='*.md' | grep '/en/'` sempat menemukan **283 file en berisi bahasa Indonesia** (salinan ID via `cp`, bukan terjemahan — warisan batch ID massal).
+Semua 283 + 5 upgrade file generator-lama (HTML5 W1 id+en, TS W1-W4 en) dikerjakan manual satu-per-satu:
+
+| Tanggal | Commit | Batch | Metode |
+|---|---|---|---|
+| 2026-09-08 | `2ffb142` | HTML5 W2-W4 en | Terjemahan manual full-template EN |
+| 2026-09-08 | `22a5acd` | HTML5 W5-W9 en | Terjemahan manual |
+| 2026-09-08 | `1904cd9` | HTML5 W1+W10-W14 en (W1 upgrade generator→full-template) | Manual + upgrade ID W1 (`679c35f`) |
+| 2026-09-08 | `f851c7c`+`c25b201` | CSS3 W1-W12 en 12/12 | Terjemahan manual |
+| 2026-09-08 | `ba3a596` | JS W7-W14 int+adv en — JS en 14/14 | Manual + script-assisted (W13 verified) |
+| 2026-09-08 | `3dce02b` | Python W5-W12 int+adv en — Python en 12/12 | Manual + script-assisted |
+| 2026-09-08 | `8ceab28`+`4c019b2`+`314c3c9`+`4870586` | TypeScript W1-W12 en 12/12 | Terjemahan manual |
+| 2026-09-08 | `5cc4a3b` | Go W6+W10 en — Go en 14/14 | Manual |
+| 2026-09-08 | `d831585`+`8b1bfce` | PostgreSQL W5-W10 en — PG en 10/10 | Manual |
+| 2026-09-08 | `61d6895`+`33966ab` | React W5-W12 int+adv en — React en 12/12 | Manual + exact-map script |
+| 2026-09-08 | `d868c85`+`d492885` | Next.js W5-W12 int+adv en — Next.js en 12/12 | Manual |
+| 2026-09-08 | `5be7a4d`+`5043cd7` | Vue W5-W12 int+adv en — Vue en 12/12 | Manual |
+| 2026-09-08 | `2ce120b`+`2a1d6a7` | Svelte W1-W12 beg+int+adv en 11/11 | Manual |
+| 2026-09-08 | `e055b40`+`1cc3d2f`+`b58bc06` | Angular W1-W14 beg+int+adv en 14/14 | Manual + exact-map + leftover-scanner |
+| 2026-09-08 | `d9b0e3b`+`e885eb7`+`a0acd5b` | Rust W1-W14 beg+int+adv en 14/14 | Manual |
+| 2026-09-08 | `a461407`+`8cdfd48` | MySQL W1-W10 beg+int en 10/10 | Manual |
+| 2026-09-08 | `af5a3b2`+`ab68c5b` | MongoDB W1-W10 beg+int en 10/10 | Manual |
+| 2026-09-08 | `431bf8c`+`bd165ef` | Redis W1-W10 beg+int en 10/10 | Manual |
+| 2026-09-08 | `a0339c6`+`4e6e253` | GraphQL W1-W10 beg+int en 10/10 | Manual |
+| 2026-09-08 | `da44e72` | Docker W1-W12 beg+int+adv en 12/12 | Manual |
+| 2026-09-08 | `f0c5a74`+`dfba152` | CI4 W1-W10 beg+int en 10/10 | Manual |
+| 2026-09-08 | `3254d20`+`4c8e4a2` | PHP W1-W12 beg+int en 12/12 | Manual |
+| 2026-09-08 | `cfbf081`+`b730d1c` | Node.js W1-W12 beg+int+adv en 12/12 | Manual |
+| 2026-09-08 | `ddeef96`+`9ada371` | NestJS W1-W12 beg+int+adv en 12/12 | Manual |
+| 2026-09-08 | `9c0f86d`+`a9a9e3e` | Django W1-W12 beg+int+adv en 12/12 | Manual |
+| 2026-09-08 | `6cd6d4d`+`e8b73b9` | Laravel W1-W12 beg+int+adv en 12/12 | Manual |
+| 2026-09-08 | `d57e852`+`3e155a4`+`2ac6f79` | Rails W1-W12 beg+int+adv en 12/12 (+fix interpolasi Ruby W10) | Manual |
+| 2026-09-08 | `e0b1fc8`+`74187c5`+`86ad46b` | C# W1-W12 beg+int+adv en 15/15 | Manual |
+| 2026-09-08 | `aa927ce`+`9d6e200`+`981e555` | Spring W1-W14 beg+int+adv en 16/16 | Manual |
+| 2026-09-08 | `679c35f` | HTML5 W1 **id** upgrade ke full-template | Manual (file terakhir tanpa marker!) |
+| 2026-09-08 | (uncommitted) | Rebuild `search-index.json` + `quiz-index.json` + `npm run build ✓` | `build-search-index.mjs` + `build-quiz.mjs` |
+
+**Verifikasi akhir (2026-09-08):**
+- `total=654` md, `full=654` (punya `Kenapa Ini Penting` xor `Why This Matters`) — **100% scaffold ID+EN**
+- `en debt (Kenapa di /en/) = 0`, `en Why = 327/327` — **EN 100% proper English**
+- CJK stray scan bersih, `npm run build ✓` (vite 4.24s)
+- Catatan: duplikat ID `csharp/intermediate/week4-oop-class-object.md` identik dengan beginner (bawaan repo) — EN diterjemahkan konsisten + label level Intermediate.
+- Catatan: repo NTFS Windows (`.../Users/w/Github/tryingo-go-lang-training-apps`) KOSONG per 2026-09-08 (cek `ls` = 0 file); repo hidup di `/home/widifirmaan/Github/tryingo-go-lang-training-apps` (HEAD = commit ini). **Push ke GitHub WAJIB dari clone baru / restore folder Windows.**
