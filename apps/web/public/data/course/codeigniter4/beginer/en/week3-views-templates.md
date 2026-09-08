@@ -1,97 +1,104 @@
-# Views & Templates — Etalase CI4 dengan Layout
+# Views & Templates — CI4 Showcase with Layout
 
-> **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 3:** Views & Templates
+> **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 3:** Views & Templates
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `view('produk', $data)` kirim ke `app/Views/produk.php` dengan `<?= esc($nama) ?>` aman XSS (sumber: user_guide)
-- `layout` dengan `$this->extend('layout/main')` + `$this->section('content')` + `$this->endSection()` — warisan etalase
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `view()`, HTML campur di controller berantakan. Dengan `view('produk', ["produk"=>$data])`, controller hanya kirim data, view hanya tampil — rapi seperti dapur & etalase terpisah.
+- `view('products', $data)` sends to `app/Views/products.php` with XSS-safe `<?= esc($name) ?>` (source: user_guide)
+- `layout` with `$this->extend('layout/main')` + `$this->section('content')` + `$this->endSection()` — showcase inheritance
 
 ---
 
-## Program: Etalase Warisi Layout
+## Why This Matters (Non-IT)
+
+Without `view()`, HTML mixed into controllers gets messy. With `view('products', ["products"=>$data])`, controllers only send data, views only display — neat like separate kitchen & showcase.
+
+---
+
+## Program: Showcase Inheriting Layout
 
 ```php
-// Controller: app/Controllers/Produk.php
+// Controller: app/Controllers/Products.php
 public function index(){
-  $data["produk"] = [["nama"=>"Beras","harga"=>62000],["nama"=>"Bayam","harga"=>5000]];
-  $data["judul"] = "Katalog Warung";
-  return view('produk', $data);
+  $data["products"] = [["name"=>"Rice","price"=>62000],["name"=>"Spinach","price"=>5000]];
+  $data["title"] = "Shop Catalog";
+  return view('products', $data);
 }
 
 // Layout: app/Views/layout/main.php
-<!DOCTYPE html><html><head><title><?= esc($judul ?? "Warung") ?></title></head>
-<body><header>Warung Bu Siti</header><main><?= $this->renderSection('content') ?></main></body></html>
+<!DOCTYPE html><html><head><title><?= esc($title ?? "Shop") ?></title></head>
+<body><header>Siti's Shop</header><main><?= $this->renderSection('content') ?></main></body></html>
 
-// View: app/Views/produk.php
+// View: app/Views/products.php
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
-<h1><?= esc($judul) ?></h1>
+<h1><?= esc($title) ?></h1>
 <ul>
-<?php foreach($produk as $p): ?>
-  <li><?= esc($p["nama"]) ?> - Rp<?= esc($p["harga"]) ?></li>
+<?php foreach($products as $p): ?>
+  <li><?= esc($p["name"]) ?> - Rp<?= esc($p["price"]) ?></li>
 <?php endforeach; ?>
 </ul>
 <?= $this->endSection() ?>
 ```
 
-**Aman:** `esc()` cegah XSS `<script>` → `&lt;script&gt;`.
+**Safety:** `esc()` prevents XSS `<script>` → `&lt;script&gt;`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `view('produk', $data)` = Kirim ke Etalase
-Controller kirim `$data`, view pakai `<?= $nama ?>`.
+### `view('products', $data)` = Send to Showcase
+Controller sends `$data`, view uses `<?= $name ?>`.
 
-### `extend/section` = Warisan Etalase
-`layout/main` bingkai, `produk` isi `content` — tidak tulis header/footer 10x.
+### `extend/section` = Showcase Inheritance
+`layout/main` frame, `products` fills `content` — no 10x header/footer rewrites.
 
-### `esc()` = Satpam
-`esc($nama)` ubah `<` jadi `&lt;` — aman.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Etalase & Gudang
-- **Controller = gudang**: siapkan `produk`.
-- **View = etalase**: pajang `produk`.
-- **Layout = bingkai toko**: header/footer sekali, isi ganti.
-
-### Langkah 0 — Device
-
-Sama W1: `php spark serve` di `8080`, tidak perlu XAMPP.
+### `esc()` = Guard
+`esc($name)` turns `<` into `&lt;` — safe.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Hapus `esc()` → coba `nama = "<b>Beras</b>"` → jadi tebal (XSS)? Pasang `esc()` → aman `&lt;b&gt;`.
-- **Kuning:** `<?= $this->extend('layout/main') ?>` tanpa `endSection` → error.
-- **Merah:** `view('produk')` tanpa `$data` → `$produk` undefined.
+### Analogy: Showcase & Warehouse
+- **Controller = warehouse**: prepares `products`.
+- **View = showcase**: displays `products`.
+- **Layout = store frame**: header/footer once, content swaps.
+
+### Step 0 — Prepare Device
+
+Same as W1: `php spark serve` on `8080`, no XAMPP needed.
+
+### How the Computer Reads It
+1. `view('products', $data)` → loads `products.php` with `$data` extracted.
+2. `extend('layout/main')` → wraps output in layout, `content` section injected.
+
+### 3 Must-Know Terms
+1. **view/extend/esc**: send/inherit/guard
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Layout:** Buat `layout/main` + `produk` + `kontak` (2 view warisi sama) + `esc` semua output, `php spark serve` screenshot.
-
----
-
-## Glosarium Mini
-
-- **view/esc**: kirim & amankan
-- **extend/section**: warisan
+- **Green:** Remove `esc()` → try `name = "<b>Rice</b>"` → bold (XSS)? Reattach `esc()` → safe `&lt;b&gt;`.
+- **Yellow:** `<?= $this->extend('layout/main') ?>` without `endSection` → error.
+- **Red:** `view('products')` without `$data` → `$products` undefined.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 3 dari 5: **Etalase Warisi** (Level: Pemula). Dapur & etalase terpisah. Minggu depan: **Models & Database** — rak.
+**Shop Layout:** Build `layout/main` + `products` + `contact` (2 views sharing one) + `esc` all output, `php spark serve` screenshot.
+
+---
+
+## Mini Glossary
+
+- **view/esc**: send & secure
+- **extend/section**: inherit
+
+---
+
+## Summary
+
+Week 3 of 5: **Inherited Showcase** (Level: Beginner). Kitchen & showcase separated. Next: **Models & Database** — racks.
