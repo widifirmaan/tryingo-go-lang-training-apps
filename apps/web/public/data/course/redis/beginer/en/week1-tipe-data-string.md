@@ -1,58 +1,95 @@
-# Redis String — Laci Cepat
+# Redis Strings — Fast Drawer
 
-> **Kategori:** Redis | **Level:** Pemula | **Minggu 1:** Tipe Data String
+> **Kategori:** Redis | **Level:** Beginner | **Minggu 1:** Tipe Data String
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Redis = **laci cepat di meja** (RAM), bukan gudang (disk) — baca 0.1ms
-- `SET nama "Budi"`, `GET nama`, `INCR counter`, `EXPIRE key 60` kadaluarsa
-- `MSET/MGET` banyak sekaligus
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Keranjang belanja, sesi login, cache harga — butuh laci yang buka tutup super cepat, tidak perlu gudang berat.
+- Redis = **fast drawer on the desk** (RAM), not a warehouse (disk) — 0.1ms reads
+- `SET name "Budi"`, `GET name`, `INCR counter`, `EXPIRE key 60` expiry
+- `MSET/MGET` many at once
 
 ---
 
-## Program: Laci Cepat
+## Why This Matters (Non-IT)
 
-Jalankan di `try.redis.io` atau `docker run -p 6379:6379 redis`.
+Shopping carts, login sessions, price caches — need a drawer opening super fast, not a heavy warehouse.
+
+---
+
+## Program: Fast Drawer
+
+Run on `try.redis.io` or `docker run -p 6379:6379 redis`.
 
 ```bash
-SET pelanggan:1:nama "Budi"
-GET pelanggan:1:nama
-SET counter:pengunjung 0
-INCR counter:pengunjung # +1
-INCRBY counter:pengunjung 5 # +5
-EXPIRE counter:pengunjung 60 # hilang 60 detik
-TTL counter:pengunjung
+SET customer:1:name "Budi"
+GET customer:1:name
+SET counter:visitors 0
+INCR counter:visitors # +1
+INCRBY counter:visitors 5 # +5
+EXPIRE counter:visitors 60 # gone in 60 seconds
+TTL counter:visitors
 
-MSET produk:1:harga 62000 produk:1:stok 10
-MGET produk:1:harga produk:1:stok
+MSET product:1:price 62000 product:1:stock 10
+MGET product:1:price product:1:stock
 
-SET stok:beras 10
-DECR stok:beras # jual 1 → 9
-GET stok:beras
+SET stock:rice 10
+DECR stock:rice # sell 1 → 9
+GET stock:rice
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Laci vs Gudang
-- **Redis = laci RAM**: cepat, hilang jika listrik mati (kecuali `PERSIST`).
-- **Postgres = gudang disk**: lambat, awet.
+### Drawer vs Warehouse
+- **Redis = RAM drawer**: fast, lost on blackout (unless `PERSIST`).
+- **Postgres = disk warehouse**: slow, durable.
 
-### `INCR/DECR` = Hitung Otomatis
-`INCR counter` tanpa ambil +1 manual — aman untuk banyak kasir.
+### `INCR/DECR` = Auto Count
+`INCR counter` without manual fetch +1 — safe for many cashiers.
 
-### `EXPIRE` = Kadaluarsa
-`SET sesi:123 "data" EX 3600` → hapus 1 jam.
+### `EXPIRE` = Expiry
+`SET session:123 "data" EX 3600` → deleted in 1 hour.
 
 ---
 
-## Ringkasan
+## Beginner Friendly Explanation
 
-Minggu 1: **Laci Cepat** — string & counter. Minggu depan: **Hash** — kartu di laci.
+### Analogy: Desk Drawer
+- **Redis = desk drawer**: grab in 0.1ms. **Postgres = back warehouse**: walk there.
+
+### Step 0 — Prepare Device
+- `try.redis.io` in browser (no install) or `docker run` + `redis-cli`.
+
+### How the Computer Reads It
+1. `SET customer:1:name "Budi"` → stored in RAM under key.
+2. `EXPIRE key 60` → Redis auto-deletes after 60s.
+
+### 3 Must-Know Terms
+1. **SET/GET/EXPIRE**: put/take/expire
+
+---
+
+## Experiments
+
+- **Green:** `GET` missing key → `(nil)`?
+- **Yellow:** `TTL` after `EXPIRE 60` → counts down?
+- **Red:** Restart Redis (no persist) → drawer emptied? That's RAM!
+
+---
+
+## Challenge
+
+**Fast Drawer:** `SET` 3 keys + `INCR` counter 5x + `EXPIRE` 1 key + `MSET/MGET` pair.
+
+---
+
+## Mini Glossary
+
+- **Redis/SET/GET**: drawer/put/take
+
+---
+
+## Summary
+
+Week 1: **Fast Drawer** — strings & counters. Next: **Hash** — cards in drawer.
