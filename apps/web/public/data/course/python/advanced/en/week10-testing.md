@@ -38,7 +38,8 @@ test_calc()
 ## Beginner Friendly Explanation
 
 ### Analogy: Python Kitchen Taste-Test
-- See Program: run the commands, change 1 thing, see the difference.
+- **`assert` = machine taste**: `calc(2,3)==5`? Differs → RED + left-right values shown.
+- **`parametrize` = bulk tasting**: 10 cases in 3 lines (without it: 10 functions!). Change formula → red → fix BEFORE customers!
 
 ### Step 0 — Prepare Device
 - Same as Python W1: `python --version` + project folder.

@@ -149,7 +149,8 @@ Buat search component: debounced input, memoized results, lazy loaded list, deng
 ## Penjelasan untuk Pemula
 
 ### Analogi: Warung Hemat Energi
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+- **Ketik 1 huruf → 1000 kartu render ulang = boros**: HP kentang ngos-ngosan + baterai jebol.
+- **`debounce` = tunggu selesai ketik** (hemat 10 request jadi 1). **`memo` = ingat jawaban mahal**. **`lazy` = muat saat terlihat** (bawah halaman jangan dimuat duluan!).
 
 ### Langkah 0 — Siapkan Device
 - Sama JS W1: `node -v` / browser + `npm test` untuk W12.

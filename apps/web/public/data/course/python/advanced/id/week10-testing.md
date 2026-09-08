@@ -38,7 +38,8 @@ test_hitung()
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Dapur Python
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`assert` = cicip mesin**: `hitung(2,3)==5`? Beda → MERAH + nilai kiri-kanan ditunjuk.
+- **`parametrize` = cicip borongan**: 10 kasus 3 baris (tanpa ini: 10 fungsi!). Ubah rumus → merah → betulkan SEBELUM pelanggan!
 
 ### Langkah 0 — Siapkan Device
 - Sama Python W1: `python --version` + folder proyek.

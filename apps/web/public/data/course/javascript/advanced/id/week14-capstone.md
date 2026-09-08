@@ -36,7 +36,8 @@ Deploy `Vercel` / `Netlify`.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko JS
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+- **13 minggu = bangun toko**: fondasi (sintaks), rak (array), telinga (event), kurir (async), pola, uji.
+- **Capstone = grand opening**: modul + fetch + DOM + test + deploy JALAN BARENG + video demo. Portfolio = toko BUKAN sertifikat!
 
 ### Langkah 0 — Siapkan Device
 - Sama JS W1: `node -v` / browser + `npm test` untuk W12.

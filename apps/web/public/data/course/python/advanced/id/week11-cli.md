@@ -157,7 +157,8 @@ Buat CLI tool lengkap: task manager dengan add/list/done/delete, JSON persistenc
 ## Penjelasan untuk Pemula
 
 ### Analogi: Kasir Terminal Beneran
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`input()` tanya 1-1 = kasir interogasi**: lambat + tak bisa di-script.
+- **`argparse` + `subparsers` = kasir profesional**: `warung tambah --nama Beras` 1 baris + `--help` otomatis + `tambah/hapus` cabang perintah!
 
 ### Langkah 0 — Siapkan Device
 - Sama Python W1: `python --version` + folder proyek.

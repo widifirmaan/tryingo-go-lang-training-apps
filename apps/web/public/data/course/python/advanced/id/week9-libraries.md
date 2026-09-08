@@ -40,7 +40,8 @@ print("json & os sudah bawaan — tidak perlu pip")
 ## Penjelasan untuk Pemula
 
 ### Analogi: Laci Alat per Proyek
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **Tanpa `venv` = 1 laci untuk 10 proyek**: proyek A butuh requests v2, B butuh v1 → tabrakan!
+- **`venv` = laci per proyek** + `requirements.txt` = daftar belanja: tim install SAMA persis (`pip install -r`). `pip` pinjam, `venv` kurung!
 
 ### Langkah 0 — Siapkan Device
 - Sama Python W1: `python --version` + folder proyek.

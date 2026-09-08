@@ -45,7 +45,8 @@ test("hitung 0+0", () => {
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Dapur JS
-- Lihat Program: jalankan (`node`/browser), ubah 1 hal, lihat bedanya.
+- **`test` = cicip resmi**: `hitung(2,3)` HARUS 5 — beda → MERAH + baris ditunjuk (bukan tebak!).
+- **`npm test` = cicip SEMUA menu 3 detik**: ubah rumus → merah → betulkan SEBELUM deploy. Tanpa ini = pelanggan yang cicip (mahal!).
 
 ### Langkah 0 — Siapkan Device
 - Sama JS W1: `node -v` / browser + `npm test` untuk W12.

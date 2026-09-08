@@ -48,7 +48,8 @@ print("Excel tersimpan: laporan.xlsx")
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Warung Python
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **11 minggu = bangun warung**: resep (fungsi), rak (koleksi), cetak biru (OOP), buku kas (file), pinjam alat (pip).
+- **Capstone = grand opening**: Flask API + pandas laporan + CLI + test JALAN BARENG + deploy Railway. Demo video = bukti buka!
 
 ### Langkah 0 — Siapkan Device
 - Sama Python W1: `python --version` + folder proyek.

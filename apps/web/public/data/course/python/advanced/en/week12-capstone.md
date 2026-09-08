@@ -48,7 +48,8 @@ print("Excel saved: report.xlsx")
 ## Beginner Friendly Explanation
 
 ### Analogy: Python Shop Grand Opening
-- See Program: run the commands, change 1 thing, see the difference.
+- **11 weeks = building a shop**: recipes (functions), racks (collections), blueprints (OOP), ledgers (files), borrowed tools (pip).
+- **Capstone = grand opening**: Flask API + pandas reports + CLI + tests RUN TOGETHER + Railway deploy. Demo video = opening proof!
 
 ### Step 0 — Prepare Device
 - Same as Python W1: `python --version` + project folder.
