@@ -1,100 +1,100 @@
-# Volume & Data — Lemari Tetap Docker
+# Volume & Data — Permanent Docker Wardrobe
 
-> **Kategori:** Docker | **Level:** Menengah | **Minggu 5:** Volume & Data Persistence
+> **Kategori:** Docker | **Level:** Intermediate | **Minggu 5:** Volume & Data Persistence
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `docker volume create warung-data` + `-v warung-data:/var/lib/postgresql/data` agar `docker rm` tidak hapus data (sumber: docs.docker.com/storage/volumes)
-- Bedakan volume (tetap) vs bind mount (`-v $(pwd):/app` untuk kode) vs tmpfs
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa volume, `docker rm db` → 10.000 baris stok hilang permanen. Dengan volume, data di luar peti — hapus container 100x, data tetap. Bind mount untuk kode (edit di laptop langsung masuk peti, tanpa rebuild).
+- `docker volume create shop-data` + `-v shop-data:/var/lib/postgresql/data` so `docker rm` never deletes data (source: docs.docker.com/storage/volumes)
+- Distinguish volumes (permanent) vs bind mounts (`-v $(pwd):/app` for code) vs tmpfs
 
 ---
 
-## Program: Lemari Tetap Warung
+## Why This Matters (Non-IT)
+
+Without volumes, `docker rm db` → 10,000 stock rows gone permanently. With volumes, data lives outside the box — delete containers 100x, data stays. Bind mounts for code (edit on laptop, instantly inside box, no rebuild).
+
+---
+
+## Program: Permanent Shop Wardrobe
 
 ```bash
-# 1. Volume bernama (tetap, dikelola Docker)
-docker volume create warung-data
-docker run --name db -v warung-data:/var/lib/postgresql/data \
-  -e POSTGRES_PASSWORD=rahasia -p 5432:5432 -d postgres
+# 1. Named volume (permanent, Docker-managed)
+docker volume create shop-data
+docker run --name db -v shop-data:/var/lib/postgresql/data \
+  -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
 
-docker exec -it db psql -U postgres -c "CREATE TABLE produk (id SERIAL PRIMARY KEY, nama TEXT);"
-docker exec -it db psql -U postgres -c "INSERT INTO produk (nama) VALUES ('Beras');"
+docker exec -it db psql -U postgres -c "CREATE TABLE products (id SERIAL PRIMARY KEY, name TEXT);"
+docker exec -it db psql -U postgres -c "INSERT INTO products (name) VALUES ('Rice');"
 
-# 2. Buktikan tetap: hapus peti, data ada!
+# 2. Prove it stays: delete box, data present!
 docker rm -f db
-docker run --name db2 -v warung-data:/var/lib/postgresql/data \
-  -e POSTGRES_PASSWORD=rahasia -p 5432:5432 -d postgres
-docker exec -it db2 psql -U postgres -c "SELECT * FROM produk;"
-# → Beras masih ada!
+docker run --name db2 -v shop-data:/var/lib/postgresql/data \
+  -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
+docker exec -it db2 psql -U postgres -c "SELECT * FROM products;"
+# → Rice still there!
 
-# 3. Bind mount untuk kode (edit langsung)
+# 3. Bind mount for code (live edits)
 docker run --name web -v $(pwd)/index.html:/usr/share/nginx/html/index.html:ro -p 8080:80 -d nginx
-# Edit index.html di laptop → refresh browser langsung berubah!
+# Edit index.html on laptop → refresh browser, instantly changed!
 
 docker volume ls
-docker volume inspect warung-data
+docker volume inspect shop-data
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Volume vs Bind vs Tmpfs
-- `volume` (`-v nama:/data`): tetap, dikelola Docker di `/var/lib/docker/volumes` — untuk DB.
-- `bind` (`-v $(pwd)/file:/file`): file laptop langsung — untuk kode dev.
-- `tmpfs`: RAM saja (hilang) — untuk rahasia sementara.
+- `volume` (`-v name:/data`): permanent, Docker-managed in `/var/lib/docker/volumes` — for DBs.
+- `bind` (`-v $(pwd)/file:/file`): laptop file live — for dev code.
+- `tmpfs`: RAM only (lost) — for temporary secrets.
 
-### `:ro` = Baca Saja
-`.../index.html:ro` peti tidak bisa ubah file laptop (aman).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Lemari vs Tas Jinjing
-- **Volume = lemari di gudang**: peti (penghuni) pindah, lemari tetap.
-- **Bind = tas jinjing**: barang laptop dibawa masuk peti langsung.
-
-### Langkah 0 — Siapkan Device
-- Docker Desktop jalan + `docker volume ls` kosong.
-
-### Cara Komputer Membaca
-1. `-v warung-data:/var/lib/...` → Docker pasang lemari ke folder itu di peti.
-2. Postgres tulis → masuk lemari (bukan peti) → `rm` aman.
-
-### 3 Istilah Wajib
-1. **Volume/bind**: lemari/tas
-2. **ro**: baca-saja
+### `:ro` = Read Only
+`.../index.html:ro` the box can't edit laptop files (safe).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tanpa `-v`, isi DB → `rm` → buat lagi → hilang? (Bukti butuh volume!)
-- **Kuning:** `docker volume inspect warung-data` → `Mountpoint` di mana?
-- **Merah:** Bind tanpa `:ro` + `echo x > file` dari dalam peti → file laptop berubah? (Bahaya! Pakai `:ro`.)
+### Analogy: Wardrobe vs Tote Bag
+- **Volume = wardrobe in warehouse**: tenant (box) moves, wardrobe stays.
+- **Bind = tote bag**: laptop goods carried straight into the box.
 
----
+### Step 0 — Prepare Device
+- Docker Desktop running + empty `docker volume ls`.
 
-## Tantangan
+### How the Computer Reads It
+1. `-v shop-data:/var/lib/...` → Docker mounts wardrobe into that box path.
+2. Postgres writes → into wardrobe (not box) → `rm` safe.
 
-**Gudang Tetap Warung:** Volume `warung-data` + Postgres + isi 3 produk + `rm` + buat lagi + `SELECT` 3 tetap + bind `index.html` edit tanpa rebuild.
-
----
-
-## Glosarium Mini
-
-- **Volume/bind/tmpfs**: lemari/tas/RAM
-- **ro/inspect**: baca-saja/intip
+### 3 Must-Know Terms
+1. **Volume/bind**: wardrobe/bag
+2. **ro**: read-only
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 5 dari 12: **Lemari Tetap** (Level: Menengah). Data selamat dari `rm`. Minggu depan: **Networking** — telepon antar peti.
+- **Green:** No `-v`, fill DB → `rm` → recreate → gone? (Proof volumes needed!)
+- **Yellow:** `docker volume inspect shop-data` → where's Mountpoint?
+- **Red:** Bind without `:ro` + `echo x > file` from inside box → laptop file changes? (Danger! Use `:ro`.)
+
+---
+
+## Challenge
+
+**Permanent Shop Warehouse:** `shop-data` volume + Postgres + 3 products + `rm` + recreate + `SELECT` still 3 + bind `index.html` editing without rebuild.
+
+---
+
+## Mini Glossary
+
+- **Volume/bind/tmpfs**: wardrobe/bag/RAM
+- **ro/inspect**: read-only/peek
+
+---
+
+## Summary
+
+Week 5 of 12: **Permanent Wardrobe** (Level: Intermediate). Data survives `rm`. Next: **Networking** — box-to-box calls.

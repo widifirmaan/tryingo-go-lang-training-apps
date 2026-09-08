@@ -1,104 +1,104 @@
-# Security — Gembok Peti Docker
+# Security — Locking Docker Boxes
 
-> **Kategori:** Docker | **Level:** Lanjutan | **Minggu 9:** Security
+> **Kategori:** Docker | **Level:** Advanced | **Minggu 9:** Security
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `USER appuser` jangan root, `--read-only` + `--cap-drop ALL` kurangi senjata, `trivy image` scan (sumber: docs.docker.com/security + aquasec Trivy)
-- `--memory`/`--cpus` batasi, secret via env/file (jangan di image!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Peti jalan sebagai `root` + hacker masuk → kuasai host! Tanpa scan, image `postgres:15` lama berisi CVE kritis. Tanpa limit, 1 peti makan RAM → server mati semua.
+- `USER appuser` never root, `--read-only` + `--cap-drop ALL` reduce weapons, `trivy image` scans (source: docs.docker.com/security + aquasec Trivy)
+- `--memory`/`--cpus` limits, secrets via env/file (never in images!)
 
 ---
 
-## Program: Peti Bergembok Warung
+## Why This Matters (Non-IT)
+
+Boxes running as `root` + hacker entry → host conquered! Without scans, old `postgres:15` images hide CRITICAL CVEs. Without limits, 1 box eats RAM → whole server dies.
+
+---
+
+## Program: Locked Shop Box
 
 ```dockerfile
-# Dockerfile aman
+# Secure Dockerfile
 FROM alpine:3.19
-RUN addgroup -S app && adduser -S warung -G app
-USER warung
-COPY --chown=warung:app index.html /web/
+RUN addgroup -S app && adduser -S shop -G app
+USER shop
+COPY --chown=shop:app index.html /web/
 CMD ["httpd", "-f", "-h", "/web"]
 ```
 
 ```bash
-# Jalan minimal senjata + baca-saja + limit
+# Run minimal weapons + read-only + limits
 docker run -d --name web \
   --read-only --tmpfs /tmp \
   --cap-drop ALL \
   --memory 256m --cpus 0.5 \
-  -p 8080:80 warung:1.0
+  -p 8080:80 shop:1.0
 
-# Scan sebelum deploy!
-trivy image warung:1.0
+# Scan before deploy!
+trivy image shop:1.0
 # → HIGH/CRITICAL? Update base image!
 
-# Siapa jalan? (bukan root!)
-docker exec web whoami  # warung
+# Who runs? (not root!)
+docker exec web whoami  # shop
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `USER` non-root = Bukan Bos
-Hacker masuk sebagai `warung` (bukan `root`) → damage terbatas.
+### `USER` non-root = Not Boss
+Hackers enter as `shop` (not `root`) → limited damage.
 
-### `--read-only` + `--cap-drop` = Tangan Diikat
-Tidak bisa tulis + tidak bisa `mount`/`reboot`.
+### `--read-only` + `--cap-drop` = Tied Hands
+Can't write + can't `mount`/`reboot`.
 
-### `trivy` = Rontgen
-Scan CVE sebelum deploy. `--memory/--cpus` = jatah.
+### `trivy` = X-Ray
+Scans CVEs before deploy. `--memory/--cpus` = rations.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Peti dengan Gembok
-- **USER = kartu akses karyawan** (bukan kunci master).
-- **read-only = etalase kaca**: lihat, tidak utak-atik.
-- **trivy = rontgen bea cukai**: scan sebelum masuk.
+### Analogy: Box with Locks
+- **USER = employee access card** (not master key).
+- **read-only = glass showcase**: look, don't fiddle.
+- **trivy = customs X-ray**: scans before entry.
 
-### Langkah 0 — Siapkan Device
+### Step 0 — Prepare Device
 - Docker + `trivy` (`brew install trivy` / binary).
 
-### Cara Komputer Membaca
-1. `USER warung` → proses UID non-0.
-2. `--cap-drop ALL` → kernel tolak `mount`, `reboot`.
+### How the Computer Reads It
+1. `USER shop` → process runs as non-0 UID.
+2. `--cap-drop ALL` → kernel refuses `mount`, `reboot`.
 
-### 3 Istilah Wajib
-1. **USER/root**: karyawan/bos
-2. **read-only/cap-drop**: kaca/ikat
-3. **Trivy/CVE**: rontgen/lubang
-
----
-
-## Eksperimen
-
-- **Hijau:** `whoami` di peti root vs `USER warung`?
-- **Kuning:** `touch /x` di `--read-only` → `Read-only file system`?
-- **Merah:** `trivy image nginx:latest` → CVE? Ganti `alpine` + scan lagi (turun?).
+### 3 Must-Know Terms
+1. **USER/root**: employee/boss
+2. **read-only/cap-drop**: glass/tied
+3. **Trivy/CVE**: xray/hole
 
 ---
 
-## Tantangan
+## Experiments
 
-**Peti Aman Lengkap:** `USER` + `--read-only` + `--cap-drop ALL` + `--memory 256m` + `trivy` 0 CRITICAL + screenshot.
-
----
-
-## Glosarium Mini
-
-- **USER/cap-drop/read-only**: karyawan/ikat/kaca
-- **Trivy/CVE**: rontgen/lubang
+- **Green:** `whoami` in root box vs `USER shop` box?
+- **Yellow:** `touch /x` in `--read-only` → `Read-only file system`?
+- **Red:** `trivy image nginx:latest` → CVEs? Switch to `alpine` + rescan (fewer?).
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 12: **Gembok Peti** (Level: Lanjutan). Bukan root + scan. Minggu depan: **CI/CD** — pabrik otomatis.
+**Complete Secure Box:** `USER` + `--read-only` + `--cap-drop ALL` + `--memory 256m` + `trivy` 0 CRITICAL + screenshot.
+
+---
+
+## Mini Glossary
+
+- **USER/cap-drop/read-only**: employee/tied/glass
+- **Trivy/CVE**: xray/hole
+
+---
+
+## Summary
+
+Week 9 of 12: **Box Locks** (Level: Advanced). Non-root + scanned. Next: **CI/CD** — auto factory.

@@ -1,99 +1,99 @@
-# Networking — Telepon Antar Peti Docker
+# Networking — Box-to-Box Docker Calls
 
-> **Kategori:** Docker | **Level:** Menengah | **Minggu 6:** Networking
+> **Kategori:** Docker | **Level:** Intermediate | **Minggu 6:** Networking
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `docker network create warung-net` + `--network warung-net` agar peti panggil nama (`db:5432`) bukan IP (sumber: docs.docker.com/network)
-- Bedakan `bridge` (default), `host`, `none`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Web + DB beda peti tanpa network sama = web tidak temukan DB (IP berubah tiap start!). Dengan 1 network, web panggil `db` (nama) — IP berubah pun tetap ketemu via DNS Docker otomatis.
+- `docker network create shop-net` + `--network shop-net` so boxes call names (`db:5432`) not IPs (source: docs.docker.com/network)
+- Distinguish `bridge` (default), `host`, `none`
 
 ---
 
-## Program: Telepon Warung
+## Why This Matters (Non-IT)
+
+Web + DB in different boxes without a shared network = web can't find DB (IPs change every start!). With 1 network, web calls `db` (name) — IPs may change, Docker's automatic DNS still finds it.
+
+---
+
+## Program: Shop Phones
 
 ```bash
-# 1. Buat jaringan + pasang 2 peti
-docker network create warung-net
+# 1. Create network + attach 2 boxes
+docker network create shop-net
 
-docker run --name db --network warung-net \
-  -e POSTGRES_PASSWORD=rahasia -d postgres
+docker run --name db --network shop-net \
+  -e POSTGRES_PASSWORD=secret -d postgres
 
-docker run --name web --network warung-net \
+docker run --name web --network shop-net \
   -p 8080:80 -d nginx
 
-# 2. Panggil nama (bukan IP!)
+# 2. Call by name (not IP!)
 docker exec -it web ping db -c 2
-# → db ketemu! (DNS otomatis)
+# → db found! (automatic DNS)
 
 docker exec -it web getent hosts db
-# → 172.18.0.2 db (IP bisa beda tiap start, nama tetap!)
+# → 172.18.0.2 db (IP may differ per start, name stays!)
 
-# 3. Lihat & bersih
+# 3. View & clean
 docker network ls
-docker network inspect warung-net
-docker network rm warung-net  # setelah peti dilepas
+docker network inspect shop-net
+docker network rm shop-net  # after boxes detached
 ```
 
-Aplikasi web sambung DB via `host=db` (bukan `localhost`!).
+Web apps connect via `host=db` (not `localhost`!).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Network = Jaringan Telepon Pribadi
-1 network = 1 grup yang saling panggil nama. Beda network = tidak kenal.
+### Network = Private Phone Network
+1 network = 1 group calling each other by name. Different networks = strangers.
 
-### `bridge` / `host` / `none` = 3 Jenis
-- `bridge` default (NAT, aman).
-- `host` nempel host (cepat, tidak isolasi).
-- `none` tanpa internet (rahasia).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grup WA Peti
-- **Network = grup WA**: anggota grup bisa panggil nama. Beda grup tidak.
-
-### Langkah 0 — Siapkan Device
-- Docker jalan + 2 peti contoh.
-
-### Cara Komputer Membaca
-1. `--network warung-net` → peti gabung + dapat IP + DNS catat nama.
-2. `ping db` → DNS jawab IP → paket sampai.
-
-### 3 Istilah Wajib
-1. **Network/bridge**: grup/default
-2. **DNS nama**: panggil-nama
+### `bridge` / `host` / `none` = 3 Kinds
+- `bridge` default (NAT, safe).
+- `host` attached to host (fast, no isolation).
+- `none` no internet (secrets).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Tanpa `--network` sama, `ping db` dari web → tidak ketemu? Gabungkan → ketemu?
-- **Kuning:** `inspect` → `Containers` ada 2?
-- **Merah:** App pakai `localhost:5432` dari peti web → gagal? (localhost = peti sendiri!) Ganti `db:5432`.
+### Analogy: Box WA Group
+- **Network = WA group**: members call by name. Different groups don't.
 
----
+### Step 0 — Prepare Device
+- Docker running + 2 sample boxes.
 
-## Tantangan
+### How the Computer Reads It
+1. `--network shop-net` → box joins + gets IP + DNS records name.
+2. `ping db` → DNS answers IP → packets arrive.
 
-**Warung Terhubung:** Network `toko` + `db` (postgres) + `web` (node app `host=db`) + `ping` lulus + app baca DB.
-
----
-
-## Glosarium Mini
-
-- **Network/bridge/DNS**: grup/default/nama
+### 3 Must-Know Terms
+1. **Network/bridge**: group/default
+2. **Name DNS**: call-by-name
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 12: **Telepon Antar Peti** (Level: Menengah). Panggil nama, bukan IP. Minggu depan: **Compose** — rakit sekali jalan.
+- **Green:** Without a shared `--network`, `ping db` from web → not found? Join → found?
+- **Yellow:** `inspect` → `Containers` lists 2?
+- **Red:** App using `localhost:5432` from web box → fails? (localhost = own box!) Switch to `db:5432`.
+
+---
+
+## Challenge
+
+**Connected Shop:** `store` network + `db` (postgres) + `web` (node app `host=db`) + passing `ping` + app reads DB.
+
+---
+
+## Mini Glossary
+
+- **Network/bridge/DNS**: group/default/names
+
+---
+
+## Summary
+
+Week 6 of 12: **Box-to-Box Phones** (Level: Intermediate). Call names, not IPs. Next: **Compose** — assemble once, run.
