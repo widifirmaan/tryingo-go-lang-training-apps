@@ -1,24 +1,24 @@
 # Capstone: SvelteKit App
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 10:** Capstone: SvelteKit App
+> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 10:** Capstone: SvelteKit App
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Menggabungkan semua konsep Svelte/SvelteKit
+- Combine all Svelte/SvelteKit concepts
 - SvelteKit: routing, actions, load functions
-- Database integration dengan Prisma
-- Auth dan protected routes
+- Database integration with Prisma
+- Auth and protected routes
 - Production deployment
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-9 minggu terpisah — capstone buktikan gabung: SvelteKit + store + deploy jadi toko. Portfolio Svelte.
+9 separate weeks — capstone proves the combination: SvelteKit + store + deploy become a store. Svelte portfolio.
 
 ---
 
-## Program: Platform Kursus
+## Program: Course Platform
 
 ```svelte
 <!-- Capstone: SvelteKit Course Platform -->
@@ -29,12 +29,12 @@
 <!--   auth/login/+page.svelte -->
 <!--   api/courses/+server.js -->
 <!-- Features: Auth, Course catalog, Video player, Progress tracking, Admin panel -->
-console.log('SvelteKit Course Platform siap digunakan!');
+console.log('SvelteKit Course Platform ready to use!');
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### Architecture
 SvelteKit + Prisma + SQLite.
@@ -43,43 +43,43 @@ SvelteKit + Prisma + SQLite.
 File-based: routes/folder/+page.svelte.
 
 ### Data Loading
-+page.js: load() return data.
++page.js: load() returns data.
 
 ### Production
 vite build -> adapter.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- Tambah payment integration
-- Implementasikan video player
-- Buat comprehensive test suite
-- Deploy ke production
+### Analogy: Svelte Store Grand Opening
+- See Program: run line by line, change 1 number, see the difference.
+
+### Step 0 — Prepare Device
+- Same as this track's W1 (see week 1 for install).
+
+### How the Computer Reads It
+- CHECKLIST (routes + store + deploy) then URL + video.
+
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
 
 ---
 
-## Tantangan
+## Experiments
 
-Buat course platform lengkap: auth, course catalog, video player, progress tracking, admin panel.
-
+- **Green:** `load()` returns course list → page shows data?
+- **Yellow:** Missing `+page.js` → page loads without data?
+- **Red:** No adapter → `vite build` can't deploy? Add adapter.
 
 ---
 
-## Penjelasan untuk Pemula
+## Challenge
 
-### Analogi: Grand Opening Toko Svelte
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+Build a complete course platform: auth, course catalog, video player, progress tracking, admin panel.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 track ini (lihat minggu 1 untuk install).
+---
 
-### Cara Komputer Membaca
-- CHECKLIST (routes + store + deploy) lalu URL + video.
+## Summary
 
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
-
-## Ringkasan
-
-Minggu 10 dari 10: **Capstone: SvelteKit App** (Level: Menengah). Selesai! 🎉
+Week 10 of 10: **Capstone: SvelteKit App** (Level: Intermediate). Done! 🎉

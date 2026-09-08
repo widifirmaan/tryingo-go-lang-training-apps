@@ -1,101 +1,105 @@
-# Lifecycle & Context — Siklus Hidup Warung Svelte (svelte.dev)
+# Lifecycle & Context — Svelte Shop Lifecycle (svelte.dev)
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 8:** Lifecycle & Context
+> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 8:** Lifecycle & Context
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `onMount` buka toko (fetch), `onDestroy` tutup (clear), `setContext("warung", {...})` + `getContext` gudang tanpa props (sumber: svelte.dev)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa `onMount`, `fetch` di `script` jalan saat server render (SSR) — error. Dengan `onMount`, fetch hanya di browser setelah mount. `setContext` untuk `warung` biar 10 komponen ambil tanpa `props` estafet.
+- `onMount` opens shop (fetch), `onDestroy` closes (clear), `setContext("shop", {...})` + `getContext` warehouse without props (source: svelte.dev)
 
 ---
 
-## Program: Siklus & Gudang Svelte (svelte.dev)
+## Why This Matters (Non-IT)
+
+Without `onMount`, `fetch` in `script` runs during server render (SSR) — error. With `onMount`, fetch only runs in the browser after mount. `setContext` shares `shop` with 10 components without prop relays.
+
+---
+
+## Program: Svelte Lifecycle & Warehouse (svelte.dev)
 
 ```svelte
 <script>
   import { onMount, onDestroy, setContext, getContext } from "svelte";
   import { writable } from "svelte/store";
 
-  // Gudang tanpa props
-  setContext("warung", { nama: "Bu Siti", buka: "07.00" });
+  // Warehouse without props
+  setContext("shop", { name: "Siti", open: "07.00" });
 
-  let produk = [];
+  let products = [];
   onMount(async () => {
-    console.log("Buka toko");
-    // fetch hanya di browser
-    const res = await fetch("/api/produk");
-    produk = await res.json();
-    return () => console.log("Tutup toko");
+    console.log("Open shop");
+    // fetch only in browser
+    const res = await fetch("/api/products");
+    products = await res.json();
+    return () => console.log("Close shop");
   });
 
   onDestroy(() => console.log("Destroy"));
 
-  // Ambil di komponen anak
-  const warung = getContext("warung");
+  // Take in child component
+  const shop = getContext("shop");
 </script>
 
-<p>Warung: {warung.nama} — Buka {warung.buka}</p>
-<ul>{#each produk as p}<li>{p.nama}</li>{/each}</ul>
+<p>Shop: {shop.name} — Open {shop.open}</p>
+<ul>{#each products as p}<li>{p.name}</li>{/each}</ul>
 ```
 
-**Sumber:** `svelte.dev/docs/svelte/lifecycle` dan `context`.
+**Source:** `svelte.dev/docs/svelte/lifecycle` and `context`.
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `onMount`/`onDestroy` = Buka/Tutup
-`onMount` jalan setelah mount di browser, `onDestroy` sebelum hilang.
+### `onMount`/`onDestroy` = Open/Close
+`onMount` runs after browser mount, `onDestroy` before removal.
 
-### `setContext`/`getContext` = Gudang Tanpa Props
-`setContext("warung", {...})` di induk, `getContext("warung")` di anak 10 level tanpa `props`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Buka/Tutup Toko
-
-- **`onMount` = buka pintu jam 7**: fetch produk.
-- **`onDestroy` = tutup jam 20**: matikan timer.
-- **`setContext` = papan pengumuman**: tulis "Warung Bu Siti" di papan, semua lihat.
-
-### Langkah 0 — Device
-
-Sama W1: `npm run dev` di `5173`.
-
-### 3 Istilah Wajib
-
-1. **onMount/onDestroy**: buka/tutup
-2. **setContext/getContext**: papan/gudang
+### `setContext`/`getContext` = Warehouse Without Props
+`setContext("shop", {...})` at parent, `getContext("shop")` in 10-deep child without `props`.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `onMount` `console.log("Buka")` → kapan log?
-- **Kuning:** `setContext` tanpa `getContext` → tidak ada?
-- **Merah:** `fetch` di luar `onMount` → error SSR?
+### Analogy: Open/Close Shop
+
+- **`onMount` = open doors at 7**: fetch products.
+- **`onDestroy` = close at 20**: kill timers.
+- **`setContext` = notice board**: write "Siti's Shop" on the board, everyone sees.
+
+### Step 0 — Prepare Device
+
+Same as W1: `npm run dev` on `5173`.
+
+### How the Computer Reads It
+1. Browser mounts → `onMount` → fetch → `products` filled.
+2. Child `getContext("shop")` → board value, no props relayed.
+
+### 3 Must-Know Terms
+
+1. **onMount/onDestroy**: open/close
+2. **setContext/getContext**: board/warehouse
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Siklus Lengkap:** `onMount` fetch `daftar`, `setContext("warung", {nama})`, anak `getContext` tampil, `onDestroy` `clearInterval`.
-
----
-
-## Glosarium Mini
-
-- **onMount/onDestroy/context**: siklus/gudang
+- **Green:** `onMount` `console.log("Open")` → when does it log?
+- **Yellow:** `setContext` without `getContext` → nothing?
+- **Red:** `fetch` outside `onMount` → SSR error?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 12: **Siklus Hidup** — `onMount` + `context`. Selesai Menengah Svelte!
+**Complete Lifecycle Shop:** `onMount` fetch `list`, `setContext("shop", {name})`, child `getContext` display, `onDestroy` `clearInterval`.
+
+---
+
+## Mini Glossary
+
+- **onMount/onDestroy/context**: lifecycle/warehouse
+
+---
+
+## Summary
+
+Week 8 of 12: **Lifecycle** — open/close/context. Next: **Transitions**.
