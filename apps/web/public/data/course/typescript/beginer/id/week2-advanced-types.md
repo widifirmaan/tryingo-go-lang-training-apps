@@ -120,6 +120,19 @@ Tiap varian punya `jenis` pembeda. `switch(p.jenis)` TS tahu field yang ada.
 
 ---
 
+### Bonus: keyof — Daftar Kunci Otomatis (TypeScript Handbook!)
+
+```typescript
+interface Produk { nama: string; harga: number; stok: number }
+type Kunci = keyof Produk; // "nama" | "harga" | "stok" OTOMATIS!
+function ambil(p: Produk, k: Kunci) { return p[k]; } // k hanya boleh kunci beneran
+console.log(ambil({ nama: "Beras", harga: 62000, stok: 10 }, "harga")); // 62000
+// ambil(p, "warna") // ❌ Error: bukan kunci Produk!
+// Tambah field diskon ke interface → Kunci ikut nambah OTOMATIS (tanpa edit manual!)
+```
+
+---
+
 ## Tantangan
 
 **Mesin Status Pesanan:** `type Pesanan = { status: "baru" } | { status: "kirim", resi: string } | { status: "selesai" }`. Fungsi `info(p: Pesanan)` → switch status, jika `kirim` tampilkan `resi`. Coba `info({status:"kirim"})` tanpa `resi` → error, harus lengkap.

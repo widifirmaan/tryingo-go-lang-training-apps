@@ -127,6 +127,24 @@ console.log("Brief:", brief);
 
 ---
 
+### Bonus: Enum vs Union (Enums chapter in the TypeScript Handbook!)
+
+```typescript
+// Enum: named choices + automatic numbers (0,1,2)
+enum Level { Basic, Member, VIP }
+let lv: Level = Level.Member; // 1
+console.log(lv, Level[1]); // 1 "Member" (two-way mapping!)
+
+// W2 union literal (pure strings, no numbers)
+type Status = "new" | "ship" | "done";
+
+// When which? Enum when numbers/codes needed (levels, roles). Union for pure text.
+// const enum (thrifty, no runtime object) & string enums ("VIP" not numbers):
+const enum Role { Admin = "ADMIN", Cashier = "CASHIER" }
+```
+
+---
+
 ## Challenge
 
 **Tiered Student Cards:** `interface Person { name: string; age: number }`, `interface Student extends Person { id: string; score: number }`, `type Status = "pass" | "remedial"`. Build `function status(s: Student): Status { return s.score >= 70 ? "pass" : "remedial" }` and a `Student[]` average.

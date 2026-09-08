@@ -54,6 +54,40 @@ main();
 
 ---
 
+### Bonus: Split Modules export/import (Modules chapter in the Handbook!)
+
+1 file of 300 lines = lost. Split into 3 files (needs `"type": "module"` in `package.json` or `.mts`!):
+
+```typescript
+// types.ts — blueprints (export to lend!)
+export interface Product { id: number; name: string; price: number; }
+```
+
+```typescript
+// api.ts — fetcher (import + re-export!)
+import type { Product } from "./types.js"; // .js NOT .ts (NodeNext rule!)
+export async function apiGet<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed");
+  return res.json() as T;
+}
+export type ProductList = Product[];
+```
+
+```typescript
+// app.ts — use both
+import { apiGet } from "./api.js";
+import type { Product } from "./types.js";
+const products = await apiGet<Product[]>("/products");
+console.log(products[0].name);
+```
+
+- `export` = share, `import` = borrow. `import type` for types only (vanishes at compile, light!).
+- Trap #1: `from "./types"` without `.js` → NodeNext error! Write `.js` though the file is `.ts`.
+- Trap #2: without `"type": "module"`, `import` rejected → use `require` (old CommonJS).
+
+---
+
 ## Mini Glossary
 
 - **apiGet/generics**: typed-fetch/multipurpose
