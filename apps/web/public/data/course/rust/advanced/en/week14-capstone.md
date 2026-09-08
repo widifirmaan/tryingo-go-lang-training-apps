@@ -1,93 +1,108 @@
-# Capstone: CLI Warung + Library — Grand Opening Rust
+# Capstone: Shop CLI + Library — Rust Grand Opening
 
-> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 14:** Capstone: CLI + Library
+> **Kategori:** Rust | **Level:** Advanced | **Minggu 14:** Capstone: CLI + Library
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W13: `struct` + `enum` + `trait` + `Result` + `Vec` + `test` jadi CLI kasir + library teruji
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-13 minggu terpisah — capstone buktikan gabung: kasir terminal anti-crash + teruji + 1 binary kecil. Portfolio "Rust production-ready".
+- Combine W1-W13: `struct` + `enum` + `trait` + `Result` + `Vec` + `test` into a tested cashier CLI + library
 
 ---
 
-## Program: Kasir CLI Grand Opening (Checklist)
+## Why This Matters (Non-IT)
+
+13 separate weeks — capstone proves the combination: crash-proof terminal cashier + tested + 1 small binary. Your "production-ready Rust" portfolio.
+
+---
+
+## Program: Grand Opening Cashier CLI (Checklist)
 
 ```bash
-cargo new warung --bin
+cargo new shop --bin
 ```
 
 ```rust
-// src/main.rs — gabung semua (W3 struct, W4 enum, W6 Result)
+// src/main.rs — combine all (W3 struct, W4 enum, W6 Result)
 use std::env;
 
 #[derive(Debug)]
-struct Produk { nama: String, harga: u32 }
+struct Product { name: String, price: u32 }
 
-enum Aksi { Tambah(String, u32), List }
+enum Action { Add(String, u32), List }
 
-fn parse(arg: &[String]) -> Result<Aksi, String> {
+fn parse(arg: &[String]) -> Result<Action, String> {
   match arg.get(1).map(|s| s.as_str()) {
-    Some("--tambah") => Ok(Aksi::Tambah(
+    Some("--add") => Ok(Action::Add(
       arg.get(2).cloned().unwrap_or_default(),
       arg.get(3).and_then(|h| h.parse().ok()).unwrap_or(0),
     )),
-    _ => Ok(Aksi::List),
+    _ => Ok(Action::List),
   }
 }
 
 fn main() -> Result<(), String> {
   let arg: Vec<String> = env::args().collect();
   match parse(&arg)? {
-    Aksi::Tambah(n, h) => println!("Tambah {} Rp{}", n, h),
-    Aksi::List => println!("Daftar..."),
+    Action::Add(n, h) => println!("Add {} Rp{}", n, h),
+    Action::List => println!("Listing..."),
   }
   Ok(())
 }
 ```
 
 ```bash
-cargo test   # HIJAU? (W10: tambah 3 test!)
-cargo build --release  # 1 binary kecil!
-./target/release/warung --tambah Beras 62000
+cargo test   # GREEN? (W10: add 3 tests!)
+cargo build --release  # 1 small binary!
+./target/release/shop --add Rice 62000
 ```
 
-**Tugas capstone:** CLI jalan + 3 test hijau + binary release + video 1 menit. **Selesai Rust 0→Ahli!**
+**Capstone task:** Working CLI + 3 green tests + release binary + 1-min video. **Rust 0→Expert DONE!**
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 13 Minggu
-Struct + enum + trait + Result + test = kasir.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grand Opening
-- **W1-W6 fondasi** + **W7-W13 mesin** = toko. **W14 = buka**.
-
-### 3 Istilah Wajib
-1. **Capstone/binary**: gabung/jadi
+### Capstone = Combine 13 Weeks
+Struct + enum + trait + Result + test = cashier.
 
 ---
 
-## Tantangan
+## Beginner Friendly Explanation
 
-**Grand Opening:** Semua checklist + README + video. **Selesai Rust 0→Ahli!**
+### Analogy: Grand Opening
+- **W1-W6 foundation** + **W7-W13 engine** = store. **W14 = open**.
+
+### Step 0 — Prepare Device
+- `cargo new shop --bin` + `cargo test` + `cargo build --release`.
+
+### How the Computer Reads It
+1. `--add Rice 62000` → `parse` → `Action::Add` → prints.
+2. `cargo build --release` → optimized 1-file binary.
+
+### 3 Must-Know Terms
+1. **Capstone/binary**: combine/done
 
 ---
 
-## Glosarium Mini
+## Experiments
 
-- **Capstone/env-args**: gabung/argumen
+- **Green:** `--add Rice 62000` → "Add Rice Rp62000"?
+- **Yellow:** No args → lists?
+- **Red:** Non-number price → defaults 0? Validate input.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 14 dari 14: **Grand Opening** (Level: Lanjutan). **Selesai Rust 0→Ahli dari nol!**
+**Grand Opening CLI:** Full program + 3 tests + release binary + video. **Rust 0→Expert DONE!**
+
+---
+
+## Mini Glossary
+
+- **CLI/binary/test**: terminal/done/proven
+
+---
+
+## Summary
+
+Week 14 of 14: **Rust Capstone** — CLI + library, **Rust 0→Expert DONE!** 🎉

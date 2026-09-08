@@ -1,93 +1,93 @@
-# Macros — Stempel Kode Rust
+# Macros — Rust Code Stamps
 
-> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 13:** Macros
+> **Kategori:** Rust | **Level:** Advanced | **Minggu 13:** Macros
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `macro_rules!` stempel kode: tulis pola → hasilkan kode (sumber: doc.rust-lang.org/book/ch19-06-macros + The Little Book of Rust Macros)
-- `vec!`, `println!`, `format!` yang dipakai tiap hari = macro bawaan (`!` tandanya!)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tulis `vec![1,2,3]` vs `Vec::new(); push; push; push` — macro hemat 4 baris. `println!("Halo {}", nama)` cek jumlah `{}` vs argumen SAAT COMPILE (bukan runtime!). Buat stempel sendiri untuk pola berulang (misal `hashmap!`).
+- `macro_rules!` code stamps: write patterns → generate code (source: doc.rust-lang.org/book/ch19-06-macros + The Little Book of Rust Macros)
+- `vec!`, `println!`, `format!` used daily = built-in macros (`!` is the mark!)
 
 ---
 
-## Program: Stempel Warung Rust
+## Why This Matters (Non-IT)
+
+Writing `vec![1,2,3]` vs `Vec::new(); push; push; push` — macros save 4 lines. `println!("Hello {}", name)` checks `{}` vs argument counts AT COMPILE (not runtime!). Build your own stamps for repeated patterns (e.g. `hashmap!`).
+
+---
+
+## Program: Rust Shop Stamps
 
 ```rust
-// Stempel sendiri: hashmap! (tidak ada di std!)
-macro_rules! stok {
-  ($( $nama:expr => $jumlah:expr ),*) => {{
+// Own stamp: stock! (not in std!)
+macro_rules! stock {
+  ($( $name:expr => $qty:expr ),*) => {{
     let mut m = std::collections::HashMap::new();
-    $( m.insert($nama, $jumlah); )*
+    $( m.insert($name, $qty); )*
     m
   }};
 }
 
 fn main() {
-  let s = stok! { "beras" => 10, "gula" => 5 };
+  let s = stock! { "rice" => 10, "sugar" => 5 };
   println!("{:?}", s);
 
-  // Bawaan yang tiap hari dipakai (semua macro!):
+  // Built-ins used daily (all macros!):
   let v = vec![1, 2, 3];                    // vec!
-  println!("Halo {}!", "Budi");             // println!
-  let teks = format!("Rp{}", 62000);        // format!
-  println!("{}", teks);
+  println!("Hello {}!", "Budi");            // println!
+  let text = format!("Rp{}", 62000);        // format!
+  println!("{}", text);
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `macro_rules!` + `$nama:expr` = Pola + Tangkap
-`$( ... ),*` ulang koma-pisah. `$nama:expr` tangkap ekspresi.
+### `macro_rules!` + `$name:expr` = Pattern + Capture
+`$( ... ),*` repeats comma-separated. `$name:expr` captures expressions.
 
-### `!` = Tanda Macro
-`vec!`, `println!` — bukan fungsi (jumlah argumen bebas!).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Stempel Kode
-- **Macro = stempel**: `stok!{...}` cap → jadi 10 baris kode.
-
-### Langkah 0 — Siapkan Device
-- Sama W1. `cargo expand` (opsional) intip hasil stempel.
-
-### Cara Komputer Membaca
-1. Compile → macro jalan DULUAN → hasilkan kode → baru compile kode hasil.
-
-### 3 Istilah Wajib
-1. **macro_rules/!**: stempel/tanda
-2. **$expr/$( )*:** tangkap/ulang
+### `!` = Macro Mark
+`vec!`, `println!` — not functions (free argument counts!).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `stok!{}` kosong → HashMap kosong?
-- **Kuning:** Pola tanpa koma terakhir → error pola? Tambah.
-- **Merah:** Fungsi biasa ganti `vec!` (argumen bebas)? Tidak bisa! (Itulah kenapa macro.)
+### Analogy: Code Stamps
+- **Macro = stamp**: `stock!{...}` stamps → becomes 10 lines of code.
 
----
+### Step 0 — Prepare Device
+- Same as W1. `cargo expand` (optional) peeks at stamp output.
 
-## Tantangan
+### How the Computer Reads It
+1. Compile → macro runs FIRST → generates code → then compiles generated code.
 
-**Stempel Toko:** `tambah_stok!(map, "beras", 5)` macro tambah-atau-buat + `vec!` bandingkan baris hemat.
-
----
-
-## Glosarium Mini
-
-- **macro/!/expand**: stempel/tanda/intip
+### 3 Must-Know Terms
+1. **macro_rules/!**: stamp/mark
+2. **$expr/$( )*:**: capture/repeat
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 13 dari 14: **Stempel Kode** (Level: Lanjutan). Hemat baris aman. Minggu depan: **Capstone**.
+- **Green:** Empty `stock!{}` → empty HashMap?
+- **Yellow:** Pattern without trailing comma → pattern error? Add it.
+- **Red:** Plain function replacing `vec!` (free args)? Impossible! (That's why macros.)
+
+---
+
+## Challenge
+
+**Store Stamp:** `add_stock!(map, "rice", 5)` add-or-create macro + compare lines saved vs `vec!`.
+
+---
+
+## Mini Glossary
+
+- **macro/!/expand**: stamp/mark/peek
+
+---
+
+## Summary
+
+Week 13 of 14: **Code Stamps** (Level: Advanced). Line-saving and safe. Next: **Capstone**.
