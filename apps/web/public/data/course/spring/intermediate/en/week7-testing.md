@@ -1,24 +1,24 @@
-# Testing — Cicip Otomatis Warung Spring
+# Testing — Automatic Spring Shop Taste
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 7:** Testing
+> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 7:** Testing
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@SpringBootTest` + `MockMvc` `perform(get("/produk")).andExpect(status().isOk())` uji pintu tanpa buka server (sumber: docs.spring.io/spring-framework/testing)
-- `@DataJpaTest` uji rak + `assertEquals` cicip
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Ubah `ProdukController` tanpa uji → `/produk` 500 ketahuan pelanggan. Dengan `MockMvc`, ubah → `FAIL` merah sebelum deploy. `@DataJpaTest` pakai DB sementara (H2) — data asli aman.
+- `@SpringBootTest` + `MockMvc` `perform(get("/products")).andExpect(status().isOk())` tests doors without opening a server (source: docs.spring.io/spring-framework/testing)
+- `@DataJpaTest` tests racks + `assertEquals` tastes
 
 ---
 
-## Program: Cicip Pintu & Rak
+## Why This Matters (Non-IT)
+
+Editing `ProductController` untested → `/products` 500s found by customers. With `MockMvc`, edit → red `FAIL` before deploy. `@DataJpaTest` uses a temporary DB (H2) — real data safe.
+
+---
+
+## Program: Taste Doors & Racks
 
 ```java
-// ProdukControllerTest.java — cicip pintu (tanpa server beneran!)
+// ProductControllerTest.java — tastes doors (no real server!)
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,21 +29,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProdukControllerTest {
+class ProductControllerTest {
 
-  @Autowired MockMvc mvc; // pelayan bohongan
+  @Autowired MockMvc mvc; // mock waiter
 
   @Test
-  void daftarBalas200() throws Exception {
-    mvc.perform(get("/produk"))
+  void listReplies200() throws Exception {
+    mvc.perform(get("/products"))
        .andExpect(status().isOk());
   }
 
   @Test
-  void tambahLaluAda() throws Exception {
-    mvc.perform(post("/produk")
+  void addThenPresent() throws Exception {
+    mvc.perform(post("/products")
       .contentType("application/json")
-      .content("{\"nama\":\"Kopi\",\"harga\":12000}"))
+      .content("{\"name\":\"Coffee\",\"price\":12000}"))
       .andExpect(status().isOk());
   }
 }
@@ -51,64 +51,64 @@ class ProdukControllerTest {
 
 ```bash
 ./mvnw test
-# Tests run: 2, Failures: 0, Errors: 0 — HIJAU
+# Tests run: 2, Failures: 0, Errors: 0 — GREEN
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `MockMvc` = Pelayan Bohongan
-`perform(get(...))` pura-pura jadi browser, `andExpect(status().isOk())` cicip status.
+### `MockMvc` = Mock Waiter
+`perform(get(...))` pretends to be a browser, `andExpect(status().isOk())` tastes status.
 
-### `@SpringBootTest` = Buka Warung Bohongan
-Nyalakan Spring tanpa port — cepat untuk uji.
+### `@SpringBootTest` = Mock Shop Opening
+Starts Spring without a port — fast for tests.
 
-### TDD Mini = Tulis Uji Dulu
-Uji merah → tulis kode → hijau. Untuk 1 fungsi, 2 menit.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Cicip Masakan
-- **Test = cicip**: masak `tambah` → cicip `GET` ada? → saji.
-- **MockMvc = food critic bohongan**: datang, pesan, nilai — tanpa pelanggan asli.
-
-### Langkah 0 — Siapkan Device
-- Sama W1 + `./mvnw test` (Maven unduh JUnit otomatis).
-
-### Cara Komputer Membaca
-1. `./mvnw test` → cari `*Test.java` → jalankan tiap `@Test`.
-2. `andExpect` gagal → `FAIL` merah + baris salah.
-
-### 3 Istilah Wajib
-1. **MockMvc/perform**: pelayan-bohongan/pesan
-2. **andExpect/assert**: cicip
+### Mini TDD = Write Tests First
+Red test → write code → green. 2 minutes for 1 function.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Sengaja `expected 200` jadi `201` → FAIL merah? Betulkan.
-- **Kuning:** Tambah produk lalu `GET` cek ada?
-- **Merah:** Hapus `@SpringBootTest` → error context? Pasang.
+### Analogy: Taste Dishes
+- **Test = taste**: cook `add` → taste `GET` present? → serve.
+- **MockMvc = fake food critic**: visits, orders, scores — no real customers.
 
----
+### Step 0 — Prepare Device
+- Same as W1 + `./mvnw test` (Maven auto-downloads JUnit).
 
-## Tantangan
+### How the Computer Reads It
+1. `./mvnw test` → finds `*Test.java` → runs each `@Test`.
+2. Failed `andExpect` → red `FAIL` + wrong line.
 
-**Warung Teruji:** Test `GET /produk` 200 + `POST` tambah + `GET` jumlah +1. `./mvnw test` HIJAU 3/3.
-
----
-
-## Glosarium Mini
-
-- **MockMvc/Test**: bohongan/uji
-- **andExpect**: cicip
+### 3 Must-Know Terms
+1. **MockMvc/perform**: mock-waiter/order
+2. **andExpect/assert**: taste
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 7 dari 10: **Cicip Otomatis** (Level: Menengah). Ubah berani. Minggu depan: **Validation** — satpam input.
+- **Green:** Deliberate `expected 200` as `201` → red FAIL? Fix it.
+- **Yellow:** Add product then `GET` verifies present?
+- **Red:** Remove `@SpringBootTest` → context error? Reattach.
+
+---
+
+## Challenge
+
+**Tested Shop:** Test `GET /products` 200 + `POST` add + `GET` count +1. `./mvnw test` GREEN 3/3.
+
+---
+
+## Mini Glossary
+
+- **MockMvc/Test**: mock/test
+- **andExpect**: taste
+
+---
+
+## Summary
+
+Week 7 of 10: **Automatic Taste** (Level: Intermediate). Edit boldly. Next: **Validation** — input guard.

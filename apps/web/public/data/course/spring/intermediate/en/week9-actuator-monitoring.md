@@ -1,28 +1,28 @@
-# Actuator & Monitoring — Dasbor Sehat Warung Spring
+# Actuator & Monitoring — Spring Shop Health Dashboard
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 9:** Actuator & Monitoring
+> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 9:** Actuator & Monitoring
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `spring-boot-starter-actuator` + `/actuator/health` cek sehat, `/actuator/metrics` angka (sumber: docs.spring.io/spring-boot/reference/actuator)
-- `management.endpoints.web.exposure.include` buka pintu yang perlu saja
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Server mati jam 2 pagi tanpa tahu → pelanggan kabur. Dengan `/actuator/health` + monitoring (Prometheus), HP bunyi saat `DOWN`. Tanpa ini, tahu dari komplain.
+- `spring-boot-starter-actuator` + `/actuator/health` health checks, `/actuator/metrics` numbers (source: docs.spring.io/spring-boot/reference/actuator)
+- `management.endpoints.web.exposure.include` opens only needed doors
 
 ---
 
-## Program: Dasbor Sehat Warung
+## Why This Matters (Non-IT)
+
+Dead server at 2am unnoticed → customers flee. With `/actuator/health` + monitoring (Prometheus), phones ring when `DOWN`. Without it, you learn from complaints.
+
+---
+
+## Program: Shop Health Dashboard
 
 ```properties
-# application.properties — buka pintu perlu saja!
+# application.properties — open only needed doors!
 management.endpoints.web.exposure.include=health,info,metrics
 management.endpoint.health.show-details=always
-info.app.nama=Warung Bu Siti
-info.app.versi=1.0.0
+info.app.name=Siti's Shop
+info.app.version=1.0.0
 ```
 
 ```bash
@@ -30,64 +30,63 @@ curl http://localhost:8080/actuator/health
 # {"status":"UP","components":{"db":{"status":"UP"},"diskSpace":{"status":"UP"}}}
 
 curl http://localhost:8080/actuator/info
-# {"app":{"nama":"Warung Bu Siti","versi":"1.0.0"}}
+# {"app":{"name":"Siti's Shop","version":"1.0.0"}}
 
 curl http://localhost:8080/actuator/metrics/http.server.requests
 ```
 
-Matikan DB → `/health` jadi `DOWN` (bukti hidup!).
+Kill the DB → `/health` turns `DOWN` (living proof!).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `/health` / `/info` / `/metrics` = Sehat/Info/Angka
-`health` UP/DOWN, `info` info app, `metrics` angka (request, JVM).
+### `/health` / `/info` / `/metrics` = Healthy/Info/Numbers
+`health` UP/DOWN, `info` app info, `metrics` numbers (requests, JVM).
 
-### `exposure.include` = Buka Seperlunya
-Jangan `*` di produksi (bocor `env` berisi password!). Cukup `health,info`.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Panel Kesehatan Warung
-- **Actuator = panel di dinding**: lampu hijau UP, merah DOWN.
-- **Metrics = spedometer**: berapa request/detik.
-
-### Langkah 0 — Siapkan Device
-- Tambah `spring-boot-starter-actuator` + restart + buka `/actuator/health`.
-
-### Cara Komputer Membaca
-1. `GET /actuator/health` → cek DB + disk → `{"status":"UP"}`.
-2. DB mati → `DOWN`.
-
-### 3 Istilah Wajib
-1. **Actuator/health**: panel/sehat
-2. **exposure**: buka pintu
+### `exposure.include` = Open Sparingly
+Never `*` in production (leaks password-bearing `env`!). `health,info` suffices.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Matikan DB → `health` DOWN? Nyalakan → UP?
-- **Kuning:** `exposure.include=*` → `/actuator/env` terlihat (bahaya!)? Kembalikan.
-- **Merah:** `show-details=never` → detail hilang (produksi aman)?
+### Analogy: Shop Health Panel
+- **Actuator = wall panel**: green UP light, red DOWN.
+- **Metrics = speedometer**: requests/second.
 
----
+### Step 0 — Prepare Device
+- Add `spring-boot-starter-actuator` + restart + open `/actuator/health`.
 
-## Tantangan
+### How the Computer Reads It
+1. `/actuator/health` → aggregates DB + disk checks → UP/DOWN JSON.
+2. Monitoring scrapes it every 15s → alerts on DOWN.
 
-**Warung Terpantau:** `health` + `info` custom + `metrics` + screenshot UP + simulasi DOWN (matikan DB).
-
----
-
-## Glosarium Mini
-
-- **Actuator/health/metrics**: panel/sehat/angka
+### 3 Must-Know Terms
+1. **health/metrics/info**: healthy/numbers/info
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 9 dari 10: **Dasbor Sehat** (Level: Menengah). Mati ketahuan duluan. Minggu depan: **Messaging** — pesan antar dapur.
+- **Green:** Kill DB → `health` DOWN? Restart → UP?
+- **Yellow:** `exposure.include=*` → `/actuator/env` visible (danger!)? Revert.
+- **Red:** `show-details=never` → details gone (production-safe)?
+
+---
+
+## Challenge
+
+**Monitored Shop:** `health` + custom `info` + `metrics` + UP screenshot + DOWN simulation (kill DB).
+
+---
+
+## Mini Glossary
+
+- **Actuator/health/metrics**: panel/healthy/numbers
+
+---
+
+## Summary
+
+Week 9 of 10: **Health Dashboard** (Level: Intermediate). Death known first. Next: **Messaging** — kitchen-to-kitchen messages.

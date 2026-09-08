@@ -1,38 +1,38 @@
-# Validation — Satpam Input Warung Spring
+# Validation — Spring Shop Input Guard
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 8:** Validation
+> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 8:** Validation
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `@NotBlank`/`@Min(1)` stempel wajib di entity + `@Valid` di controller picu cek (sumber: beanvalidation.org + docs.spring.io)
-- `BindingResult`/`MethodArgumentNotValidException` tangkap → balas 400 rapi
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa validasi, `nama: ""` + `harga: -5` masuk DB → struk minus, laporan rusak. Dengan `@NotBlank`, Spring tolak SEBELUM simpan + pesan "Nama wajib" otomatis.
+- `@NotBlank`/`@Min(1)` mandatory stamps on entities + `@Valid` in controllers triggers checks (source: beanvalidation.org + docs.spring.io)
+- `BindingResult`/`MethodArgumentNotValidException` catches → neat 400 replies
 
 ---
 
-## Program: Satpam Stempel Spring
+## Why This Matters (Non-IT)
+
+Without validation, `name: ""` + `price: -5` enters the DB → negative receipts, broken reports. With `@NotBlank`, Spring rejects BEFORE saving + automatic "Name required" messages.
+
+---
+
+## Program: Stamped Spring Guard
 
 ```java
-// Produk.java — stempel di entity
+// Product.java — stamps on entity
 import jakarta.validation.constraints.*;
 
-public class Produk {
-  @NotBlank(message = "Nama wajib")
-  private String nama;
+public class Product {
+  @NotBlank(message = "Name required")
+  private String name;
 
-  @Min(value = 1, message = "Harga minimal 1")
-  private Integer harga;
-  // getter/setter...
+  @Min(value = 1, message = "Price min 1")
+  private Integer price;
+  // getters/setters...
 }
 
-// Controller — picu dengan @Valid
+// Controller — trigger with @Valid
 @PostMapping
-public Object tambah(@Valid @RequestBody Produk p, BindingResult br) {
+public Object add(@Valid @RequestBody Product p, BindingResult br) {
   if (br.hasErrors()) {
     return Map.of("error", br.getFieldError().getDefaultMessage());
   }
@@ -40,59 +40,59 @@ public Object tambah(@Valid @RequestBody Produk p, BindingResult br) {
 }
 ```
 
-Test: `curl -X POST ... -d '{"nama":"","harga":-5}'` → `{"error":"Nama wajib"}` status 400 (bukan 500!).
+Test: `curl -X POST ... -d '{"name":"","price":-5}'` → `{"error":"Name required"}` status 400 (not 500!).
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `@NotBlank/@Min/...` = Stempel Wajib
-`@NotBlank` tolak kosong, `@Min(1)` tolak <1, `@Email` cek email.
+### `@NotBlank/@Min/...` = Mandatory Stamps
+`@NotBlank` rejects blanks, `@Min(1)` rejects <1, `@Email` checks email.
 
-### `@Valid` = Picu Cek
-Tanpa `@Valid`, stempel tidak dibaca! `BindingResult` tampung hasil.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Satpam Pintu Masuk
-- **Stempel = syarat**: "Nama wajib" cap di barang.
-- **@Valid = satpam baca cap**: tidak lolos → tolak 400.
-
-### Langkah 0 — Siapkan Device
-- `spring-boot-starter-validation` di `pom.xml` (atau centang Validation di start.spring.io).
-
-### Cara Komputer Membaca
-1. `POST` JSON → `Produk` → cek tiap stempel → gagal? Kumpulkan error.
-2. `BindingResult` ada error → balas 400 + pesan.
-
-### 3 Istilah Wajib
-1. **NotBlank/Min**: wajib/minimal
-2. **Valid/BindingResult**: picu/tampung
+### `@Valid` = Trigger Check
+Without `@Valid`, stamps unread! `BindingResult` holds results.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** POST `nama:""` → "Nama wajib"?
-- **Kuning:** Hapus `@Valid` → data jelek lolos? (Itulah kenapa wajib!)
-- **Merah:** `harga: -5` → "Harga minimal 1"?
+### Analogy: Entrance Guard
+- **Stamps = requirements**: "Name required" stamped on goods.
+- **@Valid = guard reads stamps**: fails → 400 reject.
+
+### Step 0 — Prepare Device
+- `spring-boot-starter-validation` in `pom.xml` (or check Validation at start.spring.io).
+
+### How the Computer Reads It
+1. `POST` JSON → `Product` → checks each stamp → fails? Gathers errors.
+2. `BindingResult` has errors → replies 400 + message.
+
+### 3 Must-Know Terms
+1. **NotBlank/Min**: required/minimum
+2. **Valid/BindingResult**: trigger/holder
 
 ---
 
-## Tantangan
+## Experiments
 
-**Warung Bersatpam:** `nama` + `harga` + `stok` (`@Min(0)`) + `POST` 3 kasus (lolos/kosong/minus) → 400 rapi semua.
-
----
-
-## Glosarium Mini
-
-- **NotBlank/Min/Valid**: wajib/minimal/picu
+- **Green:** POST `name:""` → "Name required"?
+- **Yellow:** Remove `@Valid` → bad data passes? (That's why it's mandatory!)
+- **Red:** `price: -5` → "Price min 1"?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 8 dari 10: **Satpam Input** (Level: Menengah). Data kotor ditolak. Minggu depan: **Actuator** — dasbor sehat.
+**Guarded Shop:** `name` + `price` + `stock` (`@Min(0)`) + `POST` 3 cases (pass/blank/negative) → neat 400s all.
+
+---
+
+## Mini Glossary
+
+- **NotBlank/Min/Valid**: required/minimum/trigger
+
+---
+
+## Summary
+
+Week 8 of 10: **Input Guard** (Level: Intermediate). Dirty data rejected. Next: **Actuator** — health dashboard.

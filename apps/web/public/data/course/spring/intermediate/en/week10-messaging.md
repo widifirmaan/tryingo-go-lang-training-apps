@@ -1,112 +1,112 @@
-# Messaging — Pesan Antar Dapur Spring
+# Messaging — Messages Between Spring Kitchens
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 10:** Messaging
+> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 10:** Messaging
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `ApplicationEventPublisher` + `@EventListener` pesan dalam Warung (tanpa RabbitMQ dulu)
-- `@Async` + `@EnableAsync` kerja background (kirim WA tanpa tunggu)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Checkout kirim WA 5 detik → pelanggan tunggu loading 5 detik. Dengan event + `@Async`, simpan pesanan langsung balas "OK", WA kirim background. Tanpa ini, 10 pesanan bareng = antre 50 detik.
+- `ApplicationEventPublisher` + `@EventListener` messages inside the shop (no RabbitMQ yet)
+- `@Async` + `@EnableAsync` background work (WA sends without waiting)
 
 ---
 
-## Program: Pesan Warung Background
+## Why This Matters (Non-IT)
+
+Checkout sending 5-second WA → customers stare at loading 5 seconds. With events + `@Async`, save the order replying "OK" instantly, WA sends in background. Without it, 10 joint orders = 50-second queue.
+
+---
+
+## Program: Background Shop Messages
 
 ```java
-// 1. Event = surat
-public record PesananDibuat(Long id, String nama) {}
+// 1. Event = letter
+public record OrderCreated(Long id, String name) {}
 
-// 2. Penerbit di service pesanan
+// 2. Publisher in order service
 import org.springframework.context.ApplicationEventPublisher;
 
 @Service
-public class PesananService {
-  private final ApplicationEventPublisher penerbit;
-  public PesananService(ApplicationEventPublisher p) { penerbit = p; }
+public class OrderService {
+  private final ApplicationEventPublisher publisher;
+  public OrderService(ApplicationEventPublisher p) { publisher = p; }
 
-  public Pesanan buat(String nama) {
-    Pesanan s = repo.save(new Pesanan(nama)); // simpan cepat
-    penerbit.publishEvent(new PesananDibuat(s.getId(), nama)); // kirim surat
-    return s; // langsung balas (tidak tunggu WA!)
+  public Order create(String name) {
+    Order s = repo.save(new Order(name)); // fast save
+    publisher.publishEvent(new OrderCreated(s.getId(), name)); // send letter
+    return s; // reply instantly (no WA wait!)
   }
 }
 
-// 3. Pendengar kirim WA di background
+// 3. Listener sends WA in background
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Notifikasi {
-  @Async // jalan background!
+public class Notifications {
+  @Async // runs in background!
   @EventListener
-  public void kirimWA(PesananDibuat e) throws Exception {
-    Thread.sleep(5000); // simulasi WA 5 detik
-    System.out.println("WA terkirim untuk pesanan " + e.id());
+  public void sendWA(OrderCreated e) throws Exception {
+    Thread.sleep(5000); // simulate 5s WA
+    System.out.println("WA sent for order " + e.id());
   }
 }
 
-// 4. Aktifkan async
-// @EnableAsync di main class!
+// 4. Enable async
+// @EnableAsync on main class!
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `publishEvent` + `@EventListener` = Surat + Penerima
-Terbitkan surat, yang dengar (`@EventListener`) kerja. Pengirim tidak tunggu.
+### Events + Listeners = Letters + Couriers
+`publishEvent` sends, `@EventListener` receives — decoupled.
 
-### `@Async` + `@EnableAsync` = Background
-Tanpa `@Async`, pendengar blokir pengirim 5 detik. Dengan `@Async`, langsung balik.
+### `@Async` = Background
+Needs `@EnableAsync` switch, else runs blocking!
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Surat & Kurir
-- **Event = surat**: "pesanan 5 jadi".
-- **@EventListener = kurir**: ambil surat, antar WA.
-- **@Async = kurir motor**: tidak ikut antre kasir.
+### Analogy: Letters & Couriers
+- **Event = letter**: "order 5 done".
+- **@EventListener = courier**: takes letter, delivers WA.
+- **@Async = motorbike courier**: skips the cashier queue.
 
-### Langkah 0 — Siapkan Device
-- Sama W1 + `@EnableAsync` di main.
+### Step 0 — Prepare Device
+- Same as W1 + `@EnableAsync` on main.
 
-### Cara Komputer Membaca
-1. `buat()` → simpan → `publishEvent` → balas HTTP langsung.
-2. Background thread → `kirimWA` → 5 detik → log.
+### How the Computer Reads It
+1. `create()` → saves → `publishEvent` → HTTP replies instantly.
+2. Background thread → `sendWA` → 5 seconds → log.
 
-### 3 Istilah Wajib
-1. **Event/Listener**: surat/penerima
+### 3 Must-Know Terms
+1. **Event/Listener**: letter/receiver
 2. **Async**: background
 
 ---
 
-## Eksperimen
+## Experiments
 
-- **Hijau:** POST pesanan → balas <1 detik meski WA 5 detik?
-- **Kuning:** Hapus `@Async` → balas 5 detik? (Blokir! Pasang lagi.)
-- **Merah:** Hapus `@EnableAsync` → `@Async` tidak jalan? (Butuh saklar utama!)
-
----
-
-## Tantangan
-
-**Warung Cepat:** `buat()` + event + `@Async` WA + log waktu balas <1s. **Selesai Menengah Spring!**
+- **Green:** POST order → reply <1s though WA takes 5s?
+- **Yellow:** Remove `@Async` → 5s reply? (Blocking! Reattach.)
+- **Red:** Remove `@EnableAsync` → `@Async` dead? (Needs master switch!)
 
 ---
 
-## Glosarium Mini
+## Challenge
 
-- **Event/Listener/Async**: surat/penerima/background
+**Fast Shop:** `create()` + event + `@Async` WA + reply-time log <1s. **Intermediate Spring DONE!**
 
 ---
 
-## Ringkasan
+## Mini Glossary
 
-Minggu 10 dari 10: **Pesan Background** (Level: Menengah). **Selesai Menengah Spring!** Lanjut: **Caching** (Lanjutan).
+- **Event/Async**: letter/background
+
+---
+
+## Summary
+
+Week 10 of 10: **Background Messages** (Level: Intermediate). **Intermediate Spring DONE!** Next: **Caching** (Advanced).
