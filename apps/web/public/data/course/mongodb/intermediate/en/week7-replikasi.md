@@ -1,83 +1,90 @@
-# Replica Set & Sharding — Cabang Gudang MongoDB
+# Replica Set & Sharding — MongoDB Warehouse Branches
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 7:** Replica Set & Sharding
+> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 7:** Replica Set & Sharding
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Replica Set (1 primary + 2 secondary, failover otomatis) + `rs.status()` cek (sumber: mongodb.com/docs/manual/replication)
-- Sharding (`shard key`) bagi 1 juta kartu ke 3 gudang
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Server Mongo mati → warung tutup. Replica Set: mati 1 → secondary naik <10 detik (otomatis!). 10 juta kartu → sharding bagi ke 3 server (tidak numpuk 1).
+- Replica Set (1 primary + 2 secondaries, automatic failover) + `rs.status()` checks (source: mongodb.com/docs/manual/replication)
+- Sharding (`shard key`) splits 1 million cards across 3 warehouses
 
 ---
 
-## Program: Cabang Mongo (Docker)
+## Why This Matters (Non-IT)
+
+Mongo server dies → shop closes. Replica Set: 1 dies → secondary rises in <10 seconds (automatic!). 10 million cards → sharding splits across 3 servers (no single pile-up).
+
+---
+
+## Program: Mongo Branches (Docker)
 
 ```bash
-# 3 node 1 perintah (contoh belajar)
+# 3 nodes 1 command (learning example)
 docker compose up -d  # mongo1, mongo2, mongo3 --replSet rs0
 
-# Bentuk regu (di salah satu):
+# Form the team (on one of them):
 mongosh --eval 'rs.initiate({_id: "rs0", members: [
   {_id: 0, host: "mongo1:27017"},
   {_id: 1, host: "mongo2:27017"},
   {_id: 2, host: "mongo3:27017", arbiterOnly: false}
 ]})'
 
-# Cek + tulis + matikan primary!
+# Check + write + kill the primary!
 mongosh --eval 'rs.status()' | grep -E 'stateStr|name'
-# Tulis di primary → baca di secondary (readPreference=secondary)
-# docker stop <primary> → secondary naik jadi primary otomatis!
+# Write on primary → read on secondary (readPreference=secondary)
+# docker stop <primary> → secondary auto-promotes to primary!
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Replica Set = Regu 3 (1 Bos + 2 Wakil)
-Tulis ke primary, baca boleh secondary. Primary mati → voting → wakil naik.
+### Replica Set = Team of 3 (1 Boss + 2 Deputies)
+Write to primary, reads may go secondary. Primary dies → voting → deputy rises.
 
-### Sharding = Bagi Gudang
-`shard key` (misal `kota`) tentukan kartu ke gudang mana. `mongos` resepsionis arahkan.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: 3 Cabang + Wilayah
-- **Replica = cabang fotokopi**: pusat tulis, cabang salin tiap detik.
-- **Sharding = wilayah**: kartu Jakarta di gudang JKT, Surabaya di SBY.
-
-### 3 Istilah Wajib
-1. **Primary/secondary**: bos/wakil
-2. **Failover/shard**: ganti-otomatis/bagi
+### Sharding = Split Warehouse
+`shard key` (e.g. `city`) decides which card goes to which warehouse. `mongos` receptionist routes.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `rs.status()` → 1 PRIMARY + 2 SECONDARY?
-- **Kuning:** Tulis primary → baca secondary ada (delay detik)?
-- **Merah:** Matikan primary → PRIMARY pindah? Nyalakan lama → jadi secondary?
+### Analogy: 3 Branches + Territories
+- **Replica = photocopy branch**: center writes, branches copy every second.
+- **Sharding = territories**: Jakarta cards in JKT warehouse, Surabaya in SBY.
+
+### Step 0 — Prepare Device
+- Docker + compose file for 3 mongo nodes, `rs.initiate` once.
+
+### How the Computer Reads It
+1. Write on primary → oplog entry → secondaries replay.
+2. Primary dies → election → deputy becomes primary in seconds.
+
+### 3 Must-Know Terms
+1. **Primary/secondary**: boss/deputy
+2. **Failover/shard**: auto-replace/split
 
 ---
 
-## Tantangan
+## Experiments
 
-**Regu 3 Node:** Compose 3 + `initiate` + tulis 5 + matikan primary + buktikan tulis/baca tetap jalan.
-
----
-
-## Glosarium Mini
-
-- **Replica/shard/mongos**: regu/bagi/resepsionis
+- **Green:** `rs.status()` → 1 PRIMARY + 2 SECONDARY?
+- **Yellow:** Write on primary → read on secondary present (seconds delay)?
+- **Red:** Kill primary → PRIMARY moves? Restart old one → becomes secondary?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 7 dari 10: **Regu Otomatis** (Level: Menengah). Mati 1 tetap buka. Minggu depan: **Tuning**.
+**3-Node Team:** Compose 3 + `initiate` + write 5 + kill primary + prove reads/writes keep working.
+
+---
+
+## Mini Glossary
+
+- **Replica/shard/mongos**: team/split/receptionist
+
+---
+
+## Summary
+
+Week 7 of 10: **Auto Team** (Level: Intermediate). 1 death keeps shop open. Next: **Tuning**.

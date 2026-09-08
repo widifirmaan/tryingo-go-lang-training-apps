@@ -1,86 +1,93 @@
-# Change Streams & Transactions — Mata & Paket Aman MongoDB
+# Change Streams & Transactions — MongoDB Live Eyes & Safe Packages
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 9:** Change Streams & Transactions
+> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 9:** Change Streams & Transactions
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `watch()` dengar tiap tulis (untuk live/notif) — butuh replica set! (sumber: mongodb.com/docs/manual/changeStreams)
-- `session.withTransaction()` paket all-or-nothing untuk multi-dokumen
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Stok kurang + pesanan tambah harus bareng (gagal 1 = batal semua). Tanpa transaction, stok kurang tapi pesanan gagal → selisih! Change streams untuk dasbor live tanpa polling tiap detik.
+- `watch()` hears every write (for live/notifications) — needs a replica set! (source: mongodb.com/docs/manual/changeStreams)
+- `session.withTransaction()` all-or-nothing package for multi-documents
 
 ---
 
-## Program: Dengar & Paket Aman
+## Why This Matters (Non-IT)
+
+Stock decrement + order add must go together (1 fails = all cancelled). Without transactions, stock drops but the order fails → mismatch! Change streams power live dashboards without per-second polling.
+
+---
+
+## Program: Listen & Safe Packages
 
 ```javascript
-// 1. Dengar (butuh replica set, W7!)
-const stream = db.produk.watch([{ $match: { operationType: "update" } }]);
-// (di driver Node: stream.on("change", c => console.log(c.fullDocument)))
+// 1. Listen (needs a replica set, W7!)
+const stream = db.products.watch([{ $match: { operationType: "update" } }]);
+// (in Node driver: stream.on("change", c => console.log(c.fullDocument)))
 
-// Test: update 1 produk di shell lain → stream terima!
+// Test: update 1 product in another shell → stream receives!
 
-// 2. Paket aman (transaksi multi-dokumen)
+// 2. Safe package (multi-document transaction)
 const session = db.getMongo().startSession();
 session.startTransaction();
 try {
-  db.produk.updateOne({ nama: "Beras" }, { $inc: { stok: -2 } }, { session });
-  db.pesanan.insertOne({ produk: "Beras", qty: 2 }, { session });
-  session.commitTransaction(); // sahkan keduanya
+  db.products.updateOne({ name: "Rice" }, { $inc: { stock: -2 } }, { session });
+  db.orders.insertOne({ product: "Rice", qty: 2 }, { session });
+  session.commitTransaction(); // validate both
 } catch (e) {
-  session.abortTransaction();  // batalkan keduanya!
+  session.abortTransaction();  // cancel both!
 }
 session.endSession();
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `watch()` = Mata Live
-Dengar insert/update/delete real-time. Butuh replica set (oplog).
+### `watch()` = Live Eyes
+Hears insert/update/delete in real time. Needs a replica set (oplog).
 
-### Transaction = Paket Batal-Bareng
-`startTransaction` → tulis 2 tempat → `commit` (sah) / `abort` (batal semua).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: CCTV & Paket Bank
-- **Change stream = CCTV**: ada gerak → bunyi.
-- **Transaction = transfer bank**: debit+kredit 1 paket.
-
-### 3 Istilah Wajib
-1. **watch/oplog**: mata/catatan
-2. **commit/abort**: sah/batal
+### Transaction = Cancel-Together Package
+`startTransaction` → write 2 places → `commit` (validate) / `abort` (cancel all).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `watch()` + update manual → terima?
-- **Kuning:** Transaction gagalkan sengaja → 2 tempat batal?
-- **Merah:** `watch` di standalone (tanpa replica) → error? (Butuh W7!)
+### Analogy: CCTV & Bank Package
+- **Change stream = CCTV**: movement → sound.
+- **Transaction = bank transfer**: debit+credit 1 package.
+
+### Step 0 — Prepare Device
+- Replica set from W7 running + `mongosh` second shell for the trigger write.
+
+### How the Computer Reads It
+1. Write happens → oplog entry → `watch()` cursor emits change doc.
+2. `abortTransaction()` → both writes vanish as if never happened.
+
+### 3 Must-Know Terms
+1. **watch/oplog**: eyes/log
+2. **commit/abort**: validate/cancel
 
 ---
 
-## Tantangan
+## Experiments
 
-**Toko Aman Live:** Transaction jual (kurang stok + tambah pesanan) + `watch` log tiap update. Gagalkan 1 → buktikan batal semua.
-
----
-
-## Glosarium Mini
-
-- **watch/transaction**: mata/paket
+- **Green:** `watch()` + manual update → received?
+- **Yellow:** Deliberately fail transaction → both places cancelled?
+- **Red:** `watch` on standalone (no replica) → error? (Needs W7!)
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 9 dari 10: **Mata & Paket Aman** (Level: Menengah). Live + konsisten. Minggu depan: **Capstone**.
+**Safe Live Shop:** `watch()` dashboard counter + transaction sell (decrement + order) + failed-transaction proof.
+
+---
+
+## Mini Glossary
+
+- **watch/transaction**: eyes/package
+
+---
+
+## Summary
+
+Week 9 of 10: **Live Eyes** (Level: Intermediate). Real-time + safe. Next: **Capstone**.
