@@ -1,113 +1,113 @@
-# Events & Async — Telinga dan Janji Warung Node
+# Events & Async — Node Shop Ears and Promises
 
-> **Kategori:** Node.js | **Level:** Pemula | **Minggu 4:** Events & Async Programming
+> **Kategori:** Node.js | **Level:** Beginner | **Minggu 4:** Events & Async Programming
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `EventEmitter`: `on` pasang telinga, `emit` bunyikan, `once` sekali (sumber: nodejs.org/api/events)
-- `Promise` janji + `async/await` tunggu — pesan ojek tanpa freeze
-- Aturan `callback(err, hasil)` error-dulu (konvensi Node)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Warung: stok habis → beri tahu 3 kasir sekaligus (`emit`). Ambil harga supplier 2 detik → tanpa async layar freeze; dengan `await`, tulis seperti sync tapi tidak macet.
+- `EventEmitter`: `on` attaches ears, `emit` rings, `once` once (source: nodejs.org/api/events)
+- `Promise` promises + `async/await` waits — ride orders without freezing
+- `callback(err, result)` error-first rule (Node convention)
 
 ---
 
-## Program: Telinga & Janji Warung
+## Why This Matters (Non-IT)
+
+Shops: empty stock → notify 3 cashiers at once (`emit`). 2-second supplier price fetch → screen freezes without async; with `await`, write sync-style without jamming.
+
+---
+
+## Program: Shop Ears & Promises
 
 ```javascript
 const EventEmitter = require("events");
 
-// 1. Telinga: stok habis beri tahu semua
-class Warung extends EventEmitter {}
-const warung = new Warung();
+// 1. Ears: empty stock notifies all
+class Shop extends EventEmitter {}
+const shop = new Shop();
 
-warung.on("habis", (nama) => console.log(`Kasir 1: ${nama} habis!`));
-warung.on("habis", (nama) => console.log(`Kasir 2: pesan ${nama} ke supplier!`));
-warung.emit("habis", "Beras"); // bunyikan → 2 kasir dengar
+shop.on("empty", (name) => console.log(`Cashier 1: ${name} empty!`));
+shop.on("empty", (name) => console.log(`Cashier 2: order ${name} from supplier!`));
+shop.emit("empty", "Rice"); // ring → 2 cashiers hear
 
-warung.once("buka", () => console.log("Buka sekali saja"));
-warung.emit("buka");
-warung.emit("buka"); // tidak bunyi lagi
+shop.once("open", () => console.log("Opens just once"));
+shop.emit("open");
+shop.emit("open"); // silent again
 
-// 2. Janji: ambil harga tanpa freeze
-function ambilHarga(nama) {
+// 2. Promises: fetch prices without freezing
+function getPrice(name) {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(nama === "Beras" ? 62000 : 5000), 500);
+    setTimeout(() => resolve(name === "Rice" ? 62000 : 5000), 500);
   });
 }
 
-async function belanja() {
-  console.log("Pesan Beras...");
-  const harga = await ambilHarga("Beras"); // tunggu 0.5 detik
-  console.log("Dapat harga:", harga);
-  const [a, b] = await Promise.all([ambilHarga("Beras"), ambilHarga("Bayam")]);
-  console.log("Sekaligus:", a, b);
+async function buy() {
+  console.log("Ordering Rice...");
+  const price = await getPrice("Rice"); // wait 0.5s
+  console.log("Got price:", price);
+  const [a, b] = await Promise.all([getPrice("Rice"), getPrice("Spinach")]);
+  console.log("Together:", a, b);
 }
-belanja();
-console.log("→ Baris ini jalan duluan (tidak tunggu)");
+buy();
+console.log("→ This line runs first (doesn't wait)");
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### `on` / `emit` / `once` = Telinga/Bunyi/Sekali
-`on("habis", fn)` pasang, `emit("habis", "Beras")` bunyikan ke semua, `once` hanya pertama.
+### `on` / `emit` / `once` = Ears/Ring/Once
+`on("empty", fn)` attaches, `emit("empty", "Rice")` rings all, `once` only first.
 
-### `Promise` + `async/await` = Janji + Tunggu
-`new Promise((resolve) => ...)` janji, `await` tunggu tanpa freeze, `Promise.all` bareng.
+### `Promise` + `async/await` = Promise + Wait
+`new Promise((resolve) => ...)` promises, `await` waits without freezing, `Promise.all` together.
 
-### Error-First Callback = Aturan Node
-`fs.readFile(f, (err, data) => ...)` — `err` dulu, baru hasil.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Bel Warung & Ojek
-- **EventEmitter = bel**: tekan `emit` → semua yang `on` dengar.
-- **Promise = janji ojek**: `await` tunggu ojek datang.
-
-### Langkah 0 — Siapkan Device
-- Sama W1: `node telinga.js`.
-
-### Cara Komputer Membaca
-1. `emit("habis", "Beras")` → panggil semua fungsi `on("habis")` berurutan.
-2. `await ambilHarga()` → jeda fungsi, kerjaan lain jalan → lanjut saat `resolve`.
-
-### 3 Istilah Wajib
-1. **on/emit**: dengar/bunyikan
-2. **Promise/await**: janji/tunggu
-3. **Callback err-dulu**: aturan Node
+### Error-First Callback = Node Rule
+`fs.readFile(f, (err, data) => ...)` — `err` first, then result.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `emit("habis", "Gula")` → 2 kasir bunyi?
-- **Kuning:** Lupa `await` → `harga` jadi `Promise {<pending>}`?
-- **Merah:** `once` lalu `emit` 2x → hanya 1 log?
+### Analogy: Shop Bell & Ride
+- **EventEmitter = bell**: press `emit` → all `on` listeners hear.
+- **Promise = ride promise**: `await` waits for the ride.
 
----
+### Step 0 — Prepare Device
+- Same as W1: `node ears.js`.
 
-## Tantangan
+### How the Computer Reads It
+1. `emit("empty", "Rice")` → calls all `on("empty")` functions in order.
+2. `await getPrice()` → pauses function, other work runs → resumes on `resolve`.
 
-**Warung Event Lengkap:** `Warung` emitter + `on("jual")` kurangi stok + `Promise` `ambilDiskon()` 300ms → `async jual()` `await` diskon → cetak total. **Selesai Beginner Node!**
-
----
-
-## Glosarium Mini
-
-- **Emitter/on/emit**: bel/dengar/bunyikan
-- **Promise/async/await**: janji/tunggu
-- **Error-first**: err dulu
+### 3 Must-Know Terms
+1. **on/emit**: hear/ring
+2. **Promise/await**: promise/wait
+3. **Error-first callback**: Node rule
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 4 dari 4: **Telinga & Janji** (Level: Pemula). **Selesai Beginner Node!** Lanjut: **Express** (Menengah).
+- **Green:** `emit("empty", "Sugar")` → 2 cashiers ring?
+- **Yellow:** Forget `await` → `price` becomes `Promise {<pending>}`?
+- **Red:** `once` then `emit` 2x → only 1 log?
+
+---
+
+## Challenge
+
+**Complete Event Shop:** `Shop` emitter + `on("sell")` decrements stock + `Promise` `getDiscount()` 300ms → `async sell()` `await`s discount → prints total. **Beginner Node DONE!**
+
+---
+
+## Mini Glossary
+
+- **Emitter/on/emit**: bell/hear/ring
+- **Promise/async/await**: promise/wait
+- **Error-first**: err first
+
+---
+
+## Summary
+
+Week 4 of 4: **Ears & Promises** (Level: Beginner). **Beginner Node DONE!** Next: **Express** (Intermediate).
