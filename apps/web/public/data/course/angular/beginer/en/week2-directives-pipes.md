@@ -55,6 +55,8 @@ export class CardComponent {
 ### `*ngIf` + `else` = Switch
 `*ngIf="total > 50000"` shows when true. `else payShipping` + `<ng-template #payShipping>` when false. (`*` = structural, changes DOM.)
 
+> **Version note (researched 2026):** `*ngIf`/`*ngFor` still work fully, but since Angular 20 they are **deprecated** — the modern style is `@if (total > 50000) { ... } @else { ... }` and `@for (p of list; track p.id) { ... }`. Master `*ngIf` first (still in millions of legacy lines), then learn `@if` as your next step.
+
 ### `*ngFor` = Photocopy
 `*ngFor="let p of list; let i = index"` → `p` item, `i` number 0,1,2.
 
