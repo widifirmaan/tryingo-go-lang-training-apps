@@ -57,6 +57,22 @@ function calcTotal(cart, discountPercent = 0) {
 const cart = [{ price: 62000, qty: 1 }, { price: 5000, qty: 2 }];
 console.log("\nTotal no discount:", calcTotal(cart));
 console.log("10% off:", calcTotal(cart, 10));
+
+// 8. Recursion — function calls itself (à la freeCodeCamp Decimal-to-Binary!)
+// Needs: stop case (n<=1) + smaller step (n-1). No stop = stack overflow!
+function countDown(n) {
+  if (n <= 0) { console.log("Go!"); return; } // STOP
+  console.log(n);
+  countDown(n - 1); // call self smaller
+}
+console.log("\n=== Recursion ===");
+countDown(3);
+
+function factorial(n) {
+  if (n <= 1) return 1;        // stop
+  return n * factorial(n - 1); // 3! = 3 * 2!
+}
+console.log("3! =", factorial(3)); // 6
 ```
 
 ---
@@ -71,6 +87,9 @@ console.log("10% off:", calcTotal(cart, 10));
 ### Parameter & Return
 - `function calc(a,b)` → `a,b` in, `return` out. No `return` → `undefined`.
 - Default: `(name = "Guest")`, Rest: `(...args)` collect all into array.
+
+### Recursion = Facing Mirrors
+A function calling itself with a SMALLER problem + stop point. `factorial(3)` = 3 × `factorial(2)` = 3×2×1.
 
 ### Callback & Closure
 - **Callback**: function sent as argument `process(data, n => n*2)`

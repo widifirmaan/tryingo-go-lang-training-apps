@@ -64,6 +64,20 @@ const buahLengkap = [...buah, "durian", "manggis"];
 console.log("\nSpread buah:", buahLengkap);
 const pelangganBaru = { ...pelanggan, poin: 120 };
 console.log("Spread pelanggan + poin:", pelangganBaru);
+
+// ── 6. Metode string & array (ala freeCodeCamp Music Player) ──
+const judul = "  Beras Pulen 5kg  ";
+console.log("\nBersih:", judul.trim());                    // buang spasi
+console.log("Split:", "Beras,Bayam,Telur".split(","));      // pecah → array
+console.log("Join:", ["Beras", "Bayam"].join(" + "));       // gabung → teks
+console.log("Iris:", "Beras Pulen".slice(0, 5));            // ambil 0-4
+console.log("Ada 'Bayam'?", ["Beras", "Bayam"].includes("Bayam")); // cek isi
+console.log("Posisi:", "Beras,Bayam".indexOf("Bayam"));     // posisi teks
+
+// ── 7. Tanggal (untuk struk ada tanggal!) ──
+const hariIni = new Date();
+console.log("\nTanggal:", hariIni.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }));
+console.log("Tahun:", hariIni.getFullYear(), "| Bulan:", hariIni.getMonth() + 1); // bulan 0-11!
 ```
 
 ---
@@ -85,6 +99,10 @@ console.log("Spread pelanggan + poin:", pelangganBaru);
 ### Destructuring & Spread
 - Bongkar: `const { nama, umur } = pelanggan`
 - Gabung: `[...lama, "baru"]`, `{...lama, baru: 123}`
+
+### Metode Teks & Daftar + Tanggal
+- `trim/split/join/slice/includes/indexOf` — bersih/pecah/gabung/iris/cek/cari.
+- `new Date()` + `toLocaleDateString("id-ID", ...)` + `getFullYear()` — ingat bulan 0-11!
 
 ---
 

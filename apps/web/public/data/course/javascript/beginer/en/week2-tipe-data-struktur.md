@@ -53,6 +53,20 @@ const allFruits = [...fruits, "durian", "mangosteen"];
 console.log("\nSpread fruits:", allFruits);
 const newCustomer = { ...customer, points: 120 };
 console.log("Spread + points:", newCustomer);
+
+// 6. String & array methods (à la freeCodeCamp Music Player)
+const title = "  Fluffy Rice 5kg  ";
+console.log("\nTrimmed:", title.trim());                    // trim spaces
+console.log("Split:", "Rice,Spinach,Eggs".split(","));      // split → array
+console.log("Join:", ["Rice", "Spinach"].join(" + "));      // join → text
+console.log("Slice:", "Fluffy Rice".slice(0, 6));           // take 0-5
+console.log("Has 'Spinach'?", ["Rice", "Spinach"].includes("Spinach")); // check
+console.log("Position:", "Rice,Spinach".indexOf("Spinach")); // find text
+
+// 7. Dates (receipts need dates!)
+const today = new Date();
+console.log("\nDate:", today.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" }));
+console.log("Year:", today.getFullYear(), "| Month:", today.getMonth() + 1); // months 0-11!
 ```
 
 ---
@@ -74,6 +88,10 @@ console.log("Spread + points:", newCustomer);
 ### Destructuring & Spread
 - Unpack: `const { name, age } = customer`
 - Merge: `[...old, "new"]`, `{...old, new: 123}`
+
+### Text & List Methods + Dates
+- `trim/split/join/slice/includes/indexOf` — clean/split/join/cut/check/find.
+- `new Date()` + `toLocaleDateString("en-US", ...)` + `getFullYear()` — remember months 0-11!
 
 ---
 

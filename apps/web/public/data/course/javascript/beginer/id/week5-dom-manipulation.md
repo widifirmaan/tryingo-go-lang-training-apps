@@ -95,6 +95,24 @@ tambah("Telur"); hapus("Bayam");
 console.log(data2); // ["Beras","Telur"]
 ```
 
+### Bonus: localStorage — Keranjang Tidak Hilang Saat Refresh! (ala freeCodeCamp Todo)
+`localStorage` = laci browser (5MB, per domain). Tutup tab → buka lagi → isi tetap! Syarat: simpan TEKS → `JSON.stringify` saat simpan, `JSON.parse` saat baca.
+
+```javascript
+// Simpan keranjang (di render() setelah data berubah!)
+function simpan() {
+  localStorage.setItem("keranjang", JSON.stringify(data));
+}
+
+// Baca saat halaman dibuka (sebelum render pertama!)
+function muat() {
+  const mentah = localStorage.getItem("keranjang");
+  if (mentah) data = JSON.parse(mentah); // tali JSON → array lagi
+}
+muat();   // panggil sebelum render()
+render(); // render pakai data dari laci (atau bawaan jika laci kosong)
+```
+
 ---
 
 ## Konsep Kunci
