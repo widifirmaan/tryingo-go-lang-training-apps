@@ -5,7 +5,7 @@
 ## Tujuan Pembelajaran
 
 - `img src alt width height` foto, `alt` wajib untuk tunanetra, `figure+figcaption` bingkai + caption
-- `srcset` untuk HP vs laptop (nanti CSS)
+- `srcset`/`sizes` gambar responsif HP vs laptop (tetap HTML: `srcset="kecil.jpg 480w, besar.jpg 800w"`)
 
 ---
 
@@ -22,7 +22,7 @@ Warung tanpa foto = pelanggan tidak percaya. `alt` = deskripsi jika foto gagal l
   <img src="beras.jpg" alt="Karung beras 5kg" width="300" height="200">
   <figcaption>Beras 5kg — Rp 62.000</figcaption>
 </figure>
-<img src="https://via.placeholder.com/300" alt="Placeholder produk" width="300" height="200">
+<img src="https://placehold.co/300" alt="Placeholder produk" width="300" height="200">
 <p>Jika foto gagal, <code>alt</code> tampil: "Karung beras 5kg"</p>
 ```
 

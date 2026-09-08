@@ -27,7 +27,7 @@ Shop title `font-size: 2.5vw` becomes 10px tiny on phones, 60px huge on TVs. Wit
 </style></head>
 <body>
   <h1>Siti's Shop</h1>
-  <img class="photo" src="https://via.placeholder.com/640x360" alt="Shop" width="640" height="360">
+  <img class="photo" src="https://placehold.co/640x360" alt="Shop" width="640" height="360">
   <div class="grid"><div class="card">Rice</div><div class="card">Spinach</div><div class="card">Eggs</div></div>
 </body></html>
 ```

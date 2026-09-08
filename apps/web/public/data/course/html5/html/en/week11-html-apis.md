@@ -67,7 +67,7 @@ Click `summary` → open/close. `open` attribute for default open.
 - **dialog = glass display**: pops in front, ESC closes.
 
 ### Step 0 — Prepare Device
-- VS Code + modern browser (Chrome 90+ for `dialog`).
+- VS Code + modern browser (`dialog` Baseline 2022 — Chrome 37+, Firefox 98+, Safari 15.4+).
 
 ### How the Computer Reads It
 1. Click `summary` → browser toggles `open` → shows content.

@@ -10,7 +10,7 @@
 
 ## Kenapa Ini Penting Buat Kamu?
 
-Tanpa `description`, Google ambil teks acak. Dengan `description` 150 huruf, warung muncul cantik di Google & WA.
+Tanpa `description`, Google ambil teks acak untuk cuplikan. Dengan `description` ~150 huruf, kamu memberi Google saran cuplikan (Google kadang tulis ulang, tapi saran bagus sering dipakai). `og:` yang mengatur preview cantik saat link dishare di WA/FB.
 
 ---
 
