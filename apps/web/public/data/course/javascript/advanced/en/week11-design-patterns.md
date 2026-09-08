@@ -4,7 +4,7 @@
 
 ## Learning Objectives
 
-- `Singleton` 1 cashier, `Factory` product factory, `Observer` out-of-stock subscribers
+- `Singleton` 1 cashier, `Factory` product factory, `Observer` out-of-stock subscribers, `Strategy` payment-way plug
 
 ---
 
@@ -42,6 +42,16 @@ class Store {
 const store = new Store();
 store.subscribe(name=>console.log(`Stock ${name} empty, when restock?`));
 store.outOfStock("Rice");
+
+// Strategy — payment-way plug (add ways without touching cashier)
+class PayCashier {
+  constructor(way){ this.way = way; } // plug Cash/Transfer
+  checkout(total){ return this.way.pay(total); }
+}
+const cash = { pay: t => `Cash Rp${t}` };
+const transfer = { pay: t => `Transfer Rp${t}` };
+console.log(new PayCashier(cash).checkout(62000));
+console.log(new PayCashier(transfer).checkout(62000));
 ```
 
 

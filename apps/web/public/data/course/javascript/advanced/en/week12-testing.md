@@ -16,6 +16,12 @@ Without `vitest`, formula changes → mistakes found by customers. With 2 tests,
 
 ## Program
 
+```bash
+npm install --save-dev vitest
+# Add a test script in package.json so `npm test` works:
+# { "scripts": { "test": "vitest run" } }
+```
+
 ```javascript
 // calc.js
 export function calc(a,b){ return a+b; }

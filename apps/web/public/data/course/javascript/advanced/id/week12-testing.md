@@ -16,6 +16,12 @@ Tanpa `vitest`, ubah rumus → salah ketahuan pelanggan. Dengan 2 test, ubah →
 
 ## Program
 
+```bash
+npm install --save-dev vitest
+# Tambah script test di package.json agar `npm test` jalan:
+# { "scripts": { "test": "vitest run" } }
+```
+
 ```javascript
 // hitung.js
 export function hitung(a,b){ return a+b; }
