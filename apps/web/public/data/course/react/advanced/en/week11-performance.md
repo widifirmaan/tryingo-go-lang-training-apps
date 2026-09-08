@@ -1,16 +1,16 @@
-# Performance — Warung Tetap Cepat
+# Performance — Shop Stays Fast
 
-> **Kategori:** React | **Level:** Lanjutan | **Minggu 11:** Performance
+> **Kategori:** React | **Level:** Advanced | **Minggu 11:** Performance
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `React.memo` jangan gambar ulang jika props sama, `useMemo` hitung mahal di-cache, `lazy` + `Suspense` muat lambat
+- `React.memo` skips re-render when props are equal, `useMemo` caches expensive calcs, `lazy` + `Suspense` lazy-loads
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Daftar 1000 produk tanpa `memo` → ketik 1 huruf, 1000 kartu gambar ulang (ngos-ngosan). Dengan `memo` + `useMemo` + `lazy`, hanya yang berubah. Beda terasa di HP kentang.
+A 1000-product list without `memo` → type 1 letter, 1000 cards re-render (gasping). With `memo` + `useMemo` + `lazy`, only changes. The difference shows on potato phones.
 
 ---
 
@@ -19,45 +19,45 @@ Daftar 1000 produk tanpa `memo` → ketik 1 huruf, 1000 kartu gambar ulang (ngos
 ```jsx
 import { memo, useMemo, lazy, Suspense } from "react";
 
-const Kartu = memo(function Kartu({ nama }){
-  console.log("Render", nama);
-  return <div>{nama}</div>;
+const Card = memo(function Card({ name }){
+  console.log("Render", name);
+  return <div>{name}</div>;
 });
 
-function Daftar({ daftar }){
-  const total = useMemo(() => daftar.reduce((s,i)=>s+i.harga,0), [daftar]);
-  return <div>Total: {total}<Kartu nama="Beras" /></div>;
+function List({ list }){
+  const total = useMemo(() => list.reduce((s,i)=>s+i.price,0), [list]);
+  return <div>Total: {total}<Card name="Rice" /></div>;
 }
 
-const Berat = lazy(() => import("./Berat"));
+const Heavy = lazy(() => import("./Heavy"));
 export default function App(){
-  return <Suspense fallback="Memuat..."><Berat /></Suspense>;
+  return <Suspense fallback="Loading..."><Heavy /></Suspense>;
 }
 ```
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Warung Hemat Energi
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+### Analogy: Energy-Saving Shop
+- See Program: run it, change 1 number/prop, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
+### Step 0 — Prepare Device
+- Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).
 
-### Cara Komputer Membaca
-- `memo` bungkus: props sama → lewati. `useMemo` ingat hitungan. `lazy` unduh saat perlu.
+### How the Computer Reads It
+- `memo` wraps: same props → skip. `useMemo` remembers calcs. `lazy` downloads when needed.
 
-### 3 Istilah Wajib
-- 1. **memo/useMemo/lazy**: lewati/ingat/nanti
+### 3 Must-Know Terms
+- 1. **memo/useMemo/lazy**: skip/remember/later
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 11: **Cepat** — `memo`, `useMemo`, `lazy`.
+Week 11: **Fast** — `memo`, `useMemo`, `lazy`.

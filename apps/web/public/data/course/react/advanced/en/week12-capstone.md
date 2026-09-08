@@ -1,53 +1,53 @@
-# Capstone: Toko E-Commerce Lengkap
+# Capstone: Complete E-Commerce Store
 
-> **Kategori:** React | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce App
+> **Kategori:** React | **Level:** Advanced | **Minggu 12:** Capstone: E-Commerce App
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung Router + Context + `fetch` + `memo` jadi toko `produk` + `keranjang` + `checkout`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: Router + Context + fetch + uji + deploy jadi toko beneran. Portfolio React.
+- Combine Router + Context + `fetch` + `memo` into a store with `products` + `cart` + `checkout`
 
 ---
 
-## Program: Toko Capstone
+## Why This Matters (Non-IT)
 
-Fitur wajib:
-- `/` Beranda, `/produk` daftar `fetch` `useEffect`, `/produk/:id` detail `useParams`, `/keranjang` Context
-- `memo` untuk `KartuProduk`, `lazy` untuk `Checkout`
+11 separate weeks — capstone proves the combination: Router + Context + fetch + tests + deploy become a real store. React portfolio.
+
+---
+
+## Program: Capstone Store
+
+Required features:
+- `/` Home, `/products` list `fetch` `useEffect`, `/products/:id` detail `useParams`, `/cart` Context
+- `memo` for `ProductCard`, `lazy` for `Checkout`
 - Deploy `Vercel` + `vitest` 1 test
 
-Struktur: `src/pages`, `src/components`, `src/context/KeranjangContext.jsx`.
+Structure: `src/pages`, `src/components`, `src/context/CartContext.jsx`.
 
-**Tugas:** Deploy `warung-react.vercel.app` + video 2 menit tambah keranjang → checkout.
+**Task:** Deploy `shop-react.vercel.app` + 2-min video adding to cart → checkout.
 
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Grand Opening Toko React
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
-
-### Langkah 0 — Siapkan Device
-- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
-
-### Cara Komputer Membaca
-- CHECKLIST (router + gudang + uji + deploy) lalu URL + video.
-
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- Lihat Istilah Wajib di atas.
+### Analogy: React Store Grand Opening
+- See Program: run it, change 1 number/prop, see the difference.
 
-## Ringkasan
+### Step 0 — Prepare Device
+- Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).
 
-Minggu 12: **Capstone** — toko lengkap, **Selesai React 0→Ahli!**
+### How the Computer Reads It
+- CHECKLIST (router + warehouse + tests + deploy) then URL + video.
+
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
+
+---
+
+## Mini Glossary
+
+- See Must-Know Terms above.
+
+## Summary
+
+Week 12: **Capstone** — complete store, **React 0→Expert DONE!**

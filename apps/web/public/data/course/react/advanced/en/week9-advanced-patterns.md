@@ -1,20 +1,20 @@
-# Advanced Patterns — Pola Warung Rapi
+# Advanced Patterns — Neat Shop Patterns
 
-> **Kategori:** React | **Level:** Lanjutan | **Minggu 9:** Advanced Patterns
+> **Kategori:** React | **Level:** Advanced | **Minggu 9:** Advanced Patterns
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Compound Components` — `Card.Header` + `Card.Body`, `Render Props` dan `HOC` — cetak biru rapi
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Tanpa pola, `Card` 5 varian = 5 file duplikat 80%. Dengan Compound (`Card.Header`), 1 kartu + susun bebas. Render Props/HOC bagi logika tanpa duplikat.
+- `Compound Components` — `Card.Header` + `Card.Body`, `Render Props` and `HOC` — neat blueprints
 
 ---
 
-## Program: Pola Compound
+## Why This Matters (Non-IT)
+
+Without patterns, `Card` 5 variants = 5 files 80% duplicated. With Compound (`Card.Header`), 1 card + free assembly. Render Props/HOC share logic without duplicates.
+
+---
+
+## Program: Compound Pattern
 
 ```jsx
 function Card({ children }){ return <div style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16 }}>{children}</div>; }
@@ -24,8 +24,8 @@ Card.Body = ({ children }) => <p>{children}</p>;
 export default function App(){
   return (
     <Card>
-      <Card.Header>Beras 5kg</Card.Header>
-      <Card.Body>Rp 62.000 — Stok 10</Card.Body>
+      <Card.Header>Rice 5kg</Card.Header>
+      <Card.Body>Rp 62,000 — Stock 10</Card.Body>
     </Card>
   );
 }
@@ -34,26 +34,26 @@ export default function App(){
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Lego Technic
-- Lihat Program: jalankan, ubah 1 angka/prop, lihat bedanya.
+### Analogy: Lego Technic
+- See Program: run it, change 1 number/prop, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama React W1: `npm run dev` di `5173` (+ `vitest` untuk W10).
+### Step 0 — Prepare Device
+- Same as React W1: `npm run dev` on `5173` (+ `vitest` for W10).
 
-### Cara Komputer Membaca
-- `Card.Header = ...` tempel sub-komponen ke induk; `children` isi lubang.
+### How the Computer Reads It
+- `Card.Header = ...` attaches a sub-component to the parent; `children` fills the slot.
 
-### 3 Istilah Wajib
-- 1. **Compound/children**: susun/lubang
+### 3 Must-Know Terms
+- 1. **Compound/children**: assemble/slot
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 9: **Pola Compound** — bagi kartu jadi Header/Body.
+Week 9: **Compound Pattern** — split cards into Header/Body.
