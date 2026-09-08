@@ -32,7 +32,8 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 ## Penjelasan untuk Pemula
 
 ### Analogi: Dokter Gudang
-- Lihat Program: jalankan baris per baris di Supabase/`psql`, ubah 1 angka, lihat bedanya.
+- **Query lambat tanpa EXPLAIN = sakit tanpa rontgen**: tebak-tebak (tambah RAM?) mahal dan sering salah.
+- **`EXPLAIN ANALYZE` = rontgen beneran**: tunjuk baris lambat + waktu ms-nya. `VACUUM` = sapu data mati, `pg_stat_statements` = rekam medis semua query!
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (Supabase tanpa install / lokal).

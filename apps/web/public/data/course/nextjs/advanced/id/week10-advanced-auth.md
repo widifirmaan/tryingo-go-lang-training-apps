@@ -50,7 +50,8 @@ export default async function Admin(){
 ## Penjelasan untuk Pemula
 
 ### Analogi: KTP Digital Warung
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+- **Tanpa auth = warung tanpa satpam**: siapa saja buka `/admin` → ubah harga iseng.
+- **NextAuth = KTP digital + satpam otomatis**: `signIn` cetak KTP (JWT), `auth()` cek tiap halaman server. `[...nextauth]/route.js` = kantor KTP (tanpa ini login TAK JALAN!).
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (lihat minggu 1 untuk install).

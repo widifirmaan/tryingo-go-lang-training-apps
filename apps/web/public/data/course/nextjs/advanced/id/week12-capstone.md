@@ -39,7 +39,8 @@ prisma/schema.prisma
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Online
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+- **11 minggu = bangun mal online**: etalase (pages), dapur (actions), gudang (Prisma), KTP (Auth).
+- **Capstone = grand opening**: CRUD + login + deploy Vercel JALAN BARENG + demo tambah produk dari HP. Checklist hijau semua = buka!
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (lihat minggu 1 untuk install).

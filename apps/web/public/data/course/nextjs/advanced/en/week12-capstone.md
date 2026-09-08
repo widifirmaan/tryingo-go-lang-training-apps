@@ -39,7 +39,8 @@ prisma/schema.prisma
 ## Beginner Friendly Explanation
 
 ### Analogy: Online Store Grand Opening
-- See Program: run line by line, change 1 number, see the difference.
+- **11 weeks = building an online mall**: showcase (pages), kitchen (actions), warehouse (Prisma), IDs (Auth).
+- **Capstone = grand opening**: CRUD + login + Vercel deploy RUN TOGETHER + add-product demo from phone. All-green checklist = open!
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (see week 1 for install).

@@ -69,7 +69,8 @@ Buat course platform lengkap: auth, course catalog, video player, progress track
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Svelte
-- Lihat Program: jalankan baris per baris, ubah 1 angka, lihat bedanya.
+- **9 minggu = rakit toko**: bata (`let`/store), peta (SvelteKit), keramik halus (transitions).
+- **Capstone = grand opening**: SvelteKit + Prisma + auth + deploy JALAN BARENG. Platform kursus = toko yang jual ILMU (makan sendiri masakan sendiri!).
 
 ### Langkah 0 — Siapkan Device
 - Sama W1 track ini (lihat minggu 1 untuk install).

@@ -32,7 +32,8 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 ## Beginner Friendly Explanation
 
 ### Analogy: Warehouse Doctor
-- See Program: run line by line in Supabase/`psql`, change 1 number, see the difference.
+- **Slow queries without EXPLAIN = sickness without X-ray**: guessing (add RAM?) is expensive and often wrong.
+- **`EXPLAIN ANALYZE` = real X-ray**: points at slow lines + their ms. `VACUUM` = sweeps dead data, `pg_stat_statements` = medical records of all queries!
 
 ### Step 0 — Prepare Device
 - Same as this track's W1 (Supabase no-install / local).
