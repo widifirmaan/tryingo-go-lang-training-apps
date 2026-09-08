@@ -88,6 +88,30 @@ Fits: many (thousands of orders), ever-growing. `$lookup` = Mongo JOIN.
 
 ---
 
+### Bonus: Schema Validation — Collection Guard (mongodb.com/docs/manual/schema-validation!)
+
+Flexible ≠ garbage allowed! Lock rules in the DB (not just apps — apps forget!):
+
+```javascript
+db.createCollection("products_neat", {
+  validator: {
+    $jsonSchema: {
+      required: ["name", "price"],
+      properties: {
+        name: { bsonType: "string", minLength: 3 },
+        price: { bsonType: ["int", "double"], minimum: 0 }
+      }
+    }
+  },
+  validationAction: "error" // reject (not warn!)
+})
+
+db.products_neat.insertOne({ name: "X", price: -5 }) // FAILS: short name + negative price!
+db.products_neat.insertOne({ name: "Rice", price: 62000 }) // passes
+```
+
+---
+
 ## Challenge
 
 **Correctly Designed Shop:** `products` embeds `reviews` (few, max 5) + `orders` references `customer_email` + `$lookup` Budi report. Write 1-sentence reasons per choice. **Beginner MongoDB DONE!**
