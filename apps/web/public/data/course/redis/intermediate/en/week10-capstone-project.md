@@ -1,66 +1,91 @@
-# Capstone: Real-time Analytics — Dasbor Warung Live
+# Capstone: Real-time Analytics — Live Shop Dashboard
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 10:** Capstone: Real-time Analytics
+> **Kategori:** Redis | **Level:** Intermediate | **Minggu 10:** Capstone: Real-time Analytics
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung W1-W9: `String` counter + `Hash` kartu + `Sorted Set` ranking + `Streams` pesanan + `Pub/Sub` siar + TTL jadi dasbor live warung
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-9 minggu terpisah — capstone buktikan gabung: pengunjung naik, ranking terlaris live, pesanan mengalir, stok siar habis. Ini portfolio "Redis real-time".
+- Combine W1-W9: `String` counters + `Hash` cards + `Sorted Set` rankings + `Streams` orders + `Pub/Sub` broadcasts + TTL into a live shop dashboard
 
 ---
 
-## Program: Dasbor Live Warung (Checklist)
+## Why This Matters (Non-IT)
+
+9 separate weeks — capstone proves the combination: rising visitors, live best-seller ranking, flowing orders, empty-stock broadcasts. Your "real-time Redis" portfolio.
+
+---
+
+## Program: Live Shop Dashboard (Checklist)
 
 ```bash
-# 1. Counter pengunjung (W1 String + EXPIRE harian)
-INCR pengunjung:2026-08-25
+# 1. Visitor counter (W1 String + daily EXPIRE)
+INCR visitors:2026-08-25
 
-# 2. Kartu produk (W2 Hash)
-HSET produk:1 nama "Beras" harga 62000 stok 10
+# 2. Product card (W2 Hash)
+HSET product:1 name "Rice" price 62000 stock 10
 
-# 3. Ranking laris (W5 Sorted Set)
-ZINCRBY laris 1 "beras"
-ZREVRANGE laris 0 2 WITHSCORES  # top 3 live!
+# 3. Live ranking (W5 Sorted Set)
+ZINCRBY best 1 "rice"
+ZREVRANGE best 0 2 WITHSCORES  # top 3 live!
 
-# 4. Aliran pesanan (W6 Streams)
-XADD pesanan * nama "Budi" total 62000
-XREAD COUNT 10 STREAMS pesanan 0
+# 4. Order stream (W6 Streams)
+XADD orders * name "Budi" total 62000
+XREAD COUNT 10 STREAMS orders 0
 
-# 5. Siar habis (W6 Pub/Sub)
-PUBLISH stok "Beras habis!"  # kasir SUBSCRIBE dengar
+# 5. Empty broadcast (W6 Pub/Sub)
+PUBLISH stock "Rice empty!"  # cashiers SUBSCRIBE hear
 
-# 6. Cache daftar (W9 TTL)
-SET daftar:json "..." EX 60
+# 6. List cache (W9 TTL)
+SET list:json "..." EX 60
 ```
 
-**Tugas capstone:** Script `dasbor.sh` jalankan 1-6 berurutan + screenshot tiap hasil + `INFO stats` (uptime, memori). **Selesai Redis 0→Ahli!** 🎉
+**Capstone task:** Script `dashboard.sh` running 1-6 in order + screenshot each result + `INFO stats` (uptime, memory). **Redis 0→Expert DONE!** 🎉
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Capstone = Gabung 9 Minggu
-String + Hash + List + Set + ZSet + Streams + Pub/Sub + TTL = dasbor live.
-
----
-
-## Tantangan
-
-**Grand Opening:** Semua checklist + `INFO` + video 1 menit pesan→ranking berubah live. **Selesai Redis 0→Ahli!** 🎉
+### Capstone = Combine 9 Weeks
+String + Hash + List + Set + ZSet + Streams + Pub/Sub + TTL = live dashboard.
 
 ---
 
-## Glosarium Mini
+## Beginner Friendly Explanation
 
-- **Capstone/live**: gabung/langsung
+### Analogy: Live Dashboard
+- **Counters tick, rankings shift, orders stream** — all from one RAM drawer.
+
+### Step 0 — Prepare Device
+- `redis-cli` + `dashboard.sh` script + phone to verify.
+
+### How the Computer Reads It
+1. Checklist 1-6 in order → live dashboard state built.
+2. `INFO stats` → uptime + memory proof.
+
+### 3 Must-Know Terms
+1. **Capstone/live**: combine/live
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 10 dari 10: **Dasbor Live** (Level: Menengah). **Selesai Redis 0→Ahli dari nol!** 🎉
+- **Green:** `ZREVRANGE` after 3 sales → ranking shifts live?
+- **Yellow:** `PUBLISH` while cashier listens → instant?
+- **Red:** Skip TTL → stale list? Add `EX 60`.
+
+---
+
+## Challenge
+
+**Grand Opening:** All checklist + `INFO` + 1-min order→ranking-shift-live video. **Redis 0→Expert DONE!** 🎉
+
+---
+
+## Mini Glossary
+
+- **Capstone/live**: combine/live
+
+---
+
+## Summary
+
+Week 10 of 10: **Live Dashboard** (Level: Intermediate). **Redis 0→Expert from zero DONE!** 🎉

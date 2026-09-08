@@ -1,88 +1,87 @@
-# Pub/Sub — Pengeras Warung Redis
+# Pub/Sub — Redis Shop Loudspeaker
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 6:** Pub/Sub & Streams
+> **Kategori:** Redis | **Level:** Intermediate | **Minggu 6:** Pub/Sub & Streams
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `SUBSCRIBE stok` dengar kanal, `PUBLISH stok "habis"` siar (sumber: redis.io/docs/data-types/pubsub)
-- `XADD`/`XREAD` streams (antrian awet, beda pub/sub yang hilang jika tidak dengar)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Stok habis → 3 kasir + gudang harus tahu SEKARANG. Tanpa pub/sub, tiap kasir tanya DB tiap detik (boros). Dengan `PUBLISH`, 1 siar → semua dengar. Streams untuk pesanan (tidak boleh hilang meski worker mati).
+- `SUBSCRIBE stock` listens to a channel, `PUBLISH stock "empty"` broadcasts (source: redis.io/docs/data-types/pubsub)
+- `XADD`/`XREAD` streams (durable queue, unlike pub/sub which is lost when unheard)
 
 ---
 
-## Program: Siar & Antrian Awet Warung
+## Why This Matters (Non-IT)
+
+Empty stock → 3 cashiers + warehouse must know NOW. Without pub/sub, every cashier polls the DB every second (wasteful). With `PUBLISH`, 1 broadcast → all hear. Streams for orders (must not be lost even when workers die).
+
+---
+
+## Program: Shop Broadcast & Durable Queue
 
 ```bash
-# Terminal 1 (dengar):
-SUBSCRIBE stok
-# Terminal 2 (siar):
-PUBLISH stok "Beras habis!"
-# → Terminal 1 langsung terima!
+# Terminal 1 (listens):
+SUBSCRIBE stock
+# Terminal 2 (broadcasts):
+PUBLISH stock "Rice empty!"
+# → Terminal 1 receives instantly!
 
-# Streams (antrian awet, ada ID):
-XADD pesanan * nama "Budi" total 62000
-XADD pesanan * nama "Siti" total 5000
-XREAD COUNT 2 STREAMS pesanan 0
-XREAD BLOCK 5000 STREAMS pesanan $
+# Streams (durable queue, has IDs):
+XADD orders * name "Budi" total 62000
+XADD orders * name "Siti" total 5000
+XREAD COUNT 2 STREAMS orders 0
+XREAD BLOCK 5000 STREAMS orders $
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
-### Pub/Sub = Pengeras (Hilang Jika Tak Dengar)
-`SUBSCRIBE` dulu baru `PUBLISH` sampai. Telat dengar = ketinggalan.
+### Pub/Sub = Loudspeaker (Lost When Unheard)
+`SUBSCRIBE` first, then `PUBLISH` arrives. Late listeners miss out.
 
-### Streams = Buku Antrian Awet
-`XADD` simpan + ID waktu, `XREAD` baca (bisa dari ID lama). Worker mati → lanjutkan dari ID terakhir.
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Pengeras & Buku Kasir
-- **Pub/Sub = pengeras masjid**: siar sekarang, yang tidak dengar ketinggalan.
-- **Streams = buku antrian bernomor**: sobek nomor, panggil ulang bisa.
-
-### Langkah 0 — Siapkan Device
-- 2 terminal `redis-cli` (atau `try.redis.io` 2 tab).
-
-### Cara Komputer Membaca
-1. `SUBSCRIBE stok` → koneksi jadi pendengar.
-2. `PUBLISH stok "x"` → server teruskan ke semua pendengar kanal itu.
-
-### 3 Istilah Wajib
-1. **Publish/subscribe**: siar/dengar
-2. **Streams/XADD**: buku/tulis
+### Streams = Durable Queue Book
+`XADD` stores + time ID, `XREAD` reads (can start from old IDs). Dead worker → resumes from last ID.
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** Siar tanpa pendengar → hilang? (Ya! Beda streams.)
-- **Kuning:** 2 pendengar → keduanya terima?
-- **Merah:** `XREAD` dari `0` vs `$` → lama vs baru?
+### Analogy: Loudspeaker & Cashier Book
+- **Pub/Sub = mosque loudspeaker**: broadcasts now, absentees miss out.
+- **Streams = numbered queue book**: tear a number, recalls possible.
 
----
+### Step 0 — Prepare Device
+- 2 `redis-cli` terminals (or `try.redis.io` 2 tabs).
 
-## Tantangan
+### How the Computer Reads It
+1. `SUBSCRIBE stock` → connection becomes a listener.
+2. `PUBLISH stock "x"` → server forwards to all listeners of that channel.
 
-**Warung Siar:** `SUBSCRIBE` 2 terminal + `PUBLISH` 3 pesan + `XADD` 2 pesanan + `XREAD` baca ulang.
-
----
-
-## Glosarium Mini
-
-- **Pub/Sub/Streams**: siar/antrian-awet
-- **XADD/XREAD**: tulis/baca
+### 3 Must-Know Terms
+1. **Publish/subscribe**: broadcast/listen
+2. **Streams/XADD**: book/write
 
 ---
 
-## Ringkasan
+## Experiments
 
-Minggu 6 dari 10: **Pengeras & Buku** (Level: Menengah). Siar instan + antrian awet. Minggu depan: **Lua** — resep di server.
+- **Green:** Broadcast with no listener → lost? (Yes! Unlike streams.)
+- **Yellow:** 2 listeners → both receive?
+- **Red:** `XREAD` from `0` vs `$` → old vs new?
+
+---
+
+## Challenge
+
+**Broadcast Shop:** `SUBSCRIBE` 2 terminals + `PUBLISH` 3 messages + `XADD` 2 orders + `XREAD` re-read.
+
+---
+
+## Mini Glossary
+
+- **Pub/Sub/Streams**: broadcast/queue
+
+---
+
+## Summary
+
+Week 6 of 10: **Broadcast** (Level: Intermediate). Loud + durable. Next: **Lua**.
