@@ -1,59 +1,59 @@
-# Admin Panel — Kasir Otomatis Django
+# Admin Panel — Automatic Django Cashier
 
-> **Kategori:** Django | **Level:** Menengah | **Minggu 7:** Admin Panel
+> **Kategori:** Django | **Level:** Intermediate | **Minggu 7:** Admin Panel
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `admin.py` kustom: `list_display`, `list_filter`, `search_fields` — kasir lebih enak
+- Custom `admin.py`: `list_display`, `list_filter`, `search_fields` — nicer cashier desk
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Tanpa kustom admin, cari 1 produk scroll 1000 baris. Dengan `list_display` + `search_fields` + `list_filter`, ketemu 3 detik.
+Without custom admin, finding 1 product scrolls 1000 rows. With `list_display` + `search_fields` + `list_filter`, found in 3 seconds.
 
 ---
 
 ## Program
 
 ```python
-# warung/admin.py
+# shop/admin.py
 from django.contrib import admin
-from .models import Produk
+from .models import Product
 
-@admin.register(Produk)
-class ProdukAdmin(admin.ModelAdmin):
-    list_display = ("nama", "harga", "stok", "kategori")
-    list_filter = ("kategori",)
-    search_fields = ("nama",)
-    list_editable = ("harga", "stok")
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("name", "price", "stock", "category")
+    list_filter = ("category",)
+    search_fields = ("name",)
+    list_editable = ("price", "stock")
 ```
 
-Buka `http://localhost:8000/admin/warung/produk/` → filter kategori, cari nama, edit harga langsung di list.
+Open `http://localhost:8000/admin/shop/product/` → filter category, find names, edit prices right in the list.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Kasir Otomatis Rapi
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Neat Automatic Cashier
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `list_display` kolom; `search_fields` cari; `list_filter` saring samping.
+### How the Computer Reads It
+- `list_display` columns; `search_fields` finds; `list_filter` side-filters.
 
-### 3 Istilah Wajib
-- 1. **list_display/search**: kolom/cari
+### 3 Must-Know Terms
+- 1. **list_display/search**: columns/find
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 7: **Kasir Otomatis** — admin kustom.
+Week 7: **Automatic Cashier** — custom admin. Next: **REST API**.

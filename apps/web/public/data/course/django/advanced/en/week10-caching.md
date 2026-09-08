@@ -1,16 +1,16 @@
-# Caching — Laci Cepat Django
+# Caching — Fast Django Drawer
 
-> **Kategori:** Django | **Level:** Lanjutan | **Minggu 10:** Caching
+> **Kategori:** Django | **Level:** Advanced | **Minggu 10:** Caching
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `cache.set("produk", data, 60)` laci 60 detik, `@cache_page(60)` halaman
+- `cache.set("products", data, 60)` 60-second drawer, `@cache_page(60)` pages
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Query berat 100x/menit tanpa cache = DB kepanasan. Dengan `cache.get/set` 60 detik, 99x dari laci (0.1ms).
+Heavy queries 100x/minute without cache = DB overheats. With 60-second `cache.get/set`, 99x served from drawer (0.1ms).
 
 ---
 
@@ -19,12 +19,12 @@ Query berat 100x/menit tanpa cache = DB kepanasan. Dengan `cache.get/set` 60 det
 ```python
 from django.core.cache import cache
 
-def daftar(request):
-    data = cache.get("produk")
+def list(request):
+    data = cache.get("products")
     if not data:
-        data = list(Produk.objects.all().values())
-        cache.set("produk", data, 60) # 60 detik
-    return render(request, "daftar.html", {"produk": data})
+        data = list(Product.objects.all().values())
+        cache.set("products", data, 60) # 60 seconds
+    return render(request, "list.html", {"products": data})
 ```
 
 `settings.py`: `CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}`
@@ -32,26 +32,26 @@ def daftar(request):
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Laci Cepat Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Fast Django Drawer
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `cache.get` cek laci; kosong → hitung → `cache.set(kunci, data, 60)`.
+### How the Computer Reads It
+- `cache.get` checks drawer; empty → compute → `cache.set(key, data, 60)`.
 
-### 3 Istilah Wajib
-- 1. **cache.get/set**: cek/simpan-laci
+### 3 Must-Know Terms
+- 1. **cache.get/set**: check/store-drawer
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 10: **Laci Cepat** — `cache` 60 detik.
+Week 10: **Fast Drawer** — 60-second `cache`. Next: **Deploy**.

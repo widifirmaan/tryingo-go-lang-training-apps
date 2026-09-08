@@ -1,50 +1,50 @@
-# Capstone: Toko Django Lengkap
+# Capstone: Complete Django Store
 
-> **Kategori:** Django | **Level:** Lanjutan | **Minggu 12:** Capstone Project
+> **Kategori:** Django | **Level:** Advanced | **Minggu 12:** Capstone Project
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Gabung `models` + `forms` + `auth` + `admin` + `DRF` + `deploy` jadi toko `produk` + `pesanan` + `login`
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-11 minggu terpisah — capstone buktikan gabung: models + auth + DRF + test + deploy jadi toko. Portfolio Django.
+- Combine `models` + `forms` + `auth` + `admin` + `DRF` + `deploy` into a store with `products` + `orders` + `login`
 
 ---
 
-## Program: Toko Capstone Django
+## Why This Matters (Non-IT)
 
-Fitur: `Produk` CRUD via `ModelForm` + `admin` + `api/produk/` DRF + `auth` + `deploy` Railway.
+11 separate weeks — capstone proves the combination: models + auth + DRF + tests + deploy become a store. Django portfolio.
 
-Struktur: `warung/models.py`, `warung/views.py`, `warung/serializers.py`, `warung/admin.py`.
+---
 
-**Tugas:** Deploy `warung-django.railway.app` + video.
+## Program: Django Capstone Store
+
+Features: `Product` CRUD via `ModelForm` + `admin` + `api/products/` DRF + `auth` + `Railway` deploy.
+
+Structure: `shop/models.py`, `shop/views.py`, `shop/serializers.py`, `shop/admin.py`.
+
+**Task:** Deploy `shop-django.railway.app` + video.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Grand Opening Toko Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Django Store Grand Opening
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- CHECKLIST (model + auth + API + test + deploy) lalu URL + video.
+### How the Computer Reads It
+- CHECKLIST (model + auth + API + test + deploy) then URL + video.
 
-### 3 Istilah Wajib
-- 1. **Capstone/deploy**: gabung/buka
+### 3 Must-Know Terms
+- 1. **Capstone/deploy**: combine/open
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 12: **Capstone Django** — toko lengkap, **Selesai Django 0→Ahli!**
+Week 12: **Django Capstone** — complete store, **Django 0→Expert DONE!**

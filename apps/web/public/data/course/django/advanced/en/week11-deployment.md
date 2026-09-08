@@ -1,16 +1,16 @@
-# Deployment — Buka Cabang Django
+# Deployment — Open Django Branch
 
-> **Kategori:** Django | **Level:** Lanjutan | **Minggu 11:** Deployment
+> **Kategori:** Django | **Level:** Advanced | **Minggu 11:** Deployment
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `gunicorn` + `Vercel`/`Railway` deploy `warung-django.vercel.app`, `collectstatic`
+- `gunicorn` + `Vercel`/`Railway` deploy `shop-django.vercel.app`, `collectstatic`
 
 ---
 
-## Kenapa Ini Penting Buat Kamu?
+## Why This Matters (Non-IT)
 
-Lokal `localhost` hanya laptop. `gunicorn` + Railway + `collectstatic` + `DEBUG=False` = URL publik aman.
+Local `localhost` is laptop-only. `gunicorn` + Railway + `collectstatic` + `DEBUG=False` = safe public URL.
 
 ---
 
@@ -19,35 +19,35 @@ Lokal `localhost` hanya laptop. `gunicorn` + Railway + `collectstatic` + `DEBUG=
 ```bash
 pip install gunicorn
 python manage.py collectstatic
-gunicorn toko.wsgi
-# Deploy: vercel --prod atau railway
+gunicorn store.wsgi
+# Deploy: vercel --prod or railway
 ```
 
-`settings.py`: `ALLOWED_HOSTS = ["*"]`, `DEBUG=False`, `DATABASE_URL` dari env.
+`settings.py`: `ALLOWED_HOSTS = ["*"]`, `DEBUG=False`, `DATABASE_URL` from env.
 
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Buka Cabang Django
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+### Analogy: Open Django Branch
+- See Program: run the commands, change 1 thing, see the difference.
 
-### Langkah 0 — Siapkan Device
-- Sama Django W1: `runserver` di `8000` (+ paket minggu ini).
+### Step 0 — Prepare Device
+- Same as Django W1: `runserver` on `8000` (+ this week's package).
 
-### Cara Komputer Membaca
-- `collectstatic` kumpulkan CSS; `gunicorn` layani; env untuk rahasia (bukan file!).
+### How the Computer Reads It
+- `collectstatic` gathers CSS; `gunicorn` serves; env holds secrets (not files!).
 
-### 3 Istilah Wajib
-- 1. **gunicorn/collectstatic**: layani/kumpul-css
+### 3 Must-Know Terms
+- 1. **gunicorn/collectstatic**: serve/gather-css
 
 ---
 
-## Glosarium Mini
+## Mini Glossary
 
-- Lihat Istilah Wajib di atas.
+- See Must-Know Terms above.
 
-## Ringkasan
+## Summary
 
-Minggu 11: **Buka Cabang Django** — `gunicorn`.
+Week 11: **Open Django Branch** — `gunicorn`. Next: **Capstone**.
