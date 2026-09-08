@@ -32,7 +32,8 @@ pm2 save
 ## Beginner Friendly Explanation
 
 ### Analogy: Open Online Branch
-- See Program: run the commands, change 1 thing, see the difference.
+- **`localhost` = home kitchen**: only housemates taste.
+- **Deploy = rent shophouse**: `PORT` + `DATABASE_URL` from env (NEVER in git!) + `pm2 save` to revive!
 
 ### Step 0 — Prepare Device
 - Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).

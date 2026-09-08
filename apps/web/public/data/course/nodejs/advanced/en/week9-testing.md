@@ -40,7 +40,8 @@ test("0+0=0", ()=> expect(calc(0,0)).toBe(0));
 ## Beginner Friendly Explanation
 
 ### Analogy: Node Kitchen Taste
-- See Program: run the commands, change 1 thing, see the difference.
+- **`test` + `expect` = machine taste**: wrong → RED + line pointed.
+- **No tests = blind cooking**: `npm test` tastes ALL recipes in 3 seconds!
 
 ### Step 0 — Prepare Device
 - Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).

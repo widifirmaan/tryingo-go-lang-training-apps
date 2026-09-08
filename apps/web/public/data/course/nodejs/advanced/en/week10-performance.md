@@ -40,7 +40,8 @@ app.get("/products", (req,res)=>{
 ## Beginner Friendly Explanation
 
 ### Analogy: 8-Cashier Shop
-- See Program: run the commands, change 1 thing, see the difference.
+- **1 process = 1 cashier**: 7 cores idle + dead stays dead!
+- **`pm2 -i max` = cashier per core** + revives. `Map` cache = cheat sheet, no recount!
 
 ### Step 0 — Prepare Device
 - Same as Node W1 + this week's package (`vitest`/`pm2`/`vercel`).

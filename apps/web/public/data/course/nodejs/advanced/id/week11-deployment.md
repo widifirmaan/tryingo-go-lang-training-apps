@@ -32,7 +32,8 @@ pm2 save
 ## Penjelasan untuk Pemula
 
 ### Analogi: Buka Cabang Online
-- Lihat Program: jalankan perintahnya, ubah 1 hal, lihat bedanya.
+- **`localhost` = dapur rumah**: cuma serumah bisa cicip.
+- **Deploy = sewa ruko**: `PORT` + `DATABASE_URL` dari env (JANGAN di git!) + `pm2 save` agar bangun lagi!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1 + paket minggu ini (`vitest`/`pm2`/`vercel`).

@@ -48,7 +48,8 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 ## Beginner Friendly Explanation
 
 ### Analogy: Node Concert Wristband
-- See Program: run (`node server.js`), `curl` each door, change 1 thing.
+- **`jwt.sign` = print wristband**: correct login gets a 1-hour token; `verify` checks every VIP door.
+- **Middleware `check` = stick-on guard**: 10 lines guard ALL doors!
 
 ### Step 0 — Prepare Device
 - Same as Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` per week).

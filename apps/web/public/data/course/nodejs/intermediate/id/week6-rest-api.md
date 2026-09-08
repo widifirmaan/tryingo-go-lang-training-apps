@@ -48,7 +48,8 @@ Test: `curl http://localhost:3000/produk` dan `curl -X POST -H "Content-Type: ap
 ## Penjelasan untuk Pemula
 
 ### Analogi: Drive-Thru JSON Node
-- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+- **Express = pelayan siap pakai**: 1 baris 1 pintu + JSON otomatis.
+- **`res.status(201/404)` = stempel**: HP tahu sukses vs hilang!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).

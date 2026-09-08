@@ -48,7 +48,8 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 ## Penjelasan untuk Pemula
 
 ### Analogi: Gelang Konser Node
-- Lihat Program: jalankan (`node server.js`), `curl` tiap pintu, ubah 1 hal.
+- **`jwt.sign` = cetak gelang**: login benar dapat token 1 jam; `verify` periksa tiap pintu VIP.
+- **Middleware `cek` = satpam tempel**: 10 baris jaga SEMUA pintu!
 
 ### Langkah 0 — Siapkan Device
 - Sama Node W1: `node -v` + `npm install express` (+ `jsonwebtoken`/`prisma` sesuai minggu).
