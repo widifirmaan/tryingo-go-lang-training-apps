@@ -21,6 +21,8 @@ EXPLAIN ANALYZE SELECT * FROM produk WHERE kategori = 'Sembako';
 -- Seq Scan cost=... time=1.2ms → Index Scan time=0.1ms
 
 VACUUM ANALYZE produk;
+-- WAJIB dulu (tanpa ini: relation does not exist!):
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DESC LIMIT 5;
 ```
 
