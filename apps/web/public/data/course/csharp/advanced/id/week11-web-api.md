@@ -20,7 +20,7 @@ HP butuh JSON, bukan console. Web API = `console` jadi `http://localhost:5000/pr
 ```bash
 dotnet new webapi -n WarungApi
 cd WarungApi
-dotnet run  # https://localhost:7000/swagger !
+dotnet run  # lihat terminal untuk URL (biasanya https://localhost:7xxx/swagger)!
 ```
 
 ```csharp
@@ -58,7 +58,7 @@ public class ProdukController : ControllerBase {
 }
 ```
 
-Buka `https://localhost:7000/swagger` → coba langsung dari browser! `curl` juga bisa.
+Buka URL `/swagger` dari terminal → coba langsung dari browser! `curl` juga bisa.
 
 ---
 
