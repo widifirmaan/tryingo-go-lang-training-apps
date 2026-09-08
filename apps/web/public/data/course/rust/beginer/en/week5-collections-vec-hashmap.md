@@ -1,110 +1,110 @@
-# Collections — Rak Dinamis dan Buku Alamat Rust
+# Collections — Dynamic Racks and Rust Address Books
 
-> **Kategori:** Rust | **Level:** Pemula | **Minggu 5:** Collections
+> **Kategori:** Rust | **Level:** Beginner | **Minggu 5:** Collections
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- `Vec` rak dinamis `vec![]` + `push`, `HashMap` buku alamat `insert`/`get` (sumber: doc.rust-lang.org/book/ch08)
-- `harga["beras"]` vs `harga.get("kopi")` (`Option`, aman vs panic)
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Daftar 30 produk tidak muat di variabel manual. `Vec` = rak geser, `HashMap` = buku harga. `get()` kembalikan `Option` (ada/tidak) — paksa tangani "tidak ada", tidak diam-diam `null`.
+- `Vec` dynamic rack `vec![]` + `push`, `HashMap` address book `insert`/`get` (source: doc.rust-lang.org/book/ch08)
+- `prices["rice"]` vs `prices.get("coffee")` (`Option`, safe vs panic)
 
 ---
 
-## Program: Rak & Buku Warung
+## Why This Matters (Non-IT)
+
+30 products don't fit in manual variables. `Vec` = sliding rack, `HashMap` = price book. `get()` returns `Option` (present/missing) — forces handling "missing", never silent `null`.
+
+---
+
+## Program: Shop Racks & Books
 
 ```rust
 use std::collections::HashMap;
 
 fn main() {
-  // Vec rak dinamis (mut agar bisa push)
-  let mut stok = vec!["beras", "minyak"];
-  stok.push("gula");
-  println!("{:?} panjang {}", stok, stok.len());
-  println!("Pertama: {}", stok[0]);
+  // Vec dynamic rack (mut to push)
+  let mut stock = vec!["rice", "oil"];
+  stock.push("sugar");
+  println!("{:?} length {}", stock, stock.len());
+  println!("First: {}", stock[0]);
 
-  // HashMap buku alamat
-  let mut harga = HashMap::new();
-  harga.insert("beras", 62000);
-  harga.insert("gula", 15000);
-  println!("Harga beras: Rp{}", harga["beras"]);
+  // HashMap address book
+  let mut prices = HashMap::new();
+  prices.insert("rice", 62000);
+  prices.insert("sugar", 15000);
+  println!("Rice price: Rp{}", prices["rice"]);
 
-  // Aman: get() → Option
-  match harga.get("kopi") {
-    Some(h) => println!("Kopi Rp{}", h),
-    None => println!("Kopi belum ada"),
+  // Safe: get() → Option
+  match prices.get("coffee") {
+    Some(h) => println!("Coffee Rp{}", h),
+    None => println!("No coffee yet"),
   }
 
-  // Loop rak & buku
-  for (i, b) in stok.iter().enumerate() {
+  // Loop racks & books
+  for (i, b) in stock.iter().enumerate() {
     println!("{}. {}", i + 1, b);
   }
-  for (nama, h) in &harga {
-    println!("{}: Rp{}", nama, h);
+  for (name, h) in &prices {
+    println!("{}: Rp{}", name, h);
   }
 }
 ```
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `Vec` vs Array
-`[&str; 2]` tetap, `vec![]` geser + `push`. Butuh `mut` untuk ubah.
+`[&str; 2]` fixed, `vec![]` slides + `push`. Needs `mut` to change.
 
 ### `HashMap` + `Option`
-`insert` isi, `["kunci"]` langsung (panic jika tidak ada!), `get()` aman → `Some`/`None`.
+`insert` fills, `["key"]` direct (panics when missing!), `get()` safe → `Some`/`None`.
 
 ### `{:?}` Debug
-`println!("{:?}", stok)` cetak array untuk debug.
+`println!("{:?}", stock)` prints arrays for debug.
 
 ---
 
-## Penjelasan untuk Pemula
+## Beginner Friendly Explanation
 
-### Analogi: Rak Geser & Buku Alamat
-- **Vec = rak IKEA geser**: `push` tambah tanpa beli rak baru.
-- **HashMap = buku alamat**: cari "Budi" → nomor. `get` = "ada? → nomor / tidak ada".
+### Analogy: Sliding Racks & Address Books
+- **Vec = sliding IKEA rack**: `push` adds without buying a new rack.
+- **HashMap = address book**: look up "Budi" → number. `get` = "present? → number / missing".
 
-### Langkah 0 — Siapkan Device
-- Sama W1: `cargo run`.
+### Step 0 — Prepare Device
+- Same as W1: `cargo run`.
 
-### Cara Komputer Membaca
-1. `stok.push("gula")` → tambah belakang (perlu `mut`!).
-2. `harga.get("kopi")` → tidak ada → `None` → cabang `None`.
+### How the Computer Reads It
+1. `stock.push("sugar")` → appends at back (needs `mut`!).
+2. `prices.get("coffee")` → missing → `None` → `None` branch.
 
-### 3 Istilah Wajib
-1. **Vec/HashMap**: rak/buku
-2. **mut**: izin ubah
-3. **Option Some/None**: ada/tidak
-
----
-
-## Eksperimen
-
-- **Hijau:** `stok.push("kopi")` → len 4?
-- **Kuning:** `harga["kopi"]` langsung → panic `no entry`? Ganti `get` + `match`.
-- **Merah:** `let stok = vec![...]` tanpa `mut` + `push` → error `cannot borrow as mutable`?
+### 3 Must-Know Terms
+1. **Vec/HashMap**: rack/book
+2. **mut**: change permission
+3. **Option Some/None**: present/missing
 
 ---
 
-## Tantangan
+## Experiments
 
-**Inventaris:** `Vec` 5 produk + `HashMap` harga → loop cetak + `get` 1 yang tidak ada (tangani `None`) + hapus `harga.remove("gula")`.
-
----
-
-## Glosarium Mini
-
-- **Vec/HashMap/mut**: rak/buku/izin
-- **Option/get**: aman/cek
+- **Green:** `stock.push("coffee")` → len 4?
+- **Yellow:** Direct `prices["coffee"]` → `no entry` panic? Switch to `get` + `match`.
+- **Red:** `let stock = vec![...]` without `mut` + `push` → `cannot borrow as mutable` error?
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 5 dari 6: **Rak & Buku** (Level: Pemula). Dinamis + aman. Minggu depan: **Error** — alarm `Result`.
+**Inventory:** `Vec` of 5 products + `HashMap` prices → loop print + `get` 1 missing (handle `None`) + delete `prices.remove("sugar")`.
+
+---
+
+## Mini Glossary
+
+- **Vec/HashMap/mut**: rack/book/permission
+- **Option/get**: safe/check
+
+---
+
+## Summary
+
+Week 5 of 6: **Racks & Books** (Level: Beginner). Dynamic + safe. Next: **Error** — `Result` alarms.

@@ -1,123 +1,130 @@
-# Setup & Sintaks Rust — Buku Perpustakaan yang Ketat
+# Rust Setup & Syntax — Strict Library
 
-> **Kategori:** Rust | **Level:** Pemula | **Minggu 1:** Setup & Sintaks Dasar
+> **Kategori:** Rust | **Level:** Beginner | **Minggu 1:** Setup & Sintaks Dasar
 
-## Tujuan Pembelajaran
+## Learning Objectives
 
-- Instal Rust `rustup`, cek `cargo --version`, buat `cargo new warung --bin`, jalankan `cargo run`
-- Paham `let` (kotak kunci) vs `let mut` (kotak bisa ubah) — Rust **default tidak bisa ubah**
-- Tipe harus jelas atau tebak: `let x: i32 = 5`, `let y = 5` (tebak i32), `String` vs `&str`
-- `println!` dengan `{}`, `{:?}` debug, dan `cargo fmt` rapikan
-
----
-
-## Kenapa Ini Penting Buat Kamu?
-
-Rust = perpustakaan yang **sangat ketat**: tiap buku ada 1 pemilik, jika pinjam harus balik. Awal terasa ribet, tapi **tidak ada buku hilang** (memory safety tanpa sampah). Cocok untuk warung yang tidak mau rugi karena bug.
-
-Hari ini pasang perpustakaan, tulis struk pertama.
+- Install Rust via `rustup`, check `cargo --version`, create `cargo new shop --bin`, run `cargo run`
+- Understand `let` (locked box) vs `let mut` (changeable box) — Rust is **immutable by default**
+- Types explicit or guessed: `let x: i32 = 5`, `let y = 5` (guesses i32), `String` vs `&str`
+- `println!` with `{}`, `{:?}` debug, and `cargo fmt` tidying
 
 ---
 
-## Program: Struk Rust Pertama
+## Why This Matters (Non-IT)
 
-Simpan di `src/main.rs` setelah `cargo new warung`
+Rust = a **very strict** library: every book has 1 owner; borrowing means returning. Feels fussy at first, but **no books go missing** (memory safety without garbage). Perfect for shops that refuse to lose money to bugs.
+
+Today set up the library, write the first receipt.
+
+---
+
+## Program: First Rust Receipt
+
+Save in `src/main.rs` after `cargo new shop`
 
 ```rust
 fn main() {
-    println!("Warung Bu Siti — Rust Perpustakaan");
+    println!("Siti's Shop — Rust Library");
 
-    // 1. let = kotak kunci (tidak bisa ubah)
-    let nama = "Budi"; // &str, tebak otomatis
-    let beras_kg: i32 = 2; // i32 = integer 32-bit
-    let harga: i32 = 12500;
-    
-    // let mut = kotak bisa ubah
-    let mut total = beras_kg * harga;
-    println!("Pelanggan: {}, Total: Rp {}", nama, total);
+    // 1. let = locked box (can't change)
+    let name = "Budi"; // &str, auto-guessed
+    let rice_kg: i32 = 2; // i32 = 32-bit integer
+    let price: i32 = 12500;
 
-    // Ubah mut
-    total = total + 5000; // tambah ongkir
-    println!("Setelah ongkir: Rp {}", total);
+    // let mut = changeable box
+    let mut total = rice_kg * price;
+    println!("Customer: {}, Total: Rp {}", name, total);
 
-    // let tidak bisa ubah: let x = 5; x = 6; // ❌ error: cannot assign twice
+    // Change mut
+    total = total + 5000; // add delivery
+    println!("After delivery: Rp {}", total);
+
+    // let can't change: let x = 5; x = 6; // ❌ error: cannot assign twice
 
     // 2. String vs &str
-    let s1: &str = "halo"; // pinjam teks (tidak punya)
-    let s2: String = String::from("halo"); // punya teks (di heap)
+    let s1: &str = "hello"; // borrowed text (doesn't own)
+    let s2: String = String::from("hello"); // owned text (on heap)
     println!("s1: {}, s2: {}", s1, s2);
 
-    // 3. Shadowing — pakai nama sama, kotak baru
+    // 3. Shadowing — same name, new box
     let x = 5;
-    let x = x + 1; // kotak baru, bukan ubah
+    let x = x + 1; // new box, not a change
     println!("x shadow: {}", x);
 
-    println!("\nTool: cargo run (jalan), cargo fmt (rapikan), cargo build (cetak binary)");
+    println!("\nTool: cargo run (run), cargo fmt (tidy), cargo build (print binary)");
 }
 ```
 
-**Cara jalankan (5 menit):**
-1. Install dari `rustup.rs` → `rustup` → Next → cek `cargo --version` + `rustc --version`
-2. `cargo new warung --bin; cd warung`
-3. Ganti `src/main.rs` dengan kode → `cargo run` → lihat struk
-4. Acak spasi → `cargo fmt` → rapi
+**How to run (5 minutes):**
+1. Install from `rustup.rs` → `rustup` → Next → check `cargo --version` + `rustc --version`
+2. `cargo new shop --bin; cd shop`
+3. Replace `src/main.rs` with the code → `cargo run` → see receipt
+4. Scramble spaces → `cargo fmt` → tidy
 
 ---
 
-## Konsep Kunci
+## Key Concepts
 
 ### `let` vs `let mut`
-- `let x = 5` → **kunci**, tidak bisa `x = 6` (error)
-- `let mut x = 5` → bisa `x = 6` → pakai `mut` jika perlu ubah
+- `let x = 5` → **locked**, `x = 6` impossible (error)
+- `let mut x = 5` → `x = 6` allowed → use `mut` when changes are needed
 
-### Tipe Tebak vs Jelas
-`let x = 5` tebak `i32`, `let x: i32 = 5` jelas. `String` punya heap, `&str` pinjam.
+### Guessed vs Explicit Types
+`let x = 5` guesses `i32`, `let x: i32 = 5` explicit. `String` owns heap, `&str` borrows.
 
-### `println!("Halo {}", nama)`
-`!` macro, `{}` isi variabel. `{:?}` debug.
+### `println!("Hello {}", name)`
+`!` macro, `{}` fills variable. `{:?}` debug.
 
-### `cargo` — Tukang Perpustakaan
-`cargo new`, `cargo run`, `cargo fmt`, `cargo build --release` (cepat).
-
----
-
-## Penjelasan untuk Pemula
-
-### Analogi: Perpustakaan Ketat
-
-- **Rust = perpustakaan**: tiap buku 1 pemilik. `let` = buku dikunci di rak, `let mut` = buku boleh tulis.
-- **`cargo` = pustakawan**: `cargo new` bikin perpustakaan baru, `cargo run` buka dan baca.
-
-### 3 Istilah Wajib
-
-1. **let/mut**: kunci/bisa ubah
-2. **String/&str**: punya/pinjam
-3. **cargo**: tukang
+### `cargo` — Library Worker
+`cargo new`, `cargo run`, `cargo fmt`, `cargo build --release` (fast).
 
 ---
 
-## Eksperimen
+## Beginner Friendly Explanation
 
-- **Hijau:** `let mut beras = 2; beras += 3` → berapa?
-- **Kuning:** `let x = 5; let x = x+1` → shadowing 6?
-- **Merah:** `let x = 5; x = 6` tanpa mut → error `cannot assign`.
+### Analogy: Strict Library
+
+- **Rust = library**: every book 1 owner. `let` = book locked on shelf, `let mut` = writable book.
+- **`cargo` = librarian**: `cargo new` builds a new library, `cargo run` opens and reads.
+
+### Step 0 — Prepare Device
+- Install `rustup` (rustup.rs), verify `cargo --version`, create `cargo new shop --bin`.
+
+### How the Computer Reads It
+1. `let x = 5; x = 6` → compile error `cannot assign twice` before run.
+2. `cargo run` → compiles → runs binary → receipt prints.
+
+### 3 Must-Know Terms
+
+1. **let/mut**: locked/changeable
+2. **String/&str**: own/borrow
+3. **cargo**: worker
 
 ---
 
-## Tantangan
+## Experiments
 
-**Struk Ongkir Rust:** `let berat: f64 = 2.5; let jarak: i32 = 8; let ongkir = (berat * 5000.0) as i32 + jarak * 2000; println!("Berat {}kg jarak {}km → Rp {}", berat, jarak, ongkir)` + `cargo fmt`.
-
----
-
-## Glosarium Mini
-
-- **Rust/cargo**: bahasa/pustakawan
-- **let/mut**: kunci/bisa
-- **i32/f64**: angka
+- **Green:** `let mut rice = 2; rice += 3` → how much?
+- **Yellow:** `let x = 5; let x = x+1` → shadowing 6?
+- **Red:** `let x = 5; x = 6` without mut → `cannot assign` error.
 
 ---
 
-## Ringkasan
+## Challenge
 
-Minggu 1 dari 14: **Setup Rust** (Level: Pemula). Perpustakaan menyala, struk pertama jadi. Minggu depan: **Ownership** — pinjam buku harus balik.
+**Rust Delivery Receipt:** `let weight: f64 = 2.5; let dist: i32 = 8; let fee = (weight * 5000.0) as i32 + dist * 2000; println!("Weight {}kg dist {}km → Rp {}", weight, dist, fee)` + `cargo fmt`.
+
+---
+
+## Mini Glossary
+
+- **Rust/cargo**: language/librarian
+- **let/mut**: locked/changeable
+- **i32/f64**: numbers
+
+---
+
+## Summary
+
+Week 1 of 14: **Rust Setup** (Level: Beginner). Library on, first receipt done. Next: **Ownership** — borrowed books must return.
