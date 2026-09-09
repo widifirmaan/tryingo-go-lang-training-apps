@@ -46,4 +46,4 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 
 ## Ringkasan
 
-Minggu 8: **Gudang Cepat** — `EXPLAIN ANALYZE` + `VACUUM`.
+Minggu 8: **Gudang Cepat** — `EXPLAIN ANALYZE` + `VACUUM`. Minggu depan: **Replikasi & HA**.

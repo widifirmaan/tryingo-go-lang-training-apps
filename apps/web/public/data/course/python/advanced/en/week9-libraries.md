@@ -60,4 +60,4 @@ print("json & os are built-in — no pip needed")
 
 ## Summary
 
-Week 9: **Borrow Tools** — `pip` + `venv`.
+Week 9: **Borrow Tools** — `pip` + `venv`. Next week: **Testing**.

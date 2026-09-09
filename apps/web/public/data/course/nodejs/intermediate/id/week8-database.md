@@ -68,4 +68,4 @@ app.post("/produk", async (req,res)=>res.json(await prisma.produk.create({ data:
 
 ## Ringkasan
 
-Minggu 8: **Gudang Prisma** — Node + DB tanpa SQL.
+Minggu 8: **Gudang Prisma** — Node + DB tanpa SQL. Minggu depan: **Testing**.

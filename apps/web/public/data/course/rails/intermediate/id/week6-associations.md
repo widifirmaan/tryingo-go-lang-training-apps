@@ -56,4 +56,4 @@ produk.pesanans.map(&:pelanggan)
 
 ## Ringkasan
 
-Minggu 6: **Tali Rak** — associations.
+Minggu 6: **Tali Rak** — associations. Minggu depan: **Testing dengan RSpec**.

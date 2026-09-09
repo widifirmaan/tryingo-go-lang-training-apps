@@ -52,4 +52,4 @@ pm2 save
 
 ## Ringkasan
 
-Minggu 11: **Buka Cabang** — deploy Node.
+Minggu 11: **Buka Cabang** — deploy Node. Minggu depan: **Capstone: Toko Node Lengkap**.

@@ -86,4 +86,4 @@ Test: `curl -X POST -d '{"email":"admin@warung.com","password":"123"}' localhost
 
 ## Ringkasan
 
-Minggu 11: **API Laravel** — `apiResource`.
+Minggu 11: **API Laravel** — `apiResource`. Minggu depan: **Capstone: Toko Laravel Lengkap**.

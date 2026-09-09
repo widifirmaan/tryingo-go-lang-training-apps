@@ -58,4 +58,4 @@ test_calc()
 
 ## Summary
 
-Week 10: **Taste Test** — `assert` before deploy.
+Week 10: **Taste Test** — `assert` before deploy. Next week: **CLI & Automation**.

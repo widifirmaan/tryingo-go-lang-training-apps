@@ -97,4 +97,4 @@ toko.stokHabis("Beras");
 
 ## Ringkasan
 
-Minggu 10 dari 12: **Pola Rapi** — Singleton, Factory, Observer.
+Minggu 10 dari 12: **Pola Rapi** — Singleton, Factory, Observer. Minggu depan: **Advanced Types**.

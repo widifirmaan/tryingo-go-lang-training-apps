@@ -98,4 +98,4 @@ Sama W1: `npm run dev` di `5173`.
 
 ## Ringkasan
 
-Minggu 8 dari 12: **Siklus Hidup** — `onMount` + `context`. Selesai Menengah Svelte!
+Minggu 8 dari 12: **Siklus Hidup** — `onMount` + `context`. Selesai Menengah Svelte! Minggu depan: **Transitions & Animations**.

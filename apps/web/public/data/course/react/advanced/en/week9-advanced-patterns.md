@@ -57,4 +57,4 @@ export default function App(){
 
 ## Summary
 
-Week 9: **Compound Pattern** — split cards into Header/Body.
+Week 9: **Compound Pattern** — split cards into Header/Body. Next week: **Testing React**.

@@ -79,4 +79,4 @@ Buka `http://localhost:8000/api/produk/` → JSON.
 
 ## Ringkasan
 
-Minggu 8: **API Django** — DRF `ViewSet` jadi REST.
+Minggu 8: **API Django** — DRF `ViewSet` jadi REST. Minggu depan: **Testing**.

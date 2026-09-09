@@ -55,4 +55,4 @@ def daftar(request):
 
 ## Ringkasan
 
-Minggu 10: **Laci Cepat** — `cache` 60 detik.
+Minggu 10: **Laci Cepat** — `cache` 60 detik. Minggu depan: **Deployment**.

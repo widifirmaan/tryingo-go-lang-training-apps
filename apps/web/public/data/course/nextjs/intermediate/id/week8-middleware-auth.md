@@ -65,4 +65,4 @@ Jalan **sebelum** `page.js`, bisa `redirect` atau `next()`.
 
 ## Ringkasan
 
-Minggu 8: **Satpam Pintu** — middleware. Selesai Menengah Next.js!
+Minggu 8: **Satpam Pintu** — middleware. Selesai Menengah Next.js! Minggu depan: **Database & ORM**.

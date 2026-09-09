@@ -112,4 +112,4 @@ Sudah siap W1: `ng serve` di `4200`, `HttpClient` sudah `provideHttpClient()` di
 
 ## Ringkasan
 
-Minggu 8 dari 12: **Ambil Stok** — `HttpClient` + `subscribe`. Selesai Menengah Angular!
+Minggu 8 dari 12: **Ambil Stok** — `HttpClient` + `subscribe`. Selesai Menengah Angular! Minggu depan: **RxJS**.

@@ -79,4 +79,4 @@ Aktifkan 7 cek: `strictNullChecks`, `noImplicitAny`, dll. Tanpa `strict`, `null`
 
 ## Ringkasan
 
-Minggu 8 dari 12: **Buku Aturan** — `tsconfig` + `strict`.
+Minggu 8 dari 12: **Buku Aturan** — `tsconfig` + `strict`. Minggu depan: **Testing TypeScript**.

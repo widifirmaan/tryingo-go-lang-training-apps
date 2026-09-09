@@ -68,4 +68,4 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 
 ## Ringkasan
 
-Minggu 7: **KTP Node** — JWT + middleware.
+Minggu 7: **KTP Node** — JWT + middleware. Minggu depan: **Database**.

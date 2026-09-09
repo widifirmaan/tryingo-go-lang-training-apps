@@ -78,4 +78,4 @@ Schedule::job(new KirimPromo)->dailyAt("07:00"); // tiap jam 7 pagi
 
 ## Ringkasan
 
-Minggu 10: **Antrian** — Jobs tidak tunggu.
+Minggu 10: **Antrian** — Jobs tidak tunggu. Minggu depan: **REST API**.

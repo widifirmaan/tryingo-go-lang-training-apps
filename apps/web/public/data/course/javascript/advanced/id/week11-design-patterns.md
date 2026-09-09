@@ -94,4 +94,4 @@ console.log(b.info(), "| poin", b.poin);
 
 ## Ringkasan
 
-Minggu 11: **Cetak Biru** — Singleton, Factory, Observer.
+Minggu 11: **Cetak Biru** — Singleton, Factory, Observer. Minggu depan: **Testing JavaScript**.

@@ -65,4 +65,4 @@ test("hitung 0+0", () => {
 
 ## Ringkasan
 
-Minggu 12: **Uji** — Vitest sebelum buka warung.
+Minggu 12: **Uji** — Vitest sebelum buka warung. Minggu depan: **Performance Optimization**.

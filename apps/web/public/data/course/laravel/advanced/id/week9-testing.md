@@ -53,4 +53,4 @@ public function test_buat(){
 
 ## Ringkasan
 
-Minggu 9: **Uji Laravel** — `php artisan test`.
+Minggu 9: **Uji Laravel** — `php artisan test`. Minggu depan: **Queues & Jobs**.

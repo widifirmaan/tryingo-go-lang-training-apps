@@ -64,4 +64,4 @@ export default async function Admin(){
 
 ## Ringkasan
 
-Minggu 10: **KTP Digital** — NextAuth lindungi admin.
+Minggu 10: **KTP Digital** — NextAuth lindungi admin. Minggu depan: **Deployment**.

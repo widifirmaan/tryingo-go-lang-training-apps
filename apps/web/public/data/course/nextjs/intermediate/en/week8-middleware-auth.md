@@ -102,4 +102,4 @@ Runs **before** `page.js`, can `redirect` or `next()`.
 
 ## Summary
 
-Week 8: **Door Guard** — middleware. Intermediate Next.js DONE!
+Week 8: **Door Guard** — middleware. Intermediate Next.js DONE! Next week: **Database & ORM**.

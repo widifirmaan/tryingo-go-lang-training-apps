@@ -112,4 +112,4 @@ Ready from W1: `ng serve` on `4200`, `HttpClient` already `provideHttpClient()` 
 
 ## Summary
 
-Week 8 of 12: **Fetch Stock** — `HttpClient` + `subscribe`. Intermediate Angular DONE!
+Week 8 of 12: **Fetch Stock** — `HttpClient` + `subscribe`. Intermediate Angular DONE! Next week: **RxJS**.

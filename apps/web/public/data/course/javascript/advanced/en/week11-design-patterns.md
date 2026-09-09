@@ -94,4 +94,4 @@ console.log(b.info(), "| points", b.points);
 
 ## Summary
 
-Week 11: **Blueprints** — Singleton, Factory, Observer.
+Week 11: **Blueprints** — Singleton, Factory, Observer. Next week: **Testing JavaScript**.

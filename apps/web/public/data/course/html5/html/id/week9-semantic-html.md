@@ -33,4 +33,4 @@
 
 ## Ringkasan
 
-Minggu 9: **Papan Nama Jelas** — `header/nav/main`.
+Minggu 9: **Papan Nama Jelas** — `header/nav/main`. Minggu depan: **Multimedia**.

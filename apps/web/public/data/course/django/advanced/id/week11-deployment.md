@@ -51,4 +51,4 @@ gunicorn toko.wsgi
 
 ## Ringkasan
 
-Minggu 11: **Buka Cabang Django** — `gunicorn`.
+Minggu 11: **Buka Cabang Django** — `gunicorn`. Minggu depan: **Capstone: Toko Django Lengkap**.

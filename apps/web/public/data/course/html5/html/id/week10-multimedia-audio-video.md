@@ -31,4 +31,4 @@ Warung butuh video masak, audio testimoni — `controls` biar pelanggan play/pau
 
 ## Ringkasan
 
-Minggu 10: **Multimedia** — `audio`/`video` + `controls`.
+Minggu 10: **Multimedia** — `audio`/`video` + `controls`. Minggu depan: **HTML APIs**.

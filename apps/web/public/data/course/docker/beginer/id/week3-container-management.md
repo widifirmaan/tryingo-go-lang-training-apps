@@ -39,4 +39,4 @@ docker network connect warung-net db2
 
 ## Ringkasan
 
-Minggu 3: **Data Tetap** — volume & network.
+Minggu 3: **Data Tetap** — volume & network. Minggu depan: **Dockerfile**.

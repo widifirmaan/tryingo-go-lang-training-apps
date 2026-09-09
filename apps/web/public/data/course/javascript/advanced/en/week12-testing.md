@@ -65,4 +65,4 @@ test("calc 0+0", () => {
 
 ## Summary
 
-Week 12: **Test** — Vitest before opening shop.
+Week 12: **Test** — Vitest before opening shop. Next week: **Performance Optimization**.

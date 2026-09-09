@@ -66,4 +66,4 @@ end
 
 ## Ringkasan
 
-Minggu 5: **KTP Rails** — `has_secure_password` + `session`.
+Minggu 5: **KTP Rails** — `has_secure_password` + `session`. Minggu depan: **Associations**.

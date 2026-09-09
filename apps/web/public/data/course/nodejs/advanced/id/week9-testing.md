@@ -60,4 +60,4 @@ test("0+0=0", ()=> expect(hitung(0,0)).toBe(0));
 
 ## Ringkasan
 
-Minggu 9: **Uji Node** — `vitest` sebelum buka.
+Minggu 9: **Uji Node** — `vitest` sebelum buka. Minggu depan: **Performance**.

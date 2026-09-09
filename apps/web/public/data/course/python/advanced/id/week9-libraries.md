@@ -60,4 +60,4 @@ print("json & os sudah bawaan — tidak perlu pip")
 
 ## Ringkasan
 
-Minggu 9: **Pinjam Alat** — `pip` + `venv`.
+Minggu 9: **Pinjam Alat** — `pip` + `venv`. Minggu depan: **Testing**.

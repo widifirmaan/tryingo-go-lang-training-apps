@@ -26,4 +26,4 @@ Warung buka 24 jam — jika gudang utama mati, cabang replica ambil alih.
 
 ## Ringkasan
 
-Minggu 9: **Cabang Gudang** — replikasi.
+Minggu 9: **Cabang Gudang** — replikasi. Minggu depan: **Capstone: Gudang Warung Lengkap**.

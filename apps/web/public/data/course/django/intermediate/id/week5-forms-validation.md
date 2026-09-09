@@ -66,4 +66,4 @@ def tambah(request):
 
 ## Ringkasan
 
-Minggu 5: **Formulir** — `ModelForm` + `is_valid()`.
+Minggu 5: **Formulir** — `ModelForm` + `is_valid()`. Minggu depan: **Authentication**.

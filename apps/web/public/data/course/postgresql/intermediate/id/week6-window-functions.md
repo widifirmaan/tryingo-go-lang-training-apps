@@ -31,4 +31,4 @@ ORDER BY harga DESC;
 
 ## Ringkasan
 
-Minggu 6: **Peringkat** — Window Functions.
+Minggu 6: **Peringkat** — Window Functions. Minggu depan: **JSONB Semi-Struktural**.

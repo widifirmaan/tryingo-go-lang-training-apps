@@ -46,4 +46,4 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 
 ## Summary
 
-Week 8: **Fast Warehouse** — `EXPLAIN ANALYZE` + `VACUUM`.
+Week 8: **Fast Warehouse** — `EXPLAIN ANALYZE` + `VACUUM`. Next week: **Replication & HA**.

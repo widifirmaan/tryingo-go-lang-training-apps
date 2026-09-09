@@ -98,4 +98,4 @@ Function wrapping another function — adds logging without changing content.
 
 ## Summary
 
-Week 8: **Stamps & Queues** — decorators & generators. Intermediate Python DONE!
+Week 8: **Stamps & Queues** — decorators & generators. Intermediate Python DONE! Next week: **Libraries**.
