@@ -60,4 +60,4 @@ app.get("/produk", (req,res)=>{
 
 ## Ringkasan
 
-Minggu 10: **Cepat** — `pm2` + `cache`.
+Minggu 10: **Cepat** — `pm2` + `cache`. Minggu depan: **Deployment**.

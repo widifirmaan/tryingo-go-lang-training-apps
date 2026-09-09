@@ -109,4 +109,4 @@ db.close()
 
 ## Ringkasan
 
-Minggu 7: **Buku Kas File** — simpan ke `json` biar tidak hilang.
+Minggu 7: **Buku Kas File** — simpan ke `json` biar tidak hilang. Minggu depan: **Decorators & Generators**.

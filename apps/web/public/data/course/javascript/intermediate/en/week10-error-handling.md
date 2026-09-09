@@ -119,4 +119,4 @@ console.log("continuing...");
 
 ## Summary
 
-Week 10: **No-Panic Alarm** — `try/catch` so the shop never crashes. Intermediate DONE → Advanced next.
+Week 10: **No-Panic Alarm** — `try/catch` so the shop never crashes. Intermediate DONE → Advanced next. Next week: **Design Patterns**.

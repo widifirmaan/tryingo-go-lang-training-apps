@@ -95,4 +95,4 @@ console.log("lanjut...");
 
 ## Ringkasan
 
-Minggu 10: **Alarm Anti-Panik** — `try/catch` biar warung tidak crash.
+Minggu 10: **Alarm Anti-Panik** — `try/catch` biar warung tidak crash. Minggu depan: **Design Patterns**.

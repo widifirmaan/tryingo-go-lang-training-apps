@@ -38,4 +38,4 @@ Coba kirim kosong → browser cegat merah "Please fill out". Coba `wa` huruf →
 
 ## Ringkasan
 
-Minggu 8: **Satpam Formulir** — `required` + `pattern`.
+Minggu 8: **Satpam Formulir** — `required` + `pattern`. Minggu depan: **Semantic HTML**.

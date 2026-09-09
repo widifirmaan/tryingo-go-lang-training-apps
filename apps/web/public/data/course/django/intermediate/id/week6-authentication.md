@@ -87,4 +87,4 @@ def lihat(request):
 
 ## Ringkasan
 
-Minggu 6: **KTP Django** — `authenticate` + `login_required`.
+Minggu 6: **KTP Django** — `authenticate` + `login_required`. Minggu depan: **Admin Panel**.

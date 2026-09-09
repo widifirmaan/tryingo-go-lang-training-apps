@@ -89,4 +89,4 @@ test("tampil nama", () => {
 
 ## Ringkasan
 
-Minggu 10: **Uji Komponen** — `render` + `screen`.
+Minggu 10: **Uji Komponen** — `render` + `screen`. Minggu depan: **Performance**.

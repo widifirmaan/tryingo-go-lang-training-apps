@@ -29,4 +29,4 @@ vercel --prod
 
 ## Ringkasan
 
-Minggu 11: **Buka Cabang** — Vercel 1 klik.
+Minggu 11: **Buka Cabang** — Vercel 1 klik. Minggu depan: **Capstone: Toko Online Lengkap**.

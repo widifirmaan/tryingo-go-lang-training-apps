@@ -36,4 +36,4 @@ CREATE INDEX idx_data_harga ON produk_fleksibel USING GIN (data);
 
 ## Ringkasan
 
-Minggu 7: **Kardus Campur** — JSONB fleksibel.
+Minggu 7: **Kardus Campur** — JSONB fleksibel. Minggu depan: **Performa Tuning**.

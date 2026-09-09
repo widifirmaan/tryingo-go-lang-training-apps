@@ -58,4 +58,4 @@ test_hitung()
 
 ## Ringkasan
 
-Minggu 10: **Uji Rasa** — `assert` sebelum deploy.
+Minggu 10: **Uji Rasa** — `assert` sebelum deploy. Minggu depan: **CLI & Automation**.

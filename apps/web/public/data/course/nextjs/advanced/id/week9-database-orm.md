@@ -88,4 +88,4 @@ export async function POST(req) {
 
 ## Ringkasan
 
-Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`.
+Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`. Minggu depan: **Advanced Auth**.

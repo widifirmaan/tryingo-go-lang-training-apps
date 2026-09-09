@@ -43,4 +43,4 @@ Daftar produk, langkah masak, FAQ — semua list. Tanpa `ul/ol`, tulis ` - Beras
 
 ## Ringkasan
 
-Minggu 5: **Daftar** — `ul/ol` rak daftar.
+Minggu 5: **Daftar** — `ul/ol` rak daftar. Minggu depan: **Tabel**.

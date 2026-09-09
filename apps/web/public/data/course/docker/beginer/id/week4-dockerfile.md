@@ -59,4 +59,4 @@ node_modules
 
 ## Ringkasan
 
-Minggu 4: **Resep Peti** — Dockerfile `FROM/COPY/RUN`.
+Minggu 4: **Resep Peti** — Dockerfile `FROM/COPY/RUN`. Minggu depan: **Volume & Data**.

@@ -87,4 +87,4 @@ Route::middleware('jambuka')->group(function(){
 
 ## Ringkasan
 
-Minggu 5: **KTP Laravel** — Breeze `auth` + `middleware`.
+Minggu 5: **KTP Laravel** — Breeze `auth` + `middleware`. Minggu depan: **Relationships**.

@@ -60,4 +60,4 @@ class ProdukTest(TestCase):
 
 ## Ringkasan
 
-Minggu 9: **Uji Django** — `TestCase`.
+Minggu 9: **Uji Django** — `TestCase`. Minggu depan: **Caching**.

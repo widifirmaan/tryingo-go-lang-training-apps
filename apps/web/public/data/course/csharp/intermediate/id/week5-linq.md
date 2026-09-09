@@ -82,4 +82,4 @@ LINQ malas (deferred) — tanpa `ToList()`/`foreach`, query belum jalan!
 
 ## Ringkasan
 
-Minggu 5: **Saringan C#** — LINQ `Where/Select`.
+Minggu 5: **Saringan C#** — LINQ `Where/Select`. Minggu depan: **Async/Await**.

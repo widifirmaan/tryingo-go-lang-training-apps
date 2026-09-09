@@ -29,4 +29,4 @@ Test dengan `WAVE` extension Chrome.
 
 ## Ringkasan
 
-Minggu 12: **Untuk Semua** — `alt`, `label`, `aria`.
+Minggu 12: **Untuk Semua** — `alt`, `label`, `aria`. Minggu depan: **SEO & Meta**.

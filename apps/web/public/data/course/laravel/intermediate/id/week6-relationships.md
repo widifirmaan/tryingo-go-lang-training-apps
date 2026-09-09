@@ -59,4 +59,4 @@ echo $pesanan->produk->nama;
 
 ## Ringkasan
 
-Minggu 6: **Tali Rak** — `hasMany`/`belongsTo`.
+Minggu 6: **Tali Rak** — `hasMany`/`belongsTo`. Minggu depan: **Validasi**.

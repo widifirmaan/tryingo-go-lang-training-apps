@@ -94,4 +94,4 @@ console.log(new Member("Gula", 15000, 120).info());
 
 ## Ringkasan
 
-Minggu 6: **Pabrik Kartu** — `class` + `extends`.
+Minggu 6: **Pabrik Kartu** — `class` + `extends`. Minggu depan: **Utility Types**.

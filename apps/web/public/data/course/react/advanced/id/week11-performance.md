@@ -61,4 +61,4 @@ export default function App(){
 
 ## Ringkasan
 
-Minggu 11: **Cepat** — `memo`, `useMemo`, `lazy`.
+Minggu 11: **Cepat** — `memo`, `useMemo`, `lazy`. Minggu depan: **Capstone: Toko E-Commerce Lengkap**.

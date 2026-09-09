@@ -57,4 +57,4 @@ export default function App(){
 
 ## Ringkasan
 
-Minggu 9: **Pola Compound** — bagi kartu jadi Header/Body.
+Minggu 9: **Pola Compound** — bagi kartu jadi Header/Body. Minggu depan: **Testing React**.

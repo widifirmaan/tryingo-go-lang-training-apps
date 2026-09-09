@@ -48,4 +48,4 @@ app.listen(3000, () => console.log("Buka http://localhost:3000/produk"));
 
 ## Ringkasan
 
-Minggu 5: **Express** — `app.get/post` jadi API.
+Minggu 5: **Express** — `app.get/post` jadi API. Minggu depan: **REST API**.

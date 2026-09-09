@@ -37,4 +37,4 @@ Form warung tanpa `bind` = ketik tidak masuk `pelanggan`. Dengan `bind:value`, k
 
 ## Ringkasan
 
-Minggu 4: **Telinga & Tali** — `on:` dan `bind:`.
+Minggu 4: **Telinga & Tali** — `on:` dan `bind:`. Minggu depan: **Stores**.

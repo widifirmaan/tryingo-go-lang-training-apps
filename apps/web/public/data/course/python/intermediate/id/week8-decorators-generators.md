@@ -74,4 +74,4 @@ Fungsi yang bungkus fungsi lain — tambah log tanpa ubah isi.
 
 ## Ringkasan
 
-Minggu 8: **Stempel & Antrian** — decorator & generator. Selesai Intermediate Python!
+Minggu 8: **Stempel & Antrian** — decorator & generator. Selesai Intermediate Python! Minggu depan: **Libraries**.

@@ -68,4 +68,4 @@ Test: `curl http://localhost:3000/produk` dan `curl -X POST -H "Content-Type: ap
 
 ## Ringkasan
 
-Minggu 6: **REST Warung** — `GET/POST/DELETE` JSON.
+Minggu 6: **REST Warung** — `GET/POST/DELETE` JSON. Minggu depan: **Auth**.

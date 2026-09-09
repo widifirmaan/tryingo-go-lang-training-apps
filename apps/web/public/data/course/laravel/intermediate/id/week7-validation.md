@@ -68,4 +68,4 @@ View: `@error('nama') <span>{{ $message }}</span> @enderror`.
 
 ## Ringkasan
 
-Minggu 7: **Satpam Terpisah** — FormRequest.
+Minggu 7: **Satpam Terpisah** — FormRequest. Minggu depan: **File Storage**.

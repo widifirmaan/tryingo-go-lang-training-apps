@@ -40,4 +40,4 @@ Gunakan `routerLink="/produk/1"` vs `href` (reload).
 
 ## Ringkasan
 
-Minggu 6: **Peta Angular** — `Routes` + `routerLink`.
+Minggu 6: **Peta Angular** — `Routes` + `routerLink`. Minggu depan: **Reactive Forms**.

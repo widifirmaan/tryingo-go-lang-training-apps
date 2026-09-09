@@ -34,4 +34,4 @@ Test di `search.google.com/test/rich-results` dan WA `wa.me` preview.
 
 ## Ringkasan
 
-Minggu 13: **Papan Nama Google** — `title` + `description` + `og:`.
+Minggu 13: **Papan Nama Google** — `title` + `description` + `og:`. Minggu depan: **Proyek Akhir**.

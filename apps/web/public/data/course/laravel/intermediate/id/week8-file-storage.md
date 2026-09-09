@@ -60,4 +60,4 @@ php artisan storage:link
 
 ## Ringkasan
 
-Minggu 8: **Gudang Foto** — Storage Laravel.
+Minggu 8: **Gudang Foto** — Storage Laravel. Minggu depan: **Testing**.

@@ -57,4 +57,4 @@ Buka `http://localhost:8000/admin/warung/produk/` → filter kategori, cari nama
 
 ## Ringkasan
 
-Minggu 7: **Kasir Otomatis** — admin kustom.
+Minggu 7: **Kasir Otomatis** — admin kustom. Minggu depan: **REST API**.
