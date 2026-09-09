@@ -66,10 +66,25 @@ function compileVueSFC(source: string): { jsCode: string; errors: string[] } {
   }
 
   try {
-    const { descriptor, parseErrors } = window.Vue.parse(source, { filename: 'component.vue' });
+    const parsed = window.Vue.parse(source, { filename: 'component.vue' });
+    const descriptor = parsed.descriptor;
+    const parseErrors = parsed.parseErrors || parsed.errors || [];
 
     if (parseErrors.length > 0) {
       errors.push(...parseErrors.map((e: any) => typeof e === 'string' ? e : e.message || JSON.stringify(e)));
+    }
+
+    // Prefer inline template: setup() closes over its own bindings, so the
+    // render function can't lose reactive values (no render-context proxy).
+    try {
+      const inline = window.Vue.compileScript(descriptor, { id: 'vue-sfc', inlineTemplate: true });
+      const inlineErrors = (inline && inline.errors) || [];
+      if (inline && inline.content && inlineErrors.length === 0 && !inline.content.includes('__returned__')) {
+        const scriptContent = inline.content.replace(/^\s*export default/m, 'const __component =');
+        return { jsCode: `${scriptContent}\nexport default __component;`, errors };
+      }
+    } catch {
+      // fall through to the separate render-function path below
     }
 
     const templateResult = window.Vue.compileTemplate({
@@ -81,8 +96,9 @@ function compileVueSFC(source: string): { jsCode: string; errors: string[] } {
       },
     });
 
-    if (templateResult.errors.length > 0) {
-      errors.push(...templateResult.errors.map((e: any) => typeof e === 'string' ? e : e.message || JSON.stringify(e)));
+    const templateErrors = templateResult.errors || [];
+    if (templateErrors.length > 0) {
+      errors.push(...templateErrors.map((e: any) => typeof e === 'string' ? e : e.message || JSON.stringify(e)));
     }
 
     const scriptResult = window.Vue.compileScript(descriptor, {
@@ -90,8 +106,9 @@ function compileVueSFC(source: string): { jsCode: string; errors: string[] } {
       inlineTemplate: false,
     });
 
-    if (scriptResult.errors.length > 0) {
-      errors.push(...scriptResult.errors.map((e: any) => typeof e === 'string' ? e : e.message || JSON.stringify(e)));
+    const scriptErrors = scriptResult.errors || [];
+    if (scriptErrors.length > 0) {
+      errors.push(...scriptErrors.map((e: any) => typeof e === 'string' ? e : e.message || JSON.stringify(e)));
     }
 
     const scriptContent = scriptResult.content.replace(/^\s*export default/m, 'const __component =');

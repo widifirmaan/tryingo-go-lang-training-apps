@@ -161,6 +161,18 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
 
       const escapedCode = result.code.replace(/<\/script/gi, '<\\/script');
 
+      // The compiled code runs inside a try{} block in the preview document,
+      // where import/export statements are illegal. Strip module syntax:
+      // bare imports can't resolve in the iframe anyway (React is global),
+      // and App is referenced directly by the render call below.
+      const runnableCode = escapedCode
+        .replace(/^import\s[^;]+;?/gm, '')
+        .replace(/export\s+default\s+function\s+(\w+)/g, 'function $1')
+        .replace(/export\s+default\s+class\s+(\w+)/g, 'class $1')
+        .replace(/export\s+default\s+/g, '')
+        .replace(/export\s*\{[^}]*\};?/g, '')
+        .replace(/^export\s+(?=(?:async\s+)?(?:function|const|let|var|class)\b)/gm, '');
+
       const html = `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
@@ -198,7 +210,7 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   <script type="module">
     try {
       const { useState, useEffect, useRef, useCallback, useMemo, useContext, useReducer, createContext } = React;
-      ${escapedCode}
+      ${runnableCode}
       const root = ReactDOM.createRoot(document.getElementById('root'));
       root.render(React.createElement(App));
     } catch (err) {
