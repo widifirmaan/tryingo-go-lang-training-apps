@@ -5,7 +5,7 @@
 // Deterministic: shuffling uses the caller's seeded rng.
 // ─────────────────────────────────────────────────────────────────────────────
 import { execSync } from 'child_process';
-import { mkdtempSync, writeFileSync, rmSync } from 'fs';
+import { mkdtempSync, writeFileSync, rmSync, existsSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 
@@ -302,5 +302,205 @@ export function buildCodeQuestions({ slug, lang, week, level, content, rng }) {
     break; // max 1 bug question per week
   }
 
+  return out;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// v3: Go + Rust trace/bug questions. Toolchains resolved best-effort; anything
+// unavailable or unverifiable is skipped. Double-run determinism gate.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const HOME = process.env.HOME || process.env.USERPROFILE || '/tmp';
+const GO_BIN = process.env.GO_BIN || (join(HOME, 'go-dist', 'go', 'bin', 'go'));
+const RUSTC_BIN = process.env.RUSTC_BIN || (join(HOME, '.cargo', 'bin', 'rustc'));
+const toolCache = {};
+function hasTool(kind) {
+  if (!(kind in toolCache)) {
+    if (kind === 'go') toolCache.go = existsSync(GO_BIN);
+    if (kind === 'rustc') toolCache.rustc = existsSync(RUSTC_BIN);
+  }
+  return !!toolCache[kind];
+}
+
+function tryRunFile(kind, filename, code, timeoutMs = 15000) {
+  let dir = null;
+  try {
+    dir = mkdtempSync(join(tmpdir(), 'quizcode2-'));
+    const file = join(dir, filename);
+    writeFileSync(file, code);
+    let cmd;
+    if (kind === 'go') cmd = `"${GO_BIN}" run "${file}"`;
+    else if (kind === 'rustc') {
+      const bin = join(dir, 'prog');
+      execSync(`"${RUSTC_BIN}" --edition 2021 -o "${bin}" "${file}"`, { cwd: dir, timeout: timeoutMs, stdio: ['ignore', 'pipe', 'pipe'] });
+      cmd = `"${bin}"`;
+    } else return null;
+    const runOnce = () => execSync(cmd, { cwd: dir, timeout: timeoutMs, stdio: ['ignore', 'pipe', 'pipe'] }).toString();
+    const a = runOnce();
+    const b = runOnce(); // determinism gate
+    if (a !== b) return null;
+    return { ok: true, stdout: a, stderr: '' };
+  } catch (e) {
+    const stdout = (e.stdout || '').toString();
+    const stderr = (e.stderr || '').toString();
+    if (e.status !== undefined && e.status !== 0 && (stdout || stderr)) {
+      return { ok: false, stdout, stderr, code: e.status };
+    }
+    return null;
+  } finally {
+    if (dir) { try { rmSync(dir, { recursive: true, force: true }); } catch {} }
+  }
+}
+
+const GO_UNSAFE = /ListenAndServe|for\s*\{\s*\}|select\s*\{\s*\}|for\s*;\s*;|time\.Now|time\.Since|rand\.|os\.Exit|log\.Fatal|http\.Get|http\.Post|ioutil\.|os\.Open|os\.Create|net\.Dial|exec\.Command|plugin\.|cgo|unsafe\.|runtime\.Gosched/;
+const RUST_UNSAFE = /loop\s*\{\s*\}|while\s*true|std::thread::sleep|thread::spawn|std::process::exit|panic!\s*\(\s*"test|include!|env::|fs::|net::|reqwest|tokio|async fn|await|extern crate/;
+
+function buildTraceCompiled(kind, filename, lang, code) {
+  const res = tryRunFile(kind, filename, code);
+  if (!res || !res.ok) return null;
+  const lines = cleanLines(res.stdout).filter((l) => l.trim() !== '');
+  if (!lines.length) return null;
+  const answer = lines[lines.length - 1].trim();
+  if (!answer || answer.length > 60) return null;
+  const others = lines.slice(0, -1);
+  const distract = [...numericVariants(answer), ...genericDistractors(answer, others)]
+    .filter((d, i, a) => d !== answer && d.length <= 80 && a.indexOf(d) === i)
+    .slice(0, 3);
+  if (distract.length < 2) return null;
+  return { answer, distract };
+}
+
+const TRACE_Q2 = {
+  id: 'Apa output BARIS TERAKHIR program berikut?',
+  en: 'What is the LAST-LINE output of the following program?',
+};
+
+const GO_RUST_BUGS = [
+  {
+    id: 'go-intdiv', slugs: ['golang'], kind: 'go', file: 'q.go',
+    need: ['/'],
+    code: 'package main\n\nimport "fmt"\n\nfunc main() {\n\tfmt.Println(7 / 2)\n}\n',
+    verify: (r) => r.ok && r.stdout.trim() === '3',
+    q: { id: 'Apa outputnya? (`/` bilangan bulat!)', en: 'What is the output? (integer `/`!)' },
+    options: {
+      id: ['3', '3.5', '4', 'Error'],
+      en: ['3', '3.5', '4', 'Error'],
+    },
+  },
+  {
+    id: 'go-len-bytes', slugs: ['golang'], kind: 'go', file: 'q.go',
+    need: ['len('],
+    code: 'package main\n\nimport "fmt"\n\nfunc main() {\n\tfmt.Println(len("hallo"))\n\tfmt.Println(len("halo"))\n}\n',
+    verify: (r) => r.ok && r.stdout.trim().split('\n').map((s) => s.trim()).join('|') === '5|4',
+    q: { id: 'Apa output dua barisnya? (`len` hitung apa?)', en: 'What is the two-line output? (what does `len` count?)' },
+    options: {
+      id: ['5 lalu 4', '5 lalu 5', '4 lalu 4', 'Error'],
+      en: ['5 then 4', '5 then 5', '4 then 4', 'Error'],
+    },
+  },
+  {
+    id: 'go-slice-alias', slugs: ['golang'], kind: 'go', file: 'q.go',
+    need: ['append(', '[', ']'],
+    code: 'package main\n\nimport "fmt"\n\nfunc main() {\n\ts := []int{1, 2}\n\tt := s\n\tt[0] = 9\n\tfmt.Println(s)\n}\n',
+    verify: (r) => r.ok && r.stdout.trim() === '[9 2]',
+    q: { id: 'Apa isi `s`? (bukan t!)', en: 'What is in `s`? (not t!)' },
+    options: {
+      id: ['[9 2]', '[1 2]', '[9]', 'Error'],
+      en: ['[9 2]', '[1 2]', '[9]', 'Error'],
+    },
+  },
+  {
+    id: 'rust-immut', slugs: ['rust'], kind: 'rustc', file: 'q.rs',
+    need: ['let ', 'mut'],
+    code: 'fn main() {\n    let x = 5;\n    x = 6;\n    println!("{}", x);\n}\n',
+    verify: (r) => !r.ok && /cannot assign/i.test(r.stderr),
+    q: { id: 'Apa yang terjadi saat dikompilasi?', en: 'What happens at compile time?' },
+    options: {
+      id: ['Error: cannot assign (tanpa mut!)', 'Mencetak 6', 'Mencetak 5', 'Tidak terjadi apa-apa'],
+      en: ['Error: cannot assign (no mut!)', 'Prints 6', 'Prints 5', 'Nothing happens'],
+    },
+  },
+  {
+    id: 'rust-move', slugs: ['rust'], kind: 'rustc', file: 'q.rs',
+    need: ['String::from', 'let '],
+    code: 'fn main() {\n    let s1 = String::from("halo");\n    let s2 = s1;\n    println!("{}", s1);\n}\n',
+    verify: (r) => !r.ok && /borrow|move/i.test(r.stderr),
+    q: { id: 'Apa yang terjadi saat dikompilasi?', en: 'What happens at compile time?' },
+    options: {
+      id: ['Error: s1 sudah pindah milik (borrow after move)', 'Mencetak halo', 'Mencetak kosong', 'Warning saja, tetap jalan'],
+      en: ['Error: s1 moved (borrow after move)', 'Prints halo', 'Prints empty', 'Just a warning, still runs'],
+    },
+  },
+  {
+    id: 'rust-shadow', slugs: ['rust'], kind: 'rustc', file: 'q.rs',
+    need: ['let '],
+    code: 'fn main() {\n    let x = 5;\n    let x = x + 1;\n    println!("{}", x);\n}\n',
+    verify: (r) => r.ok && r.stdout.trim() === '6',
+    q: { id: 'Apa outputnya? (shadowing, bukan ubah!)', en: 'What is the output? (shadowing, not mutation!)' },
+    options: {
+      id: ['6', '5', 'Error: cannot assign', '11'],
+      en: ['6', '5', 'Error: cannot assign', '11'],
+    },
+  },
+];
+
+export function buildCompiledQuestions({ slug, lang, week, content, rng }) {
+  const out = [];
+  const kind = slug === 'golang' ? 'go' : slug === 'rust' ? 'rustc' : null;
+  if (!kind || !hasTool(kind)) return out;
+  const usedKey = `${slug}::${lang}`;
+  if (!usedBugTemplates.has(usedKey)) usedBugTemplates.set(usedKey, new Set());
+  const used = usedBugTemplates.get(usedKey);
+  const fence = slug === 'golang' ? 'go' : 'rust';
+  const unsafeRe = slug === 'golang' ? GO_UNSAFE : RUST_UNSAFE;
+
+  // trace (max 1)
+  {
+    const blocks = [];
+    const re = new RegExp('^```' + fence + '\\n([\\s\\S]*?)^```', 'gm');
+    let m;
+    while ((m = re.exec(content)) !== null) blocks.push(m[1]);
+    for (const code of blocks) {
+      const lines = code.split('\n');
+      if (lines.length > 40 || lines.length < 3) continue;
+      if (unsafeRe.test(code)) continue;
+      if (NONDETERMINISTIC_RE.test(code)) continue;
+      const filename = slug === 'golang' ? 'main.go' : 'main.rs';
+      const built = buildTraceCompiled(kind, filename, lang, code);
+      if (built) {
+        const opts = shuffle([built.answer, ...built.distract], rng);
+        out.push({
+          type: 'mcq',
+          q: TRACE_Q2[lang],
+          context: code.trim().split('\n').slice(-14).join('\n'),
+          options: opts,
+          answer: opts.indexOf(built.answer),
+          source: `week${week.week}-trace2`,
+        });
+        break;
+      }
+    }
+  }
+
+  // bugs (max 1, deduped per track+lang)
+  for (const tpl of GO_RUST_BUGS) {
+    if (!tpl.slugs.includes(slug)) continue;
+    if (used.has(tpl.id)) continue;
+    if (!tpl.need.every((k) => content.includes(k))) continue;
+    const res = tryRunFile(tpl.kind, tpl.file, tpl.code);
+    if (!res || !tpl.verify(res)) continue;
+    const opts = shuffle(tpl.options[lang].slice(), rng);
+    const correct = tpl.options[lang][0];
+    out.push({
+      type: 'mcq',
+      q: tpl.q[lang],
+      context: tpl.code.trim(),
+      options: opts,
+      answer: opts.indexOf(correct),
+      source: `week${week.week}-${tpl.id}`,
+    });
+    used.add(tpl.id);
+    break;
+  }
   return out;
 }
