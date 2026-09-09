@@ -90,9 +90,9 @@ Same as W1: `php spark serve` on `8080`, no XAMPP needed.
 ## Challenge
 
 **Shop Layout:** Build `layout/main` + `products` + `contact` (2 views sharing one) + `esc` all output, `php spark serve` screenshot.
+- **Link-up (Week 2 — Controllers & Routing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **view/esc**: send & secure

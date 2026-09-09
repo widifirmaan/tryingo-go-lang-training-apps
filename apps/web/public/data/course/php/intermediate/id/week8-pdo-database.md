@@ -104,9 +104,9 @@ try {
 ## Tantangan
 
 **Gudang PDO Lengkap:** `list.php` (`query` + `cari` prepare) + `tambah.php` (`prepare` INSERT) + `hapus.php` (`prepare` DELETE) + coba SQL-injection gagal.
+- **Sambungan (Minggu 7 — Keamanan PHP):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **PDO/DSN/prepare**: supir/alamat/aman

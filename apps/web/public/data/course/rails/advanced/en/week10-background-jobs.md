@@ -139,10 +139,9 @@ ReceiptMailer.receipt(user, 62000).deliver_later # queue via Sidekiq!
 ## Challenge
 
 Build an email notification system: queue email sending, retry 3x on failure, batch send, monitor with Sidekiq.
-
+- **Link-up (Week 9 — Performance Optimization):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Motorbike Courier

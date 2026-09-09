@@ -95,7 +95,7 @@ OOP + PDO + Composer + tests + guard = 1 store.
 **PHP Shop Grand Opening:** Working CRUD + guard (XSS/SQLi fail) + 5 green PHPUnit + screenshot. **PHP 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Basic PHP Syntax** (Week 1) + **Operators & Control** (Week 2) + **Functions & Scope** (Week 3) + **Array & Manipulation** (Week 4) + **Basic OOP** (Week 5) + **Form Handling** (Week 6) + **PHP Security** (Week 7) + **PDO Database** (Week 8) + **Composer & Autoloading** (Week 9) + **PHPUnit Testing** (Week 10) + **Design Patterns** (Week 11) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone**: combine all

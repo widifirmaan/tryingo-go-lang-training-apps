@@ -85,7 +85,7 @@ Diet + rakit + pabrik + gembok + lemari = produksi.
 **Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Docker 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Konsep Docker** (Minggu 1) + **Image & Registry** (Minggu 2) + **Container Management** (Minggu 3) + **Dockerfile** (Minggu 4) + **Volume & Data** (Minggu 5) + **Networking** (Minggu 6) + **Docker Compose** (Minggu 7) + **Multi-Stage Build** (Minggu 8) + **Security** (Minggu 9) + **CI/CD Pipeline** (Minggu 10) + **Orchestration** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/pipeline**: gabung/alur

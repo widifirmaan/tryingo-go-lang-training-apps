@@ -73,9 +73,9 @@ Intersect / union / difference of 2 bags — for tag filters.
 ## Challenge
 
 **Shop Tags:** 3 products `SADD` own tags → `SINTER` 2 products → `SUNION` all → `SISMEMBER` "promo" check.
+- **Link-up (Week 3 — List):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Set/SADD/SMEMBERS**: bag/add/view

@@ -105,9 +105,9 @@ Ready from W1: `ng new` + `ng serve` on `4200`, `ReactiveFormsModule` already in
 ## Challenge
 
 **Complete Reactive Shop:** `name` `required` + `minLength(3)`, `price` `required` + `min(1)`, `stock` `required`, `*ngIf` error per field, `add()` `console.log` + `reset()`, `ng serve` screenshot.
+- **Link-up (Week 6 — Routing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Glosarium Mini
 
 - **FormGroup/FormControl/Validators**: paper/box/guard

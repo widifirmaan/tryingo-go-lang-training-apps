@@ -73,9 +73,9 @@ Irisan / gabung / selisih 2 tas — untuk filter tag.
 ## Tantangan
 
 **Tag Warung:** 3 produk `SADD` tag masing-masing → `SINTER` 2 produk → `SUNION` semua → `SISMEMBER` cek "promo".
+- **Sambungan (Minggu 3 — List):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Set/SADD/SMEMBERS**: tas/tambah/lihat

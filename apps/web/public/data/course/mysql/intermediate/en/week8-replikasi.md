@@ -98,9 +98,9 @@ Each server a different ID. Binlog records all writes for copying.
 ## Challenge
 
 **Shop Branch:** Primary + replica + `INSERT` 5 → `SELECT` 5 on replica + `SHOW REPLICA STATUS` 2 Yeses + screenshot.
+- **Link-up (Week 7 — Performance & Tuning):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Replica/binlog/behind**: branch/log/late

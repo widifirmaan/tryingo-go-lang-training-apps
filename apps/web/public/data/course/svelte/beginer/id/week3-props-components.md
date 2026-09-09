@@ -104,9 +104,9 @@ Induk tulis di dalam `<Kartu>...</Kartu>` → anak tampilkan `<slot />`.
 ## Tantangan
 
 **Warung Bata Lengkap:** `Kartu` (`export let` + `dispatch` + `slot`) + `App` (`{#each}` 4 produk + `keranjang` + total `reduce`).
+- **Sambungan (Minggu 2 — Reactivity Lanjutan):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **export let/dispatch/slot**: terima/lapor/lubang

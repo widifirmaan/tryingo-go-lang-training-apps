@@ -144,9 +144,9 @@ console.log(take({ name: "Rice", price: 62000, stock: 10 }, "price")); // 62000
 ## Challenge
 
 **Order Status Machine:** `type Order = { status: "new" } | { status: "ship", receipt: string } | { status: "done" }`. Function `info(o: Order)` → switch status, if `ship` show `receipt`. Try `info({status:"ship"})` without `receipt` → error, must be complete.
+- **Link-up (Week 1 — Introduction to TypeScript):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Union/Literal**: limited choices

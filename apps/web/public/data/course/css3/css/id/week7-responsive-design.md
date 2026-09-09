@@ -87,9 +87,9 @@ Di dalam kurung hanya jalan jika layar ≤600px. `min-width` sebaliknya (khusus 
 ## Tantangan
 
 **Warung Responsif Lengkap:** Grid 3→1 kolom + menu baris→kolom + `h1` 28→22px + screenshot HP & laptop berdampingan.
+- **Sambungan (Minggu 6 — Positioning):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **viewport/media/max-width**: kacamata/aturan/kecil

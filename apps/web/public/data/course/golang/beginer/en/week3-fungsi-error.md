@@ -117,9 +117,9 @@ Go no `try/catch`. Everything fallible returns `(result, error)`. Must check `if
 ## Challenge
 
 **Safe Cashier:** `func calcTotal(cart []int, discount float64) (int, error)` → if `discount <0 || >50` return error, else calc. `defer` log "Transaction done". Use `if err != nil`.
+- **Link-up (Week 2 — Variables, Types & Control):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **error**: failure alarm

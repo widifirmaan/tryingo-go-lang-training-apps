@@ -122,9 +122,9 @@ db.close()
 ## Challenge
 
 **Shop File:** Save `cart = [{"name":"Rice","qty":2}]` to `cart.json` with `json.dump`, read back, add 1 item, write again.
+- **Link-up (Week 6 — OOP):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **w/r/a/json**: write/read/append/format

@@ -89,9 +89,9 @@ console.log(total([{price:62000},{price:5000}]));
 ## Challenge
 
 **Generic Shop Rack:** `class Shelf<T extends { price: number }> { add / total }` → fill 3 products → `total()` + try adding priceless item → red.
+- **Link-up (Week 4 — Interfaces & Type Aliases):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **generic/constraint**: adjustable/requirement

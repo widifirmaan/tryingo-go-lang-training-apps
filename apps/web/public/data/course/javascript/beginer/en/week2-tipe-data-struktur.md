@@ -125,9 +125,9 @@ console.log("Year:", today.getFullYear(), "| Month:", today.getMonth() + 1); // 
 4. Add 1 new via `[...contacts, newOne]`, not `push`
 
 Bonus: `const {name, category} = contacts[0]`
+- **Link-up (Week 1 — JavaScript Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Array**: ordered list

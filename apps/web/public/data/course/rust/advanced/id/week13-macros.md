@@ -80,9 +80,9 @@ fn main() {
 ## Tantangan
 
 **Stempel Toko:** `tambah_stok!(map, "beras", 5)` macro tambah-atau-buat + `vec!` bandingkan baris hemat.
+- **Sambungan (Minggu 12 — Concurrency):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **macro/!/expand**: stempel/tanda/intip

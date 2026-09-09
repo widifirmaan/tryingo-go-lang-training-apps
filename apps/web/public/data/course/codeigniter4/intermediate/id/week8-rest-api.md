@@ -102,9 +102,9 @@ JSON body → array PHP.
 ## Tantangan
 
 **Warung Online Lengkap:** `resource` + CRUD beneran + `curl` 5 perintah lulus (GET list/1/99, POST, DELETE).
+- **Sambungan (Minggu 7 — Authentication):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **resource/respond/fail**: 5-pintu/balas/gagal-JSON

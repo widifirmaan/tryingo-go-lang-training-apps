@@ -110,9 +110,9 @@ Klik bohongan + cek bel terkirim.
 ## Tantangan
 
 **Kartu Teruji:** `nama` + `harga` + tombol `Beli` → 3 test (teks, harga, event) HIJAU + screenshot.
+- **Sambungan (Minggu 8 — Provide/Inject & Teleport):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **mount/expect/trigger**: pasang/cicip/pencet

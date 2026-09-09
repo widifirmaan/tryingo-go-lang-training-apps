@@ -70,7 +70,7 @@ OOP + LINQ + async + API + tests = store.
 **Grand Opening:** All checklist + deploy (`Azure`/`VPS`) + video. **C# 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **C# Setup & Syntax** (Week 1) + **Data Types & Variables** (Week 2) + **Control Flow** (Week 3) + **OOP Class & Object** (Week 4) + **LINQ** (Week 5) + **Async/Await** (Week 6) + **Generics** (Week 7) + **Error Handling** (Week 8) + **Design Patterns** (Week 9) + **Testing** (Week 10) + **Web API** (Week 11) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/deploy**: combine/open

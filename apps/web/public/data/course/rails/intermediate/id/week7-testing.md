@@ -130,10 +130,9 @@ Capybara-based: `visit`, `fill_in`, `click_button`, `expect(page).to have_text()
 ## Tantangan
 
 Buat test suite lengkap untuk Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
-
+- **Sambungan (Minggu 6 — Associations):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Cicip Dapur Rails

@@ -100,9 +100,9 @@ Red test → write code → green. 2 minutes for 1 function.
 ## Challenge
 
 **Tested Shop:** Test `GET /products` 200 + `POST` add + `GET` count +1. `./mvnw test` GREEN 3/3.
+- **Link-up (Week 6 — Spring Security):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **MockMvc/Test**: mock/test

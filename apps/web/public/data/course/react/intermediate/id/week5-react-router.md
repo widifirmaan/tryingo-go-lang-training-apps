@@ -83,9 +83,9 @@ Bungkus semua, sediakan peta.
 ## Tantangan
 
 **Toko 3 Halaman:** `Beranda`, `Produk` list `Link` ke `ProdukDetail/:id` yang `useParams`, + `NotFound` `path="*"` .
+- **Sambungan (Minggu 4 — useEffect & Lifecycle):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 5: **Peta Toko** — Router tanpa reload. Minggu depan: **Context** — gudang bersama.

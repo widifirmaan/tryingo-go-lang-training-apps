@@ -93,9 +93,9 @@ Runs once after the component is ready — place for initial data.
 ## Challenge
 
 **2-Shop Mall:** `ProductService` + `CardComponent` (display) + `AddComponent` (add form) → add in 1, shows in 2 without refresh.
+- **Link-up (Week 2 — Directives & Pipes):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Service/Inject/OnInit**: warehouse/inject/open

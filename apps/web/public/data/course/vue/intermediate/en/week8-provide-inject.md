@@ -89,9 +89,9 @@ Moves rendering to `body` (out of squeezing parent CSS).
 ## Challenge
 
 **Complete Board Shop:** `provide` shop + theme + 3-level `inject` + `Teleport` modal + change theme from child (provide a function!).
+- **Link-up (Week 7 — Lifecycle & Watchers):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **provide/inject/Teleport**: board/read/portal

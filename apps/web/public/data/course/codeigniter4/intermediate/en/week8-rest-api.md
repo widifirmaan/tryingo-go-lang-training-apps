@@ -102,9 +102,9 @@ JSON body → PHP array.
 ## Challenge
 
 **Complete Online Shop:** `resource` + real CRUD + `curl` 5 passing commands (GET list/1/99, POST, DELETE).
+- **Link-up (Week 7 — Authentication):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **resource/respond/fail**: 5-doors/reply/JSON-fail

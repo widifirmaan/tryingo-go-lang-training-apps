@@ -86,9 +86,9 @@ Docker Hub = gudang umum. Private Hub = gudang pribadi.
 ## Tantangan
 
 **Gudang Versi:** `pull` `nginx:alpine` dan `nginx:1.25`, bandingkan `docker images` size. `tag` satu jadi `warung/nginx:warung` → `save` → `rmi` → `load`.
+- **Sambungan (Minggu 1 — Konsep Docker):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **pull/push**: ambil/simpan

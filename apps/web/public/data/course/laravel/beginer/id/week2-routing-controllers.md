@@ -106,9 +106,9 @@ Buka `http://localhost:8000/produk` → semua. `?cari=beras` → saring. `/produ
 ## Tantangan
 
 **Warung 3 Pintu:** `get('/')` sambutan, `get('/produk')` + `?cari`, `get('/produk/{id}')` detail + `abort(404)`. `php artisan route:list` screenshot 3 pintu.
+- **Sambungan (Minggu 1 — Setup Laravel):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Route/Controller/Request**: pintu/pelayan/pesanan

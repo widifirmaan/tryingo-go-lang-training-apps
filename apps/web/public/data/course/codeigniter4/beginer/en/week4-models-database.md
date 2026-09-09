@@ -123,9 +123,9 @@ $data['pager'] = $model->pager;
 ## Challenge
 
 **Complete Rack:** `ProductModel` + `findAll` + `where stock>5` + `like` search + `save` 2 + `delete` 1 + display in view.
+- **Link-up (Week 3 — Views & Templates):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Model/allowedFields/findAll**: rack/valid/take

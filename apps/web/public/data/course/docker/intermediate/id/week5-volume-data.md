@@ -86,9 +86,9 @@ docker volume inspect warung-data
 ## Tantangan
 
 **Gudang Tetap Warung:** Volume `warung-data` + Postgres + isi 3 produk + `rm` + buat lagi + `SELECT` 3 tetap + bind `index.html` edit tanpa rebuild.
+- **Sambungan (Minggu 4 — Dockerfile):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Volume/bind/tmpfs**: lemari/tas/RAM

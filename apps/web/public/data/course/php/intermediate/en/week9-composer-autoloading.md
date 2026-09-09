@@ -127,9 +127,9 @@ $k = new Cashier();
 ## Challenge
 
 **Own Warehouse:** `composer init` + `require nesbot/carbon` (dates) → `Carbon::now()->addDays(7)` due date + own `App\\Receipt` class → `app.php` combines.
+- **Link-up (Week 8 — PDO Database):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Composer/autoload/PSR-4**: foreman/map/rules

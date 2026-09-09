@@ -76,9 +76,9 @@ DISCARD                # batalkan paket (sebelum EXEC)
 ## Tantangan
 
 **Kasir Atomik:** Script `beli(kunci, qty)`: jika stok >= qty kurangi + return sisa, else return -1. Test 2 terminal bareng.
+- **Sambungan (Minggu 6 — Pub/Sub):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **EVAL/Lua**: resep

@@ -106,9 +106,9 @@ Child **don't** `props.price = 0` → wrong, parent changes.
 **Full Shop:** Make `Cart.vue` receives `items: Array` via props, emits `remove`, in `App` arrange `ProductCard` + `Cart` side by side.
 
 Done: 1 child `defineProps` + `defineEmits` + `slot`, parent `v-for` + `@event`.
+- **Link-up (Week 3 — Directives & Events):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Props/Emits**: in/out

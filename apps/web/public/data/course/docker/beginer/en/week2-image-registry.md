@@ -96,9 +96,9 @@ Docker Hub = public warehouse. Private Hub = personal warehouse.
 ## Challenge
 
 **Version Warehouse:** `pull` `nginx:alpine` and `nginx:1.25`, compare `docker images` sizes. `tag` one as `shop/nginx:shop` → `save` → `rmi` → `load`.
+- **Link-up (Week 1 — Docker Concepts):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **pull/push**: take/store

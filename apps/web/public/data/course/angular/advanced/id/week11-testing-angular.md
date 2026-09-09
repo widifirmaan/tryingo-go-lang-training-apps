@@ -85,9 +85,9 @@ describe("Kartu", () => {
 ## Tantangan
 
 **Warung Uji Lengkap:** `Kartu` `nama` + `harga` + test `tampil nama` & `tampil harga` 2 test, `ng test` PASS.
+- **Sambungan (Minggu 10 — State Management):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **TestBed/fixture**: pabrik uji

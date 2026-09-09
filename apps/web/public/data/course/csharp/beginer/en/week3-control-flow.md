@@ -100,9 +100,9 @@ C# errors on `case` without `break` (except stacked empties). Safe from JS leaks
 ## Challenge
 
 **Guess Stock:** `int secret = 7; int[] guesses = {3, 9, 7}; foreach (int g in guesses) { if (g == secret) { Console.WriteLine("Right!"); break; } else if (g < secret) Console.WriteLine($"{g} too small"); else Console.WriteLine($"{g} too big"); }`
+- **Link-up (Week 2 — Data Types & Variables):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **if/switch**: branches

@@ -102,9 +102,9 @@ query {
 ## Challenge
 
 **Complete Kitchen:** `Query.products` + `productsByCategory(category)` (`filter`) + `Mutation.changePrice/deleteProduct` + `Product.total = price * stock` field resolver. Test all 4 via plain `node` (no server).
+- **Link-up (Week 3 — Mutations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Resolver/args/context**: cook/order/kitchen

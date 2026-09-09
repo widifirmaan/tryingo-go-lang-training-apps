@@ -104,9 +104,9 @@ end
 ## Challenge
 
 **Complete MVC Shop:** `Customer(name, email)` + `validates :email, uniqueness: true` + `index/create` + `index.html.erb` list + form. Duplicate email submit → error?
+- **Link-up (Week 1 — Rails Setup):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Model/View/Controller**: kitchen/showcase/waiter

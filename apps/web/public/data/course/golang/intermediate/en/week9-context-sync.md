@@ -94,9 +94,9 @@ Live alarm eats resources — `defer cancel()` turns it off.
 ## Challenge
 
 **On-Time Shop:** 3 `go kerja` (150ms) + 100ms timeout → 3 "cancelled" + `Wait` → change to 200ms → 3 "done". **Intermediate Go done!**
+- **Link-up (Week 8 — Goroutines & Channels):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **context/cancel**: alarm/off

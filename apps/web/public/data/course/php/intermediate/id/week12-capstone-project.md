@@ -86,7 +86,7 @@ OOP + PDO + Composer + uji + satpam = 1 toko.
 **Grand Opening Warung PHP:** CRUD jalan + satpam (XSS/SQLi gagal) + PHPUnit 5 hijau + screenshot. **Selesai PHP 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Sintaks Dasar PHP** (Minggu 1) + **Operator & Kontrol** (Minggu 2) + **Fungsi & Scope** (Minggu 3) + **Array & Manipulasi** (Minggu 4) + **OOP Dasar** (Minggu 5) + **Form Handling** (Minggu 6) + **Keamanan PHP** (Minggu 7) + **PDO Database** (Minggu 8) + **Composer & Autoloading** (Minggu 9) + **Testing PHPUnit** (Minggu 10) + **Design Patterns** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone**: gabung semua

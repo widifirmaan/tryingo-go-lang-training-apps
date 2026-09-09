@@ -77,9 +77,9 @@ Query `category` + `sort price` → index `{ category: 1, price: -1 }` (same ord
 ## Challenge
 
 **Card Doctor:** 3 slow queries → `explain` notes → right compound index → `explain` proves 10x+ faster.
+- **Link-up (Week 7 — Replica Set & Sharding):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **explain/compound**: xray/combo

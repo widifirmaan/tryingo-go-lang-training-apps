@@ -88,9 +88,9 @@ Otomatis update tiap `migrate` — jangan edit manual.
 ## Tantangan
 
 **Renovasi Warung:** `AddDiskonToProduks diskon:integer` (default 0 via `change` + `add_column :produks, :diskon, :integer, default: 0`) → `migrate` → `update` 1 produk → `rollback` → cek hilang → `migrate` lagi.
+- **Sambungan (Minggu 2 — MVC):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **migration/migrate/rollback**: biru/bangun/batal

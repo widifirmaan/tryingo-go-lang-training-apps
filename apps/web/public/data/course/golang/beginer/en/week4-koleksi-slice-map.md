@@ -99,9 +99,9 @@ func main() {
 ## Challenge
 
 **Shop Inventory:** `map[string]int` stock, `slice` shopping list, `range` find stock <3 → show "Almost out". Use `ok` check exists.
+- **Link-up (Week 3 — Functions & Error):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Slice/Map**: shelf/book

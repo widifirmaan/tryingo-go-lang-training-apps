@@ -64,7 +64,7 @@ prisma/schema.prisma
 - **Green:** Run this week's Program as-is; note the output.
 - **Yellow:** Change 1 value in `app`, `products`, `products`; predict the output BEFORE running, then compare.
 - **Red:** Combine with **Deployment** (Week 11): plug the result into that flow, end-to-end must work.
-
+- **Integration checklist:** **Setup & Core Concepts** (Week 1) + **Routing & Navigation** (Week 2) + **Server & Client Components** (Week 3) + **Styling & Optimization** (Week 4) + **Data Fetching** (Week 5) + **Server Actions** (Week 6) + **Loading & Error** (Week 7) + **Middleware & Basic Auth** (Week 8) + **Database & ORM** (Week 9) + **Advanced Auth** (Week 10) + **Deployment** (Week 11) → all parts above run together at the grand opening.
 ## Summary
 
 Week 12: **Capstone** — complete online store, **Next.js 0→Expert DONE!**

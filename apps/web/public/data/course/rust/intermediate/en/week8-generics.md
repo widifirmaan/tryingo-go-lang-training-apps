@@ -94,9 +94,9 @@ Only contracted types may enter the function.
 ## Challenge
 
 **Generic Warehouse:** `Cart<T>` + `total<T: Priced>()` + 2 types + `Option` handles empty.
+- **Link-up (Week 7 — Trait):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Generics/bound/Option**: multipurpose/requirement/safe

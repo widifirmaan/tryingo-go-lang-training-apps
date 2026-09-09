@@ -106,9 +106,9 @@ A shop banner "**FREE DELIVERY**" must be bold, "*terms apply*" italic, "H₂O" 
 **Full Shop Banner:** `H1` **Promo**, author `mark` + `time`, paragraph with `strong/em/u/s`, `H2O` + `x2`, customer `blockquote`, `pre+code` promo `SHOP10`.
 
 Done when: `strong/em/mark` + `sub/sup` + `blockquote` + `pre` all present, looks like a banner in browser.
+- **Link-up (Week 1 — Introduction to HTML):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **strong/em**: important/emphasis

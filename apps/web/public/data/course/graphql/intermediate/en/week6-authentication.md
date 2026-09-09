@@ -99,9 +99,9 @@ Login once for a token, carry it every request, server fills `context.user`.
 ## Challenge
 
 **ID-Protected Restaurant:** `login` + `addProduct` (login mandatory) + `products` (free) + GraphiQL 3 tests (none/fake/real).
+- **Link-up (Week 5 — Apollo Server):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **JWT/Bearer/context**: wristband/carry/check

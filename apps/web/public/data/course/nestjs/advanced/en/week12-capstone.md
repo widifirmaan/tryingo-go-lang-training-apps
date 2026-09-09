@@ -76,7 +76,7 @@ Module + auth + DB + live + test + deploy = store.
 **Grand Opening:** All checklist + URL + video. **NestJS 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Controllers & Routing** (Week 1) + **Providers & Services** (Week 2) + **Modules & DI** (Week 3) + **Database TypeORM** (Week 4) + **Pipes & Validation** (Week 5) + **Guards & Auth** (Week 6) + **ORM Relations** (Week 7) + **Error & Logging** (Week 8) + **Testing NestJS** (Week 9) + **WebSocket** (Week 10) + **Microservices** (Week 11) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/deploy**: combine/open

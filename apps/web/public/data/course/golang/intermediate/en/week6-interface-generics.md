@@ -82,9 +82,9 @@ func main(){
 ## Challenge
 
 **Contract Shop:** `Priced` interface `{ Price() int }` + 3 structs + `Checkout(items []Priced)` totals all.
+- **Link-up (Week 5 — Struct & Method):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **interface/any**: contract/anything

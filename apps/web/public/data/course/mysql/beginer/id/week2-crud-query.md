@@ -92,9 +92,9 @@ SELECT nama, harga, diskon FROM produk;
 ## Tantangan
 
 **Buku Warung:** `UPDATE buku SET stok = stok - 1 WHERE id = 1` (pinjam 1) → `DELETE FROM anggota WHERE kota IS NULL` → `SELECT * FROM buku WHERE judul LIKE '%Java%' LIMIT 3` → screenshot 3 hasil.
+- **Sambungan (Minggu 1 — Dasar MySQL):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **CRUD**: 4 gerakan gudang

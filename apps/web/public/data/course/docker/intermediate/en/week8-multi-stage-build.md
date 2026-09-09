@@ -83,9 +83,9 @@ Binary needs no libc — runs on empty `alpine`/`scratch`.
 ## Challenge
 
 **Complete Diet Box:** Go/Node shop multi-stage + `docker images` <50MB + passing `run`. **Intermediate Docker DONE!**
+- **Link-up (Week 7 — Docker Compose):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Multi-stage/scratch**: diet/empty

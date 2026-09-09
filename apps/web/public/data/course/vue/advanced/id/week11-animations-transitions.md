@@ -82,9 +82,9 @@ function hapus(id) { daftar.value = daftar.value.filter(p => p.id !== id); }
 ## Tantangan
 
 **Warung Halus Lengkap:** Tambah/hapus + `TransitionGroup` + CSS 4 kelas + beda arah masuk/keluar.
+- **Sambungan (Minggu 10 — Performance & Nuxt):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Transition/enter/leave**: gerak/masuk/keluar

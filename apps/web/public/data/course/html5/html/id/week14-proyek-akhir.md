@@ -88,7 +88,7 @@ Semantic + tabel + form + gambar + SEO + a11y = 1 warung.
 **Grand Opening:** 3 halaman (`index/produk/kontak`) + nav sama + tabel + form + SEO + deploy + WAVE 0 error + video 1 menit. **Selesai HTML5 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Pengantar HTML** (Minggu 1) + **Format Teks & Tipografi** (Minggu 2) + **Link & Navigasi** (Minggu 3) + **Gambar & Media** (Minggu 4) + **List & Daftar** (Minggu 5) + **Tabel** (Minggu 6) + **Form & Input** (Minggu 7) + **Validasi Form** (Minggu 8) + **Semantic HTML** (Minggu 9) + **Multimedia** (Minggu 10) + **HTML APIs** (Minggu 11) + **Aksesibilitas** (Minggu 12) + **SEO & Meta** (Minggu 13) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/WAVE/Lighthouse**: gabung/cek-akses/nilai

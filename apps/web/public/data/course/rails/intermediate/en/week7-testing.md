@@ -130,10 +130,9 @@ Capybara-based: `visit`, `fill_in`, `click_button`, `expect(page).to have_text()
 ## Challenge
 
 Build a complete test suite for Post: model spec (validations), request spec (CRUD), factory. Min 10 test cases.
-
+- **Link-up (Week 6 — Associations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Kitchen Taste

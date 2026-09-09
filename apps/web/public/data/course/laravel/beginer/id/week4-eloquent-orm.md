@@ -100,9 +100,9 @@ Hanya field di `$fillable` yang bisa `create($req->all())` — keamanan mass-ass
 ## Tantangan
 
 **Rak Warung Lengkap:** `make:model Produk -m` + `migrate` → `tinker` isi 5 produk → `index()` `orderBy('harga')` → `simpan()` validasi + `create`. **Selesai Beginner Laravel!**
+- **Sambungan (Minggu 3 — Blade Templates):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Model/migrate/fillable**: mandor/bangun/sah

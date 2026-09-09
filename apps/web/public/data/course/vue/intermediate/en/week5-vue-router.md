@@ -102,9 +102,9 @@ const props = defineProps({ id: String });
 ## Challenge
 
 **3-Page Store:** Home + product list with `RouterLink`s to `Detail/:id` + catch-all NotFound.
+- **Link-up (Week 4 — Components & Props):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Router/Link**: map/doors

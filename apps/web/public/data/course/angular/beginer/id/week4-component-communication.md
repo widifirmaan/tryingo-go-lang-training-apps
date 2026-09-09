@@ -100,9 +100,9 @@ Isi di dalam `<app-kartu>...</app-kartu>` tampil di `<ng-content>`.
 ## Tantangan
 
 **Warung Bata Lengkap:** `Kartu` (`@Input` + `@Output` + `ng-content`) + `App` (`*ngFor` 4 + `keranjang`).
+- **Sambungan (Minggu 3 — Services & DI):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Input/Output/ng-content**: masuk/keluar/lubang

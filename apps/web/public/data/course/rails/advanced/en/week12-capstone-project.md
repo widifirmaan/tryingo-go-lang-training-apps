@@ -110,7 +110,7 @@ Build a complete e-commerce platform: auth, products CRUD, cart, orders, payment
 
 
 ---
-
+- **Integration checklist:** **Rails Setup** (Week 1) + **MVC** (Week 2) + **Migrations** (Week 3) + **ERB Views** (Week 4) + **Authentication** (Week 5) + **Associations** (Week 6) + **Testing with RSpec** (Week 7) + **Rails API Mode** (Week 8) + **Performance Optimization** (Week 9) + **Background Jobs & Sidekiq** (Week 10) + **Deployment & DevOps** (Week 11) → all parts above run together at the grand opening.
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails Store Grand Opening

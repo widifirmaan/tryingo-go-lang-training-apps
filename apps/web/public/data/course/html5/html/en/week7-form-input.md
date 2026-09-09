@@ -115,9 +115,9 @@ Without `label for`, clicking "Name" doesn't focus the input — hard on phones.
 ## Challenge
 
 **Complete Shop Form:** `name` text `required`, `wa` tel, `qty` number, `notes` textarea, `method` select `COD/Transfer`, `label for` all, `required` + `name`.
+- **Link-up (Week 6 — Tables):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **form/label/input**: form/title/box

@@ -85,9 +85,9 @@ Product lists adding/removing instantly vanish → harsh. With `slide` + `fade` 
 ## Challenge
 
 **Complete Smooth Shop:** `{#each list as item (item.id)}` + `in:slide` + `out:fade` + `animate:flip`, add/remove `list`, `npm run dev` smooth screenshot.
+- **Link-up (Week 8 — Lifecycle & Context):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **slide/fade/flip**: slide/fade/shift

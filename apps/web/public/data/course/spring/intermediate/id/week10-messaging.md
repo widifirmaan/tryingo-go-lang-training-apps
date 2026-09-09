@@ -99,9 +99,9 @@ Tanpa `@Async`, pendengar blokir pengirim 5 detik. Dengan `@Async`, langsung bal
 ## Tantangan
 
 **Warung Cepat:** `buat()` + event + `@Async` WA + log waktu balas <1s. **Selesai Menengah Spring!**
+- **Sambungan (Minggu 9 — Actuator & Monitoring):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Event/Listener/Async**: surat/penerima/background

@@ -95,9 +95,9 @@ No `ts-jest` needed, Vite transforms TS on the fly.
 ## Challenge
 
 **Complete Tested Shop:** `calcTotal` + 2-case `test` for `2+3=5` and 1-case `makeUser`, `npm test` PASS screenshot.
+- **Link-up (Week 8 — TypeScript Config):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **vitest/test/expect**: test

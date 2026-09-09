@@ -66,7 +66,7 @@ Buat course platform lengkap: auth, course catalog, video player, progress track
 
 
 ---
-
+- **Checklist integrasi:** **Dasar Svelte** (Minggu 1) + **Reactivity Lanjutan** (Minggu 2) + **Props & Components** (Minggu 3) + **Events & Bindings** (Minggu 4) + **Stores** (Minggu 5) + **SvelteKit Routing** (Minggu 6) + **Actions & Forms** (Minggu 7) + **Lifecycle & Context** (Minggu 8) + **Transitions & Animations** (Minggu 9) → semua bagian di atas jalan bareng saat grand opening.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Svelte

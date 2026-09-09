@@ -98,9 +98,9 @@ mysql -u root -p shop_new < backup.sql      # RESTORE into new DB
 ## Challenge
 
 **Locked Warehouse:** 3 users (`cashier` SELECT/INSERT products, `reporter` SELECT all, `admin` ALL) + prove `cashier` DROP rejected + `SHOW GRANTS` 3 screenshots.
+- **Link-up (Week 8 — Replication):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **GRANT/REVOKE/privilege**: give/take/permit

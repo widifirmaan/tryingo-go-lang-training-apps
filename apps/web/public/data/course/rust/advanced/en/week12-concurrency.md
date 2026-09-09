@@ -93,9 +93,9 @@ fn main() {
 ## Challenge
 
 **Parallel Kitchen:** 3 cooking threads + `Arc<Mutex<Stock>>` + `channel` reports + exact result (no more!).
+- **Link-up (Week 11 — Smart Pointers):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **spawn/Mutex/Arc**: cashier/lock/share

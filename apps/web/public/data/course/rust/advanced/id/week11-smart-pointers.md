@@ -88,9 +88,9 @@ Ukuran pointer tetap → rekursif bisa. `Deref` otomatis (`*b` jarang tulis).
 ## Tantangan
 
 **Gudang Bersama:** `Rc<RefCell<Stok>>` + 2 kasir kurang bareng + `strong_count` + cetak sisa.
+- **Sambungan (Minggu 10 — Testing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Box/Rc/RefCell/Arc**: kotak/hitung/ubah/antar-thread

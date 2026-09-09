@@ -100,9 +100,9 @@ export default async function Page(){
 ## Challenge
 
 **Prisma Warehouse:** `Product` model + migrate + seed 5 products + Server Action add + list page.
+- **Link-up (Week 8 — Middleware & Basic Auth):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Prisma/ORM**: translator

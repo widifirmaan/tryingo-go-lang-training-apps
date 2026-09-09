@@ -123,10 +123,9 @@ New Relic: APM. Sentry: error tracking. Lograge: structured logs.
 ## Tantangan
 
 Deploy Rails app ke production: setup env vars, precompile assets, configure database, enable SSL, setup monitoring.
-
+- **Sambungan (Minggu 10 — Background Jobs & Sidekiq):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Buka Cabang Rails

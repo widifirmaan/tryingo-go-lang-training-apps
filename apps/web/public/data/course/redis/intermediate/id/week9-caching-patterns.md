@@ -70,9 +70,9 @@ SET produk:999 "NULL" EX 30
 ## Tantangan
 
 **Laci Benar:** Cache-Aside + TTL 60 + kunci stampede + `"NULL"` penetration untuk `produk` + buktikan basi maks 60 detik.
+- **Sambungan (Minggu 8 — Clustering):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Aside/TTL/NX**: cek/kadaluarsa/kunci

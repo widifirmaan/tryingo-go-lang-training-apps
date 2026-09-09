@@ -90,9 +90,9 @@ Auto split → downloads on render, shows `fallback` first.
 ## Challenge
 
 **Lightning Shop:** Light home + async `Chart` + `Nuxt` 2 pages + `useFetch` + Network screenshot 2 chunks.
+- **Link-up (Week 9 — Testing Vue):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Async/Nuxt/useFetch**: lazy/shop/fetch-server

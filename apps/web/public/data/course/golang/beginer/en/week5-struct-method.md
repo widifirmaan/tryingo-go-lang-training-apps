@@ -102,9 +102,9 @@ Go no `new` class, use function `NewProduct(...) *Product` returning pointer.
 ## Challenge
 
 **Mini Shop:** `type Cart struct { Items []Product }` + method `Add(p Product)`, `Total() int`, `Pay(discount int)`. Use `*Cart` to change.
+- **Link-up (Week 4 — Collections: Slice, Map & String):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Struct**: card

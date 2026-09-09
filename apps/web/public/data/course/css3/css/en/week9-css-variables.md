@@ -93,9 +93,9 @@ VS Code + browser, create `palette.html`, open, change `--green` in `:root` → 
 ## Challenge
 
 **2-Theme Shop:** `:root { --green: #2E5B44 }` + `Change Theme` button running `document.documentElement.style.setProperty('--green', '#E34F26')` (JS) → click switches green→orange.
+- **Link-up (Week 8 — Animation & Transitions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **--var/var()/@property**: variable/use/registry

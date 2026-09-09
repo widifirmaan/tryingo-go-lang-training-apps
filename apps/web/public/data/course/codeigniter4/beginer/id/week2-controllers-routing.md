@@ -103,9 +103,9 @@ Sudah siap dari W1: `php -v`, `composer`, `php spark serve` di `8080`. Tidak per
 ## Tantangan
 
 **Warung 3 Pintu:** `get('')` Beranda, `get('produk')` index, `get('produk/(:num)')` detail angka, `post('produk')` simpan. `php spark routes` screenshot.
+- **Sambungan (Minggu 1 — Setup CI4):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Routes.php/$routes**: papan & koleksi

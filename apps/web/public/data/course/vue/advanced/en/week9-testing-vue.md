@@ -110,9 +110,9 @@ Mock click + check bell sent.
 ## Challenge
 
 **Tested Card:** `name` + `price` + `Buy` button → 3 tests (text, price, event) GREEN + screenshot.
+- **Link-up (Week 8 — Provide/Inject & Teleport):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **mount/expect/trigger**: mount/taste/press

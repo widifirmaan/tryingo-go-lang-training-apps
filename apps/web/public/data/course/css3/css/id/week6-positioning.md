@@ -93,9 +93,9 @@ Angka besar di atas. `WA z:100` di atas `menu z:50`.
 ## Tantangan
 
 **Warung Nempel Lengkap:** Kartu + `badge Promo` absolute + tombol `WA` fixed + `nav` sticky + `z-index` benar (WA > nav > badge).
+- **Sambungan (Minggu 5 — CSS Grid):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **relative/absolute/fixed/sticky**: jangkar/tempel/layar/scroll

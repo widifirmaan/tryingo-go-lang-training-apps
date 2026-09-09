@@ -102,9 +102,9 @@ Ready from W1: `ng serve` on `4200`, `HttpClient` already `provideHttpClient()` 
 ## Challenge
 
 **Complete HttpClient Shop:** `getAll()` displayed with `*ngFor` + `| async`, `add("Rice")` + `subscribe` log, `ng serve` check.
+- **Link-up (Week 7 — Reactive Forms):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **HttpClient/get/post/subscribe**: courier/fetch/send/press

@@ -80,9 +80,9 @@ Landing `Beranda` eager, `admin` lazy — `ng serve` `chunk` terpisah di `Networ
 ## Tantangan
 
 **Warung Lazy Lengkap:** `Beranda` eager, `admin` `loadComponent`, `admin` anak `loadChildren`, `Network` cek chunk `admin` hanya saat `/admin`.
+- **Sambungan (Minggu 12 — Performance):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **loadComponent/loadChildren/chunk**: muat/muat anak/potongan

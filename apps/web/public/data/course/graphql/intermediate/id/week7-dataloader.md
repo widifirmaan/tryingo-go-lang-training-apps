@@ -79,9 +79,9 @@ Daftar (1) + tiap baris (N). DataLoader kumpulkan → 1 batch.
 ## Tantangan
 
 **Warung Cepat:** `Produk.kategori` via DataLoader + log hitung query: 101 → 2. Screenshot.
+- **Sambungan (Minggu 6 — Authentication):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **DataLoader/N+1**: gerobak/101x

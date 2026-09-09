@@ -136,9 +136,9 @@ Panggil `sapa("Budi")` → dapat `"Halo Budi"`. Tanpa `return` → `None`.
 2. `ongkir(berat, jarak)` → `berat*5000 + jarak*2000`
 3. `cetak_struk(keranjang, jarak)` → gabung 1+2 + `sapa(nama)` return string
 Panggil 2 keranjang beda untuk buktikan pakai ulang.
+- **Sambungan (Minggu 3 — Control Flow):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **def/return**: buat & kembalikan

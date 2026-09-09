@@ -92,9 +92,9 @@ console.log(chalk.red("Stock empty!"));
 ## Challenge
 
 **3-File Kitchen:** `products.js` exports `list`, `cashier.js` exports `calcTotal` + `shipping`, `app.js` imports both → complete receipt + `chalk`-colored total.
+- **Link-up (Week 1 — Node.js Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **require/exports**: borrow/share

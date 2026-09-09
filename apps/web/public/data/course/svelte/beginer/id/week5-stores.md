@@ -87,9 +87,9 @@ export function kosongkan() {
 ## Tantangan
 
 **Mal 3 Toko:** `keranjang` store + `Header` (jumlah) + `Daftar` (tambah) + `Checkout` (`total` derived + `kosongkan`). **Selesai Beginner Svelte!**
+- **Sambungan (Minggu 4 — Events & Bindings):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **writable/derived/readable**: gudang/otomatis/baca

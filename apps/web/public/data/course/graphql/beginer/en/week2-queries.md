@@ -101,9 +101,9 @@ Write only what's wanted (`name price`), server sends just that.
 ## Challenge
 
 **Complete Order Shop:** 1 query: `all: products { ...Card }` + `veggies: products(category:"Veggies") { name }` + `$cat` variable for 1 more. 3 results 1 request.
+- **Link-up (Week 1 — Schema & Types):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Query/arguments/alias**: order/filter/double

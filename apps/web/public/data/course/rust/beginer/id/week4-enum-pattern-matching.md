@@ -99,9 +99,9 @@ Semua varian harus ada cabang. Compiler tolak jika kurang — tidak ada `default
 ## Tantangan
 
 **Status Pesanan:** `enum Pesanan { Baru, Kirim(String), Selesai }` (`Kirim` bawa resi!) + `match` info tiap status + `if let Pesanan::Kirim(resi)`.
+- **Sambungan (Minggu 3 — Struct & Method):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **enum/match/if let**: pilihan/lengkap/satu

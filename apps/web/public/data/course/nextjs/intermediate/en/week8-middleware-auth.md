@@ -92,9 +92,9 @@ Runs **before** `page.js`, can `redirect` or `next()`.
 ## Challenge
 
 **Guarded Admin:** `/admin` guarded + dummy login setting cookie + logout clearing it + redirect loop check.
+- **Link-up (Week 7 — Loading & Error):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **middleware/cookies**: guard/stamp

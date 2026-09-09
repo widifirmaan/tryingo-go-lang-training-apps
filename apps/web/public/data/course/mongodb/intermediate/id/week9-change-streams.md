@@ -73,9 +73,9 @@ Dengar insert/update/delete real-time. Butuh replica set (oplog).
 ## Tantangan
 
 **Toko Aman Live:** Transaction jual (kurang stok + tambah pesanan) + `watch` log tiap update. Gagalkan 1 → buktikan batal semua.
+- **Sambungan (Minggu 8 — Performa & Tuning):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **watch/transaction**: mata/paket

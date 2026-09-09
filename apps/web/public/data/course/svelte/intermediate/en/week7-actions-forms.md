@@ -96,9 +96,9 @@ A shop form without `bind:value` = typing never reaches `customer`. With `bind:v
 ## Challenge
 
 **Complete Stamp Shop:** `use:clickOutside` to close a category `dropdown` + `bind:value` 3 inputs (`name`, `qty`, `category`) + `on:submit|preventDefault` adding to `list`.
+- **Link-up (Week 6 — SvelteKit Routing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **use:action/$effect**: stamp/cleanup

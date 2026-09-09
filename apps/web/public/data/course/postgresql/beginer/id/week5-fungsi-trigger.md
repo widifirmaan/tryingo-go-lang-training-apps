@@ -94,9 +94,9 @@ UPDATE produk SET stok = -5 WHERE id = 1;
 ## Tantangan
 
 **Gudang Otomatis:** Function `diskon(harga, persen)` + trigger tolak `harga <= 0` + `SELECT` 3 produk pakai function. **Selesai Beginner PostgreSQL!**
+- **Sambungan (Minggu 4 — Index & Optimasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Function/Trigger/RAISE**: resep/alarm/tolak

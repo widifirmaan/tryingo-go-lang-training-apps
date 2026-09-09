@@ -74,9 +74,9 @@ XREAD BLOCK 5000 STREAMS orders $
 ## Challenge
 
 **Broadcast Shop:** `SUBSCRIBE` 2 terminals + `PUBLISH` 3 messages + `XADD` 2 orders + `XREAD` re-read.
+- **Link-up (Week 5 — Sorted Set):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Pub/Sub/Streams**: broadcast/queue

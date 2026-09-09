@@ -82,9 +82,9 @@ function remove(id) { list.value = list.value.filter(p => p.id !== id); }
 ## Challenge
 
 **Complete Smooth Shop:** Add/remove + `TransitionGroup` + 4-class CSS + different in/out directions.
+- **Link-up (Week 10 — Performance & Nuxt):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Transition/enter/leave**: motion/in/out

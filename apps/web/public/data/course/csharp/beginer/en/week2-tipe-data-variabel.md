@@ -103,9 +103,9 @@ Console.WriteLine(stock?.ToString() ?? "empty"); // ?. = when null don't touch!
 ## Challenge
 
 **C# Receipt:** `string customer = "Siti"; decimal rice = 62000, fee = 8500.50m; decimal total = rice + fee;` → `$"{customer} total Rp {total:N0}"` + `GetType().Name` per variable.
+- **Link-up (Week 1 — C# Setup & Syntax):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **int/double/decimal**: whole/decimal/money

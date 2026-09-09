@@ -137,9 +137,9 @@ console.log(ambil({ nama: "Beras", harga: 62000, stok: 10 }, "harga")); // 62000
 ## Tantangan
 
 **Mesin Status Pesanan:** `type Pesanan = { status: "baru" } | { status: "kirim", resi: string } | { status: "selesai" }`. Fungsi `info(p: Pesanan)` → switch status, jika `kirim` tampilkan `resi`. Coba `info({status:"kirim"})` tanpa `resi` → error, harus lengkap.
+- **Sambungan (Minggu 1 — Pengantar TypeScript):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Union/Literal**: pilihan terbatas

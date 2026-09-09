@@ -80,9 +80,9 @@ Dictionary: `dt` term, `dd` definition (glossary, FAQ).
 ## Challenge
 
 **Shop Lists:** `ul` 5 products + `ol` 4 order steps + `dl` 3 terms + `start` on one list.
+- **Link-up (Week 4 — Images & Media):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ul/ol/li/dl**: bullets/numbers/items/dictionary

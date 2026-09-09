@@ -123,9 +123,9 @@ Slice struct `{input, mau}` + loop — tambah kasus tanpa fungsi baru.
 ## Tantangan
 
 **Kasir Teruji:** `hitungTotal(keranjang, diskon)` + table test 3 kasus + `cli.go` `--nama --qty` → `go test` PASS + `go run` lulus.
+- **Sambungan (Minggu 11 — HTTP Server):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Test/Errorf**: cicip/lapor

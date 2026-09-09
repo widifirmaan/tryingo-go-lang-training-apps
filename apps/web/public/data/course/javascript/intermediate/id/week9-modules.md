@@ -76,9 +76,9 @@ console.log("Ongkir:", ongkir(2,5));
 ## Tantangan
 
 **Warung Modul:** `produk.js` export `daftar`, `kasir.js` export `hitungTotal` + `ongkir`, `app.js` import keduanya, hitung struk lengkap + `console.log`.
+- **Sambungan (Minggu 8 — ES6+ Features):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 9: **Bagi File** — `export/import` biar rapi. Minggu depan: **Error Handling**.

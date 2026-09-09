@@ -73,9 +73,9 @@ Enters right, exits left — like a cashier queue.
 ## Challenge
 
 **Shop Queue:** `RPUSH orders ...` 5 orders → `while` `LPOP` + `print` until empty (`LLEN` 0) → `BLPOP` wait demo.
+- **Link-up (Week 2 — Hash):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **List/LPUSH/LPOP**: queue/enter/exit

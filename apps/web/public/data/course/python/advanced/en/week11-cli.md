@@ -151,10 +151,9 @@ JSON file, SQLite, or database to persist state.
 ## Challenge
 
 Build a complete CLI tool: task manager with add/list/done/delete, JSON persistence, colored output, --json flag. Package with pyproject.toml.
-
+- **Link-up (Week 10 — Testing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Real Terminal Cashier

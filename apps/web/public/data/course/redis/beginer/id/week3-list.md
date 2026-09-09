@@ -73,9 +73,9 @@ Masuk kanan, keluar kiri — seperti antrian kasir.
 ## Tantangan
 
 **Antrian Warung:** `RPUSH pesanan ...` 5 pesanan → `while` `LPOP` + `print` sampai kosong (`LLEN` 0) → `BLPOP` demo tunggu.
+- **Sambungan (Minggu 2 — Hash):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **List/LPUSH/LPOP**: antrian/masuk/keluar

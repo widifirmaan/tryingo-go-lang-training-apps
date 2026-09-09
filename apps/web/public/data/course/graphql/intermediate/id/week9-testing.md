@@ -86,9 +86,9 @@ HP bedakan `TIDAK_ADA` (tampil habis) vs `SERVER_MATI` (coba lagi).
 ## Tantangan
 
 **Restoran Teruji:** 4 test (Query 2 + Mutation 1 + error 1) HIJAU + 2 `extensions.code` beda.
+- **Sambungan (Minggu 8 — Subscriptions):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **vitest/GraphQLError**: cicip/alarm

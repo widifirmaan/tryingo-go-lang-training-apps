@@ -70,9 +70,9 @@ Query `kategori` + `sort harga` → index `{ kategori: 1, harga: -1 }` (sama uru
 ## Tantangan
 
 **Dokter Kartu:** 3 query lambat → `explain` catat → compound index tepat → `explain` buktikan 10x+ cepat.
+- **Sambungan (Minggu 7 — Replica Set & Sharding):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **explain/compound**: rontgen/ganda

@@ -100,9 +100,9 @@ Display / logic / comment.
 ## Challenge
 
 **Complete Showcase Shop:** `application.html.erb` + `_header` (nav `link_to`) + `index` (`each` + `link_to` show/edit + `form_with`) + `_product.html.erb` per-item partial (`render @products`). **Beginner Rails DONE!**
+- **Link-up (Week 3 — Migrations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ERB/partial/yield**: template/piece/hole

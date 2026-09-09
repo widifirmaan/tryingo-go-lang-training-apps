@@ -67,9 +67,9 @@ Tiap master 1 replica. Master mati → replica jadi master otomatis.
 ## Tantangan
 
 **Cabang 6 Node:** Compose 6 + `create --cluster-replicas 1` + `SET/GET -c` + matikan 1 master buktikan tetap jalan.
+- **Sambungan (Minggu 7 — Lua Scripting):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Cluster/failover/slot**: cabang/ganti/petak

@@ -89,9 +89,9 @@ Everything between = 1 package. `COMMIT` writes permanently, `ROLLBACK` discards
 ## Challenge
 
 **Safe Stock Move:** `START` → decrement A by 5 (check `stock>=5` in WHERE!) → increment B by 5 → `COMMIT` → A+B total unchanged. Fail 1 → `ROLLBACK`, total intact.
+- **Link-up (Week 5 — Stored Procedure):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **START/COMMIT/ROLLBACK**: start/validate/cancel

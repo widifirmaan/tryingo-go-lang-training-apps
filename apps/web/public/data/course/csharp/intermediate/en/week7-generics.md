@@ -84,9 +84,9 @@ Console.WriteLine(TakeFirst(new List<string> { "a", "b" }));
 ## Challenge
 
 **Generic Warehouse:** `Cart<T>` + `Total<T>(List<T>, Func<T,int>)` + `where T : Product` + 2 different types.
+- **Link-up (Week 6 — Async/Await):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Generics/where**: multipurpose/requirement

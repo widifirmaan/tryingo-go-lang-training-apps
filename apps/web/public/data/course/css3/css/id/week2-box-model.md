@@ -79,9 +79,9 @@ Tanpa box model, kardus produk nempel, tidak ada jarak — berantakan.
 ## Tantangan
 
 **Rak Kardus Lengkap:** 3 `.kardus` (block, tumpuk) + 1 baris 3 `span.badge` (`inline-block`) + 1 promo `display: none` + toggle via DevTools (`display: block` manual!).
+- **Sambungan (Minggu 1 — Selector & Basic Styling):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **box-model**: isi/busa/kardus/jarak

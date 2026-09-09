@@ -89,9 +89,9 @@ Wraps all pages below it (nav, footer).
 ## Challenge
 
 **3-Page Store:** Layout + Home + product list + `[id]` detail reading `$page.params.id`.
+- **Link-up (Week 5 — Stores):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **routes/[id]/layout**: floors/wildcard/frame

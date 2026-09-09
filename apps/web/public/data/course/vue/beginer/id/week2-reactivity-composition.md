@@ -106,9 +106,9 @@ Hanya hitung ulang jika bahan (`keranjang`) berubah. Lebih cepat dari `method`.
 ## Tantangan
 
 **Kalkulator Ongkir Reaktif:** `berat = ref(2)`, `jarak = ref(5)`, `ongkir = computed(() => berat.value*5000 + jarak.value*2000)`, tampilkan `{{ ongkir }}` + 2 input `v-model.number`. `watch(ongkir, v => if(v>50000) alert("Mahal"))`.
+- **Sambungan (Minggu 1 — Dasar Vue & Template):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ref/reactive**: reaktif

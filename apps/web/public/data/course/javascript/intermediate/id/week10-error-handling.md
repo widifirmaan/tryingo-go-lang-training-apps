@@ -97,9 +97,9 @@ console.log("lanjut...");
 ## Tantangan
 
 **Warung Aman:** `function hitung(harga,qty){ if(qty<=0) throw new Error("Qty salah"); return harga*qty }` → `try { hitung(62000,0)} catch(e){ console.log(e.message)}`.
+- **Sambungan (Minggu 9 — Modules):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 10: **Alarm Anti-Panik** — `try/catch` biar warung tidak crash. Minggu depan: **Design Patterns**.

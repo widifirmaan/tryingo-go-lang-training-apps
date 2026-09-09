@@ -104,9 +104,9 @@ end
 ## Tantangan
 
 **Warung MVC Lengkap:** `Pelanggan(nama, email)` + `validates :email, uniqueness: true` + `index/create` + `index.html.erb` daftar + form. Submit email kembar → error?
+- **Sambungan (Minggu 1 — Setup Rails):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Model/View/Controller**: dapur/etalase/pelayan

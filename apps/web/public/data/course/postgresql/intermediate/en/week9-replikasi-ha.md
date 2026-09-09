@@ -60,9 +60,9 @@ Primary serves writes, replicas serve reads + stand by; failover promotes a repl
 ## Challenge
 
 **Branch Setup:** Configure 1 primary + 1 replica + verify `pg_stat_replication` + test failover + document steps.
+- **Link-up (Week 8 — Performance Tuning):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **replica/failover**: branch/takeover

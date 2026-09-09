@@ -201,9 +201,9 @@ function AutoSearch() {
 **B. Digital Clock + Auto Fetch:** Show `new Date().toLocaleTimeString()` updating every second, and product list fetched once on mount. 2 different effects: 1 for clock, 1 for data `[]`.
 
 Done: 1 effect with `[]`, 1 effect with `[value]`, and 1 correct cleanup.
+- **Link-up (Week 3 — State & useState):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **useEffect**: hook for side effect after render

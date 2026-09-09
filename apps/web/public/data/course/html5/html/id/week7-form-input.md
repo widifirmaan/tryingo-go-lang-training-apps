@@ -103,9 +103,9 @@ Tanpa `label for`, klik tulisan "Nama" tidak fokus input — susah di HP. Tanpa 
 ## Tantangan
 
 **Form Warung Lengkap:** `nama` text `required`, `wa` tel, `jumlah` number, `catatan` textarea, `metode` select `COD/Transfer`, `label for` semua, `required` + `name`.
+- **Sambungan (Minggu 6 — Tabel):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 7: **Form** — pesan warung. Minggu depan: **Validasi**.

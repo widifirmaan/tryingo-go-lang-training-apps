@@ -88,9 +88,9 @@ Fixed pointer size → recursion works. `Deref` automatic (rarely write `*b`).
 ## Challenge
 
 **Shared Warehouse:** `Rc<RefCell<Stock>>` + 2 cashiers decrementing together + `strong_count` + print remainder.
+- **Link-up (Week 10 — Testing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Box/Rc/RefCell/Arc**: box/count/mutate/cross-thread

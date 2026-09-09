@@ -77,9 +77,9 @@ fn main() {
 ## Tantangan
 
 **Keranjang:** `struct Keranjang { items: Vec<Produk> }` + `fn tambah(&mut self, p: Produk)` + `fn total(&self) -> u32`.
+- **Sambungan (Minggu 2 — Ownership & Borrowing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 3: **Struct** — kartu Rust. Minggu depan: **Enum** — pilihan.

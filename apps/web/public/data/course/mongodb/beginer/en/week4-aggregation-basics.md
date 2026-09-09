@@ -86,9 +86,9 @@ Filter / group-count / sort / pick columns / cut.
 ## Challenge
 
 **Complete Shop Report:** Pipeline `match stock>0` → `group` per `category` (`total $sum`, `avg $avg`, `count $sum:1`) → `sort total DESC` → add `$limit: 2` top 2. Screenshot.
+- **Link-up (Week 3 — Index):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **aggregate/$match/$group**: factory/filter/group

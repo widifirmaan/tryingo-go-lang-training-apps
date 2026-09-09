@@ -82,7 +82,7 @@ Racks + guards + doors + drawer + panel + box = 1 store.
 **Grand Opening:** All-green checklist + public URL + video. **Spring 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Spring Boot Setup** (Week 1) + **Dependency Injection** (Week 2) + **REST Controller** (Week 3) + **Spring Data JPA** (Week 4) + **REST API Best Practices** (Week 5) + **Spring Security** (Week 6) + **Testing** (Week 7) + **Validation** (Week 8) + **Actuator & Monitoring** (Week 9) + **Messaging** (Week 10) + **Caching** (Week 11) + **Async & Scheduling** (Week 12) + **Deployment** (Week 13) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/deploy**: combine/open

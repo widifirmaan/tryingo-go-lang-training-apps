@@ -100,9 +100,9 @@ Only `$fillable` fields accept `create($req->all())` — mass-assignment securit
 ## Challenge
 
 **Complete Shop Rack:** `make:model Product -m` + `migrate` → tinker fills 5 products → `index()` `orderBy('price')` → `save()` validate + `create`. **Beginner Laravel DONE!**
+- **Link-up (Week 3 — Blade Templates):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Model/migrate/fillable**: foreman/build/valid

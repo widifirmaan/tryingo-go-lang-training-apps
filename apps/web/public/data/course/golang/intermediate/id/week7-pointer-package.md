@@ -100,9 +100,9 @@ go run .
 ## Tantangan
 
 **Gudang Alamat:** `type Gudang struct{ Stok int }` + `func (g *Gudang) Isi(n int){ g.Stok += n }` (pointer receiver!) + `package` pisah `main.go`/`gudang/gudang.go` → `go run .`.
+- **Sambungan (Minggu 6 — Interface & Generics):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Pointer/nil**: alamat/kosong

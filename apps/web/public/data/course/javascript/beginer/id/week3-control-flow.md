@@ -158,9 +158,9 @@ Cocok jika bandingkan 1 variabel dengan banyak nilai tetap. **Jangan lupa `break
 **Tebak Angka Warung:** Komputer pilih `angkaRahasia = 7` (hardcode). Buat `for` 5x coba tebak dari array `[3,9,7]`, tiap coba: jika `tebakan === rahasia` → `break` dan cetak "Benar!", jika `tebakan < rahasia` → "Terlalu kecil", else "Terlalu besar". Jika loop habis tanpa benar → "Gagal 5x".
 
 Bonus: pakai `continue` untuk skip tebakan `null`.
+- **Sambungan (Minggu 2 — Tipe Data & Struktur):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **if/else**: cabang

@@ -118,9 +118,9 @@ WHERE harga > (SELECT AVG(harga) FROM produk); -- di atas rata-rata
 ## Tantangan
 
 **Perpustakaan JOIN:** Buat `peminjaman(id AUTO_INCREMENT PK, buku_id INT, anggota_id INT, tgl DATE)` + FK ke `buku` & `anggota` → `SELECT anggota.nama, buku.judul FROM peminjaman JOIN anggota ON ... JOIN buku ON ...` → `GROUP BY anggota.nama` hitung pinjam per anggota.
+- **Sambungan (Minggu 2 — CRUD & Query):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Foreign Key**: tali (butuh InnoDB)

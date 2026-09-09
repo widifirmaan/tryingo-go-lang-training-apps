@@ -112,9 +112,9 @@ foreach (var kv in harga) Console.WriteLine($"{kv.Key}: Rp{kv.Value:N0}");
 ## Tantangan
 
 **Toko OOP:** `class Keranjang { public List<Produk> Items = new(); public void Tambah(Produk p) => Items.Add(p); public decimal Total() { decimal s = 0; foreach (var i in Items) s += i.Harga; return s; } }` → isi 3 → `Total()`. **Selesai Beginner C#!**
+- **Sambungan (Minggu 3 — Control Flow):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **class/new/get-set**: biru/kartu/akses

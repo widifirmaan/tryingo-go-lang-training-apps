@@ -79,7 +79,7 @@ CRUD + index + pipeline + design + replica + transaction = production.
 **Grand Opening:** All checklist + `mongodump` + restore into a new DB + same data. **MongoDB 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Documents & CRUD** (Week 1) + **Update & Delete** (Week 2) + **Index** (Week 3) + **Basic Aggregation** (Week 4) + **Schema Design** (Week 5) + **Advanced Aggregation** (Week 6) + **Replica Set & Sharding** (Week 7) + **Performance & Tuning** (Week 8) + **Change Streams & Transactions** (Week 9) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/mongodump**: combine/backup

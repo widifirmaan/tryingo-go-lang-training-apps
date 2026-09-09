@@ -90,9 +90,9 @@ Split otomatis → unduh saat render, tampil `fallback` dulu.
 ## Tantangan
 
 **Warung Kilat:** Beranda ringan + `Grafik` async + `Nuxt` 2 halaman + `useFetch` + Network screenshot 2 chunk.
+- **Sambungan (Minggu 9 — Testing Vue):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Async/Nuxt/useFetch**: lambat/ruko/ambil-server

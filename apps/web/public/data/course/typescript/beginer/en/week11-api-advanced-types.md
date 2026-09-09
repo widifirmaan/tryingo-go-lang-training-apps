@@ -80,9 +80,9 @@ Must start with `/api/`.
 ## Challenge
 
 **Safe Shop Routes:** `type Route = `/shop/${string}`` → `const r: Route = "/shop/rice"` ✅, `"shop/rice"` ❌. `type Id = ExtractId<"/shop/123">` → `"123"`.
+- **Link-up (Week 10 — Design Patterns TS):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Template literal/infer/Capitalize**: stamp/unpack/capitalize

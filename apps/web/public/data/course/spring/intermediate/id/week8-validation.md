@@ -85,9 +85,9 @@ Tanpa `@Valid`, stempel tidak dibaca! `BindingResult` tampung hasil.
 ## Tantangan
 
 **Warung Bersatpam:** `nama` + `harga` + `stok` (`@Min(0)`) + `POST` 3 kasus (lolos/kosong/minus) → 400 rapi semua.
+- **Sambungan (Minggu 7 — Testing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **NotBlank/Min/Valid**: wajib/minimal/picu

@@ -104,9 +104,9 @@ Parent writes inside `<Card>...</Card>` → child renders `<slot />`.
 ## Challenge
 
 **Complete Brick Shop:** `Card` (`export let` + `dispatch` + `slot`) + `App` (`{#each}` 4 products + `cart` + `reduce` total).
+- **Link-up (Week 2 — Advanced Reactivity):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **export let/dispatch/slot**: receive/report/hole

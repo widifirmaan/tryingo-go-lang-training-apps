@@ -85,9 +85,9 @@ Without `$:`, every `rice++` needs a manual `total = rice * 12500` — forget 1 
 ## Challenge
 
 **Auto Discount Cashier:** `let discount = 10; $: totalAfter = total * (1 - discount/100);` + input `bind:value={discount}` → total follows typing + `writable` cart with 2 items.
+- **Link-up (Week 1 — Svelte Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **$:/writable/$**: auto/warehouse/read

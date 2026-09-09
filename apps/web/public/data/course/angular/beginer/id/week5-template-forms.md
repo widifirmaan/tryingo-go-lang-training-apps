@@ -82,9 +82,9 @@ Mati otomatis jika form cacat.
 ## Tantangan
 
 **Form Warung Lengkap:** `nama` + `harga` + `stok` (`required`, `min`) + tombol pintar + `tambah()` push ke `daftar` + tampil `*ngFor`. **Selesai Beginner Angular!**
+- **Sambungan (Minggu 4 — Component Communication):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ngModel/ngForm/required**: tali/wasit/wajib

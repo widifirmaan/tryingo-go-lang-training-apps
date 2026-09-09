@@ -71,9 +71,9 @@ A shop form without `bind` = typing never reaches `customer`. With `bind:value`,
 ## Challenge
 
 **Shop Form:** Name + qty + category + list + validation guard + clear after add.
+- **Link-up (Week 3 — Props & Components):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **on/bind**: ears/strings

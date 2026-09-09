@@ -93,9 +93,9 @@ CRITICAL → factory red, no push.
 ## Challenge
 
 **Running Factory:** Green pipeline + pushed image + Trivy gate proof screenshot. **Advanced Docker in progress!**
+- **Link-up (Week 9 — Security):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **CI/CD/GHCR**: factory/warehouse

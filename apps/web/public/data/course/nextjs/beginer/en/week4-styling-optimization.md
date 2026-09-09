@@ -137,9 +137,9 @@ export default async function ProductsPage() {
 **B. Aesthetic Catalog:** Make `/products` 3-col pretty, add `Discount 10%` badge with `className="bg-red-500 text-white px-2 py-1 rounded-full text-xs"`.
 
 Done when: phone 1 col, laptop 3 cols (resize browser), and `next/image` used (not `<img>`).
+- **Link-up (Week 3 — Server & Client Components):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Tailwind**: utility CSS without new files

@@ -87,9 +87,9 @@ print(m.info(), f"points {m.points}")
 ## Challenge
 
 **OOP Cart:** `class Cart: def __init__(self): self.items=[]; def add(self, p): self.items.append(p); def total(self): return sum(i.price*i.stock for i in self.items)`
+- **Link-up (Week 5 — Collections):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **class/self/inheritance**: blueprint/me/heir

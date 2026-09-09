@@ -92,9 +92,9 @@ SELECT name, price, discount FROM products;
 ## Challenge
 
 **Safe CRUD Drill:** `INSERT` 2 rows → `SELECT LIKE` find → `UPDATE` 1 price → `SELECT` verify → `DELETE` 1 row → `COUNT(*)` check.
+- **Link-up (Week 1 — MySQL Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **CRUD**: 4 warehouse moves

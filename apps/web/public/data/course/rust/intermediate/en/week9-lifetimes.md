@@ -85,9 +85,9 @@ fn first(text: &str) -> &str { text } // 1 input → output follows its age
 ## Challenge
 
 **Safe Library:** `fn borrow<'a>(a: &'a str, b: &'a str) -> &'a str` + 2 different ages + prove use-past-death is rejected + 1-input elision.
+- **Link-up (Week 8 — Generics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Lifetime/elision/borrow-checker**: age/automatic/librarian

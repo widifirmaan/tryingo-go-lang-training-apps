@@ -165,9 +165,9 @@ Call `setCount(5)` → React remembers new value → calls component again → s
 **B. Delivery Calculator:** Inputs `weight` (kg) and `distance` (km), state `cost = weight*1000 + distance*2000` auto shows on type (no button).
 
 Done: ≥2 `useState`, 1 controlled input, and array update via spread/filter (not push).
+- **Link-up (Week 2 — Props & Data Flow):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **State**: changeable component memory

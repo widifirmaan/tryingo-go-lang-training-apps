@@ -114,9 +114,9 @@ PHP pakai `elseif` (atau `else if` juga bisa, tapi `elseif` idiomatik).
 ## Tantangan
 
 **Diskon Otomatis:** `$total = 120000; if ($total >= 100000) $diskon = $total*0.1; elseif ($total >= 50000) $diskon = $total*0.05; else $diskon = 0;` → cetak `Diskon Rp ... Bayar Rp ...` dengan `number_format`. Tambah `foreach` 5 barang hitung total dulu.
+- **Sambungan (Minggu 1 — Sintaks Dasar PHP):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **if/elseif/switch**: cabang

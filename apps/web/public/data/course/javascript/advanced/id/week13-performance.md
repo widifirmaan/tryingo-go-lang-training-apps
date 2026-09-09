@@ -143,10 +143,9 @@ Jalankan heavy task di background thread. Tidak block UI.
 ## Tantangan
 
 Buat search component: debounced input, memoized results, lazy loaded list, dengan performance metrics.
-
+- **Sambungan (Minggu 12 — Testing JavaScript):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Warung Hemat Energi

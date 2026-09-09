@@ -113,9 +113,9 @@ Tanpa `@Injectable()`, Nest tolak suntik (`Nest can't resolve dependencies`).
 ## Tantangan
 
 **Dapur Lengkap:** `ProdukService` + `tambah/hapus/cari` + `ProdukController` `GET/POST/DELETE` + `curl` 3 perintah lulus.
+- **Sambungan (Minggu 1 — Controllers & Routing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Service/Controller/Module**: dapur/pelayan/gedung

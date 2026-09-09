@@ -112,10 +112,9 @@ Fragment: caches partials. Russian doll: nested cache. Low-level: `Rails.cache.f
 ## Challenge
 
 Optimize a blog: detect N+1, add indexes, implement caching, add pagination. Benchmark before/after.
-
+- **Link-up (Week 8 — Rails API Mode):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Speedy Rails Shop

@@ -84,9 +84,9 @@ Console.WriteLine(AmbilPertama(new List<string> { "a", "b" }));
 ## Tantangan
 
 **Gudang Generik:** `Keranjang<T>` + `Total<T>(List<T>, Func<T,int>)` + `where T : Produk` + 2 tipe beda.
+- **Sambungan (Minggu 6 — Async/Await):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Generics/where**: serbaguna/syarat

@@ -91,9 +91,9 @@ Klik `summary` → buka/tutup. `open` atribut untuk buka default.
 ## Tantangan
 
 **Warung Interaktif Murni:** 5 FAQ `details` + 1 `dialog` promo (`showModal` + `method="dialog"`) + `progress` stok + `datalist` 6 produk. 0 JS kecuali 1 baris `onclick`.
+- **Sambungan (Minggu 10 — Multimedia):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **details/dialog/progress**: lipat/popup/batang

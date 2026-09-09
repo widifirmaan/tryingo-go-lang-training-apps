@@ -77,9 +77,9 @@ SET product:999 "NULL" EX 30
 ## Challenge
 
 **Correct Drawer:** Cache-Aside + TTL 60 + stampede lock + `"NULL"` penetration guard for `products` + prove max-60s staleness.
+- **Link-up (Week 8 — Clustering):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Aside/TTL/NX**: check/expiry/lock

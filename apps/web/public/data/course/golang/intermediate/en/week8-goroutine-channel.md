@@ -108,9 +108,9 @@ Function runs alone (concurrent). Cheap: thousands of goroutines normal.
 ## Challenge
 
 **Parallel Kitchen:** 3 `go masak` + collect 3 + `close` → print receive order. Add `buffered(3)`, compare.
+- **Link-up (Week 7 — Pointers & Packages):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **go/chan/<-**: open/belt/send-receive

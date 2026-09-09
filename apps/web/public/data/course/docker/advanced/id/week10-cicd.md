@@ -93,9 +93,9 @@ CRITICAL → pabrik merah, tidak push.
 ## Tantangan
 
 **Pabrik Lengkap:** YAML `build` + `trivy` + `push GHCR` → `git push` hijau + image muncul di `ghcr.io` + screenshot.
+- **Sambungan (Minggu 9 — Security):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Actions/workflow/GHCR**: pabrik/resep/gudang

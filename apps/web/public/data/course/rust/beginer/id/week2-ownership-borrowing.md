@@ -98,9 +98,9 @@ Banyak baca **atau** 1 tulis, tidak campur — cegah tumpang tindih.
 ## Tantangan
 
 **Warung Pinjam:** Buat `fn cetak(s: &String)`, `fn tambah_stok(s: &mut String)`, panggil `cetak(&warung)` lalu `tambah_stok(&mut warung)` → urutan harus benar (baca dulu baru mut).
+- **Sambungan (Minggu 1 — Setup & Sintaks Rust):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Ownership/move**: pemilik/pindah

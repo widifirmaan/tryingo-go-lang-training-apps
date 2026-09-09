@@ -97,7 +97,7 @@ Semantic + tables + forms + images + SEO + a11y = 1 shop.
 **Grand Opening:** 3 pages (`index/products/contact`) + same nav + table + form + SEO + deploy + WAVE 0 errors + 1-min video. **HTML5 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Introduction to HTML** (Week 1) + **Text Formatting & Typography** (Week 2) + **Links & Navigation** (Week 3) + **Images & Media** (Week 4) + **Lists** (Week 5) + **Tables** (Week 6) + **Forms & Input** (Week 7) + **Form Validation** (Week 8) + **Semantic HTML** (Week 9) + **Multimedia** (Week 10) + **HTML APIs** (Week 11) + **Accessibility** (Week 12) + **SEO & Meta** (Week 13) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/WAVE/Lighthouse**: combine/check/score

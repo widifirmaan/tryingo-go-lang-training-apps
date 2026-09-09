@@ -85,9 +85,9 @@ Without `@Valid`, stamps unread! `BindingResult` holds results.
 ## Challenge
 
 **Guarded Shop:** `name` + `price` + `stock` (`@Min(0)`) + `POST` 3 cases (pass/blank/negative) → neat 400s all.
+- **Link-up (Week 7 — Testing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **NotBlank/Min/Valid**: required/minimum/trigger

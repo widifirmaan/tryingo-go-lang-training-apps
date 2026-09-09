@@ -140,9 +140,9 @@ export class AppModule implements NestModule {
 ## Challenge
 
 **ID-Protected Restaurant:** `login` + free `GET` + guarded `POST/DELETE` + `curl` 4 tests (free/none/fake/real).
+- **Link-up (Week 5 — Pipes & Validation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Guard/JWT/UseGuards**: guard/wristband/stick

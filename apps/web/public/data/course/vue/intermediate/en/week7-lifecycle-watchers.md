@@ -91,9 +91,9 @@ watch(search, (fresh) => {        // watch search → filter
 ## Challenge
 
 **Living Store:** `onMounted` fetch + `watch` search + `onUnmounted` kill interval + loading shown during fetch.
+- **Link-up (Week 6 — Pinia):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **onMounted/onUnmounted/watch**: open/close/watch

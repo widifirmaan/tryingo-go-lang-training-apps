@@ -85,9 +85,9 @@ Only recalc if `cart` changes. Faster than `method`.
 ## Challenge
 
 **Reactive Delivery:** `weight = ref(2)`, `distance = ref(5)`, `delivery = computed(() => weight.value*5000 + distance.value*2000)`, show `{{ delivery }}` + 2 inputs `v-model.number`. `watch(delivery, v => if(v>50000) alert("Expensive"))`.
+- **Link-up (Week 1 — Vue Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ref/reactive**: reactive

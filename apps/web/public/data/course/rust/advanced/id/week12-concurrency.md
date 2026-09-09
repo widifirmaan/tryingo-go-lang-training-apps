@@ -93,9 +93,9 @@ fn main() {
 ## Tantangan
 
 **Dapur Paralel:** 3 thread masak + `Arc<Mutex<Stok>>` + `channel` lapor + hasil tepat (tidak lebih!).
+- **Sambungan (Minggu 11 — Smart Pointers):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **spawn/Mutex/Arc**: kasir/kunci/bagi

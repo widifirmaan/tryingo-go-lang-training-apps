@@ -69,9 +69,9 @@ Reserve space so page doesn't jump when photo loads.
 ## Challenge
 
 **Showcase 3 Photos:** `figure` + `img` + `figcaption` each (name + price) + meaningful `alt` + `width/height`.
+- **Link-up (Week 3 — Links & Navigation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **img/alt/figure**: photo/label/frame

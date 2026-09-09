@@ -105,9 +105,9 @@ Test: `go run server.go` → browser `http://localhost:8080/produk` → JSON.
 ## Challenge
 
 **Full Shop API:** `GET /produk` + `POST /produk` (read `json.NewDecoder(r.Body).Decode(&p)`, `w.WriteHeader(201)`) + `log` middleware + 2 `curl` commands pass.
+- **Link-up (Week 10 — Stdlib: I/O & Encoding):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ServeMux/Handler**: sign/waiter

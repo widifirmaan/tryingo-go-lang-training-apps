@@ -115,9 +115,9 @@ shop/
 ## Challenge
 
 **Complete Table Shop:** `base.html` (header/nav/footer) + `list.html` (`extends`, `for` + `empty`, `if stock==0`) + `detail.html` (`{{ p.name }}` + `|date:"d M Y"` for `created`). **Beginner Django DONE!**
+- **Link-up (Week 3 — Views & URLs):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **extends/block/for**: inherit/hole/repeat

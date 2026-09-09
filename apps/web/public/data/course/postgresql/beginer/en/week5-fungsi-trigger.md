@@ -94,9 +94,9 @@ UPDATE products SET stock = -5 WHERE id = 1;
 ## Challenge
 
 **Automatic Warehouse:** Function `discount(price, pct)` + trigger rejecting `price <= 0` + `SELECT` 3 products via function. **Beginner PostgreSQL DONE!**
+- **Link-up (Week 4 — Index & Optimization):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Function/Trigger/RAISE**: recipe/alarm/reject

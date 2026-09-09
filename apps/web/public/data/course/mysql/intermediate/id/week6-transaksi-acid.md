@@ -89,9 +89,9 @@ Semua di antara = 1 paket. `COMMIT` tulis permanen, `ROLLBACK` buang semua.
 ## Tantangan
 
 **Pindah Stok Aman:** `START` → kurang A 5 (cek `stok>=5` di WHERE!) → tambah B 5 → `COMMIT` → total A+B tetap sama. Coba gagalkan 1 → `ROLLBACK` total tetap.
+- **Sambungan (Minggu 5 — Stored Procedure):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **START/COMMIT/ROLLBACK**: mulai/sah/batal

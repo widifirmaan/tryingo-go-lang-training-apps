@@ -85,9 +85,9 @@ Daftar produk tambah/hapus langsung hilang → kasar. Dengan `slide` + `fade` + 
 ## Tantangan
 
 **Warung Halus Lengkap:** `{#each daftar as item (item.id)}` + `in:slide` + `out:fade` + `animate:flip`, `daftar` tambah/hapus, `npm run dev` screenshot halus.
+- **Sambungan (Minggu 8 — Lifecycle & Context):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **slide/fade/flip**: geser/pudar/pindah

@@ -80,9 +80,9 @@ Shrink browser → 4→2→1 columns automatically. Change `auto-fill` to `3` �
 ## Challenge
 
 **6-Product Catalog:** `auto-fill minmax(200px,1fr)` + `gap: 16px` + shrink browser, screenshot 4→1 columns.
+- **Link-up (Week 4 — Flexbox):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **grid/fr/gap**: plots/share/gap

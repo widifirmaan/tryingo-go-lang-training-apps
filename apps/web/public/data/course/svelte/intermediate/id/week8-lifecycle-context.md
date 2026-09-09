@@ -88,9 +88,9 @@ Sama W1: `npm run dev` di `5173`.
 ## Tantangan
 
 **Warung Siklus Lengkap:** `onMount` fetch `daftar`, `setContext("warung", {nama})`, anak `getContext` tampil, `onDestroy` `clearInterval`.
+- **Sambungan (Minggu 7 — Actions & Forms):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **onMount/onDestroy/context**: siklus/gudang

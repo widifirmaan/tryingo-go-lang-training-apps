@@ -124,9 +124,9 @@ export class TimingInterceptor implements NestInterceptor {
 ## Challenge
 
 **Safe Monitored Shop:** Global filter + 3 different `HttpException`s + `Logger` per action + `curl` verifying neat JSON everywhere. **Intermediate NestJS DONE!**
+- **Link-up (Week 7 — ORM Relations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Filter/Logger/HttpException**: net/CCTV/coded-alarm

@@ -88,9 +88,9 @@ Auto-updated every `migrate` — never hand-edit.
 ## Challenge
 
 **Shop Renovation:** `AddDiscountToProducts discount:integer` (default 0 via `change` + `add_column :products, :discount, :integer, default: 0`) → `migrate` → `update` 1 product → `rollback` → verify gone → `migrate` again.
+- **Link-up (Week 2 — MVC):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **migration/migrate/rollback**: blueprint/build/cancel

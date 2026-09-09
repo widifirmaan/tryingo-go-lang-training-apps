@@ -166,9 +166,9 @@ Solusi jika butuh: pisah — Server kirim data sebagai `props` (seperti di atas:
 **B. Dashboard Mini:** Server ambil daftar `[{nama, nilai}]` siswa, Client tampilkan input cari nama + tampilkan rata-rata nilai hasil filter.
 
 Kriteria: 1 file Server (`page.js` async), 1 file Client (`"use client"`), dan data mengalir via `props` (bukan fetch ulang di Client).
+- **Sambungan (Minggu 2 — Routing & Navigation):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Server Component**: komponen di server, default Next.js

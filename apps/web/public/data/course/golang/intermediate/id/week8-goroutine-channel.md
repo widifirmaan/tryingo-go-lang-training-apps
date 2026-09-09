@@ -114,9 +114,9 @@ Fungsi jalan sendiri (concurrent). Murah: ribuan goroutine normal.
 ## Tantangan
 
 **Dapur Paralel:** 3 `go masak(nama, ch)` + kumpulkan 3 hasil + `close` → cetak urut terima. Tambah `buffered(3)` bandingkan.
+- **Sambungan (Minggu 7 — Pointer & Package):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **go/chan/<-**: buka/ban/kirim-terima

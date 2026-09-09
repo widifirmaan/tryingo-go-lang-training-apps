@@ -171,9 +171,9 @@ No `if URL == "/products" show this`. Just **create a file** in the right place.
 **B. Simple Blog:** `/blog` (3 posts), `/blog/[slug]` (detail), and `/blog/layout.js` showing "✍️ Shop Blog" above each post.
 
 Done when 3 levels work: `/` → `/products` → `/products/2`, and `Link` is used.
+- **Link-up (Week 1 — Setup & Core Concepts):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Route**: URL address

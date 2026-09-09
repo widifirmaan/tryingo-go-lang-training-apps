@@ -110,9 +110,9 @@ baca.on("error", (e) => console.log("Gagal:", e.message));
 ## Tantangan
 
 **Kasir File:** `jual.js` baca `produk.json` → kurangi `stok` Beras 1 → tulis lagi → cetak sisa. Jalankan 3x → stok 10→7?
+- **Sambungan (Minggu 2 — Modules & npm):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **write/read/copyFile**: tulis/baca/salin

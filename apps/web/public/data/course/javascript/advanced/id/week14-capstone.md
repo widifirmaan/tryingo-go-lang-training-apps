@@ -63,7 +63,7 @@ Deploy `Vercel` / `Netlify`.
 - **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
 - **Kuning:** Ubah 1 nilai pada `/api/produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Performance Optimization** (Minggu 13): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
-
+- **Checklist integrasi:** **Dasar Sintaks JavaScript** (Minggu 1) + **Tipe Data & Struktur** (Minggu 2) + **Control Flow** (Minggu 3) + **Fungsi** (Minggu 4) + **DOM Manipulation** (Minggu 5) + **Events Lanjutan** (Minggu 6) + **Async JavaScript** (Minggu 7) + **ES6+ Features** (Minggu 8) + **Modules** (Minggu 9) + **Error Handling** (Minggu 10) + **Design Patterns** (Minggu 11) + **Testing JavaScript** (Minggu 12) + **Performance Optimization** (Minggu 13) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

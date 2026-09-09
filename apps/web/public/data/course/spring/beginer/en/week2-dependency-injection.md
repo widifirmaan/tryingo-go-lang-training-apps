@@ -103,9 +103,9 @@ Spring default: 1 instance for all (thrifty + consistent).
 ## Challenge
 
 **2-Waiter Mall:** `ProductService` + `ProductController` (`GET/POST`) + `StockController` (`GET /stock/count` using same service) → add via 1, read via 2, same?
+- **Link-up (Week 1 — Spring Boot Setup):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Service/Autowired/singleton**: kitchen/inject/one

@@ -119,9 +119,9 @@ Function types written in full. `readonly number[]` forbids `push`.
 ## Challenge
 
 **Typed Shop Calculator:** `type Item={price:number; qty:number}`, `function shipping(weight:number,dist:number):number`, `function receipt(items: readonly Item[], dist:number): string` returning `` `Total Rp ${calcTotal(items)}` ``. Try sending `price:"62000"` → red.
+- **Link-up (Week 2 — Advanced Types):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Signature**: function type

@@ -102,9 +102,9 @@ Tests `divide(10,0)` MUST explode `InvalidArgumentException`.
 ## Challenge
 
 **Tested Shop:** `Cashier::discount($total, $pct)` + 3 tests (normal/0%/100%) → `./vendor/bin/phpunit` GREEN 5/5.
+- **Link-up (Week 9 — Composer & Autoloading):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **PHPUnit/TestCase/assert**: test-kitchen/taste

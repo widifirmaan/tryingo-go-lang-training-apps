@@ -128,9 +128,9 @@ Test: `curl -X POST .../produk` → restart server → `GET` data masih ada!
 ## Tantangan
 
 **Rak Lengkap:** `Produk` + `Pelanggan` entity + 2 service `Repository` + `GET/POST` keduanya + restart cek awet. **Selesai Beginner NestJS!**
+- **Sambungan (Minggu 3 — Modules & DI):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Entity/Column/Repository**: biru/kolom/tukang

@@ -100,9 +100,9 @@ Alarm hidup makan resource — `defer cancel()` matikan.
 ## Tantangan
 
 **Toko Tepat Waktu:** 3 `go kerja` (150ms) + timeout 100ms → 3 "batal" + `Wait` → ubah timeout 200ms → 3 "selesai". **Selesai Menengah Go!**
+- **Sambungan (Minggu 8 — Goroutine & Channel):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **context/cancel**: alarm/matikan

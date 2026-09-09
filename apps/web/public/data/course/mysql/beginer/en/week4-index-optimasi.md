@@ -87,9 +87,9 @@ No index: read every page. With `email` index: find "Siti" → S → page 200.
 ## Challenge
 
 **Fast Library:** `CREATE INDEX idx_title ON books(title)` → `EXPLAIN SELECT * FROM books WHERE title LIKE 'Java%'` → what `type`? Add `idx_email` on `members` → compare `rows` before/after.
+- **Link-up (Week 3 — JOIN & Relations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Index**: contents (B-Tree)

@@ -128,9 +128,9 @@ Tidak perlu `break`, otomatis berhenti. `switch { case x<10: }` untuk ganti `if-
 ## Tantangan
 
 **Kalkulator Ongkir Switch:** `berat=2.5, jarak=8`, `switch { case jarak<=5: ongkir=10000; case jarak<=10: ongkir=15000; default: 20000 }`, total `berat*5000+ongkir`. Validasi `if berat<=0 { fmt.Println("Berat salah") }`.
+- **Sambungan (Minggu 1 — Setup & Sintaks Go):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Zero value**: default kosong

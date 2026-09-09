@@ -87,9 +87,9 @@ Tanpa saklar utama, semua alarm mati.
 ## Tantangan
 
 **Warung Otomatis:** `laporanPagi` cron 07:00 + `cekStok` tiap 60 detik + screenshot 2 log.
+- **Sambungan (Minggu 11 — Caching):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Scheduled/cron/fixedRate**: alarm/jadwal/tiap-X

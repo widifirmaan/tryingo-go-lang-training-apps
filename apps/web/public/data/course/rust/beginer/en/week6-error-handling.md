@@ -97,9 +97,9 @@ fn main() {
 ## Challenge
 
 **Safe Cashier:** `fn discount(price: f64, pct: f64) -> Result<f64, String>` rejects `pct > 50` → `match` 3 cases (normal, reject, divide-0) + `?` propagating version. **Beginner Rust DONE!**
+- **Link-up (Week 5 — Collections):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Result/Ok/Err/?**: result/success/failure/throw

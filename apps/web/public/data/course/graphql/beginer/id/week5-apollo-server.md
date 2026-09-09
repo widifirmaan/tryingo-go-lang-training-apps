@@ -104,9 +104,9 @@ Buka `http://localhost:4000` → GraphiQL → coba `query { produk { nama harga 
 ## Tantangan
 
 **Restoran Lengkap:** `typeDefs` + `resolvers` (Query 2 + Mutation 2) + `node index.js` + GraphiQL screenshot tambah produk. **Selesai Beginner GraphQL!**
+- **Sambungan (Minggu 4 — Resolvers):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Apollo/typeDefs/resolvers**: gedung/menu/dapur

@@ -117,10 +117,9 @@ Returns { data, loading, error }. Reusable for different endpoints.
 ## Challenge
 
 Build a useForm hook handling: values, errors, handleChange, handleSubmit, reset. Use in 2 different forms.
-
+- **Link-up (Week 7 — Forms & Validation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Own Kitchen Recipes

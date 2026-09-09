@@ -87,9 +87,9 @@ Tanpa index: baca tiap halaman. Dengan index `email`: cari "Siti" → S → hala
 ## Tantangan
 
 **Perpustakaan Cepat:** `CREATE INDEX idx_judul ON buku(judul)` → `EXPLAIN SELECT * FROM buku WHERE judul LIKE 'Java%'` → `type` apa? Tambah `idx_email` di `anggota` → bandingkan `rows` sebelum/sesudah.
+- **Sambungan (Minggu 3 — JOIN & Relasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Index**: daftar isi (B-Tree)

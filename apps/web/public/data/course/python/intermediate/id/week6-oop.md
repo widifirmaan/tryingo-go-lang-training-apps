@@ -75,9 +75,9 @@ print(m.info(), f"poin {m.poin}")
 ## Tantangan
 
 **Keranjang OOP:** `class Keranjang: def __init__(self): self.items=[]; def tambah(self, p): self.items.append(p); def total(self): return sum(i.harga*i.stok for i in self.items)`
+- **Sambungan (Minggu 5 — Collections):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 6: **OOP** — cetak biru warung. Minggu depan: **File I/O**.

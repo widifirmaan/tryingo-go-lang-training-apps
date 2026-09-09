@@ -70,7 +70,7 @@ Laci RAM hilang saat mati lampu! 2 penyelamat (atur di `redis.conf` / flag `dock
 **Grand Opening:** Semua checklist + `INFO` + video 1 menit pesan→ranking berubah live. **Selesai Redis 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Redis String** (Minggu 1) + **Hash** (Minggu 2) + **List** (Minggu 3) + **Set** (Minggu 4) + **Sorted Set** (Minggu 5) + **Pub/Sub** (Minggu 6) + **Lua Scripting** (Minggu 7) + **Clustering** (Minggu 8) + **Caching Patterns** (Minggu 9) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/live**: gabung/langsung

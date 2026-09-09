@@ -91,9 +91,9 @@ socket.on("out-of-stock", (d) => ring(d.name));
 ## Challenge
 
 **Live Shop:** `new-order` gateway + `out-of-stock` + 2 tabs listening together, screenshot.
+- **Link-up (Week 9 — Testing NestJS):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Gateway/emit**: tower/broadcast

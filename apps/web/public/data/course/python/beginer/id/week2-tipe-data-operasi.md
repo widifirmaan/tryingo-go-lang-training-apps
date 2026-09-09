@@ -138,9 +138,9 @@ if catatan is None:
 **Validasi Nama Produk:** Input `nama = "  beras  "` → `strip`, `lower`, cek `len(nama) >= 3`, ada spasi? `cek = " " not in nama.strip()` untuk kode tanpa spasi, dan `nama[::-1]` untuk cek palindrom sederhana.
 
 Bonus: hitung ongkir `total = berat*5000 + jarak*2000` dengan `//` untuk bulatkan ribu.
+- **Sambungan (Minggu 1 — Dasar Python & Sintaks):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **`/` `//` `%` `**`**: bagi, bagi bulat, sisa, pangkat

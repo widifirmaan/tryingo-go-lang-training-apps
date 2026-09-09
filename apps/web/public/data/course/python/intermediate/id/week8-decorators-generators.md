@@ -76,9 +76,9 @@ Fungsi yang bungkus fungsi lain — tambah log tanpa ubah isi.
 ## Tantangan
 
 **Stempel Waktu:** Buat `@timer` yang `start = time.time()` sebelum `func` dan `print(time.time()-start)` sesudah. Pakai di `hitung(a,b)`.
+- **Sambungan (Minggu 7 — File I/O):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 8: **Stempel & Antrian** — decorator & generator. Selesai Intermediate Python! Minggu depan: **Libraries**.

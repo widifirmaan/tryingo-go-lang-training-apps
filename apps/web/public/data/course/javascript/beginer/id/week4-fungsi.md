@@ -155,9 +155,9 @@ Fungsi panggil dirinya dengan masalah LEBIH KECIL + titik berhenti. `faktorial(3
 Panggil dengan 2 keranjang berbeda untuk buktikan pakai ulang.
 
 Bonus closure: `buatDiskon(10)` return fungsi `harga => harga*0.9` — dipakai `keranjang.map(buatDiskon(10))`.
+- **Sambungan (Minggu 3 — Control Flow):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Fungsi**: blok resep

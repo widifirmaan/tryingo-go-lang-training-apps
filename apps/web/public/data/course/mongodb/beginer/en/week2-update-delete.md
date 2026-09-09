@@ -80,9 +80,9 @@ When `name:"Coffee"` is missing, creates new.
 ## Challenge
 
 **Stock Opname:** Sell 3 items (`$inc: -1` each) + 1 price change (`$set`) + delete empties (`deleteMany stock 0`).
+- **Link-up (Week 1 — Documents & CRUD):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **update/$set/$inc**: edit/replace/tally

@@ -92,9 +92,9 @@ Layout `@yield('content')` hole → child `@section('content')` fills.
 ## Challenge
 
 **Complete Showcase Shop:** `layouts/app` (header/nav/footer) + `products` (`extends`, `forelse`, `number_format`) + `detail` (`{{ $p["name"] }}` + back link). `php artisan serve` screenshot.
+- **Link-up (Week 2 — Routing & Controllers):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Blade/extends/section**: template/inherit/fill

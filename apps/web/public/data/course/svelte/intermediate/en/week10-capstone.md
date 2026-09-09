@@ -81,7 +81,7 @@ vite build -> adapter.
 Build a complete course platform: auth, course catalog, video player, progress tracking, admin panel.
 
 ---
-
+- **Integration checklist:** **Svelte Basics** (Week 1) + **Advanced Reactivity** (Week 2) + **Props & Components** (Week 3) + **Events & Bindings** (Week 4) + **Stores** (Week 5) + **SvelteKit Routing** (Week 6) + **Actions & Forms** (Week 7) + **Lifecycle & Context** (Week 8) + **Transitions & Animations** (Week 9) → all parts above run together at the grand opening.
 ## Summary
 
 Week 10 of 10: **Capstone: SvelteKit App** (Level: Intermediate). Done! 🎉

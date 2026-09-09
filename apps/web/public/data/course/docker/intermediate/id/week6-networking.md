@@ -86,9 +86,9 @@ Aplikasi web sambung DB via `host=db` (bukan `localhost`!).
 ## Tantangan
 
 **Warung Terhubung:** Network `toko` + `db` (postgres) + `web` (node app `host=db`) + `ping` lulus + app baca DB.
+- **Sambungan (Minggu 5 — Volume & Data):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Network/bridge/DNS**: grup/default/nama

@@ -103,9 +103,9 @@ For code that SHOULD panic.
 ## Challenge
 
 **Tested Shop:** `calc/discount/divide` + 4 GREEN tests + screenshot + (bonus) move to `lib.rs` until Doc-tests go GREEN too. **Intermediate Rust DONE!**
+- **Link-up (Week 9 — Lifetimes):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **test/assert/doc-test**: taste/expect/example

@@ -99,9 +99,9 @@ Real HTTP to a running app → `expect(200)`.
 ## Challenge
 
 **Tested Shop:** Unit service (mock) 3 tests + E2E 2 doors GREEN + screenshot.
+- **Link-up (Week 8 — Error & Logging):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **spec/mock/supertest**: test/fake/mock-door

@@ -95,9 +95,9 @@ dotnet test
 ## Tantangan
 
 **Warung Teruji:** `Hitung/Diskon/Bagi` + 5 test HIJAU + screenshot.
+- **Sambungan (Minggu 9 — Design Patterns):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **xUnit/Fact/Theory**: dapur/1/banyak

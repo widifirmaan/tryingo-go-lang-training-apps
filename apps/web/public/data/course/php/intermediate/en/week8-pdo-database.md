@@ -104,9 +104,9 @@ try {
 ## Challenge
 
 **Complete PDO Warehouse:** `list.php` (`query` + `find` prepare) + `add.php` (`prepare` INSERT) + `delete.php` (`prepare` DELETE) + failed SQL-injection attempt.
+- **Link-up (Week 7 — PHP Security):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **PDO/DSN/prepare**: driver/address/safe

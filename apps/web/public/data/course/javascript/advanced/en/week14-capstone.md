@@ -63,7 +63,7 @@ Deploy `Vercel` / `Netlify`.
 - **Green:** Run this week's Program as-is; note the output.
 - **Yellow:** Change 1 value in `/api/products`; predict the output BEFORE running, then compare.
 - **Red:** Combine with **Performance Optimization** (Week 13): plug the result into that flow, end-to-end must work.
-
+- **Integration checklist:** **JavaScript Basics** (Week 1) + **Data Types & Structures** (Week 2) + **Control Flow** (Week 3) + **Functions** (Week 4) + **DOM Manipulation** (Week 5) + **Events & Event Handling** (Week 6) + **Async JavaScript** (Week 7) + **ES6+ Features** (Week 8) + **Modules** (Week 9) + **Error Handling** (Week 10) + **Design Patterns** (Week 11) + **Testing JavaScript** (Week 12) + **Performance Optimization** (Week 13) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - See Must-Know Terms above.

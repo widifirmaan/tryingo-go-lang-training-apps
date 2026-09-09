@@ -108,9 +108,9 @@ Pasang di `main.ts` → semua `@Body` dicek otomatis.
 ## Tantangan
 
 **Warung Bersatpam:** DTO `nama/harga/stok` + global pipe + `ParseIntPipe` `:id` + `curl` 3 kasus (lolos/kosong/salah-tipe).
+- **Sambungan (Minggu 4 — Database TypeORM):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **DTO/Pipe/whitelist**: amplop/satpam/buang-asing

@@ -71,9 +71,9 @@ SELECT name, price, discount FROM products;
 ## Challenge
 
 **Books:** `UPDATE books SET stock = stock -1 WHERE id=1` (borrow), `DELETE FROM members WHERE city IS NULL`, `SELECT * FROM books WHERE title LIKE '%Java%' LIMIT 3`.
+- **Link-up (Week 1 — PostgreSQL Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **CRUD**: 4 moves

@@ -109,9 +109,9 @@ console.log("continuing...");
 ## Challenge
 
 **Safe Shop:** `function calc(price,qty){ if(qty<=0) throw new Error("Bad qty"); return price*qty }` → `try { calc(62000,0)} catch(e){ console.log(e.message)}`.
+- **Link-up (Week 9 — Modules):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **try/catch/finally**: attempt/catch/always

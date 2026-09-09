@@ -90,9 +90,9 @@ Scans CVEs before deploy. `--memory/--cpus` = rations.
 ## Challenge
 
 **Complete Secure Box:** `USER` + `--read-only` + `--cap-drop ALL` + `--memory 256m` + `trivy` 0 CRITICAL + screenshot.
+- **Link-up (Week 8 — Multi-Stage Build):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **USER/cap-drop/read-only**: employee/tied/glass

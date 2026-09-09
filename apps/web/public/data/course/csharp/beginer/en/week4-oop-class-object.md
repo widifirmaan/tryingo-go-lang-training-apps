@@ -110,9 +110,9 @@ foreach (var kv in prices) Console.WriteLine($"{kv.Key}: Rp{kv.Value:N0}");
 ## Challenge
 
 **OOP Store:** `class Cart { public List<Product> Items = new(); public void Add(Product p) => Items.Add(p); public decimal Total() { decimal s = 0; foreach (var i in Items) s += i.Price; return s; } }` → fill 3 → `Total()`. **Beginner C# DONE!**
+- **Link-up (Week 3 — Control Flow):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **class/new/get-set**: blueprint/card/access

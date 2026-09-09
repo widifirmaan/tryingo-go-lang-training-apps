@@ -108,9 +108,9 @@ Compares hashes, not text.
 ## Challenge
 
 **ID-Protected Shop:** Real login/logout + `AuthFilter` guarding `/admin/*` + admin seeder + kick & pass screenshots.
+- **Link-up (Week 6 — Validation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Session/filter/regenerate**: wristband/guard/swap-keys

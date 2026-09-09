@@ -94,9 +94,9 @@ export class WarungComponent {
 ## Tantangan
 
 **Warung Aliran Lengkap:** `of([62000,5000,28000]).pipe(map(arr=>arr.filter(h=>h<20000)), map(arr=>arr.map(h=>`Rp ${h}`))).subscribe(console.log)` → `["Rp 5000"]`.
+- **Sambungan (Minggu 8 — HttpClient):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Observable/pipe/subscribe**: pipa/saringan/ember

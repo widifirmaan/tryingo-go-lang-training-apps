@@ -74,9 +74,9 @@ Each master 1 replica. Master dies → replica auto-becomes master.
 ## Challenge
 
 **6-Node Branch:** Compose 6 + `create --cluster-replicas 1` + `SET/GET -c` + kill 1 master proving survival.
+- **Link-up (Week 7 — Lua Scripting):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Cluster/failover/slot**: branch/replace/plot

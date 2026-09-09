@@ -85,9 +85,9 @@ Tanpa `$:`, tiap `beras++` harus tulis `total = beras * 12500` manual — lupa 1
 ## Tantangan
 
 **Kasir Diskon Otomatis:** `let diskon = 10; $: totalDiskon = total * (1 - diskon/100);` + input `bind:value={diskon}` → total ikut saat ketik + `writable` keranjang 2 barang.
+- **Sambungan (Minggu 1 — Dasar Svelte):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **$:/writable/$**: otomatis/gudang/baca

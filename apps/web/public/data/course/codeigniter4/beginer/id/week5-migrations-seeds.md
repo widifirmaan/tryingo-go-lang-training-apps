@@ -112,9 +112,9 @@ php spark migrate:rollback  # batalkan terakhir
 ## Tantangan
 
 **Gudang Lengkap:** Migration `BuatPelanggan` + seeder 3 pelanggan + `migrate` + `seed` + cek di `phpMyAdmin`/SQLite. **Selesai Beginner CI4!**
+- **Sambungan (Minggu 4 — Models & Database):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Migration/Seeder/forge**: biru/isi/tukang

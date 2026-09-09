@@ -98,9 +98,9 @@ Migrasi + seeder ulang otomatis. `seeInDatabase` cek ada.
 ## Tantangan
 
 **Warung Teruji:** 3 test (GET 200 + tambah-masuk-DB + hapus-hilang) HIJAU + seeder 2 produk.
+- **Sambungan (Minggu 8 — REST API):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **FeatureTestTrait/seeInDatabase**: bohongan/cek

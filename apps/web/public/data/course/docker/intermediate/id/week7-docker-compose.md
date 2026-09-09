@@ -85,9 +85,9 @@ Tiap service 1 peti. `volumes:` bawah = lemari bernama.
 ## Tantangan
 
 **Warung Rakit Lengkap:** `web` (nginx + bind `index.html`) + `db` (postgres + volume) + `up` → buka `:8080` + `exec` cek DB + `down` (tanpa `-v`).
+- **Sambungan (Minggu 6 — Networking):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Compose/up/down**: rakit/nyala/mati

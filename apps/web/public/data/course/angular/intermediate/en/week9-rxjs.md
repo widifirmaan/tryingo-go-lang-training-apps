@@ -94,9 +94,9 @@ export class ShopComponent {
 ## Challenge
 
 **Complete Stream Shop:** `of([62000,5000,28000]).pipe(map(arr=>arr.filter(h=>h<20000)), map(arr=>arr.map(h=>`Rp ${h}`))).subscribe(console.log)` → `["Rp 5000"]`.
+- **Link-up (Week 8 — HttpClient):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Observable/pipe/subscribe**: pipe/strainer/bucket

@@ -75,9 +75,9 @@ Try submitting empty → browser blocks red "Please fill out". Try letters in `w
 ## Challenge
 
 **Guarded Form:** `email` type, `wa` pattern digits, `name` minlength 3, all `required` + test each block.
+- **Link-up (Week 7 — Forms & Input):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **required/pattern**: guard/rule

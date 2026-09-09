@@ -110,9 +110,9 @@ VS Code + browser, buat `animasi.html`, buka, hover tombol.
 ## Tantangan
 
 **Warung Halus Lengkap:** Tombol `transition: all 0.3s` + `hover scale`, promo `animation: kedip 1s infinite`, `h1` `slide-in 1s`, buka di browser → `Lighthouse` cek performa.
+- **Sambungan (Minggu 7 — Responsive Design):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **transition/animation**: halus/berulang

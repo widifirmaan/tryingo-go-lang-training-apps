@@ -96,9 +96,9 @@ go run .
 ## Challenge
 
 **Address Warehouse:** `type Gudang struct{ Stok int }` + `func (g *Gudang) Isi(n int)` (pointer receiver!) + split `main.go`/`gudang/gudang.go` → `go run .`.
+- **Link-up (Week 6 — Interfaces & Generics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Pointer/nil**: address/empty

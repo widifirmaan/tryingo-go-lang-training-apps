@@ -93,9 +93,9 @@ Bigger number on top. `WA z:100` above `menu z:50`.
 ## Challenge
 
 **Complete Sticky Shop:** Card + `Promo` badge absolute + `WA` button fixed + `nav` sticky + correct `z-index` (WA > nav > badge).
+- **Link-up (Week 5 — CSS Grid):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **relative/absolute/fixed/sticky**: anchor/stick/screen/scroll

@@ -76,9 +76,9 @@ console.log(update({ id: 1, nama: "Beras", harga: 62000, stok: 10, kategori: "Se
 ## Tantangan
 
 **Warung Potong Lengkap:** `Produk` 5 field → `Ringkas = Pick<Produk, "nama"|"harga">` + `TanpaStok = Omit<Produk,"stok">` + `update(produk, Partial<Produk>)`.
+- **Sambungan (Minggu 6 — Classes & OOP):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Pick/Omit/Partial**: potong/buang/opsional

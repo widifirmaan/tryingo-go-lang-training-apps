@@ -129,7 +129,7 @@ fn main() {
 **Grand Opening CLI:** Full program + 3 tests + release binary + video. **Rust 0→Expert DONE!**
 
 ---
-
+- **Integration checklist:** **Rust Setup & Syntax** (Week 1) + **Ownership & Borrowing** (Week 2) + **Struct & Method** (Week 3) + **Enum & Pattern Matching** (Week 4) + **Collections** (Week 5) + **Error Handling** (Week 6) + **Trait** (Week 7) + **Generics** (Week 8) + **Lifetimes** (Week 9) + **Testing** (Week 10) + **Smart Pointers** (Week 11) + **Concurrency** (Week 12) + **Macros** (Week 13) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **CLI/binary/test**: terminal/done/proven

@@ -131,9 +131,9 @@ Creates/updates tables following entities. Production uses `validate` + migratio
 ## Challenge
 
 **Complete Rack:** `Product` + `Customer` entities + 2 repos + `GET/POST` both + restart durability check.
+- **Link-up (Week 3 — REST Controller):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Entity/Id/Repository**: blueprint/number/worker

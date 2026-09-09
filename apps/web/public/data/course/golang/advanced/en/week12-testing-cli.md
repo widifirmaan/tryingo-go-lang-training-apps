@@ -119,9 +119,9 @@ Slice of struct `{input, want}` + loop — add cases without new functions.
 ## Challenge
 
 **Tested Cashier:** `hitungTotal(cart, discount)` + table test 3 cases + `cli.go` `--nama --qty` → `go test` PASS + `go run` pass.
+- **Link-up (Week 11 — HTTP Server):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Test/Errorf**: taste/report

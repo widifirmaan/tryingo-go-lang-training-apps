@@ -104,9 +104,9 @@ echo $laptop->info() . " [Garansi {$laptop->garansi} thn]\n";
 ## Tantangan
 
 **Toko OOP:** `class Keranjang { public array $items = []; public function tambah($p){ $this->items[] = $p; } public function total(){ $s=0; foreach($this->items as $i) $s += $i->harga*$i->qty; return $s; } }` → isi 3 `Produk` → `total()`.
+- **Sambungan (Minggu 4 — Array & Manipulasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **class/new/$this**: biru/kartu/saya

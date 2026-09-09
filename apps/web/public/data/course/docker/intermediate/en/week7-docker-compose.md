@@ -85,9 +85,9 @@ Each service 1 box. Bottom `volumes:` = named wardrobes.
 ## Challenge
 
 **Assembled Shop:** `up` 3 boxes + `ps` proof + data survives `down/up` + `logs` check. **Intermediate Compose DONE!**
+- **Link-up (Week 6 — Networking):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **compose/up/down**: assemble/on/off

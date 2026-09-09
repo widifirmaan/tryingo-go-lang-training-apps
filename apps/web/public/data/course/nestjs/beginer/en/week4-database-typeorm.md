@@ -123,9 +123,9 @@ Creates tables from entities — never in production (use migrations!).
 ## Challenge
 
 **Complete Rack:** `Product` + `Customer` entities + 2 `Repository` services + `GET/POST` both + restart durability check. **Beginner NestJS DONE!**
+- **Link-up (Week 3 — Modules & DI):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Entity/Column/Repository**: blueprint/column/forklift

@@ -95,9 +95,9 @@ var_dump(HeadCashier::take() === HeadCashier::take()); // true, same!
 ## Challenge
 
 **Complete Pattern Shop:** `Pay` + `Cash/Transfer/Qris` + `Cashier` + `phpunit` test of 3 ways + `Singleton` transaction log.
+- **Link-up (Week 10 — PHPUnit Testing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Strategy/Singleton/Factory**: plug/one/factory

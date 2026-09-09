@@ -89,7 +89,7 @@ RAM drawers vanish on blackout! 2 saviors (set in `redis.conf` / `docker run` fl
 **Grand Opening:** All checklist + `INFO` + 1-min order→ranking-shift-live video. **Redis 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Redis Strings** (Week 1) + **Hash** (Week 2) + **List** (Week 3) + **Set** (Week 4) + **Sorted Set** (Week 5) + **Pub/Sub** (Week 6) + **Lua Scripting** (Week 7) + **Clustering** (Week 8) + **Caching Patterns** (Week 9) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/live**: combine/live

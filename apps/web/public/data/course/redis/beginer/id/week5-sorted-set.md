@@ -70,9 +70,9 @@ ZREM laris "telur"
 ## Tantangan
 
 **Warung Ranking:** `ZADD` 5 produk → `ZREVRANGE 0 2` top 3 → `ZINCRBY` jual 30 → top 3 baru → `ZRANGEBYSCORE 100 200`. **Selesai Beginner Redis!**
+- **Sambungan (Minggu 4 — Set):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Sorted Set/ZADD/ZREVRANGE**: papan/tambah/juara

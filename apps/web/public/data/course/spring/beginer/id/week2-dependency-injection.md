@@ -103,9 +103,9 @@ Default Spring: 1 instance untuk semua (hemat + konsisten).
 ## Tantangan
 
 **Mal 2 Pelayan:** `ProdukService` + `ProdukController` (`GET/POST`) + `StokController` (`GET /stok/jumlah` pakai service sama) → tambah via 1, baca via 2 sama?
+- **Sambungan (Minggu 1 — Setup Spring Boot):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Service/Autowired/singleton**: dapur/suntik/1

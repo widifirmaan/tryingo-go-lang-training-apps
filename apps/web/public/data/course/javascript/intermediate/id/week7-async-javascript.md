@@ -97,9 +97,9 @@ console.log("→ Baris ini jalan duluan (tidak tunggu belanja)");
 ## Tantangan
 
 **Warung Async:** `ambilStok(nama)` Promise 500ms return stok, `async belanja()` `await` 3 produk `Promise.all`, hitung total `harga*stok`, `try/catch` jika `nama` tidak ada.
+- **Sambungan (Minggu 6 — Events Lanjutan):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Promise/async/await**: janji & tunggu

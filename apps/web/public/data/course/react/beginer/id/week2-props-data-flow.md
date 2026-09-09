@@ -152,9 +152,9 @@ Saat `map()`, React butuh `key` untuk tahu mana yang tambah/hapus/geser. Pakai `
 **B. Daftar Siswa:** `KartuSiswa` terima `{ nama, nilai, lulus }` → warna hijau jika lulus, merah jika tidak. Render 10 siswa via `map()`.
 
 Kriteria: 1 induk simpan array, 1 anak terima props via destructuring, dan `map()` pakai `key={id}` (bukan index).
+- **Sambungan (Minggu 1 — JSX & Komponen Dasar):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Props**: amplop data induk→anak

@@ -102,9 +102,9 @@ Test: `curl localhost:8080/products` → `curl -X POST -H "Content-Type: applica
 ## Challenge
 
 **Complete CRUD Shop:** `GET` + `?find` + `GET {id}` + `POST` + `DELETE` → 5 passing `curl` commands.
+- **Link-up (Week 2 — Dependency Injection):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **RestController/GetMapping**: JSON-waiter/fetch-door

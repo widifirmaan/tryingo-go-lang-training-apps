@@ -119,9 +119,9 @@ Anak **jangan** `props.harga = 0` → salah, induk yang ubah.
 **Warung Lengkap:** Buat `Keranjang.vue` terima `items: Array` via props, emit `hapus`, di `App` susun `KartuProduk` + `Keranjang` berdampingan.
 
 Kriteria: 1 komponen anak `defineProps` + `defineEmits` + `slot`, induk `v-for` + `@event`.
+- **Sambungan (Minggu 3 — Directives & Events):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Props/Emits**: masuk/keluar

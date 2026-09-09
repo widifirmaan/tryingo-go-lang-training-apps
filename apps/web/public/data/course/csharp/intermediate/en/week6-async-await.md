@@ -84,9 +84,9 @@ Console.WriteLine("→ This line runs first (doesn't wait)");
 ## Challenge
 
 **Async Shop:** `Fetch(name)` 500ms + `Buy()` `WhenAll` 3 + total + `try/catch` when `name` empty.
+- **Link-up (Week 5 — LINQ):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **async/await/WhenAll**: promise/wait/together

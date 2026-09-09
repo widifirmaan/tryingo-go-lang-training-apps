@@ -116,9 +116,9 @@ db.products_neat.insertOne({ name: "Rice", price: 62000 }) // passes
 ## Challenge
 
 **Correctly Designed Shop:** `products` embeds `reviews` (few, max 5) + `orders` references `customer_email` + `$lookup` Budi report. Write 1-sentence reasons per choice. **Beginner MongoDB DONE!**
+- **Link-up (Week 4 — Basic Aggregation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Embed/reference/$lookup**: stick/split/join

@@ -83,9 +83,9 @@ console.log(new Member("Sugar", 15000, 120).info());
 ## Challenge
 
 **Complete Factory:** `class Cart { items: Product[] = []; add(p: Product){...} total(): number {...} }` → fill 3 → `total()`.
+- **Link-up (Week 5 — Generics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **class/new/private**: blueprint/card/lock

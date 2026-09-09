@@ -85,9 +85,9 @@ Returns input → `old('name')` shows again.
 ## Challenge
 
 **Guarded Shop:** `name` + `price` + `stock` validation + error list + `old()` all + fail & pass screenshots.
+- **Link-up (Week 5 — Migrations & Seeds):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **validate/withInput/old**: check/return/old-input

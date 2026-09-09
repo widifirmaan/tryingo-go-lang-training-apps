@@ -115,9 +115,9 @@ Call `greet("Budi")` → `"Hello Budi"`. No `return` → `None`.
 2. `delivery(weight, distance)` → `weight*5000 + distance*2000`
 3. `print_receipt(cart, distance)` → combine 1+2 + `greet(name)` return string
 Call with 2 different carts to prove reuse.
+- **Link-up (Week 3 — Control Flow):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **def/return**: make & return

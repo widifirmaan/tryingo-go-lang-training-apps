@@ -84,9 +84,9 @@ Console.WriteLine("→ Baris ini jalan duluan (tidak tunggu)");
 ## Tantangan
 
 **Warung Async:** `Ambil(nama)` 500ms + `Belanja()` `WhenAll` 3 + total + `try/catch` jika `nama` kosong.
+- **Sambungan (Minggu 5 — LINQ):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **async/await/WhenAll**: janji/tunggu/bareng

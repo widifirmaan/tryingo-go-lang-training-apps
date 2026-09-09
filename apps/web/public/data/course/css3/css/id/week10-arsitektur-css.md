@@ -87,9 +87,9 @@ VS Code + browser, buat `bem.html`, buka, ubah `kartu--promo` jadi `kartu` → b
 ## Tantangan
 
 **Warung BEM Lengkap:** Buat `header`, `header__logo`, `header__nav`, `header__nav--aktif` + `kartu`, `kartu__harga--diskon` (coret + merah) — BEM 1 class per elemen, tidak nested.
+- **Sambungan (Minggu 9 — CSS Variables):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **BEM/block/element/modifier**: metodologi

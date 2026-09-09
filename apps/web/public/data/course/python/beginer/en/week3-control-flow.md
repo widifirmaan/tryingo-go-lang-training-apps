@@ -130,9 +130,9 @@ No `()` and `{}`, just `:` and indent.
 ## Challenge
 
 **Guess Price:** `secret= 7`, `guesses=[3,9,7]` loop `for g in guesses:` if `g==secret` → `print("Correct!")` + `break`, if `g<secret` → "Too small", else "Too big". If no correct → "Failed". Use `continue` if `g is None`.
+- **Link-up (Week 2 — Data Types & Operations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **if/elif/else**: branch

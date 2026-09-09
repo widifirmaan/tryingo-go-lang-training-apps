@@ -82,9 +82,9 @@ VS Code + browser, buat `modern.html`, buka, kecilkan browser → huruf mengecil
 ## Tantangan
 
 **Warung Kekinian Lengkap:** `h1` `clamp(1.8rem, 4vw, 2.8rem)`, `foto` `aspect-ratio:16/9` + `object-fit:cover`, `grid` `auto-fill` + `kartu` `aspect-ratio:1` persegi, buka di HP & laptop → `Lighthouse` cek `CLS` 0.
+- **Sambungan (Minggu 10 — Arsitektur CSS):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **clamp/aspect-ratio/object-fit**: elastis/proporsi/isi

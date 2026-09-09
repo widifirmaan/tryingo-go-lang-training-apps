@@ -104,9 +104,9 @@ console.log("→ Baris ini jalan duluan (tidak tunggu)");
 ### Bonus: Debug Node (tanpa tebak-tebakan!)
 
 `console.log` di mana-mana = lambat. Cara pro: `node --inspect jual.js` → buka `chrome://inspect` di Chrome → klik **inspect** → Sources → klik nomor baris (breakpoint biru!) → kode JEDA → intip `await` sudah resolve apa belum. Async yang "misterius" langsung kelihatan!
+- **Sambungan (Minggu 3 — File System):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Emitter/on/emit**: bel/dengar/bunyikan

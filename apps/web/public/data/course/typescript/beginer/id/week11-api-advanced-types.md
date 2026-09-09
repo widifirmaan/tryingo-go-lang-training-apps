@@ -68,9 +68,9 @@ Harus `/api/` di depan.
 ## Tantangan
 
 **Warung Rute Aman:** `type Route = `/warung/${string}`` → `const r: Route = "/warung/beras"` ✅, `"warung/beras"` ❌. `type Id = ExtractId<"/warung/123">` → `"123"`.
+- **Sambungan (Minggu 10 — Design Patterns TS):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Template literal/infer/Capitalize**: stempel/bongkar/huruf besar

@@ -82,9 +82,9 @@ console.log(update({ id: 1, name: "Rice", price: 62000, stock: 10, category: "St
 ## Challenge
 
 **Complete Cutting Shop:** `Product` 5 fields → `Brief = Pick<Product, "name"|"price">` + `NoStock = Omit<Product,"stock">` + `update(product, Partial<Product>)`.
+- **Link-up (Week 6 — Classes & OOP):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Pick/Omit/Partial**: cut/drop/optional

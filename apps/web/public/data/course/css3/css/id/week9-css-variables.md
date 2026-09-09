@@ -93,9 +93,9 @@ VS Code + browser, buat `palet.html`, buka, ubah `--hijau` di `:root` → semua 
 ## Tantangan
 
 **Warung 2 Tema:** `:root { --hijau: #2E5B44 }` + tombol `Ganti Tema` yang `document.documentElement.style.setProperty('--hijau', '#E34F26')` (JS) → klik ganti hijau→orange.
+- **Sambungan (Minggu 8 — Animasi & Transisi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **--var/var()/@property**: variabel/pakai/daftar

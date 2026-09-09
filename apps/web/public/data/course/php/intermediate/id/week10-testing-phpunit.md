@@ -102,9 +102,9 @@ Uji `bagi(10,0)` HARUS meledak `InvalidArgumentException`.
 ## Tantangan
 
 **Warung Teruji:** `Kasir::diskon($total, $persen)` + 3 test (normal/0%/100%) → `./vendor/bin/phpunit` HIJAU 5/5.
+- **Sambungan (Minggu 9 — Composer & Autoloading):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **PHPUnit/TestCase/assert**: dapur-uji/cicip

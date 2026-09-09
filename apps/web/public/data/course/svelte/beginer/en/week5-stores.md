@@ -87,9 +87,9 @@ export function clear() {
 ## Challenge
 
 **3-Shop Mall:** `cart` store + `Header` (count) + `List` (add) + `Checkout` (`total` derived + `clear`). **Beginner Svelte DONE!**
+- **Link-up (Week 4 — Events & Bindings):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **writable/derived/$**: warehouse/cashier/read

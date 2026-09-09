@@ -63,9 +63,9 @@ vercel --prod
 ## Challenge
 
 **Live Shop:** Build passes + env set + `https://shop.vercel.app/products` loads + phone screenshot.
+- **Link-up (Week 10 — Advanced Auth):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **build/deploy**: check/open

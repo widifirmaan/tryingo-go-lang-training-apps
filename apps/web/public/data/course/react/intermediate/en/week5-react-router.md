@@ -95,9 +95,9 @@ Wraps everything, provides the map.
 ## Challenge
 
 **3-Page Store:** `Home`, `Products` list with `Link`s to `ProductDetail/:id` using `useParams`, + `NotFound` `path="*"`.
+- **Link-up (Week 4 — useEffect & Lifecycle):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Router/Link/params**: map/slide/envelope

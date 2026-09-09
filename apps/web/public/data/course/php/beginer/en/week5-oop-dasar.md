@@ -104,9 +104,9 @@ echo $laptop->info() . " [{$laptop->warranty}yr warranty]\n";
 ## Challenge
 
 **OOP Store:** `class Cart { public array $items = []; public function add($p){ $this->items[] = $p; } public function total(){ $s=0; foreach($this->items as $i) $s += $i->price*$i->qty; return $s; } }` → fill 3 `Product`s → `total()`.
+- **Link-up (Week 4 — Array & Manipulation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **class/new/$this**: blueprint/card/me

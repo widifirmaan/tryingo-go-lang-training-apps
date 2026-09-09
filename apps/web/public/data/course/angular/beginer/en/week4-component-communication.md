@@ -100,9 +100,9 @@ Content inside `<app-card>...</app-card>` shows at `<ng-content>`.
 ## Challenge
 
 **Complete Brick Shop:** `Card` (`@Input` + `@Output` + `ng-content`) + `App` (`*ngFor` 4 + `cart`).
+- **Link-up (Week 3 — Services & DI):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Input/Output/ng-content**: in/out/hole

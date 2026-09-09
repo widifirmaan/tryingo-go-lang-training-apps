@@ -85,7 +85,7 @@ Rak + tali + index + transaksi + user + view = produksi.
 **Grand Opening:** Semua checklist + `mysqldump warung > backup.sql` + hapus DB + `restore` dari backup + data kembali! **Selesai MySQL 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Dasar MySQL** (Minggu 1) + **CRUD & Query** (Minggu 2) + **JOIN & Relasi** (Minggu 3) + **Index & Optimasi** (Minggu 4) + **Stored Procedure** (Minggu 5) + **Transaksi & ACID** (Minggu 6) + **Performa & Tuning** (Minggu 7) + **Replikasi** (Minggu 8) + **Keamanan** (Minggu 9) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **VIEW/mysqldump**: jendela/cadangan

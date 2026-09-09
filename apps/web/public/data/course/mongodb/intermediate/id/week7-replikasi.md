@@ -70,9 +70,9 @@ Tulis ke primary, baca boleh secondary. Primary mati → voting → wakil naik.
 ## Tantangan
 
 **Regu 3 Node:** Compose 3 + `initiate` + tulis 5 + matikan primary + buktikan tulis/baca tetap jalan.
+- **Sambungan (Minggu 6 — Aggregation Lanjutan):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Replica/shard/mongos**: regu/bagi/resepsionis

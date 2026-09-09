@@ -144,9 +144,9 @@ Browser reads `<ul><li>Rice</li></ul>` as object `document` → `ul` has `childr
 **Interactive Shop Todo:** HTML has `input`, `button Add`, `ul`, `p total`, `select filter (All/Done/Pending)`. JS: array `todos = [{id, text, done}]`, `render()` filters per select, each `<li>` has checkbox `toggle` and `Delete`. All via DOM API, no framework.
 
 Done: `getElementById`/`querySelector` + `createElement` + `appendChild` + `addEventListener` used, and `render()` called each data change.
+- **Link-up (Week 4 — Functions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **DOM**: tree of HTML objects

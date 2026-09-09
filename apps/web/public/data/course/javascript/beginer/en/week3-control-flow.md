@@ -114,9 +114,9 @@ Good for 1 variable vs many fixed values. Don't forget `break`.
 ## Challenge
 
 **Shop Guess:** Computer picks `secret = 7`. Loop 5 tries from array `[3,9,7]`, each: if `guess === secret` → `break` "Correct!", if `guess < secret` → "Too small", else "Too big". If loop ends without correct → "Failed 5x". Use `continue` if `guess is null`.
+- **Link-up (Week 2 — Data Types & Structures):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **if/else**: branch

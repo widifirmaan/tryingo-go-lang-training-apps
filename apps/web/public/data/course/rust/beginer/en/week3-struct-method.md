@@ -89,9 +89,9 @@ fn main() {
 ## Challenge
 
 **Cart:** `struct Cart { items: Vec<Product> }` + `fn add(&mut self, p: Product)` + `fn total(&self) -> u32`.
+- **Link-up (Week 2 — Ownership & Borrowing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **struct/impl**: card/stamp
