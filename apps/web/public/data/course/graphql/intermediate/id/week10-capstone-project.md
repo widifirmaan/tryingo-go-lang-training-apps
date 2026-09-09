@@ -34,6 +34,13 @@ Fitur wajib:
 
 **Tugas capstone:** URL publik + GraphiQL screenshot tambah produk + video 1 menit. **Selesai GraphQL 0→Ahli!** 🎉
 
+
+```graphql
+# Capstone = grand opening: baca + tulis + lapor dalam 1 struk
+mutation {
+  createOrder(customer: "Budi", items: [{product: "USB-C Hub", qty: 2}]) { id total status }
+}
+```
 ---
 
 ## Konsep Kunci

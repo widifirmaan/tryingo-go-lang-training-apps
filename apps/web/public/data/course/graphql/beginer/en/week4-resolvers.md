@@ -51,6 +51,13 @@ const resolvers = {
 module.exports = { resolvers };
 ```
 
+
+```graphql
+# Resolver = waiter fetching data (paste in playground → Run)
+query {
+  products { name price }
+}
+```
 ---
 
 ## Key Concepts

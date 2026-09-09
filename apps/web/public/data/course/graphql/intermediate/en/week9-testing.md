@@ -45,6 +45,13 @@ if (!product) {
 // Phone reads: errors[0].extensions.code === "NOT_FOUND" → shows "gone"
 ```
 
+
+```graphql
+# Testing = taste the data shape: fields must match schema
+query {
+  searchProducts(keyword: "usb") { name price inStock }
+}
+```
 ---
 
 ## Key Concepts

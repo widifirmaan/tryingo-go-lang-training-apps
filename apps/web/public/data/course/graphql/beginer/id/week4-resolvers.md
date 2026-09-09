@@ -51,6 +51,13 @@ const resolvers = {
 module.exports = { resolvers };
 ```
 
+
+```graphql
+# Resolver = pelayan yg mengambilkan data (tempel di playground → Run)
+query {
+  products { name price }
+}
+```
 ---
 
 ## Konsep Kunci

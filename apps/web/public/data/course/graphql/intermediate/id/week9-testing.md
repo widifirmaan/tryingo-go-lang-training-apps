@@ -45,6 +45,13 @@ if (!produk) {
 // HP baca: errors[0].extensions.code === "TIDAK_ADA" → tampil "habis"
 ```
 
+
+```graphql
+# Testing = cicip bentuk data: field harus sesuai skema
+query {
+  searchProducts(keyword: "usb") { name price inStock }
+}
+```
 ---
 
 ## Konsep Kunci

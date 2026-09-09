@@ -150,22 +150,22 @@ interface ResolverContext {
 const resolvers = {
   Query: {
     employees: () => employees,
-    employee: (_: unknown, { id }: { id: string }) => employees.find(e => e.id === id),
-    employeesByDepartment: (_: unknown, { department }: { department: string }) =>
+    employee: ({ id }: { id: string }) => employees.find(e => e.id === id),
+    employeesByDepartment: ({ department }: { department: string }) =>
       employees.filter(e => e.department.toLowerCase() === department.toLowerCase()),
     products: () => products,
-    product: (_: unknown, { id }: { id: string }) => products.find(p => p.id === id),
+    product: ({ id }: { id: string }) => products.find(p => p.id === id),
     orders: () => orders,
-    ordersByStatus: (_: unknown, { status }: { status: string }) =>
+    ordersByStatus: ({ status }: { status: string }) =>
       orders.filter(o => o.status.toLowerCase() === status.toLowerCase()),
-    searchProducts: (_: unknown, { keyword }: { keyword: string }) =>
+    searchProducts: ({ keyword }: { keyword: string }) =>
       products.filter(p =>
         p.name.toLowerCase().includes(keyword.toLowerCase()) ||
         p.tags.some(t => t.toLowerCase().includes(keyword.toLowerCase()))
       ),
   },
   Mutation: {
-    hireEmployee: (_: unknown, args: { name: string; department: string; salary: number; skills: string[] }) => {
+    hireEmployee: (args: { name: string; department: string; salary: number; skills: string[] }) => {
       const newEmp: Employee = {
         id: String(nextEmployeeId++),
         name: args.name,
@@ -177,13 +177,13 @@ const resolvers = {
       employees.push(newEmp);
       return newEmp;
     },
-    deactivateEmployee: (_: unknown, { id }: { id: string }) => {
+    deactivateEmployee: ({ id }: { id: string }) => {
       const emp = employees.find(e => e.id === id);
       if (!emp) throw new Error(`Employee with id ${id} not found`);
       emp.active = false;
       return emp;
     },
-    createOrder: (_: unknown, args: { customer: string; items: OrderItem[] }) => {
+    createOrder: (args: { customer: string; items: OrderItem[] }) => {
       const total = args.items.reduce((sum, item) => {
         const product = products.find(p => p.name === item.product);
         return sum + (product ? product.price * item.qty : 0);
