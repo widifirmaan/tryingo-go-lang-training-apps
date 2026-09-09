@@ -1,6 +1,7 @@
 # Providers & Services — Separate NestJS Kitchen
 
 > **Kategori:** NestJS | **Level:** Beginner | **Minggu 2:** Providers & Services
+> **Prerequisites:** Week 1 — **Controllers & Routing**.
 
 ## Learning Objectives
 

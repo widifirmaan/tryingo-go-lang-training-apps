@@ -1,6 +1,7 @@
 # File System — Node Ledger Book Stored in Files
 
 > **Kategori:** Node.js | **Level:** Beginner | **Minggu 3:** File System
+> **Prerequisites:** Week 2 — **Modules & npm**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Authentication — Rails ID
 
 > **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 5:** Authentication
+> **Prerequisites:** Week 4 — **ERB Views**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Pointers & Packages — Warehouse Addresses and Buildings in Go
 
 > **Kategori:** Go | **Level:** Intermediate | **Minggu 7:** Pointer, Memory & Package
+> **Prerequisites:** Week 6 — **Interfaces & Generics**.
 
 ## Learning Objectives
 

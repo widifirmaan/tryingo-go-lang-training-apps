@@ -1,6 +1,7 @@
 # Form Handling — Terima Pesanan Warung PHP
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 6:** Form Handling & Validasi
+> **Prasyarat:** Minggu 5 — **OOP Dasar**.
 
 ## Tujuan Pembelajaran
 

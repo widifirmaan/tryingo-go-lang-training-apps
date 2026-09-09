@@ -1,6 +1,7 @@
 # Server & Client Components — Kitchen vs Table
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 3:** Server & Client Components
+> **Prerequisites:** Week 2 — **Routing & Navigation**.
 
 ## Learning Objectives
 

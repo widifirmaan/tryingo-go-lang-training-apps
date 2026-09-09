@@ -1,6 +1,7 @@
 # Component Communication — Amplop Antar Cabang Angular
 
 > **Kategori:** Angular | **Level:** Pemula | **Minggu 4:** Component Communication
+> **Prasyarat:** Minggu 3 — **Services & DI**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Colors & Typography — Shop Paint and Letters
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 3:** Warna & Tipografi
+> **Prerequisites:** Week 2 — **Box Model**.
 
 ## Learning Objectives
 

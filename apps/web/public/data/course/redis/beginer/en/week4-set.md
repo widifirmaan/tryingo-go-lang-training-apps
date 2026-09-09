@@ -1,6 +1,7 @@
 # Set — Unique Redis Tag Bags
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 4:** Set
+> **Prerequisites:** Week 3 — **List**.
 
 ## Learning Objectives
 

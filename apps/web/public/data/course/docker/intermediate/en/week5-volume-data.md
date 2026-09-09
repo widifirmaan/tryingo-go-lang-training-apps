@@ -1,6 +1,7 @@
 # Volume & Data — Permanent Docker Wardrobe
 
 > **Kategori:** Docker | **Level:** Intermediate | **Minggu 5:** Volume & Data Persistence
+> **Prerequisites:** Week 4 — **Dockerfile**.
 
 ## Learning Objectives
 

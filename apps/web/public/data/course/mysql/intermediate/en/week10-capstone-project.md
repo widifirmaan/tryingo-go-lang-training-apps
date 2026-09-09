@@ -1,6 +1,7 @@
 # Capstone: E-Commerce Database — Shop Warehouse Grand Opening
 
 > **Kategori:** MySQL | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce Database
+> **Prerequisites:** Week 9 — **Security**.
 
 ## Learning Objectives
 

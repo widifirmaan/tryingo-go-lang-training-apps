@@ -1,6 +1,7 @@
 # Setup Django — Warung dengan Admin Otomatis
 
 > **Kategori:** Django | **Level:** Pemula | **Minggu 1:** Setup Django
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

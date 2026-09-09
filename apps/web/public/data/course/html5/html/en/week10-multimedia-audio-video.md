@@ -1,6 +1,7 @@
 # Multimedia — Shop Photos, Audio, Video
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 10:** Multimedia & Audio Video
+> **Prerequisites:** Week 9 — **Semantic HTML**.
 
 ## Learning Objectives
 

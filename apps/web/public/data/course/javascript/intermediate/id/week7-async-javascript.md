@@ -1,6 +1,7 @@
 # Async JavaScript — Pesan Antar Tanpa Nunggu di Warung
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 7:** Async JavaScript
+> **Prasyarat:** Minggu 6 — **Events Lanjutan**.
 
 ## Tujuan Pembelajaran
 

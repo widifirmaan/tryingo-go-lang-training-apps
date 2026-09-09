@@ -1,6 +1,7 @@
 # Macros — Stempel Kode Rust
 
 > **Kategori:** Rust | **Level:** Lanjutan | **Minggu 13:** Macros
+> **Prasyarat:** Minggu 12 — **Concurrency**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Array & Manipulation — PHP Shop Racks and Cards
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 4:** Array & Manipulasi
+> **Prerequisites:** Week 3 — **Functions & Scope**.
 
 ## Learning Objectives
 

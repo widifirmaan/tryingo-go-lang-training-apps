@@ -1,6 +1,7 @@
 # Set — Tas Tag Unik Redis
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 4:** Set
+> **Prasyarat:** Minggu 3 — **List**.
 
 ## Tujuan Pembelajaran
 

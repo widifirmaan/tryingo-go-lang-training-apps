@@ -1,6 +1,7 @@
 # REST Controller — Pelayan Pintu Spring
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 3:** REST Controller
+> **Prasyarat:** Minggu 2 — **Dependency Injection**.
 
 ## Tujuan Pembelajaran
 

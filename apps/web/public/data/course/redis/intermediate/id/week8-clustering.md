@@ -1,6 +1,7 @@
 # Clustering — Warung Bercabang Redis
 
 > **Kategori:** Redis | **Level:** Menengah | **Minggu 8:** Redis Cluster
+> **Prasyarat:** Minggu 7 — **Lua Scripting**.
 
 ## Tujuan Pembelajaran
 

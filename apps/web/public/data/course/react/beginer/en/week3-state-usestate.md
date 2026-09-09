@@ -1,6 +1,7 @@
 # State & useState — Box That Changes on Click
 
 > **Kategori:** React | **Level:** Beginner | **Minggu 3:** State & useState
+> **Prerequisites:** Week 2 — **Props & Data Flow**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Index & Optimasi — Daftar Isi Biar 100rb Baris Tetap Cepat
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 4:** Index & Optimasi
+> **Prasyarat:** Minggu 3 — **JOIN & Relasi**.
 
 ## Tujuan Pembelajaran
 

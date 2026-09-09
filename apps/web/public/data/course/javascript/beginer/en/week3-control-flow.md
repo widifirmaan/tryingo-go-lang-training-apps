@@ -1,6 +1,7 @@
 # Control Flow — If Out of Stock, What To Do?
 
 > **Kategori:** JavaScript | **Level:** Beginner | **Minggu 3:** Control Flow
+> **Prerequisites:** Week 2 — **Data Types & Structures**.
 
 ## Learning Objectives
 

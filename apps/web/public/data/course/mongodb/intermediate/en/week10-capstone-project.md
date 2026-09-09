@@ -1,6 +1,7 @@
 # Capstone: MongoDB E-Commerce — Card-Store Grand Opening
 
 > **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce MongoDB
+> **Prerequisites:** Week 9 — **Change Streams & Transactions**.
 
 ## Learning Objectives
 

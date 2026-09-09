@@ -1,6 +1,7 @@
 # Tipe Data & Variabel — Kotak Berlabel C#
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 2:** Tipe Data & Variabel
+> **Prasyarat:** Minggu 1 — **Setup & Sintaks C#**.
 
 ## Tujuan Pembelajaran
 

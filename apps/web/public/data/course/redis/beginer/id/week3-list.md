@@ -1,6 +1,7 @@
 # List — Antrian Kasir Redis
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 3:** List
+> **Prasyarat:** Minggu 2 — **Hash**.
 
 ## Tujuan Pembelajaran
 

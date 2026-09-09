@@ -1,6 +1,7 @@
 # Keamanan PHP — Satpam Warung Anti-Bajak
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 7:** Keamanan PHP
+> **Prasyarat:** Minggu 6 — **Form Handling**.
 
 ## Tujuan Pembelajaran
 

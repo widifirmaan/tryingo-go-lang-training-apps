@@ -1,6 +1,7 @@
 # Tipe Data & Struktur — Daftar Belanja dan Kartu Pelanggan
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Minggu 2:** Tipe Data & Struktur Data
+> **Prasyarat:** Minggu 1 — **Dasar Sintaks JavaScript**.
 
 ## Tujuan Pembelajaran
 

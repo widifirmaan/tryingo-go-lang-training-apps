@@ -1,6 +1,7 @@
 # Testing — Test Django Shop
 
 > **Kategori:** Django | **Level:** Advanced | **Minggu 9:** Testing
+> **Prerequisites:** Week 8 — **REST API**.
 
 ## Learning Objectives
 

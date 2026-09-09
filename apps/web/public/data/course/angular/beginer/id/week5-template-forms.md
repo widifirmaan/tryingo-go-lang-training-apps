@@ -1,6 +1,7 @@
 # Template Forms — Formulir 2 Arah Warung Angular
 
 > **Kategori:** Angular | **Level:** Pemula | **Minggu 5:** Template Forms
+> **Prasyarat:** Minggu 4 — **Component Communication**.
 
 ## Tujuan Pembelajaran
 

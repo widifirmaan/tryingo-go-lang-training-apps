@@ -1,6 +1,7 @@
 # Generics — Rak Serbaguna Rust
 
 > **Kategori:** Rust | **Level:** Menengah | **Minggu 8:** Generics
+> **Prasyarat:** Minggu 7 — **Trait**.
 
 ## Tujuan Pembelajaran
 

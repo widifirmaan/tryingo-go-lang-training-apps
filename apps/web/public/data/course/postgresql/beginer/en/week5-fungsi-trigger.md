@@ -1,6 +1,7 @@
 # Functions & Triggers — Automatic PostgreSQL Warehouse Recipes
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 5:** Fungsi & Trigger
+> **Prerequisites:** Week 4 — **Index & Optimization**.
 
 ## Learning Objectives
 

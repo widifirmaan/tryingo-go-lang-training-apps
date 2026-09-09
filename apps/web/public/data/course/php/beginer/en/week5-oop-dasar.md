@@ -1,6 +1,7 @@
 # Basic OOP — PHP Shop Card Blueprints
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 5:** OOP Dasar
+> **Prerequisites:** Week 4 — **Array & Manipulation**.
 
 ## Learning Objectives
 

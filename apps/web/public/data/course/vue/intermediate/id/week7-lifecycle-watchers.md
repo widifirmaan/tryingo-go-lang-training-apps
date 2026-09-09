@@ -1,6 +1,7 @@
 # Lifecycle & Watchers — Buka, Pantau, Tutup Warung Vue
 
 > **Kategori:** Vue | **Level:** Menengah | **Minggu 7:** Lifecycle & Watchers
+> **Prasyarat:** Minggu 6 — **Pinia**.
 
 ## Tujuan Pembelajaran
 

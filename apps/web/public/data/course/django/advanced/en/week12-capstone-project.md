@@ -1,6 +1,7 @@
 # Capstone: Complete Django Store
 
 > **Kategori:** Django | **Level:** Advanced | **Minggu 12:** Capstone Project
+> **Prerequisites:** Week 11 — **Deployment**.
 
 ## Learning Objectives
 

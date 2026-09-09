@@ -1,6 +1,7 @@
 # Pointer & Package — Alamat Gudang dan Gedung Warung Go
 
 > **Kategori:** Go | **Level:** Menengah | **Minggu 7:** Pointer, Memory & Package
+> **Prasyarat:** Minggu 6 — **Interface & Generics**.
 
 ## Tujuan Pembelajaran
 

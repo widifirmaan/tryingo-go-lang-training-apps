@@ -1,6 +1,7 @@
 # Replication & HA — Warehouse Branches
 
 > **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 9:** Replikasi & HA
+> **Prerequisites:** Week 8 — **Performance Tuning**.
 
 ## Learning Objectives
 

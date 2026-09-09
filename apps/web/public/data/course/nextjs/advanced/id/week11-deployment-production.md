@@ -1,6 +1,7 @@
 # Deployment — Buka Cabang Online
 
 > **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 11:** Deployment & Production
+> **Prasyarat:** Minggu 10 — **Advanced Auth**.
 
 ## Tujuan Pembelajaran
 

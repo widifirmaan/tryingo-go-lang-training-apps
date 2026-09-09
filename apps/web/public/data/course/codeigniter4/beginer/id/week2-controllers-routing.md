@@ -1,6 +1,7 @@
 # Controllers & Routing — Pintu Warung CI4 Resmi
 
 > **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 2:** Controllers & Routing
+> **Prasyarat:** Minggu 1 — **Setup CI4**.
 
 ## Tujuan Pembelajaran
 

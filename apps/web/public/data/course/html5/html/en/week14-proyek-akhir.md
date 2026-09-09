@@ -1,6 +1,7 @@
 # Final Project — Complete Shop Online
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 14:** Proyek Akhir
+> **Prerequisites:** Week 13 — **SEO & Meta**.
 
 ## Learning Objectives
 

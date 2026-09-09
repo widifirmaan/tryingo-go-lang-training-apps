@@ -1,6 +1,7 @@
 # LINQ — Saringan Warung C#
 
 > **Kategori:** C# | **Level:** Menengah | **Minggu 5:** LINQ
+> **Prasyarat:** Minggu 4 — **OOP Class & Object**.
 
 ## Tujuan Pembelajaran
 

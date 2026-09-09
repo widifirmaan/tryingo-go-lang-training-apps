@@ -1,6 +1,7 @@
 # React Router — Shop Map Without Reload
 
 > **Kategori:** React | **Level:** Intermediate | **Minggu 5:** React Router
+> **Prerequisites:** Week 4 — **useEffect & Lifecycle**.
 
 ## Learning Objectives
 

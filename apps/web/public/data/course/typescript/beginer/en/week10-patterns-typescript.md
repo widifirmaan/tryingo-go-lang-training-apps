@@ -1,6 +1,7 @@
 # Design Patterns TS — Neat Shop Patterns (TechPulse 2026)
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 10:** Design Patterns TS
+> **Prerequisites:** Week 9 — **Testing TypeScript**.
 
 ## Learning Objectives
 

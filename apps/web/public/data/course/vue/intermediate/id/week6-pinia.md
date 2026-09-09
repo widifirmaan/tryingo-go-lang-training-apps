@@ -1,6 +1,7 @@
 # Pinia — Gudang Bersama Warung Vue
 
 > **Kategori:** Vue | **Level:** Menengah | **Minggu 6:** Pinia State Management
+> **Prasyarat:** Minggu 5 — **Vue Router**.
 
 ## Tujuan Pembelajaran
 

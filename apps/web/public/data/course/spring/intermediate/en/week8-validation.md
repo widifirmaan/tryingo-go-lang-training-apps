@@ -1,6 +1,7 @@
 # Validation — Spring Shop Input Guard
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 8:** Validation
+> **Prerequisites:** Week 7 — **Testing**.
 
 ## Learning Objectives
 

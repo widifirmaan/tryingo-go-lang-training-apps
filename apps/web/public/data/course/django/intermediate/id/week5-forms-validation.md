@@ -1,6 +1,7 @@
 # Forms & Validasi — Formulir Warung Django
 
 > **Kategori:** Django | **Level:** Menengah | **Minggu 5:** Forms & Validasi
+> **Prasyarat:** Minggu 4 — **Templates**.
 
 ## Tujuan Pembelajaran
 

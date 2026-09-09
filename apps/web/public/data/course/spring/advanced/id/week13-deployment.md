@@ -1,6 +1,7 @@
 # Deployment — Buka Cabang Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 13:** Deployment
+> **Prasyarat:** Minggu 12 — **Async & Scheduling**.
 
 ## Tujuan Pembelajaran
 

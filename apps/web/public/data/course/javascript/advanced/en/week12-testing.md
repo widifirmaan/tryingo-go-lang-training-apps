@@ -1,6 +1,7 @@
 # Testing JavaScript — Test Before Opening
 
 > **Kategori:** JavaScript | **Level:** Advanced | **Minggu 12:** Testing
+> **Prerequisites:** Week 11 — **Design Patterns**.
 
 ## Learning Objectives
 

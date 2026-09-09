@@ -1,6 +1,7 @@
 # CI/CD Pipeline — Pabrik Otomatis Warung
 
 > **Kategori:** Docker | **Level:** Lanjutan | **Minggu 10:** CI/CD Pipeline
+> **Prasyarat:** Minggu 9 — **Security**.
 
 ## Tujuan Pembelajaran
 

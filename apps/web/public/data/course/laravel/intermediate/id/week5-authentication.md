@@ -1,6 +1,7 @@
 # Authentication — KTP Laravel
 
 > **Kategori:** Laravel | **Level:** Menengah | **Minggu 5:** Authentication
+> **Prasyarat:** Minggu 4 — **Eloquent ORM**.
 
 ## Tujuan Pembelajaran
 

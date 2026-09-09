@@ -1,6 +1,7 @@
 # Testing — Automatic Spring Shop Taste
 
 > **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 7:** Testing
+> **Prerequisites:** Week 6 — **Spring Security**.
 
 ## Learning Objectives
 

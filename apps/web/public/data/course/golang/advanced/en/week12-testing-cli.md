@@ -1,6 +1,7 @@
 # Testing & CLI — Taste Test and Buttons for Go Shop
 
 > **Kategori:** Go | **Level:** Advanced | **Minggu 12:** Testing & CLI Tools
+> **Prerequisites:** Week 11 — **HTTP Server**.
 
 ## Learning Objectives
 

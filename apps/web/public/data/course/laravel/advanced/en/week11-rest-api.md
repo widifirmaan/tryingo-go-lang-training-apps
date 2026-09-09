@@ -1,6 +1,7 @@
 # REST API — Online Laravel Shop
 
 > **Kategori:** Laravel | **Level:** Advanced | **Minggu 11:** REST API
+> **Prerequisites:** Week 10 — **Queues & Jobs**.
 
 ## Learning Objectives
 

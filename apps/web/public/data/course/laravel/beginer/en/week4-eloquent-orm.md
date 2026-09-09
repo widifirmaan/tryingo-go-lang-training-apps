@@ -1,6 +1,7 @@
 # Eloquent ORM — Automatic Laravel Racks
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 4:** Eloquent ORM
+> **Prerequisites:** Week 3 — **Blade Templates**.
 
 ## Learning Objectives
 

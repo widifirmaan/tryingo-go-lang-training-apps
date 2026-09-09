@@ -1,6 +1,7 @@
 # Capstone — Full Go Shop: CLI + API + Test
 
 > **Kategori:** Go | **Level:** Advanced | **Minggu 13:** Capstone: REST API + CLI
+> **Prerequisites:** Week 12 — **Testing & CLI**.
 
 ## Learning Objectives
 

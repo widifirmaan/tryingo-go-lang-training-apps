@@ -1,6 +1,7 @@
 # Dependency Injection — Automatic Spring Warehouse
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 2:** Dependency Injection
+> **Prerequisites:** Week 1 — **Spring Boot Setup**.
 
 ## Learning Objectives
 

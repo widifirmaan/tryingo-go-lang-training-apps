@@ -1,6 +1,7 @@
 # Apollo Server — Open GraphQL Restaurant
 
 > **Kategori:** GraphQL | **Level:** Beginner | **Minggu 5:** Apollo Server & Client
+> **Prerequisites:** Week 4 — **Resolvers**.
 
 ## Learning Objectives
 

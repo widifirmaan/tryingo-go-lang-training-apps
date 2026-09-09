@@ -1,6 +1,7 @@
 # Data Types & Structures — Shopping List and Customer Card
 
 > **Kategori:** JavaScript | **Level:** Beginner | **Minggu 2:** Tipe Data & Struktur Data
+> **Prerequisites:** Week 1 — **JavaScript Basics**.
 
 ## Learning Objectives
 

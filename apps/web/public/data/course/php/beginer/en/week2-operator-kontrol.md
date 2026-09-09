@@ -1,6 +1,7 @@
 # Operators & Control — PHP Shop Branches and Scales
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 2:** Operator & Kontrol
+> **Prerequisites:** Week 1 — **Basic PHP Syntax**.
 
 ## Learning Objectives
 

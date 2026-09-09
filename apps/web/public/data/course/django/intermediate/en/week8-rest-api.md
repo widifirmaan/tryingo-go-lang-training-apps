@@ -1,6 +1,7 @@
 # REST API — Online Django Shop
 
 > **Kategori:** Django | **Level:** Intermediate | **Minggu 8:** REST API
+> **Prerequisites:** Week 7 — **Admin Panel**.
 
 ## Learning Objectives
 

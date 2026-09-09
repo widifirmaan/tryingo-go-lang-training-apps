@@ -1,6 +1,7 @@
 # Advanced Auth — Shop ID Cards & Guards
 
 > **Kategori:** Next.js | **Level:** Advanced | **Minggu 10:** Advanced Auth & Security
+> **Prerequisites:** Week 9 — **Database & ORM**.
 
 ## Learning Objectives
 

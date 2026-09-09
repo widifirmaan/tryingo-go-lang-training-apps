@@ -1,6 +1,7 @@
 # Performance & Tuning — MySQL Warehouse Fast at 1M Rows
 
 > **Kategori:** MySQL | **Level:** Intermediate | **Minggu 7:** Performa & Tuning
+> **Prerequisites:** Week 6 — **Transactions & ACID**.
 
 ## Learning Objectives
 

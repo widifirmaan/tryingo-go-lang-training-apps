@@ -1,6 +1,7 @@
 # Box Model — Kardus Warung
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 2:** Box Model
+> **Prasyarat:** Minggu 1 — **Selector & Basic Styling**.
 
 ## Tujuan Pembelajaran
 

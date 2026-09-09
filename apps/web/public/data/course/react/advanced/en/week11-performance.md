@@ -1,6 +1,7 @@
 # Performance — Shop Stays Fast
 
 > **Kategori:** React | **Level:** Advanced | **Minggu 11:** Performance
+> **Prerequisites:** Week 10 — **Testing React**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Actuator & Monitoring — Dasbor Sehat Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 9:** Actuator & Monitoring
+> **Prasyarat:** Minggu 8 — **Validation**.
 
 ## Tujuan Pembelajaran
 

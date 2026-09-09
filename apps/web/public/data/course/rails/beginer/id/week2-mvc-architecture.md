@@ -1,6 +1,7 @@
 # MVC — Dapur, Pelayan, Etalase Rails
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 2:** MVC Architecture
+> **Prasyarat:** Minggu 1 — **Setup Rails**.
 
 ## Tujuan Pembelajaran
 

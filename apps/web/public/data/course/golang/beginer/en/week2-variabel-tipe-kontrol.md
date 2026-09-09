@@ -1,6 +1,7 @@
 # Variables, Types & Control — Labeled Shelf and Shop Guard
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 2:** Variabel, Tipe & Control Flow
+> **Prerequisites:** Week 1 — **Setup & Syntax**.
 
 ## Learning Objectives
 

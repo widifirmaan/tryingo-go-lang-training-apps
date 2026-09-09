@@ -1,6 +1,7 @@
 # Testing — Uji Warung Django
 
 > **Kategori:** Django | **Level:** Lanjutan | **Minggu 9:** Testing
+> **Prasyarat:** Minggu 8 — **REST API**.
 
 ## Tujuan Pembelajaran
 

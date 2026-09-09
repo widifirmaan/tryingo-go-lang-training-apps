@@ -1,6 +1,7 @@
 # Testing React — Uji Rasa Komponen
 
 > **Kategori:** React | **Level:** Lanjutan | **Minggu 10:** Testing React
+> **Prasyarat:** Minggu 9 — **Advanced Patterns**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Migrations & Seeds — CI4 Blueprints and Starter Stock
 
 > **Kategori:** CodeIgniter 4 | **Level:** Beginner | **Minggu 5:** Migrations & Seeds
+> **Prerequisites:** Week 4 — **Models & Database**.
 
 ## Learning Objectives
 

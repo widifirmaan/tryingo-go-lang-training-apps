@@ -1,6 +1,7 @@
 # Capstone: Production Pipeline — Warung Docker Grand Opening
 
 > **Kategori:** Docker | **Level:** Lanjutan | **Minggu 12:** Capstone: Production Pipeline
+> **Prasyarat:** Minggu 11 — **Orchestration**.
 
 ## Tujuan Pembelajaran
 

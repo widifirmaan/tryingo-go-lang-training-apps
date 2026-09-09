@@ -1,6 +1,7 @@
 # Custom Hooks & Patterns
 
 > **Kategori:** React | **Level:** Intermediate | **Minggu 8:** Custom Hooks & Patterns
+> **Prerequisites:** Week 7 — **Forms & Validation**.
 
 ## Learning Objectives
 

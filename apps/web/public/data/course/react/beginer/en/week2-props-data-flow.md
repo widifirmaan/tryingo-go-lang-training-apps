@@ -1,6 +1,7 @@
 # Props & Data Flow — Envelope from Boss to Staff
 
 > **Kategori:** React | **Level:** Beginner | **Minggu 2:** Props & Data Flow
+> **Prerequisites:** Week 1 — **JSX & Basic Components**.
 
 ## Learning Objectives
 

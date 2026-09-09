@@ -1,6 +1,7 @@
 # Props & Data Flow — Amplop dari Bos ke Staf
 
 > **Kategori:** React | **Level:** Pemula | **Minggu 2:** Props & Data Flow
+> **Prasyarat:** Minggu 1 — **JSX & Komponen Dasar**.
 
 ## Tujuan Pembelajaran
 

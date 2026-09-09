@@ -1,6 +1,7 @@
 # Modern CSS — Warung Kekinian dengan Clamp & Aspect-Ratio (MDN)
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 11:** Modern CSS
+> **Prasyarat:** Minggu 10 — **Arsitektur CSS**.
 
 ## Tujuan Pembelajaran
 

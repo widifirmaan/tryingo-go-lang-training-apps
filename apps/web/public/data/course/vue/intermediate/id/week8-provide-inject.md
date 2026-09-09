@@ -1,6 +1,7 @@
 # Provide/Inject & Teleport — Papan & Portal Warung Vue
 
 > **Kategori:** Vue | **Level:** Menengah | **Minggu 8:** Provide/Inject & Teleport
+> **Prasyarat:** Minggu 7 — **Lifecycle & Watchers**.
 
 ## Tujuan Pembelajaran
 

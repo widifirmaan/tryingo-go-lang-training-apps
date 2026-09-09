@@ -1,6 +1,7 @@
 # Goroutine & Channel — Kasir Paralel Warung Go
 
 > **Kategori:** Go | **Level:** Menengah | **Minggu 8:** Goroutine & Channel
+> **Prasyarat:** Minggu 7 — **Pointer & Package**.
 
 ## Tujuan Pembelajaran
 

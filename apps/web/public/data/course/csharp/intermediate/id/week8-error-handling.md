@@ -1,6 +1,7 @@
 # Error Handling — Alarm Anti-Panik C#
 
 > **Kategori:** C# | **Level:** Menengah | **Minggu 8:** Error Handling
+> **Prasyarat:** Minggu 7 — **Generics**.
 
 ## Tujuan Pembelajaran
 

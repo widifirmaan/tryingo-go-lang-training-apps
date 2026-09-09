@@ -1,6 +1,7 @@
 # Components & Props — Split Shop into LEGO Bricks
 
 > **Kategori:** Vue | **Level:** Beginner | **Minggu 4:** Components & Props
+> **Prerequisites:** Week 3 — **Directives & Events**.
 
 ## Learning Objectives
 

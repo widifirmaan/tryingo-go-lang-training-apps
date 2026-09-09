@@ -1,6 +1,7 @@
 # Semantic HTML — Shop with Clear Signboards
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 9:** Semantic HTML
+> **Prerequisites:** Week 8 — **Form Validation**.
 
 ## Learning Objectives
 

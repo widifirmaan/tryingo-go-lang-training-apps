@@ -1,6 +1,7 @@
 # Change Streams & Transactions — Mata & Paket Aman MongoDB
 
 > **Kategori:** MongoDB | **Level:** Menengah | **Minggu 9:** Change Streams & Transactions
+> **Prasyarat:** Minggu 8 — **Performa & Tuning**.
 
 ## Tujuan Pembelajaran
 

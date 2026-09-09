@@ -1,6 +1,7 @@
 # Docker Compose — Assemble Shop in One Run
 
 > **Kategori:** Docker | **Level:** Intermediate | **Minggu 7:** Docker Compose
+> **Prerequisites:** Week 6 — **Networking**.
 
 ## Learning Objectives
 

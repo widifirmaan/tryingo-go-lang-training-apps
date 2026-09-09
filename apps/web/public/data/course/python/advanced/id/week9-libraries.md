@@ -1,6 +1,7 @@
 # Libraries — Pinjam Alat Tetangga
 
 > **Kategori:** Python | **Level:** Lanjutan | **Minggu 9:** Libraries
+> **Prasyarat:** Minggu 8 — **Decorators & Generators**.
 
 ## Tujuan Pembelajaran
 

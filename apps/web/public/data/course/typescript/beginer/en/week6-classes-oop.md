@@ -1,6 +1,7 @@
 # Classes & OOP — TypeScript Card Factory
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 6:** Classes & OOP
+> **Prerequisites:** Week 5 — **Generics**.
 
 ## Learning Objectives
 

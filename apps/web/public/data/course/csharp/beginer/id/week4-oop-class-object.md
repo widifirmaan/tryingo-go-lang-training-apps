@@ -1,6 +1,7 @@
 # OOP Class & Object — Cetak Biru Kartu Warung C#
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 4:** OOP: Class & Object
+> **Prasyarat:** Minggu 3 — **Control Flow**.
 
 ## Tujuan Pembelajaran
 

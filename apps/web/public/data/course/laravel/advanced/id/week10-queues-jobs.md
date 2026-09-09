@@ -1,6 +1,7 @@
 # Queues & Jobs — Antrian Warung Laravel
 
 > **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 10:** Queues & Jobs
+> **Prasyarat:** Minggu 9 — **Testing**.
 
 ## Tujuan Pembelajaran
 

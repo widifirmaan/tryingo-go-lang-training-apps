@@ -1,6 +1,7 @@
 # Dasar Python & Sintaks — Buku Kas yang Bisa Hitung Sendiri
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 1:** Dasar Python & Sintaks
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

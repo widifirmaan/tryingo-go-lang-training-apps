@@ -1,6 +1,7 @@
 # Utility Types — Shop Cutting Tools (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 7:** Utility Types
+> **Prerequisites:** Week 6 — **Classes & OOP**.
 
 ## Learning Objectives
 

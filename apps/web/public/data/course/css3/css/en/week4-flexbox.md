@@ -1,6 +1,7 @@
 # Flexbox — Sliding Shop Racks
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 4:** Flexbox
+> **Prerequisites:** Week 3 — **Colors & Typography**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Controllers & Routing — Structured Shop Waiters
 
 > **Kategori:** NestJS | **Level:** Beginner | **Minggu 1:** Controllers & Routing
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

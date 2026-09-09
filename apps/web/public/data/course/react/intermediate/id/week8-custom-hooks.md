@@ -1,6 +1,7 @@
 # Custom Hooks & Patterns
 
 > **Kategori:** React | **Level:** Menengah | **Minggu 8:** Custom Hooks & Patterns
+> **Prasyarat:** Minggu 7 — **Forms & Validasi**.
 
 ## Tujuan Pembelajaran
 

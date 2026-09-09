@@ -1,6 +1,7 @@
 # Capstone: Complete Python Shop
 
 > **Kategori:** Python | **Level:** Advanced | **Minggu 12:** Capstone
+> **Prerequisites:** Week 11 — **CLI & Automation**.
 
 ## Learning Objectives
 

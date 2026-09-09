@@ -1,6 +1,7 @@
 # REST API — Real Online CI4 Shop
 
 > **Kategori:** CodeIgniter | **Level:** Intermediate | **Minggu 8:** REST API Development
+> **Prerequisites:** Week 7 — **Authentication**.
 
 ## Learning Objectives
 

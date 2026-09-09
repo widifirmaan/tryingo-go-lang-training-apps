@@ -1,6 +1,7 @@
 # Eloquent ORM — Rak Otomatis Laravel
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 4:** Eloquent ORM
+> **Prasyarat:** Minggu 3 — **Blade Templates**.
 
 ## Tujuan Pembelajaran
 

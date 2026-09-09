@@ -1,6 +1,7 @@
 # Data Fetching — Fetch Stock from Warehouse
 
 > **Kategori:** Next.js | **Level:** Intermediate | **Minggu 5:** Data Fetching
+> **Prerequisites:** Week 4 — **Styling & Optimization**.
 
 ## Learning Objectives
 

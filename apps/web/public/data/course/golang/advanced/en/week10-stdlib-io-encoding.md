@@ -1,6 +1,7 @@
 # Stdlib: I/O & Encoding — Read Write Warehouse
 
 > **Kategori:** Go | **Level:** Advanced | **Minggu 10:** Stdlib: I/O, Time & Encoding
+> **Prerequisites:** Week 9 — **Context & Sync**.
 
 ## Learning Objectives
 

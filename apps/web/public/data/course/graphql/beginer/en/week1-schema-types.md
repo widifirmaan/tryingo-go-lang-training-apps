@@ -1,6 +1,7 @@
 # Schema & Types — Restaurant Menu
 
 > **Kategori:** GraphQL | **Level:** Beginner | **Minggu 1:** Schema & Types
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

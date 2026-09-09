@@ -1,6 +1,7 @@
 # Typed Functions — Recipes with Labeled Ingredients
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 3:** Functions & Signatures
+> **Prerequisites:** Week 2 — **Advanced Types**.
 
 ## Learning Objectives
 

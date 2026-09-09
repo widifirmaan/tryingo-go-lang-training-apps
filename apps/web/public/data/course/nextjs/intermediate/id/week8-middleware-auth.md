@@ -1,6 +1,7 @@
 # Middleware & Auth Dasar — Satpam Pintu
 
 > **Kategori:** Next.js | **Level:** Menengah | **Minggu 8:** Middleware & Auth Dasar
+> **Prasyarat:** Minggu 7 — **Loading & Error**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Capstone: Complete Online Store
 
 > **Kategori:** Next.js | **Level:** Advanced | **Minggu 12:** Capstone: SaaS App
+> **Prerequisites:** Week 11 — **Deployment**.
 
 ## Learning Objectives
 

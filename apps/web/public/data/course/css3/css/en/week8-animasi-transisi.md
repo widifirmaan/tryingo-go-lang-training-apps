@@ -1,6 +1,7 @@
 # Animation & Transitions — Smooth-Moving Shop (MDN)
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 8:** Animasi & Transisi
+> **Prerequisites:** Week 7 — **Responsive Design**.
 
 ## Learning Objectives
 

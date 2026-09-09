@@ -1,6 +1,7 @@
 # Utility Types — Alat Potong Warung (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 7:** Utility Types
+> **Prasyarat:** Minggu 6 — **Classes & OOP**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # OOP — Cetak Biru Warung
 
 > **Kategori:** Python | **Level:** Menengah | **Minggu 6:** OOP
+> **Prasyarat:** Minggu 5 — **Collections**.
 
 ## Tujuan Pembelajaran
 

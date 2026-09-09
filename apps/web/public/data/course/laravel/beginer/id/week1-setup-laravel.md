@@ -1,6 +1,7 @@
 # Setup Laravel — Warung Siap Jual dengan Artisan
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 1:** Setup Laravel
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

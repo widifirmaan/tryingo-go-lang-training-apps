@@ -1,6 +1,7 @@
 # Operator & Kontrol — Cabang dan Timbangan Warung PHP
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 2:** Operator & Kontrol
+> **Prasyarat:** Minggu 1 — **Sintaks Dasar PHP**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Replication — MySQL Warehouse Branches
 
 > **Kategori:** MySQL | **Level:** Intermediate | **Minggu 8:** Replikasi & High Availability
+> **Prerequisites:** Week 7 — **Performance & Tuning**.
 
 ## Learning Objectives
 

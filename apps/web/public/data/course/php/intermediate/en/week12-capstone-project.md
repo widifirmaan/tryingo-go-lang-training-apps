@@ -1,6 +1,7 @@
 # Capstone: Complete PHP Shop — Finished Online Store
 
 > **Kategori:** PHP | **Level:** Intermediate | **Minggu 12:** Capstone: Aplikasi Blog
+> **Prerequisites:** Week 11 — **Design Patterns**.
 
 ## Learning Objectives
 

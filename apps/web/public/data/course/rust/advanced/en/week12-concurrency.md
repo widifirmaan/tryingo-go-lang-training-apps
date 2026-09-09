@@ -1,6 +1,7 @@
 # Concurrency — No-Fight Parallel Rust Cashiers
 
 > **Kategori:** Rust | **Level:** Advanced | **Minggu 12:** Concurrency
+> **Prerequisites:** Week 11 — **Smart Pointers**.
 
 ## Learning Objectives
 

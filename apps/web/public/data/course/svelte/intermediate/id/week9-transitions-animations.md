@@ -1,6 +1,7 @@
 # Transitions & Animations — Warung Halus Svelte (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Menengah | **Minggu 9:** Transitions & Animations
+> **Prasyarat:** Minggu 8 — **Lifecycle & Context**.
 
 ## Tujuan Pembelajaran
 

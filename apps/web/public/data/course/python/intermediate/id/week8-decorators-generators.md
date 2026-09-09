@@ -1,6 +1,7 @@
 # Decorators & Generators — Stempel dan Antrian
 
 > **Kategori:** Python | **Level:** Menengah | **Minggu 8:** Decorators & Generators
+> **Prasyarat:** Minggu 7 — **File I/O**.
 
 ## Tujuan Pembelajaran
 

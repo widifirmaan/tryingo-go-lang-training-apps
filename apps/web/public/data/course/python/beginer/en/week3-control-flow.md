@@ -1,6 +1,7 @@
 # Control Flow — If Score 85 Gets B?
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 3:** Control Flow & Loops
+> **Prerequisites:** Week 2 — **Data Types & Operations**.
 
 ## Learning Objectives
 

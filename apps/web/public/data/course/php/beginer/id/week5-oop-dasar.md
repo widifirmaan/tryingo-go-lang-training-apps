@@ -1,6 +1,7 @@
 # OOP Dasar — Cetak Biru Kartu Warung PHP
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 5:** OOP Dasar
+> **Prasyarat:** Minggu 4 — **Array & Manipulasi**.
 
 ## Tujuan Pembelajaran
 

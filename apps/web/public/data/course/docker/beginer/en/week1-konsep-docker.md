@@ -1,6 +1,7 @@
 # Docker Concepts — Shipping Containers for Apps
 
 > **Kategori:** Docker | **Level:** Beginner | **Minggu 1:** Konsep Docker
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

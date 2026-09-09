@@ -1,6 +1,7 @@
 # Capstone: Warung CI4 Grand Opening
 
 > **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 10:** Capstone: Task Management API
+> **Prasyarat:** Minggu 9 — **Testing**.
 
 ## Tujuan Pembelajaran
 

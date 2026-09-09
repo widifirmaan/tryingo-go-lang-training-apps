@@ -1,6 +1,7 @@
 # Services & DI — Gudang Bersama Warung Angular
 
 > **Kategori:** Angular | **Level:** Pemula | **Minggu 3:** Services & DI
+> **Prasyarat:** Minggu 2 — **Directives & Pipes**.
 
 ## Tujuan Pembelajaran
 

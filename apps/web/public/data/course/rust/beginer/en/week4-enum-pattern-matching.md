@@ -1,6 +1,7 @@
 # Enum & Pattern Matching — Shop Choices That Must Be Complete
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 4:** Enum & Pattern Matching
+> **Prerequisites:** Week 3 — **Struct & Method**.
 
 ## Learning Objectives
 

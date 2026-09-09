@@ -1,6 +1,7 @@
 # Links & Navigation — Roads Between Shops
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 3:** Link & Navigasi
+> **Prerequisites:** Week 2 — **Text Formatting & Typography**.
 
 ## Learning Objectives
 

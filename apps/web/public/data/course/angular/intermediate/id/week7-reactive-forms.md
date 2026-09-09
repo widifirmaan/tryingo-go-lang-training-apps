@@ -1,6 +1,7 @@
 # Reactive Forms — Formulir Reaktif Angular (angular.dev)
 
 > **Kategori:** Angular | **Level:** Menengah | **Minggu 7:** Reactive Forms
+> **Prasyarat:** Minggu 6 — **Routing**.
 
 ## Tujuan Pembelajaran
 

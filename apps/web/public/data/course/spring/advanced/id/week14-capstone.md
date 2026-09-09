@@ -1,6 +1,7 @@
 # Capstone: E-Commerce API — Warung Spring Grand Opening
 
 > **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 14:** Capstone: E-Commerce API
+> **Prasyarat:** Minggu 13 — **Deployment**.
 
 ## Tujuan Pembelajaran
 

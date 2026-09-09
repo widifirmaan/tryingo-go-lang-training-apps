@@ -1,6 +1,7 @@
 # Testing TypeScript — Uji Warung TS (vitest.dev)
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 9:** Testing TypeScript
+> **Prasyarat:** Minggu 8 — **TypeScript Config**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Reactive Forms — Reactive Angular Forms (angular.dev)
 
 > **Kategori:** Angular | **Level:** Intermediate | **Minggu 7:** Reactive Forms
+> **Prerequisites:** Week 6 — **Routing**.
 
 ## Learning Objectives
 

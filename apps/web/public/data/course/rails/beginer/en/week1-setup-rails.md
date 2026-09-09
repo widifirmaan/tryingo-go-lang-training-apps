@@ -1,6 +1,7 @@
 # Rails Setup — Convention-Speed Shop
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 1:** Setup Rails
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

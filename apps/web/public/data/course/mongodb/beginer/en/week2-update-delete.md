@@ -1,6 +1,7 @@
 # Update & Delete — Edit and Discard Cards
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 2:** Update & Delete
+> **Prerequisites:** Week 1 — **Documents & CRUD**.
 
 ## Learning Objectives
 

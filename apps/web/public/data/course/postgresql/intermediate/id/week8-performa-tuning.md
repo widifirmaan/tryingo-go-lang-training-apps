@@ -1,6 +1,7 @@
 # Performa Tuning — Gudang Tetap Cepat 1 Juta Baris
 
 > **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 8:** Performa Tuning
+> **Prasyarat:** Minggu 7 — **JSONB Semi-Struktural**.
 
 ## Tujuan Pembelajaran
 

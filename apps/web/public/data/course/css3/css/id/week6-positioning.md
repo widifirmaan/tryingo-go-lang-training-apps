@@ -1,6 +1,7 @@
 # Positioning — Stiker Tempel Warung
 
 > **Kategori:** CSS3 | **Level:** Pemula | **Minggu 6:** Positioning
+> **Prasyarat:** Minggu 5 — **CSS Grid**.
 
 ## Tujuan Pembelajaran
 

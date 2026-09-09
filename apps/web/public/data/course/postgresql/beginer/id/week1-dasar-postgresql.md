@@ -1,6 +1,7 @@
 # Dasar PostgreSQL — Gudang Excel Raksasa
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 1:** Dasar PostgreSQL & Tabel
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

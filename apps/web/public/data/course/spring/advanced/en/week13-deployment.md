@@ -1,6 +1,7 @@
 # Deployment — Open Spring Shop Branch
 
 > **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 13:** Deployment
+> **Prerequisites:** Week 12 — **Async & Scheduling**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Deployment — Open Node Branch
 
 > **Kategori:** Node.js | **Level:** Advanced | **Minggu 11:** Deployment
+> **Prerequisites:** Week 10 — **Performance**.
 
 ## Learning Objectives
 

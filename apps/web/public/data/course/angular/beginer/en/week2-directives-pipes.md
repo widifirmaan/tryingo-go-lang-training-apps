@@ -1,6 +1,7 @@
 # Directives & Pipes — Angular Shop Switches and Strainers
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 2:** Directives & Pipes
+> **Prerequisites:** Week 1 — **Components & Templates**.
 
 ## Learning Objectives
 

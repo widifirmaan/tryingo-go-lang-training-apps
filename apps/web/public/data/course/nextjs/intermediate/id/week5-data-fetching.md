@@ -1,6 +1,7 @@
 # Data Fetching — Ambil Stok dari Gudang
 
 > **Kategori:** Next.js | **Level:** Menengah | **Minggu 5:** Data Fetching
+> **Prasyarat:** Minggu 4 — **Styling & Optimasi**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Sorted Set — Papan Ranking Warung Redis
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 5:** Sorted Set
+> **Prasyarat:** Minggu 4 — **Set**.
 
 ## Tujuan Pembelajaran
 

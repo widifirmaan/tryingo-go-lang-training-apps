@@ -1,6 +1,7 @@
 # Events & Async — Telinga dan Janji Warung Node
 
 > **Kategori:** Node.js | **Level:** Pemula | **Minggu 4:** Events & Async Programming
+> **Prasyarat:** Minggu 3 — **File System**.
 
 ## Tujuan Pembelajaran
 

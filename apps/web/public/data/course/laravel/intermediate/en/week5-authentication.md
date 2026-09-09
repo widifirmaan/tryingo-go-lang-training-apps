@@ -1,6 +1,7 @@
 # Authentication — Laravel ID
 
 > **Kategori:** Laravel | **Level:** Intermediate | **Minggu 5:** Authentication
+> **Prerequisites:** Week 4 — **Eloquent ORM**.
 
 ## Learning Objectives
 

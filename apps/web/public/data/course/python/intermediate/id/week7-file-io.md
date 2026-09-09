@@ -1,6 +1,7 @@
 # File I/O — Buku Kas di File
 
 > **Kategori:** Python | **Level:** Menengah | **Minggu 7:** File I/O
+> **Prasyarat:** Minggu 6 — **OOP**.
 
 ## Tujuan Pembelajaran
 

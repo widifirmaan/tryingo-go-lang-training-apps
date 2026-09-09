@@ -1,6 +1,7 @@
 # Design Patterns — Pola Warung Rapi C#
 
 > **Kategori:** C# | **Level:** Lanjutan | **Minggu 9:** Design Patterns
+> **Prasyarat:** Minggu 8 — **Error Handling**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Replica Set & Sharding — MongoDB Warehouse Branches
 
 > **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 7:** Replica Set & Sharding
+> **Prerequisites:** Week 6 — **Advanced Aggregation**.
 
 ## Learning Objectives
 

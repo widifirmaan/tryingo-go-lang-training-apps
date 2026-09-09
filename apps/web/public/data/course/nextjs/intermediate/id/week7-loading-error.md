@@ -1,6 +1,7 @@
 # Loading & Error — Kerangka dan Alarm
 
 > **Kategori:** Next.js | **Level:** Menengah | **Minggu 7:** Loading & Error UI
+> **Prasyarat:** Minggu 6 — **Server Actions**.
 
 ## Tujuan Pembelajaran
 

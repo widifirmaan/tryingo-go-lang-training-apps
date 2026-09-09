@@ -1,6 +1,7 @@
 # Capstone: Real-time Analytics — Dasbor Warung Live
 
 > **Kategori:** Redis | **Level:** Menengah | **Minggu 10:** Capstone: Real-time Analytics
+> **Prasyarat:** Minggu 9 — **Caching Patterns**.
 
 ## Tujuan Pembelajaran
 

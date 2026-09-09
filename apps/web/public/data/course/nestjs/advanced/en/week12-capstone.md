@@ -1,6 +1,7 @@
 # Capstone: Enterprise API — NestJS Shop Grand Opening
 
 > **Kategori:** NestJS | **Level:** Advanced | **Minggu 12:** Capstone: Enterprise API
+> **Prerequisites:** Week 11 — **Microservices**.
 
 ## Learning Objectives
 

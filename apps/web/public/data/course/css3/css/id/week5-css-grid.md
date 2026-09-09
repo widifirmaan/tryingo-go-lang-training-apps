@@ -1,6 +1,7 @@
 # CSS Grid — Rak Kotak-Kotak Warung
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 5:** CSS Grid
+> **Prasyarat:** Minggu 4 — **Flexbox**.
 
 ## Tujuan Pembelajaran
 

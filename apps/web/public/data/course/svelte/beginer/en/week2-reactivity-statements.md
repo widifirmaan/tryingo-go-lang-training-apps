@@ -1,6 +1,7 @@
 # Advanced Reactivity — Auto `$:` Calculator and Store Warehouse
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 2:** Reactivity & Statements
+> **Prerequisites:** Week 1 — **Svelte Basics**.
 
 ## Learning Objectives
 

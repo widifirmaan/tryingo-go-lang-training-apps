@@ -1,6 +1,7 @@
 # Aksesibilitas — Warung untuk Semua
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 12:** Aksesibilitas
+> **Prasyarat:** Minggu 11 — **HTML APIs**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Events & Event Handling
 
 > **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 6:** Events & Event Handling
+> **Prerequisites:** Week 5 — **DOM Manipulation**.
 
 ## Learning Objectives
 

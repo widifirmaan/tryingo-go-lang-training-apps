@@ -1,6 +1,7 @@
 # Migrations & Seeds — Cetak Biru dan Isi Awal CI4
 
 > **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 5:** Migrations & Seeds
+> **Prasyarat:** Minggu 4 — **Models & Database**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Multimedia — Foto, Audio, Video Warung
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 10:** Multimedia & Audio Video
+> **Prasyarat:** Minggu 9 — **Semantic HTML**.
 
 ## Tujuan Pembelajaran
 

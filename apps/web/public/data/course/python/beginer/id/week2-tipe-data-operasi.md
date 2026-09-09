@@ -1,6 +1,7 @@
 # Data Types & Operasi — Olah Angka dan Teks Warung
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 2:** Data Types & Operasi
+> **Prasyarat:** Minggu 1 — **Dasar Python & Sintaks**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Window Functions — Peringkat Tanpa GROUP
 
 > **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 6:** Window Functions
+> **Prasyarat:** Minggu 5 — **Fungsi & Trigger**.
 
 ## Tujuan Pembelajaran
 

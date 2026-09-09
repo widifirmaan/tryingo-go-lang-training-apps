@@ -1,6 +1,7 @@
 # Collections — Rak, Buku Alamat, dan Tas Unik
 
 > **Kategori:** Python | **Level:** Menengah | **Minggu 5:** Collections
+> **Prasyarat:** Minggu 4 — **Functions**.
 
 ## Tujuan Pembelajaran
 

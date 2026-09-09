@@ -1,6 +1,7 @@
 # Stored Procedure — Recipes Stored in MySQL Warehouse
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 5:** Stored Procedure
+> **Prerequisites:** Week 4 — **Index & Optimization**.
 
 ## Learning Objectives
 

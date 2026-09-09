@@ -1,6 +1,7 @@
 # Selector & Basic Styling — Cat Warung Pertama
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 1:** Selector & Basic Styling
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

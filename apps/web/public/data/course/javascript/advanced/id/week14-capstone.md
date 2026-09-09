@@ -1,6 +1,7 @@
 # Capstone: Toko JavaScript Lengkap
 
 > **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 14:** Capstone
+> **Prasyarat:** Minggu 13 — **Performance Optimization**.
 
 ## Tujuan Pembelajaran
 

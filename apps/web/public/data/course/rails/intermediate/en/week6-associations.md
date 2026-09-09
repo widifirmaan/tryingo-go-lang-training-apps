@@ -1,6 +1,7 @@
 # Associations — Ropes Between Rails Racks
 
 > **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 6:** Associations
+> **Prerequisites:** Week 5 — **Authentication**.
 
 ## Learning Objectives
 

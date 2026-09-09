@@ -1,6 +1,7 @@
 # Advanced Patterns — Pola Warung Rapi
 
 > **Kategori:** React | **Level:** Lanjutan | **Minggu 9:** Advanced Patterns
+> **Prasyarat:** Minggu 8 — **Custom Hooks & Patterns**.
 
 ## Tujuan Pembelajaran
 

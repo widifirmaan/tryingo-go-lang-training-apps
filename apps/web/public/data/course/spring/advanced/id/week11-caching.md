@@ -1,6 +1,7 @@
 # Caching — Laci Cepat Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 11:** Caching
+> **Prasyarat:** Minggu 10 — **Messaging**.
 
 ## Tujuan Pembelajaran
 

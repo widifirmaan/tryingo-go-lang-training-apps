@@ -1,6 +1,7 @@
 # Smart Pointers — Smart Rust Boxes
 
 > **Kategori:** Rust | **Level:** Advanced | **Minggu 11:** Smart Pointers
+> **Prerequisites:** Week 10 — **Testing**.
 
 ## Learning Objectives
 

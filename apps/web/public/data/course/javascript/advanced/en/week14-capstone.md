@@ -1,6 +1,7 @@
 # Capstone: Complete JavaScript Store
 
 > **Kategori:** JavaScript | **Level:** Advanced | **Minggu 14:** Capstone
+> **Prerequisites:** Week 13 — **Performance Optimization**.
 
 ## Learning Objectives
 

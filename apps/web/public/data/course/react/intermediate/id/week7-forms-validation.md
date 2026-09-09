@@ -1,6 +1,7 @@
 # Forms & Validasi
 
 > **Kategori:** React | **Level:** Menengah | **Minggu 7:** Forms & Validasi
+> **Prasyarat:** Minggu 6 — **Context API**.
 
 ## Tujuan Pembelajaran
 

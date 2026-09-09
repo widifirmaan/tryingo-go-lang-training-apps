@@ -1,6 +1,7 @@
 # Sintaks Dasar PHP — Buku Kas Warung yang Jalan di Server
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 1:** Sintaks Dasar
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

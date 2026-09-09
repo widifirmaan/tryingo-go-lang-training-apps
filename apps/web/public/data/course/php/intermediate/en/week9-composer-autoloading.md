@@ -1,6 +1,7 @@
 # Composer & Autoloading — Real PHP Tool Warehouse
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 9:** Composer & Autoloading
+> **Prerequisites:** Week 8 — **PDO Database**.
 
 ## Learning Objectives
 

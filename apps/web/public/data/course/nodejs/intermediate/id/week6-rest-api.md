@@ -1,6 +1,7 @@
 # REST API — Warung Online Lengkap Node
 
 > **Kategori:** Node.js | **Level:** Menengah | **Minggu 6:** REST API
+> **Prasyarat:** Minggu 5 — **Express Server**.
 
 ## Tujuan Pembelajaran
 

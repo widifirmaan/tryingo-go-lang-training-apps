@@ -1,6 +1,7 @@
 # Directives & Events — Switches and Ears
 
 > **Kategori:** Vue | **Level:** Beginner | **Minggu 3:** Directives & Events
+> **Prerequisites:** Week 2 — **Reactivity & Composition**.
 
 ## Learning Objectives
 

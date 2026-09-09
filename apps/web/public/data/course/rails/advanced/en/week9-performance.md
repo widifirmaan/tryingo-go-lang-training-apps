@@ -1,6 +1,7 @@
 # Performance Optimization
 
 > **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 9:** Performance Optimization
+> **Prerequisites:** Week 8 — **Rails API Mode**.
 
 ## Learning Objectives
 

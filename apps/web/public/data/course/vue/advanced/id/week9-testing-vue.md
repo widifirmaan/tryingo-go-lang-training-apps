@@ -1,6 +1,7 @@
 # Testing Vue — Cicip Kartu Beneran
 
 > **Kategori:** Vue | **Level:** Lanjutan | **Minggu 9:** Testing Vue Components
+> **Prasyarat:** Minggu 8 — **Provide/Inject & Teleport**.
 
 ## Tujuan Pembelajaran
 

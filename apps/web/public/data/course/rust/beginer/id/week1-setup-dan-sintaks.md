@@ -1,6 +1,7 @@
 # Setup & Sintaks Rust — Buku Perpustakaan yang Ketat
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 1:** Setup & Sintaks Dasar
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

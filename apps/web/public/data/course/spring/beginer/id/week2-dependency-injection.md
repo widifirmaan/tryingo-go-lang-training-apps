@@ -1,6 +1,7 @@
 # Dependency Injection — Gudang Otomatis Spring
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 2:** Dependency Injection
+> **Prasyarat:** Minggu 1 — **Setup Spring Boot**.
 
 ## Tujuan Pembelajaran
 

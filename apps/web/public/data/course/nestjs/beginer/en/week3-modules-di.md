@@ -1,6 +1,7 @@
 # Modules & DI — NestJS Shop Buildings
 
 > **Kategori:** NestJS | **Level:** Beginner | **Minggu 3:** Modules & DI
+> **Prerequisites:** Week 2 — **Providers & Services**.
 
 ## Learning Objectives
 

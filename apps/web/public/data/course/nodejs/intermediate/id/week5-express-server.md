@@ -1,6 +1,7 @@
 # Express Server — Warung Online Node
 
 > **Kategori:** Node.js | **Level:** Menengah | **Minggu 5:** Express Server
+> **Prasyarat:** Minggu 4 — **Events & Async**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Generics — Rak Serbaguna C#
 
 > **Kategori:** C# | **Level:** Menengah | **Minggu 7:** Generics
+> **Prasyarat:** Minggu 6 — **Async/Await**.
 
 ## Tujuan Pembelajaran
 

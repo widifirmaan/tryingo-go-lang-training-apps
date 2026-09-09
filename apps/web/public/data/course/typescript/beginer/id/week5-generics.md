@@ -1,6 +1,7 @@
 # Generics — Rak untuk Tipe Apa Saja
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 5:** Generics
+> **Prasyarat:** Minggu 4 — **Interfaces & Type Aliases**.
 
 ## Tujuan Pembelajaran
 

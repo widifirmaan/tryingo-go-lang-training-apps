@@ -1,6 +1,7 @@
 # Testing — Taste Before Serving
 
 > **Kategori:** Python | **Level:** Advanced | **Minggu 10:** Testing
+> **Prerequisites:** Week 9 — **Libraries**.
 
 ## Learning Objectives
 

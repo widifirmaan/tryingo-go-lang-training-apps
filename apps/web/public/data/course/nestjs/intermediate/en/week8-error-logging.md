@@ -1,6 +1,7 @@
 # Error & Logging — NestJS Shop Alarm + CCTV
 
 > **Kategori:** NestJS | **Level:** Intermediate | **Minggu 8:** Error Handling & Logging
+> **Prerequisites:** Week 7 — **ORM Relations**.
 
 ## Learning Objectives
 

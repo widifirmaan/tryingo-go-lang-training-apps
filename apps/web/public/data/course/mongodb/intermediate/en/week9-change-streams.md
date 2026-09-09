@@ -1,6 +1,7 @@
 # Change Streams & Transactions — MongoDB Live Eyes & Safe Packages
 
 > **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 9:** Change Streams & Transactions
+> **Prerequisites:** Week 8 — **Performance & Tuning**.
 
 ## Learning Objectives
 

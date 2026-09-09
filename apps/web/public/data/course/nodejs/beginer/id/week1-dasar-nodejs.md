@@ -1,6 +1,7 @@
 # Dasar Node.js — Dapur Warung di Terminal
 
 > **Kategori:** Node.js | **Level:** Pemula | **Minggu 1:** Dasar Node.js
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Capstone: Type-Safe Shop API Client
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 12:** Capstone: Type-Safe API Client
+> **Prerequisites:** Week 11 — **Advanced Types**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Fungsi — Resep yang Bisa Dipakai Ulang
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Minggu 4:** Fungsi
+> **Prasyarat:** Minggu 3 — **Control Flow**.
 
 ## Tujuan Pembelajaran
 

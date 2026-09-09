@@ -1,6 +1,7 @@
 # Functions — Resep Warung Pakai Ulang
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 4:** Functions & Modules
+> **Prasyarat:** Minggu 3 — **Control Flow**.
 
 ## Tujuan Pembelajaran
 

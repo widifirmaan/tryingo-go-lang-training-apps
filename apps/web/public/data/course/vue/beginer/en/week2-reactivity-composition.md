@@ -1,6 +1,7 @@
 # Reactivity & Composition — Smart Boxes Following Each Other
 
 > **Kategori:** Vue | **Level:** Beginner | **Minggu 2:** Reactivity & Composition API
+> **Prerequisites:** Week 1 — **Vue Basics**.
 
 ## Learning Objectives
 

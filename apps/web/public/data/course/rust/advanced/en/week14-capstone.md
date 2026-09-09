@@ -1,6 +1,7 @@
 # Capstone: Shop CLI + Library — Rust Grand Opening
 
 > **Kategori:** Rust | **Level:** Advanced | **Minggu 14:** Capstone: CLI + Library
+> **Prerequisites:** Week 13 — **Macros**.
 
 ## Learning Objectives
 

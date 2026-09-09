@@ -1,6 +1,7 @@
 # File Storage — Laravel Photo Warehouse
 
 > **Kategori:** Laravel | **Level:** Intermediate | **Minggu 8:** File Storage
+> **Prerequisites:** Week 7 — **Validation**.
 
 ## Learning Objectives
 

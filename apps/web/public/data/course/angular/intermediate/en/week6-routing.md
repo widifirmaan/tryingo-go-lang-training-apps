@@ -1,6 +1,7 @@
 # Routing — Angular Shop Map
 
 > **Kategori:** Angular | **Level:** Intermediate | **Minggu 6:** Routing
+> **Prerequisites:** Week 5 — **Template Forms**.
 
 ## Learning Objectives
 

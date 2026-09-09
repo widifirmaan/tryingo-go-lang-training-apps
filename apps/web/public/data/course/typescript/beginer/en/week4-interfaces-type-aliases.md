@@ -1,6 +1,7 @@
 # Interfaces & Type Aliases — Card Blueprints
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 4:** Interfaces & Type Aliases
+> **Prerequisites:** Week 3 — **Typed Functions**.
 
 ## Learning Objectives
 

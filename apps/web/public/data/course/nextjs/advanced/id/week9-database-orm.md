@@ -1,6 +1,7 @@
 # Database & ORM — Gudang dengan Penerjemah
 
 > **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 9:** Database & ORM
+> **Prasyarat:** Minggu 8 — **Middleware & Auth Dasar**.
 
 ## Tujuan Pembelajaran
 

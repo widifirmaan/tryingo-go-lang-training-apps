@@ -1,6 +1,7 @@
 # Events & Bindings — Svelte Ears & Strings
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 4:** Events & Bindings
+> **Prerequisites:** Week 3 — **Props & Components**.
 
 ## Learning Objectives
 

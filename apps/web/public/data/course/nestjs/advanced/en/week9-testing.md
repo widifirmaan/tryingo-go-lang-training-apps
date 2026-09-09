@@ -1,6 +1,7 @@
 # Testing NestJS — Real Shop Taste-Test
 
 > **Kategori:** NestJS | **Level:** Advanced | **Minggu 9:** Testing NestJS
+> **Prerequisites:** Week 8 — **Error & Logging**.
 
 ## Learning Objectives
 

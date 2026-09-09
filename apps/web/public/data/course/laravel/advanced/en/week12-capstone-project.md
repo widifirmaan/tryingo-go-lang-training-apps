@@ -1,6 +1,7 @@
 # Capstone: Complete Laravel Store
 
 > **Kategori:** Laravel | **Level:** Advanced | **Minggu 12:** Capstone Project
+> **Prerequisites:** Week 11 — **REST API**.
 
 ## Learning Objectives
 

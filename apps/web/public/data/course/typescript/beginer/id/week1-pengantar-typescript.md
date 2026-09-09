@@ -1,6 +1,7 @@
 # Pengantar TypeScript — Stiker Pengaman untuk JavaScript
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 1:** Pengantar TypeScript
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

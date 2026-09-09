@@ -1,6 +1,7 @@
 # Components & Templates — Cabang Warung Enterprise
 
 > **Kategori:** Angular | **Level:** Pemula | **Minggu 1:** Components & Templates
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

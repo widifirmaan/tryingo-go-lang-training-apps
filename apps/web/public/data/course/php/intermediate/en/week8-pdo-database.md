@@ -1,6 +1,7 @@
 # PDO Database — Real PHP Warehouse Driver
 
 > **Kategori:** PHP | **Level:** Intermediate | **Minggu 8:** PDO & Database
+> **Prerequisites:** Week 7 — **PHP Security**.
 
 ## Learning Objectives
 

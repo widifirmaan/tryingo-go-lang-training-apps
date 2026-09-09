@@ -1,6 +1,7 @@
 # Controllers & Routing — Official CI4 Shop Doors
 
 > **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 2:** Controllers & Routing
+> **Prerequisites:** Week 1 — **CI4 Setup**.
 
 ## Learning Objectives
 

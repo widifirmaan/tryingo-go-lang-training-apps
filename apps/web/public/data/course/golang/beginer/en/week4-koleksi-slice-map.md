@@ -1,6 +1,7 @@
 # Collections: Slice, Map & String — Dynamic Shelves and Address Book
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 4:** Koleksi: Slice, Map & String
+> **Prerequisites:** Week 3 — **Functions & Error**.
 
 ## Learning Objectives
 

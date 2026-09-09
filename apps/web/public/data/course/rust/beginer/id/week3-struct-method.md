@@ -1,6 +1,7 @@
 # Struct & Method — Kartu Produk Rust
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 3:** Struct & Method
+> **Prasyarat:** Minggu 2 — **Ownership & Borrowing**.
 
 ## Tujuan Pembelajaran
 

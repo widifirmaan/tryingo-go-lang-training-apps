@@ -1,6 +1,7 @@
 # Svelte Basics — Magic Compilation Without Virtual DOM
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 1:** Dasar Svelte
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

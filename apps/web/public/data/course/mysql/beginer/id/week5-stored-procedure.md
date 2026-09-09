@@ -1,6 +1,7 @@
 # Stored Procedure — Resep Tersimpan di Gudang MySQL
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 5:** Stored Procedure
+> **Prasyarat:** Minggu 4 — **Index & Optimasi**.
 
 ## Tujuan Pembelajaran
 

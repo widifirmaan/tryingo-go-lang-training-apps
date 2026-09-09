@@ -1,6 +1,7 @@
 # Components & Props — Bagi Warung Jadi Bata LEGO
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 4:** Components & Props
+> **Prasyarat:** Minggu 3 — **Directives & Events**.
 
 ## Tujuan Pembelajaran
 

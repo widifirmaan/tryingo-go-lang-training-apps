@@ -1,6 +1,7 @@
 # Lifetimes — KTP Pinjaman Rust
 
 > **Kategori:** Rust | **Level:** Menengah | **Minggu 9:** Lifetimes
+> **Prasyarat:** Minggu 8 — **Generics**.
 
 ## Tujuan Pembelajaran
 

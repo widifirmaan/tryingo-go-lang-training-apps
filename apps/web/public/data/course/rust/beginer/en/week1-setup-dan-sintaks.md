@@ -1,6 +1,7 @@
 # Rust Setup & Syntax — Strict Library
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 1:** Setup & Sintaks Dasar
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

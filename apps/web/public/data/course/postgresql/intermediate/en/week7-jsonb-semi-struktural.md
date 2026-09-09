@@ -1,6 +1,7 @@
 # JSONB Semi-Structured — Mixed Box
 
 > **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 7:** JSONB Semi-Struktural
+> **Prerequisites:** Week 6 — **Window Functions**.
 
 ## Learning Objectives
 

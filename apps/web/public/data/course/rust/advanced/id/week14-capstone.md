@@ -1,6 +1,7 @@
 # Capstone: CLI Warung + Library — Grand Opening Rust
 
 > **Kategori:** Rust | **Level:** Lanjutan | **Minggu 14:** Capstone: CLI + Library
+> **Prasyarat:** Minggu 13 — **Macros**.
 
 ## Tujuan Pembelajaran
 

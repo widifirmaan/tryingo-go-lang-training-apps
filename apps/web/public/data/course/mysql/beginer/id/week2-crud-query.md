@@ -1,6 +1,7 @@
 # CRUD & Query — Isi, Lihat, Ubah, Hapus Gudang MySQL
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 2:** CRUD & Query
+> **Prasyarat:** Minggu 1 — **Dasar MySQL**.
 
 ## Tujuan Pembelajaran
 

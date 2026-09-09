@@ -1,6 +1,7 @@
 # Lifetimes — Rust Borrowing ID Cards
 
 > **Kategori:** Rust | **Level:** Intermediate | **Minggu 9:** Lifetimes
+> **Prerequisites:** Week 8 — **Generics**.
 
 ## Learning Objectives
 

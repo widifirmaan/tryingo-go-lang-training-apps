@@ -1,6 +1,7 @@
 # Guards & Auth — NestJS ID Guards
 
 > **Kategori:** NestJS | **Level:** Intermediate | **Minggu 6:** Guards & Auth
+> **Prerequisites:** Week 5 — **Pipes & Validation**.
 
 ## Learning Objectives
 

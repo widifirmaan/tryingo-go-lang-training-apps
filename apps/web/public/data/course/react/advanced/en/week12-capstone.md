@@ -1,6 +1,7 @@
 # Capstone: Complete E-Commerce Store
 
 > **Kategori:** React | **Level:** Advanced | **Minggu 12:** Capstone: E-Commerce App
+> **Prerequisites:** Week 11 — **Performance**.
 
 ## Learning Objectives
 

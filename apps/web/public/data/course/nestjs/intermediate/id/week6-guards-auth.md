@@ -1,6 +1,7 @@
 # Guards & Auth — Satpam KTP NestJS
 
 > **Kategori:** NestJS | **Level:** Menengah | **Minggu 6:** Guards & Auth
+> **Prasyarat:** Minggu 5 — **Pipes & Validation**.
 
 ## Tujuan Pembelajaran
 

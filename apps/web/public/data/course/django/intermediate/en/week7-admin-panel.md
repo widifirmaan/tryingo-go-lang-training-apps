@@ -1,6 +1,7 @@
 # Admin Panel — Automatic Django Cashier
 
 > **Kategori:** Django | **Level:** Intermediate | **Minggu 7:** Admin Panel
+> **Prerequisites:** Week 6 — **Authentication**.
 
 ## Learning Objectives
 

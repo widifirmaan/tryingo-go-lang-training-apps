@@ -1,6 +1,7 @@
 # Testing Vue — Real Card Taste-Test
 
 > **Kategori:** Vue | **Level:** Advanced | **Minggu 9:** Testing Vue Components
+> **Prerequisites:** Week 8 — **Provide/Inject & Teleport**.
 
 ## Learning Objectives
 

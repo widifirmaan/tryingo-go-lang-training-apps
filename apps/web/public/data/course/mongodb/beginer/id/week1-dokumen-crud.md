@@ -1,6 +1,7 @@
 # Dokumen & CRUD — Kartu Fleksibel
 
 > **Kategori:** MongoDB | **Level:** Pemula | **Minggu 1:** Dokumen & CRUD
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

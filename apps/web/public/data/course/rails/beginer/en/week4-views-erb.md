@@ -1,6 +1,7 @@
 # ERB Views — Real Rails Shop Showcase
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 4:** Views & ERB Templates
+> **Prerequisites:** Week 3 — **Migrations**.
 
 ## Learning Objectives
 

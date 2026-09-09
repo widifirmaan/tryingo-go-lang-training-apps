@@ -1,6 +1,7 @@
 # Collections — Rak Dinamis dan Buku Alamat Rust
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 5:** Collections
+> **Prasyarat:** Minggu 4 — **Enum & Pattern Matching**.
 
 ## Tujuan Pembelajaran
 

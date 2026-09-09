@@ -1,6 +1,7 @@
 # Pipes & Validation — NestJS Door Guards
 
 > **Kategori:** NestJS | **Level:** Intermediate | **Minggu 5:** Pipes & Validation
+> **Prerequisites:** Week 4 — **Database TypeORM**.
 
 ## Learning Objectives
 

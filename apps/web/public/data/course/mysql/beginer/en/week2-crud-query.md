@@ -1,6 +1,7 @@
 # CRUD & Query — Fill, View, Edit, Delete MySQL Warehouse
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 2:** CRUD & Query
+> **Prerequisites:** Week 1 — **MySQL Basics**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Capstone: SaaS Dashboard — Warung Vue Grand Opening
 
 > **Kategori:** Vue | **Level:** Lanjutan | **Minggu 12:** Capstone: SaaS Dashboard
+> **Prasyarat:** Minggu 11 — **Animations & Transitions**.
 
 ## Tujuan Pembelajaran
 

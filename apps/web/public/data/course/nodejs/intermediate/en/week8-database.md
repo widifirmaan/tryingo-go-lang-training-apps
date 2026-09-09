@@ -1,6 +1,7 @@
 # Database — Node Warehouse with Prisma
 
 > **Kategori:** Node.js | **Level:** Intermediate | **Minggu 8:** Database
+> **Prerequisites:** Week 7 — **Auth**.
 
 ## Learning Objectives
 

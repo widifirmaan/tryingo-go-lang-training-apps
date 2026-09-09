@@ -1,6 +1,7 @@
 # WebSocket — Bel Live Warung NestJS
 
 > **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 10:** WebSockets & Real-time
+> **Prasyarat:** Minggu 9 — **Testing NestJS**.
 
 ## Tujuan Pembelajaran
 

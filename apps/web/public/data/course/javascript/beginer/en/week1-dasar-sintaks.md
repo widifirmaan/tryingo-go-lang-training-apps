@@ -1,6 +1,7 @@
 # JavaScript Basics — First Shop Calculator
 
 > **Kategori:** JavaScript | **Level:** Beginner | **Minggu 1:** Dasar Sintaks JavaScript
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

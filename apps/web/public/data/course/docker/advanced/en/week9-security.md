@@ -1,6 +1,7 @@
 # Security — Locking Docker Boxes
 
 > **Kategori:** Docker | **Level:** Advanced | **Minggu 9:** Security
+> **Prerequisites:** Week 8 — **Multi-Stage Build**.
 
 ## Learning Objectives
 

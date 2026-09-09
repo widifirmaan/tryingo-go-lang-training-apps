@@ -1,6 +1,7 @@
 # Design Patterns — Cetak Biru Warung Rapi
 
 > **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 11:** Design Patterns
+> **Prasyarat:** Minggu 10 — **Error Handling**.
 
 ## Tujuan Pembelajaran
 

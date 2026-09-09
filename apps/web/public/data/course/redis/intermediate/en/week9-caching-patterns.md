@@ -1,6 +1,7 @@
 # Caching Patterns — Redis Drawer Strategy
 
 > **Kategori:** Redis | **Level:** Intermediate | **Minggu 9:** Caching Patterns
+> **Prerequisites:** Week 8 — **Clustering**.
 
 ## Learning Objectives
 

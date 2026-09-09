@@ -1,6 +1,7 @@
 # Control Flow — C# Shop Branches & Loops
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 3:** Control Flow
+> **Prerequisites:** Week 2 — **Data Types & Variables**.
 
 ## Learning Objectives
 

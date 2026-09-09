@@ -1,6 +1,7 @@
 # Concurrency — Kasir Paralel Anti-Rebutan Rust
 
 > **Kategori:** Rust | **Level:** Lanjutan | **Minggu 12:** Concurrency
+> **Prasyarat:** Minggu 11 — **Smart Pointers**.
 
 ## Tujuan Pembelajaran
 

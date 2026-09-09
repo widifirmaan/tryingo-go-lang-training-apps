@@ -1,6 +1,7 @@
 # Capstone: Toko Laravel Lengkap
 
 > **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 12:** Capstone Project
+> **Prasyarat:** Minggu 11 — **REST API**.
 
 ## Tujuan Pembelajaran
 

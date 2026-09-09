@@ -1,6 +1,7 @@
 # Testing PHPUnit — Cicip Warung Beneran
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 10:** Testing dengan PHPUnit
+> **Prasyarat:** Minggu 9 — **Composer & Autoloading**.
 
 ## Tujuan Pembelajaran
 

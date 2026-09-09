@@ -1,6 +1,7 @@
 # Basic Aggregation — MongoDB Report Factory
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 4:** Aggregation Basics
+> **Prerequisites:** Week 3 — **Index**.
 
 ## Learning Objectives
 

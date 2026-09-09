@@ -1,6 +1,7 @@
 # Apollo Server — Buka Restoran GraphQL
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 5:** Apollo Server & Client
+> **Prasyarat:** Minggu 4 — **Resolvers**.
 
 ## Tujuan Pembelajaran
 

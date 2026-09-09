@@ -1,6 +1,7 @@
 # Orchestration — Foreman of 100 Docker Boxes
 
 > **Kategori:** Docker | **Level:** Advanced | **Minggu 11:** Orchestration
+> **Prerequisites:** Week 10 — **CI/CD Pipeline**.
 
 ## Learning Objectives
 

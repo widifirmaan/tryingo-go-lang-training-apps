@@ -1,6 +1,7 @@
 # Error Handling — No-Panic C# Alarms
 
 > **Kategori:** C# | **Level:** Intermediate | **Minggu 8:** Error Handling
+> **Prerequisites:** Week 7 — **Generics**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Collections — Racks, Address Books, and Unique Bags
 
 > **Kategori:** Python | **Level:** Intermediate | **Minggu 5:** Collections
+> **Prerequisites:** Week 4 — **Functions**.
 
 ## Learning Objectives
 

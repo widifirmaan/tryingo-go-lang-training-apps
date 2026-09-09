@@ -1,6 +1,7 @@
 # List & Daftar — Rak Daftar
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 5:** List & Daftar
+> **Prasyarat:** Minggu 4 — **Gambar & Media**.
 
 ## Tujuan Pembelajaran
 

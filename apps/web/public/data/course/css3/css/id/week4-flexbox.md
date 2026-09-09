@@ -1,6 +1,7 @@
 # Flexbox — Rak Geser Warung
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 4:** Flexbox
+> **Prasyarat:** Minggu 3 — **Warna & Tipografi**.
 
 ## Tujuan Pembelajaran
 

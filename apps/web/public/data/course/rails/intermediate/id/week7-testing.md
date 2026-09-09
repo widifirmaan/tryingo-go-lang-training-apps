@@ -1,6 +1,7 @@
 # Testing dengan RSpec
 
 > **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 7:** Testing dengan RSpec
+> **Prasyarat:** Minggu 6 — **Associations**.
 
 ## Tujuan Pembelajaran
 

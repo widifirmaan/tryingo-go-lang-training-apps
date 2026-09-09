@@ -1,6 +1,7 @@
 # SEO & Meta — Google Signboard
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 13:** SEO & Meta Tags
+> **Prerequisites:** Week 12 — **Accessibility**.
 
 ## Learning Objectives
 

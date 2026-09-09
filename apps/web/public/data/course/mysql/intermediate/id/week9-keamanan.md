@@ -1,6 +1,7 @@
 # Keamanan — Gembok Gudang MySQL
 
 > **Kategori:** MySQL | **Level:** Menengah | **Minggu 9:** Keamanan & User Management
+> **Prasyarat:** Minggu 8 — **Replikasi**.
 
 ## Tujuan Pembelajaran
 

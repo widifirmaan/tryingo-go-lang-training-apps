@@ -1,6 +1,7 @@
 # ES6+ Features — Alat Singkat Modern
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 8:** ES6+ Features
+> **Prasyarat:** Minggu 7 — **Async JavaScript**.
 
 ## Tujuan Pembelajaran
 

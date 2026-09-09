@@ -1,6 +1,7 @@
 # Directives & Pipes — Saklar dan Saringan Warung Angular
 
 > **Kategori:** Angular | **Level:** Pemula | **Minggu 2:** Directives & Pipes
+> **Prasyarat:** Minggu 1 — **Components & Templates**.
 
 ## Tujuan Pembelajaran
 

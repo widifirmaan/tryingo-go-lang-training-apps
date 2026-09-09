@@ -1,6 +1,7 @@
 # Controllers & Routing — Pelayan Warung Terstruktur
 
 > **Kategori:** NestJS | **Level:** Pemula | **Minggu 1:** Controllers & Routing
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

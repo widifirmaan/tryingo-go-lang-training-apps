@@ -1,6 +1,7 @@
 # WebSocket — Live NestJS Shop Bell
 
 > **Kategori:** NestJS | **Level:** Advanced | **Minggu 10:** WebSockets & Real-time
+> **Prerequisites:** Week 9 — **Testing NestJS**.
 
 ## Learning Objectives
 

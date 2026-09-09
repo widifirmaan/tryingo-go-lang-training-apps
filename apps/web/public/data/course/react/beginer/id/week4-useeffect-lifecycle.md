@@ -1,6 +1,7 @@
 # useEffect & Lifecycle — Alarm Otomatis & Ambil Data
 
 > **Kategori:** React | **Level:** Pemula | **Minggu 4:** useEffect & Lifecycle
+> **Prasyarat:** Minggu 3 — **State & useState**.
 
 ## Tujuan Pembelajaran
 

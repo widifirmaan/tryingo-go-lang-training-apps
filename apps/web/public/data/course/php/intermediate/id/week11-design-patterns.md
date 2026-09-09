@@ -1,6 +1,7 @@
 # Design Patterns — Pola Warung Rapi PHP
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 11:** Design Patterns
+> **Prasyarat:** Minggu 10 — **Testing PHPUnit**.
 
 ## Tujuan Pembelajaran
 

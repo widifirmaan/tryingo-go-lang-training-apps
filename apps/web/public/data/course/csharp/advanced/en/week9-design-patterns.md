@@ -1,6 +1,7 @@
 # Design Patterns — Neat C# Shop Patterns
 
 > **Kategori:** C# | **Level:** Advanced | **Minggu 9:** Design Patterns
+> **Prerequisites:** Week 8 — **Error Handling**.
 
 ## Learning Objectives
 

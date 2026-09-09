@@ -1,6 +1,7 @@
 # Context API — Shared Shop Warehouse
 
 > **Kategori:** React | **Level:** Intermediate | **Minggu 6:** Context API & useReducer
+> **Prerequisites:** Week 5 — **React Router**.
 
 ## Learning Objectives
 

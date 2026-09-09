@@ -1,6 +1,7 @@
 # Responsive Design — Shop Fits Phones & Laptops
 
 > **Kategori:** CSS3 | **Level:** Beginner | **Minggu 7:** Responsive Design
+> **Prerequisites:** Week 6 — **Positioning**.
 
 ## Learning Objectives
 

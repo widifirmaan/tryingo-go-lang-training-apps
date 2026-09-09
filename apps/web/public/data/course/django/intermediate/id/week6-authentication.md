@@ -1,6 +1,7 @@
 # Authentication — KTP Django
 
 > **Kategori:** Django | **Level:** Menengah | **Minggu 6:** Authentication
+> **Prasyarat:** Minggu 5 — **Forms & Validasi**.
 
 ## Tujuan Pembelajaran
 

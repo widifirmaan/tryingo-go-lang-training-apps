@@ -1,6 +1,7 @@
 # Express Server — Online Node Shop
 
 > **Kategori:** Node.js | **Level:** Intermediate | **Minggu 5:** Express Server
+> **Prerequisites:** Week 4 — **Events & Async**.
 
 ## Learning Objectives
 

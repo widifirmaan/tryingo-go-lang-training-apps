@@ -1,6 +1,7 @@
 # Performance — Node Shop Stays Fast
 
 > **Kategori:** Node.js | **Level:** Advanced | **Minggu 10:** Performance
+> **Prerequisites:** Week 9 — **Testing**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Lists — Shelf of Lists
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 5:** List & Daftar
+> **Prerequisites:** Week 4 — **Images & Media**.
 
 ## Learning Objectives
 

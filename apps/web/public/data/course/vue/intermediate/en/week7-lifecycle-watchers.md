@@ -1,6 +1,7 @@
 # Lifecycle & Watchers — Open, Watch, Close Vue Shop
 
 > **Kategori:** Vue | **Level:** Intermediate | **Minggu 7:** Lifecycle & Watchers
+> **Prerequisites:** Week 6 — **Pinia**.
 
 ## Learning Objectives
 

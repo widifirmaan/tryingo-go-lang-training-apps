@@ -1,6 +1,7 @@
 # Generics — Multipurpose Rust Racks
 
 > **Kategori:** Rust | **Level:** Intermediate | **Minggu 8:** Generics
+> **Prerequisites:** Week 7 — **Trait**.
 
 ## Learning Objectives
 

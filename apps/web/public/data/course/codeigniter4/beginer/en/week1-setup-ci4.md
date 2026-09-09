@@ -1,6 +1,7 @@
 # CI4 Setup — Lightweight Shop with Composer
 
 > **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 1:** Setup CI4
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

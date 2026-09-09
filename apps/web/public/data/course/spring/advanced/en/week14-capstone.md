@@ -1,6 +1,7 @@
 # Capstone: E-Commerce API — Spring Shop Grand Opening
 
 > **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 14:** Capstone: E-Commerce API
+> **Prerequisites:** Week 13 — **Deployment**.
 
 ## Learning Objectives
 

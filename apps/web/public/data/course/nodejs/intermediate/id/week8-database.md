@@ -1,6 +1,7 @@
 # Database — Gudang Node dengan Prisma
 
 > **Kategori:** Node.js | **Level:** Menengah | **Minggu 8:** Database
+> **Prasyarat:** Minggu 7 — **Auth**.
 
 ## Tujuan Pembelajaran
 

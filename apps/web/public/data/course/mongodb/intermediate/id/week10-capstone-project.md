@@ -1,6 +1,7 @@
 # Capstone: E-Commerce MongoDB — Toko Kartu Grand Opening
 
 > **Kategori:** MongoDB | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce MongoDB
+> **Prasyarat:** Minggu 9 — **Change Streams & Transactions**.
 
 ## Tujuan Pembelajaran
 

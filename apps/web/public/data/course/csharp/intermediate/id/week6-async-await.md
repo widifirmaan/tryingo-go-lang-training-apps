@@ -1,6 +1,7 @@
 # Async/Await — Pesan Antar Tanpa Freeze C#
 
 > **Kategori:** C# | **Level:** Menengah | **Minggu 6:** Async/Await
+> **Prasyarat:** Minggu 5 — **LINQ**.
 
 ## Tujuan Pembelajaran
 

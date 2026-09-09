@@ -1,6 +1,7 @@
 # Views ERB — Etalase Nyata Warung Rails
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 4:** Views & ERB Templates
+> **Prasyarat:** Minggu 3 — **Migrations**.
 
 ## Tujuan Pembelajaran
 

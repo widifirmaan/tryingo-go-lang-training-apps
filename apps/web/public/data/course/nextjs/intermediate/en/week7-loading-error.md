@@ -1,6 +1,7 @@
 # Loading & Error — Skeletons and Alarms
 
 > **Kategori:** Next.js | **Level:** Intermediate | **Minggu 7:** Loading & Error UI
+> **Prerequisites:** Week 6 — **Server Actions**.
 
 ## Learning Objectives
 

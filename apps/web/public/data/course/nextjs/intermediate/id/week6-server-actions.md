@@ -1,6 +1,7 @@
 # Server Actions — Kirim Pesanan Tanpa API Manual
 
 > **Kategori:** Next.js | **Level:** Menengah | **Minggu 6:** Server Actions & Mutations
+> **Prasyarat:** Minggu 5 — **Data Fetching**.
 
 ## Tujuan Pembelajaran
 

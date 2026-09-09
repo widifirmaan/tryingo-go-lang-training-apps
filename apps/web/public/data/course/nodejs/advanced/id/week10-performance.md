@@ -1,6 +1,7 @@
 # Performance — Warung Tetap Cepat Node
 
 > **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 10:** Performance
+> **Prasyarat:** Minggu 9 — **Testing**.
 
 ## Tujuan Pembelajaran
 

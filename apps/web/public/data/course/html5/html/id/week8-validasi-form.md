@@ -1,6 +1,7 @@
 # Validasi Form — Satpam Formulir
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 8:** Validasi Form
+> **Prasyarat:** Minggu 7 — **Form & Input**.
 
 ## Tujuan Pembelajaran
 

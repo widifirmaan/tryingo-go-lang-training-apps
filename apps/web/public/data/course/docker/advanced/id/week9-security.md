@@ -1,6 +1,7 @@
 # Security — Gembok Peti Docker
 
 > **Kategori:** Docker | **Level:** Lanjutan | **Minggu 9:** Security
+> **Prasyarat:** Minggu 8 — **Multi-Stage Build**.
 
 ## Tujuan Pembelajaran
 

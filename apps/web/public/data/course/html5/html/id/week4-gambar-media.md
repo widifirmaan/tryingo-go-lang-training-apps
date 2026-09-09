@@ -1,6 +1,7 @@
 # Gambar & Media — Etalase Foto
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 4:** Gambar & Media
+> **Prasyarat:** Minggu 3 — **Link & Navigasi**.
 
 ## Tujuan Pembelajaran
 

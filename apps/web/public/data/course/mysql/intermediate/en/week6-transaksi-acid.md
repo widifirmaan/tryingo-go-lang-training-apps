@@ -1,6 +1,7 @@
 # Transactions & ACID — Safe Anti-Half Payment
 
 > **Kategori:** MySQL | **Level:** Intermediate | **Minggu 6:** Transaksi & ACID
+> **Prerequisites:** Week 5 — **Stored Procedure**.
 
 ## Learning Objectives
 

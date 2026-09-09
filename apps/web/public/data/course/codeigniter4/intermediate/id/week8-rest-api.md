@@ -1,6 +1,7 @@
 # REST API — Warung Online CI4 Beneran
 
 > **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 8:** REST API Development
+> **Prasyarat:** Minggu 7 — **Authentication**.
 
 ## Tujuan Pembelajaran
 

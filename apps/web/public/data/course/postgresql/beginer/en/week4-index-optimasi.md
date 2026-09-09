@@ -1,6 +1,7 @@
 # Index & Optimization — Table of Contents for Fast Search
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 4:** Index & Optimasi
+> **Prerequisites:** Week 3 — **JOIN & Relations**.
 
 ## Learning Objectives
 

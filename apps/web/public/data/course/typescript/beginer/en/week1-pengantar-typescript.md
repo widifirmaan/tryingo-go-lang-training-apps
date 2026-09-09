@@ -1,6 +1,7 @@
 # Introduction to TypeScript — Safety Stickers for JavaScript
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 1:** Pengantar TypeScript
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

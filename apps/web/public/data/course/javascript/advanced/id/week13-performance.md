@@ -1,6 +1,7 @@
 # Performance Optimization
 
 > **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 13:** Performance Optimization
+> **Prasyarat:** Minggu 12 — **Testing JavaScript**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Directives & Events — Saklar dan Telinga
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 3:** Directives & Events
+> **Prasyarat:** Minggu 2 — **Reactivity & Composition**.
 
 ## Tujuan Pembelajaran
 

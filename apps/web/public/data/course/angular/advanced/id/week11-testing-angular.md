@@ -1,6 +1,7 @@
 # Testing Angular — Uji Pabrik (angular.dev)
 
 > **Kategori:** Angular | **Level:** Lanjutan | **Minggu 11:** Testing Angular
+> **Prasyarat:** Minggu 10 — **State Management**.
 
 ## Tujuan Pembelajaran
 

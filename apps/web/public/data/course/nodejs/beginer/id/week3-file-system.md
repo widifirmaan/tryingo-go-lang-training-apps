@@ -1,6 +1,7 @@
 # File System — Buku Kas Tersimpan di File Node
 
 > **Kategori:** Node.js | **Level:** Pemula | **Minggu 3:** File System
+> **Prasyarat:** Minggu 2 — **Modules & npm**.
 
 ## Tujuan Pembelajaran
 

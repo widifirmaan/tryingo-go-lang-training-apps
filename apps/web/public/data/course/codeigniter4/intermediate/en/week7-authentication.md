@@ -1,6 +1,7 @@
 # Authentication — Real CI4 Shop ID
 
 > **Kategori:** CodeIgniter | **Level:** Intermediate | **Minggu 7:** Authentication & Authorization
+> **Prerequisites:** Week 6 — **Validation**.
 
 ## Learning Objectives
 

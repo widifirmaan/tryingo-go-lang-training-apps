@@ -1,6 +1,7 @@
 # Relationships — Tali Antar Rak Laravel
 
 > **Kategori:** Laravel | **Level:** Menengah | **Minggu 6:** Relationships
+> **Prasyarat:** Minggu 5 — **Authentication**.
 
 ## Tujuan Pembelajaran
 

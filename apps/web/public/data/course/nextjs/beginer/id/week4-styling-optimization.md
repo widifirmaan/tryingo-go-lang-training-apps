@@ -1,6 +1,7 @@
 # Styling & Optimasi — Bikin Cantik Tanpa Bikin Lemot
 
 > **Kategori:** Next.js | **Level:** Pemula | **Minggu 4:** Styling & Optimasi
+> **Prasyarat:** Minggu 3 — **Server & Client Components**.
 
 ## Tujuan Pembelajaran
 

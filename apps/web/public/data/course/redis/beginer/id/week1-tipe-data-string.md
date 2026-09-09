@@ -1,6 +1,7 @@
 # Redis String — Laci Cepat
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 1:** Tipe Data String
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

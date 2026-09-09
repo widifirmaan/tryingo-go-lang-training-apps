@@ -1,6 +1,7 @@
 # CI/CD Pipeline — Automatic Shop Factory
 
 > **Kategori:** Docker | **Level:** Advanced | **Minggu 10:** CI/CD Pipeline
+> **Prerequisites:** Week 9 — **Security**.
 
 ## Learning Objectives
 

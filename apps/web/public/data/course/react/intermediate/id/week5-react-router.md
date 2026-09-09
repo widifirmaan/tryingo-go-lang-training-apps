@@ -1,6 +1,7 @@
 # React Router — Peta Toko Tanpa Reload
 
 > **Kategori:** React | **Level:** Menengah | **Minggu 5:** React Router
+> **Prasyarat:** Minggu 4 — **useEffect & Lifecycle**.
 
 ## Tujuan Pembelajaran
 

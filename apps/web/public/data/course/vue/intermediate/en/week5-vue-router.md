@@ -1,6 +1,7 @@
 # Vue Router — Vue Shop Map
 
 > **Kategori:** Vue | **Level:** Intermediate | **Minggu 5:** Vue Router
+> **Prerequisites:** Week 4 — **Components & Props**.
 
 ## Learning Objectives
 

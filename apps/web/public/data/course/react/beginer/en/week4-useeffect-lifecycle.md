@@ -1,6 +1,7 @@
 # useEffect & Lifecycle — Auto Alarm & Fetch
 
 > **Kategori:** React | **Level:** Beginner | **Minggu 4:** useEffect & Lifecycle
+> **Prerequisites:** Week 3 — **State & useState**.
 
 ## Learning Objectives
 

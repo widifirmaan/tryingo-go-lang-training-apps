@@ -1,6 +1,7 @@
 # Server & Client Components — Dapur vs Meja Pelanggan
 
 > **Kategori:** Next.js | **Level:** Pemula | **Minggu 3:** Server & Client Components
+> **Prasyarat:** Minggu 2 — **Routing & Navigation**.
 
 ## Tujuan Pembelajaran
 

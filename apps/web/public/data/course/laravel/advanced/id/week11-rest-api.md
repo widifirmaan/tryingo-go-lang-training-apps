@@ -1,6 +1,7 @@
 # REST API — Warung Online Laravel
 
 > **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 11:** REST API
+> **Prasyarat:** Minggu 10 — **Queues & Jobs**.
 
 ## Tujuan Pembelajaran
 

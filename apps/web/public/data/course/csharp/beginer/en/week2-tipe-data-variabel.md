@@ -1,6 +1,7 @@
 # Data Types & Variables — Labeled C# Boxes
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 2:** Tipe Data & Variabel
+> **Prerequisites:** Week 1 — **C# Setup & Syntax**.
 
 ## Learning Objectives
 

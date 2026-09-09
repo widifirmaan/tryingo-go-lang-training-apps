@@ -1,6 +1,7 @@
 # Array & Manipulasi — Rak dan Kartu Warung PHP
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 4:** Array & Manipulasi
+> **Prasyarat:** Minggu 3 — **Fungsi & Scope**.
 
 ## Tujuan Pembelajaran
 

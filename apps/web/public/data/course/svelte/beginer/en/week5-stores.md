@@ -1,6 +1,7 @@
 # Stores — Advanced Shared Svelte Warehouse
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 5:** Stores
+> **Prerequisites:** Week 4 — **Events & Bindings**.
 
 ## Learning Objectives
 

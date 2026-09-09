@@ -1,6 +1,7 @@
 # Performance & Nuxt — Lightning Vue Shop
 
 > **Kategori:** Vue | **Level:** Advanced | **Minggu 10:** Performance & Nuxt
+> **Prerequisites:** Week 9 — **Testing Vue**.
 
 ## Learning Objectives
 

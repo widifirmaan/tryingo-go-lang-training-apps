@@ -1,6 +1,7 @@
 # Docker Compose — Rakit Warung Sekali Jalan
 
 > **Kategori:** Docker | **Level:** Menengah | **Minggu 7:** Docker Compose
+> **Prasyarat:** Minggu 6 — **Networking**.
 
 ## Tujuan Pembelajaran
 

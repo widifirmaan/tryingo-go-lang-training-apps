@@ -1,6 +1,7 @@
 # Pub/Sub — Pengeras Warung Redis
 
 > **Kategori:** Redis | **Level:** Menengah | **Minggu 6:** Pub/Sub & Streams
+> **Prasyarat:** Minggu 5 — **Sorted Set**.
 
 ## Tujuan Pembelajaran
 

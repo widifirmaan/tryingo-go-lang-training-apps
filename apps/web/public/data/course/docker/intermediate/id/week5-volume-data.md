@@ -1,6 +1,7 @@
 # Volume & Data — Lemari Tetap Docker
 
 > **Kategori:** Docker | **Level:** Menengah | **Minggu 5:** Volume & Data Persistence
+> **Prasyarat:** Minggu 4 — **Dockerfile**.
 
 ## Tujuan Pembelajaran
 

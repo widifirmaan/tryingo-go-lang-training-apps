@@ -1,6 +1,7 @@
 # OOP Class & Object — C# Shop Card Blueprints
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 4:** OOP: Class & Object
+> **Prerequisites:** Week 3 — **Control Flow**.
 
 ## Learning Objectives
 

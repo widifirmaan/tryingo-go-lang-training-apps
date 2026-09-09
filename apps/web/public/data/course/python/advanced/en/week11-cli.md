@@ -1,6 +1,7 @@
 # CLI & Automation
 
 > **Kategori:** Python | **Level:** Advanced | **Minggu 11:** CLI & Automation
+> **Prerequisites:** Week 10 — **Testing**.
 
 ## Learning Objectives
 

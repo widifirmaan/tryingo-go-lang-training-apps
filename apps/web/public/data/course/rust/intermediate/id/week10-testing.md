@@ -1,6 +1,7 @@
 # Testing — Cicip Warung Rust Beneran
 
 > **Kategori:** Rust | **Level:** Menengah | **Minggu 10:** Testing
+> **Prasyarat:** Minggu 9 — **Lifetimes**.
 
 ## Tujuan Pembelajaran
 

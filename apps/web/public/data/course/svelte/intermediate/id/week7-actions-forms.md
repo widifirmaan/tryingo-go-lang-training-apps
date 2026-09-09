@@ -1,6 +1,7 @@
 # Actions & Forms — Stempel & Formulir Svelte (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Menengah | **Minggu 7:** Actions & Forms
+> **Prasyarat:** Minggu 6 — **SvelteKit Routing**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Deployment — Open Online Branch
 
 > **Kategori:** Next.js | **Level:** Advanced | **Minggu 11:** Deployment & Production
+> **Prerequisites:** Week 10 — **Advanced Auth**.
 
 ## Learning Objectives
 

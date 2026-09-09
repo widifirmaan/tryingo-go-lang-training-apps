@@ -1,6 +1,7 @@
 # Advanced Patterns — Pola Enterprise Lazy (angular.dev)
 
 > **Kategori:** Angular | **Level:** Lanjutan | **Minggu 13:** Advanced Patterns
+> **Prasyarat:** Minggu 12 — **Performance**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # JOIN & Relations — Join 2 Shelves into 1 Report
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 3:** JOIN & Relasi
+> **Prerequisites:** Week 2 — **CRUD & Query**.
 
 ## Learning Objectives
 

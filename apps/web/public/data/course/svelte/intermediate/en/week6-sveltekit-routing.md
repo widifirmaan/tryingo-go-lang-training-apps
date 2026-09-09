@@ -1,6 +1,7 @@
 # SvelteKit Routing — Svelte Shop Map
 
 > **Kategori:** Svelte | **Level:** Intermediate | **Minggu 6:** SvelteKit Routing
+> **Prerequisites:** Week 5 — **Stores**.
 
 ## Learning Objectives
 

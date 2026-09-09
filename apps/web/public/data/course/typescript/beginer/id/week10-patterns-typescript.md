@@ -1,6 +1,7 @@
 # Design Patterns TS — Pola Warung Rapi (TechPulse 2026)
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 10:** Design Patterns TS
+> **Prasyarat:** Minggu 9 — **Testing TypeScript**.
 
 ## Tujuan Pembelajaran
 

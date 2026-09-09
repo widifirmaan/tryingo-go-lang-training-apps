@@ -1,6 +1,7 @@
 # Services & DI — Shared Angular Shop Warehouse
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 3:** Services & DI
+> **Prerequisites:** Week 2 — **Directives & Pipes**.
 
 ## Learning Objectives
 

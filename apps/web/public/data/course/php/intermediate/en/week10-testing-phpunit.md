@@ -1,6 +1,7 @@
 # PHPUnit Testing — Real Taste-Test
 
 > **Kategori:** PHP | **Level:** Intermediate | **Minggu 10:** Testing dengan PHPUnit
+> **Prerequisites:** Week 9 — **Composer & Autoloading**.
 
 ## Learning Objectives
 

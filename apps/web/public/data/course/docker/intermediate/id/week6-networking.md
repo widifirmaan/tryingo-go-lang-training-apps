@@ -1,6 +1,7 @@
 # Networking — Telepon Antar Peti Docker
 
 > **Kategori:** Docker | **Level:** Menengah | **Minggu 6:** Networking
+> **Prasyarat:** Minggu 5 — **Volume & Data**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Testing with RSpec
 
 > **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 7:** Testing dengan RSpec
+> **Prerequisites:** Week 6 — **Associations**.
 
 ## Learning Objectives
 

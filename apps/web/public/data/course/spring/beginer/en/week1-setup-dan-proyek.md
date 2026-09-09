@@ -1,6 +1,7 @@
 # Spring Boot Setup — Enterprise Shop Factory
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 1:** Setup & Proyek
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

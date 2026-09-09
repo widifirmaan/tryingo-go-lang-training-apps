@@ -1,6 +1,7 @@
 # Functions Bertipe — Resep dengan Label Bahan
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 3:** Functions & Signatures
+> **Prasyarat:** Minggu 2 — **Tipe Lanjutan**.
 
 ## Tujuan Pembelajaran
 

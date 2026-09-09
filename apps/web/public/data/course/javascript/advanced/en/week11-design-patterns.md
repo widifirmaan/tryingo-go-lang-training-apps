@@ -1,6 +1,7 @@
 # Design Patterns — Neat Shop Blueprints
 
 > **Kategori:** JavaScript | **Level:** Advanced | **Minggu 11:** Design Patterns
+> **Prerequisites:** Week 10 — **Error Handling**.
 
 ## Learning Objectives
 

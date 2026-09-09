@@ -1,6 +1,7 @@
 # HTML APIs — Fitur Canggih Tanpa JavaScript Berat
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 11:** HTML APIs
+> **Prasyarat:** Minggu 10 — **Multimedia**.
 
 ## Tujuan Pembelajaran
 

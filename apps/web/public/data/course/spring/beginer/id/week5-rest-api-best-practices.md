@@ -1,6 +1,7 @@
 # REST API Best Practices — Warung Rapi & Aman
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 5:** REST API Best Practices
+> **Prasyarat:** Minggu 4 — **Spring Data JPA**.
 
 ## Tujuan Pembelajaran
 

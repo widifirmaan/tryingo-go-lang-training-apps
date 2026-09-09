@@ -1,6 +1,7 @@
 # Authentication — KTP Warung CI4 Beneran
 
 > **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 7:** Authentication & Authorization
+> **Prasyarat:** Minggu 6 — **Validasi**.
 
 ## Tujuan Pembelajaran
 

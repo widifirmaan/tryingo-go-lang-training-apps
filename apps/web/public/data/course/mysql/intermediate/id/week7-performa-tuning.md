@@ -1,6 +1,7 @@
 # Performa & Tuning — Gudang MySQL Tetap Cepat 1 Juta Baris
 
 > **Kategori:** MySQL | **Level:** Menengah | **Minggu 7:** Performa & Tuning
+> **Prasyarat:** Minggu 6 — **Transaksi & ACID**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Index & Optimization — Table of Contents Keeps 100k Rows Fast
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 4:** Index & Optimasi
+> **Prerequisites:** Week 3 — **JOIN & Relations**.
 
 ## Learning Objectives
 

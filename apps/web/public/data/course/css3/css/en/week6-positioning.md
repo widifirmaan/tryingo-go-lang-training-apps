@@ -1,6 +1,7 @@
 # Positioning — Shop Stickers
 
 > **Kategori:** CSS3 | **Level:** Beginner | **Minggu 6:** Positioning
+> **Prerequisites:** Week 5 — **CSS Grid**.
 
 ## Learning Objectives
 

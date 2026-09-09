@@ -1,6 +1,7 @@
 # Capstone: Real-time Analytics — Live Shop Dashboard
 
 > **Kategori:** Redis | **Level:** Intermediate | **Minggu 10:** Capstone: Real-time Analytics
+> **Prerequisites:** Week 9 — **Caching Patterns**.
 
 ## Learning Objectives
 

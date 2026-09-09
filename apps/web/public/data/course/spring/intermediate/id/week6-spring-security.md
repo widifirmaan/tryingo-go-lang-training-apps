@@ -1,6 +1,7 @@
 # Spring Security — Satpam Pabrik Warung
 
 > **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 6:** Spring Security
+> **Prasyarat:** Minggu 5 — **REST API Best Practices**.
 
 ## Tujuan Pembelajaran
 

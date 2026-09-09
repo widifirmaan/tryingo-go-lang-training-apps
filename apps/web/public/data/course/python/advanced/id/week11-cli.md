@@ -1,6 +1,7 @@
 # CLI & Automation
 
 > **Kategori:** Python | **Level:** Lanjutan | **Minggu 11:** CLI & Automation
+> **Prasyarat:** Minggu 10 — **Testing**.
 
 ## Tujuan Pembelajaran
 

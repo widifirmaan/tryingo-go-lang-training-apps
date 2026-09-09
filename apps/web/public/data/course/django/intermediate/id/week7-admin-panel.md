@@ -1,6 +1,7 @@
 # Admin Panel — Kasir Otomatis Django
 
 > **Kategori:** Django | **Level:** Menengah | **Minggu 7:** Admin Panel
+> **Prasyarat:** Minggu 6 — **Authentication**.
 
 ## Tujuan Pembelajaran
 

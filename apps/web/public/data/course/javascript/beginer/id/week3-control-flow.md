@@ -1,6 +1,7 @@
 # Control Flow — Jika Stok Habis, Apa yang Dilakukan?
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Minggu 3:** Control Flow
+> **Prasyarat:** Minggu 2 — **Tipe Data & Struktur**.
 
 ## Tujuan Pembelajaran
 

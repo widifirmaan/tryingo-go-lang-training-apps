@@ -1,6 +1,7 @@
 # Capstone: Full Stack App — C# Shop Grand Opening
 
 > **Kategori:** C# | **Level:** Advanced | **Minggu 12:** Capstone: Full Stack App
+> **Prerequisites:** Week 11 — **Web API**.
 
 ## Learning Objectives
 

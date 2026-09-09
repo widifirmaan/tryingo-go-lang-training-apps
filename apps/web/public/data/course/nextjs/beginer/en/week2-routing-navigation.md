@@ -1,6 +1,7 @@
 # Routing & Navigation — Automatic Shop Addresses
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 2:** Routing & Navigation
+> **Prerequisites:** Week 1 — **Setup & Core Concepts**.
 
 ## Learning Objectives
 

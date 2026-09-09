@@ -1,6 +1,7 @@
 # Database & ORM — Warehouse with Translator
 
 > **Kategori:** Next.js | **Level:** Advanced | **Minggu 9:** Database & ORM
+> **Prerequisites:** Week 8 — **Middleware & Basic Auth**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Tabel — Daftar Harga Warung yang Rapi
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 6:** Tabel
+> **Prasyarat:** Minggu 5 — **List & Daftar**.
 
 ## Tujuan Pembelajaran
 

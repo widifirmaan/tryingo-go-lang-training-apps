@@ -1,6 +1,7 @@
 # Testing — Cicip Warung C# Beneran
 
 > **Kategori:** C# | **Level:** Lanjutan | **Minggu 10:** Testing
+> **Prasyarat:** Minggu 9 — **Design Patterns**.
 
 ## Tujuan Pembelajaran
 

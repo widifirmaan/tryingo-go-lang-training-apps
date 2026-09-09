@@ -1,6 +1,7 @@
 # Capstone: Complete Node Store
 
 > **Kategori:** Node.js | **Level:** Advanced | **Minggu 12:** Capstone
+> **Prerequisites:** Week 11 — **Deployment**.
 
 ## Learning Objectives
 

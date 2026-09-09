@@ -1,6 +1,7 @@
 # HTML APIs — Advanced Features Without Heavy JavaScript
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 11:** HTML APIs
+> **Prerequisites:** Week 10 — **Multimedia**.
 
 ## Learning Objectives
 

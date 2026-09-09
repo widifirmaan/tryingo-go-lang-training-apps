@@ -1,6 +1,7 @@
 # Capstone: Warung PHP Lengkap — Toko Online Jadi
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 12:** Capstone: Aplikasi Blog
+> **Prasyarat:** Minggu 11 — **Design Patterns**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Capstone: SvelteKit App
 
 > **Kategori:** Svelte | **Level:** Intermediate | **Minggu 10:** Capstone: SvelteKit App
+> **Prerequisites:** Week 9 — **Transitions & Animations**.
 
 ## Learning Objectives
 
