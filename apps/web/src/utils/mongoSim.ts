@@ -43,6 +43,28 @@ const SEED_DATA: { name: string; docs: Doc[] }[] = [
       { _id: 2, customer: 'Budi', items: [{ product: 'Mouse', qty: 2 }], total: 500000, status: 'pending', date: '2024-01-16' },
     ],
   },
+  // Warung collections used across Tryngo MongoDB course materials (db.produk, ...)
+  {
+    name: 'produk',
+    docs: [
+      { _id: 11, nama: 'Beras 5kg', harga: 62000, stok: 40, kategori: 'Sembako', tag: ['laris'] },
+      { _id: 12, nama: 'Minyak 2L', harga: 48000, stok: 25, kategori: 'Sembako', tag: ['laris'] },
+      { _id: 13, nama: 'Bayam', harga: 5000, stok: 30, kategori: 'Sayur', tag: [] },
+    ],
+  },
+  {
+    name: 'pelanggan',
+    docs: [
+      { _id: 21, nama: 'Budi', kota: 'Bandung' },
+      { _id: 22, nama: 'Siti', kota: 'Jakarta' },
+    ],
+  },
+  {
+    name: 'pesanan',
+    docs: [
+      { _id: 31, pelanggan: 'Budi', produk: 'Beras 5kg', qty: 2, status: 'lunas' },
+    ],
+  },
 ];
 
 // --- helpers ----------------------------------------------------------------
