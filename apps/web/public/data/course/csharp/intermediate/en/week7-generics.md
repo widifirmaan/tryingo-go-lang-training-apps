@@ -1,6 +1,7 @@
 # Generics — Multipurpose C# Racks
 
 > **Kategori:** C# | **Level:** Intermediate | **Minggu 7:** Generics
+> **Prerequisites:** Week 6 — **Async/Await**.
 
 ## Learning Objectives
 

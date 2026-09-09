@@ -1,6 +1,7 @@
 # Relationships — Ropes Between Laravel Racks
 
 > **Kategori:** Laravel | **Level:** Intermediate | **Minggu 6:** Relationships
+> **Prerequisites:** Week 5 — **Authentication**.
 
 ## Learning Objectives
 

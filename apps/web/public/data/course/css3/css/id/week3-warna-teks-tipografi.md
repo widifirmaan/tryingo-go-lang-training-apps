@@ -1,6 +1,7 @@
 # Warna & Tipografi — Cat dan Huruf Warung
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 3:** Warna & Tipografi
+> **Prasyarat:** Minggu 2 — **Box Model**.
 
 ## Tujuan Pembelajaran
 

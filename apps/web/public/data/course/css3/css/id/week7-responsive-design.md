@@ -1,6 +1,7 @@
 # Responsive Design — Warung Muat HP & Laptop
 
 > **Kategori:** CSS3 | **Level:** Pemula | **Minggu 7:** Responsive Design
+> **Prasyarat:** Minggu 6 — **Positioning**.
 
 ## Tujuan Pembelajaran
 

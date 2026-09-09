@@ -1,6 +1,7 @@
 # Database TypeORM — Rak Permanen NestJS
 
 > **Kategori:** NestJS | **Level:** Pemula | **Minggu 4:** Database & TypeORM
+> **Prasyarat:** Minggu 3 — **Modules & DI**.
 
 ## Tujuan Pembelajaran
 

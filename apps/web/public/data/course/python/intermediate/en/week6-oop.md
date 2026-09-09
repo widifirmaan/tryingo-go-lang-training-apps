@@ -1,6 +1,7 @@
 # OOP — Shop Blueprint
 
 > **Kategori:** Python | **Level:** Intermediate | **Minggu 6:** OOP
+> **Prerequisites:** Week 5 — **Collections**.
 
 ## Learning Objectives
 

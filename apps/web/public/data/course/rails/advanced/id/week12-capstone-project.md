@@ -1,6 +1,7 @@
 # Capstone: E-Commerce Platform
 
 > **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce Platform
+> **Prasyarat:** Minggu 11 — **Deployment & DevOps**.
 
 ## Tujuan Pembelajaran
 

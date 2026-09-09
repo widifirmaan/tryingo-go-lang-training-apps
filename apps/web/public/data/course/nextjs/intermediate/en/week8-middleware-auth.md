@@ -1,6 +1,7 @@
 # Middleware & Basic Auth — Door Guard
 
 > **Kategori:** Next.js | **Level:** Intermediate | **Minggu 8:** Middleware & Auth Dasar
+> **Prerequisites:** Week 7 — **Loading & Error**.
 
 ## Learning Objectives
 

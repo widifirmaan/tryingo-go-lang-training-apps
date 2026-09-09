@@ -1,6 +1,7 @@
 # Authentication — GraphQL Restaurant ID
 
 > **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 6:** Authentication & Authorization
+> **Prerequisites:** Week 5 — **Apollo Server**.
 
 ## Learning Objectives
 

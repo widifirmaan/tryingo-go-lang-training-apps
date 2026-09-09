@@ -1,6 +1,7 @@
 # REST API — Complete Online Node Shop
 
 > **Kategori:** Node.js | **Level:** Intermediate | **Minggu 6:** REST API
+> **Prerequisites:** Week 5 — **Express Server**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Caching — Fast Spring Shop Drawer
 
 > **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 11:** Caching
+> **Prerequisites:** Week 10 — **Messaging**.
 
 ## Learning Objectives
 

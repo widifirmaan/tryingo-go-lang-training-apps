@@ -1,6 +1,7 @@
 # Container Management — Live, Die, and Data Stays
 
 > **Kategori:** Docker | **Level:** Beginner | **Minggu 3:** Container Management
+> **Prerequisites:** Week 2 — **Image & Registry**.
 
 ## Learning Objectives
 

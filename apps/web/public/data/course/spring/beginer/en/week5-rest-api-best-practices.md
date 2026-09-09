@@ -1,6 +1,7 @@
 # REST API Best Practices — Neat & Safe Shop
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 5:** REST API Best Practices
+> **Prerequisites:** Week 4 — **Spring Data JPA**.
 
 ## Learning Objectives
 

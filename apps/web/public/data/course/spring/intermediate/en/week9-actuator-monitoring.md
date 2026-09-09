@@ -1,6 +1,7 @@
 # Actuator & Monitoring — Spring Shop Health Dashboard
 
 > **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 9:** Actuator & Monitoring
+> **Prerequisites:** Week 8 — **Validation**.
 
 ## Learning Objectives
 

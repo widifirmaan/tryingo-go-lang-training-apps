@@ -1,6 +1,7 @@
 # Performa & Tuning — Dokter Kartu MongoDB
 
 > **Kategori:** MongoDB | **Level:** Menengah | **Minggu 8:** Performa & Tuning
+> **Prasyarat:** Minggu 7 — **Replica Set & Sharding**.
 
 ## Tujuan Pembelajaran
 

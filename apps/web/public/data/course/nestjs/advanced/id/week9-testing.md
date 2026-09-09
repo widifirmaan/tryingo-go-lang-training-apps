@@ -1,6 +1,7 @@
 # Testing NestJS — Cicip Warung Beneran
 
 > **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 9:** Testing NestJS
+> **Prasyarat:** Minggu 8 — **Error & Logging**.
 
 ## Tujuan Pembelajaran
 

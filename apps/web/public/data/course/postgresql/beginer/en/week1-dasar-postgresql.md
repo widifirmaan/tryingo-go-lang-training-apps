@@ -1,6 +1,7 @@
 # PostgreSQL Basics — Giant Excel Warehouse
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 1:** Dasar PostgreSQL & Tabel
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

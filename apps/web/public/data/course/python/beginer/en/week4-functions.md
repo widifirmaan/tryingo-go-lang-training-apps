@@ -1,6 +1,7 @@
 # Functions — Reusable Shop Recipes
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 4:** Functions & Modules
+> **Prerequisites:** Week 3 — **Control Flow**.
 
 ## Learning Objectives
 

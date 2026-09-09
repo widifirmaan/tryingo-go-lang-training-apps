@@ -1,6 +1,7 @@
 # MVC — Rails Kitchen, Waiter, Showcase
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 2:** MVC Architecture
+> **Prerequisites:** Week 1 — **Rails Setup**.
 
 ## Learning Objectives
 

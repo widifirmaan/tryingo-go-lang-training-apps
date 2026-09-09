@@ -1,6 +1,7 @@
 # Tables — Neat Shop Price List
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 6:** Tabel
+> **Prerequisites:** Week 5 — **Lists**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Validasi — Satpam Laravel Lanjutan
 
 > **Kategori:** Laravel | **Level:** Menengah | **Minggu 7:** Validasi
+> **Prasyarat:** Minggu 6 — **Relationships**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Setup CI4 — Warung Ringan dengan Composer
 
 > **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 1:** Setup CI4
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

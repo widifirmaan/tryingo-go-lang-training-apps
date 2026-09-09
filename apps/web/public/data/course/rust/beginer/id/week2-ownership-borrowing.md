@@ -1,6 +1,7 @@
 # Ownership & Borrowing — Pinjam Buku Harus Balik
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 2:** Ownership & Borrowing
+> **Prasyarat:** Minggu 1 — **Setup & Sintaks Rust**.
 
 ## Tujuan Pembelajaran
 

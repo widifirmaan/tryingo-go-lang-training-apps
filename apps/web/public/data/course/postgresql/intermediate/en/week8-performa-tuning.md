@@ -1,6 +1,7 @@
 # Performance Tuning — Warehouse Fast at 1M Rows
 
 > **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 8:** Performa Tuning
+> **Prerequisites:** Week 7 — **JSONB Semi-Structured**.
 
 ## Learning Objectives
 

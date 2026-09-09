@@ -1,6 +1,7 @@
 # Replica Set & Sharding — Cabang Gudang MongoDB
 
 > **Kategori:** MongoDB | **Level:** Menengah | **Minggu 7:** Replica Set & Sharding
+> **Prasyarat:** Minggu 6 — **Aggregation Lanjutan**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Forms & Input — Shop Orders
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 7:** Form & Input
+> **Prerequisites:** Week 6 — **Tables**.
 
 ## Learning Objectives
 

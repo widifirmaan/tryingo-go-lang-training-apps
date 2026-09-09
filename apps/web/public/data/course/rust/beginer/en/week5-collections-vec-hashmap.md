@@ -1,6 +1,7 @@
 # Collections — Dynamic Racks and Rust Address Books
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 5:** Collections
+> **Prerequisites:** Week 4 — **Enum & Pattern Matching**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Format Teks & Tipografi — Spanduk Warung yang Menarik
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 2:** Format Teks & Tipografi
+> **Prasyarat:** Minggu 1 — **Pengantar HTML**.
 
 ## Tujuan Pembelajaran
 

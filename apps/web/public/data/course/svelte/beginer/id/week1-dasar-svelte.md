@@ -1,6 +1,7 @@
 # Dasar Svelte — Kompilasi Ajaib Tanpa Virtual DOM
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 1:** Dasar Svelte
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

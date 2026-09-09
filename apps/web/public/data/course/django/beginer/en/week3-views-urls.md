@@ -1,6 +1,7 @@
 # Views & URLs — Django Shop Waiters and Doors
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 3:** Views & URLs
+> **Prerequisites:** Week 2 — **Models & ORM**.
 
 ## Learning Objectives
 

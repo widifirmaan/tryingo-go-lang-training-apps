@@ -1,6 +1,7 @@
 # Capstone: Gudang Warung Lengkap
 
 > **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 10:** Capstone Project
+> **Prasyarat:** Minggu 9 — **Replikasi & HA**.
 
 ## Tujuan Pembelajaran
 

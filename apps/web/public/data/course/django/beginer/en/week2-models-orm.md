@@ -1,6 +1,7 @@
 # Models & ORM — Automatic Django Racks
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 2:** Models & ORM
+> **Prerequisites:** Week 1 — **Django Setup**.
 
 ## Learning Objectives
 

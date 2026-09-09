@@ -1,6 +1,7 @@
 # JOIN & Relations — Combine 2 MySQL Racks into 1 Report
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 3:** JOIN & Relasi
+> **Prerequisites:** Week 2 — **CRUD & Query**.
 
 ## Learning Objectives
 

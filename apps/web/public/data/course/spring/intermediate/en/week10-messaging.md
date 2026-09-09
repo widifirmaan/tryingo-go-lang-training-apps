@@ -1,6 +1,7 @@
 # Messaging — Messages Between Spring Kitchens
 
 > **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 10:** Messaging
+> **Prerequisites:** Week 9 — **Actuator & Monitoring**.
 
 ## Learning Objectives
 

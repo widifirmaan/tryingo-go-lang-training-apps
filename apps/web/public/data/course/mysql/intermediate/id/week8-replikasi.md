@@ -1,6 +1,7 @@
 # Replikasi — Cabang Gudang MySQL
 
 > **Kategori:** MySQL | **Level:** Menengah | **Minggu 8:** Replikasi & High Availability
+> **Prasyarat:** Minggu 7 — **Performa & Tuning**.
 
 ## Tujuan Pembelajaran
 

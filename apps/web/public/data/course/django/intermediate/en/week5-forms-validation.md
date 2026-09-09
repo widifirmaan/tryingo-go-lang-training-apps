@@ -1,6 +1,7 @@
 # Forms & Validation — Django Shop Forms
 
 > **Kategori:** Django | **Level:** Intermediate | **Minggu 5:** Forms & Validasi
+> **Prerequisites:** Week 4 — **Templates**.
 
 ## Learning Objectives
 

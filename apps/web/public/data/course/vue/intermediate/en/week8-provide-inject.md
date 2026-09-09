@@ -1,6 +1,7 @@
 # Provide/Inject & Teleport — Vue Shop Boards & Portals
 
 > **Kategori:** Vue | **Level:** Intermediate | **Minggu 8:** Provide/Inject & Teleport
+> **Prerequisites:** Week 7 — **Lifecycle & Watchers**.
 
 ## Learning Objectives
 

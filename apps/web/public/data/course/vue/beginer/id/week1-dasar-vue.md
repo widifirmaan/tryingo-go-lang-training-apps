@@ -1,6 +1,7 @@
 # Dasar Vue & Template — Toko dengan Stiker {{ }}
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 1:** Dasar Vue & Template Syntax
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

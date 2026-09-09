@@ -1,6 +1,7 @@
 # Hash — Kartu Produk di Laci Redis
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 2:** Hash
+> **Prasyarat:** Minggu 1 — **Redis String**.
 
 ## Tujuan Pembelajaran
 

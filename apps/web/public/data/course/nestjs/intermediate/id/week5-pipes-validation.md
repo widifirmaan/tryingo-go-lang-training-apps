@@ -1,6 +1,7 @@
 # Pipes & Validation — Satpam Pintu NestJS
 
 > **Kategori:** NestJS | **Level:** Menengah | **Minggu 5:** Pipes & Validation
+> **Prasyarat:** Minggu 4 — **Database TypeORM**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # JSX & Komponen Dasar — Bata LEGO Website
 
 > **Kategori:** React | **Level:** Pemula | **Minggu 1:** JSX & Komponen Dasar
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

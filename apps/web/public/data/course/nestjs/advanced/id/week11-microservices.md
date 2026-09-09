@@ -1,6 +1,7 @@
 # Microservices — Warung Bercabang NestJS
 
 > **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 11:** Microservices
+> **Prasyarat:** Minggu 10 — **WebSocket**.
 
 ## Tujuan Pembelajaran
 

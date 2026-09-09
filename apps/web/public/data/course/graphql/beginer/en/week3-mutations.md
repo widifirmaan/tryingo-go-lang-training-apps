@@ -1,6 +1,7 @@
 # Mutations — Write & Edit GraphQL Shop
 
 > **Kategori:** GraphQL | **Level:** Beginner | **Minggu 3:** Mutations
+> **Prerequisites:** Week 2 — **Queries**.
 
 ## Learning Objectives
 

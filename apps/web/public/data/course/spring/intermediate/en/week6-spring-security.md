@@ -1,6 +1,7 @@
 # Spring Security — Shop Factory Guards
 
 > **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 6:** Spring Security
+> **Prerequisites:** Week 5 — **REST API Best Practices**.
 
 ## Learning Objectives
 

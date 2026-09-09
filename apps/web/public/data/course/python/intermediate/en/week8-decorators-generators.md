@@ -1,6 +1,7 @@
 # Decorators & Generators — Stamps and Queues
 
 > **Kategori:** Python | **Level:** Intermediate | **Minggu 8:** Decorators & Generators
+> **Prerequisites:** Week 7 — **File I/O**.
 
 ## Learning Objectives
 

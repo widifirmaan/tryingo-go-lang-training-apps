@@ -1,6 +1,7 @@
 # TypeScript Config — Shop Rulebook (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 8:** TypeScript Config
+> **Prerequisites:** Week 7 — **Utility Types**.
 
 ## Learning Objectives
 

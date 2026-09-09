@@ -1,6 +1,7 @@
 # HTTP Server — Buka Warung Online Go
 
 > **Kategori:** Go | **Level:** Lanjutan | **Minggu 11:** HTTP Server & Middleware
+> **Prasyarat:** Minggu 10 — **Stdlib: I/O & Encoding**.
 
 ## Tujuan Pembelajaran
 

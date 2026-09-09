@@ -1,6 +1,7 @@
 # Dockerfile — Resep Peti Sendiri
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 4:** Dockerfile
+> **Prasyarat:** Minggu 3 — **Container Management**.
 
 ## Tujuan Pembelajaran
 

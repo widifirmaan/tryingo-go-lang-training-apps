@@ -1,6 +1,7 @@
 # Capstone: Toko Node Lengkap
 
 > **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 12:** Capstone
+> **Prasyarat:** Minggu 11 — **Deployment**.
 
 ## Tujuan Pembelajaran
 

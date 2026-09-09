@@ -1,6 +1,7 @@
 # Async/Await — Delivery Orders Without C# Freeze
 
 > **Kategori:** C# | **Level:** Intermediate | **Minggu 6:** Async/Await
+> **Prerequisites:** Week 5 — **LINQ**.
 
 ## Learning Objectives
 

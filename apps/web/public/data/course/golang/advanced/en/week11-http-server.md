@@ -1,6 +1,7 @@
 # HTTP Server — Open Go Shop Online
 
 > **Kategori:** Go | **Level:** Advanced | **Minggu 11:** HTTP Server & Middleware
+> **Prerequisites:** Week 10 — **Stdlib: I/O & Encoding**.
 
 ## Learning Objectives
 

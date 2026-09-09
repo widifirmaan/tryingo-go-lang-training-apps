@@ -1,6 +1,7 @@
 # Proyek Akhir — Warung CSS Lengkap (Capstone)
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 12:** Proyek Akhir
+> **Prasyarat:** Minggu 11 — **Modern CSS**.
 
 ## Tujuan Pembelajaran
 

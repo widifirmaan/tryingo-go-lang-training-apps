@@ -1,6 +1,7 @@
 # Hash — Product Cards in Redis Drawer
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 2:** Hash
+> **Prerequisites:** Week 1 — **Redis Strings**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Control Flow — Jika Nilai 85 Dapat B apa?
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 3:** Control Flow & Loops
+> **Prasyarat:** Minggu 2 — **Data Types & Operasi**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Final Project — Complete CSS Shop (Capstone)
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 12:** Proyek Akhir
+> **Prerequisites:** Week 11 — **Modern CSS**.
 
 ## Learning Objectives
 

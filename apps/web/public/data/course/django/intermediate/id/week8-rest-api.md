@@ -1,6 +1,7 @@
 # REST API — Warung Django Online
 
 > **Kategori:** Django | **Level:** Menengah | **Minggu 8:** REST API
+> **Prasyarat:** Minggu 7 — **Admin Panel**.
 
 ## Tujuan Pembelajaran
 

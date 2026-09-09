@@ -1,6 +1,7 @@
 # Testing — Real Rust Shop Taste-Test
 
 > **Kategori:** Rust | **Level:** Intermediate | **Minggu 10:** Testing
+> **Prerequisites:** Week 9 — **Lifetimes**.
 
 ## Learning Objectives
 

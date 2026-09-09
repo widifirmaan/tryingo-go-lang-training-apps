@@ -1,6 +1,7 @@
 # Reactivity Lanjutan — Kalkulator Otomatis `$:` dan Gudang Store
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 2:** Reactivity & Statements
+> **Prasyarat:** Minggu 1 — **Dasar Svelte**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Capstone: E-Commerce GraphQL — Restoran Grand Opening
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce GraphQL
+> **Prasyarat:** Minggu 9 — **Testing & Error**.
 
 ## Tujuan Pembelajaran
 

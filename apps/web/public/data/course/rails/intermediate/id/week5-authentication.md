@@ -1,6 +1,7 @@
 # Authentication — KTP Rails
 
 > **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 5:** Authentication
+> **Prasyarat:** Minggu 4 — **Views ERB**.
 
 ## Tujuan Pembelajaran
 

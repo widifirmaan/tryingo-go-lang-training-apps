@@ -1,6 +1,7 @@
 # ES6+ Features — Modern Shortcut Tools
 
 > **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 8:** ES6+ Features
+> **Prerequisites:** Week 7 — **Async JavaScript**.
 
 ## Learning Objectives
 

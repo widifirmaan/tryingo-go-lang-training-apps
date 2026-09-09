@@ -1,6 +1,7 @@
 # Dockerfile — Own Box Recipe
 
 > **Kategori:** Docker | **Level:** Beginner | **Minggu 4:** Dockerfile
+> **Prerequisites:** Week 3 — **Container Management**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # CRUD & Query — Isi, Lihat, Ubah, Hapus
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 2:** CRUD & Query
+> **Prasyarat:** Minggu 1 — **Dasar PostgreSQL**.
 
 ## Tujuan Pembelajaran
 

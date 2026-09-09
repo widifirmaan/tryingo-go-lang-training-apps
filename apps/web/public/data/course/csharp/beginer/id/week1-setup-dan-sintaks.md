@@ -1,6 +1,7 @@
 # Setup & Sintaks C# — Warung Microsoft
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 1:** Setup & Sintaks
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

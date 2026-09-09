@@ -1,6 +1,7 @@
 # Clustering — Branched Redis Shop
 
 > **Kategori:** Redis | **Level:** Intermediate | **Minggu 8:** Redis Cluster
+> **Prerequisites:** Week 7 — **Lua Scripting**.
 
 ## Learning Objectives
 

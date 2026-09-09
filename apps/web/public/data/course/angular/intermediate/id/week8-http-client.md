@@ -1,6 +1,7 @@
 # HttpClient — Ambil Stok dari Gudang (angular.dev)
 
 > **Kategori:** Angular | **Level:** Menengah | **Minggu 8:** HttpClient
+> **Prasyarat:** Minggu 7 — **Reactive Forms**.
 
 ## Tujuan Pembelajaran
 

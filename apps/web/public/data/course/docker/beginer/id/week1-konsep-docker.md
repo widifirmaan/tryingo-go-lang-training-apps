@@ -1,6 +1,7 @@
 # Konsep Docker — Peti Kemas untuk Aplikasi
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 1:** Konsep Docker
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

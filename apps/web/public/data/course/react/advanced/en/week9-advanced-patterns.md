@@ -1,6 +1,7 @@
 # Advanced Patterns — Neat Shop Patterns
 
 > **Kategori:** React | **Level:** Advanced | **Minggu 9:** Advanced Patterns
+> **Prerequisites:** Week 8 — **Custom Hooks & Patterns**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Capstone: E-Commerce Database — Gudang Warung Grand Opening
 
 > **Kategori:** MySQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce Database
+> **Prasyarat:** Minggu 9 — **Keamanan**.
 
 ## Tujuan Pembelajaran
 

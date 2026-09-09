@@ -1,6 +1,7 @@
 # Testing TypeScript — Test TS Shop (vitest.dev)
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 9:** Testing TypeScript
+> **Prerequisites:** Week 8 — **TypeScript Config**.
 
 ## Learning Objectives
 

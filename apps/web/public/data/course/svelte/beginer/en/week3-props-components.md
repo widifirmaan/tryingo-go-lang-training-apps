@@ -1,6 +1,7 @@
 # Props & Components — Svelte LEGO Bricks
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 3:** Props & Components
+> **Prerequisites:** Week 2 — **Advanced Reactivity**.
 
 ## Learning Objectives
 

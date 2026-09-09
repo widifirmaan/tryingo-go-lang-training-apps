@@ -1,6 +1,7 @@
 # Actions & Forms — Svelte Stamps & Forms (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Intermediate | **Minggu 7:** Actions & Forms
+> **Prerequisites:** Week 6 — **SvelteKit Routing**.
 
 ## Learning Objectives
 

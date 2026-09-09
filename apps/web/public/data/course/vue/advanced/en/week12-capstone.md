@@ -1,6 +1,7 @@
 # Capstone: SaaS Dashboard — Vue Shop Grand Opening
 
 > **Kategori:** Vue | **Level:** Advanced | **Minggu 12:** Capstone: SaaS Dashboard
+> **Prerequisites:** Week 11 — **Animations & Transitions**.
 
 ## Learning Objectives
 

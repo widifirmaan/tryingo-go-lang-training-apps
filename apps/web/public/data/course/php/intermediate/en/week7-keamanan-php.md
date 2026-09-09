@@ -1,6 +1,7 @@
 # PHP Security — Anti-Hijack Shop Guard
 
 > **Kategori:** PHP | **Level:** Intermediate | **Minggu 7:** Keamanan PHP
+> **Prerequisites:** Week 6 — **Form Handling**.
 
 ## Learning Objectives
 

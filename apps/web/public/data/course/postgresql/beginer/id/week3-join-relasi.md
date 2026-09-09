@@ -1,6 +1,7 @@
 # JOIN & Relasi — Gabung 2 Rak Jadi 1 Laporan
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 3:** JOIN & Relasi
+> **Prasyarat:** Minggu 2 — **CRUD & Query**.
 
 ## Tujuan Pembelajaran
 

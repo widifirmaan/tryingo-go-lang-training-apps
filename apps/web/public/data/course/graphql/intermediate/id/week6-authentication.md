@@ -1,6 +1,7 @@
 # Authentication — KTP Restoran GraphQL
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 6:** Authentication & Authorization
+> **Prasyarat:** Minggu 5 — **Apollo Server**.
 
 ## Tujuan Pembelajaran
 

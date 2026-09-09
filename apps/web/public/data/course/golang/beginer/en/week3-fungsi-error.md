@@ -1,6 +1,7 @@
 # Functions & Error — Kitchen Recipe with Failure Alarm
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 3:** Fungsi & Error Handling
+> **Prerequisites:** Week 2 — **Variables, Types & Control**.
 
 ## Learning Objectives
 

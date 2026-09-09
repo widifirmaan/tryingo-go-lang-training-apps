@@ -1,6 +1,7 @@
 # Pub/Sub — Redis Shop Loudspeaker
 
 > **Kategori:** Redis | **Level:** Intermediate | **Minggu 6:** Pub/Sub & Streams
+> **Prerequisites:** Week 5 — **Sorted Set**.
 
 ## Learning Objectives
 

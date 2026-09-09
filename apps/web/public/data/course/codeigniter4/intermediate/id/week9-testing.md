@@ -1,6 +1,7 @@
 # Testing — Cicip Warung CI4 Beneran
 
 > **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 9:** Testing dengan PHPUnit
+> **Prasyarat:** Minggu 8 — **REST API**.
 
 ## Tujuan Pembelajaran
 

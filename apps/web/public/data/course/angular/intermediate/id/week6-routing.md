@@ -1,6 +1,7 @@
 # Routing — Peta Warung Angular
 
 > **Kategori:** Angular | **Level:** Menengah | **Minggu 6:** Routing
+> **Prasyarat:** Minggu 5 — **Template Forms**.
 
 ## Tujuan Pembelajaran
 

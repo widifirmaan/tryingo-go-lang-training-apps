@@ -1,6 +1,7 @@
 # Lifecycle & Context — Svelte Shop Lifecycle (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Intermediate | **Minggu 8:** Lifecycle & Context
+> **Prerequisites:** Week 7 — **Actions & Forms**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Performance & Tuning — MongoDB Card Doctor
 
 > **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 8:** Performa & Tuning
+> **Prerequisites:** Week 7 — **Replica Set & Sharding**.
 
 ## Learning Objectives
 

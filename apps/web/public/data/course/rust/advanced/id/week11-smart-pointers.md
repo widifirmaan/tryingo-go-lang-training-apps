@@ -1,6 +1,7 @@
 # Smart Pointers — Kotak Pintar Rust
 
 > **Kategori:** Rust | **Level:** Lanjutan | **Minggu 11:** Smart Pointers
+> **Prasyarat:** Minggu 10 — **Testing**.
 
 ## Tujuan Pembelajaran
 

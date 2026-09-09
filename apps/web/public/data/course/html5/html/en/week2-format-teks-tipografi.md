@@ -1,6 +1,7 @@
 # Text Formatting & Typography — Eye-Catching Shop Banner
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 2:** Format Teks & Tipografi
+> **Prerequisites:** Week 1 — **Introduction to HTML**.
 
 ## Learning Objectives
 

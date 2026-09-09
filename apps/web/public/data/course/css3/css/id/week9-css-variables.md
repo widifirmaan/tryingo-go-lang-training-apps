@@ -1,6 +1,7 @@
 # CSS Variables — Palet Warung Sekali Ubah (MDN)
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 9:** CSS Variables
+> **Prasyarat:** Minggu 8 — **Animasi & Transisi**.
 
 ## Tujuan Pembelajaran
 

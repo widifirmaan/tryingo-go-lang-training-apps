@@ -1,6 +1,7 @@
 # Modules & npm — Borrow Node Kitchen Tools
 
 > **Kategori:** Node.js | **Level:** Beginner | **Minggu 2:** Modules & npm
+> **Prerequisites:** Week 1 — **Node.js Basics**.
 
 ## Learning Objectives
 

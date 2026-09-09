@@ -1,6 +1,7 @@
 # Accessibility — Shop for Everyone
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 12:** Aksesibilitas
+> **Prerequisites:** Week 11 — **HTML APIs**.
 
 ## Learning Objectives
 

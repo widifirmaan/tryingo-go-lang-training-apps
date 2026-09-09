@@ -1,6 +1,7 @@
 # Window Functions — Rankings Without GROUP
 
 > **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 6:** Window Functions
+> **Prerequisites:** Week 5 — **Functions & Triggers**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Semantic HTML — Warung dengan Papan Nama Jelas
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 9:** Semantic HTML
+> **Prasyarat:** Minggu 8 — **Validasi Form**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Generics — Racks for Any Type
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 5:** Generics
+> **Prerequisites:** Week 4 — **Interfaces & Type Aliases**.
 
 ## Learning Objectives
 

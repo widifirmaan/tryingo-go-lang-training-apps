@@ -1,6 +1,7 @@
 # Update & Delete — Ubah dan Buang Kartu
 
 > **Kategori:** MongoDB | **Level:** Pemula | **Minggu 2:** Update & Delete
+> **Prasyarat:** Minggu 1 — **Dokumen & CRUD**.
 
 ## Tujuan Pembelajaran
 

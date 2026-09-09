@@ -1,6 +1,7 @@
 # Node.js Basics — Shop Kitchen in Terminal
 
 > **Kategori:** Node.js | **Level:** Beginner | **Minggu 1:** Dasar Node.js
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

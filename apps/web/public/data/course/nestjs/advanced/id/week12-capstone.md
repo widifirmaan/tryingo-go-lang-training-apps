@@ -1,6 +1,7 @@
 # Capstone: Enterprise API — Warung NestJS Grand Opening
 
 > **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 12:** Capstone: Enterprise API
+> **Prasyarat:** Minggu 11 — **Microservices**.
 
 ## Tujuan Pembelajaran
 

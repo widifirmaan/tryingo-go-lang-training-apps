@@ -1,6 +1,7 @@
 # Pinia — Shared Vue Shop Warehouse
 
 > **Kategori:** Vue | **Level:** Intermediate | **Minggu 6:** Pinia State Management
+> **Prerequisites:** Week 5 — **Vue Router**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Aggregation Dasar — Pabrik Laporan MongoDB
 
 > **Kategori:** MongoDB | **Level:** Pemula | **Minggu 4:** Aggregation Basics
+> **Prasyarat:** Minggu 3 — **Index**.
 
 ## Tujuan Pembelajaran
 

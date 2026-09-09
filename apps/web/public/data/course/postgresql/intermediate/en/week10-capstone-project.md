@@ -1,6 +1,7 @@
 # Capstone: Complete Shop Warehouse
 
 > **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 10:** Capstone Project
+> **Prerequisites:** Week 9 — **Replication & HA**.
 
 ## Learning Objectives
 

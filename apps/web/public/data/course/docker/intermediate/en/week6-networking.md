@@ -1,6 +1,7 @@
 # Networking — Box-to-Box Docker Calls
 
 > **Kategori:** Docker | **Level:** Intermediate | **Minggu 6:** Networking
+> **Prerequisites:** Week 5 — **Volume & Data**.
 
 ## Learning Objectives
 

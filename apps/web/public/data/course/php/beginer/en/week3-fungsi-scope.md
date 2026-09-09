@@ -1,6 +1,7 @@
 # Functions & Scope — Reusable PHP Shop Recipes
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 3:** Fungsi & Scope
+> **Prerequisites:** Week 2 — **Operators & Control**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Queues & Jobs — Laravel Shop Queue
 
 > **Kategori:** Laravel | **Level:** Advanced | **Minggu 10:** Queues & Jobs
+> **Prerequisites:** Week 9 — **Testing**.
 
 ## Learning Objectives
 

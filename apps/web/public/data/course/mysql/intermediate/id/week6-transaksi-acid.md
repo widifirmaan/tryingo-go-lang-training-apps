@@ -1,6 +1,7 @@
 # Transaksi & ACID — Bayar Aman Anti-Setengah
 
 > **Kategori:** MySQL | **Level:** Menengah | **Minggu 6:** Transaksi & ACID
+> **Prasyarat:** Minggu 5 — **Stored Procedure**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Testing — Real CI4 Shop Taste-Test
 
 > **Kategori:** CodeIgniter | **Level:** Intermediate | **Minggu 9:** Testing dengan PHPUnit
+> **Prerequisites:** Week 8 — **REST API**.
 
 ## Learning Objectives
 

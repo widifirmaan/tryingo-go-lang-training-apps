@@ -1,6 +1,7 @@
 # Advanced Types — Template Literal Warung (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 11:** Advanced Type Manipulation
+> **Prasyarat:** Minggu 10 — **Design Patterns TS**.
 
 ## Tujuan Pembelajaran
 

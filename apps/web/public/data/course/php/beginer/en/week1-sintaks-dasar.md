@@ -1,6 +1,7 @@
 # Basic PHP Syntax — Server-Side Shop Ledger Book
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 1:** Sintaks Dasar
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

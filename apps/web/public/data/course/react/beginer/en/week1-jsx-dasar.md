@@ -1,6 +1,7 @@
 # JSX & Basic Components — LEGO Bricks
 
 > **Kategori:** React | **Level:** Beginner | **Minggu 1:** JSX & Komponen Dasar
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

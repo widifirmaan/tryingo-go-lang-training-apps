@@ -1,6 +1,7 @@
 # Testing & Error — Cicip Restoran GraphQL
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 9:** Testing & Error Handling
+> **Prasyarat:** Minggu 8 — **Subscriptions**.
 
 ## Tujuan Pembelajaran
 

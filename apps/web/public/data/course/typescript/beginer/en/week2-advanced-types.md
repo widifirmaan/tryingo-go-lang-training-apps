@@ -1,6 +1,7 @@
 # Advanced Types — Color Labels for Status
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 2:** Advanced Types
+> **Prerequisites:** Week 1 — **Introduction to TypeScript**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # RxJS — Shop Data Streams (angular.io)
 
 > **Kategori:** Angular | **Level:** Intermediate | **Minggu 9:** RxJS
+> **Prerequisites:** Week 8 — **HttpClient**.
 
 ## Learning Objectives
 

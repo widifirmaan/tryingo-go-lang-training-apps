@@ -1,6 +1,7 @@
 # Testing — Cicip Otomatis Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 7:** Testing
+> **Prasyarat:** Minggu 6 — **Spring Security**.
 
 ## Tujuan Pembelajaran
 

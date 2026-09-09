@@ -1,6 +1,7 @@
 # Design Patterns — Neat PHP Shop Patterns
 
 > **Kategori:** PHP | **Level:** Intermediate | **Minggu 11:** Design Patterns
+> **Prerequisites:** Week 10 — **PHPUnit Testing**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # DataLoader & N+1 — GraphQL Cart-at-Once
 
 > **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 7:** DataLoader & N+1 Problem
+> **Prerequisites:** Week 6 — **Authentication**.
 
 ## Learning Objectives
 

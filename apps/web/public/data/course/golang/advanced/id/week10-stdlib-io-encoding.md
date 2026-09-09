@@ -1,6 +1,7 @@
 # Stdlib: I/O & Encoding — Baca Tulis Gudang
 
 > **Kategori:** Go | **Level:** Lanjutan | **Minggu 10:** Stdlib: I/O, Time & Encoding
+> **Prasyarat:** Minggu 9 — **Context & Sync**.
 
 ## Tujuan Pembelajaran
 

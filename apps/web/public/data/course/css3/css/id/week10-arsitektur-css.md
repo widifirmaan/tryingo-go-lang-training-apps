@@ -1,6 +1,7 @@
 # Arsitektur CSS — Lemari Rapi BEM
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 10:** Arsitektur CSS
+> **Prasyarat:** Minggu 9 — **CSS Variables**.
 
 ## Tujuan Pembelajaran
 

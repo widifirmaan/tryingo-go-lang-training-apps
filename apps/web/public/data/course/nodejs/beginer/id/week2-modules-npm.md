@@ -1,6 +1,7 @@
 # Modules & npm — Pinjam Alat Dapur Node
 
 > **Kategori:** Node.js | **Level:** Pemula | **Minggu 2:** Modules & npm
+> **Prasyarat:** Minggu 1 — **Dasar Node.js**.
 
 ## Tujuan Pembelajaran
 

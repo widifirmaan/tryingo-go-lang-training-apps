@@ -1,6 +1,7 @@
 # Deployment — Buka Cabang Django
 
 > **Kategori:** Django | **Level:** Lanjutan | **Minggu 11:** Deployment
+> **Prasyarat:** Minggu 10 — **Caching**.
 
 ## Tujuan Pembelajaran
 

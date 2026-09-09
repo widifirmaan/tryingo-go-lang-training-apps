@@ -1,6 +1,7 @@
 # Deployment & DevOps
 
 > **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 11:** Deployment & DevOps
+> **Prasyarat:** Minggu 10 — **Background Jobs & Sidekiq**.
 
 ## Tujuan Pembelajaran
 

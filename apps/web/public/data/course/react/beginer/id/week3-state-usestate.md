@@ -1,6 +1,7 @@
 # State & useState — Kotak yang Bisa Berubah Saat Diklik
 
 > **Kategori:** React | **Level:** Pemula | **Minggu 3:** State & useState
+> **Prasyarat:** Minggu 2 — **Props & Data Flow**.
 
 ## Tujuan Pembelajaran
 

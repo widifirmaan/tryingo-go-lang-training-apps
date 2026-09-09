@@ -1,6 +1,7 @@
 # Testing Angular — Factory Test (angular.dev)
 
 > **Kategori:** Angular | **Level:** Advanced | **Minggu 11:** Testing Angular
+> **Prerequisites:** Week 10 — **State Management**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Migrations — Cetak Biru Rak Rails yang Aman
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 3:** Migrations & Database
+> **Prasyarat:** Minggu 2 — **MVC**.
 
 ## Tujuan Pembelajaran
 

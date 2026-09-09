@@ -1,6 +1,7 @@
 # Multi-Stage Build — Peti Diet Warung
 
 > **Kategori:** Docker | **Level:** Menengah | **Minggu 8:** Multi-Stage Build
+> **Prasyarat:** Minggu 7 — **Docker Compose**.
 
 ## Tujuan Pembelajaran
 

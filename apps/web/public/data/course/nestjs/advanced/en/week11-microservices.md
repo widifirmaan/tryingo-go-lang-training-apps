@@ -1,6 +1,7 @@
 # Microservices — Branched NestJS Shop
 
 > **Kategori:** NestJS | **Level:** Advanced | **Minggu 11:** Microservices
+> **Prerequisites:** Week 10 — **WebSocket**.
 
 ## Learning Objectives
 

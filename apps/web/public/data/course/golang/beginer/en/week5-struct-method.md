@@ -1,6 +1,7 @@
 # Struct & Method — Product Card and Its Stamp
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 5:** Struct & Method
+> **Prerequisites:** Week 4 — **Collections: Slice, Map & String**.
 
 ## Learning Objectives
 

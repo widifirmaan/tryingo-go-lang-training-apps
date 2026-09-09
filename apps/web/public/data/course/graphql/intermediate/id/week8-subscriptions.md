@@ -1,6 +1,7 @@
 # Subscriptions — Bel Live Warung GraphQL
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 8:** Subscriptions
+> **Prasyarat:** Minggu 7 — **DataLoader & N+1**.
 
 ## Tujuan Pembelajaran
 

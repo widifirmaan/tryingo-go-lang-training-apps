@@ -1,6 +1,7 @@
 # Fungsi & Trigger — Resep Otomatis Gudang PostgreSQL
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 5:** Fungsi & Trigger
+> **Prasyarat:** Minggu 4 — **Index & Optimasi**.
 
 ## Tujuan Pembelajaran
 

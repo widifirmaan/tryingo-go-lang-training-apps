@@ -1,6 +1,7 @@
 # Functions — Reusable Recipes
 
 > **Kategori:** JavaScript | **Level:** Beginner | **Minggu 4:** Fungsi
+> **Prerequisites:** Week 3 — **Control Flow**.
 
 ## Learning Objectives
 

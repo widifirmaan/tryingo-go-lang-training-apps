@@ -1,6 +1,7 @@
 # Image & Registry — Gudang Cetak Biru
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 2:** Image & Registry
+> **Prasyarat:** Minggu 1 — **Konsep Docker**.
 
 ## Tujuan Pembelajaran
 

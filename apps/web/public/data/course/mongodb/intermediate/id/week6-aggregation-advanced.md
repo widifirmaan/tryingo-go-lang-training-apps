@@ -1,6 +1,7 @@
 # Aggregation Lanjutan — Pabrik 2 Lantai MongoDB
 
 > **Kategori:** MongoDB | **Level:** Menengah | **Minggu 6:** Aggregation Lanjutan
+> **Prasyarat:** Minggu 5 — **Schema Design**.
 
 ## Tujuan Pembelajaran
 

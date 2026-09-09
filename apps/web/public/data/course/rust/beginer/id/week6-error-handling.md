@@ -1,6 +1,7 @@
 # Error Handling — Alarm Anti-Panik Rust
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 6:** Error Handling
+> **Prasyarat:** Minggu 5 — **Collections**.
 
 ## Tujuan Pembelajaran
 

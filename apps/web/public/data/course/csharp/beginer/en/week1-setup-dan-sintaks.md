@@ -1,6 +1,7 @@
 # C# Setup & Syntax — Microsoft Shop
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 1:** Setup & Sintaks
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

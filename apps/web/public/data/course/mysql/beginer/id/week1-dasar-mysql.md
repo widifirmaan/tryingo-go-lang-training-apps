@@ -1,6 +1,7 @@
 # Dasar MySQL — Gudang Warung Versi MySQL
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 1:** Dasar MySQL & Tabel
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

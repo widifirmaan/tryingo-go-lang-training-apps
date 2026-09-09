@@ -1,6 +1,7 @@
 # Trait — Kontrak Warung Rust
 
 > **Kategori:** Rust | **Level:** Menengah | **Minggu 7:** Trait
+> **Prasyarat:** Minggu 6 — **Error Handling**.
 
 ## Tujuan Pembelajaran
 

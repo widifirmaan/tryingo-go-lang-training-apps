@@ -1,6 +1,7 @@
 # Forms & Validation
 
 > **Kategori:** React | **Level:** Intermediate | **Minggu 7:** Forms & Validasi
+> **Prerequisites:** Week 6 — **Context API**.
 
 ## Learning Objectives
 

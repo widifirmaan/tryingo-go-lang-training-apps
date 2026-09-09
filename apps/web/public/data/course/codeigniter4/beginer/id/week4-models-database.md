@@ -1,6 +1,7 @@
 # Models & Database — Rak CI4 Beneran
 
 > **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 4:** Models & Database
+> **Prasyarat:** Minggu 3 — **Views & Templates**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Testing — Real C# Shop Taste-Test
 
 > **Kategori:** C# | **Level:** Advanced | **Minggu 10:** Testing
+> **Prerequisites:** Week 9 — **Design Patterns**.
 
 ## Learning Objectives
 

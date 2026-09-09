@@ -1,6 +1,7 @@
 # Link & Navigasi — Jalan Antar Warung
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 3:** Link & Navigasi
+> **Prasyarat:** Minggu 2 — **Format Teks & Tipografi**.
 
 ## Tujuan Pembelajaran
 

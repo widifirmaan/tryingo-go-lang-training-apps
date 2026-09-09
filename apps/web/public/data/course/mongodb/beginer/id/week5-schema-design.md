@@ -1,6 +1,7 @@
 # Schema Design — Kartu Rapi: Tempel atau Pisah?
 
 > **Kategori:** MongoDB | **Level:** Pemula | **Minggu 5:** Schema Design Patterns
+> **Prasyarat:** Minggu 4 — **Aggregation Dasar**.
 
 ## Tujuan Pembelajaran
 

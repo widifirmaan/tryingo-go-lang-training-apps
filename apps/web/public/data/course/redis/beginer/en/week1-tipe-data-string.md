@@ -1,6 +1,7 @@
 # Redis Strings — Fast Drawer
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 1:** Tipe Data String
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

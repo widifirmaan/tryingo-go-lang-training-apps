@@ -1,6 +1,7 @@
 # Components & Templates — Enterprise Shop Branch
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 1:** Components & Templates
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

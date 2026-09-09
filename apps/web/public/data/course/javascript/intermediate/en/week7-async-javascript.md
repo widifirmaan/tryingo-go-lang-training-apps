@@ -1,6 +1,7 @@
 # Async JavaScript — Delivery Orders Without Waiting at the Shop
 
 > **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 7:** Async JavaScript
+> **Prerequisites:** Week 6 — **Events & Event Handling**.
 
 ## Learning Objectives
 

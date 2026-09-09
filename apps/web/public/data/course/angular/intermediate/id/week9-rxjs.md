@@ -1,6 +1,7 @@
 # RxJS — Aliran Data Warung (angular.io)
 
 > **Kategori:** Angular | **Level:** Menengah | **Minggu 9:** RxJS
+> **Prasyarat:** Minggu 8 — **HttpClient**.
 
 ## Tujuan Pembelajaran
 

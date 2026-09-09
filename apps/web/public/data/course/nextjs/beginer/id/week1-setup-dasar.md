@@ -1,6 +1,7 @@
 # Setup & Konsep Dasar — Website Pertamamu dengan Next.js
 
 > **Kategori:** Next.js | **Level:** Pemula | **Minggu 1:** Setup & Konsep Dasar
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

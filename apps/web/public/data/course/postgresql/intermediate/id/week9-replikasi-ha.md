@@ -1,6 +1,7 @@
 # Replikasi & HA — Cabang Gudang
 
 > **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 9:** Replikasi & HA
+> **Prasyarat:** Minggu 8 — **Performa Tuning**.
 
 ## Tujuan Pembelajaran
 

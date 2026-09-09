@@ -1,6 +1,7 @@
 # Python Basics — Ledger That Calculates Itself
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 1:** Dasar Python & Sintaks
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

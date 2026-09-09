@@ -1,6 +1,7 @@
 # List — Redis Cashier Queue
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 3:** List
+> **Prerequisites:** Week 2 — **Hash**.
 
 ## Learning Objectives
 

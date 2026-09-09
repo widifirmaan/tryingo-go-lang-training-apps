@@ -1,6 +1,7 @@
 # Lua Scripting — Recipes on Redis Server
 
 > **Kategori:** Redis | **Level:** Intermediate | **Minggu 7:** Lua Scripting
+> **Prerequisites:** Week 6 — **Pub/Sub**.
 
 ## Learning Objectives
 

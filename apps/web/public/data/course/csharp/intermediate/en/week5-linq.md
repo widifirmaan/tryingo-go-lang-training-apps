@@ -1,6 +1,7 @@
 # LINQ — C# Shop Strainers
 
 > **Kategori:** C# | **Level:** Intermediate | **Minggu 5:** LINQ
+> **Prerequisites:** Week 4 — **OOP Class & Object**.
 
 ## Learning Objectives
 

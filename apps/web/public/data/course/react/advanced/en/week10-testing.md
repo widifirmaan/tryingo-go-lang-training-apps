@@ -1,6 +1,7 @@
 # Testing React — Component Taste-Test
 
 > **Kategori:** React | **Level:** Advanced | **Minggu 10:** Testing React
+> **Prerequisites:** Week 9 — **Advanced Patterns**.
 
 ## Learning Objectives
 

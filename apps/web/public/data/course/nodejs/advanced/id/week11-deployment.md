@@ -1,6 +1,7 @@
 # Deployment — Buka Cabang Node
 
 > **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 11:** Deployment
+> **Prasyarat:** Minggu 10 — **Performance**.
 
 ## Tujuan Pembelajaran
 

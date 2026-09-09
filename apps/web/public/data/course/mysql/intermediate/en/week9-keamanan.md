@@ -1,6 +1,7 @@
 # Security — Locking the MySQL Warehouse
 
 > **Kategori:** MySQL | **Level:** Intermediate | **Minggu 9:** Keamanan & User Management
+> **Prerequisites:** Week 8 — **Replication**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Variabel, Tipe & Kontrol — Rak Berlabel dan Satpam Toko
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 2:** Variabel, Tipe & Control Flow
+> **Prasyarat:** Minggu 1 — **Setup & Sintaks Go**.
 
 ## Tujuan Pembelajaran
 

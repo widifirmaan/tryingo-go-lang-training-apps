@@ -1,6 +1,7 @@
 # Form Handling — Accept PHP Shop Orders
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 6:** Form Handling & Validasi
+> **Prerequisites:** Week 5 — **Basic OOP**.
 
 ## Learning Objectives
 

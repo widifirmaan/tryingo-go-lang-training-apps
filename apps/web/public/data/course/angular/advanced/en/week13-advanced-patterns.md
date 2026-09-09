@@ -1,6 +1,7 @@
 # Advanced Patterns — Lazy Enterprise Patterns (angular.dev)
 
 > **Kategori:** Angular | **Level:** Advanced | **Minggu 13:** Advanced Patterns
+> **Prerequisites:** Week 12 — **Performance**.
 
 ## Learning Objectives
 

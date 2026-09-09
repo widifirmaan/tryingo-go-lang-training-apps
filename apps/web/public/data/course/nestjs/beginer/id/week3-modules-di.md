@@ -1,6 +1,7 @@
 # Modules & DI — Gedung Warung NestJS
 
 > **Kategori:** NestJS | **Level:** Pemula | **Minggu 3:** Modules & DI
+> **Prasyarat:** Minggu 2 — **Providers & Services**.
 
 ## Tujuan Pembelajaran
 

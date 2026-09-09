@@ -1,6 +1,7 @@
 # Views & Templates — CI4 Showcase with Layout
 
 > **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 3:** Views & Templates
+> **Prerequisites:** Week 2 — **Controllers & Routing**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Resolvers — GraphQL Server Kitchen
 
 > **Kategori:** GraphQL | **Level:** Beginner | **Minggu 4:** Resolvers
+> **Prerequisites:** Week 3 — **Mutations**.
 
 ## Learning Objectives
 

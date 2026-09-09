@@ -1,6 +1,7 @@
 # Laravel Setup — Sell-Ready Shop with Artisan
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 1:** Setup Laravel
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

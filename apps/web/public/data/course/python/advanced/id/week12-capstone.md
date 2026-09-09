@@ -1,6 +1,7 @@
 # Capstone: Warung Python Lengkap
 
 > **Kategori:** Python | **Level:** Lanjutan | **Minggu 12:** Capstone
+> **Prasyarat:** Minggu 11 — **CLI & Automation**.
 
 ## Tujuan Pembelajaran
 

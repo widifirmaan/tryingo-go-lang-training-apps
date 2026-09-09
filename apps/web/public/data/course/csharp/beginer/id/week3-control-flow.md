@@ -1,6 +1,7 @@
 # Control Flow — Cabang & Ulang Warung C#
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 3:** Control Flow
+> **Prasyarat:** Minggu 2 — **Tipe Data & Variabel**.
 
 ## Tujuan Pembelajaran
 

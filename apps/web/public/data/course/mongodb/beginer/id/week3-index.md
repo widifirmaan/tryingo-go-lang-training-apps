@@ -1,6 +1,7 @@
 # Index — Daftar Isi Kardus MongoDB
 
 > **Kategori:** MongoDB | **Level:** Pemula | **Minggu 3:** Index
+> **Prasyarat:** Minggu 2 — **Update & Delete**.
 
 ## Tujuan Pembelajaran
 

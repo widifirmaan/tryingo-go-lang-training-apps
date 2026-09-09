@@ -1,6 +1,7 @@
 # Database TypeORM — Permanent NestJS Racks
 
 > **Kategori:** NestJS | **Level:** Beginner | **Minggu 4:** Database & TypeORM
+> **Prerequisites:** Week 3 — **Modules & DI**.
 
 ## Learning Objectives
 

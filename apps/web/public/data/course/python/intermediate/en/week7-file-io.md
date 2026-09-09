@@ -1,6 +1,7 @@
 # File I/O — Ledger Book in a File
 
 > **Kategori:** Python | **Level:** Intermediate | **Minggu 7:** File I/O
+> **Prerequisites:** Week 6 — **OOP**.
 
 ## Learning Objectives
 

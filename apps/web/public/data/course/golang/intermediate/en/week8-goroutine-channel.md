@@ -1,6 +1,7 @@
 # Goroutines & Channels — Parallel Cashiers in Go
 
 > **Kategori:** Go | **Level:** Intermediate | **Minggu 8:** Goroutine & Channel
+> **Prerequisites:** Week 7 — **Pointers & Packages**.
 
 ## Learning Objectives
 

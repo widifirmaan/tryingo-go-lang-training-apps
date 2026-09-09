@@ -1,6 +1,7 @@
 # Messaging — Pesan Antar Dapur Spring
 
 > **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 10:** Messaging
+> **Prasyarat:** Minggu 9 — **Actuator & Monitoring**.
 
 ## Tujuan Pembelajaran
 

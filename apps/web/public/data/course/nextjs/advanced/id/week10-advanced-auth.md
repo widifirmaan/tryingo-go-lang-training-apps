@@ -1,6 +1,7 @@
 # Advanced Auth — KTP & Satpam Warung
 
 > **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 10:** Advanced Auth & Security
+> **Prasyarat:** Minggu 9 — **Database & ORM**.
 
 ## Tujuan Pembelajaran
 

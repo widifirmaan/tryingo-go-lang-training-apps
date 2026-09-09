@@ -1,6 +1,7 @@
 # Context & Sync — Cancel Alarm and Wait Together
 
 > **Kategori:** Go | **Level:** Intermediate | **Minggu 9:** Context & Synchronization
+> **Prerequisites:** Week 8 — **Goroutines & Channels**.
 
 ## Learning Objectives
 

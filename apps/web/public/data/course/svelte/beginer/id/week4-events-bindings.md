@@ -1,6 +1,7 @@
 # Events & Bindings — Telinga & Tali Svelte
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 4:** Events & Bindings
+> **Prasyarat:** Minggu 3 — **Props & Components**.
 
 ## Tujuan Pembelajaran
 

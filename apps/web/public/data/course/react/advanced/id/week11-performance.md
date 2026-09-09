@@ -1,6 +1,7 @@
 # Performance — Warung Tetap Cepat
 
 > **Kategori:** React | **Level:** Lanjutan | **Minggu 11:** Performance
+> **Prasyarat:** Minggu 10 — **Testing React**.
 
 ## Tujuan Pembelajaran
 

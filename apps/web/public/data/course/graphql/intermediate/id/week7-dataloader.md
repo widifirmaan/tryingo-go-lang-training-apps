@@ -1,6 +1,7 @@
 # DataLoader & N+1 — Gerobak Sekaligus GraphQL
 
 > **Kategori:** GraphQL | **Level:** Menengah | **Minggu 7:** DataLoader & N+1 Problem
+> **Prasyarat:** Minggu 6 — **Authentication**.
 
 ## Tujuan Pembelajaran
 

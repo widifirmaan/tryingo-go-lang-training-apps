@@ -1,6 +1,7 @@
 # Struct & Method — Kartu Produk dan Stempelnya
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 5:** Struct & Method
+> **Prasyarat:** Minggu 4 — **Koleksi: Slice, Map & String**.
 
 ## Tujuan Pembelajaran
 

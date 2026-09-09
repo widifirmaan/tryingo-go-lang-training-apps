@@ -1,6 +1,7 @@
 # Mutations — Tulis & Ubah Warung GraphQL
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 3:** Mutations
+> **Prasyarat:** Minggu 2 — **Queries**.
 
 ## Tujuan Pembelajaran
 

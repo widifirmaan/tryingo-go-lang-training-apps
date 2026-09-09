@@ -1,6 +1,7 @@
 # Django Setup — Shop with Automatic Admin
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 1:** Setup Django
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

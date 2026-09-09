@@ -1,6 +1,7 @@
 # TypeScript Config — Buku Aturan Warung (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 8:** TypeScript Config
+> **Prasyarat:** Minggu 7 — **Utility Types**.
 
 ## Tujuan Pembelajaran
 

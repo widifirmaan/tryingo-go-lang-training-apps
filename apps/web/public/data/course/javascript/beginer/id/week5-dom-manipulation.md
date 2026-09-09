@@ -1,6 +1,7 @@
 # DOM Manipulation — Remote untuk Halaman HTML
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Minggu 5:** DOM Manipulation
+> **Prasyarat:** Minggu 4 — **Fungsi**.
 
 ## Tujuan Pembelajaran
 

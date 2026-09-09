@@ -1,6 +1,7 @@
 # DOM Manipulation — Remote for HTML Page
 
 > **Kategori:** JavaScript | **Level:** Beginner | **Minggu 5:** DOM Manipulation
+> **Prerequisites:** Week 4 — **Functions**.
 
 ## Learning Objectives
 

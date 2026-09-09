@@ -1,6 +1,7 @@
 # Interfaces & Type Aliases — Cetak Biru Kartu
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 4:** Interfaces & Type Aliases
+> **Prasyarat:** Minggu 3 — **Functions Bertipe**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Background Jobs & Sidekiq
 
 > **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 10:** Background Jobs & Sidekiq
+> **Prasyarat:** Minggu 9 — **Performance Optimization**.
 
 ## Tujuan Pembelajaran
 

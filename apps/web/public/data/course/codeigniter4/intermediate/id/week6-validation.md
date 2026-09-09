@@ -1,6 +1,7 @@
 # Validasi — Satpam Formulir CI4 Resmi
 
 > **Kategori:** CodeIgniter | **Level:** Menengah | **Minggu 6:** Validation & Form Handling
+> **Prasyarat:** Minggu 5 — **Migrations & Seeds**.
 
 ## Tujuan Pembelajaran
 

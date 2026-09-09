@@ -1,6 +1,7 @@
 # Composer & Autoloading — Gudang Alat PHP Beneran
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 9:** Composer & Autoloading
+> **Prasyarat:** Minggu 8 — **PDO Database**.
 
 ## Tujuan Pembelajaran
 

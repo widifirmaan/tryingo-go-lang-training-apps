@@ -1,6 +1,7 @@
 # Migrations — Safe Rails Rack Blueprints
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 3:** Migrations & Database
+> **Prerequisites:** Week 2 — **MVC**.
 
 ## Learning Objectives
 

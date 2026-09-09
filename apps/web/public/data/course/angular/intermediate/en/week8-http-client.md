@@ -1,6 +1,7 @@
 # HttpClient — Fetch Stock from Warehouse (angular.dev)
 
 > **Kategori:** Angular | **Level:** Intermediate | **Minggu 8:** HttpClient
+> **Prerequisites:** Week 7 — **Reactive Forms**.
 
 ## Learning Objectives
 

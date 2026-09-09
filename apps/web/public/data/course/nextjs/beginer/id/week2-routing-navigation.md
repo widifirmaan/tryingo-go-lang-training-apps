@@ -1,6 +1,7 @@
 # Routing & Navigation — Alamat Toko yang Otomatis
 
 > **Kategori:** Next.js | **Level:** Pemula | **Minggu 2:** Routing & Navigation
+> **Prasyarat:** Minggu 1 — **Setup & Konsep Dasar**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # CSS Grid — Checkered Shop Racks
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 5:** CSS Grid
+> **Prerequisites:** Week 4 — **Flexbox**.
 
 ## Learning Objectives
 

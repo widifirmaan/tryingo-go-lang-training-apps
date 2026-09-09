@@ -1,6 +1,7 @@
 # Setup Spring Boot — Pabrik Warung Enterprise
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 1:** Setup & Proyek
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Performance Optimization
 
 > **Kategori:** JavaScript | **Level:** Advanced | **Minggu 13:** Performance Optimization
+> **Prerequisites:** Week 12 — **Testing JavaScript**.
 
 ## Learning Objectives
 

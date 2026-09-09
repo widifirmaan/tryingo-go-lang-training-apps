@@ -1,6 +1,7 @@
 # Capstone: Complete Angular Store — Enterprise 0→Expert
 
 > **Kategori:** Angular | **Level:** Advanced | **Minggu 14:** Capstone
+> **Prerequisites:** Week 13 — **Advanced Patterns**.
 
 ## Learning Objectives
 

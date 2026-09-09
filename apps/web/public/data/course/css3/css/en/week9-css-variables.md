@@ -1,6 +1,7 @@
 # CSS Variables — One-Change Shop Palette (MDN)
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 9:** CSS Variables
+> **Prerequisites:** Week 8 — **Animation & Transitions**.
 
 ## Learning Objectives
 

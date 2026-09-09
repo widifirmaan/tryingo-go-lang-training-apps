@@ -1,6 +1,7 @@
 # Introduction to HTML — Your First Shop Page
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 1:** Pengantar HTML
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Testing — Uji Warung Laravel
 
 > **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 9:** Testing
+> **Prasyarat:** Minggu 8 — **File Storage**.
 
 ## Tujuan Pembelajaran
 

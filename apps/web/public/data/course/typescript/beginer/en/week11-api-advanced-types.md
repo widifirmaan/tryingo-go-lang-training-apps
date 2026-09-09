@@ -1,6 +1,7 @@
 # Advanced Types — Shop Template Literals (typescriptlang.org)
 
 > **Kategori:** TypeScript | **Level:** Complete TypeScript | **Minggu 11:** Advanced Type Manipulation
+> **Prerequisites:** Week 10 — **Design Patterns TS**.
 
 ## Learning Objectives
 

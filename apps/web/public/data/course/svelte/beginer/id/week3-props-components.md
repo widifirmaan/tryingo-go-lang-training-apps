@@ -1,6 +1,7 @@
 # Props & Components — Bata LEGO Svelte
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 3:** Props & Components
+> **Prasyarat:** Minggu 2 — **Reactivity Lanjutan**.
 
 ## Tujuan Pembelajaran
 

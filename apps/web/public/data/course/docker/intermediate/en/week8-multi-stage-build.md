@@ -1,6 +1,7 @@
 # Multi-Stage Build — Diet Shop Boxes
 
 > **Kategori:** Docker | **Level:** Intermediate | **Minggu 8:** Multi-Stage Build
+> **Prerequisites:** Week 7 — **Docker Compose**.
 
 ## Learning Objectives
 

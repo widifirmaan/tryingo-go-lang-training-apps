@@ -1,6 +1,7 @@
 # Error Handling — No-Panic Shop Alarm
 
 > **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 10:** Error Handling
+> **Prerequisites:** Week 9 — **Modules**.
 
 ## Learning Objectives
 

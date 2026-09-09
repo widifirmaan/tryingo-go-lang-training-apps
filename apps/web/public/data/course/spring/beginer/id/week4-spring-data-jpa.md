@@ -1,6 +1,7 @@
 # Spring Data JPA — Rak Otomatis Tanpa SQL
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 4:** Spring Data JPA
+> **Prasyarat:** Minggu 3 — **REST Controller**.
 
 ## Tujuan Pembelajaran
 

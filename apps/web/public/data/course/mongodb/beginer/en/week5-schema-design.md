@@ -1,6 +1,7 @@
 # Schema Design — Neat Cards: Embed or Split?
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 5:** Schema Design Patterns
+> **Prerequisites:** Week 4 — **Basic Aggregation**.
 
 ## Learning Objectives
 

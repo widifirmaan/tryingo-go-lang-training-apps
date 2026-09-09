@@ -1,6 +1,7 @@
 # Setup Rails — Warung Kilat Convention
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 1:** Setup Rails
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

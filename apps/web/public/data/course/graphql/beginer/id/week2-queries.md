@@ -1,6 +1,7 @@
 # Queries — Pesan Tepat yang Dimau (GraphQL)
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 2:** Queries
+> **Prasyarat:** Minggu 1 — **Schema & Types**.
 
 ## Tujuan Pembelajaran
 

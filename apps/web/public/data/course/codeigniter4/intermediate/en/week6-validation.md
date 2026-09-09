@@ -1,6 +1,7 @@
 # Validation — Official CI4 Form Guard
 
 > **Kategori:** CodeIgniter | **Level:** Intermediate | **Minggu 6:** Validation & Form Handling
+> **Prerequisites:** Week 5 — **Migrations & Seeds**.
 
 ## Learning Objectives
 

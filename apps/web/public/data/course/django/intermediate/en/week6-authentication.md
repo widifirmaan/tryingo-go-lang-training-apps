@@ -1,6 +1,7 @@
 # Authentication — Django ID
 
 > **Kategori:** Django | **Level:** Intermediate | **Minggu 6:** Authentication
+> **Prerequisites:** Week 5 — **Forms & Validation**.
 
 ## Learning Objectives
 

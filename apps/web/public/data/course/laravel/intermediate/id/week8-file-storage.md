@@ -1,6 +1,7 @@
 # File Storage — Gudang Foto Laravel
 
 > **Kategori:** Laravel | **Level:** Menengah | **Minggu 8:** File Storage
+> **Prasyarat:** Minggu 7 — **Validasi**.
 
 ## Tujuan Pembelajaran
 

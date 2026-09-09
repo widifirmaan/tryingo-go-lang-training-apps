@@ -1,6 +1,7 @@
 # Modules — Bagi Warung Jadi File Terpisah
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 9:** Modules
+> **Prasyarat:** Minggu 8 — **ES6+ Features**.
 
 ## Tujuan Pembelajaran
 

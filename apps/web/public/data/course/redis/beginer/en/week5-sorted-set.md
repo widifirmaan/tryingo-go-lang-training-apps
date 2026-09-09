@@ -1,6 +1,7 @@
 # Sorted Set — Redis Shop Leaderboard
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 5:** Sorted Set
+> **Prerequisites:** Week 4 — **Set**.
 
 ## Learning Objectives
 

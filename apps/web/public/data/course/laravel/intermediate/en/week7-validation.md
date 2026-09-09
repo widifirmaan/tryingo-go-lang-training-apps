@@ -1,6 +1,7 @@
 # Validation — Advanced Laravel Guard
 
 > **Kategori:** Laravel | **Level:** Intermediate | **Minggu 7:** Validasi
+> **Prerequisites:** Week 6 — **Relationships**.
 
 ## Learning Objectives
 

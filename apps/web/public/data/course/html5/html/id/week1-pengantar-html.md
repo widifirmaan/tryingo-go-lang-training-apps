@@ -1,6 +1,7 @@
 # Pengantar HTML
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 1:** Pengantar HTML
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

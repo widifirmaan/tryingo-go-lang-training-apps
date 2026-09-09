@@ -1,6 +1,7 @@
 # Providers & Services — Dapur Terpisah NestJS
 
 > **Kategori:** NestJS | **Level:** Pemula | **Minggu 2:** Providers & Services
+> **Prasyarat:** Minggu 1 — **Controllers & Routing**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # CSS Architecture — Neat BEM Wardrobe
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 10:** Arsitektur CSS
+> **Prerequisites:** Week 9 — **CSS Variables**.
 
 ## Learning Objectives
 

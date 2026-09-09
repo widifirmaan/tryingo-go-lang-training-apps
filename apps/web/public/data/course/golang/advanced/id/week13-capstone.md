@@ -1,6 +1,7 @@
 # Capstone — Warung Go Lengkap: CLI + API + Uji
 
 > **Kategori:** Go | **Level:** Lanjutan | **Minggu 13:** Capstone: REST API + CLI
+> **Prasyarat:** Minggu 12 — **Testing & CLI**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Validation — Satpam Input Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 8:** Validation
+> **Prasyarat:** Minggu 7 — **Testing**.
 
 ## Tujuan Pembelajaran
 

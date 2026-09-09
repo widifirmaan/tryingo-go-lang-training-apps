@@ -1,6 +1,7 @@
 # Form & Input — Pesanan Warung
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 7:** Form & Input
+> **Prasyarat:** Minggu 6 — **Tabel**.
 
 ## Tujuan Pembelajaran
 

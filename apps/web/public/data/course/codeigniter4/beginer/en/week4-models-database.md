@@ -1,6 +1,7 @@
 # Models & Database — Real CI4 Racks
 
 > **Kategori:** CodeIgniter | **Level:** Beginner | **Minggu 4:** Models & Database
+> **Prerequisites:** Week 3 — **Views & Templates**.
 
 ## Learning Objectives
 

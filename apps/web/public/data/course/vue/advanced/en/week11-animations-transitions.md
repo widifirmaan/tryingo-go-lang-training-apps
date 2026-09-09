@@ -1,6 +1,7 @@
 # Animations & Transitions — Smooth Vue Shop
 
 > **Kategori:** Vue | **Level:** Advanced | **Minggu 11:** Animations & Transitions
+> **Prerequisites:** Week 10 — **Performance & Nuxt**.
 
 ## Learning Objectives
 

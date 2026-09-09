@@ -1,6 +1,7 @@
 # Vue Basics — Shop with {{ }} Stickers
 
 > **Kategori:** Vue | **Level:** Beginner | **Minggu 1:** Dasar Vue & Template Syntax
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

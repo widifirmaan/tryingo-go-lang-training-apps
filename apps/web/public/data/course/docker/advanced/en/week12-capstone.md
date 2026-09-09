@@ -1,6 +1,7 @@
 # Capstone: Production Pipeline — Docker Shop Grand Opening
 
 > **Kategori:** Docker | **Level:** Advanced | **Minggu 12:** Capstone: Production Pipeline
+> **Prerequisites:** Week 11 — **Orchestration**.
 
 ## Learning Objectives
 

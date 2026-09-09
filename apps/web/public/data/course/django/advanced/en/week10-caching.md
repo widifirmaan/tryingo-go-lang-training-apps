@@ -1,6 +1,7 @@
 # Caching — Fast Django Drawer
 
 > **Kategori:** Django | **Level:** Advanced | **Minggu 10:** Caching
+> **Prerequisites:** Week 9 — **Testing**.
 
 ## Learning Objectives
 

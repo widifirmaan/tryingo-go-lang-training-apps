@@ -1,6 +1,7 @@
 # Modern CSS — Trendy Shop with Clamp & Aspect-Ratio (MDN)
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 11:** Modern CSS
+> **Prerequisites:** Week 10 — **CSS Architecture**.
 
 ## Learning Objectives
 

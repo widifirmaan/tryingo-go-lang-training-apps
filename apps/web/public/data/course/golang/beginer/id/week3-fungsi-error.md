@@ -1,6 +1,7 @@
 # Fungsi & Error — Resep Dapur dengan Alarm Gagal
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 3:** Fungsi & Error Handling
+> **Prasyarat:** Minggu 2 — **Variabel, Tipe & Kontrol**.
 
 ## Tujuan Pembelajaran
 

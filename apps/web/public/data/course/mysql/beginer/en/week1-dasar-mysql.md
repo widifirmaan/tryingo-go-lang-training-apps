@@ -1,6 +1,7 @@
 # MySQL Basics — Shop Warehouse MySQL Version
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 1:** Dasar MySQL & Tabel
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

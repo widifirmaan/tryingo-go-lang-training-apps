@@ -1,6 +1,7 @@
 # Context & Sync — Alarm Batal dan Tunggu Bareng
 
 > **Kategori:** Go | **Level:** Menengah | **Minggu 9:** Context & Sinkronisasi
+> **Prasyarat:** Minggu 8 — **Goroutine & Channel**.
 
 ## Tujuan Pembelajaran
 

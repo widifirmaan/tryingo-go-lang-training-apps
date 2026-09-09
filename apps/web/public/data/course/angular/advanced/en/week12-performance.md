@@ -1,6 +1,7 @@
 # Performance — Enterprise Fast with OnPush (angular.dev)
 
 > **Kategori:** Angular | **Level:** Advanced | **Minggu 12:** Performance
+> **Prerequisites:** Week 11 — **Testing Angular**.
 
 ## Learning Objectives
 

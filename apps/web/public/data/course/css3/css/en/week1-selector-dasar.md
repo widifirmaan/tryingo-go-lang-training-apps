@@ -1,6 +1,7 @@
 # Selectors & Basic Styling — First Shop Paint
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 1:** Selector & Basic Styling
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

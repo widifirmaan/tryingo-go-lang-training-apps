@@ -1,6 +1,7 @@
 # Fungsi & Scope — Resep Warung PHP Pakai Ulang
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 3:** Fungsi & Scope
+> **Prasyarat:** Minggu 2 — **Operator & Kontrol**.
 
 ## Tujuan Pembelajaran
 

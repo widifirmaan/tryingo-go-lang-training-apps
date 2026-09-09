@@ -1,6 +1,7 @@
 # Routing & Controllers — Pintu dan Pelayan Laravel
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 2:** Routing & Controllers
+> **Prasyarat:** Minggu 1 — **Setup Laravel**.
 
 ## Tujuan Pembelajaran
 

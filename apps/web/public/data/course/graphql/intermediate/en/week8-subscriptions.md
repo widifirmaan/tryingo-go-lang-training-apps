@@ -1,6 +1,7 @@
 # Subscriptions — Live GraphQL Shop Bell
 
 > **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 8:** Subscriptions
+> **Prerequisites:** Week 7 — **DataLoader & N+1**.
 
 ## Learning Objectives
 

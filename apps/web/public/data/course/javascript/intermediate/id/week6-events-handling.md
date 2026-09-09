@@ -1,6 +1,7 @@
 # Events Lanjutan — Telinga yang Lebih Pintar
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 6:** Events & Event Handling
+> **Prasyarat:** Minggu 5 — **DOM Manipulation**.
 
 ## Tujuan Pembelajaran
 

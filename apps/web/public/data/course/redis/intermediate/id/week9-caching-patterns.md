@@ -1,6 +1,7 @@
 # Caching Patterns — Strategi Laci Redis
 
 > **Kategori:** Redis | **Level:** Menengah | **Minggu 9:** Caching Patterns
+> **Prasyarat:** Minggu 8 — **Clustering**.
 
 ## Tujuan Pembelajaran
 

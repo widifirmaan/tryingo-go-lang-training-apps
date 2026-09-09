@@ -1,6 +1,7 @@
 # Templates — Meja Warung Django yang Cantik
 
 > **Kategori:** Django | **Level:** Pemula | **Minggu 4:** Templates & Template Language
+> **Prasyarat:** Minggu 3 — **Views & URLs**.
 
 ## Tujuan Pembelajaran
 

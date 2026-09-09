@@ -1,6 +1,7 @@
 # Error Handling — No-Panic Rust Alarms
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 6:** Error Handling
+> **Prerequisites:** Week 5 — **Collections**.
 
 ## Learning Objectives
 

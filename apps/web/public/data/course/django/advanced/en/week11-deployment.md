@@ -1,6 +1,7 @@
 # Deployment — Open Django Branch
 
 > **Kategori:** Django | **Level:** Advanced | **Minggu 11:** Deployment
+> **Prerequisites:** Week 10 — **Caching**.
 
 ## Learning Objectives
 

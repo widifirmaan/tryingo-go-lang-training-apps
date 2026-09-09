@@ -1,6 +1,7 @@
 # Koleksi: Slice, Map & String — Rak Dinamis dan Buku Alamat
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 4:** Koleksi: Slice, Map & String
+> **Prasyarat:** Minggu 3 — **Fungsi & Error**.
 
 ## Tujuan Pembelajaran
 

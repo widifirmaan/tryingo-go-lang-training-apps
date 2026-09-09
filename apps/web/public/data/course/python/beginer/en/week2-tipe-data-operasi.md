@@ -1,6 +1,7 @@
 # Data Types & Operations — Numbers and Shop Text
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 2:** Data Types & Operasi
+> **Prerequisites:** Week 1 — **Python Basics**.
 
 ## Learning Objectives
 

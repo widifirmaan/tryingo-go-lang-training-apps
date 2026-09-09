@@ -1,6 +1,7 @@
 # Performance — Cepat Enterprise dengan OnPush (angular.dev)
 
 > **Kategori:** Angular | **Level:** Lanjutan | **Minggu 12:** Performance
+> **Prasyarat:** Minggu 11 — **Testing Angular**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Container Management — Hidup, Mati, dan Data Tetap
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 3:** Container Management
+> **Prasyarat:** Minggu 2 — **Image & Registry**.
 
 ## Tujuan Pembelajaran
 

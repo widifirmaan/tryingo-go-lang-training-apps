@@ -1,6 +1,7 @@
 # Reactivity & Composition — Kotak Pintar yang Saling Ikut
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 2:** Reactivity & Composition API
+> **Prasyarat:** Minggu 1 — **Dasar Vue & Template**.
 
 ## Tujuan Pembelajaran
 

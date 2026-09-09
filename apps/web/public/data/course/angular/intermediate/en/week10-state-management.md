@@ -1,6 +1,7 @@
 # State Management — Big Angular Warehouse (ngrx.io)
 
 > **Kategori:** Angular | **Level:** Intermediate | **Minggu 10:** State Management
+> **Prerequisites:** Week 9 — **RxJS**.
 
 ## Learning Objectives
 

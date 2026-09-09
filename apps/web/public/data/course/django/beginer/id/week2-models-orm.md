@@ -1,6 +1,7 @@
 # Models & ORM — Rak Otomatis Django
 
 > **Kategori:** Django | **Level:** Pemula | **Minggu 2:** Models & ORM
+> **Prasyarat:** Minggu 1 — **Setup Django**.
 
 ## Tujuan Pembelajaran
 

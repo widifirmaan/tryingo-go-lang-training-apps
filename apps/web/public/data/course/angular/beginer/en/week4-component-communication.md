@@ -1,6 +1,7 @@
 # Component Communication — Envelopes Between Angular Branches
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 4:** Component Communication
+> **Prerequisites:** Week 3 — **Services & DI**.
 
 ## Learning Objectives
 

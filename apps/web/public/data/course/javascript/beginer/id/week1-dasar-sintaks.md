@@ -1,6 +1,7 @@
 # Dasar Sintaks JavaScript — Kalkulator Warung Pertama
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Minggu 1:** Dasar Sintaks JavaScript
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

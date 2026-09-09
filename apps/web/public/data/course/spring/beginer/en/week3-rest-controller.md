@@ -1,6 +1,7 @@
 # REST Controller — Spring Door Waiters
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 3:** REST Controller
+> **Prerequisites:** Week 2 — **Dependency Injection**.
 
 ## Learning Objectives
 

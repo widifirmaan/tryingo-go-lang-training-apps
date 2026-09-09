@@ -1,6 +1,7 @@
 # Resolvers — Dapur Server GraphQL
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 4:** Resolvers
+> **Prasyarat:** Minggu 3 — **Mutations**.
 
 ## Tujuan Pembelajaran
 

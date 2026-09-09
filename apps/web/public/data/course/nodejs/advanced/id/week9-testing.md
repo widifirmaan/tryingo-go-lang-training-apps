@@ -1,6 +1,7 @@
 # Testing — Uji Warung Node Sebelum Buka
 
 > **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 9:** Testing
+> **Prasyarat:** Minggu 8 — **Database**.
 
 ## Tujuan Pembelajaran
 

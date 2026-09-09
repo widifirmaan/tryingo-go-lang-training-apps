@@ -1,6 +1,7 @@
 # Tipe Lanjutan — Label Warna untuk Status
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 2:** Advanced Types
+> **Prasyarat:** Minggu 1 — **Pengantar TypeScript**.
 
 ## Tujuan Pembelajaran
 

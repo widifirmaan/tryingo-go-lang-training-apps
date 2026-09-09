@@ -1,6 +1,7 @@
 # Views & URLs — Pelayan dan Pintu Warung Django
 
 > **Kategori:** Django | **Level:** Pemula | **Minggu 3:** Views & URLs
+> **Prasyarat:** Minggu 2 — **Models & ORM**.
 
 ## Tujuan Pembelajaran
 

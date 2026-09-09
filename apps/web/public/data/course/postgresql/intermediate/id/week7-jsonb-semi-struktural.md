@@ -1,6 +1,7 @@
 # JSONB Semi-Struktural — Kardus Campur
 
 > **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 7:** JSONB Semi-Struktural
+> **Prasyarat:** Minggu 6 — **Window Functions**.
 
 ## Tujuan Pembelajaran
 

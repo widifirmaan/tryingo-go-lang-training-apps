@@ -1,6 +1,7 @@
 # Orchestration — Mandor 100 Peti Docker
 
 > **Kategori:** Docker | **Level:** Lanjutan | **Minggu 11:** Orchestration
+> **Prasyarat:** Minggu 10 — **CI/CD Pipeline**.
 
 ## Tujuan Pembelajaran
 

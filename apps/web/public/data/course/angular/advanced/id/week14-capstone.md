@@ -1,6 +1,7 @@
 # Capstone: Toko Angular Lengkap — Enterprise 0→Ahli
 
 > **Kategori:** Angular | **Level:** Lanjutan | **Minggu 14:** Capstone
+> **Prasyarat:** Minggu 13 — **Advanced Patterns**.
 
 ## Tujuan Pembelajaran
 

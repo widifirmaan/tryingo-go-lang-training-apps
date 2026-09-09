@@ -1,6 +1,7 @@
 # Interface & Generics — Kontrak Warung
 
 > **Kategori:** Go | **Level:** Menengah | **Minggu 6:** Interface & Generics
+> **Prasyarat:** Minggu 5 — **Struct & Method**.
 
 ## Tujuan Pembelajaran
 

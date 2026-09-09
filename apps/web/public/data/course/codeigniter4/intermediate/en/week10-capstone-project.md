@@ -1,6 +1,7 @@
 # Capstone: CI4 Shop Grand Opening
 
 > **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 10:** Capstone: Task Management API
+> **Prerequisites:** Week 9 — **Testing**.
 
 ## Learning Objectives
 

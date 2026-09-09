@@ -1,6 +1,7 @@
 # SEO & Meta — Papan Nama Google
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 13:** SEO & Meta Tags
+> **Prasyarat:** Minggu 12 — **Aksesibilitas**.
 
 ## Tujuan Pembelajaran
 

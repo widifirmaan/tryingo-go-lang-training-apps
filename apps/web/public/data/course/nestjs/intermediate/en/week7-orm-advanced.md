@@ -1,6 +1,7 @@
 # ORM Relations — Ropes Between NestJS Racks
 
 > **Kategori:** NestJS | **Level:** Intermediate | **Minggu 7:** ORM Advanced & Relations
+> **Prerequisites:** Week 6 — **Guards & Auth**.
 
 ## Learning Objectives
 

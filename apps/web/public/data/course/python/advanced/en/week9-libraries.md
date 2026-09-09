@@ -1,6 +1,7 @@
 # Libraries — Borrow Neighbor's Tools
 
 > **Kategori:** Python | **Level:** Advanced | **Minggu 9:** Libraries
+> **Prerequisites:** Week 8 — **Decorators & Generators**.
 
 ## Learning Objectives
 

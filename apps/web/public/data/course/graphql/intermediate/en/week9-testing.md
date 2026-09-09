@@ -1,6 +1,7 @@
 # Testing & Errors — Taste-Test GraphQL Restaurant
 
 > **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 9:** Testing & Error Handling
+> **Prerequisites:** Week 8 — **Subscriptions**.
 
 ## Learning Objectives
 

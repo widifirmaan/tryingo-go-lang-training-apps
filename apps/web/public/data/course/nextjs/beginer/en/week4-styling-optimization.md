@@ -1,6 +1,7 @@
 # Styling & Optimization — Pretty Without Slow
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 4:** Styling & Optimization
+> **Prerequisites:** Week 3 — **Server & Client Components**.
 
 ## Learning Objectives
 

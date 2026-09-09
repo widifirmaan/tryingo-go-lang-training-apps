@@ -1,6 +1,7 @@
 # Image & Registry — Blueprint Warehouse
 
 > **Kategori:** Docker | **Level:** Beginner | **Minggu 2:** Image & Registry
+> **Prerequisites:** Week 1 — **Docker Concepts**.
 
 ## Learning Objectives
 

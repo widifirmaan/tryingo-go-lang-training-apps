@@ -1,6 +1,7 @@
 # Testing & CLI — Uji Rasa dan Tombol Warung Go
 
 > **Kategori:** Go | **Level:** Lanjutan | **Minggu 12:** Testing & CLI Tools
+> **Prasyarat:** Minggu 11 — **HTTP Server**.
 
 ## Tujuan Pembelajaran
 

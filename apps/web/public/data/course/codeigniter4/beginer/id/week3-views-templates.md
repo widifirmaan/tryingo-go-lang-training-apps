@@ -1,6 +1,7 @@
 # Views & Templates — Etalase CI4 dengan Layout
 
 > **Kategori:** CodeIgniter | **Level:** Pemula | **Minggu 3:** Views & Templates
+> **Prasyarat:** Minggu 2 — **Controllers & Routing**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Stores — Gudang Bersama Svelte Lanjutan
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 5:** Stores
+> **Prasyarat:** Minggu 4 — **Events & Bindings**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # State Management — Gudang Besar Angular (ngrx.io)
 
 > **Kategori:** Angular | **Level:** Menengah | **Minggu 10:** State Management
+> **Prasyarat:** Minggu 9 — **RxJS**.
 
 ## Tujuan Pembelajaran
 

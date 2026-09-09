@@ -1,6 +1,7 @@
 # Auth — KTP Node
 
 > **Kategori:** Node.js | **Level:** Menengah | **Minggu 7:** Auth
+> **Prasyarat:** Minggu 6 — **REST API**.
 
 ## Tujuan Pembelajaran
 

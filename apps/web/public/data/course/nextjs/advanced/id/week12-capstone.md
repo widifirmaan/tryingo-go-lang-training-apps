@@ -1,6 +1,7 @@
 # Capstone: Toko Online Lengkap
 
 > **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 12:** Capstone: SaaS App
+> **Prasyarat:** Minggu 11 — **Deployment**.
 
 ## Tujuan Pembelajaran
 

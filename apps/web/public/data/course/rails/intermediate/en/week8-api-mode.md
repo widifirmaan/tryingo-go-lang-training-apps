@@ -1,6 +1,7 @@
 # Rails API Mode
 
 > **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 8:** Rails API Mode
+> **Prerequisites:** Week 7 — **Testing with RSpec**.
 
 ## Learning Objectives
 

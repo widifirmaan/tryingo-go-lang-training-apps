@@ -1,6 +1,7 @@
 # Error Handling — Alarm Warung Tidak Panik
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Minggu 10:** Error Handling
+> **Prasyarat:** Minggu 9 — **Modules**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Capstone: Toko E-Commerce Lengkap
 
 > **Kategori:** React | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce App
+> **Prasyarat:** Minggu 11 — **Performance**.
 
 ## Tujuan Pembelajaran
 

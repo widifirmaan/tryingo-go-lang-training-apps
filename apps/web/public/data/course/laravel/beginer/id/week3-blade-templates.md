@@ -1,6 +1,7 @@
 # Blade Templates — Etalase Warisi Bingkai Laravel
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 3:** Blade Templates
+> **Prasyarat:** Minggu 2 — **Routing & Controllers**.
 
 ## Tujuan Pembelajaran
 

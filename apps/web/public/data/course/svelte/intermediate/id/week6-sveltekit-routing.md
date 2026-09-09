@@ -1,6 +1,7 @@
 # SvelteKit Routing — Peta Warung Svelte
 
 > **Kategori:** Svelte | **Level:** Menengah | **Minggu 6:** SvelteKit Routing
+> **Prasyarat:** Minggu 5 — **Stores**.
 
 ## Tujuan Pembelajaran
 

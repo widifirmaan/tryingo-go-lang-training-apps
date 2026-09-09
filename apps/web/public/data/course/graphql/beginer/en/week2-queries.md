@@ -1,6 +1,7 @@
 # Queries — Order Exactly What You Want (GraphQL)
 
 > **Kategori:** GraphQL | **Level:** Beginner | **Minggu 2:** Queries
+> **Prerequisites:** Week 1 — **Schema & Types**.
 
 ## Learning Objectives
 

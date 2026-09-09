@@ -1,6 +1,7 @@
 # Box Model — Shop Boxes
 
 > **Kategori:** CSS3 | **Level:** Complete CSS3 | **Minggu 2:** Box Model
+> **Prerequisites:** Week 1 — **Selectors & Basic Styling**.
 
 ## Learning Objectives
 

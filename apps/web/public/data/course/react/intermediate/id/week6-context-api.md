@@ -1,6 +1,7 @@
 # Context API — Gudang Bersama Warung
 
 > **Kategori:** React | **Level:** Menengah | **Minggu 6:** Context API & useReducer
+> **Prasyarat:** Minggu 5 — **React Router**.
 
 ## Tujuan Pembelajaran
 

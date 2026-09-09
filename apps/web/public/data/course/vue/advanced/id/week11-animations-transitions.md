@@ -1,6 +1,7 @@
 # Animations & Transitions — Warung Halus Vue
 
 > **Kategori:** Vue | **Level:** Lanjutan | **Minggu 11:** Animations & Transitions
+> **Prasyarat:** Minggu 10 — **Performance & Nuxt**.
 
 ## Tujuan Pembelajaran
 

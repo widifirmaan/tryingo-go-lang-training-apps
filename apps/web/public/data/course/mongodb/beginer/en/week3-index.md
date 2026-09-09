@@ -1,6 +1,7 @@
 # Index — MongoDB Card-Box Contents
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 3:** Index
+> **Prerequisites:** Week 2 — **Update & Delete**.
 
 ## Learning Objectives
 

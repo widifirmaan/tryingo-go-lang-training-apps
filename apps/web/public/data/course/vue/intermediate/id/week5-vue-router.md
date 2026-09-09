@@ -1,6 +1,7 @@
 # Vue Router — Peta Warung Vue
 
 > **Kategori:** Vue | **Level:** Menengah | **Minggu 5:** Vue Router
+> **Prasyarat:** Minggu 4 — **Components & Props**.
 
 ## Tujuan Pembelajaran
 

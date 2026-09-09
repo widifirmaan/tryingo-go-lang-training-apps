@@ -1,6 +1,7 @@
 # Templates — Pretty Django Shop Tables
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 4:** Templates & Template Language
+> **Prerequisites:** Week 3 — **Views & URLs**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Async & Scheduling — Alarm Rutin Warung Spring
 
 > **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 12:** Async & Scheduling
+> **Prasyarat:** Minggu 11 — **Caching**.
 
 ## Tujuan Pembelajaran
 

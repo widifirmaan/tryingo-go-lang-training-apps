@@ -1,6 +1,7 @@
 # Testing — Test Node Shop Before Opening
 
 > **Kategori:** Node.js | **Level:** Advanced | **Minggu 9:** Testing
+> **Prerequisites:** Week 8 — **Database**.
 
 ## Learning Objectives
 

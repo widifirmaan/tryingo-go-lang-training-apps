@@ -1,6 +1,7 @@
 # Interfaces & Generics — Shop Contracts
 
 > **Kategori:** Go | **Level:** Intermediate | **Minggu 6:** Interface & Generics
+> **Prerequisites:** Week 5 — **Struct & Method**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Transitions & Animations — Smooth Svelte Shop (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Intermediate | **Minggu 9:** Transitions & Animations
+> **Prerequisites:** Week 8 — **Lifecycle & Context**.
 
 ## Learning Objectives
 

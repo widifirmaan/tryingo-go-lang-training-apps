@@ -1,6 +1,7 @@
 # Trait — Rust Shop Contract
 
 > **Kategori:** Rust | **Level:** Intermediate | **Minggu 7:** Trait
+> **Prerequisites:** Week 6 — **Error Handling**.
 
 ## Learning Objectives
 

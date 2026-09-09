@@ -1,6 +1,7 @@
 # Enum & Pattern Matching — Pilihan Warung yang Wajib Lengkap
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 4:** Enum & Pattern Matching
+> **Prasyarat:** Minggu 3 — **Struct & Method**.
 
 ## Tujuan Pembelajaran
 

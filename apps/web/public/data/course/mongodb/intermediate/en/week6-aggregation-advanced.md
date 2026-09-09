@@ -1,6 +1,7 @@
 # Advanced Aggregation — 2-Floor MongoDB Factory
 
 > **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 6:** Aggregation Lanjutan
+> **Prerequisites:** Week 5 — **Schema Design**.
 
 ## Learning Objectives
 

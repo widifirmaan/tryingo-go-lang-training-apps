@@ -1,6 +1,7 @@
 # Lua Scripting — Resep di Server Redis
 
 > **Kategori:** Redis | **Level:** Menengah | **Minggu 7:** Lua Scripting
+> **Prasyarat:** Minggu 6 — **Pub/Sub**.
 
 ## Tujuan Pembelajaran
 

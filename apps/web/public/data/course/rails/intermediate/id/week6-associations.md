@@ -1,6 +1,7 @@
 # Associations — Tali Antar Rak Rails
 
 > **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 6:** Associations
+> **Prasyarat:** Minggu 5 — **Authentication**.
 
 ## Tujuan Pembelajaran
 

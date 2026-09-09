@@ -1,6 +1,7 @@
 # CRUD & Query — Fill, View, Update, Delete
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 2:** CRUD & Query
+> **Prerequisites:** Week 1 — **PostgreSQL Basics**.
 
 ## Learning Objectives
 

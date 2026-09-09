@@ -1,6 +1,7 @@
 # Capstone: Full Stack App — Warung C# Grand Opening
 
 > **Kategori:** C# | **Level:** Lanjutan | **Minggu 12:** Capstone: Full Stack App
+> **Prasyarat:** Minggu 11 — **Web API**.
 
 ## Tujuan Pembelajaran
 

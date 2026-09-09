@@ -1,6 +1,7 @@
 # Setup & Core Concepts — Your First Next.js Website
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 1:** Setup & Core Concepts
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Documents & CRUD — Flexible Cards
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 1:** Dokumen & CRUD
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

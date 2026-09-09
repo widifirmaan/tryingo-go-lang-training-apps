@@ -1,6 +1,7 @@
 # Macros — Rust Code Stamps
 
 > **Kategori:** Rust | **Level:** Advanced | **Minggu 13:** Macros
+> **Prerequisites:** Week 12 — **Concurrency**.
 
 ## Learning Objectives
 

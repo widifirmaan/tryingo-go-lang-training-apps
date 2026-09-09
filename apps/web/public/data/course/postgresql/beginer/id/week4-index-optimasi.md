@@ -1,6 +1,7 @@
 # Index & Optimasi — Daftar Isi Biar Cari Cepat
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 4:** Index & Optimasi
+> **Prasyarat:** Minggu 3 — **JOIN & Relasi**.
 
 ## Tujuan Pembelajaran
 

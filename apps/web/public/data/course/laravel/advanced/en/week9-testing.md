@@ -1,6 +1,7 @@
 # Testing — Test Laravel Shop
 
 > **Kategori:** Laravel | **Level:** Advanced | **Minggu 9:** Testing
+> **Prerequisites:** Week 8 — **File Storage**.
 
 ## Learning Objectives
 

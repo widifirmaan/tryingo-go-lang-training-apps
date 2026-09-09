@@ -1,6 +1,7 @@
 # Testing — Uji Rasa Sebelum Saji
 
 > **Kategori:** Python | **Level:** Lanjutan | **Minggu 10:** Testing
+> **Prasyarat:** Minggu 9 — **Libraries**.
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,7 @@
 # Template Forms — Two-Way Angular Shop Forms
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 5:** Template Forms
+> **Prerequisites:** Week 4 — **Component Communication**.
 
 ## Learning Objectives
 

@@ -1,6 +1,7 @@
 # Blade Templates — Showcase Inheriting Laravel Frame
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 3:** Blade Templates
+> **Prerequisites:** Week 2 — **Routing & Controllers**.
 
 ## Learning Objectives
 

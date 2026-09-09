@@ -1,6 +1,7 @@
 # PDO Database — Supir Gudang PHP Beneran
 
 > **Kategori:** PHP | **Level:** Menengah | **Minggu 8:** PDO & Database
+> **Prasyarat:** Minggu 7 — **Keamanan PHP**.
 
 ## Tujuan Pembelajaran
 

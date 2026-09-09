@@ -1,6 +1,7 @@
 # Setup & Syntax — Tidy Shop Ledger in Go
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 1:** Setup, Toolchain & Sintaks Dasar
+> **Prerequisites:** None — start from zero.
 
 ## Learning Objectives
 

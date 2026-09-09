@@ -1,6 +1,7 @@
 # Performance & Nuxt — Warung Kilat Vue
 
 > **Kategori:** Vue | **Level:** Lanjutan | **Minggu 10:** Performance & Nuxt
+> **Prasyarat:** Minggu 9 — **Testing Vue**.
 
 ## Tujuan Pembelajaran
 

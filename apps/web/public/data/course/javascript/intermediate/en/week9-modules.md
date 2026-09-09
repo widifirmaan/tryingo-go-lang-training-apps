@@ -1,6 +1,7 @@
 # Modules — Split Shop into Separate Files
 
 > **Kategori:** JavaScript | **Level:** Intermediate | **Minggu 9:** Modules
+> **Prerequisites:** Week 8 — **ES6+ Features**.
 
 ## Learning Objectives
 

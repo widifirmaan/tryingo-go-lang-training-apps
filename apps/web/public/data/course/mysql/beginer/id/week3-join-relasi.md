@@ -1,6 +1,7 @@
 # JOIN & Relasi — Gabung 2 Rak MySQL Jadi 1 Laporan
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 3:** JOIN & Relasi
+> **Prasyarat:** Minggu 2 — **CRUD & Query**.
 
 ## Tujuan Pembelajaran
 

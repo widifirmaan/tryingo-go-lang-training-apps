@@ -1,6 +1,7 @@
 # Testing JavaScript — Uji Sebelum Buka
 
 > **Kategori:** JavaScript | **Level:** Lanjutan | **Minggu 12:** Testing
+> **Prasyarat:** Minggu 11 — **Design Patterns**.
 
 ## Tujuan Pembelajaran
 

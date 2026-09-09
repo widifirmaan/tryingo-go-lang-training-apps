@@ -1,6 +1,7 @@
 # Images & Media — Photo Showcase
 
 > **Kategori:** HTML5 | **Level:** Complete HTML5 | **Minggu 4:** Gambar & Media
+> **Prerequisites:** Week 3 — **Links & Navigation**.
 
 ## Learning Objectives
 

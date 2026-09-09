@@ -1,6 +1,7 @@
 # Routing & Controllers — Laravel Doors and Waiters
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 2:** Routing & Controllers
+> **Prerequisites:** Week 1 — **Laravel Setup**.
 
 ## Learning Objectives
 

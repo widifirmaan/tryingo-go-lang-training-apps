@@ -1,6 +1,7 @@
 # Spring Data JPA — SQL-Free Automatic Racks
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 4:** Spring Data JPA
+> **Prerequisites:** Week 3 — **REST Controller**.
 
 ## Learning Objectives
 

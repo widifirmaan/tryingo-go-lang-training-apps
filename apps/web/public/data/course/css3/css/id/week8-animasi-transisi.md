@@ -1,6 +1,7 @@
 # Animasi & Transisi — Warung Bergerak Halus (MDN)
 
 > **Kategori:** CSS3 | **Level:** CSS3 Lengkap | **Minggu 8:** Animasi & Transisi
+> **Prasyarat:** Minggu 7 — **Responsive Design**.
 
 ## Tujuan Pembelajaran
 

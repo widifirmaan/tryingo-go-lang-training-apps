@@ -1,6 +1,7 @@
 # Proyek Akhir — Warung HTML Lengkap Online
 
 > **Kategori:** HTML5 | **Level:** HTML5 Lengkap | **Minggu 14:** Proyek Akhir
+> **Prasyarat:** Minggu 13 — **SEO & Meta**.
 
 ## Tujuan Pembelajaran
 

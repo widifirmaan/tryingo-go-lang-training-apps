@@ -1,6 +1,7 @@
 # Lifecycle & Context — Siklus Hidup Warung Svelte (svelte.dev)
 
 > **Kategori:** Svelte | **Level:** Menengah | **Minggu 8:** Lifecycle & Context
+> **Prasyarat:** Minggu 7 — **Actions & Forms**.
 
 ## Tujuan Pembelajaran
 

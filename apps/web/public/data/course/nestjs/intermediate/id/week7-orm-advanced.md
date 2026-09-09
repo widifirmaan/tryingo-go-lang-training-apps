@@ -1,6 +1,7 @@
 # ORM Relations — Tali Antar Rak NestJS
 
 > **Kategori:** NestJS | **Level:** Menengah | **Minggu 7:** ORM Advanced & Relations
+> **Prasyarat:** Minggu 6 — **Guards & Auth**.
 
 ## Tujuan Pembelajaran
 

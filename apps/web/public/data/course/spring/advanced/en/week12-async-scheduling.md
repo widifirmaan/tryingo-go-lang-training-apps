@@ -1,6 +1,7 @@
 # Async & Scheduling — Spring Shop Routine Alarms
 
 > **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 12:** Async & Scheduling
+> **Prerequisites:** Week 11 — **Caching**.
 
 ## Learning Objectives
 

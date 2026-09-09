@@ -1,6 +1,7 @@
 # Events & Async — Node Shop Ears and Promises
 
 > **Kategori:** Node.js | **Level:** Beginner | **Minggu 4:** Events & Async Programming
+> **Prerequisites:** Week 3 — **File System**.
 
 ## Learning Objectives
 

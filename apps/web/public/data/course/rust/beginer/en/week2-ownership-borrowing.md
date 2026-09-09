@@ -1,6 +1,7 @@
 # Ownership & Borrowing — Borrowed Books Must Return
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 2:** Ownership & Borrowing
+> **Prerequisites:** Week 1 — **Rust Setup & Syntax**.
 
 ## Learning Objectives
 

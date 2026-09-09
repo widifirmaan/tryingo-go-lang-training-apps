@@ -1,6 +1,7 @@
 # Struct & Method — Rust Product Cards
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 3:** Struct & Method
+> **Prerequisites:** Week 2 — **Ownership & Borrowing**.
 
 ## Learning Objectives
 

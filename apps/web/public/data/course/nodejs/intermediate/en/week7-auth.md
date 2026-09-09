@@ -1,6 +1,7 @@
 # Auth — Node ID
 
 > **Kategori:** Node.js | **Level:** Intermediate | **Minggu 7:** Auth
+> **Prerequisites:** Week 6 — **REST API**.
 
 ## Learning Objectives
 

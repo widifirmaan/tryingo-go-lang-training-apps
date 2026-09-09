@@ -1,6 +1,7 @@
 # Caching — Laci Cepat Django
 
 > **Kategori:** Django | **Level:** Lanjutan | **Minggu 10:** Caching
+> **Prasyarat:** Minggu 9 — **Testing**.
 
 ## Tujuan Pembelajaran
 

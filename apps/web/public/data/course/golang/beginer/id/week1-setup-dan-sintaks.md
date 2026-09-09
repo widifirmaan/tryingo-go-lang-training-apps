@@ -1,6 +1,7 @@
 # Setup & Sintaks Go — Buku Kas Kantor yang Rapi
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 1:** Setup, Toolchain & Sintaks Dasar
+> **Prasyarat:** Tidak ada — mulai dari nol.
 
 ## Tujuan Pembelajaran
 

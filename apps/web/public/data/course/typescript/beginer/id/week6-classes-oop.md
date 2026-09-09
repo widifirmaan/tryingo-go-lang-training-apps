@@ -1,6 +1,7 @@
 # Classes & OOP — Pabrik Kartu TypeScript
 
 > **Kategori:** TypeScript | **Level:** TypeScript Lengkap | **Minggu 6:** Classes & OOP
+> **Prasyarat:** Minggu 5 — **Generics**.
 
 ## Tujuan Pembelajaran
 
