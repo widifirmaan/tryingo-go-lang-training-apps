@@ -66,6 +66,13 @@ Bungkus `App` dengan `Provider value={{ keranjang, dispatch }}`, semua anak `use
 
 ---
 
+## Tantangan
+
+**Context API di Warungmu:** pakai `keranjangReducer`, `KeranjangProvider`, `Produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `keranjangReducer`, `KeranjangProvider`, `Produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **React Router** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 6: **Gudang Bersama** — Context tanpa estafet. Minggu depan: **Forms**.

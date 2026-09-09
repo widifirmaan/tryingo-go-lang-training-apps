@@ -46,6 +46,13 @@ gunicorn store.wsgi
 
 ---
 
+## Challenge
+
+**Deployment in Your Shop:** use `pip install gunicorn`, `python manage`, `gunicorn store` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `pip install gunicorn`, `python manage`, `gunicorn store`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Caching** (Week 10): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

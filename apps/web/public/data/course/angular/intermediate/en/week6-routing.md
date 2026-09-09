@@ -39,6 +39,13 @@ Use `routerLink="/products/1"` vs `href` (reload).
 
 ---
 
+## Challenge
+
+**Routing in Your Shop:** use `/products` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Template Forms** (Week 5): plug the result into that flow, end-to-end must work.
+
 ## Summary
 
 Week 6: **Angular Map** — `Routes` + `routerLink`. Next week: **Reactive Forms**.

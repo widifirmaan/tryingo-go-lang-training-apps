@@ -55,6 +55,13 @@ php artisan storage:link
 
 ---
 
+## Challenge
+
+**File Storage in Your Shop:** use `/products`, `save` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products`, `save`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Validation** (Week 7): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

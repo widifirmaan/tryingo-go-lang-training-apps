@@ -63,6 +63,13 @@ export default async function Admin(){
 ### 3 Must-Know Terms
 - 1. **NextAuth/session**: ID/check
 
+## Challenge
+
+**Advanced Auth in Your Shop:** use `/login` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/login`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Database & ORM** (Week 9): plug the result into that flow, end-to-end must work.
+
 ## Summary
 
 Week 10: **Digital ID** — NextAuth protects admin. Next: **Deploy**.

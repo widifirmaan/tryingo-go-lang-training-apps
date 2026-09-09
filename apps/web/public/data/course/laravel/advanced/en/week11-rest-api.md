@@ -81,6 +81,13 @@ Test: `curl -X POST -d '{"email":"admin@shop.com","password":"123"}' localhost:8
 
 ---
 
+## Challenge
+
+**REST API in Your Shop:** use `/login`, `User` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/login`, `User`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Queues & Jobs** (Week 10): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

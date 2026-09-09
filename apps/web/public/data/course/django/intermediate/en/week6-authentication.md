@@ -82,6 +82,13 @@ def view(request):
 
 ---
 
+## Challenge
+
+**Authentication in Your Shop:** use `login_view`, `admin_shop`, `django` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `login_view`, `admin_shop`, `django`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Forms & Validation** (Week 5): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

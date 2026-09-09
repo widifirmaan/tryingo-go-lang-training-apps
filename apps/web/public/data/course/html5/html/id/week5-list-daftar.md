@@ -42,6 +42,13 @@ Daftar produk, langkah masak, FAQ — semua list. Tanpa `ul/ol`, tulis ` - Beras
 
 ---
 
+## Tantangan
+
+**List & Daftar di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Gambar & Media** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 5: **Daftar** — `ul/ol` rak daftar. Minggu depan: **Tabel**.

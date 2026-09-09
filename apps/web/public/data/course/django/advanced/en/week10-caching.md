@@ -50,6 +50,13 @@ def list(request):
 
 ---
 
+## Challenge
+
+**Caching in Your Shop:** use `list`, `django` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `list`, `django`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Testing** (Week 9): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

@@ -84,6 +84,13 @@ test("shows name", () => {
 
 ---
 
+## Challenge
+
+**Testing React in Your Shop:** re-run it until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in the Program; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Advanced Patterns** (Week 9): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

@@ -63,6 +63,13 @@ Server: `await fetch` di `page.js` → HTML jadi sebelum kirim. Client: `useEffe
 
 ---
 
+## Tantangan
+
+**Data Fetching di Warungmu:** pakai `ambilProduk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `ambilProduk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Styling & Optimasi** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 5: **Ambil Stok** — Server fetch + cache. Minggu depan: **Server Actions** — kirim form.

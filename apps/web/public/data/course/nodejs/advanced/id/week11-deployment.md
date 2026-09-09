@@ -47,6 +47,13 @@ pm2 save
 
 ---
 
+## Tantangan
+
+**Deployment di Warungmu:** pakai `npm run build`, `pm2 start server`, `pm2 save` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `npm run build`, `pm2 start server`, `pm2 save`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Performance** (Minggu 10): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

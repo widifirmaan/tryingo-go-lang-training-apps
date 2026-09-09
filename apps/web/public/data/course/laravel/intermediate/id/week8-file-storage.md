@@ -55,6 +55,13 @@ php artisan storage:link
 
 ---
 
+## Tantangan
+
+**File Storage di Warungmu:** pakai `/produk`, `simpan` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`, `simpan`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Validasi** (Minggu 7): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

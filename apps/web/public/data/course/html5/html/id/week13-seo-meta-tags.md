@@ -33,6 +33,13 @@ Test di `search.google.com/test/rich-results` dan WA `wa.me` preview.
 
 ---
 
+## Tantangan
+
+**SEO & Meta di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Aksesibilitas** (Minggu 12): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 13: **Papan Nama Google** — `title` + `description` + `og:`. Minggu depan: **Proyek Akhir**.

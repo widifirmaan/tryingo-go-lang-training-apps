@@ -47,6 +47,13 @@ app.listen(3000, () => console.log("Buka http://localhost:3000/produk"));
 
 ---
 
+## Tantangan
+
+**Express Server di Warungmu:** pakai `/produk`, `/produk/:id` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`, `/produk/:id`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Events & Async** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 5: **Express** — `app.get/post` jadi API. Minggu depan: **REST API**.

@@ -56,6 +56,13 @@ Format Go pakai tanggal referensi `2006-01-02 15:04:05`.
 
 ---
 
+## Tantangan
+
+**Stdlib: I/O & Encoding di Warungmu:** pakai `main`, `Nota` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `main`, `Nota`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Context & Sync** (Minggu 9): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 10: **I/O & JSON** — tulis & baca nota. Minggu depan: **HTTP Server**.

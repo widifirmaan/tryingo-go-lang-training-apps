@@ -45,6 +45,13 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 ### 3 Istilah Wajib
 - 1. **EXPLAIN ANALYZE/VACUUM**: rontgen-waktu/sapu
 
+## Tantangan
+
+**Performa Tuning di Warungmu:** pakai `produk`, `pg_stat_statements` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `produk`, `pg_stat_statements`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **JSONB Semi-Struktural** (Minggu 7): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 8: **Gudang Cepat** — `EXPLAIN ANALYZE` + `VACUUM`. Minggu depan: **Replikasi & HA**.

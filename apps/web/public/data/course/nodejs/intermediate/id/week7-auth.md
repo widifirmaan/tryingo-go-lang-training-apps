@@ -63,6 +63,13 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 
 ---
 
+## Tantangan
+
+**Auth di Warungmu:** pakai `/login`, `/admin`, `cek` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/login`, `/admin`, `cek`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **REST API** (Minggu 6): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

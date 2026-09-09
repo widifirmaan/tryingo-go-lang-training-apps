@@ -48,6 +48,13 @@ public function test_create(){
 
 ---
 
+## Challenge
+
+**Testing in Your Shop:** use `/products`, `test_create` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products`, `test_create`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **File Storage** (Week 8): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

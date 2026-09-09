@@ -64,6 +64,13 @@ Jalan **sebelum** `page.js`, bisa `redirect` atau `next()`.
 
 ---
 
+## Tantangan
+
+**Middleware & Auth Dasar di Warungmu:** pakai `/admin`, `/login` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/admin`, `/login`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Loading & Error** (Minggu 7): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 8: **Satpam Pintu** — middleware. Selesai Menengah Next.js! Minggu depan: **Database & ORM**.

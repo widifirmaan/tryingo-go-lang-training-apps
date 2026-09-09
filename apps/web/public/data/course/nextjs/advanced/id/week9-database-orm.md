@@ -87,6 +87,13 @@ export async function POST(req) {
 
 ---
 
+## Tantangan
+
+**Database & ORM di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Middleware & Auth Dasar** (Minggu 8): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`. Minggu depan: **Advanced Auth**.

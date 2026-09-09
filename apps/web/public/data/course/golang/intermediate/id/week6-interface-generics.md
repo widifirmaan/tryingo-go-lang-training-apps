@@ -44,6 +44,13 @@ func main(){
 
 ---
 
+## Tantangan
+
+**Interface & Generics di Warungmu:** pakai `Bayar`, `Pertama`, `main` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `Bayar`, `Pertama`, `main`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Struct & Method** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 6: **Kontrak** — interface implisit. Minggu depan: **Pointer**.

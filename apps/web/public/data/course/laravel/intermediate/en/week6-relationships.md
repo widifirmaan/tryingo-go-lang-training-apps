@@ -54,6 +54,13 @@ echo $order->product->name;
 
 ---
 
+## Challenge
+
+**Relationships in Your Shop:** use `Product`, `Order`, `orders` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `Product`, `Order`, `orders`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Authentication** (Week 5): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

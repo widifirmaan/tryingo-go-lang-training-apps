@@ -52,6 +52,13 @@ Open `http://localhost:8000/admin/shop/product/` → filter category, find names
 
 ---
 
+## Challenge
+
+**Admin Panel in Your Shop:** use `ProductAdmin`, `django` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `ProductAdmin`, `django`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Authentication** (Week 6): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

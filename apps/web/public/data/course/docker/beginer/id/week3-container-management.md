@@ -38,6 +38,13 @@ docker network connect warung-net db2
 
 ---
 
+## Tantangan
+
+**Container Management di Warungmu:** pakai `produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Image & Registry** (Minggu 2): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 3: **Data Tetap** — volume & network. Minggu depan: **Dockerfile**.

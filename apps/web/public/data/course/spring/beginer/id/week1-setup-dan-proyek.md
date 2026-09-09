@@ -42,6 +42,13 @@ Buka `http://localhost:8080/hello` → "Halo Warung Spring!"
 
 ---
 
+## Tantangan
+
+**Setup Spring Boot di Warungmu:** pakai `/hello` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/hello`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
+
 ## Ringkasan
 
 Minggu 1: **Pabrik Spring** — `start.spring.io` klik jadi. Minggu depan: **DI**.

@@ -25,6 +25,13 @@ Warung buka 24 jam — jika gudang utama mati, cabang replica ambil alih.
 
 ---
 
+## Tantangan
+
+**Replikasi & HA di Warungmu:** pakai `pg_stat_replication` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `pg_stat_replication`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Performa Tuning** (Minggu 8): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 9: **Cabang Gudang** — replikasi. Minggu depan: **Capstone: Gudang Warung Lengkap**.
