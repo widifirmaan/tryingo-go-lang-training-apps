@@ -52,6 +52,12 @@ prisma/schema.prisma
 ### 3 Must-Know Terms
 - 1. **Capstone/deploy**: combine/open
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete 1 line in the Program → what is the first error? Restore it.
+
 ## Challenge
 
 **Capstone: Complete Online Store in Your Shop:** use `app`, `products`, `products` until it truly runs, then do these three levels.

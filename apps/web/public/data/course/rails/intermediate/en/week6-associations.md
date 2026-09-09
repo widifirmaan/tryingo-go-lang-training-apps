@@ -51,6 +51,12 @@ product.orders.map(&:customer)
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `Customer`'s value → does the output follow?
+- **Yellow:** Change the case of `Customer` and `Order` → still runs or error?
+- **Red:** Mistype 1 letter in `Customer` → what error message? Fix it.
+
 ## Challenge
 
 **Associations in Your Shop:** use `Customer`, `Order` until it truly runs, then do these three levels.

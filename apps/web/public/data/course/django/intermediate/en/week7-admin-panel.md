@@ -52,6 +52,12 @@ Open `http://localhost:8000/admin/shop/product/` → filter category, find names
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `ProductAdmin`'s value → does the output follow?
+- **Yellow:** Change the case of `ProductAdmin` → still runs or error?
+- **Red:** Delete the line `from django.contrib import admin` → what error? Put it back.
+
 ## Challenge
 
 **Admin Panel in Your Shop:** use `ProductAdmin`, `django` until it truly runs, then do these three levels.

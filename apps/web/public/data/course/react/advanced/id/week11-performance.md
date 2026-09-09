@@ -56,6 +56,12 @@ export default function App(){
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Daftar` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Daftar` dan `Kartu` → masih jalan atau error?
+- **Merah:** Hapus baris `import { memo, useMemo, lazy, Suspense } from "react";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Performance di Warungmu:** pakai `Daftar` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

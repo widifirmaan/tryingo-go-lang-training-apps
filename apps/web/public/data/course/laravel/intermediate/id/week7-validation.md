@@ -63,6 +63,12 @@ View: `@error('nama') <span>{{ $message }}</span> @enderror`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Validasi di Warungmu:** pakai `/produk`, `rules`, `messages` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

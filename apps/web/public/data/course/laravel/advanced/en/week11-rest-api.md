@@ -81,6 +81,12 @@ Test: `curl -X POST -d '{"email":"admin@shop.com","password":"123"}' localhost:8
 
 ---
 
+## Experiments
+
+- **Green:** Open `/login` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `User` and `user` → still runs or error?
+- **Red:** Delete the line `use Laravel\Sanctum\HasApiTokens;` → what error? Put it back.
+
 ## Challenge
 
 **REST API in Your Shop:** use `/login`, `User` until it truly runs, then do these three levels.

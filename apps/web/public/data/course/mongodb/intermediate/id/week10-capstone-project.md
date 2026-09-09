@@ -49,6 +49,12 @@ CRUD + index + pipa + desain + replica + transaksi = produksi.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist + `mongodump` + restore ke DB baru + data sama. **Selesai MongoDB 0→Ahli!** 🎉

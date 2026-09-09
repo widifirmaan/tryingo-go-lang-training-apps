@@ -45,6 +45,12 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 ### 3 Must-Know Terms
 - 1. **EXPLAIN ANALYZE/VACUUM**: time-xray/sweep
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete 1 line in the Program → what is the first error? Restore it.
+
 ## Challenge
 
 **Performance Tuning in Your Shop:** use `products`, `pg_stat_statements` until it truly runs, then do these three levels.

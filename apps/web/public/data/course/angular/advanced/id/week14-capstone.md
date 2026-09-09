@@ -65,6 +65,12 @@ src/app/
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Warung Angular Lengkap Deploy:** `produk` CRUD `HttpClient` + `keranjang` `Service` + `admin` lazy + `OnPush` + `TestBed` 1 test `tampil nama` + `Vercel` deploy + `Lighthouse` 90+ screenshot.

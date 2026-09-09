@@ -90,6 +90,12 @@ export async function POST({ request }) {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `daftar` → masih jalan atau error?
+- **Merah:** Hapus baris `import { page } from "$app/stores";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **SvelteKit Routing di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

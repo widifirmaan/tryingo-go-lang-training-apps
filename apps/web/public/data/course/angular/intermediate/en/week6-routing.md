@@ -39,6 +39,12 @@ Use `routerLink="/products/1"` vs `href` (reload).
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete 1 line in the Program → what is the first error? Restore it.
+
 ## Challenge
 
 **Routing in Your Shop:** use `/products` until it truly runs, then do these three levels.

@@ -84,6 +84,12 @@ console.log(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)); // true
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `total` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `total` dan `pelanggan` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `total` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Katalog ES6:** `const p = {nama:"Beras", harga:62000, stok:10}` → `const {nama, harga} = p`, `const baru = {...p, diskon:10}`, `const kota = pelanggan?.alamat?.kota ?? "Jakarta"`.

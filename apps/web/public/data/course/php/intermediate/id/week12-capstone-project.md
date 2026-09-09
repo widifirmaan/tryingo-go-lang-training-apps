@@ -75,6 +75,12 @@ OOP + PDO + Composer + uji + satpam = 1 toko.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `pdo` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `pdo` dan `halaman` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `pdo` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Grand Opening Warung PHP:** CRUD jalan + satpam (XSS/SQLi gagal) + PHPUnit 5 hijau + screenshot. **Selesai PHP 0→Ahli!** 🎉

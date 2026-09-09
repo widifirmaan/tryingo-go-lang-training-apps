@@ -82,6 +82,12 @@ Route::middleware('jambuka')->group(function(){
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `jam` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `jam` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `jam` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Authentication di Warungmu:** pakai `handle` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

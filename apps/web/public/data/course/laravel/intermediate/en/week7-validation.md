@@ -63,6 +63,12 @@ View: `@error('name') <span>{{ $message }}</span> @enderror`.
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete 1 line in the Program → what is the first error? Restore it.
+
 ## Challenge
 
 **Validation in Your Shop:** use `/products`, `rules`, `messages` until it truly runs, then do these three levels.

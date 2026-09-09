@@ -52,6 +52,12 @@ export default function App(){
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Card` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Card` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `Card` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Advanced Patterns di Warungmu:** pakai `Card` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

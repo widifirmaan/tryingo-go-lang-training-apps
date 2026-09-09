@@ -71,6 +71,12 @@ Landing `Beranda` eager, `admin` lazy — `ng serve` `chunk` terpisah di `Networ
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `flags` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `flags` → masih jalan atau error?
+- **Merah:** Hapus baris `import { Routes } from "@angular/router";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Warung Lazy Lengkap:** `Beranda` eager, `admin` `loadComponent`, `admin` anak `loadChildren`, `Network` cek chunk `admin` hanya saat `/admin`.

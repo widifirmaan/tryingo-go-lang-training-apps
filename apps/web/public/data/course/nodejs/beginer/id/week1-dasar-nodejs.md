@@ -71,6 +71,12 @@ Bikin `package.json` — KTP proyek.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `nama` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `nama` dan `qty` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `nama` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Kasir Terminal:** `node kasir.js Siti 3` → baca `nama` dan `qty` dari `argv`, hitung `total = 62000*qty`, cetak `Halo Siti, total Rp ...`.

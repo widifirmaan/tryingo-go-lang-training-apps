@@ -48,6 +48,12 @@ public function test_buat(){
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `res` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `res` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Testing di Warungmu:** pakai `/produk`, `test_buat` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

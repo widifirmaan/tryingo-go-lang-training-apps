@@ -63,6 +63,12 @@ app.post("/produk", async (req,res)=>res.json(await prisma.produk.create({ data:
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `prisma` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `prisma` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Database di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

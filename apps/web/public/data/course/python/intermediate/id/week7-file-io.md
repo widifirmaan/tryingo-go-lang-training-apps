@@ -102,6 +102,12 @@ db.close()
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import json` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Warung File:** Simpan `keranjang = [{"nama":"Beras","qty":2}]` ke `keranjang.json` dengan `json.dump`, baca lagi, tambah 1 item, tulis lagi.

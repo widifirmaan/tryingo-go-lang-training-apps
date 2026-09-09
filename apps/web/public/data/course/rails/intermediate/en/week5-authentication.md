@@ -61,6 +61,12 @@ end
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try `/login` → what differs?
+- **Yellow:** Change the case of `create` and `require_login` → still runs or error?
+- **Red:** Mistype 1 letter in `create` → what error message? Fix it.
+
 ## Challenge
 
 **Authentication in Your Shop:** use `/products`, `/login`, `create` until it truly runs, then do these three levels.

@@ -59,6 +59,12 @@ Buat gedung enterprise, jalan di `4200`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import { Component, Input } from '@angular/core';` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Components & Templates di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

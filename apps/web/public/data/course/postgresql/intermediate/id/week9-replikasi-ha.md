@@ -25,6 +25,12 @@ Warung buka 24 jam — jika gudang utama mati, cabang replica ambil alih.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Replikasi & HA di Warungmu:** pakai `pg_stat_replication` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

@@ -55,6 +55,12 @@ class ProdukTest(TestCase):
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk/` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `test_buat` dan `test_list` → masih jalan atau error?
+- **Merah:** Hapus baris `from django.test import TestCase` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Testing di Warungmu:** pakai `/produk/`, `test_buat`, `test_list` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

@@ -56,6 +56,12 @@ export default function App(){
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `List`'s value → does the output follow?
+- **Yellow:** Change the case of `List` and `Card` → still runs or error?
+- **Red:** Delete the line `import { memo, useMemo, lazy, Suspense } from "react";` → what error? Put it back.
+
 ## Challenge
 
 **Performance in Your Shop:** use `List` until it truly runs, then do these three levels.

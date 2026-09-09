@@ -67,6 +67,12 @@ console.log("Ongkir:", ongkir(2,5));
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `total` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `total` → masih jalan atau error?
+- **Merah:** Hapus baris `import { hitungTotal, ongkir } from "./kasir.js";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Warung Modul:** `produk.js` export `daftar`, `kasir.js` export `hitungTotal` + `ongkir`, `app.js` import keduanya, hitung struk lengkap + `console.log`.

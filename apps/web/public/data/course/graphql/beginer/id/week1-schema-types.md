@@ -93,6 +93,12 @@ query {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Produk` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Produk` dan `Query` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `Produk` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Schema & Types di Warungmu:** pakai `Produk`, `Query` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

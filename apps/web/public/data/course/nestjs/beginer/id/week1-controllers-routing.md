@@ -62,6 +62,12 @@ Buka `http://localhost:3000/produk` → JSON, `/produk/1` → 1 produk.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import { Controller, Get, Param } from '@nestjs/common';` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Controllers & Routing di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

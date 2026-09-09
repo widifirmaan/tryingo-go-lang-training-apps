@@ -45,6 +45,12 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 ### 3 Istilah Wajib
 - 1. **EXPLAIN ANALYZE/VACUUM**: rontgen-waktu/sapu
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Performa Tuning di Warungmu:** pakai `produk`, `pg_stat_statements` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

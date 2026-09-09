@@ -51,6 +51,12 @@ Deploy `Vercel` / `Netlify`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/api/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `produk` → masih jalan atau error?
+- **Merah:** Hapus baris `import { getProduk } from "./api.js";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Capstone: Toko JavaScript Lengkap di Warungmu:** pakai `/api/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

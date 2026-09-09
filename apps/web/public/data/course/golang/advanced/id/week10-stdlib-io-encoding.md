@@ -56,6 +56,12 @@ Format Go pakai tanggal referensi `2006-01-02 15:04:05`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Nota` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Nota` → masih jalan atau error?
+- **Merah:** Hapus baris `import ("encoding/json"; "fmt"; "os"; "time")` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Stdlib: I/O & Encoding di Warungmu:** pakai `main`, `Nota` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

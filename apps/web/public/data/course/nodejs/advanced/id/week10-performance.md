@@ -55,6 +55,12 @@ app.get("/produk", (req,res)=>{
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `cache` dan `data` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `cache` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Performance di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

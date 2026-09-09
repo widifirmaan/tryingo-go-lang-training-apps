@@ -67,6 +67,12 @@ Fungsi yang bungkus fungsi lain — tambah log tanpa ubah isi.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `catat` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `catat` dan `bungkus` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `catat` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Stempel Waktu:** Buat `@timer` yang `start = time.time()` sebelum `func` dan `print(time.time()-start)` sesudah. Pakai di `hitung(a,b)`.

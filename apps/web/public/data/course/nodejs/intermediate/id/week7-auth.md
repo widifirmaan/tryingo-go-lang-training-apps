@@ -63,6 +63,12 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/login` → apa yang tampil? Coba `/admin` → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `cek` dan `jwt` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `cek` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Auth di Warungmu:** pakai `/login`, `/admin`, `cek` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

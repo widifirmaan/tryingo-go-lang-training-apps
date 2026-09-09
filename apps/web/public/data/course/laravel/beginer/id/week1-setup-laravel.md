@@ -49,6 +49,12 @@ Buka `http://localhost:8000/produk`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `produk` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `produk` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Setup Laravel di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

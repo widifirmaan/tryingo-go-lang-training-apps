@@ -63,6 +63,12 @@ export default async function Admin(){
 ### 3 Istilah Wajib
 - 1. **NextAuth/session**: KTP/periksa
 
+## Eksperimen
+
+- **Hijau:** Buka `/login` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `session` → masih jalan atau error?
+- **Merah:** Hapus baris `import NextAuth from "next-auth";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Advanced Auth di Warungmu:** pakai `/login` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

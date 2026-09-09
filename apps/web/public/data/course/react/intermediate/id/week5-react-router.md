@@ -74,6 +74,12 @@ Bungkus semua, sediakan peta.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk/1` → apa yang tampil? Coba `/produk/2` → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `Beranda` dan `Daftar` → masih jalan atau error?
+- **Merah:** Hapus baris `import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Toko 3 Halaman:** `Beranda`, `Produk` list `Link` ke `ProdukDetail/:id` yang `useParams`, + `NotFound` `path="*"` .

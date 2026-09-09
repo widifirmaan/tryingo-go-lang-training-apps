@@ -77,6 +77,12 @@ Semantic + tabel + form + gambar + SEO + a11y = 1 warung.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/pesan` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Grand Opening:** 3 halaman (`index/produk/kontak`) + nav sama + tabel + form + SEO + deploy + WAVE 0 error + video 1 menit. **Selesai HTML5 0→Ahli!** 🎉

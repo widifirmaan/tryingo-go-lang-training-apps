@@ -109,6 +109,12 @@ fn main() {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `parse` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `parse` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `parse` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist + README + video. **Selesai Rust 0→Ahli!**

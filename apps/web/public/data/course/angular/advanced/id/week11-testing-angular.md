@@ -76,6 +76,12 @@ describe("Kartu", () => {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import { TestBed, ComponentFixture } from "@angular/core/testing";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Warung Uji Lengkap:** `Kartu` `nama` + `harga` + test `tampil nama` & `tampil harga` 2 test, `ng test` PASS.

@@ -54,6 +54,12 @@ echo $pesanan->produk->nama;
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Produk` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Produk` dan `Pesanan` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `Produk` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Relationships di Warungmu:** pakai `Produk`, `Pesanan`, `pesanans` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

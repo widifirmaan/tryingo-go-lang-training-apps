@@ -84,6 +84,12 @@ toko.stokHabis("Beras");
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `buatProduk` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `buatProduk` dan `Kasir` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `buatProduk` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Warung Pola Lengkap:** `Kasir` Singleton + `buatProduk` Factory 3 tipe + `Toko` Observer 2 pelanggan langganan `stokHabis`.

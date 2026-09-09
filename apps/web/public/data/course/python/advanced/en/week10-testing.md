@@ -53,6 +53,12 @@ test_calc()
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `calc`'s value → does the output follow?
+- **Yellow:** Change the case of `calc` and `test_calc` → still runs or error?
+- **Red:** Mistype 1 letter in `calc` → what error message? Fix it.
+
 ## Challenge
 
 **Testing in Your Shop:** use `calc`, `test_calc` until it truly runs, then do these three levels.

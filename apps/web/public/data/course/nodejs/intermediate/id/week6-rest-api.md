@@ -63,6 +63,12 @@ Test: `curl http://localhost:3000/produk` dan `curl -X POST -H "Content-Type: ap
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba `/produk/:id` → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `express` dan `app` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `express` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **REST API di Warungmu:** pakai `/produk`, `/produk/:id` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

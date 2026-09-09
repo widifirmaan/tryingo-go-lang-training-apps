@@ -84,6 +84,12 @@ test("shows name", () => {
 
 ---
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete the line `import { defineConfig } from "vitest/config";` → what error? Put it back.
+
 ## Challenge
 
 **Testing React in Your Shop:** re-run it until it truly runs, then do these three levels.

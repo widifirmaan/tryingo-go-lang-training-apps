@@ -51,6 +51,12 @@ produk.pesanans.map(&:pelanggan)
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Pelanggan` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Pelanggan` dan `Pesanan` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `Pelanggan` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Associations di Warungmu:** pakai `Pelanggan`, `Pesanan` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

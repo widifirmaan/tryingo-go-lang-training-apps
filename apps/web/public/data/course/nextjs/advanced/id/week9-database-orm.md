@@ -87,6 +87,12 @@ export async function POST(req) {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `produk` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `produk` → masih jalan atau error?
+- **Merah:** Hapus baris `import { prisma } from "@/lib/prisma";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Database & ORM di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

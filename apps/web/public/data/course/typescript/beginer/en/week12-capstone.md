@@ -89,6 +89,12 @@ console.log(products[0].name);
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `res` and `products` → still runs or error?
+- **Red:** Mistype 1 letter in `res` → what error message? Fix it.
+
 ## Challenge
 
 **Capstone: Type-Safe Shop API Client in Your Shop:** use `/products`, `apiGet`, `main` until it truly runs, then do these three levels.

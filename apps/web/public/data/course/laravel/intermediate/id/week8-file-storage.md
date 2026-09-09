@@ -55,6 +55,12 @@ php artisan storage:link
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `path` → masih jalan atau error?
+- **Merah:** Hapus baris `use Illuminate\Support\Facades\Storage;` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **File Storage di Warungmu:** pakai `/produk`, `simpan` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

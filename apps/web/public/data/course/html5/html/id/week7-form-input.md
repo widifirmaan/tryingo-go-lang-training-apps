@@ -94,6 +94,12 @@ Tanpa `label for`, klik tulisan "Nama" tidak fokus input — susah di HP. Tanpa 
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/daftar` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Form Warung Lengkap:** `nama` text `required`, `wa` tel, `jumlah` number, `catatan` textarea, `metode` select `COD/Transfer`, `label for` semua, `required` + `name`.

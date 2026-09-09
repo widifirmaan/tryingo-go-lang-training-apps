@@ -78,6 +78,12 @@ print("Murah:", murah)
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Inventaris:** `stok = ["beras","gula","beras"]` → `set(stok)` unik? `harga = {"beras":62000}` → `harga.get("beras")` + `for k,v in harga.items()` print.

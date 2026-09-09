@@ -60,6 +60,12 @@ test("calc 0+0", () => {
 
 ---
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete the line `import { test, expect } from "vitest";` → what error? Put it back.
+
 ## Challenge
 
 **Testing JavaScript in Your Shop:** re-run it until it truly runs, then do these three levels.

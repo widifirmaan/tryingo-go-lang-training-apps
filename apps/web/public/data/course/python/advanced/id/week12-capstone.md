@@ -63,6 +63,12 @@ print("Excel tersimpan: laporan.xlsx")
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `daftar` → masih jalan atau error?
+- **Merah:** Hapus baris `from flask import Flask, jsonify` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Capstone: Warung Python Lengkap di Warungmu:** pakai `/produk`, `daftar`, `flask` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

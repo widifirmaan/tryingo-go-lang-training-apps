@@ -63,6 +63,12 @@ Test: `curl http://localhost:3000/products` and `curl -X POST -H "Content-Type: 
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try `/products/:id` → what differs?
+- **Yellow:** Change the case of `express` and `app` → still runs or error?
+- **Red:** Mistype 1 letter in `express` → what error message? Fix it.
+
 ## Challenge
 
 **REST API in Your Shop:** use `/products`, `/products/:id` until it truly runs, then do these three levels.

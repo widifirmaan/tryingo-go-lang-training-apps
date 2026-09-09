@@ -74,6 +74,12 @@ Diet + rakit + pabrik + gembok + lemari = produksi.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/warung` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Docker 0→Ahli!** 🎉

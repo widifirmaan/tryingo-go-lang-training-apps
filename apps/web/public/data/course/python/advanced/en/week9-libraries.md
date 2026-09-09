@@ -55,6 +55,12 @@ print("json & os are built-in — no pip needed")
 
 ---
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete the line `import requests` → what error? Put it back.
+
 ## Challenge
 
 **Libraries in Your Shop:** re-run it until it truly runs, then do these three levels.

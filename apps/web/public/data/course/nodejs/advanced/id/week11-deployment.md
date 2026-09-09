@@ -47,6 +47,12 @@ pm2 save
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Deployment di Warungmu:** pakai `npm run build`, `pm2 start server`, `pm2 save` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

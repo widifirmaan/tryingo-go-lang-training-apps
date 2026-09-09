@@ -63,6 +63,12 @@ app.post("/products", async (req,res)=>res.json(await prisma.product.create({ da
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `prisma` → still runs or error?
+- **Red:** Mistype 1 letter in `prisma` → what error message? Fix it.
+
 ## Challenge
 
 **Database in Your Shop:** use `/products` until it truly runs, then do these three levels.
