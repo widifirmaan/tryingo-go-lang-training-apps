@@ -82,6 +82,13 @@ Route::middleware('jambuka')->group(function(){
 
 ---
 
+## Tantangan
+
+**Authentication di Warungmu:** pakai `handle` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `handle`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Eloquent ORM** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

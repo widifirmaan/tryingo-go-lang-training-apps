@@ -63,6 +63,13 @@ View: `@error('name') <span>{{ $message }}</span> @enderror`.
 
 ---
 
+## Challenge
+
+**Validation in Your Shop:** use `/products`, `rules`, `messages` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products`, `rules`, `messages`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Relationships** (Week 6): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

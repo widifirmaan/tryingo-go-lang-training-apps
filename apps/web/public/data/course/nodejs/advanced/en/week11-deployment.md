@@ -47,6 +47,13 @@ pm2 save
 
 ---
 
+## Challenge
+
+**Deployment in Your Shop:** use `npm run build`, `pm2 start server`, `pm2 save` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `npm run build`, `pm2 start server`, `pm2 save`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Performance** (Week 10): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

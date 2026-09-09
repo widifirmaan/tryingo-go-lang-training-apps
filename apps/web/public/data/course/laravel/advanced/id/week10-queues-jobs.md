@@ -73,6 +73,13 @@ Schedule::job(new KirimPromo)->dailyAt("07:00"); // tiap jam 7 pagi
 ```
 ---
 
+## Tantangan
+
+**Queues & Jobs di Warungmu:** pakai `content` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `content`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Testing** (Minggu 9): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

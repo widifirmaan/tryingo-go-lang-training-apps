@@ -53,6 +53,13 @@ test_hitung()
 
 ---
 
+## Tantangan
+
+**Testing di Warungmu:** pakai `hitung`, `test_hitung` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `hitung`, `test_hitung`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Libraries** (Minggu 9): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

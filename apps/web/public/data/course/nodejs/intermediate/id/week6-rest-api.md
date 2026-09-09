@@ -63,6 +63,13 @@ Test: `curl http://localhost:3000/produk` dan `curl -X POST -H "Content-Type: ap
 
 ---
 
+## Tantangan
+
+**REST API di Warungmu:** pakai `/produk`, `/produk/:id` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`, `/produk/:id`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Express Server** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

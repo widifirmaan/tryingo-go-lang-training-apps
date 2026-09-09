@@ -41,6 +41,15 @@ File `produk.rb` otomatis tabel `produks`, `Produk` class.
 
 ---
 
+## Tantangan
+
+**Setup Rails di Warungmu:** pakai `rails new warung`, `cd warung
+rails`, `rails db` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `rails new warung`, `cd warung
+rails`, `rails db`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
+
 ## Ringkasan
 
 Minggu 1: **Warung Kilat Rails** — `scaffold` langsung jadi. Minggu depan: **MVC**.

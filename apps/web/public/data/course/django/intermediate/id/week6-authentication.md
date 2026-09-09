@@ -82,6 +82,13 @@ def lihat(request):
 
 ---
 
+## Tantangan
+
+**Authentication di Warungmu:** pakai `masuk`, `admin_warung`, `django` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `masuk`, `admin_warung`, `django`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Forms & Validasi** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

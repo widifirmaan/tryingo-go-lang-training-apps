@@ -62,6 +62,13 @@ Buka `http://localhost:3000/produk` → JSON, `/produk/1` → 1 produk.
 
 ---
 
+## Tantangan
+
+**Controllers & Routing di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
+
 ## Ringkasan
 
 Minggu 1: **Pelayan Terstruktur** — NestJS SOP. Minggu depan: **Providers & Services**.

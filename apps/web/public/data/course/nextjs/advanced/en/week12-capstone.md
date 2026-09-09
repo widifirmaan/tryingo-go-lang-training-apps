@@ -52,6 +52,13 @@ prisma/schema.prisma
 ### 3 Must-Know Terms
 - 1. **Capstone/deploy**: combine/open
 
+## Challenge
+
+**Capstone: Complete Online Store in Your Shop:** use `app`, `products`, `products` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `app`, `products`, `products`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Deployment** (Week 11): plug the result into that flow, end-to-end must work.
+
 ## Summary
 
 Week 12: **Capstone** — complete online store, **Next.js 0→Expert DONE!**

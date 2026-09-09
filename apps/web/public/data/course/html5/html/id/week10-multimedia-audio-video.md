@@ -30,6 +30,13 @@ Warung butuh video masak, audio testimoni — `controls` biar pelanggan play/pau
 
 ---
 
+## Tantangan
+
+**Multimedia di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Semantic HTML** (Minggu 9): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 10: **Multimedia** — `audio`/`video` + `controls`. Minggu depan: **HTML APIs**.

@@ -55,6 +55,13 @@ print("json & os are built-in — no pip needed")
 
 ---
 
+## Challenge
+
+**Libraries in Your Shop:** re-run it until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in the Program; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Decorators & Generators** (Week 8): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

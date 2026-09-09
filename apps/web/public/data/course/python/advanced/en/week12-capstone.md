@@ -63,6 +63,13 @@ print("Excel saved: report.xlsx")
 
 ---
 
+## Challenge
+
+**Capstone: Complete Python Shop in Your Shop:** use `/products`, `list`, `flask` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products`, `list`, `flask`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **CLI & Automation** (Week 11): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

@@ -63,6 +63,13 @@ export default async function Admin(){
 ### 3 Istilah Wajib
 - 1. **NextAuth/session**: KTP/periksa
 
+## Tantangan
+
+**Advanced Auth di Warungmu:** pakai `/login` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/login`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Database & ORM** (Minggu 9): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 10: **KTP Digital** — NextAuth lindungi admin. Minggu depan: **Deployment**.

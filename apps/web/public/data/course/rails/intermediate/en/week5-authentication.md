@@ -61,6 +61,13 @@ end
 
 ---
 
+## Challenge
+
+**Authentication in Your Shop:** use `/products`, `/login`, `create` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products`, `/login`, `create`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **ERB Views** (Week 4): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

@@ -52,6 +52,13 @@ Jika `nama:"Kopi"` belum ada, buat baru.
 
 ---
 
+## Tantangan
+
+**Update & Delete di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Dokumen & CRUD** (Minggu 1): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 2: **Ubah & Hapus** — kartu bisa diedit, stok bisa kurang. Minggu depan: **Index**.

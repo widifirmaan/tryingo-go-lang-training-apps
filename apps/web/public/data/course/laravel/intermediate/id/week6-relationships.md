@@ -54,6 +54,13 @@ echo $pesanan->produk->nama;
 
 ---
 
+## Tantangan
+
+**Relationships di Warungmu:** pakai `Produk`, `Pesanan`, `pesanans` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `Produk`, `Pesanan`, `pesanans`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Authentication** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

@@ -51,6 +51,13 @@ Deploy `Vercel` / `Netlify`.
 
 ---
 
+## Tantangan
+
+**Capstone: Toko JavaScript Lengkap di Warungmu:** pakai `/api/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/api/produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Performance Optimization** (Minggu 13): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

@@ -45,6 +45,13 @@ SELECT query, mean_exec_time FROM pg_stat_statements ORDER BY mean_exec_time DES
 ### 3 Must-Know Terms
 - 1. **EXPLAIN ANALYZE/VACUUM**: time-xray/sweep
 
+## Challenge
+
+**Performance Tuning in Your Shop:** use `products`, `pg_stat_statements` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `products`, `pg_stat_statements`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **JSONB Semi-Structured** (Week 7): plug the result into that flow, end-to-end must work.
+
 ## Summary
 
 Week 8: **Fast Warehouse** — `EXPLAIN ANALYZE` + `VACUUM`. Next week: **Replication & HA**.

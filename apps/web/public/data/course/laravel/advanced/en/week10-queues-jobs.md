@@ -74,6 +74,13 @@ Schedule::job(new SendPromo)->dailyAt("07:00"); // every 7am
 
 ---
 
+## Challenge
+
+**Queues & Jobs in Your Shop:** use `content`, `Job` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `content`, `Job`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Testing** (Week 9): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

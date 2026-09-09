@@ -74,6 +74,13 @@ Buka `http://localhost:8000/api/produk/` → JSON.
 
 ---
 
+## Tantangan
+
+**REST API di Warungmu:** pakai `ProdukSerializer`, `Meta`, `ProdukViewSet` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `ProdukSerializer`, `Meta`, `ProdukViewSet`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Admin Panel** (Minggu 7): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

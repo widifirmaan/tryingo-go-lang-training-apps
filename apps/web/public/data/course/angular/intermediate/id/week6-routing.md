@@ -39,6 +39,13 @@ Gunakan `routerLink="/produk/1"` vs `href` (reload).
 
 ---
 
+## Tantangan
+
+**Routing di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Template Forms** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 6: **Peta Angular** — `Routes` + `routerLink`. Minggu depan: **Reactive Forms**.

@@ -56,6 +56,13 @@ export default function App(){
 
 ---
 
+## Challenge
+
+**Performance in Your Shop:** use `List` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `List`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Testing React** (Week 10): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

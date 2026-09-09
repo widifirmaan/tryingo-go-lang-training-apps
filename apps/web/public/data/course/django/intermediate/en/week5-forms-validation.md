@@ -61,6 +61,13 @@ def add(request):
 
 ---
 
+## Challenge
+
+**Forms & Validation in Your Shop:** use `add`, `ProductForm`, `Meta` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `add`, `ProductForm`, `Meta`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Templates** (Week 4): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

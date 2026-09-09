@@ -45,6 +45,13 @@ Tambah `warung` ke `INSTALLED_APPS` di `settings.py`.
 
 ---
 
+## Tantangan
+
+**Setup Django di Warungmu:** pakai `pip install django`, `django-admin`, `django-admin startproject toko` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `pip install django`, `django-admin`, `django-admin startproject toko`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
+
 ## Ringkasan
 
 Minggu 1: **Gedung & Toko** — Django hidup dengan admin. Minggu depan: **Models**.

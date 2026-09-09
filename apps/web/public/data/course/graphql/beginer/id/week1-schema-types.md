@@ -93,6 +93,13 @@ query {
 
 ---
 
+## Tantangan
+
+**Schema & Types di Warungmu:** pakai `Produk`, `Query` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `Produk`, `Query`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
+
 ## Ringkasan
 
 Minggu 1: **Menu** — schema & query dasar. Minggu depan: **Queries** lanjutan.

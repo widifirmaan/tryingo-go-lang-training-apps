@@ -52,6 +52,13 @@ Buka `http://localhost:8000/admin/warung/produk/` → filter kategori, cari nama
 
 ---
 
+## Tantangan
+
+**Admin Panel di Warungmu:** pakai `ProdukAdmin`, `django` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `ProdukAdmin`, `django`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Authentication** (Minggu 6): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

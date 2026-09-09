@@ -53,6 +53,13 @@ test_calc()
 
 ---
 
+## Challenge
+
+**Testing in Your Shop:** use `calc`, `test_calc` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `calc`, `test_calc`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Libraries** (Week 9): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

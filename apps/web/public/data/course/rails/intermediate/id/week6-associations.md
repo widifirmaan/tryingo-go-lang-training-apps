@@ -51,6 +51,13 @@ produk.pesanans.map(&:pelanggan)
 
 ---
 
+## Tantangan
+
+**Associations di Warungmu:** pakai `Pelanggan`, `Pesanan` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `Pelanggan`, `Pesanan`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Authentication** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

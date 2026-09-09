@@ -89,6 +89,13 @@ console.log(produk[0].nama);
 
 ---
 
+## Tantangan
+
+**Capstone: Type-Safe Warung API Client di Warungmu:** pakai `/produk`, `apiGet`, `main` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`, `apiGet`, `main`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Advanced Types** (Minggu 11): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - **apiGet/generics**: ambil-bertipe/serbaguna

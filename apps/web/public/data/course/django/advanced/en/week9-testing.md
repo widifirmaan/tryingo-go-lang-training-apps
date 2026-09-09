@@ -55,6 +55,13 @@ class ProductTest(TestCase):
 
 ---
 
+## Challenge
+
+**Testing in Your Shop:** use `/products/`, `test_create`, `test_list` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `/products/`, `test_create`, `test_list`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **REST API** (Week 8): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

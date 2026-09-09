@@ -32,6 +32,13 @@
 
 ---
 
+## Tantangan
+
+**Semantic HTML di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Validasi Form** (Minggu 8): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 9: **Papan Nama Jelas** — `header/nav/main`. Minggu depan: **Multimedia**.

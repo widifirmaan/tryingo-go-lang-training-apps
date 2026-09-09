@@ -52,6 +52,13 @@ prisma/schema.prisma
 ### 3 Istilah Wajib
 - 1. **Capstone/deploy**: gabung/buka
 
+## Tantangan
+
+**Capstone: Toko Online Lengkap di Warungmu:** pakai `app`, `produk`, `produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `app`, `produk`, `produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Deployment** (Minggu 11): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 12: **Capstone** — toko online lengkap, **Selesai Next.js 0→Ahli!**

@@ -81,6 +81,13 @@ Test: `curl -X POST -d '{"email":"admin@warung.com","password":"123"}' localhost
 
 ---
 
+## Tantangan
+
+**REST API di Warungmu:** pakai `/login`, `User` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/login`, `User`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Queues & Jobs** (Minggu 10): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

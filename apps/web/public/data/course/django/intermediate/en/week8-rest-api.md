@@ -74,6 +74,13 @@ Open `http://localhost:8000/api/products/` → JSON.
 
 ---
 
+## Challenge
+
+**REST API in Your Shop:** use `ProductSerializer`, `Meta`, `ProductViewSet` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `ProductSerializer`, `Meta`, `ProductViewSet`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Admin Panel** (Week 7): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.

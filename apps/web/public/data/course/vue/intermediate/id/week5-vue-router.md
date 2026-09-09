@@ -67,6 +67,13 @@ const props = defineProps({ id: String });
 
 ---
 
+## Tantangan
+
+**Vue Router di Warungmu:** pakai `/produk`, `/produk/:id` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`, `/produk/:id`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Components & Props** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 5: **Peta Vue** — Router tanpa reload. Minggu depan: **Pinia**.

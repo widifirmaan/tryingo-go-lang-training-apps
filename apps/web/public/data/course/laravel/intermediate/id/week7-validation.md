@@ -63,6 +63,13 @@ View: `@error('nama') <span>{{ $message }}</span> @enderror`.
 
 ---
 
+## Tantangan
+
+**Validasi di Warungmu:** pakai `/produk`, `rules`, `messages` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`, `rules`, `messages`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Relationships** (Minggu 6): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Glosarium Mini
 
 - Lihat Istilah Wajib di atas.

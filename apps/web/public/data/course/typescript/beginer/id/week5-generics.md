@@ -58,6 +58,13 @@ console.log(total([{harga:62000},{harga:5000}]));
 
 ---
 
+## Tantangan
+
+**Generics di Warungmu:** pakai `pertama`, `total`, `Keranjang` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `pertama`, `total`, `Keranjang`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Interfaces & Type Aliases** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 5: **Rak Generik** — 1 rak untuk semua tipe. Minggu depan: **Classes**.

@@ -60,6 +60,13 @@ Tangkap `throw` di `page.js` atau `fetch` gagal. Harus `use client` karena `rese
 
 ---
 
+## Tantangan
+
+**Loading & Error di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.
+- **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
+- **Kuning:** Ubah 1 nilai pada `/produk`; tebak output SEBELUM run, lalu cocokkan.
+- **Merah:** Gabungkan dengan **Server Actions** (Minggu 6): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
+
 ## Ringkasan
 
 Minggu 7: **Kerangka & Alarm** — loading & error. Minggu depan: **Middleware**.

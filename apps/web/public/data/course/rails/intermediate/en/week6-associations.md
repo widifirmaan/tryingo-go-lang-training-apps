@@ -51,6 +51,13 @@ product.orders.map(&:customer)
 
 ---
 
+## Challenge
+
+**Associations in Your Shop:** use `Customer`, `Order` until it truly runs, then do these three levels.
+- **Green:** Run this week's Program as-is; note the output.
+- **Yellow:** Change 1 value in `Customer`, `Order`; predict the output BEFORE running, then compare.
+- **Red:** Combine with **Authentication** (Week 5): plug the result into that flow, end-to-end must work.
+
 ## Mini Glossary
 
 - See Must-Know Terms above.
