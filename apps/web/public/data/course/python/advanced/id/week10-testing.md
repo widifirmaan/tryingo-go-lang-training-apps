@@ -53,6 +53,12 @@ test_hitung()
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `hitung` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `hitung` dan `test_hitung` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `hitung` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Testing di Warungmu:** pakai `hitung`, `test_hitung` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

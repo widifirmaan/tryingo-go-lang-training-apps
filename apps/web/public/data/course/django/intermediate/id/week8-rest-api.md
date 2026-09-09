@@ -74,6 +74,12 @@ Buka `http://localhost:8000/api/produk/` → JSON.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `ProdukSerializer` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `ProdukSerializer` dan `Meta` → masih jalan atau error?
+- **Merah:** Hapus baris `from rest_framework import serializers` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **REST API di Warungmu:** pakai `ProdukSerializer`, `Meta`, `ProdukViewSet` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

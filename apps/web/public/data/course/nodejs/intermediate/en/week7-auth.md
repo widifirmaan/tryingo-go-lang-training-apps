@@ -63,6 +63,12 @@ Test: `curl -X POST -H "Content-Type: application/json" -d '{"username":"admin"}
 
 ---
 
+## Experiments
+
+- **Green:** Open `/login` → what shows? Try `/admin` → what differs?
+- **Yellow:** Change the case of `check` and `jwt` → still runs or error?
+- **Red:** Mistype 1 letter in `check` → what error message? Fix it.
+
 ## Challenge
 
 **Auth in Your Shop:** use `/login`, `/admin`, `check` until it truly runs, then do these three levels.

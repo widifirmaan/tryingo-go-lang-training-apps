@@ -44,6 +44,12 @@ func main(){
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `Bayar` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `Bayar` dan `Pertama` → masih jalan atau error?
+- **Merah:** Hapus baris `import "fmt"` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Interface & Generics di Warungmu:** pakai `Bayar`, `Pertama`, `main` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

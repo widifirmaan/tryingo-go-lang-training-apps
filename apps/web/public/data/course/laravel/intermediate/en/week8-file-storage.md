@@ -55,6 +55,12 @@ php artisan storage:link
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `path` → still runs or error?
+- **Red:** Delete the line `use Illuminate\Support\Facades\Storage;` → what error? Put it back.
+
 ## Challenge
 
 **File Storage in Your Shop:** use `/products`, `save` until it truly runs, then do these three levels.

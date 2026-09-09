@@ -47,6 +47,12 @@ pm2 save
 
 ---
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete 1 line in the Program → what is the first error? Restore it.
+
 ## Challenge
 
 **Deployment in Your Shop:** use `npm run build`, `pm2 start server`, `pm2 save` until it truly runs, then do these three levels.

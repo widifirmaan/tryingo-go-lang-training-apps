@@ -45,6 +45,12 @@ Tambah `warung` ke `INSTALLED_APPS` di `settings.py`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Setup Django di Warungmu:** pakai `pip install django`, `django-admin`, `django-admin startproject toko` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

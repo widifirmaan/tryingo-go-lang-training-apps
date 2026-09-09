@@ -74,6 +74,12 @@ Open `http://localhost:8000/api/products/` → JSON.
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `ProductSerializer`'s value → does the output follow?
+- **Yellow:** Change the case of `ProductSerializer` and `Meta` → still runs or error?
+- **Red:** Delete the line `from rest_framework import serializers` → what error? Put it back.
+
 ## Challenge
 
 **REST API in Your Shop:** use `ProductSerializer`, `Meta`, `ProductViewSet` until it truly runs, then do these three levels.

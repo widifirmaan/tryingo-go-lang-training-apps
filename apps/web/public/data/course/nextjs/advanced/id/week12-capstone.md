@@ -52,6 +52,12 @@ prisma/schema.prisma
 ### 3 Istilah Wajib
 - 1. **Capstone/deploy**: gabung/buka
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Capstone: Toko Online Lengkap di Warungmu:** pakai `app`, `produk`, `produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

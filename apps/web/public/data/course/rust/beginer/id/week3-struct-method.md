@@ -68,6 +68,12 @@ fn main() {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `new` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `new` dan `info` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `new` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Keranjang:** `struct Keranjang { items: Vec<Produk> }` + `fn tambah(&mut self, p: Produk)` + `fn total(&self) -> u32`.

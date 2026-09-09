@@ -102,6 +102,12 @@ export class CartComponent {
 
 ---
 
+## Experiments
+
+- **Green:** Run the Program as-is; note the first output line.
+- **Yellow:** Change 1 number/string in the Program → predict first, then run.
+- **Red:** Delete the line `import { ComponentStore } from "@ngrx/component-store";` → what error? Put it back.
+
 ## Challenge
 
 **Complete Warehouse Shop:** `CartStore` `items: {name, price}[]` + `add` + `remove` `updater`, `items$ | async` display, `ng serve` check.

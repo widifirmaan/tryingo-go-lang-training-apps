@@ -67,6 +67,12 @@ const props = defineProps({ id: String });
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba `/produk/:id` → bedanya apa?
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import { createRouter, createWebHistory } from "vue-router";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Vue Router di Warungmu:** pakai `/produk`, `/produk/:id` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

@@ -81,6 +81,12 @@ Test: `curl -X POST -d '{"email":"admin@warung.com","password":"123"}' localhost
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/login` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `User` dan `user` → masih jalan atau error?
+- **Merah:** Hapus baris `use Laravel\Sanctum\HasApiTokens;` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **REST API di Warungmu:** pakai `/login`, `User` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

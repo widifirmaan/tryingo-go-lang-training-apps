@@ -62,6 +62,12 @@ Rak + satpam + pintu + laci + panel + peti = 1 toko.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Spring 0→Ahli!** 🎉

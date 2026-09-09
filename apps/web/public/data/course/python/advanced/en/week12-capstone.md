@@ -63,6 +63,12 @@ print("Excel saved: report.xlsx")
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `list` → still runs or error?
+- **Red:** Delete the line `from flask import Flask, jsonify` → what error? Put it back.
+
 ## Challenge
 
 **Capstone: Complete Python Shop in Your Shop:** use `/products`, `list`, `flask` until it truly runs, then do these three levels.

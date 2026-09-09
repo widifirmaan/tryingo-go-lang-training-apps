@@ -82,6 +82,12 @@ def lihat(request):
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `masuk` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `masuk` dan `admin_warung` → masih jalan atau error?
+- **Merah:** Hapus baris `from django.contrib.auth import authenticate, login` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Authentication di Warungmu:** pakai `masuk`, `admin_warung`, `django` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

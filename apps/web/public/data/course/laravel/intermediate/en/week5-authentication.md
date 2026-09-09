@@ -82,6 +82,12 @@ Route::middleware('openhours')->group(function(){
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `hour`'s value → does the output follow?
+- **Yellow:** Change the case of `hour` → still runs or error?
+- **Red:** Mistype 1 letter in `hour` → what error message? Fix it.
+
 ## Challenge
 
 **Authentication in Your Shop:** use `handle` until it truly runs, then do these three levels.

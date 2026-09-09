@@ -61,6 +61,12 @@ end
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produks` → apa yang tampil? Coba `/login` → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `create` dan `require_login` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `create` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Authentication di Warungmu:** pakai `/produks`, `/login`, `create` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

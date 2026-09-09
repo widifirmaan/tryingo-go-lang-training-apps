@@ -28,6 +28,12 @@ vercel --prod
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Deployment di Warungmu:** pakai `npm run build`, `vercel` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

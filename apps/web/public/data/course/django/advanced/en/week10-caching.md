@@ -50,6 +50,12 @@ def list(request):
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `list`'s value → does the output follow?
+- **Yellow:** Change the case of `list` → still runs or error?
+- **Red:** Delete the line `from django.core.cache import cache` → what error? Put it back.
+
 ## Challenge
 
 **Caching in Your Shop:** use `list`, `django` until it truly runs, then do these three levels.

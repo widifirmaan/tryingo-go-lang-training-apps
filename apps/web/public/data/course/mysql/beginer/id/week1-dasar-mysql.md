@@ -59,6 +59,12 @@ MySQL punya 2 mesin: `InnoDB` aman, `MyISAM` cepat tapi tidak aman — pakai `In
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 Buat `pelanggan` MySQL `email VARCHAR(150) UNIQUE`, isi 2 baris, `SELECT AVG(harga)`.

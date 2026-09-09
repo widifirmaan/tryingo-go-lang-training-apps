@@ -66,6 +66,12 @@ print(m.info(), f"poin {m.poin}")
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `__init__` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `__init__` dan `info` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `__init__` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Keranjang OOP:** `class Keranjang: def __init__(self): self.items=[]; def tambah(self, p): self.items.append(p); def total(self): return sum(i.harga*i.stok for i in self.items)`

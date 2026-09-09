@@ -67,6 +67,12 @@ console.log(update({ id: 1, nama: "Beras", harga: 62000, stok: 10, kategori: "Se
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `update` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `update` dan `Ringkas` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `update` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Warung Potong Lengkap:** `Produk` 5 field → `Ringkas = Pick<Produk, "nama"|"harga">` + `TanpaStok = Omit<Produk,"stok">` + `update(produk, Partial<Produk>)`.

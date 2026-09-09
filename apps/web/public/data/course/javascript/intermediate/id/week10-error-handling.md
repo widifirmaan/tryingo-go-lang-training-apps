@@ -88,6 +88,12 @@ console.log("lanjut...");
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `parseStok` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `parseStok` dan `data` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `parseStok` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Warung Aman:** `function hitung(harga,qty){ if(qty<=0) throw new Error("Qty salah"); return harga*qty }` → `try { hitung(62000,0)} catch(e){ console.log(e.message)}`.

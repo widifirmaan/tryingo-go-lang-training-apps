@@ -55,6 +55,12 @@ class ProductTest(TestCase):
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products/` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `test_create` and `test_list` → still runs or error?
+- **Red:** Delete the line `from django.test import TestCase` → what error? Put it back.
+
 ## Challenge
 
 **Testing in Your Shop:** use `/products/`, `test_create`, `test_list` until it truly runs, then do these three levels.

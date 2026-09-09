@@ -89,6 +89,12 @@ console.log(produk[0].nama);
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `res` dan `produk` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `res` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Capstone: Type-Safe Warung API Client di Warungmu:** pakai `/produk`, `apiGet`, `main` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

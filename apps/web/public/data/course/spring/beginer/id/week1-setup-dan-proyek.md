@@ -42,6 +42,12 @@ Buka `http://localhost:8080/hello` → "Halo Warung Spring!"
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/hello` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Setup Spring Boot di Warungmu:** pakai `/hello` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

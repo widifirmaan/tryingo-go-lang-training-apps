@@ -52,6 +52,12 @@ export default function App(){
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `Card`'s value → does the output follow?
+- **Yellow:** Change the case of `Card` → still runs or error?
+- **Red:** Mistype 1 letter in `Card` → what error message? Fix it.
+
 ## Challenge
 
 **Advanced Patterns in Your Shop:** use `Card` until it truly runs, then do these three levels.

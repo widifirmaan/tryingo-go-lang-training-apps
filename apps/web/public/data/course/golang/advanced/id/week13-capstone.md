@@ -118,6 +118,12 @@ go build -o warung .  # 1 binary! (W1)
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `muat` dan `simpan` → masih jalan atau error?
+- **Merah:** Hapus baris `import (` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Grand Opening Warung Go:** `go run` 3 perintah lulus (`--tambah`, list, `--serve` + browser JSON) + `go test` PASS + `go build -o warung` + `./warung` jalan. Screenshot 4 + video 1 menit. **Selesai Go 0→Ahli!** 🎉

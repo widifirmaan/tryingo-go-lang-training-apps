@@ -48,6 +48,12 @@ public function test_create(){
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `res` → still runs or error?
+- **Red:** Mistype 1 letter in `res` → what error message? Fix it.
+
 ## Challenge
 
 **Testing in Your Shop:** use `/products`, `test_create` until it truly runs, then do these three levels.

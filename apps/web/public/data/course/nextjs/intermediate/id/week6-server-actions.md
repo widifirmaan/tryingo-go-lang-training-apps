@@ -63,6 +63,12 @@ Klik Tambah → browser kirim `FormData` ke server → `tambah` jalan → `reval
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/produk` → apa yang tampil? Coba ID lain → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `produk` dan `nama` → masih jalan atau error?
+- **Merah:** Hapus baris `import { revalidatePath } from "next/cache";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Server Actions di Warungmu:** pakai `/produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

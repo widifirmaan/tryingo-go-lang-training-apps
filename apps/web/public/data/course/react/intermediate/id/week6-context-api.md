@@ -66,6 +66,12 @@ Bungkus `App` dengan `Provider value={{ keranjang, dispatch }}`, semua anak `use
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `keranjangReducer` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `keranjangReducer` dan `KeranjangProvider` → masih jalan atau error?
+- **Merah:** Hapus baris `import { createContext, useContext, useReducer } from "react";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Context API di Warungmu:** pakai `keranjangReducer`, `KeranjangProvider`, `Produk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

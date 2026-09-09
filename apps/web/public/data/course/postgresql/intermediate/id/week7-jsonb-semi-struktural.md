@@ -35,6 +35,12 @@ CREATE INDEX idx_data_harga ON produk_fleksibel USING GIN (data);
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **JSONB Semi-Struktural di Warungmu:** pakai `produk_fleksibel` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

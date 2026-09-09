@@ -55,6 +55,12 @@ test("0+0=0", ()=> expect(hitung(0,0)).toBe(0));
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import { test, expect } from "vitest";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Testing di Warungmu:** jalankan ulang hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

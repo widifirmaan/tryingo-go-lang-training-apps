@@ -63,6 +63,12 @@ Server: `await fetch` di `page.js` → HTML jadi sebelum kirim. Client: `useEffe
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `res` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `res` dan `produk` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `res` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Data Fetching di Warungmu:** pakai `ambilProduk` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

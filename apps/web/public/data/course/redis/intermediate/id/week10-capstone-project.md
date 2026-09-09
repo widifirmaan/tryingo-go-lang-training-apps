@@ -59,6 +59,12 @@ Laci RAM hilang saat mati lampu! 2 penyelamat (atur di `redis.conf` / flag `dock
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Grand Opening:** Semua checklist + `INFO` + video 1 menit pesan→ranking berubah live. **Selesai Redis 0→Ahli!** 🎉

@@ -36,6 +36,12 @@ Form warung tanpa `bind` = ketik tidak masuk `pelanggan`. Dengan `bind:value`, k
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `tambah` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `tambah` dan `pelanggan` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `tambah` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Events & Bindings di Warungmu:** pakai `tambah` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

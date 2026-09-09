@@ -114,6 +114,12 @@ go build -o warung .  # 1 binary! (W1)
 
 ---
 
+## Experiments
+
+- **Green:** Open `/produk` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `muat` and `simpan` → still runs or error?
+- **Red:** Delete the line `import (` → what error? Put it back.
+
 ## Challenge
 
 **Go Shop Grand Opening:** `go run` 3 commands pass (`--tambah`, list, `--serve` + browser JSON) + `go test` PASS + `go build -o warung` + `./warung` runs. Screenshot 4 + 1-min video. **Go 0→Expert done!** 🎉

@@ -61,6 +61,12 @@ def add(request):
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `add`'s value → does the output follow?
+- **Yellow:** Change the case of `add` and `ProductForm` → still runs or error?
+- **Red:** Delete the line `from django import forms` → what error? Put it back.
+
 ## Challenge
 
 **Forms & Validation in Your Shop:** use `add`, `ProductForm`, `Meta` until it truly runs, then do these three levels.

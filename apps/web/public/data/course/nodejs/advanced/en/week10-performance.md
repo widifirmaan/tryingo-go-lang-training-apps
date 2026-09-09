@@ -55,6 +55,12 @@ app.get("/products", (req,res)=>{
 
 ---
 
+## Experiments
+
+- **Green:** Open `/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `cache` and `data` → still runs or error?
+- **Red:** Mistype 1 letter in `cache` → what error message? Fix it.
+
 ## Challenge
 
 **Performance in Your Shop:** use `/products` until it truly runs, then do these three levels.

@@ -58,6 +58,12 @@ console.log(total([{harga:62000},{harga:5000}]));
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `pertama` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `pertama` dan `total` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `pertama` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Generics di Warungmu:** pakai `pertama`, `total`, `Keranjang` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

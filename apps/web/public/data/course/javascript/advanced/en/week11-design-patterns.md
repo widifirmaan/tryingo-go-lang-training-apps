@@ -89,6 +89,12 @@ console.log(b.info(), "| points", b.points);
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `makeProduct`'s value → does the output follow?
+- **Yellow:** Change the case of `makeProduct` and `Cashier` → still runs or error?
+- **Red:** Mistype 1 letter in `makeProduct` → what error message? Fix it.
+
 ## Challenge
 
 **Design Patterns in Your Shop:** use `makeProduct`, `Cashier`, `Store` until it truly runs, then do these three levels.

@@ -82,6 +82,12 @@ def view(request):
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `login_view`'s value → does the output follow?
+- **Yellow:** Change the case of `login_view` and `admin_shop` → still runs or error?
+- **Red:** Delete the line `from django.contrib.auth import authenticate, login` → what error? Put it back.
+
 ## Challenge
 
 **Authentication in Your Shop:** use `login_view`, `admin_shop`, `django` until it truly runs, then do these three levels.

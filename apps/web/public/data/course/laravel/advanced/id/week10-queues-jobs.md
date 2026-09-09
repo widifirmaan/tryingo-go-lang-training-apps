@@ -73,6 +73,12 @@ Schedule::job(new KirimPromo)->dailyAt("07:00"); // tiap jam 7 pagi
 ```
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Queues & Jobs di Warungmu:** pakai `content` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

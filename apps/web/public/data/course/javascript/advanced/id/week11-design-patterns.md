@@ -89,6 +89,12 @@ console.log(b.info(), "| poin", b.poin);
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `buatProduk` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `buatProduk` dan `Kasir` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `buatProduk` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Design Patterns di Warungmu:** pakai `buatProduk`, `Kasir`, `Toko` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

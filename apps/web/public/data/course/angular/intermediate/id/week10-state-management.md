@@ -102,6 +102,12 @@ export class KeranjangComponent {
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus baris `import { ComponentStore } from "@ngrx/component-store";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Warung Gudang Lengkap:** `KeranjangStore` `items: {nama, harga}[]` + `tambah` + `hapus` `updater`, `items$ | async` tampil, `ng serve` cek.

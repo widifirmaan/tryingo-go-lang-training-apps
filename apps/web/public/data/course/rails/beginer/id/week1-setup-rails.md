@@ -41,6 +41,12 @@ File `produk.rb` otomatis tabel `produks`, `Produk` class.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Setup Rails di Warungmu:** pakai `rails new warung`, `cd warung

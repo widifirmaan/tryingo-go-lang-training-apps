@@ -64,6 +64,12 @@ Jalan **sebelum** `page.js`, bisa `redirect` atau `next()`.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/admin` → apa yang tampil? Coba `/login` → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `isLogin` dan `isAdmin` → masih jalan atau error?
+- **Merah:** Hapus baris `import { NextResponse } from "next/server";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Middleware & Auth Dasar di Warungmu:** pakai `/admin`, `/login` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

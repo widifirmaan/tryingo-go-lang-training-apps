@@ -71,6 +71,12 @@ VS Code + browser + `netlify.com` drag-drop.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Warung CSS Lengkap Deploy:** Buat `warung.css` 1 file dengan `Flex`, `Grid`, `Variables`, `clamp`, `transition`, `BEM`, `responsive` + `index.html` warung lengkap (header, grid 6 produk, footer) → deploy `Netlify` → screenshot `Lighthouse` 90+.

@@ -75,6 +75,12 @@ Tiap file PHP diawali `<?php`, tiap variabel `$nama`. Lupa `$` → error.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `namaWarung` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `namaWarung` dan `pelanggan` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `namaWarung` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Ongkir PHP:** `$berat=2.5; $jarak=8; $ongkir = $berat*5000 + $jarak*2000; echo "Rp " . number_format($ongkir);` + `var_dump($ongkir)`.

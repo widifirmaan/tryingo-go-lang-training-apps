@@ -51,6 +51,12 @@ Deploy `Vercel` / `Netlify`.
 
 ---
 
+## Experiments
+
+- **Green:** Open `/api/products` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `products` → still runs or error?
+- **Red:** Delete the line `import { getProducts } from "./api.js";` → what error? Put it back.
+
 ## Challenge
 
 **Capstone: Complete JavaScript Store in Your Shop:** use `/api/products` until it truly runs, then do these three levels.

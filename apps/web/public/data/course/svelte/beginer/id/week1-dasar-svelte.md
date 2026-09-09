@@ -84,6 +84,12 @@ npm run dev
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `tambah` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `tambah` dan `namaWarung` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `tambah` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 Tambah `let diskon=10; $: totalDiskon = total * (1 - diskon/100)` + input `bind:value={diskon}`.

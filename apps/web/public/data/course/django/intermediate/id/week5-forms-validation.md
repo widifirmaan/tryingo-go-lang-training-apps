@@ -61,6 +61,12 @@ def tambah(request):
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `tambah` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `tambah` dan `ProdukForm` → masih jalan atau error?
+- **Merah:** Hapus baris `from django import forms` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Forms & Validasi di Warungmu:** pakai `tambah`, `ProdukForm`, `Meta` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

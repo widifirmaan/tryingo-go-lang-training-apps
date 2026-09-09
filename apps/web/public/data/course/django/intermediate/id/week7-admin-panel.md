@@ -52,6 +52,12 @@ Buka `http://localhost:8000/admin/warung/produk/` → filter kategori, cari nama
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `ProdukAdmin` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `ProdukAdmin` → masih jalan atau error?
+- **Merah:** Hapus baris `from django.contrib import admin` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Admin Panel di Warungmu:** pakai `ProdukAdmin`, `django` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

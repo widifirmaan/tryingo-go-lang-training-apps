@@ -50,6 +50,12 @@ def daftar(request):
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `daftar` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `daftar` → masih jalan atau error?
+- **Merah:** Hapus baris `from django.core.cache import cache` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Caching di Warungmu:** pakai `daftar`, `django` hingga benar-benar jalan, lalu kerjakan tiga tingkat ini.

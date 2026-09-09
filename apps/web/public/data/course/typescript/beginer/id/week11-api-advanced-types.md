@@ -59,6 +59,12 @@ Harus `/api/` di depan.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Buka `/api/produk` → apa yang tampil? Coba `/produk/123` → bedanya apa?
+- **Kuning:** Ubah huruf besar-kecil `Produk` dan `Kejadian` → masih jalan atau error?
+- **Merah:** Salah ketik 1 huruf pada `Produk` → pesan error apa? Betulkan.
+
 ## Tantangan
 
 **Warung Rute Aman:** `type Route = `/warung/${string}`` → `const r: Route = "/warung/beras"` ✅, `"warung/beras"` ❌. `type Id = ExtractId<"/warung/123">` → `"123"`.

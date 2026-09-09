@@ -80,6 +80,12 @@ Tidak perlu `ts-jest`, Vite transform TS on the fly.
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan apa adanya, lalu ubah nilai `buatUser` → output ikut berubah?
+- **Kuning:** Ubah huruf besar-kecil `buatUser` dan `user` → masih jalan atau error?
+- **Merah:** Hapus baris `import { test, expect } from "vitest";` → error apa? Pasang lagi.
+
 ## Tantangan
 
 **Warung Uji Lengkap:** `hitungTotal` + `test` 2 kasus `2+3=5` dan `buatUser` 1 kasus, `npm test` PASS screenshot.

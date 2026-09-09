@@ -56,6 +56,12 @@ Warung tanpa jalan = pelanggan di beranda tidak bisa ke produk. Link = **jalan**
 
 ---
 
+## Eksperimen
+
+- **Hijau:** Jalankan Program apa adanya; catat 1 baris output pertama.
+- **Kuning:** Ubah 1 angka/string di Program → tebak dulu, baru run.
+- **Merah:** Hapus 1 baris di Program → error pertama apa? Kembalikan.
+
 ## Tantangan
 
 **Warung 3 Halaman:** `index.html` (Beranda), `produk.html` (daftar), `kontak.html` (WA+email) + `nav` sama di 3 file, + link `#promo`.

@@ -54,6 +54,12 @@ echo $order->product->name;
 
 ---
 
+## Experiments
+
+- **Green:** Run as-is, then change `Product`'s value → does the output follow?
+- **Yellow:** Change the case of `Product` and `Order` → still runs or error?
+- **Red:** Mistype 1 letter in `Product` → what error message? Fix it.
+
 ## Challenge
 
 **Relationships in Your Shop:** use `Product`, `Order`, `orders` until it truly runs, then do these three levels.

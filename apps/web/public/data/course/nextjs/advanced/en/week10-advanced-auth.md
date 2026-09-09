@@ -63,6 +63,12 @@ export default async function Admin(){
 ### 3 Must-Know Terms
 - 1. **NextAuth/session**: ID/check
 
+## Experiments
+
+- **Green:** Open `/login` → what shows? Try another ID → what differs?
+- **Yellow:** Change the case of `session` → still runs or error?
+- **Red:** Delete the line `import NextAuth from "next-auth";` → what error? Put it back.
+
 ## Challenge
 
 **Advanced Auth in Your Shop:** use `/login` until it truly runs, then do these three levels.
