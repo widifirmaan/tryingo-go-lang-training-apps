@@ -27,6 +27,62 @@ Struktur: `src/pages`, `src/components`, `src/context/KeranjangContext.jsx`.
 **Tugas:** Deploy `warung-react.vercel.app` + video 2 menit tambah keranjang → checkout.
 
 
+
+```jsx
+function App() {
+  // Peta toko tanpa Router (state = halaman) + gudang via Context (W6)
+  const [halaman, setHalaman] = useState("beranda");
+  const [keranjang, setKeranjang] = useState([]);
+  const KeranjangContext = createContext(null);
+
+  const PRODUK = [
+    { id: 1, nama: "Beras 5kg", harga: 62000 },
+    { id: 2, nama: "Minyak 2L", harga: 48000 },
+    { id: 3, nama: "Gula 1kg", harga: 17500 },
+  ];
+  // fetch W5 diganti data statis agar preview mandiri (asli: useEffect + fetch /api/produk)
+  const tambah = (p) => setKeranjang((k) => [...k, p]);
+  // useMemo W11: total hanya dihitung ulang jika keranjang berubah
+  const total = useMemo(() => keranjang.reduce((s, p) => s + p.harga, 0), [keranjang]);
+
+  const Menu = () => (
+    <nav style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+      {[["beranda", "Beranda"], ["produk", "Produk"], ["keranjang", "Keranjang (" + keranjang.length + ")"]].map(([id, label]) => (
+        <button key={id} onClick={() => setHalaman(id)}>{label}</button>
+      ))}
+    </nav>
+  );
+
+  return (
+    <KeranjangContext.Provider value={keranjang}>
+      <div style={{ fontFamily: "system-ui", padding: 16 }}>
+        <h1>Warung React 🛒</h1>
+        <Menu />
+        {halaman === "beranda" && <p>Selamat datang! Pilih menu Produk untuk belanja.</p>}
+        {halaman === "produk" && (
+          <ul>
+            {PRODUK.map((p) => (
+              <li key={p.id}>
+                {p.nama} — Rp{p.harga} <button onClick={() => tambah(p)}>+ Keranjang</button>
+              </li>
+            ))}
+          </ul>
+        )}
+        {halaman === "keranjang" && (
+          <div>
+            <p>Isi: {keranjang.length} barang</p>
+            <p><b>Total: Rp{total}</b></p>
+            <button onClick={() => setKeranjang([])}>Checkout</button>
+          </div>
+        )}
+      </div>
+    </KeranjangContext.Provider>
+  );
+}
+```
+
+*Tempel di playground → Run, klik Produk → + Keranjang → Keranjang → Checkout.*
+
 ---
 
 ## Penjelasan untuk Pemula
@@ -45,6 +101,18 @@ Struktur: `src/pages`, `src/components`, `src/context/KeranjangContext.jsx`.
 - 1. **Capstone/deploy**: gabung/buka
 
 ---
+
+## Eksperimen
+
+- **Hijau:** Tambah 2 Beras + 1 Gula → Total Rp141500?
+- **Kuning:** Tambah produk `Kopi 12000` di array → muncul di daftar?
+- **Merah:** Hapus `[keranjang]` dari `useMemo` → total tetap benar? Kenapa dependensi penting?
+
+## Tantangan
+
+****Toko React Grand Opening:** gabungkan halaman + Context + `useMemo`: tambah halaman `/checkout` (form nama + tombol Bayar → struk total + kosongkan keranjang).**
+
+Hijau: alur Beranda→Produk→Keranjang→Checkout jalan. Kuning: 1 `vitest` tambah-keranjang hijau. Merah: deploy + video (Tugas).
 
 ## Glosarium Mini
 

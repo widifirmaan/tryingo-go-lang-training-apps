@@ -22,6 +22,30 @@ Buat `produk`, `pelanggan`, `pesanan` + `INDEX` + `JSONB` untuk `pesanan.data` +
 **Tugas:** Import 10rb baris `COPY FROM csv`, buat laporan `SELECT kategori, SUM(harga) OVER (PARTITION BY kategori)`.
 
 
+
+```sql
+-- Capstone Gudang: JOIN SQLite (aksi nyata di playground; di Postgres
+-- produksi pola sama + JSONB + replikasi + pg_dump, lihat Tugas)
+CREATE TABLE produk(id INTEGER PRIMARY KEY, nama TEXT, kategori TEXT, harga INTEGER, stok INTEGER);
+CREATE TABLE pelanggan(id INTEGER PRIMARY KEY, nama TEXT, kota TEXT);
+CREATE TABLE pesanan(id INTEGER PRIMARY KEY, pelanggan_id INTEGER, produk_id INTEGER, qty INTEGER, tanggal TEXT);
+INSERT INTO produk VALUES (1,'Beras 5kg','Sembako',62000,40),(2,'Minyak 2L','Sembako',48000,25),(3,'Sabun','Rumah',12000,100);
+INSERT INTO pelanggan VALUES (1,'Budi','Bandung'),(2,'Siti','Jakarta');
+INSERT INTO pesanan VALUES (1,1,1,2,'2026-09-01'),(2,1,3,5,'2026-09-02'),(3,2,2,1,'2026-09-03');
+CREATE INDEX idx_pesanan_produk ON pesanan(produk_id);
+-- Laporan omzet per kategori (JOIN + GROUP BY, W3)
+SELECT pr.kategori, SUM(pr.harga * ps.qty) AS omzet
+FROM pesanan ps JOIN produk pr ON pr.id = ps.produk_id
+GROUP BY pr.kategori;
+-- Peringkat produk terlaris per kategori (Window, W6)
+SELECT nama, kategori,
+  SUM(stok) OVER (PARTITION BY kategori) AS stok_kategori
+FROM produk;
+EXPLAIN QUERY PLAN SELECT * FROM pesanan WHERE produk_id = 1;
+```
+
+*Tempel di playground → Run per statement, lihat omzet + peringkat + QUERY PLAN.*
+
 ---
 
 ## Penjelasan untuk Pemula
@@ -38,6 +62,18 @@ Buat `produk`, `pelanggan`, `pesanan` + `INDEX` + `JSONB` untuk `pesanan.data` +
 
 ### 3 Istilah Wajib
 - 1. **Capstone/pg_dump**: gabung/cadangan
+
+## Eksperimen
+
+- **Hijau:** `SELECT * FROM produk` → 3 baris? `WHERE stok < 30` → apa?
+- **Kuning:** Tambah pesanan Siti 3 Minyak → omzet Sembako berubah?
+- **Merah:** Hapus `INDEX` → `EXPLAIN` berubah jadi SCAN? Buat lagi.
+
+## Tantangan
+
+****Gudang Grand Opening:** gabungkan `CREATE TABLE` + `JOIN` + `Window` + `EXPLAIN`: tambah tabel `stok_masuk`, view `v_omzet_harian`, dan uji `EXPLAIN` tetap pakai index.**
+
+Hijau: view jalan. Kuning: INSERT 1 baris → view ikut berubah. Merah: `pg_dump` + restore (Tugas) → data sama.
 
 ## Ringkasan
 
