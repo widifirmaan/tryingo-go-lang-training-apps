@@ -80,9 +80,9 @@ fn main() {
 ## Challenge
 
 **Store Stamp:** `add_stock!(map, "rice", 5)` add-or-create macro + compare lines saved vs `vec!`.
+- **Link-up (Week 12 — Concurrency):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **macro/!/expand**: stamp/mark/peek

@@ -98,9 +98,9 @@ Auto migrate + reseed. `seeInDatabase` verifies presence.
 ## Challenge
 
 **Tested Shop:** 3 tests (GET 200 + add-enters-DB + delete-gone) GREEN + 2-product seeder.
+- **Link-up (Week 8 — REST API):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **FeatureTestTrait/seeInDatabase**: mock/check

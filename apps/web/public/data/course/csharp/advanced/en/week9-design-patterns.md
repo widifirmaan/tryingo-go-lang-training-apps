@@ -103,9 +103,9 @@ class Cash : IPay { // sign the contract
 ## Challenge
 
 **Complete Pattern Shop:** `IPay` + 3 ways + `Cashier` + 3 tests + `Singleton` log.
+- **Link-up (Week 8 — Error Handling):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Strategy/Singleton/Repository**: plug/one/worker

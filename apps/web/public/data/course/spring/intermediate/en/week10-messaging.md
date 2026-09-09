@@ -99,9 +99,9 @@ Needs `@EnableAsync` switch, else runs blocking!
 ## Challenge
 
 **Fast Shop:** `create()` + event + `@Async` WA + reply-time log <1s. **Intermediate Spring DONE!**
+- **Link-up (Week 9 — Actuator & Monitoring):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Event/Async**: letter/background

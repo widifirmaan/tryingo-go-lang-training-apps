@@ -94,9 +94,9 @@ Wrap `App` with `Provider value={{ cart, dispatch }}`, all children `useContext`
 ## Challenge
 
 **Warehouse Cart:** `add` + `remove` by id + `clear` + count + total price via `useReducer` + 2 components sharing.
+- **Link-up (Week 5 — React Router):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Context/reducer**: warehouse/cashier

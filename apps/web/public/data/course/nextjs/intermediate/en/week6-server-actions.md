@@ -91,9 +91,9 @@ Click Add → browser sends `FormData` to server → `add` runs → `revalidateP
 ## Challenge
 
 **Action Shop:** Add + delete (second action) + `revalidatePath` + validation error display.
+- **Link-up (Week 5 — Data Fetching):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **action/server**: kitchen/order

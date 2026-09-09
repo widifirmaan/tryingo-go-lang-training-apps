@@ -116,9 +116,9 @@ db.produk_rapi.insertOne({ nama: "Beras", harga: 62000 }) // lolos
 ## Tantangan
 
 **Desain Warung Benar:** `produk` embed `ulasan` (sedikit, max 5) + `pesanan` reference `pelanggan_email` + `$lookup` laporan Budi. Tulis alasan tiap pilihan 1 kalimat. **Selesai Beginner MongoDB!**
+- **Sambungan (Minggu 4 — Aggregation Dasar):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Embed/reference/$lookup**: tempel/pisah/gabung

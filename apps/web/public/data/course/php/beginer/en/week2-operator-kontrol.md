@@ -114,9 +114,9 @@ PHP uses `elseif` (`else if` also works, but `elseif` is idiomatic).
 ## Challenge
 
 **Auto Discount:** `$total = 120000; if ($total >= 100000) $discount = $total*0.1; elseif ($total >= 50000) $discount = $total*0.05; else $discount = 0;` → print `Discount Rp ... Pay Rp ...` with `number_format`. Add a `foreach` over 5 items computing total first.
+- **Link-up (Week 1 — Basic PHP Syntax):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **if/elseif/switch**: branches

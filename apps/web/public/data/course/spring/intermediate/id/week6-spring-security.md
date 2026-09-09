@@ -103,9 +103,9 @@ Spring buatkan `/login` + cek — tanpa tulis HTML.
 ## Tantangan
 
 **Mal Berpintu:** `/` + `/produk` bebas, `/admin/**` login, `/api/**` bebas `GET` tapi login untuk `POST` (`requestMatchers(HttpMethod.POST, "/api/**").authenticated()`).
+- **Sambungan (Minggu 5 — REST API Best Practices):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **FilterChain/permitAll**: pos/bebas

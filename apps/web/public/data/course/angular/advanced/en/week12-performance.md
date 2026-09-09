@@ -96,9 +96,9 @@ export class ListComponent {
 ## Challenge
 
 **Complete Fast Shop:** `CardComponent` `OnPush` + `List` `trackById` + `list = [...list, fresh]` (not `push` mutation), `ng serve` check that not everything is checked.
+- **Link-up (Week 11 — Testing Angular):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **OnPush/trackBy**: thrifty/ID

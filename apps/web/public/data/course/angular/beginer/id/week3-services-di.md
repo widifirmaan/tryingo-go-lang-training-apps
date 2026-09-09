@@ -93,9 +93,9 @@ Jalan sekali setelah komponen jadi — tempat ambil data awal.
 ## Tantangan
 
 **Mal 2 Toko:** `ProdukService` + `KartuComponent` (tampil) + `TambahComponent` (form tambah) → tambah di 1, tampil di 2 tanpa refresh.
+- **Sambungan (Minggu 2 — Directives & Pipes):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Service/Inject/OnInit**: gudang/suntik/buka

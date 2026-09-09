@@ -91,9 +91,9 @@ socket.on("stok-habis", (d) => bunyikan(d.nama));
 ## Tantangan
 
 **Warung Live:** Gateway `pesan-baru` + `stok-habis` + 2 tab dengar bareng screenshot.
+- **Sambungan (Minggu 9 — Testing NestJS):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Gateway/emit**: menara/siar

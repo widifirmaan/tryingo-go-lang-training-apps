@@ -91,9 +91,9 @@ watch(cari, (baru) => {           // pantau cari → saring
 ## Tantangan
 
 **Toko Hidup:** `onMounted` fetch + `watch` cari + `onUnmounted` matikan interval + loading tampil saat fetch.
+- **Sambungan (Minggu 6 — Pinia):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **onMounted/onUnmounted/watch**: buka/tutup/pantau

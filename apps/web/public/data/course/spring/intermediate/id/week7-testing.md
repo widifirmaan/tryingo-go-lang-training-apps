@@ -100,9 +100,9 @@ Uji merah → tulis kode → hijau. Untuk 1 fungsi, 2 menit.
 ## Tantangan
 
 **Warung Teruji:** Test `GET /produk` 200 + `POST` tambah + `GET` jumlah +1. `./mvnw test` HIJAU 3/3.
+- **Sambungan (Minggu 6 — Spring Security):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **MockMvc/Test**: bohongan/uji

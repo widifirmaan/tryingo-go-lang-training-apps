@@ -78,9 +78,9 @@ A shop without roads = homepage customers can't reach products. Links = **roads*
 ## Challenge
 
 **3-Page Shop:** `index.html` (Home), `products.html` (list), `contact.html` (WA+email) + same `nav` in 3 files + `#promo` link.
+- **Link-up (Week 2 — Text Formatting & Typography):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **a/nav/ul**: link/signpost/list

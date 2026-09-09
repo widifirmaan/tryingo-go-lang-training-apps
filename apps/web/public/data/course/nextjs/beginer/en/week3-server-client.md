@@ -152,9 +152,9 @@ Fix: Server passes data as `props` (`list={products}`).
 **B. Mini Dashboard:** Server fetches `[{name, score}]` students, Client shows search + average of filtered.
 
 Done when: 1 Server file (`page.js` async), 1 Client file (`"use client"`), data via `props`.
+- **Link-up (Week 2 — Routing & Navigation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Server Component**: component on server, default

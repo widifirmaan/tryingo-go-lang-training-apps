@@ -92,9 +92,9 @@ console.log(chalk.red("Stok habis!"));
 ## Tantangan
 
 **Dapur 3 File:** `produk.js` export `daftar`, `kasir.js` export `hitungTotal` + `ongkir`, `app.js` import keduanya → struk lengkap + `chalk` warna total.
+- **Sambungan (Minggu 1 — Dasar Node.js):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **require/exports**: pinjam/bagi

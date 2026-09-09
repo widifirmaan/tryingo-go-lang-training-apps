@@ -86,9 +86,9 @@ Without the master switch, all alarms dead.
 ## Challenge
 
 **Automatic Shop:** `morningReport` cron 07:00 + `checkStock` every 60s + 2-log screenshot.
+- **Link-up (Week 11 — Caching):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Scheduled/cron/fixedRate**: alarm/schedule/every-X

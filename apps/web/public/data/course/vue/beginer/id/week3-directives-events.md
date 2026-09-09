@@ -102,9 +102,9 @@ function submit() {
 ## Tantangan
 
 **Filter Warung:** Input `cari` + `select kategori` + `v-for="item in daftar.filter(...)"`, `v-if` jika hasil 0 tampil "Tidak ada".
+- **Sambungan (Minggu 2 — Reactivity & Composition):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **v-if/show/for**: tampil

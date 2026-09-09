@@ -100,9 +100,9 @@ export class KartuComponent {
 ## Tantangan
 
 **Etalase Saklar Lengkap:** `*ngIf` gratis-ongkir + `else`, `*ngFor` 5 produk + `index`, `| currency:'IDR'`, `[ngClass]` mahal/murah.
+- **Sambungan (Minggu 1 — Components & Templates):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ngIf/ngFor/ngClass**: saklar/fotokopi/baju

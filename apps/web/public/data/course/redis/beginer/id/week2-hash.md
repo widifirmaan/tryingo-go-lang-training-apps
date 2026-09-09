@@ -80,9 +80,9 @@ DEL produk:1
 ## Tantangan
 
 **Kartu Lengkap:** `HSET pelanggan:1 nama Budi poin 100` → `HINCRBY pelanggan:1 poin 50` → `HGETALL` → `EXPIRE pelanggan:1 3600` → `TTL`.
+- **Sambungan (Minggu 1 — Redis String):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Hash/HSET/HGETALL**: kartu/tulis/baca-semua

@@ -93,9 +93,9 @@ console.log(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)); // true
 ## Tantangan
 
 **Katalog ES6:** `const p = {nama:"Beras", harga:62000, stok:10}` → `const {nama, harga} = p`, `const baru = {...p, diskon:10}`, `const kota = pelanggan?.alamat?.kota ?? "Jakarta"`.
+- **Sambungan (Minggu 7 — Async JavaScript):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 8: **ES6+** — bongkar & fotokopi cepat. Minggu depan: **Modules** — bagi file.

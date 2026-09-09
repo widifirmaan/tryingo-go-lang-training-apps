@@ -95,9 +95,9 @@ mutation Dua {
 ## Tantangan
 
 **Warung Tulis Lengkap:** `mutation` tambah 2 produk (`a`, `b`) → `query` cek ada → `mutation` ubah 1 harga → `query` cek berubah. 4 langkah berurutan.
+- **Sambungan (Minggu 2 — Queries):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Mutation/input/resolver**: tulis/amplop/pelayan

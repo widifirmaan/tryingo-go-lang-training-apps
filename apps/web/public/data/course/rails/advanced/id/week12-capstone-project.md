@@ -125,7 +125,7 @@ Buat e-commerce platform lengkap: auth, products CRUD, cart, orders, payment, ad
 
 
 ---
-
+- **Checklist integrasi:** **Setup Rails** (Minggu 1) + **MVC** (Minggu 2) + **Migrations** (Minggu 3) + **Views ERB** (Minggu 4) + **Authentication** (Minggu 5) + **Associations** (Minggu 6) + **Testing dengan RSpec** (Minggu 7) + **Rails API Mode** (Minggu 8) + **Performance Optimization** (Minggu 9) + **Background Jobs & Sidekiq** (Minggu 10) + **Deployment & DevOps** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Penjelasan untuk Pemula
 
 ### Analogi: Grand Opening Toko Rails

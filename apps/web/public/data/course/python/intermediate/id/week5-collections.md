@@ -87,9 +87,9 @@ print("Murah:", murah)
 ## Tantangan
 
 **Inventaris:** `stok = ["beras","gula","beras"]` → `set(stok)` unik? `harga = {"beras":62000}` → `harga.get("beras")` + `for k,v in harga.items()` print.
+- **Sambungan (Minggu 4 — Functions):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 5: **Koleksi** — rak, buku, tas, kardus. Minggu depan: **OOP**.

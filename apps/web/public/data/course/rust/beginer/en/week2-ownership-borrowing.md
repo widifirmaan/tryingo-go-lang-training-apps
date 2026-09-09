@@ -110,9 +110,9 @@ Many reads **or** 1 write, never mixed — prevents overlap.
 ## Challenge
 
 **Borrowing Shop:** Build `fn print_it(s: &String)`, `fn add_stock(s: &mut String)`, call `print_it(&shop)` then `add_stock(&mut shop)` → order matters (read first, then mut).
+- **Link-up (Week 1 — Rust Setup & Syntax):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Ownership/move**: owner/transfer

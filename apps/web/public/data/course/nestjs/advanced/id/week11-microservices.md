@@ -110,9 +110,9 @@ async cari() {
 ## Tantangan
 
 **Warung Bercabang:** Gateway + 2 cabang (`produk`, `pesanan`) + `MessagePattern` 2 + `EventPattern` 1 + `curl` lulus.
+- **Sambungan (Minggu 10 — WebSocket):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Message/Event/TCP**: telepon/pengeras/kabel

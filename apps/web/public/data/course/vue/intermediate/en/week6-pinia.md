@@ -95,9 +95,9 @@ Same as components, but shared.
 ## Challenge
 
 **3-Shop Mall:** `cart` store + `Header` (count) + `List` (add) + `Checkout` (total + clear).
+- **Link-up (Week 5 — Vue Router):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Pinia/store**: warehouse

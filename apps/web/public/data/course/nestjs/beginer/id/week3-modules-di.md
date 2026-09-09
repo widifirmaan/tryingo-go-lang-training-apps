@@ -112,9 +112,9 @@ export class AppModule {}
 ## Tantangan
 
 **Mal 2 Toko:** `ProdukModule` (CRUD) + `PelangganModule` (CRUD) + `PesananModule` (`imports` keduanya, `total()` gabung) → `curl` 3 pintu lulus.
+- **Sambungan (Minggu 2 — Providers & Services):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Module/imports/exports**: gedung/hubung/bagi

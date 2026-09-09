@@ -95,9 +95,9 @@ var_dump(KasirUtama::ambil() === KasirUtama::ambil()); // true, sama!
 ## Tantangan
 
 **Warung Pola Lengkap:** `Bayar` + `Tunai/Transfer/Qris` + `Kasir` + `phpunit` test 3 cara + `Singleton` log transaksi.
+- **Sambungan (Minggu 10 — Testing PHPUnit):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Strategy/Singleton/Factory**: colokan/1/pabrik

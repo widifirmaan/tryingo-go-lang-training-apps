@@ -100,9 +100,9 @@ Debug in VS (not Console only!): **F9** = red breakpoint on line → **F5** run 
 ## Challenge
 
 **Complete Safe Cashier:** Input-price loop + 2-type `try/catch` + `throw` for <= 0 + `using` writes receipt file. **Intermediate C# DONE!**
+- **Link-up (Week 7 — Generics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **try/catch/throw/using**: try/catch/alarm/automatic

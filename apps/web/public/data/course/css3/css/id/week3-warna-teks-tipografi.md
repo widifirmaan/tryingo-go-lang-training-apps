@@ -93,9 +93,9 @@ Teks abu terang di putih → pelanggan tua tidak bisa baca (kontras gagal). `lin
 ## Tantangan
 
 **Spanduk Warna Lengkap:** Judul hijau `28px center` + 2 paragraf (`#333`, `1.6`) + promo box (`background` + `bold`) + 1 warna `rgb()`.
+- **Sambungan (Minggu 2 — Box Model):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **color/background**: tinta/kertas

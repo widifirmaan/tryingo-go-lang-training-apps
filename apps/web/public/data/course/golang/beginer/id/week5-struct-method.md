@@ -103,9 +103,9 @@ Go tidak ada `new` class, pakai fungsi `NewProduk(...) *Produk` yang return poin
 ## Tantangan
 
 **Toko Mini:** `type Keranjang struct { Items []Produk }` + method `Tambah(p Produk)`, `Total() int`, `Bayar(diskon int)`. Pakai `*Keranjang` untuk ubah.
+- **Sambungan (Minggu 4 — Koleksi: Slice, Map & String):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Struct**: kartu

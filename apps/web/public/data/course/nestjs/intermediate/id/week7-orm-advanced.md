@@ -96,9 +96,9 @@ Tanpa ini, `pelanggan.pesanans` kosong! Dengan ini, 2 query (bukan 101).
 ## Tantangan
 
 **Toko Bertali:** `Pelanggan 1-N Pesanan N-1 Produk` + `relations` 2 level + buktikan 3 query (bukan 1+N+M).
+- **Sambungan (Minggu 6 — Guards & Auth):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **OneToMany/ManyToOne/relations**: punya/milik/ikut

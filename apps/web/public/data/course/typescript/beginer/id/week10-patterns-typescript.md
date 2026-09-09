@@ -93,9 +93,9 @@ toko.stokHabis("Beras");
 ## Tantangan
 
 **Warung Pola Lengkap:** `Kasir` Singleton + `buatProduk` Factory 3 tipe + `Toko` Observer 2 pelanggan langganan `stokHabis`.
+- **Sambungan (Minggu 9 — Testing TypeScript):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Singleton/Factory/Observer**: pola

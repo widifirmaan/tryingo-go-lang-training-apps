@@ -83,9 +83,9 @@ Default: memori (hilang restart). Redis (`spring-boot-starter-data-redis`): laci
 ## Tantangan
 
 **Warung Cepat:** `@Cacheable` daftar + `@CacheEvict` tambah/hapus + `GET/POST/GET` buktikan hitung 2x (bukan 3x).
+- **Sambungan (Minggu 10 — Messaging):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Cacheable/Evict**: simpan/buang laci

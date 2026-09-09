@@ -119,9 +119,9 @@ No `break` needed, auto stops. `switch { case x<10: }` replaces long `if-else`.
 ## Challenge
 
 **Delivery Switch:** `weight=2.5, distance=8`, `switch { case distance<=5: delivery=10000; case distance<=10: delivery=15000; default: 20000 }`, total `weight*5000+delivery`. Validate `if weight<=0 { fmt.Println("Wrong weight") }`.
+- **Link-up (Week 1 — Setup & Syntax):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Zero value**: default empty

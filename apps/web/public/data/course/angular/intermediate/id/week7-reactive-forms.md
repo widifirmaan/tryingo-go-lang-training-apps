@@ -105,9 +105,9 @@ Sudah siap dari W1: `ng new` + `ng serve` di `4200`, `ReactiveFormsModule` sudah
 ## Tantangan
 
 **Warung Reaktif Lengkap:** `nama` `required` + `minLength(3)`, `harga` `required` + `min(1)`, `stok` `required`, tampil `*ngIf` error tiap field, `tambah()` `console.log` + `reset()`, `ng serve` screenshot.
+- **Sambungan (Minggu 6 — Routing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **FormGroup/FormControl/Validators**: kertas/kotak/satpam

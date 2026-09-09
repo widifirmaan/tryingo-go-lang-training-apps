@@ -111,9 +111,9 @@ export class CartComponent {
 ## Challenge
 
 **Complete Warehouse Shop:** `CartStore` `items: {name, price}[]` + `add` + `remove` `updater`, `items$ | async` display, `ng serve` check.
+- **Link-up (Week 9 — RxJS):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ComponentStore**: component warehouse

@@ -110,9 +110,9 @@ async find() {
 ## Challenge
 
 **Branched Shop:** Gateway + 2 branches (`products`, `orders`) + 2 `MessagePattern`s + 1 `EventPattern` + passing `curl`.
+- **Link-up (Week 10 — WebSocket):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Message/Event/TCP**: phone/loudspeaker/cable

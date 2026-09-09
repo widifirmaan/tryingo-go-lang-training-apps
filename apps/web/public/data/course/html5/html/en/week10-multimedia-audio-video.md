@@ -65,9 +65,9 @@ Shops need cooking videos, testimonial audio — `controls` lets customers play/
 ## Challenge
 
 **Shop Media:** 1 `audio` testimonial + 1 `video` cooking with `poster` + 2 `source` formats + fallback text.
+- **Link-up (Week 9 — Semantic HTML):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **audio/video/source**: radio/tv/options

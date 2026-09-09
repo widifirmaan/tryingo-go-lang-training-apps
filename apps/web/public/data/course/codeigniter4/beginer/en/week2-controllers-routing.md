@@ -103,9 +103,9 @@ Ready from W1: `php -v`, `composer`, `php spark serve` on `8080`. No XAMPP neede
 ## Challenge
 
 **3-Door Shop:** `get('')` Home, `get('products')` index, `get('products/(:num)')` numeric detail, `post('products')` save. `php spark routes` screenshot.
+- **Link-up (Week 1 — CI4 Setup):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Routes.php/$routes**: board & collection

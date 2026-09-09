@@ -91,9 +91,9 @@ Click `summary` → open/close. `open` attribute for default open.
 ## Challenge
 
 **Pure Interactive Shop:** 5 FAQ `details` + 1 promo `dialog` (`showModal` + `method="dialog"`) + stock `progress` + `datalist` 6 products. 0 JS except 1 `onclick` line.
+- **Link-up (Week 10 — Multimedia):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **details/dialog/progress**: fold/popup/bar

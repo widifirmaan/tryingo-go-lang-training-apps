@@ -113,9 +113,9 @@ Without `@Injectable()`, Nest refuses injection (`Nest can't resolve dependencie
 ## Challenge
 
 **Complete Kitchen:** `ProductService` + `add/remove/find` + `ProductsController` `GET/POST/DELETE` + 3 passing `curl` commands.
+- **Link-up (Week 1 — Controllers & Routing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Service/Controller/Module**: kitchen/waiter/building

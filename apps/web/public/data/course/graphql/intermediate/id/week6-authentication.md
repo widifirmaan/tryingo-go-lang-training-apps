@@ -92,9 +92,9 @@ Login 1x dapat token, tiap request bawa token, server isi `context.user`.
 ## Tantangan
 
 **Restoran Ber-KTP:** `login` + `tambahProduk` (wajib login) + `produk` (bebas) + GraphiQL 3 test (tanpa/palsu/asli).
+- **Sambungan (Minggu 5 — Apollo Server):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **JWT/Bearer/context**: gelang/bawa/periksa

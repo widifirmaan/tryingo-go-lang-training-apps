@@ -87,9 +87,9 @@ spring.datasource.password=${DB_PASSWORD}
 ## Tantangan
 
 **Cabang Online:** `package` + `Dockerfile` + `docker run` lokal lulus + deploy `Railway` (`railway up`) + buka URL publik.
+- **Sambungan (Minggu 12 — Async & Scheduling):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **jar/Docker/profil**: kardus/peti/cabang

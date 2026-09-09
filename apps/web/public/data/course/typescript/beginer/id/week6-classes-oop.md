@@ -83,9 +83,9 @@ console.log(new Member("Gula", 15000, 120).info());
 ## Tantangan
 
 **Pabrik Lengkap:** `class Keranjang { items: Produk[] = []; tambah(p: Produk){...} total(): number {...} }` → isi 3 → `total()`.
+- **Sambungan (Minggu 5 — Generics):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **class/new/private**: biru/kartu/kunci

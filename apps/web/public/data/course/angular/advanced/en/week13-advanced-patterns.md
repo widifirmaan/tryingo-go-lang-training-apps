@@ -86,9 +86,9 @@ Landing `Home` eager, `admin` lazy — `ng serve` separate `chunk` in `Network`.
 ## Challenge
 
 **Complete Lazy Shop:** `Home` eager, `admin` `loadComponent`, admin children `loadChildren`, `Network` check `admin` chunk only at `/admin`.
+- **Link-up (Week 12 — Performance):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **loadComponent/loadChildren/chunk**: load/load-children/piece

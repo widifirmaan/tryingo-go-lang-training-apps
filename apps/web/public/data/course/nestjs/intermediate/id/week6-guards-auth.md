@@ -140,9 +140,9 @@ export class AppModule implements NestModule {
 ## Tantangan
 
 **Restoran Ber-KTP:** `login` + `GET` bebas + `POST/DELETE` jaga + `curl` 3 test (bebas/tanpa/palsu/asli).
+- **Sambungan (Minggu 5 — Pipes & Validation):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Guard/JWT/UseGuards**: satpam/gelang/tempel

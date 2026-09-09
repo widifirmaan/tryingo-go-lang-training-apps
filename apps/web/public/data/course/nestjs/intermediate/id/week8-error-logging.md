@@ -124,9 +124,9 @@ export class WaktuInterceptor implements NestInterceptor {
 ## Tantangan
 
 **Warung Aman Terpantau:** Filter global + 3 `HttpException` beda + `Logger` tiap aksi + `curl` cek JSON rapi semua. **Selesai Menengah NestJS!**
+- **Sambungan (Minggu 7 — ORM Relations):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Filter/Logger/HttpException**: jaring/CCTV/alarm-berkode

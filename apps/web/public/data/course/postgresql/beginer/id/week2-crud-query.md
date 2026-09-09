@@ -85,9 +85,9 @@ SELECT nama, harga, diskon FROM produk;
 ## Tantangan
 
 **Buku:** `UPDATE buku SET stok = stok -1 WHERE id=1` (pinjam), `DELETE FROM anggota WHERE kota IS NULL`, `SELECT * FROM buku WHERE judul LIKE '%Java%' LIMIT 3`.
+- **Sambungan (Minggu 1 — Dasar PostgreSQL):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **CRUD**: 4 gerakan

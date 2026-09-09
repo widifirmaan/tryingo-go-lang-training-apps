@@ -95,9 +95,9 @@ dotnet test
 ## Challenge
 
 **Tested Shop:** `Calc/Discount/Divide` + 5 GREEN tests + screenshot.
+- **Link-up (Week 9 — Design Patterns):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **xUnit/Fact/Theory**: taste-kitchen/taste/expect

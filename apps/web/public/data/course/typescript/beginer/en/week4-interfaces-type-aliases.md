@@ -149,9 +149,9 @@ const enum Role { Admin = "ADMIN", Cashier = "CASHIER" }
 ## Challenge
 
 **Tiered Student Cards:** `interface Person { name: string; age: number }`, `interface Student extends Person { id: string; score: number }`, `type Status = "pass" | "remedial"`. Build `function status(s: Student): Status { return s.score >= 70 ? "pass" : "remedial" }` and a `Student[]` average.
+- **Link-up (Week 3 — Typed Functions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **interface/type**: blueprint

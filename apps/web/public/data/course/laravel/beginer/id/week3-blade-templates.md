@@ -92,9 +92,9 @@ Layout `@yield('content')` lubang → anak `@section('content')` isi.
 ## Tantangan
 
 **Warung Etalase Lengkap:** `layouts/app` (header/nav/footer) + `produk` (`extends`, `forelse`, `number_format`) + `detail` (`{{ $p["nama"] }}` + link kembali). `php artisan serve` screenshot.
+- **Sambungan (Minggu 2 — Routing & Controllers):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Blade/extends/section**: template/warisi/isi

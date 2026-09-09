@@ -83,9 +83,9 @@ Default: memory (lost on restart). Redis (`spring-boot-starter-data-redis`): dra
 ## Challenge
 
 **Fast Shop:** `@Cacheable` list + `@CacheEvict` add/remove + `GET/POST/GET` proving 2 computes (not 3).
+- **Link-up (Week 10 — Messaging):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Cacheable/Evict**: store/discard drawer

@@ -70,9 +70,9 @@ Without: read pages 1-300. With: open TOC → page 42.
 ## Challenge
 
 **Library:** `CREATE INDEX idx_books_title ON books(title)` → `EXPLAIN SELECT * FROM books WHERE title LIKE 'Java%'` → Index Scan? Add `idx_members_email`.
+- **Link-up (Week 3 — JOIN & Relations):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Index**: TOC

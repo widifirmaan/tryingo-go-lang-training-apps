@@ -91,9 +91,9 @@ Queries pull, subscriptions push (WebSocket stays open).
 ## Challenge
 
 **Live Shop:** `outOfStock` subscription + `sell` publishing at 0 + 2 tabs listening together, screenshot.
+- **Link-up (Week 7 — DataLoader & N+1):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Subscription/publish**: listen/broadcast

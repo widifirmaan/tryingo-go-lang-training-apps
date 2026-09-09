@@ -100,9 +100,9 @@ export class CardComponent {
 ## Challenge
 
 **Complete Switch Showcase:** `*ngIf` free-delivery + `else`, `*ngFor` 5 products + `index`, `| currency:'IDR'`, `[ngClass]` expensive/cheap.
+- **Link-up (Week 1 — Components & Templates):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ngIf/ngFor/ngClass**: switch/photocopy/outfit

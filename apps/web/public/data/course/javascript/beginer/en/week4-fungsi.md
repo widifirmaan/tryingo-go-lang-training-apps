@@ -126,9 +126,9 @@ A function calling itself with a SMALLER problem + stop point. `factorial(3)` = 
 Call with 2 different carts to prove reuse.
 
 Bonus closure: `makeDiscount(10)` returns `price => price*0.9` — use `cart.map(makeDiscount(10))`.
+- **Link-up (Week 3 — Control Flow):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Function**: reusable block

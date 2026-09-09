@@ -91,9 +91,9 @@ Server: `await fetch` in `page.js` → HTML done before sending. Client: `useEff
 ## Challenge
 
 **Cached Catalog:** Server `page.js` with `revalidate: 60` + `loading.js` skeleton + try all 3 cache modes.
+- **Link-up (Week 4 — Styling & Optimization):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **fetch/cache/revalidate**: order/copies/refresh

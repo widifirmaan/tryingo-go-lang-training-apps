@@ -116,9 +116,9 @@ VS Code + browser, create `table.html`, open in browser → `Ctrl+O`.
 ## Challenge
 
 **Complete Shop Table:** `caption` "Stock August 25", `thead` 3 columns `Product/Price/Stock`, `tbody` 5 products + `th scope="row"` each, `tfoot` or `colspan="2"` total row, correct `scope`, open in browser + check with `WAVE` extension.
+- **Link-up (Week 5 — Lists):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **table/caption/thead/tbody/tr/th/td**: table/title/head/body/row/header/data

@@ -181,9 +181,9 @@ Browser baca `<ul><li>Beras</li></ul>` jadi object `document` → `ul` punya `ch
 **To-Do Warung Interaktif:** HTML punya `input`, `button Tambah`, `ul`, `p total`, `select filter (Semua/Selesai/Belum)`. JS: array `todos = [{id, teks, selesai}]`, fungsi `render()` saring sesuai filter, tiap `<li>` ada checkbox `toggle` dan tombol `Hapus`. Semua via DOM API, tanpa framework.
 
 Kriteria: `getElementById`/`querySelector` + `createElement` + `appendChild` + `addEventListener` dipakai, dan `render()` dipanggil tiap ubah data.
+- **Sambungan (Minggu 4 — Fungsi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **DOM**: Document Object Model — pohon HTML

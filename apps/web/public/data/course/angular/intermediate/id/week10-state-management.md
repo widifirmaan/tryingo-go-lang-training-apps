@@ -111,9 +111,9 @@ export class KeranjangComponent {
 ## Tantangan
 
 **Warung Gudang Lengkap:** `KeranjangStore` `items: {nama, harga}[]` + `tambah` + `hapus` `updater`, `items$ | async` tampil, `ng serve` cek.
+- **Sambungan (Minggu 9 — RxJS):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ComponentStore**: gudang komponen

@@ -127,9 +127,9 @@ $k = new Kasir();
 ## Tantangan
 
 **Gudang Sendiri:** `composer init` + `require nesbot/carbon` (tanggal) → `Carbon::now()->addDays(7)` jatuh tempo + class `App\Struk` sendiri → `app.php` gabung.
+- **Sambungan (Minggu 8 — PDO Database):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Composer/autoload/PSR-4**: mandor/peta/aturan

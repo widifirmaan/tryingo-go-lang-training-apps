@@ -112,9 +112,9 @@ Test: `go run server.go` → browser `http://localhost:8080/produk` → JSON. `c
 ## Tantangan
 
 **Warung API Lengkap:** `GET /produk` + `POST /produk` (baca `json.NewDecoder(r.Body).Decode(&p)`, `w.WriteHeader(201)`) + `log` middleware + `curl` 2 perintah lulus.
+- **Sambungan (Minggu 10 — Stdlib: I/O & Encoding):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ServeMux/Handler**: papan/pelayan

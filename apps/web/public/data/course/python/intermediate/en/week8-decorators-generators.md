@@ -88,9 +88,9 @@ Function wrapping another function — adds logging without changing content.
 ## Challenge
 
 **Time Stamp:** Build `@timer` that `start = time.time()` before `func` and `print(time.time()-start)` after. Use on `calc(a,b)`.
+- **Link-up (Week 7 — File I/O):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **decorator/generator**: stamp/queue

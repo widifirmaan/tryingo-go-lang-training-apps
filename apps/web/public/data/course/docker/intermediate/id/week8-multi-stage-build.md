@@ -83,9 +83,9 @@ Binary tanpa butuh libc — jalan di `alpine`/`scratch` kosong.
 ## Tantangan
 
 **Peti Diet Lengkap:** Go/Node warung multi-stage + `docker images` <50MB + `run` lulus. **Selesai Menengah Docker!**
+- **Sambungan (Minggu 7 — Docker Compose):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Multi-stage/scratch**: diet/kosong

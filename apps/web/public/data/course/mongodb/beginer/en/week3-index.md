@@ -75,9 +75,9 @@ db.products.dropIndex("category_1")
 ## Challenge
 
 **Fast Shop:** `createIndex({ name: 1 })` + `unique` on `email` + `explain` 2 queries → screenshot `IXSCAN` 2x.
+- **Link-up (Week 2 — Update & Delete):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Index/unique/explain**: contents/anti-duplicate/plan

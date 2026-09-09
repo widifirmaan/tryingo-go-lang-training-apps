@@ -102,9 +102,9 @@ foreach ($cart as $item) {
 ## Challenge
 
 **Shop Inventory:** `$products = [["name"=>"Rice","price"=>62000,"category"=>"Staples"], ... 5 items]` → `array_filter` Staples only → `array_map` takes `name` → `implode` prints → `array_sum(array_column($products,"price"))` totals.
+- **Link-up (Week 3 — Functions & Scope):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Array indexed/associative**: list/card

@@ -97,9 +97,9 @@ fn main() {
 ## Tantangan
 
 **Kasir Aman:** `fn diskon(harga: f64, persen: f64) -> Result<f64, String>` tolak `persen > 50` → `match` 3 kasus (normal, tolak, bagi-0) + `?` versi rambatkan. **Selesai Beginner Rust!**
+- **Sambungan (Minggu 5 — Collections):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Result/Ok/Err/?**: hasil/sukses/gagal/lempar

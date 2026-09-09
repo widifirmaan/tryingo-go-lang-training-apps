@@ -100,9 +100,9 @@ echo "Luar tetap: $totalLuar\n";
 ## Tantangan
 
 **Struk Lengkap:** Buat `subtotal($keranjang)`, `ongkir($berat, $jarak)`, `cetakStruk($keranjang, $berat, $jarak)` yang gabung ketiganya + `sapa($nama)` → return string struk. Panggil 2 keranjang beda.
+- **Sambungan (Minggu 2 — Operator & Kontrol):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **function/return**: resep/hasil

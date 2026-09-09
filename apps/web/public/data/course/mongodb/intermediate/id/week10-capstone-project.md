@@ -60,7 +60,7 @@ CRUD + index + pipa + desain + replica + transaksi = produksi.
 **Grand Opening:** Semua checklist + `mongodump` + restore ke DB baru + data sama. **Selesai MongoDB 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Dokumen & CRUD** (Minggu 1) + **Update & Delete** (Minggu 2) + **Index** (Minggu 3) + **Aggregation Dasar** (Minggu 4) + **Schema Design** (Minggu 5) + **Aggregation Lanjutan** (Minggu 6) + **Replica Set & Sharding** (Minggu 7) + **Performa & Tuning** (Minggu 8) + **Change Streams & Transactions** (Minggu 9) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/mongodump**: gabung/cadangan

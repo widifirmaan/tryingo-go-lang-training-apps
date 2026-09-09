@@ -86,9 +86,9 @@ db.produk.aggregate([
 ## Tantangan
 
 **Pabrik Ganda:** `$lookup` pesanan+pelanggan → `$group` total per nama → `$facet` (perNama + top3) 1 pipa.
+- **Sambungan (Minggu 5 — Schema Design):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **$lookup/$unwind/$facet**: gabung/buka/cabang

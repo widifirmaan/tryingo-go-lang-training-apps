@@ -86,9 +86,9 @@ db.products.aggregate([
 ## Challenge
 
 **2-Floor Factory:** `$lookup` + `$unwind` + `$facet` (category totals + top 3) in 1 pipeline, screenshot both results.
+- **Link-up (Week 5 — Schema Design):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **$lookup/$unwind/$facet**: join/open/branch

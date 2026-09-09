@@ -74,9 +74,9 @@ XREAD BLOCK 5000 STREAMS pesanan $
 ## Tantangan
 
 **Warung Siar:** `SUBSCRIBE` 2 terminal + `PUBLISH` 3 pesan + `XADD` 2 pesanan + `XREAD` baca ulang.
+- **Sambungan (Minggu 5 — Sorted Set):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Pub/Sub/Streams**: siar/antrian-awet

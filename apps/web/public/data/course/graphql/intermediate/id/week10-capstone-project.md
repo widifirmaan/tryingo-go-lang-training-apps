@@ -61,7 +61,7 @@ Menu + dapur + KTP + gerobak + bel + cicip = restoran.
 **Grand Opening:** Semua checklist + URL + video. **Selesai GraphQL 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Schema & Types** (Minggu 1) + **Queries** (Minggu 2) + **Mutations** (Minggu 3) + **Resolvers** (Minggu 4) + **Apollo Server** (Minggu 5) + **Authentication** (Minggu 6) + **DataLoader & N+1** (Minggu 7) + **Subscriptions** (Minggu 8) + **Testing & Error** (Minggu 9) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/deploy**: gabung/buka

@@ -80,9 +80,9 @@ Jangan `*` di produksi (bocor `env` berisi password!). Cukup `health,info`.
 ## Tantangan
 
 **Warung Terpantau:** `health` + `info` custom + `metrics` + screenshot UP + simulasi DOWN (matikan DB).
+- **Sambungan (Minggu 8 — Validation):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Actuator/health/metrics**: panel/sehat/angka

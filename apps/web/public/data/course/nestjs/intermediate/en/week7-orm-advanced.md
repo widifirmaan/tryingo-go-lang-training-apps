@@ -96,9 +96,9 @@ Without it, `customer.orders` is empty! With it, 2 queries (not 101).
 ## Challenge
 
 **Roped Store:** `Customer 1-N Order N-1 Product` + 2-level `relations` + prove 3 queries (not 1+N+M).
+- **Link-up (Week 6 — Guards & Auth):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **OneToMany/ManyToOne/relations**: owns/belongs/along

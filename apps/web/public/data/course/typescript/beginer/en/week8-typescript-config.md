@@ -91,9 +91,9 @@ Enables 7 checks: `strictNullChecks`, `noImplicitAny`, etc. Without `strict`, `n
 ## Challenge
 
 **Complete Ruled Shop:** `strict: true` + `noImplicitAny` errors `function calc(a,b)` without types → add `: number`.
+- **Link-up (Week 7 — Utility Types):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **tsconfig/strict/target**: book/guard/target

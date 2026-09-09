@@ -100,9 +100,9 @@ echo "Outside stays: $outsideTotal\n";
 ## Challenge
 
 **Complete Receipt:** Build `subtotal($cart)`, `delivery($weight, $dist)`, `printReceipt($cart, $weight, $dist)` combining all three + `greet($name)` → return receipt string. Call with 2 different carts.
+- **Link-up (Week 2 — Operators & Control):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **function/return**: recipe/result

@@ -111,9 +111,9 @@ db.close()
 ## Tantangan
 
 **Warung File:** Simpan `keranjang = [{"nama":"Beras","qty":2}]` ke `keranjang.json` dengan `json.dump`, baca lagi, tambah 1 item, tulis lagi.
+- **Sambungan (Minggu 6 — OOP):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 7: **Buku Kas File** — simpan ke `json` biar tidak hilang. Minggu depan: **Decorators & Generators**.

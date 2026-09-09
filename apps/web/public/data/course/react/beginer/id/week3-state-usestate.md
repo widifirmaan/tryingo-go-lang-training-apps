@@ -200,9 +200,9 @@ Panggil `setJumlah(5)` → React ingat nilai baru → panggil fungsi komponen la
 **B. Kalkulator Ongkir:** Input `berat` (kg) dan `jarak` (km), state `ongkir = berat*1000 + jarak*2000` tampil otomatis saat ketik (tanpa tombol).
 
 Kriteria: minimal 2 `useState`, 1 controlled input, dan update array pakai spread/filter (bukan push).
+- **Sambungan (Minggu 2 — Props & Data Flow):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **State**: memori komponen yang bisa berubah

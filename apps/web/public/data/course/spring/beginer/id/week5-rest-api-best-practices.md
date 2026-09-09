@@ -97,9 +97,9 @@ Ubah API → buat `/api/v2`, HP lama tetap `/api/v1`.
 ## Tantangan
 
 **Warung Rapi Lengkap:** DTO masuk/keluar + `Advice` + `/api/v1` + `curl` POST cek JSON rapi. **Selesai Beginner Spring!**
+- **Sambungan (Minggu 4 — Spring Data JPA):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **DTO/Advice/version**: amplop/satpam/versi

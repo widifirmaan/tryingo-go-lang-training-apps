@@ -96,9 +96,9 @@ Form warung tanpa `bind:value` = ketik tidak masuk `pelanggan`. Dengan `bind:val
 ## Tantangan
 
 **Warung Stempel Lengkap:** `use:klikLuar` untuk tutup `dropdown` kategori + `bind:value` 3 input (`nama`, `qty`, `kategori`) + `on:submit|preventDefault` tambah ke `daftar`.
+- **Sambungan (Minggu 6 — SvelteKit Routing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **use:action/$effect**: stempel/cleanup

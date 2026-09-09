@@ -118,10 +118,9 @@ Validate saat submit. Clear error saat user mulai mengetik.
 ## Tantangan
 
 Buat form checkout dengan validasi: nama, alamat, telepon, email, metode pembayaran. Tampilkan error real-time.
-
+- **Sambungan (Minggu 6 — Context API):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Satpam Formulir

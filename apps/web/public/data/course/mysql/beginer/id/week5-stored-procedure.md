@@ -116,9 +116,9 @@ DROP TRIGGER IF EXISTS catat_jual;
 ## Tantangan
 
 **Resep Warung Lengkap:** Buat `diskonKategori(IN kat VARCHAR(50), IN persen INT)` yang `UPDATE produk SET harga = harga * (1 - persen/100) WHERE kategori = kat` → `CALL diskonKategori('Sayur', 10)` → `SELECT` cek harga turun 10%.
+- **Sambungan (Minggu 4 — Index & Optimasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **PROCEDURE/CALL/DROP**: simpan/panggil/hapus resep

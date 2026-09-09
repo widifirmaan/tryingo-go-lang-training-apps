@@ -98,9 +98,9 @@ mysql -u root -p warung_baru < backup.sql      # RESTORE ke DB baru
 ## Tantangan
 
 **Gudang Tergembok:** 3 user (`kasir` SELECT/INSERT produk, `lapor` SELECT semua, `admin` ALL) + buktikan `kasir` DROP ditolak + `SHOW GRANTS` 3 screenshot.
+- **Sambungan (Minggu 8 — Replikasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **GRANT/REVOKE/privilege**: beri/cabut/izin

@@ -123,9 +123,9 @@ fn main() {
 ## Challenge
 
 **Inventory:** `Vec` of 5 products + `HashMap` prices → loop print + `get` 1 missing (handle `None`) + delete `prices.remove("sugar")`.
+- **Link-up (Week 4 — Enum & Pattern Matching):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Vec/HashMap/mut**: rack/book/permission

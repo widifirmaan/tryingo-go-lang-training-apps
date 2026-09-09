@@ -64,7 +64,7 @@ prisma/schema.prisma
 - **Hijau:** Jalankan Program minggu ini apa adanya; catat output yang keluar.
 - **Kuning:** Ubah 1 nilai pada `app`, `produk`, `produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Deployment** (Minggu 11): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
-
+- **Checklist integrasi:** **Setup & Konsep Dasar** (Minggu 1) + **Routing & Navigation** (Minggu 2) + **Server & Client Components** (Minggu 3) + **Styling & Optimasi** (Minggu 4) + **Data Fetching** (Minggu 5) + **Server Actions** (Minggu 6) + **Loading & Error** (Minggu 7) + **Middleware & Auth Dasar** (Minggu 8) + **Database & ORM** (Minggu 9) + **Advanced Auth** (Minggu 10) + **Deployment** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Ringkasan
 
 Minggu 12: **Capstone** — toko online lengkap, **Selesai Next.js 0→Ahli!**

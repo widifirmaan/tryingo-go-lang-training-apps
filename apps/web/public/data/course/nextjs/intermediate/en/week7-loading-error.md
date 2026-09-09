@@ -88,9 +88,9 @@ Catches `throw` in `page.js` or failed `fetch`. Must be `use client` since `rese
 ## Challenge
 
 **Resilient Page:** `loading.js` + `error.js` with retry + `not-found.js` + test each state (slow/fail/missing).
+- **Link-up (Week 6 — Server Actions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **loading/error**: curtain/alarm

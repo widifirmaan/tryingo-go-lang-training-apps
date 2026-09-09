@@ -94,7 +94,7 @@ Diet + assembly + factory + locks + wardrobe = production.
 **Grand Opening:** All-green checklist + public URL + video. **Docker 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Docker Concepts** (Week 1) + **Image & Registry** (Week 2) + **Container Management** (Week 3) + **Dockerfile** (Week 4) + **Volume & Data** (Week 5) + **Networking** (Week 6) + **Docker Compose** (Week 7) + **Multi-Stage Build** (Week 8) + **Security** (Week 9) + **CI/CD Pipeline** (Week 10) + **Orchestration** (Week 11) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/pipeline**: combine/prod-flow

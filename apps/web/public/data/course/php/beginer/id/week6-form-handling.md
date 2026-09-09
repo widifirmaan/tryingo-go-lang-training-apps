@@ -118,9 +118,9 @@ if (isset($_FILES["bukti"]) && $_FILES["bukti"]["error"] === UPLOAD_ERR_OK) {
 ## Tantangan
 
 **Form Warung Lengkap:** Tambah `email` (`filter_var`), `jumlah` number (`>= 1`), tampil struk `nama x jumlah = total` jika lolos, error list jika tidak. **Selesai Beginner PHP!**
+- **Sambungan (Minggu 5 — OOP Dasar):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **$_POST/$_GET**: kiriman

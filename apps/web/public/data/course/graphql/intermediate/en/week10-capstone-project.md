@@ -80,7 +80,7 @@ Menu + kitchen + ID + cart + bell + taste = restaurant.
 **Grand Opening:** All checklist + URL + video. **GraphQL 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Schema & Types** (Week 1) + **Queries** (Week 2) + **Mutations** (Week 3) + **Resolvers** (Week 4) + **Apollo Server** (Week 5) + **Authentication** (Week 6) + **DataLoader & N+1** (Week 7) + **Subscriptions** (Week 8) + **Testing & Errors** (Week 9) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/deploy**: combine/open

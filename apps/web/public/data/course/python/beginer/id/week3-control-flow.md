@@ -155,9 +155,9 @@ Tanpa `()` dan `{}`, cukup `:` dan menjorok.
 ## Tantangan
 
 **Tebak Harga:** `harga_rahasia= 7` (hardcode), `tebakan=[3,9,7]` loop `for t in tebakan:` jika `t==rahasia` → `print("Benar!")` + `break`, jika `t<rahasia` → "Kekecilan", else "Kebesaran". Jika habis loop tanpa benar → "Gagal". Pakai `continue` jika `t is None`.
+- **Sambungan (Minggu 2 — Data Types & Operasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **if/elif/else**: cabang

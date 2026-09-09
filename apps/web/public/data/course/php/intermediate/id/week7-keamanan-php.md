@@ -87,9 +87,9 @@ Query + data dikirim terpisah — suntikan jadi teks biasa.
 ## Tantangan
 
 **Warung Bersatpam:** Form login (`htmlspecialchars` tampil + `prepare` cek + `password_verify` + `session_regenerate_id`) → coba bajak diri sendiri 3 cara, semua gagal.
+- **Sambungan (Minggu 6 — Form Handling):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **XSS/SQLi/CSRF**: suntik script/SQL/palsu-request

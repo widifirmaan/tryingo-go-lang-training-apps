@@ -91,9 +91,9 @@ describe("Card", () => {
 ## Challenge
 
 **Complete Tested Shop:** `Card` `name` + `price` + tests `shows name` & `shows price` 2 tests, `ng test` PASS.
+- **Link-up (Week 10 — State Management):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **TestBed/fixture**: test factory

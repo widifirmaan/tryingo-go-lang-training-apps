@@ -100,9 +100,9 @@ input.addEventListener("keydown", (e) => {
 **Warung Delegation:** `ul` 20 produk via `for` + `innerHTML`, 1 `addEventListener` di `ul` untuk `Hapus` dan `Edit` (2 tombol per `li` beda class). Tambah produk via `form submit` — delegation tetap jalan tanpa `addEventListener` baru.
 
 Kriteria: 1 telinga di parent, pakai `closest` + `dataset.id`, dan `preventDefault`.
+- **Sambungan (Minggu 5 — DOM Manipulation):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Delegation**: 1 telinga untuk banyak anak

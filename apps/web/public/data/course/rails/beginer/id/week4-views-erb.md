@@ -100,9 +100,9 @@ Tampilkan / logika / komentar.
 ## Tantangan
 
 **Warung Etalase Lengkap:** `application.html.erb` + `_header` (nav `link_to`) + `index` (`each` + `link_to` show/edit + `form_with`) + `_produk.html.erb` partial per item (`render @produks`). **Selesai Beginner Rails!**
+- **Sambungan (Minggu 3 — Migrations):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ERB/partial/yield**: template/potongan/lubang

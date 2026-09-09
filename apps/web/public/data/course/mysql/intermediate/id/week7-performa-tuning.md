@@ -85,9 +85,9 @@ Depan `%` = tidak bisa index. Belakang saja = bisa.
 ## Tantangan
 
 **Dokter Warung:** 3 query lambat → `EXPLAIN` catat `type+rows` → tambah index → `EXPLAIN` lagi → buktikan `rows` turun 10x+. Screenshot sebelum/sesudah.
+- **Sambungan (Minggu 6 — Transaksi & ACID):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **EXPLAIN/ANALYZE/OPTIMIZE**: rontgen/segar/rapi

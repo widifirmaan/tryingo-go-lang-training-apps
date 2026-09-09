@@ -112,9 +112,9 @@ Tipe fungsi ditulis lengkap. `readonly number[]` tidak boleh `push`.
 ## Tantangan
 
 **Kalkulator Warung Bertipe:** `type Item={harga:number; qty:number}`, `function ongkir(berat:number,jarak:number):number`, `function struk(items: readonly Item[], jarak:number): string` return `` `Total Rp ${hitungTotal(items)}` ``. Coba kirim `harga:"62000"` → merah.
+- **Sambungan (Minggu 2 — Tipe Lanjutan):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Signature**: tipe fungsi

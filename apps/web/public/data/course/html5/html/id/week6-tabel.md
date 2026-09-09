@@ -116,9 +116,9 @@ VS Code + browser, buat `tabel.html`, buka di browser → `Ctrl+O`.
 ## Tantangan
 
 **Tabel Warung Lengkap:** `caption` "Stok 25 Agustus", `thead` 3 kolom `Produk/Harga/Stok`, `tbody` 5 produk + `th scope="row"` tiap produk, `tfoot` atau baris `colspan="2"` total, `scope` benar, buka di browser + cek `WAVE` extension.
+- **Sambungan (Minggu 5 — List & Daftar):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **table/caption/thead/tbody/tr/th/td**: meja/judul/kepala/badan/baris/header/data

@@ -71,9 +71,9 @@ LINQ malas (deferred) — tanpa `ToList()`/`foreach`, query belum jalan!
 ## Tantangan
 
 **Rak Saring Lengkap:** 5 produk → `Where` stok > 0 → `OrderBy` harga → `Select` nama → `ToList` cetak. Tambah `FirstOrDefault` ambil termurah.
+- **Sambungan (Minggu 4 — OOP Class & Object):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Where/Select/OrderBy**: saring/pilih/urut

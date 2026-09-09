@@ -78,9 +78,9 @@ Tanpa index: baca halaman 1-300. Dengan index: buka daftar isi → halaman 42.
 ## Tantangan
 
 **Perpustakaan:** `CREATE INDEX idx_buku_judul ON buku(judul)` → `EXPLAIN SELECT * FROM buku WHERE judul LIKE 'Java%'` → Index Scan? Tambah `idx_anggota_email`.
+- **Sambungan (Minggu 3 — JOIN & Relasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Index**: daftar isi

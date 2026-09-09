@@ -112,10 +112,9 @@ Token-based: `Authorization: Bearer <token>` header.
 ## Challenge
 
 Build a complete REST API for a blog: CRUD posts, comments, auth with JWT, serializers, CORS.
-
+- **Link-up (Week 7 — Testing with RSpec):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Rails JSON Drive-Thru

@@ -102,9 +102,9 @@ Test: `curl localhost:8080/produk` → `curl -X POST -H "Content-Type: applicati
 ## Tantangan
 
 **Warung CRUD Lengkap:** `GET` + `?cari` + `GET {id}` + `POST` + `DELETE` → `curl` 5 perintah lulus semua.
+- **Sambungan (Minggu 2 — Dependency Injection):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **RestController/GetMapping**: pelayan JSON/pintu-ambil

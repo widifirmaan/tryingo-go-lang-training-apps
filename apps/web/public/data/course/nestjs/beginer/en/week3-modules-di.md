@@ -112,9 +112,9 @@ export class AppModule {}
 ## Challenge
 
 **Connected Mall:** `ProductsModule` + `OrdersModule` (imports + injects service) + `GET /orders/total` proving shared kitchen.
+- **Link-up (Week 2 — Providers & Services):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Module/imports/exports**: building/connect/share

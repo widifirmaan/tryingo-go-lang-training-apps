@@ -187,9 +187,9 @@ Jika kamu pakai `<a>` biasa, langkah 1 jadi `browser minta server reload full` �
 **B. Blog Sederhana:** Buat `/blog` (daftar 3 post), `/blog/[slug]` (detail), dan `/blog/layout.js` yang menampilkan "✍️ Blog Warung" di atas setiap post.
 
 Kriteria: 3 level alamat jalan: `/` → `/produk` → `/produk/2`, dan `Link` dipakai (bukan `<a>`).
+- **Sambungan (Minggu 1 — Setup & Konsep Dasar):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Route**: alamat URL (`/produk/2`)

@@ -89,9 +89,9 @@ Anak (`.kartu`) jadi sejajar horizontal (default `row`).
 ## Tantangan
 
 **Rak Warung Lengkap:** 6 kartu `flex` + `gap` + `wrap` + `justify-content: center` + 1 `header` `display: flex; justify-content: space-between` (logo kiri, nav kanan).
+- **Sambungan (Minggu 3 — Warna & Tipografi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **flex/justify/align**: rak/sejajar/rata

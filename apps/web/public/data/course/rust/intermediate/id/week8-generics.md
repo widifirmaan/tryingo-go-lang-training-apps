@@ -94,9 +94,9 @@ Hanya tipe berkontrak boleh masuk fungsi.
 ## Tantangan
 
 **Gudang Generik:** `Keranjang<T>` + `total<T: Harga>()` + 2 tipe + `Option` tangani kosong.
+- **Sambungan (Minggu 7 — Trait):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Generics/bound/Option**: serbaguna/syarat/aman

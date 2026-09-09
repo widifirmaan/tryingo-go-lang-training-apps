@@ -81,7 +81,7 @@ curl -X POST -H "Content-Type: application/json" \
 **Grand Opening:** All checklist + `README.md` how-to-run. **CI4 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **CI4 Setup** (Week 1) + **Controllers & Routing** (Week 2) + **Views & Templates** (Week 3) + **Models & Database** (Week 4) + **Migrations & Seeds** (Week 5) + **Validation** (Week 6) + **Authentication** (Week 7) + **REST API** (Week 8) + **Testing** (Week 9) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/deploy**: combine/open

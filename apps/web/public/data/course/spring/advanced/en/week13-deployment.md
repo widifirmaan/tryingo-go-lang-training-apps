@@ -86,9 +86,9 @@ spring.datasource.password=${DB_PASSWORD}
 ## Challenge
 
 **Online Branch:** `package` + `Dockerfile` + passing local `docker run` + `Railway` deploy (`railway up`) + public URL.
+- **Link-up (Week 12 — Async & Scheduling):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **jar/Docker/profile**: crate/box/branch

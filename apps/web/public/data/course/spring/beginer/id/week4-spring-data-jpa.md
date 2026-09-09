@@ -131,9 +131,9 @@ Buat/ubah tabel ikut entity. Produksi pakai `validate` + migration!
 ## Tantangan
 
 **Rak Lengkap:** `Produk` + `Pelanggan` entity + 2 repo + `GET/POST` keduanya + restart cek awet.
+- **Sambungan (Minggu 3 — REST Controller):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Entity/Id/Repository**: biru/nomor/tukang

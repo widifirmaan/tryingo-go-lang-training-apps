@@ -86,9 +86,9 @@ Saring / kelompok-hitung / urut / pilih kolom / potong.
 ## Tantangan
 
 **Laporan Warung Lengkap:** Pipa `match stok>0` → `group` per `kategori` (`total $sum`, `rata $avg`, `jumlah $sum:1`) → `sort total DESC` → tambah `$limit: 2` 2 teratas. Screenshot.
+- **Sambungan (Minggu 3 — Index):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **aggregate/$match/$group**: pabrik/saring/kelompok

@@ -103,9 +103,9 @@ class Tunai : IBayar { // tanda tangan kontrak
 ## Tantangan
 
 **Warung Pola Lengkap:** `IBayar` + 3 cara + `Kasir` + test 3 + `Singleton` log.
+- **Sambungan (Minggu 8 — Error Handling):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Strategy/Singleton/Repository**: colokan/1/tukang

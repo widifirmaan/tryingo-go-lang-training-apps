@@ -93,9 +93,9 @@ Light gray text on white → elderly customers can't read (contrast fails). `lin
 ## Challenge
 
 **Complete Color Banner:** green title `28px center` + 2 paragraphs (`#333`, `1.6`) + promo box (`background` + `bold`) + 1 `rgb()` color.
+- **Link-up (Week 2 — Box Model):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **color/background**: ink/paper

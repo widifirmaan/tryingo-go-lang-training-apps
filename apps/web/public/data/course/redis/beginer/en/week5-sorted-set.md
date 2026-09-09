@@ -70,9 +70,9 @@ ZREM best "eggs"
 ## Challenge
 
 **Shop Ranking:** `ZADD` 5 products → `ZREVRANGE 0 2` top 3 → `ZINCRBY` sell 30 → new top 3 → `ZRANGEBYSCORE 100 200`. **Beginner Redis DONE!**
+- **Link-up (Week 4 — Set):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Sorted Set/ZADD/ZREVRANGE**: board/add/champions

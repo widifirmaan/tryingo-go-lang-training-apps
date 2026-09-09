@@ -80,9 +80,9 @@ Hears insert/update/delete in real time. Needs a replica set (oplog).
 ## Challenge
 
 **Safe Live Shop:** `watch()` dashboard counter + transaction sell (decrement + order) + failed-transaction proof.
+- **Link-up (Week 8 — Performance & Tuning):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **watch/transaction**: eyes/package

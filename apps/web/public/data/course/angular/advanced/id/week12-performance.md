@@ -96,9 +96,9 @@ export class DaftarComponent {
 ## Tantangan
 
 **Warung Cepat Lengkap:** `KartuComponent` `OnPush` + `Daftar` `trackById` + `daftar = [...daftar, baru]` (bukan `push` mutasi), `ng serve` cek `Augury` tidak cek semua.
+- **Sambungan (Minggu 11 — Testing Angular):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **OnPush/trackBy**: hemat/KTP

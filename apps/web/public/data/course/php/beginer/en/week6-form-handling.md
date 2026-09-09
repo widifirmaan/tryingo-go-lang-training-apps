@@ -118,9 +118,9 @@ if (isset($_FILES["proof"]) && $_FILES["proof"]["error"] === UPLOAD_ERR_OK) {
 ## Challenge
 
 **Complete Shop Form:** Add `email` (`filter_var`), numeric `qty` (`>= 1`), show receipt `name x qty = total` when passing, error list when not. **Beginner PHP DONE!**
+- **Link-up (Week 5 — Basic OOP):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **$_POST/$_GET**: posts

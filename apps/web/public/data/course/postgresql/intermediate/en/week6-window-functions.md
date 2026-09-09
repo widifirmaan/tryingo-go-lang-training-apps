@@ -65,9 +65,9 @@ ORDER BY price DESC;
 ## Challenge
 
 **Ranking Report:** Top-3 most expensive per category + category total, 1 query, `RANK()` + `SUM() OVER`.
+- **Link-up (Week 5 — Functions & Triggers):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **window/partition**: compute/split

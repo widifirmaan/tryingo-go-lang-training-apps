@@ -80,9 +80,9 @@ Kecilkan browser → 4→2→1 kolom otomatis. Ganti `auto-fill` jadi `3` → se
 ## Tantangan
 
 **Katalog 6 Produk:** `auto-fill minmax(200px,1fr)` + `gap: 16px` + kecilkan browser screenshot 4→1 kolom.
+- **Sambungan (Minggu 4 — Flexbox):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **grid/fr/gap**: petak/bagian/jarak

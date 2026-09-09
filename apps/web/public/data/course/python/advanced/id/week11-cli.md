@@ -151,10 +151,9 @@ JSON file, SQLite, atau database untuk simpan state.
 ## Tantangan
 
 Buat CLI tool lengkap: task manager dengan add/list/done/delete, JSON persistence, colored output, --json flag. Package dengan pyproject.toml.
-
+- **Sambungan (Minggu 10 — Testing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Kasir Terminal Beneran

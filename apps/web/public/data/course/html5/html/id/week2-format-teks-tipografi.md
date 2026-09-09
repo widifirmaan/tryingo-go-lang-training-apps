@@ -106,9 +106,9 @@ Spanduk warung " **GRATIS ONGKIR** " harus tebal, " *syarat berlaku* " miring, "
 **Spanduk Warung Lengkap:** Judul `H1` **Promo**, penulis `mark` + `time`, paragraf dengan `strong/em/u/s`, `H2O` + `x2`, `blockquote` testimoni pelanggan, `pre+code` kode promo `WARUNG10`.
 
 Kriteria: `strong/em/mark` + `sub/sup` + `blockquote` + `pre` semua ada, buka di browser terlihat spanduk.
+- **Sambungan (Minggu 1 — Pengantar HTML):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **strong/em**: penting/penekanan

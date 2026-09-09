@@ -85,9 +85,9 @@ Aktifkan 7 cek: `strictNullChecks`, `noImplicitAny`, dll. Tanpa `strict`, `null`
 ## Tantangan
 
 **Warung Aturan Lengkap:** `strict: true` + `noImplicitAny` error `function hitung(a,b)` tanpa tipe → tambah `: number`.
+- **Sambungan (Minggu 7 — Utility Types):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **tsconfig/strict/target**: buku/satpam/target

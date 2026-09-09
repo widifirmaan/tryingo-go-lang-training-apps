@@ -84,9 +84,9 @@ Query tarik, subscription dorong (WebSocket tetap buka).
 ## Tantangan
 
 **Warung Live:** `stokHabis` subscription + `jual` publish saat 0 + 2 tab dengar bareng screenshot.
+- **Sambungan (Minggu 7 — DataLoader & N+1):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Subscription/publish**: dengar/siar

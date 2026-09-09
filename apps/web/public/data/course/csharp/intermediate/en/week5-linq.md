@@ -71,9 +71,9 @@ LINQ is lazy (deferred) — without `ToList()`/`foreach`, the query never runs!
 ## Challenge
 
 **Complete Filtered Rack:** 5 products → `Where` stock > 0 → `OrderBy` price → `Select` names → `ToList` print. Add `FirstOrDefault` taking the cheapest.
+- **Link-up (Week 4 — OOP Class & Object):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Where/Select/OrderBy**: strain/pick/sort

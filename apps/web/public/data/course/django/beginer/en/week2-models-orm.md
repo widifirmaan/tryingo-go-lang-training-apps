@@ -107,9 +107,9 @@ Register to admin in `shop/admin.py`: `from .models import Product, Customer` + 
 ## Challenge
 
 **Library Rack:** `Book(title, stock)` + `Member(name, unique email)` → `makemigrations` + `migrate` → `create` 3 books → `filter(stock__lt=5)` (< 5) → register in `admin.py`.
+- **Link-up (Week 1 — Django Setup):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Model/migrate**: blueprint/build

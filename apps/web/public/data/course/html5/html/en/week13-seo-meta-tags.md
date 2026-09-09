@@ -68,9 +68,9 @@ Test at `search.google.com/test/rich-results` and WA preview.
 ## Challenge
 
 **Google-Ready:** `title` with keyword + price, `description` 150 chars, full `og:` set + `viewport` → test rich-results.
+- **Link-up (Week 12 — Accessibility):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **SEO/meta/og**: found/sign/card

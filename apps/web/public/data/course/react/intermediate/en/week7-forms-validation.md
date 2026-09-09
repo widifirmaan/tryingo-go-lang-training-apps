@@ -118,10 +118,9 @@ Validate on submit. Clear errors when the user starts typing.
 ## Challenge
 
 Build a checkout form with validation: name, address, phone, email, payment method. Show real-time errors.
-
+- **Link-up (Week 6 — Context API):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Form Security Guard

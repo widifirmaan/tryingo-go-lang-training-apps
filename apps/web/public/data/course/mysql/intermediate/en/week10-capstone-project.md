@@ -94,7 +94,7 @@ Racks + ropes + indexes + transactions + users + views = production.
 **Grand Opening:** All checklist + `mysqldump shop > backup.sql` + drop DB + `restore` from backup + data back! **MySQL 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **MySQL Basics** (Week 1) + **CRUD & Query** (Week 2) + **JOIN & Relations** (Week 3) + **Index & Optimization** (Week 4) + **Stored Procedure** (Week 5) + **Transactions & ACID** (Week 6) + **Performance & Tuning** (Week 7) + **Replication** (Week 8) + **Security** (Week 9) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **VIEW/mysqldump**: window/backup

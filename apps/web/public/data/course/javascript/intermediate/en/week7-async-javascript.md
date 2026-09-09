@@ -109,9 +109,9 @@ Failed `await` → `catch`.
 ## Challenge
 
 **Async Shop:** `getStock(name)` Promise 500ms returns stock, `async shop()` `await` 3 products via `Promise.all`, compute total `price*stock`, `try/catch` if `name` missing.
+- **Link-up (Week 6 — Events & Event Handling):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Promise/async/await**: promise & wait

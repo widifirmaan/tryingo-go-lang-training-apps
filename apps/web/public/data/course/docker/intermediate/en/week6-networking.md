@@ -86,9 +86,9 @@ Web apps connect via `host=db` (not `localhost`!).
 ## Challenge
 
 **Connected Shop:** `store` network + `db` (postgres) + `web` (node app `host=db`) + passing `ping` + app reads DB.
+- **Link-up (Week 5 — Volume & Data):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Network/bridge/DNS**: group/default/names

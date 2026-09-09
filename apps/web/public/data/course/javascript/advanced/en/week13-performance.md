@@ -143,10 +143,9 @@ Run heavy tasks on a background thread. Doesn't block UI.
 ## Challenge
 
 Build a search component: debounced input, memoized results, lazy loaded list, with performance metrics.
-
+- **Link-up (Week 12 — Testing JavaScript):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Energy-Saving Shop

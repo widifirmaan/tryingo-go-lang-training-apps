@@ -96,9 +96,9 @@ function submit() {
 ## Challenge
 
 **Shop Filter:** Input `search` + `select category` + `v-for="item in list.filter(...)"`, `v-if` if 0 results "None".
+- **Link-up (Week 2 — Reactivity & Composition):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **v-if/show/for**: show

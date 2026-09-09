@@ -76,7 +76,7 @@ SFC + store + router + tests + deploy = dashboard.
 **Grand Opening:** All checklist + URL + video. **Vue 0→Expert DONE!** 🎉
 
 ---
-
+- **Integration checklist:** **Vue Basics** (Week 1) + **Reactivity & Composition** (Week 2) + **Directives & Events** (Week 3) + **Components & Props** (Week 4) + **Vue Router** (Week 5) + **Pinia** (Week 6) + **Lifecycle & Watchers** (Week 7) + **Provide/Inject & Teleport** (Week 8) + **Testing Vue** (Week 9) + **Performance & Nuxt** (Week 10) + **Animations & Transitions** (Week 11) → all parts above run together at the grand opening.
 ## Mini Glossary
 
 - **Capstone/deploy**: combine/open

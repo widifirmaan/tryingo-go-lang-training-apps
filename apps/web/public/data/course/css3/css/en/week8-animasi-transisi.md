@@ -110,9 +110,9 @@ VS Code + browser, create `animation.html`, open, hover button.
 ## Challenge
 
 **Complete Smooth Shop:** Button `transition: all 0.3s` + `hover scale`, promo `animation: blink 1s infinite`, `h1` `slide-in 1s`, open in browser → `Lighthouse` performance check.
+- **Link-up (Week 7 — Responsive Design):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **transition/animation**: smooth/repeat

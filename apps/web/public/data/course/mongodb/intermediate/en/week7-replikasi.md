@@ -77,9 +77,9 @@ Write to primary, reads may go secondary. Primary dies → voting → deputy ris
 ## Challenge
 
 **3-Node Team:** Compose 3 + `initiate` + write 5 + kill primary + prove reads/writes keep working.
+- **Link-up (Week 6 — Advanced Aggregation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Replica/shard/mongos**: team/split/receptionist

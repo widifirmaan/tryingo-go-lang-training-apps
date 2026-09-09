@@ -85,9 +85,9 @@ Parses JSON bodies into `req.body`.
 ## Challenge
 
 **Express Shop:** GET list + GET 1 + POST + `curl` all 3 + 201 status check.
+- **Link-up (Week 4 — Events & Async):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Express/json**: waiter/envelope

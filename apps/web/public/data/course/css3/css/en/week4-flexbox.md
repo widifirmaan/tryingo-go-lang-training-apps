@@ -89,9 +89,9 @@ Children (`.card`) line up horizontal (default `row`).
 ## Challenge
 
 **Complete Shop Rack:** 6 cards `flex` + `gap` + `wrap` + `justify-content: center` + 1 `header` `display: flex; justify-content: space-between` (logo left, nav right).
+- **Link-up (Week 3 — Colors & Typography):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **flex/justify/align**: rack/line-up/even

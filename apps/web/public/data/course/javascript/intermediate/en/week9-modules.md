@@ -88,9 +88,9 @@ console.log("Shipping:", shipping(2,5));
 ## Challenge
 
 **Module Shop:** `products.js` exports `list`, `cashier.js` exports `calcTotal` + `shipping`, `app.js` imports both, computes full receipt + `console.log`.
+- **Link-up (Week 8 — ES6+ Features):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **export/import**: share/borrow

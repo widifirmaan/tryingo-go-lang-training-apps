@@ -107,9 +107,9 @@ Daftarkan ke admin `warung/admin.py`: `from .models import Produk, Pelanggan` + 
 ## Tantangan
 
 **Rak Perpustakaan:** `Buku(judul, stok)` + `Anggota(nama, email unique)` → `makemigrations` + `migrate` → `create` 3 buku → `filter(stok__lt=5)` (< 5) → daftarkan ke `admin.py`.
+- **Sambungan (Minggu 1 — Setup Django):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Model/migrate**: biru/bangun

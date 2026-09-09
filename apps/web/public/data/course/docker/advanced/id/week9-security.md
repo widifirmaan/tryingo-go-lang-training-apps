@@ -90,9 +90,9 @@ Scan CVE sebelum deploy. `--memory/--cpus` = jatah.
 ## Tantangan
 
 **Peti Aman Lengkap:** `USER` + `--read-only` + `--cap-drop ALL` + `--memory 256m` + `trivy` 0 CRITICAL + screenshot.
+- **Sambungan (Minggu 8 — Multi-Stage Build):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **USER/cap-drop/read-only**: karyawan/ikat/kaca

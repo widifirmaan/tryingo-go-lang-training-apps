@@ -57,7 +57,7 @@ SFC + store + router + uji + deploy = dasbor.
 **Grand Opening:** Semua checklist + URL + video. **Selesai Vue 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Dasar Vue & Template** (Minggu 1) + **Reactivity & Composition** (Minggu 2) + **Directives & Events** (Minggu 3) + **Components & Props** (Minggu 4) + **Vue Router** (Minggu 5) + **Pinia** (Minggu 6) + **Lifecycle & Watchers** (Minggu 7) + **Provide/Inject & Teleport** (Minggu 8) + **Testing Vue** (Minggu 9) + **Performance & Nuxt** (Minggu 10) + **Animations & Transitions** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/deploy**: gabung/buka

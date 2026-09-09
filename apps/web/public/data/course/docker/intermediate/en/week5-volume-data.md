@@ -86,9 +86,9 @@ docker volume inspect shop-data
 ## Challenge
 
 **Permanent Shop Warehouse:** `shop-data` volume + Postgres + 3 products + `rm` + recreate + `SELECT` still 3 + bind `index.html` editing without rebuild.
+- **Link-up (Week 4 — Dockerfile):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Volume/bind/tmpfs**: wardrobe/bag/RAM

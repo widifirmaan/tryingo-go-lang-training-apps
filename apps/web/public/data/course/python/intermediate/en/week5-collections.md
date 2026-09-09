@@ -99,9 +99,9 @@ print("Cheap:", cheap)
 ## Challenge
 
 **Inventory:** `stock = ["rice","sugar","rice"]` → `set(stock)` unique? `prices = {"rice":62000}` → `prices.get("rice")` + `for k,v in prices.items()` print.
+- **Link-up (Week 4 — Functions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **list/dict/set/tuple**: rack/book/bag/box

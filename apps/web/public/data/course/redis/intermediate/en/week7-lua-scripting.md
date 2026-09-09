@@ -84,9 +84,9 @@ DISCARD                # cancel package (before EXEC)
 ## Challenge
 
 **Atomic Cashier:** Script `buy(key, qty)`: when stock >= qty decrement + return remainder, else return -1. Test 2 terminals together.
+- **Link-up (Week 6 — Pub/Sub):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **EVAL/Lua**: recipe

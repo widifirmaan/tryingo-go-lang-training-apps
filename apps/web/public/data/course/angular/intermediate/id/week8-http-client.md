@@ -102,9 +102,9 @@ Sudah siap W1: `ng serve` di `4200`, `HttpClient` sudah `provideHttpClient()` di
 ## Tantangan
 
 **Warung HttpClient Lengkap:** `getAll()` tampil `*ngFor` + `| async`, `tambah("Beras")` + `subscribe` log, `ng serve` cek.
+- **Sambungan (Minggu 7 — Reactive Forms):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **HttpClient/get/post/subscribe**: kurir/ambil/kirim/tekan

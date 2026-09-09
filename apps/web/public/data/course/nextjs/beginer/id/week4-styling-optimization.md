@@ -161,9 +161,9 @@ export default async function ProdukPage() {
 **B. Katalog Estetik:** Ubah `/produk` jadi 3 kolom cantik, tambah badge `Diskon 10%` dengan `className="bg-red-500 text-white px-2 py-1 rounded-full text-xs"`.
 
 Kriteria: HP 1 kolom, laptop 3 kolom (cek dengan kecilkan browser), dan `next/image` dipakai (bukan `<img>`).
+- **Sambungan (Minggu 3 — Server & Client Components):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Tailwind**: utility CSS tanpa bikin file

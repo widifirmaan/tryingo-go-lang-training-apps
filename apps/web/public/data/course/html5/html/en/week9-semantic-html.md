@@ -70,9 +70,9 @@
 ## Challenge
 
 **Semantic Shop:** `header+nav`, `main` with `section>article` × 2, `aside` promo, `footer` — zero layout `div`.
+- **Link-up (Week 8 — Form Validation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **header/nav/main/section/article/aside/footer**: sign/roads/floor/room/card/side/bottom

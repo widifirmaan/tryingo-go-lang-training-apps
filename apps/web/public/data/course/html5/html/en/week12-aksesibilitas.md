@@ -63,9 +63,9 @@ Test with `WAVE` Chrome extension.
 ## Challenge
 
 **WAVE Zero:** Audit your W9 shop page with WAVE → fix all errors (`alt`, `label`, contrast) → 0 errors.
+- **Link-up (Week 11 — HTML APIs):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **alt/aria/WAVE**: voice/label/checker

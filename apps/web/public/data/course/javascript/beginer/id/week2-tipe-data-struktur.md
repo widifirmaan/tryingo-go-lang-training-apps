@@ -148,9 +148,9 @@ console.log("Tahun:", hariIni.getFullYear(), "| Bulan:", hariIni.getMonth() + 1)
 4. Tambah 1 kontak baru pakai `[...kontak, baru]`, jangan `push` langsung di tantangan (latih spread)
 
 Bonus: `destructuring` 1 kontak jadi `const {nama, kategori} = kontak[0]`
+- **Sambungan (Minggu 1 — Dasar Sintaks JavaScript):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Array**: daftar urut

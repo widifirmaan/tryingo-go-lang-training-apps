@@ -115,9 +115,9 @@ warung/
 ## Tantangan
 
 **Warung Meja Lengkap:** `base.html` (header/nav/footer) + `daftar.html` (`extends`, `for` + `empty`, `if stok==0`) + `detail.html` (`{{ p.nama }}` + `|date:"d M Y"` untuk `dibuat`). **Selesai Beginner Django!**
+- **Sambungan (Minggu 3 — Views & URLs):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **extends/block/for**: warisi/lubang/ulang

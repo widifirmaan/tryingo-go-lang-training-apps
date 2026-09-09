@@ -80,9 +80,9 @@ DEL product:1
 ## Challenge
 
 **Complete Card:** `HSET customer:1 name Budi points 100` → `HINCRBY customer:1 points 50` → `HGETALL` → `EXPIRE customer:1 3600` → `TTL`.
+- **Link-up (Week 1 — Redis Strings):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Hash/HSET/HGETALL**: card/write/read-all

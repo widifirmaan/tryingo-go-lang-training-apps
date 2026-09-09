@@ -84,9 +84,9 @@ Go formats use reference date `2006-01-02 15:04:05`.
 ## Challenge
 
 **Receipt Warehouse:** Save 3 receipts to `receipts.json` (array), read back, print totals + today's date stamp.
+- **Link-up (Week 9 — Context & Sync):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **marshal/json/tag**: pack/format/label

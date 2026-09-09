@@ -89,9 +89,9 @@ Pindahkan render ke `body` (keluar dari CSS induk yang menjepit).
 ## Tantangan
 
 **Warung Papan Lengkap:** `provide` warung + tema + 3 level `inject` + modal `Teleport` + ganti tema dari anak (provide fungsi!).
+- **Sambungan (Minggu 7 — Lifecycle & Watchers):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **provide/inject/Teleport**: papan/baca/portal

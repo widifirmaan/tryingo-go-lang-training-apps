@@ -65,9 +65,9 @@ Warung tanpa jalan = pelanggan di beranda tidak bisa ke produk. Link = **jalan**
 ## Tantangan
 
 **Warung 3 Halaman:** `index.html` (Beranda), `produk.html` (daftar), `kontak.html` (WA+email) + `nav` sama di 3 file, + link `#promo`.
+- **Sambungan (Minggu 2 — Format Teks & Tipografi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Ringkasan
 
 Minggu 3: **Link** — jalan antar warung. Minggu depan: **Gambar & Media**.

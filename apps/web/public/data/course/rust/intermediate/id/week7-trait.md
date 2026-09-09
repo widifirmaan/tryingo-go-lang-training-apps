@@ -94,9 +94,9 @@ Fungsi 1 untuk semua tipe yang penuhi (seperti interface Go).
 ## Tantangan
 
 **Kontrak Lengkap:** `trait Diskon { fn total(&self) -> u32; }` + 3 struct + `bayar()` + default `struk()`.
+- **Sambungan (Minggu 6 — Error Handling):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Trait/impl**: kontrak/penuhi

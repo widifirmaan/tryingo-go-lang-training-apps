@@ -127,9 +127,9 @@ Go tidak pakai `try/catch`. Tiap yang bisa gagal return `(hasil, error)`. Wajib 
 ## Tantangan
 
 **Kasir Aman:** `func hitungTotal(belanja []int, diskon float64) (int, error)` → jika `diskon <0 || >50` return error, else hitung. `defer` log "Transaksi selesai". Pakai `if err != nil`.
+- **Sambungan (Minggu 2 — Variabel, Tipe & Kontrol):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **error**: alarm gagal

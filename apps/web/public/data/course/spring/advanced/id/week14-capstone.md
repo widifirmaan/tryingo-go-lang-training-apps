@@ -73,7 +73,7 @@ Rak + satpam + pintu + laci + panel + peti = 1 toko.
 **Grand Opening:** Semua checklist hijau + URL publik + video. **Selesai Spring 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Setup Spring Boot** (Minggu 1) + **Dependency Injection** (Minggu 2) + **REST Controller** (Minggu 3) + **Spring Data JPA** (Minggu 4) + **REST API Best Practices** (Minggu 5) + **Spring Security** (Minggu 6) + **Testing** (Minggu 7) + **Validation** (Minggu 8) + **Actuator & Monitoring** (Minggu 9) + **Messaging** (Minggu 10) + **Caching** (Minggu 11) + **Async & Scheduling** (Minggu 12) + **Deployment** (Minggu 13) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/deploy**: gabung/buka

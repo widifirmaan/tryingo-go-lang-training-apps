@@ -70,9 +70,9 @@ CREATE INDEX idx_data_price ON flexible_products USING GIN (data);
 ## Challenge
 
 **Flex Catalog:** 5 products with different keys + `->>` price list + `GIN` index + 1 filtered query.
+- **Link-up (Week 6 — Window Functions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **JSONB/->>/GIN**: flex/get/index

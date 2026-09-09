@@ -95,9 +95,9 @@ WHERE price > (SELECT AVG(price) FROM products); -- above average
 ## Challenge
 
 **Library:** `loans(id, book_id FK, member_id FK, date)` → `SELECT members.name, books.title FROM loans JOIN members ON ... JOIN books ON ...` + `GROUP BY members.name` count.
+- **Link-up (Week 2 — CRUD & Query):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Foreign Key**: string

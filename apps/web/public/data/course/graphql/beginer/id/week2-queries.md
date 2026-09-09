@@ -101,9 +101,9 @@ Tulis yang dimau saja (`nama harga`), server kirim itu saja.
 ## Tantangan
 
 **Warung Pesan Lengkap:** 1 query: `semua: produk { ...Kartu }` + `sayur: produk(kategori:"Sayur") { nama }` + variabel `$kat` untuk 1 lagi. 3 hasil 1 request.
+- **Sambungan (Minggu 1 — Schema & Types):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Query/argumen/alias**: pesan/saring/ganda

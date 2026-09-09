@@ -133,9 +133,9 @@ When `map()`, React needs `key` to know which added/removed/moved. Use `id` from
 **B. Student List:** `StudentCard` receives `{ name, score, passed }` → green if passed, red if not. Render 10 via `map()`.
 
 Done: 1 parent holds array, 1 child receives props via destructuring, and `map()` uses `key={id}` (not index).
+- **Link-up (Week 1 — JSX & Basic Components):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Props**: data envelope parent→child

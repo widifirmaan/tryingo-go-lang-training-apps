@@ -108,9 +108,9 @@ Banding hash, bukan teks.
 ## Tantangan
 
 **Warung Ber-KTP:** Login/logout beneran + `AuthFilter` jaga `/admin/*` + seeder admin + screenshot tendang & lolos.
+- **Sambungan (Minggu 6 — Validasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Session/filter/regenerate**: gelang/satpam/ganti-kunci

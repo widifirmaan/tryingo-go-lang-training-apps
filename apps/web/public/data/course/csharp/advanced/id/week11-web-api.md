@@ -105,9 +105,9 @@ Otomatis validasi + JSON (tanpa `View`).
 ## Tantangan
 
 **Warung Online Lengkap:** CRUD 4 pintu + Swagger screenshot + `curl` 5 perintah lulus.
+- **Sambungan (Minggu 10 — Testing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **ApiController/Swagger**: JSON/coba

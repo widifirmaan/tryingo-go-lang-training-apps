@@ -74,9 +74,9 @@ Base image / copy files / run at build / run at start.
 ## Challenge
 
 **Own Box:** `Dockerfile` + custom `index.html` (name + hours + 1 image) + `build` + `run` + browser screenshot. **Beginner Docker DONE!**
+- **Link-up (Week 3 — Container Management):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Dockerfile/build**: recipe/bake

@@ -100,9 +100,9 @@ C# error jika `case` tanpa `break` (kecuali kosong bertumpuk). Aman dari bocor J
 ## Tantangan
 
 **Tebak Stok:** `int rahasia = 7; int[] tebak = {3, 9, 7}; foreach (int t in tebak) { if (t == rahasia) { Console.WriteLine("Benar!"); break; } else if (t < rahasia) Console.WriteLine($"{t} kekecilan"); else Console.WriteLine($"{t} kebesaran"); }`
+- **Sambungan (Minggu 2 — Tipe Data & Variabel):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **if/switch**: cabang

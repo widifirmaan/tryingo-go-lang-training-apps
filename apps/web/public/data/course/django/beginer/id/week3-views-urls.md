@@ -116,9 +116,9 @@ Buka `http://localhost:8000/produk/` → semua. Ketik `beras` → `http://localh
 ## Tantangan
 
 **Warung Cari Lengkap:** Tambah `?kategori=sayur` kedua: `daftar` baca `cari` + `kategori` → filter dua-duanya → template 2 input + link `?cari=&kategori=sembako`.
+- **Sambungan (Minggu 2 — Models & ORM):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **request.GET/POST**: kertas/amplop

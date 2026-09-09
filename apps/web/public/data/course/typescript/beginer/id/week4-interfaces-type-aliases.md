@@ -142,9 +142,9 @@ const enum Peran { Admin = "ADMIN", Kasir = "KASIR" }
 ## Tantangan
 
 **Kartu Siswa Bertingkat:** `interface Orang { nama: string; umur: number }`, `interface Siswa extends Orang { nis: string; nilai: number }`, `type Status = "lulus" | "remidi"`. Buat `function status(s: Siswa): Status { return s.nilai >= 70 ? "lulus" : "remidi" }` dan array `Siswa[]` hitung rata-rata.
+- **Sambungan (Minggu 3 — Functions Bertipe):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **interface/type**: cetak biru

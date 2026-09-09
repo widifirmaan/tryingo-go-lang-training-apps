@@ -128,10 +128,9 @@ Sidekiq Web UI di `/sidekiq`. Monitor queues, retries, dead jobs.
 ## Tantangan
 
 Buat sistem email notification: queue email sending, retry 3x on failure, batch send, monitor dengan Sidekiq.
-
+- **Sambungan (Minggu 9 — Performance Optimization):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Kurir Motor Rails

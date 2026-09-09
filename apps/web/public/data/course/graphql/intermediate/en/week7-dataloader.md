@@ -86,9 +86,9 @@ List (1) + each row (N). DataLoader gathers → 1 batch.
 ## Challenge
 
 **Fast Shop:** `Product.category` via DataLoader + log proving query count: 101 → 2. Screenshot.
+- **Link-up (Week 6 — Authentication):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **DataLoader/N+1**: cart/101x

@@ -82,9 +82,9 @@ Auto-dies when the form is defective.
 ## Challenge
 
 **Complete Shop Form:** `name` + `price` + `stock` (`required`, `min`) + smart button + `add()` pushing to `list` + `*ngFor` display. **Beginner Angular DONE!**
+- **Link-up (Week 4 — Component Communication):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ngModel/ngForm/required**: string/referee/required

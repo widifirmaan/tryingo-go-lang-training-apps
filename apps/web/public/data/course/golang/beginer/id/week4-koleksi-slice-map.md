@@ -107,9 +107,9 @@ func main() {
 ## Tantangan
 
 **Inventaris Warung:** `map[string]int` stok, `slice` daftar belanja, `range` cari yang stok <3 → tampil "Mau habis". Pakai `ok` cek ada.
+- **Sambungan (Minggu 3 — Fungsi & Error):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Slice/Map**: rak/buku

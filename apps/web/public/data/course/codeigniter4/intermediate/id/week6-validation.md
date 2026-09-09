@@ -85,9 +85,9 @@ Kembalikan isian → `old('nama')` tampil lagi.
 ## Tantangan
 
 **Warung Bersatpam:** `nama` + `harga` + `stok` validasi + error list + `old()` semua + screenshot gagal & lolos.
+- **Sambungan (Minggu 5 — Migrations & Seeds):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **validate/withInput/old**: cek/kembali/isi-lama

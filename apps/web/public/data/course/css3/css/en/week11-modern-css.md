@@ -82,9 +82,9 @@ VS Code + browser, create `modern.html`, open, shrink browser → letters shrink
 ## Challenge
 
 **Complete Trendy Shop:** `h1` `clamp(1.8rem, 4vw, 2.8rem)`, `photo` `aspect-ratio:16/9` + `object-fit:cover`, `grid` `auto-fill` + square `aspect-ratio:1` cards, open on phone & laptop → `Lighthouse` check `CLS` 0.
+- **Link-up (Week 10 — CSS Architecture):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **clamp/aspect-ratio/object-fit**: elastic/proportion/fill

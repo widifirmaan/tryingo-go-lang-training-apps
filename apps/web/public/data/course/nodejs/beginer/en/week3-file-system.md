@@ -110,9 +110,9 @@ reader.on("error", (e) => console.log("Failed:", e.message));
 ## Challenge
 
 **File Cashier:** `sell.js` reads `products.json` → decrements Rice `stock` 1 → rewrites → prints remainder. Run 3x → stock 10→7?
+- **Link-up (Week 2 — Modules & npm):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **write/read/copyFile**: write/read/copy

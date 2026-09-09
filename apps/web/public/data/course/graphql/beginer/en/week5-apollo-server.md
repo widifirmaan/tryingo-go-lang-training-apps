@@ -104,9 +104,9 @@ Open `http://localhost:4000` → GraphiQL → try `query { products { name price
 ## Challenge
 
 **Complete Restaurant:** `typeDefs` + `resolvers` (2 Queries + 2 Mutations) + `node index.js` + GraphiQL screenshot adding a product. **Beginner GraphQL DONE!**
+- **Link-up (Week 4 — Resolvers):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Apollo/typeDefs/resolvers**: building/menu/kitchen

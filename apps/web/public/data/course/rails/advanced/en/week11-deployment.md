@@ -113,10 +113,9 @@ New Relic APM, Sentry errors, Lograge structured logs.
 ## Challenge
 
 Deploy a Rails app to production: set up env vars, precompile assets, configure database, enable SSL, set up monitoring.
-
+- **Link-up (Week 10 — Background Jobs & Sidekiq):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Beginner Friendly Explanation
 
 ### Analogy: Open Rails Branch

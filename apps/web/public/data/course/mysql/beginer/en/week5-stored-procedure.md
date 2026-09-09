@@ -116,9 +116,9 @@ DROP TRIGGER IF EXISTS log_sale;
 ## Challenge
 
 **Complete Shop Recipes:** Build `discountCategory(IN cat VARCHAR(50), IN pct INT)` that `UPDATE products SET price = price * (1 - pct/100) WHERE category = cat` → `CALL discountCategory('Veggies', 10)` → `SELECT` verifies 10% drop.
+- **Link-up (Week 4 — Index & Optimization):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **PROCEDURE/CALL/DROP**: store/call/remove recipe

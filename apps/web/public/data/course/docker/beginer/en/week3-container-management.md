@@ -76,9 +76,9 @@ Runs a command inside a running box.
 ## Challenge
 
 **Persistent Shop:** Volume + Postgres + 3 rows + `rm` + recreate + `SELECT` still 3.
+- **Link-up (Week 2 — Image & Registry):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **volume/network**: wardrobe/connect

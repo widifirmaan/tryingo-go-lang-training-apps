@@ -85,9 +85,9 @@ fn pertama(teks: &str) -> &str { teks } // 1 input → output ikut umurnya
 ## Tantangan
 
 **Perpustakaan Aman:** `fn pinjam<'a>(a: &'a str, b: &'a str) -> &'a str` + 2 umur beda + buktikan pakai-lewat-mati ditolak + elision 1-input.
+- **Sambungan (Minggu 8 — Generics):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Lifetime/elision/borrow-checker**: umur/otomatis/pustakawan

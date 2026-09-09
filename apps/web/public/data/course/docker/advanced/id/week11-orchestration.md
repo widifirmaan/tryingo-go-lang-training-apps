@@ -95,9 +95,9 @@ Pod IP berubah-ubah → Service 1 pintu stabil + bagi beban.
 ## Tantangan
 
 **Mal Terorkestrasi:** `Deployment replicas: 3` + `Service` + `scale 5` + `delete` 1 Pod buktikan ganti otomatis + screenshot `get pods`.
+- **Sambungan (Minggu 10 — CI/CD Pipeline):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Pod/Deployment/Service**: peti/mandor/pintu

@@ -57,7 +57,7 @@ Module + auth + DB + live + test + deploy = toko.
 **Grand Opening:** Semua checklist + URL + video. **Selesai NestJS 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Controllers & Routing** (Minggu 1) + **Providers & Services** (Minggu 2) + **Modules & DI** (Minggu 3) + **Database TypeORM** (Minggu 4) + **Pipes & Validation** (Minggu 5) + **Guards & Auth** (Minggu 6) + **ORM Relations** (Minggu 7) + **Error & Logging** (Minggu 8) + **Testing NestJS** (Minggu 9) + **WebSocket** (Minggu 10) + **Microservices** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/deploy**: gabung/buka

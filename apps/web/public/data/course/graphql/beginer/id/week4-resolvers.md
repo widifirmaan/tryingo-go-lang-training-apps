@@ -102,9 +102,9 @@ query {
 ## Tantangan
 
 **Dapur Lengkap:** `Query.produk` + `produkByKategori(kategori)` (`filter`) + `Mutation.ubahHarga/hapusProduk` + `Produk.total = harga * stok` field resolver. Test 4 via `node` langsung (tanpa server).
+- **Sambungan (Minggu 3 — Mutations):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Resolver/args/context**: koki/pesanan/dapur

@@ -116,9 +116,9 @@ Open `http://localhost:8000/products/` → all. Type `rice` → `http://localhos
 ## Challenge
 
 **Complete Finding Shop:** Add second `?category=veggies`: `list` reads `find` + `category` → filters both → template 2 inputs + link `?find=&category=staples`.
+- **Link-up (Week 2 — Models & ORM):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **request.GET/POST**: paper/envelope

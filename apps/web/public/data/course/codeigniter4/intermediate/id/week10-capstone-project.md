@@ -62,7 +62,7 @@ curl -X POST -H "Content-Type: application/json" \
 **Grand Opening:** Semua checklist + `README.md` cara jalan. **Selesai CI4 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Setup CI4** (Minggu 1) + **Controllers & Routing** (Minggu 2) + **Views & Templates** (Minggu 3) + **Models & Database** (Minggu 4) + **Migrations & Seeds** (Minggu 5) + **Validasi** (Minggu 6) + **Authentication** (Minggu 7) + **REST API** (Minggu 8) + **Testing** (Minggu 9) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/deploy**: gabung/buka

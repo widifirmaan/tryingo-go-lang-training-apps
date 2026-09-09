@@ -120,7 +120,7 @@ fn main() {
 **Grand Opening:** Semua checklist + README + video. **Selesai Rust 0→Ahli!**
 
 ---
-
+- **Checklist integrasi:** **Setup & Sintaks Rust** (Minggu 1) + **Ownership & Borrowing** (Minggu 2) + **Struct & Method** (Minggu 3) + **Enum & Pattern Matching** (Minggu 4) + **Collections** (Minggu 5) + **Error Handling** (Minggu 6) + **Trait** (Minggu 7) + **Generics** (Minggu 8) + **Lifetimes** (Minggu 9) + **Testing** (Minggu 10) + **Smart Pointers** (Minggu 11) + **Concurrency** (Minggu 12) + **Macros** (Minggu 13) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/env-args**: gabung/argumen

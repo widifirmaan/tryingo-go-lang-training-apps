@@ -85,9 +85,9 @@ Leading `%` = can't index. Trailing only = can.
 ## Challenge
 
 **Shop Doctor:** 3 slow queries → `EXPLAIN` note `type+rows` → add indexes → `EXPLAIN` again → prove `rows` dropped 10x+. Before/after screenshot.
+- **Link-up (Week 6 — Transactions & ACID):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **EXPLAIN/ANALYZE/OPTIMIZE**: xray/fresh/tidy

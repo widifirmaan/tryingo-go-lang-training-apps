@@ -92,9 +92,9 @@ Same as W1: `npm run dev` on `5173`.
 ## Challenge
 
 **Complete Lifecycle Shop:** `onMount` fetch `list`, `setContext("shop", {name})`, child `getContext` display, `onDestroy` `clearInterval`.
+- **Link-up (Week 7 — Actions & Forms):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **onMount/onDestroy/context**: lifecycle/warehouse

@@ -94,9 +94,9 @@ fn main() {
 ## Challenge
 
 **Complete Contract:** `trait Discount { fn total(&self) -> u32; }` + 3 structs + `pay()` + default `receipt()`.
+- **Link-up (Week 6 — Error Handling):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Trait/impl**: contract/fulfill

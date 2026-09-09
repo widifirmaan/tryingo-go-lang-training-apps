@@ -87,9 +87,9 @@ Query + data sent separately — injections become plain text.
 ## Challenge
 
 **Guarded Shop:** Login form (`htmlspecialchars` display + `prepare` check + `password_verify` + `session_regenerate_id`) → hijack yourself 3 ways, all fail.
+- **Link-up (Week 6 — Form Handling):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **XSS/SQLi/CSRF**: script/SQL/fake-request injection

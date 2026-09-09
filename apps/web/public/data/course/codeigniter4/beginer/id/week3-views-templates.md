@@ -83,9 +83,9 @@ Sama W1: `php spark serve` di `8080`, tidak perlu XAMPP.
 ## Tantangan
 
 **Warung Layout:** Buat `layout/main` + `produk` + `kontak` (2 view warisi sama) + `esc` semua output, `php spark serve` screenshot.
+- **Sambungan (Minggu 2 — Controllers & Routing):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **view/esc**: kirim & amankan

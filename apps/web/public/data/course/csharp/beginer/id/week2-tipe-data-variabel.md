@@ -105,9 +105,9 @@ Console.WriteLine(stok?.ToString() ?? "kosong"); // ?. = jika null jangan sentuh
 ## Tantangan
 
 **Struk C#:** `string pelanggan = "Siti"; decimal beras = 62000, ongkir = 8500.50m; decimal total = beras + ongkir;` → `$"{pelanggan} total Rp {total:N0}"` + `GetType().Name` tiap variabel.
+- **Sambungan (Minggu 1 — Setup & Sintaks C#):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **int/double/decimal**: bulat/koma/uang

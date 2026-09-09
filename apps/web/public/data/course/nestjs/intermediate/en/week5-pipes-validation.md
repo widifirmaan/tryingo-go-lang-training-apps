@@ -108,9 +108,9 @@ Installed in `main.ts` → every `@Body` auto-checked.
 ## Challenge
 
 **Guarded Shop:** DTO `name/price/stock` + global pipe + `ParseIntPipe` `:id` + `curl` 3 cases (pass/empty/wrong-type).
+- **Link-up (Week 4 — Database TypeORM):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **DTO/Pipe/whitelist**: envelope/guard/drop-strangers

@@ -222,9 +222,9 @@ function CariOtomatis() {
 **B. Jam Digital + Auto Fetch:** Tampilkan jam `new Date().toLocaleTimeString()` update tiap detik, dan daftar produk fetch sekali saat mount. 2 effect berbeda: 1 untuk jam `[ ]`? (interval), 1 untuk data `[]`.
 
 Kriteria: 1 effect dengan `[]`, 1 effect dengan `[value]`, dan 1 cleanup yang benar.
+- **Sambungan (Minggu 3 — State & useState):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **useEffect**: hook untuk side effect setelah render

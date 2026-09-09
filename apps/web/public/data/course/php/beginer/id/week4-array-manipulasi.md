@@ -102,9 +102,9 @@ foreach ($keranjang as $item) {
 ## Tantangan
 
 **Inventaris Warung:** `$produk = [["nama"=>"Beras","harga"=>62000,"kategori"=>"Sembako"], ... 5 item]` → `array_filter` hanya Sembako → `array_map` ambil `nama` → `implode` cetak → `array_sum(array_column($produk,"harga"))` total.
+- **Sambungan (Minggu 3 — Fungsi & Scope):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Array indexed/associative**: daftar/kartu

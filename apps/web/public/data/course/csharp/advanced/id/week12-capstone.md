@@ -44,7 +44,7 @@ Fitur wajib:
 **Grand Opening:** Semua checklist + deploy (`Azure`/`VPS`) + video. **Selesai C# 0→Ahli!** 🎉
 
 ---
-
+- **Checklist integrasi:** **Setup & Sintaks C#** (Minggu 1) + **Tipe Data & Variabel** (Minggu 2) + **Control Flow** (Minggu 3) + **OOP Class & Object** (Minggu 4) + **LINQ** (Minggu 5) + **Async/Await** (Minggu 6) + **Generics** (Minggu 7) + **Error Handling** (Minggu 8) + **Design Patterns** (Minggu 9) + **Testing** (Minggu 10) + **Web API** (Minggu 11) → semua bagian di atas jalan bareng saat grand opening.
 ## Glosarium Mini
 
 - **Capstone/deploy**: gabung/buka

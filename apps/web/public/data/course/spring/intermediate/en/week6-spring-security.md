@@ -103,9 +103,9 @@ Spring builds `/login` + checks — no HTML writing.
 ## Challenge
 
 **Doored Mall:** `/` + `/products` free, `/admin/**` login, `/api/**` free `GET` but login for `POST` (`requestMatchers(HttpMethod.POST, "/api/**").authenticated()`).
+- **Link-up (Week 5 — REST API Best Practices):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **FilterChain/permitAll**: post/free

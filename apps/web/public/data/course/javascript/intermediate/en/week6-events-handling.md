@@ -153,9 +153,9 @@ Return unsubscribe function from `on()` for cleanup.
 ## Challenge
 
 Build a keyboard shortcut system: register shortcut, trigger action, with EventEmitter pattern.
+- **Link-up (Week 5 — DOM Manipulation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Summary
 
 Week 6 of 14: **Events & Event Handling** (Level: Intermediate). User interaction. Next week: **Async JavaScript**.

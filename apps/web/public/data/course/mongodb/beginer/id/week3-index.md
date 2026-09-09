@@ -75,9 +75,9 @@ db.produk.dropIndex("kategori_1")
 ## Tantangan
 
 **Warung Cepat:** `createIndex({ nama: 1 })` + `unique` di `email` + `explain` 2 query → screenshot `IXSCAN` 2x.
+- **Sambungan (Minggu 2 — Update & Delete):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Index/unique/explain**: daftar/anti-kembar/rencana

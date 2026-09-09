@@ -97,9 +97,9 @@ API change → build `/api/v2`, old phones stay on `/api/v1`.
 ## Challenge
 
 **Complete Neat Shop:** In/out DTOs + `Advice` + `/api/v1` + `curl` POST verifying neat JSON. **Beginner Spring DONE!**
+- **Link-up (Week 4 — Spring Data JPA):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **DTO/Advice/version**: envelope/guard/version

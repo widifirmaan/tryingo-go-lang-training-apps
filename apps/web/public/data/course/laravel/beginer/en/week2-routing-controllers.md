@@ -106,9 +106,9 @@ Open `http://localhost:8000/products` → all. `?find=rice` → filtered. `/prod
 ## Challenge
 
 **3-Door Shop:** `get('/')` welcome, `get('/products')` + `?find`, `get('/products/{id}')` detail + `abort(404)`. `php artisan route:list` screenshot 3 doors.
+- **Link-up (Week 1 — Laravel Setup):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Route/Controller/Request**: door/waiter/order

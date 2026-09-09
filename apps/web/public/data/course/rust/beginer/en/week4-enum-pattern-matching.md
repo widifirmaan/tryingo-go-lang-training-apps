@@ -99,9 +99,9 @@ Every variant needs a branch. The compiler rejects gaps — no `default` hiding 
 ## Challenge
 
 **Order Status:** `enum Order { New, Ship(String), Done }` (`Ship` carries receipt!) + `match` info per status + `if let Order::Ship(receipt)`.
+- **Link-up (Week 3 — Struct & Method):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **enum/match/if let**: choices/complete/one

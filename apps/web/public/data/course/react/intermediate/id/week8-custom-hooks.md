@@ -117,10 +117,9 @@ Return { data, loading, error }. Reusable untuk endpoint berbeda.
 ## Tantangan
 
 Buat useForm hook yang handle: values, errors, handleChange, handleSubmit, reset. Gunakan di 2 form berbeda.
-
+- **Sambungan (Minggu 7 — Forms & Validasi):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Penjelasan untuk Pemula
 
 ### Analogi: Resep Dapur Sendiri

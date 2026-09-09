@@ -87,9 +87,9 @@ VS Code + browser, create `bem.html`, open, change `card--promo` to `card` → g
 ## Challenge
 
 **Complete BEM Shop:** `header`, `header__logo`, `header__nav`, `header__nav--active` + `card`, `card__price--discount` (strike + red) — BEM 1 class per element, no nesting.
+- **Link-up (Week 9 — CSS Variables):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **BEM/block/element/modifier**: methodology

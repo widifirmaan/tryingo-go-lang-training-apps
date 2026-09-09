@@ -105,9 +105,9 @@ console.log(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)); // true
 ## Challenge
 
 **ES6 Catalog:** `const p = {name:"Rice", price:62000, stock:10}` → `const {name, price} = p`, `const fresh = {...p, discount:10}`, `const city = customer?.address?.city ?? "Jakarta"`.
+- **Link-up (Week 7 — Async JavaScript):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **destructuring/spread/??**: unpack/copy/default

@@ -99,9 +99,9 @@ HTTP beneran ke app jalan → `expect(200)`.
 ## Tantangan
 
 **Warung Teruji:** Unit service (mock) 3 test + E2E 2 pintu HIJAU + screenshot.
+- **Sambungan (Minggu 8 — Error & Logging):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **spec/mock/supertest**: uji/palsu/pintu-bohongan

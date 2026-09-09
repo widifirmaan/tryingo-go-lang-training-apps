@@ -99,9 +99,9 @@ store.outOfStock("Rice");
 ## Challenge
 
 **Complete Pattern Shop:** `Cashier` Singleton + `makeProduct` Factory 3 types + `Store` Observer 2 customers subscribed to `outOfStock`.
+- **Link-up (Week 9 — Testing TypeScript):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Singleton/Factory/Observer**: patterns

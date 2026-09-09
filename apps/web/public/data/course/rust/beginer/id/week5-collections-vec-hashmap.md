@@ -123,9 +123,9 @@ fn main() {
 ## Tantangan
 
 **Inventaris:** `Vec` 5 produk + `HashMap` harga → loop cetak + `get` 1 yang tidak ada (tangani `None`) + hapus `harga.remove("gula")`.
+- **Sambungan (Minggu 4 — Enum & Pattern Matching):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Vec/HashMap/mut**: rak/buku/izin

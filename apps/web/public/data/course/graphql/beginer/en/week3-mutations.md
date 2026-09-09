@@ -95,9 +95,9 @@ mutation Two {
 ## Challenge
 
 **Complete Writing Shop:** `mutation` adds 2 products (`a`, `b`) → `query` verifies present → `mutation` edits 1 price → `query` verifies change. 4 sequential steps.
+- **Link-up (Week 2 — Queries):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Mutation/input/resolver**: write/envelope/waiter

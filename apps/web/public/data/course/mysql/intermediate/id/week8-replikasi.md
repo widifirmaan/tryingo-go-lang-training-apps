@@ -98,9 +98,9 @@ Tiap server ID beda. Binlog catat semua tulis untuk disalin.
 ## Tantangan
 
 **Cabang Warung:** Primary + replica + `INSERT` 5 → `SELECT` replica 5 + `SHOW REPLICA STATUS` 2 Yes + screenshot.
+- **Sambungan (Minggu 7 — Performa & Tuning):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Replica/binlog/behind**: cabang/catatan/telat

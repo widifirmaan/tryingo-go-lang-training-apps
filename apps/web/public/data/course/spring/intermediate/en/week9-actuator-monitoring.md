@@ -79,9 +79,9 @@ Never `*` in production (leaks password-bearing `env`!). `health,info` suffices.
 ## Challenge
 
 **Monitored Shop:** `health` + custom `info` + `metrics` + UP screenshot + DOWN simulation (kill DB).
+- **Link-up (Week 8 — Validation):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Actuator/health/metrics**: panel/healthy/numbers

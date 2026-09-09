@@ -123,9 +123,9 @@ $data['pager'] = $model->pager;
 ## Tantangan
 
 **Rak Lengkap:** `ProdukModel` + `findAll` + `where stok>5` + `like` cari + `save` 2 + `delete` 1 + tampil di view.
+- **Sambungan (Minggu 3 — Views & Templates):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **Model/allowedFields/findAll**: rak/sah/ambil

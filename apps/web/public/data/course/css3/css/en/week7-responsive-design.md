@@ -87,9 +87,9 @@ Inside only runs when screen ≤600px. `min-width` the opposite (big-only).
 ## Challenge
 
 **Complete Responsive Shop:** Grid 3→1 columns + menu row→column + `h1` 28→22px + side-by-side phone & laptop screenshots.
+- **Link-up (Week 6 — Positioning):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **viewport/media/max-width**: glasses/rules/small

@@ -103,9 +103,9 @@ Untuk kode yang SEHARUSNYA panic.
 ## Tantangan
 
 **Warung Teruji:** `hitung/diskon/bagi` + 4 test HIJAU + screenshot + (bonus) pindah ke `lib.rs` hingga Doc-tests ikut HIJAU. **Selesai Menengah Rust!**
+- **Sambungan (Minggu 9 — Lifetimes):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **test/assert/doc-test**: cicip/harap/contoh

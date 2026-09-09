@@ -102,9 +102,9 @@ Automatic validation + JSON (no `View`).
 ## Challenge
 
 **Complete Online Shop:** 4-door CRUD + Swagger screenshot + 5 passing `curl` commands.
+- **Link-up (Week 10 — Testing):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **ApiController/FromBody**: JSON-waiter/envelope

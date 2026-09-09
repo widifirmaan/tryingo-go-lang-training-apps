@@ -126,9 +126,9 @@ if note is None:
 **Product Name Validation:** Input `name = "  beras  "` → `strip`, `lower`, check `len(name) >= 3`, no space? `check = " " not in name.strip()` for code without space, and `name[::-1]` for simple palindrome.
 
 Bonus: calc delivery `total = weight*5000 + distance*2000` with `//` to round thousand.
+- **Link-up (Week 1 — Python Basics):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **`/` `//` `%` `**`**: divide, floor, remainder, power

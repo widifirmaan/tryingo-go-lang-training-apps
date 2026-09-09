@@ -112,9 +112,9 @@ php spark migrate:rollback  # cancel last
 ## Challenge
 
 **Complete Warehouse:** `CreateCustomers` migration + 3-customer seeder + `migrate` + `seed` + check in `phpMyAdmin`/SQLite. **Beginner CI4 DONE!**
+- **Link-up (Week 4 — Models & Database):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **Migration/Seeder/forge**: blueprint/fill/builder

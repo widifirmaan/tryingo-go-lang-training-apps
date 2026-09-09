@@ -100,9 +100,9 @@ Debug di VS (bukan Console saja!): **F9** = breakpoint merah di baris → **F5**
 ## Tantangan
 
 **Kasir Aman Lengkap:** Loop input harga + `try/catch` 2 tipe + `throw` untuk <= 0 + `using` tulis struk file. **Selesai Menengah C#!**
+- **Sambungan (Minggu 7 — Generics):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **try/catch/throw/using**: coba/tangkap/alarm/otomatis

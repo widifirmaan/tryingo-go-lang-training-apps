@@ -79,9 +79,9 @@ Without box model, product boxes stick together, no gaps — messy.
 ## Challenge
 
 **Complete Box Rack:** 3 `.box`es (block, stacked) + 1 row of 3 `span.badge` (`inline-block`) + 1 promo `display: none` + toggle via DevTools (manual `display: block`!).
+- **Link-up (Week 1 — Selectors & Basic Styling):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **box-model**: goods/foam/box/gap

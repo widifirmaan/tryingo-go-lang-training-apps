@@ -89,9 +89,9 @@ Tidak perlu `ts-jest`, Vite transform TS on the fly.
 ## Tantangan
 
 **Warung Uji Lengkap:** `hitungTotal` + `test` 2 kasus `2+3=5` dan `buatUser` 1 kasus, `npm test` PASS screenshot.
+- **Sambungan (Minggu 8 — TypeScript Config):** pasang hasil tantangan ini ke alur itu; pastikan ujung-ke-ujung jalan.
 
 ---
-
 ## Glosarium Mini
 
 - **vitest/test/expect**: uji

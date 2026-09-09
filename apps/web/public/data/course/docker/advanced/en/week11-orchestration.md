@@ -95,9 +95,9 @@ Pod IPs keep changing → Service 1 stable door + load balancing.
 ## Challenge
 
 **Scaled Shop:** Compose `--scale web=3` + K8s manifest `replicas: 3` + kill-1-pod survival proof.
+- **Link-up (Week 10 — CI/CD Pipeline):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **K8s/Pod/Service**: foreman/box/door

@@ -93,9 +93,9 @@ Phones distinguish `NOT_FOUND` (show gone) vs `SERVER_DOWN` (retry).
 ## Challenge
 
 **Tested Restaurant:** 4 tests (2 Queries + 1 Mutation + 1 error) GREEN + 2 different `extensions.code`s.
+- **Link-up (Week 8 — Subscriptions):** plug this challenge's result into that flow; make sure it runs end-to-end.
 
 ---
-
 ## Mini Glossary
 
 - **vitest/GraphQLError**: taste/alarm
