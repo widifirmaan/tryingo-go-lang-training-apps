@@ -36,6 +36,16 @@ npx tsc --init # create tsconfig.json
 npx tsc --noEmit # check without emitting js
 ```
 
+```ts
+// tsconfig strict: null canNOT enter a string (uncomment line X -> TS2322 error in editor/CI)
+function sapa(nama: string): string {
+  return `Halo ${nama}`;
+}
+const user: string | null = null;
+// const salah: string = user;
+console.log(sapa("Budi"));
+```
+
 **Source:** `typescriptlang.org/tsconfig` — `strict` = 7 strict checks.
 
 ---

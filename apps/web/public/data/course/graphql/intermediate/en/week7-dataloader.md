@@ -37,6 +37,14 @@ const resolvers = {
 };
 ```
 
+
+```graphql
+# DataLoader = 1 trip: 2 orders at once via alias, saves N+1 trips
+query Dua {
+  murah: product(id: "2") { name price }
+  mahal: product(id: "6") { name price }
+}
+```
 ---
 
 ## Key Concepts

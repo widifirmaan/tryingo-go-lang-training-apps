@@ -23,10 +23,54 @@ import { SveltePlayground } from './playgrounds/SveltePlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
 
-const extractCode = (markdown: string): string => {
-  const regex = /```(?:\w+)?\n([\s\S]*?)```/;
-  const match = regex.exec(markdown);
-  return match ? match[1].trim() : '';
+const extractCode = (markdown: string, preferred: string[] = []): string => {
+  const regex = /```(\w*)\n([\s\S]*?)```/g;
+  const blocks: { lang: string; code: string }[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(markdown)) !== null) {
+    blocks.push({ lang: (match[1] || '').toLowerCase(), code: match[2].trim() });
+  }
+  if (!blocks.length) return '';
+  // 1) Hit in the playground's language(s) — earliest preferred language wins, largest block wins
+  if (preferred.length) {
+    const rank = new Map(preferred.map((l, i) => [l.toLowerCase(), i]));
+    const hits = blocks
+      .filter(b => rank.has(b.lang))
+      .sort((a, b) => (rank.get(a.lang)! - rank.get(b.lang)!) || (b.code.length - a.code.length));
+    if (hits.length) {
+      // Bare JS/TS that touches the DOM needs its HTML shell to run in the iframe preview
+      const top = hits[0];
+      if ((top.lang === 'javascript' || top.lang === 'js' || top.lang === 'typescript' || top.lang === 'ts')
+        && /document|window|getElementById|querySelector|addEventListener/.test(top.code)) {
+        const html = blocks.filter(b => b.lang === 'html')
+          .sort((a, b) => b.code.length - a.code.length)[0];
+        if (html) return html.code;
+      }
+      return top.code;
+    }
+  }
+  // 2) Fallback: largest fenced block (the week's main program, not setup one-liners)
+  return blocks.reduce((a, b) => (b.code.length > a.code.length ? b : a)).code;
+};
+
+// Preferred fence languages per playground so the editor is pre-filled with
+// the week's runnable program instead of setup snippets (bash/npm/install).
+const STACKBLITZ_FENCES: Record<string, string[]> = {
+  nodejs: ['javascript', 'js'],
+  nextjs: ['tsx', 'jsx', 'javascript', 'js'],
+  nestjs: ['typescript', 'ts'],
+  angular: ['typescript', 'ts'],
+  django: ['python', 'py'],
+  spring: ['java'],
+};
+
+const INLINE_FENCES: Record<string, string[]> = {
+  golang: ['go'],
+  rust: ['rust'],
+  javascript: ['javascript', 'js', 'html'],
+  typescript: ['typescript', 'ts', 'javascript'],
+  html5: ['html'],
+  css3: ['html'],
 };
 
 interface CoursePageProps {
@@ -357,66 +401,66 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         {/* Inline Code Playground */}
         {content && isDocker ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <DockerPlayground lang={lang} script={extractCode(content)} />
+            <DockerPlayground lang={lang} script={extractCode(content, ['bash', 'sh', 'shell', 'dockerfile'])} />
           </div>
         ) : content && isStackBlitz ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <StackBlitzPlayground
               lang={lang}
               language={slug as any}
-              initialCode={extractCode(content)}
+              initialCode={extractCode(content, STACKBLITZ_FENCES[slug] || ['javascript', 'js', 'typescript', 'ts'])}
             />
           </div>
         ) : content && (slug === 'postgresql' || slug === 'mysql') ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <SqlPlayground lang={lang} initialCode={extractCode(content)} />
+            <SqlPlayground lang={lang} initialCode={extractCode(content, ['sql'])} />
           </div>
         ) : content && slug === 'mongodb' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <MongoPlayground lang={lang} initialCode={extractCode(content)} />
+            <MongoPlayground lang={lang} initialCode={extractCode(content, ['javascript', 'js', 'json'])} />
           </div>
         ) : content && slug === 'redis' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <RedisPlayground lang={lang} initialCode={extractCode(content)} />
+            <RedisPlayground lang={lang} initialCode={extractCode(content, ['redis', 'bash', 'sh'])} />
           </div>
         ) : content && slug === 'graphql' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <GraphqlPlayground lang={lang} initialCode={extractCode(content)} />
+            <GraphqlPlayground lang={lang} initialCode={extractCode(content, ['graphql'])} />
           </div>
         ) : content && (slug === 'php' || slug === 'laravel' || slug === 'codeigniter4') ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <PhpPlayground lang={lang} initialCode={extractCode(content)} />
+            <PhpPlayground lang={lang} initialCode={extractCode(content, ['php'])} />
           </div>
         ) : content && slug === 'csharp' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <CsharpPlayground lang={lang} initialCode={extractCode(content)} />
+            <CsharpPlayground lang={lang} initialCode={extractCode(content, ['csharp', 'cs'])} />
           </div>
         ) : content && slug === 'python' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <PythonPlayground lang={lang} initialCode={extractCode(content)} />
+            <PythonPlayground lang={lang} initialCode={extractCode(content, ['python', 'py'])} />
           </div>
         ) : content && slug === 'rails' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <RubyPlayground lang={lang} initialCode={extractCode(content)} />
+            <RubyPlayground lang={lang} initialCode={extractCode(content, ['ruby', 'rb', 'erb'])} />
           </div>
         ) : content && slug === 'react' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <ReactPlayground lang={lang} initialCode={extractCode(content)} />
+            <ReactPlayground lang={lang} initialCode={extractCode(content, ['jsx'])} />
           </div>
         ) : content && slug === 'vue' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <VuePlayground lang={lang} initialCode={extractCode(content)} />
+            <VuePlayground lang={lang} initialCode={extractCode(content, ['vue'])} />
           </div>
         ) : content && slug === 'svelte' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <SveltePlayground lang={lang} initialCode={extractCode(content)} />
+            <SveltePlayground lang={lang} initialCode={extractCode(content, ['svelte'])} />
           </div>
         ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <React.Suspense fallback={null}>
               <InlinePlayground
                 lang={lang}
-                initialCode={extractCode(content)}
+                initialCode={extractCode(content, INLINE_FENCES[slug] || [])}
                 language={slug}
                 week={activeWeek}
                 onClose={() => {}}

@@ -37,6 +37,14 @@ const resolvers = {
 };
 ```
 
+
+```graphql
+# DataLoader = 1Packet-: 2 pesanan sekaligus via alias, hemat antrean N+1
+query Dua {
+  murah: product(id: "2") { name price }
+  mahal: product(id: "6") { name price }
+}
+```
 ---
 
 ## Konsep Kunci

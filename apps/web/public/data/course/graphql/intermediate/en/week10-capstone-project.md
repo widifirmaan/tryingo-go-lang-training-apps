@@ -34,6 +34,13 @@ Required features:
 
 **Capstone task:** Public URL + GraphiQL screenshot adding a product + 1-min video. **GraphQL 0→Expert DONE!** 🎉
 
+
+```graphql
+# Capstone = grand opening: read + write + report in 1 receipt
+mutation {
+  createOrder(customer: "Budi", items: [{product: "USB-C Hub", qty: 2}]) { id total status }
+}
+```
 ---
 
 ## Key Concepts

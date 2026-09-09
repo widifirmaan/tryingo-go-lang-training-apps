@@ -52,6 +52,13 @@ const server = new ApolloServer({
 
 Test GraphiQL: `mutation { login(email:"admin@shop.com", password:"123") { token } }` → Headers `{"Authorization": "Bearer TOKEN"}` → `addProduct` passes. No header → "Login first!".
 
+
+```graphql
+# Auth = concert wristband: peek 1 product (paste in playground → Run)
+query {
+  product(id: "2") { name price inStock }
+}
+```
 ---
 
 ## Key Concepts

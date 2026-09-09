@@ -36,6 +36,16 @@ npx tsc --init # buat tsconfig.json
 npx tsc --noEmit # cek tanpa buat js
 ```
 
+```ts
+// tsconfig strict: null TAK bisa masuk string (buka komentar baris X -> error TS2322 di editor/CI)
+function sapa(nama: string): string {
+  return `Halo ${nama}`;
+}
+const user: string | null = null;
+// const salah: string = user;
+console.log(sapa("Budi"));
+```
+
 **Sumber:** `typescriptlang.org/tsconfig` — `strict` = 7 cek ketat.
 
 ---
