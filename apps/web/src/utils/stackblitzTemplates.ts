@@ -576,6 +576,15 @@ export function simulateNode(code: string): Promise<{ output: string; error: str
   `;
   const blob = new Blob([capture], { type: 'application/javascript' });
   const url = URL.createObjectURL(blob);
+  // Browser workers lack Node globals that course materials legitimately use
+  // (process.version/argv, __dirname). Provide honest shims so week code runs
+  // instead of crashing on ReferenceError; require() still throws a clear error.
+  const shimmed =
+    `globalThis.process = globalThis.process || { version: 'v20 (simulasi)', argv: ['node', 'app.js'], platform: 'browser', env: {} };\n` +
+    `globalThis.__dirname = globalThis.__dirname || '/';\n` +
+    `globalThis.__filename = globalThis.__filename || '/app.js';\n` +
+    `globalThis.require = globalThis.require || function (m) { throw new Error("require('" + m + "') tak tersedia di simulasi browser — jalankan di terminal: node app.js"); };\n` +
+    code;
   return new Promise((resolve) => {
     let settled = false;
     try {
@@ -607,7 +616,7 @@ export function simulateNode(code: string): Promise<{ output: string; error: str
         URL.revokeObjectURL(url);
         resolve({ output: '', error: 'Worker error: ' + e.message });
       };
-      worker.postMessage(code);
+      worker.postMessage(shimmed);
     } catch (err) {
       settled = true;
       URL.revokeObjectURL(url);

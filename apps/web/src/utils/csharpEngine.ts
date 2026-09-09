@@ -840,10 +840,19 @@ function evalWriteContent(content: string, variables: Map<string, Variable>, met
     return content.slice(1, -1);
   }
 
-  // Handle concatenation: "text" + var + "text"
+  // Handle concatenation: "text" + var + "text" — but a pure numeric
+  // a + b (no string involved) is arithmetic, not concatenation.
   const concatParts = splitConcatenation(content);
   if (concatParts) {
-    return concatParts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
+    const anyString = concatParts.some((p) => {
+      const t = p.trim();
+      if ((t.startsWith('"') && t.endsWith('"')) || (t.startsWith("'") && t.endsWith("'"))) return true;
+      return typeof evalExpr(t, variables, methods, classes) === 'string';
+    });
+    if (anyString) {
+      return concatParts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
+    }
+    return formatValue(evalExpr(content, variables, methods, classes));
   }
 
   // Simple value

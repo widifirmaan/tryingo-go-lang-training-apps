@@ -311,7 +311,7 @@ class PhpInterpreter {
     if (first === 'return') {
       return this.parseReturn(tokens);
     }
-    if (first === '$') {
+    if (first.startsWith('$')) {
       return this.parseAssignment(tokens);
     }
     if (first === 'array' || (first === '[')) {
@@ -358,7 +358,10 @@ class PhpInterpreter {
     const params: string[] = [];
     while (pos < tokens.length && tokens[pos] !== ')') {
       if (tokens[pos] === ',') { pos++; continue; }
-      if (tokens[pos] === '$') {
+      if (tokens[pos].startsWith('$')) {
+        params.push(tokens[pos]);
+        pos++;
+      } else if (tokens[pos] === '$') {
         params.push(tokens[pos] + (tokens[pos + 1] || ''));
         pos += 2;
       } else {
@@ -407,6 +410,10 @@ class PhpInterpreter {
     }
     const bodyTokens = tokens.slice(bodyStart, pos - 1);
 
+    // Run the init clause once (e.g. $i = 0); empty init (for(;;)) is skipped.
+    const initSrc = tokens.slice(2, condStart).filter((x) => x !== ';');
+    if (initSrc.length > 0) this.parseBlock([...initSrc, ';']);
+
     const maxIter = 1000;
     let iter = 0;
     while (iter < maxIter) {
@@ -428,10 +435,14 @@ class PhpInterpreter {
     let pos = 1;
     if (tokens[pos] !== '(') return this.findExprEnd(tokens);
     pos++;
+    let wdep = 1;
     const condStart = pos;
-    while (pos < tokens.length && tokens[pos] !== ')') pos++;
-    const condTokens = tokens.slice(condStart, pos);
-    pos++;
+    while (pos < tokens.length && wdep > 0) {
+      if (tokens[pos] === '(') wdep++;
+      if (tokens[pos] === ')') wdep--;
+      pos++;
+    }
+    const condTokens = tokens.slice(condStart, pos - 1);
     if (tokens[pos] !== '{') return this.findExprEnd(tokens);
     pos++;
     let braceDepth = 1;
@@ -463,13 +474,28 @@ class PhpInterpreter {
     let pos = 1;
     if (tokens[pos] !== '(') return this.findExprEnd(tokens);
     pos++;
-    const arrayVar = tokens[pos];
-    pos++;
-    pos++;
-    let asPos = pos;
-    while (asPos < tokens.length && tokens[asPos] !== ')') asPos++;
-    const valueVar = tokens[asPos - 1];
-    pos = asPos + 1;
+    // Iterable may be a variable OR an inline expression (e.g. foreach ([1,2] as $v)).
+    // Find the ')' matching this foreach's '(' first, then split head at 'as'.
+    let depth = 1;
+    let close = pos;
+    while (close < tokens.length && depth > 0) {
+      if (tokens[close] === '(' || tokens[close] === '[') depth++;
+      if (tokens[close] === ')' || tokens[close] === ']') depth--;
+      close++;
+    }
+    const head = tokens.slice(pos, close - 1);
+    let ai = head.length - 1;
+    let adep = 0;
+    while (ai >= 0) {
+      if (head[ai] === ')' || head[ai] === ']') adep++;
+      if (head[ai] === '(' || head[ai] === '[') adep--;
+      if (adep === 0 && head[ai] === 'as') break;
+      ai--;
+    }
+    if (ai < 0) return this.findExprEnd(tokens);
+    const valueVar = head[head.length - 1];
+    const arr = this.parseExpression(head.slice(0, ai)).value;
+    pos = close;
     if (tokens[pos] !== '{') return this.findExprEnd(tokens);
     pos++;
     let braceDepth = 1;
@@ -481,7 +507,6 @@ class PhpInterpreter {
     }
     const bodyTokens = tokens.slice(bodyStart, pos - 1);
 
-    const arr = this.resolveVar(arrayVar);
     if (Array.isArray(arr)) {
       for (const item of arr) {
         if (--this.loopBudget <= 0) {
@@ -496,7 +521,7 @@ class PhpInterpreter {
   }
 
   private parseIf(tokens: string[]): number {
-    let pos = 0;
+    let pos = 1; // skip 'if'
     let expectingClause = true;
     let taken = false;
 
@@ -529,13 +554,17 @@ class PhpInterpreter {
         }
       }
 
-      // Expect a condition now
+      // Expect a condition now (scan with depth: conditions may nest calls)
       if (pos >= tokens.length || tokens[pos] !== '(') break;
       let p = pos + 1;
+      let cdep = 1;
       const condStart = p;
-      while (p < tokens.length && tokens[p] !== ')') p++;
-      const condTokens = tokens.slice(condStart, p);
-      p++;
+      while (p < tokens.length && cdep > 0) {
+        if (tokens[p] === '(') cdep++;
+        if (tokens[p] === ')') cdep--;
+        p++;
+      }
+      const condTokens = tokens.slice(condStart, p - 1);
       if (p >= tokens.length || tokens[p] !== '{') break;
 
       let bd = 1;
@@ -657,6 +686,14 @@ class PhpInterpreter {
   private parseExpression(tokens: string[]): { value: any; nextPos: number } {
     if (tokens.length === 0) return { value: undefined, nextPos: 0 };
 
+    // Postfix ++ / -- as expression statement ($i++)
+    if (tokens.length === 2 && tokens[0].startsWith('$') && (tokens[1] === '++' || tokens[1] === '--')) {
+      const cur = Number(this.resolveVar(tokens[0])) || 0;
+      const nv = tokens[1] === '++' ? cur + 1 : cur - 1;
+      this.scope.vars.set(tokens[0], nv);
+      return { value: nv, nextPos: 2 };
+    }
+
     let pos = 0;
     let result = this.parseSingleExpr(tokens, pos);
     pos = result.nextPos;
@@ -694,9 +731,37 @@ class PhpInterpreter {
         const rhs = this.parseSingleExpr(tokens, pos + 1);
         result.value = result.value || rhs.value;
         pos = rhs.nextPos;
+      } else if (op === '[') {
+        // Chained index access: $a[0]["k"]
+        let depth = 1;
+        let i = pos + 1;
+        while (i < tokens.length && depth > 0) {
+          if (tokens[i] === '[') depth++;
+          if (tokens[i] === ']') depth--;
+          i++;
+        }
+        const idx = this.parseExpression(tokens.slice(pos + 1, i - 1)).value;
+        result.value = result.value !== undefined && result.value !== null ? result.value[idx] : undefined;
+        pos = i;
       } else {
         break;
       }
+    }
+
+    // Ternary: cond ? a : b
+    if (tokens[pos] === '?') {
+      let depth = 0;
+      let ci = pos + 1;
+      while (ci < tokens.length) {
+        if (tokens[ci] === '?') depth++;
+        if (tokens[ci] === ':' && depth === 0) break;
+        if (tokens[ci] === ':') depth--;
+        ci++;
+      }
+      const thenV = this.parseExpression(tokens.slice(pos + 1, ci)).value;
+      const elseV = this.parseExpression(tokens.slice(ci + 1)).value;
+      result.value = this.phpTruthy(result.value) ? thenV : elseV;
+      pos = tokens.length;
     }
 
     return { value: result.value, nextPos: pos };
@@ -707,9 +772,25 @@ class PhpInterpreter {
 
     const tok = tokens[pos];
 
-    // Variable token: '$x' (tokenizer merges $ + name into a single token)
+    // Variable token: '$x' (tokenizer merges $ + name into a single token),
+    // optionally followed by chained [index] access (arrays and assoc arrays).
     if (tok.startsWith('$')) {
-      return { value: this.resolveVar(tok), nextPos: pos + 1 };
+      let val = this.resolveVar(tok);
+      let i = pos + 1;
+      while (tokens[i] === '[') {
+        let depth = 1;
+        let j = i + 1;
+        while (j < tokens.length && depth > 0) {
+          if (tokens[j] === '[') depth++;
+          if (tokens[j] === ']') depth--;
+          j++;
+        }
+        const idx = this.parseExpression(tokens.slice(i + 1, j - 1)).value;
+        val = val !== undefined && val !== null ? val[idx] : undefined;
+        i = j;
+      }
+      if (i > pos + 1) return { value: val, nextPos: i };
+      return { value: val, nextPos: pos + 1 };
     }
 
     if (tok === '$') {
@@ -738,8 +819,34 @@ class PhpInterpreter {
         if (tokens[i] === ']') depth--;
         i++;
       }
-      const arr: any[] = [];
       const inner = tokens.slice(pos + 1, i - 1);
+      // Assoc array ["k" => v, ...] → object; plain list otherwise.
+      let k = 0;
+      let dep = 0;
+      let isAssoc = false;
+      while (k < inner.length) {
+        const tt = inner[k];
+        if (tt === '[') dep++;
+        if (tt === ']') dep--;
+        if (dep === 0 && tt === '=' && inner[k + 1] === '>') { isAssoc = true; break; }
+        k++;
+      }
+      if (isAssoc) {
+        const obj: Record<string, any> = {};
+        let j = 0;
+        while (j < inner.length) {
+          if (inner[j] === ',') { j++; continue; }
+          const kr = this.parseExpression(inner.slice(j));
+          j += kr.nextPos;
+          if (inner[j] === '=') j++;
+          if (inner[j] === '>') j++;
+          const vr = this.parseExpression(inner.slice(j));
+          j += vr.nextPos;
+          obj[String(kr.value)] = vr.value;
+        }
+        return { value: obj, nextPos: i };
+      }
+      const arr: any[] = [];
       let j = 0;
       while (j < inner.length) {
         if (inner[j] === ',') { j++; continue; }
@@ -770,7 +877,7 @@ class PhpInterpreter {
     if (tok === 'true' || tok === 'TRUE') return { value: true, nextPos: pos + 1 };
     if (tok === 'false' || tok === 'FALSE') return { value: false, nextPos: pos + 1 };
 
-    const knownFns = ['count', 'strlen', 'strtoupper', 'strtolower', 'implode', 'explode', 'array_push', 'array_merge', 'is_array', 'date', 'time', 'round', 'abs', 'min', 'max', 'sort', 'count', 'array_keys', 'array_values', 'print_r'];
+    const knownFns = ['count', 'strlen', 'strtoupper', 'strtolower', 'strpos', 'number_format', 'implode', 'explode', 'array_push', 'array_merge', 'is_array', 'date', 'time', 'round', 'abs', 'min', 'max', 'sort', 'count', 'array_keys', 'array_values', 'print_r'];
     if (knownFns.includes(tok) || (pos + 1 < tokens.length && tokens[pos + 1] === '(')) {
       return this.parseFunctionCall(tokens, pos, tok);
     }
@@ -826,7 +933,23 @@ class PhpInterpreter {
 
   private callBuiltin(name: string, args: any[]): any {
     switch (name) {
-      case 'count': return Array.isArray(args[0]) ? args[0].length : 0;
+      case 'count': return Array.isArray(args[0]) ? args[0].length : (args[0] && typeof args[0] === 'object' ? Object.keys(args[0]).length : 0);
+      case 'strpos': {
+        const hay = String(args[0] ?? '');
+        const ndl = String(args[1] ?? '');
+        const idx = hay.indexOf(ndl);
+        return idx === -1 ? false : idx;
+      }
+      case 'number_format': {
+        const num = Number(args[0] || 0);
+        const dec = args.length > 1 ? Number(args[1]) : 0;
+        const decPoint = args.length > 2 ? String(args[2]) : '.';
+        const thouSep = args.length > 3 ? String(args[3]) : ',';
+        const fixed = Math.abs(num).toFixed(dec);
+        let [ip, fp] = fixed.split('.');
+        ip = ip.replace(/\B(?=(\d{3})+(?!\d))/g, thouSep);
+        return (num < 0 ? '-' : '') + ip + (dec > 0 ? decPoint + (fp || '') : '');
+      }
       case 'strlen': return String(args[0] || '').length;
       case 'strtoupper': return String(args[0] || '').toUpperCase();
       case 'strtolower': return String(args[0] || '').toLowerCase();
@@ -855,6 +978,13 @@ class PhpInterpreter {
       case 'print_r': return JSON.stringify(args[0], null, 2);
       default: return undefined;
     }
+  }
+
+  private phpTruthy(v: any): boolean {
+    if (v === false || v === null || v === undefined) return false;
+    if (v === 0 || v === '' || v === '0') return false;
+    if (Array.isArray(v)) return v.length > 0;
+    return true;
   }
 
   private interpolatedString(str: string): string {

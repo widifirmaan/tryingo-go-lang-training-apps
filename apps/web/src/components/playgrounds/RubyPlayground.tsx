@@ -518,6 +518,86 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
       continue;
     }
 
+    // .each with braces, single-line: [1, 2].each { |x| total += x }
+    const eachInlineMatch = line.match(/^(.+)\.each\s*\{\s*(?:\|\s*(\w+)\s*\|\s*)?(.+)\}$/);
+    if (eachInlineMatch) {
+      const collectionExpr = eachInlineMatch[1].trim();
+      const itemVar = eachInlineMatch[2] || '__item';
+      const bodyLines = eachInlineMatch[3].split(';').map(s => s.trim()).filter(Boolean);
+      const collection = evaluateExpression(collectionExpr, state);
+      const hadLoopVar = state.variables.has(itemVar);
+      const prevLoopVar = state.variables.get(itemVar);
+      const runBody = (item: unknown) => {
+        state.loopIterations++;
+        if (state.loopIterations > MAX_LOOP_ITERATIONS) {
+          throw new Error(`Infinite loop detected (max ${MAX_LOOP_ITERATIONS} iterations)`);
+        }
+        state.variables.set(itemVar, item);
+        processLines(bodyLines, state, depth + 1);
+      };
+      if (Array.isArray(collection)) {
+        for (const item of collection) {
+          runBody(item);
+          if (state.didReturn) break;
+        }
+      } else if (typeof collection === 'object' && collection !== null) {
+        for (const [k, v] of Object.entries(collection)) {
+          runBody([k, v]);
+          if (state.didReturn) break;
+        }
+      }
+      if (hadLoopVar) {
+        state.variables.set(itemVar, prevLoopVar);
+      } else {
+        state.variables.delete(itemVar);
+      }
+      i++;
+      continue;
+    }
+
+    // .each with braces, multi-line: ...each { |x|  ...  }
+    const eachBraceMatch = line.match(/^(.+)\.each\s*\{\s*(?:\|\s*(\w+)\s*\|\s*)?\s*$/);
+    if (eachBraceMatch) {
+      const collectionExpr = eachBraceMatch[1].trim();
+      const itemVar = eachBraceMatch[2] || '__item';
+      const bodyLines: string[] = [];
+      i++;
+      while (i < lines.length) {
+        if (lines[i].trim() === '}') break;
+        bodyLines.push(lines[i]);
+        i++;
+      }
+      const collection = evaluateExpression(collectionExpr, state);
+      const hadLoopVar = state.variables.has(itemVar);
+      const prevLoopVar = state.variables.get(itemVar);
+      const runBody = (item: unknown) => {
+        state.loopIterations++;
+        if (state.loopIterations > MAX_LOOP_ITERATIONS) {
+          throw new Error(`Infinite loop detected (max ${MAX_LOOP_ITERATIONS} iterations)`);
+        }
+        state.variables.set(itemVar, item);
+        processLines(bodyLines, state, depth + 1);
+      };
+      if (Array.isArray(collection)) {
+        for (const item of collection) {
+          runBody(item);
+          if (state.didReturn) break;
+        }
+      } else if (typeof collection === 'object' && collection !== null) {
+        for (const [k, v] of Object.entries(collection)) {
+          runBody([k, v]);
+          if (state.didReturn) break;
+        }
+      }
+      if (hadLoopVar) {
+        state.variables.set(itemVar, prevLoopVar);
+      } else {
+        state.variables.delete(itemVar);
+      }
+      i++;
+      continue;
+    }
+
     const assignMatch = line.match(/^(\w+)\s*=\s*(.+)$/);
     if (assignMatch) {
       const varName = assignMatch[1];
