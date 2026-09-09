@@ -83,6 +83,37 @@ func main() {
   }
 }
 ```
+> **Catatan playground:** mode `--serve` butuh port jaringan sehingga tidak bisa di-Run di playground browser. Jalankan lokal: `go run . --serve` lalu buka `http://localhost:8080/produk`. Inti logika (`tambah` + JSON) yang BISA di-Run di sini:
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+// Inti logika capstone W13 tanpa jaringan/file: bisa di-Run di playground.
+// Versi penuh (--tambah/--serve + produk.json) di atas — jalankan lokal via go run.
+type Produk struct {
+	ID    int    `json:"id"`
+	Nama  string `json:"nama"`
+	Harga int    `json:"harga"`
+}
+
+func tambah(daftar []Produk, nama string, harga int) []Produk {
+	return append(daftar, Produk{ID: len(daftar) + 1, Nama: nama, Harga: harga})
+}
+
+func main() {
+	daftar := []Produk{{1, "Beras 5kg", 62000}}
+	daftar = tambah(daftar, "Minyak 2L", 48000)
+	b, _ := json.Marshal(daftar)
+	fmt.Println(string(b))
+	fmt.Println("JUMLAH:", len(daftar)) // harap 2
+}
+```
+
 
 ```bash
 go run . --tambah "Bayam:5000"

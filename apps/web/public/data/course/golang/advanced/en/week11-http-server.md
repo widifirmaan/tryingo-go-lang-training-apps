@@ -61,6 +61,34 @@ func main() {
   }
 }
 ```
+> **Playground note:** `net/http` programs need a network port, so they cannot Run in the browser playground (TinyGo/Yaegi don't support `ListenAndServe`). Run locally: `go run server.go`, then open `http://localhost:8080/produk`. Runnable alternative here (handler core without networking):
+
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
+// Inti handler /produk W11 tanpa jaringan: bisa di-Run di playground.
+// Versi server penuh (net/http) di atas — jalankan lokal via go run.
+type Produk struct {
+	Nama  string `json:"nama"`
+	Harga int    `json:"harga"`
+}
+
+func daftarJSON() string {
+	katalog := []Produk{{"Beras 5kg", 62000}, {"Minyak 2L", 48000}}
+	b, _ := json.Marshal(katalog)
+	return string(b)
+}
+
+func main() {
+	fmt.Println(daftarJSON())
+}
+```
+
 
 Test: `go run server.go` → browser `http://localhost:8080/produk` → JSON.
 
