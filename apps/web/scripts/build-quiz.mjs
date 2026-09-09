@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { buildCodeQuestions } from './quiz-codegen.mjs';
+import { buildCodeQuestions, buildCompiledQuestions } from './quiz-codegen.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = join(__dirname, '..', 'public', 'data', 'course');
@@ -363,6 +363,14 @@ async function buildQuiz() {
             for (const q of codeQs) questions.push(q);
           } catch (e) {
             console.error(`codegen skipped for ${slug}/${lang}/week${w.week}:`, e.message);
+          }
+
+          // 3c) Compiled-language questions (trace-output + find-the-bug, Go/Rust)
+          try {
+            const compiledQs = buildCompiledQuestions({ slug, lang, week: w, content: w.raw || '', rng });
+            for (const q of compiledQs) questions.push(q);
+          } catch (e) {
+            console.error(`compiled-codegen skipped for ${slug}/${lang}/week${w.week}:`, e.message);
           }
 
           // 4) Fallback: no concepts parsed → objective-based coverage
