@@ -23,7 +23,13 @@ const DEFAULT_SVELTE = `<script>
 </div>
 `;
 
-const SVELTE_CDN = 'https://cdn.jsdelivr.net/npm/svelte@5.56.8';
+// NOTE: pinned to 5.31.0 — newer 5.5x +esm bundles on jsDelivr are broken
+// (sourcemap-codec export mismatch), which bricks the playground compiler.
+const SVELTE_CDN = 'https://cdn.jsdelivr.net/npm/svelte@5.31.0';
+// Runtime MUST come from one shared esm.sh graph: jsDelivr +esm bundles the
+// compiler entry and the runtime entries as separate instances, which breaks
+// mount() with null-internal errors. esm.sh dedupes shared internals.
+const SVELTE_ESM = 'https://esm.sh/svelte@5.31.0';
 
 interface SvelteCompiler {
   compile: (source: string, options?: Record<string, unknown>) => {
@@ -130,6 +136,9 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
         compiled = compiler.compile(code, {
           generate: 'client',
           name: 'App',
+          // filename stabilizes the component name (otherwise `_unknown_`,
+          // which breaks mount(App, ...) below)
+          filename: 'App.svelte',
           dev: false,
         });
       } catch (err: any) {
@@ -157,11 +166,14 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
       }
 
       const moduleCode = (jsCode
+        .replace(/export\s*\{\s*(\w+)\s+as\s+default\s*\};?/g, 'const App = $1;')
+        .replace(/export default function \w+/, 'function App')
+        .replace(/export default (\w+);?/, 'const App = $1;')
         .replace(/export default /, '')
-        .replace(/import\s+["']svelte\/internal\/disclose-version["']/g, `import "${SVELTE_CDN}/internal/disclose-version/+esm"`)
-        .replace(/import\s+["']svelte\/internal\/flags\/legacy["']/g, `import "${SVELTE_CDN}/internal/flags/legacy/+esm"`)
-        .replace(/from\s+["']svelte\/internal\/client["']/g, `from "${SVELTE_CDN}/internal/client/+esm"`)
-        .replace(/from\s+["']svelte["']/g, `from "${SVELTE_CDN}/+esm"`))
+        .replace(/import\s+["']svelte\/internal\/disclose-version["']/g, `import "${SVELTE_ESM}/internal/disclose-version"`)
+        .replace(/import\s+["']svelte\/internal\/flags\/legacy["']/g, `import "${SVELTE_ESM}/internal/flags/legacy"`)
+        .replace(/from\s+["']svelte\/internal\/client["']/g, `from "${SVELTE_ESM}/internal/client"`)
+        .replace(/from\s+["']svelte["']/g, `from "${SVELTE_ESM}"`))
         .replace(/<\/script/gi, '<\\/script');
 
       const htmlContent = `<!DOCTYPE html>
@@ -183,7 +195,7 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
 <body>
   <div id="svelte-app"></div>
   <script type="module">
-    import { mount } from '${SVELTE_CDN}/+esm';
+    import { mount } from '${SVELTE_ESM}';
 
     const __runId = ${runId};
     const _origLog = console.log;
