@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
@@ -22,6 +22,97 @@ import { VuePlayground } from './playgrounds/VuePlayground';
 import { SveltePlayground } from './playgrounds/SveltePlayground';
 
 const InlinePlayground = React.lazy(() => import('./CodePlayground'));
+
+// Copy helper with textarea fallback (clipboard API needs secure context)
+const copyText = async (text: string): Promise<boolean> => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch { /* fall through to textarea */ }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const nodeText = (node: React.ReactNode): string => {
+  if (node === null || node === undefined || typeof node === 'boolean') return '';
+  if (typeof node === 'string' || typeof node === 'number') return String(node);
+  if (Array.isArray(node)) return node.map(nodeText).join('');
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) return nodeText(node.props.children);
+  return '';
+};
+
+// Fenced code block: header with language label + copy button
+const LessonCodeBlock: React.FC<{ children?: React.ReactNode; isId: boolean }> = ({ children, isId }) => {
+  const [copied, setCopied] = useState(false);
+  const child = React.Children.toArray(children)[0];
+  const langClass = React.isValidElement<{ className?: string }>(child)
+    ? child.props.className || ''
+    : '';
+  const lang = (langClass.match(/language-(\w+)/) || [])[1] || '';
+  const text = nodeText(children);
+  return (
+    <div className="rounded-xl overflow-hidden mb-6 border border-zinc-700/60">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-zinc-800 dark:bg-black/40">
+        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">
+          {lang || (isId ? 'kode' : 'code')}
+        </span>
+        <button
+          onClick={async () => {
+            if (await copyText(text)) {
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1500);
+            }
+          }}
+          title={isId ? 'Salin kode' : 'Copy code'}
+          className="flex items-center gap-1 text-[10px] font-bold text-zinc-300 hover:text-white transition-colors"
+        >
+          <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="w-3 h-3" />
+          {copied ? (isId ? 'Tersalin!' : 'Copied!') : (isId ? 'Salin' : 'Copy')}
+        </button>
+      </div>
+      <pre className="!m-0 !rounded-none !border-0">{children}</pre>
+    </div>
+  );
+};
+
+// Inline `code`: click to copy (skipped while selecting text)
+const LessonInlineCode: React.FC<{ children?: React.ReactNode; className?: string; isId: boolean }> = ({ children, className, isId }) => {
+  const [copied, setCopied] = useState(false);
+  if (className?.includes('language-')) {
+    // block-level code inside <pre> — the block header already handles copy
+    return <code className={className}>{children}</code>;
+  }
+  return (
+    <code
+      className={`${className || ''} cursor-pointer`.trim()}
+      title={`${isId ? 'Klik untuk menyalin' : 'Click to copy'}: ${nodeText(children).slice(0, 60)}`}
+      onClick={async (e) => {
+        if (window.getSelection()?.toString()) return;
+        e.preventDefault();
+        if (await copyText(nodeText(children))) {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1200);
+        }
+      }}
+    >
+      {children}
+      {copied && <FontAwesomeIcon icon={faCheck} className="w-2.5 h-2.5 ml-1 text-[#2E5B44]" />}
+    </code>
+  );
+};
 
 const extractCode = (markdown: string, preferred: string[] = []): string => {
   const regex = /```(\w*)\n([\s\S]*?)```/g;
@@ -379,7 +470,13 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
               transition={{ duration: 0.12 }}
             >
               <div className="lesson-body">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    pre: ({ children }) => <LessonCodeBlock isId={isId}>{children}</LessonCodeBlock>,
+                    code: ({ children, className }) => <LessonInlineCode isId={isId} className={className}>{children}</LessonInlineCode>,
+                  }}
+                >
                   {content}
                 </ReactMarkdown>
               </div>
