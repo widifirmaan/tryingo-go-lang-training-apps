@@ -286,6 +286,15 @@
   background: transparent;
 }
 
+/* Hidden scrollbar (keeps scroll functionality) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Strong / Emphasis */
 .lesson-body strong {
   font-weight: 600;
