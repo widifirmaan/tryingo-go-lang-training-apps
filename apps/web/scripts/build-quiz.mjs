@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { buildCodeQuestions, buildCompiledQuestions } from './quiz-codegen.mjs';
+import { buildCodeQuestions, buildCompiledQuestions, buildSqlQuestions } from './quiz-codegen.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = join(__dirname, '..', 'public', 'data', 'course');
@@ -143,6 +143,18 @@ function makeSnippet(sub) {
   const scored = sents.map((s) => ({ s, hits: titleHitCount(sub.title, s) }));
   const best = Math.min(...scored.map((x) => x.hits));
   return balanceSpans(scored.filter((x) => x.hits === best).join(' '));
+}
+
+// First distractor whose words do NOT appear in the snippet (fair false-TF).
+function pickCleanDistractor(snippet, distractors) {
+  const ctx = (snippet || '').toLowerCase();
+  return distractors.find((d) => {
+    const words = d.toLowerCase().match(/[a-z]{4,}/g) || [];
+    return !words.some((x) => {
+      const esc = x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp(`(^|[^a-z])${esc}([^a-z]|$)`, 'i').test(ctx);
+    });
+  }) || null;
 }
 
 // Least-leaky single sentence (may still mention the title) — usable only
@@ -291,22 +303,39 @@ function pickSection(sections, keys) {
   return '';
 }
 
-// Week-topic MCQ: "what topic does week N cover?"
-function buildWeekTopicQuestion(week, allWeeksOfLevel, lang, rng) {
-  const distractors = allWeeksOfLevel
-    .filter((w) => w.week !== week.week)
-    .map((w) => cleanTitle(w.topic));
-  if (distractors.length < 1) return null;
-  const correct = cleanTitle(week.topic);
-  const opts = shuffle([correct, ...distractors.slice(0, 3)], rng);
+// Week-content MCQ: "which of these did you learn in week N?"
+// Content-anchored (own objective vs other weeks' objectives) instead of
+// title matching, so it tests material recognition, not title memory.
+function buildWeekContentQuestion(week, allObjectives, lang, rng) {
+  if (!week.objectives.length) return null;
+  const correct = week.objectives[0];
+  const head = correct.slice(0, 40).toLowerCase();
+  const others = [];
+  for (const o of allObjectives) {
+    if (o.week === week.week || o.text === correct) continue;
+    if (o.text.toLowerCase().slice(0, 40) === head) continue;
+    if (!others.includes(o.text)) others.push(o.text);
+    if (others.length >= 3) break;
+  }
+  if (!others.length) return null;
+  // Shorten long options for readability, never leaving a dangling backtick.
+  const short = (t) => {
+    if (t.length <= 120) return t;
+    let cut = t.slice(0, 120).trimEnd();
+    if (((cut.match(/`/g) || []).length) % 2 === 1) {
+      cut = cut.slice(0, cut.lastIndexOf('`')).trimEnd();
+    }
+    return cut + '…';
+  };
+  const opts = shuffle([correct, ...others], rng);
   const q = lang === 'id'
-    ? `Apa topik yang dibahas di Minggu ${week.week}?`
-    : `What topic is covered in Week ${week.week}?`;
+    ? `Manakah yang dipelajari di Minggu ${week.week}?`
+    : `Which of these did you learn in Week ${week.week}?`;
   return {
     type: 'mcq',
     q,
     context: '',
-    options: opts,
+    options: opts.map(short),
     answer: opts.indexOf(correct),
     source: `week${week.week}`,
   };
@@ -483,8 +512,8 @@ async function buildQuiz() {
         for (const w of lv.weeks) {
           const questions = [];
 
-          // 1) Week-topic MCQ (needs >= 2 weeks in the level)
-          const wq = buildWeekTopicQuestion(w, lv.weeks, lang, rng);
+          // 1) Week-content MCQ (own objective vs other weeks')
+          const wq = buildWeekContentQuestion(w, allObjectives, lang, rng);
           if (wq) questions.push(wq);
 
           // 2) Concept questions
@@ -510,12 +539,14 @@ async function buildQuiz() {
                 const altSub = { ...sub, snippet: alt };
                 questions.push(buildConceptMcq(altSub, distractors, lang, rng));
                 conceptEmitted++;
-                questions.push(buildConceptTf(altSub, i % 2 === 1 && distractors.length ? distractors[0] : null, lang));
+                const altWrong = i % 2 === 1 ? pickCleanDistractor(alt, distractors) : null;
+                questions.push(buildConceptTf(altSub, altWrong, lang));
                 conceptEmitted++;
               } else {
                 const fb = makeFallbackSentence(sub);
-                if (fb && distractors.length) {
-                  questions.push(buildConceptTf({ ...sub, snippet: fb }, distractors[0], lang));
+                const fbWrong = fb ? pickCleanDistractor(fb, distractors) : null;
+                if (fb && fbWrong) {
+                  questions.push(buildConceptTf({ ...sub, snippet: fb }, fbWrong, lang));
                   conceptEmitted++;
                 }
               }
@@ -539,15 +570,23 @@ async function buildQuiz() {
               }
             }
 
-            // Concept TF, alternating true/false for balance.
-            const distractorTitle = i % 2 === 1 && distractors.length ? distractors[0] : null;
+            // Concept TF, alternating true/false for balance. A false-TF is
+            // only fair when the snippet does NOT mention the asked-about
+            // title (otherwise the keyed answer "Salah" is actually wrong);
+            // fall back to a true-TF rather than dropping the question.
+            let distractorTitle = null;
+            if (i % 2 === 1 && distractors.length) {
+              distractorTitle = pickCleanDistractor(sub.snippet, distractors);
+            }
             questions.push(buildConceptTf(sub, distractorTitle, lang));
             conceptEmitted++;
           }
 
-          // 3) Objective questions
+          // 3) Objective questions (true-objective shifts to [1] when the
+          // week-content MCQ already used objectives[0], to avoid repeats)
           if (w.objectives.length) {
-            const own = w.objectives[0];
+            const ownIdx = wq && w.objectives.length > 1 ? 1 : 0;
+            const own = w.objectives[ownIdx];
             questions.push(buildObjectiveTf(own, w.week, lang, true));
             const other = allObjectives.find((o) => o.week !== w.week && o.text !== own);
             if (other) {
@@ -571,6 +610,14 @@ async function buildQuiz() {
             for (const q of compiledQs) questions.push(q);
           } catch (e) {
             console.error(`compiled-codegen skipped for ${slug}/${lang}/week${w.week}:`, e.message);
+          }
+
+          // 3d) SQL questions (trace-output + find-the-bug, MySQL/PostgreSQL)
+          try {
+            const sqlQs = buildSqlQuestions({ slug, lang, week: w, content: w.raw || '', rng });
+            for (const q of sqlQs) questions.push(q);
+          } catch (e) {
+            console.error(`sql-codegen skipped for ${slug}/${lang}/week${w.week}:`, e.message);
           }
 
           // 4) Fallback: no concept questions emitted → extra objectives
