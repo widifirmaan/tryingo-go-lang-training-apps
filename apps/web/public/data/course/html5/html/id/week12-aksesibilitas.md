@@ -41,6 +41,10 @@ Test dengan `WAVE` extension Chrome.
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **HTML APIs** (Minggu 11): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **alt/aria/WAVE**: suara/label/pemeriksa
+
 ## Ringkasan
 
 Minggu 12: **Untuk Semua** — `alt`, `label`, `aria`. Minggu depan: **SEO & Meta**.

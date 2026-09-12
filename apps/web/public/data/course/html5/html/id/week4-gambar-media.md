@@ -44,6 +44,10 @@ Warung tanpa foto = pelanggan tidak percaya. `alt` = deskripsi jika foto gagal l
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Link & Navigasi** (Minggu 3): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **img/alt/figure**: foto/label/bingkai
+
 ## Ringkasan
 
 Minggu 4: **Foto** — `img` + `alt` + `figure`. Minggu depan: **List**.

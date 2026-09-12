@@ -58,6 +58,10 @@ Tambah `warung` ke `INSTALLED_APPS` di `settings.py`.
 - **Kuning:** Ubah 1 nilai pada `pip install django`, `django-admin`, `django-admin startproject toko`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
 
+## Glosarium Mini
+
+- **project/app/migrate**: gedung/toko/bangun
+
 ## Ringkasan
 
 Minggu 1: **Gedung & Toko** — Django hidup dengan admin. Minggu depan: **Models**.

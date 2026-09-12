@@ -103,6 +103,10 @@ export async function POST({ request }) {
 - **Kuning:** Ubah 1 nilai pada `/produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Stores** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **routes/[id]/layout**: lantai/bebas/bingkai
+
 ## Ringkasan
 
 Minggu 6: **Peta SvelteKit** — folder = alamat. Minggu depan: **Actions & Forms**.

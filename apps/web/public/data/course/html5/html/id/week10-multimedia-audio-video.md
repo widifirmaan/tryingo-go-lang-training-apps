@@ -43,6 +43,10 @@ Warung butuh video masak, audio testimoni — `controls` biar pelanggan play/pau
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Semantic HTML** (Minggu 9): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **audio/video/source**: radio/tv/pilihan
+
 ## Ringkasan
 
 Minggu 10: **Multimedia** — `audio`/`video` + `controls`. Minggu depan: **HTML APIs**.

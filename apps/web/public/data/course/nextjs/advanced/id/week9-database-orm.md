@@ -100,6 +100,10 @@ export async function POST(req) {
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Middleware & Auth Dasar** (Minggu 8): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **Prisma/ORM**: penerjemah
+
 ## Ringkasan
 
 Minggu 9: **Gudang Prisma** — `schema` + `migrate` + `findMany`. Minggu depan: **Advanced Auth**.

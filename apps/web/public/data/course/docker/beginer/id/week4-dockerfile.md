@@ -71,6 +71,10 @@ node_modules
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Container Management** (Minggu 3): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **Dockerfile/build**: resep/panggang
+
 ## Ringkasan
 
 Minggu 4: **Resep Peti** — Dockerfile `FROM/COPY/RUN`. Minggu depan: **Volume & Data**.

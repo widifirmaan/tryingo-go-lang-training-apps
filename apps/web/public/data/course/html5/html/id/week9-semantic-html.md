@@ -45,6 +45,10 @@
 - **Kuning:** Ubah 1 nilai pada `/produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Validasi Form** (Minggu 8): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **header/nav/main/section/article/aside/footer**: papan/jalan/lantai/ruang/kartu/samping/bawah
+
 ## Ringkasan
 
 Minggu 9: **Papan Nama Jelas** — `header/nav/main`. Minggu depan: **Multimedia**.

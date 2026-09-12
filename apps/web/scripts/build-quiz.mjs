@@ -107,18 +107,97 @@ function extractConcepts(raw) {
 }
 
 // Build a "definition snippet" that avoids giving the concept name away.
-function makeSnippet(sub) {
-  const titleWords = sub.title.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
-  const sents = splitSentences(sub.body);
-  if (!sents.length) return sub.body;
-  const kept = sents.filter((s) => {
+function titleWordsOf(title) {
+  return title.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+}
+
+function filterTitleWords(title, sentences) {
+  const titleWords = titleWordsOf(title);
+  return sentences.filter((s) => {
     const lower = s.toLowerCase();
     return !titleWords.some((w) => {
       const esc = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       return new RegExp(`(^|[^a-z])${esc}([^a-z]|$)`, 'i').test(lower);
     });
   });
-  return (kept.length ? kept : sents).join(' ');
+}
+
+function makeSnippet(sub) {
+  const sents = splitSentences(sub.body);
+  if (!sents.length) return sub.body;
+  const kept = filterTitleWords(sub.title, sents);
+  if (kept.length) return kept.join(' ');
+  // Everything mentions the title: fall back to the LEAST leaky sentence(s)
+  // instead of the whole body, so the answer is minimally given away.
+  const scored = sents.map((s) => ({ s, hits: titleHitCount(sub.title, s) }));
+  const best = Math.min(...scored.map((x) => x.hits));
+  return scored.filter((x) => x.hits === best).join(' ');
+}
+
+function titleHitCount(title, sentence) {
+  const lower = sentence.toLowerCase();
+  let n = 0;
+  for (const w of titleWordsOf(title)) {
+    const esc = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const m = lower.match(new RegExp(`(^|[^a-z])${esc}([^a-z]|$)`, 'gi'));
+    if (m) n += m.length;
+  }
+  return n;
+}
+
+// Tail snippet for the "second angle" MCQ: same title-word filter as the
+// head snippet, so the answer isn't given away. Null when nothing remains.
+function makeTail(sub) {
+  const sents = splitSentences(sub.body).slice(1);
+  if (!sents.length) return null;
+  const kept = filterTitleWords(sub.title, sents);
+  if (!kept.length) return null;
+  return kept.join(' ');
+}
+
+// Glossary terms (`- **Term**: def` / `- 1. **Term**: def`) as concepts.
+// Used for files without a Konsep Kunci section (vocabulary questions).
+function extractGlossaryTerms(raw) {
+  if (!raw) return [];
+  const out = [];
+  for (const line of raw.split('\n')) {
+    const m = /^\s*-\s*(?:\d+\.\s*)?\*\*(.+?)\*\*\s*:?\s*(.+)$/.exec(line.trim());
+    if (!m) continue;
+    const title = stripMd(m[1]).trim();
+    const body = stripMd(m[2]).trim();
+    if (title.length < 2 || body.length < 2) continue;
+    if (!/[a-zA-Z0-9]/.test(title)) continue;
+    if (/^(lihat|see)\b/i.test(title) || /^(lihat|see)\b/i.test(body)) continue;
+    out.push({ title, body });
+  }
+  return out;
+}
+
+// Find a ### subsection (anywhere in the file) whose heading contains a fragment.
+function pickSubsection(content, fragments) {
+  const re = /^###\s+(.+)$/gm;
+  let m;
+  const heads = [];
+  while ((m = re.exec(content)) !== null) heads.push({ title: m[1].trim(), start: m.index, end: m.index + m[0].length });
+  for (const h of heads) {
+    const lower = h.title.toLowerCase();
+    if (fragments.some((f) => lower.includes(f))) {
+      // Stop at the next ## or ### heading (never bleed into later sections).
+      const rest = content.slice(h.end);
+      const nm = /^#{2,3}\s+.+$/m.exec(rest);
+      return nm ? rest.slice(0, nm.index) : rest;
+    }
+  }
+  return '';
+}
+
+// Find a section whose heading contains any of the given fragments.
+function pickSectionFuzzy(sections, fragments) {
+  for (const k of Object.keys(sections)) {
+    const lower = k.toLowerCase();
+    if (fragments.some((f) => lower.includes(f))) return sections[k];
+  }
+  return '';
 }
 
 function truncate(text, max) {
@@ -127,8 +206,9 @@ function truncate(text, max) {
 }
 
 // Escape a title so it can be embedded in a question string safely.
+// NOTE: underscores are preserved (snake_case code terms like login_required).
 function cleanTitle(t) {
-  return (t || '').replace(/[`*_]/g, '').trim();
+  return (t || '').replace(/[`*]/g, '').trim();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -279,6 +359,27 @@ async function buildQuiz() {
           const concepts = extractConcepts(pickSection(sections, CONCEPT_SECTION_KEYS));
           const objectives = extractObjectives(pickSection(sections, OBJ_SECTION_KEYS));
 
+          // Glossary fallback for files without Konsep Kunci (vocabulary
+          // questions): Glosarium Mini bullets + "3 Istilah" lines, max 2/week.
+          if (!concepts.length) {
+            const seen = new Set();
+            const gloss = [];
+            const pushTerms = (raw) => {
+              for (const g of extractGlossaryTerms(raw)) {
+                const key = g.title.toLowerCase();
+                if (seen.has(key)) continue;
+                seen.add(key);
+                gloss.push(g);
+                if (gloss.length >= 2) break;
+              }
+            };
+            pushTerms(pickSectionFuzzy(sections, ['glosarium', 'glossary']));
+            if (gloss.length < 2) {
+              pushTerms(pickSubsection(content, ['istilah wajib', 'key terms', 'must-know', '3 istilah']));
+            }
+            for (const g of gloss) concepts.push(g);
+          }
+
           for (const c of concepts) allConceptTitles[lang].push({ level, week, title: c.title });
           weeks.push({ week, topic, levelMeta, objectives, concepts, raw: content });
         }
@@ -333,11 +434,14 @@ async function buildQuiz() {
             }
 
             // Extra MCQ when the subtopic body is long (count scales with content).
+            // The tail is title-word filtered like the head snippet; skipped
+            // entirely when nothing unrevealing remains.
             if (sub.snippet.length > 200 && distractors.length >= 1) {
-              const sents = splitSentences(sub.body);
-              const tail = sents.slice(1).join(' ') || sub.snippet.slice(100);
-              const extra = { ...sub, snippet: tail };
-              questions.push(buildConceptMcq(extra, distractors, lang, rng, tail));
+              const tail = makeTail(sub);
+              if (tail) {
+                const extra = { ...sub, snippet: tail };
+                questions.push(buildConceptMcq(extra, distractors, lang, rng, tail));
+              }
             }
 
             // Concept TF, alternating true/false for balance.
