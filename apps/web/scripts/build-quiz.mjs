@@ -43,8 +43,16 @@ function shuffle(arr, rng) {
 // Text helpers
 // ─────────────────────────────────────────────────────────────────────────────
 function stripMd(text) {
-  return text
+  // Protect inline code spans first so `<tags>` inside code aren't eaten
+  // (which would leave dangling backticks).
+  const stash = [];
+  const safe = text.replace(/`[^`\n]+`/g, (m) => {
+    stash.push(m);
+    return `\u0000${stash.length - 1}\u0000`;
+  });
+  const out = safe
     .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/```\w*/g, ' ')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/\*\*([^*]+)\*\*/g, '$1')
     .replace(/^#{1,6}\s+/gm, '')
@@ -55,6 +63,7 @@ function stripMd(text) {
     .replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/&quot;/g, '"')
     .replace(/\s+/g, ' ')
     .trim();
+  return out.replace(/\u0000(\d+)\u0000/g, (_, i) => stash[Number(i)] ?? '');
 }
 
 function splitSentences(text) {
@@ -108,7 +117,9 @@ function extractConcepts(raw) {
 
 // Build a "definition snippet" that avoids giving the concept name away.
 function titleWordsOf(title) {
-  return title.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+  // Letter runs only: punctuation-wrapped tokens like `BY` must not become
+  // matchers (they false-positive on SQL keywords, code, etc.).
+  return title.toLowerCase().match(/[a-z]{3,}/g) || [];
 }
 
 function filterTitleWords(title, sentences) {
@@ -126,12 +137,55 @@ function makeSnippet(sub) {
   const sents = splitSentences(sub.body);
   if (!sents.length) return sub.body;
   const kept = filterTitleWords(sub.title, sents);
-  if (kept.length) return kept.join(' ');
+  if (kept.length) return balanceSpans(kept.join(' '));
   // Everything mentions the title: fall back to the LEAST leaky sentence(s)
   // instead of the whole body, so the answer is minimally given away.
   const scored = sents.map((s) => ({ s, hits: titleHitCount(sub.title, s) }));
   const best = Math.min(...scored.map((x) => x.hits));
-  return scored.filter((x) => x.hits === best).join(' ');
+  return balanceSpans(scored.filter((x) => x.hits === best).join(' '));
+}
+
+// Least-leaky single sentence (may still mention the title) — usable only
+// as a FALSE statement about a different concept (tests discrimination).
+function makeFallbackSentence(sub) {
+  const sents = splitSentences(sub.body);
+  if (!sents.length) return null;
+  const scored = sents.map((s) => ({ s, hits: titleHitCount(sub.title, s) }));
+  const best = Math.min(...scored.map((x) => x.hits));
+  const pick = scored.find((x) => x.hits === best).s;
+  return balanceSpans(pick) || null;
+}
+
+// Alternate-angle context: sentences from OTHER sections (analogy, how the
+// computer reads it, why-it-matters) that describe the same concept in
+// different words. Clean ones (zero title hits) can back TRUE questions.
+function makeAltContext(sub, altText) {
+  if (!altText) return null;
+  const kept = filterTitleWords(sub.title, splitSentences(altText));
+  if (!kept.length) return null;
+  // Prefer sentences sharing a topical word with the concept body.
+  const bodyWords = new Set((sub.body.toLowerCase().match(/[a-z]{4,}/g) || []));
+  const scored = kept.map((s) => {
+    const ws = s.toLowerCase().match(/[a-z]{4,}/g) || [];
+    return { s, score: ws.filter((x) => bodyWords.has(x)).length };
+  });
+  scored.sort((a, b) => b.score - a.score || b.s.length - a.s.length);
+  const best = scored.filter((x) => x.score === scored[0].score);
+  return balanceSpans(best.map((x) => x.s).join(' ')) || null;
+}
+function balanceSpans(s) {
+  let out = s
+    .split('\n')
+    .filter((l) => l.trim() !== '---')
+    .join('\n')
+    .replace(/```/g, '')
+    .trim();
+  const opens = (out.match(/`/g) || []).length;
+  if (opens % 2 === 1) {
+    out = out.slice(0, out.lastIndexOf('`')).trim();
+  }
+  out = out.replace(/[\s+\-,.:;]+$/, '').trim();
+  return out;
 }
 
 function titleHitCount(title, sentence) {
@@ -152,7 +206,7 @@ function makeTail(sub) {
   if (!sents.length) return null;
   const kept = filterTitleWords(sub.title, sents);
   if (!kept.length) return null;
-  return kept.join(' ');
+  return balanceSpans(kept.join(' ')) || null;
 }
 
 // Glossary terms (`- **Term**: def` / `- 1. **Term**: def`) as concepts.
@@ -202,7 +256,14 @@ function pickSectionFuzzy(sections, fragments) {
 
 function truncate(text, max) {
   if (text.length <= max) return text;
-  return text.slice(0, max).trimEnd() + '…';
+  let cut = text.slice(0, max).trimEnd();
+  // Never leave a dangling backtick: cut back to the last complete span.
+  const opens = (cut.match(/`/g) || []).length;
+  if (opens % 2 === 1) {
+    const last = cut.lastIndexOf('`');
+    cut = (last > max * 0.5 ? cut.slice(0, last) : cut + '`').trimEnd();
+  }
+  return cut + '…';
 }
 
 // Escape a title so it can be embedded in a question string safely.
@@ -381,7 +442,16 @@ async function buildQuiz() {
           }
 
           for (const c of concepts) allConceptTitles[lang].push({ level, week, title: c.title });
-          weeks.push({ week, topic, levelMeta, objectives, concepts, raw: content });
+          // Alternate-angle prose (analogy, how-it-works, why-it-matters) for
+          // concepts whose own definition gives the answer away. Only
+          // explanation sections — never Tantangan/Ringkasan/objectives,
+          // whose link-up/checklist lines would leak quiz scaffolding.
+          const altSections = Object.entries(sections)
+            .filter(([k]) => /penjelasan|pemula|beginner|analogi|analogy|cara|kenapa|why|how|read|membaca/i.test(k))
+            .map(([, v]) => v)
+            .join('\n');
+          const altText = stripMd(altSections);
+          weeks.push({ week, topic, levelMeta, objectives, concepts, altText, raw: content });
         }
         weeks.sort((a, b) => a.week - b.week);
         if (weeks.length) {
@@ -419,6 +489,7 @@ async function buildQuiz() {
 
           // 2) Concept questions
           const subtitles = allConceptTitles[lang] || [];
+          let conceptEmitted = 0;
           for (let i = 0; i < w.concepts.length; i++) {
             const sub = w.concepts[i];
             sub.snippet = makeSnippet(sub);
@@ -429,8 +500,31 @@ async function buildQuiz() {
             const pool = [...new Set([...sameWeek, ...sameLevel, ...rest])];
             const distractors = pool.slice(0, 3);
 
+            // A definition that only describes itself can't form a fair
+            // true-question from its own words — but the same concept told
+            // from ANOTHER angle (analogy, how-it-works) can. Otherwise it
+            // still works as a FALSE statement about a different concept.
+            if (!sub.snippet || sub.snippet.length < 4) {
+              const alt = makeAltContext(sub, w.altText || '');
+              if (alt && distractors.length) {
+                const altSub = { ...sub, snippet: alt };
+                questions.push(buildConceptMcq(altSub, distractors, lang, rng));
+                conceptEmitted++;
+                questions.push(buildConceptTf(altSub, i % 2 === 1 && distractors.length ? distractors[0] : null, lang));
+                conceptEmitted++;
+              } else {
+                const fb = makeFallbackSentence(sub);
+                if (fb && distractors.length) {
+                  questions.push(buildConceptTf({ ...sub, snippet: fb }, distractors[0], lang));
+                  conceptEmitted++;
+                }
+              }
+              continue;
+            }
+
             if (distractors.length >= 1) {
               questions.push(buildConceptMcq(sub, distractors, lang, rng));
+              conceptEmitted++;
             }
 
             // Extra MCQ when the subtopic body is long (count scales with content).
@@ -441,12 +535,14 @@ async function buildQuiz() {
               if (tail) {
                 const extra = { ...sub, snippet: tail };
                 questions.push(buildConceptMcq(extra, distractors, lang, rng, tail));
+                conceptEmitted++;
               }
             }
 
             // Concept TF, alternating true/false for balance.
             const distractorTitle = i % 2 === 1 && distractors.length ? distractors[0] : null;
             questions.push(buildConceptTf(sub, distractorTitle, lang));
+            conceptEmitted++;
           }
 
           // 3) Objective questions
@@ -477,8 +573,8 @@ async function buildQuiz() {
             console.error(`compiled-codegen skipped for ${slug}/${lang}/week${w.week}:`, e.message);
           }
 
-          // 4) Fallback: no concepts parsed → objective-based coverage
-          if (!w.concepts.length && w.objectives.length > 2) {
+          // 4) Fallback: no concept questions emitted → extra objectives
+          if (conceptEmitted === 0 && w.objectives.length > 2) {
             for (let i = 2; i < Math.min(w.objectives.length, 6); i++) {
               const o = w.objectives[i];
               const other = allObjectives.find((x) => x.week !== w.week && x.text !== o);

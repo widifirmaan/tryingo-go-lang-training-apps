@@ -71,6 +71,7 @@ try {
   // selalu jalan (tutup log, dsb)
 }
 // throw new Exception("Stok minus") = bunyikan alarm sendiri!
+```
 
 ---
 
