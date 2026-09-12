@@ -118,7 +118,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           >
             {/* Desktop/Landscape Sidebar View */}
             <div className="hidden lg:flex landscape:flex flex-col h-full w-full relative">
-              <div ref={sidebarRef} className="flex-1 overflow-y-auto">
+              <div ref={sidebarRef} className="flex-1 overflow-y-auto no-scrollbar">
                 <div className="flex flex-col gap-4 flex-shrink-0">
                   {/* Header */}
                 <div className="flex items-center justify-between">
@@ -478,7 +478,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
                     transition={{ duration: 0.15 }}
-                    className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain touch-pan-y"
+                    className="relative z-20 mt-2 w-full bg-[#234735] text-white rounded-[20px] p-3 border border-white/20 shadow-xl flex flex-col gap-1.5 max-h-[calc(100dvh-4.5rem)] overflow-y-auto no-scrollbar overscroll-contain touch-pan-y"
                   >
                     {onBackToHero && (
                       <motion.button
@@ -506,7 +506,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'materi-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto no-scrollbar flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
                           {TRACKS_COLLECTION.map(track => (
                             <div key={track.id} className="flex flex-col">
                               <button
@@ -559,7 +559,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'quiz-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto no-scrollbar flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
                           <button
                             onClick={() => { setIsMobileMenuOpen(false); openQuiz('__sample__'); }}
                             className={`w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] text-left shrink-0 ${activeQuizId === '__sample__' ? 'bg-emerald-400/20 text-emerald-200 font-bold' : 'bg-[#2E5B44]/30 text-emerald-300 font-bold'}`}
@@ -593,7 +593,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     </motion.button>
                     <AnimatePresence>
                       {activeSubmenu === 'ide-mobile' && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto no-scrollbar flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
                           {IDE_ITEMS.map((track) => (
                             <button
                               key={track.trackId}
