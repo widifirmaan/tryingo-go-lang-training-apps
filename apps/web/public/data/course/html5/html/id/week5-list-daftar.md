@@ -55,6 +55,10 @@ Daftar produk, langkah masak, FAQ — semua list. Tanpa `ul/ol`, tulis ` - Beras
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Gambar & Media** (Minggu 4): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **ul/ol/li/dl**: bulet/angka/item/kamus
+
 ## Ringkasan
 
 Minggu 5: **Daftar** — `ul/ol` rak daftar. Minggu depan: **Tabel**.

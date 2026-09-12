@@ -38,6 +38,10 @@ Warung buka 24 jam — jika gudang utama mati, cabang replica ambil alih.
 - **Kuning:** Ubah 1 nilai pada `pg_stat_replication`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Performa Tuning** (Minggu 8): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **replica/failover**: cabang/ambil-alih
+
 ## Ringkasan
 
 Minggu 9: **Cabang Gudang** — replikasi. Minggu depan: **Capstone: Gudang Warung Lengkap**.

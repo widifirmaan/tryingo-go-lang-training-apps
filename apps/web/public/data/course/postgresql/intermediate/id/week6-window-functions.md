@@ -43,6 +43,10 @@ ORDER BY harga DESC;
 - **Kuning:** Ubah 1 nilai pada `produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Fungsi & Trigger** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **window/partition**: hitung/bagi
+
 ## Ringkasan
 
 Minggu 6: **Peringkat** — Window Functions. Minggu depan: **JSONB Semi-Struktural**.

@@ -57,6 +57,10 @@ func main(){
 - **Kuning:** Ubah 1 nilai pada `Bayar`, `Pertama`, `main`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Struct & Method** (Minggu 5): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **interface/any**: kontrak/apa-saja
+
 ## Ringkasan
 
 Minggu 6: **Kontrak** — interface implisit. Minggu depan: **Pointer**.

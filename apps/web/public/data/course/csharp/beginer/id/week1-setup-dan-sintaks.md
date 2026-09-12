@@ -54,6 +54,10 @@ Console.WriteLine($"Tipe: {namaWarung.GetType().Name}, {berasKg.GetType().Name}"
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
 
+## Glosarium Mini
+
+- **dotnet/WriteLine**: perkakas/cetak
+
 ## Ringkasan
 
 Minggu 1: **Warung C#** — `dotnet run` struk. Minggu depan: **Tipe & Variabel**.

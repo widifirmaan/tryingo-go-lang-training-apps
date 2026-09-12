@@ -62,6 +62,10 @@ Buka `http://localhost:8000/produk`.
 - **Kuning:** Ubah 1 nilai pada `/produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Naikkan 1 tingkat: tambah 1 kasus gagal + pesan error yang jelas.
 
+## Glosarium Mini
+
+- **artisan/route**: pekerja/pintu
+
 ## Ringkasan
 
 Minggu 1: **Artisan & Pintu** — Laravel hidup. Minggu depan: **Routing & Controller**.

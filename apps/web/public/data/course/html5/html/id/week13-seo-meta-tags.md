@@ -46,6 +46,10 @@ Test di `search.google.com/test/rich-results` dan WA `wa.me` preview.
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Aksesibilitas** (Minggu 12): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **SEO/meta/og**: ketemu/papan/kartu
+
 ## Ringkasan
 
 Minggu 13: **Papan Nama Google** — `title` + `description` + `og:`. Minggu depan: **Proyek Akhir**.

@@ -48,6 +48,10 @@ CREATE INDEX idx_data_harga ON produk_fleksibel USING GIN (data);
 - **Kuning:** Ubah 1 nilai pada `produk_fleksibel`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Window Functions** (Minggu 6): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **JSONB/->>/GIN**: lentur/ambil/indeks
+
 ## Ringkasan
 
 Minggu 7: **Kardus Campur** — JSONB fleksibel. Minggu depan: **Performa Tuning**.

@@ -51,6 +51,10 @@ docker network connect warung-net db2
 - **Kuning:** Ubah 1 nilai pada `produk`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Image & Registry** (Minggu 2): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **volume/network**: lemari/sambung
+
 ## Ringkasan
 
 Minggu 3: **Data Tetap** — volume & network. Minggu depan: **Dockerfile**.

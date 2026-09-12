@@ -41,6 +41,10 @@ vercel --prod
 - **Kuning:** Ubah 1 nilai pada `npm run build`, `vercel`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Advanced Auth** (Minggu 10): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **build/deploy**: cek/buka
+
 ## Ringkasan
 
 Minggu 11: **Buka Cabang** — Vercel 1 klik. Minggu depan: **Capstone: Toko Online Lengkap**.

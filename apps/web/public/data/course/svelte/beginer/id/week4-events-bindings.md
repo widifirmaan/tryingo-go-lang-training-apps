@@ -49,6 +49,10 @@ Form warung tanpa `bind` = ketik tidak masuk `pelanggan`. Dengan `bind:value`, k
 - **Kuning:** Ubah 1 nilai pada `tambah`; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Props & Components** (Minggu 3): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **on/bind**: telinga/tali
+
 ## Ringkasan
 
 Minggu 4: **Telinga & Tali** — `on:` dan `bind:`. Minggu depan: **Stores**.

@@ -50,6 +50,10 @@ Coba kirim kosong → browser cegat merah "Please fill out". Coba `wa` huruf →
 - **Kuning:** Ubah 1 nilai di Program; tebak output SEBELUM run, lalu cocokkan.
 - **Merah:** Gabungkan dengan **Form & Input** (Minggu 7): pasang hasilnya di alur itu, pastikan ujung-ke-ujung jalan.
 
+## Glosarium Mini
+
+- **required/pattern**: satpam/aturan
+
 ## Ringkasan
 
 Minggu 8: **Satpam Formulir** — `required` + `pattern`. Minggu depan: **Semantic HTML**.
