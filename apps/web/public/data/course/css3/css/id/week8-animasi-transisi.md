@@ -72,6 +72,7 @@ Tombol `Beli` yang langsung ganti warna terasa kasar. Dengan `transition: all 0.
 ```css
 .tombol:hover { transform: rotate(-2deg) scale(1.05); transform-origin: center; }
 .stiker-miring { transform: skewX(-8deg); } /* spanduk miring gaul */
+```
 
 ---
 

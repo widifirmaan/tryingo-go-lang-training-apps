@@ -71,6 +71,7 @@ try {
   // always runs (close logs, etc.)
 }
 // throw new Exception("Negative stock") = sound your own alarm!
+```
 
 ---
 

@@ -72,6 +72,7 @@ A `Buy` button that instantly changes color feels harsh. With `transition: all 0
 ```css
 .btn:hover { transform: rotate(-2deg) scale(1.05); transform-origin: center; }
 .slant-sticker { transform: skewX(-8deg); } /* groovy slanted banner */
+```
 
 ---
 
