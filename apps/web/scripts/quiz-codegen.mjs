@@ -504,3 +504,189 @@ export function buildCompiledQuestions({ slug, lang, week, content, rng }) {
   }
   return out;
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// v4: SQL trace/bug questions (mysql/postgresql). Verified by executing
+// against SQLite (sqlite3 CLI) at build time; anything unverifiable is
+// skipped. Best-effort: no sqlite3 binary → no questions, never garbage.
+// ─────────────────────────────────────────────────────────────────────────────
+let sqliteChecked = null;
+function hasSqlite() {
+  if (sqliteChecked !== null) return sqliteChecked;
+  try {
+    execSync('command -v sqlite3', { stdio: ['ignore', 'pipe', 'pipe'] });
+    sqliteChecked = true;
+  } catch {
+    sqliteChecked = false;
+  }
+  return sqliteChecked;
+}
+
+function tryRunSql(sql, timeoutMs = 15000) {
+  let dir = null;
+  try {
+    dir = mkdtempSync(join(tmpdir(), 'quizsql-'));
+    const file = join(dir, 'q.sql');
+    writeFileSync(file, sql);
+    const runOnce = () => execSync(`sqlite3 :memory: < "${file}"`, { cwd: dir, timeout: timeoutMs, stdio: ['ignore', 'pipe', 'pipe'] }).toString();
+    const a = runOnce();
+    const b = runOnce(); // determinism gate
+    if (a !== b) return null;
+    return { ok: true, stdout: a, stderr: '' };
+  } catch {
+    return null;
+  } finally {
+    if (dir) { try { rmSync(dir, { recursive: true, force: true }); } catch {} }
+  }
+}
+
+const SQL_UNSAFE = /drop\s+table|delete\s+from|update\s+\w+\s+set|\battach\b|\bpragma\b|recursive|\bcopy\b|\bgrant\b|\brevoke\b|into\s+outfile|load_file/i;
+
+// Minimal MySQL/Postgres → SQLite normalization for trace blocks.
+function sqlNormalize(sql) {
+  let s = sql;
+  if (/^\s*(CREATE\s+DATABASE|USE\s+)/i.test(s)) return null;
+  s = s.replace(/`/g, '"');
+  s = s.replace(/\b(BIG)?INT\s+UNSIGNED\b/gi, 'INTEGER');
+  s = s.replace(/([A-Za-z_][A-Za-z0-9_]*)\s+INT\s+AUTO_INCREMENT\s+PRIMARY\s+KEY\b/gi, '$1 INTEGER PRIMARY KEY AUTOINCREMENT');
+  s = s.replace(/\bINT\s+AUTO_INCREMENT\b/gi, 'INTEGER AUTOINCREMENT');
+  s = s.replace(/\b([A-Za-z_][A-Za-z0-9_]*)\s+SERIAL\s+PRIMARY\s+KEY\b/g, '$1 INTEGER PRIMARY KEY AUTOINCREMENT');
+  s = s.replace(/\b(BIG)?SERIAL\b/gi, 'INTEGER');
+  s = s.replace(/,\s*ENGINE\s*=\s*\w+/gi, '');
+  s = s.replace(/\s+ENGINE\s*=\s*\w+/gi, '');
+  s = s.replace(/\$[^$]*\$/g, (m) => m.replace(/'/g, "''"));
+  return s;
+}
+
+function buildTraceSql(lang, code) {
+  const res = tryRunSql(code);
+  if (!res || !res.ok) return null;
+  const lines = cleanLines(res.stdout).filter((l) => l.trim() !== '');
+  if (!lines.length) return null;
+  const answer = lines[lines.length - 1].trim();
+  if (!answer || answer.length > 60) return null;
+  const others = lines.slice(0, -1);
+  const distract = [...numericVariants(answer), ...genericDistractors(answer, others)]
+    .filter((d, i, a) => d !== answer && d.length <= 80 && a.indexOf(d) === i)
+    .slice(0, 3);
+  if (distract.length < 2) return null;
+  return { answer, distract };
+}
+
+const TRACE_Q_SQL = {
+  id: 'Apa BARIS TERAKHIR hasil query berikut? (jalankan mental, lalu cek!)',
+  en: 'What is the LAST ROW returned by the following query?',
+};
+
+const SQL_SETUP = `CREATE TABLE produk(id INTEGER PRIMARY KEY, nama TEXT, kategori TEXT, harga INTEGER, stok INTEGER);
+INSERT INTO produk VALUES (1,'Beras 5kg','Sembako',62000,40),(2,'Minyak 2L','Sembako',48000,25),(3,'Bayam','Sayur',5000,30);
+CREATE TABLE pelanggan(id INTEGER PRIMARY KEY, nama TEXT, kota TEXT);
+INSERT INTO pelanggan VALUES (1,'Budi','Bandung'),(2,'Siti','Jakarta');
+CREATE TABLE pesanan(id INTEGER PRIMARY KEY, pelanggan_id INTEGER, produk_id INTEGER, qty INTEGER);
+INSERT INTO pesanan VALUES (1,1,1,2),(2,2,2,1);
+`;
+
+const SQL_BUGS = [
+  {
+    id: 'sql-where', need: ['WHERE'],
+    code: `SELECT nama FROM produk WHERE kategori='Sembako';`,
+    verify: (r) => r.ok && r.stdout.trim().split('\n').map((s) => s.trim()).join('|') === 'Beras 5kg|Minyak 2L',
+    q: { id: 'Produk apa saja yang keluar? (WHERE menyaring!)', en: 'Which products come out? (WHERE filters!)' },
+    options: {
+      id: ['Beras 5kg lalu Minyak 2L', 'Hanya Bayam', 'Semua 3 produk', 'Error'],
+      en: ['Beras 5kg then Minyak 2L', 'Only Bayam', 'All 3 products', 'Error'],
+    },
+  },
+  {
+    id: 'sql-count', need: ['COUNT('],
+    code: `SELECT COUNT(*) FROM produk;`,
+    verify: (r) => r.ok && r.stdout.trim() === '3',
+    q: { id: 'Berapa baris dihitung? (COUNT tak peduli isi!)', en: 'How many rows counted? (COUNT ignores content!)' },
+    options: { id: ['3', '2', '6', 'Error'], en: ['3', '2', '6', 'Error'] },
+  },
+  {
+    id: 'sql-order-limit', need: ['ORDER BY'],
+    code: `SELECT nama FROM produk ORDER BY harga DESC LIMIT 1;`,
+    verify: (r) => r.ok && r.stdout.trim() === 'Beras 5kg',
+    q: { id: 'Siapa paling mahal? (DESC + LIMIT 1!)', en: 'Who is priciest? (DESC + LIMIT 1!)' },
+    options: {
+      id: ['Beras 5kg', 'Bayam', 'Minyak 2L', 'Error'],
+      en: ['Beras 5kg', 'Bayam', 'Minyak 2L', 'Error'],
+    },
+  },
+  {
+    id: 'sql-join', need: ['JOIN'],
+    code: `SELECT pelanggan.nama FROM pesanan JOIN pelanggan ON pelanggan.id = pesanan.pelanggan_id WHERE pesanan.qty > 1;`,
+    verify: (r) => r.ok && r.stdout.trim() === 'Budi',
+    q: { id: 'Siapa yang qty-nya > 1? (JOIN sambung tabel!)', en: 'Whose qty > 1? (JOIN links tables!)' },
+    options: { id: ['Budi', 'Siti', 'Keduanya', 'Error'], en: ['Budi', 'Siti', 'Both', 'Error'] },
+  },
+  {
+    id: 'sql-group', need: ['GROUP BY'],
+    code: `SELECT kategori, SUM(harga) FROM produk GROUP BY kategori ORDER BY kategori;`,
+    verify: (r) => r.ok && r.stdout.trim().split('\n').map((s) => s.trim()).join('|') === 'Sayur|5000|Sembako|110000',
+    q: { id: 'Berapa omzet per kategori? (urut abjad!)', en: 'Turnover per category? (alphabetical!)' },
+    options: {
+      id: ['Sayur 5000, Sembako 110000', 'Sembako 110000 saja', 'Sayur 5000 saja', 'Error'],
+      en: ['Sayur 5000, Sembako 110000', 'Sembako 110000 only', 'Sayur 5000 only', 'Error'],
+    },
+  },
+];
+
+export function buildSqlQuestions({ slug, lang, week, content, rng }) {
+  const out = [];
+  if ((slug !== 'mysql' && slug !== 'postgresql') || !hasSqlite()) return out;
+  const usedKey = `${slug}::${lang}`;
+  if (!usedBugTemplates.has(usedKey)) usedBugTemplates.set(usedKey, new Set());
+  const used = usedBugTemplates.get(usedKey);
+
+  // trace (max 1): week's own ```sql blocks, normalized + safety-gated
+  {
+    const blocks = [];
+    const re = /^```sql\n([\s\S]*?)^```/gm;
+    let m;
+    while ((m = re.exec(content)) !== null) blocks.push(m[1]);
+    for (const raw of blocks) {
+      const lines = raw.split('\n');
+      if (lines.length > 40 || lines.length < 2) continue;
+      if (SQL_UNSAFE.test(raw)) continue;
+      if (NONDETERMINISTIC_RE.test(raw)) continue;
+      const norm = sqlNormalize(raw);
+      if (!norm) continue;
+      const built = buildTraceSql(lang, norm);
+      if (built) {
+        const opts = shuffle([built.answer, ...built.distract], rng);
+        out.push({
+          type: 'mcq',
+          q: TRACE_Q_SQL[lang],
+          context: raw.trim().split('\n').slice(-14).join('\n'),
+          options: opts,
+          answer: opts.indexOf(built.answer),
+          source: `week${week.week}-trace-sql`,
+        });
+        break;
+      }
+    }
+  }
+
+  // bugs (max 1, deduped per track+lang, verified by real execution)
+  for (const tpl of SQL_BUGS) {
+    if (used.has(tpl.id)) continue;
+    if (!tpl.need.every((k) => content.includes(k))) continue;
+    const res = tryRunSql(SQL_SETUP + tpl.code);
+    if (!res || !tpl.verify(res)) continue;
+    const opts = shuffle(tpl.options[lang].slice(), rng);
+    const correct = tpl.options[lang][0];
+    out.push({
+      type: 'mcq',
+      q: tpl.q[lang],
+      context: (SQL_SETUP + tpl.code).trim(),
+      options: opts,
+      answer: opts.indexOf(correct),
+      source: `week${week.week}-${tpl.id}`,
+    });
+    used.add(tpl.id);
+    break;
+  }
+  return out;
+}
