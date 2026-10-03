@@ -1,6 +1,8 @@
 # Sorted Sets (ZSET) & HyperLogLog for Big Data
 
 > **Kategori:** Redis | **Level:** In-Memory Data Structures & Caching Patterns | **Minggu 3:** Sorted Sets (ZSET) & HyperLogLog for Big Data
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -92,6 +94,36 @@ HyperLogLog is like a bouncer at a stadium concert using a probabilistic clicker
 ## Challenge
 
 Architect a time-decayed leaderboard: calculate final scores via `raw_points - (completion_seconds * 0.01)`, crafting queries extracting the top 10 players and their point delta from first place.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Omitting Time-To-Live (TTL) on Cached Keys
+- **Symptom / Issue:** Fills server RAM over time and triggers out-of-memory eviction crashes.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always assign an explicit TTL: `SET key val EX 3600` (1 hour).
+
+### 2. Running `KEYS *` in Production
+- **Symptom / Issue:** Redis is single-threaded; `KEYS *` locks the entire database server.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use non-blocking cursor-based iteration via the `SCAN` command.
+
+### 3. Storing Giant Monolithic Blobs
+- **Symptom / Issue:** Spikes network latency during roundtrips and degrades Redis throughput.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Decompose large objects into Redis Hashes (`HSET`) or cache only essential fields.
 
 ---
 

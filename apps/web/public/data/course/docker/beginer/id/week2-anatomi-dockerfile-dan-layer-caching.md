@@ -1,6 +1,8 @@
 # Anatomi Dockerfile & Strategi Layer Caching
 
 > **Kategori:** Docker | **Level:** Fondasi Kontainerisasi & Optimasi Image | **Minggu 2:** Anatomi Dockerfile & Strategi Layer Caching
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -94,6 +96,36 @@ Jika Anda ingin mengganti warna meses cokelat (edit kode), Anda cukup mengganti 
 ## Tantangan
 
 Buat file `.dockerignore` berstandar keamanan tinggi yang secara default mengabaikan seluruh file (`*`), lalu menyertakan secara selektif (`!src`, `!package*.json`, `!tsconfig.json`) hanya file yang benar-benar dibutuhkan aplikasi.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Menjalankan Container sebagai User `root`
+- **Gejala / Masalah:** Potensi eskalasi hak akses sistem operasi host jika container berhasil ditembus peretas.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Definisikan user non-root khusus di Dockerfile: `USER node` atau `USER 1001`.
+
+### 2. Mengabaikan File `.dockerignore`
+- **Gejala / Masalah:** Folder raksasa seperti `node_modules`, `.git`, atau file `.env` rahasia ikut ter-copy ke dalam image.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu sediakan `.dockerignore` untuk membuang file lokal sebelum build dijalankan.
+
+### 3. Ukuran Image Membengkak Tanpa Multi-Stage Build
+- **Gejala / Masalah:** Image berukuran gigabytes memperlambat waktu transfer jaringan dan deployment cloud.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Terapkan Multi-Stage Build: pisahkan tahap kompilasi (*builder stage*) dari runtime minimalis (*alpine/distroless*).
 
 ---
 

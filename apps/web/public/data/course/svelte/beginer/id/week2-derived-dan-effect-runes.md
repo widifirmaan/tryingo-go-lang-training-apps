@@ -1,6 +1,8 @@
 # Svelte 5 Runes: $derived untuk Nilai Turunan & $effect untuk Efek Samping
 
 > **Kategori:** Svelte | **Level:** Svelte 5 Runes & Reaktivitas Kompilasi | **Minggu 2:** Svelte 5 Runes: $derived untuk Nilai Turunan & $effect untuk Efek Samping
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -122,6 +124,36 @@ Di **Svelte 5**:
 ## Tantangan
 
 Tambahkan nilai `$derived` baru `notasiMusikTerdekat` yang mencocokkan angka Hertz saat ini dengan nama nada terdekat (misal: 440 Hz = "A4", 261.6 Hz = "C4").
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Mutasi Array Method In-Place Tanpa Assignment
+- **Gejala / Masalah:** Memanggil `arr.push(x)` tidak memicu re-render di Svelte 4/5.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan syntax assignment: `arr = [...arr, x]` untuk memberi sinyal reaktivitas.
+
+### 2. Unsubscribe Store / Lifecycle Memory Leak
+- **Gejala / Masalah:** Berlangganan manual ke store tanpa membatalkannya menyebabkan memory leak.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan auto-subscription dengan prefix `$` (`$myStore`) agar Svelte mengelolanya secara otomatis.
+
+### 3. Penggunaan `$state` vs State Biasa di Runes
+- **Gejala / Masalah:** Nilai tidak reaktif saat berpindah antar modul tanpa pemanggilan signal yang benar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan rune `$state()` dan `$derived()` pada proyek modern Svelte 5.
 
 ---
 

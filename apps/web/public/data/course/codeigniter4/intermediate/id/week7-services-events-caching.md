@@ -1,6 +1,8 @@
 # Arsitektur Enterprise: Services Container, System Events & Caching
 
 > **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 7:** Arsitektur Enterprise: Services Container, System Events & Caching
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -115,6 +117,36 @@ Bayangkan kantor sekolah modern. Services Container seperti gudang perlengkapan 
 ## Tantangan
 
 Buat cache invalidation otomatis: ketika nilai siswa diperbarui di database, picu event `Events::trigger("grade:updated", $studentId)` yang otomatis menghapus cache transkrip siswa tersebut.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Lupa Menyesuaikan `baseURL` di File `.env`
+- **Gejala / Masalah:** Aset CSS/JS tidak termuat atau link navigasi redirect ke alamat yang keliru.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pastikan variabel `app.baseURL = 'http://localhost:8080/'` telah disesuaikan dengan domain yang aktif.
+
+### 2. Mengabaikan Fitur CSRF Protection Bawaan
+- **Gejala / Masalah:** Formulir POST rentan serangan Cross-Site Request Forgery.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Aktifkan filter CSRF di `app/Config/Filters.php` dan sertakan `<?= csrf_field() ?>` di setiap form.
+
+### 3. Salah Penamaan Namespace Controller & Model
+- **Gejala / Masalah:** Framework gagal memuat class dengan pesan `Class not found` akibat inkonsistensi huruf kapital.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Patuhi konvensi penamaan PSR-4 dan pastikan nama folder/berkas sesuai persis dengan namespace.
 
 ---
 

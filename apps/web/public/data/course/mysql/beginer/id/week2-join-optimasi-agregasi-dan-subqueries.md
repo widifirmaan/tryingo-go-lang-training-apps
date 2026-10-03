@@ -1,6 +1,8 @@
 # Multi-Table Joins, Agregasi & Subquery Lanjutan
 
 > **Kategori:** MySQL | **Level:** Fondasi Relasional & Engine InnoDB | **Minggu 2:** Multi-Table Joins, Agregasi & Subquery Lanjutan
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -101,6 +103,36 @@ Dengan conditional aggregation (`CASE WHEN`), Anda membuka halaman buku kasir se
 ## Tantangan
 
 Tuliskan query untuk mendeteksi anomali selisih saldo (*balance drift*): bandingkan nilai `user_wallets.balance` dengan akumulasi `SUM(CREDIT) - SUM(DEBIT) - SUM(fee)` di `wallet_ledgers`, dan tampilkan hanya akun yang saldonya tidak klop.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Menggunakan Charset Lawas `utf8` alih-alih `utf8mb4`
+- **Gejala / Masalah:** Karakter emoji atau aksara non-Latin memicu error `Incorrect string value`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu setel charset ke `utf8mb4` dan collation ke `utf8mb4_unicode_ci` pada tabel dan database.
+
+### 2. Tipe Penyimpanan Tanggal (`TIMESTAMP` vs `DATETIME`)
+- **Gejala / Masalah:** Tahun 2038 bug pada kolom TIMESTAMP atau inkonsistensi zona waktu server.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `DATETIME` untuk tanggal independen zona waktu atau simpan dalam format UTC eksplisit.
+
+### 3. Lupa Mematikan Autocommit pada Operasi Batch Besar
+- **Gejala / Masalah:** Proses batch insert ribuan data memakan waktu sangat lama karena commit per baris.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Jalankan dalam transaksi tunggal `START TRANSACTION; ... COMMIT;` untuk kecepatan maksimal.
 
 ---
 

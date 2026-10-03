@@ -1,6 +1,8 @@
 # Pola Caching, Kebijakan Eviksi LRU & Mitigasi Stampede
 
 > **Kategori:** Redis | **Level:** Struktur Data In-Memory & Pola Caching | **Minggu 4:** Pola Caching, Kebijakan Eviksi LRU & Mitigasi Stampede
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -87,6 +89,36 @@ Eviksi LRU seperti meja depan yang terbatas: jika meja penuh, modul yang sudah 3
 ## Tantangan
 
 Implementasikan algoritma penanganan Cache Stampede berbasis Mutex: saat cache miss terjadi, gunakan `SET lock:{key} NX EX 5`. Jika berhasil acquire lock, baca DB dan isi cache; jika gagal, lakukan retry loop dengan sleep 50ms.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Lupa Menetapkan TTL (Time-To-Live) pada Kunci Cache
+- **Gejala / Masalah:** Memori RAM Redis penuh (*Out of Memory*) dan mematikan fungsi penyimpanan kunci baru.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu tentukan masa kedaluwarsa pada kunci cache: `SET key val EX 3600` (1 jam).
+
+### 2. Menjalankan Perintah `KEYS *` di Server Produksi
+- **Gejala / Masalah:** Redis adalah single-threaded; `KEYS *` memblokir seluruh operasi database selama beberapa detik.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan perintah kursor non-blocking `SCAN` untuk mencari pola kunci di produksi.
+
+### 3. Menyimpan Objek Raksasa dalam Satu Key Tunggal
+- **Gejala / Masalah:** Memicu latensi jaringan tinggi saat transfer data dan membebani alokasi memori Redis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pecah objek raksasa ke dalam struktur `HSET` (Hash) atau simpan hanya data esensial yang sering diakses.
 
 ---
 

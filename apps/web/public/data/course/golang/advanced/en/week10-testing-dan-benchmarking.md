@@ -1,6 +1,8 @@
 # Idiomatic Testing & Benchmarking: Table-Driven Tests, Subtests & testing.B
 
 > **Kategori:** Go | **Level:** HTTP Server, Profiling & Gateway Capstone | **Minggu 10:** Idiomatic Testing & Benchmarking: Table-Driven Tests, Subtests & testing.B
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -128,6 +130,36 @@ The Go test harness iterates the function across millions of executions calculat
 ## Challenge
 
 Author a comparative benchmark comparing string concatenation via `+` operators versus `strings.Builder` across 1,000 iterations.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Nil Pointer Dereference Panic
+- **Symptom / Issue:** Accessing struct fields on an uninitialized pointer panics and crashes the binary.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always check `if ptr != nil` before invoking methods or dereferencing pointers.
+
+### 2. Goroutine Leaks
+- **Symptom / Issue:** Spawning background goroutines blocked on unbuffered channels with no termination signal.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `context.WithCancel` or buffered channels to guarantee deterministic exit paths.
+
+### 3. Accidental Variable Shadowing with :=
+- **Symptom / Issue:** Inner scope re-creates an existing variable instead of assigning to the outer one.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Double check `:=` versus `=` when handling errors inside `if` or `for` blocks.
 
 ---
 

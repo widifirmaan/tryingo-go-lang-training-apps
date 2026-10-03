@@ -1,6 +1,8 @@
 # Advanced OOP, Magic Methods & Custom Context Managers
 
 > **Kategori:** Python Backend & Automation | **Level:** Beginner | **Minggu 3:** Advanced OOP, Magic Methods & Custom Context Managers
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -103,6 +105,36 @@ Imagine checking out a bank deposit vault key (`with` statement). Entering the v
 ## Challenge
 
 Build a `@contextmanager def measure_execution_time(task_name: str)` context manager logging elapsed time in milliseconds and warning if latency exceeds an SLA threshold.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Mutable Default Arguments
+- **Symptom / Issue:** Default list or dict parameters persist modifications across successive function calls.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Assign `None` as default: `def fn(items=None): if items is None: items = []`.
+
+### 2. Accidental Variable Scope Errors
+- **Symptom / Issue:** Throws `UnboundLocalError: local variable referenced before assignment`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Pass variables explicitly through arguments and return values rather than mutating globals.
+
+### 3. Catch-All `except:` Clauses
+- **Symptom / Issue:** Suppresses critical syntax errors, interrupts, and crashes silently.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always catch explicit exceptions: `except ValueError as err:`.
 
 ---
 

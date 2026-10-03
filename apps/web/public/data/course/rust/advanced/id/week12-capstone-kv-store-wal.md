@@ -1,6 +1,8 @@
 # Capstone: Blazing-Fast In-Memory Key-Value Store dengan Write-Ahead Log & Crash Recovery
 
 > **Kategori:** Rust | **Level:** Async Tokio, Durabilitas WAL & Capstone Engine | **Minggu 12:** Capstone: Blazing-Fast In-Memory Key-Value Store dengan Write-Ahead Log & Crash Recovery
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -229,6 +231,36 @@ Nusa-KV bekerja seperti brankas emas bank sentral:
 ## Tantangan
 
 Tambahkan verifikasi Checksum CRC32 (4 byte) di akhir setiap frame transaksi WAL; jika ada 1 byte yang korup atau rusak di tengah berkas, algoritma `recover_from_wal` harus mendeteksi korupsi dan menolak melanjutkan.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Borrow Checker: Borrowing Mutably Lebih dari Sekali
+- **Gejala / Masalah:** Kompiler menolak kompilasi dengan pesan `cannot borrow as mutable more than once at a time`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Batasi masa pakai peminjaman (*lifetime/scope*) atau gunakan tipe interior mutability seperti `RefCell`/`Mutex`.
+
+### 2. Penyalahgunaan `.unwrap()` di Kode Produksi
+- **Gejala / Masalah:** Program mengalami panic seketika saat menerima `Err` atau `None`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan operator `?` untuk propagasi error idiomatik atau tangani dengan blok `match`.
+
+### 3. Kloning Berlebihan (`.clone()`) untuk Menghindari Lifetime
+- **Gejala / Masalah:** Penurunan performa akibat alokasi heap baru secara redundan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan referensi pinjaman `&str` atau `&[T]` alih-alih menduplikasi seluruh data.
 
 ---
 

@@ -1,6 +1,8 @@
 # Capstone Project: Unified Federated E-Commerce Gateway
 
 > **Kategori:** GraphQL | **Level:** Real-Time Subscriptions, Keamanan & Federation | **Minggu 8:** Capstone Project: Unified Federated E-Commerce Gateway
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -193,6 +195,36 @@ Mulai dari kasir yang cepat dan tidak pernah salah mencatat menu (Schema SDL), k
 ## Tantangan
 
 Terapkan Query Complexity Calculation pada gateway capstone: tetapkan bobot 1 untuk scalar, bobot 5 untuk order items, dan tolak query jika total kompleksitas melebihi ambang batas 50 poin.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Query Bersarang Tanpa Batas (Denial of Service)
+- **Gejala / Masalah:** Pengguna jahat mengirim query rekursif tak terhingga yang merubuhkan server backend.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Terapkan middleware pembatas kedalaman (*depth limiting*) dan kalkulasi biaya query (*query complexity*).
+
+### 2. N+1 Problem pada Resolver Lapangan
+- **Gejala / Masalah:** Resolver anak memanggil database secara berulang untuk setiap objek induk dalam array.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan pustaka `DataLoader` untuk menggabungkan (*batching*) dan menyimpan cache pemanggilan database.
+
+### 3. Menyerahkan Seluruh Error Internal ke Klien
+- **Gejala / Masalah:** Stack trace sensitif database dan password dapat terbaca oleh publik di response error.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Filter pesan error di tingkat server formatError sebelum dikirimkan kembali ke klien.
 
 ---
 

@@ -1,6 +1,8 @@
 # Resilience & Caching: Spring Data Redis & Resilience4j Circuit Breaker
 
 > **Kategori:** Spring Boot & Java | **Level:** Advanced | **Minggu 9:** Resilience & Caching: Spring Data Redis & Resilience4j Circuit Breaker
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -92,6 +94,36 @@ Imagine a merchant needing wholesale grain prices. Rather than telephoning the c
 ## Challenge
 
 Configure a Resilience4j `RateLimiter` restricting foreign exchange API consumption to a maximum of 10 requests per second per customer identity.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Circular Bean Dependencies
+- **Symptom / Issue:** Application fails startup with `BeanCurrentlyInCreationException`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Refactor dependencies using mediator patterns or apply `@Lazy` as a stopgap.
+
+### 2. Self-Invocation Bypassing `@Transactional`
+- **Symptom / Issue:** Internal method calls within the same class bypass the Spring AOP proxy.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Invoke transactional methods through an injected bean reference.
+
+### 3. N+1 Hibernate Query Problem
+- **Symptom / Issue:** Loads relational collections with hundreds of sequential database trips.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `JOIN FETCH` queries or annotate repository methods with `@EntityGraph`.
 
 ---
 

@@ -1,6 +1,8 @@
 # Keamanan API: Stateless JWT (SimpleJWT) & Custom Permissions
 
 > **Kategori:** Django Web Framework | **Level:** Menengah | **Minggu 6:** Keamanan API: Stateless JWT (SimpleJWT) & Custom Permissions
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -92,6 +94,36 @@ Bayangkan Anda pergi ke festival musik. Di loket depan Anda menukarkan tiket den
 ## Tantangan
 
 Implementasikan sistem Token Blacklisting: ketika pengguna logout, masukkan refresh token ke dalam tabel blacklist database menggunakan `rest_framework_simplejwt.token_blacklist` sehingga token tidak bisa digunakan lagi.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Lupa Menjalankan Migration setelah Mengubah Model
+- **Gejala / Masalah:** Database tidak sinkron dengan kode Python, memicu error `ProgrammingError: relation does not exist`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu jalankan `python manage.py makemigrations` lalu `python manage.py migrate`.
+
+### 2. N+1 Query Problem di Django ORM
+- **Gejala / Masalah:** Template me-render list dengan mengeksekusi query database berulang kali untuk setiap relasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `select_related()` untuk Foreign Key satu-ke-satu dan `prefetch_related()` untuk Many-to-Many.
+
+### 3. Expose SECRET_KEY atau DEBUG=True di Produksi
+- **Gejala / Masalah:** Informasi credential rentan dibobol dan halaman debug menampilkan variabel lingkungan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Simpan rahasia di environment variable dan pastikan `DEBUG = False` di lingkungan produksi.
 
 ---
 

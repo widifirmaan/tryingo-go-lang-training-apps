@@ -1,6 +1,8 @@
 # Arsitektur Event-Driven: Spring for Apache Kafka & Audit Streaming
 
 > **Kategori:** Spring Boot & Java | **Level:** Menengah | **Minggu 7:** Arsitektur Event-Driven: Spring for Apache Kafka & Audit Streaming
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -125,6 +127,36 @@ Bayangkan kantor pos pusat dengan banyak loket (Kafka Partitions). Surat untuk k
 ## Tantangan
 
 Buat konfigurasi `ConcurrentKafkaListenerContainerFactory` dengan `SeekToCurrentErrorHandler` yang mencoba membaca ulang pesan yang error sebanyak 3 kali dengan interval 2 detik sebelum mengirimnya ke topik `.DLT`.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Circular Dependency antar Service Bean
+- **Gejala / Masalah:** Aplikasi Spring Boot gagal start dengan pesan `BeanCurrentlyInCreationException`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Rancang ulang arsitektur menggunakan mediator pattern, atau gunakan `@Lazy` sebagai solusi transisi.
+
+### 2. Transaksi Database Tidak Berjalan pada Panggilan Internal
+- **Gejala / Masalah:** Anotasi `@Transactional` diabaikan saat dipanggil dari method dalam class yang sama.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pahami bahwa Spring bekerja melalui AOP Proxy; panggil method transaksional melalui bean terinjeksi.
+
+### 3. N+1 Query Problem pada JPA Hibernate
+- **Gejala / Masalah:** Database menerima ratusan query SQL individual saat mengambil entitas relasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `JOIN FETCH` pada JPQL query atau tentukan `@EntityGraph` pada repository interface.
 
 ---
 

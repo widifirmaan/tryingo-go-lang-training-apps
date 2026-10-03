@@ -1,6 +1,8 @@
 # Apollo Federation v2 & Microservices Architecture
 
 > **Kategori:** GraphQL | **Level:** Real-Time Subscriptions, Security & Federation | **Minggu 7:** Apollo Federation v2 & Microservices Architecture
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -133,6 +135,36 @@ Before the magazine hits the newsstand, the Managing Editor (Router Gateway) bin
 ## Challenge
 
 Author a 3rd subgraph: `Users Subgraph` declaring `User @key(fields: "id")`. Extend the `Review` entity in the Reviews Subgraph so `author` references the federated `User` entity.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Unbounded Query Nesting Attacks
+- **Symptom / Issue:** Malicious circular queries exhaust server CPU and database resources.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Enforce query depth limits and query complexity analysis middleware.
+
+### 2. Resolver N+1 Database Execution
+- **Symptom / Issue:** Child field resolvers fire individual database queries per parent item in an array.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `DataLoader` to batch and cache database calls within a request cycle.
+
+### 3. Exposing Internal Server Traces to Clients
+- **Symptom / Issue:** Database stack traces and confidential errors surface in GraphQL error responses.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Sanitize errors in server configuration using custom `formatError` handlers.
 
 ---
 

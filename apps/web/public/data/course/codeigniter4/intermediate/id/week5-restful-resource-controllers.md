@@ -1,6 +1,8 @@
 # RESTful Web APIs: ResourceController, Content Negotiation & ResponseTrait
 
 > **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 5:** RESTful Web APIs: ResourceController, Content Negotiation & ResponseTrait
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -126,6 +128,36 @@ Bayangkan loket kasir otomatis di bank. Daripada Anda harus berteriak dan menjel
 ## Tantangan
 
 Tambahkan autentikasi API Key pada ResourceController menggunakan header kustom `X-API-KEY` yang memverifikasi akses dari aplikasi mobile wali murid.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Lupa Menyesuaikan `baseURL` di File `.env`
+- **Gejala / Masalah:** Aset CSS/JS tidak termuat atau link navigasi redirect ke alamat yang keliru.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pastikan variabel `app.baseURL = 'http://localhost:8080/'` telah disesuaikan dengan domain yang aktif.
+
+### 2. Mengabaikan Fitur CSRF Protection Bawaan
+- **Gejala / Masalah:** Formulir POST rentan serangan Cross-Site Request Forgery.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Aktifkan filter CSRF di `app/Config/Filters.php` dan sertakan `<?= csrf_field() ?>` di setiap form.
+
+### 3. Salah Penamaan Namespace Controller & Model
+- **Gejala / Masalah:** Framework gagal memuat class dengan pesan `Class not found` akibat inkonsistensi huruf kapital.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Patuhi konvensi penamaan PSR-4 dan pastikan nama folder/berkas sesuai persis dengan namespace.
 
 ---
 

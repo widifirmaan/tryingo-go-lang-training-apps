@@ -1,6 +1,8 @@
 # Relational Modeling, DDL & Modern Data Types (UUID, JSONB)
 
 > **Kategori:** PostgreSQL | **Level:** Relational Foundations & Advanced SQL | **Minggu 1:** Relational Modeling, DDL & Modern Data Types (UUID, JSONB)
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -119,6 +121,36 @@ UUID is like an international passport number that is globally unique across the
 ## Challenge
 
 Design an `invoices` table schema referencing `orders`, featuring a structured `invoice_number` (e.g. INV-2026-000001), payment status, due date timestamp, and gateway transaction metadata stored as JSONB.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Sequential Table Scans on Large Tables
+- **Symptom / Issue:** SELECT queries degrade in latency as table rows increase into millions.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add B-Tree indexes on columns used in `WHERE`, `ORDER BY`, and `JOIN` clauses.
+
+### 2. Missing Transactions for Multi-Step Operations
+- **Symptom / Issue:** Leaves data in inconsistent partial states when middle operations fail.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always wrap operations in `BEGIN; ... COMMIT;` or `ROLLBACK;` blocks.
+
+### 3. Using Inexact Floating Point for Currency
+- **Symptom / Issue:** Floating point rounding errors corrupt financial accounting balances.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always use `NUMERIC(15, 2)` or `DECIMAL` for currency amounts.
 
 ---
 

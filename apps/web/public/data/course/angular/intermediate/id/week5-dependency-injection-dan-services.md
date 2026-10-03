@@ -1,6 +1,8 @@
 # Dependency Injection Modern: Fungsi inject() & Layanan Rekam Medis (providedIn)
 
 > **Kategori:** Angular | **Level:** Dependency Injection, Reactive Forms & RxJS | **Minggu 5:** Dependency Injection Modern: Fungsi inject() & Layanan Rekam Medis (providedIn)
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -124,6 +126,36 @@ Komponen luar hanya bisa membaca data, sedangkan mutasi wajib melalui method res
 ## Tantangan
 
 Kembangkan `PatientRecordsService` dengan fungsi pencarian reaktif `cariPasienBerdasarkanNama(nama: string)` yang mengembalikan array pasien yang cocok menggunakan metode filter array.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Memory Leak pada RxJS Subscription
+- **Gejala / Masalah:** Subscription yang tetap aktif setelah komponen hancur memboroskan memori dan memicu callback ganda.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan operator `takeUntilDestroyed()` atau manfaatkan pipe `async` di template HTML.
+
+### 2. ChangeDetectionStrategy Default yang Boros Performa
+- **Gejala / Masalah:** Angular memeriksa seluruh pohon komponen pada setiap event browser.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Terapkan `ChangeDetectionStrategy.OnPush` dan gunakan Angular Signals untuk update granular.
+
+### 3. Mengimpor Seluruh Shared Module di Standalone Component
+- **Gejala / Masalah:** Ukuran bundle JavaScript aplikasi membengkak drastis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Hanya import modul atau standalone directive yang benar-benar digunakan di array `imports: []`.
 
 ---
 

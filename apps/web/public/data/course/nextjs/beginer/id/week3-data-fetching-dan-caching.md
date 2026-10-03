@@ -1,6 +1,8 @@
 # Data Fetching Modern: Native fetch(), Extended Caching & ISR (Incremental Static Regeneration)
 
 > **Kategori:** Next.js | **Level:** App Router, RSC & Fondasi Streaming | **Minggu 3:** Data Fetching Modern: Native fetch(), Extended Caching & ISR (Incremental Static Regeneration)
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -129,6 +131,36 @@ Ketika admin toko mengedit harga produk di CMS, server Anda cukup memanggil `rev
 ## Tantangan
 
 Bangun halaman ringkasan inventaris yang mengambil data stok dari dua gudang berbeda secara paralel dengan Promise.all() dan menetapkan aturan cache ISR 30 detik.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Menggunakan Hook Browser di Server Component
+- **Gejala / Masalah:** Error kompilasi `useState can only be used in a Client Component`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tambahkan direktif `'use client'` di baris paling atas berkas komponen yang memerlukan interaktivitas browser.
+
+### 2. Waterfalls Fetching Data yang Tidak Perlu
+- **Gejala / Masalah:** Loading halaman menjadi sangat lambat karena request dilakukan berurutan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `Promise.all([fetchA(), fetchB()])` untuk menjalankan pemanggilan API secara paralel di server.
+
+### 3. Caching yang Terlalu Agresif
+- **Gejala / Masalah:** Data baru di database tidak muncul di browser pengguna.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tentukan revalidasi yang tepat via `fetch(url, { next: { revalidate: 60 } })` atau panggil `revalidatePath()`.
 
 ---
 

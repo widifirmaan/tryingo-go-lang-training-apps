@@ -1,6 +1,8 @@
 # Real-Time Communication: WebSockets (ws), Token Auth & Heartbeat Ping/Pong
 
 > **Kategori:** Node.js Backend | **Level:** Intermediate | **Minggu 7:** Real-Time Communication: WebSockets (ws), Token Auth & Heartbeat Ping/Pong
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -122,6 +124,36 @@ Imagine speaking on a phone call. If your friend drives into an underground tunn
 ## Challenge
 
 Implement a Channel Subscription subsystem: allow clients to submit `{ action: "SUBSCRIBE", channel: "telemetry:room_1" }`, restricting broadcasts solely to verified channel subscribers.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Event Loop Blocking on Heavy Computation
+- **Symptom / Issue:** Freezes response handling for all concurrent user requests.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Delegate CPU-heavy tasks to Worker Threads or external background queues.
+
+### 2. Uncaught Asynchronous Exceptions
+- **Symptom / Issue:** Kills the Node.js process abruptly and terminates the service.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Handle async errors with try-catch and attach `process.on('unhandledRejection')` handlers.
+
+### 3. EventEmitter Listener Leak
+- **Symptom / Issue:** Generates `MaxListenersExceededWarning` and leaks memory across long-lived servers.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Detach obsolete event handlers using `emitter.off()` or `emitter.removeListener()`.
 
 ---
 

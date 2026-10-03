@@ -1,6 +1,8 @@
 # Route Handlers (route.ts): REST API, NextRequest/NextResponse & Webhooks
 
 > **Kategori:** Next.js | **Level:** Server Actions, Route Handlers & Edge Auth | **Minggu 6:** Route Handlers (route.ts): REST API, NextRequest/NextResponse & Webhooks
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -110,6 +112,36 @@ Route Handlers consume `NextRequest` and return immutable `NextResponse` payload
 ## Challenge
 
 Author Route Handler `app/api/v1/katalog/route.ts` accepting query parameter `?min_harga=100000` returning filtered product collections with `limit` and `page` pagination metadata.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Client Hooks in Server Components
+- **Symptom / Issue:** Build error stating `useState can only be used in a Client Component`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add the `'use client'` directive to the top of components requiring browser state.
+
+### 2. Sequential Data Fetching Waterfalls
+- **Symptom / Issue:** Significantly delays page render times by running independent requests one after another.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Run asynchronous fetches concurrently using `Promise.all([fetchA(), fetchB()])`.
+
+### 3. Over-Aggressive Static Caching
+- **Symptom / Issue:** Stale database content remains visible to users after updates.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure accurate revalidation: `fetch(url, { next: { revalidate: 60 } })` or `revalidatePath()`.
 
 ---
 

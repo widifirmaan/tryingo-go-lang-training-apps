@@ -1,6 +1,8 @@
 # Interaktivitas Sisi Klien: Stimulus JS, Targets, Values & Drag-and-Drop
 
 > **Kategori:** Ruby on Rails 8 | **Level:** Menengah | **Minggu 6:** Interaktivitas Sisi Klien: Stimulus JS, Targets, Values & Drag-and-Drop
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -113,6 +115,36 @@ Bayangkan rumah pintar. Dinding, pintu, dan jendela rumah dibangun kokoh oleh tu
 ## Tantangan
 
 Integrasikan pustaka JavaScript `SortableJS` di dalam Stimulus controller untuk memberikan animasi perpindahan kartu kanban yang sangat halus dan mendukung layar sentuh smartphone.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. N+1 Queries pada Active Record
+- **Gejala / Masalah:** Me-render tampilan tabel memicu puluhan query SQL tambahan yang memperlambat respon.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan method `includes(:relation)` pada controller query untuk melakukan eager loading.
+
+### 2. Migrasi Database yang Mengubah Kolom Tanpa Reversibility
+- **Gejala / Masalah:** Perintah `rails db:rollback` gagal dieksekusi saat proses deployment dibatalkan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan method migrasi eksplisit `up` dan `down` jika operasi kolom tidak dapat dibalik secara otomatis.
+
+### 3. Menyimpan Credential Sensitif di Direktori Publik
+- **Gejala / Masalah:** API key pihak ketiga bocor ke publik melalui repositori git.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Manfaatkan sistem enkripsi `rails credentials:edit` untuk menyimpan API key produksi.
 
 ---
 

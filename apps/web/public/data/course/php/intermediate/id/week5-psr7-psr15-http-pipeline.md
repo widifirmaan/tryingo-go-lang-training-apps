@@ -1,6 +1,8 @@
 # Arsitektur Pipeline HTTP: Standar PSR-7 & PSR-15 Middleware
 
 > **Kategori:** Modern PHP 8.3+ | **Level:** Menengah | **Minggu 5:** Arsitektur Pipeline HTTP: Standar PSR-7 & PSR-15 Middleware
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -136,6 +138,36 @@ Bayangkan Anda mengirim surat penting lewat kurir pos. Sebelum dimasukkan ke amp
 ## Tantangan
 
 Buat CorsMiddleware yang menangani preflight request `OPTIONS` secara otomatis dan menambahkan header `Access-Control-Allow-Origin: *`.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. SQL Injection Akibat String Concatenation
+- **Gejala / Masalah:** Peretas dapat memanipulasi query SQL dan mencuri seluruh isi database.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu gunakan Prepared Statements dengan PDO atau MySQLi parameterized query.
+
+### 2. Mengabaikan Strict Types
+- **Gejala / Masalah:** PHP melakukan konversi tipe data otomatis yang memicu bug logika angka/string.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tambahkan `declare(strict_types=1);` di baris pertama setiap berkas PHP modern.
+
+### 3. Memasukkan Output Mentah ke HTML (XSS Vulnerability)
+- **Gejala / Masalah:** Skrip berbahaya dieksekusi di browser pengunjung.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu bungkus variabel output dengan fungsi `htmlspecialchars($str, ENT_QUOTES, 'UTF-8')`.
 
 ---
 

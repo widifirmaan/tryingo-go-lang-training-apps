@@ -1,6 +1,8 @@
 # Object-Oriented JavaScript: ES6 Classes, Prototypes & Inheritance
 
 > **Kategori:** JavaScript | **Level:** DOM, Events & Object Architecture | **Minggu 8:** Object-Oriented JavaScript: ES6 Classes, Prototypes & Inheritance
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -95,6 +97,36 @@ Private field `#balance` is the steel safe inside an ATM: users query values thr
 ## Challenge
 
 Build a base `Kendaraan` class and derived `MobilListrik` class with a private field `#batteryCapacity` and `isiDaya()` method.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Loose Equality Bugs (== vs ===)
+- **Symptom / Issue:** Unintended type coercion leads to subtle logic bugs (e.g. `0 == ''` is true).
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Consistently use strict equality operators (`===` and `!==`).
+
+### 2. Direct State & Array Mutation
+- **Symptom / Issue:** Prevents reactive UI frameworks from detecting updates and causes hard-to-track bugs.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Embrace immutable updates using spread syntax (`{ ...obj }`, `[...arr]`) or `.map()` and `.filter()`.
+
+### 3. Unhandled Asynchronous Rejections
+- **Symptom / Issue:** Uncaught promise failures crash backend processes or leave user interfaces frozen.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Wrap `await` calls in explicit `try { ... } catch (err) { ... }` blocks.
 
 ---
 

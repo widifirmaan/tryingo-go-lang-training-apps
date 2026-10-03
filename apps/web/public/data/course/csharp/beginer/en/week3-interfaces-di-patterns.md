@@ -1,6 +1,8 @@
 # Interfaces, Loose Coupling & Dependency Injection in .NET
 
 > **Kategori:** C# & .NET | **Level:** Beginner | **Minggu 3:** Interfaces, Loose Coupling & Dependency Injection in .NET
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -116,6 +118,36 @@ Think of a standard wall electrical outlet (the Interface). You can plug in a fa
 ## Challenge
 
 Implement a decorator class `CachedInventoryRepository(IInventoryRepository inner)` that implements `IInventoryRepository` and caches stock lookups in local memory before delegating to the inner repository.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. NullReferenceException at Runtime
+- **Symptom / Issue:** Attempting to invoke methods on null object instances crashes request threads.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Enable `<Nullable>enable</Nullable>` in csproj and leverage null-conditional `?.` operators.
+
+### 2. Async Void Anti-Pattern
+- **Symptom / Issue:** Exceptions thrown inside `async void` cannot be caught by callers and crash the runtime.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always return `async Task` except on top-level UI event handlers.
+
+### 3. Failing to Dispose Managed Resources
+- **Symptom / Issue:** Database connections and file handles remain open indefinitely.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `using var resource = new ...` to guarantee prompt deterministic cleanup.
 
 ---
 

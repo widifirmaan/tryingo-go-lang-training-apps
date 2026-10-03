@@ -1,6 +1,8 @@
 # Fitur Mutakhir: Container Queries (@container) & Subgrid
 
 > **Kategori:** CSS3 | **Level:** Design System, Animasi & Fitur Mutakhir | **Minggu 9:** Fitur Mutakhir: Container Queries (@container) & Subgrid
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -158,6 +160,36 @@ Pada CSS Grid konvensional, elemen anak dari kartu tidak bisa sejajar dengan ele
 ## Tantangan
 
 Bangun komponen kartu profil pengguna (User Card) dengan Container Queries: jika lebar kontainer < 350px tampilkan avatar di atas teks, jika 350px-600px tampilkan avatar di samping teks, dan jika > 600px tambahkan bilah tombol aksi lengkap di sisi kanan.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Masalah Box Model: Padding Menambah Lebar Elemen
+- **Gejala / Masalah:** Elemen melebar melebihi kontainer induk dan merusak grid.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `box-sizing: border-box;` secara global di selector `*`.
+
+### 2. Specificity War (!important overuse)
+- **Gejala / Masalah:** CSS sulit di-override dan kode menjadi rapuh saat aplikasi bertambah besar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Patuhi metodologi BEM atau gunakan selector class sederhana, hindari chaining ID selector dan `!important`.
+
+### 3. Z-Index Tidak Bekerja
+- **Gejala / Masalah:** Elemen tetap berada di bawah elemen lain meski z-index sudah disetel ke 9999.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pastikan elemen memiliki properti `position: relative`, `absolute`, atau `fixed` untuk membentuk Stacking Context.
 
 ---
 

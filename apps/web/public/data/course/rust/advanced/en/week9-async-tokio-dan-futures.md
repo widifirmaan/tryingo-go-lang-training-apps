@@ -1,6 +1,8 @@
 # Asynchronous Rust: The Tokio Runtime, async/await & Non-Blocking TCP
 
 > **Kategori:** Rust | **Level:** Async Tokio, WAL Durability & KV Engine Capstone | **Minggu 9:** Asynchronous Rust: The Tokio Runtime, async/await & Non-Blocking TCP
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -125,6 +127,36 @@ For high-scale cloud servers, the industry standard is **Tokio**:
 ## Challenge
 
 Author a custom `Future` state machine incrementally accumulating 4 binary data packets until emitting Poll::Ready upon completion.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Multiple Mutable Borrows
+- **Symptom / Issue:** Rejected by compiler: `cannot borrow as mutable more than once at a time`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Narrow borrow scopes or adopt interior mutability constructs like `RefCell` or `Mutex`.
+
+### 2. Unchecked `.unwrap()` in Production
+- **Symptom / Issue:** Panics and terminates execution when encountering unexpected `Err` or `None` values.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use idiomatic `?` error propagation or pattern match with `match` / `if let`.
+
+### 3. Over-Cloning to Escape Lifetime Checks
+- **Symptom / Issue:** Degrades throughput by allocating redundant copies on the heap.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Prefer borrowed references like `&str` or `&[T]` instead of deep cloning full data structures.
 
 ---
 

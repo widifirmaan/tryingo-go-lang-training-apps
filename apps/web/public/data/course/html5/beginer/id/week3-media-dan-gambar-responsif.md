@@ -1,6 +1,8 @@
 # Media Responsif: Elemen Picture, Gambar Srcset & Multimedia
 
 > **Kategori:** HTML5 | **Level:** Struktur & Semantik Web | **Minggu 3:** Media Responsif: Elemen Picture, Gambar Srcset & Multimedia
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -112,6 +114,36 @@ Tag `<track kind="subtitles">` menyertakan file WebVTT (.vtt) agar dialog video 
 ## Tantangan
 
 Bangun modul galeri produk untuk "Toko Jam Tangan Mahakarya". Gunakan elemen `<picture>` dengan 3 variasi ukuran sumber gambar (mobile, tablet, desktop) dan WebP, sertakan width/height, pemuatan `loading="lazy"`, serta pemutar video review produk lengkap dengan 1 trek subtitle WebVTT bahasa Indonesia.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Tag bersarang tidak tertutup (Unclosed/Mismatched Tags)
+- **Gejala / Masalah:** Tata letak halaman rusak atau elemen inline menelan elemen block.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu tutup tag berpasangan dan manfaatkan validator HTML5 atau auto-closing tag di VS Code.
+
+### 2. Penggunaan tag <div> berlebihan (Div Soup)
+- **Gejala / Masalah:** Website sulit diakses pembaca layar (screen reader) dan skor SEO menurun drastis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan tag semantik seperti <header>, <nav>, <main>, <article>, dan <footer>.
+
+### 3. Lupa atribut 'alt' pada <img> dan 'for' pada <label>
+- **Gejala / Masalah:** Skor aksesibilitas (a11y) merah dan form sulit diklik pada perangkat layar sentuh.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu sertakan deskripsi alt yang bermakna dan hubungkan label dengan id input terkait.
 
 ---
 

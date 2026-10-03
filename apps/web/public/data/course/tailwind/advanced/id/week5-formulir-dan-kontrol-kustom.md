@@ -1,6 +1,8 @@
 # Formulir Modern, Kontrol Input & Transisi Halus
 
 > **Kategori:** Tailwind CSS | **Level:** Komponen Kustom, Desain Sistem & Produksi | **Minggu 5:** Formulir Modern, Kontrol Input & Transisi Halus
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -111,6 +113,36 @@ Kelas `sr-only` menyembunyikan elemen secara visual dari layar pengguna, namun *
 ## Tantangan
 
 Bangun formulir "Ubah Kata Sandi": buat input kata sandi lama dan baru, sertakan meteran kekuatan sandi visual (3 baris balok warna yang berubah dari merah, kuning, hingga hijau), dan checkbox "Ingat perangkat ini" dengan toggle kustom.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. String Interpolation Dinamis pada Nama Class
+- **Gejala / Masalah:** Class seperti `text-${color}-500` tidak muncul di hasil build produksi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tuliskan nama class Tailwind secara utuh atau gunakan `safelist` di konfigurasi.
+
+### 2. Urutan Utilitas yang Saling Menimpa
+- **Gejala / Masalah:** Menulis `p-4 px-2` vs `px-2 p-4` menghasilkan specificity bentrok.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan ekstensi resmi Prettier Tailwind Plugin untuk merapikan urutan class secara otomatis.
+
+### 3. Arbitrary Values yang Berlebihan
+- **Gejala / Masalah:** Menggunakan `w-[347px]` merusak konsistensi design token tema.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Utamakan skala bawaan Tailwind (`w-80`, `w-96`) atau definisikan custom spacing di `theme.extend`.
 
 ---
 

@@ -1,6 +1,8 @@
 # Proyek Akhir: Design System & E-Commerce Storefront Responsif
 
 > **Kategori:** CSS3 | **Level:** Design System, Animasi & Fitur Mutakhir | **Minggu 10:** Proyek Akhir: Design System & E-Commerce Storefront Responsif
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -262,6 +264,36 @@ Capstone storefront ini seperti mendirikan toko butik fisik kelas dunia:
 ## Tantangan
 
 Tambahkan laci keranjang belanja geser (Shopping Bag Drawer) ke storefront ini: gunakan `position: fixed; right: 0; top: 0; bottom: 0; width: min(400px, 100%); z-index: 100` dengan transisi `transform: translateX(100%)` saat tertutup dan `translateX(0)` saat dibuka.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Masalah Box Model: Padding Menambah Lebar Elemen
+- **Gejala / Masalah:** Elemen melebar melebihi kontainer induk dan merusak grid.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `box-sizing: border-box;` secara global di selector `*`.
+
+### 2. Specificity War (!important overuse)
+- **Gejala / Masalah:** CSS sulit di-override dan kode menjadi rapuh saat aplikasi bertambah besar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Patuhi metodologi BEM atau gunakan selector class sederhana, hindari chaining ID selector dan `!important`.
+
+### 3. Z-Index Tidak Bekerja
+- **Gejala / Masalah:** Elemen tetap berada di bawah elemen lain meski z-index sudah disetel ke 9999.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pastikan elemen memiliki properti `position: relative`, `absolute`, atau `fixed` untuk membentuk Stacking Context.
 
 ---
 

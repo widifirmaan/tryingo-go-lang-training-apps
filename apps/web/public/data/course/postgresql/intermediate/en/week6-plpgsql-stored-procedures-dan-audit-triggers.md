@@ -1,6 +1,8 @@
 # PL/pgSQL, Stored Procedures & Audit Triggers
 
 > **Kategori:** PostgreSQL | **Level:** Concurrency, Partitioning & Enterprise Architecture | **Minggu 6:** PL/pgSQL, Stored Procedures & Audit Triggers
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -128,6 +130,36 @@ Triggers act like security surveillance cameras: whenever any staff member touch
 ## Challenge
 
 Build a Soft Delete mechanism using a `BEFORE DELETE` trigger: instead of physically removing tuples, the trigger populates `deleted_at = CURRENT_TIMESTAMP`, archives previous states, and returns `NULL` to intercept physical deletion.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Sequential Table Scans on Large Tables
+- **Symptom / Issue:** SELECT queries degrade in latency as table rows increase into millions.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add B-Tree indexes on columns used in `WHERE`, `ORDER BY`, and `JOIN` clauses.
+
+### 2. Missing Transactions for Multi-Step Operations
+- **Symptom / Issue:** Leaves data in inconsistent partial states when middle operations fail.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always wrap operations in `BEGIN; ... COMMIT;` or `ROLLBACK;` blocks.
+
+### 3. Using Inexact Floating Point for Currency
+- **Symptom / Issue:** Floating point rounding errors corrupt financial accounting balances.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always use `NUMERIC(15, 2)` or `DECIMAL` for currency amounts.
 
 ---
 

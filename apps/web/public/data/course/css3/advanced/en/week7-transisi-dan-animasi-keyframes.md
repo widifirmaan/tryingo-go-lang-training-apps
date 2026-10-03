@@ -1,6 +1,8 @@
 # Smooth Transitions, Cubic-Bezier Curves & 60fps Keyframes
 
 > **Kategori:** CSS3 | **Level:** Design Systems, Animations & Modern Features | **Minggu 7:** Smooth Transitions, Cubic-Bezier Curves & 60fps Keyframes
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -179,6 +181,36 @@ Users with vestibular motion sensitivity can experience nausea or vertigo from s
 ## Challenge
 
 Engineer an interactive product showcase card: on hover, the card floats upward (`transform: translateY(-8px)`), shadow diffuses softly, and an "Add to Cart" button reveals via a fade-in slide-up transition.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Box Model Padding Side-Effects
+- **Symptom / Issue:** Padding and borders expand the element beyond its container width.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Set `box-sizing: border-box;` globally across all elements using the universal selector `*`.
+
+### 2. Specificity Wars & !important Abuse
+- **Symptom / Issue:** Styles become unmaintainable and impossible to override cleanly as codebase grows.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Rely on BEM naming or flat utility classes, avoiding deep nesting and `!important`.
+
+### 3. Z-Index Not Applying
+- **Symptom / Issue:** Element stays behind siblings despite high numeric z-index values.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Ensure the element establishes a Stacking Context via `position: relative`, `absolute`, or `fixed`.
 
 ---
 

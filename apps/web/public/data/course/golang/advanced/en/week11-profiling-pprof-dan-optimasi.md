@@ -1,6 +1,8 @@
 # Production Profiling: net/http/pprof, Heap Analysis & Escape Analysis
 
 > **Kategori:** Go | **Level:** HTTP Server, Profiling & Gateway Capstone | **Minggu 11:** Production Profiling: net/http/pprof, Heap Analysis & Escape Analysis
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -111,6 +113,36 @@ Engineers connect `go tool pprof` from remote workstations generating interactiv
 ## Challenge
 
 Optimize a heap-heavy string generator replacing `fmt.Sprintf` with `strings.Builder` pre-allocated via `builder.Grow(128)`, proving allocation reductions via benchmarks.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Nil Pointer Dereference Panic
+- **Symptom / Issue:** Accessing struct fields on an uninitialized pointer panics and crashes the binary.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always check `if ptr != nil` before invoking methods or dereferencing pointers.
+
+### 2. Goroutine Leaks
+- **Symptom / Issue:** Spawning background goroutines blocked on unbuffered channels with no termination signal.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `context.WithCancel` or buffered channels to guarantee deterministic exit paths.
+
+### 3. Accidental Variable Shadowing with :=
+- **Symptom / Issue:** Inner scope re-creates an existing variable instead of assigning to the outer one.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Double check `:=` versus `=` when handling errors inside `if` or `for` blocks.
 
 ---
 

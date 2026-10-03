@@ -1,6 +1,8 @@
 # Capstone: Platform LMS Langganan Multi-Tenant Skala Penuh Production-Ready
 
 > **Kategori:** Django Web Framework | **Level:** Lanjutan | **Minggu 10:** Capstone: Platform LMS Langganan Multi-Tenant Skala Penuh Production-Ready
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -99,6 +101,36 @@ Proyek ini ibarat universitas digital internasional lengkap. Ada gerbang pendaft
 ## Tantangan
 
 Tambahkan penanganan event Stripe `customer.subscription.deleted` untuk secara otomatis mencabut hak akses kursus ketika siswa membatalkan langganan bulanan mereka.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Lupa Menjalankan Migration setelah Mengubah Model
+- **Gejala / Masalah:** Database tidak sinkron dengan kode Python, memicu error `ProgrammingError: relation does not exist`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu jalankan `python manage.py makemigrations` lalu `python manage.py migrate`.
+
+### 2. N+1 Query Problem di Django ORM
+- **Gejala / Masalah:** Template me-render list dengan mengeksekusi query database berulang kali untuk setiap relasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `select_related()` untuk Foreign Key satu-ke-satu dan `prefetch_related()` untuk Many-to-Many.
+
+### 3. Expose SECRET_KEY atau DEBUG=True di Produksi
+- **Gejala / Masalah:** Informasi credential rentan dibobol dan halaman debug menampilkan variabel lingkungan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Simpan rahasia di environment variable dan pastikan `DEBUG = False` di lingkungan produksi.
 
 ---
 

@@ -1,6 +1,8 @@
 # Capstone Project: Production Microservice Cluster Stack
 
 > **Kategori:** Docker | **Level:** Multi-Container Orchestration & Production Hardening | **Minggu 8:** Capstone Project: Production Microservice Cluster Stack
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -178,6 +180,36 @@ The palace gatehouse (Nginx Ingress) greets public visitors cleanly. Inside, the
 ## Challenge
 
 Integrate a `monitoring` observability service using Prometheus and Grafana into `compose.yaml`: visualize real-time CPU and RAM utilization metrics across all cluster containers.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Running Containers as Root
+- **Symptom / Issue:** Enables container breakout attacks to compromise host operating system privileges.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Declare dedicated non-root users inside Dockerfile: `USER node` or `USER 1001`.
+
+### 2. Omitting `.dockerignore` Files
+- **Symptom / Issue:** Unintentionally copies gigabytes of local build caches and sensitive `.env` files into image.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always maintain `.dockerignore` ignoring `node_modules`, `.git`, and environment files.
+
+### 3. Bloated Images Without Multi-Stage Builds
+- **Symptom / Issue:** Massive image sizes slow down container registry pulls and cloud deployments.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Adopt Multi-Stage Builds separating compile tooling from lightweight runtime images.
 
 ---
 

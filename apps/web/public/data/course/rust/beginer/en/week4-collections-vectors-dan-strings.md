@@ -1,6 +1,8 @@
 # Core Collections: Vec<T>, String vs &str & In-Memory HashMaps
 
 > **Kategori:** Rust | **Level:** Ownership, Borrowing & Safe Types | **Minggu 4:** Core Collections: Vec<T>, String vs &str & In-Memory HashMaps
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -114,6 +116,36 @@ This inspects and conditionally initializes entries in a single optimized pass!
 ## Challenge
 
 Add an `mget(&self, keys: &[&str]) -> Vec<Option<&[u8]>>` method to `InMemStore` retrieving multiple values concurrently in a single call.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Multiple Mutable Borrows
+- **Symptom / Issue:** Rejected by compiler: `cannot borrow as mutable more than once at a time`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Narrow borrow scopes or adopt interior mutability constructs like `RefCell` or `Mutex`.
+
+### 2. Unchecked `.unwrap()` in Production
+- **Symptom / Issue:** Panics and terminates execution when encountering unexpected `Err` or `None` values.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use idiomatic `?` error propagation or pattern match with `match` / `if let`.
+
+### 3. Over-Cloning to Escape Lifetime Checks
+- **Symptom / Issue:** Degrades throughput by allocating redundant copies on the heap.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Prefer borrowed references like `&str` or `&[T]` instead of deep cloning full data structures.
 
 ---
 

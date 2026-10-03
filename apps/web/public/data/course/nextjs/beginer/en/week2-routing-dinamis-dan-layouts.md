@@ -1,6 +1,8 @@
 # File-System Routing: Dynamic Segments ([slug]), Nested Layouts & Not-Found
 
 > **Kategori:** Next.js | **Level:** App Router, RSC & Streaming Foundations | **Minggu 2:** File-System Routing: Dynamic Segments ([slug]), Nested Layouts & Not-Found
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -112,6 +114,36 @@ When users request nonexistent slugs (`/products/missing-sku`), trigger `notFoun
 ## Challenge
 
 Author a localized `app/produk/[slug]/not-found.tsx` informing shoppers "This product is discontinued" styled with a return-home call to action.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Client Hooks in Server Components
+- **Symptom / Issue:** Build error stating `useState can only be used in a Client Component`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add the `'use client'` directive to the top of components requiring browser state.
+
+### 2. Sequential Data Fetching Waterfalls
+- **Symptom / Issue:** Significantly delays page render times by running independent requests one after another.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Run asynchronous fetches concurrently using `Promise.all([fetchA(), fetchB()])`.
+
+### 3. Over-Aggressive Static Caching
+- **Symptom / Issue:** Stale database content remains visible to users after updates.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure accurate revalidation: `fetch(url, { next: { revalidate: 60 } })` or `revalidatePath()`.
 
 ---
 

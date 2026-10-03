@@ -1,6 +1,8 @@
 # RESTful API Enterprise: Eloquent API Resources & Laravel Sanctum
 
 > **Kategori:** Laravel Framework | **Level:** Menengah | **Minggu 5:** RESTful API Enterprise: Eloquent API Resources & Laravel Sanctum
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -97,6 +99,36 @@ Bayangkan toko perhiasan mewah. Di gudang brankas belakang (Database), ada dokum
 ## Tantangan
 
 Konfigurasikan pembatasan kemampuan token Sanctum (Token Abilities): buat token khusus kurir yang hanya memiliki izin `orders:update-status` dan tolak akses jika mencoba membuat produk baru.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Mass Assignment Exception
+- **Gejala / Masalah:** Muncul error `Add [field] to fillable property to allow mass assignment` saat create/update model.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Daftarkan kolom yang aman di properti `protected $fillable = [...]` pada Model Eloquent.
+
+### 2. Menyimpan Logika Bisnis di Controller (Fat Controller)
+- **Gejala / Masalah:** Controller menjadi ribet, sulit diuji (*untestable*), dan melanggar prinsip Single Responsibility.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pindahkan logika bisnis ke Action Classes, Service Classes, atau Form Requests.
+
+### 3. Lupa Menjalankan `php artisan config:cache` di Server Produksi
+- **Gejala / Masalah:** Pembacaan file konfigurasi secara berulang memperlambat response time aplikasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Jalankan caching konfigurasi, route, dan view saat pipeline deployment produksi selesai.
 
 ---
 

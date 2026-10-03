@@ -1,6 +1,8 @@
 # Go Package Architecture: main, Variables, Zero Values & Multiple Returns
 
 > **Kategori:** Go | **Level:** Go Foundations & Static Type System | **Minggu 1:** Go Package Architecture: main, Variables, Zero Values & Multiple Returns
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -109,6 +111,36 @@ Go is a stripped-down Formula 1 single-seater: no radio, no leather upholstery, 
 ## Challenge
 
 Author a `CalculateThroughput(totalRequests int, durationSec float64) (float64, bool)` function computing RPS and returning an overload flag when RPS surpasses 5,000.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Nil Pointer Dereference Panic
+- **Symptom / Issue:** Accessing struct fields on an uninitialized pointer panics and crashes the binary.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always check `if ptr != nil` before invoking methods or dereferencing pointers.
+
+### 2. Goroutine Leaks
+- **Symptom / Issue:** Spawning background goroutines blocked on unbuffered channels with no termination signal.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `context.WithCancel` or buffered channels to guarantee deterministic exit paths.
+
+### 3. Accidental Variable Shadowing with :=
+- **Symptom / Issue:** Inner scope re-creates an existing variable instead of assigning to the outer one.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Double check `:=` versus `=` when handling errors inside `if` or `for` blocks.
 
 ---
 

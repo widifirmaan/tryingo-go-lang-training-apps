@@ -1,6 +1,8 @@
 # Capstone: Production High-Throughput Distributed Rate Limiter & Reverse Proxy
 
 > **Kategori:** Go | **Level:** HTTP Server, Profiling & Gateway Capstone | **Minggu 12:** Capstone: Production High-Throughput Distributed Rate Limiter & Reverse Proxy
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -212,6 +214,36 @@ This Gateway operates like an automated high-speed highway toll plaza:
 ## Challenge
 
 Expose an internal `/metrics` endpoint recording total requests, 429 rate limit rejections, and average latency utilizing atomic operations from `sync/atomic`.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Nil Pointer Dereference Panic
+- **Symptom / Issue:** Accessing struct fields on an uninitialized pointer panics and crashes the binary.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always check `if ptr != nil` before invoking methods or dereferencing pointers.
+
+### 2. Goroutine Leaks
+- **Symptom / Issue:** Spawning background goroutines blocked on unbuffered channels with no termination signal.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `context.WithCancel` or buffered channels to guarantee deterministic exit paths.
+
+### 3. Accidental Variable Shadowing with :=
+- **Symptom / Issue:** Inner scope re-creates an existing variable instead of assigning to the outer one.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Double check `:=` versus `=` when handling errors inside `if` or `for` blocks.
 
 ---
 

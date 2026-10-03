@@ -1,6 +1,8 @@
 # Teleport Modals, <TransitionGroup> Animations & shallowRef Tuning
 
 > **Kategori:** Vue | **Level:** Advanced Slots, Animations, Optimization & CRM Capstone | **Minggu 9:** Teleport Modals, <TransitionGroup> Animations & shallowRef Tuning
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -134,6 +136,36 @@ When managing datasets exceeding 10,000 entities, deep `ref()` instantiates thou
 ## Challenge
 
 Implement a smooth backdrop fade transition utilizing `<Transition name="fade">` when the modal drawer toggles.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Destructuring Loss of Reactivity
+- **Symptom / Issue:** Unpacking fields from `reactive()` breaks Vue reactivity linkage.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Apply `toRefs(state)` prior to destructuring inside the Composition API.
+
+### 2. Directly Mutating Child Component Props
+- **Symptom / Issue:** Generates console warnings and violates unidirectional data flow.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Emit events `emit('update:modelValue', value)` back to the parent component.
+
+### 3. Omitting `.value` in Script Setup
+- **Symptom / Issue:** Passes the wrapper Ref object instead of the underlying value into calculations.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Remember `.value` is mandatory in script blocks and auto-unwrapped in `<template>`.
 
 ---
 

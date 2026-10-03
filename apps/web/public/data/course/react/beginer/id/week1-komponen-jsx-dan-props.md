@@ -1,6 +1,8 @@
 # Arsitektur Komponen, Aturan JSX & Unidirectional Data Flow via Props
 
 > **Kategori:** React | **Level:** Pondasi Komponen, JSX & State | **Minggu 1:** Arsitektur Komponen, Aturan JSX & Unidirectional Data Flow via Props
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -107,6 +109,36 @@ Props hanya mengalir dari atas ke bawah (Parent -> Child). Komponen anak **tidak
 ## Tantangan
 
 Buat komponen `WorkspaceBadge` yang menerima props `status` ("AKTIF" | "DRAFT" | "ARSIP") dan render dengan warna badge berbeda (Hijau, Kuning, Abu-abu) menggunakan komponen murni.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Mutasi State Langsung (Direct Mutation)
+- **Gejala / Masalah:** Komponen tidak melakukan re-render karena referensi memori tidak berubah.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan updater function dari setter state: `setCount(prev => prev + 1)` atau buat salinan baru.
+
+### 2. Dependency Array useEffect yang Tidak Lengkap
+- **Gejala / Masalah:** Terjadi stale closures (membaca nilai lama variabel) atau infinite re-render loop.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Cantumkan semua variabel luar yang dibaca di dalam useEffect ke dalam array dependency.
+
+### 3. Lupa Memberi Unique 'key' pada List Rendering
+- **Gejala / Masalah:** DOM reconciliation lambat dan status elemen input di dalam list bisa tertukar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan ID unik database (`item.id`), jangan gunakan index array (`key={idx}`) jika list bisa diubah atau diurutkan.
 
 ---
 

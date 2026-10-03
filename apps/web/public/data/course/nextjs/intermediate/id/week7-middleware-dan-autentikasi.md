@@ -1,6 +1,8 @@
 # Edge Middleware: Verifikasi Sesi JWT, Protected Routes & Header Rewrites
 
 > **Kategori:** Next.js | **Level:** Server Actions, Route Handlers & Edge Auth | **Minggu 7:** Edge Middleware: Verifikasi Sesi JWT, Protected Routes & Header Rewrites
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -96,6 +98,36 @@ Tanpa filter `matcher`, middleware akan berjalan pada setiap request gambar `.pn
 ## Tantangan
 
 Implementasikan middleware feature flag: jika cookie `beta_tester=true` ada, rewrite permintaan dari `/checkout` ke `/checkout-v2` tanpa mengubah URL di browser pengguna.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Menggunakan Hook Browser di Server Component
+- **Gejala / Masalah:** Error kompilasi `useState can only be used in a Client Component`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tambahkan direktif `'use client'` di baris paling atas berkas komponen yang memerlukan interaktivitas browser.
+
+### 2. Waterfalls Fetching Data yang Tidak Perlu
+- **Gejala / Masalah:** Loading halaman menjadi sangat lambat karena request dilakukan berurutan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `Promise.all([fetchA(), fetchB()])` untuk menjalankan pemanggilan API secara paralel di server.
+
+### 3. Caching yang Terlalu Agresif
+- **Gejala / Masalah:** Data baru di database tidak muncul di browser pengguna.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tentukan revalidasi yang tepat via `fetch(url, { next: { revalidate: 60 } })` atau panggil `revalidatePath()`.
 
 ---
 

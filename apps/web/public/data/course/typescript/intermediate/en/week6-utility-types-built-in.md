@@ -1,6 +1,8 @@
 # Built-in Utility Types: Partial, Required, Pick, Omit, Record & ReturnType
 
 > **Kategori:** TypeScript | **Level:** Generics & Modern Utility Types | **Minggu 6:** Built-in Utility Types: Partial, Required, Pick, Omit, Record & ReturnType
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -98,6 +100,36 @@ TypeScript ships with first-class type transformers that dynamically reshape exi
 ## Challenge
 
 Given `ECommerceProduct`, author `DraftProduct` (all optional except title), `DisplayProduct` (omitting wholesalePrice and supplierId), and `StockPerWarehouse` mapping warehouse ids ("JKT-01" | "SBY-02" | "BDG-03") to numbers.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Overusing the 'any' Escape Hatch
+- **Symptom / Issue:** Completely disables TypeScript compile-time safety across downstream code.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `unknown` for dynamic values and narrow types using type guards.
+
+### 2. Reckless Non-Null Assertions (!)
+- **Symptom / Issue:** Causes runtime `Cannot read property of undefined` crashes when assumptions fail.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Rely on optional chaining (`?.`) or explicit defensive guard statements.
+
+### 3. Inconsistent Type vs Interface Usage
+- **Symptom / Issue:** Hinders declaration merging and confuses team conventions.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `interface` for extensible object contracts and `type` for unions, primitives, and tuples.
 
 ---
 

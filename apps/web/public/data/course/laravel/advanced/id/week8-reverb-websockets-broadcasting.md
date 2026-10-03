@@ -1,6 +1,8 @@
 # Komunikasi Real-Time: Laravel Reverb WebSockets & Event Broadcasting
 
 > **Kategori:** Laravel Framework | **Level:** Lanjutan | **Minggu 8:** Komunikasi Real-Time: Laravel Reverb WebSockets & Event Broadcasting
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -107,6 +109,36 @@ Bayangkan ruang lelang barang antik. Ketika juru lelang mengetuk palu (Event), j
 ## Tantangan
 
 Gunakan Presence Channel (`new PresenceChannel("store.live-shoppers." . $storeId)`) untuk menghitung dan menampilkan jumlah pembeli yang sedang aktif melihat etalase toko secara live.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Mass Assignment Exception
+- **Gejala / Masalah:** Muncul error `Add [field] to fillable property to allow mass assignment` saat create/update model.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Daftarkan kolom yang aman di properti `protected $fillable = [...]` pada Model Eloquent.
+
+### 2. Menyimpan Logika Bisnis di Controller (Fat Controller)
+- **Gejala / Masalah:** Controller menjadi ribet, sulit diuji (*untestable*), dan melanggar prinsip Single Responsibility.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pindahkan logika bisnis ke Action Classes, Service Classes, atau Form Requests.
+
+### 3. Lupa Menjalankan `php artisan config:cache` di Server Produksi
+- **Gejala / Masalah:** Pembacaan file konfigurasi secara berulang memperlambat response time aplikasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Jalankan caching konfigurasi, route, dan view saat pipeline deployment produksi selesai.
 
 ---
 

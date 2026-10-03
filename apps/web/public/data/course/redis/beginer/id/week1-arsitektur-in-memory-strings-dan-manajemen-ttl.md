@@ -1,6 +1,8 @@
 # Arsitektur In-Memory, Strings & Manajemen TTL (Time-To-Live)
 
 > **Kategori:** Redis | **Level:** Struktur Data In-Memory & Pola Caching | **Minggu 1:** Arsitektur In-Memory, Strings & Manajemen TTL (Time-To-Live)
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -88,6 +90,36 @@ Bayangkan Redis seperti kasir tunggal super cepat di sebuah kedai kopi. Karena k
 ## Tantangan
 
 Rancang sistem penghitung kuota API sederhana (Rate Limiter primitif) per IP per menit menggunakan kombinasi perintah `INCR` dan penambahan `EXPIRE 60` hanya ketika counter bernilai 1.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Lupa Menetapkan TTL (Time-To-Live) pada Kunci Cache
+- **Gejala / Masalah:** Memori RAM Redis penuh (*Out of Memory*) dan mematikan fungsi penyimpanan kunci baru.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu tentukan masa kedaluwarsa pada kunci cache: `SET key val EX 3600` (1 jam).
+
+### 2. Menjalankan Perintah `KEYS *` di Server Produksi
+- **Gejala / Masalah:** Redis adalah single-threaded; `KEYS *` memblokir seluruh operasi database selama beberapa detik.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan perintah kursor non-blocking `SCAN` untuk mencari pola kunci di produksi.
+
+### 3. Menyimpan Objek Raksasa dalam Satu Key Tunggal
+- **Gejala / Masalah:** Memicu latensi jaringan tinggi saat transfer data dan membebani alokasi memori Redis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pecah objek raksasa ke dalam struktur `HSET` (Hash) atau simpan hanya data esensial yang sering diakses.
 
 ---
 

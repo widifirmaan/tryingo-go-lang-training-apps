@@ -1,6 +1,8 @@
 # Modern Component Communication: input(), input.required() & output() Signals
 
 > **Kategori:** Angular | **Level:** Standalone Components, Signals & Modern Control Flow | **Minggu 3:** Modern Component Communication: input(), input.required() & output() Signals
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -135,6 +137,36 @@ Major limitation: tracking parent changes required implementing cumbersome `ngOn
 ## Challenge
 
 Deploy the `model()` two-way signal primitive creating an `isConfirmed = model(false)` toggle synchronizing bidirectionally with parent components.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. RxJS Subscription Memory Leaks
+- **Symptom / Issue:** Subscriptions lingering after component destruction cause memory bloat and duplicate work.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `takeUntilDestroyed()` or resolve observables directly via the template `async` pipe.
+
+### 2. Suboptimal Default Change Detection
+- **Symptom / Issue:** Forces Angular to verify every single component on every browser event.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Switch to `ChangeDetectionStrategy.OnPush` and adopt Angular Signals.
+
+### 3. Bloated Shared Modules
+- **Symptom / Issue:** Impairs code splitting and inflates initial JavaScript bundle size.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Adopt Standalone Components and import only specific directives into the `imports: []` array.
 
 ---
 
