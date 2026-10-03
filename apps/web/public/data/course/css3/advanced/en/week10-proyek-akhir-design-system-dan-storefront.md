@@ -267,14 +267,102 @@ Add a sliding Shopping Bag Drawer to this storefront: implement `position: fixed
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram CSS Box Model (Margin, Border, Padding, Content)](/diagrams/box-model.svg)
+
+```diagram
+┌──────────────────────────────────────────────────────────┐
+│ MARGIN (Outer Transparent Space)                         │
+│   ┌──────────────────────────────────────────────────┐   │
+│   │ BORDER (Decorative Outline / Frame)              │   │
+│   │   ┌──────────────────────────────────────────┐   │   │
+│   │   │ PADDING (Inner Breathing Room)           │   │   │
+│   │   │   ┌──────────────────────────────────┐   │   │   │
+│   │   │   │ CONTENT (Rendered Width x Height)│   │   │   │
+│   │   │   └──────────────────────────────────┘   │   │   │
+│   │   └──────────────────────────────────────────┘   │   │
+│   └──────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `box-sizing: border-box;`
+- **Core Functionality:** Universal Box Model recalculation.
+- **Parameters / Attributes:** `border-box | content-box`.
+- **System Behavior & Return:** Includes padding and borders within calculated element width and height, preventing layout breakage and overflows.
+- **Practical Code Example:**
+```javascript
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+```
+- **Expected Execution Output:**
+```text
+Elements respect exact specified dimensions without expanding
+```
+
+### 2. `display: flex; justify-content: space-between; align-items: center;`
+- **Core Functionality:** One-dimensional Flexbox layout system.
+- **Parameters / Attributes:** `flex-direction, justify-content, align-items`.
+- **System Behavior & Return:** Distributes empty space and aligns child items along primary and cross axes flexibly.
+- **Practical Code Example:**
+```javascript
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+```
+- **Expected Execution Output:**
+```text
+Navbar brand and links pinned cleanly to opposite edges
+```
+
+### 3. `display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));`
+- **Core Functionality:** Two-dimensional responsive grid layout.
+- **Parameters / Attributes:** `grid-template-columns, gap`.
+- **System Behavior & Return:** Constructs responsive card grids that automatically calculate column counts without manual media queries.
+- **Practical Code Example:**
+```javascript
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+```
+- **Expected Execution Output:**
+```text
+Items rearrange smoothly into 1, 2, or 3 columns
+```
+
+### 4. `transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);`
+- **Core Functionality:** Interactive state change animation.
+- **Parameters / Attributes:** `property, duration, timing-function`.
+- **System Behavior & Return:** Interpolates CSS property changes smoothly when hover, focus, or active states trigger.
+- **Practical Code Example:**
+```javascript
+.btn {
+  background-color: #2E5B44;
+  transition: transform 0.2s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+```
+- **Expected Execution Output:**
+```text
+Button glides up 2px smoothly when hovered
+```
+
 
 ---
 

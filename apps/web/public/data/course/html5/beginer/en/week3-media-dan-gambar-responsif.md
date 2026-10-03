@@ -117,14 +117,91 @@ Build a product showcase card for "Artisan Watchmakers". Use `<picture>` with 3 
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
+
+```diagram
+┌──────────────────────────────────────────────────────────┐
+│                   <!DOCTYPE html>                        │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ <html lang="en">                                     │ │
+│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
+│ │  │ <head> (Metadata)       │ │ <body> (Visible UI) │ │ │
+│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
+│ │  │ • <title>Document</title>│ • <main>             │ │ │
+│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
+│ │  └─────────────────────────┘ └─────────────────────┘ │ │
+│ └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `<!DOCTYPE html>`
+- **Core Functionality:** Document type preamble.
+- **Parameters / Attributes:** `Must be placed on line 1`.
+- **System Behavior & Return:** Instructs web browsers to render the document in modern Standard Mode, avoiding legacy Quirks Mode rendering quirks.
+- **Practical Code Example:**
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+  <head><title>Tryngo Platform</title></head>
+</html>
+```
+- **Expected Execution Output:**
+```text
+Page renders strictly compliant with W3C HTML5 standards
+```
+
+### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+- **Core Functionality:** Responsive mobile viewport configuration.
+- **Parameters / Attributes:** `name, content`.
+- **System Behavior & Return:** Aligns viewport coordinates 1:1 with device physical pixels, preventing mobile browsers from shrinking text.
+- **Practical Code Example:**
+```javascript
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+- **Expected Execution Output:**
+```text
+Layout adapts dynamically to mobile, tablet, and desktop viewports
+```
+
+### 3. `<header>, <main>, <footer>`
+- **Core Functionality:** Semantic ARIA landmark structural elements.
+- **Parameters / Attributes:** `Global attributes (class, id, lang)`.
+- **System Behavior & Return:** Partitions documents into navigation headers, main content, and footer regions for accessibility screen readers.
+- **Practical Code Example:**
+```javascript
+<header><h1>News Feed</h1></header>
+<main><p>Primary article content.</p></main>
+<footer>&copy; 2026 Tryngo</footer>
+```
+- **Expected Execution Output:**
+```text
+Provides accessible landmark navigation for screen readers and SEO crawlers
+```
+
+### 4. `<form action="/api" method="POST">`
+- **Core Functionality:** Interactive user input container.
+- **Parameters / Attributes:** `action (target URL), method (GET/POST)`.
+- **System Behavior & Return:** Collects and packages validated user form inputs for HTTP submission to server endpoints.
+- **Practical Code Example:**
+```javascript
+<form action="/submit" method="POST">
+  <input type="text" name="username" required />
+  <button type="submit">Submit</button>
+</form>
+```
+- **Expected Execution Output:**
+```text
+Form inputs serialized and transmitted on submit
+```
+
 
 ---
 

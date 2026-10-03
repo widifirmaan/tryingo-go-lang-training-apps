@@ -146,14 +146,85 @@ Enhance `sp_transfer_funds` to atomically write double-entry debit and credit re
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Relasi Relasional & Eksekusi Query Joins](/diagrams/sql-joins.svg)
+
+```diagram
+┌──────────────┐      Call Stack Empty?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Frames)│                             │  (Coordinator) │
+└──────┬───────┘                             └───────▲────────┘
+       │ Async Operations (Fetch / Timer)            │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
+│ (Background) │                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
+- **Core Functionality:** Relational schema definition.
+- **Parameters / Attributes:** `Column names, Data types, Constraints (PK/FK/NOT NULL)`.
+- **System Behavior & Return:** Constructs strongly typed database tables with guaranteed relational integrity.
+- **Practical Code Example:**
+```javascript
+CREATE TABLE accounts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  balance NUMERIC(10, 2) DEFAULT 0.00
+);
+```
+- **Expected Execution Output:**
+```text
+Initializes accounts table ready for ACID transactions
+```
+
+### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
+- **Core Functionality:** Declarative relational data retrieval.
+- **Parameters / Attributes:** `Column list, Filter predicates, Ordering, Paging limit`.
+- **System Behavior & Return:** Fetches matching database records with predictable execution plan optimization.
+- **Practical Code Example:**
+```javascript
+SELECT id, email, balance FROM accounts WHERE balance > 0 ORDER BY balance DESC LIMIT 5;
+```
+- **Expected Execution Output:**
+```text
+Returns top 5 funded customer accounts
+```
+
+### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
+- **Core Functionality:** Atomic record insertion with immediate return.
+- **Parameters / Attributes:** `Columns, Insert values, RETURNING clause`.
+- **System Behavior & Return:** Persists new row data and returns computed primary keys or defaults without an extra query.
+- **Practical Code Example:**
+```javascript
+INSERT INTO accounts (email) VALUES ('dev@tryngo.com') RETURNING id;
+```
+- **Expected Execution Output:**
+```text
+Returns newly allocated UUID primary key
+```
+
+### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
+- **Core Functionality:** Multi-table relational join.
+- **Parameters / Attributes:** `Table identifiers, ON match predicate`.
+- **System Behavior & Return:** Correlates rows across related tables matching foreign key references.
+- **Practical Code Example:**
+```javascript
+SELECT a.email, t.amount FROM accounts a INNER JOIN transactions t ON a.id = t.account_id;
+```
+- **Expected Execution Output:**
+```text
+Consolidates account holders with their transaction history
+```
+
 
 ---
 

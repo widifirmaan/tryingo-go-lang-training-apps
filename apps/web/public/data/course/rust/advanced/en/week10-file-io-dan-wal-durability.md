@@ -161,14 +161,92 @@ Add OpCode `2` for `DEL` operations in the WAL logger, updating `replay_wal_log`
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Rust Ownership, Move Semantics & Borrowing Memory](/diagrams/rust-ownership.svg)
+
+```diagram
+┌──────────────┐      Call Stack Empty?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Frames)│                             │  (Coordinator) │
+└──────┬───────┘                             └───────▲────────┘
+       │ Async Operations (Fetch / Timer)            │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
+│ (Background) │                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `let x = 5; let mut y = 10;`
+- **Core Functionality:** Default immutable and mutable binding.
+- **Parameters / Attributes:** `Variable identifier, mut keyword`.
+- **System Behavior & Return:** Rust defaults variables to read-only guarantees to eliminate race conditions and unexpected mutations.
+- **Practical Code Example:**
+```javascript
+let mut health = 100;
+health -= 20;
+println!("Health: {}", health);
+```
+- **Expected Execution Output:**
+```text
+Health: 80
+```
+
+### 2. `&T (Borrow) vs &mut T (Mutable Borrow)`
+- **Core Functionality:** Strict reference borrowing model.
+- **Parameters / Attributes:** `Referenced memory location`.
+- **System Behavior & Return:** Permits data inspection without moving ownership, enforcing either one mutable borrow OR multiple shared borrows.
+- **Practical Code Example:**
+```javascript
+fn display_len(s: &String) {
+  println!("Length: {}", s.len());
+}
+```
+- **Expected Execution Output:**
+```text
+Inspects string length while preserving caller ownership
+```
+
+### 3. `match value { Pattern => Action }`
+- **Core Functionality:** Exhaustive algebraic pattern matching.
+- **Parameters / Attributes:** `Expression, Match arms`.
+- **System Behavior & Return:** Evaluates all enum variants with compile-time verification ensuring no condition is left unhandled.
+- **Practical Code Example:**
+```javascript
+let res: Option<i32> = Some(10);
+match res {
+  Some(v) => println!("Value: {}", v),
+  None => println!("Empty"),
+}
+```
+- **Expected Execution Output:**
+```text
+Value: 10
+```
+
+### 4. `Result<T, E> & Operator ?`
+- **Core Functionality:** Deterministic functional error propagation.
+- **Parameters / Attributes:** `Ok(T), Err(E)`.
+- **System Behavior & Return:** Avoids runtime exceptions by passing structured errors upward using the concise `?` propagation operator.
+- **Practical Code Example:**
+```javascript
+fn load_file() -> Result<String, std::io::Error> {
+  let data = std::fs::read_to_string("app.log")?;
+  Ok(data)
+}
+```
+- **Expected Execution Output:**
+```text
+Returns file contents or bubbles I/O error upwards cleanly
+```
+
 
 ---
 

@@ -91,14 +91,89 @@ Create a custom type `TicketPriority` ("LOW" | "MEDIUM" | "HIGH" | "CRITICAL") a
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+```diagram
+┌──────────────┐      Call Stack Empty?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Frames)│                             │  (Coordinator) │
+└──────┬───────┘                             └───────▲────────┘
+       │ Async Operations (Fetch / Timer)            │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
+│ (Background) │                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `interface Name { prop: Type; }`
+- **Core Functionality:** Strongly typed object contract definition.
+- **Parameters / Attributes:** `Field names, Types, Optional (?)`.
+- **System Behavior & Return:** Enforces compile-time structural contracts across object literals, classes, and function parameters.
+- **Practical Code Example:**
+```javascript
+interface User {
+  id: string;
+  name: string;
+  role?: string;
+}
+const u: User = { id: 'u1', name: 'Alex' };
+```
+- **Expected Execution Output:**
+```text
+Compile-time validation succeeds with zero type errors
+```
+
+### 2. `type Union = TypeA | TypeB`
+- **Core Functionality:** Disjoint union type combination.
+- **Parameters / Attributes:** `Two or more distinct types`.
+- **System Behavior & Return:** Restricts variable assignments strictly to predefined variants or primitive literal choices.
+- **Practical Code Example:**
+```javascript
+type Status = 'idle' | 'loading' | 'success';
+let s: Status = 'loading';
+```
+- **Expected Execution Output:**
+```text
+Guarantees only one of the 3 specified string literals can be assigned
+```
+
+### 3. `function genericFn<T>(arg: T): T`
+- **Core Functionality:** Type-safe reusable generic abstraction.
+- **Parameters / Attributes:** `Type Parameter T`.
+- **System Behavior & Return:** Enables creation of parameterized functions and collections while preserving concrete type information.
+- **Practical Code Example:**
+```javascript
+function wrap<T>(item: T): { data: T } {
+  return { data: item };
+}
+const w = wrap(42); // Type: { data: number }
+```
+- **Expected Execution Output:**
+```text
+{ data: 42 }
+```
+
+### 4. `Partial<T> / Pick<T, K> / Omit<T, K>`
+- **Core Functionality:** Built-in utility type transformations.
+- **Parameters / Attributes:** `Base Type T, Selected Keys K`.
+- **System Behavior & Return:** Transforms existing types into optional variants (`Partial`) or selects field subsets cleanly.
+- **Practical Code Example:**
+```javascript
+interface Item { id: string; name: string; price: number; }
+type PatchItem = Partial<Item>;
+```
+- **Expected Execution Output:**
+```text
+All properties become optional for update requests
+```
+
 
 ---
 

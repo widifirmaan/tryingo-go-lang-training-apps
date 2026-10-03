@@ -127,14 +127,91 @@ Tambahkan penanganan multi-vendor settlement: bagi total pembayaran pelanggan me
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+```diagram
+┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Code)  │                             │  (Pemeriksa)   │
+└──────┬───────┘                             └───────▲────────┘
+       │ Operasi Async (Fetch / Timer)               │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
+│  (Background)│                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `const / let variabel`
+- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
+- **Parameter / Atribut:** `Identifier, Initial Value`.
+- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+- **Contoh Penggunaan Praktis:**
+```javascript
+const appName = 'Tryngo';
+let counter = 0;
+counter += 1;
+console.log(appName, counter);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Tryngo 1
+```
+
+### 2. `() => { ... } (Arrow Function)`
+- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
+- **Parameter / Atribut:** `Parameters, Function Body`.
+- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+- **Contoh Penggunaan Praktis:**
+```javascript
+const multiply = (a, b) => a * b;
+console.log(multiply(6, 7));
+```
+- **Hasil Output yang Diharapkan:**
+```text
+42
+```
+
+### 3. `async / await & fetch(url)`
+- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
+- **Parameter / Atribut:** `URL string, RequestInit options`.
+- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+- **Contoh Penggunaan Praktis:**
+```javascript
+async function fetchUser(id) {
+  const res = await fetch(`https://api.example.com/users/${id}`);
+  const data = await res.json();
+  return data;
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Mengembalikan objek data JSON terurai dari server
+```
+
+### 4. `Array.prototype.map() / filter()`
+- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
+- **Parameter / Atribut:** `callback(item, index, array)`.
+- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+- **Contoh Penggunaan Praktis:**
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const doubledEvens = numbers
+  .filter(n => n % 2 === 0)
+  .map(n => n * 2);
+console.log(doubledEvens);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+[4, 8]
+```
+
 
 ---
 

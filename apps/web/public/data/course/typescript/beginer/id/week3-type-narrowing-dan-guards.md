@@ -113,14 +113,89 @@ Rancang Discriminated Union `ApiResponse<T>` yang memiliki status "SUCCESS" (mem
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+```diagram
+┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Code)  │                             │  (Pemeriksa)   │
+└──────┬───────┘                             └───────▲────────┘
+       │ Operasi Async (Fetch / Timer)               │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
+│  (Background)│                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `interface Name { prop: Type; }`
+- **Fungsi Utama:** Mendefinisikan kontrak bentuk objek terstruktur.
+- **Parameter / Atribut:** `Field names, Types, Optional (?)`.
+- **Perilaku & Efek Sistem:** Menjamin seluruh objek yang dibuat mematuhi struktur tipe yang ditentukan secara ketat saat compile-time.
+- **Contoh Penggunaan Praktis:**
+```javascript
+interface Student {
+  id: string;
+  name: string;
+  gpa?: number;
+}
+const alex: Student = { id: 's1', name: 'Alex' };
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Validasi kompilasi berhasil tanpa error type mismatch
+```
+
+### 2. `type Union = TypeA | TypeB`
+- **Fungsi Utama:** Tipe gabungan multi-kondisi (Union Type).
+- **Parameter / Atribut:** `Dua atau lebih definisi tipe`.
+- **Perilaku & Efek Sistem:** Mengizinkan variabel memiliki salah satu dari sekumpulan nilai atau struktur tipe yang diizinkan.
+- **Contoh Penggunaan Praktis:**
+```javascript
+type Status = 'pending' | 'success' | 'failed';
+let currentStatus: Status = 'success';
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Hanya menerima 3 kemungkinan string yang dideklarasikan
+```
+
+### 3. `function genericFn<T>(arg: T): T`
+- **Fungsi Utama:** Fungsi tipe dinamis aman (Generics).
+- **Parameter / Atribut:** `Type Parameter T`.
+- **Perilaku & Efek Sistem:** Memungkinkan pembuatan fungsi atau struktur kelas yang dapat bekerja dengan beragam tipe data dengan tetap menjaga type-safety.
+- **Contoh Penggunaan Praktis:**
+```javascript
+function getFirst<T>(items: T[]): T | undefined {
+  return items[0];
+}
+const firstNum = getFirst([10, 20]); // Type: number
+```
+- **Hasil Output yang Diharapkan:**
+```text
+10 (dengan inferensi tipe number murni)
+```
+
+### 4. `Partial<T> / Pick<T, K> / Omit<T, K>`
+- **Fungsi Utama:** Tipe utilitas bawaan TypeScript.
+- **Parameter / Atribut:** `Type T, Keys K`.
+- **Perilaku & Efek Sistem:** Mentransformasi struktur tipe yang sudah ada menjadi opsional (`Partial`) atau mengambil subset field spesifik.
+- **Contoh Penggunaan Praktis:**
+```javascript
+interface Product { id: string; name: string; price: number; }
+type UpdateProductDto = Partial<Product>;
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Semua properti Product berubah menjadi opsional untuk update
+```
+
 
 ---
 

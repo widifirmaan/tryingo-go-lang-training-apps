@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="100%" height="100%">
+  <rect width="600" height="340" rx="16" fill="#18181b" />
+  <g fill="#27272a" stroke="#3f3f46" stroke-width="2">
+    <rect x="225" y="25" width="150" height="40" rx="8" fill="#3b82f6" stroke="#60a5fa" />
+    <rect x="225" y="95" width="150" height="40" rx="8" fill="#10b981" stroke="#34d399" />
+    <rect x="80" y="175" width="140" height="40" rx="8" fill="#6366f1" stroke="#818cf8" />
+    <rect x="380" y="175" width="140" height="40" rx="8" fill="#f59e0b" stroke="#fbbf24" />
+    <rect x="300" y="255" width="110" height="40" rx="8" fill="#ec4899" stroke="#f472b6" />
+    <rect x="440" y="255" width="110" height="40" rx="8" fill="#8b5cf6" stroke="#a78bfa" />
+  </g>
+  <path d="M300 65 v30 M300 135 L150 175 M300 135 L450 175 M450 215 L355 255 M450 215 L495 255" stroke="#71717a" stroke-width="2" />
+  <g fill="#ffffff" font-family="system-ui, sans-serif" font-weight="700" font-size="13" text-anchor="middle">
+    <text x="300" y="50">DOCUMENT</text>
+    <text x="300" y="120">&lt;html&gt; (Root)</text>
+    <text x="150" y="200">&lt;head&gt; (Metadata)</text>
+    <text x="450" y="200">&lt;body&gt; (Tampilan)</text>
+    <text x="355" y="280">&lt;h1&gt; Judul</text>
+    <text x="495" y="280">&lt;p&gt; Paragraf</text>
+  </g>
+</svg>
