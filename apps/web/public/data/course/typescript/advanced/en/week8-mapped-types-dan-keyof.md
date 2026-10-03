@@ -1,0 +1,111 @@
+# Mapped Types, the keyof Operator & Immutable State Store
+
+> **Kategori:** TypeScript | **Level:** Advanced Type Systems & Portfolio Capstone | **Minggu 8:** Mapped Types, the keyof Operator & Immutable State Store
+
+## Learning Objectives
+
+- Master the keyof operator to extract property key unions from any interface
+- Construct custom Mapped Types iterating over object keys dynamically
+- Deploy Key Remapping (`as`) and string intrinsic primitives (Capitalize, Uppercase)
+- Author recursive DeepReadonly utilities enforcing complete state immutability
+- Prevent race condition state corruptions in enterprise financial asset management
+
+---
+
+## Program: Reactive Immutable State Store with Deep Readonly Mapped Types
+
+```typescript
+// 1. keyof Operator: Mengambil Union dari Semua Kunci Objek
+interface PortofolioState {
+  totalAset: number;
+  simbolAktif: string[];
+  sedangSinkronisasi: boolean;
+}
+
+type KunciPortofolio = keyof PortofolioState; // "totalAset" | "simbolAktif" | "sedangSinkronisasi"
+
+// 2. Mapped Type: Mengubah Setiap Kunci Properti Menjadi Getter Method
+type GetterPortofolio<T> = {
+  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+};
+
+// 3. Deep Readonly: Mengunci Objek Bertingkat Sampai Kedalaman Terdalam
+type DeepReadonly<T> = {
+  readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K];
+};
+
+interface KonfigurasiInvestasi {
+  profilRisiko: string;
+  aturanBatas: {
+    maksimalAlokasiSatuEmiten: number;
+    stopLossPersen: number;
+  };
+}
+
+const configAman: DeepReadonly<KonfigurasiInvestasi> = {
+  profilRisiko: "MODERAT",
+  aturanBatas: {
+    maksimalAlokasiSatuEmiten: 0.20,
+    stopLossPersen: 0.05
+  }
+};
+
+// configAman.aturanBatas.stopLossPersen = 0.1; // COMPILE ERROR: Deeply locked!
+
+console.log("Status Konfigurasi:", configAman.profilRisiko);
+console.log("Stop Loss Terkunci:", configAman.aturanBatas.stopLossPersen * 100, "%");
+```
+
+---
+
+## Key Concepts
+
+### The `keyof` Operator
+The `keyof` operator extracts all public keys of a type into a string literal union, enabling bulletproof dynamic property lookups:
+```typescript
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+```
+
+### Mapped Types (`[K in keyof T]`)
+When you need to project an interface schema by transforming its fields (e.g. converting properties into getter methods, nullable values, or promises), deploy Mapped Types:
+```typescript
+type Nullable<T> = {
+  [K in keyof T]: T[K] | null;
+};
+```
+
+### Key Remapping via `as`
+With Key Remapping, property identifiers can be reshaped during mapping:
+`[K in keyof T as \`get\${Capitalize<string & K>}\`]: () => T[K];`
+This automatically projects a `name` field into a `getName()` accessor type signature.
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Restaurant Menus & Laminated Legal Deeds
+1. **`keyof`** is an authorized restaurant menu: you can only order items printed on the menu; ordering off-menu triggers immediate rejection by the kitchen staff.
+2. **Deep Readonly** is a tamper-evident laminated legal deed: not only is the outer binder sealed, but every nested sub-page is permanently shielded against alterations.
+
+## Experiments
+
+- Uncomment the mutation line configAman.aturanBatas.stopLossPersen to see deep immutability in action.
+- Construct a Mapped Type converting every property value into string representations.
+- Execute keyof over an interface with dozens of properties to observe the resulting union.
+- Append an array field to KonfigurasiInvestasi and verify DeepReadonly locks mutation methods.
+
+---
+
+## Challenge
+
+Author a Mapped Type `ValidationSchema<T>` projecting every property of `T` into a validation predicate: `(value: T[K]) => boolean | string`. Verify against `UserProfile`.
+
+---
+
+## Summary
+
+You have mastered keyof, Mapped Types, Key Remapping, and Deep Readonly. Next week, we examine Declaration Files (.d.ts) and enterprise compilation flags.

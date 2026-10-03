@@ -1,0 +1,120 @@
+# Responsive Media: Picture Element, Srcset Images & Multimedia
+
+> **Kategori:** HTML5 | **Level:** Structure & Web Semantics | **Minggu 3:** Responsive Media: Picture Element, Srcset Images & Multimedia
+
+## Learning Objectives
+
+- Write accessible <img> tags with informative, descriptive alt text
+- Prevent Cumulative Layout Shift (CLS) by always supplying explicit width and height dimensions
+- Employ the <picture> element and <source> tags to deliver next-gen WebP/AVIF formats
+- Leverage native deferred asset loading via loading="lazy" and decoding="async"
+- Embed accessible native <video> and <audio> players complete with WebVTT subtitle tracks (<track>)
+
+---
+
+## Program: Adaptive Image Delivery & Native HTML5 Audio-Video
+
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aset Multimedia — Nusa Digital</title>
+</head>
+<body>
+  <main>
+    <article>
+      <h1>Pusat Dokumentasi Media & Galeri Infrastruktur</h1>
+
+      <section>
+        <h2>1. Server Data Center Utama (Format Gambar Modern)</h2>
+        <p>Arsitektur penyajian gambar multi-resolusi untuk menghemat bandwidth seluler:</p>
+
+        <!-- Elemen picture untuk art direction dan format next-gen -->
+        <picture>
+          <source media="(min-width: 1024px)" srcset="datacenter-large.webp" type="image/webp">
+          <source media="(min-width: 640px)" srcset="datacenter-medium.webp" type="image/webp">
+          <source srcset="datacenter-small.webp" type="image/webp">
+          <img src="datacenter-fallback.jpg" 
+               alt="Rak server enterprise Nusa Digital dengan indikator LED aktif di ruang kontrol berpendingin presisi"
+               width="800" 
+               height="450" 
+               loading="lazy" 
+               decoding="async">
+        </picture>
+        <p><small>Gambar di atas otomatis menyajikan WebP untuk browser modern dan fallback JPEG untuk kompatibilitas lama.</small></p>
+      </section>
+
+      <section>
+        <h2>2. Video Pengenalan Fasilitas</h2>
+        <video controls width="640" height="360" poster="video-cover.jpg" preload="metadata">
+          <source src="nusa-overview.mp4" type="video/mp4">
+          <source src="nusa-overview.webm" type="video/webm">
+          <track kind="subtitles" src="subtitles-id.vtt" srclang="id" label="Bahasa Indonesia" default>
+          <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
+          Browser Anda tidak mendukung pemutaran video HTML5 native.
+        </video>
+      </section>
+
+      <section>
+        <h2>3. Podcast Rekayasa Perangkat Lunak</h2>
+        <audio controls preload="none">
+          <source src="episode-01.mp3" type="audio/mpeg">
+          <source src="episode-01.ogg" type="audio/ogg">
+          Browser Anda tidak mendukung elemen audio HTML5.
+        </audio>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
+```
+
+---
+
+## Key Concepts
+
+### The Alt Attribute and Preventing CLS
+The `alt` attribute conveys image intent when visuals fail to load or are spoken by screen readers. Explicit `width` and `height` attributes allow browsers to calculate aspect ratio placeholders beforehand, preventing Cumulative Layout Shift (CLS).
+
+### The <picture> Element vs Img Srcset
+`<picture>` gives developers granular control over format selection and art direction:
+- `<source type="image/webp">` delivers compressed next-gen image assets to modern clients.
+- The concluding `<img>` tag acts as the mandatory fallback container.
+
+### Native Lazy Loading
+The `loading="lazy"` attribute defers image network requests until the user scrolls within proximity of the asset, significantly speeding up initial page load.
+
+### Multimedia Inclusivity with <track>
+The `<track kind="subtitles">` element links WebVTT text files, providing synchronous captioning for deaf and hard-of-hearing users or silent viewing contexts.
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Restaurant Table Reservations
+1. **`width` & `height` dimensions** are like reserving a restaurant table in advance: the staff reserves the exact footprint before you arrive. Without dimensions, food arrives unexpectedly and tables must be shifted abruptly (which is Cumulative Layout Shift).
+2. **`<picture>`** is like presenting custom menus depending on the guest's language preference.
+3. **`<track>` subtitles** are the synchronized subtitles projected during international film screenings.
+
+## Experiments
+
+- Break the image URL intentionally and inspect how the browser falls back to the descriptive alt string.
+- Remove width and height attributes under throttled network conditions (DevTools Slow 3G) and watch surrounding layout jump.
+- Inspect native video controls with and without the <track> element to verify the emergence of the CC button.
+- Toggle preload="none" to preload="auto" on the audio element and observe network payloads in the DevTools Network panel.
+
+---
+
+## Challenge
+
+Build a product showcase card for "Artisan Watchmakers". Use `<picture>` with 3 media-query breakpoints and WebP sources, include explicit width/height, `loading="lazy"`, and a product review video equipped with a WebVTT subtitle track.
+
+---
+
+## Summary
+
+You have mastered adaptive image optimization, layout shift elimination, and accessible multimedia embedding. Next week, we examine structured tabular data presentation.

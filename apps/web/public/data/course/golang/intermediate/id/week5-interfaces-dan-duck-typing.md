@@ -1,0 +1,137 @@
+# Interfaces & Duck Typing: Komposisi Implisit, Type Assertions & Tipe any
+
+> **Kategori:** Go | **Level:** Interface, Konkurensi & Channel Pipes | **Minggu 5:** Interfaces & Duck Typing: Komposisi Implisit, Type Assertions & Tipe any
+
+## Tujuan Pembelajaran
+
+- Memahami filosofi Duck Typing di Go: "If it walks like a duck and quacks like a duck, it is a duck"
+- Mengetahui bahwa Go sama sekali tidak memiliki kata kunci `implements` (implementasi kontrak bersifat 100% implisit)
+- Menerapkan prinsip Interface Segregation: membuat interface kecil berukuran 1-3 method (misal io.Reader, io.Writer)
+- Menggunakan Type Assertion (val.(ConcreteType)) dan Type Switch untuk inspeksi tipe dinamis
+- Memahami penggunaan tipe `any` (alias untuk interface{}) dan batas keamanannya
+
+---
+
+## Program: Adapter Penyimpanan Cache Gateway (Memory vs Redis Cache Adapter)
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// 1. Interface: Kontrak Perilaku Murni (Tanpa Implementasi)
+// Aturan Go: "Interfaces should be small and discovered, not designed up-front."
+type PenyimpanCache interface {
+	Simpan(kunci string, nilai string, ttl time.Duration) error
+	Ambil(kunci string) (string, bool)
+	Hapus(kunci string) error
+}
+
+// 2. Implementasi 1: In-Memory Map Cache
+type MemoryCache struct {
+	storage map[string]string
+}
+
+func NewMemoryCache() *MemoryCache {
+	return &MemoryCache{storage: make(map[string]string)}
+}
+
+// Implementasi implisit (Tidak ada kata kunci 'implements' di Go!)
+func (m *MemoryCache) Simpan(kunci string, nilai string, ttl time.Duration) error {
+	m.storage[kunci] = nilai
+	return nil
+}
+
+func (m *MemoryCache) Ambil(kunci string) (string, bool) {
+	val, ok := m.storage[kunci]
+	return val, ok
+}
+
+func (m *MemoryCache) Hapus(kunci string) error {
+	delete(m.storage, kunci)
+	return nil
+}
+
+// 3. Fungsi Konsumen: Bergantung pada Interface, Bukan Implementasi Konkret
+func daftarkanSesiUser(cache PenyimpanCache, token string, userId string) {
+	err := cache.Simpan(token, userId, 15*time.Minute)
+	if err != nil {
+		fmt.Println("Gagal menyimpan sesi:", err)
+		return
+	}
+	fmt.Printf("[Cache Engine] Sesi token '%s' tersimpan untuk user '%s'\n", token, userId)
+}
+
+func main() {
+	// Membuktikan Duck Typing: MemoryCache otomatis dianggap sebagai PenyimpanCache
+	cacheEngine := NewMemoryCache()
+	daftarkanSesiUser(cacheEngine, "sess_abc123", "USR-9988")
+
+	if val, ok := cacheEngine.Ambil("sess_abc123"); ok {
+		fmt.Printf("Verifikasi Cache Hit: User ID = %s\n", val)
+	}
+
+	// 4. Type Switch & Type Assertion
+	var objekBebas any = "Teks String Bebas"
+	switch v := objekBebas.(type) {
+	case string:
+		fmt.Println("Tipe data terdeteksi: string, panjang =", len(v))
+	case int:
+		fmt.Println("Tipe data terdeteksi: integer =", v)
+	default:
+		fmt.Println("Tipe data tidak diketahui")
+	}
+}
+```
+
+---
+
+## Konsep Kunci
+
+### Mengapa Interface di Go Sangat Revolusioner?
+Di Java, C#, atau TypeScript, Anda harus secara eksplisit menulis:
+`class MemoryCache implements PenyimpanCache`.
+Ini menciptakan ikatan kaku (*tight coupling*): jika library pihak ketiga tidak mengimplementasikan interface Anda, Anda tidak bisa menggunakannya.
+
+**Di Go, Interface bersifat IMPLISIT**:
+Jika struct Anda memiliki method `Simpan`, `Ambil`, dan `Hapus` dengan tanda tangan yang sama, struct Anda **secara otomatis dianggap telah mengimplementasikan `PenyimpanCache` tanpa deklarasi apapun**!
+Penulis struct tidak perlu tahu bahwa interface tersebut ada. Pembuat interface-lah yang menentukan kontrak yang ia butuhkan.
+
+### Pepatah Go: "Semakin Besar Interface, Semakin Lemah Abstraksinya"
+Standard library Go terkenal dengan interface satu-method yang sangat kuat:
+- `io.Reader`: `Read(p []byte) (n int, err error)`
+- `io.Writer`: `Write(p []byte) (n int, err error)`
+- `fmt.Stringer`: `String() string`
+Hindari membuat interface raksasa dengan 20 method! Buat interface mini dan gabungkan jika diperlukan.
+
+---
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Colokan Stopkontak Dinding Dua Lubang
+Di rumah Anda, ada stopkontak listrik 2 lubang di dinding (*Interface PenyimpanCache*).
+Pabrik kipas angin, pabrik kulkas, dan pabrik charger ponsel (*struct MemoryCache / RedisCache*) tidak pernah saling kenal. Namun asalkan steker kabel mereka memiliki 2 batang besi berjarak standar (*memiliki method yang cocok*), semua alat tersebut otomatis bisa dicolokkan ke stopkontak dinding tanpa perlu surat perjanjian pabrik (*tanpa implements*).
+
+## Eksperimen
+
+- Buat struct baru RedisCache dan implementasikan ketiga method-nya; oper ke daftarkanSesiUser untuk membuktikan polimorfisme instan.
+- Hapus method Hapus dari MemoryCache dan amati pesan kompilasi compiler: "does not implement PenyimpanCache (missing method Hapus)".
+- Gunakan Type Assertion val, ok := objekBebas.(string) untuk membaca nilai string secara aman.
+- Gabungkan dua interface kecil menjadi satu interface gabungan menggunakan teknik Interface Embedding.
+
+---
+
+## Tantangan
+
+Rancang interface `PenyaringTrafik` dengan method `Izinkan(ip string) bool`. Implementasikan dua struct: `WhiteListFilter` (hanya izinkan IP terdaftar) dan `RateLimitFilter` (batasi maksimal 5 hit).
+
+---
+
+## Ringkasan
+
+Kamu telah menguasai Interfaces implisit, Duck Typing, dan Type Assertions. Minggu depan kita memasuki kekuatan terbesar Go: Goroutines dan Konkurensi sync.WaitGroup.

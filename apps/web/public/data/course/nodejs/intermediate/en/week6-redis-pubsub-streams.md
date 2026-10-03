@@ -1,0 +1,109 @@
+# Distributed Messaging: Redis Pub/Sub vs Redis Streams & Consumer Groups
+
+> **Kategori:** Node.js Backend | **Level:** Intermediate | **Minggu 6:** Distributed Messaging: Redis Pub/Sub vs Redis Streams & Consumer Groups
+
+## Learning Objectives
+
+- Differentiate Redis Pub/Sub (ephemeral fire-and-forget) from Redis Streams (durable, ordered log).
+- Use core Redis Streams commands: `XADD`, `XREAD`, `XRANGE`, and `XACK`.
+- Implement Consumer Groups distributing streaming workloads across worker instances.
+- Handle consumer failure recoveries via Pending Entries Lists (PEL) and `XCLAIM`.
+
+---
+
+## Program: Distributed Telemetry Event Router with Redis Streams & Consumer Groups
+
+```javascript
+// Simulasi In-Memory Redis Streams Engine untuk Demonstrasi Arsitektur
+class InMemoryRedisStreams {
+  constructor() {
+    this.streams = new Map();
+    this.consumerOffsets = new Map();
+  }
+
+  // XADD: Tambahkan event ke Stream
+  xadd(streamKey, id, fields) {
+    if (!this.streams.has(streamKey)) {
+      this.streams.set(streamKey, []);
+    }
+    const entryId = id === '*' ? `${Date.now()}-0` : id;
+    const entry = { id: entryId, fields };
+    this.streams.get(streamKey).push(entry);
+    return entryId;
+  }
+
+  // XREADGROUP: Baca event sebagai anggota Consumer Group dengan Ack
+  xreadgroup(groupName, consumerName, streamKey, count = 2) {
+    const stream = this.streams.get(streamKey) || [];
+    const key = `${groupName}:${streamKey}`;
+    const lastReadIndex = this.consumerOffsets.get(key) || 0;
+
+    const available = stream.slice(lastReadIndex, lastReadIndex + count);
+    this.consumerOffsets.set(key, lastReadIndex + available.length);
+    return available;
+  }
+}
+
+const redis = new InMemoryRedisStreams();
+
+// 1. Produsen: Mempublikasikan event telemetri ke stream 'telemetry:events'
+console.log('=== PRODUCER: MEMPUBLIKASIKAN EVENT KE REDIS STREAMS (XADD) ===');
+const id1 = redis.xadd('telemetry:events', '*', { sensorId: 'SNS-A1', temp: 34.2, alert: 'NORMAL' });
+const id2 = redis.xadd('telemetry:events', '*', { sensorId: 'SNS-B2', temp: 88.5, alert: 'OVERHEAT' });
+const id3 = redis.xadd('telemetry:events', '*', { sensorId: 'SNS-C3', temp: 22.0, alert: 'NORMAL' });
+
+console.log(`Event dipublikasikan dengan IDs: ${id1}, ${id2}, ${id3}`);
+
+// 2. Konsumen Kelompok (Consumer Group Worker 1 & Worker 2)
+console.log('\n=== CONSUMER GROUP: DISTRIBUSI BEBAN KERJA BERSAMA ===');
+const batchWorker1 = redis.xreadgroup('alert-processors', 'worker-pod-1', 'telemetry:events', 2);
+console.log('[WORKER 1] Menerima', batchWorker1.length, 'event untuk diproses:');
+batchWorker1.forEach(e => console.log(` -> ID: ${e.id} | Sensor: ${e.fields.sensorId} | Temp: ${e.fields.temp}°C`));
+
+const batchWorker2 = redis.xreadgroup('alert-processors', 'worker-pod-2', 'telemetry:events', 2);
+console.log('\n[WORKER 2] Menerima sisa', batchWorker2.length, 'event dari stream:');
+batchWorker2.forEach(e => console.log(` -> ID: ${e.id} | Sensor: ${e.fields.sensorId} | Temp: ${e.fields.temp}°C`));
+```
+
+---
+
+## Key Concepts
+
+When Node.js applications scale across clustered containers in the cloud, distributed event routing tiers become mandatory to coordinate workloads across nodes.
+
+### Redis Pub/Sub vs Redis Streams
+- **Redis Pub/Sub**: Operates on a *fire-and-forget* principle. If a subscriber experiences momentary network blips or container restarts, transmitted messages vanish irrecoverably. Suited for real-time ephemeral notifications or cache invalidation signals.
+- **Redis Streams**: Acts as an append-only durable commit log modeled after Apache Kafka. Messages receive chronological timestamped IDs. Disconnected workers recover missed events upon reconnecting.
+
+### Consumer Groups Architecture
+**Consumer Groups** allow clusters of worker pods to divide stream ingestion dynamically. Redis guarantees that each discrete event within a consumer group is routed exclusively to a single active worker, establishing native horizontal load balancing.
+
+### Delivery Guarantees: XACK & The PEL
+Upon completing work, consumers issue an `XACK` acknowledgment. If a worker pod crashes mid-computation, the unacknowledged event remains inside the **Pending Entries List (PEL)**, allowing healthy peer workers to adopt and process it via `XCLAIM`.
+
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+Think of broadcast FM radio (Redis Pub/Sub). If you turn off your car radio for five minutes, you miss whatever song aired and cannot retrieve it. In contrast, consider a queued Spotify playlist (Redis Streams): every track is durably cataloged, allowing you to pause, resume, or replay whenever you are ready.
+
+## Experiments
+
+- Adjust the `count` parameter in `xreadgroup` to 1 and inspect granular distribution behavior.
+- Simulate an unacknowledged worker failure and audit the pending entries list.
+- Deploy Redis Pub/Sub (`PUBLISH`/`SUBSCRIBE`) and compare latency characteristics against Streams.
+
+---
+
+## Challenge
+
+Author a `recoverPendingTasks(streamKey, groupName, minIdleTimeMs)` worker that periodically inspects stalled entries in the PEL, reclaiming them for completion.
+
+---
+
+## Summary
+
+You have mastered Redis Streams, Consumer Groups, and delivery guarantees. Next week we construct high-scale WebSocket servers with heartbeats.

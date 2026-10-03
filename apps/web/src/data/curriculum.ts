@@ -77,6 +77,7 @@ import { html5Curriculum } from './curricula/html5';
 import { golangCurriculum } from './curricula/golang';
 import { rustCurriculum } from './curricula/rust';
 import { css3Curriculum } from './curricula/css3';
+import { tailwindCurriculum } from './curricula/tailwind';
 import { javascriptCurriculum } from './curricula/javascript';
 import { typescriptCurriculum } from './curricula/typescript';
 import { nextjsCurriculum } from './curricula/nextjs';
@@ -106,6 +107,7 @@ const CUSTOM_CURRICULA: Record<string, LevelInfo[]> = {
   golang: golangCurriculum,
   rust: rustCurriculum,
   css3: css3Curriculum,
+  tailwind: tailwindCurriculum,
   javascript: javascriptCurriculum,
   typescript: typescriptCurriculum,
   nextjs: nextjsCurriculum,

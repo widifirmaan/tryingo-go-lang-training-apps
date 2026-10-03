@@ -1,0 +1,149 @@
+# Stored Procedures, Triggers & Event Scheduler
+
+> **Kategori:** MySQL | **Level:** Transaction Concurrency, Replication & Sharding Scalability | **Minggu 6:** Stored Procedures, Triggers & Event Scheduler
+
+## Learning Objectives
+
+- Master MySQL procedural scripting using DELIMITER, variables, and SQLEXCEPTION handlers
+- Construct automated audit triggers comparing OLD and NEW row state variables
+- Implement funds transfer Stored Procedures featuring automated rollback on failure
+- Configure and monitor recurring background maintenance jobs using MySQL Event Scheduler
+
+---
+
+## Program: Automated Maintenance System: Bookkeeping Triggers and Purging Event Scheduler
+
+```sql
+-- 1. Enable Event Scheduler in MySQL
+SET GLOBAL event_scheduler = ON;
+
+-- 2. Audit history table
+CREATE TABLE wallet_balance_audit (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    wallet_id BIGINT UNSIGNED NOT NULL,
+    old_balance DECIMAL(15, 2) NOT NULL,
+    new_balance DECIMAL(15, 2) NOT NULL,
+    changed_by VARCHAR(50) NOT NULL,
+    changed_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+-- 3. Trigger tracking balance mutations automatically
+DELIMITER $$
+CREATE TRIGGER trg_wallet_balance_update
+AFTER UPDATE ON user_wallets
+FOR EACH ROW
+BEGIN
+    IF OLD.balance <> NEW.balance THEN
+        INSERT INTO wallet_balance_audit (wallet_id, old_balance, new_balance, changed_by, changed_at)
+        VALUES (NEW.id, OLD.balance, NEW.balance, CURRENT_USER(), NOW());
+    END IF;
+END$$
+DELIMITER ;
+
+-- 4. Stored Procedure with Transaction and SQLEXCEPTION Error Handler
+DELIMITER $$
+CREATE PROCEDURE sp_transfer_funds(
+    IN p_sender_wallet_id BIGINT UNSIGNED,
+    IN p_receiver_wallet_id BIGINT UNSIGNED,
+    IN p_amount DECIMAL(15, 2),
+    OUT p_status_code VARCHAR(20)
+)
+proc_body: BEGIN
+    DECLARE v_sender_balance DECIMAL(15, 2);
+    
+    -- Error Handler: Automatically rollback on any SQL error
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SET p_status_code = 'TRANSACTION_ERROR';
+    END;
+
+    IF p_amount <= 0 THEN
+        SET p_status_code = 'INVALID_AMOUNT';
+        LEAVE proc_body;
+    END IF;
+
+    START TRANSACTION;
+
+    -- Lock sender wallet
+    SELECT balance INTO v_sender_balance
+    FROM user_wallets
+    WHERE id = p_sender_wallet_id
+    FOR UPDATE;
+
+    IF v_sender_balance < p_amount THEN
+        ROLLBACK;
+        SET p_status_code = 'INSUFFICIENT_FUNDS';
+        LEAVE proc_body;
+    END IF;
+
+    -- Debit sender
+    UPDATE user_wallets 
+    SET balance = balance - p_amount 
+    WHERE id = p_sender_wallet_id;
+
+    -- Credit receiver
+    UPDATE user_wallets 
+    SET balance = balance + p_amount 
+    WHERE id = p_receiver_wallet_id;
+
+    COMMIT;
+    SET p_status_code = 'SUCCESS';
+END$$
+DELIMITER ;
+
+-- 5. Automated Recurring Event Scheduler: Archive/Purge audit logs older than 90 days
+DELIMITER $$
+CREATE EVENT evt_purge_old_audit_logs
+ON SCHEDULE EVERY 1 DAY
+STARTS (CURRENT_TIMESTAMP + INTERVAL 1 HOUR)
+DO
+BEGIN
+    DELETE FROM wallet_balance_audit
+    WHERE changed_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+END$$
+DELIMITER ;
+```
+
+---
+
+## Key Concepts
+
+### Procedural Scripting and DELIMITER Mechanics
+Standard SQL parsers interpret semicolons (`;`) as statement terminators. Within compound procedures or triggers, intermediate semicolons prematurely terminate the definition. The directive `DELIMITER $$` reassigns the delimiter sequence to `$$`, permitting complex procedural blocks until reset via `DELIMITER ;`.
+
+### Transactional Resilience with SQLEXCEPTION Handlers
+In enterprise procedures, partial execution corrupts ledger integrity. Declaring `DECLARE EXIT HANDLER FOR SQLEXCEPTION` operates identically to try-catch exception handling in modern languages. Upon encountering constraint violations or runtime faults, the handler intercepts execution, rolls back state mutations atomically, and surfaces error codes to client layers.
+
+### In-Database Automation with the Event Scheduler
+Instead of relying on fragile external OS cron jobs susceptible to network blips, MySQL embeds a native task daemon: the **Event Scheduler** (`SET GLOBAL event_scheduler = ON`). The scheduler executes temporal maintenance workflows directly inside the storage engine, including log compaction, daily rollups, and partition rotation.
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+Think of a Stored Procedure like an automated ATM. You cannot deduct money from Account A and walk away before Account B receives it.
+
+The ATM features a failsafe mechanism (`SQLEXCEPTION HANDLER`): if the machine jams mid-transaction, everything cancels atomically and your funds remain safe. The Event Scheduler acts like an alarm clock ringing every morning at 2 AM to sweep up discarded, expired ATM receipts.
+
+## Experiments
+
+- Invoke sp_transfer_funds with funds triggering INSUFFICIENT_FUNDS and verify the return status
+- Update balances manually and verify automated audit capture within wallet_balance_audit
+- Inspect scheduled background jobs using SHOW EVENTS
+- Force a duplicate key collision inside the procedure to verify atomic rollback by the EXIT HANDLER
+
+---
+
+## Challenge
+
+Enhance `sp_transfer_funds` to atomically write double-entry debit and credit records into `wallet_ledgers` within the same transaction scope.
+
+---
+
+## Summary
+
+You have mastered MySQL server-side programming: robust Stored Procedures with exception handling, automated audit Triggers, and periodic task automation via the Event Scheduler.

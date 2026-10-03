@@ -1,0 +1,139 @@
+# MVC Architecture: High-Performance Router Engine & Controller Dispatcher
+
+> **Kategori:** Modern PHP 8.3+ | **Level:** Intermediate | **Minggu 7:** MVC Architecture: High-Performance Router Engine & Controller Dispatcher
+
+## Learning Objectives
+
+- Build dynamic routing engines powered by regex named capture groups (`(?P<id>[^/]+)`).
+- Sanitize URL paths isolating query parameters via `parse_url`.
+- Integrate Route Matchers with Controller Dispatchers and DI Containers.
+- Implement clean, modular Model-View-Controller (MVC) separation.
+
+---
+
+## Program: Dynamic Regex Router & Controller Dispatcher with URL Parameter Support
+
+```php
+<?php
+declare(strict_types=1);
+
+// 1. Router Engine Berbasis Regular Expressions
+class Router {
+    private array $routes = [];
+
+    public function addRoute(string $method, string $pattern, string $controllerAction): void {
+        // Konversi pattern seperti '/products/{id}' menjadi regex '#^/products/(?P<id>[^/]+)$#'
+        $regex = preg_replace('#\{([a-zA-Z0-9_]+)\}#', '(?P<$1>[^/]+)', $pattern);
+        $regex = '#^' . $regex . '$#';
+
+        $this->routes[] = [
+            'method' => strtoupper($method),
+            'regex'  => $regex,
+            'action' => $controllerAction,
+        ];
+    }
+
+    public function match(string $requestMethod, string $requestUri): ?array {
+        $requestMethod = strtoupper($requestMethod);
+        $path = parse_url($requestUri, PHP_URL_PATH) ?? '/';
+
+        foreach ($this->routes as $route) {
+            if ($route['method'] !== $requestMethod) {
+                continue;
+            }
+
+            if (preg_match($route['regex'], $path, $matches)) {
+                // Saring hanya parameter bernama (named capture groups)
+                $params = array_filter($matches, fn($key) => !is_int($key), ARRAY_FILTER_USE_KEY);
+                return [
+                    'action' => $route['action'],
+                    'params' => $params,
+                ];
+            }
+        }
+
+        return null;
+    }
+}
+
+// 2. Controller Target
+class ProductApiController {
+    public function getDetails(string $id): array {
+        return [
+            'status' => 'OK',
+            'productId' => $id,
+            'name' => 'High-Performance Cloud Router',
+            'stock' => 45
+        ];
+    }
+}
+
+// 3. Dispatcher Controller Terintegrasi dengan DI Container
+class RouteDispatcher {
+    public function __construct(private readonly SimpleContainer $container) {}
+
+    public function dispatch(array $matchResult): void {
+        [$controllerClass, $methodName] = explode('@', $matchResult['action']);
+
+        // Selesaikan controller dari DI Container
+        $controllerInstance = $this->container->get($controllerClass);
+        $params = $matchResult['params'];
+
+        // Eksekusi method controller dengan parameter dinamis
+        $response = $controllerInstance->$methodName(...$params);
+
+        header('Content-Type: application/json');
+        echo json_encode($response, JSON_PRETTY_PRINT);
+    }
+}
+
+// Eksekusi Demonstrasi
+$router = new Router();
+$router->addRoute('GET', '/api/v1/products/{id}', ProductApiController::class . '@getDetails');
+
+$match = $router->match('GET', '/api/v1/products/PROD-9981');
+echo "=== HASIL ROUTE MATCHING DENGAN REGEX NAMED GROUPS ===\n";
+print_r($match);
+```
+
+---
+
+## Key Concepts
+
+The operational heartbeat of any web framework (Laravel, Symfony, Express) is the **Router**: a component inspecting HTTP verbs and incoming URL paths to dispatch execution to designated controllers.
+
+### Dynamic Regex Routing Mechanics
+Declaring a dynamic parameter like `/products/{id}` precludes strict string comparison (`===`), as `{id}` varies dynamically.
+The router compiles placeholder parameters into named regex capture groups:
+`#^/products/(?P<id>[^/]+)$#`
+When clients request `/products/PROD-9981`, `preg_match` binds the matched segment into an associative array `['id' => 'PROD-9981']`.
+
+### Dispatcher & DI Container Convergence
+The Dispatcher parses controller action signatures (`ProductApiController@getDetails`). Rather than invoking `new ProductApiController()`, it resolves the controller from the **DI Container**. Collaborator dependencies instantiate automatically, invoking the method cleanly via argument unpacking `...$params`.
+
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+Imagine a metropolitan central railway junction. The Router behaves like an automated track switch. When an express train marked route #9981 arrives, the switch aligns rails seamlessly to guide the locomotive directly into terminal Platform 3 (Controller Action) without collision.
+
+## Experiments
+
+- Add a route with dual parameters `/categories/{cat}/products/{id}` and verify variable extraction.
+- Send a `POST` request against a `GET` definition verifying the matcher yields `null` (404/405).
+- Construct a fallback 404 handler returning a `{ "error": "NOT_FOUND" }` JSON response.
+
+---
+
+## Challenge
+
+Optimize route matching using a prefix Trie structure to sustain sub-millisecond dispatch times across 1,000+ registered routes.
+
+---
+
+## Summary
+
+You have mastered dynamic regex routing and controller dispatching. Next week is our Final Capstone: Complete Production-Ready PSR-15 Microframework!

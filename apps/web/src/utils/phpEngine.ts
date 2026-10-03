@@ -1135,13 +1135,13 @@ export async function executePhp(code: string): Promise<PhpResult> {
         return {
           output: interp.getOutput(),
           error: interp.getError(),
-          engine: 'interpreter',
+          engine: 'interpreter' as const,
         };
       } catch (err) {
         return {
           output: '',
           error: err instanceof Error ? err.message : 'PHP execution failed',
-          engine: 'interpreter',
+          engine: 'interpreter' as const,
         };
       }
     }

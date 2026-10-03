@@ -1,6 +1,7 @@
 export const SLUG_MAP: Record<string, string> = {
   'tryngo-lang-html5': 'html5',
   'tryngo-lang-css3': 'css3',
+  'tryngo-lang-tailwind': 'tailwind',
   'tryngo-lang-javascript': 'javascript',
   'tryngo-lang-typescript': 'typescript',
   'tryngo-lang-golang': 'golang',

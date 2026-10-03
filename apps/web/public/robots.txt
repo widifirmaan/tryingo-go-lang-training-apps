@@ -1,0 +1,6 @@
+# robots.txt for Tryngo Interactive Coding Education Platform
+User-agent: *
+Allow: /
+Disallow: /wasm/
+
+Sitemap: https://tryngo.widifirmaan.web.id/sitemap.xml

@@ -9,7 +9,7 @@ interface SqlColumn {
   type: string;
 }
 
-interface SqlTableSchema {
+export interface SqlTableSchema {
   name: string;
   columns: SqlColumn[];
 }

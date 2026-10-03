@@ -198,7 +198,7 @@ const projectDoc = (doc: Doc, projection: Doc): Doc => {
 
 // --- aggregation -------------------------------------------------------------
 
-const aggregateSort = (docs: Doc, sortSpec: Doc): Doc[] => {
+const aggregateSort = (docs: Doc[], sortSpec: Doc): Doc[] => {
   const arr = [...docs];
   const entries = Object.entries(sortSpec);
   arr.sort((a, b) => {
