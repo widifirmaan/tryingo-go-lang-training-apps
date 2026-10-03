@@ -1,6 +1,8 @@
 # Tabel Data Terstruktur: Thead, Tbody, Scope & Keterangan Aksesibel
 
 > **Kategori:** HTML5 | **Level:** Struktur & Semantik Web | **Minggu 4:** Tabel Data Terstruktur: Thead, Tbody, Scope & Keterangan Aksesibel
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -130,6 +132,36 @@ Bayangkan tabel HTML persis seperti lembar kerja Microsoft Excel:
 ## Tantangan
 
 Buat tabel jadwal penerbangan bandara internasional: sertakan `<caption>`, `<thead>` dengan `scope="col"`, minimal 4 baris jadwal di `<tbody>` dengan `scope="row"` untuk nomor penerbangan, kolom kota tujuan, maskapai, jam keberangkatan, dan status (Tepat Waktu / Terlambat).
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Tag bersarang tidak tertutup (Unclosed/Mismatched Tags)
+- **Gejala / Masalah:** Tata letak halaman rusak atau elemen inline menelan elemen block.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu tutup tag berpasangan dan manfaatkan validator HTML5 atau auto-closing tag di VS Code.
+
+### 2. Penggunaan tag <div> berlebihan (Div Soup)
+- **Gejala / Masalah:** Website sulit diakses pembaca layar (screen reader) dan skor SEO menurun drastis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan tag semantik seperti <header>, <nav>, <main>, <article>, dan <footer>.
+
+### 3. Lupa atribut 'alt' pada <img> dan 'for' pada <label>
+- **Gejala / Masalah:** Skor aksesibilitas (a11y) merah dan form sulit diklik pada perangkat layar sentuh.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu sertakan deskripsi alt yang bermakna dan hubungkan label dengan id input terkait.
 
 ---
 

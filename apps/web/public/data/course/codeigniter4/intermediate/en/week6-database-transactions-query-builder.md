@@ -1,6 +1,8 @@
 # Advanced Query Builder & Multi-Table Atomic Database Transactions
 
 > **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 6:** Advanced Query Builder & Multi-Table Atomic Database Transactions
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -129,6 +131,36 @@ Imagine purchasing a train ticket at a ticket counter. You slide a Rp 100,000 ba
 ## Challenge
 
 Deploy Automatic Strict Transactions in CI4 (`$this->db->transStrict(true); $this->db->transStart(); ... $this->db->transComplete();`) streamlining transaction logic.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Incorrect `baseURL` in `.env`
+- **Symptom / Issue:** Assets and navigation redirect to incorrect hosts or fail to load.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure `app.baseURL` to match your exact local or production host address.
+
+### 2. Overlooking CSRF Form Tokens
+- **Symptom / Issue:** Leaves form submissions vulnerable to Cross-Site Request Forgery.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Enable CSRF filters in `Filters.php` and include `<?= csrf_field() ?>` inside HTML forms.
+
+### 3. Case-Sensitivity Mismatches in Namespaces
+- **Symptom / Issue:** Fails class autoloading on Linux servers due to uppercase/lowercase discrepancies.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Follow strict PSR-4 casing matching folder and file names identically.
 
 ---
 

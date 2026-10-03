@@ -1,6 +1,8 @@
 # Capstone Project: High-Concurrency E-Commerce Relational Engine
 
 > **Kategori:** PostgreSQL | **Level:** Concurrency, Partitioning & Enterprise Architecture | **Minggu 8:** Capstone Project: High-Concurrency E-Commerce Relational Engine
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -147,6 +149,36 @@ Congratulations! You have constructed the core engine of an enterprise-tier e-co
 ## Challenge
 
 Extend the capstone engine with a promotional voucher mechanism: create a `vouchers` table with quota caps, and modify `execute_checkout` to lock the voucher via `FOR UPDATE`, validate expiration, and deduct quota atomically.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Sequential Table Scans on Large Tables
+- **Symptom / Issue:** SELECT queries degrade in latency as table rows increase into millions.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add B-Tree indexes on columns used in `WHERE`, `ORDER BY`, and `JOIN` clauses.
+
+### 2. Missing Transactions for Multi-Step Operations
+- **Symptom / Issue:** Leaves data in inconsistent partial states when middle operations fail.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always wrap operations in `BEGIN; ... COMMIT;` or `ROLLBACK;` blocks.
+
+### 3. Using Inexact Floating Point for Currency
+- **Symptom / Issue:** Floating point rounding errors corrupt financial accounting balances.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always use `NUMERIC(15, 2)` or `DECIMAL` for currency amounts.
 
 ---
 

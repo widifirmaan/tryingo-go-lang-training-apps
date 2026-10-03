@@ -1,6 +1,8 @@
 # Analytics Storage: Embedded DuckDB & Async SQLAlchemy 2.0
 
 > **Kategori:** Python Backend & Automation | **Level:** Intermediate | **Minggu 6:** Analytics Storage: Embedded DuckDB & Async SQLAlchemy 2.0
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -112,6 +114,36 @@ Imagine a massive municipal library. A row-oriented database acts like a clerk r
 ## Challenge
 
 Build a DuckDB analytical query calculating a 14-period Exponential Moving Average (EMA) of sentiment scores using SQL Window Functions.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Mutable Default Arguments
+- **Symptom / Issue:** Default list or dict parameters persist modifications across successive function calls.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Assign `None` as default: `def fn(items=None): if items is None: items = []`.
+
+### 2. Accidental Variable Scope Errors
+- **Symptom / Issue:** Throws `UnboundLocalError: local variable referenced before assignment`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Pass variables explicitly through arguments and return values rather than mutating globals.
+
+### 3. Catch-All `except:` Clauses
+- **Symptom / Issue:** Suppresses critical syntax errors, interrupts, and crashes silently.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always catch explicit exceptions: `except ValueError as err:`.
 
 ---
 

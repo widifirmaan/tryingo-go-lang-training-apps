@@ -1,6 +1,8 @@
 # Component Architecture, JSX Rules & Unidirectional Data Flow via Props
 
 > **Kategori:** React | **Level:** Component Foundations, JSX & State | **Minggu 1:** Component Architecture, JSX Rules & Unidirectional Data Flow via Props
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -107,6 +109,36 @@ Props cascade unidirectionally down the component tree (Parent -> Child). Child 
 ## Challenge
 
 Author a `WorkspaceBadge` component accepting `status` ("ACTIVE" | "DRAFT" | "ARCHIVED") rendering colored badges (Green, Yellow, Gray) strictly as a pure component.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Mutating State In-Place
+- **Symptom / Issue:** React will not trigger a re-render because memory references stay identical.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always supply a new copy or functional updater: `setList(prev => [...prev, newItem])`.
+
+### 2. Incomplete useEffect Dependencies
+- **Symptom / Issue:** Causes stale closures reading outdated variable values or infinite re-render loops.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Include every reactive value accessed inside the effect in the dependency array.
+
+### 3. Using Array Indices as Component Keys
+- **Symptom / Issue:** Breaks DOM reconciliation and corrupts internal state in list items.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Assign unique database IDs (`item.id`) rather than arbitrary iteration indices.
 
 ---
 

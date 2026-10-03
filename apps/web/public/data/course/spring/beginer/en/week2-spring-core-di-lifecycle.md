@@ -1,6 +1,8 @@
 # Spring Boot 3 Core: Inversion of Control, Bean Lifecycle & Dependency Injection
 
 > **Kategori:** Spring Boot & Java | **Level:** Beginner | **Minggu 2:** Spring Boot 3 Core: Inversion of Control, Bean Lifecycle & Dependency Injection
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -136,6 +138,36 @@ Think of hiring a master building contractor (the Spring IoC Container). You do 
 ## Challenge
 
 Build a `@Configuration` class declaring an `@Bean` method that instantiates an `AccountAuditFilter` conditionally toggled via `@ConditionalOnProperty`.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Circular Bean Dependencies
+- **Symptom / Issue:** Application fails startup with `BeanCurrentlyInCreationException`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Refactor dependencies using mediator patterns or apply `@Lazy` as a stopgap.
+
+### 2. Self-Invocation Bypassing `@Transactional`
+- **Symptom / Issue:** Internal method calls within the same class bypass the Spring AOP proxy.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Invoke transactional methods through an injected bean reference.
+
+### 3. N+1 Hibernate Query Problem
+- **Symptom / Issue:** Loads relational collections with hundreds of sequential database trips.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `JOIN FETCH` queries or annotate repository methods with `@EntityGraph`.
 
 ---
 

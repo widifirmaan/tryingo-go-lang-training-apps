@@ -1,6 +1,8 @@
 # Secure Persistence: PDO, Prepared Statements & ACID Transactions
 
 > **Kategori:** Modern PHP 8.3+ | **Level:** Beginner | **Minggu 3:** Secure Persistence: PDO, Prepared Statements & ACID Transactions
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -129,6 +131,36 @@ Imagine ordering at a pneumatic bank drive-thru. Speaking through an unshielded 
 ## Challenge
 
 Build a `UserRepository(PDO $pdo)` repository class implementing `findPaginated(int $page, int $perPage): array` with bound `LIMIT :limit OFFSET :offset` statements.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. SQL Injection via String Concatenation
+- **Symptom / Issue:** Attackers can manipulate SQL statements and compromise data.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always use PDO or MySQLi parameterized prepared statements.
+
+### 2. Omitting Strict Types
+- **Symptom / Issue:** PHP weak coercion masks subtle mathematical and comparison defects.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Include `declare(strict_types=1);` at the top of every modern PHP file.
+
+### 3. Unescaped Output Rendering (XSS)
+- **Symptom / Issue:** Malicious user input runs arbitrary scripts in visitors' browsers.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Wrap dynamic output using `htmlspecialchars($str, ENT_QUOTES, 'UTF-8')`.
 
 ---
 

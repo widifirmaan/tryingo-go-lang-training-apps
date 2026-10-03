@@ -1,6 +1,8 @@
 # Elemen Interaktif Modern: Dialog, Details, Template & Canvas
 
 > **Kategori:** HTML5 | **Level:** Formulir Modern, Aksesibilitas & Web API | **Minggu 7:** Elemen Interaktif Modern: Dialog, Details, Template & Canvas
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -128,6 +130,36 @@ Isi di dalam `<template>` sepenuhnya *inert* (pasif): gambar di dalamnya tidak a
 ## Tantangan
 
 Buat halaman galeri fitur produk yang memiliki tombol "Kebijakan Garansi" pembuka `<dialog>` modal, akordion spesifikasi teknis menggunakan `<details>`, dan elemen `<canvas>` status baterai perangkat dengan teks deskripsi fallback.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Tag bersarang tidak tertutup (Unclosed/Mismatched Tags)
+- **Gejala / Masalah:** Tata letak halaman rusak atau elemen inline menelan elemen block.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu tutup tag berpasangan dan manfaatkan validator HTML5 atau auto-closing tag di VS Code.
+
+### 2. Penggunaan tag <div> berlebihan (Div Soup)
+- **Gejala / Masalah:** Website sulit diakses pembaca layar (screen reader) dan skor SEO menurun drastis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan tag semantik seperti <header>, <nav>, <main>, <article>, dan <footer>.
+
+### 3. Lupa atribut 'alt' pada <img> dan 'for' pada <label>
+- **Gejala / Masalah:** Skor aksesibilitas (a11y) merah dan form sulit diklik pada perangkat layar sentuh.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu sertakan deskripsi alt yang bermakna dan hubungkan label dengan id input terkait.
 
 ---
 

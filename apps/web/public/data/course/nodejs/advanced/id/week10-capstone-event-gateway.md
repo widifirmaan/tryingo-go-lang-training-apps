@@ -1,6 +1,8 @@
 # Capstone: Gateway Notifikasi & Aliran Event Kolaboratif Real-Time Production-Ready
 
 > **Kategori:** Node.js Backend | **Level:** Lanjutan | **Minggu 10:** Capstone: Gateway Notifikasi & Aliran Event Kolaboratif Real-Time Production-Ready
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -134,6 +136,36 @@ Proyek ini ibarat menara pemancar radio pusat kota. Stasiun pemadam kebakaran, p
 ## Tantangan
 
 Tambahkan integrasi Redis Streams Publisher di dalam gateway: setiap event yang masuk otomatis disimpan ke stream `gateway:events` di Redis sebelum disiarkan ke WebSocket.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Memblokir Event Loop (Synchronous CPU Intensive)
+- **Gejala / Masalah:** Seluruh request pengguna lain tertahan dan server berhenti merespons (hang).
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Hindari operasi kriptografi berat atau parsing JSON raksasa di thread utama; gunakan Worker Threads.
+
+### 2. Unhandled Exception pada Asynchronous Callback
+- **Gejala / Masalah:** Server Node.js crash seketika dan mematikan seluruh proses aplikasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan async/await dengan try-catch terpusat dan daftarkan handler `process.on('unhandledRejection')`.
+
+### 3. Memory Leak pada Event Emitter Listener
+- **Gejala / Masalah:** Muncul warning `MaxListenersExceededWarning` dan memori RAM server meningkat terus-menerus.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu hapus event listener yang tidak digunakan lagi dengan `emitter.off()` atau `emitter.removeListener()`.
 
 ---
 

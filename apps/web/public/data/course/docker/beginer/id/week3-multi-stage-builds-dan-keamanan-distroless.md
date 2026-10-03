@@ -1,6 +1,8 @@
 # Multi-Stage Builds & Citra Minimalis Distroless
 
 > **Kategori:** Docker | **Level:** Fondasi Kontainerisasi & Optimasi Image | **Minggu 3:** Multi-Stage Builds & Citra Minimalis Distroless
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -99,6 +101,36 @@ Anda tidak membawa seluruh mesin las dan forklift 10 ton ke sirkuit balap; Anda 
 ## Tantangan
 
 Terapkan Multi-Stage Build untuk aplikasi frontend React/Vite: Stage 1 menjalankan `npm run build` di Node.js, dan Stage 2 menyalin folder `dist/` ke dalam web server `nginx:alpine` tanpa menyertakan Node.js sama sekali.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Menjalankan Container sebagai User `root`
+- **Gejala / Masalah:** Potensi eskalasi hak akses sistem operasi host jika container berhasil ditembus peretas.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Definisikan user non-root khusus di Dockerfile: `USER node` atau `USER 1001`.
+
+### 2. Mengabaikan File `.dockerignore`
+- **Gejala / Masalah:** Folder raksasa seperti `node_modules`, `.git`, atau file `.env` rahasia ikut ter-copy ke dalam image.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu sediakan `.dockerignore` untuk membuang file lokal sebelum build dijalankan.
+
+### 3. Ukuran Image Membengkak Tanpa Multi-Stage Build
+- **Gejala / Masalah:** Image berukuran gigabytes memperlambat waktu transfer jaringan dan deployment cloud.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Terapkan Multi-Stage Build: pisahkan tahap kompilasi (*builder stage*) dari runtime minimalis (*alpine/distroless*).
 
 ---
 

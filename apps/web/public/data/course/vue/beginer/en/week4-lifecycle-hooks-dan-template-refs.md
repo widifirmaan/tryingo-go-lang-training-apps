@@ -1,6 +1,8 @@
 # Lifecycle Hooks: onMounted, onUnmounted & Template Refs (useTemplateRef)
 
 > **Kategori:** Vue | **Level:** Composition API, Reactivity & Components | **Minggu 4:** Lifecycle Hooks: onMounted, onUnmounted & Template Refs (useTemplateRef)
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -134,6 +136,36 @@ In Vue 3.5+, access DOM nodes declaratively with `useTemplateRef('refIdentifier'
 ## Challenge
 
 Deploy `useTemplateRef` to enforce automatic downward scrolling whenever fresh activity arrives via `element.scrollTop = element.scrollHeight`.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Destructuring Loss of Reactivity
+- **Symptom / Issue:** Unpacking fields from `reactive()` breaks Vue reactivity linkage.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Apply `toRefs(state)` prior to destructuring inside the Composition API.
+
+### 2. Directly Mutating Child Component Props
+- **Symptom / Issue:** Generates console warnings and violates unidirectional data flow.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Emit events `emit('update:modelValue', value)` back to the parent component.
+
+### 3. Omitting `.value` in Script Setup
+- **Symptom / Issue:** Passes the wrapper Ref object instead of the underlying value into calculations.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Remember `.value` is mandatory in script blocks and auto-unwrapped in `<template>`.
 
 ---
 

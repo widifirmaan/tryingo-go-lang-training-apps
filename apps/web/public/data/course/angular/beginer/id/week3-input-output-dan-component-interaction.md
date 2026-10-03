@@ -1,6 +1,8 @@
 # Komunikasi Komponen Modern: input(), input.required() & output() Signals
 
 > **Kategori:** Angular | **Level:** Standalone Components, Signals & Kontrol Alur Modern | **Minggu 3:** Komunikasi Komponen Modern: input(), input.required() & output() Signals
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -136,6 +138,36 @@ Di Angular modern:
 ## Tantangan
 
 Gunakan `model()` (Two-Way Binding Signal baru di Angular) untuk membuat sakelar status `isTerkonfirmasi = model(false)` yang dapat diubah oleh anak dan otomatis tersinkronisasi ke parent.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Memory Leak pada RxJS Subscription
+- **Gejala / Masalah:** Subscription yang tetap aktif setelah komponen hancur memboroskan memori dan memicu callback ganda.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan operator `takeUntilDestroyed()` atau manfaatkan pipe `async` di template HTML.
+
+### 2. ChangeDetectionStrategy Default yang Boros Performa
+- **Gejala / Masalah:** Angular memeriksa seluruh pohon komponen pada setiap event browser.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Terapkan `ChangeDetectionStrategy.OnPush` dan gunakan Angular Signals untuk update granular.
+
+### 3. Mengimpor Seluruh Shared Module di Standalone Component
+- **Gejala / Masalah:** Ukuran bundle JavaScript aplikasi membengkak drastis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Hanya import modul atau standalone directive yang benar-benar digunakan di array `imports: []`.
 
 ---
 

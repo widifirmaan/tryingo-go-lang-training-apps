@@ -1,6 +1,8 @@
 # Modern Rails 8: Konvensi Omakase, Propshaft & Struktur Proyek
 
 > **Kategori:** Ruby on Rails 8 | **Level:** Pemula | **Minggu 1:** Modern Rails 8: Konvensi Omakase, Propshaft & Struktur Proyek
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -91,6 +93,36 @@ Bayangkan memesan hidangan Omakase di restoran sushi Jepang ternama. Anda tidak 
 ## Tantangan
 
 Gunakan generator Rails `bin/rails generate model Task title:string status:integer priority:integer due_date:date` dan amati migration yang otomatis dihasilkan.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. N+1 Queries pada Active Record
+- **Gejala / Masalah:** Me-render tampilan tabel memicu puluhan query SQL tambahan yang memperlambat respon.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan method `includes(:relation)` pada controller query untuk melakukan eager loading.
+
+### 2. Migrasi Database yang Mengubah Kolom Tanpa Reversibility
+- **Gejala / Masalah:** Perintah `rails db:rollback` gagal dieksekusi saat proses deployment dibatalkan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan method migrasi eksplisit `up` dan `down` jika operasi kolom tidak dapat dibalik secara otomatis.
+
+### 3. Menyimpan Credential Sensitif di Direktori Publik
+- **Gejala / Masalah:** API key pihak ketiga bocor ke publik melalui repositori git.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Manfaatkan sistem enkripsi `rails credentials:edit` untuk menyimpan API key produksi.
 
 ---
 

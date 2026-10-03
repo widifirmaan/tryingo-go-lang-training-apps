@@ -1,6 +1,8 @@
 # Standard Document Structure & Head Metadata
 
 > **Kategori:** HTML5 | **Level:** Structure & Web Semantics | **Minggu 1:** Standard Document Structure & Head Metadata
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -91,6 +93,36 @@ Think of an HTML document as a formal business letter:
 ## Challenge
 
 Build a complete HTML5 document shell for "Healthy Life Medical Clinic". Include meta charset, viewport, medical description metadata, plus `<header>`, `<main>`, `<article>` detailing outpatient services, and a `<footer>` with operating hours.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Unclosed or Mismatched Tags
+- **Symptom / Issue:** Breaks page layout and causes unexpected DOM tree nesting.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always close matching pairs and validate HTML using linters or browser developer tools.
+
+### 2. Overusing Generic <div> Containers (Div Soup)
+- **Symptom / Issue:** Harms accessibility (screen readers) and lowers search engine ranking.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Prefer semantic markup elements like <header>, <nav>, <main>, <article>, and <footer>.
+
+### 3. Missing 'alt' on Images and 'for' on Labels
+- **Symptom / Issue:** Fails accessibility audits and creates bad UX on mobile touch targets.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always provide descriptive alt attributes and bind input fields explicitly to form labels.
 
 ---
 

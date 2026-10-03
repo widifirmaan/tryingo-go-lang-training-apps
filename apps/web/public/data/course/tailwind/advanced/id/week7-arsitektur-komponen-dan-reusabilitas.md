@@ -1,6 +1,8 @@
 # Arsitektur Komponen: Ekstraksi UI & Pola Komposisi
 
 > **Kategori:** Tailwind CSS | **Level:** Komponen Kustom, Desain Sistem & Produksi | **Minggu 7:** Arsitektur Komponen: Ekstraksi UI & Pola Komposisi
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -120,6 +122,36 @@ Untuk membuat avatar profil yang saling bertumpuk seperti di GitHub atau Figma:
 ## Tantangan
 
 Bangun komponen kartu alert banner yang memiliki 3 varian (Success hijau, Info biru, Danger merah): masing-masing memiliki ikon di sebelah kiri, judul tebal, pesan deskripsi, dan tombol tutup silang di sebelah kanan.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. String Interpolation Dinamis pada Nama Class
+- **Gejala / Masalah:** Class seperti `text-${color}-500` tidak muncul di hasil build produksi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tuliskan nama class Tailwind secara utuh atau gunakan `safelist` di konfigurasi.
+
+### 2. Urutan Utilitas yang Saling Menimpa
+- **Gejala / Masalah:** Menulis `p-4 px-2` vs `px-2 p-4` menghasilkan specificity bentrok.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan ekstensi resmi Prettier Tailwind Plugin untuk merapikan urutan class secara otomatis.
+
+### 3. Arbitrary Values yang Berlebihan
+- **Gejala / Masalah:** Menggunakan `w-[347px]` merusak konsistensi design token tema.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Utamakan skala bawaan Tailwind (`w-80`, `w-96`) atau definisikan custom spacing di `theme.extend`.
 
 ---
 

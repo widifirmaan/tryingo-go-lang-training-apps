@@ -1,6 +1,8 @@
 # Streaming SSR, React Suspense & The loading.tsx Boundary
 
 > **Kategori:** Next.js | **Level:** App Router, RSC & Streaming Foundations | **Minggu 4:** Streaming SSR, React Suspense & The loading.tsx Boundary
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -116,6 +118,36 @@ Slow components wrap inside `<Suspense fallback={<Skeleton />}>`:
 ## Challenge
 
 Design a `CustomerReviewsWidget` delayed by 1.5s enveloped within a tailored star-rating skeleton boundary completely unblocking sibling widgets.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Client Hooks in Server Components
+- **Symptom / Issue:** Build error stating `useState can only be used in a Client Component`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add the `'use client'` directive to the top of components requiring browser state.
+
+### 2. Sequential Data Fetching Waterfalls
+- **Symptom / Issue:** Significantly delays page render times by running independent requests one after another.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Run asynchronous fetches concurrently using `Promise.all([fetchA(), fetchB()])`.
+
+### 3. Over-Aggressive Static Caching
+- **Symptom / Issue:** Stale database content remains visible to users after updates.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure accurate revalidation: `fetch(url, { next: { revalidate: 60 } })` or `revalidatePath()`.
 
 ---
 

@@ -5,6 +5,7 @@ import { TrackCard } from './components/TrackCard';
 import { TRACKS_COLLECTION } from './data/tracksData';
 import { CartModal, SearchModal, DetailModal, SettingsModal } from './components/Modals';
 import { QuizModal } from './components/QuizModal';
+import { CareerPathsModal } from './components/CareerPathsModal';
 import { Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
 import { SLUG_MAP, REVERSE_SLUG_MAP } from './data/slugMap';
@@ -19,6 +20,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isCareerPathsOpen, setIsCareerPathsOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   
   // Website Settings: Language & Theme (persisted in localStorage)
@@ -440,6 +442,7 @@ export default function App() {
               onOpenFilter={() => setIsSearchOpen(true)}
               onOpenSettings={() => setIsSettingsOpen(true)}
               onOpenCollection={handleOpenCollection}
+              onOpenCareerPaths={() => setIsCareerPathsOpen(true)}
               lang={lang}
               activeCourseId={activeCourseId}
               activeLevel={courseInitialLevel}
@@ -730,6 +733,13 @@ export default function App() {
         setLang={setLang}
         theme={theme}
         setTheme={setTheme}
+      />
+
+      <CareerPathsModal
+        isOpen={isCareerPathsOpen}
+        onClose={() => setIsCareerPathsOpen(false)}
+        onSelectTrack={handleStartCourse}
+        lang={lang}
       />
 
       {/* Interactive Code Playground */}

@@ -1,6 +1,8 @@
 # Modern Box Model, Spesifisitas & CSS Custom Properties
 
 > **Kategori:** CSS3 | **Level:** Pondasi Box Model & Flexbox | **Minggu 1:** Modern Box Model, Spesifisitas & CSS Custom Properties
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -151,6 +153,36 @@ Bayangkan elemen HTML seperti lukisan berbingkai:
 ## Tantangan
 
 Rancang sistem kartu metrik analitik dashboard: buat variabel untuk warna teks, latar belakang, dan border di `:root`. Terapkan `box-sizing: border-box`, padding 20px, border-radius 12px, serta gunakan `calc()` untuk menghitung margin dinamis.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Masalah Box Model: Padding Menambah Lebar Elemen
+- **Gejala / Masalah:** Elemen melebar melebihi kontainer induk dan merusak grid.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `box-sizing: border-box;` secara global di selector `*`.
+
+### 2. Specificity War (!important overuse)
+- **Gejala / Masalah:** CSS sulit di-override dan kode menjadi rapuh saat aplikasi bertambah besar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Patuhi metodologi BEM atau gunakan selector class sederhana, hindari chaining ID selector dan `!important`.
+
+### 3. Z-Index Tidak Bekerja
+- **Gejala / Masalah:** Elemen tetap berada di bawah elemen lain meski z-index sudah disetel ke 9999.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pastikan elemen memiliki properti `position: relative`, `absolute`, atau `fixed` untuk membentuk Stacking Context.
 
 ---
 

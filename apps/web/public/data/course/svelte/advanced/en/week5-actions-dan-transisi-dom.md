@@ -1,6 +1,8 @@
 # Svelte Actions (use:action): Low-Level DOM Lifecycle & Rotary Knob Controls
 
 > **Kategori:** Svelte | **Level:** Web Audio, Actions & Synthesizer Capstone | **Minggu 5:** Svelte Actions (use:action): Low-Level DOM Lifecycle & Rotary Knob Controls
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -147,6 +149,36 @@ Key strengths:
 ## Challenge
 
 Author a `use:longPress(duration, callback)` Action triggering an automated parameter reset to 1000 Hz when clicks hold beyond 1.5 seconds.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. In-Place Array Mutation Without Assignment
+- **Symptom / Issue:** Calling `arr.push()` fails to trigger reactive UI updates in Svelte.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Reassign the array reference: `arr = [...arr, newItem]` to signal reactivity.
+
+### 2. Store Subscription Memory Leaks
+- **Symptom / Issue:** Manual store subscriptions that are never cancelled consume memory indefinitely.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use Svelte auto-subscriptions with the `$` prefix (`$myStore`).
+
+### 3. Runes State Boundaries
+- **Symptom / Issue:** Passing reactive signals across module borders without `$state()` or `$derived()` signals.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use modern Svelte 5 runes consistently.
 
 ---
 

@@ -1,6 +1,8 @@
 # Modern Forms, Input Controls & Smooth Transitions
 
 > **Kategori:** Tailwind CSS | **Level:** Custom Components, Design Systems & Production | **Minggu 5:** Modern Forms, Input Controls & Smooth Transitions
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -111,6 +113,36 @@ The `sr-only` utility removes elements from visual screen space while **retainin
 ## Challenge
 
 Build a "Change Password" form: author current and new password inputs, a visual password strength bar (3 indicators shifting from red, yellow, to green), and a "Trust this device" custom toggle.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Dynamic String Interpolation for Class Names
+- **Symptom / Issue:** Classes like `text-${color}-500` get purged from the production CSS bundle.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always write complete class names or declare them explicitly in the Tailwind safelist.
+
+### 2. Conflicting Utility Order
+- **Symptom / Issue:** Writing competing rules like `p-4 px-2` creates non-deterministic layout.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use the official Prettier Tailwind plugin to sort classes automatically.
+
+### 3. Excessive Arbitrary Values
+- **Symptom / Issue:** Sprinkling `w-[371px]` breaks theme design tokens and visual rhythm.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Stick to theme spacing presets (`w-80`, `w-96`) or extend your design tokens in `theme.extend`.
 
 ---
 

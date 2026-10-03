@@ -1,6 +1,8 @@
 # Capstone: Production-Ready Full-Scale PSR-15 Compliant MVC Microframework
 
 > **Kategori:** Modern PHP 8.3+ | **Level:** Intermediate | **Minggu 8:** Capstone: Production-Ready Full-Scale PSR-15 Compliant MVC Microframework
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -122,6 +124,36 @@ This project is like building your own Formula 1 race car from the engine block,
 ## Challenge
 
 Add a custom HTML View Engine supporting `.phtml` template rendering with safe variable extraction via `extract($data)`.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. SQL Injection via String Concatenation
+- **Symptom / Issue:** Attackers can manipulate SQL statements and compromise data.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always use PDO or MySQLi parameterized prepared statements.
+
+### 2. Omitting Strict Types
+- **Symptom / Issue:** PHP weak coercion masks subtle mathematical and comparison defects.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Include `declare(strict_types=1);` at the top of every modern PHP file.
+
+### 3. Unescaped Output Rendering (XSS)
+- **Symptom / Issue:** Malicious user input runs arbitrary scripts in visitors' browsers.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Wrap dynamic output using `htmlspecialchars($str, ENT_QUOTES, 'UTF-8')`.
 
 ---
 

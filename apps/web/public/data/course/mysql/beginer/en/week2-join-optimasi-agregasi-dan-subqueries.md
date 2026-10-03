@@ -1,6 +1,8 @@
 # Multi-Table Joins, Aggregation & Advanced Subqueries
 
 > **Kategori:** MySQL | **Level:** Relational Foundations & InnoDB Engine | **Minggu 2:** Multi-Table Joins, Aggregation & Advanced Subqueries
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -101,6 +103,36 @@ With conditional aggregation (`CASE WHEN`), you perform a single pass through th
 ## Challenge
 
 Write a balance discrepancy detection query: compare `user_wallets.balance` against `SUM(CREDIT) - SUM(DEBIT) - SUM(fee)` from `wallet_ledgers`, isolating strictly accounts exhibiting drift.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Legacy `utf8` Instead of `utf8mb4`
+- **Symptom / Issue:** Throws `Incorrect string value` when saving 4-byte Unicode characters (emojis).
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Set default database and table character set to `utf8mb4` with `utf8mb4_unicode_ci`.
+
+### 2. TIMESTAMP 2038 Boundary & Timezone Shifts
+- **Symptom / Issue:** Epoch overflow bugs on older tables or unexpected timezone conversions.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Store UTC explicitly or choose `DATETIME` for timezone-neutral timestamps.
+
+### 3. Failing to Batch Inserts
+- **Symptom / Issue:** Per-row autocommit causes massive disk write bottlenecks on large imports.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Wrap batch imports in a single `START TRANSACTION; ... COMMIT;` block.
 
 ---
 

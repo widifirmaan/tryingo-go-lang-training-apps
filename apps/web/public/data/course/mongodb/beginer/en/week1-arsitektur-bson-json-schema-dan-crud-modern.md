@@ -1,6 +1,8 @@
 # BSON Architecture, JSON Schema Validation & Modern CRUD
 
 > **Kategori:** MongoDB | **Level:** BSON Document Foundations & Operational CRUD | **Minggu 1:** BSON Architecture, JSON Schema Validation & Modern CRUD
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -150,6 +152,36 @@ BSON is like an indexed binder featuring color-coded tab dividers: it instantly 
 ## Challenge
 
 Extend the $jsonSchema validation rules: mandate an embedded `sensors` array of objects containing `sensorType` and `calibrationDate`, requiring at least one element (`minItems: 1`).
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Unbounded Array Document Growth
+- **Symptom / Issue:** Document exceeds MongoDB strict 16MB limit as nested arrays grow indefinitely.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Adopt bucketing or reference child documents in separate collections.
+
+### 2. Missing Indexes on High-Frequency Filters
+- **Symptom / Issue:** Forces expensive full collection scans (COLLSCAN) burning memory IOPS.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Create compound indexes with `db.collection.createIndex({ field: 1, created: -1 })`.
+
+### 3. Mismatched String vs ObjectId Queries
+- **Symptom / Issue:** Queries return zero results because searching string IDs against ObjectId fields.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Convert search input to `new ObjectId(id)` before querying.
 
 ---
 

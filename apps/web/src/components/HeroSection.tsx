@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart, faRoute } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -13,6 +13,7 @@ interface HeroSectionProps {
   onOpenFilter: () => void;
   onOpenSettings: () => void;
   onOpenCollection: () => void;
+  onOpenCareerPaths?: () => void;
   isExploring?: boolean;
   onBackToHero?: () => void;
   lang?: Language;
@@ -31,6 +32,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenFilter,
   onOpenSettings,
   onOpenCollection,
+  onOpenCareerPaths,
   isExploring = false,
   onBackToHero,
   lang = 'id',
@@ -318,6 +320,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                       )}
                     </AnimatePresence>
                   </div>
+
+                  {/* Career Paths */}
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 3 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={onOpenCareerPaths}
+                    className="w-full px-3.5 py-2.5 rounded-2xl bg-white/10 hover:bg-emerald-500/20 text-white text-xs font-bold flex items-center justify-between transition-colors border border-emerald-500/30"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <FontAwesomeIcon icon={faRoute} className="w-4 h-4 text-emerald-400" />
+                      <span>{lang === 'id' ? 'Jalur Karir' : 'Career Roadmaps'}</span>
+                    </div>
+                    <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm bg-emerald-400 text-zinc-950">
+                      HOT
+                    </span>
+                  </motion.button>
 
                   <hr className="border-white/10 my-1" />
 
@@ -607,6 +625,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                         </motion.div>
                       )}
                     </AnimatePresence>
+
+                    {/* Career Paths Mobile */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => { setIsMobileMenuOpen(false); onOpenCareerPaths?.(); }}
+                      className="w-full px-3 py-2 rounded-xl bg-white/10 hover:bg-emerald-500/20 text-white text-xs font-bold flex items-center justify-between border border-emerald-500/30"
+                    >
+                      <div className="flex items-center gap-2">
+                        <FontAwesomeIcon icon={faRoute} className="w-4 h-4 text-emerald-400" />
+                        <span>{lang === 'id' ? 'Jalur Karir' : 'Career Roadmaps'}</span>
+                      </div>
+                      <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-sm bg-emerald-400 text-zinc-950">
+                        HOT
+                      </span>
+                    </motion.button>
 
                     <hr className="border-white/10 my-0.5" />
 

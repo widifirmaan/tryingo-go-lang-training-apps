@@ -1,6 +1,8 @@
 # Migrations Engine, QuerySets & Django Admin Customization
 
 > **Kategori:** Django Web Framework | **Level:** Beginner | **Minggu 2:** Migrations Engine, QuerySets & Django Admin Customization
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -91,6 +93,36 @@ Imagine opening a department store. In other frameworks, you must spend months b
 ## Challenge
 
 Build a custom CSV export action in `CourseAdmin` downloading selected course datasets alongside aggregated enrollment revenue.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Unapplied Model Migrations
+- **Symptom / Issue:** Triggers database errors: `ProgrammingError: relation does not exist`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always run `python manage.py makemigrations` followed by `python manage.py migrate`.
+
+### 2. N+1 Queries in Django ORM Templates
+- **Symptom / Issue:** Templates trigger a separate SQL query per item rendered.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `select_related()` for foreign keys and `prefetch_related()` for many-to-many.
+
+### 3. Exposing Sensitive Secrets in Settings
+- **Symptom / Issue:** Leaking SECRET_KEY or running `DEBUG = True` in production environments.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Load secrets from environment variables and ensure `DEBUG = False` in production.
 
 ---
 

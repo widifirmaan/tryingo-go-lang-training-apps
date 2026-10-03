@@ -1,6 +1,8 @@
 # Modern Java 21 LTS: Records, Sealed Interfaces & Pattern Matching
 
 > **Kategori:** Spring Boot & Java | **Level:** Pemula | **Minggu 1:** Modern Java 21 LTS: Records, Sealed Interfaces & Pattern Matching
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -103,6 +105,36 @@ Bayangkan buku cek bank resmi. Setiap lembar cek yang dirobek memiliki nomor uni
 ## Tantangan
 
 Buat method `LedgerResult processBatch(List<LedgerEvent> events)` yang memvalidasi setiap event secara fungsional menggunakan Java Stream API dan menghitung total dana yang berpindah tangan.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Circular Dependency antar Service Bean
+- **Gejala / Masalah:** Aplikasi Spring Boot gagal start dengan pesan `BeanCurrentlyInCreationException`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Rancang ulang arsitektur menggunakan mediator pattern, atau gunakan `@Lazy` sebagai solusi transisi.
+
+### 2. Transaksi Database Tidak Berjalan pada Panggilan Internal
+- **Gejala / Masalah:** Anotasi `@Transactional` diabaikan saat dipanggil dari method dalam class yang sama.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Pahami bahwa Spring bekerja melalui AOP Proxy; panggil method transaksional melalui bean terinjeksi.
+
+### 3. N+1 Query Problem pada JPA Hibernate
+- **Gejala / Masalah:** Database menerima ratusan query SQL individual saat mengambil entitas relasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `JOIN FETCH` pada JPQL query atau tentukan `@EntityGraph` pada repository interface.
 
 ---
 

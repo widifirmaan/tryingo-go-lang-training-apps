@@ -1,6 +1,8 @@
 # Arbitrary Values, Desain Token & Ekstensi Konfigurasi
 
 > **Kategori:** Tailwind CSS | **Level:** Komponen Kustom, Desain Sistem & Produksi | **Minggu 6:** Arbitrary Values, Desain Token & Ekstensi Konfigurasi
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -122,6 +124,36 @@ Dengan cara ini, token baru Anda dapat digunakan seperti kelas Tailwind bawaan l
 ## Tantangan
 
 Bangun kartu statistik bandwidth jaringan: gunakan arbitrary values untuk membuat grafik donat sederhana atau bar progres dengan `w-[64%]`, efek glow warna biru safir (`shadow-glow-blue`), dan tipografi display kustom.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. String Interpolation Dinamis pada Nama Class
+- **Gejala / Masalah:** Class seperti `text-${color}-500` tidak muncul di hasil build produksi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tuliskan nama class Tailwind secara utuh atau gunakan `safelist` di konfigurasi.
+
+### 2. Urutan Utilitas yang Saling Menimpa
+- **Gejala / Masalah:** Menulis `p-4 px-2` vs `px-2 p-4` menghasilkan specificity bentrok.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan ekstensi resmi Prettier Tailwind Plugin untuk merapikan urutan class secara otomatis.
+
+### 3. Arbitrary Values yang Berlebihan
+- **Gejala / Masalah:** Menggunakan `w-[347px]` merusak konsistensi design token tema.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Utamakan skala bawaan Tailwind (`w-80`, `w-96`) atau definisikan custom spacing di `theme.extend`.
 
 ---
 

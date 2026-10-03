@@ -1,6 +1,8 @@
 # Skalabilitas CPU-Bound: Worker Threads, SharedArrayBuffer & Clustering
 
 > **Kategori:** Node.js Backend | **Level:** Menengah | **Minggu 5:** Skalabilitas CPU-Bound: Worker Threads, SharedArrayBuffer & Clustering
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -107,6 +109,36 @@ Bayangkan sebuah kantor pos dengan satu petugas loket yang sangat ramah (Event L
 ## Tantangan
 
 Bangun Thread Pool kustom `WorkerPool(workerScript, poolSize)` yang menggunakan kembali sejumlah worker tetap (misal 4 thread) untuk mengeksekusi antrean tugas tanpa perlu menginstansiasi worker baru setiap saat.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Memblokir Event Loop (Synchronous CPU Intensive)
+- **Gejala / Masalah:** Seluruh request pengguna lain tertahan dan server berhenti merespons (hang).
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Hindari operasi kriptografi berat atau parsing JSON raksasa di thread utama; gunakan Worker Threads.
+
+### 2. Unhandled Exception pada Asynchronous Callback
+- **Gejala / Masalah:** Server Node.js crash seketika dan mematikan seluruh proses aplikasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan async/await dengan try-catch terpusat dan daftarkan handler `process.on('unhandledRejection')`.
+
+### 3. Memory Leak pada Event Emitter Listener
+- **Gejala / Masalah:** Muncul warning `MaxListenersExceededWarning` dan memori RAM server meningkat terus-menerus.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu hapus event listener yang tidak digunakan lagi dengan `emitter.off()` atau `emitter.removeListener()`.
 
 ---
 

@@ -1,6 +1,8 @@
 # Relational Persistence: Spring Data JPA, Hibernate 6 & Entity Auditing
 
 > **Kategori:** Spring Boot & Java | **Level:** Beginner | **Minggu 3:** Relational Persistence: Spring Data JPA, Hibernate 6 & Entity Auditing
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -118,6 +120,36 @@ Imagine holding a paper customer account form (the Java Object) and wishing to a
 ## Challenge
 
 Add a `@OneToMany List<TransactionRecord> transactions` relationship to `BankAccount` with `CascadeType.ALL` and `FetchType.LAZY`, authoring a repository query fetching transactions within the past 30 days.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Circular Bean Dependencies
+- **Symptom / Issue:** Application fails startup with `BeanCurrentlyInCreationException`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Refactor dependencies using mediator patterns or apply `@Lazy` as a stopgap.
+
+### 2. Self-Invocation Bypassing `@Transactional`
+- **Symptom / Issue:** Internal method calls within the same class bypass the Spring AOP proxy.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Invoke transactional methods through an injected bean reference.
+
+### 3. N+1 Hibernate Query Problem
+- **Symptom / Issue:** Loads relational collections with hundreds of sequential database trips.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `JOIN FETCH` queries or annotate repository methods with `@EntityGraph`.
 
 ---
 

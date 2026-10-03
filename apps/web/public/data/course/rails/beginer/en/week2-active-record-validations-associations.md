@@ -1,6 +1,8 @@
 # Advanced Active Record: Complex Associations, Scopes & Enums
 
 > **Kategori:** Ruby on Rails 8 | **Level:** Beginner | **Minggu 2:** Advanced Active Record: Complex Associations, Scopes & Enums
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -92,6 +94,36 @@ Imagine an office wall task board holding 100 cards. Rather than manually inspec
 ## Challenge
 
 Add a custom validation `validate :assignee_must_belong_to_workspace` ensuring assignees belong to the workspace organization.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. N+1 Active Record Queries
+- **Symptom / Issue:** Iterating through associations fires repeated queries per record.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Eager load required associations using `includes(:association)`.
+
+### 2. Irreversible Database Migrations
+- **Symptom / Issue:** Running `rails db:rollback` fails when migration direction is ambiguous.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Write explicit `up` and `down` migration methods for complex column changes.
+
+### 3. Checking Secrets into Public Version Control
+- **Symptom / Issue:** Third-party tokens and database credentials get leaked.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use encrypted credentials via `rails credentials:edit`.
 
 ---
 

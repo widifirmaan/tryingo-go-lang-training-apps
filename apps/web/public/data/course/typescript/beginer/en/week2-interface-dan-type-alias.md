@@ -1,6 +1,8 @@
 # Interface vs Type Alias, Optional, Readonly & Index Signatures
 
 > **Kategori:** TypeScript | **Level:** Type Foundations & Narrowing | **Minggu 2:** Interface vs Type Alias, Optional, Readonly & Index Signatures
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -105,6 +107,36 @@ interface CacheStore {
 ## Challenge
 
 Design interface `InventoryProduct` with readonly SKU, name, price, stock, and optional categories. Derive `DiscountedProduct` adding discount percentage and a net price calculator method.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Overusing the 'any' Escape Hatch
+- **Symptom / Issue:** Completely disables TypeScript compile-time safety across downstream code.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `unknown` for dynamic values and narrow types using type guards.
+
+### 2. Reckless Non-Null Assertions (!)
+- **Symptom / Issue:** Causes runtime `Cannot read property of undefined` crashes when assumptions fail.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Rely on optional chaining (`?.`) or explicit defensive guard statements.
+
+### 3. Inconsistent Type vs Interface Usage
+- **Symptom / Issue:** Hinders declaration merging and confuses team conventions.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use `interface` for extensible object contracts and `type` for unions, primitives, and tuples.
 
 ---
 

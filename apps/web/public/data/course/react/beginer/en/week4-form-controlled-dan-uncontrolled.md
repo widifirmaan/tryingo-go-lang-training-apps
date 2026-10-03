@@ -1,6 +1,8 @@
 # Form Handling: Controlled Components, Real-Time Validation & useRef
 
 > **Kategori:** React | **Level:** Component Foundations, JSX & State | **Minggu 4:** Form Handling: Controlled Components, Real-Time Validation & useRef
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -155,6 +157,36 @@ Ideal applications for `useRef`:
 ## Challenge
 
 Implement mock asynchronous validation: once the slug is finalized, check if it matches reserved handles ("demo", "admin", "test"), displaying an inline collision warning.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Mutating State In-Place
+- **Symptom / Issue:** React will not trigger a re-render because memory references stay identical.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always supply a new copy or functional updater: `setList(prev => [...prev, newItem])`.
+
+### 2. Incomplete useEffect Dependencies
+- **Symptom / Issue:** Causes stale closures reading outdated variable values or infinite re-render loops.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Include every reactive value accessed inside the effect in the dependency array.
+
+### 3. Using Array Indices as Component Keys
+- **Symptom / Issue:** Breaks DOM reconciliation and corrupts internal state in list items.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Assign unique database IDs (`item.id`) rather than arbitrary iteration indices.
 
 ---
 

@@ -1,6 +1,8 @@
 # Capstone: Sistem Manajemen Klinis & Penjadwalan Rumah Sakit Enterprise
 
 > **Kategori:** Angular | **Level:** Routing Fungsional, Interceptors & Capstone RS | **Minggu 10:** Capstone: Sistem Manajemen Klinis & Penjadwalan Rumah Sakit Enterprise
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -218,6 +220,36 @@ Aplikasi ini seperti ruang komando krisis rumah sakit:
 ## Tantangan
 
 Tambahkan fitur pencarian cepat: buat input teks filter yang menyaring baris tabel pasien berdasarkan nama atau lokasi bed secara reaktif menggunakan computed signal.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Memory Leak pada RxJS Subscription
+- **Gejala / Masalah:** Subscription yang tetap aktif setelah komponen hancur memboroskan memori dan memicu callback ganda.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan operator `takeUntilDestroyed()` atau manfaatkan pipe `async` di template HTML.
+
+### 2. ChangeDetectionStrategy Default yang Boros Performa
+- **Gejala / Masalah:** Angular memeriksa seluruh pohon komponen pada setiap event browser.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Terapkan `ChangeDetectionStrategy.OnPush` dan gunakan Angular Signals untuk update granular.
+
+### 3. Mengimpor Seluruh Shared Module di Standalone Component
+- **Gejala / Masalah:** Ukuran bundle JavaScript aplikasi membengkak drastis.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Hanya import modul atau standalone directive yang benar-benar digunakan di array `imports: []`.
 
 ---
 

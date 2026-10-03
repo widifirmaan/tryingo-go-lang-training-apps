@@ -1,6 +1,8 @@
 # Rails 8 Native Authentication, CurrentAttributes & Kamal 2 Deployment
 
 > **Kategori:** Ruby on Rails 8 | **Level:** Advanced | **Minggu 9:** Rails 8 Native Authentication, CurrentAttributes & Kamal 2 Deployment
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -126,6 +128,36 @@ Imagine moving into a new home. Legacy auth was like hiring an external security
 ## Challenge
 
 Build a Token-Based Password Reset subsystem: create a 15-minute expiring `PasswordResetToken` dispatching reset links via background jobs.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. N+1 Active Record Queries
+- **Symptom / Issue:** Iterating through associations fires repeated queries per record.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Eager load required associations using `includes(:association)`.
+
+### 2. Irreversible Database Migrations
+- **Symptom / Issue:** Running `rails db:rollback` fails when migration direction is ambiguous.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Write explicit `up` and `down` migration methods for complex column changes.
+
+### 3. Checking Secrets into Public Version Control
+- **Symptom / Issue:** Third-party tokens and database credentials get leaked.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Use encrypted credentials via `rails credentials:edit`.
 
 ---
 

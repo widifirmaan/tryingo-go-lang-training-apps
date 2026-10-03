@@ -1,6 +1,8 @@
 # Capstone: Microservice Pergudangan & Pemenuhan Pesanan Enterprise Production-Ready
 
 > **Kategori:** C# & .NET | **Level:** Lanjutan | **Minggu 10:** Capstone: Microservice Pergudangan & Pemenuhan Pesanan Enterprise Production-Ready
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -168,6 +170,36 @@ Proyek ini ibarat pabrik modern yang sepenuhnya terotomatisasi. Bagian depan ada
 ## Tantangan
 
 Tambahkan autentikasi JWT pada endpoint `/reservations` dan simpan log audit pemenuhan ke tabel PostgreSQL menggunakan EF Core.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. NullReferenceException
+- **Gejala / Masalah:** Aplikasi melempar exception fatal saat mengakses method dari object yang bernilai null.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Aktifkan `<Nullable>enable</Nullable>` di csproj dan gunakan operator null-conditional `?.` atau null-coalescing `??`.
+
+### 2. Async Void pada Method Biasa
+- **Gejala / Masalah:** Exception yang terjadi di dalam method `async void` tidak bisa ditangkap oleh blok try-catch luar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu gunakan `async Task` untuk method asynchronous, kecuali pada event handler UI.
+
+### 3. Lupa Melakukan Dispose pada Objek IDisposable
+- **Gejala / Masalah:** Koneksi database atau file handle tertahan di memori sistem.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan statement `using var resource = new ...` agar pembersihan resource berjalan otomatis.
 
 ---
 

@@ -1,6 +1,8 @@
 # Agregasi Lanjutan: $lookup, $unwind & $facet
 
 > **Kategori:** MongoDB | **Level:** Agregasi Lanjutan, Replikasi & Skalabilitas Sharding | **Minggu 5:** Agregasi Lanjutan: $lookup, $unwind & $facet
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -122,6 +124,36 @@ $facet seperti sekali melihat etalase toko dan langsung menghitung 3 hal bersama
 ## Tantangan
 
 Bangun pipeline pencarian produk faset lengkap: terima teks pencarian, gunakan `$facet` untuk menghasilkan (1) daftar produk 10 teratas dengan paginasi, (2) daftar merek dan jumlah produknya, dan (3) rentang harga minimum-maksimum.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Desain Dokumen Tanpa Batas (Unbounded Array Anti-Pattern)
+- **Gejala / Masalah:** Ukuran dokumen melebihi batas keras 16MB MongoDB saat array anak terus membesar.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan teknik referensi ID (`bucketing` atau koleksi terpisah) jika data relasi diproyeksikan tumbuh tanpa batas.
+
+### 2. Tidak Menggunakan Indeks pada Query Sering
+- **Gejala / Masalah:** Operasi pencarian melakukan pemeriksaan seluruh koleksi (*COLLSCAN*) yang boros IOPS memori.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Buat compound index via `db.collection.createIndex({ status: 1, createdAt: -1 })`.
+
+### 3. Tipe Data Object ID vs String pada Pencarian
+- **Gejala / Masalah:** Query tidak mengembalikan data apa pun karena mencari ID dengan tipe string mentah.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Konversikan string input ke objek `new ObjectId(id)` sebelum melakukan query.
 
 ---
 

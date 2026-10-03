@@ -1,6 +1,8 @@
 # Capstone: Mesin Portofolio Keuangan & Audit Log Tipe-Ketat
 
 > **Kategori:** TypeScript | **Level:** Sistem Tipe Lanjut & Capstone Portofolio | **Minggu 10:** Capstone: Mesin Portofolio Keuangan & Audit Log Tipe-Ketat
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -145,6 +147,36 @@ Sistem portofolio ini seperti brankas bank modern:
 ## Tantangan
 
 Kembangkan MesinPortofolio dengan method `rebalancePortofolio(targetAlokasi: Record<KelasAset, number>)`: hitung berapa nominal unit yang harus dijual atau dibeli untuk mencapai target alokasi tersebut dengan type safety penuh.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Penyalahgunaan Tipe 'any'
+- **Gejala / Masalah:** Menghilangkan seluruh keamanan pengecekan compile-time TypeScript.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `unknown` jika tipe data belum pasti, lalu persempit dengan type guards (`typeof`, `instanceof`).
+
+### 2. Non-Null Assertion Operator (!) Sembarangan
+- **Gejala / Masalah:** Terjadi runtime error `Cannot read properties of undefined` saat nilai ternyata null.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan optional chaining (`?.`) atau pengecekan kondisional eksplisit `if (val != null)`.
+
+### 3. Interface vs Type yang Tidak Konsisten
+- **Gejala / Masalah:** Membingungkan arsitektur tim dan menyulitkan declaration merging saat menulis library.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `interface` untuk struktur objek extensible dan `type` untuk union, tuple, atau primitive alias.
 
 ---
 

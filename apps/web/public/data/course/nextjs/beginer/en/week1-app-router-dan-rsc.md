@@ -1,6 +1,8 @@
 # App Router: React Server Components (RSC) vs Client Components ('use client')
 
 > **Kategori:** Next.js | **Level:** App Router, RSC & Streaming Foundations | **Minggu 1:** App Router: React Server Components (RSC) vs Client Components ('use client')
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -115,6 +117,36 @@ Append the `'use client'` boundary directive only when a component requires clie
 ## Challenge
 
 Author a Client Component `CartHeaderBadge` managing local cart badge count, and embed it inside a root `app/layout.tsx` Server Component layout.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Client Hooks in Server Components
+- **Symptom / Issue:** Build error stating `useState can only be used in a Client Component`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Add the `'use client'` directive to the top of components requiring browser state.
+
+### 2. Sequential Data Fetching Waterfalls
+- **Symptom / Issue:** Significantly delays page render times by running independent requests one after another.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Run asynchronous fetches concurrently using `Promise.all([fetchA(), fetchB()])`.
+
+### 3. Over-Aggressive Static Caching
+- **Symptom / Issue:** Stale database content remains visible to users after updates.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure accurate revalidation: `fetch(url, { next: { revalidate: 60 } })` or `revalidatePath()`.
 
 ---
 

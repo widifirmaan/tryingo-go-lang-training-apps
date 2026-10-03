@@ -2,11 +2,16 @@ import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react'
 import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Sparkles, Award, Play, CheckCircle2, Circle } from 'lucide-react';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
+import { isWeekCompleted, toggleWeekCompleted, getTrackProgress } from '../utils/progress';
+import { CertificateModal } from './CertificateModal';
+import { AiMentorDrawer } from './AiMentorDrawer';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
@@ -54,8 +59,12 @@ const nodeText = (node: React.ReactNode): string => {
   return '';
 };
 
-// Fenced code block: header with language label + copy button
-const LessonCodeBlock: React.FC<{ children?: React.ReactNode; isId: boolean }> = ({ children, isId }) => {
+// Fenced code block: header with language label, run in playground, and copy button
+const LessonCodeBlock: React.FC<{
+  children?: React.ReactNode;
+  isId: boolean;
+  onRunCode?: (code: string) => void;
+}> = ({ children, isId, onRunCode }) => {
   const [copied, setCopied] = useState(false);
   const child = React.Children.toArray(children)[0];
   const langClass = React.isValidElement<{ className?: string }>(child)
@@ -69,19 +78,31 @@ const LessonCodeBlock: React.FC<{ children?: React.ReactNode; isId: boolean }> =
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">
           {lang || (isId ? 'kode' : 'code')}
         </span>
-        <button
-          onClick={async () => {
-            if (await copyText(text)) {
-              setCopied(true);
-              setTimeout(() => setCopied(false), 1500);
-            }
-          }}
-          title={isId ? 'Salin kode' : 'Copy code'}
-          className="flex items-center gap-1 text-[10px] font-bold text-zinc-300 hover:text-white transition-colors"
-        >
-          <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="w-3 h-3" />
-          {copied ? (isId ? 'Tersalin!' : 'Copied!') : (isId ? 'Salin' : 'Copy')}
-        </button>
+        <div className="flex items-center gap-2">
+          {onRunCode && text.trim().length > 0 && (
+            <button
+              onClick={() => onRunCode(text)}
+              title={isId ? 'Coba di Playground' : 'Run in Playground'}
+              className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+            >
+              <Play className="w-2.5 h-2.5 fill-current" />
+              <span>{isId ? 'Coba di Playground' : 'Try in Playground'}</span>
+            </button>
+          )}
+          <button
+            onClick={async () => {
+              if (await copyText(text)) {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 1500);
+              }
+            }}
+            title={isId ? 'Salin kode' : 'Copy code'}
+            className="flex items-center gap-1 text-[10px] font-bold text-zinc-300 hover:text-white transition-colors"
+          >
+            <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="w-3 h-3" />
+            {copied ? (isId ? 'Tersalin!' : 'Copied!') : (isId ? 'Salin' : 'Copy')}
+          </button>
+        </div>
       </div>
       <pre className="!m-0 !rounded-none !border-0">{children}</pre>
     </div>
@@ -211,6 +232,36 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
 
   const currentLevel = levels.find(l => l.levelId === activeLevel);
   const currentWeek = currentLevel?.weeks.find(w => w.week === activeWeek);
+
+  const [overrideCode, setOverrideCode] = useState<string | null>(null);
+  const [isMentorOpen, setIsMentorOpen] = useState(false);
+  const [isCertificateOpen, setIsCertificateOpen] = useState(false);
+  const [weekDone, setWeekDone] = useState(false);
+  const [trackProg, setTrackProg] = useState({ completedCount: 0, percent: 0, isFinished: false });
+
+  const totalTrackWeeks = useMemo(() => {
+    return levels.reduce((acc, l) => acc + l.weeks.length, 0);
+  }, [levels]);
+
+  const syncProgress = useCallback(() => {
+    setWeekDone(isWeekCompleted(slug, activeWeek));
+    setTrackProg(getTrackProgress(slug, totalTrackWeeks));
+  }, [slug, activeWeek, totalTrackWeeks]);
+
+  useEffect(() => {
+    syncProgress();
+    setOverrideCode(null);
+  }, [slug, activeWeek, syncProgress]);
+
+  const handleToggleWeek = () => {
+    toggleWeekCompleted(slug, activeWeek);
+    syncProgress();
+  };
+
+  const getActivePlaygroundCode = useCallback((fences: string[]) => {
+    if (overrideCode !== null) return overrideCode;
+    return extractCode(content, fences);
+  }, [overrideCode, content]);
 
   const getFilePath = useCallback(() => {
     if (!currentWeek) return '';
@@ -368,6 +419,44 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         </div>
 
+        {/* Progress Badge */}
+        <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-xs font-bold shrink-0">
+          <div className="flex flex-col">
+            <div className="flex justify-between text-[10px] text-zinc-500 mb-0.5">
+              <span>{isId ? 'Progres' : 'Progress'}</span>
+              <span className="font-mono">{trackProg.completedCount}/{totalTrackWeeks} ({trackProg.percent}%)</span>
+            </div>
+            <div className="w-20 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
+              <div
+                className="h-full bg-[#2E5B44] dark:bg-emerald-500 rounded-full transition-all duration-300"
+                style={{ width: `${trackProg.percent}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Claim Certificate Button */}
+        {(trackProg.percent >= 80 || trackProg.isFinished) && (
+          <button
+            onClick={() => setIsCertificateOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-950 font-black shadow-xs transition-all text-xs sm:text-sm shrink-0"
+            title={isId ? 'Klaim Sertifikat Kelulusan' : 'Claim Certificate of Completion'}
+          >
+            <Award className="w-3.5 h-3.5 text-zinc-950" />
+            <span className="hidden sm:inline">{isId ? 'Sertifikat' : 'Certificate'}</span>
+          </button>
+        )}
+
+        {/* AI Mentor Button */}
+        <button
+          onClick={() => setIsMentorOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-[#2E5B44] text-white shadow-xs hover:brightness-110 transition-all text-xs sm:text-sm font-bold shrink-0"
+          title={isId ? 'Tanya AI Mentor seputar modul ini' : 'Ask AI Mentor about this lesson'}
+        >
+          <Sparkles className="w-3.5 h-3.5 text-white" />
+          <span className="hidden sm:inline">AI Mentor</span>
+        </button>
+
         {/* IDE Button */}
         <button
           onClick={() => onOpenIde?.(trackId)}
@@ -429,24 +518,44 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         </div>
       </div>
 
-      {/* Week Tabs */}
-      <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1 flex-shrink-0 scrollbar-thin">
-        {currentLevel?.weeks.map((w) => (
-          <button
-            key={w.week}
-            onClick={() => handleWeekChange(w.week)}
-            className={`px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all border ${
-              activeWeek === w.week
-                ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-xs'
-                : 'bg-white/60 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-700'
-            }`}
-          >
-            <span className="sm:hidden">W{w.week}</span>
-            <span className="hidden sm:inline">{isId ? w.titleId : w.titleEn}</span>
-          </button>
-        ))}
+      {/* Week Tabs & Mark Complete */}
+      <div className="flex items-center justify-between gap-2 overflow-x-auto pb-1 flex-shrink-0 scrollbar-thin">
+        <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
+          {currentLevel?.weeks.map((w) => {
+            const isDone = isWeekCompleted(slug, w.week);
+            return (
+              <button
+                key={w.week}
+                onClick={() => handleWeekChange(w.week)}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all border shrink-0 ${
+                  activeWeek === w.week
+                    ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-xs'
+                    : 'bg-white/60 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-700'
+                }`}
+              >
+                {isDone && <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />}
+                <span className="sm:hidden">W{w.week}</span>
+                <span className="hidden sm:inline">{isId ? w.titleId : w.titleEn}</span>
+              </button>
+            );
+          })}
+        </div>
 
-
+        {/* Mark Week Completed Toggle */}
+        <button
+          onClick={handleToggleWeek}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all shrink-0 ${
+            weekDone
+              ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-400 shadow-xs'
+              : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-emerald-500'
+          }`}
+          title={isId ? 'Tandai progres modul ini sudah dipahami' : 'Mark this lesson as understood'}
+        >
+          <CheckCircle2 className={`w-3.5 h-3.5 ${weekDone ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-400'}`} />
+          <span>
+            {isId ? (weekDone ? 'Selesai Dipelajari' : 'Tandai Selesai') : (weekDone ? 'Completed' : 'Mark Done')}
+          </span>
+        </button>
       </div>
 
       {/* Content + Inline Playground */}
@@ -473,7 +582,11 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    pre: ({ children }) => <LessonCodeBlock isId={isId}>{children}</LessonCodeBlock>,
+                    pre: ({ children }) => (
+                      <LessonCodeBlock isId={isId} onRunCode={(code) => setOverrideCode(code)}>
+                        {children}
+                      </LessonCodeBlock>
+                    ),
                     code: ({ children, className }) => <LessonInlineCode isId={isId} className={className}>{children}</LessonInlineCode>,
                   }}
                 >
@@ -498,66 +611,66 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         {/* Inline Code Playground */}
         {content && isDocker ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <DockerPlayground lang={lang} script={extractCode(content, ['bash', 'sh', 'shell', 'dockerfile'])} />
+            <DockerPlayground lang={lang} script={getActivePlaygroundCode(['bash', 'sh', 'shell', 'dockerfile'])} />
           </div>
         ) : content && isStackBlitz ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <StackBlitzPlayground
               lang={lang}
               language={slug as any}
-              initialCode={extractCode(content, STACKBLITZ_FENCES[slug] || ['javascript', 'js', 'typescript', 'ts'])}
+              initialCode={getActivePlaygroundCode(STACKBLITZ_FENCES[slug] || ['javascript', 'js', 'typescript', 'ts'])}
             />
           </div>
         ) : content && (slug === 'postgresql' || slug === 'mysql') ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <SqlPlayground lang={lang} initialCode={extractCode(content, ['sql'])} />
+            <SqlPlayground lang={lang} initialCode={getActivePlaygroundCode(['sql'])} />
           </div>
         ) : content && slug === 'mongodb' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <MongoPlayground lang={lang} initialCode={extractCode(content, ['javascript', 'js', 'json'])} />
+            <MongoPlayground lang={lang} initialCode={getActivePlaygroundCode(['javascript', 'js', 'json'])} />
           </div>
         ) : content && slug === 'redis' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <RedisPlayground lang={lang} initialCode={extractCode(content, ['redis', 'bash', 'sh'])} />
+            <RedisPlayground lang={lang} initialCode={getActivePlaygroundCode(['redis', 'bash', 'sh'])} />
           </div>
         ) : content && slug === 'graphql' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <GraphqlPlayground lang={lang} initialCode={extractCode(content, ['graphql'])} />
+            <GraphqlPlayground lang={lang} initialCode={getActivePlaygroundCode(['graphql'])} />
           </div>
         ) : content && (slug === 'php' || slug === 'laravel' || slug === 'codeigniter4') ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <PhpPlayground lang={lang} initialCode={extractCode(content, ['php'])} />
+            <PhpPlayground lang={lang} initialCode={getActivePlaygroundCode(['php'])} />
           </div>
         ) : content && slug === 'csharp' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <CsharpPlayground lang={lang} initialCode={extractCode(content, ['csharp', 'cs'])} />
+            <CsharpPlayground lang={lang} initialCode={getActivePlaygroundCode(['csharp', 'cs'])} />
           </div>
         ) : content && slug === 'python' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <PythonPlayground lang={lang} initialCode={extractCode(content, ['python', 'py'])} />
+            <PythonPlayground lang={lang} initialCode={getActivePlaygroundCode(['python', 'py'])} />
           </div>
         ) : content && slug === 'rails' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <RubyPlayground lang={lang} initialCode={extractCode(content, ['ruby', 'rb', 'erb'])} />
+            <RubyPlayground lang={lang} initialCode={getActivePlaygroundCode(['ruby', 'rb', 'erb'])} />
           </div>
         ) : content && slug === 'react' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <ReactPlayground lang={lang} initialCode={extractCode(content, ['jsx'])} />
+            <ReactPlayground lang={lang} initialCode={getActivePlaygroundCode(['jsx'])} />
           </div>
         ) : content && slug === 'vue' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <VuePlayground lang={lang} initialCode={extractCode(content, ['vue'])} />
+            <VuePlayground lang={lang} initialCode={getActivePlaygroundCode(['vue'])} />
           </div>
         ) : content && slug === 'svelte' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <SveltePlayground lang={lang} initialCode={extractCode(content, ['svelte'])} />
+            <SveltePlayground lang={lang} initialCode={getActivePlaygroundCode(['svelte'])} />
           </div>
         ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
             <React.Suspense fallback={null}>
               <InlinePlayground
                 lang={lang}
-                initialCode={extractCode(content, INLINE_FENCES[slug] || [])}
+                initialCode={getActivePlaygroundCode(INLINE_FENCES[slug] || [])}
                 language={slug}
                 week={activeWeek}
                 onClose={() => {}}
@@ -567,6 +680,25 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         )}
       </div>
+
+      {/* Certificate Modal */}
+      <CertificateModal
+        isOpen={isCertificateOpen}
+        onClose={() => setIsCertificateOpen(false)}
+        trackName={track.name}
+        trackSlug={slug}
+        lang={lang}
+      />
+
+      {/* AI Mentor Drawer */}
+      <AiMentorDrawer
+        isOpen={isMentorOpen}
+        onClose={() => setIsMentorOpen(false)}
+        trackName={track.name}
+        topicTitle={currentWeek ? (isId ? currentWeek.titleId : currentWeek.titleEn) : track.name}
+        currentCode={overrideCode || extractCode(content)}
+        lang={lang}
+      />
     </div>
   );
 };

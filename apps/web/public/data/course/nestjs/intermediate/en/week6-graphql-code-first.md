@@ -1,6 +1,8 @@
 # Modern GraphQL: Code-First Paradigm, Resolvers & Mutations
 
 > **Kategori:** NestJS Enterprise Architecture | **Level:** Intermediate | **Minggu 6:** Modern GraphQL: Code-First Paradigm, Resolvers & Mutations
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -113,6 +115,36 @@ Imagine ordering at a restaurant. A REST API behaves like a fixed set menu: you 
 ## Challenge
 
 Deploy `DataLoader` within a FieldResolver to resolve the N+1 Query Problem when retrieving categories across 50 products concurrently.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Indiscriminate Request-Scoped Providers
+- **Symptom / Issue:** Degrades throughput significantly by re-instantiating dependency trees per request.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Stick to default Singleton providers unless per-request isolation is strictly required.
+
+### 2. Missing Module Exports / Imports
+- **Symptom / Issue:** Crashes on boot: `Nest can't resolve dependencies of the Service`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Verify that the exporting module exports the provider and the consumer imports it.
+
+### 3. Omitting Global ValidationPipe
+- **Symptom / Issue:** DTO payload properties pass into business services unvalidated.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure `app.useGlobalPipes(new ValidationPipe({ whitelist: true }))` in `main.ts`.
 
 ---
 

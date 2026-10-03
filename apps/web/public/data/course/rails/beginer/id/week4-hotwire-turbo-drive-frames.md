@@ -1,6 +1,8 @@
 # Frontend Modern Tanpa SPA: Hotwire Turbo Drive & Turbo Frames
 
 > **Kategori:** Ruby on Rails 8 | **Level:** Pemula | **Minggu 4:** Frontend Modern Tanpa SPA: Hotwire Turbo Drive & Turbo Frames
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -77,6 +79,36 @@ Bayangkan Anda membaca koran harian. Jika koran tradisional (web lama), setiap k
 ## Tantangan
 
 Bangun modal dialog popup menggunakan Turbo Frame: klik tombol "Tambah Tugas", muat form di dalam `<dialog id="modal">` via Turbo Frame, dan tutup modal otomatis saat form berhasil disimpan.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. N+1 Queries pada Active Record
+- **Gejala / Masalah:** Me-render tampilan tabel memicu puluhan query SQL tambahan yang memperlambat respon.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan method `includes(:relation)` pada controller query untuk melakukan eager loading.
+
+### 2. Migrasi Database yang Mengubah Kolom Tanpa Reversibility
+- **Gejala / Masalah:** Perintah `rails db:rollback` gagal dieksekusi saat proses deployment dibatalkan.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan method migrasi eksplisit `up` dan `down` jika operasi kolom tidak dapat dibalik secara otomatis.
+
+### 3. Menyimpan Credential Sensitif di Direktori Publik
+- **Gejala / Masalah:** API key pihak ketiga bocor ke publik melalui repositori git.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Manfaatkan sistem enkripsi `rails credentials:edit` untuk menyimpan API key produksi.
 
 ---
 

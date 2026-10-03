@@ -1,6 +1,8 @@
 # Text Hierarchy, Semantic Typography & Navigation Links
 
 > **Kategori:** HTML5 | **Level:** Structure & Web Semantics | **Minggu 2:** Text Hierarchy, Semantic Typography & Navigation Links
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -115,6 +117,36 @@ The `<nav>` landmark wraps major navigation clusters. Placing links inside an un
 ## Challenge
 
 Build a technical documentation guide page entitled "Cloud Architecture Manual". Structure one <h1>, at least three <h2> sections with <h3> subtopics, an ordered list for deployment steps, and an accessible navigation menu with `aria-current="page"` and a skip link.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Unclosed or Mismatched Tags
+- **Symptom / Issue:** Breaks page layout and causes unexpected DOM tree nesting.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always close matching pairs and validate HTML using linters or browser developer tools.
+
+### 2. Overusing Generic <div> Containers (Div Soup)
+- **Symptom / Issue:** Harms accessibility (screen readers) and lowers search engine ranking.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Prefer semantic markup elements like <header>, <nav>, <main>, <article>, and <footer>.
+
+### 3. Missing 'alt' on Images and 'for' on Labels
+- **Symptom / Issue:** Fails accessibility audits and creates bad UX on mobile touch targets.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Always provide descriptive alt attributes and bind input fields explicitly to form labels.
 
 ---
 

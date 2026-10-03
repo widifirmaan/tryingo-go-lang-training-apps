@@ -1,6 +1,8 @@
 # Strategi Indexing (B-Tree, GIN, Partial) & EXPLAIN ANALYZE
 
 > **Kategori:** PostgreSQL | **Level:** Dasar Relasional & SQL Lanjutan | **Minggu 4:** Strategi Indexing (B-Tree, GIN, Partial) & EXPLAIN ANALYZE
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -87,6 +89,36 @@ Indeks B-Tree seperti indeks alfabetis di buku. Partial Index seperti indeks khu
 ## Tantangan
 
 Buat trigram index menggunakan ekstensi `pg_trgm` pada kolom `products.title` dan gunakan `EXPLAIN ANALYZE` untuk membuktikan kecepatan pencarian teks fuzzy `ILIKE '%think%'`.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Full Table Scan Akibat Lupa Menambahkan Index
+- **Gejala / Masalah:** Query SELECT menjadi lambat seiring bertambahnya jutaan baris data.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Tambahkan B-Tree Index pada kolom yang sering digunakan di klausa `WHERE`, `ORDER BY`, dan `JOIN`.
+
+### 2. Lupa Menggunakan Transaksi pada Operasi Finansial/Multi-Tabel
+- **Gejala / Masalah:** Data menjadi tidak konsisten jika terjadi error di tengah-tengah rentetan query.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu bungkus operasi dengan blok `BEGIN; ... COMMIT;` atau `ROLLBACK;` saat terjadi kegagalan.
+
+### 3. Tipe Data Angka Desimal yang Keliru (`FLOAT` vs `NUMERIC`)
+- **Gejala / Masalah:** Perhitungan saldo uang mengalami selisih desimal akibat floating-point precision error.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan tipe data `NUMERIC(15, 2)` untuk uang dan data finansial presisi tinggi.
 
 ---
 

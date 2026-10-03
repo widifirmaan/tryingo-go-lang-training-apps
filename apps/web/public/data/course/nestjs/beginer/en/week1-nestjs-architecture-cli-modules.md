@@ -1,6 +1,8 @@
 # NestJS Architecture: Controllers, Providers, Modules & Dependency Injection
 
 > **Kategori:** NestJS Enterprise Architecture | **Level:** Beginner | **Minggu 1:** NestJS Architecture: Controllers, Providers, Modules & Dependency Injection
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -113,6 +115,36 @@ Imagine constructing a skyscraper using modular LEGO blocks (Modules). Each offi
 ## Challenge
 
 Build a `DiscountService` within a separate `PricingModule`, export the service, and inject it into `CatalogService` to compute discounted prices.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Indiscriminate Request-Scoped Providers
+- **Symptom / Issue:** Degrades throughput significantly by re-instantiating dependency trees per request.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Stick to default Singleton providers unless per-request isolation is strictly required.
+
+### 2. Missing Module Exports / Imports
+- **Symptom / Issue:** Crashes on boot: `Nest can't resolve dependencies of the Service`.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Verify that the exporting module exports the provider and the consumer imports it.
+
+### 3. Omitting Global ValidationPipe
+- **Symptom / Issue:** DTO payload properties pass into business services unvalidated.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Configure `app.useGlobalPipes(new ValidationPipe({ whitelist: true }))` in `main.ts`.
 
 ---
 

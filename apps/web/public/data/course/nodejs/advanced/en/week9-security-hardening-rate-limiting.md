@@ -1,6 +1,8 @@
 # Security Hardening: Rate Limiting, Header Security & Graceful Shutdown
 
 > **Kategori:** Node.js Backend | **Level:** Advanced | **Minggu 9:** Security Hardening: Rate Limiting, Header Security & Graceful Shutdown
+> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
+
 
 ## Learning Objectives
 
@@ -137,6 +139,36 @@ Imagine a cafe closing at 10 PM. The host flips the door sign to "CLOSED" (serve
 ## Challenge
 
 Integrate a Redis-backed rate limiter (`INCR` and `EXPIRE`) sharing request quotas consistently across multi-pod container clusters.
+
+---
+
+## Syntax Cheatsheet & Quick Reference
+
+| Syntax / Keyword | Purpose & Practical Pattern |
+| :--- | :--- |
+| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
+| **Core Processing** | Algorithm execution, control flow, and data transformation |
+| **Defensive Validation** | Verify data invariants and handle errors explicitly |
+| **Return / Output** | Deliver deterministic output ready for consumption |
+
+---
+
+## Common Pitfalls & Debugging Tips
+
+### 1. Event Loop Blocking on Heavy Computation
+- **Symptom / Issue:** Freezes response handling for all concurrent user requests.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Delegate CPU-heavy tasks to Worker Threads or external background queues.
+
+### 2. Uncaught Asynchronous Exceptions
+- **Symptom / Issue:** Kills the Node.js process abruptly and terminates the service.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Handle async errors with try-catch and attach `process.on('unhandledRejection')` handlers.
+
+### 3. EventEmitter Listener Leak
+- **Symptom / Issue:** Generates `MaxListenersExceededWarning` and leaks memory across long-lived servers.
+- **Root Cause:** Common mistaken assumptions during early development.
+- **Fix / Best Practice:** Detach obsolete event handlers using `emitter.off()` or `emitter.removeListener()`.
 
 ---
 

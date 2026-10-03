@@ -1,6 +1,8 @@
 # Struktur Data Lanjutan, Collections & Pipeline Fungsional
 
 > **Kategori:** Python Backend & Automation | **Level:** Pemula | **Minggu 2:** Struktur Data Lanjutan, Collections & Pipeline Fungsional
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -90,6 +92,36 @@ Bayangkan sebuah toples permen yang hanya muat 5 butir (deque maxlen=5). Setiap 
 ## Tantangan
 
 Tulis fungsi generator `stream_moving_average(price_stream, window_size)` yang menghasilkan nilai moving average secara lazy menggunakan `yield` dan `deque` tanpa menyimpan seluruh riwayat data di RAM.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Default Parameter Bersifat Mutable (List/Dict)
+- **Gejala / Masalah:** Nilai default yang diubah pada panggilan pertama akan terbawa ke panggilan fungsi berikutnya.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `None` sebagai nilai default: `def fn(items=None): if items is None: items = []`.
+
+### 2. Salah Paham Scope Variabel Global di dalam Fungsi
+- **Gejala / Masalah:** Melempar error `UnboundLocalError: local variable referenced before assignment`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan kata kunci `global` secara hati-hati atau lebih baik oper nilai sebagai parameter dan return value.
+
+### 3. Menangkap Exception Terlalu Luas (`except:`)
+- **Gejala / Masalah:** Menyembunyikan error syntax, `KeyboardInterrupt`, atau bug kritis sistem.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu sebutkan exception spesifik: `except ValueError as err:`.
 
 ---
 

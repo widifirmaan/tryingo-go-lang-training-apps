@@ -1,6 +1,8 @@
 # Komunikasi Komponen: defineProps, defineEmits & Custom v-model Binding
 
 > **Kategori:** Vue | **Level:** Composition API, Reaktivitas & Komponen | **Minggu 3:** Komunikasi Komponen: defineProps, defineEmits & Custom v-model Binding
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -96,6 +98,36 @@ Dengan mendeklarasikan prop `modelValue` dan memancarkan event `update:modelValu
 ## Tantangan
 
 Buat komponen `LeadRatingStar.vue` yang menerima prop `modelValue: number` (1 sampai 5) dan me-render 5 bintang interaktif yang saat diklik memancarkan nilai rating baru ke parent via v-model.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Destructuring Reaktif State Hilang
+- **Gejala / Masalah:** Variabel yang di-destructure dari `reactive()` kehilangan sifat reaktivitasnya.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `toRefs(state)` sebelum melakukan destructuring pada Composition API.
+
+### 2. Mengubah Prop Komponen Anak secara Langsung
+- **Gejala / Masalah:** Memicu warning konsol Vue dan membuat data flow satu arah (one-way data flow) kacau.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Kirim event `emit('update:prop', value)` ke parent alih-alih memutasi prop.
+
+### 3. Lupa `.value` pada Ref di JavaScript
+- **Gejala / Masalah:** Objek `ref` dikirim alih-alih nilai aslinya ke logika komputasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Ingat bahwa `.value` wajib di dalam blok `<script setup>`, namun otomatis di-unwrap di template `<template>`.
 
 ---
 

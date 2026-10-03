@@ -1,6 +1,8 @@
 # Vue 3 Single File Components (.vue): <script setup>, ref vs reactive
 
 > **Kategori:** Vue | **Level:** Composition API, Reaktivitas & Komponen | **Minggu 1:** Vue 3 Single File Components (.vue): <script setup>, ref vs reactive
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -131,6 +133,36 @@ Sistem reaktivitas Vue 3 ditenagai oleh **JavaScript Proxy**:
 ## Tantangan
 
 Tambahkan properti `sumberLead` ("WEBSITE" | "REFERRAL" | "COLD_CALL") ke dalam objek reactive `lead`, dan tampilkan ikon unik di samping nama kontak menggunakan direktif `v-if` / `v-else-if`.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Destructuring Reaktif State Hilang
+- **Gejala / Masalah:** Variabel yang di-destructure dari `reactive()` kehilangan sifat reaktivitasnya.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `toRefs(state)` sebelum melakukan destructuring pada Composition API.
+
+### 2. Mengubah Prop Komponen Anak secara Langsung
+- **Gejala / Masalah:** Memicu warning konsol Vue dan membuat data flow satu arah (one-way data flow) kacau.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Kirim event `emit('update:prop', value)` ke parent alih-alih memutasi prop.
+
+### 3. Lupa `.value` pada Ref di JavaScript
+- **Gejala / Masalah:** Objek `ref` dikirim alih-alih nilai aslinya ke logika komputasi.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Ingat bahwa `.value` wajib di dalam blok `<script setup>`, namun otomatis di-unwrap di template `<template>`.
 
 ---
 

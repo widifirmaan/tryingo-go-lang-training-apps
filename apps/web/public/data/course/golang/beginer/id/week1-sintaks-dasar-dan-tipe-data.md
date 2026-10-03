@@ -1,6 +1,8 @@
 # Arsitektur Package Go: main, Variabel, Zero Values & Multiple Returns
 
 > **Kategori:** Go | **Level:** Pondasi Go & Sistem Tipe Statis | **Minggu 1:** Arsitektur Package Go: main, Variabel, Zero Values & Multiple Returns
+> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+
 
 ## Tujuan Pembelajaran
 
@@ -109,6 +111,36 @@ Go seperti mobil balap F1: tidak ada tombol hiburan, tidak ada jok kulit mewah, 
 ## Tantangan
 
 Buat fungsi `KalkulasiThroughput(totalRequest int, durasiDetik float64) (float64, bool)` yang menghitung Request Per Second (RPS) dan mengembalikan flag boolean `apakahMelebihiKapasitas` jika RPS di atas 5000.
+
+---
+
+## Ringkasan Sintaks & Quick Reference
+
+| Perintah / Sintaks | Fungsi & Contoh Praktik |
+| :--- | :--- |
+| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
+| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
+| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
+| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+
+---
+
+## Jebakan Umum & Debugging (Common Pitfalls)
+
+### 1. Nil Pointer Dereference (Panic)
+- **Gejala / Masalah:** Aplikasi panic dan crash seketika saat mengakses field struct pada pointer bernilai `nil`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Selalu validasi `if ptr != nil { ... }` sebelum memanggil method atau membaca field.
+
+### 2. Goroutine Leak (Macet Selamanya)
+- **Gejala / Masalah:** Goroutine menunggu baca/tulis pada channel tanpa pernah dihentikan, menguras memori server.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Gunakan `context.WithCancel` atau buffered channel untuk memastikan goroutine memiliki titik keluar pasti.
+
+### 3. Shadowing Variabel dengan Operator :=
+- **Gejala / Masalah:** Variabel luar tidak terisi karena variabel baru dengan nama yang sama dibuat di dalam blok `if/err`.
+- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
+- **Solusi Tepat:** Periksa kembali deklarasi pendek `:=` vs assignment biasa `=` saat menangani error.
 
 ---
 
