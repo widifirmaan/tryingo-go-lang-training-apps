@@ -161,14 +161,92 @@ Tambahkan OpCode `2` untuk operasi `DEL` pada logger WAL dan perbarui fungsi `re
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram Rust Ownership, Move Semantics & Borrowing Memory](/diagrams/rust-ownership.svg)
+
+```diagram
+┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Code)  │                             │  (Pemeriksa)   │
+└──────┬───────┘                             └───────▲────────┘
+       │ Operasi Async (Fetch / Timer)               │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
+│  (Background)│                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `let x: i32 = 5; let mut y = 10;`
+- **Fungsi Utama:** Deklarasi variabel immutable default & mutable.
+- **Parameter / Atribut:** `Tipe data (i32, f64, String), mut keyword`.
+- **Perilaku & Efek Sistem:** Rust secara default mengunci variabel agar tidak bisa diubah guna menjamin keamanan memori tanpa garbage collector.
+- **Contoh Penggunaan Praktis:**
+```javascript
+let mut score = 50;
+score += 25;
+println!("Score: {}", score);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Score: 75
+```
+
+### 2. `&T (Immutable Borrow) vs &mut T (Mutable Borrow)`
+- **Fungsi Utama:** Peminjaman referensi memori (Borrowing).
+- **Parameter / Atribut:** `Referensi variabel`.
+- **Perilaku & Efek Sistem:** Mengizinkan pembacaan data tanpa memindahkan kepemilikan (ownership) dengan aturan ketat: 1 mutable borrow ATAU banyak immutable borrow.
+- **Contoh Penggunaan Praktis:**
+```javascript
+fn print_len(s: &String) {
+  println!("Panjang: {}", s.len());
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Membaca panjang string tanpa menghapus variabel asal
+```
+
+### 3. `match value { Pattern => Action }`
+- **Fungsi Utama:** Pencocokan pola menyeluruh (Pattern Matching).
+- **Parameter / Atribut:** `Ekspresi, Arms`.
+- **Perilaku & Efek Sistem:** Mengevaluasi setiap kemungkinan kondisi secara lengkap (kompiler memaksa semua cabang tertangani).
+- **Contoh Penggunaan Praktis:**
+```javascript
+let status = Some(200);
+match status {
+  Some(code) => println!("Status OK: {}", code),
+  None => println!("Tidak ada data"),
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Status OK: 200
+```
+
+### 4. `Result<T, E> & Operator ?`
+- **Fungsi Utama:** Penanganan kegagalan idiomatik tanpa exception.
+- **Parameter / Atribut:** `Ok(T), Err(E)`.
+- **Perilaku & Efek Sistem:** Mengembalikan nilai sukses atau error terstruktur, dan operator `?` untuk meneruskan error ke pemanggil.
+- **Contoh Penggunaan Praktis:**
+```javascript
+fn read_data() -> Result<String, std::io::Error> {
+  let content = std::fs::read_to_string("config.txt")?;
+  Ok(content)
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Mengembalikan isi file atau meneruskan kegagalan I/O
+```
+
 
 ---
 

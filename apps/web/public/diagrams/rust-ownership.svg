@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" width="100%" height="100%">
+  <rect width="600" height="280" rx="16" fill="#18181b" />
+  <rect x="60" y="60" width="200" height="150" rx="10" fill="#dea584" fill-opacity="0.1" stroke="#dea584" stroke-width="2" />
+  <text x="160" y="90" fill="#dea584" font-family="system-ui, sans-serif" font-weight="800" font-size="14" text-anchor="middle">STACK (Variabel s1)</text>
+  <text x="80" y="125" fill="#ffffff" font-family="monospace" font-size="11">ptr ────────────┐</text>
+  <text x="80" y="150" fill="#ffffff" font-family="monospace" font-size="11">len: 5          │</text>
+  <text x="80" y="175" fill="#ffffff" font-family="monospace" font-size="11">capacity: 5     │</text>
+
+  <rect x="340" y="60" width="200" height="150" rx="10" fill="#10b981" fill-opacity="0.1" stroke="#34d399" stroke-width="2" />
+  <text x="440" y="90" fill="#34d399" font-family="system-ui, sans-serif" font-weight="800" font-size="14" text-anchor="middle">HEAP (Alokasi Memori)</text>
+  <text x="360" y="130" fill="#34d399" font-family="monospace" font-size="12">Index [0, 1, 2, 3, 4]</text>
+  <text x="360" y="160" fill="#ffffff" font-family="monospace" font-weight="700" font-size="13">"h" "e" "l" "l" "o"</text>
+
+  <path d="M210 120 L340 120" stroke="#dea584" stroke-width="2" marker-end="url(#arr-rust)" />
+  <text x="300" y="245" fill="#f87171" font-family="system-ui, sans-serif" font-weight="700" font-size="12" text-anchor="middle">Ketika let s2 = s1 dijalankan: Kepemilikan pindah (Move). s1 menjadi invalid!</text>
+</svg>

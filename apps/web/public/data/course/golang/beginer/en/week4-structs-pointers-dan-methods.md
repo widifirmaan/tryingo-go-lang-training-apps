@@ -132,14 +132,84 @@ Author a `ClusterNode` struct with Host, Port, LatencyMs, and IsHealthy fields. 
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram CSP Goroutine & Channel Communication Pipeline](/diagrams/goroutine-channel.svg)
+
+```diagram
+┌────────────────┐                     ┌────────────────┐
+│  GOROUTINE A   │                     │  GOROUTINE B   │
+│  (Worker Thread)                     │  (Consumer)    │
+│  ch <- 42      │ ─── Pass Data ───►  │  val := <-ch   │
+└────────────────┘   [ CHANNEL: chan ] └────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `var x int / x := 42`
+- **Core Functionality:** Type-safe variable declaration and short assignment.
+- **Parameters / Attributes:** `Identifier, Type / Value`.
+- **System Behavior & Return:** `:=` infers concrete types dynamically in function bodies; `var` sets deterministic zero values.
+- **Practical Code Example:**
+```javascript
+counter := 10
+fmt.Println("Counter:", counter)
+```
+- **Expected Execution Output:**
+```text
+Counter: 10
+```
+
+### 2. `func (r Receiver) Method() ReturnType`
+- **Core Functionality:** Struct receiver method binding.
+- **Parameters / Attributes:** `Receiver instance, Parameters`.
+- **System Behavior & Return:** Associates behaviors directly with struct types without classical inheritance hierarchies.
+- **Practical Code Example:**
+```javascript
+type Point struct { X, Y int }
+func (p Point) Sum() int {
+  return p.X + p.Y
+}
+```
+- **Expected Execution Output:**
+```text
+Evaluates method computation over struct fields
+```
+
+### 3. `go func() { ... }()`
+- **Core Functionality:** Lightweight concurrent Goroutine dispatch.
+- **Parameters / Attributes:** `Anonymous / Named function`.
+- **System Behavior & Return:** Launches asynchronous task execution scheduled cooperatively by the Go runtime (~2KB stack footprint).
+- **Practical Code Example:**
+```javascript
+go func() {
+  fmt.Println("Running asynchronously!")
+}()
+```
+- **Expected Execution Output:**
+```text
+Executes concurrently without blocking the main OS thread
+```
+
+### 4. `ch := make(chan int); ch <- 1; v := <-ch`
+- **Core Functionality:** Thread-safe CSP Channel pipeline.
+- **Parameters / Attributes:** `Element Type, Buffer capacity`.
+- **System Behavior & Return:** Transmits values synchronously between Goroutines with zero manual mutex or lock synchronization.
+- **Practical Code Example:**
+```javascript
+ch := make(chan int)
+go func() { ch <- 42 }()
+fmt.Println(<-ch)
+```
+- **Expected Execution Output:**
+```text
+42
+```
+
 
 ---
 

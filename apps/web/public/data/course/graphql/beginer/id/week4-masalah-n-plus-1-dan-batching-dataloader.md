@@ -76,6 +76,30 @@ simulateResolvers();
 
 ---
 
+
+---
+
+## Uji Coba Query Relasi di Playground
+
+Jalankan query relasi pesanan dan item berikut di playground untuk mengamati eksekusi struktur data bertingkat:
+
+```graphql
+# Week 4: Multi-Entity Queries - Daftar Seluruh Pesanan
+query GetAllOrders {
+  orders {
+    id
+    customer
+    total
+    status
+    date
+    items {
+      product
+      qty
+    }
+  }
+}
+```
+
 ## Konsep Kunci
 
 ### Bahaya Mematikan Masalah N+1 Query
@@ -121,14 +145,106 @@ Implementasikan `ordersByCustomerLoader`: buat DataLoader untuk relasi One-to-Ma
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram Perbandingan Arsitektur REST vs GraphQL Query Execution](/diagrams/rest-vs-graphql.svg)
+
+```diagram
+┌─────────────────────────────────────────────────────────┐
+│ CLIENT: Mengirim 1 Query Deklaratif (Spesifik Field)    │
+│ POST /graphql { query { user { id name orders { id } } }│
+└────────────────────────────┬────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────┐
+│ GRAPHQL SERVER: Skema SDL & Pohon Resolver              │
+│ 1. Resolves Query.user -> Panggil DB Pengguna           │
+│ 2. Resolves User.orders -> Panggil Service Transaksi    │
+└────────────────────────────┬────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────┐
+│ HASIL: JSON Murni Berbentuk Sama Persis dengan Query   │
+│ { "data": { "user": { "name": "Alex", "orders": [...] }}}│
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `type Entity { id: ID! field: Type! }`
+- **Fungsi Utama:** Schema Definition Language (SDL) Tipe Entitas.
+- **Parameter / Atribut:** `Field Name, Type, Non-Null Modifier (!)`.
+- **Perilaku & Efek Sistem:** Mendefinisikan struktur kontrak data yang dijamin oleh server kepada klien.
+- **Contoh Penggunaan Praktis:**
+```javascript
+type Product {
+  id: ID!
+  name: String!
+  price: Float!
+  inStock: Boolean!
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Mendefinisikan tipe Product dalam skema
+```
+
+### 2. `type Query { products: [Product!]! }`
+- **Fungsi Utama:** Root Query Type titik masuk pembacaan data.
+- **Parameter / Atribut:** `Field Resolver Signature`.
+- **Perilaku & Efek Sistem:** Menjadi pintu gerbang semua operasi pembacaan data yang dapat diminta oleh klien.
+- **Contoh Penggunaan Praktis:**
+```javascript
+type Query {
+  products(limit: Int): [Product!]!
+  product(id: ID!): Product
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Klien dapat meminta daftar produk dengan filter opsional limit
+```
+
+### 3. `mutation CreateOrder($input: OrderInput!)`
+- **Fungsi Utama:** Operasi perubahan state data (Insert/Update/Delete).
+- **Parameter / Atribut:** `Parameter variabel GraphQL, Input Type`.
+- **Perilaku & Efek Sistem:** Mengirimkan data perubahan ke server dan meminta field balasan yang diperbarui secara atomik.
+- **Contoh Penggunaan Praktis:**
+```javascript
+mutation {
+  createOrder(customer: "Alex", items: [{ product: "Mouse", qty: 1 }]) {
+    id
+    total
+    status
+  }
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Pesanan dibuat dan ID beserta status langsung dikembalikan
+```
+
+### 4. `resolvers = { Query: { field: (parent, args, ctx) => ... } }`
+- **Fungsi Utama:** Fungsi Resolver pemetaan data.
+- **Parameter / Atribut:** `parent, args, context, info`.
+- **Perilaku & Efek Sistem:** Fungsi backend yang mengeksekusi pengambilan data dari database atau layanan lain untuk setiap field skema.
+- **Contoh Penggunaan Praktis:**
+```javascript
+const resolvers = {
+  Query: {
+    product: (_, { id }, { db }) => db.products.findById(id)
+  }
+};
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Resolver mengambil data dari database sesuai argumen id
+```
+
 
 ---
 

@@ -217,14 +217,87 @@ Tambahkan metrik Prometheus manual di endpoint `/metrics`: catat total request m
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram CSP Goroutine & Channel Communication Pipeline](/diagrams/goroutine-channel.svg)
+
+```diagram
+┌────────────────┐                     ┌────────────────┐
+│  GOROUTINE A   │                     │  GOROUTINE B   │
+│  (Worker Thread)                     │  (Consumer)    │
+│  ch <- 42      │ ─── Kirim Data ──► │  val := <-ch   │
+└────────────────┘   [ CHANNEL: chan ] └────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `var x int / x := 42`
+- **Fungsi Utama:** Deklarasi variabel statis dan deklarasi pendek (Short Declaration).
+- **Parameter / Atribut:** `Identifier, Type / Value`.
+- **Perilaku & Efek Sistem:** `:=` menginferensi tipe data secara otomatis di dalam fungsi; `var` digunakan untuk deklarasi paket atau nilai default.
+- **Contoh Penggunaan Praktis:**
+```javascript
+age := 25
+name := "Alex Iskandar"
+fmt.Printf("%s berusia %d tahun
+", name, age);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Alex Iskandar berusia 25 tahun
+```
+
+### 2. `func (r Receiver) Method() ReturnType`
+- **Fungsi Utama:** Penerapan Method pada Struct (OOP ala Go).
+- **Parameter / Atribut:** `Receiver (value/pointer), Parameters`.
+- **Perilaku & Efek Sistem:** Menghubungkan fungsi khusus ke tipe struct untuk membentuk perilaku objek tanpa class inheritance hierarki.
+- **Contoh Penggunaan Praktis:**
+```javascript
+type User struct { Name string }
+func (u User) Greet() string {
+  return "Halo, " + u.Name
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Mengembalikan string sapaan personal
+```
+
+### 3. `go func() { ... }()`
+- **Fungsi Utama:** Eksekusi thread ringan konkuren (Goroutine).
+- **Parameter / Atribut:** `Fungsi anonim / fungsi bernama`.
+- **Perilaku & Efek Sistem:** Menjalankan komputasi di thread runtime Go yang sangat ringan (hanya ~2KB memori awal).
+- **Contoh Penggunaan Praktis:**
+```javascript
+go func() {
+  fmt.Println("Berjalan konkuren di goroutine terpisah!")
+}()
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Dieksekusi asinkron tanpa memblokir alur utama program
+```
+
+### 4. `ch := make(chan string); ch <- val; val := <-ch`
+- **Fungsi Utama:** Saluran komunikasi antar goroutine (Channel).
+- **Parameter / Atribut:** `Tipe data channel, kapasitas buffer`.
+- **Perilaku & Efek Sistem:** Mengirim dan menerima data antar goroutine dengan sinkronisasi bawaan tanpa perlu lock/mutex manual.
+- **Contoh Penggunaan Praktis:**
+```javascript
+ch := make(chan int)
+go func() { ch <- 100 }()
+result := <-ch
+fmt.Println("Diterima:", result);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Diterima: 100
+```
+
 
 ---
 

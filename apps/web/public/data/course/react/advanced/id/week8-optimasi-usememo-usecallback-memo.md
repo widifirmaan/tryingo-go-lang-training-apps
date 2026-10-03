@@ -149,14 +149,88 @@ Bangun hook `useDebounce(value, delay)` yang menunda pemfilteran teks selama 300
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram Alur Data Satu Arah React (Props Down, Events Up)](/diagrams/react-data-flow.svg)
+
+```diagram
+     ┌────────────────────────┐
+     │    PARENT COMPONENT    │ ◄─── Update State via Setter
+     │  (Holds Single State)  │
+     └───────────┬────────────┘
+                 │ Props Turun (Data Flow 1 Arah ⬇)
+     ┌───────────┴────────────┐
+     ▼                        ▼
+┌──────────────┐       ┌──────────────┐
+│  Child Card  │       │ Action Btn   │ ─── Event Handler Naik (⬆)
+│ (Reads Props)│       │ (Calls Prop) │
+└──────────────┘       └──────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `const [state, setState] = useState(initialValue)`
+- **Fungsi Utama:** Hook penyimpanan state lokal komponen.
+- **Parameter / Atribut:** `initialValue`.
+- **Perilaku & Efek Sistem:** Menyimpan data reaktif komponen. Memanggil setter memicu re-render UI secara otomatis dan terisolasi.
+- **Contoh Penggunaan Praktis:**
+```javascript
+const [count, setCount] = useState(0);
+// Memanggil: setCount(prev => prev + 1);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Komponen memperbarui angka count di layar
+```
+
+### 2. `useEffect(() => { ... }, [dependencies])`
+- **Fungsi Utama:** Hook efek samping (Lifecycle, Data Fetching, Subscription).
+- **Parameter / Atribut:** `Effect Callback, Dependency Array`.
+- **Perilaku & Efek Sistem:** Menjalankan logika sampingan setelah komponen di-render dan membersihkannya saat unmount.
+- **Contoh Penggunaan Praktis:**
+```javascript
+useEffect(() => {
+  const timer = setInterval(() => console.log('Ping'), 1000);
+  return () => clearInterval(timer);
+}, []);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Timer berjalan 1x saat mount dan dibersihkan saat unmount
+```
+
+### 3. `function Component(props) { return <JSX /> }`
+- **Fungsi Utama:** Deklarasi Komponen Fungsi Dasar.
+- **Parameter / Atribut:** `props object`.
+- **Perilaku & Efek Sistem:** Blok bangunan independen dan dapat digunakan kembali yang mengubah data props menjadi elemen visual.
+- **Contoh Penggunaan Praktis:**
+```javascript
+function Badge({ label }: { label: string }) {
+  return <span className="badge">{label}</span>;
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Elemen visual badge ter-render dengan teks label
+```
+
+### 4. `useContext(MyContext)`
+- **Fungsi Utama:** Konsumsi state global tanpa prop-drilling.
+- **Parameter / Atribut:** `React Context Object`.
+- **Perilaku & Efek Sistem:** Membaca nilai state dari Context Provider terdekat di pohon hierarki komponen.
+- **Contoh Penggunaan Praktis:**
+```javascript
+const { theme, toggleTheme } = useContext(ThemeContext);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Mendapatkan akses instan ke nilai tema global
+```
+
 
 ---
 

@@ -145,14 +145,87 @@ Implement a "Move to Done" action on KanbanTaskCard moving items between `backlo
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Alur Data Satu Arah React (Props Down, Events Up)](/diagrams/react-data-flow.svg)
+
+```diagram
+     ┌────────────────────────┐
+     │    PARENT COMPONENT    │ ◄─── Updates State via Setter
+     │  (Holds Single State)  │
+     └───────────┬────────────┘
+                 │ Props Down (Unidirectional Flow ⬇)
+     ┌───────────┴────────────┐
+     ▼                        ▼
+┌──────────────┐       ┌──────────────┐
+│  Child Card  │       │ Action Btn   │ ─── Event Callback Up (⬆)
+│ (Reads Props)│       │ (Calls Prop) │
+└──────────────┘       └──────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `const [state, setState] = useState(initialValue)`
+- **Core Functionality:** Component local reactive state hook.
+- **Parameters / Attributes:** `initialValue`.
+- **System Behavior & Return:** Maintains local component state and automatically triggers UI re-renders on state setter invocation.
+- **Practical Code Example:**
+```javascript
+const [count, setCount] = useState(0);
+// Later: setCount(c => c + 1);
+```
+- **Expected Execution Output:**
+```text
+Triggers isolated reactive UI re-render
+```
+
+### 2. `useEffect(() => { ... }, [deps])`
+- **Core Functionality:** Side-effect lifecycle hook.
+- **Parameters / Attributes:** `Effect Callback, Dependency Array`.
+- **System Behavior & Return:** Handles API calls, subscriptions, and DOM updates after rendering, running cleanup callbacks on unmount.
+- **Practical Code Example:**
+```javascript
+useEffect(() => {
+  document.title = `Count: ${count}`;
+}, [count]);
+```
+- **Expected Execution Output:**
+```text
+Updates browser document title whenever count changes
+```
+
+### 3. `function Component(props) { return <JSX /> }`
+- **Core Functionality:** Pure Functional Component definition.
+- **Parameters / Attributes:** `props object`.
+- **System Behavior & Return:** Reusable architectural building block mapping incoming property data to declarative UI markup.
+- **Practical Code Example:**
+```javascript
+function Avatar({ url }: { url: string }) {
+  return <img src={url} alt="User" className="rounded-full" />;
+}
+```
+- **Expected Execution Output:**
+```text
+Renders round user avatar image element
+```
+
+### 4. `useContext(MyContext)`
+- **Core Functionality:** Global context subscription hook.
+- **Parameters / Attributes:** `React Context Object`.
+- **System Behavior & Return:** Accesses global application state without tedious multi-level property drilling.
+- **Practical Code Example:**
+```javascript
+const { theme } = useContext(ThemeContext);
+```
+- **Expected Execution Output:**
+```text
+Reads ambient theme preference directly from provider
+```
+
 
 ---
 

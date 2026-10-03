@@ -144,14 +144,83 @@ Kembangkan `compose.yaml` dengan menambahkan skala horizontal: jalankan servis A
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram Layer Arsitektur Docker Image & Container](/diagrams/docker-layers.svg)
+
+```diagram
+┌────────────────────────────────────────────────────────┐
+│ [Layer 4 - Writeable] Container R/W Layer (Ephemeral)  │
+├────────────────────────────────────────────────────────┤
+│ [Layer 3 - Read Only] CMD ["npm", "start"]             │
+├────────────────────────────────────────────────────────┤
+│ [Layer 2 - Read Only] COPY . /app & RUN npm install    │
+├────────────────────────────────────────────────────────┤
+│ [Layer 1 - Read Only] FROM node:20-alpine (Base Image) │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `FROM <image>:<tag>`
+- **Fungsi Utama:** Menentukan base image awal.
+- **Parameter / Atribut:** `Nama image, Versi/Tag`.
+- **Perilaku & Efek Sistem:** Fondasi sistem operasi dan runtime aplikasi (misal `node:20-alpine`, `golang:1.24`).
+- **Contoh Penggunaan Praktis:**
+```javascript
+FROM node:20-alpine
+WORKDIR /app
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Menyiapkan lingkungan Node.js di atas sistem operasi Alpine Linux
+```
+
+### 2. `COPY <src> <dest>`
+- **Fungsi Utama:** Menyalin file lokal ke dalam image filesystem.
+- **Parameter / Atribut:** `Path file host, Path tujuan container`.
+- **Perilaku & Efek Sistem:** Memasukkan kode sumber, file konfigurasi, dan aset ke direktori kerja container.
+- **Contoh Penggunaan Praktis:**
+```javascript
+COPY package*.json ./
+RUN npm install
+COPY . .
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Kode aplikasi tersalin ke dalam container untuk dijalankan
+```
+
+### 3. `RUN <command>`
+- **Fungsi Utama:** Mengeksekusi perintah build pembuatan layer.
+- **Parameter / Atribut:** `Shell command`.
+- **Perilaku & Efek Sistem:** Menginstal dependencies, mengkompilasi binary, dan mengatur izin sistem.
+- **Contoh Penggunaan Praktis:**
+```javascript
+RUN npm run build
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Menghasilkan bundle produksi di dalam layer image
+```
+
+### 4. `docker run -d -p 8080:80 --name web app:v1`
+- **Fungsi Utama:** Menjalankan container dari image.
+- **Parameter / Atribut:** `Flag -d (detached), -p (port mapping), --name`.
+- **Perilaku & Efek Sistem:** Membuat dan menyalakan instance container aktif yang memetakan port host 8080 ke port container 80.
+- **Contoh Penggunaan Praktis:**
+```javascript
+docker run -d -p 3000:3000 my-app
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Aplikasi web aktif dan dapat diakses di http://localhost:3000
+```
+
 
 ---
 

@@ -89,14 +89,83 @@ Incorporate `security_opt` and `cap_drop` directives inside a production `compos
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Layer Arsitektur Docker Image & Container](/diagrams/docker-layers.svg)
+
+```diagram
+┌────────────────────────────────────────────────────────┐
+│ [Layer 4 - Writeable] Container R/W Layer (Ephemeral)  │
+├────────────────────────────────────────────────────────┤
+│ [Layer 3 - Read Only] CMD ["npm", "start"]             │
+├────────────────────────────────────────────────────────┤
+│ [Layer 2 - Read Only] COPY . /app & RUN npm install    │
+├────────────────────────────────────────────────────────┤
+│ [Layer 1 - Read Only] FROM node:20-alpine (Base Image) │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `FROM <image>:<tag>`
+- **Core Functionality:** Initial container image base declaration.
+- **Parameters / Attributes:** `Image name, Version tag`.
+- **System Behavior & Return:** Establishes the minimal operating system distribution and toolchain dependencies.
+- **Practical Code Example:**
+```javascript
+FROM node:20-alpine
+WORKDIR /app
+```
+- **Expected Execution Output:**
+```text
+Configures lightweight Alpine Linux runtime foundation
+```
+
+### 2. `COPY <src> <dest>`
+- **Core Functionality:** Host to container filesystem transfer.
+- **Parameters / Attributes:** `Local path, Container destination`.
+- **System Behavior & Return:** Packages application source files, package manifests, and compiled artifacts into image layers.
+- **Practical Code Example:**
+```javascript
+COPY package.json ./
+RUN npm install
+COPY . .
+```
+- **Expected Execution Output:**
+```text
+Injects application bundle into container workspace
+```
+
+### 3. `RUN <command>`
+- **Core Functionality:** Build-time layer execution command.
+- **Parameters / Attributes:** `Shell instruction`.
+- **System Behavior & Return:** Executes dependency installation, binary compilation, and directory permission setup during build time.
+- **Practical Code Example:**
+```javascript
+RUN npm run build
+```
+- **Expected Execution Output:**
+```text
+Generates production artifacts inside immutable image layer
+```
+
+### 4. `docker run -d -p 8080:80 app:v1`
+- **Core Functionality:** Container runtime lifecycle instantiation.
+- **Parameters / Attributes:** `Flags -d (detached), -p (port mapping)`.
+- **System Behavior & Return:** Spawns an active container instance exposing port 80 to host port 8080.
+- **Practical Code Example:**
+```javascript
+docker run -d -p 3000:3000 my-web-app
+```
+- **Expected Execution Output:**
+```text
+Web application live and reachable at http://localhost:3000
+```
+
 
 ---
 

@@ -135,14 +135,91 @@ Buat tabel jadwal penerbangan bandara internasional: sertakan `<caption>`, `<the
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
+
+```diagram
+┌──────────────────────────────────────────────────────────┐
+│                   <!DOCTYPE html>                        │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ <html lang="id">                                     │ │
+│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
+│ │  │ <head> (Metadata)       │ │ <body> (Tampilan)   │ │ │
+│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
+│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
+│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
+│ │  └─────────────────────────┘ └─────────────────────┘ │ │
+│ └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `<!DOCTYPE html>`
+- **Fungsi Utama:** Deklarasi standar dokumen HTML5.
+- **Parameter / Atribut:** `Wajib di baris 1`.
+- **Perilaku & Efek Sistem:** Mengaktifkan rendering Standard Mode pada peramban web modern.
+- **Contoh Penggunaan Praktis:**
+```javascript
+<!DOCTYPE html>
+<html lang="id">
+  <head><title>Tryngo</title></head>
+</html>
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Halaman dirender sesuai spesifikasi HTML5 W3C
+```
+
+### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+- **Fungsi Utama:** Pengaturan viewport perangkat mobile.
+- **Parameter / Atribut:** `name, content`.
+- **Perilaku & Efek Sistem:** Mengatur skala layar perangkat 1:1 agar website responsif tanpa zoom bawaan yang mengecilkan font.
+- **Contoh Penggunaan Praktis:**
+```javascript
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Tampilan menyesuaikan lebar layar ponsel secara otomatis
+```
+
+### 3. `<header>, <main>, <footer>`
+- **Fungsi Utama:** Elemen penanda semantik (Landmark Elements).
+- **Parameter / Atribut:** `Global attributes (class, id, lang)`.
+- **Perilaku & Efek Sistem:** Membagi dokumen menjadi banner navigasi, konten unik utama, dan informasi kaki untuk aksesibilitas screen reader.
+- **Contoh Penggunaan Praktis:**
+```javascript
+<header><h1>Judul Portal</h1></header>
+<main><p>Konten artikel utama.</p></main>
+<footer>&copy; 2026 Tryngo</footer>
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Struktur dokumen terbaca jelas oleh mesin pencari & pembaca tuna netra
+```
+
+### 4. `<form action="/api" method="POST">`
+- **Fungsi Utama:** Kontainer pengumpulan data pengguna.
+- **Parameter / Atribut:** `action (URL), method (GET/POST)`.
+- **Perilaku & Efek Sistem:** Menyediakan form interaktif untuk mengirimkan data input ke server endpoint.
+- **Contoh Penggunaan Praktis:**
+```javascript
+<form action="/submit" method="POST">
+  <input type="text" name="username" required />
+  <button type="submit">Kirim</button>
+</form>
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Formulir interaktif siap dikirimkan ke backend
+```
+
 
 ---
 

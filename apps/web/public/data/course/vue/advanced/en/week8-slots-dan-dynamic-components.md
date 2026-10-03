@@ -102,14 +102,90 @@ Build a `DataTable.vue` component employing Scoped Slots to render dynamic table
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Reaktivitas Komponen & Data Flow Vue](/diagrams/react-data-flow.svg)
+
+```diagram
+┌──────────────┐      Call Stack Empty?      ┌────────────────┐
+│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
+│ (Sync Frames)│                             │  (Coordinator) │
+└──────┬───────┘                             └───────▲────────┘
+       │ Async Operations (Fetch / Timer)            │
+       ▼                                             │
+┌──────────────┐                             ┌───────┴────────┐
+│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
+│ (Background) │                             │     QUEUE      │
+└──────────────┘                             └────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `const / let variables`
+- **Core Functionality:** Modern block-scoped variable declarations.
+- **Parameters / Attributes:** `Identifier, Initial Value`.
+- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+- **Practical Code Example:**
+```javascript
+const title = 'Tryngo Learning';
+let counter = 0;
+counter += 1;
+console.log(title, counter);
+```
+- **Expected Execution Output:**
+```text
+Tryngo Learning 1
+```
+
+### 2. `() => { ... } (Arrow Function)`
+- **Core Functionality:** Compact function expression with lexical 'this'.
+- **Parameters / Attributes:** `Parameters, Function Body`.
+- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+- **Practical Code Example:**
+```javascript
+const double = (n) => n * 2;
+console.log(double(21));
+```
+- **Expected Execution Output:**
+```text
+42
+```
+
+### 3. `async / await & fetch(url)`
+- **Core Functionality:** Linear asynchronous Promise resolution.
+- **Parameters / Attributes:** `URL string, RequestInit options`.
+- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+- **Practical Code Example:**
+```javascript
+async function getUser(id) {
+  const res = await fetch(`https://api.example.com/users/${id}`);
+  return await res.json();
+}
+```
+- **Expected Execution Output:**
+```text
+Returns resolved JSON object from server
+```
+
+### 4. `Array.prototype.map() / filter()`
+- **Core Functionality:** Pure functional array transformation.
+- **Parameters / Attributes:** `callback(item, index, array)`.
+- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+- **Practical Code Example:**
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const evens = numbers.filter(n => n % 2 === 0);
+console.log(evens);
+```
+- **Expected Execution Output:**
+```text
+[2, 4]
+```
+
 
 ---
 

@@ -91,6 +91,26 @@ console.log(`🚀 GraphQL Gateway ready at ${url}`);
 
 ---
 
+
+---
+
+## Interactive Playground Query
+
+Run the following GraphQL query directly in the playground panel on the right to see how GraphQL returns only the exact fields requested without over-fetching:
+
+```graphql
+# Week 1: First Query - Fetching Product Catalog
+query GetProductsCatalog {
+  products {
+    id
+    name
+    category
+    price
+    inStock
+  }
+}
+```
+
 ## Key Concepts
 
 ### Why GraphQL Was Born: Neutralizing Over-fetching & Under-fetching
@@ -132,14 +152,106 @@ Extend the SDL with a `Category` entity linked to `Product`, implementing root r
 
 ---
 
-## Syntax Cheatsheet & Quick Reference
+## Visual Mental Model & Architecture Flow
 
-| Syntax / Keyword | Purpose & Practical Pattern |
-| :--- | :--- |
-| **Declaration & Setup** | Initialize data structures, type constraints, and dependencies |
-| **Core Processing** | Algorithm execution, control flow, and data transformation |
-| **Defensive Validation** | Verify data invariants and handle errors explicitly |
-| **Return / Output** | Deliver deterministic output ready for consumption |
+![Diagram Perbandingan Arsitektur REST vs GraphQL Query Execution](/diagrams/rest-vs-graphql.svg)
+
+```diagram
+┌─────────────────────────────────────────────────────────┐
+│ CLIENT: Sends Single Declarative Query (Exact Fields)   │
+│ POST /graphql { query { user { id name orders { id } } }│
+└────────────────────────────┬────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────┐
+│ GRAPHQL SERVER: SDL Schema & Resolver Tree              │
+│ 1. Resolves Query.user -> Calls Database                │
+│ 2. Resolves User.orders -> Calls Payment Microservice   │
+└────────────────────────────┬────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────┐
+│ RESPONSE: Pure JSON Mirroring Query Structure           │
+│ { "data": { "user": { "name": "Alex", "orders": [...] }}}│
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Syntax Reference & Practical Guide (W3Schools Style)
+
+Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
+
+### 1. `type Entity { id: ID! field: Type! }`
+- **Core Functionality:** Schema Definition Language (SDL) Entity Contract.
+- **Parameters / Attributes:** `Field names, Types, Non-Null Modifier (!)`.
+- **System Behavior & Return:** Defines structural schema contracts strictly guaranteed by server resolvers to API consumers.
+- **Practical Code Example:**
+```javascript
+type Product {
+  id: ID!
+  title: String!
+  price: Float!
+  inStock: Boolean!
+}
+```
+- **Expected Execution Output:**
+```text
+Declares strongly typed Product contract in SDL
+```
+
+### 2. `type Query { products: [Product!]! }`
+- **Core Functionality:** Root Query Type Entry Point.
+- **Parameters / Attributes:** `Field query signature`.
+- **System Behavior & Return:** Acts as the single ingress door for all client data reads across the system.
+- **Practical Code Example:**
+```javascript
+type Query {
+  products(limit: Int): [Product!]!
+  product(id: ID!): Product
+}
+```
+- **Expected Execution Output:**
+```text
+Clients may query product catalogs with optional limit filtering
+```
+
+### 3. `mutation CreateOrder($input: OrderInput!)`
+- **Core Functionality:** Atomic State Mutation Operation.
+- **Parameters / Attributes:** `GraphQL variables, Input Object Type`.
+- **System Behavior & Return:** Executes create, update, or delete commands and returns modified fields atomically.
+- **Practical Code Example:**
+```javascript
+mutation {
+  createOrder(customer: "Alex", items: [{ product: "Hub", qty: 1 }]) {
+    id
+    total
+    status
+  }
+}
+```
+- **Expected Execution Output:**
+```text
+Persists order and immediately returns generated ID and status
+```
+
+### 4. `resolvers = { Query: { field: (parent, args, ctx) => ... } }`
+- **Core Functionality:** Resolver execution mapping function.
+- **Parameters / Attributes:** `parent, args, context, info`.
+- **System Behavior & Return:** Maps schema fields to underlying database queries, microservice RPCs, or cache Lookups.
+- **Practical Code Example:**
+```javascript
+const resolvers = {
+  Query: {
+    product: (_, { id }, { db }) => db.products.findById(id)
+  }
+};
+```
+- **Expected Execution Output:**
+```text
+Executes database query using supplied argument ID
+```
+
 
 ---
 

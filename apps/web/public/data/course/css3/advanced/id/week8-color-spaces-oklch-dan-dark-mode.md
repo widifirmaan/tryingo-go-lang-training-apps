@@ -152,14 +152,103 @@ Buat palet 5 tingkatan warna token OKLCH untuk sistem UI perusahaan (Primary, Su
 
 ---
 
-## Ringkasan Sintaks & Quick Reference
+## Model Mental & Diagram Alur Visual
 
-| Perintah / Sintaks | Fungsi & Contoh Praktik |
-| :--- | :--- |
-| **Deklarasi & Inisialisasi** | Menyiapkan variabel, tipe data, atau struktur komponen awal |
-| **Logika & Pemrosesan** | Menjalankan algoritma, kontrol alur, dan transformasi data |
-| **Error Handling & Validasi** | Memastikan input valid dan menangani kegagalan sistem secara elegan |
-| **Return / Output** | Mengembalikan hasil komputasi yang siap dikonsumsi pengguna/sistem |
+![Diagram CSS Box Model (Margin, Border, Padding, Content)](/diagrams/box-model.svg)
+
+```diagram
+┌──────────────────────────────────────────────────────────┐
+│ MARGIN (Jarak Luar Transparan)                           │
+│   ┌──────────────────────────────────────────────────┐   │
+│   │ BORDER (Garis Tepi & Bingkai)                    │   │
+│   │   ┌──────────────────────────────────────────┐   │   │
+│   │   │ PADDING (Ruang Bantalan Internal)        │   │   │
+│   │   │   ┌──────────────────────────────────┐   │   │   │
+│   │   │   │ CONTENT (Lebar x Tinggi Teks/UI) │   │   │   │
+│   │   │   └──────────────────────────────────┘   │   │   │
+│   │   └──────────────────────────────────────────┘   │   │
+│   └──────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
+
+Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
+
+### 1. `box-sizing: border-box;`
+- **Fungsi Utama:** Pengubah kalkulasi Box Model universal.
+- **Parameter / Atribut:** `border-box | content-box`.
+- **Perilaku & Efek Sistem:** Memasukkan padding dan border ke dalam kalkulasi total lebar (width) elemen sehingga elemen tidak meluap keluar kontainer.
+- **Contoh Penggunaan Praktis:**
+```javascript
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Elemen berukuran presisi tanpa kalkulasi manual tambahan
+```
+
+### 2. `display: flex; justify-content: space-between; align-items: center;`
+- **Fungsi Utama:** Penyusunan tata letak satu dimensi (Flexbox).
+- **Parameter / Atribut:** `flex-direction, justify-content, align-items`.
+- **Perilaku & Efek Sistem:** Mengatur perataan dan distribusi ruang kosong antar item anak secara fleksibel di sumbu utama dan sumbu silang.
+- **Contoh Penggunaan Praktis:**
+```javascript
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Item navbar terdistribusi rapi di ujung kiri dan kanan
+```
+
+### 3. `display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));`
+- **Fungsi Utama:** Sistem kisi dua dimensi responsif.
+- **Parameter / Atribut:** `grid-template-columns, gap`.
+- **Perilaku & Efek Sistem:** Menyusun grid adaptif yang otomatis menyesuaikan jumlah kolom berdasarkan lebar layar tanpa media query.
+- **Contoh Penggunaan Praktis:**
+```javascript
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Kartu otomatis menyusun 1, 2, atau 3 kolom sesuai layar
+```
+
+### 4. `transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);`
+- **Fungsi Utama:** Animasi transisi status interaktif.
+- **Parameter / Atribut:** `property, duration, timing-function`.
+- **Perilaku & Efek Sistem:** Memberikan efek perubahan visual yang mulus saat elemen mengalami perubahan status (misal hover/focus).
+- **Contoh Penggunaan Praktis:**
+```javascript
+.btn {
+  background-color: #2E5B44;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  background-color: #1f3d2e;
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Tombol terangkat halus 2px saat kursor mouse diarahkan
+```
+
 
 ---
 

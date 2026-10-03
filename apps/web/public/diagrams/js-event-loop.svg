@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" width="100%" height="100%">
+  <rect width="600" height="320" rx="16" fill="#18181b" />
+  <g stroke-width="2">
+    <rect x="40" y="40" width="150" height="180" rx="10" fill="#1e1e24" stroke="#ef4444" />
+    <text x="115" y="70" fill="#f87171" font-family="system-ui, sans-serif" font-weight="800" font-size="14" text-anchor="middle">CALL STACK</text>
+    <rect x="55" y="100" width="120" height="30" rx="4" fill="#ef4444" fill-opacity="0.3" stroke="#f87171" />
+    <text x="115" y="120" fill="#ffffff" font-family="monospace" font-size="11" text-anchor="middle">fn3()</text>
+    <rect x="55" y="135" width="120" height="30" rx="4" fill="#ef4444" fill-opacity="0.2" stroke="#f87171" />
+    <text x="115" y="155" fill="#ffffff" font-family="monospace" font-size="11" text-anchor="middle">fn2()</text>
+    <rect x="55" y="170" width="120" height="30" rx="4" fill="#ef4444" fill-opacity="0.1" stroke="#f87171" />
+    <text x="115" y="190" fill="#ffffff" font-family="monospace" font-size="11" text-anchor="middle">main()</text>
+
+    <rect x="410" y="40" width="150" height="120" rx="10" fill="#1e1e24" stroke="#3b82f6" />
+    <text x="485" y="70" fill="#60a5fa" font-family="system-ui, sans-serif" font-weight="800" font-size="13" text-anchor="middle">WEB APIs</text>
+    <text x="485" y="95" fill="#a1a1aa" font-family="monospace" font-size="11" text-anchor="middle">fetch() / setTimeout</text>
+    <text x="485" y="115" fill="#a1a1aa" font-family="monospace" font-size="11" text-anchor="middle">DOM Events</text>
+
+    <circle cx="300" cy="130" r="45" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="3" stroke-dasharray="6" />
+    <text x="300" y="125" fill="#34d399" font-family="system-ui, sans-serif" font-weight="800" font-size="13" text-anchor="middle">EVENT</text>
+    <text x="300" y="145" fill="#34d399" font-family="system-ui, sans-serif" font-weight="800" font-size="13" text-anchor="middle">LOOP ↻</text>
+
+    <rect x="40" y="245" width="520" height="50" rx="8" fill="#1e1e24" stroke="#f59e0b" />
+    <text x="55" y="275" fill="#fbbf24" font-family="system-ui, sans-serif" font-weight="700" font-size="13">TASK QUEUE:</text>
+    <rect x="180" y="255" width="110" height="30" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#fbbf24" />
+    <text x="235" y="275" fill="#ffffff" font-family="monospace" font-size="11" text-anchor="middle">cb_fetch()</text>
+    <rect x="300" y="255" width="110" height="30" rx="4" fill="#f59e0b" fill-opacity="0.2" stroke="#fbbf24" />
+    <text x="355" y="275" fill="#ffffff" font-family="monospace" font-size="11" text-anchor="middle">cb_timer()</text>
+  </g>
+</svg>

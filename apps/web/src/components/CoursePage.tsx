@@ -136,7 +136,7 @@ const LessonInlineCode: React.FC<{ children?: React.ReactNode; className?: strin
 };
 
 const extractCode = (markdown: string, preferred: string[] = []): string => {
-  const regex = /```(\w*)\n([\s\S]*?)```/g;
+  const regex = /```(\w*)\r?\n([\s\S]*?)```/g;
   const blocks: { lang: string; code: string }[] = [];
   let match: RegExpExecArray | null;
   while ((match = regex.exec(markdown)) !== null) {
@@ -160,6 +160,10 @@ const extractCode = (markdown: string, preferred: string[] = []): string => {
       }
       return top.code;
     }
+    // Preferred fences were explicitly requested, but none matched.
+    // Return empty so caller/playground can fall back to its own valid default template,
+    // rather than feeding foreign language syntax into the runner.
+    return '';
   }
   // 2) Fallback: largest fenced block (the week's main program, not setup one-liners)
   return blocks.reduce((a, b) => (b.code.length > a.code.length ? b : a)).code;
@@ -169,7 +173,7 @@ const extractCode = (markdown: string, preferred: string[] = []): string => {
 // the week's runnable program instead of setup snippets (bash/npm/install).
 const STACKBLITZ_FENCES: Record<string, string[]> = {
   nodejs: ['javascript', 'js'],
-  nextjs: ['tsx', 'jsx', 'javascript', 'js'],
+  nextjs: ['tsx', 'jsx', 'ts', 'typescript', 'javascript', 'js'],
   nestjs: ['typescript', 'ts'],
   angular: ['typescript', 'ts'],
   django: ['python', 'py'],
@@ -183,6 +187,7 @@ const INLINE_FENCES: Record<string, string[]> = {
   typescript: ['typescript', 'ts', 'javascript'],
   html5: ['html'],
   css3: ['html'],
+  tailwind: ['html'],
 };
 
 interface CoursePageProps {
@@ -588,6 +593,12 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
                       </LessonCodeBlock>
                     ),
                     code: ({ children, className }) => <LessonInlineCode isId={isId} className={className}>{children}</LessonInlineCode>,
+                    img: ({ src, alt }) => (
+                      <figure className="my-6 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/70 p-4 text-center shadow-xs">
+                        <img src={src} alt={alt} className="mx-auto rounded-xl max-h-96 w-auto object-contain" loading="lazy" />
+                        {alt && <figcaption className="mt-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium italic">{alt}</figcaption>}
+                      </figure>
+                    ),
                   }}
                 >
                   {content}
@@ -611,7 +622,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         {/* Inline Code Playground */}
         {content && isDocker ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <DockerPlayground lang={lang} script={getActivePlaygroundCode(['bash', 'sh', 'shell', 'dockerfile'])} />
+            <DockerPlayground lang={lang} script={getActivePlaygroundCode(['bash', 'sh', 'shell', 'dockerfile', 'yaml', 'yml'])} />
           </div>
         ) : content && isStackBlitz ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
@@ -651,19 +662,19 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         ) : content && slug === 'rails' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <RubyPlayground lang={lang} initialCode={getActivePlaygroundCode(['ruby', 'rb', 'erb'])} />
+            <RubyPlayground lang={lang} initialCode={getActivePlaygroundCode(['ruby', 'rb', 'erb', 'javascript', 'js'])} />
           </div>
         ) : content && slug === 'react' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <ReactPlayground lang={lang} initialCode={getActivePlaygroundCode(['jsx'])} />
+            <ReactPlayground lang={lang} initialCode={getActivePlaygroundCode(['jsx', 'tsx', 'javascript', 'js'])} />
           </div>
         ) : content && slug === 'vue' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <VuePlayground lang={lang} initialCode={getActivePlaygroundCode(['vue'])} />
+            <VuePlayground lang={lang} initialCode={getActivePlaygroundCode(['vue', 'html', 'javascript', 'js', 'ts'])} />
           </div>
         ) : content && slug === 'svelte' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <SveltePlayground lang={lang} initialCode={getActivePlaygroundCode(['svelte'])} />
+            <SveltePlayground lang={lang} initialCode={getActivePlaygroundCode(['svelte', 'html', 'javascript', 'js', 'ts'])} />
           </div>
         ) : content && (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
