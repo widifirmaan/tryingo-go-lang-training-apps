@@ -1,0 +1,115 @@
+# GraphQL Security: Query Depth, Complexity & Introspection
+
+> **Kategori:** GraphQL | **Level:** Real-Time Subscriptions, Security & Federation | **Minggu 6:** GraphQL Security: Query Depth, Complexity & Introspection
+
+## Learning Objectives
+
+- Identify distinctive GraphQL attack vectors: Circular Recursive Query Denial of Service (DoS)
+- Implement custom AST validation rules enforcing strict Query Depth Limiting
+- Configure Query Cost Complexity Analysis to bound CPU and database execution footprints
+- Harden production environments: Disable Schema Introspection and suppress leak-prone error traces
+
+---
+
+## Program: GraphQL API DoS Shielding via Depth Limiting and Query Cost Analysis Validation
+
+```typescript
+import { ApolloServer } from '@apollo/server';
+import { GraphQLError } from 'graphql';
+
+// 1. Cyclic Graph Schema Vulnerable to Circular DoS Attacks:
+// user -> friends -> friends -> friends -> ... (Infinite recursion crashing server!)
+const typeDefs = `#graphql
+  type User {
+    id: ID!
+    name: String!
+    friends: [User!]!
+  }
+
+  type Query {
+    users: [User!]!
+  }
+`;
+
+// 2. Custom AST Validation Rule: Query Depth Limiting
+// Traverses AST to ensure nested query depth NEVER exceeds maximum threshold (e.g. 4)
+const depthLimitRule = (maxDepth: number) => {
+  return (context: any) => ({
+    Field: {
+      enter(node: any) {
+        // Compute nesting depth from AST ancestors
+        const depth = context.getAncestors().filter((a: any) => a.kind === 'Field').length;
+        if (depth > maxDepth) {
+          context.reportError(
+            new GraphQLError(`Query depth limit of ${maxDepth} exceeded! Current depth: ${depth}`, {
+              nodes: [node],
+              extensions: { code: 'BAD_USER_INPUT' },
+            })
+          );
+        }
+      },
+    },
+  });
+};
+
+// 3. Secure Production Apollo Server Configuration
+const server = new ApolloServer({
+  typeDefs,
+  resolvers: {
+    Query: { users: () => [] },
+  },
+  // Disable schema introspection and Apollo Sandbox in production to prevent schema leakage
+  introspection: process.env.NODE_ENV !== 'production',
+  validationRules: [
+    depthLimitRule(4), // Reject circular queries deeper than 4 levels
+  ],
+});
+
+console.log('🛡️ GraphQL Security Gateway hardened against DoS and Introspection scraping.');
+export { depthLimitRule };
+```
+
+---
+
+## Key Concepts
+
+### Why GraphQL is Inherently Vulnerable to DoS
+GraphQL flexibility is a double-edged sword. In REST, endpoints are strictly bounded by backend implementations. In GraphQL, clients dictate graph traversal queries arbitrarily.
+If a schema declares recursive relationships (`User.friends: [User]`), an attacker can dispatch a deeply nested query:
+`query { users { friends { friends { friends { friends { ... } } } } } }`.
+A payload under 2KB forces the database into billions of recursive joins, starving CPU and crashing backend nodes within seconds (**Circular Recursive DoS**).
+
+### The Three Pillars of GraphQL Hardening
+1. **Query Depth Limiting**: Traverses the Abstract Syntax Tree (AST) before execution. If query nesting breaches safe thresholds (e.g. depth > 5), the engine rejects the request at the validation phase before dispatching resolvers.
+2. **Query Cost Complexity Analysis**: Assigns weight to attributes (e.g. scalars cost 1 point, pagination multipliers scale points by `first: 100`). If aggregate complexity breaches the ceiling, execution aborts.
+3. **Disabling Introspection in Production**: Schema Introspection enables reverse-engineering tools to map your internal entities. Enforcing `introspection: false` in production is a mandatory security baseline.
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+Imagine opening a burger joint with the policy: 'Customers may customize burgers with arbitrary layers'.
+A rogue patron orders a burger featuring 10,000 layers of bacon and cheese (Circular Query DoS). Your kitchen burns through all inventory and chefs collapse from exhaustion.
+
+Depth Limiting is like putting a bold sign at the register: 'Maximum 4 toppings per burger!'. Any order violating this is rejected by the cashier before the grill is even lit!
+
+## Experiments
+
+- Dispatch a 5-level nested query and verify rejection: Query depth limit of 4 exceeded!
+- Test introspection behavior: execute { __schema { types { name } } } when introspection is disabled
+- Configure Apollo Server formatError to sanitize database stack traces from client responses
+- Simulate a complexity calculator weighting query costs dynamically based on pagination bounds
+
+---
+
+## Challenge
+
+Author a custom GraphQL AST validation rule bounding aliases (`aliasLimitRule`): reject payloads containing over 10 aliases to block Password Brute-Forcing via Query Aliasing.
+
+---
+
+## Summary
+
+You have mastered GraphQL security engineering: mitigating recursive DoS attacks with Query Depth Limiting, Query Complexity Analysis, Introspection lockdowns, and error sanitization.

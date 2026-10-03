@@ -9,7 +9,7 @@ import { runQuery, runIntrospection, getSampleSchema, SAMPLE_QUERIES, resetData 
 interface GraphqlPlaygroundProps {
   lang: Language;
   initialCode?: string;
-  language: string;
+  language?: string;
   onClose?: () => void;
   inline?: boolean;
   week?: number;

@@ -1,0 +1,107 @@
+# System Operations: node:fs/promises, Path & Child Process Management
+
+> **Kategori:** Node.js Backend | **Level:** Beginner | **Minggu 3:** System Operations: node:fs/promises, Path & Child Process Management
+
+## Learning Objectives
+
+- Use `node:fs/promises` for non-blocking disk operations (`mkdir`, `appendFile`, `stat`).
+- Secure path manipulation against Path Traversal vulnerabilities (`path.resolve`, `path.normalize`).
+- Execute external processes safely using `child_process.execFile` (immune to shell injection).
+- Convert legacy callback APIs into clean Promises using `node:util.promisify`.
+
+---
+
+## Program: Automated File Log Rotator & Subprocess Diagnostic Monitor
+
+```javascript
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
+
+// 1. Path Normalization & File System Promises
+async function logTelemetryAudit(logDir, fileName, entry) {
+  // Cegah Path Traversal Attack dengan path.join & path.resolve
+  const safeDirPath = path.resolve(logDir);
+  const targetFilePath = path.join(safeDirPath, fileName);
+
+  // Buat direktori secara rekursif jika belum ada
+  await fs.mkdir(safeDirPath, { recursive: true });
+
+  const logLine = `[${new Date().toISOString()}] ${JSON.stringify(entry)}\n`;
+  await fs.appendFile(targetFilePath, logLine, 'utf8');
+  console.log(`[FS WRITE SUCCESS] Audit tersimpan ke: ${targetFilePath}`);
+
+  // Periksa Ukuran File untuk Rotasi Log
+  const stats = await fs.stat(targetFilePath);
+  console.log(`Ukuran file saat ini: ${stats.size} bytes`);
+  return stats.size;
+}
+
+// 2. Child Process: Menjalankan Perintah OS Diagnostik secara Aman
+async function runSystemDiagnostics() {
+  console.log('\n=== MENJALANKAN DIAGNOSTIK OS (CHILD PROCESS) ===');
+  try {
+    // Menjalankan executable langsung tanpa shell untuk mencegah Command Injection
+    const isWindows = process.platform === 'win32';
+    const cmd = isWindows ? 'cmd.exe' : 'uname';
+    const args = isWindows ? ['/c', 'echo Node.js 22 LTS Telemetry Engine Active'] : ['-a'];
+
+    const { stdout, stderr } = await execFileAsync(cmd, args);
+    if (stderr) console.error('[CHILD PROCESS WARN]:', stderr);
+    console.log('[CHILD PROCESS OUTPUT]:', stdout.trim());
+  } catch (err) {
+    console.error('[CHILD PROCESS ERROR]: Gagal menjalankan diagnostik:', err.message);
+  }
+}
+
+// Eksekusi
+const sampleAudit = { event: 'DEVICE_PING', deviceId: 'SNS-1002', status: 'OK' };
+await logTelemetryAudit('./storage/logs', 'telemetry.log', sampleAudit);
+await runSystemDiagnostics();
+```
+
+---
+
+## Key Concepts
+
+Enterprise backends frequently interact with host OS environments: managing rotated log volumes, archiving data chunks, and orchestrating external utility sub-processes.
+
+### Non-blocking node:fs/promises
+Legacy Node.js relied on callback pyramids or synchronous blocking variants (`fs.readFileSync()`) which paralyzed the event loop. The `node:fs/promises` module provides clean, non-blocking async/await file operations.
+
+### Mitigating Path Traversal Attacks
+If an application accepts dynamic file paths from clients (e.g., `../../etc/passwd`), attackers can read arbitrary system configuration. Leveraging `path.resolve` and `path.join` verifies that targets remain confined within intended sandboxes.
+
+### Process Security: exec vs execFile
+- `exec('cmd ' + input)`: Spawns an intermediary system shell (`/bin/sh` or `cmd.exe`). Unsanitized input containing delimiters (`;`, `&&`) triggers remote Command Injection exploits.
+- `execFile(binary, [args])`: Bypasses shell invocation entirely, executing binaries directly and treating all arguments as isolated string literals, guaranteeing immunity to shell injection.
+
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+Think of an archivist. Using fs/promises is like submitting a document retrieval request to the basement vault while continuing to assist lobby visitors. And execFile is like instructing a courier to deliver a sealed envelope directly to an address, rather than giving the courier a master key to explore the entire building.
+
+## Experiments
+
+- Implement log rotation: if file size exceeds 10KB, rotate using `fs.rename` to `telemetry.log.bak`.
+- Pass arguments containing `; echo hacked` to `execFile` and observe that shell chaining is neutralized.
+- Use `fs.watch` to monitor file system modifications reactively.
+
+---
+
+## Challenge
+
+Build an async log cleanup utility `cleanupOldLogs(dir, maxAgeDays)` scanning directory files, evaluating `stats.mtimeMs`, and purging expired logs.
+
+---
+
+## Summary
+
+You have mastered fs/promises, path sanitization, and secure child process execution. Next week we transition to high-throughput HTTP with Fastify.

@@ -1,0 +1,190 @@
+# Flexbox: Sumbu Utama, Sumbu Silang & Penjajaran Presisi
+
+> **Kategori:** CSS3 | **Level:** Pondasi Box Model & Flexbox | **Minggu 2:** Flexbox: Sumbu Utama, Sumbu Silang & Penjajaran Presisi
+
+## Tujuan Pembelajaran
+
+- Memahami konsep Sumbu Utama (Main Axis) dan Sumbu Silang (Cross Axis) pada Flexbox
+- Mengontrol distribusi ruang di sumbu utama dengan justify-content (center, space-between, space-around)
+- Mengatur perataan vertikal elemen anak dengan align-items dan align-self
+- Menerapkan sifat responsive wrapping dengan flex-wrap: wrap dan properti modern gap
+- Memahami rumus shorthand flex: flex-grow, flex-shrink, dan flex-basis
+
+---
+
+## Program: Bilah Navigasi Responsif & Deretan Kartu Fitur dengan Flexbox
+
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox Alignment Mastery</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #2E5B44;
+      --bg: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --text: #212529;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+    }
+
+    /* 1. Header dengan Flexbox Auto-Margin Spacing */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 32px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .btn-login {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* 2. Flexbox Grid Pembungkus Kartu */
+    .features-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      flex: 1 1 calc(33.333% - 20px);
+      min-width: 260px;
+      padding: 24px;
+      border-radius: 12px;
+      border-top: 4px solid var(--primary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .feature-card h3 { margin-bottom: 8px; font-size: 1.25rem; }
+    .feature-card p { color: #6C757D; margin-bottom: 16px; flex-grow: 1; }
+    .feature-card a { color: var(--primary); font-weight: 600; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo"><strong>Tryngo</strong> Platform</div>
+    <ul class="nav-links">
+      <li><a href="#">Katalog</a></li>
+      <li><a href="#">Kurikulum</a></li>
+      <li><a href="#">Roadmap</a></li>
+    </ul>
+    <button class="btn-login">Masuk Akun</button>
+  </header>
+
+  <main>
+    <section class="features-container">
+      <article class="feature-card">
+        <h3>Eksekusi Kode WASM</h3>
+        <p>Jalankan kode Go dan compiler modern langsung di dalam browser pengguna tanpa ketergantungan server.</p>
+        <a href="#">Pelajari Selengkapnya &rarr;</a>
+      </article>
+      <article class="feature-card">
+        <h3>Kurikulum Berbasis Produk</h3>
+        <p>Setiap modul dirancang dari fundamental hingga menghasilkan produk perangkat lunak kelas produksi.</p>
+        <a href="#">Pelajari Selengkapnya &rarr;</a>
+      </article>
+      <article class="feature-card">
+        <h3>Kuis Interaktif Otomatis</h3>
+        <p>Evaluasi pemahaman konsep dengan ribuan bank soal pilihan ganda dan validasi sintaks instan.</p>
+        <a href="#">Pelajari Selengkapnya &rarr;</a>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
+```
+
+---
+
+## Konsep Kunci
+
+### Sumbu Utama (Main Axis) vs Sumbu Silang (Cross Axis)
+Saat sebuah container diberi `display: flex`:
+- Nilai default `flex-direction: row` menetapkan sumbu utama secara horizontal (kiri ke kanan) dan sumbu silang secara vertikal (atas ke bawah).
+- Jika diubah ke `flex-direction: column`, arah sumbu tertukar: sumbu utama menjadi vertikal dan sumbu silang menjadi horizontal.
+
+### Penjajaran Elemen
+- `justify-content`: Mengatur posisi dan distribusi sisa ruang di sepanjang **sumbu utama** (misal `space-between` mendorong elemen ke ujung kiri dan kanan).
+- `align-items`: Menyelaraskan seluruh elemen anak di sepanjang **sumbu silang** (misal `center` untuk menempatkan pas di tengah vertikal).
+- `align-self`: Memungkinkan salah satu elemen anak memiliki perataan sumbu silang yang berbeda dari saudara-saudaranya.
+
+### Shorthand flex: grow, shrink, basis
+- `flex-grow`: Seberapa banyak elemen akan meregang untuk mengisi sisa ruang kosong jika ada (default 0).
+- `flex-shrink`: Seberapa agresif elemen menyusut saat ruang sempit (default 1).
+- `flex-basis`: Ukuran awal elemen sebelum sisa ruang didistribusikan (misal `calc(33.333% - 20px)`).
+
+---
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Rak Keranjang Supermarket
+1. **`display: flex`** seperti meletakkan satu baris keranjang belanja di ban berjalan kasir.
+2. **`flex-direction: row`** menyusun keranjang berjejer ke samping, sedangkan `column` menumpuk keranjang ke atas.
+3. **`justify-content: space-between`** seperti kasir yang mendorong barang pertama ke ujung depan dan barang terakhir ke ujung belakang ban berjalan.
+4. **`align-items: center`** memastikan barang-barang belanjaan dengan tinggi berbeda (botol sirup dan kotak sabun) dijajarkan tepat di garis tengah ban berjalan.
+5. **`gap: 20px`** adalah jarak aman antar barang agar telur tidak bertabrakan dengan semangka.
+
+## Eksperimen
+
+- Ubah justify-content: space-between pada header menjadi center, dan amati seluruh menu dan logo berkumpul di tengah layar.
+- Hapus flex-wrap: wrap pada kontainer fitur, lalu kecilkan jendela browser untuk melihat kartu-kartu terhimpit sempit.
+- Coba ubah align-items: center menjadi flex-start atau stretch dan amati perubahan tinggi visual antar komponen.
+- Tambahkan margin-left: auto pada elemen navigasi untuk melihat trik legendaris mendorong elemen ke ujung kanan secara instan.
+
+---
+
+## Tantangan
+
+Bangun bilah status pemutar musik (audio player bar) menggunakan Flexbox: di sisi kiri ada info lagu (cover thumbnail + judul), di tengah ada tombol kontrol (play, pause, next) di posisi pas tengah layar, dan di sisi kanan ada pengatur volume suara.
+
+---
+
+## Ringkasan
+
+Kamu telah menguasai pengaturan sumbu, distribusi ruang, dan penjajaran presisi dengan Flexbox satu dimensi. Minggu depan kita akan mendalami pola tata letak dua dimensi tingkat lanjut dengan CSS Grid.

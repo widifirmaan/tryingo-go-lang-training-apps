@@ -244,7 +244,6 @@ export const QuizModal: React.FC<QuizModalProps> = ({ slug, trackName, lang, ini
         {phase === 'intro' && (
           <IntroScreen
             trackName={trackName}
-            lang={lang}
             isId={isId}
             error={error}
             initialLevel={initialLevel}

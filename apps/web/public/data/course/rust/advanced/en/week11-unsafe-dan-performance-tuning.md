@@ -1,0 +1,127 @@
+# Unsafe Rust & Performance Tuning: Raw Pointers & Zero-Copy Deserialization
+
+> **Kategori:** Rust | **Level:** Async Tokio, WAL Durability & KV Engine Capstone | **Minggu 11:** Unsafe Rust & Performance Tuning: Raw Pointers & Zero-Copy Deserialization
+
+## Learning Objectives
+
+- Master the `unsafe` keyword contract: isolating regions where developers uphold memory invariants manually
+- Distinguish safe references (&T) from Raw Pointers (*const T and *mut T)
+- Deploy `#[repr(C)]` attributes enforcing C-ABI deterministic struct memory layouts without padding drift
+- Implement Zero-Copy Deserialization: parsing network frames without allocating or copying single bytes
+- Enforce Unsafe Encapsulation boundaries: wrapping unsafe internals inside impenetrable 100% safe public APIs
+
+---
+
+## Program: High-Performance Zero-Copy Binary Protocol Deserializer in Rust
+
+```rust
+// Peringatan: Blok 'unsafe' hanya digunakan untuk optimasi khusus di mana compiler tidak dapat membuktikan keamanan secara statis!
+
+// Header Protokol Biner Transaksi Berukuran Tepat 16 Bytes
+#[repr(C)] // Memastikan layout memori persis seperti struct bahasa C tanpa padding acak
+#[derive(Debug, Clone, Copy)]
+struct PaketHeaderKV {
+    magic_number: u32, // 4 bytes (Harus 0x4E555341 = "NUSA")
+    version: u16,      // 2 bytes
+    command_id: u16,   // 2 bytes
+    payload_len: u32,  // 4 bytes
+    checksum: u32,     // 4 bytes
+}
+
+// Zero-Copy Casting: Mengonversi byte slice mentah langsung menjadi struct tanpa menyalin data!
+fn parse_header_zero_copy(bytes: &[u8]) -> Option<&PaketHeaderKV> {
+    if bytes.len() < std::mem::size_of::<PaketHeaderKV>() {
+        return None;
+    }
+
+    // Blok UNSAFE: Pengembang mengambil tanggung jawab penuh atas keamanan pointer
+    unsafe {
+        // Ambil pointer mentah (*const u8) dan cast menjadi pointer struct (*const PaketHeaderKV)
+        let ptr = bytes.as_ptr() as *const PaketHeaderKV;
+        
+        // Dereference pointer mentah menjadi referensi aman Rust (&PaketHeaderKV)
+        let header_ref = &*ptr;
+
+        if header_ref.magic_number != 0x4E555341 {
+            return None; // Magic number tidak cocok, paket palsu
+        }
+
+        Some(header_ref)
+    }
+}
+
+fn main() {
+    println!("=== Rust Extreme Performance: Zero-Copy Deserializer ===");
+
+    // Paket biner 16 bytes simulasi yang diterima dari soket jaringan
+    let mut raw_packet = vec![
+        0x41, 0x53, 0x55, 0x4E, // Magic "NUSA" (Little-endian byte order)
+        0x01, 0x00,             // Versi 1
+        0x02, 0x00,             // Command: SET (2)
+        0x20, 0x00, 0x00, 0x00, // Payload Length: 32 bytes
+        0x7B, 0x00, 0x00, 0x00, // Checksum: 123
+    ];
+
+    println!("Ukuran Buffer Biner: {} bytes", raw_packet.len());
+
+    // Eksekusi parsing berkecepatan 0 nanodetik (Nol Salinan Memori!)
+    if let Some(header) = parse_header_zero_copy(&raw_packet) {
+        println!("[SUCCESS] Header Berhasil Di-Parse via Zero-Copy!");
+        println!("  -> Magic Number: 0x{:X}", header.magic_number);
+        println!("  -> Versi Protokol: {}", header.version);
+        println!("  -> Command ID: {}", header.command_id);
+        println!("  -> Panjang Payload: {} bytes", header.payload_len);
+    } else {
+        println!("[FAIL] Format paket biner tidak valid!");
+    }
+}
+```
+
+---
+
+## Key Concepts
+
+### Why Rust Ships the `unsafe` Escape Hatch
+The rustc borrow checker is strictly conservative. Yet certain bare-metal primitives **cannot be mathematically proven at compile time**:
+1. Interacting with hardware memory-mapped I/O registers (`0x0000FFFF`).
+2. Interfacing with foreign C libraries (*Foreign Function Interface - FFI*).
+3. Extreme zero-copy memory transmutes across binary network buffers.
+
+Hence, Rust provides the **`unsafe`** boundary.
+`unsafe` does NOT mean code is buggy!
+It states: *"Compiler, step aside. The borrow checker cannot verify this pointer arithmetic. I, the systems architect, guarantee that this pointer is aligned, non-null, and bounds-checked."*
+
+### The Superpower of Zero-Copy Deserialization
+In traditional serialization (JSON, Protobuf), parsing a 1GB payload forces the CPU to allocate fresh heap buffers and deep-copy bytes (*saturating memory bandwidth*).
+With **Zero-Copy (`#[repr(C)]`)**:
+The engine interprets incoming network slice buffers **directly as the target struct in-place**!
+Processing overhead drops to **zero milliseconds**, enabling saturating 100-Gigabit line rates!
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Presidential Diplomatic Pouches vs Standard Security
+1. **Safe Rust** is airport TSA baggage screening: every luggage piece opens, scans under X-ray, and undergoes manual inspection (*compiler verifies every lifetime and reference*). Impossibly secure; zero exploits pass.
+2. **Unsafe Rust** is a diplomatic courier pouch: customs clears the pouch without unzipping seals (*unsafe block*), relying upon diplomatic oaths guaranteeing safety. If the diplomat makes an error (*pointer bug*), the security perimeter is breached.
+
+## Experiments
+
+- Shorten raw_packet to 10 bytes verifying the function gracefully yields None without memory faults.
+- Tamper with the magic bytes observing immediate packet rejection.
+- Execute under Miri (cargo miri test) auditing your unsafe block for undefined behavior.
+- Benchmark zero-copy parsing against serde_json over 10,000 serialized payloads.
+
+---
+
+## Challenge
+
+Author a safe `extract_payload_slice<'a>(bytes: &'a [u8], header: &PaketHeaderKV) -> Option<&'a [u8]>` returning payload slices bounded within memory limits.
+
+---
+
+## Summary
+
+You have mastered unsafe boundaries, raw pointers, #[repr(C)], and zero-copy parsing. Next week is our Capstone Project: In-Memory Key-Value Store with WAL.

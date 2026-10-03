@@ -42,6 +42,7 @@ async function loadVueRuntime(): Promise<void> {
 
   vueScriptLoadPromise = (async () => {
     const compilerMod = await Promise.race([
+      // @ts-ignore
       import(/* @vite-ignore */ 'https://cdn.jsdelivr.net/npm/@vue/compiler-sfc@3.4.21/dist/compiler-sfc.esm-browser.js'),
       new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error('Vue compiler CDN load timed out')), 20000)
@@ -66,7 +67,7 @@ function compileVueSFC(source: string): { jsCode: string; errors: string[] } {
   }
 
   try {
-    const parsed = window.Vue.parse(source, { filename: 'component.vue' });
+    const parsed = (window.Vue as any).parse(source, { filename: 'component.vue' });
     const descriptor = parsed.descriptor;
     const parseErrors = parsed.parseErrors || parsed.errors || [];
 

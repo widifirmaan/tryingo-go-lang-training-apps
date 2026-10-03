@@ -33,6 +33,7 @@ const SLUG_NAME_MAP = {
   rust: 'Rust',
   spring: 'Spring Boot',
   svelte: 'Svelte',
+  tailwind: 'Tailwind CSS',
   typescript: 'TypeScript',
   vue: 'Vue.js',
 };

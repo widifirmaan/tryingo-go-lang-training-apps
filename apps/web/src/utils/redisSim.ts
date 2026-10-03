@@ -1011,7 +1011,7 @@ const cmdZrange = (args: string[]): string => {
   if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatArray([]);
-  const entries = Object.entries(val).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  const entries = Object.entries(val as Record<string, number>).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const len = entries.length;
   const s = start < 0 ? Math.max(len + start, 0) : Math.min(start, len);
   const e = stop < 0 ? Math.max(len + stop, -1) : Math.min(stop, len - 1);
@@ -1036,7 +1036,7 @@ const cmdZrevrange = (args: string[]): string => {
   if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return formatArray([]);
-  const entries = Object.entries(val).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0));
+  const entries = Object.entries(val as Record<string, number>).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0));
   const len = entries.length;
   const s = start < 0 ? Math.max(len + start, 0) : Math.min(start, len);
   const e = stop < 0 ? Math.max(len + stop, -1) : Math.min(stop, len - 1);
@@ -1059,7 +1059,7 @@ const cmdZrank = (args: string[]): string => {
   if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  const entries = Object.entries(val).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  const entries = Object.entries(val as Record<string, number>).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const idx = entries.findIndex(([m]) => m === member);
   return idx >= 0 ? formatInteger(idx) : '$-1';
 };
@@ -1072,7 +1072,7 @@ const cmdZrevrank = (args: string[]): string => {
   if (tErr) return tErr;
   const val = getVal(key);
   if (val === null) return '$-1';
-  const entries = Object.entries(val).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0));
+  const entries = Object.entries(val as Record<string, number>).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? 1 : a[0] > b[0] ? -1 : 0));
   const idx = entries.findIndex(([m]) => m === member);
   return idx >= 0 ? formatInteger(idx) : '$-1';
 };
@@ -1159,7 +1159,7 @@ const cmdZrangebyscore = (args: string[]): string => {
   if (val === null) return formatArray([]);
   const inRange = ([, s]: [string, number]) =>
     (min.exclusive ? s > min.value : s >= min.value) && (max.exclusive ? s < max.value : s <= max.value);
-  const entries = Object.entries(val).filter(inRange as any).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
+  const entries = Object.entries(val as Record<string, number>).filter(inRange as any).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const withScores = args.some(a => a.toUpperCase() === 'WITHSCORES');
   const results: string[] = [];
   for (const [member, score] of entries) {

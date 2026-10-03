@@ -1,0 +1,131 @@
+# Modern Custom Hooks: Reusable Logic Encapsulation & Compound Components
+
+> **Kategori:** React | **Level:** Performance Optimization, Custom Hooks & Capstone Editor | **Minggu 9:** Modern Custom Hooks: Reusable Logic Encapsulation & Compound Components
+
+## Learning Objectives
+
+- Master Custom Hooks as the primary architectural vehicle for stateful logic encapsulation
+- Enforce fundamental hook rules (mandatory `use` naming prefix and top-level invocation)
+- Author useLocalStorage featuring lazy state initialization for zero I/O startup overhead
+- Construct interactive window-level event hooks handling global keyboard bindings
+- Architect Compound Component patterns delivering highly expressive declarative APIs
+
+---
+
+## Program: Custom Hook Suite: useLocalStorage, useDebounce & Keyboard Shortcuts
+
+```jsx
+import { useState, useEffect } from "react";
+
+// 1. Custom Hook: Sinkronisasi State Otomatis ke LocalStorage Browser
+function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(error);
+      return initialValue;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [key, storedValue]);
+
+  return [storedValue, setStoredValue];
+}
+
+// 2. Custom Hook: Shortcut Keyboard Pintas (misal: Ctrl+S untuk Save)
+function useKeyboardShortcut(targetKey, callback, modifierCtrl = false) {
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const isKeyMatch = event.key.toLowerCase() === targetKey.toLowerCase();
+      const isCtrlMatch = modifierCtrl ? event.ctrlKey || event.metaKey : true;
+
+      if (isKeyMatch && isCtrlMatch) {
+        event.preventDefault();
+        callback();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [targetKey, callback, modifierCtrl]);
+}
+
+// 3. Implementasi Nyata pada Komponen Editor
+export default function ScratchpadApp() {
+  const [catatanDraft, setCatatanDraft] = useLocalStorage("draft_workspace_catatan", "Ketik draf di sini...");
+  const [pesanStatus, setPesanStatus] = useState("Tersimpan otomatis.");
+
+  // Daftarkan shortcut Ctrl+S
+  useKeyboardShortcut("s", () => {
+    setPesanStatus("Disimpan manual via shortcut (Ctrl+S)!");
+    setTimeout(() => setPesanStatus("Tersimpan otomatis."), 2500);
+  }, true);
+
+  return (
+    <div style={{ maxWidth: "450px", margin: "20px auto", fontFamily: "sans-serif" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h3>Scratchpad Editor</h3>
+        <small style={{ color: "#16a34a" }}>{pesanStatus}</small>
+      </div>
+
+      <textarea
+        value={catatanDraft}
+        onChange={(e) => setCatatanDraft(e.target.value)}
+        rows={6}
+        style={{ width: "100%", padding: "10px", boxSizing: "border-box", borderRadius: "6px", border: "1px solid #cbd5e1" }}
+      />
+      <small style={{ color: "#64748b" }}>* Tekan Ctrl+S untuk memicu simpan instan.</small>
+    </div>
+  );
+}
+```
+
+---
+
+## Key Concepts
+
+### Demystifying Custom Hooks
+A Custom Hook is **a plain JavaScript function invoking one or more primitive React hooks** (`useState`, `useEffect`, `useRef`).
+When LocalStorage serialization logic repeats across 5 distinct components, duplicating `getItem`, `setItem`, and `JSON.parse` blocks is an anti-pattern. Encapsulating this workflow into `useLocalStorage` achieves clean DRY architecture.
+
+### The Inviolable Rules of Hooks
+1. **Mandatory `use` Prefix**: Functions must prefix with `use` (`useAuth`, `useDebounce`, `useWindowDimensions`). The React linter analyzes this naming convention to enforce call order invariants.
+2. **Top-Level Invocation Only**: Never invoke hooks inside loops, conditionals, or nested callback closures.
+3. **Independent State Allocation**: Two components invoking the same custom hook maintain fully isolated internal state slices (unless explicitly unified via Context).
+
+---
+
+---
+
+## Beginner Friendly Explanation
+
+### Analogy: Modular Power Packs & Multitool Attachments
+1. **Vanilla JS Functions** are stainless steel spoons: universally useful utility utensils, yet completely inert without electrical power or internal state.
+2. **Custom Hooks** are modular external battery packs: plugging into any smartphone chassis supplies reactive electricity (*state*) and adaptive charging circuits (*lifecycle effects*) to whichever device anchors it.
+
+## Experiments
+
+- Type notes, refresh the browser window, and confirm persistence via LocalStorage.
+- Trigger Ctrl+S (Cmd+S on macOS) to verify the keyboard shortcut hook executes reactively.
+- Inspect Application Storage tabs in Chrome DevTools to view serialized JSON data.
+- Author a responsive useWindowSize() hook tracking viewport width and height dynamically.
+
+---
+
+## Challenge
+
+Author a custom `useFetch(url)` hook returning `{ data, loading, error, refetch }` armed with native AbortController teardown semantics.
+
+---
+
+## Summary
+
+You have mastered Custom Hook authoring, logic encapsulation, and keyboard events. Next week is our Capstone Project: Collaborative Notion-Style Block Editor.

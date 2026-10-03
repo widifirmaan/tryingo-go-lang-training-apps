@@ -1,0 +1,109 @@
+# Caching Terdistribusi, Security Hardening & Custom Middleware
+
+> **Kategori:** Django Web Framework | **Level:** Lanjutan | **Minggu 9:** Caching Terdistribusi, Security Hardening & Custom Middleware
+
+## Tujuan Pembelajaran
+
+- Mengonfigurasi Django Cache Framework dengan backend terdistribusi `django-redis`.
+- Menggunakan Low-Level Cache API (`cache.get`, `cache.set`, `cache.delete`).
+- Menerapkan per-view caching menggunakan decorator `@cache_page(60 * 15)`.
+- Membangun Custom Middleware untuk audit durasi eksekusi request dan penegakan security headers.
+
+---
+
+## Program: Middleware Pelindung API & Caching Halaman Kursus dengan Redis Backend
+
+```python
+# Demonstrasi Django Caching & Custom Middleware
+import time
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+
+# 1. Custom Security & Timing Middleware
+class RequestTimingAndSecurityMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        start_time = time.perf_counter()
+
+        # Eksekusi request ke view downstream
+        response = self.get_response(request)
+
+        # Hitung waktu eksekusi
+        elapsed_ms = (time.perf_counter() - start_time) * 1000
+        response["X-Response-Time-Ms"] = f"{elapsed_ms:.2f}"
+
+        # Terapkan Security Headers
+        response["X-Content-Type-Options"] = "nosniff"
+        response["X-Frame-Options"] = "DENY"
+        response["Referrer-Policy"] = "strict-origin-when-cross-origin"
+
+        return response
+
+# 2. Low-Level Caching API dengan Redis
+def get_popular_courses_cached():
+    cache_key = "lms:popular_courses:v1"
+    
+    # 1. Periksa apakah data ada di Redis Cache
+    popular_courses = cache.get(cache_key)
+    if popular_courses is not None:
+        print("[CACHE HIT] Mengembalikan daftar kursus populer dari Redis Cache!")
+        return popular_courses
+
+    # 2. Cache Miss: Kueri dari Database PostgreSQL
+    print("[CACHE MISS] Menghitung agregasi kursus terpopuler dari PostgreSQL...")
+    popular_courses = [
+        {"id": 1, "title": "Full-Stack React & Django Mastery", "students": 1250},
+        {"id": 2, "title": "Rust System Programming from Scratch", "students": 890}
+    ]
+
+    # Simpan ke Redis dengan TTL 15 Menit (900 Detik)
+    cache.set(cache_key, popular_courses, timeout=900)
+    return popular_courses
+
+# Demonstrasi Eksekusi
+courses = get_popular_courses_cached()
+print("Data Kursus:", courses)
+```
+
+---
+
+## Konsep Kunci
+
+Ketika ribuan siswa mengakses platform LMS Anda secara bersamaan, database PostgreSQL tidak boleh dibebani dengan kueri data yang jarang berubah (seperti daftar kursus terpopuler atau kurikulum statis). Dua instrumen vital untuk menjaga performa adalah **Caching** dan **Custom Middleware**.
+
+### Tingkatan Caching di Django
+1. **Per-View Caching (`@cache_page`)**: Menyimpan seluruh HTML atau JSON respons suatu view di memori Redis. Seluruh komputasi database dilewati secara total.
+2. **Template Fragment Caching (`{% cache %}`)**: Meng-cache hanya blok HTML tertentu di dalam template (misal sidebar daftar kategori).
+3. **Low-Level Cache API (`cache.get / cache.set`)**: Memberikan kontrol granular untuk menyimpan data objek Python arbitrer ke dalam Redis dengan durasi Time-To-Live (TTL).
+
+### Peran Middleware Pipeline
+Middleware adalah rantai komponen yang mencegat setiap HTTP request sebelum mencapai View dan setiap HTTP response sebelum dikirimkan ke browser. Dengan custom middleware, kita dapat menyuntikkan header keamanan browser (seperti `X-Frame-Options: DENY` untuk mencegah Clickjacking) dan memantau waktu respons server (SLA).
+
+
+---
+
+---
+
+## Penjelasan untuk Pemula
+
+Bayangkan papan pengumuman jadwal pelajaran di lobi sekolah. Daripada setiap siswa harus mengetuk pintu ruang kepala sekolah untuk bertanya jadwal hari ini (menghantam database), sekolah menempelkan jadwal tersebut di papan pengumuman lobi (Redis Cache). Dan satpam di gerbang sekolah (Middleware) selalu memeriksa apakah setiap siswa memakai seragam lengkap sebelum diizinkan masuk.
+
+## Eksperimen
+
+- Panggil fungsi `get_popular_courses_cached()` dua kali dan amati panggilan kedua langsung menghasilkan pesan `[CACHE HIT]`.
+- Gunakan perintah `python manage.py check --deploy` untuk memeriksa audit keamanan pengaturan produksi Django.
+- Periksa header HTTP menggunakan cURL dan buktikan header `X-Response-Time-Ms` tercetak dengan benar.
+
+---
+
+## Tantangan
+
+Buat sinyal `post_save` pada model Course yang secara otomatis memanggil `cache.delete("lms:popular_courses:v1")` setiap kali data kursus diubah oleh admin.
+
+---
+
+## Ringkasan
+
+Kamu telah menguasai Redis Caching, Custom Middleware, dan Security Hardening. Minggu depan adalah Capstone Final: Multi-Tenant Subscription LMS Platform Production-Ready!

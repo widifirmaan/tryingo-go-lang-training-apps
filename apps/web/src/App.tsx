@@ -179,6 +179,61 @@ export default function App() {
     } catch {}
   }, [theme, lang]);
 
+  // Dynamic SEO: Update document.title and meta descriptions dynamically based on active route
+  useEffect(() => {
+    let title = lang === 'id' 
+      ? 'Tryngo — Platform Belajar Coding Interaktif dari Nol ke Profesional'
+      : 'Tryngo — Interactive Coding Education Platform from Zero to Professional';
+    let description = lang === 'id'
+      ? 'Kuasai 28 teknologi pemrograman, web development, sistem backend, database & devops dari nol hingga siap kerja dengan interactive code playground.'
+      : 'Master 28 programming languages, web frameworks, backend engines, databases & devops from zero to professional with an in-browser interactive code playground.';
+
+    if (activeCourseId) {
+      const track = TRACKS_COLLECTION.find((t) => t.id === activeCourseId);
+      if (track) {
+        if (courseInitialWeek) {
+          title = `${track.name} (${lang === 'id' ? `Minggu ${courseInitialWeek}` : `Week ${courseInitialWeek}`}) | Tryngo`;
+        } else {
+          title = `${track.name} — ${lang === 'id' ? 'Belajar dari Nol ke Production' : 'Learn from Zero to Production'} | Tryngo`;
+        }
+        description = lang === 'id'
+          ? `Pelajari kurikulum ${track.name} interaktif dari konsep dasar, eksperimen playground, hingga proyek capstone skala produksi.`
+          : `Master the interactive ${track.name} curriculum from fundamentals, code playground experiments, to an industry-grade capstone project.`;
+      }
+    } else if (quizTarget) {
+      title = `${lang === 'id' ? 'Kuis' : 'Quiz'} ${quizTrackName} | Tryngo`;
+      description = lang === 'id'
+        ? `Uji pemahaman Anda tentang materi ${quizTrackName} dengan kuis adaptif dan evaluasi skor real-time.`
+        : `Test your mastery of ${quizTrackName} course materials with adaptive quiz scoring and review.`;
+    } else if (ideTarget) {
+      const track = TRACKS_COLLECTION.find((t) => t.id === ideTarget);
+      const name = track?.name || ideTarget;
+      title = `Online IDE ${name} | Tryngo`;
+      description = lang === 'id'
+        ? `Tulis, edit, dan jalankan kode program ${name} langsung di browser Anda.`
+        : `Write, edit, and execute ${name} programs directly inside your browser.`;
+    }
+
+    document.title = title;
+
+    const setMeta = (name: string, content: string, isProperty = false) => {
+      const attr = isProperty ? 'property' : 'name';
+      let el = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+
+    setMeta('description', description);
+    setMeta('og:title', title, true);
+    setMeta('og:description', description, true);
+    setMeta('twitter:title', title);
+    setMeta('twitter:description', description);
+  }, [activeCourseId, courseInitialWeek, quizTarget, quizTrackName, ideTarget, lang]);
+
   // Hash routing — parse initial hash & listen for changes
   useEffect(() => {
     const parseHash = () => {

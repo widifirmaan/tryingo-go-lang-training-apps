@@ -1,0 +1,122 @@
+# Koleksi Inti: Vec<T>, String vs &str & HashMap In-Memory Storage
+
+> **Kategori:** Rust | **Level:** Ownership, Borrowing & Sistem Tipe Aman | **Minggu 4:** Koleksi Inti: Vec<T>, String vs &str & HashMap In-Memory Storage
+
+## Tujuan Pembelajaran
+
+- Menguasai 3 koleksi data fundamental Rust: Vec<T> (array dinamis), String (teks dinamis), dan HashMap<K, V>
+- Memahami perbedaan memori antara String (pemilik buffer di heap) vs &str (pinjaman window slice)
+- Menggunakan metode idiomatik HashMap: insert(), get(), remove(), dan entry() API
+- Mengonversi kumpulan byte Vec<u8> menjadi representasi string yang aman via String::from_utf8_lossy
+- Membangun abstraksi mesin database penyimpanan in-memory dengan metode impl struct yang modular
+
+---
+
+## Program: Mesin Penyimpanan Data Key-Value In-Memory Berbasis HashMap
+
+```rust
+use std::collections::HashMap;
+
+// Struktur Penyimpanan Inti Key-Value Engine
+struct InMemStore {
+    // Kunci bertipe String, Nilai berupa kumpulan byte mentah (Vec<u8>)
+    tabel: HashMap<String, Vec<u8>>,
+    total_operasi: u64,
+}
+
+impl InMemStore {
+    // Konstruktor Baru
+    fn new() -> Self {
+        InMemStore {
+            tabel: HashMap::new(),
+            total_operasi: 0,
+        }
+    }
+
+    // Operasi SET: Mengambil kepemilikan kunci dan nilai untuk disimpan ke HashMap
+    fn set(&mut self, kunci: String, nilai: Vec<u8>) {
+        self.tabel.insert(kunci, nilai);
+        self.total_operasi += 1;
+    }
+
+    // Operasi GET: Mengembalikan referensi peminjaman (&[u8]) tanpa alokasi memori baru!
+    fn get(&self, kunci: &str) -> Option<&[u8]> {
+        // as_deref() atau meminjam nilai dari Option<&Vec<u8>> menjadi Option<&[u8]>
+        self.tabel.get(kunci).map(|vec| vec.as_slice())
+    }
+
+    // Operasi DEL: Menghapus data dan mengembalikan nilai yang dihapus jika ada
+    fn del(&mut self, kunci: &str) -> bool {
+        self.total_operasi += 1;
+        self.tabel.remove(kunci).is_some()
+    }
+}
+
+fn main() {
+    println!("=== In-Memory Key-Value Engine (Rust Collections) ===");
+
+    let mut db = InMemStore::new();
+
+    // 1. Simpan data biner (misal: JSON string yang dikonversi ke bytes)
+    db.set(String::from("config:cluster_name"), b"nusa-asia-southeast1".to_vec());
+    db.set(String::from("metrics:cpu_usage"), vec![42, 85, 91]);
+
+    // 2. Ambil data dengan referensi slice (&[u8])
+    if let Some(bytes) = db.get("config:cluster_name") {
+        let teks = String::from_utf8_lossy(bytes);
+        println!("[HIT] config:cluster_name = '{}'", teks);
+    } else {
+        println!("[MISS] Kunci tidak ditemukan.");
+    }
+
+    // 3. Hapus data
+    let terhapus = db.del("metrics:cpu_usage");
+    println!("Apakah metrics:cpu_usage terhapus? {}", terhapus);
+    println!("Total Operasi Mutasi DB: {}", db.total_operasi);
+}
+```
+
+---
+
+## Konsep Kunci
+
+### Tiga Koleksi Utama Standar Library Rust
+1. **`Vec<T>`**: Array dinamis yang disimpan berurutan di heap. Elemen baru ditambahkan dengan `.push(item)`. Mendukung pengindeksan cepat dan alokasi memori beruntun (*cache locality* terbaik).
+2. **`String`**: Pada dasarnya adalah pembungkus tipis di atas `Vec<u8>` yang dijamin **100% selalu berformat UTF-8 valid**. Anda tidak bisa sembarangan mengindeks string dengan angka `s[0]` karena karakter bahasa dunia memiliki ukuran byte yang berbeda (1 sampai 4 byte).
+3. **`HashMap<K, V>`**: Tabel hash pencarian cepat berkecepatan *O(1)*. Secara bawaan menggunakan algoritma hashing *SipHash 1-3* yang kebal terhadap serangan keamanan siber *HashDoS (Denial of Service)*.
+
+### Pola Emas: `entry()` API pada HashMap
+Untuk menghindari dua kali lookup (cek ada tidaknya kunci lalu baru insert), Rust memiliki `entry()` API:
+```rust
+db.tabel.entry(kunci).or_insert_with(|| vec![0]);
+```
+Baris ini memeriksa apakah kunci ada; jika tidak ada, ia menginisialisasi nilai baru dalam satu operasi komputasi tunggal yang sangat efisien!
+
+---
+
+---
+
+## Penjelasan untuk Pemula
+
+### Analogi: Rak Buku Dokumen & Kamus Istilah Tebal
+1. **`Vec<T>`** seperti rak buku horizontal: Anda meletakkan buku-buku berjejer dari kiri ke kanan. Anda bisa menambah buku baru di ujung kanan (*push*).
+2. **`HashMap<K, V>`** seperti kamus istilah tebal: jika Anda ingin mencari arti kata 'Kriptografi' (*key*), Anda langsung membuka huruf K dan membaca definisinya (*value*) tanpa harus membaca seluruh kamus dari halaman pertama.
+
+## Eksperimen
+
+- Gunakan entry API: db.tabel.entry(kunci).or_insert(nilai_default) untuk memasukkan data hanya jika kunci belum ada.
+- Coba simpan nilai string sembarangan yang bukan UTF-8 valid dan amati bagaimana String::from_utf8 memvalidasi byte.
+- Ukur penggunaan memori tabel dengan memeriksa db.tabel.capacity().
+- Iterasi seluruh data database menggunakan for (k, v) in &db.tabel dan cetak pasangan key-value.
+
+---
+
+## Tantangan
+
+Tambahkan operasi `mget(&self, keys: &[&str]) -> Vec<Option<&[u8]>>` pada `InMemStore` yang dapat mengambil banyak nilai kunci sekaligus dalam satu panggilan efisien.
+
+---
+
+## Ringkasan
+
+Kamu telah menguasai Vec, String vs &str, dan HashMap in-memory storage. Minggu depan kita memasuki Level 2: Traits, Generics, dan Error Handling.

@@ -1,0 +1,133 @@
+# Arsitektur Event-Driven: Spring for Apache Kafka & Audit Streaming
+
+> **Kategori:** Spring Boot & Java | **Level:** Menengah | **Minggu 7:** Arsitektur Event-Driven: Spring for Apache Kafka & Audit Streaming
+
+## Tujuan Pembelajaran
+
+- Memahami konsep dasar Apache Kafka: Topics, Partitions, Consumer Groups, dan Offsets.
+- Menggunakan `KafkaTemplate` untuk mempublikasikan event domain secara non-blocking.
+- Menerapkan partition keying untuk menjamin urutan event (Ordering Guarantee) per nasabah.
+- Mengonsumsi event secara asinkron menggunakan `@KafkaListener` dengan penanganan Dead Letter Topic (DLT).
+
+---
+
+## Program: Publikasi Event Mutasi & Konsumen Deteksi Fraud dengan Kafka
+
+```java
+package com.tryngo.banking.kafka;
+
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.TopicBuilder;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+
+@Configuration
+class KafkaTopicConfig {
+    @Bean
+    public NewTopic transactionsTopic() {
+        return TopicBuilder.name("banking.transactions.v1")
+            .partitions(3)
+            .replicas(1)
+            .build();
+    }
+}
+
+// 1. Produsen Event: Menerbitkan event mutasi ke Kafka
+@Service
+public class TransactionEventProducer {
+
+    private final KafkaTemplate<String, TransactionAuditMessage> kafkaTemplate;
+
+    public TransactionEventProducer(KafkaTemplate<String, TransactionAuditMessage> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void publishTransactionEvent(String txId, String fromAcc, String toAcc, BigDecimal amount) {
+        var message = new TransactionAuditMessage(txId, fromAcc, toAcc, amount, Instant.now());
+        
+        // Gunakan fromAcc sebagai Kafka Partition Key agar mutasi akun yang sama selalu masuk ke partisi yang sama
+        kafkaTemplate.send("banking.transactions.v1", fromAcc, message)
+            .whenComplete((result, ex) -> {
+                if (ex == null) {
+                    System.out.printf("[KAFKA SENT] Tx %s published to Partition %d with Offset %d%n",
+                        txId, result.getRecordMetadata().partition(), result.getRecordMetadata().offset());
+                } else {
+                    System.err.println("[KAFKA ERROR] Failed to publish audit event: " + ex.getMessage());
+                }
+            });
+    }
+}
+
+// 2. Konsumen Event: Deteksi Fraud & Anti-Pencucian Uang (AML)
+@Service
+class FraudDetectionConsumer {
+
+    @KafkaListener(topics = "banking.transactions.v1", groupId = "fraud-detection-group")
+    public void evaluateFraud(TransactionAuditMessage event) {
+        System.out.println("[FRAUD CONSUMER] Analyzing transaction: " + event.transactionId());
+        
+        if (event.amount().compareTo(new BigDecimal("50000000.00")) >= 0) {
+            System.err.printf("[FRAUD ALERT] High-risk transaction detected! Tx: %s | Amount: Rp %,.2f%n",
+                event.transactionId(), event.amount());
+        } else {
+            System.out.println("[FRAUD CLEARED] Transaction passed safety heuristics.");
+        }
+    }
+}
+
+public record TransactionAuditMessage(
+    String transactionId,
+    String fromAccount,
+    String toAccount,
+    BigDecimal amount,
+    Instant timestamp
+) {}
+```
+
+---
+
+## Konsep Kunci
+
+Dalam arsitektur perbankan modern, mutasi transfer uang tidak boleh menunggu sistem audit, pelaporan pajak, dan sistem anti-fraud selesai memeriksa transaksi. Seluruh sistem downstream harus dihubungkan secara asinkron melalui **Apache Kafka**.
+
+### Mengapa Apache Kafka?
+Kafka adalah distributed commit log berkecepatan tinggi yang mampu menangani jutaan event per detik. Tidak seperti message broker tradisional (RabbitMQ), Kafka menyimpan event secara persisten di disk, memungkinkan konsumen membaca ulang pesan lama (Event Replay) jika terjadi audit forensik.
+
+### Pentingnya Partition Key
+Sebuah topik Kafka dibagi menjadi beberapa **Partitions** untuk memungkinkan pemrosesan paralel. Kafka menjamin urutan pesan (Strict Ordering) hanya di dalam satu partisi yang sama. Dengan menggunakan nomor rekening (`fromAcc`) sebagai partition key, seluruh transaksi dari rekening tersebut dijamin selalu masuk ke partisi yang sama dan diproses secara berurutan.
+
+### Consumer Groups dan Skalabilitas
+Dengan mendefinisikan `groupId = "fraud-detection-group"`, beberapa instance service fraud detection dapat berbagi beban pembacaan partisi secara otomatis. Jika satu instance mati, Kafka secara otomatis melakukan Rebalance ke instance yang masih hidup tanpa kehilangan data.
+
+
+---
+
+---
+
+## Penjelasan untuk Pemula
+
+Bayangkan kantor pos pusat dengan banyak loket (Kafka Partitions). Surat untuk kota Bandung selalu masuk ke loket 1, surat untuk Surabaya masuk ke loket 2 (Partition Key). Tim kurir di Surabaya (Consumer Group) bisa membawa dan mengantarkan surat-surat tersebut secara bersamaan tanpa saling mengganggu kurir di Bandung.
+
+## Eksperimen
+
+- Jalankan Kafka lokal via Docker Compose dan kirim 10 pesan dengan partition key berbeda.
+- Amati di terminal bagaimana pesan didistribusikan ke partisi 0, 1, dan 2 secara merata.
+- Konfigurasikan Dead Letter Topic (DLT) untuk menampung pesan yang gagal didecode oleh consumer.
+
+---
+
+## Tantangan
+
+Buat konfigurasi `ConcurrentKafkaListenerContainerFactory` dengan `SeekToCurrentErrorHandler` yang mencoba membaca ulang pesan yang error sebanyak 3 kali dengan interval 2 detik sebelum mengirimnya ke topik `.DLT`.
+
+---
+
+## Ringkasan
+
+Kamu telah menguasai arsitektur event-driven dengan Apache Kafka. Level 2 selesai! Di Level 3 kita menaklukkan Virtual Threads, Resilience4j, dan Proyek Capstone.
