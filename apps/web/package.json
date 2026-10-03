@@ -10,7 +10,8 @@
     "deploy": "npm run build && wrangler pages deploy dist --project-name tryngo-web --commit-dirty=true",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "audit": "tsx scripts/audit_everything.mjs"
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^7.3.1",
