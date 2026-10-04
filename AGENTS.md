@@ -37,6 +37,9 @@ npx wrangler pages deploy dist
 - Indonesian + English translations
 
 ### Recently Added (July 2026)
+- **W3Schools-Style Authentic Native Syntax Reference**: Comprehensive syntax catalog across all 28 tech stacks detailing signature, parameters, return effects, ASCII mental model diagrams, and 10 custom architectural SVGs in `apps/web/public/diagrams/`.
+- **Self-Contained Runnable Codeblocks & Smart Wrapping**: All syntax code snippets are 100% self-contained and directly runnable in the browser playground. `wrapSnippetForPlayground()` in `CoursePage.tsx` auto-wraps isolated snippets into valid runnable documents, while `NON_RUNNABLE_LANGS` filtering ensures `output`, `text`, and `diagram` blocks never render the "Coba di Playground" button.
+- **Playground Execution Hardening**: Sandboxed iframe preview in `CodePlayground.tsx` guarantees HTML tags are injected into `<body>` (never into `<script>` tags), CSS snippets get automated preview containers, and Go/Rust code missing `main` entrypoints are auto-wrapped.
 - **Fully client-side code execution (no Workers needed)**: No Cloudflare Workers required — Go runs via TinyGo + Yaegi WASM (`public/wasm/`), Rust runs directly against the CORS-enabled Rust Playground API (`play.rust-lang.org/execute`), web languages render in a sandboxed iframe, and other languages show a "not executable in browser" message.
 - **Full-text search across course materials**: Build-time index (`scripts/build-search-index.mjs`) creates `search-index.json` from all .md files. Fuse.js powers fuzzy search in the SearchModal. Two search tabs: "Modul" (track metadata) and "Materi Kursus" (course content).
 - **Accessibility**: `lang` attribute syncs with language setting, `role="main"` / `role="application"` landmarks, `focus-visible` keyboard outlines, skip-to-content CSS, meta description + theme color, ARIA labels on navigation.
