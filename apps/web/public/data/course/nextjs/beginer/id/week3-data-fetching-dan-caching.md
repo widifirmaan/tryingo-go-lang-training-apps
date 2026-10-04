@@ -171,7 +171,7 @@ export default async function Page() {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 HTML statis siap saji dikirimkan ke peramban klien
 ```
 
@@ -189,7 +189,7 @@ export default function Counter() {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Komponen interaktif beroperasi di browser klien
 ```
 
@@ -207,7 +207,7 @@ async function createItem(formData: FormData) {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Data tersimpan di server dan halaman otomatis di-revalidasi
 ```
 
@@ -221,7 +221,7 @@ import Link from 'next/link';
 <Link href="/about" className="btn">Tentang Kami</Link>
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Halaman berpindah instan tanpa muat ulang browser
 ```
 

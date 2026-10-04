@@ -144,7 +144,7 @@ use App\Http\Controllers\ProductController;
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 ```
 - **Expected Execution Output:**
-```text
+```output
 Rute terdaftar dan siap diakses pengguna
 ```
 
@@ -162,7 +162,7 @@ class Product extends Model {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Model Product siap untuk operasi CRUD Eloquent
 ```
 
@@ -179,7 +179,7 @@ $validated = $request->validate([
 ]);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Data lolos seleksi atau redirect dengan error session
 ```
 
@@ -196,7 +196,7 @@ public function index() {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tampilan daftar produk berhasil disajikan
 ```
 

@@ -148,12 +148,14 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 - **System Behavior & Return:** Rust secara default mengunci variabel agar tidak bisa diubah demi keamanan memori..
 - **Practical Code Example:**
 ```rust
-let mut score = 50;
-score += 25;
-println!("Score: {}", score);
+fn main() {
+    let mut score = 50;
+    score += 25;
+    println!("Score: {}", score);
+}
 ```
 - **Expected Execution Output:**
-```text
+```output
 Score: 75
 ```
 
@@ -164,12 +166,19 @@ Score: 75
 - **Practical Code Example:**
 ```rust
 fn print_len(s: &String) {
-  println!("Panjang: {}", s.len());
+    println!("Panjang: {}", s.len());
+}
+
+fn main() {
+    let s = String::from("Tryngo Rust");
+    print_len(&s);
+    println!("Variabel s tetap valid: {}", s);
 }
 ```
 - **Expected Execution Output:**
-```text
-Membaca panjang string tanpa menghapus variabel asal
+```output
+Panjang: 11
+Variabel s tetap valid: Tryngo Rust
 ```
 
 ### 3. `match value { Pattern => Action }`
@@ -178,14 +187,16 @@ Membaca panjang string tanpa menghapus variabel asal
 - **System Behavior & Return:** Mengevaluasi setiap kemungkinan kondisi secara lengkap tanpa ada cabang yang terlewat..
 - **Practical Code Example:**
 ```rust
-let res: Option<i32> = Some(10);
-match res {
-  Some(v) => println!("Nilai: {}", v),
-  None => println!("Kosong"),
+fn main() {
+    let res: Option<i32> = Some(10);
+    match res {
+        Some(v) => println!("Nilai: {}", v),
+        None => println!("Kosong"),
+    }
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Nilai: 10
 ```
 
@@ -195,14 +206,21 @@ Nilai: 10
 - **System Behavior & Return:** Mengembalikan nilai sukses atau error terstruktur, dan operator `?` untuk propagasi error..
 - **Practical Code Example:**
 ```rust
-fn read_data() -> Result<String, std::io::Error> {
-  let content = std::fs::read_to_string("app.log")?;
-  Ok(content)
+fn parse_number(s: &str) -> Result<i32, std::num::ParseIntError> {
+    let num: i32 = s.parse()?;
+    Ok(num * 2)
+}
+
+fn main() {
+    match parse_number("42") {
+        Ok(val) => println!("Hasil kali dua: {}", val),
+        Err(e) => println!("Gagal: {}", e),
+    }
 }
 ```
 - **Expected Execution Output:**
-```text
-Mengembalikan isi file atau meneruskan kegagalan I/O
+```output
+Hasil kali dua: 84
 ```
 
 ---

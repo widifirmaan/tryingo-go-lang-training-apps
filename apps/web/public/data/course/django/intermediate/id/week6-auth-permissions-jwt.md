@@ -135,7 +135,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Skema tabel Product siap dimigrasi ke database
 ```
 
@@ -148,7 +148,7 @@ Skema tabel Product siap dimigrasi ke database
 cheap_products = Product.objects.filter(price__lte=100000).order_by('-created_at')[:5]
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Mengembalikan 5 baris produk termurah
 ```
 
@@ -164,7 +164,7 @@ def home_view(request):
     return render(request, 'home.html', {'items': items})
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Halaman web ter-render sempurna untuk pengguna
 ```
 
@@ -181,7 +181,7 @@ urlpatterns = [
 ]
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Rute /products/123 dipetakan ke views.detail
 ```
 

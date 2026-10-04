@@ -179,7 +179,7 @@ const [count, setCount] = useState(0);
 // Eksekusi: setCount(prev => prev + 1);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Komponen memperbarui angka count di layar
 ```
 
@@ -195,7 +195,7 @@ useEffect(() => {
 }, []);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Log dicetak saat mount dan unmount
 ```
 
@@ -210,7 +210,7 @@ function UserCard({ name }: { name: string }) {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Elemen kartu ter-render dengan nama pengguna
 ```
 
@@ -223,7 +223,7 @@ Elemen kartu ter-render dengan nama pengguna
 const { theme, toggleTheme } = useContext(ThemeContext);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Mendapatkan nilai tema aktif secara instan
 ```
 

@@ -210,7 +210,7 @@ const increment = () => count.value++;
 </script>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Nilai count bertambah secara reaktif
 ```
 
@@ -227,7 +227,7 @@ const double = computed(() => count.value * 2);
 </script>
 ```
 - **Expected Execution Output:**
-```text
+```output
 double otomatis bernilai 10
 ```
 
@@ -245,7 +245,7 @@ defineProps<{
 </script>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Komponen siap menerima atribut title dari parent
 ```
 
@@ -261,7 +261,7 @@ Komponen siap menerima atribut title dari parent
 </template>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Input teks sinkron seketika ke paragraf tampilan
 ```
 

@@ -182,7 +182,7 @@ function add(int $a, int $b): int {
 echo add(5, 10);
 ```
 - **Expected Execution Output:**
-```text
+```output
 15
 ```
 
@@ -202,7 +202,7 @@ readonly class UserDto {
 $user = new UserDto('u1', 'alex@example.com');
 ```
 - **Expected Execution Output:**
-```text
+```output
 Objek data transfer immutable tercipta bersih
 ```
 
@@ -222,7 +222,7 @@ $code = match($statusCode) {
 echo $code;
 ```
 - **Expected Execution Output:**
-```text
+```output
 200
 ```
 
@@ -238,7 +238,7 @@ $stmt->execute(['id' => 1]);
 $user = $stmt->fetch();
 ```
 - **Expected Execution Output:**
-```text
+```output
 Query aman bebas dari celah serangan injeksi
 ```
 

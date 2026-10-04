@@ -59,11 +59,17 @@ const nodeText = (node: React.ReactNode): string => {
   return '';
 };
 
+const NON_RUNNABLE_LANGS = new Set([
+  'text', 'txt', 'output', 'diagram', 'console', 'log', 'stdout', 'stderr',
+  'result', 'plain', '', 'markdown', 'md', 'bash', 'sh', 'shell', 'zsh',
+  'powershell', 'cmd', 'yaml', 'yml', 'json', 'toml', 'ini', 'mermaid'
+]);
+
 // Fenced code block: header with language label, run in playground, and copy button
 const LessonCodeBlock: React.FC<{
   children?: React.ReactNode;
   isId: boolean;
-  onRunCode?: (code: string) => void;
+  onRunCode?: (code: string, lang: string) => void;
 }> = ({ children, isId, onRunCode }) => {
   const [copied, setCopied] = useState(false);
   const child = React.Children.toArray(children)[0];
@@ -72,16 +78,18 @@ const LessonCodeBlock: React.FC<{
     : '';
   const lang = (langClass.match(/language-(\w+)/) || [])[1] || '';
   const text = nodeText(children);
+  const isRunnable = Boolean(lang && !NON_RUNNABLE_LANGS.has(lang.toLowerCase().trim()));
+
   return (
     <div className="rounded-xl overflow-hidden mb-6 border border-zinc-700/60">
       <div className="flex items-center justify-between px-3 py-1.5 bg-zinc-800 dark:bg-black/40">
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">
-          {lang || (isId ? 'kode' : 'code')}
+          {lang || (isId ? 'output' : 'output')}
         </span>
         <div className="flex items-center gap-2">
-          {onRunCode && text.trim().length > 0 && (
+          {onRunCode && isRunnable && text.trim().length > 0 && (
             <button
-              onClick={() => onRunCode(text)}
+              onClick={() => onRunCode(text, lang)}
               title={isId ? 'Coba di Playground' : 'Run in Playground'}
               className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
             >
@@ -188,6 +196,146 @@ const INLINE_FENCES: Record<string, string[]> = {
   html5: ['html'],
   css3: ['html'],
   tailwind: ['html'],
+};
+
+const wrapSnippetForPlayground = (code: string, rawLang: string, trackSlug: string, isId: boolean): string => {
+  const trimmed = code.trim();
+  const lang = rawLang.toLowerCase();
+
+  // 1. Go
+  if (lang === 'go' || trackSlug === 'golang') {
+    if (trimmed.includes('func main(') || trimmed.includes('func main ()')) {
+      return trimmed;
+    }
+    return `package main
+
+import (
+\t"fmt"
+)
+
+func main() {
+\t${trimmed.split('\n').join('\n\t')}
+}`;
+  }
+
+  // 2. Rust
+  if (lang === 'rust' || trackSlug === 'rust') {
+    if (trimmed.includes('fn main()') || trimmed.includes('fn main ()')) {
+      return trimmed;
+    }
+    return `fn main() {
+    ${trimmed.split('\n').join('\n    ')}
+}`;
+  }
+
+  // 3. HTML / CSS / Tailwind
+  if (lang === 'html' || lang === 'css' || trackSlug === 'html5' || trackSlug === 'css3' || trackSlug === 'tailwind') {
+    if (trimmed.includes('<!DOCTYPE') || trimmed.includes('<html')) {
+      return trimmed;
+    }
+
+    if (lang === 'css' || trackSlug === 'css3' || (!trimmed.includes('<') && /[{}:;]/.test(trimmed))) {
+      return `<!DOCTYPE html>
+<html lang="${isId ? 'id' : 'en'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; margin: 0; }
+    .demo-card { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; max-width: 480px; }
+${trimmed}
+  </style>
+</head>
+<body>
+  <div class="demo-card card box container navbar grid-container">
+    <h2>${isId ? 'Pratinjau CSS' : 'CSS Live Preview'}</h2>
+    <p>${isId ? 'Efek styling diterapkan langsung pada elemen ini.' : 'Styling rules applied directly to this element.'}</p>
+    <button class="btn">${isId ? 'Tombol Interaktif' : 'Interactive Button'}</button>
+  </div>
+</body>
+</html>`;
+    }
+
+    if (trackSlug === 'tailwind') {
+      return `<!DOCTYPE html>
+<html lang="${isId ? 'id' : 'en'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Tailwind CSS Demo</title>
+</head>
+<body class="bg-slate-900 text-white p-6 font-sans">
+  ${trimmed}
+</body>
+</html>`;
+    }
+
+    // HTML Snippet (e.g. <meta>, <header>, <form>, etc.)
+    const isHeadMeta = /^\s*<meta|<title|<link/i.test(trimmed);
+    if (isHeadMeta) {
+      return `<!DOCTYPE html>
+<html lang="${isId ? 'id' : 'en'}">
+<head>
+  <meta charset="UTF-8">
+  ${trimmed}
+  <title>HTML5 Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; margin: 0; }
+    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>${isId ? 'Layar Responsif 1:1 Aktif' : 'Responsive 1:1 Scale Active'}</h3>
+    <p>${isId ? 'Tag disematkan ke dalam elemen <head> dan berfungsi penuh.' : 'Tag is embedded in <head> and active.'}</p>
+  </div>
+</body>
+</html>`;
+    }
+
+    return `<!DOCTYPE html>
+<html lang="${isId ? 'id' : 'en'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML5 Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; margin: 0; }
+    input, button, select, textarea { font-family: inherit; font-size: 14px; }
+  </style>
+</head>
+<body>
+${trimmed}
+</body>
+</html>`;
+  }
+
+  // 4. JS / TS with DOM interactions
+  if ((lang === 'javascript' || lang === 'js' || lang === 'typescript' || lang === 'ts')
+      && /document\.|window\.|getElementById|querySelector/i.test(trimmed)
+      && !trimmed.includes('<!DOCTYPE') && !trimmed.includes('<html')) {
+    return `<!DOCTYPE html>
+<html lang="${isId ? 'id' : 'en'}">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; }
+    #app, .output { margin-top: 12px; padding: 12px; background: #1e293b; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div id="app">Output JavaScript</div>
+  <script>
+${trimmed}
+  </script>
+</body>
+</html>`;
+  }
+
+  return trimmed;
 };
 
 interface CoursePageProps {
@@ -588,7 +736,13 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
                   remarkPlugins={[remarkGfm]}
                   components={{
                     pre: ({ children }) => (
-                      <LessonCodeBlock isId={isId} onRunCode={(code) => setOverrideCode(code)}>
+                      <LessonCodeBlock
+                        isId={isId}
+                        onRunCode={(code, codeLang) => {
+                          const wrapped = wrapSnippetForPlayground(code, codeLang, slug, isId);
+                          setOverrideCode(wrapped);
+                        }}
+                      >
                         {children}
                       </LessonCodeBlock>
                     ),

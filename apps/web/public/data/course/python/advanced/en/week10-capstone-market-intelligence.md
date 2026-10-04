@@ -208,7 +208,7 @@ def calculate_tax(price: float, rate: float = 0.11) -> float:
 print(calculate_tax(100000.0))
 ```
 - **Expected Execution Output:**
-```text
+```output
 11000.0
 ```
 
@@ -223,7 +223,7 @@ evens_squared = [n ** 2 for n in numbers if n % 2 == 0]
 print(evens_squared)
 ```
 - **Expected Execution Output:**
-```text
+```output
 [4, 16, 36]
 ```
 
@@ -238,7 +238,7 @@ with open('data.txt', 'w') as f:
 # File otomatis ditutup dengan aman di sini
 ```
 - **Expected Execution Output:**
-```text
+```output
 File tersimpan dan resource ditutup aman
 ```
 
@@ -255,7 +255,7 @@ async def fetch_api(n):
 # asyncio.run(fetch_api(1))
 ```
 - **Expected Execution Output:**
-```text
+```output
 Coroutines tereksekusi tanpa memblokir thread utama
 ```
 

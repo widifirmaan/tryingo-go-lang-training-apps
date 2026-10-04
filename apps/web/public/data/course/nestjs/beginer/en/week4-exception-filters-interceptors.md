@@ -158,7 +158,7 @@ export class UsersController {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Endpoint GET /users/:id siap diakses klien
 ```
 
@@ -174,7 +174,7 @@ export class UsersService {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Service siap diinjeksi ke Controller mana pun
 ```
 
@@ -190,7 +190,7 @@ create(@Body() dto: CreateUserDto) {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Payload otomatis divalidasi sebelum logika dijalankan
 ```
 
@@ -208,7 +208,7 @@ Payload otomatis divalidasi sebelum logika dijalankan
 export class UsersModule {}
 ```
 - **Expected Execution Output:**
-```text
+```output
 Modul Users siap diimpor oleh modul utama AppModule
 ```
 

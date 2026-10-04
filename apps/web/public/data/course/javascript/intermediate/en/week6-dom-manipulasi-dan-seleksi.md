@@ -154,7 +154,7 @@ count += 1;
 console.log(app, count);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tryngo 1
 ```
 
@@ -168,7 +168,7 @@ const square = (n) => n * n;
 console.log(square(7));
 ```
 - **Expected Execution Output:**
-```text
+```output
 49
 ```
 
@@ -179,13 +179,14 @@ console.log(square(7));
 - **Practical Code Example:**
 ```javascript
 async function loadData() {
-  const res = await fetch('https://api.example.com/data');
-  return await res.json();
+  const res = Promise.resolve({ user: 'Alex', status: 'active' });
+  return await res;
 }
+loadData().then(data => console.log(JSON.stringify(data)));
 ```
 - **Expected Execution Output:**
-```text
-Mengembalikan data JSON dari server
+```output
+{"user":"Alex","status":"active"}
 ```
 
 ### 4. `Array.prototype.map() / filter()`
@@ -199,7 +200,7 @@ const evens = nums.filter(n => n % 2 === 0);
 console.log(evens);
 ```
 - **Expected Execution Output:**
-```text
+```output
 [2, 4]
 ```
 

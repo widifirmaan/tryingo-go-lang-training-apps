@@ -127,7 +127,7 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 <button onclick={inc}>Klik: {count}</button>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tombol reaktif memperbarui angka count
 ```
 
@@ -144,7 +144,7 @@ Tombol reaktif memperbarui angka count
 <p>Hasil: {double}</p>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Hasil: 8
 ```
 
@@ -162,7 +162,7 @@ Hasil: 8
 </script>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Mencetak log otomatis setiap count berubah
 ```
 
@@ -178,7 +178,7 @@ Mencetak log otomatis setiap count berubah
 <input bind:value={name} />
 ```
 - **Expected Execution Output:**
-```text
+```output
 Perubahan input langsung mengalir ke state name
 ```
 

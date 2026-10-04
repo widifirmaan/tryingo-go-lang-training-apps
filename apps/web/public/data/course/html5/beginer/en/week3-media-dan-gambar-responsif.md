@@ -150,11 +150,18 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 ```html
 <!DOCTYPE html>
 <html lang="id">
-  <head><title>Tryngo Web</title></head>
+  <head>
+    <meta charset="UTF-8">
+    <title>Standar HTML5</title>
+  </head>
+  <body style="font-family:system-ui,sans-serif;padding:24px;background:#0f172a;color:white;">
+    <h1>Standar Dokumen HTML5 W3C</h1>
+    <p>Halaman dirender optimal pada mode peramban modern.</p>
+  </body>
 </html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Page rendered sesuai standar W3C
 ```
 
@@ -164,10 +171,27 @@ Page rendered sesuai standar W3C
 - **System Behavior & Return:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
 - **Practical Code Example:**
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viewport Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
+    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>Layar Responsif 1:1 Aktif</h3>
+    <p>Skala layout menyesuaikan lebar viewport perangkat secara otomatis.</p>
+  </div>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Responsive layout di seluruh layar ponsel
 ```
 
@@ -177,12 +201,26 @@ Responsive layout di seluruh layar ponsel
 - **System Behavior & Return:** Partitions dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
 - **Practical Code Example:**
 ```html
-<header><h1>Portal</h1></header>
-<main><p>Artikel utama.</p></main>
-<footer>&copy; 2026</footer>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Semantic HTML5</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: white; }
+    header, footer { background: #1e293b; padding: 16px 24px; }
+    main { padding: 24px; background: #334155; margin: 12px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <header><h1>Portal Navigasi</h1></header>
+  <main><p>Konten utama dokumen HTML5 beraksesibilitas tinggi.</p></main>
+  <footer><small>&copy; 2026 Tryngo Platform</small></footer>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Clearly accessible oleh screen reader & mesin pencari
 ```
 
@@ -192,13 +230,29 @@ Clearly accessible oleh screen reader & mesin pencari
 - **System Behavior & Return:** Provides wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
 - **Practical Code Example:**
 ```html
-<form action="/submit" method="POST">
-  <input type="text" name="user" required />
-  <button type="submit">Kirim</button>
-</form>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulir Input</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
+    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
+    input { padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
+    button { padding: 10px; background: #10b981; color: #022c22; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <form onsubmit="event.preventDefault(); alert('Data terkirim: ' + this.user.value);">
+    <label for="user">Nama Pengguna:</label>
+    <input type="text" id="user" name="user" value="Budi Santoso" required />
+    <button type="submit">Kirim Formulir</button>
+  </form>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Formulir interaktif siap dikirim
 ```
 

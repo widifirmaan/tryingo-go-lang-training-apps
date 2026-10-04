@@ -144,7 +144,7 @@ CREATE TABLE products (
 ) ENGINE=InnoDB;
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tabel products InnoDB siap digunakan
 ```
 
@@ -157,7 +157,7 @@ Tabel products InnoDB siap digunakan
 SELECT id, sku, price FROM products WHERE in_stock = 1 ORDER BY id DESC LIMIT 0, 10;
 ```
 - **Expected Execution Output:**
-```text
+```output
 10 produk pertama untuk halaman 1
 ```
 
@@ -173,7 +173,7 @@ UPDATE accounts SET balance = balance + 500 WHERE id = 2;
 COMMIT;
 ```
 - **Expected Execution Output:**
-```text
+```output
 Saldo berhasil dipindahkan secara atomik
 ```
 
@@ -186,7 +186,7 @@ Saldo berhasil dipindahkan secara atomik
 EXPLAIN SELECT * FROM products WHERE sku = 'LAP-001';
 ```
 - **Expected Execution Output:**
-```text
+```output
 Menampilkan estimasi baris dan indeks yang digunakan
 ```
 

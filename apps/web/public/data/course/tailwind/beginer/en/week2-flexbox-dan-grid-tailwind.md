@@ -162,13 +162,22 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 - **System Behavior & Return:** Menyusun kontainer fleksibel dengan pemusatan vertikal dan pemisahan horizontal antar elemen..
 - **Practical Code Example:**
 ```html
-<div class="flex items-center justify-between p-4 bg-zinc-900 text-white rounded-xl">
-  <span>Brand</span>
-  <button>Menu</button>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-slate-900">
+  <div class="flex items-center justify-between p-4 bg-slate-800 text-white rounded-xl shadow-lg">
+    <span class="font-bold text-emerald-400">Tryngo Brand</span>
+    <button class="px-4 py-2 bg-emerald-600 rounded-lg text-sm font-semibold">Menu</button>
+  </div>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Elemen tersusun rapi di ujung kiri dan kanan
 ```
 
@@ -178,12 +187,23 @@ Elemen tersusun rapi di ujung kiri dan kanan
 - **System Behavior & Return:** Mengubah jumlah kolom secara bertahap saat layar membesar dari ponsel ke desktop..
 - **Practical Code Example:**
 ```html
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-  <div class="p-4 bg-zinc-100 rounded-lg">Kartu 1</div>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-slate-900">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="p-5 bg-slate-800 text-white rounded-xl">Kolom 1</div>
+    <div class="p-5 bg-slate-800 text-white rounded-xl">Kolom 2</div>
+    <div class="p-5 bg-slate-800 text-white rounded-xl">Kolom 3</div>
+  </div>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Grid 1 kolom di HP, 3 kolom di desktop
 ```
 
@@ -193,12 +213,21 @@ Grid 1 kolom di HP, 3 kolom di desktop
 - **System Behavior & Return:** Memberikan feedback visual interaktif saat tombol disentuh atau kursor diarahkan..
 - **Practical Code Example:**
 ```html
-<button class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all px-4 py-2 rounded-lg text-white font-bold">
-  Simpan
-</button>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-8 bg-slate-900 flex justify-center">
+  <button class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all px-6 py-3 rounded-xl text-white font-bold shadow-lg">
+    Tombol Interaktif Tailwind
+  </button>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tombol membesar dan berubah warna saat di-hover
 ```
 
@@ -208,12 +237,22 @@ Tombol membesar dan berubah warna saat di-hover
 - **System Behavior & Return:** Menentukan warna khusus saat pengguna mengaktifkan mode gelap di peramban atau sistem..
 - **Practical Code Example:**
 ```html
-<div class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 p-6 rounded-2xl">
-  Tema Adaptif
-</div>
+<!DOCTYPE html>
+<html class="dark">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-slate-950">
+  <div class="bg-slate-900 text-white border border-slate-700 p-6 rounded-2xl shadow-xl">
+    <h3 class="text-xl font-bold text-emerald-400">Tema Gelap (Dark Mode)</h3>
+    <p class="text-slate-300 mt-2">Warna latar dan kontras otomatis menyesuaikan preferensi sistem.</p>
+  </div>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Warna otomatis menyesuaikan mode gelap pengguna
 ```
 

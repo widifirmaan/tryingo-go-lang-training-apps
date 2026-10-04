@@ -156,12 +156,18 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 - **System Behavior & Return:** `:=` menginferensi tipe data otomatis dalam fungsi; `var` untuk nilai default..
 - **Practical Code Example:**
 ```go
-age := 25
-name := "Alex"
-fmt.Printf("%s berusia %d tahun\n", name, age)
+package main
+
+import "fmt"
+
+func main() {
+	age := 25
+	name := "Alex"
+	fmt.Printf("%s berusia %d tahun\n", name, age)
+}
 ```
 - **Expected Execution Output:**
-```text
+```output
 Alex berusia 25 tahun
 ```
 
@@ -171,14 +177,26 @@ Alex berusia 25 tahun
 - **System Behavior & Return:** Menghubungkan fungsi khusus ke tipe struct untuk membentuk perilaku objek tanpa pewarisan..
 - **Practical Code Example:**
 ```go
-type User struct { Name string }
+package main
+
+import "fmt"
+
+type User struct {
+	Name string
+}
+
 func (u User) Greet() string {
-  return "Halo, " + u.Name
+	return "Halo, " + u.Name
+}
+
+func main() {
+	u := User{Name: "Budi"}
+	fmt.Println(u.Greet())
 }
 ```
 - **Expected Execution Output:**
-```text
-Mengembalikan string sapaan personal
+```output
+Halo, Budi
 ```
 
 ### 3. `go func() { ... }()`
@@ -187,13 +205,25 @@ Mengembalikan string sapaan personal
 - **System Behavior & Return:** Menjalankan komputasi di thread runtime Go yang sangat ringan (~2KB memori awal)..
 - **Practical Code Example:**
 ```go
-go func() {
-  fmt.Println("Berjalan di goroutine terpisah!")
-}()
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	go func() {
+		fmt.Println("Berjalan di goroutine terpisah!")
+	}()
+	time.Sleep(50 * time.Millisecond)
+	fmt.Println("Selesai alur utama")
+}
 ```
 - **Expected Execution Output:**
-```text
-Dieksekusi asinkron tanpa memblokir alur utama
+```output
+Berjalan di goroutine terpisah!
+Selesai alur utama
 ```
 
 ### 4. `ch := make(chan int); ch <- 42; val := <-ch`
@@ -202,13 +232,21 @@ Dieksekusi asinkron tanpa memblokir alur utama
 - **System Behavior & Return:** Mengirim dan menerima data antar goroutine dengan sinkronisasi bawaan tanpa lock manual..
 - **Practical Code Example:**
 ```go
-ch := make(chan int)
-go func() { ch <- 100 }()
-result := <-ch
-fmt.Println("Diterima:", result)
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int)
+	go func() {
+		ch <- 100
+	}()
+	result := <-ch
+	fmt.Println("Diterima:", result)
+}
 ```
 - **Expected Execution Output:**
-```text
+```output
 Diterima: 100
 ```
 

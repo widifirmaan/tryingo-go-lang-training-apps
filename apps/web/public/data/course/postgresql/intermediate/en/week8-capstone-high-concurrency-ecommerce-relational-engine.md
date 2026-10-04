@@ -185,7 +185,7 @@ CREATE TABLE users (
 );
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tabel users siap menerima baris data
 ```
 
@@ -198,7 +198,7 @@ Tabel users siap menerima baris data
 SELECT id, email FROM users WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC LIMIT 10;
 ```
 - **Expected Execution Output:**
-```text
+```output
 Mengembalikan 10 baris pengguna terbaru
 ```
 
@@ -211,7 +211,7 @@ Mengembalikan 10 baris pengguna terbaru
 INSERT INTO users (email) VALUES ('alex@example.com') RETURNING id, created_at;
 ```
 - **Expected Execution Output:**
-```text
+```output
 Mengembalikan ID UUID yang baru dibuat
 ```
 
@@ -224,7 +224,7 @@ Mengembalikan ID UUID yang baru dibuat
 SELECT u.email, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;
 ```
 - **Expected Execution Output:**
-```text
+```output
 Daftar transaksi pesanan beserta email pemilik akun
 ```
 

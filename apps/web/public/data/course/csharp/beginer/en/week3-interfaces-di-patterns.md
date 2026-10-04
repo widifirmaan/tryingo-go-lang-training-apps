@@ -158,7 +158,7 @@ public record UserRecord(Guid Id, string FullName, string Email);
 var user = new UserRecord(Guid.NewGuid(), "Alex", "alex@test.com");
 ```
 - **Expected Execution Output:**
-```text
+```output
 Objek transfer data immutable siap digunakan
 ```
 
@@ -172,7 +172,7 @@ app.MapGet("/api/products", async (AppDbContext db) =>
     await db.Products.AsNoTracking().ToListAsync());
 ```
 - **Expected Execution Output:**
-```text
+```output
 Endpoint GET /api/products aktif dengan performa tinggi
 ```
 
@@ -186,7 +186,7 @@ using var stream = File.OpenRead("data.json");
 var data = await JsonSerializer.DeserializeAsync<Config>(stream);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Resource stream otomatis dibersihkan dari RAM
 ```
 
@@ -202,7 +202,7 @@ var premiumProducts = products
     .ToList();
 ```
 - **Expected Execution Output:**
-```text
+```output
 Daftar nama produk premium terfilter rapi
 ```
 

@@ -200,15 +200,24 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 - **Parameters / Attributes:** `border-box | content-box`.
 - **System Behavior & Return:** Includes padding dan border ke dalam total lebar elemen agar tidak merusak layout grid..
 - **Practical Code Example:**
-```css
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
+    .box { width: 100%; padding: 20px; border: 4px solid #10b981; background: #1e293b; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="box">Total lebar pas 100% termasuk padding & border</div>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Element sized accurately presisi tanpa kalkulasi manual
 ```
 
@@ -217,15 +226,28 @@ Element sized accurately presisi tanpa kalkulasi manual
 - **Parameters / Attributes:** `flex-direction, justify-content, align-items`.
 - **System Behavior & Return:** Configures perataan dan distribusi ruang kosong antar item anak secara fleksibel..
 - **Practical Code Example:**
-```css
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 16px 24px; border-radius: 12px; }
+    .brand { font-weight: bold; color: #10b981; font-size: 18px; }
+    .menu { display: flex; gap: 16px; list-style: none; margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <span class="brand">Tryngo</span>
+    <ul class="menu"><li>Beranda</li><li>Kursus</li><li>Profil</li></ul>
+  </nav>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Item navbar terdistribusi rapi di ujung kiri & kanan
 ```
 
@@ -234,15 +256,28 @@ Item navbar terdistribusi rapi di ujung kiri & kanan
 - **Parameters / Attributes:** `grid-template-columns, gap`.
 - **System Behavior & Return:** Menyusun grid adaptif yang otomatis menyesuaikan jumlah kolom tanpa media query..
 - **Practical Code Example:**
-```css
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-}
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
+    .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+    .card { background: #1e293b; padding: 20px; border-radius: 10px; border: 1px solid #334155; }
+  </style>
+</head>
+<body>
+  <div class="grid-container">
+    <div class="card">Kartu Responsif 1</div>
+    <div class="card">Kartu Responsif 2</div>
+    <div class="card">Kartu Responsif 3</div>
+  </div>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Kolom grid otomatis menyusun sesuai lebar layar
 ```
 
@@ -251,16 +286,24 @@ Kolom grid otomatis menyusun sesuai lebar layar
 - **Parameters / Attributes:** `property, duration, timing-function`.
 - **System Behavior & Return:** Memberikan efek perubahan visual yang mulus saat elemen mengalami perubahan status..
 - **Practical Code Example:**
-```css
-.btn {
-  transition: transform 0.2s ease;
-}
-.btn:hover {
-  transform: translateY(-2px);
-}
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 40px; background: #0f172a; text-align: center; }
+    .btn { display: inline-block; padding: 12px 28px; background: #10b981; color: #022c22; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .btn:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+  </style>
+</head>
+<body>
+  <button class="btn">Arahkan Kursor ke Sini</button>
+</body>
+</html>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Tombol terangkat halus 2px saat kursor diarahkan
 ```
 

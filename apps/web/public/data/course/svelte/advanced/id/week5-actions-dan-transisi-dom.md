@@ -189,7 +189,7 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 <button onclick={inc}>Klik: {count}</button>
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Tombol reaktif memperbarui angka count
 ```
 
@@ -206,7 +206,7 @@ Tombol reaktif memperbarui angka count
 <p>Hasil: {double}</p>
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Hasil: 8
 ```
 
@@ -224,7 +224,7 @@ Hasil: 8
 </script>
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Mencetak log otomatis setiap count berubah
 ```
 
@@ -240,7 +240,7 @@ Mencetak log otomatis setiap count berubah
 <input bind:value={name} />
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Perubahan input langsung mengalir ke state name
 ```
 

@@ -142,7 +142,7 @@ public class ProductController {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Endpoint HTTP GET /api/products aktif
 ```
 
@@ -161,7 +161,7 @@ public class ProductService {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Service terinjeksi aman tanpa @Autowired refleksi
 ```
 
@@ -176,7 +176,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Metode pencarian database siap dipakai seketika
 ```
 
@@ -193,7 +193,7 @@ public void checkout(Order order) {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Transaksi ACID dijamin aman tanpa data korup
 ```
 

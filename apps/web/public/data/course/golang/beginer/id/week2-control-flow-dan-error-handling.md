@@ -155,12 +155,18 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 - **Perilaku & Efek Sistem:** `:=` menginferensi tipe data otomatis dalam fungsi; `var` untuk nilai default..
 - **Contoh Penggunaan Praktis:**
 ```go
-age := 25
-name := "Alex"
-fmt.Printf("%s berusia %d tahun\n", name, age)
+package main
+
+import "fmt"
+
+func main() {
+	age := 25
+	name := "Alex"
+	fmt.Printf("%s berusia %d tahun\n", name, age)
+}
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Alex berusia 25 tahun
 ```
 
@@ -170,14 +176,26 @@ Alex berusia 25 tahun
 - **Perilaku & Efek Sistem:** Menghubungkan fungsi khusus ke tipe struct untuk membentuk perilaku objek tanpa pewarisan..
 - **Contoh Penggunaan Praktis:**
 ```go
-type User struct { Name string }
+package main
+
+import "fmt"
+
+type User struct {
+	Name string
+}
+
 func (u User) Greet() string {
-  return "Halo, " + u.Name
+	return "Halo, " + u.Name
+}
+
+func main() {
+	u := User{Name: "Budi"}
+	fmt.Println(u.Greet())
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Mengembalikan string sapaan personal
+```output
+Halo, Budi
 ```
 
 ### 3. `go func() { ... }()`
@@ -186,13 +204,25 @@ Mengembalikan string sapaan personal
 - **Perilaku & Efek Sistem:** Menjalankan komputasi di thread runtime Go yang sangat ringan (~2KB memori awal)..
 - **Contoh Penggunaan Praktis:**
 ```go
-go func() {
-  fmt.Println("Berjalan di goroutine terpisah!")
-}()
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	go func() {
+		fmt.Println("Berjalan di goroutine terpisah!")
+	}()
+	time.Sleep(50 * time.Millisecond)
+	fmt.Println("Selesai alur utama")
+}
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Dieksekusi asinkron tanpa memblokir alur utama
+```output
+Berjalan di goroutine terpisah!
+Selesai alur utama
 ```
 
 ### 4. `ch := make(chan int); ch <- 42; val := <-ch`
@@ -201,13 +231,21 @@ Dieksekusi asinkron tanpa memblokir alur utama
 - **Perilaku & Efek Sistem:** Mengirim dan menerima data antar goroutine dengan sinkronisasi bawaan tanpa lock manual..
 - **Contoh Penggunaan Praktis:**
 ```go
-ch := make(chan int)
-go func() { ch <- 100 }()
-result := <-ch
-fmt.Println("Diterima:", result)
+package main
+
+import "fmt"
+
+func main() {
+	ch := make(chan int)
+	go func() {
+		ch <- 100
+	}()
+	result := <-ch
+	fmt.Println("Diterima:", result)
+}
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Diterima: 100
 ```
 
