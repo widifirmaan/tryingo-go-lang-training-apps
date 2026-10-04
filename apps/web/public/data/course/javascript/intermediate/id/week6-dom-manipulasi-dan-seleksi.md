@@ -144,15 +144,15 @@ Tambahkan tombol "Hapus Semua Catatan" yang mengosongkan seluruh isi container m
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
 ### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
+- **Fungsi Utama:** Deklarasi variabel modern lingkup blok.
 - **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak diubah; `let` untuk nilai dinamis reassignable..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+const app = 'Tryngo';
+let count = 0;
+count += 1;
+console.log(app, count);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
@@ -160,53 +160,49 @@ Tryngo 1
 ```
 
 ### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
+- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical this.
 - **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup luar..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+const square = (n) => n * n;
+console.log(square(7));
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+49
 ```
 
 ### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
+- **Fungsi Utama:** Penanganan operasi asinkron linear.
 - **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+- **Perilaku & Efek Sistem:** Membaca data HTTP API secara asinkron tanpa callback hell..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
+async function loadData() {
+  const res = await fetch('https://api.example.com/data');
+  return await res.json();
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Mengembalikan data JSON dari server
 ```
 
 ### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+- **Fungsi Utama:** Transformasi array fungsional immutable.
+- **Parameter / Atribut:** `callback(item, index)`.
+- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring data..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+const nums = [1, 2, 3, 4];
+const evens = nums.filter(n => n % 2 === 0);
+console.log(evens);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+[2, 4]
 ```
-
 
 ---
 

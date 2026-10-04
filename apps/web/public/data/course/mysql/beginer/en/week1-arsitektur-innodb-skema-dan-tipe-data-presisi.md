@@ -117,16 +117,19 @@ Build a `currency_exchange_rates` table featuring currency pairs (`base_currency
 ![Diagram Relasi Relasional & Eksekusi Query Joins](/diagrams/sql-joins.svg)
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ MESIN PENYIMPANAN INNODB MYSQL                           │
+│                                                          │
+│ SQL Parser & Optimizer ──► Buffer Pool (RAM Cache)       │
+│                                  │                       │
+│                 ┌────────────────┴────────────────┐      │
+│                 ▼                                 ▼      │
+│     Clustered Index (B+ Tree)              Redo Log WAL  │
+│     (Data tersimpan berurut PK)            (Crash Safe)  │
+│                 │                                 │      │
+│                 ▼                                 ▼      │
+│            Tabel .ibd Disk               Binlog (Replika)│
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -135,62 +138,65 @@ Build a `currency_exchange_rates` table featuring currency pairs (`base_currency
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Core Functionality:** Relational schema definition.
-- **Parameters / Attributes:** `Column names, Data types, Constraints (PK/FK/NOT NULL)`.
-- **System Behavior & Return:** Constructs strongly typed database tables with guaranteed relational integrity.
+### 1. `CREATE TABLE name ( id INT AUTO_INCREMENT PRIMARY KEY, ... )`
+- **Core Functionality:** Definisi tabel mesin penyimpanan InnoDB.
+- **Parameters / Attributes:** `Column types (INT, VARCHAR, DECIMAL), Constraints`.
+- **System Behavior & Return:** Menyusun skema tabel MySQL berkinerja tinggi dengan indeks kunci utama berurut otomatis..
 - **Practical Code Example:**
-```javascript
-CREATE TABLE accounts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  balance NUMERIC(10, 2) DEFAULT 0.00
-);
+```sql
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sku VARCHAR(50) NOT NULL UNIQUE,
+  price DECIMAL(12, 2) NOT NULL,
+  in_stock BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB;
 ```
 - **Expected Execution Output:**
 ```text
-Initializes accounts table ready for ACID transactions
+Tabel products InnoDB siap digunakan
 ```
 
-### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Core Functionality:** Declarative relational data retrieval.
-- **Parameters / Attributes:** `Column list, Filter predicates, Ordering, Paging limit`.
-- **System Behavior & Return:** Fetches matching database records with predictable execution plan optimization.
+### 2. `SELECT * FROM tbl WHERE cond LIMIT offset, count`
+- **Core Functionality:** Paginasi data efisien MySQL.
+- **Parameters / Attributes:** `LIMIT offset, row_count`.
+- **System Behavior & Return:** Retrieves potongan data per halaman untuk optimasi waktu muat aplikasi..
 - **Practical Code Example:**
-```javascript
-SELECT id, email, balance FROM accounts WHERE balance > 0 ORDER BY balance DESC LIMIT 5;
+```sql
+SELECT id, sku, price FROM products WHERE in_stock = 1 ORDER BY id DESC LIMIT 0, 10;
 ```
 - **Expected Execution Output:**
 ```text
-Returns top 5 funded customer accounts
+10 produk pertama untuk halaman 1
 ```
 
-### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Core Functionality:** Atomic record insertion with immediate return.
-- **Parameters / Attributes:** `Columns, Insert values, RETURNING clause`.
-- **System Behavior & Return:** Persists new row data and returns computed primary keys or defaults without an extra query.
+### 3. `START TRANSACTION; ... COMMIT; / ROLLBACK;`
+- **Core Functionality:** Kontrol transaksi ACID multi-tahap.
+- **Parameters / Attributes:** `ACID guarantees`.
+- **System Behavior & Return:** Memastikan serangkaian operasi query berhasil seluruhnya atau dibatalkan saat ada kesalahan..
 - **Practical Code Example:**
-```javascript
-INSERT INTO accounts (email) VALUES ('dev@tryngo.com') RETURNING id;
+```sql
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+UPDATE accounts SET balance = balance + 500 WHERE id = 2;
+COMMIT;
 ```
 - **Expected Execution Output:**
 ```text
-Returns newly allocated UUID primary key
+Saldo berhasil dipindahkan secara atomik
 ```
 
-### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Core Functionality:** Multi-table relational join.
-- **Parameters / Attributes:** `Table identifiers, ON match predicate`.
-- **System Behavior & Return:** Correlates rows across related tables matching foreign key references.
+### 4. `EXPLAIN SELECT ...`
+- **Core Functionality:** Analisis rencana eksekusi query (Query Plan).
+- **Parameters / Attributes:** `Query SELECT`.
+- **System Behavior & Return:** Memeriksa apakah query memanfaatkan indeks (Using index) atau mengalami Full Table Scan lambat..
 - **Practical Code Example:**
-```javascript
-SELECT a.email, t.amount FROM accounts a INNER JOIN transactions t ON a.id = t.account_id;
+```sql
+EXPLAIN SELECT * FROM products WHERE sku = 'LAP-001';
 ```
 - **Expected Execution Output:**
 ```text
-Consolidates account holders with their transaction history
+Menampilkan estimasi baris dan indeks yang digunakan
 ```
-
 
 ---
 

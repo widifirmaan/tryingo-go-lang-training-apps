@@ -111,16 +111,19 @@ Tuliskan query untuk mendeteksi anomali selisih saldo (*balance drift*): banding
 ![Diagram Relasi Relasional & Eksekusi Query Joins](/diagrams/sql-joins.svg)
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ MESIN PENYIMPANAN INNODB MYSQL                           │
+│                                                          │
+│ SQL Parser & Optimizer ──► Buffer Pool (RAM Cache)       │
+│                                  │                       │
+│                 ┌────────────────┴────────────────┐      │
+│                 ▼                                 ▼      │
+│     Clustered Index (B+ Tree)              Redo Log WAL  │
+│     (Data tersimpan berurut PK)            (Crash Safe)  │
+│                 │                                 │      │
+│                 ▼                                 ▼      │
+│            Tabel .ibd Disk               Binlog (Replika)│
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -129,62 +132,65 @@ Tuliskan query untuk mendeteksi anomali selisih saldo (*balance drift*): banding
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Fungsi Utama:** Mendefinisikan skema tabel relasional.
-- **Parameter / Atribut:** `Nama tabel, definisi kolom, batasan (PK, FK, NOT NULL)`.
-- **Perilaku & Efek Sistem:** Menyiapkan tabel database dengan validasi tipe data presisi dan integritas data.
+### 1. `CREATE TABLE name ( id INT AUTO_INCREMENT PRIMARY KEY, ... )`
+- **Fungsi Utama:** Definisi tabel mesin penyimpanan InnoDB.
+- **Parameter / Atribut:** `Column types (INT, VARCHAR, DECIMAL), Constraints`.
+- **Perilaku & Efek Sistem:** Menyusun skema tabel MySQL berkinerja tinggi dengan indeks kunci utama berurut otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email VARCHAR(255) UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+```sql
+CREATE TABLE products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sku VARCHAR(50) NOT NULL UNIQUE,
+  price DECIMAL(12, 2) NOT NULL,
+  in_stock BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB;
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tabel users siap menerima baris data
+Tabel products InnoDB siap digunakan
 ```
 
-### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Fungsi Utama:** Query pembacaan dan penyaringan data.
-- **Parameter / Atribut:** `Daftar kolom, kondisi WHERE, klausa urutan dan limit`.
-- **Perilaku & Efek Sistem:** Mengambil rekaman data yang memenuhi kriteria pengujian secara efisien.
+### 2. `SELECT * FROM tbl WHERE cond LIMIT offset, count`
+- **Fungsi Utama:** Paginasi data efisien MySQL.
+- **Parameter / Atribut:** `LIMIT offset, row_count`.
+- **Perilaku & Efek Sistem:** Mengambil potongan data per halaman untuk optimasi waktu muat aplikasi..
 - **Contoh Penggunaan Praktis:**
-```javascript
-SELECT id, email FROM users WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC LIMIT 10;
+```sql
+SELECT id, sku, price FROM products WHERE in_stock = 1 ORDER BY id DESC LIMIT 0, 10;
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan 10 baris pengguna terbaru
+10 produk pertama untuk halaman 1
 ```
 
-### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Fungsi Utama:** Penyisipan baris baru dengan pengembalian nilai instan.
-- **Parameter / Atribut:** `Kolom target, data masukan, klausa RETURNING`.
-- **Perilaku & Efek Sistem:** Menyimpan data baru dan langsung mengembalikan nilai kolom yang digenerasi otomatis (seperti ID atau timestamp).
+### 3. `START TRANSACTION; ... COMMIT; / ROLLBACK;`
+- **Fungsi Utama:** Kontrol transaksi ACID multi-tahap.
+- **Parameter / Atribut:** `ACID guarantees`.
+- **Perilaku & Efek Sistem:** Memastikan serangkaian operasi query berhasil seluruhnya atau dibatalkan saat ada kesalahan..
 - **Contoh Penggunaan Praktis:**
-```javascript
-INSERT INTO users (email) VALUES ('alex@example.com') RETURNING id, created_at;
+```sql
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+UPDATE accounts SET balance = balance + 500 WHERE id = 2;
+COMMIT;
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan ID UUID yang baru dibuat
+Saldo berhasil dipindahkan secara atomik
 ```
 
-### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Fungsi Utama:** Penggabungan relasi antar tabel (Join).
-- **Parameter / Atribut:** `Nama tabel, kondisi pencocokan kunci relasi ON`.
-- **Perilaku & Efek Sistem:** Menggabungkan baris dari dua tabel berdasarkan relasi foreign key.
+### 4. `EXPLAIN SELECT ...`
+- **Fungsi Utama:** Analisis rencana eksekusi query (Query Plan).
+- **Parameter / Atribut:** `Query SELECT`.
+- **Perilaku & Efek Sistem:** Memeriksa apakah query memanfaatkan indeks (Using index) atau mengalami Full Table Scan lambat..
 - **Contoh Penggunaan Praktis:**
-```javascript
-SELECT u.email, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;
+```sql
+EXPLAIN SELECT * FROM products WHERE sku = 'LAP-001';
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Daftar transaksi pesanan beserta email pemilik akun
+Menampilkan estimasi baris dan indeks yang digunakan
 ```
-
 
 ---
 

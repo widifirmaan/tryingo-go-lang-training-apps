@@ -113,16 +113,22 @@ Buat method `Task ProcessInBatchesAsync<T>(IEnumerable<T> items, int batchSize, 
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ PIPELINE MIDDLEWARE ASP.NET CORE (.NET 8/9)              │
+│                                                          │
+│ Request ──► ExceptionHandler ──► Routing ──► Auth/CORS   │
+│                                                │         │
+│                                                ▼         │
+│                                       Minimal API /      │
+│                                       Controllers        │
+│                                                │         │
+│                                                ▼         │
+│                                       Dependency Inject  │
+│                                       (Scoped Services)  │
+│                                                │         │
+│                                                ▼         │
+│ Response ◄── Compression ◄── Cache ◄── EF Core / DB      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -131,69 +137,63 @@ Buat method `Task ProcessInBatchesAsync<T>(IEnumerable<T> items, int batchSize, 
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `var x int / x := 42`
-- **Fungsi Utama:** Deklarasi variabel statis dan deklarasi pendek (Short Declaration).
-- **Parameter / Atribut:** `Identifier, Type / Value`.
-- **Perilaku & Efek Sistem:** `:=` menginferensi tipe data secara otomatis di dalam fungsi; `var` digunakan untuk deklarasi paket atau nilai default.
+### 1. `record ProductDto(Guid Id, string Name, decimal Price);`
+- **Fungsi Utama:** Tipe data Record Immutable C# 12.
+- **Parameter / Atribut:** `Positional parameters`.
+- **Perilaku & Efek Sistem:** Mendefinisikan struktur data transfer bernilai tetap dengan kesetaraan berbasis nilai (value equality)..
 - **Contoh Penggunaan Praktis:**
-```javascript
-age := 25
-name := "Alex Iskandar"
-fmt.Printf("%s berusia %d tahun
-", name, age);
+```csharp
+public record UserRecord(Guid Id, string FullName, string Email);
+var user = new UserRecord(Guid.NewGuid(), "Alex", "alex@test.com");
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Alex Iskandar berusia 25 tahun
+Objek transfer data immutable siap digunakan
 ```
 
-### 2. `func (r Receiver) Method() ReturnType`
-- **Fungsi Utama:** Penerapan Method pada Struct (OOP ala Go).
-- **Parameter / Atribut:** `Receiver (value/pointer), Parameters`.
-- **Perilaku & Efek Sistem:** Menghubungkan fungsi khusus ke tipe struct untuk membentuk perilaku objek tanpa class inheritance hierarki.
+### 2. `app.MapGet("/api/items", async (AppDbContext db) => ...)`
+- **Fungsi Utama:** Endpoint Minimal API ASP.NET Core.
+- **Parameter / Atribut:** `Route pattern, Request delegate`.
+- **Perilaku & Efek Sistem:** Membangun endpoint API super cepat dan hemat memori tanpa overhead controller konvensional..
 - **Contoh Penggunaan Praktis:**
-```javascript
-type User struct { Name string }
-func (u User) Greet() string {
-  return "Halo, " + u.Name
-}
+```csharp
+app.MapGet("/api/products", async (AppDbContext db) =>
+    await db.Products.AsNoTracking().ToListAsync());
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan string sapaan personal
+Endpoint GET /api/products aktif dengan performa tinggi
 ```
 
-### 3. `go func() { ... }()`
-- **Fungsi Utama:** Eksekusi thread ringan konkuren (Goroutine).
-- **Parameter / Atribut:** `Fungsi anonim / fungsi bernama`.
-- **Perilaku & Efek Sistem:** Menjalankan komputasi di thread runtime Go yang sangat ringan (hanya ~2KB memori awal).
+### 3. `using var connection = new SqlConnection(connStr);`
+- **Fungsi Utama:** Pernyataan Using pembersihan resource otomatis.
+- **Parameter / Atribut:** `IDisposable resource`.
+- **Perilaku & Efek Sistem:** Menjamin koneksi database atau file stream ditutup dan dibebaskan seketika setelah blok fungsi keluar..
 - **Contoh Penggunaan Praktis:**
-```javascript
-go func() {
-  fmt.Println("Berjalan konkuren di goroutine terpisah!")
-}()
+```csharp
+using var stream = File.OpenRead("data.json");
+var data = await JsonSerializer.DeserializeAsync<Config>(stream);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Dieksekusi asinkron tanpa memblokir alur utama program
+Resource stream otomatis dibersihkan dari RAM
 ```
 
-### 4. `ch := make(chan string); ch <- val; val := <-ch`
-- **Fungsi Utama:** Saluran komunikasi antar goroutine (Channel).
-- **Parameter / Atribut:** `Tipe data channel, kapasitas buffer`.
-- **Perilaku & Efek Sistem:** Mengirim dan menerima data antar goroutine dengan sinkronisasi bawaan tanpa perlu lock/mutex manual.
+### 4. `items.Where(p => p.Price > 100).OrderBy(p => p.Name)`
+- **Fungsi Utama:** Kueri pemrosesan data deklaratif (LINQ).
+- **Parameter / Atribut:** `Lambda predicates`.
+- **Perilaku & Efek Sistem:** Melakukan filtering, pengurutan, dan transformasi koleksi data dalam memori atau database secara ekspresif..
 - **Contoh Penggunaan Praktis:**
-```javascript
-ch := make(chan int)
-go func() { ch <- 100 }()
-result := <-ch
-fmt.Println("Diterima:", result);
+```csharp
+var premiumProducts = products
+    .Where(p => p.InStock && p.Price > 500000)
+    .Select(p => p.Name)
+    .ToList();
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Diterima: 100
+Daftar nama produk premium terfilter rapi
 ```
-
 
 ---
 

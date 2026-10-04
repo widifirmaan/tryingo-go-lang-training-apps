@@ -124,16 +124,21 @@ Bangun sistem Task Dead-Letter Queue (DLQ): jika sebuah tugas gagal dieksekusi s
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ SIKLUS EKSEKUSI PYTHON MODERN                            │
+│                                                          │
+│ Kode Sumber (.py)                                        │
+│       │                                                  │
+│       ▼ Bytecode Compiler                                │
+│ File Cache (.pyc)                                        │
+│       │                                                  │
+│       ▼ Python Virtual Machine (PVM)                     │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ Global Interpreter Lock (GIL) / Memory Heap Manager  │ │
+│ │ • Automatic Reference Counting + Cyclic Garbage Coll │ │
+│ │ • Asyncio Event Loop untuk I/O Asinkron              │ │
+│ └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -142,70 +147,67 @@ Bangun sistem Task Dead-Letter Queue (DLQ): jika sebuah tugas gagal dieksekusi s
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `def fn(param: int) -> str:`
+- **Fungsi Utama:** Definisi fungsi dengan type hinting modern.
+- **Parameter / Atribut:** `Parameter list, Type Annotations, Return Type`.
+- **Perilaku & Efek Sistem:** Mendeklarasikan fungsi dengan dokumentasi tipe data statis yang diverifikasi linter..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```python
+def calculate_tax(price: float, rate: float = 0.11) -> float:
+    return round(price * rate, 2)
+print(calculate_tax(100000.0))
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+11000.0
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `[x * 2 for x in items if x > 0]`
+- **Fungsi Utama:** List & Dictionary Comprehension.
+- **Parameter / Atribut:** `Mapping expression, Iterable, Filter predicate`.
+- **Perilaku & Efek Sistem:** Mentransformasi dan menyaring elemen koleksi secara ekspresif dalam 1 baris kode yang cepat..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+```python
+numbers = [1, 2, 3, 4, 5, 6]
+evens_squared = [n ** 2 for n in numbers if n % 2 == 0]
+print(evens_squared)
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+[4, 16, 36]
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `with open(filename, 'r') as f:`
+- **Fungsi Utama:** Pengelola Konteks Otomatis (Context Manager).
+- **Parameter / Atribut:** `Resource target, alias as`.
+- **Perilaku & Efek Sistem:** Menjamin pembersihan resource (seperti menutup file atau koneksi DB) secara otomatis setelah blok selesai..
 - **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+```python
+with open('data.txt', 'w') as f:
+    f.write('Tryngo Platform')
+# File otomatis ditutup dengan aman di sini
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+File tersimpan dan resource ditutup aman
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `async def & await asyncio.gather(*tasks)`
+- **Fungsi Utama:** Konkurensi asinkron non-blocking.
+- **Parameter / Atribut:** `Coroutines, asyncio Event Loop`.
+- **Perilaku & Efek Sistem:** Mengeksekusi banyak panggilan I/O jaringan secara paralel tanpa thread blocking..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```python
+import asyncio
+async def fetch_api(n):
+    await asyncio.sleep(0.1)
+    return f'Hasil {n}'
+# asyncio.run(fetch_api(1))
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Coroutines tereksekusi tanpa memblokir thread utama
 ```
-
 
 ---
 

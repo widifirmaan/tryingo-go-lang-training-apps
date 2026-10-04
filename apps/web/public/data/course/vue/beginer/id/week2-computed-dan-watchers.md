@@ -135,16 +135,17 @@ Buat computed property `estimasiPajakKomisi` yang menghitung pajak progresif (5%
 ![Diagram Reaktivitas Komponen & Data Flow Vue](/diagrams/react-data-flow.svg)
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ PROXY REAKTIVITAS VUE 3                                  │
+│                                                          │
+│  State: ref(0) / reactive({...})                         │
+│       │                                                  │
+│       ▼ (Trigger Mutation)                               │
+│  Effect Dependency Tracker                               │
+│       │                                                  │
+│       ▼                                                  │
+│  Virtual DOM Diffing & Patching ──► Real DOM Re-render   │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -153,70 +154,73 @@ Buat computed property `estimasiPajakKomisi` yang menghitung pajak progresif (5%
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `const count = ref(0)`
+- **Fungsi Utama:** State reaktif primitif Vue 3.
+- **Parameter / Atribut:** `initialValue`.
+- **Perilaku & Efek Sistem:** Membungkus nilai ke dalam Reactive Ref. Di script diakses via `.value`, di template otomatis di-unwrap..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```vue
+<script setup>
+import { ref } from 'vue';
+const count = ref(0);
+const increment = () => count.value++;
+</script>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+Nilai count bertambah secara reaktif
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `const double = computed(() => count.value * 2)`
+- **Fungsi Utama:** Komputasi nilai turunan ber-cache.
+- **Parameter / Atribut:** `Getter function`.
+- **Perilaku & Efek Sistem:** Menghitung nilai baru secara otomatis hanya ketika dependensi reaktifnya berubah..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+```vue
+<script setup>
+import { ref, computed } from 'vue';
+const count = ref(5);
+const double = computed(() => count.value * 2);
+</script>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+double otomatis bernilai 10
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `defineProps<{ title: string }>()`
+- **Fungsi Utama:** Deklarasi kontrak Props komponen anak.
+- **Parameter / Atribut:** `Generic Type Schema`.
+- **Perilaku & Efek Sistem:** Menerima kiriman data dari parent komponen dengan validasi tipe statis..
 - **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+```vue
+<script setup>
+defineProps<{
+  title: string;
+  inStock?: boolean;
+}>();
+</script>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Komponen siap menerima atribut title dari parent
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `v-model="message"`
+- **Fungsi Utama:** Two-way data binding dua arah.
+- **Parameter / Atribut:** `Target state variable`.
+- **Perilaku & Efek Sistem:** Menghubungkan nilai elemen input form dengan state JavaScript secara sinkron..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```vue
+<template>
+  <input v-model="username" placeholder="Ketik nama..." />
+  <p>Halo, {{ username }}</p>
+</template>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Input teks sinkron seketika ke paragraf tampilan
 ```
-
 
 ---
 

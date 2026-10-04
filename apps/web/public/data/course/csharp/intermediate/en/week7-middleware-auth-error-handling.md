@@ -134,16 +134,22 @@ Build a custom `ApiKeyMiddleware` that validates an `X-API-KEY` header on extern
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ PIPELINE MIDDLEWARE ASP.NET CORE (.NET 8/9)              │
+│                                                          │
+│ Request ──► ExceptionHandler ──► Routing ──► Auth/CORS   │
+│                                                │         │
+│                                                ▼         │
+│                                       Minimal API /      │
+│                                       Controllers        │
+│                                                │         │
+│                                                ▼         │
+│                                       Dependency Inject  │
+│                                       (Scoped Services)  │
+│                                                │         │
+│                                                ▼         │
+│ Response ◄── Compression ◄── Cache ◄── EF Core / DB      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -152,66 +158,63 @@ Build a custom `ApiKeyMiddleware` that validates an `X-API-KEY` header on extern
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `var x int / x := 42`
-- **Core Functionality:** Type-safe variable declaration and short assignment.
-- **Parameters / Attributes:** `Identifier, Type / Value`.
-- **System Behavior & Return:** `:=` infers concrete types dynamically in function bodies; `var` sets deterministic zero values.
+### 1. `record ProductDto(Guid Id, string Name, decimal Price);`
+- **Core Functionality:** Tipe data Record Immutable C# 12.
+- **Parameters / Attributes:** `Positional parameters`.
+- **System Behavior & Return:** Mendefinisikan struktur data transfer bernilai tetap dengan kesetaraan berbasis nilai (value equality)..
 - **Practical Code Example:**
-```javascript
-counter := 10
-fmt.Println("Counter:", counter)
+```csharp
+public record UserRecord(Guid Id, string FullName, string Email);
+var user = new UserRecord(Guid.NewGuid(), "Alex", "alex@test.com");
 ```
 - **Expected Execution Output:**
 ```text
-Counter: 10
+Objek transfer data immutable siap digunakan
 ```
 
-### 2. `func (r Receiver) Method() ReturnType`
-- **Core Functionality:** Struct receiver method binding.
-- **Parameters / Attributes:** `Receiver instance, Parameters`.
-- **System Behavior & Return:** Associates behaviors directly with struct types without classical inheritance hierarchies.
+### 2. `app.MapGet("/api/items", async (AppDbContext db) => ...)`
+- **Core Functionality:** Endpoint Minimal API ASP.NET Core.
+- **Parameters / Attributes:** `Route pattern, Request delegate`.
+- **System Behavior & Return:** Membangun endpoint API super cepat dan hemat memori tanpa overhead controller konvensional..
 - **Practical Code Example:**
-```javascript
-type Point struct { X, Y int }
-func (p Point) Sum() int {
-  return p.X + p.Y
-}
+```csharp
+app.MapGet("/api/products", async (AppDbContext db) =>
+    await db.Products.AsNoTracking().ToListAsync());
 ```
 - **Expected Execution Output:**
 ```text
-Evaluates method computation over struct fields
+Endpoint GET /api/products aktif dengan performa tinggi
 ```
 
-### 3. `go func() { ... }()`
-- **Core Functionality:** Lightweight concurrent Goroutine dispatch.
-- **Parameters / Attributes:** `Anonymous / Named function`.
-- **System Behavior & Return:** Launches asynchronous task execution scheduled cooperatively by the Go runtime (~2KB stack footprint).
+### 3. `using var connection = new SqlConnection(connStr);`
+- **Core Functionality:** Pernyataan Using pembersihan resource otomatis.
+- **Parameters / Attributes:** `IDisposable resource`.
+- **System Behavior & Return:** Guarantees koneksi database atau file stream ditutup dan dibebaskan seketika setelah blok fungsi keluar..
 - **Practical Code Example:**
-```javascript
-go func() {
-  fmt.Println("Running asynchronously!")
-}()
+```csharp
+using var stream = File.OpenRead("data.json");
+var data = await JsonSerializer.DeserializeAsync<Config>(stream);
 ```
 - **Expected Execution Output:**
 ```text
-Executes concurrently without blocking the main OS thread
+Resource stream otomatis dibersihkan dari RAM
 ```
 
-### 4. `ch := make(chan int); ch <- 1; v := <-ch`
-- **Core Functionality:** Thread-safe CSP Channel pipeline.
-- **Parameters / Attributes:** `Element Type, Buffer capacity`.
-- **System Behavior & Return:** Transmits values synchronously between Goroutines with zero manual mutex or lock synchronization.
+### 4. `items.Where(p => p.Price > 100).OrderBy(p => p.Name)`
+- **Core Functionality:** Kueri pemrosesan data deklaratif (LINQ).
+- **Parameters / Attributes:** `Lambda predicates`.
+- **System Behavior & Return:** Melakukan filtering, pengurutan, dan transformasi koleksi data dalam memori atau database secara ekspresif..
 - **Practical Code Example:**
-```javascript
-ch := make(chan int)
-go func() { ch <- 42 }()
-fmt.Println(<-ch)
+```csharp
+var premiumProducts = products
+    .Where(p => p.InStock && p.Price > 500000)
+    .Select(p => p.Name)
+    .ToList();
 ```
 - **Expected Execution Output:**
 ```text
-42
+Daftar nama produk premium terfilter rapi
 ```
-
 
 ---
 

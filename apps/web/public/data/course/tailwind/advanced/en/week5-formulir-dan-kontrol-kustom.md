@@ -121,16 +121,17 @@ Build a "Change Password" form: author current and new password inputs, a visual
 ![Diagram Flexbox & Grid Axis Sumbu Layout](/diagrams/flexbox-axis.svg)
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ KONTROL UTILITY TAILWIND                                 │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ flex items-center justify-between (Flexbox)          │ │
+│ │ ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ │ │
+│ │ │ w-1/3 p-4    │ │ w-1/3 p-4    │ │ w-1/3 p-4      │ │ │
+│ │ │ bg-zinc-900  │ │ bg-emerald-600│ │ bg-zinc-800   │ │ │
+│ │ │ text-white   │ │ hover:scale-105│ │ rounded-2xl   │ │ │
+│ │ └──────────────┘ └──────────────┘ └────────────────┘ │ │
+│ └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -139,67 +140,66 @@ Build a "Change Password" form: author current and new password inputs, a visual
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `flex items-center justify-between`
+- **Core Functionality:** Utility tata letak Flexbox instan.
+- **Parameters / Attributes:** `Display flex, alignment, distribution`.
+- **System Behavior & Return:** Menyusun kontainer fleksibel dengan pemusatan vertikal dan pemisahan horizontal antar elemen..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+```html
+<div class="flex items-center justify-between p-4 bg-zinc-900 text-white rounded-xl">
+  <span>Brand</span>
+  <button>Menu</button>
+</div>
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+Elemen tersusun rapi di ujung kiri dan kanan
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+### 2. `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`
+- **Core Functionality:** Grid responsif multi-breakpoint.
+- **Parameters / Attributes:** `Breakpoint prefixes (sm:, md:, lg:)`.
+- **System Behavior & Return:** Mengubah jumlah kolom secara bertahap saat layar membesar dari ponsel ke desktop..
 - **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+```html
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="p-4 bg-zinc-100 rounded-lg">Kartu 1</div>
+</div>
 ```
 - **Expected Execution Output:**
 ```text
-42
+Grid 1 kolom di HP, 3 kolom di desktop
 ```
 
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+### 3. `hover:bg-emerald-600 active:scale-95 transition-all duration-200`
+- **Core Functionality:** State modifiers interaktif & animasi.
+- **Parameters / Attributes:** `hover:, active:, focus:, transition`.
+- **System Behavior & Return:** Memberikan feedback visual interaktif saat tombol disentuh atau kursor diarahkan..
 - **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
-}
+```html
+<button class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all px-4 py-2 rounded-lg text-white font-bold">
+  Simpan
+</button>
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Tombol membesar dan berubah warna saat di-hover
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 4. `dark:bg-zinc-950 dark:text-zinc-100`
+- **Core Functionality:** Dukungan tema gelap (Dark Mode).
+- **Parameters / Attributes:** `dark: prefix selector`.
+- **System Behavior & Return:** Menentukan warna khusus saat pengguna mengaktifkan mode gelap di peramban atau sistem..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```html
+<div class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 p-6 rounded-2xl">
+  Tema Adaptif
+</div>
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Warna otomatis menyesuaikan mode gelap pengguna
 ```
-
 
 ---
 

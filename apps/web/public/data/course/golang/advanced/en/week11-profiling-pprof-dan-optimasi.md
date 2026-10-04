@@ -124,7 +124,7 @@ Optimize a heap-heavy string generator replacing `fmt.Sprintf` with `strings.Bui
 ┌────────────────┐                     ┌────────────────┐
 │  GOROUTINE A   │                     │  GOROUTINE B   │
 │  (Worker Thread)                     │  (Consumer)    │
-│  ch <- 42      │ ─── Pass Data ───►  │  val := <-ch   │
+│  ch <- 42      │ ─── Pass Data ──►  │  val := <-ch   │
 └────────────────┘   [ CHANNEL: chan ] └────────────────┘
 ```
 
@@ -135,65 +135,66 @@ Optimize a heap-heavy string generator replacing `fmt.Sprintf` with `strings.Bui
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `var x int / x := 42`
-- **Core Functionality:** Type-safe variable declaration and short assignment.
+- **Core Functionality:** Declaration of variabel statis dan pendek.
 - **Parameters / Attributes:** `Identifier, Type / Value`.
-- **System Behavior & Return:** `:=` infers concrete types dynamically in function bodies; `var` sets deterministic zero values.
+- **System Behavior & Return:** `:=` menginferensi tipe data otomatis dalam fungsi; `var` untuk nilai default..
 - **Practical Code Example:**
-```javascript
-counter := 10
-fmt.Println("Counter:", counter)
+```go
+age := 25
+name := "Alex"
+fmt.Printf("%s berusia %d tahun\n", name, age)
 ```
 - **Expected Execution Output:**
 ```text
-Counter: 10
+Alex berusia 25 tahun
 ```
 
 ### 2. `func (r Receiver) Method() ReturnType`
-- **Core Functionality:** Struct receiver method binding.
-- **Parameters / Attributes:** `Receiver instance, Parameters`.
-- **System Behavior & Return:** Associates behaviors directly with struct types without classical inheritance hierarchies.
+- **Core Functionality:** Penerapan Method pada Struct (OOP ala Go).
+- **Parameters / Attributes:** `Receiver (value/pointer), Parameters`.
+- **System Behavior & Return:** Menghubungkan fungsi khusus ke tipe struct untuk membentuk perilaku objek tanpa pewarisan..
 - **Practical Code Example:**
-```javascript
-type Point struct { X, Y int }
-func (p Point) Sum() int {
-  return p.X + p.Y
+```go
+type User struct { Name string }
+func (u User) Greet() string {
+  return "Halo, " + u.Name
 }
 ```
 - **Expected Execution Output:**
 ```text
-Evaluates method computation over struct fields
+Mengembalikan string sapaan personal
 ```
 
 ### 3. `go func() { ... }()`
-- **Core Functionality:** Lightweight concurrent Goroutine dispatch.
-- **Parameters / Attributes:** `Anonymous / Named function`.
-- **System Behavior & Return:** Launches asynchronous task execution scheduled cooperatively by the Go runtime (~2KB stack footprint).
+- **Core Functionality:** Eksekusi thread ringan konkuren (Goroutine).
+- **Parameters / Attributes:** `Fungsi anonim / bernama`.
+- **System Behavior & Return:** Menjalankan komputasi di thread runtime Go yang sangat ringan (~2KB memori awal)..
 - **Practical Code Example:**
-```javascript
+```go
 go func() {
-  fmt.Println("Running asynchronously!")
+  fmt.Println("Berjalan di goroutine terpisah!")
 }()
 ```
 - **Expected Execution Output:**
 ```text
-Executes concurrently without blocking the main OS thread
+Dieksekusi asinkron tanpa memblokir alur utama
 ```
 
-### 4. `ch := make(chan int); ch <- 1; v := <-ch`
-- **Core Functionality:** Thread-safe CSP Channel pipeline.
-- **Parameters / Attributes:** `Element Type, Buffer capacity`.
-- **System Behavior & Return:** Transmits values synchronously between Goroutines with zero manual mutex or lock synchronization.
+### 4. `ch := make(chan int); ch <- 42; val := <-ch`
+- **Core Functionality:** Saluran komunikasi antar goroutine (Channel).
+- **Parameters / Attributes:** `Type data channel, kapasitas buffer`.
+- **System Behavior & Return:** Mengirim dan menerima data antar goroutine dengan sinkronisasi bawaan tanpa lock manual..
 - **Practical Code Example:**
-```javascript
+```go
 ch := make(chan int)
-go func() { ch <- 42 }()
-fmt.Println(<-ch)
+go func() { ch <- 100 }()
+result := <-ch
+fmt.Println("Diterima:", result)
 ```
 - **Expected Execution Output:**
 ```text
-42
+Diterima: 100
 ```
-
 
 ---
 

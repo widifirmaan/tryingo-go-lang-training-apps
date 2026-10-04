@@ -140,16 +140,16 @@ Implementasikan trait `From<std::io::Error> for WalError` yang secara otomatis m
 ![Diagram Rust Ownership, Move Semantics & Borrowing Memory](/diagrams/rust-ownership.svg)
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────┐
+│ KEPEMILIKAN MEMORI (OWNERSHIP)│
+│ let s1 = String::from("Hi"); │
+│       │                      │
+│       ▼ (Move Semantics)     │
+│ let s2 = s1;                 │
+│ • s1 menjadi INVALID         │
+│ • s2 menjadi pemilik sah     │
+│ • Bebas Data Race & Null     │
+└──────────────────────────────┘
 ```
 
 ---
@@ -158,12 +158,12 @@ Implementasikan trait `From<std::io::Error> for WalError` yang secara otomatis m
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `let x: i32 = 5; let mut y = 10;`
-- **Fungsi Utama:** Deklarasi variabel immutable default & mutable.
-- **Parameter / Atribut:** `Tipe data (i32, f64, String), mut keyword`.
-- **Perilaku & Efek Sistem:** Rust secara default mengunci variabel agar tidak bisa diubah guna menjamin keamanan memori tanpa garbage collector.
+### 1. `let x = 5; let mut y = 10;`
+- **Fungsi Utama:** Deklarasi variabel immutable & mutable.
+- **Parameter / Atribut:** `Identifier, mut keyword`.
+- **Perilaku & Efek Sistem:** Rust secara default mengunci variabel agar tidak bisa diubah demi keamanan memori..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```rust
 let mut score = 50;
 score += 25;
 println!("Score: {}", score);
@@ -173,12 +173,12 @@ println!("Score: {}", score);
 Score: 75
 ```
 
-### 2. `&T (Immutable Borrow) vs &mut T (Mutable Borrow)`
+### 2. `&T (Borrow) vs &mut T (Mutable Borrow)`
 - **Fungsi Utama:** Peminjaman referensi memori (Borrowing).
 - **Parameter / Atribut:** `Referensi variabel`.
-- **Perilaku & Efek Sistem:** Mengizinkan pembacaan data tanpa memindahkan kepemilikan (ownership) dengan aturan ketat: 1 mutable borrow ATAU banyak immutable borrow.
+- **Perilaku & Efek Sistem:** Mengizinkan pembacaan data tanpa memindahkan ownership dengan aturan ketat kompiler..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```rust
 fn print_len(s: &String) {
   println!("Panjang: {}", s.len());
 }
@@ -190,29 +190,29 @@ Membaca panjang string tanpa menghapus variabel asal
 
 ### 3. `match value { Pattern => Action }`
 - **Fungsi Utama:** Pencocokan pola menyeluruh (Pattern Matching).
-- **Parameter / Atribut:** `Ekspresi, Arms`.
-- **Perilaku & Efek Sistem:** Mengevaluasi setiap kemungkinan kondisi secara lengkap (kompiler memaksa semua cabang tertangani).
+- **Parameter / Atribut:** `Expression, Arms`.
+- **Perilaku & Efek Sistem:** Mengevaluasi setiap kemungkinan kondisi secara lengkap tanpa ada cabang yang terlewat..
 - **Contoh Penggunaan Praktis:**
-```javascript
-let status = Some(200);
-match status {
-  Some(code) => println!("Status OK: {}", code),
-  None => println!("Tidak ada data"),
+```rust
+let res: Option<i32> = Some(10);
+match res {
+  Some(v) => println!("Nilai: {}", v),
+  None => println!("Kosong"),
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Status OK: 200
+Nilai: 10
 ```
 
 ### 4. `Result<T, E> & Operator ?`
-- **Fungsi Utama:** Penanganan kegagalan idiomatik tanpa exception.
+- **Fungsi Utama:** Penanganan error idiomatik tanpa exception.
 - **Parameter / Atribut:** `Ok(T), Err(E)`.
-- **Perilaku & Efek Sistem:** Mengembalikan nilai sukses atau error terstruktur, dan operator `?` untuk meneruskan error ke pemanggil.
+- **Perilaku & Efek Sistem:** Mengembalikan nilai sukses atau error terstruktur, dan operator `?` untuk propagasi error..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```rust
 fn read_data() -> Result<String, std::io::Error> {
-  let content = std::fs::read_to_string("config.txt")?;
+  let content = std::fs::read_to_string("app.log")?;
   Ok(content)
 }
 ```
@@ -220,7 +220,6 @@ fn read_data() -> Result<String, std::io::Error> {
 ```text
 Mengembalikan isi file atau meneruskan kegagalan I/O
 ```
-
 
 ---
 

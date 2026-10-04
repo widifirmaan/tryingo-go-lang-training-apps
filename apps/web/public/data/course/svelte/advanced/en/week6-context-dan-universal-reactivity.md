@@ -95,16 +95,17 @@ Add a reactive `$state` array `trackList` into `GlobalAudioEngine` alongside `ad
 ![Diagram Universal Signals & Svelte 5 Runes State Flow](/diagrams/react-data-flow.svg)
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ SVELTE 5 RUNES & FINE-GRAINED REACTIVITY                 │
+│                                                          │
+│  let count = $state(0) ──► Signal Primer                 │
+│       │                                                  │
+│       ▼                                                  │
+│  let double = $derived(count * 2) ──► Komputasi Turunan  │
+│       │                                                  │
+│       ▼ (Hanya memperbarui node teks spesifik di DOM!)   │
+│  <h1>{double}</h1> ◄── Tanpa Virtual DOM Overhead        │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -113,67 +114,73 @@ Add a reactive `$state` array `trackList` into `GlobalAudioEngine` alongside `ad
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `let count = $state(0)`
+- **Core Functionality:** Rune state reaktif Svelte 5.
+- **Parameters / Attributes:** `initialValue`.
+- **System Behavior & Return:** Mendeklarasikan variabel reaktif murni tanpa pembungkus .value atau setter khusus..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+```svelte
+<script>
+  let count = $state(0);
+  function inc() { count += 1; }
+</script>
+<button onclick={inc}>Klik: {count}</button>
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+Tombol reaktif memperbarui angka count
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+### 2. `let double = $derived(count * 2)`
+- **Core Functionality:** Rune komputasi turunan Svelte 5.
+- **Parameters / Attributes:** `Expression`.
+- **System Behavior & Return:** Otomatis menghitung ulang nilai turunan saat sinyal state primernya berubah..
 - **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+```svelte
+<script>
+  let count = $state(4);
+  let double = $derived(count * 2);
+</script>
+<p>Hasil: {double}</p>
 ```
 - **Expected Execution Output:**
 ```text
-42
+Hasil: 8
 ```
 
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+### 3. `$effect(() => { ... })`
+- **Core Functionality:** Rune efek samping reaktif.
+- **Parameters / Attributes:** `Effect Callback`.
+- **System Behavior & Return:** Menjalankan operasi DOM, API, atau timer saat state di dalamnya mengalami mutasi..
 - **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
-}
+```svelte
+<script>
+  let count = $state(0);
+  $effect(() => {
+    console.log('Nilai terkini:', count);
+  });
+</script>
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Mencetak log otomatis setiap count berubah
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 4. `bind:value={variable}`
+- **Core Functionality:** Sinkronisasi input form dua arah.
+- **Parameters / Attributes:** `Target state variable`.
+- **System Behavior & Return:** Menautkan input form langsung ke state tanpa memerlukan event handler manual..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```svelte
+<script>
+  let name = $state('Tryngo');
+</script>
+<input bind:value={name} />
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Perubahan input langsung mengalir ke state name
 ```
-
 
 ---
 

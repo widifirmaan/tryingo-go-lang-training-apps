@@ -111,16 +111,16 @@ Author a recursive conditional type `Flatten<T>` that unwraps multi-dimensional 
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌───────────────────────────────┐
+│     KODE SUMBER TYPESCRIPT    │ (Strict Type Annotations)
+│ interface User { id: UUID; }  │
+└──────────────┬────────────────┘
+               │ TYPE CHECKING (tsc) ──► Menemukan bug sebelum runtime!
+               ▼
+┌───────────────────────────────┐
+│     JAVASCRIPT HASIL COMPILE  │ (Tipe dihapus / Type Erasure)
+│ function getUser(user) { ... }│
+└───────────────────────────────┘
 ```
 
 ---
@@ -130,67 +130,66 @@ Author a recursive conditional type `Flatten<T>` that unwraps multi-dimensional 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `interface Name { prop: Type; }`
-- **Core Functionality:** Strongly typed object contract definition.
+- **Core Functionality:** Defines kontrak bentuk objek terstruktur.
 - **Parameters / Attributes:** `Field names, Types, Optional (?)`.
-- **System Behavior & Return:** Enforces compile-time structural contracts across object literals, classes, and function parameters.
+- **System Behavior & Return:** Guarantees seluruh objek mematuhi struktur tipe data saat compile-time..
 - **Practical Code Example:**
-```javascript
+```typescript
 interface User {
   id: string;
   name: string;
-  role?: string;
+  isActive?: boolean;
 }
 const u: User = { id: 'u1', name: 'Alex' };
 ```
 - **Expected Execution Output:**
 ```text
-Compile-time validation succeeds with zero type errors
+Validasi kompilasi sukses 100% aman
 ```
 
 ### 2. `type Union = TypeA | TypeB`
-- **Core Functionality:** Disjoint union type combination.
-- **Parameters / Attributes:** `Two or more distinct types`.
-- **System Behavior & Return:** Restricts variable assignments strictly to predefined variants or primitive literal choices.
+- **Core Functionality:** Tipe gabungan multi-kondisi.
+- **Parameters / Attributes:** `Two or more varian tipe data`.
+- **System Behavior & Return:** Membatasi variabel hanya boleh menerima salah satu nilai yang sah..
 - **Practical Code Example:**
-```javascript
+```typescript
 type Status = 'idle' | 'loading' | 'success';
-let s: Status = 'loading';
+let current: Status = 'loading';
 ```
 - **Expected Execution Output:**
 ```text
-Guarantees only one of the 3 specified string literals can be assigned
+Menolak nilai di luar 3 opsi literal yang ditentukan
 ```
 
 ### 3. `function genericFn<T>(arg: T): T`
-- **Core Functionality:** Type-safe reusable generic abstraction.
+- **Core Functionality:** Fungsi tipe dinamis aman (Generics).
 - **Parameters / Attributes:** `Type Parameter T`.
-- **System Behavior & Return:** Enables creation of parameterized functions and collections while preserving concrete type information.
+- **System Behavior & Return:** Membuat fungsi yang dapat menangani berbagai tipe data dengan tetap menjaga type safety..
 - **Practical Code Example:**
-```javascript
-function wrap<T>(item: T): { data: T } {
-  return { data: item };
+```typescript
+function wrap<T>(val: T): { data: T } {
+  return { data: val };
 }
-const w = wrap(42); // Type: { data: number }
+const box = wrap('Tryngo');
 ```
 - **Expected Execution Output:**
 ```text
-{ data: 42 }
+{ data: 'Tryngo' }
 ```
 
 ### 4. `Partial<T> / Pick<T, K> / Omit<T, K>`
-- **Core Functionality:** Built-in utility type transformations.
-- **Parameters / Attributes:** `Base Type T, Selected Keys K`.
-- **System Behavior & Return:** Transforms existing types into optional variants (`Partial`) or selects field subsets cleanly.
+- **Core Functionality:** Tipe utilitas transformasi bawaan.
+- **Parameters / Attributes:** `Base Type T, Keys K`.
+- **System Behavior & Return:** Mengubah properti menjadi opsional (`Partial`) atau mengambil subset kolom tertentu..
 - **Practical Code Example:**
-```javascript
-interface Item { id: string; name: string; price: number; }
-type PatchItem = Partial<Item>;
+```typescript
+interface Task { id: string; title: string; done: boolean; }
+type UpdateDto = Partial<Task>;
 ```
 - **Expected Execution Output:**
 ```text
-All properties become optional for update requests
+Semua kolom Task berubah menjadi opsional
 ```
-
 
 ---
 

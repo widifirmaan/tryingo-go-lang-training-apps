@@ -267,16 +267,17 @@ Tambahkan panel laci notifikasi geser (Notifications Slide-Over) di sisi kanan d
 ![Diagram Flexbox & Grid Axis Sumbu Layout](/diagrams/flexbox-axis.svg)
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ KONTROL UTILITY TAILWIND                                 │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ flex items-center justify-between (Flexbox)          │ │
+│ │ ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ │ │
+│ │ │ w-1/3 p-4    │ │ w-1/3 p-4    │ │ w-1/3 p-4      │ │ │
+│ │ │ bg-zinc-900  │ │ bg-emerald-600│ │ bg-zinc-800   │ │ │
+│ │ │ text-white   │ │ hover:scale-105│ │ rounded-2xl   │ │ │
+│ │ └──────────────┘ └──────────────┘ └────────────────┘ │ │
+│ └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -285,70 +286,66 @@ Tambahkan panel laci notifikasi geser (Notifications Slide-Over) di sisi kanan d
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `flex items-center justify-between`
+- **Fungsi Utama:** Utility tata letak Flexbox instan.
+- **Parameter / Atribut:** `Display flex, alignment, distribution`.
+- **Perilaku & Efek Sistem:** Menyusun kontainer fleksibel dengan pemusatan vertikal dan pemisahan horizontal antar elemen..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```html
+<div class="flex items-center justify-between p-4 bg-zinc-900 text-white rounded-xl">
+  <span>Brand</span>
+  <button>Menu</button>
+</div>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+Elemen tersusun rapi di ujung kiri dan kanan
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`
+- **Fungsi Utama:** Grid responsif multi-breakpoint.
+- **Parameter / Atribut:** `Breakpoint prefixes (sm:, md:, lg:)`.
+- **Perilaku & Efek Sistem:** Mengubah jumlah kolom secara bertahap saat layar membesar dari ponsel ke desktop..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+```html
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="p-4 bg-zinc-100 rounded-lg">Kartu 1</div>
+</div>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+Grid 1 kolom di HP, 3 kolom di desktop
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `hover:bg-emerald-600 active:scale-95 transition-all duration-200`
+- **Fungsi Utama:** State modifiers interaktif & animasi.
+- **Parameter / Atribut:** `hover:, active:, focus:, transition`.
+- **Perilaku & Efek Sistem:** Memberikan feedback visual interaktif saat tombol disentuh atau kursor diarahkan..
 - **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+```html
+<button class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all px-4 py-2 rounded-lg text-white font-bold">
+  Simpan
+</button>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Tombol membesar dan berubah warna saat di-hover
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `dark:bg-zinc-950 dark:text-zinc-100`
+- **Fungsi Utama:** Dukungan tema gelap (Dark Mode).
+- **Parameter / Atribut:** `dark: prefix selector`.
+- **Perilaku & Efek Sistem:** Menentukan warna khusus saat pengguna mengaktifkan mode gelap di peramban atau sistem..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```html
+<div class="bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 p-6 rounded-2xl">
+  Tema Adaptif
+</div>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Warna otomatis menyesuaikan mode gelap pengguna
 ```
-
 
 ---
 

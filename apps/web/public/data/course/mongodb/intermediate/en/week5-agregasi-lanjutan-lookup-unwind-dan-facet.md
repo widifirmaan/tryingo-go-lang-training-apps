@@ -130,16 +130,21 @@ Build a production faceted product search pipeline: take a search query, and use
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ MODEL DATA DOKUMEN BSON MONGODB                          │
+│                                                          │
+│ Koleksi: users                                           │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ {                                                    │ │
+│ │   "_id": ObjectId("64f1a2b..."),                     │ │
+│ │   "name": "Alex Iskandar",                           │ │
+│ │   "profile": { "role": "admin", "verified": true },  │ │
+│ │   "tags": ["developer", "golang"],                   │ │
+│ │   "orders": [ { "id": "ORD-1", "total": 150000 } ]  │ │
+│ │ }                                                    │ │
+│ └──────────────────────────────────────────────────────┘ │
+│ Mendukung data bersarang (Embedded Document) tanpa Join! │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -148,62 +153,71 @@ Build a production faceted product search pipeline: take a search query, and use
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Core Functionality:** Relational schema definition.
-- **Parameters / Attributes:** `Column names, Data types, Constraints (PK/FK/NOT NULL)`.
-- **System Behavior & Return:** Constructs strongly typed database tables with guaranteed relational integrity.
+### 1. `db.collection.insertOne({ ... })`
+- **Core Functionality:** Insertion of dokumen BSON tunggal.
+- **Parameters / Attributes:** `Document Object`.
+- **System Behavior & Return:** Persists data dokumen JSON/BSON baru ke dalam koleksi MongoDB..
 - **Practical Code Example:**
 ```javascript
-CREATE TABLE accounts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  balance NUMERIC(10, 2) DEFAULT 0.00
+db.products.insertOne({
+  name: 'Keyboard Mekanikal',
+  price: 1200000,
+  tags: ['gaming', 'hardware'],
+  inStock: true
+});
+```
+- **Expected Execution Output:**
+```text
+Dokumen tersimpan dengan _id unik otomatis
+```
+
+### 2. `db.collection.find({ query }, { projection })`
+- **Core Functionality:** Pencarian dokumen dengan filter deklaratif.
+- **Parameters / Attributes:** `Query filters ($eq, $gt, $in), Field projections`.
+- **System Behavior & Return:** Retrieves daftar dokumen yang memenuhi kondisi pencarian..
+- **Practical Code Example:**
+```javascript
+db.products.find(
+  { price: { $gte: 500000 }, inStock: true },
+  { name: 1, price: 1 }
+).limit(5);
+```
+- **Expected Execution Output:**
+```text
+Mengembalikan maksimal 5 dokumen produk
+```
+
+### 3. `db.collection.updateOne({ _id }, { $set: { status: 'paid' } })`
+- **Core Functionality:** Update of field dokumen secara atomik.
+- **Parameters / Attributes:** `Filter selector, Update operators ($set, $inc, $push)`.
+- **System Behavior & Return:** Mengubah field tertentu tanpa menimpa seluruh struktur dokumen yang ada..
+- **Practical Code Example:**
+```javascript
+db.orders.updateOne(
+  { orderId: 'ORD-101' },
+  { $set: { status: 'completed' }, $currentDate: { updatedAt: true } }
 );
 ```
 - **Expected Execution Output:**
 ```text
-Initializes accounts table ready for ACID transactions
+Status pesanan berubah menjadi completed
 ```
 
-### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Core Functionality:** Declarative relational data retrieval.
-- **Parameters / Attributes:** `Column list, Filter predicates, Ordering, Paging limit`.
-- **System Behavior & Return:** Fetches matching database records with predictable execution plan optimization.
+### 4. `db.collection.aggregate([ { $match: ... }, { $group: ... } ])`
+- **Core Functionality:** Pipeline agregasi multi-tahap analitik.
+- **Parameters / Attributes:** `Aggregation stages ($match, $group, $sort)`.
+- **System Behavior & Return:** Memproses dan mentransformasi jutaan dokumen menjadi laporan rekapitulasi data cepat..
 - **Practical Code Example:**
 ```javascript
-SELECT id, email, balance FROM accounts WHERE balance > 0 ORDER BY balance DESC LIMIT 5;
+db.orders.aggregate([
+  { $match: { status: 'completed' } },
+  { $group: { _id: '$category', totalSales: { $sum: '$total' } } }
+]);
 ```
 - **Expected Execution Output:**
 ```text
-Returns top 5 funded customer accounts
+Menghasilkan ringkasan total penjualan per kategori
 ```
-
-### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Core Functionality:** Atomic record insertion with immediate return.
-- **Parameters / Attributes:** `Columns, Insert values, RETURNING clause`.
-- **System Behavior & Return:** Persists new row data and returns computed primary keys or defaults without an extra query.
-- **Practical Code Example:**
-```javascript
-INSERT INTO accounts (email) VALUES ('dev@tryngo.com') RETURNING id;
-```
-- **Expected Execution Output:**
-```text
-Returns newly allocated UUID primary key
-```
-
-### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Core Functionality:** Multi-table relational join.
-- **Parameters / Attributes:** `Table identifiers, ON match predicate`.
-- **System Behavior & Return:** Correlates rows across related tables matching foreign key references.
-- **Practical Code Example:**
-```javascript
-SELECT a.email, t.amount FROM accounts a INNER JOIN transactions t ON a.id = t.account_id;
-```
-- **Expected Execution Output:**
-```text
-Consolidates account holders with their transaction history
-```
-
 
 ---
 

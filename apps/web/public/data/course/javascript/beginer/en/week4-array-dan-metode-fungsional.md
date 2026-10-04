@@ -107,15 +107,15 @@ Build an analytics data pipeline: compute total revenue strictly from "PAID" tra
 ![Diagram JavaScript Event Loop & Asynchronous Architecture](/diagrams/js-event-loop.svg)
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
+┌──────────────┐     Call Stack Empty?      ┌────────────────┐
 │  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
+│ (Sync Code)  │                             │  (Coordinator)   │
 └──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
+       │ Async Operation (Fetch / Timer)               │
        ▼                                             │
 ┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
+│  WEB APIs    │ ─── Callback Ready ────►  │ TASK / PROMISE │
+│  (Background)│                             │     QUEUE      │
 └──────────────┘                             └────────────────┘
 ```
 
@@ -125,67 +125,66 @@ Build an analytics data pipeline: compute total revenue strictly from "PAID" tra
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
+### 1. `const / let variabel`
+- **Core Functionality:** Declaration of variabel modern lingkup blok.
 - **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+- **System Behavior & Return:** `const` untuk referensi konstan yang tidak diubah; `let` untuk nilai dinamis reassignable..
 - **Practical Code Example:**
 ```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+const app = 'Tryngo';
+let count = 0;
+count += 1;
+console.log(app, count);
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+Tryngo 1
 ```
 
 ### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
+- **Core Functionality:** Sintaks fungsi ringkas dengan lexical this.
 - **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+- **System Behavior & Return:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup luar..
 - **Practical Code Example:**
 ```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+const square = (n) => n * n;
+console.log(square(7));
 ```
 - **Expected Execution Output:**
 ```text
-42
+49
 ```
 
 ### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
+- **Core Functionality:** Penanganan operasi asinkron linear.
 - **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+- **System Behavior & Return:** Membaca data HTTP API secara asinkron tanpa callback hell..
 - **Practical Code Example:**
 ```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
+async function loadData() {
+  const res = await fetch('https://api.example.com/data');
   return await res.json();
 }
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Mengembalikan data JSON dari server
 ```
 
 ### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+- **Core Functionality:** Transformasi array fungsional immutable.
+- **Parameters / Attributes:** `callback(item, index)`.
+- **System Behavior & Return:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring data..
 - **Practical Code Example:**
 ```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
+const nums = [1, 2, 3, 4];
+const evens = nums.filter(n => n % 2 === 0);
 console.log(evens);
 ```
 - **Expected Execution Output:**
 ```text
 [2, 4]
 ```
-
 
 ---
 

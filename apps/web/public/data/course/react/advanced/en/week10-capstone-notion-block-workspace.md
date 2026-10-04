@@ -199,10 +199,10 @@ Implement an export pipeline: add an "Export Markdown" action serializing all ca
 
 ```diagram
      ┌────────────────────────┐
-     │    PARENT COMPONENT    │ ◄─── Updates State via Setter
+     │    PARENT COMPONENT    │ ◄─── Update State via Setter
      │  (Holds Single State)  │
      └───────────┬────────────┘
-                 │ Props Down (Unidirectional Flow ⬇)
+                 │ Props Down (Data Flow 1 Arah ⬇)
      ┌───────────┴────────────┐
      ▼                        ▼
 ┌──────────────┐       ┌──────────────┐
@@ -218,62 +218,62 @@ Implement an export pipeline: add an "Export Markdown" action serializing all ca
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `const [state, setState] = useState(initialValue)`
-- **Core Functionality:** Component local reactive state hook.
+- **Core Functionality:** Hook penyimpanan state lokal komponen.
 - **Parameters / Attributes:** `initialValue`.
-- **System Behavior & Return:** Maintains local component state and automatically triggers UI re-renders on state setter invocation.
+- **System Behavior & Return:** Persists data reaktif. Memanggil setter memicu re-render UI secara otomatis..
 - **Practical Code Example:**
-```javascript
+```jsx
 const [count, setCount] = useState(0);
-// Later: setCount(c => c + 1);
+// Eksekusi: setCount(prev => prev + 1);
 ```
 - **Expected Execution Output:**
 ```text
-Triggers isolated reactive UI re-render
+Komponen memperbarui angka count di layar
 ```
 
-### 2. `useEffect(() => { ... }, [deps])`
-- **Core Functionality:** Side-effect lifecycle hook.
+### 2. `useEffect(() => { ... }, [dependencies])`
+- **Core Functionality:** Hook efek samping (Lifecycle & Subscriptions).
 - **Parameters / Attributes:** `Effect Callback, Dependency Array`.
-- **System Behavior & Return:** Handles API calls, subscriptions, and DOM updates after rendering, running cleanup callbacks on unmount.
+- **System Behavior & Return:** Menjalankan sinkronisasi data setelah render dan membersihkan resource saat unmount..
 - **Practical Code Example:**
-```javascript
+```jsx
 useEffect(() => {
-  document.title = `Count: ${count}`;
-}, [count]);
+  console.log('Komponen terpasang ke DOM');
+  return () => console.log('Komponen dilepas');
+}, []);
 ```
 - **Expected Execution Output:**
 ```text
-Updates browser document title whenever count changes
+Log dicetak saat mount dan unmount
 ```
 
 ### 3. `function Component(props) { return <JSX /> }`
-- **Core Functionality:** Pure Functional Component definition.
+- **Core Functionality:** Declaration of Komponen Fungsi Dasar.
 - **Parameters / Attributes:** `props object`.
-- **System Behavior & Return:** Reusable architectural building block mapping incoming property data to declarative UI markup.
+- **System Behavior & Return:** Blok bangunan UI modular yang mengubah parameter data menjadi tampilan visual..
 - **Practical Code Example:**
-```javascript
-function Avatar({ url }: { url: string }) {
-  return <img src={url} alt="User" className="rounded-full" />;
+```jsx
+function UserCard({ name }: { name: string }) {
+  return <div className="card"><h3>{name}</h3></div>;
 }
 ```
 - **Expected Execution Output:**
 ```text
-Renders round user avatar image element
+Elemen kartu ter-render dengan nama pengguna
 ```
 
 ### 4. `useContext(MyContext)`
-- **Core Functionality:** Global context subscription hook.
+- **Core Functionality:** Akses state global tanpa prop-drilling.
 - **Parameters / Attributes:** `React Context Object`.
-- **System Behavior & Return:** Accesses global application state without tedious multi-level property drilling.
+- **System Behavior & Return:** Membaca nilai state dari Context Provider terdekat dalam hierarki komponen..
 - **Practical Code Example:**
-```javascript
-const { theme } = useContext(ThemeContext);
+```jsx
+const { theme, toggleTheme } = useContext(ThemeContext);
 ```
 - **Expected Execution Output:**
 ```text
-Reads ambient theme preference directly from provider
+Mendapatkan nilai tema aktif secara instan
 ```
-
 
 ---
 

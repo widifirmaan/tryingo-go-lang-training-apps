@@ -117,16 +117,22 @@ Konfigurasikan Composer package kustom yang mempublikasikan logger decorator yan
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ SIKLUS HIDUP REQUEST PHP 8.3+ FPM                        │
+│                                                          │
+│ Nginx / Web Server ──(FastCGI)──► PHP-FPM Worker Pool    │
+│                                         │                │
+│                                         ▼                │
+│                                    OPcache Engine        │
+│                                    (Bytecode Preload)    │
+│                                         │                │
+│                                         ▼                │
+│                                    Zend Engine Eksekusi  │
+│                                    (Clean State per Req) │
+│                                         │                │
+│                                         ▼                │
+│ HTTP Response Output ◄───────── Garbage Collection       │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -135,70 +141,79 @@ Konfigurasikan Composer package kustom yang mempublikasikan logger decorator yan
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `declare(strict_types=1);`
+- **Fungsi Utama:** Penegakan tipe data ketat PHP 8+.
+- **Parameter / Atribut:** `Wajib di baris 1 berkas PHP`.
+- **Perilaku & Efek Sistem:** Mencegah type coercion tak terduga dan memastikan kompilasi menolak ketidaksesuaian tipe..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Tryngo 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
-- **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
-```
-- **Hasil Output yang Diharapkan:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
-- **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
+```php
+<?php
+declare(strict_types=1);
+function add(int $a, int $b): int {
+    return $a + $b;
 }
+echo add(5, 10);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+15
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 2. `readonly class UserDto { public function __construct(...) }`
+- **Fungsi Utama:** Constructor Promotion & Readonly Class.
+- **Parameter / Atribut:** `public readonly properties`.
+- **Perilaku & Efek Sistem:** Menyederhanakan pembuatan class immutable transfer data tanpa boilerplate penulisan getter..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```php
+<?php
+readonly class UserDto {
+    public function __construct(
+        public string $id,
+        public string $email
+    ) {}
+}
+$user = new UserDto('u1', 'alex@example.com');
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Objek data transfer immutable tercipta bersih
 ```
 
+### 3. `match($status) { 'paid' => 200, default => 400 }`
+- **Fungsi Utama:** Ekspresi pencocokan nilai PHP 8 (Match Expression).
+- **Parameter / Atribut:** `Target value, Arms pattern`.
+- **Perilaku & Efek Sistem:** Alternatif modern untuk switch-case dengan perbandingan identik (`===`) dan nilai kembalian instan..
+- **Contoh Penggunaan Praktis:**
+```php
+<?php
+$statusCode = 'paid';
+$code = match($statusCode) {
+    'paid' => 200,
+    'pending' => 202,
+    default => 400
+};
+echo $code;
+```
+- **Hasil Output yang Diharapkan:**
+```text
+200
+```
+
+### 4. `PDO::prepare('SELECT * FROM tbl WHERE id = ?')`
+- **Fungsi Utama:** Prepared statements pencegah SQL Injection.
+- **Parameter / Atribut:** `SQL query berparameter, Execute bindings`.
+- **Perilaku & Efek Sistem:** Memisahkan instruksi SQL dari data pengguna untuk menjamin keamanan database mutlak..
+- **Contoh Penggunaan Praktis:**
+```php
+<?php
+$stmt = $pdo->prepare('SELECT name FROM users WHERE id = :id');
+$stmt->execute(['id' => 1]);
+$user = $stmt->fetch();
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Query aman bebas dari celah serangan injeksi
+```
 
 ---
 

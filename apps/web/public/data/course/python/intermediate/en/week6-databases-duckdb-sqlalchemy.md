@@ -120,16 +120,21 @@ Build a DuckDB analytical query calculating a 14-period Exponential Moving Avera
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ SIKLUS EKSEKUSI PYTHON MODERN                            │
+│                                                          │
+│ Kode Sumber (.py)                                        │
+│       │                                                  │
+│       ▼ Bytecode Compiler                                │
+│ File Cache (.pyc)                                        │
+│       │                                                  │
+│       ▼ Python Virtual Machine (PVM)                     │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ Global Interpreter Lock (GIL) / Memory Heap Manager  │ │
+│ │ • Automatic Reference Counting + Cyclic Garbage Coll │ │
+│ │ • Asyncio Event Loop untuk I/O Asinkron              │ │
+│ └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -138,67 +143,67 @@ Build a DuckDB analytical query calculating a 14-period Exponential Moving Avera
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `def fn(param: int) -> str:`
+- **Core Functionality:** Definisi fungsi dengan type hinting modern.
+- **Parameters / Attributes:** `Parameter list, Type Annotations, Return Type`.
+- **System Behavior & Return:** Mendeklarasikan fungsi dengan dokumentasi tipe data statis yang diverifikasi linter..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+```python
+def calculate_tax(price: float, rate: float = 0.11) -> float:
+    return round(price * rate, 2)
+print(calculate_tax(100000.0))
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+11000.0
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+### 2. `[x * 2 for x in items if x > 0]`
+- **Core Functionality:** List & Dictionary Comprehension.
+- **Parameters / Attributes:** `Mapping expression, Iterable, Filter predicate`.
+- **System Behavior & Return:** Mentransformasi dan menyaring elemen koleksi secara ekspresif dalam 1 baris kode yang cepat..
 - **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+```python
+numbers = [1, 2, 3, 4, 5, 6]
+evens_squared = [n ** 2 for n in numbers if n % 2 == 0]
+print(evens_squared)
 ```
 - **Expected Execution Output:**
 ```text
-42
+[4, 16, 36]
 ```
 
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+### 3. `with open(filename, 'r') as f:`
+- **Core Functionality:** Pengelola Konteks Otomatis (Context Manager).
+- **Parameters / Attributes:** `Resource target, alias as`.
+- **System Behavior & Return:** Guarantees pembersihan resource (seperti menutup file atau koneksi DB) secara otomatis setelah blok selesai..
 - **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
-}
+```python
+with open('data.txt', 'w') as f:
+    f.write('Tryngo Platform')
+# File otomatis ditutup dengan aman di sini
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+File tersimpan dan resource ditutup aman
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 4. `async def & await asyncio.gather(*tasks)`
+- **Core Functionality:** Konkurensi asinkron non-blocking.
+- **Parameters / Attributes:** `Coroutines, asyncio Event Loop`.
+- **System Behavior & Return:** Mengeksekusi banyak panggilan I/O jaringan secara paralel tanpa thread blocking..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```python
+import asyncio
+async def fetch_api(n):
+    await asyncio.sleep(0.1)
+    return f'Hasil {n}'
+# asyncio.run(fetch_api(1))
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Coroutines tereksekusi tanpa memblokir thread utama
 ```
-
 
 ---
 

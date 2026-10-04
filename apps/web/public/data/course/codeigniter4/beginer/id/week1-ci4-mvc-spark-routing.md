@@ -96,16 +96,23 @@ Buat Subdomain Routing di CI4: arahkan request dari `admin.sekolah.sch.id` langs
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR MVC RINGAN CODEIGNITER 4                      │
+│                                                          │
+│ Public Ingress (public/index.php)                        │
+│       │                                                  │
+│       ▼                                                  │
+│ URI Routing (app/Config/Routes.php)                      │
+│       │                                                  │
+│       ▼ Filters (Auth/CSRF/CORS)                         │
+│ Controller (extends BaseController)                      │
+│       │                          │                       │
+│       ▼                          ▼                       │
+│ Model (Entity & Validation)    View (Render Buffer)      │
+│       │                          │                       │
+│       ▼                          ▼                       │
+│ Database Output ──────────────► Browser Response         │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -114,70 +121,68 @@ Buat Subdomain Routing di CI4: arahkan request dari `admin.sekolah.sch.id` langs
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `$routes->get('items', 'Items::index')`
+- **Fungsi Utama:** Routing URI CodeIgniter 4.
+- **Parameter / Atribut:** `HTTP verb, URI string, Controller::method`.
+- **Perilaku & Efek Sistem:** Menghubungkan URL browser ke controller CodeIgniter 4 dengan namespace terorganisir..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```php
+<?php
+$routes->get('catalog', 'CatalogController::index');
+$routes->post('catalog/create', 'CatalogController::create');
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+Endpoint CI4 siap menerima koneksi HTTP
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `class ProductModel extends Model { protected $allowedFields = [...]; }`
+- **Fungsi Utama:** Model CI4 dengan Query Builder bawaan.
+- **Parameter / Atribut:** `$table, $primaryKey, $allowedFields`.
+- **Perilaku & Efek Sistem:** Menyediakan operasi database aman dengan proteksi field otomatis tanpa query SQL mentah..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
-```
-- **Hasil Output yang Diharapkan:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
-- **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
+```php
+<?php
+namespace App\Models;
+use CodeIgniter\Model;
+class ProductModel extends Model {
+    protected $table = 'products';
+    protected $allowedFields = ['name', 'price'];
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Model siap menjalankan method findAll() dan save()
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 3. `return view('template_name', $data)`
+- **Fungsi Utama:** Helper render antarmuka View CI4.
+- **Parameter / Atribut:** `View path, Data array`.
+- **Perilaku & Efek Sistem:** Mengurai berkas view PHP di dalam direktori `app/Views/` dan menyajikannya ke layar klien..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```php
+<?php
+$data = ['title' => 'Katalog Produk', 'items' => $items];
+return view('products/list', $data);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Halaman web disajikan melalui buffering respons
 ```
 
+### 4. `$this->request->getPost('fieldName')`
+- **Fungsi Utama:** Pengambilan input request aman CI4.
+- **Parameter / Atribut:** `Field identifier, Filter flag`.
+- **Perilaku & Efek Sistem:** Membaca payload POST yang masuk dengan pembersihan sanitasi XSS bawaan framework..
+- **Contoh Penggunaan Praktis:**
+```php
+<?php
+$title = $this->request->getPost('title', FILTER_SANITIZE_SPECIAL_CHARS);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Input terbaca dengan pembersihan karakter berbahaya
+```
 
 ---
 

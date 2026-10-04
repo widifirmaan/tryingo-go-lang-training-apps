@@ -106,16 +106,23 @@ Buat Custom Pipe `TrimStringPipe` yang secara otomatis membersihkan spasi di awa
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ PIPELINE PERMINTAAN NESTJS                               │
+│                                                          │
+│ HTTP Request ──► [Guards: Auth] ──► [Interceptors: Pre]  │
+│                         │                                │
+│                         ▼                                │
+│              [Pipes: Validation DTO]                     │
+│                         │                                │
+│                         ▼                                │
+│              [Controller: @Get/@Post]                    │
+│                         │                                │
+│                         ▼                                │
+│              [Service: Business Logic]                   │
+│                         │                                │
+│                         ▼                                │
+│ Response ◄── [Interceptors: Post] ◄── [Exception Filter] │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -124,70 +131,72 @@ Buat Custom Pipe `TrimStringPipe` yang secara otomatis membersihkan spasi di awa
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `@Controller('users')`
+- **Fungsi Utama:** Dekorator pengenal rute API controller.
+- **Parameter / Atribut:** `Base path string`.
+- **Perilaku & Efek Sistem:** Memetakan request HTTP yang masuk ke handler method spesifik di dalam kelas controller..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Tryngo 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
-- **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
-```
-- **Hasil Output yang Diharapkan:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
-- **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
+```typescript
+@Controller('users')
+export class UsersController {
+  @Get(':id')
+  findOne(@Param('id') id: string) { return { id }; }
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Endpoint GET /users/:id siap diakses klien
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 2. `@Injectable()`
+- **Fungsi Utama:** Dekorator penyedia layanan (Provider / Service).
+- **Parameter / Atribut:** `Provider Scope (default: Singleton)`.
+- **Perilaku & Efek Sistem:** Mendaftarkan class ke dalam IoC (Inversion of Control) Container NestJS untuk diinjeksi otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```typescript
+@Injectable()
+export class UsersService {
+  findAll() { return ['Alex', 'Budi']; }
+}
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Service siap diinjeksi ke Controller mana pun
 ```
 
+### 3. `@Body() dto: CreateUserDto`
+- **Fungsi Utama:** Ekstraksi dan validasi payload body.
+- **Parameter / Atribut:** `DTO Class Schema`.
+- **Perilaku & Efek Sistem:** Mengekstrak JSON body dari HTTP request dan memvalidasi aturan field via ValidationPipe..
+- **Contoh Penggunaan Praktis:**
+```typescript
+@Post()
+create(@Body() dto: CreateUserDto) {
+  return this.usersService.create(dto);
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Payload otomatis divalidasi sebelum logika dijalankan
+```
+
+### 4. `@Module({ controllers: [...], providers: [...] })`
+- **Fungsi Utama:** Pengelompok modul arsitektur terstruktur.
+- **Parameter / Atribut:** `controllers, providers, exports, imports`.
+- **Perilaku & Efek Sistem:** Mengorganisasi aplikasi menjadi modul-modul independen dan kohesif..
+- **Contoh Penggunaan Praktis:**
+```typescript
+@Module({
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService]
+})
+export class UsersModule {}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Modul Users siap diimpor oleh modul utama AppModule
+```
 
 ---
 

@@ -125,60 +125,59 @@ Configure the global Docker daemon (`/etc/docker/daemon.json`) so all newly laun
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `FROM <image>:<tag>`
-- **Core Functionality:** Initial container image base declaration.
-- **Parameters / Attributes:** `Image name, Version tag`.
-- **System Behavior & Return:** Establishes the minimal operating system distribution and toolchain dependencies.
+- **Core Functionality:** Menentukan base image fondasi container.
+- **Parameters / Attributes:** `Image identifier, Tag versi`.
+- **System Behavior & Return:** Menetapkan sistem operasi minimalis dan runtime awal (misal `node:20-alpine`, `golang:1.24`)..
 - **Practical Code Example:**
-```javascript
+```dockerfile
 FROM node:20-alpine
 WORKDIR /app
 ```
 - **Expected Execution Output:**
 ```text
-Configures lightweight Alpine Linux runtime foundation
+Lingkungan container Node.js di atas Alpine siap
 ```
 
-### 2. `COPY <src> <dest>`
-- **Core Functionality:** Host to container filesystem transfer.
-- **Parameters / Attributes:** `Local path, Container destination`.
-- **System Behavior & Return:** Packages application source files, package manifests, and compiled artifacts into image layers.
+### 2. `COPY <host_src> <container_dest>`
+- **Core Functionality:** Menyalin file host ke dalam image filesystem.
+- **Parameters / Attributes:** `Path lokal, Path tujuan container`.
+- **System Behavior & Return:** Includes kode sumber, file konfigurasi, dan aset ke direktori kerja container..
 - **Practical Code Example:**
-```javascript
-COPY package.json ./
-RUN npm install
+```dockerfile
+COPY package*.json ./
+RUN npm install --production
 COPY . .
 ```
 - **Expected Execution Output:**
 ```text
-Injects application bundle into container workspace
+Kode aplikasi tersalin ke dalam container
 ```
 
 ### 3. `RUN <command>`
-- **Core Functionality:** Build-time layer execution command.
+- **Core Functionality:** Mengeksekusi instruksi build layer.
 - **Parameters / Attributes:** `Shell instruction`.
-- **System Behavior & Return:** Executes dependency installation, binary compilation, and directory permission setup during build time.
+- **System Behavior & Return:** Menginstal dependencies, mengkompilasi binary, dan mengatur izin sistem saat build dijalankan..
 - **Practical Code Example:**
-```javascript
+```dockerfile
 RUN npm run build
 ```
 - **Expected Execution Output:**
 ```text
-Generates production artifacts inside immutable image layer
+Menghasilkan bundle produksi di dalam layer image
 ```
 
-### 4. `docker run -d -p 8080:80 app:v1`
-- **Core Functionality:** Container runtime lifecycle instantiation.
-- **Parameters / Attributes:** `Flags -d (detached), -p (port mapping)`.
-- **System Behavior & Return:** Spawns an active container instance exposing port 80 to host port 8080.
+### 4. `docker run -d -p 8080:80 --name my-app app:v1`
+- **Core Functionality:** Menjalankan instance container aktif.
+- **Parameters / Attributes:** `Flag -d (detached), -p (port mapping), --name`.
+- **System Behavior & Return:** Membuat dan menyalakan container yang memetakan port host 8080 ke port container 80..
 - **Practical Code Example:**
-```javascript
-docker run -d -p 3000:3000 my-web-app
+```bash
+docker run -d -p 3000:3000 --name web-service my-app:latest
 ```
 - **Expected Execution Output:**
 ```text
-Web application live and reachable at http://localhost:3000
+Container berjalan di latar belakang dan dapat diakses
 ```
-
 
 ---
 
