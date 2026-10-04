@@ -121,16 +121,17 @@ Author a trigger element `<button #openBtn>` configuring `@defer (on interaction
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR KOMPONEN ANGULAR                              │
+│                                                          │
+│  @Component({ standalone: true })                        │
+│       │                                                  │
+│  Template HTML ◄── [Property Binding] ── Signals (State) │
+│       │                                                  │
+│  User Action   ─── (Event Binding)   ──► Method Callback │
+│       │                                                  │
+│  Dependency Injection: Injeksi Service via inject()      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -139,67 +140,70 @@ Author a trigger element `<button #openBtn>` configuring `@defer (on interaction
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `count = signal(0)`
+- **Core Functionality:** State reaktif Angular Signals.
+- **Parameters / Attributes:** `initialValue`.
+- **System Behavior & Return:** Provides variabel sinyal reaktif granular yang memicu deteksi perubahan performa tinggi..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
-```
-- **Expected Execution Output:**
-```text
-Tryngo Learning 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
-- **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
-```
-- **Expected Execution Output:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
-- **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
+```typescript
+import { signal } from '@angular/core';
+export class CounterComponent {
+  count = signal(0);
+  inc() { this.count.update(n => n + 1); }
 }
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Komponen Angular merender sinyal reaktif
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 2. `double = computed(() => this.count() * 2)`
+- **Core Functionality:** Sinyal komputasi memoized.
+- **Parameters / Attributes:** `Compute Callback`.
+- **System Behavior & Return:** Menghitung nilai turunan otomatis dengan cache pintar tanpa re-evaluasi redundan..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```typescript
+import { signal, computed } from '@angular/core';
+count = signal(10);
+double = computed(() => this.count() * 2);
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+double() mengembalikan nilai 20
 ```
 
+### 3. `@Component({ standalone: true, ... })`
+- **Core Functionality:** Declaration of Komponen Standalone Modern.
+- **Parameters / Attributes:** `Selector, Imports, Template`.
+- **System Behavior & Return:** Mendefinisikan komponen modular mandiri tanpa memerlukan NgModules yang rumit..
+- **Practical Code Example:**
+```typescript
+@Component({
+  selector: 'app-user',
+  standalone: true,
+  template: `<h2>{{ title() }}</h2>`
+})
+export class UserComponent {}
+```
+- **Expected Execution Output:**
+```text
+Komponen siap dirender di aplikasi Angular
+```
+
+### 4. `inject(HttpClient)`
+- **Core Functionality:** Injeksi dependensi fungsional.
+- **Parameters / Attributes:** `Service Token`.
+- **System Behavior & Return:** Retrieves instance service dependensi secara fungsional tanpa constructor boilerplate..
+- **Practical Code Example:**
+```typescript
+import { inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+private http = inject(HttpClient);
+```
+- **Expected Execution Output:**
+```text
+Service HttpClient siap digunakan untuk pemanggilan API
+```
 
 ---
 

@@ -117,16 +117,19 @@ Bangun Thread Pool kustom `WorkerPool(workerScript, poolSize)` yang menggunakan 
 ![Diagram Arsitektur V8 Engine & Libuv Event Loop Node.js](/diagrams/js-event-loop.svg)
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR RUNTIME NODE.JS                               │
+│                                                          │
+│   V8 JavaScript Engine  ◄──►  Node.js Core C++ Bindings  │
+│            │                             │               │
+│            ▼                             ▼               │
+│   ┌──────────────────────────────────────────────────┐   │
+│   │ LIBUV THREAD POOL & ASYNCHRONOUS EVENT LOOP      │   │
+│   │ • Non-blocking File I/O (fs.promises)            │   │
+│   │ • Network Sockets (http, net, tls)               │   │
+│   │ • Worker Threads untuk komputasi CPU berat       │   │
+│   └──────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -135,70 +138,68 @@ Bangun Thread Pool kustom `WorkerPool(workerScript, poolSize)` yang menggunakan 
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `import fs from 'node:fs/promises'`
+- **Fungsi Utama:** Modul manipulasi filesystem asinkron.
+- **Parameter / Atribut:** `Path file, Encoding, Data`.
+- **Perilaku & Efek Sistem:** Membaca dan menulis file lokal dengan aman tanpa memblokir thread event loop..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+import fs from 'node:fs/promises';
+const content = await fs.readFile('app.config.json', 'utf8');
+console.log(JSON.parse(content));
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+Membaca isi berkas konfigurasi secara non-blocking
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `http.createServer((req, res) => { ... })`
+- **Fungsi Utama:** Server HTTP native berkecepatan tinggi.
+- **Parameter / Atribut:** `Request Listener (req, res)`.
+- **Perilaku & Efek Sistem:** Menangani koneksi jaringan HTTP langsung dan mengirimkan status respon beserta payload data..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+import http from 'node:http';
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ status: 'ok' }));
+});
+server.listen(3000);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+Server aktif mendengarkan di http://localhost:3000
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `EventEmitter & .on() / .emit()`
+- **Fungsi Utama:** Arsitektur komunikasi berbasis event.
+- **Parameter / Atribut:** `Event name, Payload arguments`.
+- **Perilaku & Efek Sistem:** Menyediakan decoupling komunikasi modular menggunakan pola pub/sub internal Node.js..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+import { EventEmitter } from 'node:events';
+const emitter = new EventEmitter();
+emitter.on('order', id => console.log('Pesanan masuk:', id));
+emitter.emit('order', 'ORD-99');
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Pesanan masuk: ORD-99
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `process.env.VARIABLE_NAME`
+- **Fungsi Utama:** Akses variabel lingkungan sistem.
+- **Parameter / Atribut:** `Environment key identifier`.
+- **Perilaku & Efek Sistem:** Membaca rahasia kredensial, port server, dan mode operasi (production/development)..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+const PORT = process.env.PORT || 8080;
+console.log('Menjalankan pada port:', PORT);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Menjalankan pada port: 8080
 ```
-
 
 ---
 

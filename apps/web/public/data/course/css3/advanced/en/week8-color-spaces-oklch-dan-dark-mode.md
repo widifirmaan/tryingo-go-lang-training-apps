@@ -158,13 +158,13 @@ Build a 5-step OKLCH design token palette for an enterprise UI (Primary, Surface
 
 ```diagram
 ┌──────────────────────────────────────────────────────────┐
-│ MARGIN (Outer Transparent Space)                         │
+│ MARGIN (Outer Space Transparan)                           │
 │   ┌──────────────────────────────────────────────────┐   │
-│   │ BORDER (Decorative Outline / Frame)              │   │
+│   │ BORDER (Border & Bingkai)                    │   │
 │   │   ┌──────────────────────────────────────────┐   │   │
-│   │   │ PADDING (Inner Breathing Room)           │   │   │
+│   │   │ PADDING (Padding Internal)        │   │   │
 │   │   │   ┌──────────────────────────────────┐   │   │   │
-│   │   │   │ CONTENT (Rendered Width x Height)│   │   │   │
+│   │   │   │ CONTENT (Width x Height Teks/UI) │   │   │   │
 │   │   │   └──────────────────────────────────┘   │   │   │
 │   │   └──────────────────────────────────────────┘   │   │
 │   └──────────────────────────────────────────────────┘   │
@@ -178,11 +178,11 @@ Build a 5-step OKLCH design token palette for an enterprise UI (Primary, Surface
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `box-sizing: border-box;`
-- **Core Functionality:** Universal Box Model recalculation.
+- **Core Functionality:** Calculation of Box Model presisi.
 - **Parameters / Attributes:** `border-box | content-box`.
-- **System Behavior & Return:** Includes padding and borders within calculated element width and height, preventing layout breakage and overflows.
+- **System Behavior & Return:** Includes padding dan border ke dalam total lebar elemen agar tidak merusak layout grid..
 - **Practical Code Example:**
-```javascript
+```css
 * {
   box-sizing: border-box;
   margin: 0;
@@ -191,34 +191,33 @@ Here is the comprehensive breakdown of syntax signatures, parameters, return beh
 ```
 - **Expected Execution Output:**
 ```text
-Elements respect exact specified dimensions without expanding
+Element sized accurately presisi tanpa kalkulasi manual
 ```
 
 ### 2. `display: flex; justify-content: space-between; align-items: center;`
-- **Core Functionality:** One-dimensional Flexbox layout system.
+- **Core Functionality:** Arrangement of tata letak satu dimensi.
 - **Parameters / Attributes:** `flex-direction, justify-content, align-items`.
-- **System Behavior & Return:** Distributes empty space and aligns child items along primary and cross axes flexibly.
+- **System Behavior & Return:** Configures perataan dan distribusi ruang kosong antar item anak secara fleksibel..
 - **Practical Code Example:**
-```javascript
+```css
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
 }
 ```
 - **Expected Execution Output:**
 ```text
-Navbar brand and links pinned cleanly to opposite edges
+Item navbar terdistribusi rapi di ujung kiri & kanan
 ```
 
-### 3. `display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));`
-- **Core Functionality:** Two-dimensional responsive grid layout.
+### 3. `display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));`
+- **Core Functionality:** Sistem kisi dua dimensi responsif.
 - **Parameters / Attributes:** `grid-template-columns, gap`.
-- **System Behavior & Return:** Constructs responsive card grids that automatically calculate column counts without manual media queries.
+- **System Behavior & Return:** Menyusun grid adaptif yang otomatis menyesuaikan jumlah kolom tanpa media query..
 - **Practical Code Example:**
-```javascript
-.card-grid {
+```css
+.grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
@@ -226,17 +225,16 @@ Navbar brand and links pinned cleanly to opposite edges
 ```
 - **Expected Execution Output:**
 ```text
-Items rearrange smoothly into 1, 2, or 3 columns
+Kolom grid otomatis menyusun sesuai lebar layar
 ```
 
 ### 4. `transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);`
-- **Core Functionality:** Interactive state change animation.
+- **Core Functionality:** Animasi transisi status interaktif.
 - **Parameters / Attributes:** `property, duration, timing-function`.
-- **System Behavior & Return:** Interpolates CSS property changes smoothly when hover, focus, or active states trigger.
+- **System Behavior & Return:** Memberikan efek perubahan visual yang mulus saat elemen mengalami perubahan status..
 - **Practical Code Example:**
-```javascript
+```css
 .btn {
-  background-color: #2E5B44;
   transition: transform 0.2s ease;
 }
 .btn:hover {
@@ -245,9 +243,8 @@ Items rearrange smoothly into 1, 2, or 3 columns
 ```
 - **Expected Execution Output:**
 ```text
-Button glides up 2px smoothly when hovered
+Tombol terangkat halus 2px saat kursor diarahkan
 ```
-
 
 ---
 

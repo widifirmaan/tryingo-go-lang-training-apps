@@ -166,16 +166,16 @@ Add OpCode `2` for `DEL` operations in the WAL logger, updating `replay_wal_log`
 ![Diagram Rust Ownership, Move Semantics & Borrowing Memory](/diagrams/rust-ownership.svg)
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────┐
+│ KEPEMILIKAN MEMORI (OWNERSHIP)│
+│ let s1 = String::from("Hi"); │
+│       │                      │
+│       ▼ (Move Semantics)     │
+│ let s2 = s1;                 │
+│ • s1 menjadi INVALID         │
+│ • s2 menjadi pemilik sah     │
+│ • Bebas Data Race & Null     │
+└──────────────────────────────┘
 ```
 
 ---
@@ -185,68 +185,67 @@ Add OpCode `2` for `DEL` operations in the WAL logger, updating `replay_wal_log`
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `let x = 5; let mut y = 10;`
-- **Core Functionality:** Default immutable and mutable binding.
-- **Parameters / Attributes:** `Variable identifier, mut keyword`.
-- **System Behavior & Return:** Rust defaults variables to read-only guarantees to eliminate race conditions and unexpected mutations.
+- **Core Functionality:** Declaration of variabel immutable & mutable.
+- **Parameters / Attributes:** `Identifier, mut keyword`.
+- **System Behavior & Return:** Rust secara default mengunci variabel agar tidak bisa diubah demi keamanan memori..
 - **Practical Code Example:**
-```javascript
-let mut health = 100;
-health -= 20;
-println!("Health: {}", health);
+```rust
+let mut score = 50;
+score += 25;
+println!("Score: {}", score);
 ```
 - **Expected Execution Output:**
 ```text
-Health: 80
+Score: 75
 ```
 
 ### 2. `&T (Borrow) vs &mut T (Mutable Borrow)`
-- **Core Functionality:** Strict reference borrowing model.
-- **Parameters / Attributes:** `Referenced memory location`.
-- **System Behavior & Return:** Permits data inspection without moving ownership, enforcing either one mutable borrow OR multiple shared borrows.
+- **Core Functionality:** Peminjaman referensi memori (Borrowing).
+- **Parameters / Attributes:** `Referensi variabel`.
+- **System Behavior & Return:** Mengizinkan pembacaan data tanpa memindahkan ownership dengan aturan ketat kompiler..
 - **Practical Code Example:**
-```javascript
-fn display_len(s: &String) {
-  println!("Length: {}", s.len());
+```rust
+fn print_len(s: &String) {
+  println!("Panjang: {}", s.len());
 }
 ```
 - **Expected Execution Output:**
 ```text
-Inspects string length while preserving caller ownership
+Membaca panjang string tanpa menghapus variabel asal
 ```
 
 ### 3. `match value { Pattern => Action }`
-- **Core Functionality:** Exhaustive algebraic pattern matching.
-- **Parameters / Attributes:** `Expression, Match arms`.
-- **System Behavior & Return:** Evaluates all enum variants with compile-time verification ensuring no condition is left unhandled.
+- **Core Functionality:** Pencocokan pola menyeluruh (Pattern Matching).
+- **Parameters / Attributes:** `Expression, Arms`.
+- **System Behavior & Return:** Mengevaluasi setiap kemungkinan kondisi secara lengkap tanpa ada cabang yang terlewat..
 - **Practical Code Example:**
-```javascript
+```rust
 let res: Option<i32> = Some(10);
 match res {
-  Some(v) => println!("Value: {}", v),
-  None => println!("Empty"),
+  Some(v) => println!("Nilai: {}", v),
+  None => println!("Kosong"),
 }
 ```
 - **Expected Execution Output:**
 ```text
-Value: 10
+Nilai: 10
 ```
 
 ### 4. `Result<T, E> & Operator ?`
-- **Core Functionality:** Deterministic functional error propagation.
+- **Core Functionality:** Penanganan error idiomatik tanpa exception.
 - **Parameters / Attributes:** `Ok(T), Err(E)`.
-- **System Behavior & Return:** Avoids runtime exceptions by passing structured errors upward using the concise `?` propagation operator.
+- **System Behavior & Return:** Mengembalikan nilai sukses atau error terstruktur, dan operator `?` untuk propagasi error..
 - **Practical Code Example:**
-```javascript
-fn load_file() -> Result<String, std::io::Error> {
-  let data = std::fs::read_to_string("app.log")?;
-  Ok(data)
+```rust
+fn read_data() -> Result<String, std::io::Error> {
+  let content = std::fs::read_to_string("app.log")?;
+  Ok(content)
 }
 ```
 - **Expected Execution Output:**
 ```text
-Returns file contents or bubbles I/O error upwards cleanly
+Mengembalikan isi file atau meneruskan kegagalan I/O
 ```
-
 
 ---
 

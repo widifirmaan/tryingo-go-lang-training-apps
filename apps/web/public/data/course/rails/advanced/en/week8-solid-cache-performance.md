@@ -101,16 +101,22 @@ Deploy Low-Level Cache APIs `Rails.cache.fetch("workspace_stats_#{workspace.id}"
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ALUR MVC RAILS (THE RAILS DOCTRINE)                      │
+│                                                          │
+│ Browser ──► config/routes.rb (RESTful Routing)           │
+│                   │                                      │
+│                   ▼                                      │
+│             Controllers (ApplicationController)          │
+│               │                         │                │
+│               ▼                         ▼                │
+│       Models (ActiveRecord)      Views (ActionView / ERB)│
+│         • Validations              • Turbo Streams / SSR │
+│         • Associations             • Partials            │
+│               │                         │                │
+│               ▼                         ▼                │
+│          Database                 HTML Output ke Client   │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -119,67 +125,69 @@ Deploy Low-Level Cache APIs `Rails.cache.fetch("workspace_stats_#{workspace.id}"
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `resources :articles do ... end`
+- **Core Functionality:** Resourceful REST Routing Rails.
+- **Parameters / Attributes:** `Resource name, options block`.
+- **System Behavior & Return:** Mendefinisikan 7 rute RESTful standar (index, show, new, create, edit, update, destroy) dalam 1 baris..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+```ruby
+Rails.application.routes.draw do
+  resources :products
+  root 'products#index'
+end
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+7 rute CRUD standar otomatis aktif
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+### 2. `class Product < ApplicationRecord`
+- **Core Functionality:** Model ActiveRecord dengan ORM Canggih.
+- **Parameters / Attributes:** `Validations, Associations (has_many, belongs_to)`.
+- **System Behavior & Return:** Memetakan tabel database ke objek Ruby lengkap dengan validasi data dan relasi otomatis..
 - **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+```ruby
+class Product < ApplicationRecord
+  has_many :reviews, dependent: :destroy
+  validates :title, presence: true, length: { minimum: 3 }
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
+end
 ```
 - **Expected Execution Output:**
 ```text
-42
+Model Product aktif dengan validasi integritas data
 ```
 
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+### 3. `params.require(:product).permit(:title, :price)`
+- **Core Functionality:** Strong Parameters keamanan mass assignment.
+- **Parameters / Attributes:** `Model key, permitted attributes list`.
+- **System Behavior & Return:** Menolak atribut berbahaya yang dikirimkan peretas sebelum disimpan ke dalam database..
 - **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
-}
+```ruby
+def product_params
+  params.require(:product).permit(:title, :price, :in_stock)
+end
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Hanya kolom yang diizinkan yang dapat disimpan
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 4. `render json: @products / render :index`
+- **Core Functionality:** Rendering format respons fleksibel.
+- **Parameters / Attributes:** `Output format (json, html, turbo_stream)`.
+- **System Behavior & Return:** Menyajikan data dalam format JSON untuk API atau rendering template ERB untuk antarmuka web..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```ruby
+def index
+  @products = Product.all
+  render json: @products
+end
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Array objek produk disajikan sebagai JSON murni
 ```
-
 
 ---
 

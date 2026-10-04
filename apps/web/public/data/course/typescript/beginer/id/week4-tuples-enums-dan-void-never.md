@@ -103,16 +103,16 @@ Bangun sistem finite state machine pesanan: "CREATED" -> "PAID" -> "SHIPPED" -> 
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌───────────────────────────────┐
+│     KODE SUMBER TYPESCRIPT    │ (Strict Type Annotations)
+│ interface User { id: UUID; }  │
+└──────────────┬────────────────┘
+               │ TYPE CHECKING (tsc) ──► Menemukan bug sebelum runtime!
+               ▼
+┌───────────────────────────────┐
+│     JAVASCRIPT HASIL COMPILE  │ (Tipe dihapus / Type Erasure)
+│ function getUser(user) { ... }│
+└───────────────────────────────┘
 ```
 
 ---
@@ -124,65 +124,64 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 ### 1. `interface Name { prop: Type; }`
 - **Fungsi Utama:** Mendefinisikan kontrak bentuk objek terstruktur.
 - **Parameter / Atribut:** `Field names, Types, Optional (?)`.
-- **Perilaku & Efek Sistem:** Menjamin seluruh objek yang dibuat mematuhi struktur tipe yang ditentukan secara ketat saat compile-time.
+- **Perilaku & Efek Sistem:** Menjamin seluruh objek mematuhi struktur tipe data saat compile-time..
 - **Contoh Penggunaan Praktis:**
-```javascript
-interface Student {
+```typescript
+interface User {
   id: string;
   name: string;
-  gpa?: number;
+  isActive?: boolean;
 }
-const alex: Student = { id: 's1', name: 'Alex' };
+const u: User = { id: 'u1', name: 'Alex' };
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Validasi kompilasi berhasil tanpa error type mismatch
+Validasi kompilasi sukses 100% aman
 ```
 
 ### 2. `type Union = TypeA | TypeB`
-- **Fungsi Utama:** Tipe gabungan multi-kondisi (Union Type).
-- **Parameter / Atribut:** `Dua atau lebih definisi tipe`.
-- **Perilaku & Efek Sistem:** Mengizinkan variabel memiliki salah satu dari sekumpulan nilai atau struktur tipe yang diizinkan.
+- **Fungsi Utama:** Tipe gabungan multi-kondisi.
+- **Parameter / Atribut:** `Dua atau lebih varian tipe data`.
+- **Perilaku & Efek Sistem:** Membatasi variabel hanya boleh menerima salah satu nilai yang sah..
 - **Contoh Penggunaan Praktis:**
-```javascript
-type Status = 'pending' | 'success' | 'failed';
-let currentStatus: Status = 'success';
+```typescript
+type Status = 'idle' | 'loading' | 'success';
+let current: Status = 'loading';
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Hanya menerima 3 kemungkinan string yang dideklarasikan
+Menolak nilai di luar 3 opsi literal yang ditentukan
 ```
 
 ### 3. `function genericFn<T>(arg: T): T`
 - **Fungsi Utama:** Fungsi tipe dinamis aman (Generics).
 - **Parameter / Atribut:** `Type Parameter T`.
-- **Perilaku & Efek Sistem:** Memungkinkan pembuatan fungsi atau struktur kelas yang dapat bekerja dengan beragam tipe data dengan tetap menjaga type-safety.
+- **Perilaku & Efek Sistem:** Membuat fungsi yang dapat menangani berbagai tipe data dengan tetap menjaga type safety..
 - **Contoh Penggunaan Praktis:**
-```javascript
-function getFirst<T>(items: T[]): T | undefined {
-  return items[0];
+```typescript
+function wrap<T>(val: T): { data: T } {
+  return { data: val };
 }
-const firstNum = getFirst([10, 20]); // Type: number
+const box = wrap('Tryngo');
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-10 (dengan inferensi tipe number murni)
+{ data: 'Tryngo' }
 ```
 
 ### 4. `Partial<T> / Pick<T, K> / Omit<T, K>`
-- **Fungsi Utama:** Tipe utilitas bawaan TypeScript.
-- **Parameter / Atribut:** `Type T, Keys K`.
-- **Perilaku & Efek Sistem:** Mentransformasi struktur tipe yang sudah ada menjadi opsional (`Partial`) atau mengambil subset field spesifik.
+- **Fungsi Utama:** Tipe utilitas transformasi bawaan.
+- **Parameter / Atribut:** `Base Type T, Keys K`.
+- **Perilaku & Efek Sistem:** Mengubah properti menjadi opsional (`Partial`) atau mengambil subset kolom tertentu..
 - **Contoh Penggunaan Praktis:**
-```javascript
-interface Product { id: string; name: string; price: number; }
-type UpdateProductDto = Partial<Product>;
+```typescript
+interface Task { id: string; title: string; done: boolean; }
+type UpdateDto = Partial<Task>;
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Semua properti Product berubah menjadi opsional untuk update
+Semua kolom Task berubah menjadi opsional
 ```
-
 
 ---
 

@@ -186,16 +186,26 @@ Add Testcontainers integration in a `@SpringBootTest` test class running end-to-
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR ENTERPRISE SPRING BOOT 3                      │
+│                                                          │
+│ Client HTTP Request                                      │
+│       │                                                  │
+│       ▼                                                  │
+│ DispatcherServlet                                        │
+│       │                                                  │
+│       ▼                                                  │
+│ @RestController (Controller Endpoint)                    │
+│       │ Injeksi Dependensi (@Autowired / Constructor)    │
+│       ▼                                                  │
+│ @Service (Lapisan Logika Bisnis & @Transactional)        │
+│       │                                                  │
+│       ▼                                                  │
+│ @Repository (Spring Data JPA / Hibernate ORM)            │
+│       │                                                  │
+│       ▼                                                  │
+│ Database Pool (HikariCP)                                 │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -204,66 +214,74 @@ Add Testcontainers integration in a `@SpringBootTest` test class running end-to-
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `var x int / x := 42`
-- **Core Functionality:** Type-safe variable declaration and short assignment.
-- **Parameters / Attributes:** `Identifier, Type / Value`.
-- **System Behavior & Return:** `:=` infers concrete types dynamically in function bodies; `var` sets deterministic zero values.
+### 1. `@RestController & @RequestMapping('/api/v1')`
+- **Core Functionality:** Dekorator API Endpoint Spring Web.
+- **Parameters / Attributes:** `Base path mapping`.
+- **System Behavior & Return:** Mendeklarasikan kelas Java sebagai REST API Controller yang otomatis menserialisasi return value ke JSON..
 - **Practical Code Example:**
-```javascript
-counter := 10
-fmt.Println("Counter:", counter)
-```
-- **Expected Execution Output:**
-```text
-Counter: 10
-```
-
-### 2. `func (r Receiver) Method() ReturnType`
-- **Core Functionality:** Struct receiver method binding.
-- **Parameters / Attributes:** `Receiver instance, Parameters`.
-- **System Behavior & Return:** Associates behaviors directly with struct types without classical inheritance hierarchies.
-- **Practical Code Example:**
-```javascript
-type Point struct { X, Y int }
-func (p Point) Sum() int {
-  return p.X + p.Y
+```java
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    @GetMapping
+    public List<Product> list() { return productService.findAll(); }
 }
 ```
 - **Expected Execution Output:**
 ```text
-Evaluates method computation over struct fields
+Endpoint HTTP GET /api/products aktif
 ```
 
-### 3. `go func() { ... }()`
-- **Core Functionality:** Lightweight concurrent Goroutine dispatch.
-- **Parameters / Attributes:** `Anonymous / Named function`.
-- **System Behavior & Return:** Launches asynchronous task execution scheduled cooperatively by the Go runtime (~2KB stack footprint).
+### 2. `@Service & Injeksi Dependensi Konstruktor`
+- **Core Functionality:** Komponen Logika Bisnis & Dependency Injection.
+- **Parameters / Attributes:** `Constructor Injection`.
+- **System Behavior & Return:** Mendaftarkan class ke IoC Container Spring dan menginjeksi dependensi yang dibutuhkan secara otomatis..
 - **Practical Code Example:**
-```javascript
-go func() {
-  fmt.Println("Running asynchronously!")
-}()
+```java
+@Service
+public class ProductService {
+    private final ProductRepository repository;
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+}
 ```
 - **Expected Execution Output:**
 ```text
-Executes concurrently without blocking the main OS thread
+Service terinjeksi aman tanpa @Autowired refleksi
 ```
 
-### 4. `ch := make(chan int); ch <- 1; v := <-ch`
-- **Core Functionality:** Thread-safe CSP Channel pipeline.
-- **Parameters / Attributes:** `Element Type, Buffer capacity`.
-- **System Behavior & Return:** Transmits values synchronously between Goroutines with zero manual mutex or lock synchronization.
+### 3. `public interface ProductRepository extends JpaRepository<Product, Long>`
+- **Core Functionality:** Akses Database Otomatis Spring Data JPA.
+- **Parameters / Attributes:** `Entity Class, Primary Key Type`.
+- **System Behavior & Return:** Provides metode CRUD database (findAll, findById, save, delete) instan tanpa menulis implementasi..
 - **Practical Code Example:**
-```javascript
-ch := make(chan int)
-go func() { ch <- 42 }()
-fmt.Println(<-ch)
+```java
+public interface ProductRepository extends JpaRepository<Product, UUID> {
+    List<Product> findByInStockTrue();
+}
 ```
 - **Expected Execution Output:**
 ```text
-42
+Metode pencarian database siap dipakai seketika
 ```
 
+### 4. `@Transactional`
+- **Core Functionality:** Manajemen transaksi database ACID.
+- **Parameters / Attributes:** `Propagation, Isolation, RollbackFor`.
+- **System Behavior & Return:** Guarantees seluruh operasi database di dalam method berhasil seluruhnya atau di-rollback otomatis saat gagal..
+- **Practical Code Example:**
+```java
+@Transactional
+public void checkout(Order order) {
+    inventoryService.deduct(order);
+    orderRepository.save(order);
+}
+```
+- **Expected Execution Output:**
+```text
+Transaksi ACID dijamin aman tanpa data korup
+```
 
 ---
 

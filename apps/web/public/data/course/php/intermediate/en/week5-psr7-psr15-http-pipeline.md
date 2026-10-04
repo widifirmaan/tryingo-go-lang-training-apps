@@ -144,16 +144,22 @@ Build a CorsMiddleware intercepting preflight `OPTIONS` requests automatically a
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ SIKLUS HIDUP REQUEST PHP 8.3+ FPM                        │
+│                                                          │
+│ Nginx / Web Server ──(FastCGI)──► PHP-FPM Worker Pool    │
+│                                         │                │
+│                                         ▼                │
+│                                    OPcache Engine        │
+│                                    (Bytecode Preload)    │
+│                                         │                │
+│                                         ▼                │
+│                                    Zend Engine Eksekusi  │
+│                                    (Clean State per Req) │
+│                                         │                │
+│                                         ▼                │
+│ HTTP Response Output ◄───────── Garbage Collection       │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -162,67 +168,79 @@ Build a CorsMiddleware intercepting preflight `OPTIONS` requests automatically a
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `declare(strict_types=1);`
+- **Core Functionality:** Penegakan tipe data ketat PHP 8+.
+- **Parameters / Attributes:** `Mandatory on line 1 berkas PHP`.
+- **System Behavior & Return:** Mencegah type coercion tak terduga dan memastikan kompilasi menolak ketidaksesuaian tipe..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
-```
-- **Expected Execution Output:**
-```text
-Tryngo Learning 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
-- **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
-```
-- **Expected Execution Output:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
-- **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
+```php
+<?php
+declare(strict_types=1);
+function add(int $a, int $b): int {
+    return $a + $b;
 }
+echo add(5, 10);
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+15
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 2. `readonly class UserDto { public function __construct(...) }`
+- **Core Functionality:** Constructor Promotion & Readonly Class.
+- **Parameters / Attributes:** `public readonly properties`.
+- **System Behavior & Return:** Menyederhanakan pembuatan class immutable transfer data tanpa boilerplate penulisan getter..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```php
+<?php
+readonly class UserDto {
+    public function __construct(
+        public string $id,
+        public string $email
+    ) {}
+}
+$user = new UserDto('u1', 'alex@example.com');
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Objek data transfer immutable tercipta bersih
 ```
 
+### 3. `match($status) { 'paid' => 200, default => 400 }`
+- **Core Functionality:** Ekspresi pencocokan nilai PHP 8 (Match Expression).
+- **Parameters / Attributes:** `Target value, Arms pattern`.
+- **System Behavior & Return:** Alternatif modern untuk switch-case dengan perbandingan identik (`===`) dan nilai kembalian instan..
+- **Practical Code Example:**
+```php
+<?php
+$statusCode = 'paid';
+$code = match($statusCode) {
+    'paid' => 200,
+    'pending' => 202,
+    default => 400
+};
+echo $code;
+```
+- **Expected Execution Output:**
+```text
+200
+```
+
+### 4. `PDO::prepare('SELECT * FROM tbl WHERE id = ?')`
+- **Core Functionality:** Prepared statements pencegah SQL Injection.
+- **Parameters / Attributes:** `SQL query berparameter, Execute bindings`.
+- **System Behavior & Return:** Memisahkan instruksi SQL dari data pengguna untuk menjamin keamanan database mutlak..
+- **Practical Code Example:**
+```php
+<?php
+$stmt = $pdo->prepare('SELECT name FROM users WHERE id = :id');
+$stmt->execute(['id' => 1]);
+$user = $stmt->fetch();
+```
+- **Expected Execution Output:**
+```text
+Query aman bebas dari celah serangan injeksi
+```
 
 ---
 

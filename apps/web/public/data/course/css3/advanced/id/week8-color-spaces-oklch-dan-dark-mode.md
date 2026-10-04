@@ -178,11 +178,11 @@ Buat palet 5 tingkatan warna token OKLCH untuk sistem UI perusahaan (Primary, Su
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
 ### 1. `box-sizing: border-box;`
-- **Fungsi Utama:** Pengubah kalkulasi Box Model universal.
+- **Fungsi Utama:** Kalkulasi Box Model presisi.
 - **Parameter / Atribut:** `border-box | content-box`.
-- **Perilaku & Efek Sistem:** Memasukkan padding dan border ke dalam kalkulasi total lebar (width) elemen sehingga elemen tidak meluap keluar kontainer.
+- **Perilaku & Efek Sistem:** Memasukkan padding dan border ke dalam total lebar elemen agar tidak merusak layout grid..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```css
 * {
   box-sizing: border-box;
   margin: 0;
@@ -191,34 +191,33 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Elemen berukuran presisi tanpa kalkulasi manual tambahan
+Elemen berukuran presisi tanpa kalkulasi manual
 ```
 
 ### 2. `display: flex; justify-content: space-between; align-items: center;`
-- **Fungsi Utama:** Penyusunan tata letak satu dimensi (Flexbox).
+- **Fungsi Utama:** Penyusunan tata letak satu dimensi.
 - **Parameter / Atribut:** `flex-direction, justify-content, align-items`.
-- **Perilaku & Efek Sistem:** Mengatur perataan dan distribusi ruang kosong antar item anak secara fleksibel di sumbu utama dan sumbu silang.
+- **Perilaku & Efek Sistem:** Mengatur perataan dan distribusi ruang kosong antar item anak secara fleksibel..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```css
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Item navbar terdistribusi rapi di ujung kiri dan kanan
+Item navbar terdistribusi rapi di ujung kiri & kanan
 ```
 
-### 3. `display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));`
+### 3. `display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));`
 - **Fungsi Utama:** Sistem kisi dua dimensi responsif.
 - **Parameter / Atribut:** `grid-template-columns, gap`.
-- **Perilaku & Efek Sistem:** Menyusun grid adaptif yang otomatis menyesuaikan jumlah kolom berdasarkan lebar layar tanpa media query.
+- **Perilaku & Efek Sistem:** Menyusun grid adaptif yang otomatis menyesuaikan jumlah kolom tanpa media query..
 - **Contoh Penggunaan Praktis:**
-```javascript
-.card-grid {
+```css
+.grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
@@ -226,29 +225,26 @@ Item navbar terdistribusi rapi di ujung kiri dan kanan
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Kartu otomatis menyusun 1, 2, atau 3 kolom sesuai layar
+Kolom grid otomatis menyusun sesuai lebar layar
 ```
 
 ### 4. `transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);`
 - **Fungsi Utama:** Animasi transisi status interaktif.
 - **Parameter / Atribut:** `property, duration, timing-function`.
-- **Perilaku & Efek Sistem:** Memberikan efek perubahan visual yang mulus saat elemen mengalami perubahan status (misal hover/focus).
+- **Perilaku & Efek Sistem:** Memberikan efek perubahan visual yang mulus saat elemen mengalami perubahan status..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```css
 .btn {
-  background-color: #2E5B44;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s ease;
 }
 .btn:hover {
   transform: translateY(-2px);
-  background-color: #1f3d2e;
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tombol terangkat halus 2px saat kursor mouse diarahkan
+Tombol terangkat halus 2px saat kursor diarahkan
 ```
-
 
 ---
 

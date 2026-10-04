@@ -121,16 +121,22 @@ Integrasikan pustaka JavaScript `SortableJS` di dalam Stimulus controller untuk 
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ALUR MVC RAILS (THE RAILS DOCTRINE)                      │
+│                                                          │
+│ Browser ──► config/routes.rb (RESTful Routing)           │
+│                   │                                      │
+│                   ▼                                      │
+│             Controllers (ApplicationController)          │
+│               │                         │                │
+│               ▼                         ▼                │
+│       Models (ActiveRecord)      Views (ActionView / ERB)│
+│         • Validations              • Turbo Streams / SSR │
+│         • Associations             • Partials            │
+│               │                         │                │
+│               ▼                         ▼                │
+│          Database                 HTML Output ke Klien   │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -139,70 +145,69 @@ Integrasikan pustaka JavaScript `SortableJS` di dalam Stimulus controller untuk 
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `resources :articles do ... end`
+- **Fungsi Utama:** Resourceful REST Routing Rails.
+- **Parameter / Atribut:** `Resource name, options block`.
+- **Perilaku & Efek Sistem:** Mendefinisikan 7 rute RESTful standar (index, show, new, create, edit, update, destroy) dalam 1 baris..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```ruby
+Rails.application.routes.draw do
+  resources :products
+  root 'products#index'
+end
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+7 rute CRUD standar otomatis aktif
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `class Product < ApplicationRecord`
+- **Fungsi Utama:** Model ActiveRecord dengan ORM Canggih.
+- **Parameter / Atribut:** `Validations, Associations (has_many, belongs_to)`.
+- **Perilaku & Efek Sistem:** Memetakan tabel database ke objek Ruby lengkap dengan validasi data dan relasi otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+```ruby
+class Product < ApplicationRecord
+  has_many :reviews, dependent: :destroy
+  validates :title, presence: true, length: { minimum: 3 }
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
+end
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+Model Product aktif dengan validasi integritas data
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `params.require(:product).permit(:title, :price)`
+- **Fungsi Utama:** Strong Parameters keamanan mass assignment.
+- **Parameter / Atribut:** `Model key, permitted attributes list`.
+- **Perilaku & Efek Sistem:** Menolak atribut berbahaya yang dikirimkan peretas sebelum disimpan ke dalam database..
 - **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+```ruby
+def product_params
+  params.require(:product).permit(:title, :price, :in_stock)
+end
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Hanya kolom yang diizinkan yang dapat disimpan
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `render json: @products / render :index`
+- **Fungsi Utama:** Rendering format respons fleksibel.
+- **Parameter / Atribut:** `Output format (json, html, turbo_stream)`.
+- **Perilaku & Efek Sistem:** Menyajikan data dalam format JSON untuk API atau rendering template ERB untuk antarmuka web..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```ruby
+def index
+  @products = Product.all
+  render json: @products
+end
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Array objek produk disajikan sebagai JSON murni
 ```
-
 
 ---
 

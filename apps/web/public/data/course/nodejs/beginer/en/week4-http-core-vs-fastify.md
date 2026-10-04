@@ -126,16 +126,19 @@ Author a custom Fastify plugin using `fastify-plugin` (fp) that injects a `fasti
 ![Diagram Arsitektur V8 Engine & Libuv Event Loop Node.js](/diagrams/js-event-loop.svg)
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR RUNTIME NODE.JS                               │
+│                                                          │
+│   V8 JavaScript Engine  ◄──►  Node.js Core C++ Bindings  │
+│            │                             │               │
+│            ▼                             ▼               │
+│   ┌──────────────────────────────────────────────────┐   │
+│   │ LIBUV THREAD POOL & ASYNCHRONOUS EVENT LOOP      │   │
+│   │ • Non-blocking File I/O (fs.promises)            │   │
+│   │ • Network Sockets (http, net, tls)               │   │
+│   │ • Worker Threads untuk komputasi CPU berat       │   │
+│   └──────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -144,67 +147,68 @@ Author a custom Fastify plugin using `fastify-plugin` (fp) that injects a `fasti
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `import fs from 'node:fs/promises'`
+- **Core Functionality:** Modul manipulasi filesystem asinkron.
+- **Parameters / Attributes:** `Path file, Encoding, Data`.
+- **System Behavior & Return:** Membaca dan menulis file lokal dengan aman tanpa memblokir thread event loop..
 - **Practical Code Example:**
 ```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+import fs from 'node:fs/promises';
+const content = await fs.readFile('app.config.json', 'utf8');
+console.log(JSON.parse(content));
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+Membaca isi berkas konfigurasi secara non-blocking
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+### 2. `http.createServer((req, res) => { ... })`
+- **Core Functionality:** Server HTTP native berkecepatan tinggi.
+- **Parameters / Attributes:** `Request Listener (req, res)`.
+- **System Behavior & Return:** Menangani koneksi jaringan HTTP langsung dan mengirimkan status respon beserta payload data..
 - **Practical Code Example:**
 ```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+import http from 'node:http';
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ status: 'ok' }));
+});
+server.listen(3000);
 ```
 - **Expected Execution Output:**
 ```text
-42
+Server aktif mendengarkan di http://localhost:3000
 ```
 
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+### 3. `EventEmitter & .on() / .emit()`
+- **Core Functionality:** Arsitektur komunikasi berbasis event.
+- **Parameters / Attributes:** `Event name, Payload arguments`.
+- **System Behavior & Return:** Provides decoupling komunikasi modular menggunakan pola pub/sub internal Node.js..
 - **Practical Code Example:**
 ```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
-}
+import { EventEmitter } from 'node:events';
+const emitter = new EventEmitter();
+emitter.on('order', id => console.log('Pesanan masuk:', id));
+emitter.emit('order', 'ORD-99');
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Pesanan masuk: ORD-99
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 4. `process.env.VARIABLE_NAME`
+- **Core Functionality:** Akses variabel lingkungan sistem.
+- **Parameters / Attributes:** `Environment key identifier`.
+- **System Behavior & Return:** Membaca rahasia kredensial, port server, dan mode operasi (production/development)..
 - **Practical Code Example:**
 ```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+const PORT = process.env.PORT || 8080;
+console.log('Menjalankan pada port:', PORT);
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Menjalankan pada port: 8080
 ```
-
 
 ---
 

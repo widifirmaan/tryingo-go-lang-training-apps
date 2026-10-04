@@ -120,16 +120,20 @@ Author a localized `app/produk/[slug]/not-found.tsx` informing shoppers "This pr
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ NEXT.JS APP ROUTER ARCHITECTURE                          │
+│                                                          │
+│ [Server Component] (Default: Keamanan & DB Direct Access)│
+│  • page.tsx / layout.tsx                                 │
+│  • Fetch data di server tanpa CORS / Waterfalls          │
+│       │                                                  │
+│       ▼ Mengirim RSC Payload                             │
+│ [Client Component] ('use client')                        │
+│  • State lokal, onClick, animasi interaktif              │
+│       │                                                  │
+│       ▼ Server Actions ('use server')                    │
+│  Mutasi langsung ke database & Revalidasi Path           │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -138,67 +142,71 @@ Author a localized `app/produk/[slug]/not-found.tsx` informing shoppers "This pr
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `export default async function Page()`
+- **Core Functionality:** Server Component asinkron bawaan.
+- **Parameters / Attributes:** `Props (params, searchParams)`.
+- **System Behavior & Return:** Merender halaman di server dengan akses database langsung tanpa paparan secret ke browser..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
-```
-- **Expected Execution Output:**
-```text
-Tryngo Learning 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
-- **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
-```
-- **Expected Execution Output:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
-- **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
+```typescript
+export default async function Page() {
+  const data = await db.query('SELECT * FROM items');
+  return <main>{data.map(i => <p key={i.id}>{i.name}</p>)}</main>;
 }
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+HTML statis siap saji dikirimkan ke peramban klien
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 2. `'use client'`
+- **Core Functionality:** Direktif penanda Komponen Klien.
+- **Parameters / Attributes:** `Ditulis di baris pertama`.
+- **System Behavior & Return:** Mengizinkan penggunaan hook interaktif browser seperti `useState`, `useEffect`, dan event listener..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```typescript
+'use client';
+import { useState } from 'react';
+export default function Counter() {
+  const [val, setVal] = useState(0);
+  return <button onClick={() => setVal(v => v + 1)}>{val}</button>;
+}
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Komponen interaktif beroperasi di browser klien
 ```
 
+### 3. `'use server' (Server Actions)`
+- **Core Functionality:** Mutasi data server langsung dari form.
+- **Parameters / Attributes:** `Form data / arguments`.
+- **System Behavior & Return:** Mengeksekusi mutasi database di sisi server langsung dari event form klien tanpa endpoint REST terpisah..
+- **Practical Code Example:**
+```typescript
+async function createItem(formData: FormData) {
+  'use server';
+  const name = formData.get('name');
+  await db.items.create({ name });
+  revalidatePath('/items');
+}
+```
+- **Expected Execution Output:**
+```text
+Data tersimpan di server dan halaman otomatis di-revalidasi
+```
+
+### 4. `<Link href="/dashboard">`
+- **Core Functionality:** Navigasi halaman cepat tanpa reload.
+- **Parameters / Attributes:** `href (Path route)`.
+- **System Behavior & Return:** Melakukan pre-fetching rute di latar belakang dan transisi halaman instan (SPA feel)..
+- **Practical Code Example:**
+```typescript
+import Link from 'next/link';
+<Link href="/about" className="btn">Tentang Kami</Link>
+```
+- **Expected Execution Output:**
+```text
+Halaman berpindah instan tanpa muat ulang browser
+```
 
 ---
 

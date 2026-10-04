@@ -110,16 +110,20 @@ Konfigurasikan font kustom `Inter` menggunakan `next/font/google` di `app/layout
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ NEXT.JS APP ROUTER ARCHITECTURE                          │
+│                                                          │
+│ [Server Component] (Default: Keamanan & DB Direct Access)│
+│  • page.tsx / layout.tsx                                 │
+│  • Fetch data di server tanpa CORS / Waterfalls          │
+│       │                                                  │
+│       ▼ Mengirim RSC Payload                             │
+│ [Client Component] ('use client')                        │
+│  • State lokal, onClick, animasi interaktif              │
+│       │                                                  │
+│       ▼ Server Actions ('use server')                    │
+│  Mutasi langsung ke database & Revalidasi Path           │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -128,70 +132,71 @@ Konfigurasikan font kustom `Inter` menggunakan `next/font/google` di `app/layout
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `export default async function Page()`
+- **Fungsi Utama:** Server Component asinkron bawaan.
+- **Parameter / Atribut:** `Props (params, searchParams)`.
+- **Perilaku & Efek Sistem:** Merender halaman di server dengan akses database langsung tanpa paparan secret ke browser..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Tryngo 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
-- **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
-```
-- **Hasil Output yang Diharapkan:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
-- **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
+```typescript
+export default async function Page() {
+  const data = await db.query('SELECT * FROM items');
+  return <main>{data.map(i => <p key={i.id}>{i.name}</p>)}</main>;
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+HTML statis siap saji dikirimkan ke peramban klien
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 2. `'use client'`
+- **Fungsi Utama:** Direktif penanda Komponen Klien.
+- **Parameter / Atribut:** `Ditulis di baris pertama`.
+- **Perilaku & Efek Sistem:** Mengizinkan penggunaan hook interaktif browser seperti `useState`, `useEffect`, dan event listener..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```typescript
+'use client';
+import { useState } from 'react';
+export default function Counter() {
+  const [val, setVal] = useState(0);
+  return <button onClick={() => setVal(v => v + 1)}>{val}</button>;
+}
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Komponen interaktif beroperasi di browser klien
 ```
 
+### 3. `'use server' (Server Actions)`
+- **Fungsi Utama:** Mutasi data server langsung dari form.
+- **Parameter / Atribut:** `Form data / arguments`.
+- **Perilaku & Efek Sistem:** Mengeksekusi mutasi database di sisi server langsung dari event form klien tanpa endpoint REST terpisah..
+- **Contoh Penggunaan Praktis:**
+```typescript
+async function createItem(formData: FormData) {
+  'use server';
+  const name = formData.get('name');
+  await db.items.create({ name });
+  revalidatePath('/items');
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Data tersimpan di server dan halaman otomatis di-revalidasi
+```
+
+### 4. `<Link href="/dashboard">`
+- **Fungsi Utama:** Navigasi halaman cepat tanpa reload.
+- **Parameter / Atribut:** `href (Path route)`.
+- **Perilaku & Efek Sistem:** Melakukan pre-fetching rute di latar belakang dan transisi halaman instan (SPA feel)..
+- **Contoh Penggunaan Praktis:**
+```typescript
+import Link from 'next/link';
+<Link href="/about" className="btn">Tentang Kami</Link>
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Halaman berpindah instan tanpa muat ulang browser
+```
 
 ---
 

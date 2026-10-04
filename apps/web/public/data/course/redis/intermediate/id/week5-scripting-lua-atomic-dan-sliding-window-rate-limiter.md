@@ -97,16 +97,24 @@ Tulis script Lua atomic untuk mengimplementasikan algoritma Token Bucket: simpan
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR IN-MEMORY SINGLE-THREADED REDIS               │
+│                                                          │
+│ Klien TCP Request ──► I/O Multiplexing (epoll/kqueue)    │
+│                              │                           │
+│                              ▼                           │
+│                 Pusat Eksekusi Command                   │
+│                 (O(1) Super Cepat di RAM)                │
+│                 ┌───────────────────────────┐            │
+│                 │ STRINGS: 'user:1' -> JSON │            │
+│                 │ HASHES:  'cart:9' -> Fields│           │
+│                 │ SETS:    'online_users'   │            │
+│                 │ STREAMS: 'event_log'      │            │
+│                 └─────────────┬─────────────┘            │
+│                               │                          │
+│                               ▼                          │
+│              Persistensi Latar Belakang (AOF / RDB)      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -115,62 +123,60 @@ Tulis script Lua atomic untuk mengimplementasikan algoritma Token Bucket: simpan
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Fungsi Utama:** Mendefinisikan skema tabel relasional.
-- **Parameter / Atribut:** `Nama tabel, definisi kolom, batasan (PK, FK, NOT NULL)`.
-- **Perilaku & Efek Sistem:** Menyiapkan tabel database dengan validasi tipe data presisi dan integritas data.
+### 1. `SET key value [EX seconds] / GET key`
+- **Fungsi Utama:** Operasi string in-memory tercepat.
+- **Parameter / Atribut:** `Key identifier, Value payload, Expiration (EX)`.
+- **Perilaku & Efek Sistem:** Menyimpan dan mengambil cache data dalam hitungan sub-milidetik dengan batas kedaluwarsa otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email VARCHAR(255) UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
+```redis
+SET session:user_99 '{"role":"admin"}' EX 3600
+GET session:user_99
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tabel users siap menerima baris data
+"{\"role\":\"admin\"}"
 ```
 
-### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Fungsi Utama:** Query pembacaan dan penyaringan data.
-- **Parameter / Atribut:** `Daftar kolom, kondisi WHERE, klausa urutan dan limit`.
-- **Perilaku & Efek Sistem:** Mengambil rekaman data yang memenuhi kriteria pengujian secara efisien.
+### 2. `HSET key field value / HGETALL key`
+- **Fungsi Utama:** Struktur data Hash penyimpanan objek.
+- **Parameter / Atribut:** `Key, Field name, Value`.
+- **Perilaku & Efek Sistem:** Menyimpan banyak atribut objek di bawah satu key tanpa perlu serialisasi JSON berat..
 - **Contoh Penggunaan Praktis:**
-```javascript
-SELECT id, email FROM users WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC LIMIT 10;
+```redis
+HSET user:101 name "Alex" role "developer" active "true"
+HGETALL user:101
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan 10 baris pengguna terbaru
+1) "name" 2) "Alex" 3) "role" 4) "developer"
 ```
 
-### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Fungsi Utama:** Penyisipan baris baru dengan pengembalian nilai instan.
-- **Parameter / Atribut:** `Kolom target, data masukan, klausa RETURNING`.
-- **Perilaku & Efek Sistem:** Menyimpan data baru dan langsung mengembalikan nilai kolom yang digenerasi otomatis (seperti ID atau timestamp).
+### 3. `LPUSH queue job / RPOP queue`
+- **Fungsi Utama:** Struktur List untuk Message Queue FIFO.
+- **Parameter / Atribut:** `Key queue, Payload job`.
+- **Perilaku & Efek Sistem:** Mengimplementasikan antrean tugas asinkron super cepat antar pekerja worker..
 - **Contoh Penggunaan Praktis:**
-```javascript
-INSERT INTO users (email) VALUES ('alex@example.com') RETURNING id, created_at;
+```redis
+LPUSH email_queue "kirim_verifikasi_user_1"
+RPOP email_queue
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan ID UUID yang baru dibuat
+"kirim_verifikasi_user_1"
 ```
 
-### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Fungsi Utama:** Penggabungan relasi antar tabel (Join).
-- **Parameter / Atribut:** `Nama tabel, kondisi pencocokan kunci relasi ON`.
-- **Perilaku & Efek Sistem:** Menggabungkan baris dari dua tabel berdasarkan relasi foreign key.
+### 4. `PUBLISH channel message / SUBSCRIBE channel`
+- **Fungsi Utama:** Pub/Sub komunikasi real-time event.
+- **Parameter / Atribut:** `Channel name, Message payload`.
+- **Perilaku & Efek Sistem:** Menyiarkan pesan ke jutaan listener secara instan untuk chat atau notifikasi langsung..
 - **Contoh Penggunaan Praktis:**
-```javascript
-SELECT u.email, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;
+```redis
+PUBLISH notifications:global "Server maintenance jam 23:00"
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Daftar transaksi pesanan beserta email pemilik akun
+(integer) 1 (Pesan terkirim ke 1 subscriber)
 ```
-
 
 ---
 

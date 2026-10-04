@@ -192,12 +192,12 @@ Buat Subgraph ke-3: `Users Subgraph` yang memiliki entity `User @key(fields: "id
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `type Entity { id: ID! field: Type! }`
+### 1. `type Entity { id: ID! name: String! }`
 - **Fungsi Utama:** Schema Definition Language (SDL) Tipe Entitas.
 - **Parameter / Atribut:** `Field Name, Type, Non-Null Modifier (!)`.
-- **Perilaku & Efek Sistem:** Mendefinisikan struktur kontrak data yang dijamin oleh server kepada klien.
+- **Perilaku & Efek Sistem:** Mendefinisikan kontrak tipe data yang dijamin oleh server kepada seluruh klien API..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```graphql
 type Product {
   id: ID!
   name: String!
@@ -207,15 +207,15 @@ type Product {
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mendefinisikan tipe Product dalam skema
+Mendefinisikan tipe Product dalam skema SDL
 ```
 
 ### 2. `type Query { products: [Product!]! }`
-- **Fungsi Utama:** Root Query Type titik masuk pembacaan data.
+- **Fungsi Utama:** Root Query Type gerbang pembacaan data.
 - **Parameter / Atribut:** `Field Resolver Signature`.
-- **Perilaku & Efek Sistem:** Menjadi pintu gerbang semua operasi pembacaan data yang dapat diminta oleh klien.
+- **Perilaku & Efek Sistem:** Menjadi pintu masuk semua operasi pembacaan data yang dapat diminta oleh klien..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```graphql
 type Query {
   products(limit: Int): [Product!]!
   product(id: ID!): Product
@@ -223,17 +223,17 @@ type Query {
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Klien dapat meminta daftar produk dengan filter opsional limit
+Klien dapat meminta daftar produk dengan filter limit
 ```
 
 ### 3. `mutation CreateOrder($input: OrderInput!)`
-- **Fungsi Utama:** Operasi perubahan state data (Insert/Update/Delete).
-- **Parameter / Atribut:** `Parameter variabel GraphQL, Input Type`.
-- **Perilaku & Efek Sistem:** Mengirimkan data perubahan ke server dan meminta field balasan yang diperbarui secara atomik.
+- **Fungsi Utama:** Operasi perubahan data atomik.
+- **Parameter / Atribut:** `GraphQL variables, Input Object Type`.
+- **Perilaku & Efek Sistem:** Mengirimkan data perubahan ke server dan meminta field balasan yang diperbarui secara atomik..
 - **Contoh Penggunaan Praktis:**
-```javascript
-mutation {
-  createOrder(customer: "Alex", items: [{ product: "Mouse", qty: 1 }]) {
+```graphql
+mutation AddOrder {
+  createOrder(customer: "Alex", items: [{ product: "Hub", qty: 1 }]) {
     id
     total
     status
@@ -248,9 +248,9 @@ Pesanan dibuat dan ID beserta status langsung dikembalikan
 ### 4. `resolvers = { Query: { field: (parent, args, ctx) => ... } }`
 - **Fungsi Utama:** Fungsi Resolver pemetaan data.
 - **Parameter / Atribut:** `parent, args, context, info`.
-- **Perilaku & Efek Sistem:** Fungsi backend yang mengeksekusi pengambilan data dari database atau layanan lain untuk setiap field skema.
+- **Perilaku & Efek Sistem:** Fungsi backend yang mengeksekusi pengambilan data dari database untuk setiap field skema..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```typescript
 const resolvers = {
   Query: {
     product: (_, { id }, { db }) => db.products.findById(id)
@@ -261,7 +261,6 @@ const resolvers = {
 ```text
 Resolver mengambil data dari database sesuai argumen id
 ```
-
 
 ---
 

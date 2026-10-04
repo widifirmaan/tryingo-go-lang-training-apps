@@ -107,16 +107,20 @@ Add Stripe `customer.subscription.deleted` event handling to automatically revok
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR MODEL-TEMPLATE-VIEW (MTV) DJANGO              │
+│                                                          │
+│ Browser Request ──► urls.py (URL Router)                 │
+│                            │                             │
+│                            ▼                             │
+│                       views.py (Logika Bisnis)           │
+│                         │         │                      │
+│             Query DB    ▼         ▼   Render HTML        │
+│        models.py (ORM) ◄           ► templates/*.html    │
+│               │                            │             │
+│               ▼                            ▼             │
+│          Database Relasional           HTTP Response     │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -125,67 +129,68 @@ Add Stripe `customer.subscription.deleted` event handling to automatically revok
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `class Model(models.Model)`
+- **Core Functionality:** Definisi entitas ORM database.
+- **Parameters / Attributes:** `Field Types (CharField, IntegerField, ForeignKey)`.
+- **System Behavior & Return:** Memetakan struktur tabel database langsung dari class Python dengan migrasi bawaan..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
+```python
+from django.db import models
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
 ```
 - **Expected Execution Output:**
 ```text
-Tryngo Learning 1
+Skema tabel Product siap dimigrasi ke database
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
+### 2. `Product.objects.filter(price__gt=50000)`
+- **Core Functionality:** ORM QuerySet Fluent API.
+- **Parameters / Attributes:** `Field lookups (__gt, __icontains, __in)`.
+- **System Behavior & Return:** Menyusun query SQL relasional berkinerja tinggi secara lazy tanpa menulis SQL mentah..
 - **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
+```python
+cheap_products = Product.objects.filter(price__lte=100000).order_by('-created_at')[:5]
 ```
 - **Expected Execution Output:**
 ```text
-42
+Mengembalikan 5 baris produk termurah
 ```
 
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
+### 3. `def view(request): return render(request, 'home.html', ctx)`
+- **Core Functionality:** View Handler berbasis fungsi/kelas.
+- **Parameters / Attributes:** `HttpRequest, Template name, Context dict`.
+- **System Behavior & Return:** Menerima permintaan pengguna, memproses data, dan mengembalikan HTML yang ter-render..
 - **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
-}
+```python
+from django.shortcuts import render
+def home_view(request):
+    items = Product.objects.all()
+    return render(request, 'home.html', {'items': items})
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Halaman web ter-render sempurna untuk pengguna
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 4. `path('products/<int:id>/', views.detail, name='product-detail')`
+- **Core Functionality:** Pendaftaran URL Pattern terstruktur.
+- **Parameters / Attributes:** `Route string, View function, Unique name`.
+- **System Behavior & Return:** Menghubungkan pola URL yang diminta peramban ke fungsi view yang sesuai..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```python
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('products/<int:id>/', views.detail, name='product-detail')
+]
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Rute /products/123 dipetakan ke views.detail
 ```
-
 
 ---
 

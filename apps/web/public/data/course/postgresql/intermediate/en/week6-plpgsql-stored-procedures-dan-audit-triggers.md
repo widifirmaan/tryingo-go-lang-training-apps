@@ -141,7 +141,7 @@ Build a Soft Delete mechanism using a `BEFORE DELETE` trigger: instead of physic
 ┌────────────────────┐                 ┌────────────────────┐
 │   TABLE: users     │                 │   TABLE: orders    │
 ├────────────────────┤                 ├────────────────────┤
-│ id (PK: UUID)      │ ◄── 1-N Rel ─── │ id (PK: UUID)      │
+│ id (PK: UUID)      │ ◄── Relasi 1-N ─┤ id (PK: UUID)      │
 │ email (UNIQUE)     │                 │ user_id (FK -> PK) │
 │ created_at         │                 │ total_amount       │
 └────────────────────┘                 └────────────────────┘
@@ -154,61 +154,60 @@ Build a Soft Delete mechanism using a `BEFORE DELETE` trigger: instead of physic
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Core Functionality:** Relational schema definition.
-- **Parameters / Attributes:** `Column names, Data types, Constraints (PK/FK/NOT NULL)`.
-- **System Behavior & Return:** Constructs strongly typed database tables with guaranteed relational integrity.
+- **Core Functionality:** Defines skema tabel relasional.
+- **Parameters / Attributes:** `Nama tabel, definisi kolom, batasan (PK, FK, UNIQUE)`.
+- **System Behavior & Return:** Menyiapkan tabel database dengan validasi tipe data presisi dan integritas data ACID..
 - **Practical Code Example:**
-```javascript
-CREATE TABLE accounts (
+```sql
+CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  balance NUMERIC(10, 2) DEFAULT 0.00
+  email VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
 - **Expected Execution Output:**
 ```text
-Initializes accounts table ready for ACID transactions
+Tabel users siap menerima baris data
 ```
 
 ### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Core Functionality:** Declarative relational data retrieval.
-- **Parameters / Attributes:** `Column list, Filter predicates, Ordering, Paging limit`.
-- **System Behavior & Return:** Fetches matching database records with predictable execution plan optimization.
+- **Core Functionality:** Query pembacaan dan penyaringan data.
+- **Parameters / Attributes:** `Kolom list, Filter WHERE, Order, Limit`.
+- **System Behavior & Return:** Retrieves rekaman data yang memenuhi kriteria pengujian secara efisien..
 - **Practical Code Example:**
-```javascript
-SELECT id, email, balance FROM accounts WHERE balance > 0 ORDER BY balance DESC LIMIT 5;
+```sql
+SELECT id, email FROM users WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC LIMIT 10;
 ```
 - **Expected Execution Output:**
 ```text
-Returns top 5 funded customer accounts
+Mengembalikan 10 baris pengguna terbaru
 ```
 
 ### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Core Functionality:** Atomic record insertion with immediate return.
-- **Parameters / Attributes:** `Columns, Insert values, RETURNING clause`.
-- **System Behavior & Return:** Persists new row data and returns computed primary keys or defaults without an extra query.
+- **Core Functionality:** Insertion of baris baru dengan pengembalian nilai instan.
+- **Parameters / Attributes:** `Kolom target, data masukan, klausa RETURNING`.
+- **System Behavior & Return:** Persists baris baru dan langsung mengembalikan nilai kolom yang digenerasi otomatis..
 - **Practical Code Example:**
-```javascript
-INSERT INTO accounts (email) VALUES ('dev@tryngo.com') RETURNING id;
+```sql
+INSERT INTO users (email) VALUES ('alex@example.com') RETURNING id, created_at;
 ```
 - **Expected Execution Output:**
 ```text
-Returns newly allocated UUID primary key
+Mengembalikan ID UUID yang baru dibuat
 ```
 
 ### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Core Functionality:** Multi-table relational join.
-- **Parameters / Attributes:** `Table identifiers, ON match predicate`.
-- **System Behavior & Return:** Correlates rows across related tables matching foreign key references.
+- **Core Functionality:** Penggabungan relasi antar tabel (Join).
+- **Parameters / Attributes:** `Nama tabel, kondisi pencocokan kunci relasi ON`.
+- **System Behavior & Return:** Menggabungkan baris dari dua tabel berdasarkan relasi foreign key..
 - **Practical Code Example:**
-```javascript
-SELECT a.email, t.amount FROM accounts a INNER JOIN transactions t ON a.id = t.account_id;
+```sql
+SELECT u.email, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;
 ```
 - **Expected Execution Output:**
 ```text
-Consolidates account holders with their transaction history
+Daftar transaksi pesanan beserta email pemilik akun
 ```
-
 
 ---
 

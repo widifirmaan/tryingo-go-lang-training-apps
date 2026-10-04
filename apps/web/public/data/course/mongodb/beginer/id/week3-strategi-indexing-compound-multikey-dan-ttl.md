@@ -126,16 +126,21 @@ Bangun Text Index pada field `title` dan `description` untuk pencarian full-text
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ MODEL DATA DOKUMEN BSON MONGODB                          │
+│                                                          │
+│ Koleksi: users                                           │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ {                                                    │ │
+│ │   "_id": ObjectId("64f1a2b..."),                     │ │
+│ │   "name": "Alex Iskandar",                           │ │
+│ │   "profile": { "role": "admin", "verified": true },  │ │
+│ │   "tags": ["developer", "golang"],                   │ │
+│ │   "orders": [ { "id": "ORD-1", "total": 150000 } ]  │ │
+│ │ }                                                    │ │
+│ └──────────────────────────────────────────────────────┘ │
+│ Mendukung data bersarang (Embedded Document) tanpa Join! │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -144,62 +149,71 @@ Bangun Text Index pada field `title` dan `description` untuk pencarian full-text
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Fungsi Utama:** Mendefinisikan skema tabel relasional.
-- **Parameter / Atribut:** `Nama tabel, definisi kolom, batasan (PK, FK, NOT NULL)`.
-- **Perilaku & Efek Sistem:** Menyiapkan tabel database dengan validasi tipe data presisi dan integritas data.
+### 1. `db.collection.insertOne({ ... })`
+- **Fungsi Utama:** Penyisipan dokumen BSON tunggal.
+- **Parameter / Atribut:** `Document Object`.
+- **Perilaku & Efek Sistem:** Menyimpan data dokumen JSON/BSON baru ke dalam koleksi MongoDB..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email VARCHAR(255) UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+db.products.insertOne({
+  name: 'Keyboard Mekanikal',
+  price: 1200000,
+  tags: ['gaming', 'hardware'],
+  inStock: true
+});
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Dokumen tersimpan dengan _id unik otomatis
+```
+
+### 2. `db.collection.find({ query }, { projection })`
+- **Fungsi Utama:** Pencarian dokumen dengan filter deklaratif.
+- **Parameter / Atribut:** `Query filters ($eq, $gt, $in), Field projections`.
+- **Perilaku & Efek Sistem:** Mengambil daftar dokumen yang memenuhi kondisi pencarian..
+- **Contoh Penggunaan Praktis:**
+```javascript
+db.products.find(
+  { price: { $gte: 500000 }, inStock: true },
+  { name: 1, price: 1 }
+).limit(5);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Mengembalikan maksimal 5 dokumen produk
+```
+
+### 3. `db.collection.updateOne({ _id }, { $set: { status: 'paid' } })`
+- **Fungsi Utama:** Pembaruan field dokumen secara atomik.
+- **Parameter / Atribut:** `Filter selector, Update operators ($set, $inc, $push)`.
+- **Perilaku & Efek Sistem:** Mengubah field tertentu tanpa menimpa seluruh struktur dokumen yang ada..
+- **Contoh Penggunaan Praktis:**
+```javascript
+db.orders.updateOne(
+  { orderId: 'ORD-101' },
+  { $set: { status: 'completed' }, $currentDate: { updatedAt: true } }
 );
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tabel users siap menerima baris data
+Status pesanan berubah menjadi completed
 ```
 
-### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Fungsi Utama:** Query pembacaan dan penyaringan data.
-- **Parameter / Atribut:** `Daftar kolom, kondisi WHERE, klausa urutan dan limit`.
-- **Perilaku & Efek Sistem:** Mengambil rekaman data yang memenuhi kriteria pengujian secara efisien.
+### 4. `db.collection.aggregate([ { $match: ... }, { $group: ... } ])`
+- **Fungsi Utama:** Pipeline agregasi multi-tahap analitik.
+- **Parameter / Atribut:** `Aggregation stages ($match, $group, $sort)`.
+- **Perilaku & Efek Sistem:** Memproses dan mentransformasi jutaan dokumen menjadi laporan rekapitulasi data cepat..
 - **Contoh Penggunaan Praktis:**
 ```javascript
-SELECT id, email FROM users WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC LIMIT 10;
+db.orders.aggregate([
+  { $match: { status: 'completed' } },
+  { $group: { _id: '$category', totalSales: { $sum: '$total' } } }
+]);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan 10 baris pengguna terbaru
+Menghasilkan ringkasan total penjualan per kategori
 ```
-
-### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Fungsi Utama:** Penyisipan baris baru dengan pengembalian nilai instan.
-- **Parameter / Atribut:** `Kolom target, data masukan, klausa RETURNING`.
-- **Perilaku & Efek Sistem:** Menyimpan data baru dan langsung mengembalikan nilai kolom yang digenerasi otomatis (seperti ID atau timestamp).
-- **Contoh Penggunaan Praktis:**
-```javascript
-INSERT INTO users (email) VALUES ('alex@example.com') RETURNING id, created_at;
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Mengembalikan ID UUID yang baru dibuat
-```
-
-### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Fungsi Utama:** Penggabungan relasi antar tabel (Join).
-- **Parameter / Atribut:** `Nama tabel, kondisi pencocokan kunci relasi ON`.
-- **Perilaku & Efek Sistem:** Menggabungkan baris dari dua tabel berdasarkan relasi foreign key.
-- **Contoh Penggunaan Praktis:**
-```javascript
-SELECT u.email, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Daftar transaksi pesanan beserta email pemilik akun
-```
-
 
 ---
 

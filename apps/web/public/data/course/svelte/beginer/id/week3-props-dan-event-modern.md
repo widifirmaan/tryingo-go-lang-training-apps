@@ -130,16 +130,17 @@ Buat grid 4x4 drum pad (16 tombol) yang masing-masing memiliki sampel perkusi un
 ![Diagram Universal Signals & Svelte 5 Runes State Flow](/diagrams/react-data-flow.svg)
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ SVELTE 5 RUNES & FINE-GRAINED REACTIVITY                 │
+│                                                          │
+│  let count = $state(0) ──► Signal Primer                 │
+│       │                                                  │
+│       ▼                                                  │
+│  let double = $derived(count * 2) ──► Komputasi Turunan  │
+│       │                                                  │
+│       ▼ (Hanya memperbarui node teks spesifik di DOM!)   │
+│  <h1>{double}</h1> ◄── Tanpa Virtual DOM Overhead        │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -148,70 +149,73 @@ Buat grid 4x4 drum pad (16 tombol) yang masing-masing memiliki sampel perkusi un
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `let count = $state(0)`
+- **Fungsi Utama:** Rune state reaktif Svelte 5.
+- **Parameter / Atribut:** `initialValue`.
+- **Perilaku & Efek Sistem:** Mendeklarasikan variabel reaktif murni tanpa pembungkus .value atau setter khusus..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```svelte
+<script>
+  let count = $state(0);
+  function inc() { count += 1; }
+</script>
+<button onclick={inc}>Klik: {count}</button>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+Tombol reaktif memperbarui angka count
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `let double = $derived(count * 2)`
+- **Fungsi Utama:** Rune komputasi turunan Svelte 5.
+- **Parameter / Atribut:** `Expression`.
+- **Perilaku & Efek Sistem:** Otomatis menghitung ulang nilai turunan saat sinyal state primernya berubah..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+```svelte
+<script>
+  let count = $state(4);
+  let double = $derived(count * 2);
+</script>
+<p>Hasil: {double}</p>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+Hasil: 8
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `$effect(() => { ... })`
+- **Fungsi Utama:** Rune efek samping reaktif.
+- **Parameter / Atribut:** `Effect Callback`.
+- **Perilaku & Efek Sistem:** Menjalankan operasi DOM, API, atau timer saat state di dalamnya mengalami mutasi..
 - **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+```svelte
+<script>
+  let count = $state(0);
+  $effect(() => {
+    console.log('Nilai terkini:', count);
+  });
+</script>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Mencetak log otomatis setiap count berubah
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `bind:value={variable}`
+- **Fungsi Utama:** Sinkronisasi input form dua arah.
+- **Parameter / Atribut:** `Target state variable`.
+- **Perilaku & Efek Sistem:** Menautkan input form langsung ke state tanpa memerlukan event handler manual..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```svelte
+<script>
+  let name = $state('Tryngo');
+</script>
+<input bind:value={name} />
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Perubahan input langsung mengalir ke state name
 ```
-
 
 ---
 

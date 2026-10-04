@@ -220,11 +220,11 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 ### 1. `const [state, setState] = useState(initialValue)`
 - **Fungsi Utama:** Hook penyimpanan state lokal komponen.
 - **Parameter / Atribut:** `initialValue`.
-- **Perilaku & Efek Sistem:** Menyimpan data reaktif komponen. Memanggil setter memicu re-render UI secara otomatis dan terisolasi.
+- **Perilaku & Efek Sistem:** Menyimpan data reaktif. Memanggil setter memicu re-render UI secara otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```jsx
 const [count, setCount] = useState(0);
-// Memanggil: setCount(prev => prev + 1);
+// Eksekusi: setCount(prev => prev + 1);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
@@ -232,49 +232,48 @@ Komponen memperbarui angka count di layar
 ```
 
 ### 2. `useEffect(() => { ... }, [dependencies])`
-- **Fungsi Utama:** Hook efek samping (Lifecycle, Data Fetching, Subscription).
+- **Fungsi Utama:** Hook efek samping (Lifecycle & Subscriptions).
 - **Parameter / Atribut:** `Effect Callback, Dependency Array`.
-- **Perilaku & Efek Sistem:** Menjalankan logika sampingan setelah komponen di-render dan membersihkannya saat unmount.
+- **Perilaku & Efek Sistem:** Menjalankan sinkronisasi data setelah render dan membersihkan resource saat unmount..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```jsx
 useEffect(() => {
-  const timer = setInterval(() => console.log('Ping'), 1000);
-  return () => clearInterval(timer);
+  console.log('Komponen terpasang ke DOM');
+  return () => console.log('Komponen dilepas');
 }, []);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Timer berjalan 1x saat mount dan dibersihkan saat unmount
+Log dicetak saat mount dan unmount
 ```
 
 ### 3. `function Component(props) { return <JSX /> }`
 - **Fungsi Utama:** Deklarasi Komponen Fungsi Dasar.
 - **Parameter / Atribut:** `props object`.
-- **Perilaku & Efek Sistem:** Blok bangunan independen dan dapat digunakan kembali yang mengubah data props menjadi elemen visual.
+- **Perilaku & Efek Sistem:** Blok bangunan UI modular yang mengubah parameter data menjadi tampilan visual..
 - **Contoh Penggunaan Praktis:**
-```javascript
-function Badge({ label }: { label: string }) {
-  return <span className="badge">{label}</span>;
+```jsx
+function UserCard({ name }: { name: string }) {
+  return <div className="card"><h3>{name}</h3></div>;
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Elemen visual badge ter-render dengan teks label
+Elemen kartu ter-render dengan nama pengguna
 ```
 
 ### 4. `useContext(MyContext)`
-- **Fungsi Utama:** Konsumsi state global tanpa prop-drilling.
+- **Fungsi Utama:** Akses state global tanpa prop-drilling.
 - **Parameter / Atribut:** `React Context Object`.
-- **Perilaku & Efek Sistem:** Membaca nilai state dari Context Provider terdekat di pohon hierarki komponen.
+- **Perilaku & Efek Sistem:** Membaca nilai state dari Context Provider terdekat dalam hierarki komponen..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```jsx
 const { theme, toggleTheme } = useContext(ThemeContext);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mendapatkan akses instan ke nilai tema global
+Mendapatkan nilai tema aktif secara instan
 ```
-
 
 ---
 

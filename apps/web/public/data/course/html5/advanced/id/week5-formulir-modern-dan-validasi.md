@@ -167,65 +167,64 @@ Bangun formulir "Pemesanan Tiket Pesawat": sertakan fieldset identitas penumpang
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
 ### 1. `<!DOCTYPE html>`
-- **Fungsi Utama:** Deklarasi standar dokumen HTML5.
-- **Parameter / Atribut:** `Wajib di baris 1`.
-- **Perilaku & Efek Sistem:** Mengaktifkan rendering Standard Mode pada peramban web modern.
+- **Fungsi Utama:** Deklarasi standar dokumen HTML5 modern.
+- **Parameter / Atribut:** `Wajib di baris paling pertama`.
+- **Perilaku & Efek Sistem:** Mengaktifkan rendering Standard Mode pada peramban web modern..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```html
 <!DOCTYPE html>
 <html lang="id">
-  <head><title>Tryngo</title></head>
+  <head><title>Tryngo Web</title></head>
 </html>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Halaman dirender sesuai spesifikasi HTML5 W3C
+Halaman dirender sesuai standar W3C
 ```
 
 ### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Fungsi Utama:** Pengaturan viewport perangkat mobile.
-- **Parameter / Atribut:** `name, content`.
-- **Perilaku & Efek Sistem:** Mengatur skala layar perangkat 1:1 agar website responsif tanpa zoom bawaan yang mengecilkan font.
+- **Fungsi Utama:** Pengaturan dimensi dan skala layar mobile.
+- **Parameter / Atribut:** `name='viewport', content='...'`.
+- **Perilaku & Efek Sistem:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tampilan menyesuaikan lebar layar ponsel secara otomatis
+Tampilan responsif di seluruh layar ponsel
 ```
 
 ### 3. `<header>, <main>, <footer>`
-- **Fungsi Utama:** Elemen penanda semantik (Landmark Elements).
+- **Fungsi Utama:** Struktur landmark semantik aksesibilitas.
 - **Parameter / Atribut:** `Global attributes (class, id, lang)`.
-- **Perilaku & Efek Sistem:** Membagi dokumen menjadi banner navigasi, konten unik utama, dan informasi kaki untuk aksesibilitas screen reader.
+- **Perilaku & Efek Sistem:** Membagi dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
 - **Contoh Penggunaan Praktis:**
-```javascript
-<header><h1>Judul Portal</h1></header>
-<main><p>Konten artikel utama.</p></main>
-<footer>&copy; 2026 Tryngo</footer>
+```html
+<header><h1>Portal</h1></header>
+<main><p>Artikel utama.</p></main>
+<footer>&copy; 2026</footer>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Struktur dokumen terbaca jelas oleh mesin pencari & pembaca tuna netra
+Terbaca jelas oleh screen reader & mesin pencari
 ```
 
 ### 4. `<form action="/api" method="POST">`
 - **Fungsi Utama:** Kontainer pengumpulan data pengguna.
 - **Parameter / Atribut:** `action (URL), method (GET/POST)`.
-- **Perilaku & Efek Sistem:** Menyediakan form interaktif untuk mengirimkan data input ke server endpoint.
+- **Perilaku & Efek Sistem:** Menyediakan wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```html
 <form action="/submit" method="POST">
-  <input type="text" name="username" required />
+  <input type="text" name="user" required />
   <button type="submit">Kirim</button>
 </form>
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Formulir interaktif siap dikirimkan ke backend
+Formulir interaktif siap dikirim
 ```
-
 
 ---
 

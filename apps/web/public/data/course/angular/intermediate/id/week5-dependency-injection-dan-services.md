@@ -132,16 +132,17 @@ Kembangkan `PatientRecordsService` dengan fungsi pencarian reaktif `cariPasienBe
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR KOMPONEN ANGULAR                              │
+│                                                          │
+│  @Component({ standalone: true })                        │
+│       │                                                  │
+│  Template HTML ◄── [Property Binding] ── Signals (State) │
+│       │                                                  │
+│  User Action   ─── (Event Binding)   ──► Method Callback │
+│       │                                                  │
+│  Dependency Injection: Injeksi Service via inject()      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -150,70 +151,70 @@ Kembangkan `PatientRecordsService` dengan fungsi pencarian reaktif `cariPasienBe
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `count = signal(0)`
+- **Fungsi Utama:** State reaktif Angular Signals.
+- **Parameter / Atribut:** `initialValue`.
+- **Perilaku & Efek Sistem:** Menyediakan variabel sinyal reaktif granular yang memicu deteksi perubahan performa tinggi..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Tryngo 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
-- **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
-```
-- **Hasil Output yang Diharapkan:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
-- **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
+```typescript
+import { signal } from '@angular/core';
+export class CounterComponent {
+  count = signal(0);
+  inc() { this.count.update(n => n + 1); }
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Komponen Angular merender sinyal reaktif
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 2. `double = computed(() => this.count() * 2)`
+- **Fungsi Utama:** Sinyal komputasi memoized.
+- **Parameter / Atribut:** `Compute Callback`.
+- **Perilaku & Efek Sistem:** Menghitung nilai turunan otomatis dengan cache pintar tanpa re-evaluasi redundan..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```typescript
+import { signal, computed } from '@angular/core';
+count = signal(10);
+double = computed(() => this.count() * 2);
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+double() mengembalikan nilai 20
 ```
 
+### 3. `@Component({ standalone: true, ... })`
+- **Fungsi Utama:** Deklarasi Komponen Standalone Modern.
+- **Parameter / Atribut:** `Selector, Imports, Template`.
+- **Perilaku & Efek Sistem:** Mendefinisikan komponen modular mandiri tanpa memerlukan NgModules yang rumit..
+- **Contoh Penggunaan Praktis:**
+```typescript
+@Component({
+  selector: 'app-user',
+  standalone: true,
+  template: `<h2>{{ title() }}</h2>`
+})
+export class UserComponent {}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Komponen siap dirender di aplikasi Angular
+```
+
+### 4. `inject(HttpClient)`
+- **Fungsi Utama:** Injeksi dependensi fungsional.
+- **Parameter / Atribut:** `Service Token`.
+- **Perilaku & Efek Sistem:** Mengambil instance service dependensi secara fungsional tanpa constructor boilerplate..
+- **Contoh Penggunaan Praktis:**
+```typescript
+import { inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+private http = inject(HttpClient);
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Service HttpClient siap digunakan untuk pemanggilan API
+```
 
 ---
 

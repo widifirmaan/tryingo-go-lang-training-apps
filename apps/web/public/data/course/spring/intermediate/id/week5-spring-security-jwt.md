@@ -105,16 +105,26 @@ Konfigurasikan Spring Security sebagai OAuth2 Resource Server yang memvalidasi J
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR ENTERPRISE SPRING BOOT 3                      │
+│                                                          │
+│ Client HTTP Request                                      │
+│       │                                                  │
+│       ▼                                                  │
+│ DispatcherServlet                                        │
+│       │                                                  │
+│       ▼                                                  │
+│ @RestController (Controller Endpoint)                    │
+│       │ Injeksi Dependensi (@Autowired / Constructor)    │
+│       ▼                                                  │
+│ @Service (Lapisan Logika Bisnis & @Transactional)        │
+│       │                                                  │
+│       ▼                                                  │
+│ @Repository (Spring Data JPA / Hibernate ORM)            │
+│       │                                                  │
+│       ▼                                                  │
+│ Database Pool (HikariCP)                                 │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -123,69 +133,74 @@ Konfigurasikan Spring Security sebagai OAuth2 Resource Server yang memvalidasi J
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `var x int / x := 42`
-- **Fungsi Utama:** Deklarasi variabel statis dan deklarasi pendek (Short Declaration).
-- **Parameter / Atribut:** `Identifier, Type / Value`.
-- **Perilaku & Efek Sistem:** `:=` menginferensi tipe data secara otomatis di dalam fungsi; `var` digunakan untuk deklarasi paket atau nilai default.
+### 1. `@RestController & @RequestMapping('/api/v1')`
+- **Fungsi Utama:** Dekorator API Endpoint Spring Web.
+- **Parameter / Atribut:** `Base path mapping`.
+- **Perilaku & Efek Sistem:** Mendeklarasikan kelas Java sebagai REST API Controller yang otomatis menserialisasi return value ke JSON..
 - **Contoh Penggunaan Praktis:**
-```javascript
-age := 25
-name := "Alex Iskandar"
-fmt.Printf("%s berusia %d tahun
-", name, age);
-```
-- **Hasil Output yang Diharapkan:**
-```text
-Alex Iskandar berusia 25 tahun
-```
-
-### 2. `func (r Receiver) Method() ReturnType`
-- **Fungsi Utama:** Penerapan Method pada Struct (OOP ala Go).
-- **Parameter / Atribut:** `Receiver (value/pointer), Parameters`.
-- **Perilaku & Efek Sistem:** Menghubungkan fungsi khusus ke tipe struct untuk membentuk perilaku objek tanpa class inheritance hierarki.
-- **Contoh Penggunaan Praktis:**
-```javascript
-type User struct { Name string }
-func (u User) Greet() string {
-  return "Halo, " + u.Name
+```java
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    @GetMapping
+    public List<Product> list() { return productService.findAll(); }
 }
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan string sapaan personal
+Endpoint HTTP GET /api/products aktif
 ```
 
-### 3. `go func() { ... }()`
-- **Fungsi Utama:** Eksekusi thread ringan konkuren (Goroutine).
-- **Parameter / Atribut:** `Fungsi anonim / fungsi bernama`.
-- **Perilaku & Efek Sistem:** Menjalankan komputasi di thread runtime Go yang sangat ringan (hanya ~2KB memori awal).
+### 2. `@Service & Injeksi Dependensi Konstruktor`
+- **Fungsi Utama:** Komponen Logika Bisnis & Dependency Injection.
+- **Parameter / Atribut:** `Constructor Injection`.
+- **Perilaku & Efek Sistem:** Mendaftarkan class ke IoC Container Spring dan menginjeksi dependensi yang dibutuhkan secara otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
-go func() {
-  fmt.Println("Berjalan konkuren di goroutine terpisah!")
-}()
+```java
+@Service
+public class ProductService {
+    private final ProductRepository repository;
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
+}
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Dieksekusi asinkron tanpa memblokir alur utama program
+Service terinjeksi aman tanpa @Autowired refleksi
 ```
 
-### 4. `ch := make(chan string); ch <- val; val := <-ch`
-- **Fungsi Utama:** Saluran komunikasi antar goroutine (Channel).
-- **Parameter / Atribut:** `Tipe data channel, kapasitas buffer`.
-- **Perilaku & Efek Sistem:** Mengirim dan menerima data antar goroutine dengan sinkronisasi bawaan tanpa perlu lock/mutex manual.
+### 3. `public interface ProductRepository extends JpaRepository<Product, Long>`
+- **Fungsi Utama:** Akses Database Otomatis Spring Data JPA.
+- **Parameter / Atribut:** `Entity Class, Primary Key Type`.
+- **Perilaku & Efek Sistem:** Menyediakan metode CRUD database (findAll, findById, save, delete) instan tanpa menulis implementasi..
 - **Contoh Penggunaan Praktis:**
-```javascript
-ch := make(chan int)
-go func() { ch <- 100 }()
-result := <-ch
-fmt.Println("Diterima:", result);
+```java
+public interface ProductRepository extends JpaRepository<Product, UUID> {
+    List<Product> findByInStockTrue();
+}
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Diterima: 100
+Metode pencarian database siap dipakai seketika
 ```
 
+### 4. `@Transactional`
+- **Fungsi Utama:** Manajemen transaksi database ACID.
+- **Parameter / Atribut:** `Propagation, Isolation, RollbackFor`.
+- **Perilaku & Efek Sistem:** Menjamin seluruh operasi database di dalam method berhasil seluruhnya atau di-rollback otomatis saat gagal..
+- **Contoh Penggunaan Praktis:**
+```java
+@Transactional
+public void checkout(Order order) {
+    inventoryService.deduct(order);
+    orderRepository.save(order);
+}
+```
+- **Hasil Output yang Diharapkan:**
+```text
+Transaksi ACID dijamin aman tanpa data korup
+```
 
 ---
 

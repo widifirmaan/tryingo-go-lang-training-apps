@@ -104,11 +104,11 @@ Build a complete HTML5 document shell for "Healthy Life Medical Clinic". Include
 ┌──────────────────────────────────────────────────────────┐
 │                   <!DOCTYPE html>                        │
 │ ┌──────────────────────────────────────────────────────┐ │
-│ │ <html lang="en">                                     │ │
+│ │ <html lang="id">                                     │ │
 │ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
-│ │  │ <head> (Metadata)       │ │ <body> (Visible UI) │ │ │
+│ │  │ <head> (Metadata)       │ │ <body> (Visible UI)   │ │ │
 │ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
-│ │  │ • <title>Document</title>│ • <main>             │ │ │
+│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
 │ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
 │ │  └─────────────────────────┘ └─────────────────────┘ │ │
 │ └──────────────────────────────────────────────────────┘ │
@@ -122,65 +122,64 @@ Build a complete HTML5 document shell for "Healthy Life Medical Clinic". Include
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
 ### 1. `<!DOCTYPE html>`
-- **Core Functionality:** Document type preamble.
-- **Parameters / Attributes:** `Must be placed on line 1`.
-- **System Behavior & Return:** Instructs web browsers to render the document in modern Standard Mode, avoiding legacy Quirks Mode rendering quirks.
+- **Core Functionality:** Declaration of standar dokumen HTML5 modern.
+- **Parameters / Attributes:** `Mandatory on first line`.
+- **System Behavior & Return:** Enables rendering Standard Mode pada peramban web modern..
 - **Practical Code Example:**
-```javascript
+```html
 <!DOCTYPE html>
-<html lang="en">
-  <head><title>Tryngo Platform</title></head>
+<html lang="id">
+  <head><title>Tryngo Web</title></head>
 </html>
 ```
 - **Expected Execution Output:**
 ```text
-Page renders strictly compliant with W3C HTML5 standards
+Page rendered sesuai standar W3C
 ```
 
 ### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Core Functionality:** Responsive mobile viewport configuration.
-- **Parameters / Attributes:** `name, content`.
-- **System Behavior & Return:** Aligns viewport coordinates 1:1 with device physical pixels, preventing mobile browsers from shrinking text.
+- **Core Functionality:** Configuration of dimensi dan skala layar mobile.
+- **Parameters / Attributes:** `name='viewport', content='...'`.
+- **System Behavior & Return:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
 - **Practical Code Example:**
-```javascript
+```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
 - **Expected Execution Output:**
 ```text
-Layout adapts dynamically to mobile, tablet, and desktop viewports
+Responsive layout di seluruh layar ponsel
 ```
 
 ### 3. `<header>, <main>, <footer>`
-- **Core Functionality:** Semantic ARIA landmark structural elements.
+- **Core Functionality:** Struktur landmark semantik aksesibilitas.
 - **Parameters / Attributes:** `Global attributes (class, id, lang)`.
-- **System Behavior & Return:** Partitions documents into navigation headers, main content, and footer regions for accessibility screen readers.
+- **System Behavior & Return:** Partitions dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
 - **Practical Code Example:**
-```javascript
-<header><h1>News Feed</h1></header>
-<main><p>Primary article content.</p></main>
-<footer>&copy; 2026 Tryngo</footer>
+```html
+<header><h1>Portal</h1></header>
+<main><p>Artikel utama.</p></main>
+<footer>&copy; 2026</footer>
 ```
 - **Expected Execution Output:**
 ```text
-Provides accessible landmark navigation for screen readers and SEO crawlers
+Clearly accessible oleh screen reader & mesin pencari
 ```
 
 ### 4. `<form action="/api" method="POST">`
-- **Core Functionality:** Interactive user input container.
-- **Parameters / Attributes:** `action (target URL), method (GET/POST)`.
-- **System Behavior & Return:** Collects and packages validated user form inputs for HTTP submission to server endpoints.
+- **Core Functionality:** Kontainer pengumpulan data pengguna.
+- **Parameters / Attributes:** `action (URL), method (GET/POST)`.
+- **System Behavior & Return:** Provides wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
 - **Practical Code Example:**
-```javascript
+```html
 <form action="/submit" method="POST">
-  <input type="text" name="username" required />
-  <button type="submit">Submit</button>
+  <input type="text" name="user" required />
+  <button type="submit">Kirim</button>
 </form>
 ```
 - **Expected Execution Output:**
 ```text
-Form inputs serialized and transmitted on submit
+Formulir interaktif siap dikirim
 ```
-
 
 ---
 

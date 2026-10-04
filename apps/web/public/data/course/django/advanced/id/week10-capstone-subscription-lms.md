@@ -107,16 +107,20 @@ Tambahkan penanganan event Stripe `customer.subscription.deleted` untuk secara o
 ## Model Mental & Diagram Alur Visual
 
 ```diagram
-┌──────────────┐     Call Stack Kosong?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Code)  │                             │  (Pemeriksa)   │
-└──────┬───────┘                             └───────▲────────┘
-       │ Operasi Async (Fetch / Timer)               │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Selesai ────►  │ TASK / PROMISE │
-│  (Background)│                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR MODEL-TEMPLATE-VIEW (MTV) DJANGO              │
+│                                                          │
+│ Browser Request ──► urls.py (URL Router)                 │
+│                            │                             │
+│                            ▼                             │
+│                       views.py (Logika Bisnis)           │
+│                         │         │                      │
+│             Query DB    ▼         ▼   Render HTML        │
+│        models.py (ORM) ◄           ► templates/*.html    │
+│               │                            │             │
+│               ▼                            ▼             │
+│          Database Relasional           HTTP Response     │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -125,70 +129,68 @@ Tambahkan penanganan event Stripe `customer.subscription.deleted` untuk secara o
 
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
-### 1. `const / let variabel`
-- **Fungsi Utama:** Deklarasi variabel modern lingkup blok (Block Scope).
-- **Parameter / Atribut:** `Identifier, Initial Value`.
-- **Perilaku & Efek Sistem:** `const` untuk referensi konstan yang tidak dapat di-reassign; `let` untuk variabel nilai dinamis.
+### 1. `class Model(models.Model)`
+- **Fungsi Utama:** Definisi entitas ORM database.
+- **Parameter / Atribut:** `Field Types (CharField, IntegerField, ForeignKey)`.
+- **Perilaku & Efek Sistem:** Memetakan struktur tabel database langsung dari class Python dengan migrasi bawaan..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const appName = 'Tryngo';
-let counter = 0;
-counter += 1;
-console.log(appName, counter);
+```python
+from django.db import models
+class Product(models.Model):
+    name = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Tryngo 1
+Skema tabel Product siap dimigrasi ke database
 ```
 
-### 2. `() => { ... } (Arrow Function)`
-- **Fungsi Utama:** Sintaks fungsi ringkas dengan lexical 'this'.
-- **Parameter / Atribut:** `Parameters, Function Body`.
-- **Perilaku & Efek Sistem:** Menyederhanakan penulisan fungsi dan mempertahankan konteks `this` dari lingkup pembungkus luar.
+### 2. `Product.objects.filter(price__gt=50000)`
+- **Fungsi Utama:** ORM QuerySet Fluent API.
+- **Parameter / Atribut:** `Field lookups (__gt, __icontains, __in)`.
+- **Perilaku & Efek Sistem:** Menyusun query SQL relasional berkinerja tinggi secara lazy tanpa menulis SQL mentah..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const multiply = (a, b) => a * b;
-console.log(multiply(6, 7));
+```python
+cheap_products = Product.objects.filter(price__lte=100000).order_by('-created_at')[:5]
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-42
+Mengembalikan 5 baris produk termurah
 ```
 
-### 3. `async / await & fetch(url)`
-- **Fungsi Utama:** Penanganan operasi asinkron berbasis Promise.
-- **Parameter / Atribut:** `URL string, RequestInit options`.
-- **Perilaku & Efek Sistem:** Menulis kode asinkron dengan alur linier layaknya kode sinkron tanpa callback hell.
+### 3. `def view(request): return render(request, 'home.html', ctx)`
+- **Fungsi Utama:** View Handler berbasis fungsi/kelas.
+- **Parameter / Atribut:** `HttpRequest, Template name, Context dict`.
+- **Perilaku & Efek Sistem:** Menerima permintaan pengguna, memproses data, dan mengembalikan HTML yang ter-render..
 - **Contoh Penggunaan Praktis:**
-```javascript
-async function fetchUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  const data = await res.json();
-  return data;
-}
+```python
+from django.shortcuts import render
+def home_view(request):
+    items = Product.objects.all()
+    return render(request, 'home.html', {'items': items})
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Mengembalikan objek data JSON terurai dari server
+Halaman web ter-render sempurna untuk pengguna
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Fungsi Utama:** Transformasi array fungsional tanpa mutasi data asal.
-- **Parameter / Atribut:** `callback(item, index, array)`.
-- **Perilaku & Efek Sistem:** `map` menghasilkan array baru dari hasil transformasi; `filter` menyaring elemen berdasarkan kondisi boolean.
+### 4. `path('products/<int:id>/', views.detail, name='product-detail')`
+- **Fungsi Utama:** Pendaftaran URL Pattern terstruktur.
+- **Parameter / Atribut:** `Route string, View function, Unique name`.
+- **Perilaku & Efek Sistem:** Menghubungkan pola URL yang diminta peramban ke fungsi view yang sesuai..
 - **Contoh Penggunaan Praktis:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const doubledEvens = numbers
-  .filter(n => n % 2 === 0)
-  .map(n => n * 2);
-console.log(doubledEvens);
+```python
+from django.urls import path
+from . import views
+urlpatterns = [
+    path('products/<int:id>/', views.detail, name='product-detail')
+]
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-[4, 8]
+Rute /products/123 dipetakan ke views.detail
 ```
-
 
 ---
 

@@ -162,20 +162,20 @@ Build a Live Chat Room with Subscriptions: declare `messageSent(roomId: ID!): Me
 
 ```diagram
 ┌─────────────────────────────────────────────────────────┐
-│ CLIENT: Sends Single Declarative Query (Exact Fields)   │
+│ CLIENT: Mengirim 1 Query Deklaratif (Spesifik Field)    │
 │ POST /graphql { query { user { id name orders { id } } }│
 └────────────────────────────┬────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────┐
-│ GRAPHQL SERVER: SDL Schema & Resolver Tree              │
-│ 1. Resolves Query.user -> Calls Database                │
-│ 2. Resolves User.orders -> Calls Payment Microservice   │
+│ GRAPHQL SERVER: Skema SDL & Pohon Resolver              │
+│ 1. Resolves Query.user -> Panggil DB Pengguna           │
+│ 2. Resolves User.orders -> Panggil Service Transaksi    │
 └────────────────────────────┬────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────┐
-│ RESPONSE: Pure JSON Mirroring Query Structure           │
+│ HASIL: JSON Murni Berbentuk Sama Persis dengan Query   │
 │ { "data": { "user": { "name": "Alex", "orders": [...] }}}│
 └─────────────────────────────────────────────────────────┘
 ```
@@ -186,30 +186,30 @@ Build a Live Chat Room with Subscriptions: declare `messageSent(roomId: ID!): Me
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `type Entity { id: ID! field: Type! }`
-- **Core Functionality:** Schema Definition Language (SDL) Entity Contract.
-- **Parameters / Attributes:** `Field names, Types, Non-Null Modifier (!)`.
-- **System Behavior & Return:** Defines structural schema contracts strictly guaranteed by server resolvers to API consumers.
+### 1. `type Entity { id: ID! name: String! }`
+- **Core Functionality:** Schema Definition Language (SDL) Tipe Entitas.
+- **Parameters / Attributes:** `Field Name, Type, Non-Null Modifier (!)`.
+- **System Behavior & Return:** Mendefinisikan kontrak tipe data yang dijamin oleh server kepada seluruh klien API..
 - **Practical Code Example:**
-```javascript
+```graphql
 type Product {
   id: ID!
-  title: String!
+  name: String!
   price: Float!
   inStock: Boolean!
 }
 ```
 - **Expected Execution Output:**
 ```text
-Declares strongly typed Product contract in SDL
+Mendefinisikan tipe Product dalam skema SDL
 ```
 
 ### 2. `type Query { products: [Product!]! }`
-- **Core Functionality:** Root Query Type Entry Point.
-- **Parameters / Attributes:** `Field query signature`.
-- **System Behavior & Return:** Acts as the single ingress door for all client data reads across the system.
+- **Core Functionality:** Root Query Type gerbang pembacaan data.
+- **Parameters / Attributes:** `Field Resolver Signature`.
+- **System Behavior & Return:** Menjadi pintu masuk semua operasi pembacaan data yang dapat diminta oleh klien..
 - **Practical Code Example:**
-```javascript
+```graphql
 type Query {
   products(limit: Int): [Product!]!
   product(id: ID!): Product
@@ -217,16 +217,16 @@ type Query {
 ```
 - **Expected Execution Output:**
 ```text
-Clients may query product catalogs with optional limit filtering
+Klien dapat meminta daftar produk dengan filter limit
 ```
 
 ### 3. `mutation CreateOrder($input: OrderInput!)`
-- **Core Functionality:** Atomic State Mutation Operation.
+- **Core Functionality:** Operation of perubahan data atomik.
 - **Parameters / Attributes:** `GraphQL variables, Input Object Type`.
-- **System Behavior & Return:** Executes create, update, or delete commands and returns modified fields atomically.
+- **System Behavior & Return:** Mengirimkan data perubahan ke server dan meminta field balasan yang diperbarui secara atomik..
 - **Practical Code Example:**
-```javascript
-mutation {
+```graphql
+mutation AddOrder {
   createOrder(customer: "Alex", items: [{ product: "Hub", qty: 1 }]) {
     id
     total
@@ -236,15 +236,15 @@ mutation {
 ```
 - **Expected Execution Output:**
 ```text
-Persists order and immediately returns generated ID and status
+Pesanan dibuat dan ID beserta status langsung dikembalikan
 ```
 
 ### 4. `resolvers = { Query: { field: (parent, args, ctx) => ... } }`
-- **Core Functionality:** Resolver execution mapping function.
+- **Core Functionality:** Fungsi Resolver pemetaan data.
 - **Parameters / Attributes:** `parent, args, context, info`.
-- **System Behavior & Return:** Maps schema fields to underlying database queries, microservice RPCs, or cache Lookups.
+- **System Behavior & Return:** Fungsi backend yang mengeksekusi pengambilan data dari database untuk setiap field skema..
 - **Practical Code Example:**
-```javascript
+```typescript
 const resolvers = {
   Query: {
     product: (_, { id }, { db }) => db.products.findById(id)
@@ -253,9 +253,8 @@ const resolvers = {
 ```
 - **Expected Execution Output:**
 ```text
-Executes database query using supplied argument ID
+Resolver mengambil data dari database sesuai argumen id
 ```
-
 
 ---
 

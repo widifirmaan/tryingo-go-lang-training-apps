@@ -122,40 +122,40 @@ Buat file `.dockerignore` berstandar keamanan tinggi yang secara default mengaba
 Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
 
 ### 1. `FROM <image>:<tag>`
-- **Fungsi Utama:** Menentukan base image awal.
-- **Parameter / Atribut:** `Nama image, Versi/Tag`.
-- **Perilaku & Efek Sistem:** Fondasi sistem operasi dan runtime aplikasi (misal `node:20-alpine`, `golang:1.24`).
+- **Fungsi Utama:** Menentukan base image fondasi container.
+- **Parameter / Atribut:** `Image identifier, Tag versi`.
+- **Perilaku & Efek Sistem:** Menetapkan sistem operasi minimalis dan runtime awal (misal `node:20-alpine`, `golang:1.24`)..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```dockerfile
 FROM node:20-alpine
 WORKDIR /app
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Menyiapkan lingkungan Node.js di atas sistem operasi Alpine Linux
+Lingkungan container Node.js di atas Alpine siap
 ```
 
-### 2. `COPY <src> <dest>`
-- **Fungsi Utama:** Menyalin file lokal ke dalam image filesystem.
-- **Parameter / Atribut:** `Path file host, Path tujuan container`.
-- **Perilaku & Efek Sistem:** Memasukkan kode sumber, file konfigurasi, dan aset ke direktori kerja container.
+### 2. `COPY <host_src> <container_dest>`
+- **Fungsi Utama:** Menyalin file host ke dalam image filesystem.
+- **Parameter / Atribut:** `Path lokal, Path tujuan container`.
+- **Perilaku & Efek Sistem:** Memasukkan kode sumber, file konfigurasi, dan aset ke direktori kerja container..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```dockerfile
 COPY package*.json ./
-RUN npm install
+RUN npm install --production
 COPY . .
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Kode aplikasi tersalin ke dalam container untuk dijalankan
+Kode aplikasi tersalin ke dalam container
 ```
 
 ### 3. `RUN <command>`
-- **Fungsi Utama:** Mengeksekusi perintah build pembuatan layer.
-- **Parameter / Atribut:** `Shell command`.
-- **Perilaku & Efek Sistem:** Menginstal dependencies, mengkompilasi binary, dan mengatur izin sistem.
+- **Fungsi Utama:** Mengeksekusi instruksi build layer.
+- **Parameter / Atribut:** `Shell instruction`.
+- **Perilaku & Efek Sistem:** Menginstal dependencies, mengkompilasi binary, dan mengatur izin sistem saat build dijalankan..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```dockerfile
 RUN npm run build
 ```
 - **Hasil Output yang Diharapkan:**
@@ -163,19 +163,18 @@ RUN npm run build
 Menghasilkan bundle produksi di dalam layer image
 ```
 
-### 4. `docker run -d -p 8080:80 --name web app:v1`
-- **Fungsi Utama:** Menjalankan container dari image.
+### 4. `docker run -d -p 8080:80 --name my-app app:v1`
+- **Fungsi Utama:** Menjalankan instance container aktif.
 - **Parameter / Atribut:** `Flag -d (detached), -p (port mapping), --name`.
-- **Perilaku & Efek Sistem:** Membuat dan menyalakan instance container aktif yang memetakan port host 8080 ke port container 80.
+- **Perilaku & Efek Sistem:** Membuat dan menyalakan container yang memetakan port host 8080 ke port container 80..
 - **Contoh Penggunaan Praktis:**
-```javascript
-docker run -d -p 3000:3000 my-app
+```bash
+docker run -d -p 3000:3000 --name web-service my-app:latest
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
-Aplikasi web aktif dan dapat diakses di http://localhost:3000
+Container berjalan di latar belakang dan dapat diakses
 ```
-
 
 ---
 

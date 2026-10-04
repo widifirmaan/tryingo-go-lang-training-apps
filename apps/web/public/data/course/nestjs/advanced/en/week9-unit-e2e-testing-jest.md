@@ -109,16 +109,23 @@ Write a comprehensive E2E test suite for checkout routes `/api/v1/orders/checkou
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ PIPELINE PERMINTAAN NESTJS                               │
+│                                                          │
+│ HTTP Request ──► [Guards: Auth] ──► [Interceptors: Pre]  │
+│                         │                                │
+│                         ▼                                │
+│              [Pipes: Validation DTO]                     │
+│                         │                                │
+│                         ▼                                │
+│              [Controller: @Get/@Post]                    │
+│                         │                                │
+│                         ▼                                │
+│              [Service: Business Logic]                   │
+│                         │                                │
+│                         ▼                                │
+│ Response ◄── [Interceptors: Post] ◄── [Exception Filter] │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -127,67 +134,72 @@ Write a comprehensive E2E test suite for checkout routes `/api/v1/orders/checkou
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `const / let variables`
-- **Core Functionality:** Modern block-scoped variable declarations.
-- **Parameters / Attributes:** `Identifier, Initial Value`.
-- **System Behavior & Return:** `const` defines immutable references; `let` defines reassignable state variables bounded to enclosing blocks.
+### 1. `@Controller('users')`
+- **Core Functionality:** Dekorator pengenal rute API controller.
+- **Parameters / Attributes:** `Base path string`.
+- **System Behavior & Return:** Memetakan request HTTP yang masuk ke handler method spesifik di dalam kelas controller..
 - **Practical Code Example:**
-```javascript
-const title = 'Tryngo Learning';
-let counter = 0;
-counter += 1;
-console.log(title, counter);
-```
-- **Expected Execution Output:**
-```text
-Tryngo Learning 1
-```
-
-### 2. `() => { ... } (Arrow Function)`
-- **Core Functionality:** Compact function expression with lexical 'this'.
-- **Parameters / Attributes:** `Parameters, Function Body`.
-- **System Behavior & Return:** Provides concise function syntax while retaining the lexical `this` binding of the outer enclosing scope.
-- **Practical Code Example:**
-```javascript
-const double = (n) => n * 2;
-console.log(double(21));
-```
-- **Expected Execution Output:**
-```text
-42
-```
-
-### 3. `async / await & fetch(url)`
-- **Core Functionality:** Linear asynchronous Promise resolution.
-- **Parameters / Attributes:** `URL string, RequestInit options`.
-- **System Behavior & Return:** Author asynchronous asynchronous workflows sequentially without callback pyramids.
-- **Practical Code Example:**
-```javascript
-async function getUser(id) {
-  const res = await fetch(`https://api.example.com/users/${id}`);
-  return await res.json();
+```typescript
+@Controller('users')
+export class UsersController {
+  @Get(':id')
+  findOne(@Param('id') id: string) { return { id }; }
 }
 ```
 - **Expected Execution Output:**
 ```text
-Returns resolved JSON object from server
+Endpoint GET /users/:id siap diakses klien
 ```
 
-### 4. `Array.prototype.map() / filter()`
-- **Core Functionality:** Pure functional array transformation.
-- **Parameters / Attributes:** `callback(item, index, array)`.
-- **System Behavior & Return:** `map` returns transformed values; `filter` removes non-matching elements without mutating the original array.
+### 2. `@Injectable()`
+- **Core Functionality:** Dekorator penyedia layanan (Provider / Service).
+- **Parameters / Attributes:** `Provider Scope (default: Singleton)`.
+- **System Behavior & Return:** Mendaftarkan class ke dalam IoC (Inversion of Control) Container NestJS untuk diinjeksi otomatis..
 - **Practical Code Example:**
-```javascript
-const numbers = [1, 2, 3, 4, 5];
-const evens = numbers.filter(n => n % 2 === 0);
-console.log(evens);
+```typescript
+@Injectable()
+export class UsersService {
+  findAll() { return ['Alex', 'Budi']; }
+}
 ```
 - **Expected Execution Output:**
 ```text
-[2, 4]
+Service siap diinjeksi ke Controller mana pun
 ```
 
+### 3. `@Body() dto: CreateUserDto`
+- **Core Functionality:** Ekstraksi dan validasi payload body.
+- **Parameters / Attributes:** `DTO Class Schema`.
+- **System Behavior & Return:** Mengekstrak JSON body dari HTTP request dan memvalidasi aturan field via ValidationPipe..
+- **Practical Code Example:**
+```typescript
+@Post()
+create(@Body() dto: CreateUserDto) {
+  return this.usersService.create(dto);
+}
+```
+- **Expected Execution Output:**
+```text
+Payload otomatis divalidasi sebelum logika dijalankan
+```
+
+### 4. `@Module({ controllers: [...], providers: [...] })`
+- **Core Functionality:** Pengelompok modul arsitektur terstruktur.
+- **Parameters / Attributes:** `controllers, providers, exports, imports`.
+- **System Behavior & Return:** Mengorganisasi aplikasi menjadi modul-modul independen dan kohesif..
+- **Practical Code Example:**
+```typescript
+@Module({
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService]
+})
+export class UsersModule {}
+```
+- **Expected Execution Output:**
+```text
+Modul Users siap diimpor oleh modul utama AppModule
+```
 
 ---
 

@@ -146,10 +146,10 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 
 ### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
 - **Fungsi Utama:** Mendefinisikan skema tabel relasional.
-- **Parameter / Atribut:** `Nama tabel, definisi kolom, batasan (PK, FK, NOT NULL)`.
-- **Perilaku & Efek Sistem:** Menyiapkan tabel database dengan validasi tipe data presisi dan integritas data.
+- **Parameter / Atribut:** `Nama tabel, definisi kolom, batasan (PK, FK, UNIQUE)`.
+- **Perilaku & Efek Sistem:** Menyiapkan tabel database dengan validasi tipe data presisi dan integritas data ACID..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```sql
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email VARCHAR(255) UNIQUE NOT NULL,
@@ -163,10 +163,10 @@ Tabel users siap menerima baris data
 
 ### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
 - **Fungsi Utama:** Query pembacaan dan penyaringan data.
-- **Parameter / Atribut:** `Daftar kolom, kondisi WHERE, klausa urutan dan limit`.
-- **Perilaku & Efek Sistem:** Mengambil rekaman data yang memenuhi kriteria pengujian secara efisien.
+- **Parameter / Atribut:** `Kolom list, Filter WHERE, Order, Limit`.
+- **Perilaku & Efek Sistem:** Mengambil rekaman data yang memenuhi kriteria pengujian secara efisien..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```sql
 SELECT id, email FROM users WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC LIMIT 10;
 ```
 - **Hasil Output yang Diharapkan:**
@@ -177,9 +177,9 @@ Mengembalikan 10 baris pengguna terbaru
 ### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
 - **Fungsi Utama:** Penyisipan baris baru dengan pengembalian nilai instan.
 - **Parameter / Atribut:** `Kolom target, data masukan, klausa RETURNING`.
-- **Perilaku & Efek Sistem:** Menyimpan data baru dan langsung mengembalikan nilai kolom yang digenerasi otomatis (seperti ID atau timestamp).
+- **Perilaku & Efek Sistem:** Menyimpan baris baru dan langsung mengembalikan nilai kolom yang digenerasi otomatis..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```sql
 INSERT INTO users (email) VALUES ('alex@example.com') RETURNING id, created_at;
 ```
 - **Hasil Output yang Diharapkan:**
@@ -190,16 +190,15 @@ Mengembalikan ID UUID yang baru dibuat
 ### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
 - **Fungsi Utama:** Penggabungan relasi antar tabel (Join).
 - **Parameter / Atribut:** `Nama tabel, kondisi pencocokan kunci relasi ON`.
-- **Perilaku & Efek Sistem:** Menggabungkan baris dari dua tabel berdasarkan relasi foreign key.
+- **Perilaku & Efek Sistem:** Menggabungkan baris dari dua tabel berdasarkan relasi foreign key..
 - **Contoh Penggunaan Praktis:**
-```javascript
+```sql
 SELECT u.email, o.total FROM users u INNER JOIN orders o ON u.id = o.user_id;
 ```
 - **Hasil Output yang Diharapkan:**
 ```text
 Daftar transaksi pesanan beserta email pemilik akun
 ```
-
 
 ---
 

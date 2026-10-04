@@ -95,16 +95,24 @@ Implement a mutex-based Cache Stampede guard: upon a cache miss, issue `SET lock
 ## Visual Mental Model & Architecture Flow
 
 ```diagram
-┌──────────────┐      Call Stack Empty?      ┌────────────────┐
-│  CALL STACK  │ ◄─────────────────────────  │   EVENT LOOP   │
-│ (Sync Frames)│                             │  (Coordinator) │
-└──────┬───────┘                             └───────▲────────┘
-       │ Async Operations (Fetch / Timer)            │
-       ▼                                             │
-┌──────────────┐                             ┌───────┴────────┐
-│  WEB APIs    │ ─── Callback Ready ──────►  │ TASK / PROMISE │
-│ (Background) │                             │     QUEUE      │
-└──────────────┘                             └────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│ ARSITEKTUR IN-MEMORY SINGLE-THREADED REDIS               │
+│                                                          │
+│ Client TCP Request ──► I/O Multiplexing (epoll/kqueue)    │
+│                              │                           │
+│                              ▼                           │
+│                 Pusat Eksekusi Command                   │
+│                 (O(1) Super Cepat di RAM)                │
+│                 ┌───────────────────────────┐            │
+│                 │ STRINGS: 'user:1' -> JSON │            │
+│                 │ HASHES:  'cart:9' -> Fields│           │
+│                 │ SETS:    'online_users'   │            │
+│                 │ STREAMS: 'event_log'      │            │
+│                 └─────────────┬─────────────┘            │
+│                               │                          │
+│                               ▼                          │
+│              Persistensi Latar Belakang (AOF / RDB)      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -113,62 +121,60 @@ Implement a mutex-based Cache Stampede guard: upon a cache miss, issue `SET lock
 
 Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
 
-### 1. `CREATE TABLE name ( col TYPE CONSTRAINT );`
-- **Core Functionality:** Relational schema definition.
-- **Parameters / Attributes:** `Column names, Data types, Constraints (PK/FK/NOT NULL)`.
-- **System Behavior & Return:** Constructs strongly typed database tables with guaranteed relational integrity.
+### 1. `SET key value [EX seconds] / GET key`
+- **Core Functionality:** Operation of string in-memory tercepat.
+- **Parameters / Attributes:** `Key identifier, Value payload, Expiration (EX)`.
+- **System Behavior & Return:** Persists dan mengambil cache data dalam hitungan sub-milidetik dengan batas kedaluwarsa otomatis..
 - **Practical Code Example:**
-```javascript
-CREATE TABLE accounts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  balance NUMERIC(10, 2) DEFAULT 0.00
-);
+```redis
+SET session:user_99 '{"role":"admin"}' EX 3600
+GET session:user_99
 ```
 - **Expected Execution Output:**
 ```text
-Initializes accounts table ready for ACID transactions
+"{\"role\":\"admin\"}"
 ```
 
-### 2. `SELECT cols FROM tbl WHERE cond ORDER BY col LIMIT n;`
-- **Core Functionality:** Declarative relational data retrieval.
-- **Parameters / Attributes:** `Column list, Filter predicates, Ordering, Paging limit`.
-- **System Behavior & Return:** Fetches matching database records with predictable execution plan optimization.
+### 2. `HSET key field value / HGETALL key`
+- **Core Functionality:** Struktur data Hash penyimpanan objek.
+- **Parameters / Attributes:** `Key, Field name, Value`.
+- **System Behavior & Return:** Persists banyak atribut objek di bawah satu key tanpa perlu serialisasi JSON berat..
 - **Practical Code Example:**
-```javascript
-SELECT id, email, balance FROM accounts WHERE balance > 0 ORDER BY balance DESC LIMIT 5;
+```redis
+HSET user:101 name "Alex" role "developer" active "true"
+HGETALL user:101
 ```
 - **Expected Execution Output:**
 ```text
-Returns top 5 funded customer accounts
+1) "name" 2) "Alex" 3) "role" 4) "developer"
 ```
 
-### 3. `INSERT INTO tbl (cols) VALUES (vals) RETURNING id;`
-- **Core Functionality:** Atomic record insertion with immediate return.
-- **Parameters / Attributes:** `Columns, Insert values, RETURNING clause`.
-- **System Behavior & Return:** Persists new row data and returns computed primary keys or defaults without an extra query.
+### 3. `LPUSH queue job / RPOP queue`
+- **Core Functionality:** Struktur List untuk Message Queue FIFO.
+- **Parameters / Attributes:** `Key queue, Payload job`.
+- **System Behavior & Return:** Mengimplementasikan antrean tugas asinkron super cepat antar pekerja worker..
 - **Practical Code Example:**
-```javascript
-INSERT INTO accounts (email) VALUES ('dev@tryngo.com') RETURNING id;
+```redis
+LPUSH email_queue "kirim_verifikasi_user_1"
+RPOP email_queue
 ```
 - **Expected Execution Output:**
 ```text
-Returns newly allocated UUID primary key
+"kirim_verifikasi_user_1"
 ```
 
-### 4. `SELECT * FROM a INNER JOIN b ON a.id = b.a_id;`
-- **Core Functionality:** Multi-table relational join.
-- **Parameters / Attributes:** `Table identifiers, ON match predicate`.
-- **System Behavior & Return:** Correlates rows across related tables matching foreign key references.
+### 4. `PUBLISH channel message / SUBSCRIBE channel`
+- **Core Functionality:** Pub/Sub komunikasi real-time event.
+- **Parameters / Attributes:** `Channel name, Message payload`.
+- **System Behavior & Return:** Menyiarkan pesan ke jutaan listener secara instan untuk chat atau notifikasi langsung..
 - **Practical Code Example:**
-```javascript
-SELECT a.email, t.amount FROM accounts a INNER JOIN transactions t ON a.id = t.account_id;
+```redis
+PUBLISH notifications:global "Server maintenance jam 23:00"
 ```
 - **Expected Execution Output:**
 ```text
-Consolidates account holders with their transaction history
+(integer) 1 (Pesan terkirim ke 1 subscriber)
 ```
-
 
 ---
 
