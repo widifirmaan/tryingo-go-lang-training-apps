@@ -201,7 +201,7 @@ type Product {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Mendefinisikan tipe Product dalam skema SDL
 ```
 
@@ -217,7 +217,7 @@ type Query {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Klien dapat meminta daftar produk dengan filter limit
 ```
 
@@ -236,7 +236,7 @@ mutation AddOrder {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Pesanan dibuat dan ID beserta status langsung dikembalikan
 ```
 
@@ -253,7 +253,7 @@ const resolvers = {
 };
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Resolver mengambil data dari database sesuai argumen id
 ```
 

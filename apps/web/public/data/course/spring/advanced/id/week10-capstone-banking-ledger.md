@@ -228,7 +228,7 @@ public class ProductController {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Endpoint HTTP GET /api/products aktif
 ```
 
@@ -247,7 +247,7 @@ public class ProductService {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Service terinjeksi aman tanpa @Autowired refleksi
 ```
 
@@ -262,7 +262,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Metode pencarian database siap dipakai seketika
 ```
 
@@ -279,7 +279,7 @@ public void checkout(Order order) {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Transaksi ACID dijamin aman tanpa data korup
 ```
 

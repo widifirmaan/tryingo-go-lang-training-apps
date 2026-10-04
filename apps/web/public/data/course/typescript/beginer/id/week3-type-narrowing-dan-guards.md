@@ -146,10 +146,11 @@ interface User {
   isActive?: boolean;
 }
 const u: User = { id: 'u1', name: 'Alex' };
+console.log(u.name);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Validasi kompilasi sukses 100% aman
+```output
+Alex
 ```
 
 ### 2. `type Union = TypeA | TypeB`
@@ -160,10 +161,11 @@ Validasi kompilasi sukses 100% aman
 ```typescript
 type Status = 'idle' | 'loading' | 'success';
 let current: Status = 'loading';
+console.log(current);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Menolak nilai di luar 3 opsi literal yang ditentukan
+```output
+loading
 ```
 
 ### 3. `function genericFn<T>(arg: T): T`
@@ -176,10 +178,11 @@ function wrap<T>(val: T): { data: T } {
   return { data: val };
 }
 const box = wrap('Tryngo');
+console.log(JSON.stringify(box));
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-{ data: 'Tryngo' }
+```output
+{"data":"Tryngo"}
 ```
 
 ### 4. `Partial<T> / Pick<T, K> / Omit<T, K>`
@@ -190,10 +193,12 @@ const box = wrap('Tryngo');
 ```typescript
 interface Task { id: string; title: string; done: boolean; }
 type UpdateDto = Partial<Task>;
+const update: UpdateDto = { done: true };
+console.log(update.done);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Semua kolom Task berubah menjadi opsional
+```output
+true
 ```
 
 ---

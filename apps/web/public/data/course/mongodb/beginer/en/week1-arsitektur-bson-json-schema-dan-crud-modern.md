@@ -195,7 +195,7 @@ db.products.insertOne({
 });
 ```
 - **Expected Execution Output:**
-```text
+```output
 Dokumen tersimpan dengan _id unik otomatis
 ```
 
@@ -211,7 +211,7 @@ db.products.find(
 ).limit(5);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Mengembalikan maksimal 5 dokumen produk
 ```
 
@@ -227,7 +227,7 @@ db.orders.updateOne(
 );
 ```
 - **Expected Execution Output:**
-```text
+```output
 Status pesanan berubah menjadi completed
 ```
 
@@ -243,7 +243,7 @@ db.orders.aggregate([
 ]);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Menghasilkan ringkasan total penjualan per kategori
 ```
 

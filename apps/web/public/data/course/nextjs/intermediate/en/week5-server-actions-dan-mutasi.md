@@ -149,7 +149,7 @@ export default async function Page() {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 HTML statis siap saji dikirimkan ke peramban klien
 ```
 
@@ -167,7 +167,7 @@ export default function Counter() {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Komponen interaktif beroperasi di browser klien
 ```
 
@@ -185,7 +185,7 @@ async function createItem(formData: FormData) {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Data tersimpan di server dan halaman otomatis di-revalidasi
 ```
 
@@ -199,7 +199,7 @@ import Link from 'next/link';
 <Link href="/about" className="btn">Tentang Kami</Link>
 ```
 - **Expected Execution Output:**
-```text
+```output
 Halaman berpindah instan tanpa muat ulang browser
 ```
 

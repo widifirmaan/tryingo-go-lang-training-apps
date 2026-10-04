@@ -122,7 +122,7 @@ SET session:user_99 '{"role":"admin"}' EX 3600
 GET session:user_99
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 "{\"role\":\"admin\"}"
 ```
 
@@ -136,7 +136,7 @@ HSET user:101 name "Alex" role "developer" active "true"
 HGETALL user:101
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 1) "name" 2) "Alex" 3) "role" 4) "developer"
 ```
 
@@ -150,7 +150,7 @@ LPUSH email_queue "kirim_verifikasi_user_1"
 RPOP email_queue
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 "kirim_verifikasi_user_1"
 ```
 
@@ -163,7 +163,7 @@ RPOP email_queue
 PUBLISH notifications:global "Server maintenance jam 23:00"
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 (integer) 1 (Pesan terkirim ke 1 subscriber)
 ```
 

@@ -170,7 +170,7 @@ Rails.application.routes.draw do
 end
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 7 rute CRUD standar otomatis aktif
 ```
 
@@ -187,7 +187,7 @@ class Product < ApplicationRecord
 end
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Model Product aktif dengan validasi integritas data
 ```
 
@@ -202,7 +202,7 @@ def product_params
 end
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Hanya kolom yang diizinkan yang dapat disimpan
 ```
 
@@ -218,7 +218,7 @@ def index
 end
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Array objek produk disajikan sebagai JSON murni
 ```
 

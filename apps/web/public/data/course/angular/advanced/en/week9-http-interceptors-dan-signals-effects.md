@@ -160,7 +160,7 @@ export class CounterComponent {
 }
 ```
 - **Expected Execution Output:**
-```text
+```output
 Komponen Angular merender sinyal reaktif
 ```
 
@@ -175,7 +175,7 @@ count = signal(10);
 double = computed(() => this.count() * 2);
 ```
 - **Expected Execution Output:**
-```text
+```output
 double() mengembalikan nilai 20
 ```
 
@@ -193,7 +193,7 @@ double() mengembalikan nilai 20
 export class UserComponent {}
 ```
 - **Expected Execution Output:**
-```text
+```output
 Komponen siap dirender di aplikasi Angular
 ```
 
@@ -208,7 +208,7 @@ import { HttpClient } from '@angular/common/http';
 private http = inject(HttpClient);
 ```
 - **Expected Execution Output:**
-```text
+```output
 Service HttpClient siap digunakan untuk pemanggilan API
 ```
 

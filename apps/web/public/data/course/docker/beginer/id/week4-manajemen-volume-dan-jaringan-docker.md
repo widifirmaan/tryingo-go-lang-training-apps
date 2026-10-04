@@ -132,7 +132,7 @@ FROM node:20-alpine
 WORKDIR /app
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Lingkungan container Node.js di atas Alpine siap
 ```
 
@@ -147,7 +147,7 @@ RUN npm install --production
 COPY . .
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Kode aplikasi tersalin ke dalam container
 ```
 
@@ -160,7 +160,7 @@ Kode aplikasi tersalin ke dalam container
 RUN npm run build
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Menghasilkan bundle produksi di dalam layer image
 ```
 
@@ -173,7 +173,7 @@ Menghasilkan bundle produksi di dalam layer image
 docker run -d -p 3000:3000 --name web-service my-app:latest
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Container berjalan di latar belakang dan dapat diakses
 ```
 

@@ -159,12 +159,14 @@ Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaa
 - **Perilaku & Efek Sistem:** Rust secara default mengunci variabel agar tidak bisa diubah demi keamanan memori..
 - **Contoh Penggunaan Praktis:**
 ```rust
-let mut score = 50;
-score += 25;
-println!("Score: {}", score);
+fn main() {
+    let mut score = 50;
+    score += 25;
+    println!("Score: {}", score);
+}
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Score: 75
 ```
 
@@ -175,12 +177,19 @@ Score: 75
 - **Contoh Penggunaan Praktis:**
 ```rust
 fn print_len(s: &String) {
-  println!("Panjang: {}", s.len());
+    println!("Panjang: {}", s.len());
+}
+
+fn main() {
+    let s = String::from("Tryngo Rust");
+    print_len(&s);
+    println!("Variabel s tetap valid: {}", s);
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Membaca panjang string tanpa menghapus variabel asal
+```output
+Panjang: 11
+Variabel s tetap valid: Tryngo Rust
 ```
 
 ### 3. `match value { Pattern => Action }`
@@ -189,14 +198,16 @@ Membaca panjang string tanpa menghapus variabel asal
 - **Perilaku & Efek Sistem:** Mengevaluasi setiap kemungkinan kondisi secara lengkap tanpa ada cabang yang terlewat..
 - **Contoh Penggunaan Praktis:**
 ```rust
-let res: Option<i32> = Some(10);
-match res {
-  Some(v) => println!("Nilai: {}", v),
-  None => println!("Kosong"),
+fn main() {
+    let res: Option<i32> = Some(10);
+    match res {
+        Some(v) => println!("Nilai: {}", v),
+        None => println!("Kosong"),
+    }
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Nilai: 10
 ```
 
@@ -206,14 +217,21 @@ Nilai: 10
 - **Perilaku & Efek Sistem:** Mengembalikan nilai sukses atau error terstruktur, dan operator `?` untuk propagasi error..
 - **Contoh Penggunaan Praktis:**
 ```rust
-fn read_data() -> Result<String, std::io::Error> {
-  let content = std::fs::read_to_string("app.log")?;
-  Ok(content)
+fn parse_number(s: &str) -> Result<i32, std::num::ParseIntError> {
+    let num: i32 = s.parse()?;
+    Ok(num * 2)
+}
+
+fn main() {
+    match parse_number("42") {
+        Ok(val) => println!("Hasil kali dua: {}", val),
+        Err(e) => println!("Gagal: {}", e),
+    }
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
-Mengembalikan isi file atau meneruskan kegagalan I/O
+```output
+Hasil kali dua: 84
 ```
 
 ---

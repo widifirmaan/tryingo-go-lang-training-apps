@@ -294,9 +294,11 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             };
           <\/script>`;
           // Non-HTML languages (javascript, typescript) are wrapped in a script tag
+          const currentLangMode = LANGUAGE_MAP[language] || 'html';
           const looksLikeHtml = /<html|<body|<head|<!\s*DOCTYPE/i.test(finalCode);
           if (!looksLikeHtml) {
-            finalCode = `<!DOCTYPE html>
+            if (currentLangMode === 'javascript' || currentLangMode === 'typescript') {
+              finalCode = `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
   <meta charset="UTF-8">
@@ -307,6 +309,44 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   <script>${finalCode}<\/script>
 </body>
 </html>`;
+            } else if (currentLangMode === 'html' || currentLangMode === 'css') {
+              const hasTags = /<[a-z!/][\s\S]*>/i.test(finalCode);
+              if (!hasTags) {
+                // Pure CSS: wrap in <style>
+                finalCode = `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Output</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
+    ${finalCode}
+  </style>
+</head>
+<body>
+  <div class="demo-box card box container">
+    <h3>Pratinjau CSS</h3>
+    <p>Efek style diterapkan pada elemen ini.</p>
+    <button class="btn">Tombol Demo</button>
+  </div>
+</body>
+</html>`;
+              } else {
+                // Bare HTML tag (like <header>, <form>, <div>, etc.)
+                finalCode = `<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Output</title>
+</head>
+<body>
+  ${finalCode}
+</body>
+</html>`;
+              }
+            }
           }
           const styledCode = finalCode.includes('</head>')
             ? finalCode.replace('</head>', captureScript + '</head>')
@@ -324,9 +364,24 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       setIsRunning(false);
     } else if (isGoLanguage) {
       // Go: execute via WASM (client-side)
+      let goCode = code.trim();
+      if (!goCode.includes('package ')) {
+        goCode = `package main
+
+import (
+\t"fmt"
+)
+
+func main() {
+\t${goCode.split('\n').join('\n\t')}
+}`;
+      } else if (!goCode.includes('func main(') && !goCode.includes('func main ()')) {
+        goCode = `${goCode}\n\nfunc main() {}\n`;
+      }
+
       if (isWasmReady()) {
         try {
-          const result = wasmRunGoCode(code);
+          const result = wasmRunGoCode(goCode);
           if (result.error) setError(result.error);
           if (result.output) setOutput(result.output);
           if (!result.success) setError(result.error || (isId ? 'Eksekusi gagal' : 'Execution failed'));
@@ -351,6 +406,12 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
       isRunningRef.current = false;
       setIsRunning(false);
     } else if (isRustLanguage) {
+      let rustCode = code.trim();
+      if (!rustCode.includes('fn main()') && !rustCode.includes('fn main ()')) {
+        rustCode = `fn main() {
+    ${rustCode.split('\n').join('\n    ')}
+}`;
+      }
       // Rust: execute directly via the Rust Playground API (CORS-enabled, no worker needed)
       const rustAbort = new AbortController();
       const rustTimeout = setTimeout(() => rustAbort.abort(), 15000);
@@ -360,7 +421,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
           headers: { 'Content-Type': 'application/json' },
           signal: rustAbort.signal,
           body: JSON.stringify({
-            code,
+            code: rustCode,
             crateType: 'bin',
             edition: '2021',
             channel: 'stable',

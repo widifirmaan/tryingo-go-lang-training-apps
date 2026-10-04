@@ -176,7 +176,7 @@ const content = await fs.readFile('app.config.json', 'utf8');
 console.log(JSON.parse(content));
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Membaca isi berkas konfigurasi secara non-blocking
 ```
 
@@ -194,7 +194,7 @@ const server = http.createServer((req, res) => {
 server.listen(3000);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Server aktif mendengarkan di http://localhost:3000
 ```
 
@@ -210,7 +210,7 @@ emitter.on('order', id => console.log('Pesanan masuk:', id));
 emitter.emit('order', 'ORD-99');
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Pesanan masuk: ORD-99
 ```
 
@@ -224,7 +224,7 @@ const PORT = process.env.PORT || 8080;
 console.log('Menjalankan pada port:', PORT);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Menjalankan pada port: 8080
 ```
 

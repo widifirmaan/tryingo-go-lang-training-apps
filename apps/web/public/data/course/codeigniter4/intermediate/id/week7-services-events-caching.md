@@ -159,7 +159,7 @@ $routes->get('catalog', 'CatalogController::index');
 $routes->post('catalog/create', 'CatalogController::create');
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Endpoint CI4 siap menerima koneksi HTTP
 ```
 
@@ -178,7 +178,7 @@ class ProductModel extends Model {
 }
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Model siap menjalankan method findAll() dan save()
 ```
 
@@ -193,7 +193,7 @@ $data = ['title' => 'Katalog Produk', 'items' => $items];
 return view('products/list', $data);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Halaman web disajikan melalui buffering respons
 ```
 
@@ -207,7 +207,7 @@ Halaman web disajikan melalui buffering respons
 $title = $this->request->getPost('title', FILTER_SANITIZE_SPECIAL_CHARS);
 ```
 - **Hasil Output yang Diharapkan:**
-```text
+```output
 Input terbaca dengan pembersihan karakter berbahaya
 ```
 
