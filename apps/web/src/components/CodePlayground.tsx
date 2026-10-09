@@ -272,7 +272,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             }
           }
 
-          const baseStyles = '<style>body{background:#fff;color:#000;font-family:system-ui,sans-serif;margin:0;padding:0}img{max-width:100%}</style>';
+          const baseStyles = '<style>*, *::before, *::after{box-sizing:border-box}body{background:#0f172a;color:#f8fafc;font-family:system-ui,-apple-system,sans-serif;margin:0;padding:16px;line-height:1.6}img{max-width:100%}</style>';
           const captureScript = `<script>
             const __runId = ${runId};
             const _logs = [];
@@ -320,15 +320,24 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSS Output</title>
   <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; margin: 0; }
+    .demo-card { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; max-width: 520px; }
+    .btn { background: #2E5B44; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: inherit; margin-top: 8px; display: inline-block; }
+    .box { background: #334155; padding: 12px; border-radius: 8px; margin: 8px 0; }
+    .badge { display: inline-block; padding: 2px 8px; background: #10b981; color: white; border-radius: 9999px; font-size: 11px; font-weight: bold; }
     ${finalCode}
   </style>
 </head>
 <body>
-  <div class="demo-box card box container">
-    <h3>Pratinjau CSS</h3>
-    <p>Efek style diterapkan pada elemen ini.</p>
-    <button class="btn">Tombol Demo</button>
+  <div class="demo-card card box container navbar grid-container demo-box">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <h3 style="margin: 0; font-size: 18px;">${isId ? 'Pratinjau CSS' : 'CSS Live Preview'}</h3>
+      <span class="badge">Live</span>
+    </div>
+    <p style="margin: 8px 0; color: #94a3b8; font-size: 14px;">${isId ? 'Efek styling diterapkan langsung pada elemen ini.' : 'Styling rules applied directly to this element.'}</p>
+    <div class="box item">${isId ? 'Kotak Konten (.box / .item)' : 'Content Box (.box / .item)'}</div>
+    <button class="btn">${isId ? 'Tombol Demo (.btn)' : 'Demo Button (.btn)'}</button>
   </div>
 </body>
 </html>`;
@@ -340,6 +349,15 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HTML Output</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; margin: 0; line-height: 1.6; }
+    input, button, select, textarea { font-family: inherit; font-size: 14px; border-radius: 6px; padding: 6px 12px; }
+    a { color: #38bdf8; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+    th, td { border: 1px solid #334155; padding: 8px 12px; text-align: left; }
+    th { background: #1e293b; color: #38bdf8; }
+  </style>
 </head>
 <body>
   ${finalCode}

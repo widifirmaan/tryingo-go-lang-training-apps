@@ -28,6 +28,7 @@ interface SimContainer {
   volume: string | null; // named volume mounted at /data
   foregroundOutput: string[]; // logs produced by the process
   process: string; // friendly process name e.g. "nginx", "node", "postgres"
+  readOnly?: boolean;
 }
 
 interface SimNetwork {
@@ -323,15 +324,247 @@ export function resetDocker(): void {
   currentProject = null;
 }
 
+// --- shell tokenization & pipeline helpers ------------------------------------
+
+export function tokenizeShell(input: string): string[] {
+  const tokens: string[] = [];
+  let current = '';
+  let inSingle = false;
+  let inDouble = false;
+  let escape = false;
+
+  for (let i = 0; i < input.length; i++) {
+    const ch = input[i];
+    if (escape) {
+      current += ch;
+      escape = false;
+      continue;
+    }
+    if (ch === '\\' && !inSingle) {
+      escape = true;
+      continue;
+    }
+    if (ch === "'" && !inDouble) {
+      inSingle = !inSingle;
+      continue;
+    }
+    if (ch === '"' && !inSingle) {
+      inDouble = !inDouble;
+      continue;
+    }
+    if (/\s/.test(ch) && !inSingle && !inDouble) {
+      if (current.length > 0) {
+        tokens.push(current);
+        current = '';
+      }
+      continue;
+    }
+    current += ch;
+  }
+  if (current.length > 0) {
+    tokens.push(current);
+  }
+  return tokens;
+}
+
+export function splitChainedCommands(line: string): string[] {
+  const parts: string[] = [];
+  let current = '';
+  let inSingle = false;
+  let inDouble = false;
+  let escape = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (escape) {
+      current += ch;
+      escape = false;
+      continue;
+    }
+    if (ch === '\\' && !inSingle) {
+      escape = true;
+      continue;
+    }
+    if (ch === "'" && !inDouble) {
+      inSingle = !inSingle;
+      current += ch;
+      continue;
+    }
+    if (ch === '"' && !inSingle) {
+      inDouble = !inDouble;
+      current += ch;
+      continue;
+    }
+
+    if (!inSingle && !inDouble && ch === '&' && line[i + 1] === '&') {
+      if (current.trim()) parts.push(current.trim());
+      current = '';
+      i++;
+      continue;
+    }
+
+    if (!inSingle && !inDouble && ch === ';') {
+      if (current.trim()) parts.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += ch;
+  }
+
+  if (current.trim()) parts.push(current.trim());
+  return parts.length > 0 ? parts : [line.trim()];
+}
+
+export function splitPipeline(line: string): string[] {
+  const parts: string[] = [];
+  let current = '';
+  let inSingle = false;
+  let inDouble = false;
+  let escape = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (escape) {
+      current += ch;
+      escape = false;
+      continue;
+    }
+    if (ch === '\\' && !inSingle) {
+      escape = true;
+      continue;
+    }
+    if (ch === "'" && !inDouble) {
+      inSingle = !inSingle;
+      current += ch;
+      continue;
+    }
+    if (ch === '"' && !inSingle) {
+      inDouble = !inDouble;
+      current += ch;
+      continue;
+    }
+
+    if (!inSingle && !inDouble && ch === '|') {
+      if (current.trim()) parts.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += ch;
+  }
+
+  if (current.trim()) parts.push(current.trim());
+  return parts.length > 0 ? parts : [line.trim()];
+}
+
+export function splitScript(script: string): string[] {
+  const rawLines = (script || '').replace(/\r\n/g, '\n').split('\n');
+  const result: string[] = [];
+  let buffer = '';
+  let inHeredoc = false;
+  let heredocDelimiter = '';
+  let heredocTarget = '';
+
+  for (let i = 0; i < rawLines.length; i++) {
+    const rawLine = rawLines[i];
+    const trimmed = rawLine.trim();
+
+    // Inside heredoc: collect until delimiter
+    if (inHeredoc) {
+      if (trimmed === heredocDelimiter) {
+        inHeredoc = false;
+        result.push(`# [File created]: ${heredocTarget || 'config'}`);
+      }
+      continue;
+    }
+
+    // Check for heredoc start: cat << 'EOF' > /path or cat << EOF
+    const heredocMatch = trimmed.match(/^cat\s+<<\s*['"]?([A-Za-z0-9_]+)['"]?\s*(?:>\s*(\S+))?/);
+    if (heredocMatch) {
+      inHeredoc = true;
+      heredocDelimiter = heredocMatch[1];
+      heredocTarget = heredocMatch[2] || '';
+      continue;
+    }
+
+    if (!trimmed) {
+      if (buffer) {
+        result.push(buffer.trim());
+        buffer = '';
+      }
+      continue;
+    }
+
+    // Standalone comment
+    if (trimmed.startsWith('#') && !buffer) {
+      result.push(trimmed);
+      continue;
+    }
+
+    // Line continuation with backslash '\'
+    if (trimmed.endsWith('\\')) {
+      const lineWithoutBackslash = trimmed.slice(0, -1).trim();
+      buffer = buffer ? `${buffer} ${lineWithoutBackslash}` : lineWithoutBackslash;
+      continue;
+    }
+
+    // Regular line or end of continuation
+    const fullLine = buffer ? `${buffer} ${trimmed}` : trimmed;
+    buffer = '';
+
+    if (fullLine.trim()) {
+      result.push(fullLine.trim());
+    }
+  }
+
+  if (buffer.trim()) {
+    result.push(buffer.trim());
+  }
+
+  return result.filter((l) => l.length > 0);
+}
+
+
 // --- mini shell used by `docker exec` -------------------------------------------
 
-const execShell = (c: SimContainer, cmdLine: string): string => {
-  const [cmd, ...args] = cmdLine.trim().split(/\s+/);
+const execShell = (c: SimContainer, cmdInput: string | string[]): string => {
+  const tokens = Array.isArray(cmdInput) ? cmdInput : tokenizeShell(cmdInput);
+  if (!tokens.length) return '';
+  const cmd = tokens[0];
+  const args = tokens.slice(1);
+
+  if ((cmd === 'sh' || cmd === 'bash') && args[0] === '-c') {
+    const subScript = args.slice(1).join(' ');
+    const parts = splitChainedCommands(subScript);
+    const outs: string[] = [];
+    for (const p of parts) {
+      const pTokens = tokenizeShell(p);
+      if (pTokens[0] === 'echo') {
+        outs.push(pTokens.slice(1).join(' '));
+      } else if (pTokens[0] === 'nginx' && pTokens.includes('-v')) {
+        outs.push('nginx version: nginx/1.27.0');
+      } else if (pTokens[0] === 'node' && pTokens.includes('-v')) {
+        outs.push('v22.11.0');
+      } else if (pTokens[0] === 'python' && (pTokens.includes('--version') || pTokens.includes('-V'))) {
+        outs.push('Python 3.12.7');
+      } else {
+        const r = execShell(c, pTokens);
+        if (r) outs.push(r);
+      }
+    }
+    return outs.join('\n');
+  }
+
   switch (cmd) {
     case 'echo':
       return args.join(' ');
     case 'whoami':
-      return 'root';
+      return c.readOnly ? 'appuser (UID 10001)' : 'root';
+    case 'nginx':
+      return args.includes('-v') ? 'nginx version: nginx/1.27.0' : 'nginx is running';
+    case 'node':
+      return args.includes('-v') ? 'v22.11.0' : 'node runtime active';
     case 'env':
       return Object.entries(c.env).map(([k, v]) => `${k}=${v}`).join('\n');
     case 'pwd':
@@ -345,22 +578,37 @@ const execShell = (c: SimContainer, cmdLine: string): string => {
           : args[0] === '/etc/hostname'
             ? c.name
             : args[0].endsWith('PG_VERSION')
-              ? `16.3`
+              ? `17.0`
               : args[0].startsWith('/data/')
                 ? `\n# isi ${args[0]} (disimpan di volume, bukan di container)\n`
                 : `(file tidak ditemukan: ${args[0]})`
         : '(isi argumen kosong)';
     case 'ping': {
-      const target = args[0];
-      if (!target) return 'usage: ping <host>';
-      if (target === 'db' || target === 'redis' || target === 'cache' || target === 'api' || target === 'web' || target === 'result') {
-        const net = networks.find((n) => n.name === c.network);
-        if (net && net.dns) {
-          return `PING ${target} (172.18.0.${4 + (target.length % 4)}): 56 data bytes\n64 bytes from 172.18.0.${4 + (target.length % 4)}: icmp_seq=0 ttl=64 time=0.104 ms\n--- ${target} ping statistics ---\n1 packets transmitted, 1 packets received, 0% packet loss`;
+      let target = '';
+      let count = 2;
+      for (let i = 0; i < args.length; i++) {
+        if (args[i] === '-c') {
+          count = Number(args[++i]) || 2;
+        } else if (!args[i].startsWith('-')) {
+          target = args[i];
         }
-        return `ping: bad address '${target}'  # ${c.network} (default bridge) TIDAK punya DNS internal`;
       }
-      return `ping: bad address '${target}'`;
+      if (!target) return 'usage: ping <host>';
+      const targetContainer = findContainer(target);
+      const net = networks.find((n) => n.name === c.network);
+      if (net && (net.dns || (targetContainer && targetContainer.network === c.network))) {
+        const ip = `172.18.0.${2 + (target.length % 5)}`;
+        const lines: string[] = [
+          `PING ${target} (${ip}): 56 data bytes`
+        ];
+        for (let i = 0; i < count; i++) {
+          lines.push(`64 bytes from ${ip}: icmp_seq=${i} ttl=64 time=0.0${75 + i * 4} ms`);
+        }
+        lines.push(`--- ${target} ping statistics ---`);
+        lines.push(`${count} packets transmitted, ${count} packets received, 0% packet loss`);
+        return lines.join('\n');
+      }
+      return `ping: bad address '${target}'  # ${c.network} (default bridge) TIDAK punya DNS internal`;
     }
     default:
       return `sh: ${cmd}: not found`;
@@ -372,8 +620,77 @@ const execShell = (c: SimContainer, cmdLine: string): string => {
 export function runDockerCommand(input: string): string {
   const line = input.trim().replace(/^\$?\s*/, '');
   if (!line) return '';
-  const tokens = line.split(/\s+/);
-  if (tokens[0] !== 'docker') return `bash: ${tokens[0]}: command not found`;
+
+  // Pipeline processing (e.g. `docker inspect ... | jq`)
+  const pipeParts = splitPipeline(line);
+  if (pipeParts.length > 1) {
+    let output = runDockerCommand(pipeParts[0]);
+    for (let i = 1; i < pipeParts.length; i++) {
+      const filter = pipeParts[i].trim();
+      if (filter === 'jq' || filter.startsWith('jq')) {
+        try {
+          output = JSON.stringify(JSON.parse(output), null, 2);
+        } catch {
+          // not valid JSON, leave as is
+        }
+      } else if (filter.startsWith('grep')) {
+        const invert = filter.includes('-v');
+        const term = filter.replace(/^grep\s+(-v\s+)?/, '').replace(/['"]/g, '').trim();
+        if (term) {
+          const lns = output.split('\n');
+          output = lns.filter((l) => invert ? !l.includes(term) : l.includes(term)).join('\n');
+        }
+      } else if (filter.startsWith('head')) {
+        const m = filter.match(/-n\s*(\d+)|\s+-(\d+)/);
+        const count = m ? Number(m[1] || m[2]) : 10;
+        output = output.split('\n').slice(0, count).join('\n');
+      } else if (filter.startsWith('tail')) {
+        const m = filter.match(/-n\s*(\d+)|\s+-(\d+)/);
+        const count = m ? Number(m[1] || m[2]) : 10;
+        output = output.split('\n').slice(-count).join('\n');
+      }
+    }
+    return output;
+  }
+
+  // Chained command processing (e.g. `docker stop db && docker rm db`)
+  const chainParts = splitChainedCommands(line);
+  if (chainParts.length > 1) {
+    return chainParts.map((c) => runDockerCommand(c)).filter(Boolean).join('\n');
+  }
+
+  const tokens = tokenizeShell(line);
+  if (!tokens.length) return '';
+
+  const mainBin = tokens[0];
+
+  // Shell utilities
+  if (mainBin === 'trivy') {
+    const img = tokens[tokens.length - 1];
+    return `2026-10-09T08:30:00.000Z  INFO  Vulnerability scanning is enabled
+2026-10-09T08:30:00.000Z  INFO  Detected OS: alpine 3.21.0
+2026-10-09T08:30:01.000Z  INFO  Scanning image ${img}...
+
+${img} (alpine 3.21.0)
+======================================================
+Total: 0 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+# Trivy Security Audit: PASS (0 HIGH / CRITICAL vulnerabilities found. Container image safe for production!)`;
+  }
+
+  if (mainBin === 'echo') {
+    return tokens.slice(1).join(' ');
+  }
+
+  if (mainBin === 'cat') {
+    return `# [File read: ${tokens[1] || 'sample'}]`;
+  }
+
+  if (mainBin === 'clear') {
+    return '';
+  }
+
+  if (mainBin !== 'docker') return `bash: ${mainBin}: command not found`;
   const [sub, ...rest] = tokens.slice(1);
   if (!sub) return 'docker: "docker help" untuk daftar perintah.';
 
@@ -530,58 +847,113 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
     case 'run': {
       // parse flags
       let detach = false, interactive = false, tty = false, rm = false, name = '', network = 'bridge';
+      let readOnly = false;
       const ports: { host: string; container: string }[] = [];
       const env: Record<string, string> = {};
       let volume = null as string | null;
       let imageRef = '';
       let cmdArgs: string[] = [];
+
+      const VAL_FLAGS = new Set([
+        '--name', '-p', '--publish', '-e', '--env', '-v', '--volume',
+        '--network', '--net', '--restart', '--log-driver', '--log-opt',
+        '--user', '-u', '--memory', '-m', '--cpus', '--tmpfs', '--workdir', '-w',
+        '--entrypoint', '--cap-drop', '--cap-add', '--security-opt',
+        '--health-cmd', '--health-interval', '--health-timeout', '--health-retries',
+        '--health-start-period', '--label', '-l', '--format'
+      ]);
+
       for (let i = 0; i < rest.length; i++) {
         const t = rest[i];
-        if (t === '-d') detach = true;
-        else if (t === '-it' || t === '-i' || t === '-t') { interactive = true; tty = true; }
-        else if (t === '--rm') rm = true;
-        else if (t === '--name') name = rest[++i] || '';
-        else if (t === '-p') {
-          const spec = rest[++i];
-          if (!spec) return 'docker run: "-p" membutuhkan spesifikasi port (mis. 8080:80).';
-          const parts = spec.split(':');
-          if (parts.length === 1) ports.push({ host: parts[0], container: parts[0] });
-          else if (parts.length >= 2) ports.push({ host: parts[0], container: parts[parts.length - 1] });
-        } else if (t === '-e') {
-          const spec = rest[++i];
-          if (!spec) return 'docker run: "-e" membutuhkan spesifikasi env (mis. FOO=bar).';
-          const idx = spec.indexOf('=');
-          const k = idx === -1 ? spec : spec.slice(0, idx);
-          const v = idx === -1 ? '' : spec.slice(idx + 1);
-          env[k] = v;
-        } else if (t === '-v' || t === '--volume') {
-          const spec = rest[++i];
-          if (!spec) return 'docker run: "-v" membutuhkan spesifikasi volume (mis. /data atau volume:/data).';
-          volume = spec.split(':')[0];
-        } else if (t === '--network') network = rest[++i] || 'bridge';
-        else if (t.startsWith('-')) { /* flag lain diabaikan */ }
-        else if (!imageRef) imageRef = t;
-        else cmdArgs.push(t);
+        if (t === '-d' || t === '--detach') {
+          detach = true;
+        } else if (t === '-it' || t === '-i' || t === '-t') {
+          interactive = true; tty = true;
+        } else if (t === '--rm') {
+          rm = true;
+        } else if (t === '--read-only') {
+          readOnly = true;
+        } else if (t === '--name' || t.startsWith('--name=')) {
+          name = t.startsWith('--name=') ? t.slice(7) : rest[++i] || '';
+        } else if (t === '-p' || t.startsWith('-p') || t === '--publish' || t.startsWith('--publish=')) {
+          const spec = t.startsWith('--publish=') ? t.slice(10) : (t === '-p' || t === '--publish') ? rest[++i] : t.slice(2);
+          if (spec) {
+            const parts = spec.split(':');
+            if (parts.length === 1) ports.push({ host: parts[0], container: parts[0] });
+            else if (parts.length >= 2) ports.push({ host: parts[0], container: parts[parts.length - 1] });
+          }
+        } else if (t === '-e' || t === '--env' || t.startsWith('-e') || t.startsWith('--env=')) {
+          const spec = t.startsWith('--env=') ? t.slice(6) : (t === '-e' || t === '--env') ? rest[++i] : t.slice(2);
+          if (spec) {
+            const idx = spec.indexOf('=');
+            const k = idx === -1 ? spec : spec.slice(0, idx);
+            const v = idx === -1 ? '' : spec.slice(idx + 1);
+            env[k] = v;
+          }
+        } else if (t === '-v' || t === '--volume' || t.startsWith('--volume=')) {
+          const spec = t.startsWith('--volume=') ? t.slice(9) : (t === '-v' || t === '--volume') ? rest[++i] : t.slice(2);
+          if (spec) {
+            volume = spec.split(':')[0];
+          }
+        } else if (t === '--network' || t === '--net' || t.startsWith('--network=') || t.startsWith('--net=')) {
+          network = t.includes('=') ? t.split('=')[1] : rest[++i] || 'bridge';
+        } else if (t.startsWith('-')) {
+          if (!t.includes('=') && VAL_FLAGS.has(t)) {
+            i++; // skip flag value token
+          }
+        } else if (!imageRef) {
+          imageRef = t;
+        } else {
+          cmdArgs.push(t);
+        }
       }
-      if (!imageRef) return 'docker run: membutuhkan minimal 1 argumen (image).\n\nSee \'docker run --help\'.';
-      const img = findImage(imageRef) || (() => { const repo = imageRef.split(':')[0]; const tag = imageRef.split(':')[1] || 'latest'; images.push({ repo, tag, id: hex(12), sizeMB: 25, layers: 5, created: '1 hour', base: 'alpine:3.21' }); return images[images.length - 1]; })();
+
+      if (!imageRef) return "docker run: membutuhkan minimal 1 argumen (image).\n\nSee 'docker run --help'.";
+      const img = findImage(imageRef) || (() => {
+        const repo = imageRef.split(':')[0];
+        const tag = imageRef.split(':')[1] || 'latest';
+        images.push({ repo, tag, id: hex(12), sizeMB: 25, layers: 5, created: '1 hour', base: 'alpine:3.21' });
+        return images[images.length - 1];
+      })();
 
       const cname = name || `${img.repo.replace(/[^a-z0-9]/g, '')}-${hex(6)}`;
       const process = img.repo === 'nginx' ? 'nginx' : img.repo === 'redis' ? 'redis-server' : img.repo === 'postgres' ? 'postgres' : img.repo === 'node' ? 'node' : img.repo === 'python' ? 'python' : img.repo === 'ubuntu' ? 'bash' : img.repo === 'alpine' ? 'sh' : img.repo === 'hello-world' ? '/hello' : 'app';
 
-      if (findContainer(cname)) return `docker: Error response from daemon: Conflict. The container name "/${cname}" is already in use by container "${hex(12)}". You have to remove (or rename) that container to be able to reuse that name.`;
+      const existing = findContainer(cname);
+      if (existing) {
+        if (existing.status !== 'exited') {
+          return `docker: Error response from daemon: Conflict. The container name "/${cname}" is already in use by container "${existing.id}". You have to remove (or rename) that container to be able to reuse that name.`;
+        }
+        containers = containers.filter((x) => x !== existing);
+      }
 
-      const foreground = img.repo === 'hello-world' ? ['Hello from Docker!', 'This message shows that your installation appears to be working correctly.', '', 'To try something more ambitious, you can run an Ubuntu container with:', '  $ docker run -it ubuntu bash'] :
-        cmdArgs.length ? [`${cmdArgs.join(' ')} (proses utama: ${process})`] :
-        [`${process} berjalan di ${img.repo}:${img.tag} (PID ${1000 + (containers.length * 37) % 9000}, simulasi)`];
+      const foreground = img.repo === 'hello-world' ? [
+        'Hello from Docker!',
+        'This message shows that your installation appears to be working correctly.',
+        '',
+        'To try something more ambitious, you can run an Ubuntu container with:',
+        '  $ docker run -it ubuntu bash'
+      ] : cmdArgs.length ? [
+        `${cmdArgs.join(' ')} (proses utama: ${process})`
+      ] : [
+        `${process} berjalan di ${img.repo}:${img.tag} (PID ${1000 + (containers.length * 37) % 9000}, simulasi)`
+      ];
 
       const c: SimContainer = {
-        id: hex(12), name: cname, image: `${img.repo}:${img.tag}`,
+        id: hex(12),
+        name: cname,
+        image: `${img.repo}:${img.tag}`,
         command: cmdArgs.length ? JSON.stringify(cmdArgs.join(' ')) : process === 'nginx' ? '"nginx -g daemon off;"' : process === 'redis-server' ? '"redis-server"' : process === 'postgres' ? '"postgres" -D /var/lib/postgresql/data' : `"${process}"`,
         status: detach ? 'running' : 'exited',
-        exitCode: 0, createdLabel: nowLabel(),
-        ports, env, network, volume,
-        foregroundOutput: foreground, process,
+        exitCode: 0,
+        createdLabel: nowLabel(),
+        ports,
+        env,
+        network,
+        volume,
+        foregroundOutput: foreground,
+        process,
+        readOnly: readOnly || cname.includes('hardened'),
       };
       containers.unshift(c);
 
@@ -596,24 +968,58 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
     }
 
     case 'ps': {
-      const all = rest.includes('-a');
-      const rows = containers
-        .filter((c) => all || c.status === 'running')
-        .map((c) => [
+      const all = rest.includes('-a') || rest.includes('--all');
+      let filterName = '';
+      for (let i = 0; i < rest.length; i++) {
+        const t = rest[i];
+        if (t === '--filter' || t === '-f') {
+          const val = rest[++i] || '';
+          if (val.startsWith('name=')) filterName = val.slice(5);
+        } else if (t.startsWith('--filter=') || t.startsWith('-f=')) {
+          const val = t.split('=')[1] || '';
+          if (val.startsWith('name=')) filterName = val.slice(5);
+        }
+      }
+      let filtered = containers.filter((c) => all || c.status === 'running');
+      if (filterName) {
+        filtered = filtered.filter((c) => c.name.includes(filterName));
+      }
+      const hasCustomTableFormat = rest.some((t) => t.includes('table {{.ID}}'));
+      if (hasCustomTableFormat) {
+        const rows = filtered.map((c) => [
           c.id,
-          c.image,
-          c.command,
-          c.createdLabel,
-          c.status === 'running' ? 'Up ' + c.createdLabel : c.status === 'paused' ? 'Up ' + c.createdLabel + ' (Paused)' : c.status === 'created' ? 'Created' : `Exited (${c.exitCode}) ${c.createdLabel} ago`,
-          c.ports.length ? c.ports.map((p) => `0.0.0.0:${p.host}->${p.container}/tcp`).join(', ') : '',
           c.name,
+          c.status === 'running' ? 'Up ' + c.createdLabel : `Exited (${c.exitCode})`,
+          c.ports.length ? c.ports.map((p) => `0.0.0.0:${p.host}->${p.container}/tcp`).join(', ') : '',
         ]);
+        return formatTable(['CONTAINER ID', 'NAMES', 'STATUS', 'PORTS'], rows);
+      }
+      const rows = filtered.map((c) => [
+        c.id,
+        c.image,
+        c.command,
+        c.createdLabel,
+        c.status === 'running' ? 'Up ' + c.createdLabel : c.status === 'paused' ? 'Up ' + c.createdLabel + ' (Paused)' : c.status === 'created' ? 'Created' : `Exited (${c.exitCode}) ${c.createdLabel} ago`,
+        c.ports.length ? c.ports.map((p) => `0.0.0.0:${p.host}->${p.container}/tcp`).join(', ') : '',
+        c.name,
+      ]);
       return formatTable(['CONTAINER ID', 'IMAGE', 'COMMAND', 'CREATED', 'STATUS', 'PORTS', 'NAMES'], rows);
     }
 
     case 'stop': {
       const out: string[] = [];
-      for (const ref of rest.filter((t) => !t.startsWith('-'))) {
+      const targets: string[] = [];
+      for (let i = 0; i < rest.length; i++) {
+        const t = rest[i];
+        if (t === '-t' || t === '--time') {
+          i++; // skip timeout value
+        } else if (t.startsWith('-t=') || t.startsWith('--time=')) {
+          // skip
+        } else if (!t.startsWith('-')) {
+          targets.push(t);
+        }
+      }
+      for (const ref of targets) {
         const c = findContainer(ref);
         if (!c) { out.push(`Error response from daemon: No such container: ${ref}`); continue; }
         if (c.status !== 'running') { out.push(`${c.name}`); continue; }
@@ -687,46 +1093,162 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
     }
 
     case 'logs': {
-      const ref = rest[0];
+      let ref = '';
+      let hasTimestamps = false;
+      let tailCount = 0;
+      for (let i = 0; i < rest.length; i++) {
+        const t = rest[i];
+        if (t === '-f' || t === '--follow' || t === '--details') {
+          // ignore stream simulation
+        } else if (t === '-t' || t === '--timestamps') {
+          hasTimestamps = true;
+        } else if (t === '--tail' || t.startsWith('--tail=')) {
+          const val = t.startsWith('--tail=') ? t.slice(7) : rest[++i];
+          tailCount = Number(val) || 0;
+        } else if (!t.startsWith('-')) {
+          ref = t;
+        }
+      }
       const c = findContainer(ref);
       if (!c) return `Error: No such container: ${ref}`;
-      return c.foregroundOutput.join('\n') + (c.volume ? `\n[volume] data di /data dipasang dari volume: ${c.volume} (tetap hidup setelah container dihapus)` : '');
+      let logLines = [...c.foregroundOutput];
+      if (tailCount > 0 && logLines.length > tailCount) {
+        logLines = logLines.slice(-tailCount);
+      }
+      if (hasTimestamps) {
+        logLines = logLines.map((l) => `2026-10-09T08:12:00.000000000Z ${l}`);
+      }
+      return logLines.join('\n') + (c.volume ? `\n[volume] data di /data dipasang dari volume: ${c.volume} (tetap hidup setelah container dihapus)` : '');
     }
 
     case 'exec': {
-      const idx = rest.findIndex((t) => !t.startsWith('-'));
+      let idx = 0;
+      while (idx < rest.length && rest[idx].startsWith('-')) {
+        idx++;
+      }
       const ref = rest[idx];
-      const cmdLine = rest.slice(idx + 1).join(' ');
+      const cmdTokens = rest.slice(idx + 1);
       const c = findContainer(ref);
       if (!c) return `Error: No such container: ${ref}`;
       if (c.status !== 'running') return `Error response from daemon: Container ${c.id} is not running`;
-      if (!cmdLine) return `docker exec: "docker exec [OPTIONS] CONTAINER COMMAND" membutuhkan perintah.`;
-      return execShell(c, cmdLine);
+      if (!cmdTokens.length) return `docker exec: "docker exec [OPTIONS] CONTAINER COMMAND" membutuhkan perintah.`;
+      return execShell(c, cmdTokens);
     }
 
     case 'inspect': {
-      const ref = rest[0];
+      let format = '';
+      let ref = '';
+      for (let i = 0; i < rest.length; i++) {
+        const t = rest[i];
+        if (t === '--format' || t === '-f') {
+          format = rest[++i] || '';
+        } else if (t.startsWith('--format=') || t.startsWith('-f=')) {
+          format = t.split('=')[1] || '';
+        } else if (!t.startsWith('-')) {
+          ref = t;
+        }
+      }
       const c = findContainer(ref);
       const img = !c ? findImage(ref) : undefined;
       if (!c && !img) return `Error: No such object: ${ref}`;
+
       if (c) {
+        if (format) {
+          if (format.includes('.IPAddress')) {
+            return c.network === 'bridge' ? `172.17.0.${2 + (containers.indexOf(c) % 10)}` : `172.18.0.${3 + (containers.indexOf(c) % 10)}`;
+          }
+          if (format.includes('.State.Health') || format.includes('Health')) {
+            const healthObj = {
+              Status: 'healthy',
+              FailingStreak: 0,
+              Log: [
+                {
+                  Start: '2026-10-09T08:10:00.123456789Z',
+                  End: '2026-10-09T08:10:00.154321987Z',
+                  ExitCode: 0,
+                  Output: 'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nOK'
+                }
+              ]
+            };
+            return JSON.stringify(healthObj);
+          }
+          if (format.includes('ReadonlyRootfs')) {
+            return c.readOnly ? 'true' : 'false';
+          }
+          if (format.includes('.State.Status')) {
+            return c.status;
+          }
+        }
         return JSON.stringify({
           Id: 'sha256:' + c.id + hex(52),
           Name: '/' + c.name,
-          State: { Status: c.status, Running: c.status === 'running', ExitCode: c.exitCode },
+          State: {
+            Status: c.status,
+            Running: c.status === 'running',
+            ExitCode: c.exitCode,
+            Health: { Status: 'healthy', FailingStreak: 0 }
+          },
+          HostConfig: {
+            ReadonlyRootfs: Boolean(c.readOnly),
+          },
           Image: c.image,
           Config: { Env: Object.entries(c.env).map(([k, v]) => `${k}=${v}`), Cmd: [c.process] },
-          NetworkSettings: { Networks: { [c.network]: { IPAddress: c.network === 'bridge' ? '172.17.0.' + (2 + (containers.indexOf(c) % 10)) : '172.18.0.' + (3 + (containers.indexOf(c) % 10)) } } },
+          NetworkSettings: {
+            Networks: {
+              [c.network]: {
+                IPAddress: c.network === 'bridge' ? '172.17.0.' + (2 + (containers.indexOf(c) % 10)) : '172.18.0.' + (3 + (containers.indexOf(c) % 10))
+              }
+            }
+          },
           Mounts: c.volume ? [{ Type: 'volume', Name: c.volume, Destination: '/data' }] : [],
           Ports: c.ports.map((p) => ({ ContainerPort: Number(p.container), HostPort: Number(p.host), HostIp: '0.0.0.0' })),
         }, null, 2);
       }
+
       return JSON.stringify({
         Id: 'sha256:' + img!.id + hex(52),
         RepoTags: [`${img!.repo}:${img!.tag}`],
         Size: img!.sizeMB * 1024 * 1024,
         RootFS: { Type: 'layers', Layers: Array.from({ length: img!.layers }, () => 'sha256:' + hex(64)) },
       }, null, 2);
+    }
+
+    case 'stats': {
+      const target = rest.find((t) => !t.startsWith('-'));
+      const list = target
+        ? containers.filter((c) => c.name === target || c.id.startsWith(target))
+        : containers.filter((c) => c.status === 'running');
+      if (target && !list.length) return `Error: No such container: ${target}`;
+      const rows = (list.length ? list : containers.slice(0, 1)).map((c, i) => [
+        c.id,
+        c.name,
+        `${(0.05 + (i * 0.12)).toFixed(2)}%`,
+        `14.2MiB / 256MiB`,
+        `5.55%`,
+        `1.24kB / 1.05kB`,
+        `0B / 0B`,
+        '3',
+      ]);
+      return formatTable(['CONTAINER ID', 'NAME', 'CPU %', 'MEM USAGE / LIMIT', 'MEM %', 'NET I/O', 'BLOCK I/O', 'PIDS'], rows);
+    }
+
+    case 'top': {
+      const target = rest.find((t) => !t.startsWith('-'));
+      const c = findContainer(target || '');
+      if (!c) return `Error: No such container: ${target}`;
+      return formatTable(
+        ['UID', 'PID', 'PPID', 'C', 'STIME', 'TTY', 'TIME', 'CMD'],
+        [
+          ['10001', '14022', '14001', '0', '08:15', '?', '00:00:00', c.command.replace(/^"|"$/g, '') || 'app'],
+        ]
+      );
+    }
+
+    case 'diff': {
+      const target = rest.find((t) => !t.startsWith('-'));
+      const c = findContainer(target || '');
+      if (!c) return `Error: No such container: ${target}`;
+      return `C /tmp\nA /tmp/runtime.sock\nC /etc`;
     }
 
     case 'tag': {
@@ -781,21 +1303,34 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
 
     case 'network': {
       const action = rest[0];
-      const args = rest.slice(1).filter((t) => !t.startsWith('-'));
+      let driver = 'bridge';
+      const posArgs: string[] = [];
+      for (let i = 1; i < rest.length; i++) {
+        const t = rest[i];
+        if (t === '-d' || t === '--driver') {
+          driver = rest[++i] || 'bridge';
+        } else if (t.startsWith('--driver=') || t.startsWith('-d=')) {
+          driver = t.split('=')[1] || 'bridge';
+        } else if (t.startsWith('--subnet')) {
+          if (!t.includes('=')) i++;
+        } else if (!t.startsWith('-')) {
+          posArgs.push(t);
+        }
+      }
       if (action === 'ls') {
         const rows = networks.map((n) => [n.name, n.driver, n.scope]);
-        return formatTable(['NETWORK ID', 'NAME', 'DRIVER', 'SCOPE'], rows.map((r, i) => [hex(12), r[0], r[1], r[2]]));
+        return formatTable(['NETWORK ID', 'NAME', 'DRIVER', 'SCOPE'], rows.map((r) => [hex(12), r[0], r[1], r[2]]));
       }
       if (action === 'create') {
-        const nname = args[0];
+        const nname = posArgs[0];
         if (!nname) return 'docker network create: nama network wajib diisi.';
         if (networks.find((n) => n.name === nname)) return `Error response from daemon: network with name ${nname} already exists`;
-        networks.push({ name: nname, driver: 'bridge', scope: 'local', subnet: `172.18.0.0/16`, dns: true });
+        networks.push({ name: nname, driver, scope: 'local', subnet: `172.18.0.0/16`, dns: true });
         return `${hex(12)}`;
       }
       if (action === 'rm') {
         const out: string[] = [];
-        for (const nname of args) {
+        for (const nname of posArgs) {
           const n = networks.find((x) => x.name === nname);
           if (!n) { out.push(`Error response from daemon: network ${nname} not found`); continue; }
           if (nname === 'bridge' || nname === 'host' || nname === 'none') { out.push(`Error response from daemon: operation not permitted on default networks`); continue; }
@@ -805,8 +1340,8 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         return out.join('\n');
       }
       if (action === 'connect') {
-        const nname = args[0];
-        const ref = args[1];
+        const nname = posArgs[0];
+        const ref = posArgs[1];
         const c = findContainer(ref);
         const n = networks.find((x) => x.name === nname);
         if (!n) return `Error response from daemon: network ${nname} not found`;
@@ -815,8 +1350,8 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         return '';
       }
       if (action === 'inspect') {
-        const n = networks.find((x) => x.name === args[0]);
-        if (!n) return `Error: No such network: ${args[0]}`;
+        const n = networks.find((x) => x.name === posArgs[0]);
+        if (!n) return `Error: No such network: ${posArgs[0]}`;
         return JSON.stringify({
           Name: n.name, Driver: n.driver, Scope: n.scope,
           Internal: false, EnableIPv6: false,
@@ -831,19 +1366,27 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
 
     case 'volume': {
       const action = rest[0];
-      const args = rest.slice(1).filter((t) => !t.startsWith('-'));
+      const posArgs: string[] = [];
+      for (let i = 1; i < rest.length; i++) {
+        const t = rest[i];
+        if (t === '-d' || t === '--driver') {
+          if (!t.includes('=')) i++;
+        } else if (!t.startsWith('-')) {
+          posArgs.push(t);
+        }
+      }
       if (action === 'ls') {
         const rows = volumes.map((v) => [v.name, v.driver, 'local']);
         return formatTable(['DRIVER', 'VOLUME NAME'], rows.map((r) => [r[1], r[0]]));
       }
       if (action === 'create') {
-        const vname = args[0] || `vol-${hex(6)}`;
+        const vname = posArgs[0] || `vol-${hex(6)}`;
         if (!volumes.find((v) => v.name === vname)) volumes.push({ name: vname, driver: 'local', files: [] });
         return vname;
       }
       if (action === 'rm') {
         const out: string[] = [];
-        for (const vname of args) {
+        for (const vname of posArgs) {
           const v = volumes.find((x) => x.name === vname);
           if (!v) { out.push(`Error: No such volume: ${vname}`); continue; }
           if (containers.some((c) => c.volume === vname)) { out.push(`Error response from daemon: unable to remove volume ${vname}: volume is in use`); continue; }
@@ -865,7 +1408,7 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         else if (t === '--no-cache') { /* abaikan */ }
         else if (!t.startsWith('-')) dir = t;
       }
-      const proj = BUILD_PROJECTS[dir];
+      const proj = BUILD_PROJECTS[dir] || (dir === '.' || dir === './' ? BUILD_PROJECTS.web : null);
       if (!proj) return `unable to prepare context: unable to evaluate symlinks in Dockerfile path: lstat /${dir}/Dockerfile: no such file or directory`;
       if (dir === 'broken') {
         return `[+] Building 1.2s (5/6) FINISHED\n => [internal] load build definition from Dockerfile\n => => transferring dockerfile: 62B\n => [1/1] FROM ubuntu:24.04\n => CACHED [2/2] RUN apt-get install -y curl\n => ERROR [2/2] RUN apt-get install -y curl\n------\n > [2/2] RUN apt-get install -y curl:\n0.450 E: Unable to locate package curl\n0.451 E: Package 'curl' has no installation candidate\n------\nDockerfile:2\n--------------------\n   1 |     FROM ubuntu:24.04\n   2 | >>> RUN apt-get install -y curl\n--------------------\nERROR: failed to solve: process "/bin/sh -c apt-get install -y curl" did not complete successfully: exit code: 100\n\n# Build GAGAL di layer 2. Ingat: tiap baris Dockerfile = 1 layer.\n# Fix: jalankan shell di layer terakhir yang sukses (layer 1), lalu coba perintahnya:\n#   docker run -it --entrypoint sh ubuntu:24.04\n#   # apt-get update && apt-get install -y curl`;
@@ -959,6 +1502,19 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
 
     case 'system': {
       const action = rest[0];
+      if (action === 'df') {
+        const activeImages = new Set(containers.map((c) => c.image)).size;
+        const imgSize = images.reduce((acc, i) => acc + i.sizeMB, 0);
+        return formatTable(
+          ['TYPE', 'TOTAL', 'ACTIVE', 'SIZE', 'RECLAIMABLE'],
+          [
+            ['Images', String(images.length), String(activeImages), `${imgSize}MB`, `${Math.round(imgSize * 0.45)}MB (45%)`],
+            ['Containers', String(containers.length), String(containers.filter((c) => c.status === 'running').length), '14.8kB', '4.2kB (28%)'],
+            ['Local Volumes', String(volumes.length), String(volumes.length), '48.5MB', '0B (0%)'],
+            ['Build Cache', '6', '0', '124MB', '124MB (100%)'],
+          ]
+        );
+      }
       if (action === 'prune') {
         const force = rest.includes('-f');
         const stopped = containers.filter((c) => c.status === 'exited').length;
@@ -969,7 +1525,11 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
         containers = containers.filter((c) => c.status !== 'exited');
         return `Deleted Containers:\n${stopped}\nDeleted Images:\n${dangling}\nDeleted build cache:\n0B\n\nTotal reclaimed space: ${(stopped * 3 + dangling * 20)}MB`;
       }
-      return 'docker system: sub-perintah yang didukung: prune';
+      return 'docker system: sub-perintah yang didukung: df, prune';
+    }
+
+    case 'df': {
+      return runDockerCommand('docker system df');
     }
 
     case 'swarm': {

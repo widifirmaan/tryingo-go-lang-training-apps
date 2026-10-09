@@ -181,15 +181,17 @@ export const SveltePlayground: React.FC<SveltePlaygroundProps> = ({ lang, initia
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
     body {
       font-family: system-ui, -apple-system, sans-serif;
       margin: 0;
-      padding: 0;
+      padding: 16px;
       background: #ffffff;
-      color: #1a1a1a;
+      color: #0f172a;
     }
-    * { box-sizing: border-box; }
+    #svelte-app { min-height: 100vh; }
   </style>
 </head>
 <body>

@@ -59,11 +59,22 @@ async function loadVueRuntime(): Promise<void> {
   }
 }
 
-function compileVueSFC(source: string): { jsCode: string; errors: string[] } {
+function compileVueSFC(rawSource: string): { jsCode: string; errors: string[] } {
   const errors: string[] = [];
 
   if (!window.Vue) {
     return { jsCode: '', errors: ['Vue SFC compiler not loaded'] };
+  }
+
+  let source = (rawSource || '').trim();
+  if (!source.includes('<template') && !source.includes('<script')) {
+    if (source.includes('<') && source.includes('>')) {
+      source = `<template>\n${source}\n</template>`;
+    } else {
+      source = `<script setup>\n${source}\n</script>\n<template>\n  <div style="font-family:system-ui;padding:20px">\n    <pre>{{ typeof count !== 'undefined' ? count : 'Vue Component Ready' }}</pre>\n  </div>\n</template>`;
+    }
+  } else if (!source.includes('<script')) {
+    source = `<script setup>\nimport { ref, reactive, computed } from 'vue'\n</script>\n${source}`;
   }
 
   try {
@@ -249,8 +260,11 @@ app.mount('#app');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"><\/script>
   <style>
-    body { margin: 0; font-family: system-ui, sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: 16px; background: #ffffff; color: #0f172a; font-family: system-ui, -apple-system, sans-serif; }
+    #app { min-height: 100vh; }
   </style>
 </head>
 <body>

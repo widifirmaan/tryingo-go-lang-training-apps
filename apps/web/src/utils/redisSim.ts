@@ -262,7 +262,14 @@ const cmdSelect = (args: string[]): string => {
   return okResponse();
 };
 
-const cmdInfo = (): string => {
+const cmdInfo = (args?: string[]): string => {
+  const section = args && args[0] ? args[0].toLowerCase() : '';
+  if (section === 'memory') {
+    return formatBulkString(`# Memory\r\nused_memory:2097152\r\nused_memory_human:2.00M\r\nused_memory_rss:4194304\r\nmaxmemory:268435456\r\nmaxmemory_human:256.00M\r\nmaxmemory_policy:allkeys-lru\r\nmem_fragmentation_ratio:1.05\r\n`);
+  }
+  if (section === 'persistence') {
+    return formatBulkString(`# Persistence\r\nloading:0\r\nrdb_changes_since_last_save:0\r\nrdb_bgsave_in_progress:0\r\nrdb_last_save_time:1710072000\r\naof_enabled:1\r\naof_rewrite_in_progress:0\r\n`);
+  }
   const info = `# Server\r\nredis_version:7.2.0-sim\r\n# Clients\r\nconnected_clients:1\r\n# Memory\r\nused_memory:${store.size * 100}\r\n# Keyspace\r\ndb${currentDb}:keys=${store.size},expires=${[...store.values()].filter(v => v.expiresAt).length},avg_ttl=0\r\n`;
   return formatBulkString(info);
 };
@@ -1234,11 +1241,294 @@ const cmdPsubscribe = (args: string[]): string => {
   return formatArray(results);
 };
 
+// --- HyperLogLog commands ---
+const cmdPfadd = (args: string[]): string => {
+  if (args.length < 2) return formatError("wrong number of arguments for 'pfadd' command");
+  const key = args[0];
+  const items = args.slice(1);
+  let v = store.get(key);
+  if (!v || isExpired(key)) {
+    v = { type: 'set', data: new Set<string>() };
+    store.set(key, v);
+  } else if (v.type !== 'set') {
+    return formatError('WRONGTYPE Operation against a key holding the wrong kind of value');
+  }
+  let added = 0;
+  for (const item of items) {
+    if (!v.data.has(item)) {
+      v.data.add(item);
+      added = 1;
+    }
+  }
+  return formatInteger(added);
+};
+
+const cmdPfcount = (args: string[]): string => {
+  if (args.length < 1) return formatError("wrong number of arguments for 'pfcount' command");
+  const union = new Set<string>();
+  for (const key of args) {
+    const v = store.get(key);
+    if (v && !isExpired(key) && v.type === 'set') {
+      for (const item of v.data) union.add(item);
+    }
+  }
+  return formatInteger(union.size);
+};
+
+const cmdPfmerge = (args: string[]): string => {
+  if (args.length < 2) return formatError("wrong number of arguments for 'pfmerge' command");
+  const destKey = args[0];
+  const union = new Set<string>();
+  for (const key of args.slice(1)) {
+    const v = store.get(key);
+    if (v && !isExpired(key) && v.type === 'set') {
+      for (const item of v.data) union.add(item);
+    }
+  }
+  store.set(destKey, { type: 'set', data: union, expiresAt: null });
+  return okResponse();
+};
+
+// --- Config commands ---
+const configStore = new Map<string, string>([
+  ['maxmemory', '256mb'],
+  ['maxmemory-policy', 'allkeys-lru'],
+  ['save', '300 10'],
+  ['appendonly', 'yes'],
+]);
+
+const cmdConfig = (args: string[]): string => {
+  if (args.length < 2) return formatError("wrong number of arguments for 'config' command");
+  const sub = args[0].toUpperCase();
+  const param = args[1].toLowerCase();
+  if (sub === 'SET') {
+    const val = args[2] || '';
+    configStore.set(param, val);
+    return okResponse();
+  }
+  if (sub === 'GET') {
+    const val = configStore.get(param) || 'default';
+    return formatArray([param, val]);
+  }
+  return okResponse();
+};
+
+// --- Sorted Set Range Deletion ---
+const cmdZremrangebyscore = (args: string[]): string => {
+  if (args.length < 3) return formatError("wrong number of arguments for 'zremrangebyscore' command");
+  const key = args[0];
+  const min = parseScoreBound(args[1]);
+  const max = parseScoreBound(args[2]);
+  if (!min || !max) return formatError('min or max is not a float');
+  const tErr = wrongtypeCheck(key, 'zset');
+  if (tErr) return tErr;
+  const val = getVal(key);
+  if (val === null) return formatInteger(0);
+  const inRange = (s: number) =>
+    (min.exclusive ? s > min.value : s >= min.value) && (max.exclusive ? s < max.value : s <= max.value);
+  let removed = 0;
+  for (const [member, score] of Object.entries(val as Record<string, number>)) {
+    if (inRange(score)) {
+      delete (val as Record<string, number>)[member];
+      removed++;
+    }
+  }
+  return formatInteger(removed);
+};
+
+// --- Streams ---
+interface StreamEntry {
+  id: string;
+  fields: Record<string, string>;
+}
+
+interface StreamData {
+  entries: StreamEntry[];
+}
+
+const streamsStore = new Map<string, StreamData>();
+let streamCounter = 1;
+
+const cmdXadd = (args: string[]): string => {
+  if (args.length < 4) return formatError("wrong number of arguments for 'xadd' command");
+  const key = args[0];
+  let id = args[1];
+  if (id === '*') {
+    id = `${Date.now()}-${streamCounter++}`;
+  }
+  const fields: Record<string, string> = {};
+  for (let i = 2; i < args.length; i += 2) {
+    if (i + 1 < args.length) fields[args[i]] = args[i + 1];
+  }
+  let stream = streamsStore.get(key);
+  if (!stream) {
+    stream = { entries: [] };
+    streamsStore.set(key, stream);
+  }
+  stream.entries.push({ id, fields });
+  return formatBulkString(id);
+};
+
+const cmdXlen = (args: string[]): string => {
+  if (!args.length) return formatError("wrong number of arguments for 'xlen' command");
+  const stream = streamsStore.get(args[0]);
+  return formatInteger(stream ? stream.entries.length : 0);
+};
+
+const cmdXrange = (args: string[]): string => {
+  if (args.length < 3) return formatError("wrong number of arguments for 'xrange' command");
+  const key = args[0];
+  const stream = streamsStore.get(key);
+  if (!stream || !stream.entries.length) return formatArray([]);
+  let entries = stream.entries;
+  const countIdx = args.findIndex((a) => a.toUpperCase() === 'COUNT');
+  if (countIdx !== -1 && args[countIdx + 1]) {
+    const c = parseIntSafe(args[countIdx + 1]) || entries.length;
+    entries = entries.slice(0, c);
+  }
+  const out: string[] = [];
+  for (const entry of entries) {
+    const fArr: string[] = [];
+    for (const [k, v] of Object.entries(entry.fields)) {
+      fArr.push(k, v);
+    }
+    out.push(formatArray([entry.id, formatArray(fArr)]));
+  }
+  return formatArray(out);
+};
+
+const cmdXrevrange = (args: string[]): string => {
+  if (args.length < 3) return formatError("wrong number of arguments for 'xrevrange' command");
+  const key = args[0];
+  const stream = streamsStore.get(key);
+  if (!stream || !stream.entries.length) return formatArray([]);
+  let entries = [...stream.entries].reverse();
+  const countIdx = args.findIndex((a) => a.toUpperCase() === 'COUNT');
+  if (countIdx !== -1 && args[countIdx + 1]) {
+    const c = parseIntSafe(args[countIdx + 1]) || entries.length;
+    entries = entries.slice(0, c);
+  }
+  const out: string[] = [];
+  for (const entry of entries) {
+    const fArr: string[] = [];
+    for (const [k, v] of Object.entries(entry.fields)) {
+      fArr.push(k, v);
+    }
+    out.push(formatArray([entry.id, formatArray(fArr)]));
+  }
+  return formatArray(out);
+};
+
+const cmdXgroup = (args: string[]): string => {
+  return okResponse();
+};
+
+const cmdXreadgroup = (args: string[]): string => {
+  const streamIdx = args.findIndex((a) => a.toUpperCase() === 'STREAMS');
+  const key = streamIdx !== -1 && args[streamIdx + 1] ? args[streamIdx + 1] : 'stream';
+  const stream = streamsStore.get(key);
+  const entries = stream ? stream.entries.slice(0, 1) : [];
+  if (!entries.length) return formatArray([]);
+  const out: string[] = [];
+  for (const entry of entries) {
+    const fArr: string[] = [];
+    for (const [k, v] of Object.entries(entry.fields)) {
+      fArr.push(k, v);
+    }
+    out.push(formatArray([entry.id, formatArray(fArr)]));
+  }
+  return formatArray([formatArray([key, formatArray(out)])]);
+};
+
+const cmdXread = (args: string[]): string => {
+  return cmdXreadgroup(args);
+};
+
+const cmdXack = (args: string[]): string => {
+  return formatInteger(1);
+};
+
+const cmdXpending = (args: string[]): string => {
+  if (args.length < 2) return formatError("wrong number of arguments for 'xpending' command");
+  if (args.length >= 5) {
+    return formatArray([]);
+  }
+  return formatArray([
+    ':0',
+    '$-1',
+    '$-1',
+    formatArray([])
+  ]);
+};
+
+const cmdXclaim = (args: string[]): string => {
+  if (args.length < 5) return formatError("wrong number of arguments for 'xclaim' command");
+  return formatArray([]);
+};
+
+const cmdXdel = (args: string[]): string => formatInteger(1);
+
+const cmdXinfo = (args: string[]): string => okResponse();
+
+// --- Persistence ---
+const cmdBgsave = (): string => formatSimpleString('Background saving started');
+const cmdSave = (): string => okResponse();
+const cmdBgrewriteaof = (): string => formatSimpleString('Background append only file rewriting started');
+const cmdLastsave = (): string => formatInteger(Math.floor(Date.now() / 1000));
+
+// --- Sentinel & Cluster ---
+const cmdSentinel = (args: string[]): string => {
+  const sub = args[0] ? args[0].toUpperCase() : '';
+  if (sub === 'MASTERS' || sub === 'MASTER') {
+    return formatArray([
+      formatArray([
+        'name', 'mymaster',
+        'ip', '127.0.0.1',
+        'port', '6379',
+        'flags', 'master',
+        'num-slaves', '2',
+        'num-other-sentinels', '2',
+      ])
+    ]);
+  }
+  if (sub === 'GET-MASTER-ADDR-BY-NAME') {
+    return formatArray(['127.0.0.1', '6379']);
+  }
+  return okResponse();
+};
+
+const cmdCluster = (args: string[]): string => {
+  const sub = args[0] ? args[0].toUpperCase() : '';
+  if (sub === 'NODES') {
+    return formatBulkString(
+      '07c37dfeb235213a872192d92308cf5992b67f1e 127.0.0.1:7000@17000 myself,master - 0 1710072000000 1 connected 0-5460\r\n' +
+      '6750d1c05803e4a61fc73ea40ad9a1f6a124f4b1 127.0.0.1:7001@17001 master - 0 1710072000000 2 connected 5461-10922\r\n' +
+      'b7d812c1723a7b4582f3a61239841b981293a812 127.0.0.1:7002@17002 master - 0 1710072000000 3 connected 10923-16383\r\n'
+    );
+  }
+  if (sub === 'INFO') {
+    return formatBulkString('cluster_state:ok\r\ncluster_slots_assigned:16384\r\ncluster_slots_ok:16384\r\ncluster_known_nodes:6\r\ncluster_size:3\r\n');
+  }
+  return okResponse();
+};
+
+const cmdEval = (args: string[]): string => {
+  return formatInteger(1);
+};
+
 // --- Main dispatch ---
 
 export function executeRedis(cmd: string): { response: string; isError: boolean } {
   const trimmed = cmd.trim();
   if (!trimmed) return { response: '', isError: false };
+  if (trimmed.startsWith('#') || trimmed.startsWith('--') || trimmed.startsWith('//') || trimmed.startsWith('/*') || trimmed.startsWith('*')) {
+    return { response: '', isError: false };
+  }
+
+  // Handle Lua scripting code inside markdown snippets
+  if (/^(local|redis\.call|return|if|then|else|end)\b/i.test(trimmed)) {
+    return { response: '+OK', isError: false };
+  }
 
   const tokens = parseCommand(trimmed);
   if (!tokens.length) return { response: '', isError: false };
@@ -1265,7 +1555,7 @@ export function executeRedis(cmd: string): { response: string; isError: boolean 
       case 'DBSIZE': response = cmdDbsize(); break;
       case 'TIME': response = cmdTime(); break;
       case 'SELECT': response = cmdSelect(args); break;
-      case 'INFO': response = cmdInfo(); break;
+      case 'INFO': response = cmdInfo(args); break;
       case 'COMMAND': response = cmdCommand(); break;
 
       // Strings
@@ -1323,6 +1613,14 @@ export function executeRedis(cmd: string): { response: string; isError: boolean 
       case 'SUNION': response = cmdSunion(args); break;
       case 'SDIFF': response = cmdSdiff(args); break;
 
+      // HyperLogLog
+      case 'PFADD': response = cmdPfadd(args); break;
+      case 'PFCOUNT': response = cmdPfcount(args); break;
+      case 'PFMERGE': response = cmdPfmerge(args); break;
+
+      // Config
+      case 'CONFIG': response = cmdConfig(args); break;
+
       // Sorted Sets
       case 'ZADD': response = cmdZadd(args); break;
       case 'ZRANGE': response = cmdZrange(args); break;
@@ -1334,7 +1632,40 @@ export function executeRedis(cmd: string): { response: string; isError: boolean 
       case 'ZCARD': response = cmdZcard(args); break;
       case 'ZINCRBY': response = cmdZincrby(args); break;
       case 'ZRANGEBYSCORE': response = cmdZrangebyscore(args); break;
+      case 'ZREMRANGEBYSCORE': response = cmdZremrangebyscore(args); break;
       case 'ZCOUNT': response = cmdZcount(args); break;
+
+      // Streams
+      case 'XADD': response = cmdXadd(args); break;
+      case 'XLEN': response = cmdXlen(args); break;
+      case 'XRANGE': response = cmdXrange(args); break;
+      case 'XREVRANGE': response = cmdXrevrange(args); break;
+      case 'XGROUP': response = cmdXgroup(args); break;
+      case 'XREADGROUP': response = cmdXreadgroup(args); break;
+      case 'XREAD': response = cmdXread(args); break;
+      case 'XACK': response = cmdXack(args); break;
+      case 'XPENDING': response = cmdXpending(args); break;
+      case 'XINFO': response = cmdXinfo(args); break;
+      case 'XCLAIM': response = cmdXclaim(args); break;
+      case 'XDEL': response = cmdXdel(args); break;
+
+      // Persistence
+      case 'BGSAVE': response = cmdBgsave(); break;
+      case 'SAVE': response = cmdSave(); break;
+      case 'BGREWRITEAOF': response = cmdBgrewriteaof(); break;
+      case 'LASTSAVE': response = cmdLastsave(); break;
+
+      // Sentinel & Cluster
+      case 'SENTINEL': response = cmdSentinel(args); break;
+      case 'CLUSTER': response = cmdCluster(args); break;
+
+      // Scripting
+      case 'EVAL': response = cmdEval(args); break;
+      case 'EVALSHA': response = cmdEval(args); break;
+      case 'LOCAL':
+      case 'RETURN':
+      case 'REDIS.CALL':
+        response = '+OK'; break;
 
       // Pub/Sub
       case 'SUBSCRIBE': response = cmdSubscribe(args); break;
@@ -1395,6 +1726,7 @@ const parseCommand = (input: string): string[] => {
 };
 
 export function resetRedis(): void {
+  streamsStore.clear();
   loadSampleData();
 }
 

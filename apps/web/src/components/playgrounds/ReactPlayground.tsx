@@ -173,13 +173,19 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
         .replace(/export\s*\{[^}]*\};?/g, '')
         .replace(/^export\s+(?=(?:async\s+)?(?:function|const|let|var|class)\b)/gm, '');
 
+      // Extract all potential component names (UpperCamelCase) defined in runnableCode
+      const compMatches = [...runnableCode.matchAll(/(?:function|class|const|let|var)\s+([A-Z]\w*)/g)];
+      const compNames = Array.from(new Set(compMatches.map(m => m[1])));
+
       const html = `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"><\/script>
   <style>
-    body { margin: 0; padding: 0; background: #ffffff; color: #18181b; font-family: system-ui, -apple-system, sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: 16px; background: #ffffff; color: #0f172a; font-family: system-ui, -apple-system, sans-serif; }
     #root { min-height: 100vh; }
   </style>
 </head>
@@ -211,8 +217,27 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
     try {
       const { useState, useEffect, useRef, useCallback, useMemo, useContext, useReducer, createContext } = React;
       ${runnableCode}
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(React.createElement(App));
+
+      let ComponentToRender = typeof App !== 'undefined' ? App : null;
+      if (!ComponentToRender) {
+        const names = ${JSON.stringify(compNames.reverse())};
+        for (const n of names) {
+          try {
+            const c = eval(n);
+            if (typeof c === 'function') {
+              ComponentToRender = c;
+              break;
+            }
+          } catch (_) {}
+        }
+      }
+
+      if (ComponentToRender) {
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(ComponentToRender));
+      } else {
+        throw new Error("${isId ? 'Tidak ada komponen React yang didefinisikan' : 'No React component defined'}");
+      }
     } catch (err) {
       window.parent.postMessage({ type: 'runtime-error', runId: __runId, data: err.message || String(err) }, '*');
     }

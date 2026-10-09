@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faRotateLeft, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
-import { runDockerCommand, resetDocker } from '../utils/dockerSim';
+import { runDockerCommand, resetDocker, splitScript } from '../utils/dockerSim';
+export { splitScript };
 
 interface DockerPlaygroundProps {
   lang: Language;
@@ -16,11 +17,6 @@ interface Line {
 
 const PROM = 'tryngo@docker:~$';
 
-const splitScript = (script: string): string[] =>
-  script
-    .split('\n')
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0);
 
 export const DockerPlayground: React.FC<DockerPlaygroundProps> = ({ lang, script }) => {
   const isId = lang === 'id';

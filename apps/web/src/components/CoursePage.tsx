@@ -241,16 +241,24 @@ func main() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSS Demo</title>
   <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; margin: 0; }
-    .demo-card { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; max-width: 480px; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; margin: 0; }
+    .demo-card { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 12px; max-width: 520px; }
+    .btn { background: #2E5B44; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: inherit; margin-top: 8px; display: inline-block; }
+    .box { background: #334155; padding: 12px; border-radius: 8px; margin: 8px 0; }
+    .badge { display: inline-block; padding: 2px 8px; background: #10b981; color: white; border-radius: 9999px; font-size: 11px; font-weight: bold; }
 ${trimmed}
   </style>
 </head>
 <body>
   <div class="demo-card card box container navbar grid-container">
-    <h2>${isId ? 'Pratinjau CSS' : 'CSS Live Preview'}</h2>
-    <p>${isId ? 'Efek styling diterapkan langsung pada elemen ini.' : 'Styling rules applied directly to this element.'}</p>
-    <button class="btn">${isId ? 'Tombol Interaktif' : 'Interactive Button'}</button>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+      <h2 style="margin: 0; font-size: 18px;">${isId ? 'Pratinjau CSS' : 'CSS Live Preview'}</h2>
+      <span class="badge">Live</span>
+    </div>
+    <p style="margin: 8px 0; color: #94a3b8; font-size: 14px;">${isId ? 'Efek styling diterapkan langsung pada elemen ini.' : 'Styling rules applied directly to this element.'}</p>
+    <div class="box item">${isId ? 'Kotak Konten (.box / .item)' : 'Content Box (.box / .item)'}</div>
+    <button class="btn">${isId ? 'Tombol Interaktif (.btn)' : 'Interactive Button (.btn)'}</button>
   </div>
 </body>
 </html>`;
@@ -265,7 +273,7 @@ ${trimmed}
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Tailwind CSS Demo</title>
 </head>
-<body class="bg-slate-900 text-white p-6 font-sans">
+<body class="bg-slate-900 text-white p-6 font-sans antialiased min-h-screen">
   ${trimmed}
 </body>
 </html>`;
@@ -281,14 +289,15 @@ ${trimmed}
   ${trimmed}
   <title>HTML5 Demo</title>
   <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; margin: 0; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; margin: 0; }
     .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h3>${isId ? 'Layar Responsif 1:1 Aktif' : 'Responsive 1:1 Scale Active'}</h3>
-    <p>${isId ? 'Tag disematkan ke dalam elemen <head> dan berfungsi penuh.' : 'Tag is embedded in <head> and active.'}</p>
+    <h3 style="margin: 0 0 8px 0;">${isId ? 'Layar Responsif 1:1 Aktif' : 'Responsive 1:1 Scale Active'}</h3>
+    <p style="margin: 0; color: #94a3b8;">${isId ? 'Tag disematkan ke dalam elemen <head> dan berfungsi penuh.' : 'Tag is embedded in <head> and active.'}</p>
   </div>
 </body>
 </html>`;
@@ -301,8 +310,13 @@ ${trimmed}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HTML5 Demo</title>
   <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: #f8fafc; margin: 0; }
-    input, button, select, textarea { font-family: inherit; font-size: 14px; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; margin: 0; line-height: 1.6; }
+    input, button, select, textarea { font-family: inherit; font-size: 14px; border-radius: 6px; padding: 6px 12px; }
+    a { color: #38bdf8; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+    th, td { border: 1px solid #334155; padding: 8px 12px; text-align: left; }
+    th { background: #1e293b; color: #38bdf8; }
   </style>
 </head>
 <body>
@@ -319,10 +333,15 @@ ${trimmed}
 <html lang="${isId ? 'id' : 'en'}">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JS Demo</title>
   <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; }
-    #app, .output { margin-top: 12px; padding: 12px; background: #1e293b; border-radius: 8px; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; padding: 20px; background: #0f172a; color: #f8fafc; margin: 0; }
+    #app, .output, #output { margin-top: 12px; padding: 16px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; font-size: 14px; }
+    button { font-family: inherit; font-size: 14px; background: #2E5B44; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+    button:hover { background: #234735; }
+    input { font-family: inherit; font-size: 14px; padding: 8px 12px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
   </style>
 </head>
 <body>
@@ -332,6 +351,13 @@ ${trimmed}
   </script>
 </body>
 </html>`;
+  }
+
+  // 5. PHP
+  if (lang === 'php' || trackSlug === 'php') {
+    if (!trimmed.startsWith('<?php')) {
+      return `<?php\n\n${trimmed}\n`;
+    }
   }
 
   return trimmed;
