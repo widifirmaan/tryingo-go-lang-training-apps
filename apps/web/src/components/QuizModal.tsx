@@ -468,12 +468,16 @@ function QuizScreen({
         </h2>
 
         {/* Question */}
-        <h3 className="text-sm sm:text-[15px] font-semibold text-zinc-700 dark:text-zinc-200 leading-relaxed mb-3">
+        <h3 className="text-sm sm:text-base font-bold text-zinc-800 dark:text-zinc-100 leading-relaxed mb-3">
           {q.q}
         </h3>
 
         {q.context && (
-          <div className="mb-4 p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-700/70 text-[11px] sm:text-xs text-zinc-700 dark:text-zinc-300 font-mono leading-relaxed whitespace-pre-wrap break-words">
+          <div className={`mb-4 p-3.5 sm:p-4 rounded-2xl border leading-relaxed whitespace-pre-wrap break-words ${
+            q.context.includes('\n')
+              ? 'bg-zinc-900 text-zinc-100 border-zinc-800 font-mono text-xs sm:text-[13px] shadow-inner'
+              : 'bg-zinc-50 dark:bg-zinc-900/70 border-zinc-200 dark:border-zinc-700/70 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 font-sans'
+          }`}>
             {q.context}
           </div>
         )}
@@ -628,16 +632,24 @@ function ResultScreen({
             {showWrong && (
               <div className="mt-2 space-y-2">
                 {wrongList.map(({ f, i, user }) => (
-                  <div key={i} className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/70">
-                    <div className="text-[9px] text-zinc-400 mb-1">
-                      {isId ? 'Level' : 'Level'} {f.levelName} · {isId ? 'Minggu' : 'Week'} {f.week}
+                  <div key={i} className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700/70">
+                    <div className="text-[10px] font-bold text-zinc-400 mb-1">
+                      {isId ? 'Level' : 'Level'} {f.levelName} · {isId ? 'Minggu' : 'Week'} {f.week} · {f.topic}
                     </div>
-                    <div className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-200 mb-1.5">{f.q.q}</div>
-                    {f.q.context && <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono mb-1.5 whitespace-pre-wrap">{f.q.context}</div>}
-                    <div className="text-[10px]">
-                      <span className="text-red-500">{isId ? 'Jawabanmu:' : 'Your answer:'} {answersToLabel(user, f.q)}</span>
-                      <span className="mx-1.5 text-zinc-400">·</span>
-                      <span className="text-emerald-600 dark:text-emerald-400">{isId ? 'Benar:' : 'Correct:'} {f.q.options[f.q.answer]}</span>
+                    <div className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-100 mb-1.5 leading-snug">{f.q.q}</div>
+                    {f.q.context && (
+                      <div className={`text-[11px] sm:text-xs mb-2 p-2.5 rounded-xl border leading-relaxed whitespace-pre-wrap ${
+                        f.q.context.includes('\n')
+                          ? 'bg-zinc-900 text-zinc-100 border-zinc-800 font-mono text-[11px]'
+                          : 'bg-white/80 dark:bg-zinc-900/60 text-zinc-700 dark:text-zinc-300 border-zinc-200/80 dark:border-zinc-700/60'
+                      }`}>
+                        {f.q.context}
+                      </div>
+                    )}
+                    <div className="text-[11px] sm:text-xs flex flex-wrap items-center gap-1.5">
+                      <span className="text-red-500 font-semibold">{isId ? 'Jawabanmu:' : 'Your answer:'} {answersToLabel(user, f.q)}</span>
+                      <span className="text-zinc-400">·</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{isId ? 'Benar:' : 'Correct:'} {f.q.options[f.q.answer]}</span>
                     </div>
                   </div>
                 ))}
