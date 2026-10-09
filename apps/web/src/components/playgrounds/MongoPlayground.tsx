@@ -3,7 +3,7 @@ import Editor from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faRotateLeft, faSpinner, faDatabase, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../../utils/translations';
-import { executeMongo, resetMongo, listCollections } from '../../utils/mongoSim';
+import { executeMongo, resetMongo, listCollections, splitStatements } from '../../utils/mongoSim';
 
 interface MongoPlaygroundProps {
   lang: Language;

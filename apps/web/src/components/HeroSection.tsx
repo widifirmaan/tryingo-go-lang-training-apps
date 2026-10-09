@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart, faRoute } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart, faRoute, faRocket } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
@@ -14,6 +14,7 @@ interface HeroSectionProps {
   onOpenSettings: () => void;
   onOpenCollection: () => void;
   onOpenCareerPaths?: () => void;
+  onOpenQuickStart?: (slug: string) => void;
   isExploring?: boolean;
   onBackToHero?: () => void;
   lang?: Language;
@@ -42,6 +43,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onNavigateToWeek,
   onOpenQuiz,
   onOpenIde,
+  onOpenQuickStart,
   activeIdeId,
   activeQuizId,
 }) => {
@@ -66,6 +68,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const IDE_ITEMS = TRACKS_COLLECTION.map((track) => ({ trackId: track.id, name: track.name }));
   const openIde = (trackId: string) => {
     onOpenIde?.(trackId);
+  };
+
+  const openQuickStart = (slug: string) => {
+    onOpenQuickStart?.(slug);
   };
 
   useEffect(() => {
@@ -232,6 +238,47 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               </AnimatePresence>
                             </div>
                           ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Quick Start with submenu */}
+                  <div className="flex flex-col">
+                    <motion.button
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setActiveSubmenu(activeSubmenu === 'quickstart' ? null : 'quickstart')}
+                      className={`w-full px-3.5 py-2.5 rounded-2xl text-white text-xs font-bold flex items-center justify-between transition-colors ${activeSubmenu === 'quickstart' ? 'bg-white/20' : 'bg-white/10 hover:bg-white/20'}`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <FontAwesomeIcon icon={faRocket} className="w-4 h-4 text-emerald-300" />
+                        <span>Quick Start</span>
+                      </div>
+                      <span className="text-[9px] opacity-60">{activeSubmenu === 'quickstart' ? '▲' : '▼'}</span>
+                    </motion.button>
+                    <AnimatePresence>
+                      {activeSubmenu === 'quickstart' && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden flex flex-col ml-3 mt-0.5 gap-0.5"
+                        >
+                          {TRACKS_COLLECTION.map((track) => {
+                            const slug = SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '');
+                            return (
+                              <motion.button
+                                key={track.id}
+                                whileTap={{ scale: 0.97 }}
+                                onClick={() => openQuickStart(slug)}
+                                className="w-full pl-7 pr-3.5 py-1.5 rounded-xl text-[11px] font-medium flex items-center gap-2 transition-colors text-left bg-white/5 hover:bg-white/15 text-white/80"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                                <span className="truncate">{track.name}</span>
+                              </motion.button>
+                            );
+                          })}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -559,6 +606,39 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                               )}
                             </div>
                           ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Quick Start Mobile */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => setActiveSubmenu(activeSubmenu === 'quickstart-mobile' ? null : 'quickstart-mobile')}
+                      className="w-full px-3 py-2 rounded-xl bg-white/10 text-white text-xs font-bold flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-2">
+                        <FontAwesomeIcon icon={faRocket} className="w-4 h-4 text-emerald-300" />
+                        <span>Quick Start</span>
+                      </div>
+                      <span className="text-[9px]">{activeSubmenu === 'quickstart-mobile' ? '▲' : '▼'}</span>
+                    </motion.button>
+                    <AnimatePresence>
+                      {activeSubmenu === 'quickstart-mobile' && (
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.15 }} className="overflow-y-auto no-scrollbar flex flex-col ml-2 gap-0.5 max-h-[calc(100dvh-12rem)] overscroll-contain touch-pan-y">
+                          {TRACKS_COLLECTION.map((track) => {
+                            const slug = SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '');
+                            return (
+                              <button
+                                key={track.id}
+                                onClick={() => { setIsMobileMenuOpen(false); openQuickStart(slug); }}
+                                className="w-full pl-6 pr-3 py-1.5 rounded-lg text-[11px] font-medium text-left flex items-center gap-2 shrink-0 bg-white/5 text-white/70 hover:text-white"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                                <span className="truncate">{track.name}</span>
+                              </button>
+                            );
+                          })}
                         </motion.div>
                       )}
                     </AnimatePresence>

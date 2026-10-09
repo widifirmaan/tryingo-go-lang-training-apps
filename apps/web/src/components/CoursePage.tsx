@@ -4,13 +4,14 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Sparkles, Award, Play } from 'lucide-react';
+import { Sparkles, Award, Play, Rocket } from 'lucide-react';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
 import { CertificateModal } from './CertificateModal';
 import { AiMentorDrawer } from './AiMentorDrawer';
+import { QuickStartModal } from './QuickStartModal';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
@@ -370,12 +371,13 @@ interface CoursePageProps {
   onOpenPlayground?: (code: string) => void;
   onOpenQuiz?: (slug: string, level?: string) => void;
   onOpenIde?: (trackId: string) => void;
+  onOpenQuickStart?: (slug: string) => void;
   initialLevel?: string;
   initialWeek?: number;
   onNavigate?: (trackId: string, level: string, week: number) => void;
 }
 
-export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, onOpenQuiz, onOpenIde, initialLevel, initialWeek, onNavigate }) => {
+export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, onOpenPlayground, onOpenQuiz, onOpenIde, onOpenQuickStart, initialLevel, initialWeek, onNavigate }) => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
@@ -414,6 +416,7 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const [overrideCode, setOverrideCode] = useState<string | null>(null);
   const [isMentorOpen, setIsMentorOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
+  const [isQuickStartOpen, setIsQuickStartOpen] = useState(false);
 
   useEffect(() => {
     setOverrideCode(null);
@@ -598,6 +601,16 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         >
           <Sparkles className="w-3.5 h-3.5 text-white" />
           <span className="hidden sm:inline">AI Mentor</span>
+        </button>
+
+        {/* Quick Start Button */}
+        <button
+          onClick={() => onOpenQuickStart ? onOpenQuickStart(slug) : setIsQuickStartOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 shadow-xs hover:bg-white dark:hover:bg-zinc-700 transition-all text-xs sm:text-sm font-bold shrink-0 text-emerald-700 dark:text-emerald-400"
+          title={isId ? 'Panduan Setup & Quick Start Lokal' : 'Local Setup & Quick Start Guide'}
+        >
+          <Rocket className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+          <span className="hidden sm:inline">Quick Start</span>
         </button>
 
         {/* IDE Button */}
@@ -833,6 +846,15 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         topicTitle={currentWeek ? (isId ? currentWeek.titleId : currentWeek.titleEn) : track.name}
         currentCode={overrideCode || extractCode(content)}
         lang={lang}
+      />
+
+      {/* Quick Start Modal */}
+      <QuickStartModal
+        isOpen={isQuickStartOpen}
+        onClose={() => setIsQuickStartOpen(false)}
+        initialSlug={slug}
+        lang={lang}
+        onOpenIde={onOpenIde}
       />
     </div>
   );

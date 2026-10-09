@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faCode, faBookOpen, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faCode, faBookOpen, faQuestion, faRocket } from '@fortawesome/free-solid-svg-icons';
 import { ApparelSize } from '../types';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
@@ -28,6 +28,7 @@ interface TrackCardProps {
   onStartCourse?: (trackId: string) => void;
   onOpenPlayground?: (trackId: string) => void;
   onOpenQuiz?: (slug: string) => void;
+  onOpenQuickStart?: (slug: string) => void;
   lang?: 'id' | 'en';
 }
 
@@ -39,6 +40,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
   onStartCourse,
   onOpenPlayground,
   onOpenQuiz,
+  onOpenQuickStart,
   lang = 'id',
 }) => {
   const slug = SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', '');
@@ -104,6 +106,14 @@ export const TrackCard: React.FC<TrackCardProps> = ({
               title="Buka Kuis"
             >
               <FontAwesomeIcon icon={faQuestion} className="w-3.5 h-3.5" />
+            </button>
+
+            <button 
+              onClick={() => onOpenQuickStart?.(slug)}
+              className="w-8 h-8 bg-white/80 dark:bg-zinc-700/80 hover:bg-white dark:hover:bg-zinc-600 text-emerald-700 dark:text-emerald-400 rounded-xl flex items-center justify-center shadow-xs transition-transform hover:scale-110"
+              title={lang === 'id' ? 'Panduan Setup & Quick Start' : 'Quick Start & Setup Guide'}
+            >
+              <FontAwesomeIcon icon={faRocket} className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
