@@ -52,6 +52,18 @@ function runProgram(code: string, output: string[]): string[] {
   const variables = new Map<string, Variable>();
   const methods = new Map<string, MethodDef>();
   const classes = new Map<string, ClassDef>();
+  const records = new Map<string, string[]>();
+
+  // Pre-scan records: e.g. public record StockBatch(...)
+  const recordMatches = code.matchAll(/(?:public\s+)?record\s+(\w+)\s*\(([^)]*)\)/g);
+  for (const rm of recordMatches) {
+    const recName = rm[1];
+    const fields = rm[2].split(',').map((f) => {
+      const parts = f.trim().split(/\s+/);
+      return parts[parts.length - 1];
+    }).filter(Boolean);
+    records.set(recName, fields);
+  }
 
   const stripped = stripComments(code);
   const lines = stripped.split('\n');
@@ -81,6 +93,12 @@ function runProgram(code: string, output: string[]): string[] {
       continue;
     }
 
+    // Record declaration (skip declaration statement if encountered during execution)
+    if (/^(?:public\s+)?record\s+\w+/.test(line)) {
+      i++;
+      continue;
+    }
+
     // Class declaration
     if (line.startsWith('class ') || line.startsWith('public class ') || line.startsWith('static class ')) {
       const { classDef, nextIdx } = parseClass(lines, i);
@@ -102,8 +120,31 @@ function runProgram(code: string, output: string[]): string[] {
       continue;
     }
 
+    // Assemble multiline statements if line does not terminate with ';' or '{' and is not a control structure
+    const isControl = /^(?:if|while|for|foreach)\s*\(/.test(line);
+    if (!isControl && !line.endsWith(';') && !line.endsWith('{')) {
+      let assembled = line;
+      let j = i + 1;
+      let depth = 0;
+      for (const ch of line) { if (ch === '{' || ch === '(') depth++; else if (ch === '}' || ch === ')') depth--; }
+      while (j < lines.length) {
+        const nextL = lines[j].trim();
+        if (nextL) {
+          assembled += ' ' + nextL;
+          for (const ch of nextL) { if (ch === '{' || ch === '(') depth++; else if (ch === '}' || ch === ')') depth--; }
+        }
+        j++;
+        if ((nextL.endsWith(';') || assembled.endsWith(';')) && depth <= 0) break;
+      }
+      line = assembled;
+      const result = executeStatement(line, variables, methods, classes, lines, i, records);
+      if (result.output) output.push(...result.output);
+      i = j;
+      continue;
+    }
+
     // Statement execution
-    const result = executeStatement(line, variables, methods, classes, lines, i);
+    const result = executeStatement(line, variables, methods, classes, lines, i, records);
     if (result.output) output.push(...result.output);
     i = result.nextIdx ?? (i + 1);
   }
@@ -312,7 +353,8 @@ function executeStatement(
   methods: Map<string, MethodDef>,
   classes: Map<string, ClassDef>,
   allLines: string[],
-  currentIdx: number
+  currentIdx: number,
+  records?: Map<string, string[]>
 ): { output?: string[]; nextIdx?: number; returnValue?: any; control?: 'break' | 'continue' } {
   // Block opening
   if (line === '{') {
@@ -323,14 +365,13 @@ function executeStatement(
   if (line === 'break' || line === 'break;') return { control: 'break' };
   if (line === 'continue' || line === 'continue;') return { control: 'continue' };
 
-  // Variable declaration with assignment
-  const varDecl = line.match(/^(int|string|bool|double|var)\s+(\w+)\s*=\s*(.+);$/);
-  if (varDecl) {
-    const type = varDecl[1] as Variable['type'];
-    const name = varDecl[2];
-    const valueStr = varDecl[3];
-    const value = evalExpr(valueStr, variables, methods, classes);
-    variables.set(name, { type: type === 'var' ? inferType(value) : type, value });
+  // Variable declaration with assignment (supports types like List<StockBatch>, var, int, string, etc.)
+  const varDecl = line.match(/^(?:int|string|bool|double|var|[A-Za-z_]\w*(?:<[^>]+>)?)\s+(\w+)\s*=\s*([\s\S]+?);?$/);
+  if (varDecl && !line.startsWith('if') && !line.startsWith('while') && !line.startsWith('for') && !line.startsWith('return')) {
+    const name = varDecl[1];
+    const valueStr = varDecl[2].trim();
+    const value = evalExpr(valueStr, variables, methods, classes, records);
+    variables.set(name, { type: inferType(value), value });
     return {};
   }
 
@@ -344,12 +385,12 @@ function executeStatement(
   }
 
   // Assignment
-  const assign = line.match(/^(\w+)\s*=\s*(.+);$/);
-  if (assign && !line.startsWith('if') && !line.startsWith('while') && !line.startsWith('for')) {
+  const assign = line.match(/^(\w+)\s*=\s*([\s\S]+?);?$/);
+  if (assign && !line.startsWith('if') && !line.startsWith('while') && !line.startsWith('for') && !line.startsWith('return')) {
     const name = assign[1];
-    const valueStr = assign[2];
+    const valueStr = assign[2].trim();
     const existing = variables.get(name);
-    const value = evalExpr(valueStr, variables, methods, classes);
+    const value = evalExpr(valueStr, variables, methods, classes, records);
     if (existing) {
       existing.value = value;
     } else {
@@ -362,7 +403,7 @@ function executeStatement(
   if (line.startsWith('Console.WriteLine') || line.startsWith('Console.Write')) {
     const content = extractWriteContent(line);
     if (content !== null) {
-      const result = evalWriteContent(content, variables, methods, classes);
+      const result = evalWriteContent(content, variables, methods, classes, records);
       return { output: [result] };
     }
     return {};
@@ -385,7 +426,7 @@ function executeStatement(
 
   // Foreach loop
   if (line.startsWith('foreach (')) {
-    return executeForeach(line, variables, methods, classes, allLines, currentIdx);
+    return executeForeach(line, variables, methods, classes, allLines, currentIdx, records);
   }
 
   // Return statement
@@ -757,19 +798,29 @@ function executeForeach(
   methods: Map<string, MethodDef>,
   classes: Map<string, ClassDef>,
   allLines: string[],
-  currentIdx: number
+  currentIdx: number,
+  records?: Map<string, string[]>
 ): { output?: string[]; nextIdx?: number; returnValue?: any } {
   const output: string[] = [];
-  const foreachMatch = line.match(/foreach\s*\(\s*(int|string|var)\s+(\w+)\s+in\s+(\w+)\s*\)/);
+  const foreachMatch = line.match(/foreach\s*\(\s*(?:var|\w+)\s+(\w+)\s+in\s+([\s\S]+?)\s*\)/);
   if (!foreachMatch) return {};
 
-  const iterType = foreachMatch[1];
-  const iterVar = foreachMatch[2];
-  const arrName = foreachMatch[3];
-  const arr = variables.get(arrName);
+  const iterVar = foreachMatch[1];
+  const collExpr = foreachMatch[2].trim();
+  let arrValue: any[] = [];
 
-  if (!arr || arr.type !== 'array') {
-    throw new Error(`'${arrName}' is not an array`);
+  const directVar = variables.get(collExpr);
+  if (directVar && directVar.type === 'array' && Array.isArray(directVar.value)) {
+    arrValue = directVar.value;
+  } else {
+    const evaluated = evalExpr(collExpr, variables, methods, classes, records);
+    if (Array.isArray(evaluated)) {
+      arrValue = evaluated;
+    } else if (directVar && Array.isArray(directVar.value)) {
+      arrValue = directVar.value;
+    } else {
+      throw new Error(`'${collExpr}' is not an array`);
+    }
   }
 
   // Collect foreach body
@@ -799,10 +850,13 @@ function executeForeach(
     i++;
   }
 
-  for (const item of arr.value) {
-    variables.set(iterVar, { type: iterType === 'var' ? inferType(item) : iterType as Variable['type'], value: item });
+  for (const item of arrValue) {
+    variables.set(iterVar, {
+      type: typeof item === 'object' && item !== null ? 'object' : inferType(item),
+      value: item,
+    });
     for (const { line: stmt, idx } of body) {
-      const result = executeStatement(stmt, variables, methods, classes, allLines, idx);
+      const result = executeStatement(stmt, variables, methods, classes, allLines, idx, records);
       if (result.output) output.push(...result.output);
       if (result.control === 'break') return { output, nextIdx: i };
       if (result.control === 'continue') break;
@@ -825,10 +879,16 @@ function extractWriteContent(line: string): string | null {
   return null;
 }
 
-function evalWriteContent(content: string, variables: Map<string, Variable>, methods: Map<string, MethodDef>, classes: Map<string, ClassDef>): string {
+function evalWriteContent(
+  content: string,
+  variables: Map<string, Variable>,
+  methods: Map<string, MethodDef>,
+  classes: Map<string, ClassDef>,
+  records?: Map<string, string[]>
+): string {
   // Handle string interpolation: $"text {expr} text"
   if (content.startsWith('$"')) {
-    return evalInterpolatedString(content, variables, methods, classes);
+    return evalInterpolatedString(content, variables, methods, classes, records);
   }
 
   // Handle composite format: "{0} {1}", a, b
@@ -923,14 +983,72 @@ function tryCompositeFormat(content: string, variables: Map<string, Variable>, m
   });
 }
 
-function evalInterpolatedString(content: string, variables: Map<string, Variable>, methods: Map<string, MethodDef>, classes: Map<string, ClassDef>): string {
+function evalInterpolatedString(
+  content: string,
+  variables: Map<string, Variable>,
+  methods: Map<string, MethodDef>,
+  classes: Map<string, ClassDef>,
+  records?: Map<string, string[]>
+): string {
   const str = content.slice(2, content.endsWith('"') ? -1 : undefined);
   return str.replace(/\{([^}]+)\}/g, (_, expr) => {
     const e = expr.trim();
-    const fmtIdx = e.indexOf(':');
-    const e2 = fmtIdx === -1 ? e : e.slice(0, fmtIdx).trim();
-    return formatValue(evalExpr(e2, variables, methods, classes));
+    let exprBody = e;
+    let align = 0;
+    let spec = '';
+
+    const colonIdx = findTopLevelColon(e);
+    if (colonIdx !== -1) {
+      spec = e.slice(colonIdx + 1).trim();
+      exprBody = e.slice(0, colonIdx).trim();
+    }
+    const commaIdx = exprBody.indexOf(',');
+    if (commaIdx !== -1) {
+      align = parseInt(exprBody.slice(commaIdx + 1).trim(), 10) || 0;
+      exprBody = exprBody.slice(0, commaIdx).trim();
+    }
+
+    const val = evalExpr(exprBody, variables, methods, classes, records);
+    let formatted = formatValueWithSpec(val, spec);
+    if (align < 0) {
+      formatted = formatted.padEnd(Math.abs(align), ' ');
+    } else if (align > 0) {
+      formatted = formatted.padStart(align, ' ');
+    }
+    return formatted;
   });
+}
+
+function findTopLevelColon(s: string): number {
+  let depth = 0;
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (ch === '(' || ch === '[' || ch === '{') depth++;
+    else if (ch === ')' || ch === ']' || ch === '}') depth--;
+    else if (ch === ':' && depth === 0) return i;
+  }
+  return -1;
+}
+
+function formatValueWithSpec(val: any, spec: string): string {
+  if (!spec) return formatValue(val);
+  if (spec.toUpperCase().startsWith('N')) {
+    const decimals = parseInt(spec.slice(1), 10) || 0;
+    const num = Number(val);
+    if (!isNaN(num)) {
+      return num.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+  }
+  if (spec.toLowerCase() === 'yyyy-mm-dd') {
+    const d = val instanceof Date ? val : new Date(val);
+    if (!isNaN(d.getTime())) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+  }
+  return formatValue(val);
 }
 
 function formatValue(value: any): string {
@@ -943,7 +1061,236 @@ function formatValue(value: any): string {
   return String(value);
 }
 
-function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<string, MethodDef>, classes: Map<string, ClassDef>): any {
+function splitTopLevelCommas(str: string): string[] {
+  const parts: string[] = [];
+  let cur = '';
+  let depth = 0;
+  let inStr: string | null = null;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    if (inStr) {
+      if (ch === inStr && str[i - 1] !== '\\') inStr = null;
+      cur += ch;
+      continue;
+    }
+    if (ch === '"' || ch === "'") { inStr = ch; cur += ch; continue; }
+    if (ch === '(' || ch === '[' || ch === '{') depth++;
+    else if (ch === ')' || ch === ']' || ch === '}') depth--;
+    if (ch === ',' && depth === 0) {
+      parts.push(cur);
+      cur = '';
+      continue;
+    }
+    cur += ch;
+  }
+  if (cur.trim()) parts.push(cur);
+  return parts;
+}
+
+function parseCallChain(expr: string): { base: string; calls: { method: string; arg: string }[] } | null {
+  let depth = 0;
+  let inStr: string | null = null;
+  let base = '';
+  let idx = 0;
+  for (let i = 0; i < expr.length; i++) {
+    const ch = expr[i];
+    if (inStr) {
+      if (ch === inStr && expr[i - 1] !== '\\') inStr = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") { inStr = ch; continue; }
+    if (ch === '(' || ch === '{') depth++;
+    else if (ch === ')' || ch === '}') depth--;
+    if (ch === '.' && depth === 0) {
+      base = expr.slice(0, i).trim();
+      idx = i;
+      break;
+    }
+  }
+  if (!base) return null;
+
+  const calls: { method: string; arg: string }[] = [];
+  while (idx < expr.length) {
+    if (expr[idx] !== '.') { idx++; continue; }
+    idx++;
+    let mName = '';
+    while (idx < expr.length && /[a-zA-Z0-9_]/.test(expr[idx])) {
+      mName += expr[idx];
+      idx++;
+    }
+    while (idx < expr.length && /\s/.test(expr[idx])) idx++;
+    if (expr[idx] === '(') {
+      let openIdx = idx;
+      let pDepth = 1;
+      idx++;
+      while (idx < expr.length && pDepth > 0) {
+        if (expr[idx] === '(' || expr[idx] === '{') pDepth++;
+        else if (expr[idx] === ')' || expr[idx] === '}') pDepth--;
+        idx++;
+      }
+      const arg = expr.slice(openIdx + 1, idx - 1).trim();
+      calls.push({ method: mName, arg });
+    }
+  }
+
+  return { base, calls };
+}
+
+function evalSelectorExpr(expr: string, group: any): any {
+  const trimmed = expr.trim();
+  if (trimmed.endsWith('.Key')) return group.Key;
+  if (trimmed.endsWith('.Count()')) return group.items ? group.items.length : 0;
+  
+  const sumMatch = trimmed.match(/\.Sum\(\s*(\w+)\s*=>\s*([\s\S]+?)\s*\)/);
+  if (sumMatch && group.items) {
+    const p = sumMatch[1];
+    const calc = sumMatch[2].trim();
+    if (calc.includes('*')) {
+      const parts = calc.split('*').map(s => s.trim().replace(new RegExp(`^${p}\\.`), ''));
+      return group.items.reduce((s: number, it: any) => s + (Number(it[parts[0]]) || 0) * (Number(it[parts[1]]) || 0), 0);
+    } else {
+      const prop = calc.replace(new RegExp(`^${p}\\.`), '');
+      return group.items.reduce((s: number, it: any) => s + (Number(it[prop]) || 0), 0);
+    }
+  }
+  return trimmed;
+}
+
+function evalWhereCondition(condExpr: string, item: any): boolean {
+  const arrowIdx = condExpr.indexOf('=>');
+  const cond = arrowIdx !== -1 ? condExpr.slice(arrowIdx + 2).trim() : condExpr;
+  const paramMatch = condExpr.match(/^(\w+)\s*=>/);
+  const param = paramMatch ? paramMatch[1] : '';
+  
+  if (cond.includes('&&')) {
+    return cond.split('&&').every(c => evalWhereCondition(param ? `${param} => ${c.trim()}` : c.trim(), item));
+  }
+  
+  const gtMatch = cond.match(/(?:\w+\.)?(\w+)\s*>\s*(\d+)/);
+  if (gtMatch) {
+    const prop = gtMatch[1];
+    const val = Number(gtMatch[2]);
+    return (Number(item[prop]) || 0) > val;
+  }
+  
+  const boolMatch = cond.match(/(?:\w+\.)?(\w+)$/);
+  if (boolMatch) {
+    return Boolean(item[boolMatch[1]]);
+  }
+  return true;
+}
+
+function evalLinqPipeline(
+  expr: string,
+  variables: Map<string, Variable>,
+  methods: Map<string, MethodDef>,
+  classes: Map<string, ClassDef>,
+  records?: Map<string, string[]>
+): any {
+  const chain = parseCallChain(expr);
+  if (!chain || chain.calls.length === 0) return null;
+
+  let cur = evalExpr(chain.base, variables, methods, classes, records);
+  if (!Array.isArray(cur) && chain.calls[0].method !== 'Where' && chain.calls[0].method !== 'GroupBy') {
+    return null;
+  }
+
+  for (const { method, arg } of chain.calls) {
+    if (!Array.isArray(cur)) break;
+    if (method === 'GroupBy') {
+      const propMatch = arg.match(/=>\s*(?:\w+\.)?(\w+)/);
+      const prop = propMatch ? propMatch[1] : 'Key';
+      const map = new Map<any, any[]>();
+      for (const item of cur) {
+        const k = item && typeof item === 'object' ? item[prop] : item;
+        if (!map.has(k)) map.set(k, []);
+        map.get(k)!.push(item);
+      }
+      cur = Array.from(map.entries()).map(([k, groupItems]) => ({
+        Key: k,
+        items: groupItems,
+      }));
+    } else if (method === 'Select') {
+      const anonMatch = arg.match(/new\s*\{([\s\S]*)\}/);
+      if (anonMatch) {
+        const fieldDefs = splitTopLevelCommas(anonMatch[1]);
+        cur = cur.map((item) => {
+          const projected: Record<string, any> = {};
+          for (const f of fieldDefs) {
+            const eqIdx = f.indexOf('=');
+            if (eqIdx !== -1) {
+              const fName = f.slice(0, eqIdx).trim();
+              const fExpr = f.slice(eqIdx + 1).trim();
+              projected[fName] = evalSelectorExpr(fExpr, item);
+            }
+          }
+          return projected;
+        });
+      } else {
+        const propMatch = arg.match(/=>\s*(?:\w+\.)?(\w+)/);
+        if (propMatch) {
+          const p = propMatch[1];
+          cur = cur.map((item) => item && typeof item === 'object' ? item[p] : item);
+        }
+      }
+    } else if (method === 'OrderByDescending') {
+      const propMatch = arg.match(/=>\s*(?:\w+\.)?(\w+)/);
+      if (propMatch) {
+        const p = propMatch[1];
+        cur = [...cur].sort((a, b) => (Number(b[p]) || 0) - (Number(a[p]) || 0));
+      }
+    } else if (method === 'OrderBy') {
+      const propMatch = arg.match(/=>\s*(?:\w+\.)?(\w+)/);
+      if (propMatch) {
+        const p = propMatch[1];
+        cur = [...cur].sort((a, b) => (a[p] > b[p] ? 1 : a[p] < b[p] ? -1 : 0));
+      }
+    } else if (method === 'Where') {
+      cur = cur.filter(item => evalWhereCondition(arg, item));
+    } else if (method === 'Take') {
+      const count = parseInt(arg, 10);
+      if (!isNaN(count)) cur = cur.slice(0, count);
+    }
+  }
+  return cur;
+}
+
+function parseListItems(
+  itemsRaw: string,
+  fields: string[],
+  variables: Map<string, Variable>,
+  methods: Map<string, MethodDef>,
+  classes: Map<string, ClassDef>,
+  records?: Map<string, string[]>
+): any[] {
+  const result: any[] = [];
+  const itemChunks = splitTopLevelCommas(itemsRaw);
+  for (const chunk of itemChunks) {
+    const t = chunk.trim();
+    if (!t) continue;
+    const newMatch = t.match(/^new(?:\s+\w+)?\s*\(([\s\S]*)\)$/);
+    if (newMatch) {
+      const argStrings = splitTopLevelCommas(newMatch[1]);
+      const args = argStrings.map((a) => evalExpr(a.trim(), variables, methods, classes, records));
+      const obj: Record<string, any> = {};
+      for (let k = 0; k < fields.length; k++) {
+        obj[fields[k]] = args[k];
+      }
+      result.push(obj);
+    } else {
+      result.push(evalExpr(t, variables, methods, classes, records));
+    }
+  }
+  return result;
+}
+
+function evalExpr(
+  expr: string,
+  variables: Map<string, Variable>,
+  methods: Map<string, MethodDef>,
+  classes: Map<string, ClassDef>,
+  records?: Map<string, string[]>
+): any {
   const trimmed = expr.trim();
 
   // Boolean literals
@@ -956,9 +1303,38 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
     return trimmed.slice(1, -1);
   }
 
-  // Number literal
-  if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed);
-  if (/^-?\d+\.\d+$/.test(trimmed)) return parseFloat(trimmed);
+  // Number literal: e.g. 50, 350_000m, 10.5f, 100L
+  const numClean = trimmed.replace(/_/g, '').replace(/[mMfFdDlL]$/, '');
+  if (/^-?\d+$/.test(numClean)) return parseInt(numClean, 10);
+  if (/^-?\d+\.\d+$/.test(numClean)) return parseFloat(numClean);
+
+  // new DateTime(y, m, d)
+  const dtMatch = trimmed.match(/^new\s+DateTime\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+))?\s*\)$/);
+  if (dtMatch) {
+    return new Date(
+      parseInt(dtMatch[1], 10),
+      parseInt(dtMatch[2], 10) - 1,
+      parseInt(dtMatch[3], 10),
+      parseInt(dtMatch[4] || '0', 10),
+      parseInt(dtMatch[5] || '0', 10),
+      parseInt(dtMatch[6] || '0', 10)
+    );
+  }
+
+  // new List<Type> { ... }
+  const listInit = trimmed.match(/^new\s+List<(\w+)>(?:\(\))?\s*\{([\s\S]*)\}$/);
+  if (listInit) {
+    const recName = listInit[1];
+    const itemsRaw = listInit[2].trim();
+    const fields = records?.get(recName) || [];
+    return parseListItems(itemsRaw, fields, variables, methods, classes, records);
+  }
+
+  // LINQ method chaining: e.g. inventory.GroupBy(...)... or fifoQueue.Take(3)
+  if (/\.(?:GroupBy|Select|Where|OrderBy|OrderByDescending|Take|ToList)\s*\(/.test(trimmed)) {
+    const linqResult = evalLinqPipeline(trimmed, variables, methods, classes, records);
+    if (linqResult !== null) return linqResult;
+  }
 
   // new int[size] or new string[size]
   const newArrMatch = trimmed.match(/^new\s+\w+\[(\d+)\]$/);
@@ -967,7 +1343,7 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
   // Array initializer: new int[] { 1, 2, 3 }
   const arrInitMatch = trimmed.match(/^new\s+\w+\[\]\s*\{(.+)\}$/);
   if (arrInitMatch) {
-    return arrInitMatch[1].split(',').map((v) => evalExpr(v.trim(), variables, methods, classes));
+    return arrInitMatch[1].split(',').map((v) => evalExpr(v.trim(), variables, methods, classes, records));
   }
 
   // Method call: MethodName(args)
@@ -975,18 +1351,19 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
   if (methodCall) {
     const methodName = methodCall[1];
     const argsStr = methodCall[2];
-    const args = argsStr ? argsStr.split(',').map((a) => evalExpr(a.trim(), variables, methods, classes)) : [];
+    const args = argsStr ? argsStr.split(',').map((a) => evalExpr(a.trim(), variables, methods, classes, records)) : [];
     return invokeMethod(methodName, args, methods, variables, classes);
   }
 
-  // Member access: obj.Length / obj.Count / obj.ToString()
-  const memberAccess = trimmed.match(/^(\w+\.(?:Length|Count|ToString|ToUpper|ToLower))$/);
+  // Member access: obj.Prop
+  const memberAccess = trimmed.match(/^(\w+)\.(\w+)$/);
   if (memberAccess) {
-    const mem = memberAccess[1];
-    const [objName, prop] = mem.split('.');
+    const objName = memberAccess[1];
+    const prop = memberAccess[2];
     const obj = variables.get(objName);
-    if (obj !== undefined) {
+    if (obj !== undefined && obj.value != null) {
       const v = obj.value;
+      if (typeof v === 'object' && prop in v) return v[prop];
       if (prop === 'Length' || prop === 'Count') return Array.isArray(v) ? v.length : String(v).length;
       if (prop === 'ToString') return String(v);
       if (prop === 'ToUpper') return typeof v === 'string' ? v.toUpperCase() : String(v).toUpperCase();
@@ -1001,7 +1378,7 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
     const arr = variables.get(arrAccess[1]);
     if (arr && arr.type === 'array') {
       const idxStr = arrAccess[2].trim();
-      const idx = /^\d+$/.test(idxStr) ? parseInt(idxStr) : Number(evalExpr(idxStr, variables, methods, classes));
+      const idx = /^\d+$/.test(idxStr) ? parseInt(idxStr) : Number(evalExpr(idxStr, variables, methods, classes, records));
       return arr.value[idx];
     }
     return 0;
@@ -1031,7 +1408,7 @@ function evalExpr(expr: string, variables: Map<string, Variable>, methods: Map<s
   // String concatenation with variables (already handled in WriteLine)
   const concatParts = splitConcatenation(trimmed);
   if (concatParts) {
-    return concatParts.map((p) => formatValue(evalExpr(p, variables, methods, classes))).join('');
+    return concatParts.map((p) => formatValue(evalExpr(p, variables, methods, classes, records))).join('');
   }
 
   return trimmed;

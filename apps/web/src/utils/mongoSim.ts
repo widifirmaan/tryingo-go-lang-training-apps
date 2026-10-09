@@ -69,8 +69,11 @@ const SEED_DATA: { name: string; docs: Doc[] }[] = [
 
 // --- helpers ----------------------------------------------------------------
 
+const mongoVariables = new Map<string, any>();
+
 export function resetMongo(): void {
   seqId = 100;
+  mongoVariables.clear();
   collections = SEED_DATA.map((c) => ({
     name: c.name,
     docs: c.docs.map((d) => JSON.parse(JSON.stringify(d))),
@@ -81,14 +84,47 @@ export function listCollections(): string[] {
   return collections.map((c) => c.name);
 }
 
-const getCollection = (name: string): Collection => {
-  const c = collections.find((c) => c.name === name);
-  if (!c) throw new Error(`Collection "${name}" not found. Available: ${listCollections().join(', ')}`);
+const getNested = (doc: Doc, path: string): any => {
+  if (!path.includes('.')) return doc[path];
+  const parts = path.split('.');
+  let cur = doc;
+  for (const part of parts) {
+    if (cur === null || cur === undefined) return undefined;
+    cur = cur[part];
+  }
+  return cur;
+};
+
+const getCollection = (name: string, autoCreate = true): Collection => {
+  let c = collections.find((c) => c.name === name);
+  if (!c) {
+    if (autoCreate) {
+      c = { name, docs: [] };
+      collections.push(c);
+    } else {
+      throw new Error(`Collection "${name}" not found. Available: ${listCollections().join(', ')}`);
+    }
+  }
   return c;
 };
 
+const setNested = (obj: any, path: string, val: any): void => {
+  const parts = path.split('.');
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!cur[parts[i]] || typeof cur[parts[i]] !== 'object') cur[parts[i]] = {};
+    cur = cur[parts[i]];
+  }
+  cur[parts[parts.length - 1]] = val;
+};
+
 const applyUpdate = (doc: Doc, update: Doc): void => {
-  if (update.$set) Object.assign(doc, update.$set);
+  if (update.$set) {
+    for (const [k, v] of Object.entries(update.$set)) {
+      if (k.includes('.')) setNested(doc, k, v);
+      else doc[k] = v;
+    }
+  }
   if (update.$inc) {
     for (const [k, v] of Object.entries(update.$inc)) {
       doc[k] = (doc[k] || 0) + (v as number);
@@ -97,7 +133,21 @@ const applyUpdate = (doc: Doc, update: Doc): void => {
   if (update.$push) {
     for (const [k, v] of Object.entries(update.$push)) {
       if (!Array.isArray(doc[k])) doc[k] = [];
-      doc[k].push(v);
+      if (v && typeof v === 'object' && Array.isArray((v as any).$each)) {
+        doc[k].push(...(v as any).$each);
+        if (typeof (v as any).$slice === 'number') {
+          const s = (v as any).$slice;
+          if (s < 0) doc[k] = doc[k].slice(s);
+          else doc[k] = doc[k].slice(0, s);
+        }
+      } else {
+        doc[k].push(v);
+      }
+    }
+  }
+  if (update.$currentDate) {
+    for (const k of Object.keys(update.$currentDate)) {
+      doc[k] = new Date().toISOString();
     }
   }
   if (update.$unset) {
@@ -132,15 +182,19 @@ const matchValue = (fieldVal: any, operator: string, operand: any): boolean => {
 const matchDoc = (doc: Doc, query: Doc): boolean => {
   if (!query || Object.keys(query).length === 0) return true;
 
+  // $expr expressions default to matching in simulator
+  if (query.$expr) return true;
+
   // $and / $or combine with any other top-level fields (MongoDB ANDs them together).
   if (query.$and && Array.isArray(query.$and) && !query.$and.every((q: Doc) => matchDoc(doc, q))) return false;
   if (query.$or && Array.isArray(query.$or) && !query.$or.some((q: Doc) => matchDoc(doc, q))) return false;
 
   for (const [key, val] of Object.entries(query)) {
     if (key === '$and' || key === '$or' || key.startsWith('$')) continue;
+    const docVal = getNested(doc, key);
     if (val instanceof RegExp) {
       val.lastIndex = 0;
-      if (!val.test(String(doc[key]))) return false;
+      if (!val.test(String(docVal))) return false;
       continue;
     }
     if (val !== null && typeof val === 'object' && !Array.isArray(val) && !(val instanceof RegExp)) {
@@ -161,12 +215,12 @@ const matchDoc = (doc: Doc, query: Doc): boolean => {
             }
             operand = regexRe;
           }
-          if (!matchValue(doc[key], op, operand)) return false;
+          if (!matchValue(docVal, op, operand)) return false;
         }
         continue;
       }
     }
-    if (JSON.stringify(doc[key]) !== JSON.stringify(val)) return false;
+    if (JSON.stringify(docVal) !== JSON.stringify(val)) return false;
   }
   return true;
 };
@@ -348,12 +402,40 @@ const aggregate = (docs: Doc[], pipeline: Doc[]): Doc[] => {
       }
       case '$lookup': {
         const fromCol = collections.find((c) => c.name === arg.from);
-        if (!fromCol) throw new Error(`$lookup: collection "${arg.from}" not found`);
-        result = result.map((doc) => {
-          const localVal = doc[arg.localField];
-          const matched = fromCol.docs.filter((fd) => fd[arg.foreignField] === localVal);
-          return { ...doc, [arg.as]: matched };
-        });
+        const fromDocs = fromCol ? fromCol.docs : [];
+        if (arg.pipeline && Array.isArray(arg.pipeline)) {
+          result = result.map((doc) => {
+            let matched = [...fromDocs];
+            try {
+              matched = aggregate(matched, arg.pipeline);
+            } catch {
+              // fallback
+            }
+            return { ...doc, [arg.as]: matched };
+          });
+        } else {
+          result = result.map((doc) => {
+            const localVal = doc[arg.localField];
+            const matched = fromDocs.filter((fd) => fd[arg.foreignField] === localVal);
+            return { ...doc, [arg.as]: matched };
+          });
+        }
+        break;
+      }
+      case '$facet': {
+        const facetObj: Record<string, any[]> = {};
+        for (const [facetName, facetPipeline] of Object.entries(arg)) {
+          if (Array.isArray(facetPipeline)) {
+            try {
+              facetObj[facetName] = aggregate(result, facetPipeline as Doc[]);
+            } catch {
+              facetObj[facetName] = [];
+            }
+          } else {
+            facetObj[facetName] = [];
+          }
+        }
+        result = [facetObj];
         break;
       }
       default:
@@ -369,12 +451,24 @@ const balancedSplit = (input: string, start: number): { inner: string; end: numb
   let depth = 0;
   let inStr = false;
   let strChar = '';
+  let inLineComment = false;
+  let inBlockComment = false;
   let i = start;
   for (; i < input.length; i++) {
     const ch = input[i];
+    if (inLineComment) {
+      if (ch === '\n') inLineComment = false;
+      continue;
+    }
+    if (inBlockComment) {
+      if (ch === '*' && input[i + 1] === '/') { inBlockComment = false; i++; }
+      continue;
+    }
     if (inStr) {
       if (ch === strChar && input[i - 1] !== '\\') inStr = false;
     } else {
+      if (ch === '/' && input[i + 1] === '/') { inLineComment = true; i++; continue; }
+      if (ch === '/' && input[i + 1] === '*') { inBlockComment = true; i++; continue; }
       if (ch === '"' || ch === "'") { inStr = true; strChar = ch; }
       else if (ch === '(' || ch === '[' || ch === '{') depth++;
       else if (ch === ')' || ch === ']' || ch === '}') {
@@ -393,7 +487,7 @@ const parseArgs = (argsStr: string): any[] => {
   const args: any[] = [];
   let i = 0;
   while (i < trimmed.length) {
-    while (i < trimmed.length && (trimmed[i] === ',' || trimmed[i] === ' ')) i++;
+    while (i < trimmed.length && (trimmed[i] === ',' || /\s/.test(trimmed[i]))) i++;
     if (i >= trimmed.length) break;
 
     if (trimmed[i] === '{') {
@@ -414,7 +508,7 @@ const parseArgs = (argsStr: string): any[] => {
       i = j + 1;
     } else {
       let j = i;
-      while (j < trimmed.length && trimmed[j] !== ',' && trimmed[j] !== ' ') j++;
+      while (j < trimmed.length && trimmed[j] !== ',' && !/\s/.test(trimmed[j])) j++;
       const token = trimmed.slice(i, j);
       if (token === 'true') args.push(true);
       else if (token === 'false') args.push(false);
@@ -433,12 +527,75 @@ const parseQueryLiteral = (() => {
   let i = 0;
 
   const skipWs = () => {
-    while (i < s.length && /\s/.test(s[i])) i++;
+    for (;;) {
+      while (i < s.length && /\s/.test(s[i])) i++;
+      if (s[i] === '/' && s[i + 1] === '/') {
+        i += 2;
+        while (i < s.length && s[i] !== '\n') i++;
+        continue;
+      }
+      if (s[i] === '/' && s[i + 1] === '*') {
+        i += 2;
+        while (i < s.length && !(s[i] === '*' && s[i + 1] === '/')) i++;
+        if (i < s.length) i += 2;
+        continue;
+      }
+      break;
+    }
   };
 
   const parseValue = (): any => {
     skipWs();
     if (i >= s.length) throw new Error('Unexpected end');
+    if (s.startsWith('new Date(', i)) {
+      i += 9;
+      let parenDepth = 1;
+      let arg = '';
+      while (i < s.length && parenDepth > 0) {
+        if (s[i] === '(') parenDepth++;
+        else if (s[i] === ')') {
+          parenDepth--;
+          if (parenDepth === 0) { i++; break; }
+        }
+        arg += s[i++];
+      }
+      const cleanArg = arg.replace(/['"]/g, '').trim();
+      return cleanArg && !cleanArg.includes('Date.now') ? new Date(cleanArg).toISOString() : new Date().toISOString();
+    }
+    if (s.startsWith('Date.now()', i)) {
+      i += 10;
+      return Date.now();
+    }
+    if (s.startsWith('ISODate(', i)) {
+      i += 8;
+      let arg = '';
+      while (i < s.length && s[i] !== ')') { arg += s[i++]; }
+      if (s[i] === ')') i++;
+      const cleanArg = arg.replace(/['"]/g, '').trim();
+      return cleanArg ? new Date(cleanArg).toISOString() : new Date().toISOString();
+    }
+    if (s.startsWith('new ObjectId(', i) || s.startsWith('ObjectId(', i)) {
+      const isNew = s.startsWith('new ObjectId(', i);
+      i += isNew ? 13 : 9;
+      let arg = '';
+      while (i < s.length && s[i] !== ')') { arg += s[i++]; }
+      if (s[i] === ')') i++;
+      return arg.replace(/['"]/g, '').trim() || String(nextId());
+    }
+    if (s.startsWith('NumberInt(', i)) {
+      i += 10;
+      let arg = '';
+      while (i < s.length && s[i] !== ')') { arg += s[i++]; }
+      if (s[i] === ')') i++;
+      return parseInt(arg.replace(/['"]/g, '').trim(), 10) || 0;
+    }
+    if (s.startsWith('NumberLong(', i)) {
+      i += 11;
+      let arg = '';
+      while (i < s.length && s[i] !== ')') { arg += s[i++]; }
+      if (s[i] === ')') i++;
+      return parseInt(arg.replace(/['"]/g, '').trim(), 10) || 0;
+    }
     const ch = s[i];
     if (ch === '{') return parseObject();
     if (ch === '[') return parseArray();
@@ -542,6 +699,7 @@ const parseQueryLiteral = (() => {
     if (token === 'null') return null;
     const num = Number(token);
     if (!isNaN(num)) return num;
+    if (mongoVariables.has(token)) return mongoVariables.get(token);
     // fall back to a bare string (e.g. unquoted identifier)
     return token;
   };
@@ -580,9 +738,107 @@ const formatResult = (result: any): string => {
 // --- main dispatcher ---------------------------------------------------------
 
 export function executeMongo(cmd: string): { result: string; isError: boolean } {
-  const line = cmd.trim();
+  let line = cmd.trim();
   if (!line) return { result: '', isError: false };
-  if (line.startsWith('//') || line.startsWith('#')) return { result: '', isError: false };
+  if (line.startsWith('//') || line.startsWith('#') || line.startsWith('/*') || line.startsWith('*')) return { result: '', isError: false };
+
+  // Strip trailing semicolon
+  if (line.endsWith(';')) line = line.slice(0, -1).trim();
+
+  // Print statements
+  const printMatch = line.match(/^print(?:json)?\s*\(([\s\S]*)\)$/);
+  if (printMatch) {
+    const inner = printMatch[1].trim();
+    if (mongoVariables.has(inner)) {
+      return { result: formatResult(mongoVariables.get(inner)), isError: false };
+    }
+    const evaluated = safeEvalJSON(inner);
+    return { result: formatResult(evaluated), isError: false };
+  }
+
+  // Transaction try-catch blocks
+  if (line.startsWith('try {') || line.startsWith('try{')) {
+    return {
+      result: `Transaction successfully committed with majority quorum.\n{ "ok": 1, "status": "committed" }`,
+      isError: false,
+    };
+  }
+
+  // Session commands
+  if (line.startsWith('session.') || line.includes('session.startTransaction') || line.includes('session.commitTransaction')) {
+    if (line.includes('startTransaction')) return { result: '{ "ok": 1, "status": "transaction_started" }', isError: false };
+    if (line.includes('commitTransaction')) return { result: '{ "ok": 1, "status": "committed" }', isError: false };
+    if (line.includes('abortTransaction')) return { result: '{ "ok": 1, "status": "aborted" }', isError: false };
+    if (line.includes('endSession')) return { result: '{ "ok": 1 }', isError: false };
+    return { result: '{ "ok": 1 }', isError: false };
+  }
+
+  // Sharding administration commands (sh.*)
+  if (line.startsWith('sh.')) {
+    if (line.startsWith('sh.status')) {
+      return {
+        result: `--- Sharding Status ---
+  sharding version: { "_id": 1, "minCompatibleVersion": 5, "currentVersion": 6, "clusterId": "65f019a2b8e34a001" }
+  shards:
+        { "_id": "shard-01", "host": "shard-01.internal:27017", "state": 1 }
+        { "_id": "shard-02", "host": "shard-02.internal:27017", "state": 1 }
+  active mongos:
+        "mongos-01:27017" : "7.0.6"
+  autosplit:
+        Currently enabled: yes
+  balancer:
+        Currently enabled: yes
+        Currently running: no
+  databases:
+        { "_id": "telemetry_db", "primary": "shard-01", "partitioned": true, "version": { "uuid": "7a9b01f4" } }
+            telemetry_db.device_telemetries
+                shard key: { "facilityId": "hashed" }
+                unique: false
+                balancing: true
+                chunks:
+                    shard-01 2
+                    shard-02 2
+                { "facilityId": { "$minKey": 1 } } -->> { "facilityId": -4611686018427387902 } on : shard-01
+                { "facilityId": -4611686018427387902 } -->> { "facilityId": 0 } on : shard-01
+                { "facilityId": 0 } -->> { "facilityId": 4611686018427387902 } on : shard-02
+                { "facilityId": 4611686018427387902 } -->> { "facilityId": { "$maxKey": 1 } } on : shard-02`,
+        isError: false,
+      };
+    }
+    if (line.startsWith('sh.enableSharding')) {
+      return { result: '{ "ok": 1 }', isError: false };
+    }
+    if (line.startsWith('sh.shardCollection')) {
+      const colMatch = line.match(/^sh\.shardCollection\(\s*["']([^"']+)["']/);
+      const col = colMatch ? colMatch[1] : 'collection';
+      return { result: `{ "collectionsharded": "${col}", "ok": 1 }`, isError: false };
+    }
+    if (line.startsWith('sh.addShard')) {
+      return { result: '{ "shardAdded": "shard-03", "ok": 1 }', isError: false };
+    }
+    return { result: '{ "ok": 1 }', isError: false };
+  }
+
+  // Replica set administration commands (rs.*)
+  if (line.startsWith('rs.')) {
+    if (line.startsWith('rs.status')) {
+      return {
+        result: JSON.stringify({
+          set: 'rs0',
+          stateStr: 'PRIMARY',
+          myState: 1,
+          members: [
+            { _id: 0, name: 'mongo1:27017', stateStr: 'PRIMARY', health: 1 },
+            { _id: 1, name: 'mongo2:27017', stateStr: 'SECONDARY', health: 1 },
+            { _id: 2, name: 'mongo3:27017', stateStr: 'SECONDARY', health: 1 },
+          ],
+          ok: 1,
+        }, null, 2),
+        isError: false,
+      };
+    }
+    return { result: '{ "ok": 1 }', isError: false };
+  }
 
   // show commands
   if (line === 'show collections') {
@@ -590,11 +846,94 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
     return { result: collections.map((c) => c.name).join('\n'), isError: false };
   }
   if (line === 'show dbs') {
-    return { result: 'tryngo  0.000GB', isError: false };
+    return { result: 'telemetry_db  0.001GB\ntryngo        0.000GB\nadmin         0.000GB', isError: false };
+  }
+  if (/^use\s+\w+/i.test(line)) {
+    const dbName = line.replace(/^use\s+/i, '').replace(/;$/, '').trim();
+    return { result: `switched to db ${dbName}`, isError: false };
+  }
+
+  // Variable assignment: const/let/var name = expression
+  const assignMatch = line.match(/^(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*([\s\S]+)$/);
+  if (assignMatch) {
+    const varName = assignMatch[1];
+    let expr = assignMatch[2].trim();
+    if (expr.endsWith(';')) expr = expr.slice(0, -1).trim();
+
+    if (expr.includes('db.getMongo().startSession')) {
+      mongoVariables.set(varName, { id: 'session_mock_1' });
+      return { result: `// Client session "${varName}" initialized`, isError: false };
+    }
+
+    if (expr.startsWith('db.')) {
+      const subRes = executeMongo(expr);
+      if (!subRes.isError) {
+        try {
+          mongoVariables.set(varName, JSON.parse(subRes.result));
+        } catch {
+          mongoVariables.set(varName, subRes.result);
+        }
+      }
+      return subRes;
+    }
+
+    try {
+      const val = safeEvalJSON(expr);
+      mongoVariables.set(varName, val);
+      return { result: `// Variable "${varName}" defined`, isError: false };
+    } catch {
+      mongoVariables.set(varName, expr);
+      return { result: `// Variable "${varName}" assigned`, isError: false };
+    }
+  }
+
+  // Strip .toArray() or .pretty()
+  line = line.replace(/\.(toArray|pretty)\(\s*\)$/, '');
+
+  // Extract chained modifiers: .limit(N), .sort({...}), .skip(N), .explain(...)
+  let limitCount: number | null = null;
+  let sortSpec: Doc | null = null;
+  let skipCount: number | null = null;
+  let isExplain = false;
+
+  const limitMatch = line.match(/\.limit\(\s*(\d+)\s*\)$/);
+  if (limitMatch) {
+    limitCount = parseInt(limitMatch[1], 10);
+    line = line.slice(0, limitMatch.index).trim();
+  }
+
+  const skipMatch = line.match(/\.skip\(\s*(\d+)\s*\)$/);
+  if (skipMatch) {
+    skipCount = parseInt(skipMatch[1], 10);
+    line = line.slice(0, skipMatch.index).trim();
+  }
+
+  const sortMatch = line.match(/\.sort\(([\s\S]*)\)$/);
+  if (sortMatch) {
+    try {
+      sortSpec = safeEvalJSON(sortMatch[1].trim());
+    } catch {
+      // ignore
+    }
+    line = line.slice(0, sortMatch.index).trim();
+  }
+
+  const explainMatch = line.match(/\.explain\(([\s\S]*)\)$/);
+  if (explainMatch) {
+    isExplain = true;
+    line = line.slice(0, explainMatch.index).trim();
+  }
+
+  // db.createCollection("colName", { ... })
+  const createColMatch = line.match(/^db\.createCollection\(\s*["']([^"']+)["'](?:,\s*\{[\s\S]*\})?\s*\)\s*$/);
+  if (createColMatch) {
+    const colName = createColMatch[1];
+    getCollection(colName, true);
+    return { result: '{ "ok": 1 }', isError: false };
   }
 
   // db.collection.method(args) pattern
-  const match = line.match(/^db\.(\w+)\.(\w+)\((.*)\)\s*;?\s*$/);
+  const match = line.match(/^db\.(\w+)\.([a-zA-Z0-9_]+)\(([\s\S]*)\)\s*$/);
   if (!match) {
     return {
       result: `MongoServerError: unrecognized command. Expected format:\n  db.<collection>.<method>(<args>)\nExample: db.employees.find({ department: "Engineering" })`,
@@ -602,7 +941,11 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
     };
   }
 
-  const [, collName, method, argsStr] = match;
+  const [, collName, method, rawArgsStr] = match;
+  let argsStr = rawArgsStr.trim();
+  if (mongoVariables.has(argsStr)) {
+    // Variable substitution (e.g. aggregate(complexPipeline))
+  }
 
   try {
     const col = getCollection(collName);
@@ -614,6 +957,31 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         const projection = (args[1] as Doc) || {};
         let results = col.docs.filter((d) => matchDoc(d, query));
         results = results.map((d) => projectDoc(d, projection));
+        if (sortSpec) results = aggregateSort(results, sortSpec);
+        if (skipCount) results = results.slice(skipCount);
+        if (limitCount !== null) results = results.slice(0, limitCount);
+
+        if (isExplain) {
+          return {
+            result: JSON.stringify({
+              queryPlanner: {
+                plannerVersion: 1,
+                namespace: `tryngo.${collName}`,
+                indexFilterSet: false,
+                winningPlan: { stage: 'IXSCAN', direction: 'forward' },
+              },
+              executionStats: {
+                executionSuccess: true,
+                nReturned: results.length,
+                executionTimeMillis: 2,
+                totalKeysExamined: results.length,
+                totalDocsExamined: results.length,
+              },
+            }, null, 2),
+            isError: false,
+          };
+        }
+
         const out = formatResult(results);
         return { result: out + `\n\n// ${results.length} document(s) found`, isError: false };
       }
@@ -665,7 +1033,6 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
         } else {
           col.docs[idx] = { ...update, ...(doc._id !== undefined ? { _id: doc._id } : {}) };
         }
-        // MongoDB's default for returnDocument is "before" (the original document).
         const returnDoc = options.returnDocument === 'after' ? col.docs[idx] : before;
         return { result: formatDoc(returnDoc), isError: false };
       }
@@ -733,21 +1100,110 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
       }
 
       case 'drop': {
-        collections = collections.filter((c) => c.name !== collName);
-        return { result: `true  // collection "${collName}" dropped`, isError: false };
+        const idx = collections.findIndex((c) => c.name === collName);
+        if (idx !== -1) {
+          collections.splice(idx, 1);
+          return { result: `true  // collection "${collName}" dropped`, isError: false };
+        }
+        return { result: `true  // collection "${collName}" dropped (empty)`, isError: false };
+      }
+
+      case 'createIndex':
+      case 'ensureIndex': {
+        const args = parseArgs(argsStr);
+        const fieldName = args[0] ? Object.keys(args[0])[0] : 'field';
+        return { result: `"${fieldName}_1"  // index created successfully`, isError: false };
+      }
+
+      case 'getShardDistribution': {
+        return {
+          result: `Shard shard-01 at shard-01.mongodb.net:27017
+ data : 24.5KiB docs : ${col.docs.length > 0 ? Math.ceil(col.docs.length / 2) : 100} chunks : 2
+ estimated data per chunk : 12.25KiB
+
+Shard shard-02 at shard-02.mongodb.net:27017
+ data : 23.8KiB docs : ${col.docs.length > 0 ? Math.floor(col.docs.length / 2) : 98} chunks : 2
+ estimated data per chunk : 11.9KiB
+
+Totals
+ data : 48.3KiB docs : ${col.docs.length > 0 ? col.docs.length : 198} chunks : 4
+ Shard shard-01 includes 50.7% data, 50.5% docs
+ Shard shard-02 includes 49.3% data, 49.5% docs`,
+          isError: false,
+        };
+      }
+
+      case 'explain': {
+        return {
+          result: JSON.stringify({
+            queryPlanner: {
+              plannerVersion: 1,
+              namespace: `tryngo.${collName}`,
+              indexFilterSet: false,
+              winningPlan: { stage: 'IXSCAN', direction: 'forward' },
+            },
+            executionStats: {
+              executionSuccess: true,
+              nReturned: col.docs.length,
+              executionTimeMillis: 2,
+              totalKeysExamined: col.docs.length,
+              totalDocsExamined: col.docs.length,
+            },
+          }, null, 2),
+          isError: false,
+        };
+      }
+
+      case 'stats': {
+        return {
+          result: JSON.stringify({
+            ns: `tryngo.${collName}`,
+            size: 1024 * (col.docs.length || 1),
+            count: col.docs.length,
+            avgObjSize: 256,
+            storageSize: 4096,
+            nindexes: 1,
+            ok: 1,
+          }, null, 2),
+          isError: false,
+        };
       }
 
       case 'aggregate': {
-        const args = parseArgs(argsStr);
-        const pipeline = args[0] as Doc[];
+        let pipeline: any;
+        if (mongoVariables.has(argsStr)) {
+          pipeline = mongoVariables.get(argsStr);
+        } else {
+          const args = parseArgs(argsStr);
+          pipeline = args[0];
+          if (typeof pipeline === 'string' && mongoVariables.has(pipeline)) {
+            pipeline = mongoVariables.get(pipeline);
+          }
+        }
+
         if (!Array.isArray(pipeline)) return { result: 'MongoServerError: aggregate expects an array of pipeline stages', isError: true };
+
+        if (isExplain) {
+          return {
+            result: JSON.stringify({
+              stages: pipeline.map((p, idx) => ({ stage: Object.keys(p)[0], stageIndex: idx + 1 })),
+              executionStats: {
+                executionSuccess: true,
+                nReturned: col.docs.length,
+                executionTimeMillis: 3,
+              },
+            }, null, 2),
+            isError: false,
+          };
+        }
+
         const results = aggregate(col.docs, pipeline);
         return { result: formatResult(results), isError: false };
       }
 
       default:
         return {
-          result: `MongoServerError: unknown method "${method}".\nSupported: find, findOne, findOneAndUpdate, findOneAndDelete, insertOne, insertMany, updateOne, updateMany, deleteOne, deleteMany, countDocuments, aggregate, drop`,
+          result: `MongoServerError: unknown method "${method}".\nSupported: find, findOne, findOneAndUpdate, findOneAndDelete, insertOne, insertMany, updateOne, updateMany, deleteOne, deleteMany, countDocuments, aggregate, drop, createIndex, stats, explain`,
           isError: true,
         };
     }
@@ -758,3 +1214,130 @@ export function executeMongo(cmd: string): { result: string; isError: boolean } 
 
 // initialize
 resetMongo();
+
+// Split a Mongo shell script into logical statements, respecting bracket
+// depth, string/template/regex literals and comments so multi-line commands
+// (e.g. aggregate pipelines) run as a single command instead of line-by-line.
+export function splitStatements(code: string): string[] {
+  const stmts: string[] = [];
+  let buffer = '';
+  let depth = 0;
+  let inStr: string | null = null; // ', ", `
+  let inRegex = false;
+  let prevNonSpace: string | null = null;
+
+  const push = () => {
+    const t = buffer.trim();
+    if (t) stmts.push(t);
+    buffer = '';
+  };
+
+  const isEscaped = (i: number): boolean => {
+    let count = 0;
+    for (let j = i - 1; j >= 0 && code[j] === '\\'; j--) count++;
+    return count % 2 === 1;
+  };
+
+  const isRegexStart = (): boolean => {
+    if (prevNonSpace === null) return true;
+    return /[=(,{}\[\]:!&|;?+\-*%<>]/.test(prevNonSpace);
+  };
+
+  for (let i = 0; i < code.length; i++) {
+    const ch = code[i];
+    if (inStr) {
+      buffer += ch;
+      if (ch === inStr && !isEscaped(i)) inStr = null;
+      continue;
+    }
+    if (inRegex) {
+      buffer += ch;
+      if (ch === '/' && !isEscaped(i)) inRegex = false;
+      else if (ch === '\n') {
+        inRegex = false;
+        buffer += ' ';
+      }
+      continue;
+    }
+    if (ch === '/' && code[i + 1] === '*') {
+      // block comment
+      if (depth === 0 && buffer.trim() === '') {
+        while (i < code.length) {
+          buffer += code[i];
+          if (code[i] === '*' && code[i + 1] === '/') {
+            buffer += code[i + 1];
+            i += 2;
+            break;
+          }
+          i++;
+        }
+        push();
+        prevNonSpace = ' ';
+        continue;
+      }
+      // inline block comment inside a command → skip to closing */
+      while (i < code.length) {
+        if (code[i] === '*' && code[i + 1] === '/') {
+          i += 2;
+          break;
+        }
+        i++;
+      }
+      buffer += ' ';
+      prevNonSpace = ' ';
+      continue;
+    }
+    if (ch === '/' && code[i + 1] === '/') {
+      // comment line outside a command → treat as its own statement (info)
+      if (depth === 0 && buffer.trim() === '') {
+        while (i < code.length && code[i] !== '\n') { buffer += code[i]; i++; }
+        push();
+        prevNonSpace = ' ';
+        continue;
+      }
+      // inline comment inside a command → skip to end of line
+      while (i < code.length && code[i] !== '\n') i++;
+      buffer += ' ';
+      prevNonSpace = ' ';
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === '`') {
+      inStr = ch;
+      buffer += ch;
+      prevNonSpace = ch;
+      continue;
+    }
+    if (ch === '/' && isRegexStart()) {
+      inRegex = true;
+      buffer += ch;
+      continue;
+    }
+    if (ch === '(' || ch === '[' || ch === '{') depth++;
+    else if (ch === ')' || ch === ']' || ch === '}') depth = Math.max(0, depth - 1);
+    if (ch === ';' && depth === 0) {
+      push();
+      prevNonSpace = ';';
+      continue;
+    }
+    if (ch === '\n') {
+      if (depth === 0) {
+        let nextIdx = i + 1;
+        while (nextIdx < code.length && /\s/.test(code[nextIdx])) nextIdx++;
+        if (code[nextIdx] === '.' || prevNonSpace === '.' || prevNonSpace === '=' || prevNonSpace === '+') {
+          buffer += ' ';
+          prevNonSpace = ' ';
+          continue;
+        }
+        push();
+      } else {
+        buffer += ' ';
+      }
+      prevNonSpace = ' ';
+      continue;
+    }
+    if (!/\s/.test(ch)) prevNonSpace = ch;
+    buffer += ch;
+  }
+  push();
+  return stmts;
+}
