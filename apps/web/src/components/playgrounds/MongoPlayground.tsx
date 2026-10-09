@@ -185,6 +185,7 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
   const runIdRef = useRef(0);
   const mountedRef = useRef(true);
   const prevInitialCode = useRef(initialCode);
+  const [editorKey, setEditorKey] = useState(0);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -213,6 +214,7 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
     setIsRunning(false);
     setCode(initialCode);
     setLines([]);
+    setEditorKey((k) => k + 1);
     resetMongo();
     setCollections(listCollections());
   }, [initialCode]);
@@ -277,6 +279,7 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
     setCollections(listCollections());
     setLines([]);
     setCode(initialCode || DEFAULT_CODE);
+    setEditorKey((k) => k + 1);
   }, [initialCode]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -343,6 +346,7 @@ export const MongoPlayground: React.FC<MongoPlaygroundProps> = ({
             </div>
             <div className="flex-1 min-h-0">
               <Editor
+                key={editorKey}
                 height="100%"
                 language="javascript"
                 theme="vs-dark"
