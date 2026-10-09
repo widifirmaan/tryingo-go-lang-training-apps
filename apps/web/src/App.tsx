@@ -14,6 +14,7 @@ const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
 const IdeModal = React.lazy(() => import('./components/IdeModal'));
 const QuizModal = React.lazy(() => import('./components/QuizModal').then(m => ({ default: m.QuizModal })));
 const CareerPathsModal = React.lazy(() => import('./components/CareerPathsModal').then(m => ({ default: m.CareerPathsModal })));
+const QuickStartModal = React.lazy(() => import('./components/QuickStartModal').then(m => ({ default: m.QuickStartModal })));
 const CartModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.CartModal })));
 const SearchModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SearchModal })));
 const DetailModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.DetailModal })));
@@ -69,6 +70,13 @@ export default function App() {
     const trackId = REVERSE_SLUG_MAP[quizTarget.slug];
     return trackId ? TRACKS_COLLECTION.find((t) => t.id === trackId)?.name || trackId : quizTarget.slug;
   }, [quizTarget, lang]);
+
+  // Quick Start state (opened from HeroSection, TrackCard, CoursePage)
+  const [quickStartTarget, setQuickStartTarget] = useState<string | null>(null);
+
+  const handleOpenQuickStart = useCallback((slug: string) => {
+    setQuickStartTarget(slug);
+  }, []);
 
   const updateHash = useCallback((trackId: string | null, level?: string, week?: number) => {
     if (!trackId) {
@@ -456,6 +464,7 @@ export default function App() {
               onNavigateToWeek={handleNavigateToWeek}
               onOpenQuiz={handleOpenQuiz}
               onOpenIde={handleOpenIde}
+              onOpenQuickStart={handleOpenQuickStart}
               activeIdeId={ideTarget}
               activeQuizId={quizTarget ? quizTarget.slug : null}
             />
@@ -533,6 +542,7 @@ export default function App() {
                         onOpenPlayground={handleOpenPlayground}
                         onOpenQuiz={handleOpenQuiz}
                         onOpenIde={handleOpenIde}
+                        onOpenQuickStart={handleOpenQuickStart}
                         initialLevel={courseInitialLevel}
                         initialWeek={courseInitialWeek}
                         onNavigate={handleNavigateToWeek}
@@ -638,6 +648,7 @@ export default function App() {
                               onStartCourse={(id) => handleStartCourse(id)}
                               onOpenPlayground={handleOpenIde}
                               onOpenQuiz={(slug) => handleOpenQuiz(slug)}
+                              onOpenQuickStart={(slug) => handleOpenQuickStart(slug)}
                               lang={lang}
                             />
                           </motion.div>
@@ -662,6 +673,7 @@ export default function App() {
                               onStartCourse={(id) => handleStartCourse(id)}
                               onOpenPlayground={handleOpenIde}
                               onOpenQuiz={(slug) => handleOpenQuiz(slug)}
+                              onOpenQuickStart={(slug) => handleOpenQuickStart(slug)}
                               lang={lang}
                             />
                           </motion.div>
@@ -699,6 +711,7 @@ export default function App() {
                         onStartCourse={(id) => handleStartCourse(id)}
                         onOpenPlayground={handleOpenIde}
                         onOpenQuiz={(slug) => handleOpenQuiz(slug)}
+                        onOpenQuickStart={(slug) => handleOpenQuickStart(slug)}
                         lang={lang}
                       />
                     </motion.div>
@@ -759,6 +772,23 @@ export default function App() {
             onSelectTrack={handleStartCourse}
             lang={lang}
           />
+
+          {quickStartTarget && (
+            <QuickStartModal
+              isOpen={Boolean(quickStartTarget)}
+              initialSlug={quickStartTarget}
+              lang={lang}
+              onClose={() => setQuickStartTarget(null)}
+              onOpenIde={(tId) => {
+                setQuickStartTarget(null);
+                setIdeTarget(tId);
+              }}
+              onStartCourse={(tId) => {
+                setQuickStartTarget(null);
+                handleStartCourse(tId);
+              }}
+            />
+          )}
         </Suspense>
       </ErrorBoundary>
 
