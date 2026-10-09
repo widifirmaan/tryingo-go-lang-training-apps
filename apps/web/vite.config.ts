@@ -12,11 +12,31 @@ export default defineConfig(() => {
       },
     },
     build: {
+      target: 'es2022',
+      cssMinify: true,
       rollupOptions: {
         output: {
-          manualChunks: {
-            motion: ['motion'],
-            lucide: ['lucide-react'],
+          manualChunks: (id) => {
+            if (id.includes('node_modules')) {
+              if (id.includes('@monaco-editor') || id.includes('monaco-editor')) {
+                return 'monaco-vendor';
+              }
+              if (id.includes('@fortawesome')) {
+                return 'icons-fortawesome';
+              }
+              if (id.includes('lucide-react')) {
+                return 'icons-lucide';
+              }
+              if (id.includes('motion')) {
+                return 'motion';
+              }
+              if (id.includes('fuse.js')) {
+                return 'fuse';
+              }
+              if (id.includes('react') || id.includes('react-dom')) {
+                return 'react-vendor';
+              }
+            }
           },
         },
       },

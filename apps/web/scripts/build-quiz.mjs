@@ -142,7 +142,7 @@ function makeSnippet(sub) {
   // instead of the whole body, so the answer is minimally given away.
   const scored = sents.map((s) => ({ s, hits: titleHitCount(sub.title, s) }));
   const best = Math.min(...scored.map((x) => x.hits));
-  return balanceSpans(scored.filter((x) => x.hits === best).join(' '));
+  return balanceSpans(scored.filter((x) => x.hits === best).map((x) => x.s).join(' '));
 }
 
 // First distractor whose words do NOT appear in the snippet (fair false-TF).

@@ -4,12 +4,11 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Sparkles, Award, Play, CheckCircle2, Circle } from 'lucide-react';
+import { Sparkles, Award, Play } from 'lucide-react';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
-import { isWeekCompleted, toggleWeekCompleted, getTrackProgress } from '../utils/progress';
 import { CertificateModal } from './CertificateModal';
 import { AiMentorDrawer } from './AiMentorDrawer';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
@@ -389,27 +388,10 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const [overrideCode, setOverrideCode] = useState<string | null>(null);
   const [isMentorOpen, setIsMentorOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
-  const [weekDone, setWeekDone] = useState(false);
-  const [trackProg, setTrackProg] = useState({ completedCount: 0, percent: 0, isFinished: false });
-
-  const totalTrackWeeks = useMemo(() => {
-    return levels.reduce((acc, l) => acc + l.weeks.length, 0);
-  }, [levels]);
-
-  const syncProgress = useCallback(() => {
-    setWeekDone(isWeekCompleted(slug, activeWeek));
-    setTrackProg(getTrackProgress(slug, totalTrackWeeks));
-  }, [slug, activeWeek, totalTrackWeeks]);
 
   useEffect(() => {
-    syncProgress();
     setOverrideCode(null);
-  }, [slug, activeWeek, syncProgress]);
-
-  const handleToggleWeek = () => {
-    toggleWeekCompleted(slug, activeWeek);
-    syncProgress();
-  };
+  }, [slug, activeWeek]);
 
   const getActivePlaygroundCode = useCallback((fences: string[]) => {
     if (overrideCode !== null) return overrideCode;
@@ -572,33 +554,15 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         </div>
 
-        {/* Progress Badge */}
-        <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 text-xs font-bold shrink-0">
-          <div className="flex flex-col">
-            <div className="flex justify-between text-[10px] text-zinc-500 mb-0.5">
-              <span>{isId ? 'Progres' : 'Progress'}</span>
-              <span className="font-mono">{trackProg.completedCount}/{totalTrackWeeks} ({trackProg.percent}%)</span>
-            </div>
-            <div className="w-20 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
-              <div
-                className="h-full bg-[#2E5B44] dark:bg-emerald-500 rounded-full transition-all duration-300"
-                style={{ width: `${trackProg.percent}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Claim Certificate Button */}
-        {(trackProg.percent >= 80 || trackProg.isFinished) && (
-          <button
-            onClick={() => setIsCertificateOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-950 font-black shadow-xs transition-all text-xs sm:text-sm shrink-0"
-            title={isId ? 'Klaim Sertifikat Kelulusan' : 'Claim Certificate of Completion'}
-          >
-            <Award className="w-3.5 h-3.5 text-zinc-950" />
-            <span className="hidden sm:inline">{isId ? 'Sertifikat' : 'Certificate'}</span>
-          </button>
-        )}
+        <button
+          onClick={() => setIsCertificateOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-950 font-black shadow-xs transition-all text-xs sm:text-sm shrink-0"
+          title={isId ? 'Klaim Sertifikat Kelulusan' : 'Claim Certificate of Completion'}
+        >
+          <Award className="w-3.5 h-3.5 text-zinc-950" />
+          <span className="hidden sm:inline">{isId ? 'Sertifikat' : 'Certificate'}</span>
+        </button>
 
         {/* AI Mentor Button */}
         <button
@@ -671,44 +635,24 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         </div>
       </div>
 
-      {/* Week Tabs & Mark Complete */}
-      <div className="flex items-center justify-between gap-2 overflow-x-auto pb-1 flex-shrink-0 scrollbar-thin">
-        <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
-          {currentLevel?.weeks.map((w) => {
-            const isDone = isWeekCompleted(slug, w.week);
-            return (
-              <button
-                key={w.week}
-                onClick={() => handleWeekChange(w.week)}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all border shrink-0 ${
-                  activeWeek === w.week
-                    ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-xs'
-                    : 'bg-white/60 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-700'
-                }`}
-              >
-                {isDone && <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />}
-                <span className="sm:hidden">W{w.week}</span>
-                <span className="hidden sm:inline">{isId ? w.titleId : w.titleEn}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Mark Week Completed Toggle */}
-        <button
-          onClick={handleToggleWeek}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all shrink-0 ${
-            weekDone
-              ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950/80 dark:text-emerald-300 border-emerald-400 shadow-xs'
-              : 'bg-white/80 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-emerald-500'
-          }`}
-          title={isId ? 'Tandai progres modul ini sudah dipahami' : 'Mark this lesson as understood'}
-        >
-          <CheckCircle2 className={`w-3.5 h-3.5 ${weekDone ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-400'}`} />
-          <span>
-            {isId ? (weekDone ? 'Selesai Dipelajari' : 'Tandai Selesai') : (weekDone ? 'Completed' : 'Mark Done')}
-          </span>
-        </button>
+      {/* Week Tabs */}
+      <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1 flex-shrink-0 scrollbar-thin">
+        {currentLevel?.weeks.map((w) => {
+          return (
+            <button
+              key={w.week}
+              onClick={() => handleWeekChange(w.week)}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all border shrink-0 ${
+                activeWeek === w.week
+                  ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-xs'
+                  : 'bg-white/60 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-700'
+              }`}
+            >
+              <span className="sm:hidden">W{w.week}</span>
+              <span className="hidden sm:inline">{isId ? w.titleId : w.titleEn}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Content + Inline Playground */}
