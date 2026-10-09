@@ -68,6 +68,7 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   const mountedRef = useRef(true);
   const isRunningRef = useRef(false);
   const scriptRef = useRef(initialCode);
+  const [editorKey, setEditorKey] = useState(0);
   const draftRef = useRef('');
   const navHistoryRef = useRef<(dir: 1 | -1) => void>(() => {});
 
@@ -128,12 +129,18 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
     resetRedis();
     setLines([]);
     refreshStats();
-  }, [refreshStats]);
+    setCode(initialCode || DEFAULT_REDIS_CODE);
+    setEditorKey((k) => k + 1);
+  }, [initialCode, refreshStats]);
 
   useEffect(() => {
     if (scriptRef.current === initialCode && lines.length) return;
     scriptRef.current = initialCode;
     resetAll();
+    if (initialCode) {
+      setCode(initialCode);
+      setEditorKey((k) => k + 1);
+    }
     const t = setTimeout(() => {
       if (mountedRef.current) {
         runScript(initialCode || '');
@@ -313,6 +320,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
             </div>
             <div className="flex-1 min-h-0">
               <Editor
+                key={editorKey}
                 height="100%"
                 language="shell"
                 theme="vs-dark"
