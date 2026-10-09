@@ -3,9 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { HeroSection } from './components/HeroSection';
 import { TrackCard } from './components/TrackCard';
 import { TRACKS_COLLECTION } from './data/tracksData';
-import { CartModal, SearchModal, DetailModal, SettingsModal } from './components/Modals';
-import { QuizModal } from './components/QuizModal';
-import { CareerPathsModal } from './components/CareerPathsModal';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Sparkles, LayoutGrid, Filter, RotateCcw, Search } from 'lucide-react';
 import { translations, Language, Theme } from './utils/translations';
 import { SLUG_MAP, REVERSE_SLUG_MAP } from './data/slugMap';
@@ -14,6 +12,12 @@ import { getCurriculum } from './data/curriculum';
 const CoursePage = React.lazy(() => import('./components/CoursePage'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
 const IdeModal = React.lazy(() => import('./components/IdeModal'));
+const QuizModal = React.lazy(() => import('./components/QuizModal').then(m => ({ default: m.QuizModal })));
+const CareerPathsModal = React.lazy(() => import('./components/CareerPathsModal').then(m => ({ default: m.CareerPathsModal })));
+const CartModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.CartModal })));
+const SearchModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SearchModal })));
+const DetailModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.DetailModal })));
+const SettingsModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SettingsModal })));
 
 export default function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -43,6 +47,7 @@ export default function App() {
 
   // Random hero track rotation
   const [heroTrackIds, setHeroTrackIds] = useState<number[]>([0, 1, 2]);
+  const [isHeroHovered, setIsHeroHovered] = useState<boolean>(false);
 
   // Active course view state
   const [activeCourseId, setActiveCourseId] = useState<string | null>(null);
@@ -318,8 +323,9 @@ export default function App() {
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Rotate hero tracks every 5 seconds
+  // Rotate hero tracks every 5 seconds (paused when cursor is hovering over cards)
   useEffect(() => {
+    if (isHeroHovered) return;
     const interval = setInterval(() => {
       const shuffled = [...TRACKS_COLLECTION.map((_, i) => i)]
         .sort(() => Math.random() - 0.5)
@@ -327,7 +333,7 @@ export default function App() {
       setHeroTrackIds(shuffled);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isHeroHovered]);
 
   const handleAddToCart = (item: any) => {
     setCartItems((prev) => [...prev, item]);
@@ -474,14 +480,18 @@ export default function App() {
                   transition={{ duration: 0.15 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
-                  <QuizModal
-                    slug={quizTarget.slug}
-                    trackName={quizTrackName}
-                    lang={lang}
-                    initialLevel={quizTarget.level}
-                    sample={quizTarget.sample}
-                    onClose={handleCloseQuiz}
-                  />
+                  <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat kuis. Silakan coba lagi.' : 'Failed to load quiz. Please try again.'}>
+                    <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
+                      <QuizModal
+                        slug={quizTarget.slug}
+                        trackName={quizTrackName}
+                        lang={lang}
+                        initialLevel={quizTarget.level}
+                        sample={quizTarget.sample}
+                        onClose={handleCloseQuiz}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
                 </motion.div>
               ) : ideTarget ? (
                 /* MODE D: ONLINE IDE VIEW */
@@ -493,13 +503,15 @@ export default function App() {
                   transition={{ duration: 0.15 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
-                  <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
-                    <IdeModal
-                      trackId={ideTarget}
-                      lang={lang}
-                      onClose={() => { setIdeTarget(null); updateHash(null); }}
-                    />
-                  </Suspense>
+                  <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat Online IDE. Silakan coba lagi.' : 'Failed to load Online IDE. Please try again.'}>
+                    <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
+                      <IdeModal
+                        trackId={ideTarget}
+                        lang={lang}
+                        onClose={() => { setIdeTarget(null); updateHash(null); }}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
                 </motion.div>
               ) : activeCourseId ? (
                 /* MODE C: COURSE MATERIAL VIEW */
@@ -511,20 +523,22 @@ export default function App() {
                   transition={{ duration: 0.15 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
-                  <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
-                    <CoursePage
-                      key={`${activeCourseId}-${courseInitialLevel || 'beginer'}-${courseInitialWeek || 1}`}
-                      trackId={activeCourseId}
-                      lang={lang}
-                      onBack={handleBackFromCourse}
-                      onOpenPlayground={handleOpenPlayground}
-                      onOpenQuiz={handleOpenQuiz}
-                      onOpenIde={handleOpenIde}
-                      initialLevel={courseInitialLevel}
-                      initialWeek={courseInitialWeek}
-                      onNavigate={handleNavigateToWeek}
-                    />
-                  </Suspense>
+                  <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat modul kursus. Silakan coba modul lain.' : 'Failed to load course module. Please try another.'}>
+                    <Suspense fallback={<div className="flex-1 flex items-center justify-center text-zinc-400 text-sm">{t.loading}</div>}>
+                      <CoursePage
+                        key={`${activeCourseId}-${courseInitialLevel || 'beginer'}-${courseInitialWeek || 1}`}
+                        trackId={activeCourseId}
+                        lang={lang}
+                        onBack={handleBackFromCourse}
+                        onOpenPlayground={handleOpenPlayground}
+                        onOpenQuiz={handleOpenQuiz}
+                        onOpenIde={handleOpenIde}
+                        initialLevel={courseInitialLevel}
+                        initialWeek={courseInitialWeek}
+                        onNavigate={handleNavigateToWeek}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
                 </motion.div>
               ) : isExploring ? (
                 /* MODE A: MULTI-CARD TRACKS SCROLL CONTAINER */
@@ -665,6 +679,8 @@ export default function App() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  onMouseEnter={() => setIsHeroHovered(true)}
+                  onMouseLeave={() => setIsHeroHovered(false)}
                   className="hidden lg:flex flex-1 flex-col gap-3 sm:gap-4 md:gap-5 h-full overflow-hidden"
                 >
                   {heroTrackIds.slice(0, heroCardCount).map((idx, i) => (
@@ -697,63 +713,69 @@ export default function App() {
       </div>
 
       {/* Interactive Modals */}
-      <CartModal 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        onRemoveItem={handleRemoveFromCart}
-      />
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <CartModal 
+            isOpen={isCartOpen}
+            onClose={() => setIsCartOpen(false)}
+            cartItems={cartItems}
+            onRemoveItem={handleRemoveFromCart}
+          />
 
-      <SearchModal 
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        tracks={filteredTracks}
-        onSelectTrack={(item) => setSelectedProduct(item)}
-        onApplyFilters={() => setIsExploring(true)}
-        lang={lang}
-        onStartCourse={(id) => handleStartCourse(id)}
-      />
+          <SearchModal 
+            isOpen={isSearchOpen}
+            onClose={() => setIsSearchOpen(false)}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            tracks={filteredTracks}
+            onSelectTrack={(item) => setSelectedProduct(item)}
+            onApplyFilters={() => setIsExploring(true)}
+            lang={lang}
+            onStartCourse={(id) => handleStartCourse(id)}
+          />
 
-      <DetailModal 
-        isOpen={!!selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        product={selectedProduct}
-      />
+          <DetailModal 
+            isOpen={!!selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+            product={selectedProduct}
+          />
 
-      <SettingsModal 
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        lang={lang}
-        setLang={setLang}
-        theme={theme}
-        setTheme={setTheme}
-      />
+          <SettingsModal 
+            isOpen={isSettingsOpen}
+            onClose={() => setIsSettingsOpen(false)}
+            lang={lang}
+            setLang={setLang}
+            theme={theme}
+            setTheme={setTheme}
+          />
 
-      <CareerPathsModal
-        isOpen={isCareerPathsOpen}
-        onClose={() => setIsCareerPathsOpen(false)}
-        onSelectTrack={handleStartCourse}
-        lang={lang}
-      />
+          <CareerPathsModal
+            isOpen={isCareerPathsOpen}
+            onClose={() => setIsCareerPathsOpen(false)}
+            onSelectTrack={handleStartCourse}
+            lang={lang}
+          />
+        </Suspense>
+      </ErrorBoundary>
 
       {/* Interactive Code Playground */}
       <AnimatePresence>
         {playgroundCode !== null && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm">
-            <Suspense fallback={<div className="text-zinc-400 text-sm">{t.loading}</div>}>
-              <CodePlayground
-                lang={lang}
-                initialCode={playgroundCode || undefined}
-                language={playgroundLanguage}
-                onClose={handleClosePlayground}
-              />
-            </Suspense>
+            <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat Playground. Silakan coba lagi.' : 'Failed to load Playground. Please try again.'}>
+              <Suspense fallback={<div className="text-zinc-400 text-sm">{t.loading}</div>}>
+                <CodePlayground
+                  lang={lang}
+                  initialCode={playgroundCode || undefined}
+                  language={playgroundLanguage}
+                  onClose={handleClosePlayground}
+                />
+              </Suspense>
+            </ErrorBoundary>
           </div>
         )}
       </AnimatePresence>

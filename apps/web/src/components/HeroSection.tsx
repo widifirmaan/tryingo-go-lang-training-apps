@@ -771,7 +771,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <img 
                       src={ghibliHeroImg} 
                       alt="Tryngo Ghibli Coder Student"
-                      className="w-full h-full object-cover object-center"
+                      className="w-full h-full object-cover object-center will-change-transform"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      width={704}
+                      height={563}
                       referrerPolicy="no-referrer"
                     />
                   </motion.div>
