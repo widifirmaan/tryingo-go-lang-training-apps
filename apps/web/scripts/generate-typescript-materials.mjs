@@ -13,10 +13,24 @@ const gen = new BaseGenerator('typescript', 'TypeScript');
 const LEVELS = [
   {
     levelId: 'beginer',
-    nameId: 'TypeScript Lengkap',
-    nameEn: 'Complete TypeScript',
-    descId: 'Dari nol hingga mahir: tipe data, interface, generics, dan pattern TypeScript production.',
-    descEn: 'From zero to expert: types, interfaces, generics, and production TypeScript patterns.',
+    nameId: 'Dasar Tipe & Interface',
+    nameEn: 'Types & Interfaces Foundation',
+    descId: 'Sintaks dasar, tipe primitif, inference, fungsi, dan interface.',
+    descEn: 'Basic syntax, primitive types, inference, functions, and interfaces.',
+  },
+  {
+    levelId: 'intermediate',
+    nameId: 'Generics & Konsep Lanjutan',
+    nameEn: 'Generics & Advanced Concepts',
+    descId: 'Generics, OOP classes, utility types, dan konfigurasi compiler.',
+    descEn: 'Generics, OOP classes, utility types, and compiler configuration.',
+  },
+  {
+    levelId: 'advanced',
+    nameId: 'Arsitektur Type-Safe & Proyek Akhir',
+    nameEn: 'Type-Safe Architecture & Final Project',
+    descId: 'Testing, design patterns, integrasi API, dan proyek aplikasi type-safe.',
+    descEn: 'Testing, design patterns, API integrations, and type-safe application project.',
   },
 ];
 
@@ -26,7 +40,7 @@ const MODULES = [
     week: 1, level: 'beginer', topicId: 'pengantar-typescript',
     titleId: 'Pengantar TypeScript', titleEn: 'Introduction to TypeScript',
     programId: 'Halo TypeScript', programEn: 'Hello TypeScript',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Dasar Tipe & Interface', levelNameEn: 'Types & Interfaces Foundation',
     language: 'typescript',
     code: `// Dasar Tipe Data
 const nama: string = "Budi";
@@ -119,7 +133,7 @@ console.log("Koordinat:", koordinat);`,
     week: 2, level: 'beginer', topicId: 'advanced-types',
     titleId: 'Advanced Types', titleEn: 'Advanced Types',
     programId: 'Union, Intersection & Literal', programEn: 'Union, Intersection & Literal Types',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Dasar Tipe & Interface', levelNameEn: 'Types & Interfaces Foundation',
     language: 'typescript',
     code: `// Union Types
 function printId(id: string | number) {
@@ -228,7 +242,7 @@ if (isString(test)) {
     week: 3, level: 'beginer', topicId: 'fungsi-typescript',
     titleId: 'Functions & Signatures', titleEn: 'Functions & Signatures',
     programId: 'Typed Functions', programEn: 'Typed Functions',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Dasar Tipe & Interface', levelNameEn: 'Types & Interfaces Foundation',
     language: 'typescript',
     code: `// Function dengan tipe explicit
 function add(a: number, b: number): number {
@@ -326,7 +340,7 @@ console.log("Identity array:", identity([1, 2, 3]));`,
     week: 4, level: 'beginer', topicId: 'interfaces-type-aliases',
     titleId: 'Interfaces & Type Aliases', titleEn: 'Interfaces & Type Aliases',
     programId: 'Model Data TypeScript', programEn: 'TypeScript Data Models',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Dasar Tipe & Interface', levelNameEn: 'Types & Interfaces Foundation',
     language: 'typescript',
     code: `// Interface
 interface User {
@@ -436,10 +450,10 @@ console.log("Interface: extends, declaration merge");`,
     summaryEn: 'Week 4 of 12: **Interfaces & Type Aliases** (Level: Complete TypeScript). Data modeling. Next week: **Generics**.',
   },
   {
-    week: 5, level: 'beginer', topicId: 'generics',
+    week: 5, level: 'intermediate', topicId: 'generics',
     titleId: 'Generics', titleEn: 'Generics',
     programId: 'Reusable Generic Types', programEn: 'Reusable Generic Types',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Generics & Konsep Lanjutan', levelNameEn: 'Generics & Advanced Concepts',
     language: 'typescript',
     code: `// Generic Function
 function identity<T>(value: T): T {
@@ -561,10 +575,10 @@ console.log("Age:", getProperty(user, "age"));`,
     summaryEn: 'Week 5 of 12: **Generics** (Level: Complete TypeScript). Reusable types. Next week: **Classes & OOP**.',
   },
   {
-    week: 6, level: 'beginer', topicId: 'classes-oop',
+    week: 6, level: 'intermediate', topicId: 'classes-oop',
     titleId: 'Classes & OOP', titleEn: 'Classes & OOP',
     programId: 'TypeScript Classes', programEn: 'TypeScript Classes',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Generics & Konsep Lanjutan', levelNameEn: 'Generics & Advanced Concepts',
     language: 'typescript',
     code: `// Class dengan access modifiers
 class Animal {
@@ -714,10 +728,10 @@ console.log("\\nDistance:", p.distance());`,
     summaryEn: 'Week 6 of 12: **Classes & OOP** (Level: Complete TypeScript). Object-oriented TS. Next week: **Utility Types**.',
   },
   {
-    week: 7, level: 'beginer', topicId: 'utility-types',
+    week: 7, level: 'intermediate', topicId: 'utility-types',
     titleId: 'Utility Types', titleEn: 'Utility Types',
     programId: 'Built-in Utilities', programEn: 'Built-in Utility Types',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Generics & Konsep Lanjutan', levelNameEn: 'Generics & Advanced Concepts',
     language: 'typescript',
     code: `// Partial<T> — semua property optional
 interface User {
@@ -835,10 +849,10 @@ console.log("Omit:", noAge);`,
     summaryEn: 'Week 7 of 12: **Utility Types** (Level: Complete TypeScript). Type transformations. Next week: **TypeScript Config**.',
   },
   {
-    week: 8, level: 'beginer', topicId: 'typescript-config',
+    week: 8, level: 'intermediate', topicId: 'typescript-config',
     titleId: 'TypeScript Config', titleEn: 'TypeScript Configuration',
     programId: 'tsconfig.json & Setup', programEn: 'tsconfig.json & Setup',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Generics & Konsep Lanjutan', levelNameEn: 'Generics & Advanced Concepts',
     language: 'typescript',
     code: `// tsconfig.json — konfigurasi TypeScript compiler
 // File: tsconfig.json
@@ -965,10 +979,10 @@ console.log("6. Use path aliases: @/components → src/components");
     summaryEn: 'Week 8 of 12: **TypeScript Configuration** (Level: Complete TypeScript). Project configuration. Next week: **Testing**.',
   },
   {
-    week: 9, level: 'beginer', topicId: 'testing-typescript',
+    week: 9, level: 'advanced', topicId: 'testing-typescript',
     titleId: 'Testing TypeScript', titleEn: 'Testing TypeScript',
     programId: 'Type-Safe Tests', programEn: 'Type-Safe Tests',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Arsitektur Type-Safe & Proyek Akhir', levelNameEn: 'Type-Safe Architecture & Final Project',
     language: 'typescript',
     code: `// Testing dengan type safety
 // Framework: Vitest / Jest dengan TypeScript
@@ -1118,10 +1132,10 @@ runner.run();
     summaryEn: 'Week 9 of 12: **Testing TypeScript** (Level: Complete TypeScript). Guaranteed quality. Next week: **Design Patterns**.',
   },
   {
-    week: 10, level: 'beginer', topicId: 'patterns-typescript',
+    week: 10, level: 'advanced', topicId: 'patterns-typescript',
     titleId: 'Design Patterns TS', titleEn: 'TypeScript Design Patterns',
     programId: 'Pattern with Types', programEn: 'Patterns with Types',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Arsitektur Type-Safe & Proyek Akhir', levelNameEn: 'Type-Safe Architecture & Final Project',
     language: 'typescript',
     code: `// Singleton with TypeScript
 class AppConfig {
@@ -1261,10 +1275,10 @@ emitter.emit("error", { message: "Network timeout" });`,
     summaryEn: 'Week 10 of 12: **TypeScript Design Patterns** (Level: Complete TypeScript). Proven patterns. Next week: **Capstone Project**!',
   },
   {
-    week: 11, level: 'beginer', topicId: 'api-advanced-types',
+    week: 11, level: 'advanced', topicId: 'api-advanced-types',
     titleId: 'Advanced Type Manipulation', titleEn: 'Advanced Type Manipulation',
     programId: 'Template Literals & Conditional', programEn: 'Template Literals & Conditional Types',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Arsitektur Type-Safe & Proyek Akhir', levelNameEn: 'Type-Safe Architecture & Final Project',
     language: 'typescript',
     code: `// Template Literal Types
 type EventName = "click" | "focus" | "blur";
@@ -1388,10 +1402,10 @@ console.log("Recursive: deep type transformations");`,
     summaryEn: 'Week 11 of 12: **Advanced Type Manipulation** (Level: Complete TypeScript). Type-level programming. Next week: **Capstone Project**!',
   },
   {
-    week: 12, level: 'beginer', topicId: 'capstone',
+    week: 12, level: 'advanced', topicId: 'capstone',
     titleId: 'Capstone: Type-Safe API Client', titleEn: 'Capstone: Type-Safe API Client',
     programId: 'API Client Library', programEn: 'API Client Library',
-    levelNameId: 'TypeScript Lengkap', levelNameEn: 'Complete TypeScript',
+    levelNameId: 'Arsitektur Type-Safe & Proyek Akhir', levelNameEn: 'Type-Safe Architecture & Final Project',
     language: 'typescript',
     code: `// Capstone: Type-Safe REST API Client
 // Menggabungkan semua konsep TypeScript

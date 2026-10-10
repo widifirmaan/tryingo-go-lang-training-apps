@@ -89,6 +89,135 @@ Browser bawaan (Chrome, Safari, Firefox) menyertakan stylesheet bawaan (*User Ag
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Live Server** (`ritwickdey.liveserver`): Melihat perubahan styling secara realtime di browser
+- **HTML CSS Support** (`ecmel.vscode-html-css`): Autocomplete nama class CSS di tag HTML
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension ritwickdey.liveserver --install-extension ecmel.vscode-html-css
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Web Browser & VS Code)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+code --version
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+code --version
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+code --version
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+code --version
+```
+
+Output yang diharapkan:
+```output
+1.9x.x
+```
+
+> 💡 **Tips Prasyarat:** CSS dieksekusi langsung oleh rendering engine browser.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+mkdir my-css-project && cd my-css-project
+touch index.html styles.css
+```
+- **Keterangan:** Buat file HTML dan hubungkan file stylesheet styles.css.
+- **Pindah ke direktori project:**
+```bash
+cd my-css-project
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+Klik Kanan index.html -> "Open with Live Server"
+```
+Akses di browser atau terminal: `http://127.0.0.1:5500`
+
+> ℹ️ Browser merender layout Flexbox dan warna tema secara instan.
+
+**File Titik Masuk Utama (`styles.css`):**
+```css
+:root {
+  --primary-color: #2E5B44;
+  --bg-color: #F8FAF9;
+  --text-color: #1A202C;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-width: 400px;
+  border: 1px solid #E2E8F0;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+```
+Styling tata letak kartu menggunakan CSS Variables, Flexbox, dan efek transisi hover.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-css-project/
+├── index.html       # Markup halaman
+└── styles.css       # Aturan tata letak & warna
+```
+Pemisahan struktur (HTML) dan presentasi visual (CSS).
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan CSS Variables (`--var-name`) untuk kemudahan penerapan Dark Mode dan palet warna konsisten.
+- Prioritaskan Mobile-First design dengan media queries `@media (min-width: 768px)`.
+
+---
+
 ## Program: Struktur Proyek CSS Pertama dengan Reset dan Header Banner
 
 ```html

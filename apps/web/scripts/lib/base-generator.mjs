@@ -83,6 +83,11 @@ ${summary}
 
   // Write all files for a track
   writeFiles(modules, levels) {
+    // Clean old files in courseDir
+    if (fs.existsSync(this.courseDir)) {
+      fs.rmSync(this.courseDir, { recursive: true, force: true });
+    }
+
     // Write markdown files
     for (const mod of modules) {
       for (const lang of ['id', 'en']) {

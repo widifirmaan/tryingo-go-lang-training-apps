@@ -25,19 +25,25 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/10</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/11</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/9</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/13</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/advanced/14</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -67,7 +73,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/angular/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -80,6 +92,18 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/angular/intermediate/7</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/angular/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -127,7 +151,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/codeigniter4/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/codeigniter4/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/codeigniter4/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -146,6 +176,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/codeigniter4/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/codeigniter4/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -175,7 +211,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/csharp/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/csharp/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/csharp/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -224,6 +266,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/csharp/intermediate/7</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/csharp/intermediate/8</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -355,7 +403,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/django/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/django/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/django/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -409,6 +463,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/django/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/docker</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -425,6 +485,30 @@
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/docker/advanced/10</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/docker/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/docker/advanced/12</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/docker/advanced/9</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/docker/beginer/1</loc>
@@ -511,7 +595,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/golang/advanced/9</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/golang/advanced/13</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -541,7 +625,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/golang/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/golang/beginer/5</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -560,6 +644,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/golang/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/golang/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -607,7 +697,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/graphql/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/graphql/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/graphql/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -626,6 +722,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/graphql/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/graphql/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -859,7 +961,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/laravel/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/laravel/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/laravel/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -913,6 +1021,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/laravel/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/mongodb</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -955,7 +1069,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/mongodb/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/mongodb/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/mongodb/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -974,6 +1094,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/mongodb/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/mongodb/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1021,7 +1147,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/mysql/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/mysql/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/mysql/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1040,6 +1172,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/mysql/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/mysql/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1069,7 +1207,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/nestjs/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/nestjs/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/nestjs/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1123,6 +1267,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/nestjs/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/nextjs</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1147,7 +1297,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/nextjs/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/nextjs/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/nextjs/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1201,6 +1357,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/nextjs/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/nodejs</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1225,7 +1387,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/nodejs/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/nodejs/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/nodejs/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1279,6 +1447,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/nodejs/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/php</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1321,13 +1495,31 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/php/beginer/5</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/6</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/php/beginer/6</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/10</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1340,6 +1532,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/php/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1387,7 +1585,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/postgresql/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/postgresql/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/postgresql/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1406,6 +1610,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/postgresql/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/postgresql/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1435,7 +1645,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/python/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/python/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/python/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1489,6 +1705,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/python/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/rails</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1513,7 +1735,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/rails/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/rails/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/rails/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1567,6 +1795,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/rails/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/react</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1591,7 +1825,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/react/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/react/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/react/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1645,6 +1885,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/react/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/redis</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1687,7 +1933,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/redis/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/redis/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/redis/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1711,6 +1963,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/redis/intermediate/9</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/rust</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1729,12 +1987,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/rust/advanced/10</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/rust/advanced/11</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
@@ -1747,7 +1999,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/rust/advanced/9</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/rust/advanced/13</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/rust/advanced/14</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1777,13 +2035,19 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/rust/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/rust/beginer/5</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/rust/intermediate/6</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/rust/beginer/6</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/rust/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1796,6 +2060,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/rust/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/rust/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1819,19 +2089,25 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/10</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/11</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/9</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/13</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/advanced/14</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1861,7 +2137,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/spring/intermediate/5</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/intermediate/10</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1874,6 +2156,18 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/spring/intermediate/7</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/spring/intermediate/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1895,30 +2189,6 @@
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/svelte/advanced/5</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/svelte/advanced/6</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/svelte/advanced/7</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/svelte/advanced/8</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/svelte/beginer/1</loc>
@@ -1945,6 +2215,42 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/svelte/beginer/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/svelte/intermediate/10</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/svelte/intermediate/6</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/svelte/intermediate/7</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/svelte/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/svelte/intermediate/9</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/tailwind</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -1963,18 +2269,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/advanced/5</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/advanced/6</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/tailwind/advanced/7</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
@@ -1982,6 +2276,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/tailwind/advanced/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/advanced/9</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -2005,7 +2305,19 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/beginer/4</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/intermediate/4</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/intermediate/5</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/tailwind/intermediate/6</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -2035,7 +2347,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/typescript/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/typescript/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/typescript/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -2089,6 +2407,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/typescript/intermediate/8</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tryngo.widifirmaan.web.id/#/vue</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -2113,7 +2437,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://tryngo.widifirmaan.web.id/#/vue/advanced/8</loc>
+    <loc>https://tryngo.widifirmaan.web.id/#/vue/advanced/11</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/vue/advanced/12</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -2162,6 +2492,12 @@
   </url>
   <url>
     <loc>https://tryngo.widifirmaan.web.id/#/vue/intermediate/7</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tryngo.widifirmaan.web.id/#/vue/intermediate/8</loc>
     <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
