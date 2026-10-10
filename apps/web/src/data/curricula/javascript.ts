@@ -1,44 +1,45 @@
 import type { LevelInfo } from '../curriculum';
 
-// JavaScript curriculum — product-driven research-backed structure
 export const javascriptCurriculum: LevelInfo[] = [
   {
     levelId: 'beginer',
-    nameId: 'Dasar Logika & Struktur Data',
-    nameEn: 'Logic Fundamentals & Data Structures',
-    descId: 'Pondasi logika komputasi: variabel, tipe data, coercion, control flow, fungsi kelas satu, dan transformasi array modern.',
-    descEn: 'Computational logic foundations: variables, types, coercion, control flow, first-class functions, and modern array pipelines.',
+    nameId: 'Dasar JavaScript & Logika',
+    nameEn: 'JavaScript Basics & Logic',
+    descId: 'Sintaks JavaScript, variabel, tipe data primitif, percabangan kondisi, perulangan, dan fungsi.',
+    descEn: 'JavaScript syntax, variables, primitive types, conditional branching, loops, and functions.',
     weeks: [
-      { week: 1, topicId: 'variabel-tipe-data-dan-operator', titleId: 'Variabel Modern (const/let), 7 Tipe Primitif & Type Coercion', titleEn: 'Modern Variables (const/let), 7 Primitive Types & Coercion' },
-      { week: 2, topicId: 'kontrol-alur-dan-perulangan', titleId: 'Kontrol Alur: Percabangan Logika, Ternary & Perulangan for...of', titleEn: 'Control Flow: Logic Branching, Ternary & for...of Loops' },
-      { week: 3, topicId: 'fungsi-arrow-scope-dan-closures', titleId: 'Fungsi Kelas Satu, Arrow Functions, Scope & Closures', titleEn: 'First-Class Functions, Arrow Syntax, Scope & Closures' },
-      { week: 4, topicId: 'array-dan-metode-fungsional', titleId: 'Array Modern: Transformasi Data dengan Map, Filter & Reduce', titleEn: 'Modern Arrays: Functional Pipelines with Map, Filter & Reduce' }
+      { week: 1, topicId: 'pengenalan-dan-lingkungan-eksekusi', titleId: 'Pengenalan JavaScript, Console, dan Lingkungan Eksekusi', titleEn: 'JavaScript Introduction, Console, and Execution Environments' },
+      { week: 2, topicId: 'variabel-tipe-data-operator', titleId: 'Variabel, Tipe Data, dan Operator', titleEn: 'Variables, Data Types, and Operators' },
+      { week: 3, topicId: 'percabangan-dan-kondisi', titleId: 'Percabangan dan Pengambilan Keputusan', titleEn: 'Conditionals and Decision Making' },
+      { week: 4, topicId: 'perulangan-dan-iterasi', titleId: 'Perulangan dan Iterasi Data', titleEn: 'Loops and Data Iteration' },
+      { week: 5, topicId: 'fungsi-parameter-dan-scope', titleId: 'Fungsi, Parameter, dan Scope', titleEn: 'Functions, Parameters, and Scope' }
     ],
   },
   {
     levelId: 'intermediate',
-    nameId: 'DOM, Event & Arsitektur Objek',
-    nameEn: 'DOM, Events & Object Architecture',
-    descId: 'Manipulasi dokumen browser langsung, event bubbling/delegation, destrukturisasi objek, dan OOP dengan kelas ES6.',
-    descEn: 'Direct browser document mutation, event bubbling/delegation, object destructuring, and ES6 class-based OOP.',
+    nameId: 'Struktur Data & Interaksi DOM',
+    nameEn: 'Data Structures & DOM Interaction',
+    descId: 'Manipulasi array, objek literal, seleksi elemen DOM, manipulasi tampilan, dan penanganan event.',
+    descEn: 'Array methods, object literals, DOM element selection, UI mutation, and event handling.',
     weeks: [
-      { week: 5, topicId: 'objek-destrukturisasi-dan-spread', titleId: 'Objek Modern: Destrukturisasi, Spread/Rest & Optional Chaining', titleEn: 'Modern Objects: Destructuring, Spread/Rest & Optional Chaining' },
-      { week: 6, topicId: 'dom-manipulasi-dan-seleksi', titleId: 'Manipulasi DOM: querySelector, Pembuatan Elemen & ClassList', titleEn: 'DOM Manipulation: querySelector, Element Creation & ClassList' },
-      { week: 7, topicId: 'event-bubbling-dan-delegation', titleId: 'Arsitektur Event: Event Bubbling, Capturing & Event Delegation', titleEn: 'Event Architecture: Bubbling, Capturing & Event Delegation' },
-      { week: 8, topicId: 'oop-dan-es6-classes', titleId: 'Object-Oriented JavaScript: ES6 Classes, Prototype & Pewarisan', titleEn: 'Object-Oriented JavaScript: ES6 Classes, Prototypes & Inheritance' }
+      { week: 6, topicId: 'array-dan-metode-manipulasi', titleId: 'Array dan Metode Manipulasi Data', titleEn: 'Arrays and Data Manipulation Methods' },
+      { week: 7, topicId: 'objek-destrukturisasi-dan-json', titleId: 'Objek, Destrukturisasi, dan JSON', titleEn: 'Objects, Destructuring, and JSON' },
+      { week: 8, topicId: 'manipulasi-dom-dan-seleksi', titleId: 'Manipulasi DOM dan Seleksi Elemen', titleEn: 'DOM Manipulation and Element Selection' },
+      { week: 9, topicId: 'event-handling-dan-formulir', titleId: 'Event Handling dan Formulir Interaktif', titleEn: 'Event Handling and Interactive Forms' }
     ],
   },
   {
     levelId: 'advanced',
-    nameId: 'Asinkron, Storage & Proyek Kanban',
-    nameEn: 'Asynchronous, Storage & Kanban Project',
-    descId: 'Event loop V8, Promises, async/await, Fetch API, penyimpanan lokal persistent, dan capstone Kanban board interaktif.',
-    descEn: 'V8 event loop, Promises, async/await, Fetch API, persistent local storage, and the interactive Kanban board capstone.',
+    nameId: 'Asinkron, Storage & Proyek Akhir',
+    nameEn: 'Asynchronous, Storage & Final Project',
+    descId: 'Timer, Promise, async/await, Fetch API, LocalStorage, modularitas modul, dan proyek aplikasi web utuh.',
+    descEn: 'Timers, Promises, async/await, Fetch API, LocalStorage, modules, and full web application project.',
     weeks: [
-      { week: 9, topicId: 'event-loop-dan-asinkron', titleId: 'Arsitektur Asinkron: Event Loop V8, Call Stack & Task Queues', titleEn: 'Asynchronous Architecture: The V8 Event Loop, Stack & Queues' },
-      { week: 10, topicId: 'promises-async-await-dan-fetch', titleId: 'Promises, Async/Await & Konsumsi HTTP REST API dengan Fetch', titleEn: 'Promises, Async/Await & HTTP REST API Consumption via Fetch' },
-      { week: 11, topicId: 'browser-storage-dan-state-persistence', titleId: 'Penyimpanan Browser: LocalStorage, SessionStorage & Serialisasi JSON', titleEn: 'Browser Storage: LocalStorage, SessionStorage & JSON Persistence' },
-      { week: 12, topicId: 'proyek-akhir-kanban-board-lengkap', titleId: 'Proyek Akhir: Aplikasi Papan Tugas Kanban Interaktif Lengkap', titleEn: 'Capstone Project: Full Interactive Kanban Task Management Board' }
+      { week: 10, topicId: 'pemrograman-asinkron-dan-timer', titleId: 'Pemrograman Asinkron dan Timer', titleEn: 'Asynchronous Programming and Timers' },
+      { week: 11, topicId: 'promise-dan-async-await', titleId: 'Promise dan Async/Await', titleEn: 'Promises and Async/Await' },
+      { week: 12, topicId: 'fetch-api-dan-http', titleId: 'Fetch API dan HTTP Requests', titleEn: 'Fetch API and HTTP Requests' },
+      { week: 13, topicId: 'localstorage-dan-modularitas', titleId: 'LocalStorage dan Modularitas ES Modules', titleEn: 'LocalStorage and ES Modules' },
+      { week: 14, topicId: 'proyek-akhir-aplikasi-web', titleId: 'Proyek Akhir: Aplikasi Web Interaktif Lengkap', titleEn: 'Final Project: Complete Interactive Web Application' }
     ],
   }
 ];

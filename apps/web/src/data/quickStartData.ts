@@ -762,9 +762,9 @@ console.log(formatGreeting(me));`,
     slug: 'javascript',
     name: 'JavaScript',
     category: 'The Language of the Web',
-    badge: 'ES2024 & Modern Web API',
-    taglineId: 'Bahasa pemrograman inti web untuk logika interaktif di browser dan backend modern.',
-    taglineEn: 'The core programming language of the web powering interactive browser logic and backends.',
+    badge: 'ECMAScript Standard',
+    taglineId: 'Bahasa pemrograman inti web untuk logika interaktif di browser dan runtime server.',
+    taglineEn: 'The core programming language of the web powering interactive browser logic and server runtimes.',
     vscode: {
       recommendedExtensions: [
         { id: 'ritwickdey.liveserver', name: 'Live Server', descriptionId: 'Local dev server dengan reload otomatis untuk file HTML/JS', descriptionEn: 'Local development server with live reload' },
@@ -789,7 +789,7 @@ console.log(formatGreeting(me));`,
       titleId: 'Inisialisasi Project JavaScript (ES Modules)',
       titleEn: 'Initialize JavaScript Project (ES Modules)',
       command: 'mkdir my-js-app && cd my-js-app\nnpm init -y\nnode -e "const p=JSON.parse(fs.readFileSync(\'package.json\')); p.type=\'module\'; fs.writeFileSync(\'package.json\', JSON.stringify(p, null, 2))"',
-      explanationId: 'Menyiapkan package.json dengan dukungan `"type": "module"` untuk sintaks import/export modern.',
+      explanationId: 'Menyiapkan package.json dengan dukungan `"type": "module"` untuk sintaks import/export.',
       explanationEn: 'Configures package.json with `"type": "module"` enabling standard ES import/export syntax.',
       cdCommand: 'cd my-js-app',
     },
@@ -809,32 +809,25 @@ console.log(formatGreeting(me));`,
     },
     starterFile: {
       filename: 'main.js',
-      code: `// Modern ES6+ JavaScript
-const fetchUserData = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ id: 101, user: 'Coder', level: 'Intermediate' });
-    }, 500);
-  });
-};
+      code: `// main.js - Titik Masuk JavaScript
+const namaAplikasi = "Portal Belajar Tryngo";
+const versi = 1;
 
-async function run() {
-  console.log('⏳ Mengambil data pengguna...');
-  const user = await fetchUserData();
-  console.log('✅ Berhasil:', user);
+function sapaPengguna(nama) {
+  return \`Selamat datang di \${namaAplikasi} (v\${versi}), \${nama}!\`;
 }
 
-run();`,
-      descriptionId: 'Contoh async/await dan Promise modern.',
-      descriptionEn: 'Modern async/await and Promise implementation.',
+console.log(sapaPengguna("Pengembang"));`,
+      descriptionId: 'Sintaks fungsi dan variabel dasar untuk titik masuk aplikasi.',
+      descriptionEn: 'Foundational function and variable syntax for the application entry point.',
     },
     proTipsId: [
-      'Gunakan destructuring, template literals, dan optional chaining (`?.`) untuk kode yang ringkas.',
-      'Pelajari API browser modern seperti Fetch, localStorage, dan IntersectionObserver.',
+      'Gunakan `const` secara default, dan gunakan `let` hanya jika nilai variabel perlu diubah ulang.',
+      'Gunakan `console.log()` untuk memeriksa nilai data dan alur logika di browser console.',
     ],
     proTipsEn: [
-      'Utilize destructuring, template literals, and optional chaining (`?.`) for concise code.',
-      'Master modern browser APIs like Fetch, localStorage, and IntersectionObserver.',
+      'Use `const` by default, and switch to `let` only when a variable requires reassignment.',
+      'Use `console.log()` to inspect data values and debug control flow in the browser console.',
     ],
   },
 
@@ -929,8 +922,8 @@ run();`,
     name: 'CSS3',
     category: 'Cascading Style Sheets',
     badge: 'Flexbox, Grid & Modern CSS',
-    taglineId: 'Desain tampilan antarmuka web modern dengan Flexbox, CSS Grid, Custom Properties (Variables), dan animasi halus.',
-    taglineEn: 'Style modern responsive web interfaces with Flexbox, CSS Grid, Variables, and transitions.',
+    taglineId: 'Desain antarmuka web dengan selektor, Flexbox, CSS Grid, Custom Properties (Variabel), dan animasi transisi.',
+    taglineEn: 'Style responsive web interfaces with selectors, Flexbox, CSS Grid, Variables, and transitions.',
     vscode: {
       recommendedExtensions: [
         { id: 'ritwickdey.liveserver', name: 'Live Server', descriptionId: 'Melihat perubahan styling secara realtime di browser', descriptionEn: 'Realtime styling preview in browser' },
@@ -1004,8 +997,8 @@ body {
 .card:hover {
   transform: translateY(-4px);
 }`,
-      descriptionId: 'Styling modern dengan CSS Variables, Flexbox, dan efek transisi hover.',
-      descriptionEn: 'Modern styling showcasing CSS Custom Properties, Flexbox, and hover transitions.',
+      descriptionId: 'Styling tata letak kartu menggunakan CSS Variables, Flexbox, dan efek transisi hover.',
+      descriptionEn: 'Card layout styling using CSS Custom Properties, Flexbox, and hover transitions.',
     },
     proTipsId: [
       'Gunakan CSS Variables (`--var-name`) untuk kemudahan penerapan Dark Mode dan palet warna konsisten.',
