@@ -13,6 +13,125 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): PHP autocomplete engine
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension bmewburn.vscode-intelephense-client
+```
+
+---
+
+### 2. Runtime & Dependency Installation (PHP 8.1+ & Composer)
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install PHP.PHP.8.3 && winget install Composer.Composer
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install php composer
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y php-cli php-intl composer
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+php -v && composer -v
+```
+
+Expected output:
+```output
+PHP 8.x
+Composer 2.x
+```
+
+> 💡 **Prerequisite Note:** Ensure php-intl and php-mbstring extensions are enabled in php.ini.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+composer create-project codeigniter4/appstarter my-ci4-app
+cd my-ci4-app
+```
+- **Details:** Downloads the official CodeIgniter 4 app starter directory structure.
+- **Navigate to the project directory:**
+```bash
+cd my-ci4-app
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+php spark serve
+```
+Open in browser or terminal: `http://localhost:8080`
+
+> ℹ️ CodeIgniter Spark dev server runs at port 8080.
+
+**Initial Entry File (`app/Controllers/Home.php`):**
+```php
+<?php
+
+namespace App\Controllers;
+
+class Home extends BaseController
+{
+    public function index(): string
+    {
+        return $this->response->setJSON([
+            'framework' => 'CodeIgniter 4',
+            'status' => 'running',
+            'message' => 'Halo dari CodeIgniter 4 Spark!'
+        ]);
+    }
+}
+```
+Default CodeIgniter 4 controller returning JSON.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-ci4-app/
+├── app/
+│   ├── Controllers/     # Controller logika HTTP
+│   ├── Models/          # Model query database
+│   └── Views/           # Template tampilan HTML
+├── public/              # Document root web server
+├── spark                # Script CLI CodeIgniter
+└── env                  # File contoh konfigurasi (rename ke .env)
+```
+Lean MVC architecture of CodeIgniter 4.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Rename `env` to `.env` and set `CI_ENVIRONMENT = development` to enable the interactive Debug Toolbar.
+- Use `php spark make:controller User` to generate controllers quickly.
+
+---
+
 ## Program: Academic School Portal with Spark CLI & Structured Route Groups
 
 ```php

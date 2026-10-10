@@ -14,6 +14,135 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **Live Server** (`ritwickdey.liveserver`): Realtime styling preview in browser
+- **HTML CSS Support** (`ecmel.vscode-html-css`): CSS class name autocomplete in HTML
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension ritwickdey.liveserver --install-extension ecmel.vscode-html-css
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Web Browser & VS Code)
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+code --version
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+code --version
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+code --version
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+code --version
+```
+
+Expected output:
+```output
+1.9x.x
+```
+
+> 💡 **Prerequisite Note:** CSS is executed directly by the browser rendering engine.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+mkdir my-css-project && cd my-css-project
+touch index.html styles.css
+```
+- **Details:** Create an HTML file and link an external styles.css stylesheet.
+- **Navigate to the project directory:**
+```bash
+cd my-css-project
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+Klik Kanan index.html -> "Open with Live Server"
+```
+Open in browser or terminal: `http://127.0.0.1:5500`
+
+> ℹ️ Browser immediately renders the Flexbox layout and theme colors.
+
+**Initial Entry File (`styles.css`):**
+```css
+:root {
+  --primary-color: #2E5B44;
+  --bg-color: #F8FAF9;
+  --text-color: #1A202C;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  max-width: 400px;
+  border: 1px solid #E2E8F0;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+```
+Modern styling showcasing CSS Custom Properties, Flexbox, and hover transitions.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-css-project/
+├── index.html       # Markup halaman
+└── styles.css       # Aturan tata letak & warna
+```
+Separation of markup structure (HTML) and visual styling (CSS).
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Use CSS Variables (`--var-name`) for frictionless dark mode switching and consistent palettes.
+- Adopt a mobile-first approach using `@media (min-width: 768px)` breakpoints.
+
+---
+
 ## Program: UI Component Card with Precision Box Sizing
 
 ```html

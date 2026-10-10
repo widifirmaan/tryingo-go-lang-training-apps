@@ -14,6 +14,118 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **rust-analyzer** (`rust-lang.rust-analyzer`): Server bahasa Rust resmi dengan autocomplete, type inference, dan macro expansion
+- **Even Better TOML** (`tamasfe.even-better-toml`): Syntax highlighting & validasi untuk file Cargo.toml
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension rust-lang.rust-analyzer --install-extension tamasfe.even-better-toml
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Rustup (Rust Toolchain Installer))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install Rustlang.Rustup
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+rustc --version && cargo --version
+```
+
+Output yang diharapkan:
+```output
+rustc 1.8x.x ...
+cargo 1.8x.x ...
+```
+
+> 💡 **Tips Prasyarat:** Rustup mengelola versi compiler (rustc), package manager (cargo), dan standard library.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+cargo new my-rust-app --bin
+cd my-rust-app
+```
+- **Keterangan:** Cargo membuat struktur folder project binary lengkap dengan file Cargo.toml dan src/main.rs.
+- **Pindah ke direktori project:**
+```bash
+cd my-rust-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+cargo run
+```
+Akses di browser atau terminal: `Terminal Console`
+
+> ℹ️ Cargo otomatis mengunduh dependensi, mengompilasi kode, dan menjalankannya.
+
+**File Titik Masuk Utama (`src/main.rs`):**
+```rust
+fn main() {
+    let name = "Developer Rust";
+    let message = format!("🦀 Halo, {}! Selamat datang di era Memory Safety.", name);
+    println!("{}", message);
+
+    let numbers = vec![1, 2, 3, 4, 5];
+    let sum: i32 = numbers.iter().sum();
+    println!("Hasil penjumlahan vector: {}", sum);
+}
+```
+Program Rust sederhana mendemonstrasikan vector dan formatting string aman.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-rust-app/
+├── src/
+│   └── main.rs          # Titik masuk program Rust
+├── Cargo.toml           # Metadata project & daftar crates
+├── Cargo.lock           # Versi dependensi terkunci persis
+└── target/              # Hasil kompilasi binary (di-git-ignore)
+```
+Struktur standar Cargo untuk aplikasi binary Rust.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan `cargo check` saat development untuk validasi kompilasi kilat tanpa membuat binary.
+- Gunakan `cargo run --release` saat ingin menguji performa maksimal dengan optimasi kompilator.
+
+---
+
 ## Program: Alokator Memori Key-Value & Pelacak Kepemilikan String
 
 ```rust

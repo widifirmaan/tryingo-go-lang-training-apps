@@ -13,6 +13,119 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Python for VS Code** (`ms-python.python`): Dukungan resmi Microsoft: linter, debugger, autocomplete
+- **Ruff** (`charliermarsh.ruff`): Linter dan formatter Python super cepat berbasis Rust
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension ms-python.python --install-extension charliermarsh.ruff
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Python 3.12+)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install Python.Python.3.12
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install python@3.12
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install python3 python3-pip python3-venv
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+python --version || python3 --version
+```
+
+Output yang diharapkan:
+```output
+Python 3.12.x
+```
+
+> 💡 **Tips Prasyarat:** Pastikan mencentang "Add python.exe to PATH" jika menginstal via Windows installer resmi.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+mkdir my-python-app && cd my-python-app
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
+```
+- **Keterangan:** Virtual environment (.venv) mengisolasi package proyek agar tidak bentrok dengan instalasi sistem.
+- **Pindah ke direktori project:**
+```bash
+cd my-python-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+python main.py
+```
+Akses di browser atau terminal: `Terminal Console`
+
+> ℹ️ Program dieksekusi langsung oleh Python interpreter.
+
+**File Titik Masuk Utama (`main.py`):**
+```py
+import sys
+from datetime import datetime
+
+def greet(name: str) -> str:
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return f"🐍 Halo {name}! Waktu server: {now} (Python {sys.version.split()[0]})"
+
+if __name__ == "__main__":
+    print(greet("Developer"))
+```
+Skrip Python modern dengan type hints dan datetime.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-python-app/
+├── .venv/               # Virtual environment isolasi package
+├── src/
+│   └── main.py          # Entrypoint program
+├── requirements.txt     # Daftar package dependensi
+└── pyproject.toml       # Metadata konfigurasi modern
+```
+Struktur project Python modern dengan isolasi venv.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan perintah `pip freeze > requirements.txt` untuk menyimpan daftar dependensi proyek.
+- Gunakan `uv` (`pip install uv`) sebagai package manager alternatif yang 10-100x lebih cepat dari pip standar.
+
+---
+
 ## Program: Pemodelan Data Pasar Finansial dengan Type Annotations & Match Statements
 
 ```python

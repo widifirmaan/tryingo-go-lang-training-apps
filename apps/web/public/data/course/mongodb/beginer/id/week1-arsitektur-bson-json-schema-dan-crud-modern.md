@@ -13,6 +13,124 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **MongoDB for VS Code** (`mongodb.mongodb-vscode`): Jelajahi database, koleksi, dokumen, dan jalankan MongoDB playground langsung
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension mongodb.mongodb-vscode
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (MongoDB 7.0 (via Docker))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+docker run -d --name mongo-dev -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=secret -v mongodata:/data/db mongo:7.0
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew tap mongodb/brew && brew install mongodb-community@7.0 && brew services start mongodb-community@7.0
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+docker run -d --name mongo-dev -p 27017:27017 mongo:7.0
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+docker exec -it mongo-dev mongosh --version
+```
+
+Output yang diharapkan:
+```output
+2.x.x
+```
+
+> 💡 **Tips Prasyarat:** Docker container MongoDB sudah menyertakan `mongosh` modern.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+docker exec -it mongo-dev mongosh -u root -p secret
+```
+- **Keterangan:** Membuka shell interaktif mongosh untuk manipulasi koleksi dan dokumen BSON.
+- **Pindah ke direktori project:**
+```bash
+# Terhubung ke mongosh
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+db.users.find().pretty()
+```
+Akses di browser atau terminal: `mongodb://localhost:27017`
+
+> ℹ️ Mencetak dokumen JSON/BSON tersimpan.
+
+**File Titik Masuk Utama (`playground.mongodb.js`):**
+```js
+use('shopdb');
+
+// Insert dokumen dengan array dan subdokumen bersarang
+db.orders.insertOne({
+  orderId: "ORD-9912",
+  customer: { name: "Budi Santoso", email: "budi@example.com" },
+  items: [
+    { product: "Laptop Stand", qty: 1, price: 35.00 },
+    { product: "USB-C Cable", qty: 2, price: 12.50 }
+  ],
+  status: "PAID",
+  createdAt: new Date()
+});
+
+// Aggregation Pipeline untuk menghitung total penjualan
+db.orders.aggregate([
+  { $unwind: "$items" },
+  { $group: { _id: "$status", totalRevenue: { $sum: { $multiply: ["$items.qty", "$items.price"] } } } }
+]);
+```
+Operasi dokumen dan aggregation pipeline MongoDB.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+mongo-app/
+├── scripts/
+│   ├── seed.js          # Skrip populasi dokumen awal
+│   └── indexes.js       # Pembuatan index koleksi
+└── docker-compose.yml
+```
+Struktur project NoSQL berbasis MongoDB.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan `db.collection.createIndex({ field: 1 })` untuk mencegah full-collection scan pada koleksi besar.
+- Gunakan MongoDB Compass sebagai GUI desktop resmi untuk visualisasi data interaktif.
+
+---
+
 ## Program: Pembuatan Koleksi Terstruktur dengan $jsonSchema Validation dan Operasi CRUD Bersyarat
 
 ```javascript

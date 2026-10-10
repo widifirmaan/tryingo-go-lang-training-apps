@@ -13,6 +13,122 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): LSP PHP tercepat: code completion, signature help, find references
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension bmewburn.vscode-intelephense-client
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (PHP 8.3+ & Composer)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install PHP.PHP.8.3 && winget install Composer.Composer
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install php composer
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y php8.3-cli php8.3-mbstring php8.3-xml composer
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+php -v && composer -v
+```
+
+Output yang diharapkan:
+```output
+PHP 8.3.x
+Composer version 2.x
+```
+
+> 💡 **Tips Prasyarat:** Composer adalah manajer paket resmi untuk ekosistem PHP modern.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+mkdir my-php-app && cd my-php-app
+composer init --no-interaction
+touch index.php
+```
+- **Keterangan:** Menyiapkan composer.json untuk autoloading PSR-4 dan dependensi.
+- **Pindah ke direktori project:**
+```bash
+cd my-php-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+php -S localhost:8000
+```
+Akses di browser atau terminal: `http://localhost:8000`
+
+> ℹ️ Built-in web server PHP aktif di port 8000.
+
+**File Titik Masuk Utama (`index.php`):**
+```php
+<?php
+declare(strict_types=1);
+
+header('Content-Type: application/json');
+
+$data = [
+    'status' => 'success',
+    'language' => 'PHP ' . PHP_VERSION,
+    'message' => 'Halo dari server PHP 8 modern!',
+    'timestamp' => date('c')
+];
+
+echo json_encode($data, JSON_PRETTY_PRINT);
+```
+Skrip PHP modern dengan declare(strict_types=1).
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-php-app/
+├── public/
+│   └── index.php        # Entrypoint web
+├── src/                 # Class PSR-4 aplikasi
+├── vendor/              # Dependensi Composer (autoloader)
+└── composer.json        # Manifest project
+```
+Struktur project PHP modern dengan standar PSR-4.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Selalu aktifkan `declare(strict_types=1);` di baris pertama file PHP untuk pengetikan parameter yang ketat.
+- Jalankan `php -S localhost:8000 -t public` untuk mengarahkan root direktori server ke folder public.
+
+---
+
 ## Program: Domain Model Faktur Finansial dengan Readonly Classes & Match Expressions
 
 ```php

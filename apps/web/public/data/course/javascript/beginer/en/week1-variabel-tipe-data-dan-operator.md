@@ -14,6 +14,123 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **Live Server** (`ritwickdey.liveserver`): Local development server with live reload
+- **Prettier** (`esbenp.prettier-vscode`): Automated code formatter
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension ritwickdey.liveserver --install-extension esbenp.prettier-vscode
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Node.js LTS (Untuk eksekusi terminal))
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+node -v
+```
+
+Expected output:
+```output
+v20.x.x
+```
+
+> 💡 **Prerequisite Note:** JavaScript runs natively inside any browser without requiring external runtimes.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+mkdir my-js-app && cd my-js-app
+npm init -y
+node -e "const p=JSON.parse(fs.readFileSync('package.json')); p.type='module'; fs.writeFileSync('package.json', JSON.stringify(p, null, 2))"
+```
+- **Details:** Configures package.json with `"type": "module"` enabling standard ES import/export syntax.
+- **Navigate to the project directory:**
+```bash
+cd my-js-app
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+node main.js
+```
+Open in browser or terminal: `Terminal / Browser Console`
+
+> ℹ️ Run directly via Node.js terminal or connect to index.html with Live Server.
+
+**Initial Entry File (`main.js`):**
+```js
+// Modern ES6+ JavaScript
+const fetchUserData = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ id: 101, user: 'Coder', level: 'Intermediate' });
+    }, 500);
+  });
+};
+
+async function run() {
+  console.log('⏳ Mengambil data pengguna...');
+  const user = await fetchUserData();
+  console.log('✅ Berhasil:', user);
+}
+
+run();
+```
+Modern async/await and Promise implementation.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-js-app/
+├── main.js          # Skrip utama JavaScript
+├── utils.js         # Fungsi helper modular
+└── package.json     # Konfigurasi module
+```
+Clean modular structure utilizing standard ES Modules.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Utilize destructuring, template literals, and optional chaining (`?.`) for concise code.
+- Master modern browser APIs like Fetch, localStorage, and IntersectionObserver.
+
+---
+
 ## Program: Cashier Register & Primitive Type Verifier
 
 ```javascript

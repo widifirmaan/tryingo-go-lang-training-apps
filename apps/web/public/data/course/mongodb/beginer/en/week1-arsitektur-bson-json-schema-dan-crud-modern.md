@@ -13,6 +13,124 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **MongoDB for VS Code** (`mongodb.mongodb-vscode`): Browse collections, run queries, and execute MongoDB playgrounds
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension mongodb.mongodb-vscode
+```
+
+---
+
+### 2. Runtime & Dependency Installation (MongoDB 7.0 (via Docker))
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+docker run -d --name mongo-dev -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=secret -v mongodata:/data/db mongo:7.0
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew tap mongodb/brew && brew install mongodb-community@7.0 && brew services start mongodb-community@7.0
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+docker run -d --name mongo-dev -p 27017:27017 mongo:7.0
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+docker exec -it mongo-dev mongosh --version
+```
+
+Expected output:
+```output
+2.x.x
+```
+
+> 💡 **Prerequisite Note:** The official MongoDB Docker image includes the modern `mongosh` shell.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+docker exec -it mongo-dev mongosh -u root -p secret
+```
+- **Details:** Launches interactive mongosh shell session authenticated as root.
+- **Navigate to the project directory:**
+```bash
+# Terhubung ke mongosh
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+db.users.find().pretty()
+```
+Open in browser or terminal: `mongodb://localhost:27017`
+
+> ℹ️ Prints matching formatted JSON documents.
+
+**Initial Entry File (`playground.mongodb.js`):**
+```js
+use('shopdb');
+
+// Insert dokumen dengan array dan subdokumen bersarang
+db.orders.insertOne({
+  orderId: "ORD-9912",
+  customer: { name: "Budi Santoso", email: "budi@example.com" },
+  items: [
+    { product: "Laptop Stand", qty: 1, price: 35.00 },
+    { product: "USB-C Cable", qty: 2, price: 12.50 }
+  ],
+  status: "PAID",
+  createdAt: new Date()
+});
+
+// Aggregation Pipeline untuk menghitung total penjualan
+db.orders.aggregate([
+  { $unwind: "$items" },
+  { $group: { _id: "$status", totalRevenue: { $sum: { $multiply: ["$items.qty", "$items.price"] } } } }
+]);
+```
+Document insertion and aggregation pipeline in mongosh syntax.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+mongo-app/
+├── scripts/
+│   ├── seed.js          # Skrip populasi dokumen awal
+│   └── indexes.js       # Pembuatan index koleksi
+└── docker-compose.yml
+```
+MongoDB NoSQL project layout.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Always add indexes via `createIndex()` to avoid costly collection scans.
+- Use MongoDB Compass for interactive graphical schema and document inspection.
+
+---
+
 ## Program: Structured Collection Setup with $jsonSchema Validation and Conditional CRUD
 
 ```javascript

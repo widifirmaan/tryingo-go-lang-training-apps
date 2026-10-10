@@ -14,6 +14,123 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Live Server** (`ritwickdey.liveserver`): Local dev server dengan reload otomatis untuk file HTML/JS
+- **Prettier** (`esbenp.prettier-vscode`): Code formatting otomatis
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension ritwickdey.liveserver --install-extension esbenp.prettier-vscode
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Node.js LTS (Untuk eksekusi terminal))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+node -v
+```
+
+Output yang diharapkan:
+```output
+v20.x.x
+```
+
+> 💡 **Tips Prasyarat:** JavaScript dapat dijalankan langsung di browser mana pun tanpa instalasi runtime tambahan.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+mkdir my-js-app && cd my-js-app
+npm init -y
+node -e "const p=JSON.parse(fs.readFileSync('package.json')); p.type='module'; fs.writeFileSync('package.json', JSON.stringify(p, null, 2))"
+```
+- **Keterangan:** Menyiapkan package.json dengan dukungan `"type": "module"` untuk sintaks import/export modern.
+- **Pindah ke direktori project:**
+```bash
+cd my-js-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+node main.js
+```
+Akses di browser atau terminal: `Terminal / Browser Console`
+
+> ℹ️ Jalankan skrip di terminal atau hubungkan ke file index.html menggunakan Live Server.
+
+**File Titik Masuk Utama (`main.js`):**
+```js
+// Modern ES6+ JavaScript
+const fetchUserData = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ id: 101, user: 'Coder', level: 'Intermediate' });
+    }, 500);
+  });
+};
+
+async function run() {
+  console.log('⏳ Mengambil data pengguna...');
+  const user = await fetchUserData();
+  console.log('✅ Berhasil:', user);
+}
+
+run();
+```
+Contoh async/await dan Promise modern.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-js-app/
+├── main.js          # Skrip utama JavaScript
+├── utils.js         # Fungsi helper modular
+└── package.json     # Konfigurasi module
+```
+Struktur modular bersih menggunakan ES Modules.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan destructuring, template literals, dan optional chaining (`?.`) untuk kode yang ringkas.
+- Pelajari API browser modern seperti Fetch, localStorage, dan IntersectionObserver.
+
+---
+
 ## Program: Kalkulator Kasir & Verifikasi Tipe Data Primitif
 
 ```javascript

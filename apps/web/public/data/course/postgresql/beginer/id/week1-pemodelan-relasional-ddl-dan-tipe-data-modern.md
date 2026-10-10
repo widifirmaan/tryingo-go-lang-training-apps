@@ -13,6 +13,122 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **PostgreSQL Management** (`ckolkman.vscode-postgres`): Jalankan query SQL, jelajahi tabel, dan kelola database dari VS Code
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension ckolkman.vscode-postgres
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (PostgreSQL 16 (via Docker / Native))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+docker run -d --name pg-dev -p 5432:5432 -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=devdb -v pgdata:/var/lib/postgresql/data postgres:16-alpine
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install postgresql@16 && brew services start postgresql@16
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y postgresql postgresql-contrib
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+docker exec -it pg-dev psql -U postgres -d devdb -c "SELECT version();"
+```
+
+Output yang diharapkan:
+```output
+PostgreSQL 16.x ...
+```
+
+> 💡 **Tips Prasyarat:** Menjalankan PostgreSQL via Docker adalah metode tercepat tanpa mengotori instalasi host OS.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+docker exec -it pg-dev psql -U postgres -d devdb
+```
+- **Keterangan:** Membuka antarmuka interaktif psql terminal untuk menjalankan query DDL & DML.
+- **Pindah ke direktori project:**
+```bash
+# Siap di terminal psql
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+SELECT * FROM users;
+```
+Akses di browser atau terminal: `localhost:5432`
+
+> ℹ️ Hasil query tabular akan ditampilkan di terminal psql.
+
+**File Titik Masuk Utama (`schema.sql`):**
+```sql
+-- Buat tabel dengan UUID dan JSONB
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    preferences JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Masukkan data uji
+INSERT INTO users (name, email, preferences) 
+VALUES ('John Coder', 'john@example.com', '{"theme": "dark", "newsletter": true}');
+
+-- Query dengan operator JSONB
+SELECT id, name, preferences->>'theme' AS selected_theme FROM users;
+```
+Skema tabel SQL dengan fitur native JSONB PostgreSQL.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+database/
+├── migrations/
+│   ├── 001_create_users.sql
+│   └── 002_create_orders.sql
+├── seeds/
+│   └── 001_seed_dev_data.sql
+└── docker-compose.yml
+```
+Struktur manajemen migrasi skema SQL terstruktur.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan perintah `\dt` di psql untuk melihat daftar tabel dan `\d nama_tabel` untuk melihat struktur kolom.
+- Gunakan `EXPLAIN ANALYZE SELECT ...` untuk menganalisis performa query dan indeks.
+
+---
+
 ## Program: Skema E-Commerce dengan UUIDv7, JSONB Metadata, dan Validasi Constraint
 
 ```sql

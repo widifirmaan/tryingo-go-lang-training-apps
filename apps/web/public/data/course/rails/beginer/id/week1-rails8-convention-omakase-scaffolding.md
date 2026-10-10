@@ -13,6 +13,117 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Ruby LSP (Shopify)** (`shopify.ruby-lsp`): Server bahasa Ruby resmi dengan format, definisi, dan diagnostics
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension shopify.ruby-lsp
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Ruby 3.3+ & Bundler)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install RubyInstallerTeam.RubyWithDevKit.3.3
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install ruby && gem install bundler
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y ruby-full build-essential && sudo gem install bundler
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+ruby -v && bundle -v
+```
+
+Output yang diharapkan:
+```output
+ruby 3.3.x
+Bundler version 2.x
+```
+
+> 💡 **Tips Prasyarat:** Di Linux/macOS, manfaatkan `rbenv` atau `asdf` untuk mengelola beberapa versi Ruby.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+gem install rails
+rails new my-rails-app --api
+cd my-rails-app
+```
+- **Keterangan:** Menyiapkan aplikasi Rails mode API ringan tanpa aset frontend berlebih.
+- **Pindah ke direktori project:**
+```bash
+cd my-rails-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+bin/rails server
+```
+Akses di browser atau terminal: `http://localhost:3000`
+
+> ℹ️ Server Puma aktif di port 3000.
+
+**File Titik Masuk Utama (`config/routes.rb`):**
+```ruby
+Rails.application.routes.draw do
+  get "/api/status", to: proc { [200, { "Content-Type" => "application/json" }, ['{"status":"ok","framework":"Ruby on Rails 7"}']] }
+end
+```
+Definisi route langsung di config/routes.rb.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-rails-app/
+├── app/
+│   ├── controllers/     # Controller penangan request
+│   └── models/          # Model ActiveRecord
+├── config/
+│   ├── routes.rb        # Pemetaan URL routes
+│   └── database.yml     # Konfigurasi database
+├── db/
+│   └── migrate/         # Migrasi ActiveRecord
+├── Gemfile              # Daftar gem dependensi
+└── bin/rails            # Executable CLI Rails
+```
+Arsitektur MVC Convention over Configuration khas Rails.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan perintah `bin/rails generate scaffold Product name:string price:decimal` untuk men-generate seluruh API CRUD dalam 2 detik.
+- Gunakan `bin/rails console` untuk menguji query ActiveRecord langsung di terminal.
+
+---
+
 ## Program: Domain Model Workspace Proyek Kolaboratif dengan Konvensi Rails 8
 
 ```ruby

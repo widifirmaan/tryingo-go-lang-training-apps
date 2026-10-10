@@ -14,6 +14,132 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`): Autocomplete nama class, preview warna, dan linting class Tailwind
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension bradlc.vscode-tailwindcss
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Node.js LTS)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+node -v && npm -v
+```
+
+Output yang diharapkan:
+```output
+v20.x.x
+10.x.x
+```
+
+> 💡 **Tips Prasyarat:** Tailwind CSS v4 menggunakan engine lightningcss baru yang super cepat tanpa file konfigurasi berat.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+npm create vite@latest my-tailwind-app -- --template vanilla
+cd my-tailwind-app
+npm install
+npm install -D tailwindcss @tailwindcss/vite
+```
+- **Keterangan:** Setup Vite dengan plugin resmi Tailwind v4 untuk build secepat kilat.
+- **Pindah ke direktori project:**
+```bash
+cd my-tailwind-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+npm run dev
+```
+Akses di browser atau terminal: `http://localhost:5173`
+
+> ℹ️ Dev server aktif dengan kompilasi CSS on-demand.
+
+**File Titik Masuk Utama (`index.html`):**
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./src/style.css">
+  <title>Tailwind v4 Starter</title>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-6">
+  <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+      Tailwind v4 Ready
+    </span>
+    <h1 class="text-2xl font-bold tracking-tight">Utility-First Speed</h1>
+    <p class="text-slate-400 text-sm leading-relaxed">
+      Styling cepat, responsif, dan rapi tanpa meninggalkan dokumen HTML.
+    </p>
+    <button class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 transition-colors font-medium text-sm">
+      Coba Sekarang
+    </button>
+  </div>
+</body>
+</html>
+```
+Komponen card modern yang di-styling murni dengan Tailwind utility classes.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-tailwind-app/
+├── index.html           # HTML dengan utility classes Tailwind
+├── src/
+│   └── style.css        # Cukup sertakan: @import "tailwindcss";
+├── vite.config.ts       # Plugin tailwindcss()
+└── package.json         # Dependensi Tailwind & Vite
+```
+Di Tailwind v4, Anda cukup menulis `@import "tailwindcss";` di style.css tanpa tailwind.config.js rumit.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan modifier responsif (`sm:`, `md:`, `lg:`) untuk tata letak yang adaptif di berbagai ukuran layar.
+- Gunakan class `dark:` untuk mendukung dark mode instan.
+
+---
+
 ## Program: Kartu Notifikasi SaaS dengan Kelas Utilitas Murni
 
 ```html

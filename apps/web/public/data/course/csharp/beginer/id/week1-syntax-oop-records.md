@@ -13,6 +13,126 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **C# Dev Kit** (`ms-dotnettools.csdevkit`): Solusi lengkap manajemen project .NET, testing, dan solution explorer di VS Code
+- **C# Extension** (`ms-dotnettools.csharp`): Dukungan bahasa C# & Omnisharp/Roslyn intellisense
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension ms-dotnettools.csdevkit --install-extension ms-dotnettools.csharp
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (.NET 9 SDK)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install Microsoft.DotNet.SDK.9
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install dotnet-sdk
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt-get install -y dotnet-sdk-9.0
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+dotnet --version
+```
+
+Output yang diharapkan:
+```output
+9.0.xxx
+```
+
+> 💡 **Tips Prasyarat:** .NET SDK mencakup compiler C#, runtime CLR, dan CLI tools.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+dotnet new webapi -n MyWebApiApp -controllers
+cd MyWebApiApp
+```
+- **Keterangan:** Menghasilkan project Web API modern dengan ASP.NET Core, OpenAPI/Scalar, dan controllers.
+- **Pindah ke direktori project:**
+```bash
+cd MyWebApiApp
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+dotnet run
+```
+Akses di browser atau terminal: `http://localhost:5000 / https://localhost:5001`
+
+> ℹ️ Server Kestrel akan aktif di port lokal.
+
+**File Titik Masuk Utama (`Program.cs`):**
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+
+app.MapGet("/api/greeting", () => Results.Ok(new {
+    Message = "Halo dari .NET 9 C#!",
+    Status = "Healthy",
+    Timestamp = DateTime.UtcNow
+}));
+
+app.MapControllers();
+app.Run();
+```
+Minimal API endpoint di Program.cs .NET 9.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+MyWebApiApp/
+├── Controllers/         # Endpoint controller API
+├── Properties/
+│   └── launchSettings.json
+├── appsettings.json     # Konfigurasi app & connection string
+├── Program.cs           # Titik masuk aplikasi & konfigurasi DI
+└── MyWebApiApp.csproj   # File konfigurasi project .NET
+```
+Struktur project ASP.NET Core dengan Dependency Injection terintegrasi di Program.cs.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan perintah `dotnet watch` untuk mengaktifkan hot reload setiap kali file C# diedit.
+- Gunakan record types (`public record User(int Id, string Name);`) untuk data transfer objek (DTO) yang ringkas.
+
+---
+
 ## Program: Domain Model Inventaris Gudang dengan Record & Pattern Matching
 
 ```csharp

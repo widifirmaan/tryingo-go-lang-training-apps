@@ -13,6 +13,117 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **Ruby LSP (Shopify)** (`shopify.ruby-lsp`): Official Shopify Ruby LSP with formatting and jump to definition
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension shopify.ruby-lsp
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Ruby 3.3+ & Bundler)
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install RubyInstallerTeam.RubyWithDevKit.3.3
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install ruby && gem install bundler
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y ruby-full build-essential && sudo gem install bundler
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+ruby -v && bundle -v
+```
+
+Expected output:
+```output
+ruby 3.3.x
+Bundler version 2.x
+```
+
+> 💡 **Prerequisite Note:** Use `rbenv` or `asdf` on macOS/Linux for seamless version switching.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+gem install rails
+rails new my-rails-app --api
+cd my-rails-app
+```
+- **Details:** Scaffolds a lean API-only Rails application without bloated front-end assets.
+- **Navigate to the project directory:**
+```bash
+cd my-rails-app
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+bin/rails server
+```
+Open in browser or terminal: `http://localhost:3000`
+
+> ℹ️ Puma web server launches at port 3000.
+
+**Initial Entry File (`config/routes.rb`):**
+```ruby
+Rails.application.routes.draw do
+  get "/api/status", to: proc { [200, { "Content-Type" => "application/json" }, ['{"status":"ok","framework":"Ruby on Rails 7"}']] }
+end
+```
+Direct route declaration in config/routes.rb.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-rails-app/
+├── app/
+│   ├── controllers/     # Controller penangan request
+│   └── models/          # Model ActiveRecord
+├── config/
+│   ├── routes.rb        # Pemetaan URL routes
+│   └── database.yml     # Konfigurasi database
+├── db/
+│   └── migrate/         # Migrasi ActiveRecord
+├── Gemfile              # Daftar gem dependensi
+└── bin/rails            # Executable CLI Rails
+```
+Convention over Configuration MVC architecture of Rails.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Run `bin/rails generate scaffold Product name:string price:decimal` to generate full CRUD APIs in 2 seconds.
+- Launch `bin/rails console` to query ActiveRecord models interactively.
+
+---
+
 ## Program: Collaborative Project Workspace Domain Model with Rails 8 Conventions
 
 ```ruby

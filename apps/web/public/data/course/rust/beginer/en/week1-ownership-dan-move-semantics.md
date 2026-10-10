@@ -14,6 +14,118 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **rust-analyzer** (`rust-lang.rust-analyzer`): Official Rust language server with deep type inference and macro expansion
+- **Even Better TOML** (`tamasfe.even-better-toml`): TOML syntax support for Cargo.toml
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension rust-lang.rust-analyzer --install-extension tamasfe.even-better-toml
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Rustup (Rust Toolchain Installer))
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install Rustlang.Rustup
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+rustc --version && cargo --version
+```
+
+Expected output:
+```output
+rustc 1.8x.x ...
+cargo 1.8x.x ...
+```
+
+> 💡 **Prerequisite Note:** Rustup manages rustc compiler versions, the Cargo package manager, and stdlib.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+cargo new my-rust-app --bin
+cd my-rust-app
+```
+- **Details:** Cargo scaffolds a complete binary project including Cargo.toml and src/main.rs.
+- **Navigate to the project directory:**
+```bash
+cd my-rust-app
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+cargo run
+```
+Open in browser or terminal: `Terminal Console`
+
+> ℹ️ Cargo fetches crates, compiles your code, and runs the output binary.
+
+**Initial Entry File (`src/main.rs`):**
+```rust
+fn main() {
+    let name = "Developer Rust";
+    let message = format!("🦀 Halo, {}! Selamat datang di era Memory Safety.", name);
+    println!("{}", message);
+
+    let numbers = vec![1, 2, 3, 4, 5];
+    let sum: i32 = numbers.iter().sum();
+    println!("Hasil penjumlahan vector: {}", sum);
+}
+```
+Simple Rust program showcasing vectors, iterators, and string formatting.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-rust-app/
+├── src/
+│   └── main.rs          # Titik masuk program Rust
+├── Cargo.toml           # Metadata project & daftar crates
+├── Cargo.lock           # Versi dependensi terkunci persis
+└── target/              # Hasil kompilasi binary (di-git-ignore)
+```
+Standard Cargo structure for binary applications.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Use `cargo check` during development for lightning-fast compilation verification without building binaries.
+- Run `cargo run --release` to test code under maximum compiler optimizations.
+
+---
+
 ## Program: Key-Value Memory Allocator & Ownership Tracking in Pure Rust
 
 ```rust

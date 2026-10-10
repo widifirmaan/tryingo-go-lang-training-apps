@@ -14,6 +14,128 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Live Server** (`ritwickdey.liveserver`): Buka HTML di browser lokal dengan auto-reload saat file disimpan
+- **Auto Close Tag** (`formulahendry.auto-close-tag`): Menutup tag HTML otomatis saat diketik
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension ritwickdey.liveserver --install-extension formulahendry.auto-close-tag
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Web Browser (Chrome, Firefox, Safari, Edge))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install Google.Chrome
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install --cask google-chrome
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install google-chrome-stable
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+code --version
+```
+
+Output yang diharapkan:
+```output
+1.9x.x
+```
+
+> 💡 **Tips Prasyarat:** HTML tidak membutuhkan compiler atau runtime server khusus untuk dijalankan.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+mkdir my-website && cd my-website
+touch index.html
+```
+- **Keterangan:** Buat folder project baru dan tambahkan file index.html sebagai halaman utama.
+- **Pindah ke direktori project:**
+```bash
+cd my-website
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+Klik Kanan index.html -> "Open with Live Server"
+```
+Akses di browser atau terminal: `http://127.0.0.1:5500/index.html`
+
+> ℹ️ Halaman web akan terbuka otomatis di browser Anda.
+
+**File Titik Masuk Utama (`index.html`):**
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Semantik Modern</title>
+</head>
+<body style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px;">
+  <header>
+    <h1>🌐 Selamat Datang di Web Semantik</h1>
+  </header>
+  <main>
+    <article>
+      <h2>Mengapa HTML5 Semantik Penting?</h2>
+      <p>Tag seperti &lt;header&gt;, &lt;main&gt;, &lt;article&gt;, dan &lt;footer&gt; membuat web ramah SEO dan mudah dibaca oleh screen reader (aksesibilitas).</p>
+    </article>
+  </main>
+  <footer>
+    <p>&copy; 2026 - Dibuat dengan Tryngo HTML5 Track</p>
+  </footer>
+</body>
+</html>
+```
+Struktur dokumen HTML5 semantik lengkap.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-website/
+├── index.html       # Dokumen struktur web
+├── styles.css       # File stylesheet
+└── images/          # Direktori gambar & aset
+```
+Struktur standar situs web statis.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan shortcut `!` lalu tekan `Tab` di VS Code untuk men-generate boilerplate HTML5 instan.
+- Selalu sertakan atribut `alt` pada tag `<img>` demi aksesibilitas dan SEO.
+
+---
+
 ## Program: Dokumen HTML5 Pertama yang Valid dan Terstruktur
 
 ```html

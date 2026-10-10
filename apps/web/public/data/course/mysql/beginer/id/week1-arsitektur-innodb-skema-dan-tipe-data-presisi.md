@@ -13,6 +13,116 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **Database Client** (`cweijan.vscode-mysql-client2`): GUI viewer tabel, query runner, dan manajemen koneksi MySQL
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension cweijan.vscode-mysql-client2
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (MySQL 8.0 (via Docker / Native))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+docker run -d --name mysql-dev -p 3306:3306 -e MYSQL_ROOT_PASSWORD=secret -e MYSQL_DATABASE=devdb -v mysqldata:/var/lib/mysql mysql:8.0
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install mysql && brew services start mysql
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y mysql-server
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+docker exec -it mysql-dev mysql -u root -psecret -e "SELECT VERSION();"
+```
+
+Output yang diharapkan:
+```output
+8.0.xx
+```
+
+> 💡 **Tips Prasyarat:** Docker container MySQL mengisolasi database tanpa memerlukan service background Windows yang berat.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+docker exec -it mysql-dev mysql -u root -psecret devdb
+```
+- **Keterangan:** Membuka sesi terminal MySQL client untuk berinteraksi langsung dengan database.
+- **Pindah ke direktori project:**
+```bash
+# Terhubung ke MySQL CLI
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+SHOW TABLES;
+```
+Akses di browser atau terminal: `localhost:3306`
+
+> ℹ️ Daftar tabel database devdb ditampilkan.
+
+**File Titik Masuk Utama (`schema.sql`):**
+```sql
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(120) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO products (name, price, stock) 
+VALUES ('Mechanical Keyboard', 89.99, 15);
+
+SELECT * FROM products WHERE price < 100;
+```
+Skema tabel MySQL InnoDB dengan charset utf8mb4.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+database/
+├── schema.sql           # Definisi DDL tabel
+├── seed.sql             # Data awal
+└── my.cnf               # Konfigurasi tuning MySQL
+```
+Struktur file database MySQL.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan selalu charset `utf8mb4` untuk mendukung seluruh karakter internasional dan emoji.
+- Gunakan tipe `DECIMAL(10, 2)` untuk menyimpan nilai mata uang demi menghindari bug floating point.
+
+---
+
 ## Program: Skema Dompet Digital Finansial dengan Engine InnoDB dan Constraint Strict
 
 ```sql
