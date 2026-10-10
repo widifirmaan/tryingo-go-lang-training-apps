@@ -1,20 +1,74 @@
-# Text Hierarchy, Semantic Typography & Navigation Links
+# Head, Text, and Links
 
-> **Kategori:** HTML5 | **Level:** Structure & Web Semantics | **Minggu 2:** Text Hierarchy, Semantic Typography & Navigation Links
-> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
-
+> **Category:** HTML5 | **Level:** HTML Basics | **Week 2:** Head, Text, and Links
+> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
-- Apply the single <h1> hierarchy rule and sequential <h2> through <h6> heading nesting without skipping levels
-- Distinguish semantic emphasis elements: <strong> vs <b>, and <em> vs <i>
-- Construct accessible navigation menus using the <nav> element and unordered lists <ul>
-- Create internal page anchor jumps using identifier fragments (#main-content)
-- Utilize aria-current="page" to expose the active page state to assistive tech
+- Understand <head> configurations: <title>, favicon <link rel="icon">, and <link rel="stylesheet">
+- Master heading hierarchy from <h1> to <h6> for accessibility and search engines
+- Use text formatting tags: <p>, <strong>, <em>, <pre>, <code>, <time>, and <br>
+- Create a second webpage file (layanan.html) in your project folder
+- Link pages together using <a href="...">, relative file paths, and in-page #id bookmarks
 
 ---
 
-## Program: Ranked Content Hierarchy with Accessible Navigation
+## 1. Deconstructing the <head> Element
+
+The `<head>` element manages document metadata not directly rendered on the visual canvas:
+
+1. **`<title>`**: Sets text on the browser tab and search engine results.
+2. **`<link rel="icon" href="favicon.ico">`**: Displays a favicon icon in the tab bar.
+3. **`<link rel="stylesheet" href="style.css">`**: Links an external stylesheet to your HTML.
+4. **`<meta name="description" content="...">`**: Provides a page summary for search engine snippet listings.
+
+---
+
+## 2. Text Typography and Headings
+
+HTML provides semantic tags for structuring text hierarchies:
+- **Headings (`<h1>` to `<h6>`):**
+  - `<h1>`: Primary document topic (strictly one `<h1>` per page).
+  - `<h2>`: Major section topics.
+  - `<h3>` to `<h6>`: Hierarchical subsections. Avoid skipping heading levels (e.g., from `<h2>` directly to `<h4>`).
+- **Text Formatting:**
+  - `<p>`: Body paragraph.
+  - `<strong>`: High importance (rendered bold).
+  - `<em>`: Stress emphasis (rendered italic).
+  - `<code>` & `<pre>`: Monospace code snippets and preformatted text blocks.
+  - `<time datetime="2026-10-10">`: Machine-readable dates for search engines.
+
+---
+
+## 3. Project File Structure and Page Navigation
+
+Real-world web projects consist of multiple connected files:
+
+```text
+my-website/
+├── index.html        # Home Page (Entrypoint)
+├── layanan.html      # Services Page (Second Page)
+└── css/
+    └── style.css     # External CSS
+```
+
+### Creating and Linking a Second Page:
+1. In VS Code, create a new file named `layanan.html` next to `index.html`.
+2. Inside `index.html`, add anchor navigation links:
+```html
+<nav>
+  <a href="index.html">Home</a> |
+  <a href="layanan.html">Services</a>
+</nav>
+```
+3. **Link Types:**
+   - **Internal Links:** `<a href="layanan.html">` (navigates within the project directory).
+   - **External Links:** `<a href="https://example.com" target="_blank">` (opens third-party sites in a new tab).
+   - **Bookmark Jump Links:** `<a href="#pricing">` (smoothly jumps to `id="pricing"` on the active page).
+
+---
+
+## Program: Services Page with Navigation and Typography Structure
 
 ```html
 <!DOCTYPE html>
@@ -22,53 +76,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layanan Rekayasa — Nusa Digital</title>
+  <title>Layanan Web — Alex Pratama</title>
+  <style>
+    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
+    nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
+    nav a:hover { text-decoration: underline; }
+    article { margin-bottom: 24px; }
+    .meta-date { color: #64748b; font-size: 13px; }
+    .code-box { background: #0f172a; color: #f8fafc; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; }
+  </style>
 </head>
 <body>
   <header>
-    <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
-    <p><strong>Nusa Digital</strong></p>
-    <nav aria-label="Navigasi Utama">
-      <ul>
-        <li><a href="index.html">Beranda</a></li>
-        <li><a href="layanan.html" aria-current="page">Layanan</a></li>
-        <li><a href="tentang.html">Tentang Kami</a></li>
-        <li><a href="kontak.html">Hubungi Kami</a></li>
-      </ul>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="layanan.html">Layanan</a>
+      <a href="#prosedur">Prosedur Kerja</a>
     </nav>
+    <h1>Daftar Layanan Pembuatan Website</h1>
+    <p class="meta-date">Diterbitkan pada: <time datetime="2026-10-10">10 Oktober 2026</time></p>
   </header>
 
-  <main id="konten-utama">
+  <main>
     <article>
-      <h1>Solusi Layanan Rekayasa Perangkat Lunak</h1>
-      <p>Kami menyediakan arsitektur komputasi modern yang dirancang untuk skala jutaan pengguna aktif harian.</p>
+      <h2>1. Pembuatan Website Profil Perusahaan</h2>
+      <p>Membangun struktur web menggunakan <strong>HTML semantik</strong> agar halaman cepat dimuat dan mudah ditemukan di mesin pencari.</p>
+      <p>Setiap dokumen web dibuat dengan kode bersih seperti berikut:</p>
+      
+      <pre class="code-box"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+  &lt;body&gt;Halaman Siap Pakai&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </article>
 
-      <section>
-        <h2>1. Arsitektur Cloud & Backend Berkecepatan Tinggi</h2>
-        <p>Pengembangan sistem terdistribusi menggunakan Go dan Rust dengan protokol <em>gRPC</em> dan penyimpanan terkelola.</p>
-        <p>Karakteristik performa layanan kami:</p>
-        <ul>
-          <li>Latensi respon rata-rata di bawah <strong>15 milidetik</strong></li>
-          <li>Uptime operasional tahunan mencapai <strong>99.99%</strong></li>
-          <li>Dukungan auto-scaling dinamis berbasis beban CPU</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>2. Alur Pelaksanaan Proyek</h2>
-        <p>Langkah sistematis dari evaluasi kebutuhan hingga deployment produksi:</p>
-        <ol>
-          <li>Analisis domain dan perancangan kontrak API</li>
-          <li>Implementasi kode inti beserta unit testing menyeluruh</li>
-          <li>Uji penetrasi keamanan dan benchmarking latensi</li>
-          <li>Deployment otomatis menggunakan pipeline CI/CD</li>
-        </ol>
-      </section>
+    <article id="prosedur">
+      <h2>2. Prosedur Kerja</h2>
+      <p>Pengerjaan proyek mengikuti langkah-langkah terstruktur:</p>
+      <ol>
+        <li>Diskusi kebutuhan struktur dokumen</li>
+        <li>Penyusunan kode HTML dan konten teks</li>
+        <li>Uji coba tampilan menggunakan browser</li>
+      </ol>
+      <p>Ada pertanyaan? Kunjungi <a href="https://example.com" target="_blank">dokumentasi panduan</a>.</p>
     </article>
   </main>
 
   <footer>
-    <p><small>&copy; 2026 PT Nusa Digital Teknologi. Dokumen resmi standar ISO 27001.</small></p>
+    <p>&copy; 2026 Alex Pratama. File: <code>layanan.html</code></p>
   </footer>
 </body>
 </html>
@@ -76,210 +131,40 @@
 
 ---
 
-## Key Concepts
+## Detailed Code Breakdown
 
-### Heading Hierarchy Rules (H1-H6)
-Headings represent the structural outline of the document rather than cosmetic text sizes:
-- A page should contain exactly **one `<h1>`** indicating the core topic.
-- Never skip heading levels (e.g., jumping from `<h2>` directly to `<h4>`).
-- Subsections under an `<h2>` must always begin with `<h3>`.
-
-### Text Semantics: Meaning vs Appearance
-- `<strong>`: Denotes strong importance or seriousness (conveyed with acoustic emphasis by screen readers).
-- `<b>`: Draws visual attention without adding semantic weight.
-- `<em>`: Introduces stress emphasis into the sentence flow.
-- `<i>`: Denotes alternate voice, technical terms, or foreign language phrases.
-
-### Accessible Navigation & Skip Links
-The `<nav>` landmark wraps major navigation clusters. Placing links inside an unordered list `<ul>` informs assistive tools how many items the menu contains. Skip links (`<a href="#main-content">`) allow keyboard-only users to bypass repetitive navigation bars directly to the main body.
+- Line 16-20: `<nav>` contains inter-file navigation (`index.html`, `layanan.html`) and an in-page anchor `#prosedur`.
+- Line 22: `<time datetime="2026-10-10">` outputs machine-readable date metadata.
+- Line 31-35: `<pre>` and `<code>` display literal HTML code blocks without parsing.
+- Line 37: `id="prosedur"` serves as the anchor target for `<a href="#prosedur">`.
+- Line 46: Attribute `target="_blank"` launches the URL in a separate browser tab.
 
 ---
 
----
+## Playground Experiments
 
-## Beginner Friendly Explanation
-
-### Analogy: Table of Contents & Transit Signs
-1. **`<h1>`** is the title on the book cover. A single book cannot have two different cover titles.
-2. **`<h2>`** represents chapters, while **`<h3>`** represents sub-sections within those chapters.
-3. **`<nav>`** is the primary terminal directional sign, organizing routes so travelers know where to turn.
-4. **`<strong>`** is like a bold hazard warning: "HIGH VOLTAGE", while `<b>` is merely highlighting a glossary term for quick scanning.
-
-## Experiments
-
-- Press the TAB key to navigate through links sequentially and observe native browser focus order.
-- Click the "#main-content" skip link and observe the viewport automatically scrolling to the target anchor.
-- Move aria-current="page" to the wrong link and note how screen readers would announce the wrong active page.
-- Convert a duplicate <h1> into an <h2> and inspect the heading structure improvement in accessibility audits.
+1. Modify text or values inside the Playground editor and observe instant live preview updates.
+2. Add new complementary elements relevant to your own page structure.
+3. Test the layout across different viewport sizes to evaluate fluid responsiveness.
 
 ---
 
-## Challenge
+## Practical Challenge
 
-Build a technical documentation guide page entitled "Cloud Architecture Manual". Structure one <h1>, at least three <h2> sections with <h3> subtopics, an ordered list for deployment steps, and an accessible navigation menu with `aria-current="page"` and a skip link.
-
----
-
-## Visual Mental Model & Architecture Flow
-
-![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
-
-```diagram
-┌──────────────────────────────────────────────────────────┐
-│                   <!DOCTYPE html>                        │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ <html lang="id">                                     │ │
-│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
-│ │  │ <head> (Metadata)       │ │ <body> (Visible UI)   │ │ │
-│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
-│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
-│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
-│ │  └─────────────────────────┘ └─────────────────────┘ │ │
-│ └──────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
+Apply the core concepts of Week 2 directly inside your own project files. Verify tag pairs, attribute correctness, and consistent naming conventions.
 
 ---
 
-## Syntax Reference & Practical Guide (W3Schools Style)
+## Common Pitfalls & Debugging
 
-Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
-
-### 1. `<!DOCTYPE html>`
-- **Core Functionality:** Declaration of standar dokumen HTML5 modern.
-- **Parameters / Attributes:** `Mandatory on first line`.
-- **System Behavior & Return:** Enables rendering Standard Mode pada peramban web modern..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <title>Standar HTML5</title>
-  </head>
-  <body style="font-family:system-ui,sans-serif;padding:24px;background:#0f172a;color:white;">
-    <h1>Standar Dokumen HTML5 W3C</h1>
-    <p>Halaman dirender optimal pada mode peramban modern.</p>
-  </body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Page rendered sesuai standar W3C
-```
-
-### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Core Functionality:** Configuration of dimensi dan skala layar mobile.
-- **Parameters / Attributes:** `name='viewport', content='...'`.
-- **System Behavior & Return:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewport Demo</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
-    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h3>Layar Responsif 1:1 Aktif</h3>
-    <p>Skala layout menyesuaikan lebar viewport perangkat secara otomatis.</p>
-  </div>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Responsive layout di seluruh layar ponsel
-```
-
-### 3. `<header>, <main>, <footer>`
-- **Core Functionality:** Struktur landmark semantik aksesibilitas.
-- **Parameters / Attributes:** `Global attributes (class, id, lang)`.
-- **System Behavior & Return:** Partitions dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Semantic HTML5</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: white; }
-    header, footer { background: #1e293b; padding: 16px 24px; }
-    main { padding: 24px; background: #334155; margin: 12px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <header><h1>Portal Navigasi</h1></header>
-  <main><p>Konten utama dokumen HTML5 beraksesibilitas tinggi.</p></main>
-  <footer><small>&copy; 2026 Tryngo Platform</small></footer>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Clearly accessible oleh screen reader & mesin pencari
-```
-
-### 4. `<form action="/api" method="POST">`
-- **Core Functionality:** Kontainer pengumpulan data pengguna.
-- **Parameters / Attributes:** `action (URL), method (GET/POST)`.
-- **System Behavior & Return:** Provides wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Formulir Input</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
-    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
-    input { padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
-    button { padding: 10px; background: #10b981; color: #022c22; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <form onsubmit="event.preventDefault(); alert('Data terkirim: ' + this.user.value);">
-    <label for="user">Nama Pengguna:</label>
-    <input type="text" id="user" name="user" value="Budi Santoso" required />
-    <button type="submit">Kirim Formulir</button>
-  </form>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Formulir interaktif siap dikirim
-```
-
----
-
-## Common Pitfalls & Debugging Tips
-
-### 1. Unclosed or Mismatched Tags
-- **Symptom / Issue:** Breaks page layout and causes unexpected DOM tree nesting.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Always close matching pairs and validate HTML using linters or browser developer tools.
-
-### 2. Overusing Generic <div> Containers (Div Soup)
-- **Symptom / Issue:** Harms accessibility (screen readers) and lowers search engine ranking.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Prefer semantic markup elements like <header>, <nav>, <main>, <article>, and <footer>.
-
-### 3. Missing 'alt' on Images and 'for' on Labels
-- **Symptom / Issue:** Fails accessibility audits and creates bad UX on mobile touch targets.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Always provide descriptive alt attributes and bind input fields explicitly to form labels.
+- Typing inaccurate link targets (e.g. `layanan.htm` instead of `layanan.html`).
+- Using multiple `<h1>` tags across a single document.
+- Omitting the required `datetime` attribute on the `<time>` element.
 
 ---
 
 ## Summary
 
-You have mastered heading outlines, semantic text distinctions, and screen-reader accessible navigation. Next week, we dive into responsive media delivery and asset optimization.
+- Week 2 (Head, Text, and Links) delivers hands-on structural skills.
+- All code adheres strictly to standard valid HTML, running immediately in browser viewports and the Playground.
+- In the next module, we continue our progressive project development journey.

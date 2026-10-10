@@ -843,7 +843,7 @@ run();`,
     name: 'HTML5',
     category: 'HyperText Markup Language',
     badge: 'Semantic Web & Standards',
-    taglineId: 'Fondasi struktur dokumen web semantik modern, form input, audio/video, dan aksesibilitas (a11y).',
+    taglineId: 'Fondasi struktur dokumen web semantik, form input, audio/video, dan aksesibilitas (a11y).',
     taglineEn: 'The foundational semantic document structure of the web, forms, multimedia, and accessibility.',
     vscode: {
       recommendedExtensions: [
@@ -854,7 +854,7 @@ run();`,
     },
     installRuntime: {
       name: 'Web Browser (Chrome, Firefox, Safari, Edge)',
-      version: 'Browser Modern',
+      version: 'Browser Standar (Evergreen)',
       command: {
         windows: 'winget install Google.Chrome',
         macos: 'brew install --cask google-chrome',
@@ -894,7 +894,7 @@ run();`,
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Semantik Modern</title>
+  <title>Website Semantik</title>
 </head>
 <body style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px;">
   <header>
