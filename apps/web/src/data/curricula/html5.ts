@@ -9,7 +9,7 @@ export const html5Curriculum: LevelInfo[] = [
     descId: 'Membangun pondasi dokumen web semantik dari nol: tag standar, hierarki teks, navigasi, dan media responsif.',
     descEn: 'Build semantic web document foundations from scratch: standard tags, text hierarchy, navigation, and responsive media.',
     weeks: [
-      { week: 1, topicId: 'struktur-dokumen-semantik', titleId: 'Struktur Dokumen Standar & Metadata Head', titleEn: 'Standard Document Structure & Head Metadata' },
+      { week: 1, topicId: 'struktur-dokumen-semantik', titleId: 'Pengenalan HTML, Anatomi Tag, Struktur Dokumen & Quick Start', titleEn: 'HTML Introduction, Tag Anatomy, Document Structure & Quick Start' },
       { week: 2, topicId: 'hierarki-teks-dan-navigasi', titleId: 'Hierarki Teks, Tipografi Semantik & Navigasi Antar Halaman', titleEn: 'Text Hierarchy, Semantic Typography & Navigation Links' },
       { week: 3, topicId: 'media-dan-gambar-responsif', titleId: 'Media Responsif: Elemen Picture, Gambar Srcset & Multimedia', titleEn: 'Responsive Media: Picture Element, Srcset Images & Multimedia' },
       { week: 4, topicId: 'tabel-data-terstruktur', titleId: 'Tabel Data Terstruktur: Thead, Tbody, Scope & Keterangan Aksesibel', titleEn: 'Structured Data Tables: Thead, Tbody, Scope & Captioning' }
