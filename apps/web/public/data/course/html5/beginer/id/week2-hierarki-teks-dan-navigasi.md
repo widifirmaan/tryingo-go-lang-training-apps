@@ -1,20 +1,74 @@
-# Hierarki Teks, Tipografi Semantik & Navigasi Antar Halaman
+# Head, Teks, dan Link
 
-> **Kategori:** HTML5 | **Level:** Struktur & Semantik Web | **Minggu 2:** Hierarki Teks, Tipografi Semantik & Navigasi Antar Halaman
-> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
-
+> **Kategori:** HTML5 | **Level:** Dasar HTML | **Minggu 2:** Head, Teks, dan Link
+> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
-- Menerapkan aturan hierarki heading tunggal <h1> dan penomoran logis <h2> hingga <h6> tanpa melewatkan tingkatan
-- Membedakan penggunaan elemen penekanan makna: <strong> vs <b>, dan <em> vs <i>
-- Membangun menu navigasi semantik menggunakan tag <nav> dan unordered list <ul>
-- Menghubungkan navigasi internal dengan anchor jump link menggunakan id (#konten-utama)
-- Menggunakan atribut aria-current="page" untuk menginformasikan halaman yang sedang aktif
+- Memahami konfigurasi elemen <head>: <title>, favicon <link rel="icon">, dan <link rel="stylesheet">
+- Menguasai hierarki heading <h1> sampai <h6> secara teratur untuk keterbacaan dan SEO
+- Menggunakan tag format teks: <p>, <strong>, <em>, <pre>, <code>, <time>, dan <br>
+- Membuat file halaman kedua (layanan.html) di dalam folder proyek
+- Menghubungkan halaman menggunakan tag link <a href="...">, path relatif (./, ../), dan bookmark #id
 
 ---
 
-## Program: Struktur Konten Berjenjang dengan Navigasi Aksesibel
+## 1. Membedah Elemen <head> Secara Rinci
+
+Elemen `<head>` adalah pusat kendali metadata dokumen yang tidak tampil langsung di kanvas halaman:
+
+1. **`<title>`**: Menentukan teks judul pada tab browser dan hasil pencarian mesin pencari.
+2. **`<link rel="icon" href="favicon.ico">`**: Menampilkan ikon logo kecil pada tab browser di sebelah judul.
+3. **`<link rel="stylesheet" href="style.css">`**: Menghubungkan file kode CSS eksternal ke dalam dokumen HTML.
+4. **`<meta name="description" content="...">`**: Deskripsi ringkas isi halaman untuk hasil pencarian Google.
+
+---
+
+## 2. Tipografi dan Hierarki Teks
+
+HTML menyediakan tag semantik untuk menyusun hierarki tulisan:
+- **Heading (`<h1>` s/d `<h6>`):**
+  - `<h1>`: Judul utama halaman (hanya boleh ada satu `<h1>` per dokumen).
+  - `<h2>`: Judul sub-bab besar.
+  - `<h3>` s/d `<h6>`: Sub-bagian yang lebih kecil secara berurutan. Jangan pernah melompati tingkatan (misal dari `<h2>` langsung ke `<h4>`).
+- **Paragraf & Format Teks:**
+  - `<p>`: Paragraf teks biasa.
+  - `<strong>`: Menandai teks penting secara makna (tampil tebal).
+  - `<em>`: Memberi penekanan bacaan (*emphasis*, tampil miring).
+  - `<code>` & `<pre>`: Menampilkan cuplikan kode komputer dengan font monospace.
+  - `<time datetime="2026-10-10">`: Menandai format tanggal agar terbaca oleh mesin crawler.
+
+---
+
+## 3. Struktur File Proyek dan Navigasi Halaman
+
+Dalam proyek website nyata, kita tidak hanya membuat satu file. Kita menyusun beberapa file dalam satu folder:
+
+```text
+my-website/
+├── index.html        # Halaman Beranda (Halaman Utama)
+├── layanan.html      # Halaman Daftar Layanan (Halaman Kedua)
+└── css/
+    └── style.css     # File CSS Eksternal
+```
+
+### Cara Membuat File Baru dan Menghubungkannya:
+1. Di VS Code, buat file baru di samping `index.html` dengan nama `layanan.html`.
+2. Di dalam file `index.html`, tambahkan link menuju file kedua menggunakan tag `<a>`:
+```html
+<nav>
+  <a href="index.html">Beranda</a> |
+  <a href="layanan.html">Layanan</a>
+</nav>
+```
+3. **Jenis-Jenis Link:**
+   - **Link Internal:** `<a href="layanan.html">` (berpindah ke file lain di folder yang sama).
+   - **Link Eksternal:** `<a href="https://example.com" target="_blank">` (membuka website luar di tab baru).
+   - **Link Bookmark:** `<a href="#biaya">` (melompat ke elemen dengan `id="biaya"` di halaman yang sama).
+
+---
+
+## Program: Halaman Layanan dengan Navigasi dan Tipografi Terstruktur
 
 ```html
 <!DOCTYPE html>
@@ -22,53 +76,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layanan Rekayasa — Nusa Digital</title>
+  <title>Layanan Web — Alex Pratama</title>
+  <style>
+    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
+    nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
+    nav a:hover { text-decoration: underline; }
+    article { margin-bottom: 24px; }
+    .meta-date { color: #64748b; font-size: 13px; }
+    .code-box { background: #0f172a; color: #f8fafc; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; overflow-x: auto; }
+  </style>
 </head>
 <body>
   <header>
-    <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
-    <p><strong>Nusa Digital</strong></p>
-    <nav aria-label="Navigasi Utama">
-      <ul>
-        <li><a href="index.html">Beranda</a></li>
-        <li><a href="layanan.html" aria-current="page">Layanan</a></li>
-        <li><a href="tentang.html">Tentang Kami</a></li>
-        <li><a href="kontak.html">Hubungi Kami</a></li>
-      </ul>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="layanan.html">Layanan</a>
+      <a href="#prosedur">Prosedur Kerja</a>
     </nav>
+    <h1>Daftar Layanan Pembuatan Website</h1>
+    <p class="meta-date">Diterbitkan pada: <time datetime="2026-10-10">10 Oktober 2026</time></p>
   </header>
 
-  <main id="konten-utama">
+  <main>
     <article>
-      <h1>Solusi Layanan Rekayasa Perangkat Lunak</h1>
-      <p>Kami menyediakan arsitektur komputasi modern yang dirancang untuk skala jutaan pengguna aktif harian.</p>
+      <h2>1. Pembuatan Website Profil Perusahaan</h2>
+      <p>Membangun struktur web menggunakan <strong>HTML semantik</strong> agar halaman cepat dimuat dan mudah ditemukan di mesin pencari.</p>
+      <p>Setiap dokumen web dibuat dengan kode bersih seperti berikut:</p>
+      
+      <pre class="code-box"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+  &lt;body&gt;Halaman Siap Pakai&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </article>
 
-      <section>
-        <h2>1. Arsitektur Cloud & Backend Berkecepatan Tinggi</h2>
-        <p>Pengembangan sistem terdistribusi menggunakan Go dan Rust dengan protokol <em>gRPC</em> dan penyimpanan terkelola.</p>
-        <p>Karakteristik performa layanan kami:</p>
-        <ul>
-          <li>Latensi respon rata-rata di bawah <strong>15 milidetik</strong></li>
-          <li>Uptime operasional tahunan mencapai <strong>99.99%</strong></li>
-          <li>Dukungan auto-scaling dinamis berbasis beban CPU</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>2. Alur Pelaksanaan Proyek</h2>
-        <p>Langkah sistematis dari evaluasi kebutuhan hingga deployment produksi:</p>
-        <ol>
-          <li>Analisis domain dan perancangan kontrak API</li>
-          <li>Implementasi kode inti beserta unit testing menyeluruh</li>
-          <li>Uji penetrasi keamanan dan benchmarking latensi</li>
-          <li>Deployment otomatis menggunakan pipeline CI/CD</li>
-        </ol>
-      </section>
+    <article id="prosedur">
+      <h2>2. Prosedur Kerja</h2>
+      <p>Pengerjaan proyek mengikuti langkah-langkah terstruktur:</p>
+      <ol>
+        <li>Diskusi kebutuhan struktur dokumen</li>
+        <li>Penyusunan kode HTML dan konten teks</li>
+        <li>Uji coba tampilan menggunakan browser</li>
+      </ol>
+      <p>Ada pertanyaan? Kunjungi <a href="https://example.com" target="_blank">dokumentasi panduan</a>.</p>
     </article>
   </main>
 
   <footer>
-    <p><small>&copy; 2026 PT Nusa Digital Teknologi. Dokumen resmi standar ISO 27001.</small></p>
+    <p>&copy; 2026 Alex Pratama. File: <code>layanan.html</code></p>
   </footer>
 </body>
 </html>
@@ -76,210 +131,40 @@
 
 ---
 
-## Konsep Kunci
+## Bedah Detail Kode Program
 
-### Aturan Hierarki Heading (H1-H6)
-Heading bukan sekadar pengubah ukuran teks visual, melainkan daftar isi dokumen untuk mesin pencari dan pembaca layar:
-- Hanya ada **satu `<h1>`** per halaman yang merepresentasikan topik sentral dokumen.
-- Jangan pernah melompati tingkatan (misal dari `<h2>` langsung ke `<h4>`).
-- Bagian subtopik dari `<h2>` harus selalu diawali dengan `<h3>`.
-
-### Semantik Teks: Makna vs Tampilan
-- `<strong>`: Menyatakan bahwa konten memiliki kepentingan atau urgensi tinggi (dibaca dengan penekanan oleh screen reader).
-- `<b>`: Menebalkan huruf semata-mata untuk menarik perhatian visual tanpa memberi arti penting ekstra.
-- `<em>`: Memberi tekanan intonasi percakapan pada sebuah kata (*stress emphasis*).
-- `<i>`: Digunakan untuk istilah teknis, nama latin, atau idiom asing.
-
-### Navigasi Semantik dan Tautan Lompat
-Elemen `<nav>` membungkus tautan navigasi utama. Penggunaan list `<ul>` di dalamnya memberi informasi kepada pembaca layar mengenai jumlah tautan yang tersedia (misal: "List 4 items"). Tautan lompat (*skip link*) `<a href="#konten-utama">` memungkinkan pengguna papan ketik melewati menu panjang langsung ke konten utama.
+- Line 16-20: `<nav>` menyediakan link navigasi antar file (`index.html` dan `layanan.html`) serta bookmark link `#prosedur`.
+- Line 22: Tag `<time datetime="2026-10-10">` memberikan format tanggal yang terbaca mesin.
+- Line 31-35: Tag `<pre>` dan `<code>` menampilkan blok kode HTML tanpa dirender oleh browser.
+- Line 37: `id="prosedur"` menjadi target lompat untuk link `<a href="#prosedur">`.
+- Line 46: Atribut `target="_blank"` membuka tautan di tab baru.
 
 ---
 
----
+## Eksperimen di Playground
 
-## Penjelasan untuk Pemula
-
-### Analogi: Daftar Isi Buku & Rambu Jalan
-1. **`<h1>`** adalah judul sampul buku. Tidak mungkin satu buku punya dua judul sampul yang berbeda.
-2. **`<h2>`** adalah judul bab, sedangkan **`<h3>`** adalah sub-bab di dalam bab tersebut.
-3. **`<nav>`** adalah papan petunjuk arah di stasiun kereta: mengumpulkan nama-nama peron tujuan agar penumpang tidak tersesat.
-4. **`<strong>`** seperti mencetak tebal peringatan "DILARANG MEROKOK", sedangkan `<b>` seperti menebalkan kata kunci sekadar agar gampang dicari saat membuka kamus.
-
-## Eksperimen
-
-- Gunakan tombol TAB pada keyboard untuk berpindah dari satu tautan ke tautan berikutnya, dan perhatikan urutan fokus alami browser.
-- Coba klik tautan skip-link "#konten-utama" dan amati bagaimana browser menggulir layar langsung ke elemen target.
-- Hapus atribut aria-current="page" lalu pasang di halaman yang salah, dan renungkan bagaimana pengguna tunanetra bisa keliru memahami lokasi halaman saat ini.
-- Ganti tag <h1> kedua yang sengaja ditambahkan menjadi <h2>, dan periksa peningkatan skor validitas heading di extension Lighthouse.
+1. Ubah teks atau data pada kode program di Playground dan amati hasil perubahannya secara instan.
+2. Coba tambahkan elemen baru sesuai kebutuhan halaman Anda.
+3. Uji tampilan kode di ukuran layar yang berbeda untuk memeriksa kelenturan layout.
 
 ---
 
-## Tantangan
+## Tantangan Praktik
 
-Buat halaman navigasi dokumentasi teknis bertema "Panduan Arsitektur Cloud". Susun satu <h1>, minimal tiga <h2> (Masing-masing memiliki sub-bab <h3>), daftar berurutan untuk alur instalasi, serta menu navigasi lengkap dengan atribut `aria-current="page"` dan skip-link.
-
----
-
-## Model Mental & Diagram Alur Visual
-
-![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
-
-```diagram
-┌──────────────────────────────────────────────────────────┐
-│                   <!DOCTYPE html>                        │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ <html lang="id">                                     │ │
-│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
-│ │  │ <head> (Metadata)       │ │ <body> (Tampilan)   │ │ │
-│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
-│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
-│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
-│ │  └─────────────────────────┘ └─────────────────────┘ │ │
-│ └──────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
-
----
-
-## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
-
-Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
-
-### 1. `<!DOCTYPE html>`
-- **Fungsi Utama:** Deklarasi standar dokumen HTML5 modern.
-- **Parameter / Atribut:** `Wajib di baris paling pertama`.
-- **Perilaku & Efek Sistem:** Mengaktifkan rendering Standard Mode pada peramban web modern..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <title>Standar HTML5</title>
-  </head>
-  <body style="font-family:system-ui,sans-serif;padding:24px;background:#0f172a;color:white;">
-    <h1>Standar Dokumen HTML5 W3C</h1>
-    <p>Halaman dirender optimal pada mode peramban modern.</p>
-  </body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Halaman dirender sesuai standar W3C
-```
-
-### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Fungsi Utama:** Pengaturan dimensi dan skala layar mobile.
-- **Parameter / Atribut:** `name='viewport', content='...'`.
-- **Perilaku & Efek Sistem:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewport Demo</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
-    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h3>Layar Responsif 1:1 Aktif</h3>
-    <p>Skala layout menyesuaikan lebar viewport perangkat secara otomatis.</p>
-  </div>
-</body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Tampilan responsif di seluruh layar ponsel
-```
-
-### 3. `<header>, <main>, <footer>`
-- **Fungsi Utama:** Struktur landmark semantik aksesibilitas.
-- **Parameter / Atribut:** `Global attributes (class, id, lang)`.
-- **Perilaku & Efek Sistem:** Membagi dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Semantic HTML5</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: white; }
-    header, footer { background: #1e293b; padding: 16px 24px; }
-    main { padding: 24px; background: #334155; margin: 12px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <header><h1>Portal Navigasi</h1></header>
-  <main><p>Konten utama dokumen HTML5 beraksesibilitas tinggi.</p></main>
-  <footer><small>&copy; 2026 Tryngo Platform</small></footer>
-</body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Terbaca jelas oleh screen reader & mesin pencari
-```
-
-### 4. `<form action="/api" method="POST">`
-- **Fungsi Utama:** Kontainer pengumpulan data pengguna.
-- **Parameter / Atribut:** `action (URL), method (GET/POST)`.
-- **Perilaku & Efek Sistem:** Menyediakan wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Formulir Input</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
-    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
-    input { padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
-    button { padding: 10px; background: #10b981; color: #022c22; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <form onsubmit="event.preventDefault(); alert('Data terkirim: ' + this.user.value);">
-    <label for="user">Nama Pengguna:</label>
-    <input type="text" id="user" name="user" value="Budi Santoso" required />
-    <button type="submit">Kirim Formulir</button>
-  </form>
-</body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Formulir interaktif siap dikirim
-```
+Terapkan konsep Minggu 2 ini pada file proyek Anda sendiri. Pastikan kode memiliki kurung sudut lengkap, tag penutup yang benar, serta penamaan class atau id yang rapi.
 
 ---
 
 ## Jebakan Umum & Debugging (Common Pitfalls)
 
-### 1. Tag bersarang tidak tertutup (Unclosed/Mismatched Tags)
-- **Gejala / Masalah:** Tata letak halaman rusak atau elemen inline menelan elemen block.
-- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
-- **Solusi Tepat:** Selalu tutup tag berpasangan dan manfaatkan validator HTML5 atau auto-closing tag di VS Code.
-
-### 2. Penggunaan tag <div> berlebihan (Div Soup)
-- **Gejala / Masalah:** Website sulit diakses pembaca layar (screen reader) dan skor SEO menurun drastis.
-- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
-- **Solusi Tepat:** Gunakan tag semantik seperti <header>, <nav>, <main>, <article>, dan <footer>.
-
-### 3. Lupa atribut 'alt' pada <img> dan 'for' pada <label>
-- **Gejala / Masalah:** Skor aksesibilitas (a11y) merah dan form sulit diklik pada perangkat layar sentuh.
-- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
-- **Solusi Tepat:** Selalu sertakan deskripsi alt yang bermakna dan hubungkan label dengan id input terkait.
+- Menulis path link yang salah (misal: `layanan.htm` alih-alih `layanan.html`).
+- Menggunakan lebih dari satu tag `<h1>` pada satu file dokumen.
+- Lupa memberikan atribut `datetime` pada tag `<time>`.
 
 ---
 
 ## Ringkasan
 
-Kamu telah menguasai penataan hierarki heading standar industri, pemisahan arti teks semantik, dan navigasi ramah pembaca layar. Minggu depan kita akan mempelajari penanganan media responsif dan optimalisasi aset visual.
+- Modul Minggu 2 (Head, Teks, dan Link) melatih pemahaman struktural secara praktis.
+- Seluruh kode yang dipelajari mematuhi standar HTML valid dan dapat langsung dijalankan di browser maupun Playground.
+- Di modul berikutnya, kita akan melanjutkan langkah pembangunan proyek ke tingkat materi selanjutnya.

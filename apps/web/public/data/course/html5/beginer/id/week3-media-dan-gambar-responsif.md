@@ -1,20 +1,68 @@
-# Media Responsif: Elemen Picture, Gambar Srcset & Multimedia
+# Body, Layout Semantik, dan Gambar
 
-> **Kategori:** HTML5 | **Level:** Struktur & Semantik Web | **Minggu 3:** Media Responsif: Elemen Picture, Gambar Srcset & Multimedia
-> ⏱️ **Estimasi Belajar:** 45 Menit (15m teori, 30m praktik) | 🔗 **Tingkat:** Terstruktur (Step-by-step)
-
+> **Kategori:** HTML5 | **Level:** Dasar HTML | **Minggu 3:** Body, Layout Semantik, dan Gambar
+> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
-- Menulis tag <img> dengan atribut wajib alt yang deskriptif dan informatif
-- Mencegah Cumulative Layout Shift (CLS) dengan selalu menyertakan atribut width dan height
-- Menggunakan elemen <picture> beserta tag <source> untuk penyajian format WebP/AVIF modern
-- Mengaktifkan pemuatan bertahap native dengan loading="lazy" dan decoding="async"
-- Menyematkan media <video> dan <audio> native lengkap dengan fallback dan subtitle WebVTT (<track>)
+- Memahami arsitektur tag semantik layout: <header>, <nav>, <main>, <section>, <article>, <aside>, dan <footer>
+- Membedakan elemen Block (<div>, <p>, <section>) dan elemen Inline (<span>, <a>, <strong>)
+- Menyisipkan media gambar dengan atribut wajib: <img> (src, alt, width, height)
+- Mengelompokkan gambar dengan keterangan menggunakan tag <figure> dan <figcaption>
+- Menyusun struktur list tak berurutan (<ul>) dan berurutan (<ol>) dengan item (<li>)
 
 ---
 
-## Program: Penyajian Gambar Adaptif & Audio-Video HTML5 Native
+## 1. Arsitektur Layout Semantik di Dalam <body>
+
+Dalam HTML5, kita tidak menyusun seluruh halaman hanya menggunakan kotak `<div>`. Kita menggunakan **elemen semantik** yang memiliki makna tujuan:
+
+- **`<header>`**: Bagian kepala atau pengantar situs, berisi logo dan nama situs.
+- **`<nav>`**: Area khusus yang memuat tautan navigasi utama.
+- **`<main>`**: Area konten inti yang unik untuk halaman tersebut (hanya boleh ada satu `<main>` per halaman).
+- **`<section>`**: Pengelompokan konten tematik atau bab isi (misal: bagian tentang, bagian portofolio).
+- **`<article>`**: Bagian konten mandiri yang dapat didistribusikan sendiri (misal: satu artikel berita, satu kartu produk).
+- **`<aside>`**: Konten pelengkap di sisi samping (misal: info tambahan, profil singkat).
+- **`<footer>`**: Bagian kaki halaman, berisi hak cipta, tautan legalitas, dan info kontak.
+
+---
+
+## 2. Elemen Block vs Elemen Inline
+
+Setiap elemen HTML memiliki perilaku tampilan bawaan:
+
+| Kategori | Karakteristik | Contoh Tag |
+|---|---|---|
+| **Elemen Block** | Selalu memulai baris baru dan memenuhi lebar halaman 100% | `<div>`, `<p>`, `<h1>`-`<h6>`, `<section>`, `<header>`, `<ul>` |
+| **Elemen Inline** | Berada di dalam baris teks dan hanya selebar kontennya | `<span>`, `<a>`, `<strong>`, `<em>`, `<code>`, `<time>` |
+
+- **`<div>`**: Wadah pembungkus block umum tanpa makna khusus, digunakan untuk grouping layout CSS.
+- **`<span>`**: Wadah pembungkus inline umum, digunakan untuk menandai beberapa kata di tengah kalimat.
+
+---
+
+## 3. Menyisipkan Gambar: <img> dan <figure>
+
+Untuk menampilkan gambar, gunakan tag void `<img>`:
+```html
+<img src="images/profil.jpg" alt="Foto profil Alex Pratama" width="300" height="200">
+```
+- **`src`**: Alur lokasi file gambar (*Source*).
+- **`alt`**: Teks alternatif jika gambar gagal dimuat, serta dibaca oleh pembaca layar (*screen reader*). Atribut ini wajib ada demi aksesibilitas dan SEO.
+- **`width` & `height`**: Menentukan ukuran gambar agar browser dapat mengalokasikan ruang sebelum gambar selesai diunduh (*mencegah layout shift*).
+
+### Menggunakan <figure> dan <figcaption>:
+Jika gambar memiliki keterangan foto (*caption*), bungkus dengan `<figure>`:
+```html
+<figure>
+  <img src="images/kantor.jpg" alt="Ruang kerja studio">
+  <figcaption>Gambar 1: Suasana ruang kerja studio desain kami.</figcaption>
+</figure>
+```
+
+---
+
+## Program: Tata Letak Semantik Halaman Beranda dengan Media Gambar
 
 ```html
 <!DOCTYPE html>
@@ -22,261 +70,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aset Multimedia — Nusa Digital</title>
+  <title>Beranda Portofolio — Alex Pratama</title>
+  <style>
+    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }
+    nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 12px; }
+    .layout-wrapper { display: flex; gap: 20px; flex-direction: column; }
+    section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; }
+    figure { margin: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; }
+    figcaption { color: #64748b; font-size: 13px; margin-top: 6px; }
+    footer { margin-top: 32px; border-top: 1px solid #e2e8f0; padding-top: 12px; color: #64748b; font-size: 13px; }
+  </style>
 </head>
 <body>
-  <main>
-    <article>
-      <h1>Pusat Dokumentasi Media & Galeri Infrastruktur</h1>
+  <header>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="layanan.html">Layanan</a>
+    </nav>
+    <h1>Studio Web Alex Pratama</h1>
+  </header>
 
-      <section>
-        <h2>1. Server Data Center Utama (Format Gambar Modern)</h2>
-        <p>Arsitektur penyajian gambar multi-resolusi untuk menghemat bandwidth seluler:</p>
+  <main class="layout-wrapper">
+    <section>
+      <h2>Profil Studio</h2>
+      <p>Kami menyusun dokumen web menggunakan tag semantik HTML5 yang rapi, aksesibel, dan terstruktur.</p>
 
-        <!-- Elemen picture untuk art direction dan format next-gen -->
-        <picture>
-          <source media="(min-width: 1024px)" srcset="datacenter-large.webp" type="image/webp">
-          <source media="(min-width: 640px)" srcset="datacenter-medium.webp" type="image/webp">
-          <source srcset="datacenter-small.webp" type="image/webp">
-          <img src="datacenter-fallback.jpg" 
-               alt="Rak server enterprise Nusa Digital dengan indikator LED aktif di ruang kontrol berpendingin presisi"
-               width="800" 
-               height="450" 
-               loading="lazy" 
-               decoding="async">
-        </picture>
-        <p><small>Gambar di atas otomatis menyajikan WebP untuk browser modern dan fallback JPEG untuk kompatibilitas lama.</small></p>
-      </section>
+      <figure>
+        <img 
+          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&auto=format&fit=crop&q=60" 
+          alt="Laptop menampilkan baris kode pemrograman di atas meja kerja" 
+          width="480" 
+          style="max-width: 100%; height: auto; border-radius: 4px;"
+        >
+        <figcaption>Dokumentasi: Lingkungan kerja perancangan struktur website.</figcaption>
+      </figure>
+    </section>
 
-      <section>
-        <h2>2. Video Pengenalan Fasilitas</h2>
-        <video controls width="640" height="360" poster="video-cover.jpg" preload="metadata">
-          <source src="nusa-overview.mp4" type="video/mp4">
-          <source src="nusa-overview.webm" type="video/webm">
-          <track kind="subtitles" src="subtitles-id.vtt" srclang="id" label="Bahasa Indonesia" default>
-          <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
-          Browser Anda tidak mendukung pemutaran video HTML5 native.
-        </video>
-      </section>
-
-      <section>
-        <h2>3. Podcast Rekayasa Perangkat Lunak</h2>
-        <audio controls preload="none">
-          <source src="episode-01.mp3" type="audio/mpeg">
-          <source src="episode-01.ogg" type="audio/ogg">
-          Browser Anda tidak mendukung elemen audio HTML5.
-        </audio>
-      </section>
-    </article>
+    <section>
+      <h2>Daftar Keahlian Dasar</h2>
+      <ul>
+        <li>Struktur Dokumen Semantik (HTML5)</li>
+        <li>Format Teks dan Hierarki Heading</li>
+        <li>Navigasi Antar Berkas dan Bookmark</li>
+        <li>Media Gambar Terstruktur (<figure>)</li>
+      </ul>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2026 Studio Web Alex Pratama. Berkas: <code>index.html</code></p>
+  </footer>
 </body>
 </html>
 ```
 
 ---
 
-## Konsep Kunci
+## Bedah Detail Kode Program
 
-### Atribut Alt dan Pencegahan CLS
-Atribut `alt` sangat krusial: jika gambar gagal dimuat atau dibaca oleh tuna netra, teks ini menjelaskan konteks visual gambar. Atribut `width` dan `height` memberitahu browser aspek rasio gambar sebelum file selesai diunduh, mencegah lonjakan layout mendadak (*Cumulative Layout Shift*).
-
-### Elemen <picture> vs <img> dengan srcset
-Elemen `<picture>` memberikan kendali penuh kepada developer (*Art Direction* dan format negosiasi):
-- Tag `<source type="image/webp">` menyajikan format modern berukuran lebih kecil.
-- Tag `<img src="...">` di bagian paling bawah berfungsi sebagai *fallback* mutlak untuk browser lawas.
-
-### Native Lazy Loading
-Menambahkan `loading="lazy"` menginstruksikan browser untuk menunda pengunduhan gambar di luar layar (*below the fold*) sampai pengguna mendekati posisi scroll gambar tersebut, menghemat memori dan mempercepat waktu muat awal halaman.
-
-### Aksesibilitas Multimedia (<track>)
-Tag `<track kind="subtitles">` menyertakan file WebVTT (.vtt) agar dialog video dapat dibaca oleh penyandang tunarungu atau pengguna di lingkungan bising tanpa suara.
+- Line 18-24: `<header>` membungkus navigasi `<nav>` dan judul situs `<h1>`.
+- Line 26-49: `<main>` memuat dua elemen `<section>` tematik: profil studio dan daftar keahlian.
+- Line 31-38: `<figure>` dan `<figcaption>` menyajikan gambar bersama keterangan foto secara semantik.
+- Line 41-47: `<ul>` dan `<li>` menampilkan daftar keahlian dasar dalam bentuk poin.
+- Line 51-53: `<footer>` memuat informasi hak cipta di bagian paling bawah halaman.
 
 ---
 
----
+## Eksperimen di Playground
 
-## Penjelasan untuk Pemula
-
-### Analogi: Pelayan Restoran dan Ukuran Meja
-1. **`width` & `height` pada gambar** seperti menelepon restoran memesan meja: "Saya datang 4 orang". Pelayan langsung menyisihkan meja berkapasitas 4 orang. Tanpa reservasi ukuran, piring makanan datang tiba-tiba dan meja harus digeser dadakan (itulah yang disebut CLS).
-2. **`<picture>`** seperti menu restoran bilingual: pelayan melihat tamu, jika tamu berbahasa Indonesia disodorkan buku menu bahasa Indonesia, jika turis disodorkan bahasa Inggris.
-3. **`<track>` subtitle** seperti teks terjemahan di bioskop saat film asing ditayangkan.
-
-## Eksperimen
-
-- Sengaja rusak nama file gambar di atribut src dan periksa teks alternatif apa yang ditampilkan di layar pengganti.
-- Hapus atribut width dan height pada koneksi internet lambat (DevTools Slow 3G) lalu amati bagaimana teks di bawah gambar melompat turun saat gambar selesai dimuat.
-- Coba buka video tanpa tag <track> dan amati ketiadaan tombol closed-caption (CC) pada pemutar video native browser.
-- Ubah preload="none" menjadi preload="auto" pada elemen audio dan amati aktivitas tab Network browser saat halaman pertama kali dibuka.
+1. Ubah teks atau data pada kode program di Playground dan amati hasil perubahannya secara instan.
+2. Coba tambahkan elemen baru sesuai kebutuhan halaman Anda.
+3. Uji tampilan kode di ukuran layar yang berbeda untuk memeriksa kelenturan layout.
 
 ---
 
-## Tantangan
+## Tantangan Praktik
 
-Bangun modul galeri produk untuk "Toko Jam Tangan Mahakarya". Gunakan elemen `<picture>` dengan 3 variasi ukuran sumber gambar (mobile, tablet, desktop) dan WebP, sertakan width/height, pemuatan `loading="lazy"`, serta pemutar video review produk lengkap dengan 1 trek subtitle WebVTT bahasa Indonesia.
-
----
-
-## Model Mental & Diagram Alur Visual
-
-![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
-
-```diagram
-┌──────────────────────────────────────────────────────────┐
-│                   <!DOCTYPE html>                        │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ <html lang="id">                                     │ │
-│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
-│ │  │ <head> (Metadata)       │ │ <body> (Tampilan)   │ │ │
-│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
-│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
-│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
-│ │  └─────────────────────────┘ └─────────────────────┘ │ │
-│ └──────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
-
----
-
-## Panduan Sintaks & Referensi Lengkap (W3Schools Style)
-
-Berikut adalah rincian sintaks, parameter, nilai kembalian, dan contoh penggunaan praktis yang diperkenalkan pada modul ini:
-
-### 1. `<!DOCTYPE html>`
-- **Fungsi Utama:** Deklarasi standar dokumen HTML5 modern.
-- **Parameter / Atribut:** `Wajib di baris paling pertama`.
-- **Perilaku & Efek Sistem:** Mengaktifkan rendering Standard Mode pada peramban web modern..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <title>Standar HTML5</title>
-  </head>
-  <body style="font-family:system-ui,sans-serif;padding:24px;background:#0f172a;color:white;">
-    <h1>Standar Dokumen HTML5 W3C</h1>
-    <p>Halaman dirender optimal pada mode peramban modern.</p>
-  </body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Halaman dirender sesuai standar W3C
-```
-
-### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Fungsi Utama:** Pengaturan dimensi dan skala layar mobile.
-- **Parameter / Atribut:** `name='viewport', content='...'`.
-- **Perilaku & Efek Sistem:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewport Demo</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
-    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h3>Layar Responsif 1:1 Aktif</h3>
-    <p>Skala layout menyesuaikan lebar viewport perangkat secara otomatis.</p>
-  </div>
-</body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Tampilan responsif di seluruh layar ponsel
-```
-
-### 3. `<header>, <main>, <footer>`
-- **Fungsi Utama:** Struktur landmark semantik aksesibilitas.
-- **Parameter / Atribut:** `Global attributes (class, id, lang)`.
-- **Perilaku & Efek Sistem:** Membagi dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Semantic HTML5</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: white; }
-    header, footer { background: #1e293b; padding: 16px 24px; }
-    main { padding: 24px; background: #334155; margin: 12px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <header><h1>Portal Navigasi</h1></header>
-  <main><p>Konten utama dokumen HTML5 beraksesibilitas tinggi.</p></main>
-  <footer><small>&copy; 2026 Tryngo Platform</small></footer>
-</body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Terbaca jelas oleh screen reader & mesin pencari
-```
-
-### 4. `<form action="/api" method="POST">`
-- **Fungsi Utama:** Kontainer pengumpulan data pengguna.
-- **Parameter / Atribut:** `action (URL), method (GET/POST)`.
-- **Perilaku & Efek Sistem:** Menyediakan wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
-- **Contoh Penggunaan Praktis:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Formulir Input</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
-    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
-    input { padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
-    button { padding: 10px; background: #10b981; color: #022c22; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <form onsubmit="event.preventDefault(); alert('Data terkirim: ' + this.user.value);">
-    <label for="user">Nama Pengguna:</label>
-    <input type="text" id="user" name="user" value="Budi Santoso" required />
-    <button type="submit">Kirim Formulir</button>
-  </form>
-</body>
-</html>
-```
-- **Hasil Output yang Diharapkan:**
-```output
-Formulir interaktif siap dikirim
-```
+Terapkan konsep Minggu 3 ini pada file proyek Anda sendiri. Pastikan kode memiliki kurung sudut lengkap, tag penutup yang benar, serta penamaan class atau id yang rapi.
 
 ---
 
 ## Jebakan Umum & Debugging (Common Pitfalls)
 
-### 1. Tag bersarang tidak tertutup (Unclosed/Mismatched Tags)
-- **Gejala / Masalah:** Tata letak halaman rusak atau elemen inline menelan elemen block.
-- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
-- **Solusi Tepat:** Selalu tutup tag berpasangan dan manfaatkan validator HTML5 atau auto-closing tag di VS Code.
-
-### 2. Penggunaan tag <div> berlebihan (Div Soup)
-- **Gejala / Masalah:** Website sulit diakses pembaca layar (screen reader) dan skor SEO menurun drastis.
-- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
-- **Solusi Tepat:** Gunakan tag semantik seperti <header>, <nav>, <main>, <article>, dan <footer>.
-
-### 3. Lupa atribut 'alt' pada <img> dan 'for' pada <label>
-- **Gejala / Masalah:** Skor aksesibilitas (a11y) merah dan form sulit diklik pada perangkat layar sentuh.
-- **Penyebab Utama:** Logika atau asumsi yang sering keliru pada tahap awal implementasi.
-- **Solusi Tepat:** Selalu sertakan deskripsi alt yang bermakna dan hubungkan label dengan id input terkait.
+- Lupa menyertakan atribut `alt` pada tag `<img>`.
+- Menggunakan tag `<div>` untuk seluruh struktur tanpa memanfaatkan tag semantik seperti `<section>` atau `<header>`.
+- Memasukkan elemen block di dalam elemen inline (misalnya membungkus `<p>` di dalam `<span>`).
 
 ---
 
 ## Ringkasan
 
-Kamu telah menguasai optimasi gambar adaptif, pencegahan pergeseran tata letak (CLS), dan implementasi media audio-video aksesibel. Minggu depan kita akan mempelajari penyajian data tabular yang terstruktur.
+- Modul Minggu 3 (Body, Layout Semantik, dan Gambar) melatih pemahaman struktural secara praktis.
+- Seluruh kode yang dipelajari mematuhi standar HTML valid dan dapat langsung dijalankan di browser maupun Playground.
+- Di modul berikutnya, kita akan melanjutkan langkah pembangunan proyek ke tingkat materi selanjutnya.

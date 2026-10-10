@@ -1,20 +1,65 @@
-# Structured Data Tables: Thead, Tbody, Scope & Captioning
+# Tables and First Project
 
-> **Kategori:** HTML5 | **Level:** Structure & Web Semantics | **Minggu 4:** Structured Data Tables: Thead, Tbody, Scope & Captioning
-> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
-
+> **Category:** HTML5 | **Level:** HTML Basics | **Week 4:** Tables and First Project
+> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
-- Recognize that <table> is reserved strictly for tabular relationships, never for layout positioning
-- Provide accessible context and titles using the <caption> element
-- Organize tabular data into structural partitions: <thead>, <tbody>, and <tfoot>
-- Associate header cells with corresponding data points using scope="col" and scope="row"
-- Properly span cells across dimensions using colspan and rowspan without breaking grid geometry
+- Understand that <table> is strictly reserved for tabular data (never for page layout)
+- Provide accessible table titles and context using the <caption> element
+- Structure table sections: <thead> (header), <tbody> (data body), and <tfoot> (footer)
+- Associate <th> header cells with <td> data cells using scope="col" and scope="row"
+- Merge cells horizontally and vertically with colspan and rowspan attributes
+- Complete the full 2-page project (index.html and layanan.html) from scratch
 
 ---
 
-## Program: Semantic Financial Statement Data Table
+## 1. Rules for Using HTML Tables
+
+The `<table>` element is designed strictly for presenting **tabular data**—information organized into rows and columns (such as pricing matrices, schedules, financial audits, or timetables).
+
+> ⚠️ **Key Rule:** Never use `<table>` to construct web page layouts (such as placing navbars, sidebars, or headers inside table cells). Table-based layouts are obsolete 1990s patterns that severely degrade mobile responsiveness and screen reader accessibility. Use CSS for layout, and reserve `<table>` purely for data.
+
+---
+
+## 2. Table Syntax Anatomy
+
+An accessible HTML table contains structured sub-elements:
+
+- **`<table>`**: Wrapper encapsulating the table.
+- **`<caption>`**: Table title placed immediately after `<table>`.
+- **`<thead>`**: Table header containing column title rows.
+- **`<tbody>`**: Table body containing core data rows.
+- **`<tfoot>`**: Table footer containing summaries, totals, or notes.
+- **`<tr>` (*Table Row*):** A horizontal row.
+- **`<th>` (*Table Header*):** Header cell with `scope="col"` or `scope="row"`.
+- **`<td>` (*Table Data*):** Standard data cell.
+
+---
+
+## 3. Merging Cells: Colspan and Rowspan
+
+When cells span multiple columns or rows:
+- **`colspan="2"`**: Merges 2 adjacent columns horizontally.
+- **`rowspan="2"`**: Merges 2 adjacent rows vertically.
+
+```html
+<tr>
+  <td colspan="3">Note: This cell spans across 3 columns.</td>
+</tr>
+```
+
+---
+
+## 4. Completing the Level 1 Project
+By Week 4, your starter website project contains:
+1. **`index.html`**: Home page with semantic layout, `<figure>` image, and list.
+2. **`layanan.html`**: Services page with detailed offerings and a structured **Pricing Table**.
+Both files are seamlessly connected using clean relative `<a href="...">` navigation.
+
+---
+
+## Program: Semantic Services and Pricing Comparison Table
 
 ```html
 <!DOCTYPE html>
@@ -22,279 +67,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laporan Kinerja Keuangan — Nusa Digital</title>
+  <title>Paket Layanan — Alex Pratama</title>
+  <style>
+    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
+    nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #ffffff; }
+    caption { font-weight: bold; margin-bottom: 8px; text-align: left; font-size: 15px; }
+    th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; font-size: 14px; }
+    thead th { background: #0f172a; color: #f8fafc; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tfoot td { background: #f1f5f9; font-size: 13px; color: #64748b; }
+    footer { margin-top: 32px; border-top: 1px solid #e2e8f0; padding-top: 12px; color: #64748b; font-size: 13px; }
+  </style>
 </head>
 <body>
-  <main>
-    <article>
-      <h1>Transparansi Kinerja Keuangan Perusahaan</h1>
-      <p>Data audit keuangan tahun berjalan yang telah diverifikasi oleh akuntan publik independen.</p>
+  <header>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="layanan.html">Layanan</a>
+    </nav>
+    <h1>Daftar Paket Layanan Website</h1>
+  </header>
 
-      <table border="1">
-        <caption>Laporan Pendapatan dan Alokasi Biaya Infrastruktur (Q1 - Q4 2025)</caption>
+  <main>
+    <section>
+      <h2>Pilihan Paket Pembuatan Website</h2>
+      <p>Berikut adalah perbandingan paket layanan yang tersedia:</p>
+
+      <table>
+        <caption>Tabel 1: Rincian Paket Layanan dan Waktu Pengerjaan</caption>
         <thead>
           <tr>
-            <th scope="col">Kuartal</th>
-            <th scope="col">Pendapatan Bruto (Miliar IDR)</th>
-            <th scope="col">Biaya Cloud (Miliar IDR)</th>
-            <th scope="col">Laba Operasional (Miliar IDR)</th>
-            <th scope="col">Status Audit</th>
+            <th scope="col">Nama Paket</th>
+            <th scope="col">Jumlah Halaman</th>
+            <th scope="col">Waktu Pengerjaan</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">Q1 2025</th>
-            <td>12.4</td>
-            <td>3.1</td>
-            <td>9.3</td>
-            <td>Selesai</td>
+            <th scope="row">Paket Dasar</th>
+            <td>1 - 3 Halaman</td>
+            <td>3 Hari Kerja</td>
+            <td>Tersedia</td>
           </tr>
           <tr>
-            <th scope="row">Q2 2025</th>
-            <td>14.8</td>
-            <td>3.4</td>
-            <td>11.4</td>
-            <td>Selesai</td>
+            <th scope="row">Paket Bisnis</th>
+            <td>4 - 8 Halaman</td>
+            <td>7 Hari Kerja</td>
+            <td>Tersedia</td>
           </tr>
           <tr>
-            <th scope="row">Q3 2025</th>
-            <td>16.2</td>
-            <td>3.8</td>
-            <td>12.4</td>
-            <td>Selesai</td>
-          </tr>
-          <tr>
-            <th scope="row">Q4 2025</th>
-            <td>19.5</td>
-            <td>4.2</td>
-            <td>15.3</td>
-            <td>Dalam Proses</td>
+            <th scope="row">Paket Kustom</th>
+            <td>&gt; 8 Halaman</td>
+            <td>14 Hari Kerja</td>
+            <td>Antrean</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <th scope="row">Total Akumulasi</th>
-            <td>62.9</td>
-            <td>14.5</td>
-            <td>48.4</td>
-            <td>Konsolidasi</td>
+            <td colspan="4">* Seluruh paket mencakup kode HTML standar valid dan responsif.</td>
           </tr>
         </tfoot>
       </table>
-    </article>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2026 Alex Pratama. Proyek Dasar Selesai (Berkas: <code>layanan.html</code>).</p>
+  </footer>
 </body>
 </html>
 ```
 
 ---
 
-## Key Concepts
+## Detailed Code Breakdown
 
-### Tabular Data Principles
-HTML tables exist strictly to represent two-dimensional relational datasets (metrics, schedules, financial figures). Using tables for layout purposes is an anti-pattern that severely degrades screen reader usability.
-
-### Semantic Table Anatomy
-- `<caption>`: Provides an accessible heading and overview of the dataset.
-- `<thead>`: Encapsulates primary column header rows.
-- `<tbody>`: Houses the primary relational data payload.
-- `<tfoot>`: Wraps summary totals and aggregated statistics.
-
-### The Scope Attribute
-The `scope` attribute on `<th>` elements disambiguates directional association:
-- `scope="col"`: Clarifies header ownership over all cells in that vertical column.
-- `scope="row"`: Clarifies header ownership over cells along that horizontal row.
-Assistive devices can thus speak contextual pairs like: *"Quarter Q1 2025, Cloud Cost: 3.1 Billion IDR"* when navigating cell coordinates.
+- Line 26: `<table>` encapsulates the entire data grid.
+- Line 27: `<caption>` provides an accessible title for screen readers and search engines.
+- Line 28-36: `<thead>` and `<th scope="col">` declare header cells for each column.
+- Line 37-56: `<tbody>` and `<th scope="row">` map out data records with accessible row headers.
+- Line 57-61: `<tfoot>` with `colspan="4"` merges all 4 columns into a single footer cell.
 
 ---
 
----
+## Playground Experiments
 
-## Beginner Friendly Explanation
-
-### Analogy: An Audited Excel Spreadsheet
-Think of an HTML table as a clean Microsoft Excel worksheet:
-1. **`<caption>`** is the sheet title at the top: "Annual Budget 2026".
-2. **`<thead>`** is the highlighted top header row defining columns (Item, Unit Cost, Qty).
-3. **`scope="col"`** tells the machine that every cell descending below is a financial dollar value.
-4. **`scope="row"`** identifies the primary entity of that row (e.g. "Dell Workstation 15").
-5. **`<tfoot>`** is the bottom summary row holding your `=SUM()` totals.
-
-## Experiments
-
-- Remove the <caption> element and observe how the table loses its formal descriptive identity.
-- Apply colspan="2" to a cell and verify how neighboring cells overflow if total grid coordinates are mismatched.
-- Inspect table rendering with tfoot declared before tbody to confirm how modern browsers still place it visually at the bottom.
-- Demote <th> elements to ordinary <td> tags and note the loss of both default styling and accessibility roles.
+1. Modify text or values inside the Playground editor and observe instant live preview updates.
+2. Add new complementary elements relevant to your own page structure.
+3. Test the layout across different viewport sizes to evaluate fluid responsiveness.
 
 ---
 
-## Challenge
+## Practical Challenge
 
-Build an airport flight departure board table: include a `<caption>`, `<thead>` with `scope="col"`, at least 4 flight records in `<tbody>` with `scope="row"` identifying flight numbers, destinations, airlines, departure times, and flight statuses.
-
----
-
-## Visual Mental Model & Architecture Flow
-
-![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
-
-```diagram
-┌──────────────────────────────────────────────────────────┐
-│                   <!DOCTYPE html>                        │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ <html lang="id">                                     │ │
-│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
-│ │  │ <head> (Metadata)       │ │ <body> (Visible UI)   │ │ │
-│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
-│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
-│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
-│ │  └─────────────────────────┘ └─────────────────────┘ │ │
-│ └──────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
+Apply the core concepts of Week 4 directly inside your own project files. Verify tag pairs, attribute correctness, and consistent naming conventions.
 
 ---
 
-## Syntax Reference & Practical Guide (W3Schools Style)
+## Common Pitfalls & Debugging
 
-Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
-
-### 1. `<!DOCTYPE html>`
-- **Core Functionality:** Declaration of standar dokumen HTML5 modern.
-- **Parameters / Attributes:** `Mandatory on first line`.
-- **System Behavior & Return:** Enables rendering Standard Mode pada peramban web modern..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <title>Standar HTML5</title>
-  </head>
-  <body style="font-family:system-ui,sans-serif;padding:24px;background:#0f172a;color:white;">
-    <h1>Standar Dokumen HTML5 W3C</h1>
-    <p>Halaman dirender optimal pada mode peramban modern.</p>
-  </body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Page rendered sesuai standar W3C
-```
-
-### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Core Functionality:** Configuration of dimensi dan skala layar mobile.
-- **Parameters / Attributes:** `name='viewport', content='...'`.
-- **System Behavior & Return:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewport Demo</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
-    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h3>Layar Responsif 1:1 Aktif</h3>
-    <p>Skala layout menyesuaikan lebar viewport perangkat secara otomatis.</p>
-  </div>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Responsive layout di seluruh layar ponsel
-```
-
-### 3. `<header>, <main>, <footer>`
-- **Core Functionality:** Struktur landmark semantik aksesibilitas.
-- **Parameters / Attributes:** `Global attributes (class, id, lang)`.
-- **System Behavior & Return:** Partitions dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Semantic HTML5</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: white; }
-    header, footer { background: #1e293b; padding: 16px 24px; }
-    main { padding: 24px; background: #334155; margin: 12px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <header><h1>Portal Navigasi</h1></header>
-  <main><p>Konten utama dokumen HTML5 beraksesibilitas tinggi.</p></main>
-  <footer><small>&copy; 2026 Tryngo Platform</small></footer>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Clearly accessible oleh screen reader & mesin pencari
-```
-
-### 4. `<form action="/api" method="POST">`
-- **Core Functionality:** Kontainer pengumpulan data pengguna.
-- **Parameters / Attributes:** `action (URL), method (GET/POST)`.
-- **System Behavior & Return:** Provides wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Formulir Input</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
-    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
-    input { padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
-    button { padding: 10px; background: #10b981; color: #022c22; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <form onsubmit="event.preventDefault(); alert('Data terkirim: ' + this.user.value);">
-    <label for="user">Nama Pengguna:</label>
-    <input type="text" id="user" name="user" value="Budi Santoso" required />
-    <button type="submit">Kirim Formulir</button>
-  </form>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Formulir interaktif siap dikirim
-```
-
----
-
-## Common Pitfalls & Debugging Tips
-
-### 1. Unclosed or Mismatched Tags
-- **Symptom / Issue:** Breaks page layout and causes unexpected DOM tree nesting.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Always close matching pairs and validate HTML using linters or browser developer tools.
-
-### 2. Overusing Generic <div> Containers (Div Soup)
-- **Symptom / Issue:** Harms accessibility (screen readers) and lowers search engine ranking.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Prefer semantic markup elements like <header>, <nav>, <main>, <article>, and <footer>.
-
-### 3. Missing 'alt' on Images and 'for' on Labels
-- **Symptom / Issue:** Fails accessibility audits and creates bad UX on mobile touch targets.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Always provide descriptive alt attributes and bind input fields explicitly to form labels.
+- Using `<table>` for layout positioning rather than tabular data.
+- Omitting `<caption>` from data tables.
+- Placing data cells `<td>` outside of a row `<tr>`.
 
 ---
 
 ## Summary
 
-You have mastered semantic, accessible relational table authoring. Next week we enter Level 2: modern interactive forms, browser validation, and user inputs.
+- Week 4 (Tables and First Project) delivers hands-on structural skills.
+- All code adheres strictly to standard valid HTML, running immediately in browser viewports and the Playground.
+- In the next module, we continue our progressive project development journey.

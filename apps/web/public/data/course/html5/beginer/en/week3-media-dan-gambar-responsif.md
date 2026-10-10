@@ -1,20 +1,68 @@
-# Responsive Media: Picture Element, Srcset Images & Multimedia
+# Body, Semantic Layout, and Images
 
-> **Kategori:** HTML5 | **Level:** Structure & Web Semantics | **Minggu 3:** Responsive Media: Picture Element, Srcset Images & Multimedia
-> ⏱️ **Estimated Time:** 45 Minutes (15m theory, 30m practice) | 🔗 **Pace:** Structured (Step-by-step)
-
+> **Category:** HTML5 | **Level:** HTML Basics | **Week 3:** Body, Semantic Layout, and Images
+> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
-- Write accessible <img> tags with informative, descriptive alt text
-- Prevent Cumulative Layout Shift (CLS) by always supplying explicit width and height dimensions
-- Employ the <picture> element and <source> tags to deliver next-gen WebP/AVIF formats
-- Leverage native deferred asset loading via loading="lazy" and decoding="async"
-- Embed accessible native <video> and <audio> players complete with WebVTT subtitle tracks (<track>)
+- Understand semantic layout architecture: <header>, <nav>, <main>, <section>, <article>, <aside>, <footer>
+- Distinguish Block elements (<div>, <p>, <section>) from Inline elements (<span>, <a>, <strong>)
+- Embed images with essential attributes: <img> (src, alt, width, height)
+- Group images with captions using <figure> and <figcaption>
+- Build unordered (<ul>) and ordered (<ol>) lists using list items (<li>)
 
 ---
 
-## Program: Adaptive Image Delivery & Native HTML5 Audio-Video
+## 1. Semantic Layout Architecture Inside <body>
+
+HTML5 provides **semantic landmark elements** that give structural meaning to web documents:
+
+- **`<header>`**: Top introductory bar containing site branding and navigation.
+- **`<nav>`**: Dedicated container for primary navigation links.
+- **`<main>`**: Central, unique content of the page (strictly one `<main>` per document).
+- **`<section>`**: Thematic grouping of content (e.g., about section, portfolio section).
+- **`<article>`**: Self-contained piece of content (e.g., blog card, product card).
+- **`<aside>`**: Secondary sidebar content (e.g., author bio, related notes).
+- **`<footer>`**: Document footer containing copyright, contact info, and legal notes.
+
+---
+
+## 2. Block Elements vs Inline Elements
+
+Every HTML element features a default display model:
+
+| Category | Behavior | Examples |
+|---|---|---|
+| **Block Elements** | Always begins on a new line and spans 100% width | `<div>`, `<p>`, `<h1>`-`<h6>`, `<section>`, `<header>`, `<ul>` |
+| **Inline Elements** | Stays within the text flow and takes only content width | `<span>`, `<a>`, `<strong>`, `<em>`, `<code>`, `<time>` |
+
+- **`<div>`**: Generic block wrapper used for structural CSS styling.
+- **`<span>`**: Generic inline wrapper used to isolate a phrase within a paragraph.
+
+---
+
+## 3. Embedding Images: <img> and <figure>
+
+Use the void tag `<img>` to embed images:
+```html
+<img src="images/profile.jpg" alt="Alex Pratama portrait" width="300" height="200">
+```
+- **`src`**: Path to the image file (*Source*).
+- **`alt`**: Alternative text fallback for screen readers and broken image scenarios.
+- **`width` & `height`**: Explicit dimensions preventing Cumulative Layout Shift (CLS).
+
+### Using <figure> and <figcaption>:
+When an image includes an accompanying caption, wrap both inside `<figure>`:
+```html
+<figure>
+  <img src="images/office.jpg" alt="Studio desk setup">
+  <figcaption>Figure 1: Our creative workspace studio.</figcaption>
+</figure>
+```
+
+---
+
+## Program: Semantic Home Layout with Embedded Media and Captions
 
 ```html
 <!DOCTYPE html>
@@ -22,261 +70,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aset Multimedia — Nusa Digital</title>
+  <title>Beranda Portofolio — Alex Pratama</title>
+  <style>
+    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }
+    nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 12px; }
+    .layout-wrapper { display: flex; gap: 20px; flex-direction: column; }
+    section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; }
+    figure { margin: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; }
+    figcaption { color: #64748b; font-size: 13px; margin-top: 6px; }
+    footer { margin-top: 32px; border-top: 1px solid #e2e8f0; padding-top: 12px; color: #64748b; font-size: 13px; }
+  </style>
 </head>
 <body>
-  <main>
-    <article>
-      <h1>Pusat Dokumentasi Media & Galeri Infrastruktur</h1>
+  <header>
+    <nav>
+      <a href="index.html">Beranda</a>
+      <a href="layanan.html">Layanan</a>
+    </nav>
+    <h1>Studio Web Alex Pratama</h1>
+  </header>
 
-      <section>
-        <h2>1. Server Data Center Utama (Format Gambar Modern)</h2>
-        <p>Arsitektur penyajian gambar multi-resolusi untuk menghemat bandwidth seluler:</p>
+  <main class="layout-wrapper">
+    <section>
+      <h2>Profil Studio</h2>
+      <p>Kami menyusun dokumen web menggunakan tag semantik HTML5 yang rapi, aksesibel, dan terstruktur.</p>
 
-        <!-- Elemen picture untuk art direction dan format next-gen -->
-        <picture>
-          <source media="(min-width: 1024px)" srcset="datacenter-large.webp" type="image/webp">
-          <source media="(min-width: 640px)" srcset="datacenter-medium.webp" type="image/webp">
-          <source srcset="datacenter-small.webp" type="image/webp">
-          <img src="datacenter-fallback.jpg" 
-               alt="Rak server enterprise Nusa Digital dengan indikator LED aktif di ruang kontrol berpendingin presisi"
-               width="800" 
-               height="450" 
-               loading="lazy" 
-               decoding="async">
-        </picture>
-        <p><small>Gambar di atas otomatis menyajikan WebP untuk browser modern dan fallback JPEG untuk kompatibilitas lama.</small></p>
-      </section>
+      <figure>
+        <img 
+          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&auto=format&fit=crop&q=60" 
+          alt="Laptop menampilkan baris kode pemrograman di atas meja kerja" 
+          width="480" 
+          style="max-width: 100%; height: auto; border-radius: 4px;"
+        >
+        <figcaption>Dokumentasi: Lingkungan kerja perancangan struktur website.</figcaption>
+      </figure>
+    </section>
 
-      <section>
-        <h2>2. Video Pengenalan Fasilitas</h2>
-        <video controls width="640" height="360" poster="video-cover.jpg" preload="metadata">
-          <source src="nusa-overview.mp4" type="video/mp4">
-          <source src="nusa-overview.webm" type="video/webm">
-          <track kind="subtitles" src="subtitles-id.vtt" srclang="id" label="Bahasa Indonesia" default>
-          <track kind="subtitles" src="subtitles-en.vtt" srclang="en" label="English">
-          Browser Anda tidak mendukung pemutaran video HTML5 native.
-        </video>
-      </section>
-
-      <section>
-        <h2>3. Podcast Rekayasa Perangkat Lunak</h2>
-        <audio controls preload="none">
-          <source src="episode-01.mp3" type="audio/mpeg">
-          <source src="episode-01.ogg" type="audio/ogg">
-          Browser Anda tidak mendukung elemen audio HTML5.
-        </audio>
-      </section>
-    </article>
+    <section>
+      <h2>Daftar Keahlian Dasar</h2>
+      <ul>
+        <li>Struktur Dokumen Semantik (HTML5)</li>
+        <li>Format Teks dan Hierarki Heading</li>
+        <li>Navigasi Antar Berkas dan Bookmark</li>
+        <li>Media Gambar Terstruktur (<figure>)</li>
+      </ul>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2026 Studio Web Alex Pratama. Berkas: <code>index.html</code></p>
+  </footer>
 </body>
 </html>
 ```
 
 ---
 
-## Key Concepts
+## Detailed Code Breakdown
 
-### The Alt Attribute and Preventing CLS
-The `alt` attribute conveys image intent when visuals fail to load or are spoken by screen readers. Explicit `width` and `height` attributes allow browsers to calculate aspect ratio placeholders beforehand, preventing Cumulative Layout Shift (CLS).
-
-### The <picture> Element vs Img Srcset
-`<picture>` gives developers granular control over format selection and art direction:
-- `<source type="image/webp">` delivers compressed next-gen image assets to modern clients.
-- The concluding `<img>` tag acts as the mandatory fallback container.
-
-### Native Lazy Loading
-The `loading="lazy"` attribute defers image network requests until the user scrolls within proximity of the asset, significantly speeding up initial page load.
-
-### Multimedia Inclusivity with <track>
-The `<track kind="subtitles">` element links WebVTT text files, providing synchronous captioning for deaf and hard-of-hearing users or silent viewing contexts.
+- Line 18-24: `<header>` groups top navigation `<nav>` and branding heading `<h1>`.
+- Line 26-49: `<main>` houses two thematic `<section>` blocks: studio profile and skills.
+- Line 31-38: `<figure>` and `<figcaption>` semantically pair an image with its accompanying text.
+- Line 41-47: `<ul>` and `<li>` structure skills into an accessible bulleted list.
+- Line 51-53: `<footer>` houses copyright and file attribution at the bottom of the page.
 
 ---
 
----
+## Playground Experiments
 
-## Beginner Friendly Explanation
-
-### Analogy: Restaurant Table Reservations
-1. **`width` & `height` dimensions** are like reserving a restaurant table in advance: the staff reserves the exact footprint before you arrive. Without dimensions, food arrives unexpectedly and tables must be shifted abruptly (which is Cumulative Layout Shift).
-2. **`<picture>`** is like presenting custom menus depending on the guest's language preference.
-3. **`<track>` subtitles** are the synchronized subtitles projected during international film screenings.
-
-## Experiments
-
-- Break the image URL intentionally and inspect how the browser falls back to the descriptive alt string.
-- Remove width and height attributes under throttled network conditions (DevTools Slow 3G) and watch surrounding layout jump.
-- Inspect native video controls with and without the <track> element to verify the emergence of the CC button.
-- Toggle preload="none" to preload="auto" on the audio element and observe network payloads in the DevTools Network panel.
+1. Modify text or values inside the Playground editor and observe instant live preview updates.
+2. Add new complementary elements relevant to your own page structure.
+3. Test the layout across different viewport sizes to evaluate fluid responsiveness.
 
 ---
 
-## Challenge
+## Practical Challenge
 
-Build a product showcase card for "Artisan Watchmakers". Use `<picture>` with 3 media-query breakpoints and WebP sources, include explicit width/height, `loading="lazy"`, and a product review video equipped with a WebVTT subtitle track.
-
----
-
-## Visual Mental Model & Architecture Flow
-
-![Diagram Struktur DOM Tree HTML5](/diagrams/dom-tree.svg)
-
-```diagram
-┌──────────────────────────────────────────────────────────┐
-│                   <!DOCTYPE html>                        │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ <html lang="id">                                     │ │
-│ │  ┌─────────────────────────┐ ┌─────────────────────┐ │ │
-│ │  │ <head> (Metadata)       │ │ <body> (Visible UI)   │ │ │
-│ │  │ • <meta charset="UTF-8">│ │ • <header>          │ │ │
-│ │  │ • <title>Judul Web</title>│ • <main>            │ │ │
-│ │  │ • <meta name="viewport">│ │ • <footer>          │ │ │
-│ │  └─────────────────────────┘ └─────────────────────┘ │ │
-│ └──────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────┘
-```
+Apply the core concepts of Week 3 directly inside your own project files. Verify tag pairs, attribute correctness, and consistent naming conventions.
 
 ---
 
-## Syntax Reference & Practical Guide (W3Schools Style)
+## Common Pitfalls & Debugging
 
-Here is the comprehensive breakdown of syntax signatures, parameters, return behavior, and isolated runnable examples introduced in this module:
-
-### 1. `<!DOCTYPE html>`
-- **Core Functionality:** Declaration of standar dokumen HTML5 modern.
-- **Parameters / Attributes:** `Mandatory on first line`.
-- **System Behavior & Return:** Enables rendering Standard Mode pada peramban web modern..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <title>Standar HTML5</title>
-  </head>
-  <body style="font-family:system-ui,sans-serif;padding:24px;background:#0f172a;color:white;">
-    <h1>Standar Dokumen HTML5 W3C</h1>
-    <p>Halaman dirender optimal pada mode peramban modern.</p>
-  </body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Page rendered sesuai standar W3C
-```
-
-### 2. `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
-- **Core Functionality:** Configuration of dimensi dan skala layar mobile.
-- **Parameters / Attributes:** `name='viewport', content='...'`.
-- **System Behavior & Return:** Menyesuaikan skala tampilan 1:1 dengan lebar fisik perangkat agar tidak mengecil di ponsel..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewport Demo</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; background: #0f172a; color: white; margin: 0; }
-    .card { background: #1e293b; border: 2px solid #10b981; padding: 20px; border-radius: 12px; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h3>Layar Responsif 1:1 Aktif</h3>
-    <p>Skala layout menyesuaikan lebar viewport perangkat secara otomatis.</p>
-  </div>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Responsive layout di seluruh layar ponsel
-```
-
-### 3. `<header>, <main>, <footer>`
-- **Core Functionality:** Struktur landmark semantik aksesibilitas.
-- **Parameters / Attributes:** `Global attributes (class, id, lang)`.
-- **System Behavior & Return:** Partitions dokumen menjadi banner navigasi, konten unik utama, dan informasi penutup..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Semantic HTML5</title>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; background: #0f172a; color: white; }
-    header, footer { background: #1e293b; padding: 16px 24px; }
-    main { padding: 24px; background: #334155; margin: 12px; border-radius: 8px; }
-  </style>
-</head>
-<body>
-  <header><h1>Portal Navigasi</h1></header>
-  <main><p>Konten utama dokumen HTML5 beraksesibilitas tinggi.</p></main>
-  <footer><small>&copy; 2026 Tryngo Platform</small></footer>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Clearly accessible oleh screen reader & mesin pencari
-```
-
-### 4. `<form action="/api" method="POST">`
-- **Core Functionality:** Kontainer pengumpulan data pengguna.
-- **Parameters / Attributes:** `action (URL), method (GET/POST)`.
-- **System Behavior & Return:** Provides wadah terstruktur untuk memvalidasi dan mengirimkan data input ke server..
-- **Practical Code Example:**
-```html
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>Formulir Input</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 24px; background: #0f172a; color: white; }
-    form { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
-    input { padding: 10px; border-radius: 6px; border: 1px solid #475569; background: #1e293b; color: white; }
-    button { padding: 10px; background: #10b981; color: #022c22; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <form onsubmit="event.preventDefault(); alert('Data terkirim: ' + this.user.value);">
-    <label for="user">Nama Pengguna:</label>
-    <input type="text" id="user" name="user" value="Budi Santoso" required />
-    <button type="submit">Kirim Formulir</button>
-  </form>
-</body>
-</html>
-```
-- **Expected Execution Output:**
-```output
-Formulir interaktif siap dikirim
-```
-
----
-
-## Common Pitfalls & Debugging Tips
-
-### 1. Unclosed or Mismatched Tags
-- **Symptom / Issue:** Breaks page layout and causes unexpected DOM tree nesting.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Always close matching pairs and validate HTML using linters or browser developer tools.
-
-### 2. Overusing Generic <div> Containers (Div Soup)
-- **Symptom / Issue:** Harms accessibility (screen readers) and lowers search engine ranking.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Prefer semantic markup elements like <header>, <nav>, <main>, <article>, and <footer>.
-
-### 3. Missing 'alt' on Images and 'for' on Labels
-- **Symptom / Issue:** Fails accessibility audits and creates bad UX on mobile touch targets.
-- **Root Cause:** Common mistaken assumptions during early development.
-- **Fix / Best Practice:** Always provide descriptive alt attributes and bind input fields explicitly to form labels.
+- Omitting the `alt` attribute on an `<img>` tag.
+- Over-relying on generic `<div>` tags without semantic elements like `<section>` or `<header>`.
+- Nesting block-level elements inside inline elements (e.g. putting a `<p>` inside a `<span>`).
 
 ---
 
 ## Summary
 
-You have mastered adaptive image optimization, layout shift elimination, and accessible multimedia embedding. Next week, we examine structured tabular data presentation.
+- Week 3 (Body, Semantic Layout, and Images) delivers hands-on structural skills.
+- All code adheres strictly to standard valid HTML, running immediately in browser viewports and the Playground.
+- In the next module, we continue our progressive project development journey.
