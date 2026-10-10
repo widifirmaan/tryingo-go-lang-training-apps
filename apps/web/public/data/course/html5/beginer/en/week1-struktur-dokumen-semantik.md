@@ -14,6 +14,128 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **Live Server** (`ritwickdey.liveserver`): Launch local dev server with auto-reload
+- **Auto Close Tag** (`formulahendry.auto-close-tag`): Automatically add closing HTML tags
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension ritwickdey.liveserver --install-extension formulahendry.auto-close-tag
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Web Browser (Chrome, Firefox, Safari, Edge))
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install Google.Chrome
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install --cask google-chrome
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install google-chrome-stable
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+code --version
+```
+
+Expected output:
+```output
+1.9x.x
+```
+
+> 💡 **Prerequisite Note:** HTML runs natively in any browser with zero compilers or backend required.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+mkdir my-website && cd my-website
+touch index.html
+```
+- **Details:** Create a project folder and add index.html as the primary document.
+- **Navigate to the project directory:**
+```bash
+cd my-website
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+Klik Kanan index.html -> "Open with Live Server"
+```
+Open in browser or terminal: `http://127.0.0.1:5500/index.html`
+
+> ℹ️ The webpage opens automatically in your default browser.
+
+**Initial Entry File (`index.html`):**
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Semantik Modern</title>
+</head>
+<body style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px;">
+  <header>
+    <h1>🌐 Selamat Datang di Web Semantik</h1>
+  </header>
+  <main>
+    <article>
+      <h2>Mengapa HTML5 Semantik Penting?</h2>
+      <p>Tag seperti &lt;header&gt;, &lt;main&gt;, &lt;article&gt;, dan &lt;footer&gt; membuat web ramah SEO dan mudah dibaca oleh screen reader (aksesibilitas).</p>
+    </article>
+  </main>
+  <footer>
+    <p>&copy; 2026 - Dibuat dengan Tryngo HTML5 Track</p>
+  </footer>
+</body>
+</html>
+```
+Complete semantic HTML5 document boilerplate.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-website/
+├── index.html       # Dokumen struktur web
+├── styles.css       # File stylesheet
+└── images/          # Direktori gambar & aset
+```
+Standard architecture for static web pages.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Type `!` and hit `Tab` in VS Code to generate an instant HTML5 boilerplate.
+- Always include the `alt` attribute on `<img>` tags for screen readers and SEO.
+
+---
+
 ## Program: First Valid and Structured HTML5 Document
 
 ```html

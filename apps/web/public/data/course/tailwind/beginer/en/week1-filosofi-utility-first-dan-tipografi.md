@@ -14,6 +14,132 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`): Class name autocomplete, color preview, and CSS linting
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension bradlc.vscode-tailwindcss
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Node.js LTS)
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+node -v && npm -v
+```
+
+Expected output:
+```output
+v20.x.x
+10.x.x
+```
+
+> 💡 **Prerequisite Note:** Tailwind v4 features the lightningcss engine with near-zero configuration.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+npm create vite@latest my-tailwind-app -- --template vanilla
+cd my-tailwind-app
+npm install
+npm install -D tailwindcss @tailwindcss/vite
+```
+- **Details:** Sets up Vite with the official Tailwind v4 plugin for lightning-fast builds.
+- **Navigate to the project directory:**
+```bash
+cd my-tailwind-app
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+npm run dev
+```
+Open in browser or terminal: `http://localhost:5173`
+
+> ℹ️ Development server runs with on-demand CSS compilation.
+
+**Initial Entry File (`index.html`):**
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./src/style.css">
+  <title>Tailwind v4 Starter</title>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center p-6">
+  <div class="max-w-md w-full bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+      Tailwind v4 Ready
+    </span>
+    <h1 class="text-2xl font-bold tracking-tight">Utility-First Speed</h1>
+    <p class="text-slate-400 text-sm leading-relaxed">
+      Styling cepat, responsif, dan rapi tanpa meninggalkan dokumen HTML.
+    </p>
+    <button class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 transition-colors font-medium text-sm">
+      Coba Sekarang
+    </button>
+  </div>
+</body>
+</html>
+```
+Modern card component styled purely with Tailwind utilities.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-tailwind-app/
+├── index.html           # HTML dengan utility classes Tailwind
+├── src/
+│   └── style.css        # Cukup sertakan: @import "tailwindcss";
+├── vite.config.ts       # Plugin tailwindcss()
+└── package.json         # Dependensi Tailwind & Vite
+```
+In Tailwind v4, simply write `@import "tailwindcss";` in style.css with zero config required.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Use responsive modifiers (`sm:`, `md:`, `lg:`) for adaptive multi-screen layouts.
+- Leverage the `dark:` prefix to implement dark mode effortlessly.
+
+---
+
 ## Program: SaaS Notification Card with Pure Utility Classes
 
 ```html

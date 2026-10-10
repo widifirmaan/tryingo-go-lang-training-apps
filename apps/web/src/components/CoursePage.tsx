@@ -11,7 +11,6 @@ import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
 import { CertificateModal } from './CertificateModal';
 import { AiMentorDrawer } from './AiMentorDrawer';
-import { QuickStartSection } from './QuickStartSection';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
@@ -416,10 +415,6 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const [isMentorOpen, setIsMentorOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
 
-  const isFirstMaterial = 
-    (activeLevel === levels[0]?.levelId || activeLevel === 'beginer') && 
-    activeWeek === (levels[0]?.weeks[0]?.week || 1);
-
   useEffect(() => {
     setOverrideCode(null);
   }, [slug, activeWeek]);
@@ -707,9 +702,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
               transition={{ duration: 0.12 }}
             >
               <div className="lesson-body">
-                {isFirstMaterial && (
-                  <QuickStartSection slug={slug} lang={lang} />
-                )}
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{

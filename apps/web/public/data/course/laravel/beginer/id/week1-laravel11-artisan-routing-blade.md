@@ -13,6 +13,126 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): Dukungan bahasa PHP dan autocomplete method
+- **Laravel Blade Snippets** (`onecentlin.laravel5-snippets`): Syntax highlighting & format file .blade.php
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension bmewburn.vscode-intelephense-client --install-extension onecentlin.laravel5-snippets
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (PHP 8.2+ & Composer)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install PHP.PHP.8.3 && winget install Composer.Composer
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install php composer
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y php8.3-cli php8.3-curl php8.3-mbstring php8.3-xml composer
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+php -v && composer -v
+```
+
+Output yang diharapkan:
+```output
+PHP 8.x
+Composer 2.x
+```
+
+> 💡 **Tips Prasyarat:** Laravel membutuhkan ekstensi php-curl, php-mbstring, dan php-xml aktif.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+composer create-project laravel/laravel my-laravel-app
+cd my-laravel-app
+```
+- **Keterangan:** Men-download skeleton resmi Laravel, men-generate application key, dan menyiapkan file .env.
+- **Pindah ke direktori project:**
+```bash
+cd my-laravel-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+php artisan serve
+```
+Akses di browser atau terminal: `http://127.0.0.1:8000`
+
+> ℹ️ Server Laravel development aktif di port 8000.
+
+**File Titik Masuk Utama (`routes/web.php`):**
+```php
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return response()->json([
+        'framework' => 'Laravel ' . app()->version(),
+        'status' => 'active',
+        'message' => 'Selamat datang di aplikasi Laravel pertama Anda!'
+    ]);
+});
+```
+Route closure sederhana yang mengembalikan respon JSON.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-laravel-app/
+├── app/
+│   ├── Http/Controllers/
+│   └── Models/          # Model Eloquent ORM
+├── routes/
+│   ├── web.php          # Route tampilan web
+│   └── api.php          # Route REST API
+├── database/
+│   └── migrations/      # Skema database terkelola
+├── resources/views/     # Template Blade (.blade.php)
+├── .env                 # Konfigurasi database & environment
+└── artisan              # CLI tool pembantu Laravel
+```
+Arsitektur MVC (Model-View-Controller) Laravel yang sangat terstruktur.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan `php artisan make:model Product -mcr` untuk membuat Model, Migration, dan Controller Resource sekaligus.
+- Jalankan `php artisan migrate` untuk mengeksekusi seluruh migrasi database yang tertunda.
+
+---
+
 ## Program: Katalog Etalase Marketplace dengan Komponen Blade & Routing Dinamis
 
 ```php

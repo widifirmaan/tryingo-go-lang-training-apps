@@ -14,6 +14,132 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **ESLint** (`dbaeumer.vscode-eslint`): Validasi sintaks & aturan React hooks
+- **Prettier** (`esbenp.prettier-vscode`): Format kode otomatis
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Node.js LTS (v20+))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+node -v && npm -v
+```
+
+Output yang diharapkan:
+```output
+v20.x.x
+10.x.x
+```
+
+> 💡 **Tips Prasyarat:** Node.js dibutuhkan untuk menjalankan Vite build tool.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+npm create vite@latest my-react-app -- --template react-ts
+cd my-react-app
+npm install
+```
+- **Keterangan:** Membuat starter template React TypeScript resmi dari tim Vite dengan HMR ultra cepat.
+- **Pindah ke direktori project:**
+```bash
+cd my-react-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+npm run dev
+```
+Akses di browser atau terminal: `http://localhost:5173`
+
+> ℹ️ Vite akan meluncurkan server lokal di port 5173 dalam milidetik.
+
+**File Titik Masuk Utama (`src/App.tsx`):**
+```tsx
+import { useState } from 'react';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div style={{ textAlign: 'center', padding: '4rem', fontFamily: 'sans-serif' }}>
+      <h1>🚀 React + Vite App</h1>
+      <p>Klik tombol di bawah untuk menguji state reaktif:</p>
+      <button 
+        onClick={() => setCount((c) => c + 1)}
+        style={{ padding: '0.75rem 1.5rem', fontSize: '1rem', cursor: 'pointer', borderRadius: '8px' }}
+      >
+        Hitungan: {count}
+      </button>
+    </div>
+  );
+}
+```
+Komponen counter interaktif untuk memverifikasi React state.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-react-app/
+├── src/
+│   ├── App.tsx          # Komponen root aplikasi
+│   ├── main.tsx         # Entrypoint React DOM render
+│   ├── App.css          # Styling komponen
+│   └── index.css        # Styling dasar
+├── index.html           # File HTML utama (root SPA)
+├── vite.config.ts       # Konfigurasi plugin Vite
+├── tsconfig.json        # Konfigurasi TypeScript
+└── package.json         # Dependensi project
+```
+index.html terletak di root direktori karena Vite memprosesnya langsung sebagai entry point.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Gunakan Tailwind CSS untuk styling cepat: `npm install -D tailwindcss @tailwindcss/vite`.
+- Untuk routing halaman, install React Router: `npm i react-router-dom`.
+
+---
+
 ## Program: Hierarki Kartu Dokumen Workspace Interaktif
 
 ```jsx

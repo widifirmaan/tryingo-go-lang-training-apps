@@ -14,6 +14,123 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **ESLint** (`dbaeumer.vscode-eslint`): Strict linting rules
+- **Prettier** (`esbenp.prettier-vscode`): Consistent formatting
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
+```
+
+---
+
+### 2. Runtime & Dependency Installation (Node.js LTS (v20+))
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+node -v && npm -v
+```
+
+Expected output:
+```output
+v20.x.x
+10.x.x
+```
+
+> 💡 **Prerequisite Note:** VS Code provides native, out-of-the-box TypeScript language intelligence.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+mkdir my-ts-project && cd my-ts-project
+npm init -y
+npm install -D typescript tsx @types/node
+npx tsc --init
+```
+- **Details:** Configures the official TypeScript compiler (tsc) with strict type checking enabled.
+- **Navigate to the project directory:**
+```bash
+cd my-ts-project
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+npx tsx src/index.ts
+```
+Open in browser or terminal: `Terminal Console`
+
+> ℹ️ Code executes and prints directly in the terminal without a separate build step.
+
+**Initial Entry File (`src/index.ts`):**
+```ts
+interface User {
+  id: number;
+  name: string;
+  role: 'admin' | 'developer' | 'guest';
+}
+
+function formatGreeting(user: User): string {
+  return `Halo ${user.name}, peran Anda adalah ${user.role.toUpperCase()}.`;
+}
+
+const me: User = { id: 1, name: 'Antigravity Dev', role: 'developer' };
+console.log(formatGreeting(me));
+```
+TypeScript program demonstrating interfaces and string literal unions.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+my-ts-project/
+├── src/
+│   ├── index.ts         # Titik masuk eksekusi kode
+│   └── types.ts         # Definisi interface & types
+├── tsconfig.json        # Konfigurasi compiler TypeScript
+└── package.json         # Package configuration
+```
+The src/ directory holds all typed source files compiled by tsc.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Keep `"strict": true` active in tsconfig.json for maximum type safety.
+- Leverage built-in utility types such as `Partial<T>`, `Pick<T, K>`, and `Record<K, T>`.
+
+---
+
 ## Program: Cashier Register & Financial Type Verifier
 
 ```typescript

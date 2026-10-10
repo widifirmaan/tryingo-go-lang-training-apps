@@ -13,6 +13,125 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): Autocomplete kode PHP
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension bmewburn.vscode-intelephense-client
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (PHP 8.1+ & Composer)
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install PHP.PHP.8.3 && winget install Composer.Composer
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install php composer
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install -y php-cli php-intl composer
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+php -v && composer -v
+```
+
+Output yang diharapkan:
+```output
+PHP 8.x
+Composer 2.x
+```
+
+> 💡 **Tips Prasyarat:** Pastikan ekstensi php-intl dan php-mbstring aktif di php.ini.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+composer create-project codeigniter4/appstarter my-ci4-app
+cd my-ci4-app
+```
+- **Keterangan:** Mengunduh starter resmi CodeIgniter 4 dengan struktur direktori siap pakai.
+- **Pindah ke direktori project:**
+```bash
+cd my-ci4-app
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+php spark serve
+```
+Akses di browser atau terminal: `http://localhost:8080`
+
+> ℹ️ Server CodeIgniter Spark aktif di port 8080.
+
+**File Titik Masuk Utama (`app/Controllers/Home.php`):**
+```php
+<?php
+
+namespace App\Controllers;
+
+class Home extends BaseController
+{
+    public function index(): string
+    {
+        return $this->response->setJSON([
+            'framework' => 'CodeIgniter 4',
+            'status' => 'running',
+            'message' => 'Halo dari CodeIgniter 4 Spark!'
+        ]);
+    }
+}
+```
+Controller default CodeIgniter 4 mengembalikan JSON.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-ci4-app/
+├── app/
+│   ├── Controllers/     # Controller logika HTTP
+│   ├── Models/          # Model query database
+│   └── Views/           # Template tampilan HTML
+├── public/              # Document root web server
+├── spark                # Script CLI CodeIgniter
+└── env                  # File contoh konfigurasi (rename ke .env)
+```
+Arsitektur MVC ramping CodeIgniter 4.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Ubah nama file `env` menjadi `.env` dan atur `CI_ENVIRONMENT = development` untuk mengaktifkan Debug Toolbar.
+- Gunakan perintah `php spark make:controller User` untuk membuat controller baru dengan cepat.
+
+---
+
 ## Program: Portal Akademik Sekolah dengan Spark CLI & Route Groups Terstruktur
 
 ```php

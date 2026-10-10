@@ -1123,7 +1123,7 @@ body {
       command: {
         windows: 'winget install GoLang.Go',
         macos: 'brew install go',
-        linux: 'sudo apt install golang-go # atau download dari go.dev/dl/',
+        linux: 'sudo apt install golang-go',
       },
       verifyCommand: 'go version',
       expectedOutput: 'go version go1.23.x ...',
@@ -1210,7 +1210,7 @@ func main() {
       name: 'Rustup (Rust Toolchain Installer)',
       version: 'Rust 1.80+ (stable)',
       command: {
-        windows: 'winget install Rustlang.Rustup # atau unduh rustup-init.exe dari rustup.rs',
+        windows: 'winget install Rustlang.Rustup',
         macos: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh",
         linux: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh",
       },

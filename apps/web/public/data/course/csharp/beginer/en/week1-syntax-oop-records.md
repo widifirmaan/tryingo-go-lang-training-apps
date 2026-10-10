@@ -13,6 +13,126 @@
 
 ---
 
+## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+### 1. VS Code Setup & Recommended Extensions
+Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
+- **C# Dev Kit** (`ms-dotnettools.csdevkit`): Full solution explorer, testing, and debugging suite for .NET
+- **C# Extension** (`ms-dotnettools.csharp`): C# language support powered by Roslyn
+
+Or install all recommended extensions at once via terminal:
+```bash
+code --install-extension ms-dotnettools.csdevkit --install-extension ms-dotnettools.csharp
+```
+
+---
+
+### 2. Runtime & Dependency Installation (.NET 9 SDK)
+Make sure the required runtime or SDK is installed on your machine:
+
+**Windows (PowerShell):**
+```powershell
+winget install Microsoft.DotNet.SDK.9
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install dotnet-sdk
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt-get install -y dotnet-sdk-9.0
+```
+
+**Verify Installation:**
+Run this command in your terminal to ensure tools are properly configured:
+```bash
+dotnet --version
+```
+
+Expected output:
+```output
+9.0.xxx
+```
+
+> 💡 **Prerequisite Note:** The .NET SDK bundles the C# compiler, CLR runtime, and CLI tools.
+
+---
+
+### 3. Initializing a Blank Project (Scaffolding)
+Generate a brand-new project workspace using the official CLI command:
+
+```bash
+dotnet new webapi -n MyWebApiApp -controllers
+cd MyWebApiApp
+```
+- **Details:** Generates a modern ASP.NET Core Web API project equipped with controllers and OpenAPI.
+- **Navigate to the project directory:**
+```bash
+cd MyWebApiApp
+```
+
+---
+
+### 4. Running the Local Dev Server & First Entry File
+Start your local development server:
+
+```bash
+dotnet run
+```
+Open in browser or terminal: `http://localhost:5000 / https://localhost:5001`
+
+> ℹ️ Kestrel web server launches at your designated local port.
+
+**Initial Entry File (`Program.cs`):**
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+
+app.MapGet("/api/greeting", () => Results.Ok(new {
+    Message = "Halo dari .NET 9 C#!",
+    Status = "Healthy",
+    Timestamp = DateTime.UtcNow
+}));
+
+app.MapControllers();
+app.Run();
+```
+Minimal API endpoint implementation in modern .NET 9.
+
+---
+
+### 5. New Project Directory Structure
+Standard directory layout and file anatomy created by the scaffolder:
+
+```text
+MyWebApiApp/
+├── Controllers/         # Endpoint controller API
+├── Properties/
+│   └── launchSettings.json
+├── appsettings.json     # Konfigurasi app & connection string
+├── Program.cs           # Titik masuk aplikasi & konfigurasi DI
+└── MyWebApiApp.csproj   # File konfigurasi project .NET
+```
+ASP.NET Core structure featuring built-in Dependency Injection in Program.cs.
+
+---
+
+### 6. Beginner Tips & Best Practices
+- Run `dotnet watch` to enable hot reload during active development.
+- Use C# record types (`public record User(int Id, string Name);`) for concise immutable DTOs.
+
+---
+
 ## Program: Warehouse Inventory Domain Models with Records & Pattern Matching
 
 ```csharp

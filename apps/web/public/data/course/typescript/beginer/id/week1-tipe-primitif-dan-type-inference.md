@@ -14,6 +14,123 @@
 
 ---
 
+## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
+Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
+- **ESLint** (`dbaeumer.vscode-eslint`): Pemeriksaan aturan ketat tipe
+- **Prettier** (`esbenp.prettier-vscode`): Formatting konsisten
+
+Atau instal semua ekstensi rekomendasi sekaligus via terminal:
+```bash
+code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
+```
+
+---
+
+### 2. Instalasi Runtime & Dependency (Node.js LTS (v20+))
+Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
+
+**Windows (PowerShell):**
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+**macOS (Terminal / Homebrew):**
+```bash
+brew install node
+```
+
+**Linux (Ubuntu/Debian / bash):**
+```bash
+sudo apt install nodejs npm
+```
+
+**Verifikasi Instalasi:**
+Jalankan perintah berikut di terminal:
+```bash
+node -v && npm -v
+```
+
+Output yang diharapkan:
+```output
+v20.x.x
+10.x.x
+```
+
+> 💡 **Tips Prasyarat:** VS Code memiliki dukungan native engine TypeScript langsung dari Microsoft.
+
+---
+
+### 3. Inisialisasi Project Kosong (Scaffolding)
+Buat folder dan kerangka awal project baru dengan perintah resmi:
+
+```bash
+mkdir my-ts-project && cd my-ts-project
+npm init -y
+npm install -D typescript tsx @types/node
+npx tsc --init
+```
+- **Keterangan:** Menyiapkan compiler TypeScript (tsc) dengan tsconfig.json berkonfigurasi strict mode.
+- **Pindah ke direktori project:**
+```bash
+cd my-ts-project
+```
+
+---
+
+### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+Jalankan server pengembangan lokal:
+
+```bash
+npx tsx src/index.ts
+```
+Akses di browser atau terminal: `Terminal Console`
+
+> ℹ️ Output tercetak langsung di terminal tanpa perlu langkah build terpisah.
+
+**File Titik Masuk Utama (`src/index.ts`):**
+```ts
+interface User {
+  id: number;
+  name: string;
+  role: 'admin' | 'developer' | 'guest';
+}
+
+function formatGreeting(user: User): string {
+  return `Halo ${user.name}, peran Anda adalah ${user.role.toUpperCase()}.`;
+}
+
+const me: User = { id: 1, name: 'Antigravity Dev', role: 'developer' };
+console.log(formatGreeting(me));
+```
+Contoh program TypeScript dengan interface dan string literal union types.
+
+---
+
+### 5. Struktur Direktori Proyek Baru
+Struktur folder dan file standar yang dihasilkan:
+
+```text
+my-ts-project/
+├── src/
+│   ├── index.ts         # Titik masuk eksekusi kode
+│   └── types.ts         # Definisi interface & types
+├── tsconfig.json        # Konfigurasi compiler TypeScript
+└── package.json         # Package configuration
+```
+Direktori src/ menampung seluruh file .ts yang akan dicek tipenya oleh compiler.
+
+---
+
+### 6. Tips & Best Practice untuk Pemula
+- Selalu aktifkan `"strict": true` di tsconfig.json untuk keamanan tipe maksimal.
+- Gunakan utility types bawaan seperti `Partial<T>`, `Pick<T, K>`, dan `Record<K, T>`.
+
+---
+
 ## Program: Sistem Kasir & Verifikasi Tipe Data Keuangan
 
 ```typescript
