@@ -47,11 +47,20 @@ console.log(name, role, status);
 Clone and extend properties without mutating the source reference:
 
 ```javascript
+const userProfile = {
+  id: 1042,
+  name: "Alex Pratama",
+  role: "Developer"
+};
+
 const updatedUser = {
-  ...user,
+  ...userProfile,
   role: "Lead Engineer",
   location: "Jakarta"
 };
+
+console.log("Before (Original):", userProfile);
+console.log("After (Spread):", updatedUser);
 ```
 
 ---
@@ -64,8 +73,13 @@ JSON is the universal serialization protocol between clients and backends:
 - **`JSON.parse(string)`**: Deserializes JSON text back into a live JavaScript object.
 
 ```javascript
-const jsonString = JSON.stringify(updatedUser);
+const testUser = { id: 1042, name: "Alex Pratama", role: "Lead Engineer" };
+
+const jsonString = JSON.stringify(testUser);
+console.log("Serialized JSON String:", jsonString);
+
 const parsedObj = JSON.parse(jsonString);
+console.log("Deserialized Object:", parsedObj);
 ```
 
 ---
@@ -97,6 +111,7 @@ const parsedObj = JSON.parse(jsonString);
       max-width: 540px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

@@ -36,6 +36,11 @@ function fetchUser(id) {
     }, 1000);
   });
 }
+
+// Test Promise consumption:
+fetchUser(1)
+  .then(user => console.log("Promise Resolved:", user))
+  .catch(err => console.error("Promise Rejected:", err.message));
 ```
 
 ---
@@ -55,6 +60,8 @@ async function loadProfile() {
     console.log("Completed execution.");
   }
 }
+
+loadProfile();
 ```
 
 ---
@@ -86,6 +93,7 @@ async function loadProfile() {
       max-width: 480px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

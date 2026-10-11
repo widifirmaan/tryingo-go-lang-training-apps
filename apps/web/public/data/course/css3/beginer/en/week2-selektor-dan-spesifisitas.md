@@ -97,6 +97,7 @@ Specificity Weight Hierarchy:
     /* 1. Class Selector untuk Kartu */
     .card {
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

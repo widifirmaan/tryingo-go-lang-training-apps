@@ -266,6 +266,7 @@ Separation of markup structure (HTML) and visual styling (CSS).
     /* 4. Kontainer Konten */
     .konten-box {
       background-color: #FFFFFF;
+      color: #2D3748;
       padding: 24px;
       border-radius: 8px;
       border: 1px solid #E2E8F0;

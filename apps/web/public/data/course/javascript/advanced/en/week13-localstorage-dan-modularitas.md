@@ -30,9 +30,11 @@ localStorage.setItem("theme", "dark");
 
 // 2. Read item
 const theme = localStorage.getItem("theme");
+console.log("Read theme from storage:", theme);
 
 // 3. Delete item
 localStorage.removeItem("theme");
+console.log("After removal:", localStorage.getItem("theme")); // null
 
 // 4. Flush domain storage
 localStorage.clear();
@@ -42,11 +44,14 @@ localStorage.clear();
 Always pair serialization routines:
 
 ```javascript
+const notesArray = [{ id: 1, text: "Learn JavaScript" }];
+
 // Write:
 localStorage.setItem("notes", JSON.stringify(notesArray));
 
 // Read:
 const cached = JSON.parse(localStorage.getItem("notes") || "[]");
+console.log("Cached notes from storage:", cached);
 ```
 
 ---
@@ -56,17 +61,22 @@ const cached = JSON.parse(localStorage.getItem("notes") || "[]");
 Split sprawling scripts into single-responsibility modules:
 
 ```javascript
-// storage.js
-export function save(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
-}
+// Simulated modular storage pattern:
+const storageModule = {
+  save(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+    console.log("Saved to storage:", key);
+  },
+  load(key) {
+    return JSON.parse(localStorage.getItem(key) || "null");
+  }
+};
 
-// app.js
-import { save } from "./storage.js";
-save("user", { name: "Alex" });
+storageModule.save("user", { name: "Alex" });
+console.log("Loaded user:", storageModule.load("user"));
 ```
 
-Include using `type="module"`:
+In multi-file ES Module setups, use `export`/`import` syntax with `<script type="module">`:
 ```html
 <script type="module" src="app.js"></script>
 ```
@@ -100,6 +110,7 @@ Include using `type="module"`:
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

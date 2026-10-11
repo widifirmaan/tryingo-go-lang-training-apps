@@ -29,10 +29,12 @@ LocalStorage adalah mekanisme penyimpanan data persisten langsung di browser kli
 localStorage.setItem("tema", "gelap");
 
 // 2. Membaca data berdasarkan kunci
-const temaTersimpan = localStorage.getItem("tema"); // "gelap"
+const temaTersimpan = localStorage.getItem("tema");
+console.log("Tema terbaca:", temaTersimpan);
 
 // 3. Menghapus satu data spesifik
 localStorage.removeItem("tema");
+console.log("Setelah dihapus:", localStorage.getItem("tema")); // null
 
 // 4. Menghapus seluruh data domain
 localStorage.clear();
@@ -49,6 +51,7 @@ localStorage.setItem("catatan", JSON.stringify(daftarCatatan));
 
 // Baca kembali:
 const dataAmbil = JSON.parse(localStorage.getItem("catatan") || "[]");
+console.log("Catatan tersimpan:", dataAmbil);
 ```
 
 ---
@@ -58,17 +61,22 @@ const dataAmbil = JSON.parse(localStorage.getItem("catatan") || "[]");
 Dalam proyek besar, pisahkan kode menjadi beberapa file terfokus:
 
 ```javascript
-// file: storage.js
-export function simpanData(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
-}
+// Simulasi pola modular storage:
+const modulPenyimpanan = {
+  simpanData(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+    console.log("Data berhasil disimpan:", key);
+  },
+  ambilData(key) {
+    return JSON.parse(localStorage.getItem(key) || "null");
+  }
+};
 
-// file: app.js
-import { simpanData } from "./storage.js";
-simpanData("user", { nama: "Alex" });
+modulPenyimpanan.simpanData("user", { nama: "Alex" });
+console.log("Data terbaca:", modulPenyimpanan.ambilData("user"));
 ```
 
-Di HTML, tambahkan `type="module"`:
+Di proyek ES Modules multi-file, gunakan sintaks `export`/`import` dengan `<script type="module">`:
 ```html
 <script type="module" src="app.js"></script>
 ```
@@ -102,6 +110,7 @@ Di HTML, tambahkan `type="module"`:
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

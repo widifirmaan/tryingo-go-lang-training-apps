@@ -94,6 +94,7 @@ Shorthand praktis untuk mengatur item adalah `flex: grow shrink basis`:
       justify-content: space-between;
       align-items: center;
       background-color: #FFFFFF;
+      color: #2D3748;
       padding: 16px 24px;
       border-radius: 12px;
       border: 1px solid #E2E8F0;
@@ -135,6 +136,7 @@ Shorthand praktis untuk mengatur item adalah `flex: grow shrink basis`:
     .feature-card {
       flex: 1 1 240px; /* Minimal 240px, tumbuh seimbang jika ada ruang */
       background-color: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

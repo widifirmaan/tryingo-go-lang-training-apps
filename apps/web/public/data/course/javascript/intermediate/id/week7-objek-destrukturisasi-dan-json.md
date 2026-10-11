@@ -54,11 +54,20 @@ console.log(nama, email, peran);
 Spread operator membuat salinan (*shallow copy*) objek baru tanpa mengubah objek asli:
 
 ```javascript
+const profilPengguna = {
+  id: 1042,
+  nama: "Alex Pratama",
+  peran: "Developer"
+};
+
 const updateProfil = {
   ...profilPengguna,      // Salin semua properti lama
   peran: "Lead Engineer", // Timpa properti peran
   lokasi: "Jakarta"       // Tambah properti baru
 };
+
+console.log("Profil Sebelum:", profilPengguna);
+console.log("Profil Sesudah (Spread):", updateProfil);
 ```
 
 ---
@@ -71,10 +80,13 @@ JSON adalah format teks universal untuk pertukaran data antara browser dan serve
 - **`JSON.parse(teksJSON)`**: Mengubah teks string JSON kembali menjadi objek JavaScript:
 
 ```javascript
-const payloadString = JSON.stringify(updateProfil);
-// '{"id":1042,"nama":"Alex Pratama",...}'
+const profilUji = { id: 1042, nama: "Alex Pratama", peran: "Lead Engineer" };
+
+const payloadString = JSON.stringify(profilUji);
+console.log("Serialisasi JSON String:", payloadString);
 
 const objekKembali = JSON.parse(payloadString);
+console.log("Deserialisasi Objek Asli:", objekKembali);
 ```
 
 ---
@@ -106,6 +118,7 @@ const objekKembali = JSON.parse(payloadString);
       max-width: 540px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
