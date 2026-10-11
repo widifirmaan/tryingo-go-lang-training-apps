@@ -197,11 +197,23 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
     const __runId = ${runId};
     const _logs = [];
     const _origLog = console.log;
+    const _origWarn = console.warn;
+    const _origInfo = console.info;
     const _origError = console.error;
     console.log = function(...args) {
       _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
       window.parent.postMessage({ type: 'console', runId: __runId, data: _logs.join('\\n') }, '*');
       _origLog.apply(console, args);
+    };
+    console.warn = function(...args) {
+      _logs.push('[WARN] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+      window.parent.postMessage({ type: 'console', runId: __runId, data: _logs.join('\\n') }, '*');
+      _origWarn.apply(console, args);
+    };
+    console.info = function(...args) {
+      _logs.push('[INFO] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+      window.parent.postMessage({ type: 'console', runId: __runId, data: _logs.join('\\n') }, '*');
+      _origInfo.apply(console, args);
     };
     console.error = function(...args) {
       _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
