@@ -397,6 +397,16 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             } else if (resultHtml.includes('</head>')) {
               resultHtml = resultHtml.replace('</head>', baseStyles + '</head>');
             }
+          } else {
+            // Complete HTML documents: establish default browser viewport baseline (white background, dark slate text)
+            // placed before author styles so author CSS overrides it, while ensuring transparent elements never inherit
+            // dark container backgrounds in dark mode.
+            const canvasDefaultStyle = '<style id="tryngo-canvas-defaults">:root{color-scheme:light;}html,body{background-color:#ffffff;color:#1e293b;}</style>';
+            if (resultHtml.includes('<head>')) {
+              resultHtml = resultHtml.replace('<head>', '<head>' + canvasDefaultStyle);
+            } else if (resultHtml.includes('</head>')) {
+              resultHtml = resultHtml.replace('</head>', canvasDefaultStyle + '</head>');
+            }
           }
 
           iframe.srcdoc = resultHtml;
@@ -688,7 +698,7 @@ func main() {
               <iframe
                 ref={iframeRef}
                 title="preview"
-                className="w-full h-full border-0"
+                className="w-full h-full border-0 bg-white"
                 sandbox="allow-scripts allow-modals allow-forms"
               />
             ) : (

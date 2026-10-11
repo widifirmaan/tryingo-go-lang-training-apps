@@ -78,7 +78,7 @@ my-website/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Layanan Web — Alex Pratama</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
     nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
     nav a:hover { text-decoration: underline; }
