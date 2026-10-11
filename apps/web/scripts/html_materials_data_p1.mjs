@@ -478,7 +478,7 @@ my-website/
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Layanan Web — Alex Pratama</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
     nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
     nav a:hover { text-decoration: underline; }
@@ -680,8 +680,9 @@ When an image includes an accompanying caption, wrap both inside \`<figure>\`:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beranda Portofolio — Alex Pratama</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }
+    header h1 { color: #1e293b; margin-top: 8px; }
     nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 12px; }
     .layout-wrapper { display: flex; gap: 20px; flex-direction: column; }
     section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; }
@@ -878,7 +879,7 @@ Both files are seamlessly connected using clean relative \`<a href="...">\` navi
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paket Layanan — Alex Pratama</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
     nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
     table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #ffffff; }

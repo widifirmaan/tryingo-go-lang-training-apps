@@ -65,7 +65,7 @@ Anda tidak selalu harus menulis Web Components dari nol. Ada pustaka Web Compone
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Components Native — Alex Pratama</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }
   </style>
 </head>
