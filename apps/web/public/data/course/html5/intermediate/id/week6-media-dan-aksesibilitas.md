@@ -75,10 +75,10 @@ Website yang baik dapat diakses oleh semua pengguna, termasuk penyandang disabil
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Media dan Lokasi — Alex Pratama</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }
     nav a { text-decoration: none; color: #0284c7; font-weight: bold; margin-right: 14px; }
-    .card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .card { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-bottom: 20px; color: #1e293b; }
     .icon-box { display: flex; align-items: center; gap: 8px; font-weight: bold; color: #0f172a; margin-bottom: 12px; }
     svg { color: #0284c7; }
     audio { width: 100%; margin-top: 10px; }

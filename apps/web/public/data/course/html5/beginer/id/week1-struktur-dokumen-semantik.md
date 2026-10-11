@@ -270,11 +270,13 @@ Struktur standar situs web statis.
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website Profil Alex</title>
   <style>
-    body { font-family: sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; color: #1e293b; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 20px; }
     h1 { color: #0f172a; margin-bottom: 6px; }
     .status-badge { display: inline-block; background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 6px; font-size: 13px; font-weight: bold; }
-    .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0; }
+    .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0; color: #1e293b; }
+    .card h2 { color: #0f172a; margin-top: 0; margin-bottom: 8px; font-size: 18px; }
+    .card p { color: #334155; margin: 0; }
     footer { margin-top: 32px; border-top: 1px solid #e2e8f0; padding-top: 12px; color: #64748b; font-size: 13px; }
   </style>
 </head>

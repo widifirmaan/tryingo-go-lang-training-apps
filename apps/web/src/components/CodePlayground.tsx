@@ -378,17 +378,28 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
               }
             }
           }
-          const styledCode = finalCode.includes('</head>')
-            ? finalCode.replace('</head>', captureScript + '</head>')
-            : finalCode.includes('<head>')
-              ? finalCode.replace('<head>', '<head>' + captureScript)
-              : '<!DOCTYPE html><html><head>' + captureScript + '</head><body>' + finalCode + '</body></html>';
-          const styledCodeWithStyles = styledCode.includes('</head>')
-            ? styledCode.replace('</head>', baseStyles + '</head>')
-            : styledCode.includes('<head>')
-              ? styledCode.replace('<head>', '<head>' + baseStyles)
-              : '<!DOCTYPE html><html><head>' + baseStyles + '</head><body>' + styledCode + '</body></html>';
-          iframe.srcdoc = styledCodeWithStyles;
+          // Inject console telemetry script at the beginning of <head>
+          let resultHtml = finalCode;
+          if (resultHtml.includes('<head>')) {
+            resultHtml = resultHtml.replace('<head>', '<head>' + captureScript);
+          } else if (resultHtml.includes('</head>')) {
+            resultHtml = resultHtml.replace('</head>', captureScript + '</head>');
+          } else {
+            resultHtml = '<!DOCTYPE html><html><head>' + captureScript + '</head><body>' + resultHtml + '</body></html>';
+          }
+
+          // Only inject baseStyles if the code was a bare snippet (not a full HTML document).
+          // Full HTML documents define their own styling; forcing baseStyles (dark background/white text)
+          // overwrites author CSS and causes light containers/cards to inherit white text on white backgrounds.
+          if (!looksLikeHtml) {
+            if (resultHtml.includes('<head>')) {
+              resultHtml = resultHtml.replace('<head>', '<head>' + baseStyles);
+            } else if (resultHtml.includes('</head>')) {
+              resultHtml = resultHtml.replace('</head>', baseStyles + '</head>');
+            }
+          }
+
+          iframe.srcdoc = resultHtml;
       }
       isRunningRef.current = false;
       setIsRunning(false);
