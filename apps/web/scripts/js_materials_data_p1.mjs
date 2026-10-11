@@ -298,9 +298,16 @@ console.error("Critical error message");
 - **\`var\` (Usang / Hindari)**: Jangan gunakan \`var\` dalam kode modern karena memiliki masalah *function scope* dan *hoisting* yang membingungkan.
 
 \`\`\`javascript
+// Deklarasi Variabel Modern (const & let)
 const namaToko = "Toko Nusa";
 let totalItem = 3;
-totalItem = totalItem + 1; // Valid dengan let!
+
+console.log("Nama Toko (const)        :", namaToko);
+console.log("Total Item Awal (let)    :", totalItem);
+
+// Nilai 'let' dapat diubah (reassignment)
+totalItem = totalItem + 1;
+console.log("Total Item Setelah Tambah:", totalItem);
 \`\`\`
 
 ---
@@ -323,8 +330,15 @@ totalItem = totalItem + 1; // Valid dengan let!
 
 Gunakan operator \`typeof\` untuk memeriksa tipe data suatu variabel secara runtime:
 \`\`\`javascript
-console.log(typeof "Halo"); // "string"
-console.log(typeof 100);    // "number"
+// Memeriksa 7 Tipe Data Primitif dengan typeof
+console.log("Tipe 'Halo Nusa'    :", typeof "Halo Nusa");          // string
+console.log("Tipe 42             :", typeof 42);                   // number
+console.log("Tipe 3.14           :", typeof 3.14);                 // number
+console.log("Tipe true           :", typeof true);                 // boolean
+console.log("Tipe undefined      :", typeof undefined);            // undefined
+console.log("Tipe 900719925474n  :", typeof 9007199254740991n);    // bigint
+console.log("Tipe Symbol('id')   :", typeof Symbol("id"));         // symbol
+console.log("Tipe null           :", typeof null);                 // object (keunikan historis JS)
 \`\`\`
 
 ---
@@ -334,14 +348,24 @@ console.log(typeof 100);    // "number"
 JavaScript memiliki fitur *Type Coercion* (konversi tipe otomatis) yang berbahaya jika menggunakan \`==\` (loose equality):
 
 \`\`\`javascript
-// BERBAHAYA (Loose Equality):
-"5" == 5;  // true! (String "5" dipaksa diubah menjadi angka 5)
-0 == false; // true!
-"" == 0;    // true!
+// 1. Loose Equality (==) - Mengubah tipe data otomatis (Type Coercion)
+console.log("=== LOOSE EQUALITY (==) - TIDAK DIREKOMENDASIKAN ===");
+console.log('"5" == 5    ->', "5" == 5);     // true (string "5" dipaksa diubah jadi number 5)
+console.log("0 == false   ->", 0 == false);   // true (0 dianggap bernilai falsy)
+console.log('"" == 0      ->', "" == 0);      // true (string kosong diubah jadi 0)
 
-// STANDAR AMAN (Strict Equality):
-"5" === 5;  // false! (Tipe data berbeda: string vs number)
-0 === false; // false!
+// 2. Strict Equality (===) - Cek nilai dan tipe data sekaligus (Aman)
+console.log("\\n=== STRICT EQUALITY (===) - STANDAR AMAN WAJIB ===");
+console.log('"5" === 5   ->', "5" === 5);    // false (tipe string vs number berbeda)
+console.log("0 === false  ->", 0 === false);  // false (tipe number vs boolean berbeda)
+console.log('"" === 0     ->', "" === 0);     // false (tipe string vs number berbeda)
+
+// 3. Operator Aritmatika & Penggabungan String
+console.log("\\n=== ARITMATIKA & TEMPLATE LITERALS ===");
+const harga = 50000;
+const jumlah = 2;
+const total = harga * jumlah;
+console.log(\`Beli \${jumlah} item seharga Rp \${harga} = Total Rp \${total}\`);
 \`\`\`
 
 **Aturan Mutlak:** Selalu gunakan operator \`===\` (sama persis) dan \`!==\` (tidak sama persis).`,
@@ -352,9 +376,16 @@ JavaScript memiliki fitur *Type Coercion* (konversi tipe otomatis) yang berbahay
 - **\`var\` (Obsolete)**: Deprecated in modern engineering due to function-scoping leaks and unpredictable hoisting.
 
 \`\`\`javascript
+// Modern Variable Declarations (const & let)
 const storeName = "Nusa Store";
 let itemCount = 3;
-itemCount = itemCount + 1; // Valid under let!
+
+console.log("Store Name (const)        :", storeName);
+console.log("Initial Item Count (let)  :", itemCount);
+
+// 'let' bindings can be reassigned
+itemCount = itemCount + 1;
+console.log("Updated Item Count        :", itemCount);
 \`\`\`
 
 ---
@@ -377,8 +408,15 @@ itemCount = itemCount + 1; // Valid under let!
 
 Inspect runtime types with \`typeof\`:
 \`\`\`javascript
-console.log(typeof "Hello"); // "string"
-console.log(typeof 100);     // "number"
+// Inspecting Primitive Types with typeof
+console.log("Type of 'Hello'       :", typeof "Hello");              // string
+console.log("Type of 42            :", typeof 42);                   // number
+console.log("Type of 3.14          :", typeof 3.14);                 // number
+console.log("Type of true          :", typeof true);                 // boolean
+console.log("Type of undefined     :", typeof undefined);            // undefined
+console.log("Type of 900719925474n :", typeof 9007199254740991n);   // bigint
+console.log("Type of Symbol('id')  :", typeof Symbol("id"));        // symbol
+console.log("Type of null          :", typeof null);                 // object (historical JS quirk)
 \`\`\`
 
 ---
@@ -388,13 +426,24 @@ console.log(typeof 100);     // "number"
 JavaScript performs implicit *Type Coercion* under loose equality (\`==\`):
 
 \`\`\`javascript
-// HAZARDOUS (Loose Equality):
-"5" == 5;   // true! (Implicit coercion string to number)
-0 == false;  // true!
+// 1. Loose Equality (==) - Hazardous Implicit Type Coercion
+console.log("=== LOOSE EQUALITY (==) - HAZARDOUS ===");
+console.log('"5" == 5    ->', "5" == 5);     // true (string "5" coerced into number 5)
+console.log("0 == false   ->", 0 == false);   // true (0 treated as falsy)
+console.log('"" == 0      ->', "" == 0);      // true (empty string coerced into 0)
 
-// STRICT (Safe Standard):
-"5" === 5;   // false! (Types differ: string vs number)
-0 === false;  // false!
+// 2. Strict Equality (===) - Safe & Predictable Standard
+console.log("\\n=== STRICT EQUALITY (===) - SAFE STANDARD ===");
+console.log('"5" === 5   ->', "5" === 5);    // false (string vs number)
+console.log("0 === false  ->", 0 === false);  // false (number vs boolean)
+console.log('"" === 0     ->', "" === 0);     // false (string vs number)
+
+// 3. Arithmetic & Template Literals
+console.log("\\n=== ARITHMETIC & TEMPLATE LITERALS ===");
+const price = 50000;
+const quantity = 2;
+const total = price * quantity;
+console.log(\`Bought \${quantity} items at \$\${price} = Total \$\${total}\`);
 \`\`\`
 
 **Inviolable Rule:** Always enforce strict equality (\`===\` and \`!==\`).`,
@@ -535,6 +584,19 @@ JavaScript performs implicit *Type Coercion* under loose equality (\`==\`):
       \`;
       tbody.appendChild(tr);
     });
+
+    // 5. Output Konsol untuk Pemula
+    console.log("=== STRUK TRANSAKSI KASIR NUSA ===");
+    console.log(\`Produk      : \${namaProduk}\`);
+    console.log(\`Harga       : Rp \${hargaSatuan.toLocaleString("id-ID")} x \${kuantitas}\`);
+    console.log(\`Subtotal    : Rp \${subtotal.toLocaleString("id-ID")}\`);
+    console.log(\`Diskon (10%): -Rp \${nominalDiskon.toLocaleString("id-ID")}\`);
+    console.log(\`Total Bayar : Rp \${totalBayar.toLocaleString("id-ID")}\`);
+    console.log(\`Status VIP  : \${statusMember === true ? "Member Aktif" : "Bukan Member"}\`);
+    console.log("\\n--- Verifikasi Tipe Data Runtime ---");
+    inspeksiData.forEach(item => {
+      console.log(\`\${item.nama.padEnd(16)} : \${item.nilai} (\${item.tipe})\`);
+    });
   </script>
 
 </body>
@@ -617,7 +679,11 @@ Gunakan ternary operator untuk menetapkan nilai variabel dalam satu baris ekspre
 
 \`\`\`javascript
 // Format: kondisi ? nilaiJikaTrue : nilaiJikaFalse
+const usia = 20;
 const statusAkses = usia >= 18 ? "Diizinkan Masuk" : "Dilarang Masuk";
+
+console.log("Usia Pengguna :", usia);
+console.log("Status Akses  :", statusAkses);
 \`\`\`
 
 ---
@@ -649,6 +715,10 @@ const skorPemain = 0;
 
 const hasilOR = skorPemain || 10;  // 10! (Karena 0 dianggap falsy, padahal 0 skor valid!)
 const hasilNullish = skorPemain ?? 10; // 0! (Benar, 0 bukan null atau undefined)
+
+console.log("Skor Pemain:", skorPemain);
+console.log("Hasil OR (skorPemain || 10)      :", hasilOR);
+console.log("Hasil Nullish (skorPemain ?? 10) :", hasilNullish);
 \`\`\``,
     contentEn: `## 1. Branching with \`if...else if...else\`
 
@@ -674,7 +744,11 @@ Concise inline conditional assignment:
 
 \`\`\`javascript
 // Format: condition ? valueIfTrue : valueIfFalse
+const age = 20;
 const access = age >= 18 ? "Granted" : "Restricted";
+
+console.log("User Age      :", age);
+console.log("Access Status :", access);
 \`\`\`
 
 ---
@@ -706,6 +780,10 @@ const score = 0;
 
 const orResult = score || 10;       // 10 (Faulty: 0 was treated as invalid!)
 const nullishResult = score ?? 10;  // 0 (Accurate: 0 is preserved)
+
+console.log("Player Score:", score);
+console.log("OR Result (score || 10)      :", orResult);
+console.log("Nullish Result (score ?? 10) :", nullishResult);
 \`\`\``,
     programTitleId: 'Sistem Penilaian Kelulusan dan Evaluasi Hak Akses',
     programTitleEn: 'Academic Grading and Access Privilege Evaluator',
@@ -941,8 +1019,10 @@ for (let i = 1; i <= 5; i++) {
 
 \`\`\`javascript
 let saldo = 100;
+console.log("Saldo Awal: Rp " + saldo);
 while (saldo > 0) {
   saldo -= 25;
+  console.log("Penarikan Rp 25 -> Saldo sisa: Rp " + saldo);
 }
 \`\`\`
 
@@ -994,8 +1074,10 @@ for (let i = 1; i <= 5; i++) {
 
 \`\`\`javascript
 let balance = 100;
+console.log("Initial Balance: $" + balance);
 while (balance > 0) {
   balance -= 25;
+  console.log("Withdrew $25 -> Remaining: $" + balance);
 }
 \`\`\`
 
@@ -1250,8 +1332,8 @@ function hitungDiskon(harga, diskon = 0.05) {
   return harga * (1 - diskon);
 }
 
-hitungDiskon(100000);       // Menggunakan diskon default 5% -> 95000
-hitungDiskon(100000, 0.20); // Menggunakan diskon kustom 20% -> 80000
+console.log("Harga 100.000 (diskon default 5%) : Rp " + hitungDiskon(100000));
+console.log("Harga 100.000 (diskon kustom 20%)  : Rp " + hitungDiskon(100000, 0.20));
 \`\`\`
 
 - Kata kunci **\`return\`** menghentikan eksekusi fungsi dan mengirimkan nilai hasilnya kembali ke pemanggil. Tanpa \`return\`, fungsi akan mengembalikan \`undefined\`.
@@ -1314,8 +1396,8 @@ function applyDiscount(price, discount = 0.05) {
   return price * (1 - discount);
 }
 
-applyDiscount(100000);       // Uses default 5% -> 95000
-applyDiscount(100000, 0.20); // Uses explicit 20% -> 80000
+console.log("Price 100,000 (default 5% discount) : $" + applyDiscount(100000));
+console.log("Price 100,000 (custom 20% discount)  : $" + applyDiscount(100000, 0.20));
 \`\`\`
 
 - The **\`return\`** keyword halts execution and transmits output back to the caller. Without \`return\`, functions resolve to \`undefined\`.

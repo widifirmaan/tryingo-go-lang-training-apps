@@ -20,9 +20,16 @@
 - **`var` (Obsolete)**: Deprecated in modern engineering due to function-scoping leaks and unpredictable hoisting.
 
 ```javascript
+// Modern Variable Declarations (const & let)
 const storeName = "Nusa Store";
 let itemCount = 3;
-itemCount = itemCount + 1; // Valid under let!
+
+console.log("Store Name (const)        :", storeName);
+console.log("Initial Item Count (let)  :", itemCount);
+
+// 'let' bindings can be reassigned
+itemCount = itemCount + 1;
+console.log("Updated Item Count        :", itemCount);
 ```
 
 ---
@@ -45,8 +52,15 @@ itemCount = itemCount + 1; // Valid under let!
 
 Inspect runtime types with `typeof`:
 ```javascript
-console.log(typeof "Hello"); // "string"
-console.log(typeof 100);     // "number"
+// Inspecting Primitive Types with typeof
+console.log("Type of 'Hello'       :", typeof "Hello");              // string
+console.log("Type of 42            :", typeof 42);                   // number
+console.log("Type of 3.14          :", typeof 3.14);                 // number
+console.log("Type of true          :", typeof true);                 // boolean
+console.log("Type of undefined     :", typeof undefined);            // undefined
+console.log("Type of 900719925474n :", typeof 9007199254740991n);   // bigint
+console.log("Type of Symbol('id')  :", typeof Symbol("id"));        // symbol
+console.log("Type of null          :", typeof null);                 // object (historical JS quirk)
 ```
 
 ---
@@ -56,13 +70,24 @@ console.log(typeof 100);     // "number"
 JavaScript performs implicit *Type Coercion* under loose equality (`==`):
 
 ```javascript
-// HAZARDOUS (Loose Equality):
-"5" == 5;   // true! (Implicit coercion string to number)
-0 == false;  // true!
+// 1. Loose Equality (==) - Hazardous Implicit Type Coercion
+console.log("=== LOOSE EQUALITY (==) - HAZARDOUS ===");
+console.log('"5" == 5    ->', "5" == 5);     // true (string "5" coerced into number 5)
+console.log("0 == false   ->", 0 == false);   // true (0 treated as falsy)
+console.log('"" == 0      ->', "" == 0);      // true (empty string coerced into 0)
 
-// STRICT (Safe Standard):
-"5" === 5;   // false! (Types differ: string vs number)
-0 === false;  // false!
+// 2. Strict Equality (===) - Safe & Predictable Standard
+console.log("\n=== STRICT EQUALITY (===) - SAFE STANDARD ===");
+console.log('"5" === 5   ->', "5" === 5);    // false (string vs number)
+console.log("0 === false  ->", 0 === false);  // false (number vs boolean)
+console.log('"" === 0     ->', "" === 0);     // false (string vs number)
+
+// 3. Arithmetic & Template Literals
+console.log("\n=== ARITHMETIC & TEMPLATE LITERALS ===");
+const price = 50000;
+const quantity = 2;
+const total = price * quantity;
+console.log(`Bought ${quantity} items at $${price} = Total $${total}`);
 ```
 
 **Inviolable Rule:** Always enforce strict equality (`===` and `!==`).
@@ -206,6 +231,19 @@ JavaScript performs implicit *Type Coercion* under loose equality (`==`):
         <td><strong>${item.tipe}</strong></td>
       `;
       tbody.appendChild(tr);
+    });
+
+    // 5. Output Konsol untuk Pemula
+    console.log("=== STRUK TRANSAKSI KASIR NUSA ===");
+    console.log(`Produk      : ${namaProduk}`);
+    console.log(`Harga       : Rp ${hargaSatuan.toLocaleString("id-ID")} x ${kuantitas}`);
+    console.log(`Subtotal    : Rp ${subtotal.toLocaleString("id-ID")}`);
+    console.log(`Diskon (10%): -Rp ${nominalDiskon.toLocaleString("id-ID")}`);
+    console.log(`Total Bayar : Rp ${totalBayar.toLocaleString("id-ID")}`);
+    console.log(`Status VIP  : ${statusMember === true ? "Member Aktif" : "Bukan Member"}`);
+    console.log("\n--- Verifikasi Tipe Data Runtime ---");
+    inspeksiData.forEach(item => {
+      console.log(`${item.nama.padEnd(16)} : ${item.nilai} (${item.tipe})`);
     });
   </script>
 

@@ -20,9 +20,16 @@
 - **`var` (Usang / Hindari)**: Jangan gunakan `var` dalam kode modern karena memiliki masalah *function scope* dan *hoisting* yang membingungkan.
 
 ```javascript
+// Deklarasi Variabel Modern (const & let)
 const namaToko = "Toko Nusa";
 let totalItem = 3;
-totalItem = totalItem + 1; // Valid dengan let!
+
+console.log("Nama Toko (const)        :", namaToko);
+console.log("Total Item Awal (let)    :", totalItem);
+
+// Nilai 'let' dapat diubah (reassignment)
+totalItem = totalItem + 1;
+console.log("Total Item Setelah Tambah:", totalItem);
 ```
 
 ---
@@ -45,8 +52,15 @@ totalItem = totalItem + 1; // Valid dengan let!
 
 Gunakan operator `typeof` untuk memeriksa tipe data suatu variabel secara runtime:
 ```javascript
-console.log(typeof "Halo"); // "string"
-console.log(typeof 100);    // "number"
+// Memeriksa 7 Tipe Data Primitif dengan typeof
+console.log("Tipe 'Halo Nusa'    :", typeof "Halo Nusa");          // string
+console.log("Tipe 42             :", typeof 42);                   // number
+console.log("Tipe 3.14           :", typeof 3.14);                 // number
+console.log("Tipe true           :", typeof true);                 // boolean
+console.log("Tipe undefined      :", typeof undefined);            // undefined
+console.log("Tipe 900719925474n  :", typeof 9007199254740991n);    // bigint
+console.log("Tipe Symbol('id')   :", typeof Symbol("id"));         // symbol
+console.log("Tipe null           :", typeof null);                 // object (keunikan historis JS)
 ```
 
 ---
@@ -56,14 +70,24 @@ console.log(typeof 100);    // "number"
 JavaScript memiliki fitur *Type Coercion* (konversi tipe otomatis) yang berbahaya jika menggunakan `==` (loose equality):
 
 ```javascript
-// BERBAHAYA (Loose Equality):
-"5" == 5;  // true! (String "5" dipaksa diubah menjadi angka 5)
-0 == false; // true!
-"" == 0;    // true!
+// 1. Loose Equality (==) - Mengubah tipe data otomatis (Type Coercion)
+console.log("=== LOOSE EQUALITY (==) - TIDAK DIREKOMENDASIKAN ===");
+console.log('"5" == 5    ->', "5" == 5);     // true (string "5" dipaksa diubah jadi number 5)
+console.log("0 == false   ->", 0 == false);   // true (0 dianggap bernilai falsy)
+console.log('"" == 0      ->', "" == 0);      // true (string kosong diubah jadi 0)
 
-// STANDAR AMAN (Strict Equality):
-"5" === 5;  // false! (Tipe data berbeda: string vs number)
-0 === false; // false!
+// 2. Strict Equality (===) - Cek nilai dan tipe data sekaligus (Aman)
+console.log("\n=== STRICT EQUALITY (===) - STANDAR AMAN WAJIB ===");
+console.log('"5" === 5   ->', "5" === 5);    // false (tipe string vs number berbeda)
+console.log("0 === false  ->", 0 === false);  // false (tipe number vs boolean berbeda)
+console.log('"" === 0     ->', "" === 0);     // false (tipe string vs number berbeda)
+
+// 3. Operator Aritmatika & Penggabungan String
+console.log("\n=== ARITMATIKA & TEMPLATE LITERALS ===");
+const harga = 50000;
+const jumlah = 2;
+const total = harga * jumlah;
+console.log(`Beli ${jumlah} item seharga Rp ${harga} = Total Rp ${total}`);
 ```
 
 **Aturan Mutlak:** Selalu gunakan operator `===` (sama persis) dan `!==` (tidak sama persis).
@@ -207,6 +231,19 @@ JavaScript memiliki fitur *Type Coercion* (konversi tipe otomatis) yang berbahay
         <td><strong>${item.tipe}</strong></td>
       `;
       tbody.appendChild(tr);
+    });
+
+    // 5. Output Konsol untuk Pemula
+    console.log("=== STRUK TRANSAKSI KASIR NUSA ===");
+    console.log(`Produk      : ${namaProduk}`);
+    console.log(`Harga       : Rp ${hargaSatuan.toLocaleString("id-ID")} x ${kuantitas}`);
+    console.log(`Subtotal    : Rp ${subtotal.toLocaleString("id-ID")}`);
+    console.log(`Diskon (10%): -Rp ${nominalDiskon.toLocaleString("id-ID")}`);
+    console.log(`Total Bayar : Rp ${totalBayar.toLocaleString("id-ID")}`);
+    console.log(`Status VIP  : ${statusMember === true ? "Member Aktif" : "Bukan Member"}`);
+    console.log("\n--- Verifikasi Tipe Data Runtime ---");
+    inspeksiData.forEach(item => {
+      console.log(`${item.nama.padEnd(16)} : ${item.nilai} (${item.tipe})`);
     });
   </script>
 

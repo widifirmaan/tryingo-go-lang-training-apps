@@ -37,8 +37,10 @@ for (let i = 1; i <= 5; i++) {
 
 ```javascript
 let saldo = 100;
+console.log("Saldo Awal: Rp " + saldo);
 while (saldo > 0) {
   saldo -= 25;
+  console.log("Penarikan Rp 25 -> Saldo sisa: Rp " + saldo);
 }
 ```
 

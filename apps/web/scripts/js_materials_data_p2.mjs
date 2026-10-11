@@ -57,7 +57,9 @@ Dalam standar JavaScript profesional, pengolahan data array menggunakan metode d
 Mengubah setiap elemen menjadi format baru dengan panjang array yang tetap sama:
 \`\`\`javascript
 const harga = [10000, 20000, 50000];
-const hargaPajak = harga.map(h => h * 1.11); // [11100, 22200, 55500]
+const hargaPajak = harga.map(h => h * 1.11);
+console.log("Harga Asli        :", harga);
+console.log("Harga Pajak (11%) :", hargaPajak);
 \`\`\`
 
 ### B. \`filter()\` (Penyaringan Data)
@@ -69,12 +71,19 @@ const produk = [
   { nama: "Jaket", stok: 5 }
 ];
 const produkTersedia = produk.filter(p => p.stok > 0);
+console.log("Produk Tersedia (stok > 0):", produkTersedia);
 \`\`\`
 
 ### C. \`reduce()\` (Akumulasi Nilai Tunggal)
 Menggabungkan seluruh elemen menjadi satu nilai akhir (misal: total harga):
 \`\`\`javascript
+const produk = [
+  { nama: "Kemeja", stok: 12 },
+  { nama: "Celana", stok: 0 },
+  { nama: "Jaket", stok: 5 }
+];
 const totalStok = produk.reduce((total, p) => total + p.stok, 0);
+console.log("Total Seluruh Stok:", totalStok);
 \`\`\``,
     contentEn: `## 1. Array Sequence Anatomy
 
@@ -105,20 +114,34 @@ console.log(fruits.length); // 3 (Item count)
 ### A. \`map()\`
 Transforms each element one-to-one into a new array:
 \`\`\`javascript
-const prices = [10000, 20000];
+const prices = [10000, 20000, 50000];
 const withTax = prices.map(p => p * 1.11);
+console.log("Original Prices :", prices);
+console.log("Prices with Tax :", withTax);
 \`\`\`
 
 ### B. \`filter()\`
 Extracts items matching boolean predicates:
 \`\`\`javascript
+const products = [
+  { name: "Shirt", stock: 12 },
+  { name: "Pants", stock: 0 },
+  { name: "Jacket", stock: 5 }
+];
 const available = products.filter(p => p.stock > 0);
+console.log("In-Stock Products:", available);
 \`\`\`
 
 ### C. \`reduce()\`
 Condenses arrays down into single accumulated values:
 \`\`\`javascript
+const products = [
+  { name: "Shirt", stock: 12 },
+  { name: "Pants", stock: 0 },
+  { name: "Jacket", stock: 5 }
+];
 const totalStock = products.reduce((acc, p) => acc + p.stock, 0);
+console.log("Total Inventory Stock:", totalStock);
 \`\`\``,
     programTitleId: 'Pengolah Data Inventaris Toko dengan Filter dan Agregasi',
     programTitleEn: 'Inventory Dataset Pipeline with Filters and Aggregations',
