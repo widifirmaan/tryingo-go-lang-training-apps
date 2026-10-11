@@ -39,7 +39,11 @@ Gunakan ternary operator untuk menetapkan nilai variabel dalam satu baris ekspre
 
 ```javascript
 // Format: kondisi ? nilaiJikaTrue : nilaiJikaFalse
+const usia = 20;
 const statusAkses = usia >= 18 ? "Diizinkan Masuk" : "Dilarang Masuk";
+
+console.log("Usia Pengguna :", usia);
+console.log("Status Akses  :", statusAkses);
 ```
 
 ---
@@ -71,6 +75,10 @@ const skorPemain = 0;
 
 const hasilOR = skorPemain || 10;  // 10! (Karena 0 dianggap falsy, padahal 0 skor valid!)
 const hasilNullish = skorPemain ?? 10; // 0! (Benar, 0 bukan null atau undefined)
+
+console.log("Skor Pemain:", skorPemain);
+console.log("Hasil OR (skorPemain || 10)      :", hasilOR);
+console.log("Hasil Nullish (skorPemain ?? 10) :", hasilNullish);
 ```
 
 ---

@@ -47,8 +47,8 @@ function applyDiscount(price, discount = 0.05) {
   return price * (1 - discount);
 }
 
-applyDiscount(100000);       // Uses default 5% -> 95000
-applyDiscount(100000, 0.20); // Uses explicit 20% -> 80000
+console.log("Price 100,000 (default 5% discount) : $" + applyDiscount(100000));
+console.log("Price 100,000 (custom 20% discount)  : $" + applyDiscount(100000, 0.20));
 ```
 
 - The **`return`** keyword halts execution and transmits output back to the caller. Without `return`, functions resolve to `undefined`.

@@ -37,7 +37,11 @@ Concise inline conditional assignment:
 
 ```javascript
 // Format: condition ? valueIfTrue : valueIfFalse
+const age = 20;
 const access = age >= 18 ? "Granted" : "Restricted";
+
+console.log("User Age      :", age);
+console.log("Access Status :", access);
 ```
 
 ---
@@ -69,6 +73,10 @@ const score = 0;
 
 const orResult = score || 10;       // 10 (Faulty: 0 was treated as invalid!)
 const nullishResult = score ?? 10;  // 0 (Accurate: 0 is preserved)
+
+console.log("Player Score:", score);
+console.log("OR Result (score || 10)      :", orResult);
+console.log("Nullish Result (score ?? 10) :", nullishResult);
 ```
 
 ---

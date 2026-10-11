@@ -47,7 +47,9 @@ Dalam standar JavaScript profesional, pengolahan data array menggunakan metode d
 Mengubah setiap elemen menjadi format baru dengan panjang array yang tetap sama:
 ```javascript
 const harga = [10000, 20000, 50000];
-const hargaPajak = harga.map(h => h * 1.11); // [11100, 22200, 55500]
+const hargaPajak = harga.map(h => h * 1.11);
+console.log("Harga Asli        :", harga);
+console.log("Harga Pajak (11%) :", hargaPajak);
 ```
 
 ### B. `filter()` (Penyaringan Data)
@@ -59,12 +61,19 @@ const produk = [
   { nama: "Jaket", stok: 5 }
 ];
 const produkTersedia = produk.filter(p => p.stok > 0);
+console.log("Produk Tersedia (stok > 0):", produkTersedia);
 ```
 
 ### C. `reduce()` (Akumulasi Nilai Tunggal)
 Menggabungkan seluruh elemen menjadi satu nilai akhir (misal: total harga):
 ```javascript
+const produk = [
+  { nama: "Kemeja", stok: 12 },
+  { nama: "Celana", stok: 0 },
+  { nama: "Jaket", stok: 5 }
+];
 const totalStok = produk.reduce((total, p) => total + p.stok, 0);
+console.log("Total Seluruh Stok:", totalStok);
 ```
 
 ---

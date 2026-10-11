@@ -33,8 +33,10 @@ for (let i = 1; i <= 5; i++) {
 
 ```javascript
 let balance = 100;
+console.log("Initial Balance: $" + balance);
 while (balance > 0) {
   balance -= 25;
+  console.log("Withdrew $25 -> Remaining: $" + balance);
 }
 ```
 

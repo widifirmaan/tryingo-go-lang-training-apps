@@ -47,8 +47,8 @@ function hitungDiskon(harga, diskon = 0.05) {
   return harga * (1 - diskon);
 }
 
-hitungDiskon(100000);       // Menggunakan diskon default 5% -> 95000
-hitungDiskon(100000, 0.20); // Menggunakan diskon kustom 20% -> 80000
+console.log("Harga 100.000 (diskon default 5%) : Rp " + hitungDiskon(100000));
+console.log("Harga 100.000 (diskon kustom 20%)  : Rp " + hitungDiskon(100000, 0.20));
 ```
 
 - Kata kunci **`return`** menghentikan eksekusi fungsi dan mengirimkan nilai hasilnya kembali ke pemanggil. Tanpa `return`, fungsi akan mengembalikan `undefined`.
