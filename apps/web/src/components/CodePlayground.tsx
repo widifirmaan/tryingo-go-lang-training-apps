@@ -277,11 +277,23 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
             const __runId = ${runId};
             const _logs = [];
             const _origLog = console.log;
+            const _origWarn = console.warn;
+            const _origInfo = console.info;
             const _origError = console.error;
             console.log = function(...args) {
               _logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
               window.parent.postMessage({ type: 'tryngo-console', runId: __runId, data: _logs.join('\\n') }, '*');
               _origLog.apply(console, args);
+            };
+            console.warn = function(...args) {
+              _logs.push('[WARN] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+              window.parent.postMessage({ type: 'tryngo-console', runId: __runId, data: _logs.join('\\n') }, '*');
+              _origWarn.apply(console, args);
+            };
+            console.info = function(...args) {
+              _logs.push('[INFO] ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+              window.parent.postMessage({ type: 'tryngo-console', runId: __runId, data: _logs.join('\\n') }, '*');
+              _origInfo.apply(console, args);
             };
             console.error = function(...args) {
               _logs.push('Error: ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
@@ -680,12 +692,43 @@ func main() {
 
             {/* Console Output Overlay */}
             {output && isWebLanguage && (
-              <div className="absolute bottom-0 left-0 right-0 max-h-[40%] overflow-auto bg-black/80 text-green-400 p-3 font-mono text-[11px] leading-relaxed">
-                <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 mb-1 border-b border-zinc-700 pb-1">
-                  <FontAwesomeIcon icon={faClock} className="w-3 h-3" />
-                  <span>{isId ? 'Console Output' : 'Console Output'}</span>
+              <div className="absolute bottom-0 left-0 right-0 max-h-[40%] overflow-auto bg-black/85 p-3 font-mono text-[11px] leading-relaxed border-t border-zinc-800">
+                <div className="flex items-center justify-between text-[10px] text-zinc-400 mb-1 border-b border-zinc-800 pb-1">
+                  <div className="flex items-center gap-1.5">
+                    <FontAwesomeIcon icon={faClock} className="w-3 h-3 text-zinc-400" />
+                    <span>{isId ? 'Konsol Output' : 'Console Output'}</span>
+                  </div>
+                  <button
+                    onClick={() => setOutput('')}
+                    className="text-zinc-500 hover:text-zinc-300 transition-colors text-[10px] cursor-pointer"
+                    title={isId ? 'Bersihkan Konsol' : 'Clear Console'}
+                  >
+                    Clear
+                  </button>
                 </div>
-                <pre className="whitespace-pre-wrap">{output}</pre>
+                <div className="space-y-0.5">
+                  {output.split('\n').map((line, idx) => {
+                    const isErr = line.startsWith('Error:');
+                    const isWarn = line.startsWith('[WARN]') || line.startsWith('Warning:') || line.startsWith('Warn:');
+                    const isInfo = line.startsWith('[INFO]');
+                    return (
+                      <div
+                        key={idx}
+                        className={
+                          isErr
+                            ? 'text-red-400 font-semibold'
+                            : isWarn
+                            ? 'text-amber-300 font-medium'
+                            : isInfo
+                            ? 'text-cyan-300'
+                            : 'text-green-400'
+                        }
+                      >
+                        {line}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 
