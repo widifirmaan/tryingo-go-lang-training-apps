@@ -121,6 +121,7 @@ console.log(`Bought ${quantity} items at $${price} = Total $${total}`);
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

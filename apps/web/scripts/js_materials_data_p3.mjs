@@ -127,6 +127,7 @@ Recursively dispatches callbacks at recurring intervals:
 let count = 0;
 const intervalId = setInterval(() => {
   count++;
+  console.log("Tick:", count);
   if (count === 5) clearInterval(intervalId);
 }, 1000);
 \`\`\``,
@@ -156,6 +157,7 @@ const intervalId = setInterval(() => {
       max-width: 440px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -395,6 +397,11 @@ function ambilDataPengguna(id) {
     }, 1000);
   });
 }
+
+// Uji konsumsi Promise:
+ambilDataPengguna(1)
+  .then(data => console.log("Promise Resolved:", data))
+  .catch(err => console.error("Promise Rejected:", err.message));
 \`\`\`
 
 ---
@@ -416,6 +423,8 @@ async function muatProfil() {
     console.log("Selesai (selalu dijalankan).");
   }
 }
+
+muatProfil();
 \`\`\``,
     contentEn: `## 1. What is a Promise?
 
@@ -440,6 +449,11 @@ function fetchUser(id) {
     }, 1000);
   });
 }
+
+// Test Promise consumption:
+fetchUser(1)
+  .then(user => console.log("Promise Resolved:", user))
+  .catch(err => console.error("Promise Rejected:", err.message));
 \`\`\`
 
 ---
@@ -459,6 +473,8 @@ async function loadProfile() {
     console.log("Completed execution.");
   }
 }
+
+loadProfile();
 \`\`\``,
     programTitleId: 'Simulator Autentikasi Pengguna dengan Delay Jaringan dan Error Handling',
     programTitleEn: 'Authentication Flow Simulator with Network Delay and Error Handling',
@@ -486,6 +502,7 @@ async function loadProfile() {
       max-width: 480px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -788,6 +805,7 @@ Production data consumers must handle:
       max-width: 560px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -983,10 +1001,12 @@ LocalStorage adalah mekanisme penyimpanan data persisten langsung di browser kli
 localStorage.setItem("tema", "gelap");
 
 // 2. Membaca data berdasarkan kunci
-const temaTersimpan = localStorage.getItem("tema"); // "gelap"
+const temaTersimpan = localStorage.getItem("tema");
+console.log("Tema terbaca:", temaTersimpan);
 
 // 3. Menghapus satu data spesifik
 localStorage.removeItem("tema");
+console.log("Setelah dihapus:", localStorage.getItem("tema")); // null
 
 // 4. Menghapus seluruh data domain
 localStorage.clear();
@@ -1003,6 +1023,7 @@ localStorage.setItem("catatan", JSON.stringify(daftarCatatan));
 
 // Baca kembali:
 const dataAmbil = JSON.parse(localStorage.getItem("catatan") || "[]");
+console.log("Catatan tersimpan:", dataAmbil);
 \`\`\`
 
 ---
@@ -1012,17 +1033,22 @@ const dataAmbil = JSON.parse(localStorage.getItem("catatan") || "[]");
 Dalam proyek besar, pisahkan kode menjadi beberapa file terfokus:
 
 \`\`\`javascript
-// file: storage.js
-export function simpanData(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
-}
+// Simulasi pola modular storage:
+const modulPenyimpanan = {
+  simpanData(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+    console.log("Data berhasil disimpan:", key);
+  },
+  ambilData(key) {
+    return JSON.parse(localStorage.getItem(key) || "null");
+  }
+};
 
-// file: app.js
-import { simpanData } from "./storage.js";
-simpanData("user", { nama: "Alex" });
+modulPenyimpanan.simpanData("user", { nama: "Alex" });
+console.log("Data terbaca:", modulPenyimpanan.ambilData("user"));
 \`\`\`
 
-Di HTML, tambahkan \`type="module"\`:
+Di proyek ES Modules multi-file, gunakan sintaks \`export\`/\`import\` dengan \`<script type="module">\`:
 \`\`\`html
 <script type="module" src="app.js"></script>
 \`\`\``,
@@ -1043,9 +1069,11 @@ localStorage.setItem("theme", "dark");
 
 // 2. Read item
 const theme = localStorage.getItem("theme");
+console.log("Read theme from storage:", theme);
 
 // 3. Delete item
 localStorage.removeItem("theme");
+console.log("After removal:", localStorage.getItem("theme")); // null
 
 // 4. Flush domain storage
 localStorage.clear();
@@ -1055,11 +1083,14 @@ localStorage.clear();
 Always pair serialization routines:
 
 \`\`\`javascript
+const notesArray = [{ id: 1, text: "Learn JavaScript" }];
+
 // Write:
 localStorage.setItem("notes", JSON.stringify(notesArray));
 
 // Read:
 const cached = JSON.parse(localStorage.getItem("notes") || "[]");
+console.log("Cached notes from storage:", cached);
 \`\`\`
 
 ---
@@ -1069,17 +1100,22 @@ const cached = JSON.parse(localStorage.getItem("notes") || "[]");
 Split sprawling scripts into single-responsibility modules:
 
 \`\`\`javascript
-// storage.js
-export function save(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
-}
+// Simulated modular storage pattern:
+const storageModule = {
+  save(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+    console.log("Saved to storage:", key);
+  },
+  load(key) {
+    return JSON.parse(localStorage.getItem(key) || "null");
+  }
+};
 
-// app.js
-import { save } from "./storage.js";
-save("user", { name: "Alex" });
+storageModule.save("user", { name: "Alex" });
+console.log("Loaded user:", storageModule.load("user"));
 \`\`\`
 
-Include using \`type="module"\`:
+In multi-file ES Module setups, use \`export\`/\`import\` syntax with \`<script type="module">\`:
 \`\`\`html
 <script type="module" src="app.js"></script>
 \`\`\``,
@@ -1109,6 +1145,7 @@ Include using \`type="module"\`:
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

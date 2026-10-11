@@ -216,6 +216,7 @@ Browsers apply built-in user agent stylesheets with inconsistent default margins
     /* 4. Kontainer Konten */
     .konten-box {
       background-color: #FFFFFF;
+      color: #2D3748;
       padding: 24px;
       border-radius: 8px;
       border: 1px solid #E2E8F0;
@@ -434,6 +435,7 @@ Specificity Weight Hierarchy:
     /* 1. Class Selector untuk Kartu */
     .card {
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

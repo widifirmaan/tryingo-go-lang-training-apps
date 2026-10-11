@@ -98,6 +98,7 @@ daftarUl.addEventListener("click", function(e) {
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -149,6 +150,7 @@ daftarUl.addEventListener("click", function(e) {
       border: 1px solid #E2E8F0;
       border-radius: 8px;
       background-color: #FFFFFF;
+      color: #2D3748;
       transition: background-color 0.15s ease;
     }
 

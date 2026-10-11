@@ -111,6 +111,7 @@ Anda dapat menciptakan grid kartu yang otomatis menyesuaikan jumlah kolom di set
 
     .box {
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 10px;
       padding: 20px;

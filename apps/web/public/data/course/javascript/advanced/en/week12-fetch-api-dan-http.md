@@ -78,6 +78,7 @@ Production data consumers must handle:
       max-width: 560px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

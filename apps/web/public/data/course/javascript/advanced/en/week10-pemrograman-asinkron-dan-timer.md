@@ -59,6 +59,7 @@ Recursively dispatches callbacks at recurring intervals:
 let count = 0;
 const intervalId = setInterval(() => {
   count++;
+  console.log("Tick:", count);
   if (count === 5) clearInterval(intervalId);
 }, 1000);
 ```
@@ -92,6 +93,7 @@ const intervalId = setInterval(() => {
       max-width: 440px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

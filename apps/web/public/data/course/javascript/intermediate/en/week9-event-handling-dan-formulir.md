@@ -62,6 +62,7 @@ Events trigger on child elements then propagate upward through parent ancestor n
 ```javascript
 listContainer.addEventListener("click", (e) => {
   if (e.target.matches(".btn-delete")) {
+    console.log("Deleted item via event delegation");
     e.target.closest("li").remove();
   }
 });
@@ -96,6 +97,7 @@ listContainer.addEventListener("click", (e) => {
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -147,6 +149,7 @@ listContainer.addEventListener("click", (e) => {
       border: 1px solid #E2E8F0;
       border-radius: 8px;
       background-color: #FFFFFF;
+      color: #2D3748;
       transition: background-color 0.15s ease;
     }
 

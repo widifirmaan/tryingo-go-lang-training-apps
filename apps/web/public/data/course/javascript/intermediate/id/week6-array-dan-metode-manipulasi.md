@@ -105,6 +105,7 @@ console.log("Total Seluruh Stok:", totalStok);
       max-width: 560px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -164,6 +165,7 @@ console.log("Total Seluruh Stok:", totalStok);
 
     .item-row:nth-child(even) {
       background-color: #F7FAFC;
+      color: #2D3748;
     }
 
     .badge-qty {

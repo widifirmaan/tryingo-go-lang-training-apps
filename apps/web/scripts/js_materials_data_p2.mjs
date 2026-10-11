@@ -169,6 +169,7 @@ console.log("Total Inventory Stock:", totalStock);
       max-width: 560px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -228,6 +229,7 @@ console.log("Total Inventory Stock:", totalStock);
 
     .item-row:nth-child(even) {
       background-color: #F7FAFC;
+      color: #2D3748;
     }
 
     .badge-qty {
@@ -412,11 +414,20 @@ console.log(nama, email, peran);
 Spread operator membuat salinan (*shallow copy*) objek baru tanpa mengubah objek asli:
 
 \`\`\`javascript
+const profilPengguna = {
+  id: 1042,
+  nama: "Alex Pratama",
+  peran: "Developer"
+};
+
 const updateProfil = {
   ...profilPengguna,      // Salin semua properti lama
   peran: "Lead Engineer", // Timpa properti peran
   lokasi: "Jakarta"       // Tambah properti baru
 };
+
+console.log("Profil Sebelum:", profilPengguna);
+console.log("Profil Sesudah (Spread):", updateProfil);
 \`\`\`
 
 ---
@@ -429,10 +440,13 @@ JSON adalah format teks universal untuk pertukaran data antara browser dan serve
 - **\`JSON.parse(teksJSON)\`**: Mengubah teks string JSON kembali menjadi objek JavaScript:
 
 \`\`\`javascript
-const payloadString = JSON.stringify(updateProfil);
-// '{"id":1042,"nama":"Alex Pratama",...}'
+const profilUji = { id: 1042, nama: "Alex Pratama", peran: "Lead Engineer" };
+
+const payloadString = JSON.stringify(profilUji);
+console.log("Serialisasi JSON String:", payloadString);
 
 const objekKembali = JSON.parse(payloadString);
+console.log("Deserialisasi Objek Asli:", objekKembali);
 \`\`\``,
     contentEn: `## 1. Object Literal Anatomy
 
@@ -468,11 +482,20 @@ console.log(name, role, status);
 Clone and extend properties without mutating the source reference:
 
 \`\`\`javascript
+const userProfile = {
+  id: 1042,
+  name: "Alex Pratama",
+  role: "Developer"
+};
+
 const updatedUser = {
-  ...user,
+  ...userProfile,
   role: "Lead Engineer",
   location: "Jakarta"
 };
+
+console.log("Before (Original):", userProfile);
+console.log("After (Spread):", updatedUser);
 \`\`\`
 
 ---
@@ -485,8 +508,13 @@ JSON is the universal serialization protocol between clients and backends:
 - **\`JSON.parse(string)\`**: Deserializes JSON text back into a live JavaScript object.
 
 \`\`\`javascript
-const jsonString = JSON.stringify(updatedUser);
+const testUser = { id: 1042, name: "Alex Pratama", role: "Lead Engineer" };
+
+const jsonString = JSON.stringify(testUser);
+console.log("Serialized JSON String:", jsonString);
+
 const parsedObj = JSON.parse(jsonString);
+console.log("Deserialized Object:", parsedObj);
 \`\`\``,
     programTitleId: 'Pengelola Profil Pengguna dengan Destrukturisasi dan JSON Serializer',
     programTitleEn: 'User Profile Manager with Destructuring and JSON Serializer',
@@ -514,6 +542,7 @@ const parsedObj = JSON.parse(jsonString);
       max-width: 540px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -811,6 +840,7 @@ card.classList.toggle("selected");
       max-width: 540px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -856,6 +886,7 @@ card.classList.toggle("selected");
 
     .item-card {
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-left: 4px solid #2E5B44;
       border-radius: 8px;
@@ -1109,6 +1140,7 @@ Events trigger on child elements then propagate upward through parent ancestor n
 \`\`\`javascript
 listContainer.addEventListener("click", (e) => {
   if (e.target.matches(".btn-delete")) {
+    console.log("Deleted item via event delegation");
     e.target.closest("li").remove();
   }
 });
@@ -1139,6 +1171,7 @@ listContainer.addEventListener("click", (e) => {
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -1190,6 +1223,7 @@ listContainer.addEventListener("click", (e) => {
       border: 1px solid #E2E8F0;
       border-radius: 8px;
       background-color: #FFFFFF;
+      color: #2D3748;
       transition: background-color 0.15s ease;
     }
 

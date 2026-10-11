@@ -87,6 +87,7 @@ card.classList.toggle("selected");
       max-width: 540px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -132,6 +133,7 @@ card.classList.toggle("selected");
 
     .item-card {
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-left: 4px solid #2E5B44;
       border-radius: 8px;

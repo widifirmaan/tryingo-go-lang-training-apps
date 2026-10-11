@@ -22,18 +22,27 @@ Fungsi adalah blok kode modular yang dirancang untuk melakukan tugas tertentu da
 function hitungLuas(panjang, lebar) {
   return panjang * lebar;
 }
+
+const hasilA = hitungLuas(10, 5);
+console.log("Luas persegi panjang (10x5):", hasilA);
 ```
 
 ### B. Function Expression
 ```javascript
-const hitungLuas = function(panjang, lebar) {
+const hitungLuasExp = function(panjang, lebar) {
   return panjang * lebar;
 };
+
+const hasilB = hitungLuasExp(8, 4);
+console.log("Luas via function expression (8x4):", hasilB);
 ```
 
 ### C. Arrow Function (Sintaks Ringkas Modern)
 ```javascript
-const hitungLuas = (panjang, lebar) => panjang * lebar;
+const hitungLuasArrow = (panjang, lebar) => panjang * lebar;
+
+const hasilC = hitungLuasArrow(12, 3);
+console.log("Luas via arrow function (12x3):", hasilC);
 ```
 
 ---
@@ -107,6 +116,7 @@ Scope menentukan area kode di mana suatu variabel dapat diakses:
       max-width: 520px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

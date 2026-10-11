@@ -113,6 +113,7 @@ The gold standard positioning pattern sets `relative` on the parent to anchor `a
     .card-relative {
       position: relative;
       background: #FFFFFF;
+      color: #1A202C;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 28px;

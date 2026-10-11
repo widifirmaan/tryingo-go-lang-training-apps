@@ -151,6 +151,7 @@ console.error("Critical error message");
       max-width: 540px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -473,6 +474,7 @@ console.log(\`Bought \${quantity} items at \$\${price} = Total \$\${total}\`);
       max-width: 500px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -811,6 +813,7 @@ console.log("Nullish Result (score ?? 10) :", nullishResult);
       max-width: 480px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -1135,6 +1138,7 @@ for (let i = 1; i <= 10; i++) {
       max-width: 520px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
@@ -1307,18 +1311,27 @@ Fungsi adalah blok kode modular yang dirancang untuk melakukan tugas tertentu da
 function hitungLuas(panjang, lebar) {
   return panjang * lebar;
 }
+
+const hasilA = hitungLuas(10, 5);
+console.log("Luas persegi panjang (10x5):", hasilA);
 \`\`\`
 
 ### B. Function Expression
 \`\`\`javascript
-const hitungLuas = function(panjang, lebar) {
+const hitungLuasExp = function(panjang, lebar) {
   return panjang * lebar;
 };
+
+const hasilB = hitungLuasExp(8, 4);
+console.log("Luas via function expression (8x4):", hasilB);
 \`\`\`
 
 ### C. Arrow Function (Sintaks Ringkas Modern)
 \`\`\`javascript
-const hitungLuas = (panjang, lebar) => panjang * lebar;
+const hitungLuasArrow = (panjang, lebar) => panjang * lebar;
+
+const hasilC = hitungLuasArrow(12, 3);
+console.log("Luas via arrow function (12x3):", hasilC);
 \`\`\`
 
 ---
@@ -1371,18 +1384,27 @@ Functions encapsulate reusable logic blocks:
 function calculateArea(length, width) {
   return length * width;
 }
+
+const resultA = calculateArea(10, 5);
+console.log("Rectangle area (10x5):", resultA);
 \`\`\`
 
 ### B. Function Expression
 \`\`\`javascript
-const calculateArea = function(length, width) {
+const calculateAreaExp = function(length, width) {
   return length * width;
 };
+
+const resultB = calculateAreaExp(8, 4);
+console.log("Area via function expression (8x4):", resultB);
 \`\`\`
 
 ### C. Arrow Function (Modern & Concise)
 \`\`\`javascript
-const calculateArea = (length, width) => length * width;
+const calculateAreaArrow = (length, width) => length * width;
+
+const resultC = calculateAreaArrow(12, 3);
+console.log("Area via arrow function (12x3):", resultC);
 \`\`\`
 
 ---
@@ -1450,6 +1472,7 @@ console.log("Price 100,000 (custom 20% discount)  : $" + applyDiscount(100000, 0
       max-width: 520px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

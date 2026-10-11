@@ -43,6 +43,11 @@ function ambilDataPengguna(id) {
     }, 1000);
   });
 }
+
+// Uji konsumsi Promise:
+ambilDataPengguna(1)
+  .then(data => console.log("Promise Resolved:", data))
+  .catch(err => console.error("Promise Rejected:", err.message));
 ```
 
 ---
@@ -64,6 +69,8 @@ async function muatProfil() {
     console.log("Selesai (selalu dijalankan).");
   }
 }
+
+muatProfil();
 ```
 
 ---
@@ -95,6 +102,7 @@ async function muatProfil() {
       max-width: 480px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;

@@ -110,6 +110,7 @@ console.log("Hasil Nullish (skorPemain ?? 10) :", hasilNullish);
       max-width: 480px;
       margin: 0 auto;
       background: #FFFFFF;
+      color: #2D3748;
       border: 1px solid #E2E8F0;
       border-radius: 12px;
       padding: 24px;
