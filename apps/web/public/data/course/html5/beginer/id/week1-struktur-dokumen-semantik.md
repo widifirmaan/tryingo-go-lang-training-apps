@@ -9,7 +9,7 @@
 - Memahami cara kerja browser dalam membaca dan merender dokumen HTML
 - Menguasai anatomi kurung sudut (< >), tag pembuka, konten, tag penutup, dan void tag
 - Membedakan penggunaan atribut class (label kelompok) dan id (identitas unik)
-- Menyiapkan lingkungan kerja lokal dengan VS Code dan Live Server (Quick Start)
+- Menyiapkan struktur proyek web pertama di komputer Anda (Quick Start)
 - Membedah struktur dokumen standar: <!DOCTYPE html>, <html>, <head>, dan <body>
 - Menggunakan fitur View Page Source (Ctrl + U) dan Inspect Element (F12) untuk melihat kode sumber
 
@@ -99,38 +99,14 @@ Atribut memberikan informasi tambahan pada elemen, ditulis di dalam tag pembuka 
 
 ---
 
-## 5. Panduan Mulai Cepat (Quick Start): Setup Proyek
-
-Sebelum menulis kode, siapkan lingkungan kerja di komputer:
-
-### 1. Editor VS Code dan Ekstensi
-- Unduh dan pasang [Visual Studio Code](https://code.visualstudio.com/).
-- Buka menu Extensions (`Ctrl + Shift + X`) dan pasang ekstensi **Live Server** (`ritwickdey.liveserver`).
-- Ekstensi ini memungkinkan halaman web otomatis me-reload saat file disimpan.
-
-### 2. Membuat Folder dan File Proyek
-Buat folder baru bernama `my-website` dan file `index.html`:
-```bash
-mkdir my-website && cd my-website
-touch index.html
-```
-
-### 3. Menjalankan Proyek
-1. Buka folder `my-website` di VS Code.
-2. Buka file `index.html`.
-3. Klik kanan di dalam editor, lalu pilih **"Open with Live Server"**.
-4. Browser akan terbuka di alamat `http://127.0.0.1:5500/index.html`.
-
----
-
-## 6. Fitur Pengembang di Browser
+## 5. Fitur Pengembang di Browser
 Anda dapat melihat kode sumber website apa pun di internet:
 - **View Page Source (`Ctrl + U`):** Menampilkan kode HTML mentah yang dikirim oleh server.
 - **Inspect Element (`F12` atau Klik Kanan -> Inspect):** Membuka panel Developer Tools untuk memeriksa struktur DOM dan atribut class/id secara langsung.
 
 ---
 
-## 7. Sejarah Singkat HTML
+## 6. Sejarah Singkat HTML
 - **1989:** Tim Berners-Lee menemukan World Wide Web (WWW).
 - **1991:** Tim Berners-Lee merilis spesifikasi pertama HTML.
 - **1999:** Standar HTML 4.01 dirilis.
@@ -142,40 +118,7 @@ Anda dapat melihat kode sumber website apa pun di internet:
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Instalasi Runtime & Dependency (Web Browser (Chrome, Firefox, Safari, Edge))
-Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
-
-**Windows (PowerShell):**
-```powershell
-winget install Google.Chrome
-```
-
-**macOS (Terminal / Homebrew):**
-```bash
-brew install --cask google-chrome
-```
-
-**Linux (Ubuntu/Debian / bash):**
-```bash
-sudo apt install google-chrome-stable
-```
-
-**Verifikasi Instalasi:**
-Jalankan perintah berikut di terminal:
-```bash
-code --version
-```
-
-Output yang diharapkan:
-```output
-1.9x.x
-```
-
-> 💡 **Tips Prasyarat:** HTML tidak membutuhkan compiler atau runtime server khusus untuk dijalankan.
-
----
-
-### 2. Inisialisasi Project Kosong (Scaffolding)
+### 1. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -190,13 +133,13 @@ cd my-website
 
 ---
 
-### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 2. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
-Klik Kanan index.html -> "Open with Live Server"
+Buka file index.html langsung di browser (klik dua kali)
 ```
-Akses di browser atau terminal: `http://127.0.0.1:5500/index.html`
+Akses di browser atau terminal: `file:///my-website/index.html`
 
 > ℹ️ Halaman web akan terbuka otomatis di browser Anda.
 
@@ -229,7 +172,7 @@ Struktur dokumen HTML5 semantik lengkap.
 
 ---
 
-### 4. Struktur Direktori Proyek Baru
+### 3. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -242,7 +185,7 @@ Struktur standar situs web statis.
 
 ---
 
-### 5. Tips & Best Practice untuk Pemula
+### 4. Tips & Best Practice untuk Pemula
 - Gunakan shortcut `!` lalu tekan `Tab` di VS Code untuk men-generate boilerplate HTML5 instan.
 - Selalu sertakan atribut `alt` pada tag `<img>` demi aksesibilitas dan SEO.
 

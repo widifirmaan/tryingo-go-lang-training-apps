@@ -127,7 +127,7 @@ node main.js
 ```
 Open in browser or terminal: `Terminal / Browser Console`
 
-> ℹ️ Run directly via Node.js terminal or connect to index.html with Live Server.
+> ℹ️ Run the script with `node` in the terminal, or open index.html in your browser.
 
 **Initial Entry File (`main.js`):**
 ```js

@@ -129,7 +129,7 @@ node main.js
 ```
 Akses di browser atau terminal: `Terminal / Browser Console`
 
-> ℹ️ Jalankan skrip di terminal atau hubungkan ke file index.html menggunakan Live Server.
+> ℹ️ Jalankan skrip dengan `node` di terminal, atau buka index.html di browser.
 
 **File Titik Masuk Utama (`main.js`):**
 ```js

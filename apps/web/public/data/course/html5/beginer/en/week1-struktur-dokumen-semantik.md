@@ -9,7 +9,7 @@
 - Understand how web browsers parse and render HTML documents
 - Master syntax anatomy: angle brackets (< >), opening tags, content, closing tags, and void tags
 - Distinguish between class attributes (group labels) and id attributes (unique identifiers)
-- Set up a local development workspace with VS Code and Live Server (Quick Start)
+- Set up your first web project structure locally (Quick Start)
 - Deconstruct standard document structure: <!DOCTYPE html>, <html>, <head>, and <body>
 - Use View Page Source (Ctrl + U) and Inspect Element (F12) to inspect webpage source code
 
@@ -98,38 +98,14 @@ Attributes provide extra configuration on elements, placed inside the opening ta
 
 ---
 
-## 5. Quick Start Guide: Project Setup
-
-Before writing code, configure your development environment:
-
-### 1. VS Code Editor and Extensions
-- Download and install [Visual Studio Code](https://code.visualstudio.com/).
-- Open the Extensions tab (`Ctrl + Shift + X`) and install **Live Server** (`ritwickdey.liveserver`).
-- Live Server automatically refreshes your browser when you save HTML files.
-
-### 2. Scaffold Folder and Files
-Create a new directory `my-website` and an entrypoint `index.html`:
-```bash
-mkdir my-website && cd my-website
-touch index.html
-```
-
-### 3. Running the Project
-1. Open the `my-website` folder in VS Code.
-2. Open `index.html`.
-3. Right-click inside the editor and choose **"Open with Live Server"**.
-4. The page will load at `http://127.0.0.1:5500/index.html`.
-
----
-
-## 6. Developer Tools in Browsers
+## 5. Developer Tools in Browsers
 You can inspect the source code of any live webpage:
 - **View Page Source (`Ctrl + U`):** Shows raw HTML returned from the web server.
 - **Inspect Element (`F12` or Right-click -> Inspect):** Opens browser Developer Tools to inspect DOM elements and styles live.
 
 ---
 
-## 7. Short History of HTML
+## 6. Short History of HTML
 - **1989:** Tim Berners-Lee invents the World Wide Web (WWW).
 - **1991:** Tim Berners-Lee releases the initial HTML specification.
 - **1999:** HTML 4.01 specification released.
@@ -141,40 +117,7 @@ You can inspect the source code of any live webpage:
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. Runtime & Dependency Installation (Web Browser (Chrome, Firefox, Safari, Edge))
-Make sure the required runtime or SDK is installed on your machine:
-
-**Windows (PowerShell):**
-```powershell
-winget install Google.Chrome
-```
-
-**macOS (Terminal / Homebrew):**
-```bash
-brew install --cask google-chrome
-```
-
-**Linux (Ubuntu/Debian / bash):**
-```bash
-sudo apt install google-chrome-stable
-```
-
-**Verify Installation:**
-Run this command in your terminal to ensure tools are properly configured:
-```bash
-code --version
-```
-
-Expected output:
-```output
-1.9x.x
-```
-
-> 💡 **Prerequisite Note:** HTML runs natively in any browser with zero compilers or backend required.
-
----
-
-### 2. Initializing a Blank Project (Scaffolding)
+### 1. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -189,13 +132,13 @@ cd my-website
 
 ---
 
-### 3. Running the Local Dev Server & First Entry File
+### 2. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
-Klik Kanan index.html -> "Open with Live Server"
+Buka file index.html langsung di browser (klik dua kali)
 ```
-Open in browser or terminal: `http://127.0.0.1:5500/index.html`
+Open in browser or terminal: `file:///my-website/index.html`
 
 > ℹ️ The webpage opens automatically in your default browser.
 
@@ -228,7 +171,7 @@ Complete semantic HTML5 document boilerplate.
 
 ---
 
-### 4. New Project Directory Structure
+### 3. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -241,7 +184,7 @@ Standard architecture for static web pages.
 
 ---
 
-### 5. Beginner Tips & Best Practices
+### 4. Beginner Tips & Best Practices
 - Type `!` and hit `Tab` in VS Code to generate an instant HTML5 boilerplate.
 - Always include the `alt` attribute on `<img>` tags for screen readers and SEO.
 

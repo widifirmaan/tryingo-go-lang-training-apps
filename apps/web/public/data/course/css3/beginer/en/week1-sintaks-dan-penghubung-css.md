@@ -93,40 +93,7 @@ Browsers apply built-in user agent stylesheets with inconsistent default margins
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. Runtime & Dependency Installation (Web Browser & VS Code)
-Make sure the required runtime or SDK is installed on your machine:
-
-**Windows (PowerShell):**
-```powershell
-code --version
-```
-
-**macOS (Terminal / Homebrew):**
-```bash
-code --version
-```
-
-**Linux (Ubuntu/Debian / bash):**
-```bash
-code --version
-```
-
-**Verify Installation:**
-Run this command in your terminal to ensure tools are properly configured:
-```bash
-code --version
-```
-
-Expected output:
-```output
-1.9x.x
-```
-
-> 💡 **Prerequisite Note:** CSS is executed directly by the browser rendering engine.
-
----
-
-### 2. Initializing a Blank Project (Scaffolding)
+### 1. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -141,13 +108,13 @@ cd my-css-project
 
 ---
 
-### 3. Running the Local Dev Server & First Entry File
+### 2. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
-Klik Kanan index.html -> "Open with Live Server"
+Buka file index.html langsung di browser (klik dua kali)
 ```
-Open in browser or terminal: `http://127.0.0.1:5500`
+Open in browser or terminal: `file:///my-css-project/index.html`
 
 > ℹ️ Browser immediately renders the Flexbox layout and theme colors.
 
@@ -188,7 +155,7 @@ Card layout styling using CSS Custom Properties, Flexbox, and hover transitions.
 
 ---
 
-### 4. New Project Directory Structure
+### 3. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -200,7 +167,7 @@ Separation of markup structure (HTML) and visual styling (CSS).
 
 ---
 
-### 5. Beginner Tips & Best Practices
+### 4. Beginner Tips & Best Practices
 - Use CSS Variables (`--var-name`) for frictionless dark mode switching and consistent palettes.
 - Adopt a mobile-first approach using `@media (min-width: 768px)` breakpoints.
 

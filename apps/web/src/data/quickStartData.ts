@@ -11,7 +11,7 @@ export interface QuickStartGuide {
   badge: string;
   taglineId: string;
   taglineEn: string;
-  installRuntime: {
+  installRuntime?: {
     name: string;
     version: string;
     command: OsCommand;
@@ -723,8 +723,8 @@ console.log(formatGreeting(me));`,
     runProject: {
       command: 'node main.js',
       localUrl: 'Terminal / Browser Console',
-      outputNoteId: 'Jalankan skrip di terminal atau hubungkan ke file index.html menggunakan Live Server.',
-      outputNoteEn: 'Run directly via Node.js terminal or connect to index.html with Live Server.',
+      outputNoteId: 'Jalankan skrip dengan `node` di terminal, atau buka index.html di browser.',
+      outputNoteEn: 'Run the script with `node` in the terminal, or open index.html in your browser.',
     },
     projectStructure: {
       tree: `my-js-app/
@@ -765,19 +765,6 @@ console.log(sapaPengguna("Pengembang"));`,
     badge: 'Semantic Web & Standards',
     taglineId: 'Fondasi struktur dokumen web semantik, form input, audio/video, dan aksesibilitas (a11y).',
     taglineEn: 'The foundational semantic document structure of the web, forms, multimedia, and accessibility.',
-    installRuntime: {
-      name: 'Web Browser (Chrome, Firefox, Safari, Edge)',
-      version: 'Browser Standar (Evergreen)',
-      command: {
-        windows: 'winget install Google.Chrome',
-        macos: 'brew install --cask google-chrome',
-        linux: 'sudo apt install google-chrome-stable',
-      },
-      verifyCommand: 'code --version',
-      expectedOutput: '1.9x.x',
-      tipsId: 'HTML tidak membutuhkan compiler atau runtime server khusus untuk dijalankan.',
-      tipsEn: 'HTML runs natively in any browser with zero compilers or backend required.',
-    },
     createProject: {
       titleId: 'Bikin Halaman Web HTML5 Pertama',
       titleEn: 'Create Your First HTML5 Web Page',
@@ -787,8 +774,8 @@ console.log(sapaPengguna("Pengembang"));`,
       cdCommand: 'cd my-website',
     },
     runProject: {
-      command: 'Klik Kanan index.html -> "Open with Live Server"',
-      localUrl: 'http://127.0.0.1:5500/index.html',
+      command: 'Buka file index.html langsung di browser (klik dua kali)',
+      localUrl: 'file:///my-website/index.html',
       outputNoteId: 'Halaman web akan terbuka otomatis di browser Anda.',
       outputNoteEn: 'The webpage opens automatically in your default browser.',
     },
@@ -844,19 +831,6 @@ console.log(sapaPengguna("Pengembang"));`,
     badge: 'Flexbox, Grid & Modern CSS',
     taglineId: 'Desain antarmuka web dengan selektor, Flexbox, CSS Grid, Custom Properties (Variabel), dan animasi transisi.',
     taglineEn: 'Style responsive web interfaces with selectors, Flexbox, CSS Grid, Variables, and transitions.',
-    installRuntime: {
-      name: 'Web Browser & VS Code',
-      version: 'Standar W3C',
-      command: {
-        windows: 'code --version',
-        macos: 'code --version',
-        linux: 'code --version',
-      },
-      verifyCommand: 'code --version',
-      expectedOutput: '1.9x.x',
-      tipsId: 'CSS dieksekusi langsung oleh rendering engine browser.',
-      tipsEn: 'CSS is executed directly by the browser rendering engine.',
-    },
     createProject: {
       titleId: 'Bikin Project Styling CSS3',
       titleEn: 'Create CSS3 Styling Project',
@@ -866,8 +840,8 @@ console.log(sapaPengguna("Pengembang"));`,
       cdCommand: 'cd my-css-project',
     },
     runProject: {
-      command: 'Klik Kanan index.html -> "Open with Live Server"',
-      localUrl: 'http://127.0.0.1:5500',
+      command: 'Buka file index.html langsung di browser (klik dua kali)',
+      localUrl: 'file:///my-css-project/index.html',
       outputNoteId: 'Browser merender layout Flexbox dan warna tema secara instan.',
       outputNoteEn: 'Browser immediately renders the Flexbox layout and theme colors.',
     },

@@ -93,40 +93,7 @@ Browser bawaan (Chrome, Safari, Firefox) menyertakan stylesheet bawaan (*User Ag
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Instalasi Runtime & Dependency (Web Browser & VS Code)
-Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
-
-**Windows (PowerShell):**
-```powershell
-code --version
-```
-
-**macOS (Terminal / Homebrew):**
-```bash
-code --version
-```
-
-**Linux (Ubuntu/Debian / bash):**
-```bash
-code --version
-```
-
-**Verifikasi Instalasi:**
-Jalankan perintah berikut di terminal:
-```bash
-code --version
-```
-
-Output yang diharapkan:
-```output
-1.9x.x
-```
-
-> 💡 **Tips Prasyarat:** CSS dieksekusi langsung oleh rendering engine browser.
-
----
-
-### 2. Inisialisasi Project Kosong (Scaffolding)
+### 1. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -141,13 +108,13 @@ cd my-css-project
 
 ---
 
-### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 2. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
-Klik Kanan index.html -> "Open with Live Server"
+Buka file index.html langsung di browser (klik dua kali)
 ```
-Akses di browser atau terminal: `http://127.0.0.1:5500`
+Akses di browser atau terminal: `file:///my-css-project/index.html`
 
 > ℹ️ Browser merender layout Flexbox dan warna tema secara instan.
 
@@ -188,7 +155,7 @@ Styling tata letak kartu menggunakan CSS Variables, Flexbox, dan efek transisi h
 
 ---
 
-### 4. Struktur Direktori Proyek Baru
+### 3. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -200,7 +167,7 @@ Pemisahan struktur (HTML) dan presentasi visual (CSS).
 
 ---
 
-### 5. Tips & Best Practice untuk Pemula
+### 4. Tips & Best Practice untuk Pemula
 - Gunakan CSS Variables (`--var-name`) untuk kemudahan penerapan Dark Mode dan palet warna konsisten.
 - Prioritaskan Mobile-First design dengan media queries `@media (min-width: 768px)`.
 
