@@ -16,20 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **ESLint** (`dbaeumer.vscode-eslint`): Code linting for TypeScript/JS
-- **Prettier** (`esbenp.prettier-vscode`): Opinionated code formatter
-- **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`): Autocomplete & class preview for Tailwind
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode --install-extension bradlc.vscode-tailwindcss
-```
-
----
-
-### 2. Runtime & Dependency Installation (Node.js LTS (v20+ / v22+))
+### 1. Runtime & Dependency Installation (Node.js LTS (v20+ / v22+))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -63,7 +50,7 @@ v22.x.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -77,7 +64,7 @@ cd my-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -111,7 +98,7 @@ Default Server Component for your landing route.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -131,7 +118,7 @@ The src/app directory uses file-system based routing where each folder maps to a
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Enable Turbopack for ultra-fast dev server: run `npm run dev -- --turbopack`.
 - For interactive components with hooks (useState, onClick), add the `"use client";` directive at the top.
 

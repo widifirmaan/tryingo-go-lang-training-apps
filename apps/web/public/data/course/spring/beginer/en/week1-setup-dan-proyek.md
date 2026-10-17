@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Extension Pack for Java** (`vscjava.vscode-java-pack`): Complete Java support package from Microsoft
-- **Spring Boot Tools** (`vmware.vscode-spring-boot`): Spring properties autocomplete, bean navigation, and symbols
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension vscjava.vscode-java-pack --install-extension vmware.vscode-spring-boot
-```
-
----
-
-### 2. Runtime & Dependency Installation (JDK 21 (Eclipse Temurin / OpenJDK))
+### 1. Runtime & Dependency Installation (JDK 21 (Eclipse Temurin / OpenJDK))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -61,7 +49,7 @@ openjdk version "21.0.x" ...
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -77,7 +65,7 @@ cd my-spring-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -112,7 +100,7 @@ Simple REST Controller returning JSON response via Jackson.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -131,7 +119,7 @@ Standard Maven directory structure for Spring Boot.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Always use the Maven Wrapper (`./mvnw`) to guarantee uniform build tools across your team.
 - Include `Spring Boot DevTools` in pom.xml for instant automatic restarts during local development.
 

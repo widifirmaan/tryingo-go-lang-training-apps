@@ -1,10 +1,3 @@
-export interface VsCodeExtension {
-  id: string;
-  name: string;
-  descriptionId: string;
-  descriptionEn: string;
-}
-
 export interface OsCommand {
   windows: string;
   macos: string;
@@ -18,10 +11,6 @@ export interface QuickStartGuide {
   badge: string;
   taglineId: string;
   taglineEn: string;
-  vscode: {
-    recommendedExtensions: VsCodeExtension[];
-    cliInstallCommand: string;
-  };
   installRuntime: {
     name: string;
     version: string;
@@ -66,16 +55,8 @@ export const QUICK_START_GUIDES: Record<string, QuickStartGuide> = {
     name: 'Next.js',
     category: 'React Framework for Production',
     badge: 'App Router & Turbopack',
-    taglineId: 'Panduan setup project Next.js modern dari installasi Node.js, ekstensi VS Code, hingga inisialisasi App Router.',
-    taglineEn: 'Complete modern Next.js setup guide: install Node.js, configure VS Code, and scaffold your App Router project.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'dbaeumer.vscode-eslint', name: 'ESLint', descriptionId: 'Linting kode TypeScript/JavaScript', descriptionEn: 'Code linting for TypeScript/JS' },
-        { id: 'esbenp.prettier-vscode', name: 'Prettier', descriptionId: 'Formatter otomatis kode yang rapi', descriptionEn: 'Opinionated code formatter' },
-        { id: 'bradlc.vscode-tailwindcss', name: 'Tailwind CSS IntelliSense', descriptionId: 'Autocomplete & highlight class Tailwind', descriptionEn: 'Autocomplete & class preview for Tailwind' },
-      ],
-      cliInstallCommand: 'code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode --install-extension bradlc.vscode-tailwindcss',
-    },
+    taglineId: 'Panduan setup project Next.js modern dari installasi Node.js hingga inisialisasi App Router.',
+    taglineEn: 'Complete modern Next.js setup guide: install Node.js and scaffold your App Router project.',
     installRuntime: {
       name: 'Node.js LTS (v20+ / v22+)',
       version: 'v20.x or v22.x LTS',
@@ -157,13 +138,6 @@ export const QUICK_START_GUIDES: Record<string, QuickStartGuide> = {
     badge: 'Vite & TypeScript',
     taglineId: 'Setup cepat aplikasi React Single Page Application (SPA) modern berbasis Vite bundler kilat.',
     taglineEn: 'Fast setup for modern React SPAs powered by Vite, TypeScript, and modern tooling.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'dbaeumer.vscode-eslint', name: 'ESLint', descriptionId: 'Validasi sintaks & aturan React hooks', descriptionEn: 'Validates React hooks and TS syntax' },
-        { id: 'esbenp.prettier-vscode', name: 'Prettier', descriptionId: 'Format kode otomatis', descriptionEn: 'Format code automatically' },
-      ],
-      cliInstallCommand: 'code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -245,13 +219,6 @@ export default function App() {
     badge: 'Vue 3 & Composition API',
     taglineId: 'Bangun Single Page Application reaktif dengan Vue 3 Composition API, Single-File Components (.vue), dan Vite.',
     taglineEn: 'Build reactive SPAs with Vue 3 Composition API, Single-File Components, and Vite.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'vue.volar', name: 'Vue - Official (Volar)', descriptionId: 'Dukungan bahasa, intellisense, & TypeScript untuk .vue', descriptionEn: 'Language support, syntax highlighting, & TS for .vue files' },
-        { id: 'dbaeumer.vscode-eslint', name: 'ESLint', descriptionId: 'Linting kode JavaScript/Vue', descriptionEn: 'Code linting for Vue files' },
-      ],
-      cliInstallCommand: 'code --install-extension vue.volar --install-extension dbaeumer.vscode-eslint',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -346,12 +313,6 @@ button {
     badge: 'Svelte 5 Runes & SvelteKit',
     taglineId: 'Framework kompilasi tanpa virtual DOM yang mengubah kode menjadi vanilla JavaScript efisien tinggi.',
     taglineEn: 'Compiler-based UI framework that turns components into highly efficient vanilla JavaScript with zero virtual DOM overhead.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'svelte.svelte-vscode', name: 'Svelte for VS Code', descriptionId: 'Syntax highlighting, autocomplete & diagnostics file .svelte', descriptionEn: 'Language support and diagnostics for .svelte files' },
-      ],
-      cliInstallCommand: 'code --install-extension svelte.svelte-vscode',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -425,12 +386,6 @@ button {
     badge: 'Signals & Standalone Components',
     taglineId: 'Platform enterprise lengkap dengan dependency injection, Signals reactivity, routing, dan HttpClient terintegrasi.',
     taglineEn: 'Complete enterprise web platform featuring dependency injection, Angular Signals, and built-in routing.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'angular.ng-template', name: 'Angular Language Service', descriptionId: 'IntelliSense untuk template HTML Angular', descriptionEn: 'Template syntax autocomplete and diagnostics' },
-      ],
-      cliInstallCommand: 'code --install-extension angular.ng-template',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -517,13 +472,6 @@ export class AppComponent {
     badge: 'TypeScript & Enterprise Architecture',
     taglineId: 'Framework backend TypeScript berskala enterprise dengan arsitektur modular, Controller, Provider, dan Dependency Injection.',
     taglineEn: 'Enterprise TypeScript backend framework built on modular architecture, controllers, and dependency injection.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'firsttris.vscode-jest-runner', name: 'Jest Runner', descriptionId: 'Menjalankan unit test NestJS dengan 1 klik', descriptionEn: 'Run unit & e2e tests right from editor' },
-        { id: 'esbenp.prettier-vscode', name: 'Prettier', descriptionId: 'Format kode TypeScript', descriptionEn: 'Prettier code formatting' },
-      ],
-      cliInstallCommand: 'code --install-extension firsttris.vscode-jest-runner --install-extension esbenp.prettier-vscode',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -603,13 +551,6 @@ export class AppController {
     badge: 'Express & TypeScript',
     taglineId: 'Runtime JavaScript V8 di server untuk membangun microservices, REST API, dan tool automation.',
     taglineEn: 'V8 server-side JavaScript runtime for building high-performance microservices, REST APIs, and tooling.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'dbaeumer.vscode-eslint', name: 'ESLint', descriptionId: 'Linting kode JavaScript & Node.js', descriptionEn: 'Code linting for Node.js' },
-        { id: 'esbenp.prettier-vscode', name: 'Prettier', descriptionId: 'Formatting konsisten', descriptionEn: 'Consistent code formatting' },
-      ],
-      cliInstallCommand: 'code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+ / v22+)',
       version: 'v20.x or v22.x LTS',
@@ -687,13 +628,6 @@ app.listen(PORT, () => {
     badge: 'Static Types & Modern ECMAScript',
     taglineId: 'Sistem tipe statis ketat untuk JavaScript yang mencegah runtime bugs dan meningkatkan produktivitas tim.',
     taglineEn: 'Strict static type system for JavaScript that catches runtime bugs and enables IDE refactoring.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'dbaeumer.vscode-eslint', name: 'ESLint', descriptionId: 'Pemeriksaan aturan ketat tipe', descriptionEn: 'Strict linting rules' },
-        { id: 'esbenp.prettier-vscode', name: 'Prettier', descriptionId: 'Formatting konsisten', descriptionEn: 'Consistent formatting' },
-      ],
-      cliInstallCommand: 'code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -765,13 +699,6 @@ console.log(formatGreeting(me));`,
     badge: 'ECMAScript Standard',
     taglineId: 'Bahasa pemrograman inti web untuk logika interaktif di browser dan runtime server.',
     taglineEn: 'The core programming language of the web powering interactive browser logic and server runtimes.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ritwickdey.liveserver', name: 'Live Server', descriptionId: 'Local dev server dengan reload otomatis untuk file HTML/JS', descriptionEn: 'Local development server with live reload' },
-        { id: 'esbenp.prettier-vscode', name: 'Prettier', descriptionId: 'Code formatting otomatis', descriptionEn: 'Automated code formatter' },
-      ],
-      cliInstallCommand: 'code --install-extension ritwickdey.liveserver --install-extension esbenp.prettier-vscode',
-    },
     installRuntime: {
       name: 'Node.js LTS (Untuk eksekusi terminal)',
       version: 'v20.x or v22.x LTS',
@@ -838,13 +765,6 @@ console.log(sapaPengguna("Pengembang"));`,
     badge: 'Semantic Web & Standards',
     taglineId: 'Fondasi struktur dokumen web semantik, form input, audio/video, dan aksesibilitas (a11y).',
     taglineEn: 'The foundational semantic document structure of the web, forms, multimedia, and accessibility.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ritwickdey.liveserver', name: 'Live Server', descriptionId: 'Buka HTML di browser lokal dengan auto-reload saat file disimpan', descriptionEn: 'Launch local dev server with auto-reload' },
-        { id: 'formulahendry.auto-close-tag', name: 'Auto Close Tag', descriptionId: 'Menutup tag HTML otomatis saat diketik', descriptionEn: 'Automatically add closing HTML tags' },
-      ],
-      cliInstallCommand: 'code --install-extension ritwickdey.liveserver --install-extension formulahendry.auto-close-tag',
-    },
     installRuntime: {
       name: 'Web Browser (Chrome, Firefox, Safari, Edge)',
       version: 'Browser Standar (Evergreen)',
@@ -924,13 +844,6 @@ console.log(sapaPengguna("Pengembang"));`,
     badge: 'Flexbox, Grid & Modern CSS',
     taglineId: 'Desain antarmuka web dengan selektor, Flexbox, CSS Grid, Custom Properties (Variabel), dan animasi transisi.',
     taglineEn: 'Style responsive web interfaces with selectors, Flexbox, CSS Grid, Variables, and transitions.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ritwickdey.liveserver', name: 'Live Server', descriptionId: 'Melihat perubahan styling secara realtime di browser', descriptionEn: 'Realtime styling preview in browser' },
-        { id: 'ecmel.vscode-html-css', name: 'HTML CSS Support', descriptionId: 'Autocomplete nama class CSS di tag HTML', descriptionEn: 'CSS class name autocomplete in HTML' },
-      ],
-      cliInstallCommand: 'code --install-extension ritwickdey.liveserver --install-extension ecmel.vscode-html-css',
-    },
     installRuntime: {
       name: 'Web Browser & VS Code',
       version: 'Standar W3C',
@@ -1017,12 +930,6 @@ body {
     badge: 'Tailwind CSS v4',
     taglineId: 'Bangun desain antarmuka modern langsung di dalam markup dengan utility classes tanpa menulis CSS tradisional.',
     taglineEn: 'Build modern responsive interfaces directly in your markup using utility classes.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'bradlc.vscode-tailwindcss', name: 'Tailwind CSS IntelliSense', descriptionId: 'Autocomplete nama class, preview warna, dan linting class Tailwind', descriptionEn: 'Class name autocomplete, color preview, and CSS linting' },
-      ],
-      cliInstallCommand: 'code --install-extension bradlc.vscode-tailwindcss',
-    },
     installRuntime: {
       name: 'Node.js LTS',
       version: 'v20.x or v22.x LTS',
@@ -1104,12 +1011,6 @@ body {
     badge: 'Goroutines, High Throughput, Fast Compile',
     taglineId: 'Bahasa backend efisiensi tinggi dari Google untuk membangun microservice, CLI tools, dan sistem cloud terdistribusi.',
     taglineEn: 'High-throughput compiled language by Google for microservices, CLI tools, and distributed cloud systems.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'golang.go', name: 'Go for Visual Studio Code', descriptionId: 'Dukungan resmi Go: intellisense (gopls), debug (delve), format (gofmt)', descriptionEn: 'Official Go extension: gopls intellisense, delve debugger, and gofmt' },
-      ],
-      cliInstallCommand: 'code --install-extension golang.go',
-    },
     installRuntime: {
       name: 'Go Toolchain (1.23+)',
       version: 'Go 1.23.x+',
@@ -1192,13 +1093,6 @@ func main() {
     badge: 'Zero-Cost Abstractions, Cargo, Concurrency',
     taglineId: 'Bahasa pemrograman sistem dengan jaminan keamanan memori (memory-safety) tanpa garbage collector.',
     taglineEn: 'Systems programming language delivering memory safety and high performance without a garbage collector.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'rust-lang.rust-analyzer', name: 'rust-analyzer', descriptionId: 'Server bahasa Rust resmi dengan autocomplete, type inference, dan macro expansion', descriptionEn: 'Official Rust language server with deep type inference and macro expansion' },
-        { id: 'tamasfe.even-better-toml', name: 'Even Better TOML', descriptionId: 'Syntax highlighting & validasi untuk file Cargo.toml', descriptionEn: 'TOML syntax support for Cargo.toml' },
-      ],
-      cliInstallCommand: 'code --install-extension rust-lang.rust-analyzer --install-extension tamasfe.even-better-toml',
-    },
     installRuntime: {
       name: 'Rustup (Rust Toolchain Installer)',
       version: 'Rust 1.80+ (stable)',
@@ -1267,13 +1161,6 @@ func main() {
     badge: 'AI, Data, Scripting & Backend',
     taglineId: 'Bahasa populer yang ekspresif dan mudah dibaca untuk backend API, otomasi, data science, dan kecerdasan buatan.',
     taglineEn: 'Expressive and readable language powering backend APIs, data science, automation, and AI workflows.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ms-python.python', name: 'Python for VS Code', descriptionId: 'Dukungan resmi Microsoft: linter, debugger, autocomplete', descriptionEn: 'Official Python support: debugger, linter, and autocomplete' },
-        { id: 'charliermarsh.ruff', name: 'Ruff', descriptionId: 'Linter dan formatter Python super cepat berbasis Rust', descriptionEn: 'Ultra-fast Rust-based Python linter and formatter' },
-      ],
-      cliInstallCommand: 'code --install-extension ms-python.python --install-extension charliermarsh.ruff',
-    },
     installRuntime: {
       name: 'Python 3.12+',
       version: 'Python 3.12.x+',
@@ -1342,13 +1229,6 @@ if __name__ == "__main__":
     badge: 'Batteries-Included, ORM & Admin Panel',
     taglineId: 'Framework web Python kelas industri dengan ORM andal, panel admin otomatis, sistem otentikasi, dan keamanan berlapis.',
     taglineEn: 'Industrial-grade Python web framework with built-in ORM, auto-generated admin panel, and robust security.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ms-python.python', name: 'Python for VS Code', descriptionId: 'IntelliSense dan debugger Python', descriptionEn: 'Python language and debugging support' },
-        { id: 'batisteo.vscode-django', name: 'Django for VS Code', descriptionId: 'Syntax highlighting untuk template Django dan snippets', descriptionEn: 'Template syntax highlighting and snippets' },
-      ],
-      cliInstallCommand: 'code --install-extension ms-python.python --install-extension batisteo.vscode-django',
-    },
     installRuntime: {
       name: 'Python 3.12+ & pip',
       version: 'Python 3.12.x+',
@@ -1420,13 +1300,6 @@ def home_view(request):
     badge: '.NET 9 & Web API',
     taglineId: 'Bahasa berkinerja tinggi dari Microsoft untuk enterprise API, cloud microservices, desktop, dan game engine.',
     taglineEn: 'High-performance Microsoft language powering enterprise APIs, cloud microservices, and games.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ms-dotnettools.csdevkit', name: 'C# Dev Kit', descriptionId: 'Solusi lengkap manajemen project .NET, testing, dan solution explorer di VS Code', descriptionEn: 'Full solution explorer, testing, and debugging suite for .NET' },
-        { id: 'ms-dotnettools.csharp', name: 'C# Extension', descriptionId: 'Dukungan bahasa C# & Omnisharp/Roslyn intellisense', descriptionEn: 'C# language support powered by Roslyn' },
-      ],
-      cliInstallCommand: 'code --install-extension ms-dotnettools.csdevkit --install-extension ms-dotnettools.csharp',
-    },
     installRuntime: {
       name: '.NET 9 SDK',
       version: '.NET 9.0 SDK',
@@ -1504,13 +1377,6 @@ app.Run();`,
     badge: 'Java 21 & Spring Boot 3',
     taglineId: 'Standar emas backend skala enterprise global dengan dependency injection, Spring Data JPA, dan ekosistem raksasa.',
     taglineEn: 'The global standard for enterprise backends featuring Spring Data JPA, IoC container, and massive ecosystem.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'vscjava.vscode-java-pack', name: 'Extension Pack for Java', descriptionId: 'Paket lengkap Java dari Microsoft (LSP, debugger, test runner, maven)', descriptionEn: 'Complete Java support package from Microsoft' },
-        { id: 'vmware.vscode-spring-boot', name: 'Spring Boot Tools', descriptionId: 'Autocomplete properti application.properties, simbol bean, dan navigasi controller', descriptionEn: 'Spring properties autocomplete, bean navigation, and symbols' },
-      ],
-      cliInstallCommand: 'code --install-extension vscjava.vscode-java-pack --install-extension vmware.vscode-spring-boot',
-    },
     installRuntime: {
       name: 'JDK 21 (Eclipse Temurin / OpenJDK)',
       version: 'Java 21 LTS',
@@ -1592,12 +1458,6 @@ public class HelloController {
     badge: 'Docker Compose, Images, Multi-Stage Builds',
     taglineId: 'Bungkus aplikasi beserta seluruh dependensinya ke dalam kontainer ringan yang identik di dev, staging, dan production.',
     taglineEn: 'Package applications and dependencies into lightweight containers that run reliably anywhere.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ms-azuretools.vscode-docker', name: 'Docker for VS Code', descriptionId: 'Kelola kontainer, images, volume, dan intellisense Dockerfile langsung di sidebar', descriptionEn: 'Manage containers, images, volumes, and get Dockerfile intellisense' },
-      ],
-      cliInstallCommand: 'code --install-extension ms-azuretools.vscode-docker',
-    },
     installRuntime: {
       name: 'Docker Engine / Docker Desktop',
       version: 'Docker v26+ & Compose v2',
@@ -1676,12 +1536,6 @@ volumes:
     badge: 'ACID, JSONB, Advanced Indexing',
     taglineId: 'Database relasional open-source paling canggih di dunia dengan dukungan tipe data JSONB, ekstensi spatial, dan integritas data ACID.',
     taglineEn: 'The world\'s most advanced open-source relational database with JSONB support, spatial extensions, and ACID reliability.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'ckolkman.vscode-postgres', name: 'PostgreSQL Management', descriptionId: 'Jalankan query SQL, jelajahi tabel, dan kelola database dari VS Code', descriptionEn: 'Run SQL queries, inspect tables, and manage Postgres connections' },
-      ],
-      cliInstallCommand: 'code --install-extension ckolkman.vscode-postgres',
-    },
     installRuntime: {
       name: 'PostgreSQL 16 (via Docker / Native)',
       version: 'PostgreSQL 16.x',
@@ -1757,12 +1611,6 @@ SELECT id, name, preferences->>'theme' AS selected_theme FROM users;`,
     badge: 'InnoDB, High Speed, Universal Web Standard',
     taglineId: 'Sistem manajemen database relasional paling populer di dunia yang mentenagai web modern dan LAMP/LEMP stack.',
     taglineEn: 'The world\'s most widely adopted open-source relational database powering the modern web.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'cweijan.vscode-mysql-client2', name: 'Database Client', descriptionId: 'GUI viewer tabel, query runner, dan manajemen koneksi MySQL', descriptionEn: 'Database viewer, query runner, and MySQL table manager' },
-      ],
-      cliInstallCommand: 'code --install-extension cweijan.vscode-mysql-client2',
-    },
     installRuntime: {
       name: 'MySQL 8.0 (via Docker / Native)',
       version: 'MySQL 8.0+',
@@ -1832,12 +1680,6 @@ SELECT * FROM products WHERE price < 100;`,
     badge: 'BSON, Aggregation Pipeline, Scalable',
     taglineId: 'Database dokumen NoSQL berkinerja tinggi berbasis format BSON fleksibel dengan aggregation pipeline yang sangat kuat.',
     taglineEn: 'Leading NoSQL document database powered by flexible BSON documents and powerful aggregation pipelines.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'mongodb.mongodb-vscode', name: 'MongoDB for VS Code', descriptionId: 'Jelajahi database, koleksi, dokumen, dan jalankan MongoDB playground langsung', descriptionEn: 'Browse collections, run queries, and execute MongoDB playgrounds' },
-      ],
-      cliInstallCommand: 'code --install-extension mongodb.mongodb-vscode',
-    },
     installRuntime: {
       name: 'MongoDB 7.0 (via Docker)',
       version: 'MongoDB 7.0+',
@@ -1915,12 +1757,6 @@ db.orders.aggregate([
     badge: 'Caching, Pub/Sub, Streams, 100k+ OPS',
     taglineId: 'In-memory database berkecepatan sub-milidetik untuk caching, session storage, message broker (Pub/Sub), dan rate limiting.',
     taglineEn: 'Sub-millisecond in-memory data store for caching, sessions, message brokers, and rate limiting.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'cweijan.vscode-redis-client', name: 'Redis Client', descriptionId: 'Jelajahi keys Redis, TTL, hash, set, dan stream langsung dari VS Code', descriptionEn: 'Explore keys, inspect TTL, hashes, and streams in editor' },
-      ],
-      cliInstallCommand: 'code --install-extension cweijan.vscode-redis-client',
-    },
     installRuntime: {
       name: 'Redis 7 (via Docker)',
       version: 'Redis 7.x',
@@ -1988,12 +1824,6 @@ XADD mystream * sensor "temp" value 28.5`,
     badge: 'Declarative Fetching & Typed Schema (SDL)',
     taglineId: 'Bahasa query deklaratif untuk API yang memungkinkan client meminta data persis sesuai kebutuhan tanpa over-fetching.',
     taglineEn: 'Declarative API query language empowering clients to request exactly what they need without over-fetching.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'graphql.vscode-graphql', name: 'GraphQL: Language Feature Support', descriptionId: 'Syntax highlighting, validasi schema .graphql, dan autocomplete query', descriptionEn: 'Schema validation, syntax highlighting, and query autocomplete' },
-      ],
-      cliInstallCommand: 'code --install-extension graphql.vscode-graphql',
-    },
     installRuntime: {
       name: 'Node.js LTS (v20+)',
       version: 'v20.x or v22.x LTS',
@@ -2087,12 +1917,6 @@ console.log(\`🚀 GraphQL Server siap di \${url}\`);`,
     badge: 'PHP 8.3+, Composer, Modern OOP',
     taglineId: 'Bahasa backend dinamis yang mentenagai sebagian besar web dunia dengan fitur OOP modern dan performa JIT compiler.',
     taglineEn: 'Dynamic backend language powering major web systems with modern OOP and JIT compilation.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'bmewburn.vscode-intelephense-client', name: 'PHP Intelephense', descriptionId: 'LSP PHP tercepat: code completion, signature help, find references', descriptionEn: 'Ultra-fast PHP language server: code completion and signature help' },
-      ],
-      cliInstallCommand: 'code --install-extension bmewburn.vscode-intelephense-client',
-    },
     installRuntime: {
       name: 'PHP 8.3+ & Composer',
       version: 'PHP 8.3.x',
@@ -2165,13 +1989,6 @@ echo json_encode($data, JSON_PRETTY_PRINT);`,
     badge: 'Eloquent ORM, Artisan, Blade, Ecosystem',
     taglineId: 'Framework PHP paling dicintai di dunia dengan sintaks elegan, Eloquent ORM, migrasi skema database, dan ekosistem paket lengkap.',
     taglineEn: 'The world\'s most popular PHP framework with elegant syntax, Eloquent ORM, and comprehensive tooling.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'bmewburn.vscode-intelephense-client', name: 'PHP Intelephense', descriptionId: 'Dukungan bahasa PHP dan autocomplete method', descriptionEn: 'PHP language server' },
-        { id: 'onecentlin.laravel5-snippets', name: 'Laravel Blade Snippets', descriptionId: 'Syntax highlighting & format file .blade.php', descriptionEn: 'Blade template highlighting and snippets' },
-      ],
-      cliInstallCommand: 'code --install-extension bmewburn.vscode-intelephense-client --install-extension onecentlin.laravel5-snippets',
-    },
     installRuntime: {
       name: 'PHP 8.2+ & Composer',
       version: 'PHP 8.2+ & Composer 2.x',
@@ -2248,12 +2065,6 @@ Route::get('/', function () {
     badge: 'Zero-Config, High Performance, Small Footprint',
     taglineId: 'Framework PHP berukuran sangat ringan, cepat dipelajari, dan minim konfigurasi untuk aplikasi web dinamis.',
     taglineEn: 'Extremely lightweight, high-performance PHP framework with minimal configuration overhead.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'bmewburn.vscode-intelephense-client', name: 'PHP Intelephense', descriptionId: 'Autocomplete kode PHP', descriptionEn: 'PHP autocomplete engine' },
-      ],
-      cliInstallCommand: 'code --install-extension bmewburn.vscode-intelephense-client',
-    },
     installRuntime: {
       name: 'PHP 8.1+ & Composer',
       version: 'PHP 8.1+ or 8.2+',
@@ -2330,12 +2141,6 @@ class Home extends BaseController
     badge: 'Convention over Configuration & Productivity',
     taglineId: 'Framework web legendaris berbasis Ruby yang mempopulerkan prinsip Convention over Configuration dan scaffolding kilat.',
     taglineEn: 'Legendary web framework built on Convention over Configuration, developer joy, and rapid delivery.',
-    vscode: {
-      recommendedExtensions: [
-        { id: 'shopify.ruby-lsp', name: 'Ruby LSP (Shopify)', descriptionId: 'Server bahasa Ruby resmi dengan format, definisi, dan diagnostics', descriptionEn: 'Official Shopify Ruby LSP with formatting and jump to definition' },
-      ],
-      cliInstallCommand: 'code --install-extension shopify.ruby-lsp',
-    },
     installRuntime: {
       name: 'Ruby 3.3+ & Bundler',
       version: 'Ruby 3.3.x',

@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **C# Dev Kit** (`ms-dotnettools.csdevkit`): Solusi lengkap manajemen project .NET, testing, dan solution explorer di VS Code
-- **C# Extension** (`ms-dotnettools.csharp`): Dukungan bahasa C# & Omnisharp/Roslyn intellisense
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ms-dotnettools.csdevkit --install-extension ms-dotnettools.csharp
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (.NET 9 SDK)
+### 1. Instalasi Runtime & Dependency (.NET 9 SDK)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -61,7 +49,7 @@ Output yang diharapkan:
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -76,7 +64,7 @@ cd MyWebApiApp
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -110,7 +98,7 @@ Minimal API endpoint di Program.cs .NET 9.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -126,7 +114,7 @@ Struktur project ASP.NET Core dengan Dependency Injection terintegrasi di Progra
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan perintah `dotnet watch` untuk mengaktifkan hot reload setiap kali file C# diedit.
 - Gunakan record types (`public record User(int Id, string Name);`) untuk data transfer objek (DTO) yang ringkas.
 

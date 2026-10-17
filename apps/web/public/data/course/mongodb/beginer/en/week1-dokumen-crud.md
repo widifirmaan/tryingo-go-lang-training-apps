@@ -16,18 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **MongoDB for VS Code** (`mongodb.mongodb-vscode`): Browse collections, run queries, and execute MongoDB playgrounds
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension mongodb.mongodb-vscode
-```
-
----
-
-### 2. Runtime & Dependency Installation (MongoDB 7.0 (via Docker))
+### 1. Runtime & Dependency Installation (MongoDB 7.0 (via Docker))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -60,7 +49,7 @@ Expected output:
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -74,7 +63,7 @@ docker exec -it mongo-dev mongosh -u root -p secret
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -110,7 +99,7 @@ Document insertion and aggregation pipeline in mongosh syntax.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -124,7 +113,7 @@ MongoDB NoSQL project layout.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Always add indexes via `createIndex()` to avoid costly collection scans.
 - Use MongoDB Compass for interactive graphical schema and document inspection.
 

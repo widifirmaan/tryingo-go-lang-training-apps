@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **ESLint** (`dbaeumer.vscode-eslint`): Pemeriksaan aturan ketat tipe
-- **Prettier** (`esbenp.prettier-vscode`): Formatting konsisten
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Node.js LTS (v20+))
+### 1. Instalasi Runtime & Dependency (Node.js LTS (v20+))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ v20.x.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -79,7 +67,7 @@ cd my-ts-project
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -108,7 +96,7 @@ Contoh program TypeScript dengan interface dan string literal union types.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -123,7 +111,7 @@ Direktori src/ menampung seluruh file .ts yang akan dicek tipenya oleh compiler.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Selalu aktifkan `"strict": true` di tsconfig.json untuk keamanan tipe maksimal.
 - Gunakan utility types bawaan seperti `Partial<T>`, `Pick<T, K>`, dan `Record<K, T>`.
 

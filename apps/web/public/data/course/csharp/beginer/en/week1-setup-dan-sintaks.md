@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **C# Dev Kit** (`ms-dotnettools.csdevkit`): Full solution explorer, testing, and debugging suite for .NET
-- **C# Extension** (`ms-dotnettools.csharp`): C# language support powered by Roslyn
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension ms-dotnettools.csdevkit --install-extension ms-dotnettools.csharp
-```
-
----
-
-### 2. Runtime & Dependency Installation (.NET 9 SDK)
+### 1. Runtime & Dependency Installation (.NET 9 SDK)
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -61,7 +49,7 @@ Expected output:
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -76,7 +64,7 @@ cd MyWebApiApp
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -110,7 +98,7 @@ Minimal API endpoint implementation in modern .NET 9.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -126,7 +114,7 @@ ASP.NET Core structure featuring built-in Dependency Injection in Program.cs.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Run `dotnet watch` to enable hot reload during active development.
 - Use C# record types (`public record User(int Id, string Name);`) for concise immutable DTOs.
 

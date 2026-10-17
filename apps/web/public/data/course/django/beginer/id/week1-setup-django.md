@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Python for VS Code** (`ms-python.python`): IntelliSense dan debugger Python
-- **Django for VS Code** (`batisteo.vscode-django`): Syntax highlighting untuk template Django dan snippets
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ms-python.python --install-extension batisteo.vscode-django
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Python 3.12+ & pip)
+### 1. Instalasi Runtime & Dependency (Python 3.12+ & pip)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -61,7 +49,7 @@ Python 3.12.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -80,7 +68,7 @@ cd my-django-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -107,7 +95,7 @@ View sederhana yang mengembalikan respon JSON dari Django.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -124,7 +112,7 @@ Arsitektur MVT (Model-View-Template) khas Django.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Jalankan `python manage.py createsuperuser` untuk membuat akun admin panel di `/admin`.
 - Gunakan perintah `python manage.py startapp core` saat membuat fitur atau domain baru.
 

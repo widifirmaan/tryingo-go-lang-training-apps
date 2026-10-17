@@ -16,18 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): PHP autocomplete engine
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension bmewburn.vscode-intelephense-client
-```
-
----
-
-### 2. Runtime & Dependency Installation (PHP 8.1+ & Composer)
+### 1. Runtime & Dependency Installation (PHP 8.1+ & Composer)
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -61,7 +50,7 @@ Composer 2.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -76,7 +65,7 @@ cd my-ci4-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -108,7 +97,7 @@ Default CodeIgniter 4 controller returning JSON.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -125,7 +114,7 @@ Lean MVC architecture of CodeIgniter 4.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Rename `env` to `.env` and set `CI_ENVIRONMENT = development` to enable the interactive Debug Toolbar.
 - Use `php spark make:controller User` to generate controllers quickly.
 

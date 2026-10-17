@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **rust-analyzer** (`rust-lang.rust-analyzer`): Server bahasa Rust resmi dengan autocomplete, type inference, dan macro expansion
-- **Even Better TOML** (`tamasfe.even-better-toml`): Syntax highlighting & validasi untuk file Cargo.toml
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension rust-lang.rust-analyzer --install-extension tamasfe.even-better-toml
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Rustup (Rust Toolchain Installer))
+### 1. Instalasi Runtime & Dependency (Rustup (Rust Toolchain Installer))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ cargo 1.8x.x ...
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -77,7 +65,7 @@ cd my-rust-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -103,7 +91,7 @@ Program Rust sederhana mendemonstrasikan vector dan formatting string aman.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -118,7 +106,7 @@ Struktur standar Cargo untuk aplikasi binary Rust.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan `cargo check` saat development untuk validasi kompilasi kilat tanpa membuat binary.
 - Gunakan `cargo run --release` saat ingin menguji performa maksimal dengan optimasi kompilator.
 

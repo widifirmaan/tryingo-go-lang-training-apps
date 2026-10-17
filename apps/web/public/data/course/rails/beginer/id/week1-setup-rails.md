@@ -16,18 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Ruby LSP (Shopify)** (`shopify.ruby-lsp`): Server bahasa Ruby resmi dengan format, definisi, dan diagnostics
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension shopify.ruby-lsp
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Ruby 3.3+ & Bundler)
+### 1. Instalasi Runtime & Dependency (Ruby 3.3+ & Bundler)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -61,7 +50,7 @@ Bundler version 2.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -77,7 +66,7 @@ cd my-rails-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -97,7 +86,7 @@ Definisi route langsung di config/routes.rb.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -117,7 +106,7 @@ Arsitektur MVC Convention over Configuration khas Rails.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan perintah `bin/rails generate scaffold Product name:string price:decimal` untuk men-generate seluruh API CRUD dalam 2 detik.
 - Gunakan `bin/rails console` untuk menguji query ActiveRecord langsung di terminal.
 

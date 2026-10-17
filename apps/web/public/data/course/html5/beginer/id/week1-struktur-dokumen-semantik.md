@@ -142,19 +142,7 @@ Anda dapat melihat kode sumber website apa pun di internet:
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Live Server** (`ritwickdey.liveserver`): Buka HTML di browser lokal dengan auto-reload saat file disimpan
-- **Auto Close Tag** (`formulahendry.auto-close-tag`): Menutup tag HTML otomatis saat diketik
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ritwickdey.liveserver --install-extension formulahendry.auto-close-tag
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Web Browser (Chrome, Firefox, Safari, Edge))
+### 1. Instalasi Runtime & Dependency (Web Browser (Chrome, Firefox, Safari, Edge))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -187,7 +175,7 @@ Output yang diharapkan:
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -202,7 +190,7 @@ cd my-website
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -241,7 +229,7 @@ Struktur dokumen HTML5 semantik lengkap.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -254,7 +242,7 @@ Struktur standar situs web statis.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan shortcut `!` lalu tekan `Tab` di VS Code untuk men-generate boilerplate HTML5 instan.
 - Selalu sertakan atribut `alt` pada tag `<img>` demi aksesibilitas dan SEO.
 

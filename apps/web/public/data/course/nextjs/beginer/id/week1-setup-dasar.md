@@ -16,20 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **ESLint** (`dbaeumer.vscode-eslint`): Linting kode TypeScript/JavaScript
-- **Prettier** (`esbenp.prettier-vscode`): Formatter otomatis kode yang rapi
-- **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`): Autocomplete & highlight class Tailwind
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode --install-extension bradlc.vscode-tailwindcss
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Node.js LTS (v20+ / v22+))
+### 1. Instalasi Runtime & Dependency (Node.js LTS (v20+ / v22+))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -63,7 +50,7 @@ v22.x.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -77,7 +64,7 @@ cd my-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -111,7 +98,7 @@ File komponen Server Component default untuk halaman utama.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -131,7 +118,7 @@ Direktori src/app berisi struktur routing otomatis berdasarkan folder dan file p
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan Turbopack untuk dev server super cepat: jalankan `npm run dev -- --turbopack`.
 - Untuk komponen yang membutuhkan interaksi pengguna (state, useEffect, onClick), tambahkan directive `"use client";` di baris pertama file.
 
