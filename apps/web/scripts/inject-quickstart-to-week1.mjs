@@ -47,11 +47,12 @@ function buildMarkdownSection(guide, lang) {
       .map(tip => `- ${tip}`)
       .join('\n');
 
-    return `## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+    const sections = [];
+    let step = 0;
 
-Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
-
-### 1. Instalasi Runtime & Dependency (${guide.installRuntime.name})
+    if (guide.installRuntime) {
+      step++;
+      sections.push(`### ${step}. Instalasi Runtime & Dependency (${guide.installRuntime.name})
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -80,11 +81,11 @@ Output yang diharapkan:
 ${guide.installRuntime.expectedOutput}
 \`\`\`
 
-> 💡 **Tips Prasyarat:** ${guide.installRuntime.tipsId}
+> 💡 **Tips Prasyarat:** ${guide.installRuntime.tipsId}`);
+    }
 
----
-
-### 2. Inisialisasi Project Kosong (Scaffolding)
+    step++;
+    sections.push(`### ${step}. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 \`\`\`bash
@@ -94,11 +95,10 @@ ${guide.createProject.command}
 - **Pindah ke direktori project:**
 \`\`\`bash
 ${guide.createProject.cdCommand}
-\`\`\`
+\`\`\``);
 
----
-
-### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
+    step++;
+    sections.push(`### ${step}. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 \`\`\`bash
@@ -112,32 +112,37 @@ Akses di browser atau terminal: \`${guide.runProject.localUrl}\`
 \`\`\`${fence}
 ${guide.starterFile.code}
 \`\`\`
-${guide.starterFile.descriptionId}
+${guide.starterFile.descriptionId}`);
 
----
-
-### 4. Struktur Direktori Proyek Baru
+    step++;
+    sections.push(`### ${step}. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 \`\`\`text
 ${guide.projectStructure.tree}
 \`\`\`
-${guide.projectStructure.summaryId}
+${guide.projectStructure.summaryId}`);
 
----
+    step++;
+    sections.push(`### ${step}. Tips & Best Practice untuk Pemula
+${proTips}`);
 
-### 5. Tips & Best Practice untuk Pemula
-${proTips}`;
+    return `## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
+
+${sections.join('\n\n---\n\n')}`;
   } else {
     const proTips = guide.proTipsEn
       .map(tip => `- ${tip}`)
       .join('\n');
 
-    return `## Quick Start Guide: Setup & Project Initialization
+    const sections = [];
+    let step = 0;
 
-Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
-
-### 1. Runtime & Dependency Installation (${guide.installRuntime.name})
+    if (guide.installRuntime) {
+      step++;
+      sections.push(`### ${step}. Runtime & Dependency Installation (${guide.installRuntime.name})
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -166,11 +171,11 @@ Expected output:
 ${guide.installRuntime.expectedOutput}
 \`\`\`
 
-> 💡 **Prerequisite Note:** ${guide.installRuntime.tipsEn}
+> 💡 **Prerequisite Note:** ${guide.installRuntime.tipsEn}`);
+    }
 
----
-
-### 2. Initializing a Blank Project (Scaffolding)
+    step++;
+    sections.push(`### ${step}. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 \`\`\`bash
@@ -180,11 +185,10 @@ ${guide.createProject.command}
 - **Navigate to the project directory:**
 \`\`\`bash
 ${guide.createProject.cdCommand}
-\`\`\`
+\`\`\``);
 
----
-
-### 3. Running the Local Dev Server & First Entry File
+    step++;
+    sections.push(`### ${step}. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 \`\`\`bash
@@ -198,22 +202,26 @@ Open in browser or terminal: \`${guide.runProject.localUrl}\`
 \`\`\`${fence}
 ${guide.starterFile.code}
 \`\`\`
-${guide.starterFile.descriptionEn}
+${guide.starterFile.descriptionEn}`);
 
----
-
-### 4. New Project Directory Structure
+    step++;
+    sections.push(`### ${step}. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 \`\`\`text
 ${guide.projectStructure.tree}
 \`\`\`
-${guide.projectStructure.summaryEn}
+${guide.projectStructure.summaryEn}`);
 
----
+    step++;
+    sections.push(`### ${step}. Beginner Tips & Best Practices
+${proTips}`);
 
-### 5. Beginner Tips & Best Practices
-${proTips}`;
+    return `## Quick Start Guide: Setup & Project Initialization
+
+Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
+
+${sections.join('\n\n---\n\n')}`;
   }
 }
 
