@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **ESLint** (`dbaeumer.vscode-eslint`): Strict linting rules
-- **Prettier** (`esbenp.prettier-vscode`): Consistent formatting
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
-```
-
----
-
-### 2. Runtime & Dependency Installation (Node.js LTS (v20+))
+### 1. Runtime & Dependency Installation (Node.js LTS (v20+))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ v20.x.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -79,7 +67,7 @@ cd my-ts-project
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -108,7 +96,7 @@ TypeScript program demonstrating interfaces and string literal unions.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -123,7 +111,7 @@ The src/ directory holds all typed source files compiled by tsc.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Keep `"strict": true` active in tsconfig.json for maximum type safety.
 - Leverage built-in utility types such as `Partial<T>`, `Pick<T, K>`, and `Record<K, T>`.
 

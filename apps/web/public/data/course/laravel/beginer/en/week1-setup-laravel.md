@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): PHP language server
-- **Laravel Blade Snippets** (`onecentlin.laravel5-snippets`): Blade template highlighting and snippets
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension bmewburn.vscode-intelephense-client --install-extension onecentlin.laravel5-snippets
-```
-
----
-
-### 2. Runtime & Dependency Installation (PHP 8.2+ & Composer)
+### 1. Runtime & Dependency Installation (PHP 8.2+ & Composer)
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ Composer 2.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -77,7 +65,7 @@ cd my-laravel-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -105,7 +93,7 @@ Simple route closure returning JSON response.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -126,7 +114,7 @@ Structured Laravel MVC architecture.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Run `php artisan make:model Product -mcr` to scaffold a Model, Migration, and Controller in one command.
 - Execute `php artisan migrate` to apply pending database schema changes.
 

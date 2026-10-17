@@ -16,18 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Database Client** (`cweijan.vscode-mysql-client2`): Database viewer, query runner, and MySQL table manager
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension cweijan.vscode-mysql-client2
-```
-
----
-
-### 2. Runtime & Dependency Installation (MySQL 8.0 (via Docker / Native))
+### 1. Runtime & Dependency Installation (MySQL 8.0 (via Docker / Native))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -60,7 +49,7 @@ Expected output:
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -74,7 +63,7 @@ docker exec -it mysql-dev mysql -u root -psecret devdb
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -103,7 +92,7 @@ MySQL InnoDB table definition with modern utf8mb4 charset.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -116,7 +105,7 @@ MySQL database project layout.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Always use `utf8mb4` charset to guarantee complete emoji and unicode character support.
 - Use `DECIMAL(10, 2)` for monetary values to avoid binary floating-point precision errors.
 

@@ -569,11 +569,13 @@ func main() {
     return () => observer.disconnect();
   }, []);
 
-  const editorLanguage = LANGUAGE_MAP[language] === 'typescript' ? 'typescript'
-    : LANGUAGE_MAP[language] === 'javascript' || LANGUAGE_MAP[language] === 'html' ? 'html'
-    : LANGUAGE_MAP[language] === 'go' ? 'go'
-    : LANGUAGE_MAP[language] === 'python' ? 'python'
-    : LANGUAGE_MAP[language] === 'rust' ? 'rust'
+  const currentMode = LANGUAGE_MAP[language] || 'html';
+  const looksLikeHtmlDoc = /<html|<!\s*DOCTYPE|<body|<head/i.test(code);
+  const editorLanguage = currentMode === 'typescript' ? (looksLikeHtmlDoc ? 'html' : 'typescript')
+    : currentMode === 'javascript' ? (looksLikeHtmlDoc ? 'html' : 'javascript')
+    : currentMode === 'go' ? 'go'
+    : currentMode === 'python' ? 'python'
+    : currentMode === 'rust' ? 'rust'
     : 'html';
 
   const Wrapper = inline ? 'div' : motion.div;

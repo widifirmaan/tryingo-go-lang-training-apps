@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **ESLint** (`dbaeumer.vscode-eslint`): Linting kode JavaScript & Node.js
-- **Prettier** (`esbenp.prettier-vscode`): Formatting konsisten
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Node.js LTS (v20+ / v22+))
+### 1. Instalasi Runtime & Dependency (Node.js LTS (v20+ / v22+))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ v22.x.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -80,7 +68,7 @@ cd my-node-api
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -115,7 +103,7 @@ Server Express sederhana dengan healthcheck endpoint.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -130,7 +118,7 @@ Struktur ramping dan minimalis, cocok untuk microservice.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan `tsx` (`npx tsx file.ts`) untuk mengeksekusi file TypeScript langsung tanpa kompilasi manual.
 - Manfaatkan built-in Node test runner: `node --test` untuk unit test tanpa library pihak ketiga.
 

@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Vue - Official (Volar)** (`vue.volar`): Language support, syntax highlighting, & TS for .vue files
-- **ESLint** (`dbaeumer.vscode-eslint`): Code linting for Vue files
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension vue.volar --install-extension dbaeumer.vscode-eslint
-```
-
----
-
-### 2. Runtime & Dependency Installation (Node.js LTS (v20+))
+### 1. Runtime & Dependency Installation (Node.js LTS (v20+))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ v20.x.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -78,7 +66,7 @@ cd my-vue-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -127,7 +115,7 @@ Vue 3 SFC using modern <script setup> and reactive ref().
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -145,7 +133,7 @@ my-vue-app/
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Prefer `ref()` for primitives and `reactive()` for complex object states.
 - Use Pinia as the official modern store management library over Vuex.
 

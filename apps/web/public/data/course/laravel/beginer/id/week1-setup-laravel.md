@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **PHP Intelephense** (`bmewburn.vscode-intelephense-client`): Dukungan bahasa PHP dan autocomplete method
-- **Laravel Blade Snippets** (`onecentlin.laravel5-snippets`): Syntax highlighting & format file .blade.php
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension bmewburn.vscode-intelephense-client --install-extension onecentlin.laravel5-snippets
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (PHP 8.2+ & Composer)
+### 1. Instalasi Runtime & Dependency (PHP 8.2+ & Composer)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ Composer 2.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -77,7 +65,7 @@ cd my-laravel-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -105,7 +93,7 @@ Route closure sederhana yang mengembalikan respon JSON.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -126,7 +114,7 @@ Arsitektur MVC (Model-View-Controller) Laravel yang sangat terstruktur.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan `php artisan make:model Product -mcr` untuk membuat Model, Migration, dan Controller Resource sekaligus.
 - Jalankan `php artisan migrate` untuk mengeksekusi seluruh migrasi database yang tertunda.
 

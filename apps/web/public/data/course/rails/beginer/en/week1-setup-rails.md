@@ -16,18 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Ruby LSP (Shopify)** (`shopify.ruby-lsp`): Official Shopify Ruby LSP with formatting and jump to definition
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension shopify.ruby-lsp
-```
-
----
-
-### 2. Runtime & Dependency Installation (Ruby 3.3+ & Bundler)
+### 1. Runtime & Dependency Installation (Ruby 3.3+ & Bundler)
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -61,7 +50,7 @@ Bundler version 2.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -77,7 +66,7 @@ cd my-rails-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -97,7 +86,7 @@ Direct route declaration in config/routes.rb.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -117,7 +106,7 @@ Convention over Configuration MVC architecture of Rails.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Run `bin/rails generate scaffold Product name:string price:decimal` to generate full CRUD APIs in 2 seconds.
 - Launch `bin/rails console` to query ActiveRecord models interactively.
 

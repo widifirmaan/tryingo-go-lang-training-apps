@@ -16,19 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Python for VS Code** (`ms-python.python`): Dukungan resmi Microsoft: linter, debugger, autocomplete
-- **Ruff** (`charliermarsh.ruff`): Linter dan formatter Python super cepat berbasis Rust
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ms-python.python --install-extension charliermarsh.ruff
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Python 3.12+)
+### 1. Instalasi Runtime & Dependency (Python 3.12+)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -61,7 +49,7 @@ Python 3.12.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -78,7 +66,7 @@ cd my-python-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -104,7 +92,7 @@ Skrip Python modern dengan type hints dan datetime.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -119,7 +107,7 @@ Struktur project Python modern dengan isolasi venv.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan perintah `pip freeze > requirements.txt` untuk menyimpan daftar dependensi proyek.
 - Gunakan `uv` (`pip install uv`) sebagai package manager alternatif yang 10-100x lebih cepat dari pip standar.
 

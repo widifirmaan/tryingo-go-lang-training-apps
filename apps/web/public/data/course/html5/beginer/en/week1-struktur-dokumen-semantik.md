@@ -141,19 +141,7 @@ You can inspect the source code of any live webpage:
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Live Server** (`ritwickdey.liveserver`): Launch local dev server with auto-reload
-- **Auto Close Tag** (`formulahendry.auto-close-tag`): Automatically add closing HTML tags
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension ritwickdey.liveserver --install-extension formulahendry.auto-close-tag
-```
-
----
-
-### 2. Runtime & Dependency Installation (Web Browser (Chrome, Firefox, Safari, Edge))
+### 1. Runtime & Dependency Installation (Web Browser (Chrome, Firefox, Safari, Edge))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -186,7 +174,7 @@ Expected output:
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -201,7 +189,7 @@ cd my-website
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -240,7 +228,7 @@ Complete semantic HTML5 document boilerplate.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -253,7 +241,7 @@ Standard architecture for static web pages.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Type `!` and hit `Tab` in VS Code to generate an instant HTML5 boilerplate.
 - Always include the `alt` attribute on `<img>` tags for screen readers and SEO.
 

@@ -180,8 +180,8 @@ const extractCode = (markdown: string, preferred: string[] = []): string => {
 // the week's runnable program instead of setup snippets (bash/npm/install).
 const STACKBLITZ_FENCES: Record<string, string[]> = {
   nodejs: ['javascript', 'js'],
-  nextjs: ['tsx', 'jsx', 'ts', 'typescript', 'javascript', 'js'],
-  nestjs: ['typescript', 'ts'],
+  nextjs: ['jsx', 'tsx', 'ts', 'typescript', 'javascript', 'js'],
+  nestjs: ['javascript', 'js', 'typescript', 'ts'],
   angular: ['typescript', 'ts'],
   django: ['python', 'py'],
   spring: ['java'],
@@ -190,8 +190,8 @@ const STACKBLITZ_FENCES: Record<string, string[]> = {
 const INLINE_FENCES: Record<string, string[]> = {
   golang: ['go'],
   rust: ['rust'],
-  javascript: ['javascript', 'js', 'html'],
-  typescript: ['typescript', 'ts', 'javascript'],
+  javascript: ['html', 'javascript', 'js'],
+  typescript: ['html', 'typescript', 'ts', 'javascript'],
   html5: ['html'],
   css3: ['html'],
   tailwind: ['html'],
@@ -766,7 +766,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           </div>
         ) : content && slug === 'redis' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">
-            <RedisPlayground lang={lang} initialCode={getActivePlaygroundCode(['redis', 'bash', 'sh'])} />
+            <RedisPlayground lang={lang} initialCode={getActivePlaygroundCode(['shell', 'redis', 'bash', 'sh'])} />
           </div>
         ) : content && slug === 'graphql' ? (
           <div className="h-dvh lg:h-auto lg:flex-1 lg:min-h-0 rounded-[28px] overflow-hidden border border-zinc-300 dark:border-zinc-700 shadow-md">

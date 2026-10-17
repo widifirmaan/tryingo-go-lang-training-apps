@@ -16,18 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Go for Visual Studio Code** (`golang.go`): Dukungan resmi Go: intellisense (gopls), debug (delve), format (gofmt)
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension golang.go
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Go Toolchain (1.23+))
+### 1. Instalasi Runtime & Dependency (Go Toolchain (1.23+))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -60,7 +49,7 @@ go version go1.23.x ...
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -76,7 +65,7 @@ cd my-go-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -113,7 +102,7 @@ HTTP API server native Go tanpa dependensi pihak ketiga.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -131,7 +120,7 @@ Standar Standard Go Project Layout yang direkomendasikan komunitas.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan `go build -o app.exe` untuk menghasilkan file binary mandiri yang siap dideploy tanpa instalasi runtime di server tujuan.
 - Gunakan `go fmt ./...` sebelum commit untuk memastikan gaya penulisan kode selalu standar.
 

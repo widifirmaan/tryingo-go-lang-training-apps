@@ -93,19 +93,7 @@ Browser bawaan (Chrome, Safari, Firefox) menyertakan stylesheet bawaan (*User Ag
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Live Server** (`ritwickdey.liveserver`): Melihat perubahan styling secara realtime di browser
-- **HTML CSS Support** (`ecmel.vscode-html-css`): Autocomplete nama class CSS di tag HTML
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ritwickdey.liveserver --install-extension ecmel.vscode-html-css
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Web Browser & VS Code)
+### 1. Instalasi Runtime & Dependency (Web Browser & VS Code)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -138,7 +126,7 @@ Output yang diharapkan:
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -153,7 +141,7 @@ cd my-css-project
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -200,7 +188,7 @@ Styling tata letak kartu menggunakan CSS Variables, Flexbox, dan efek transisi h
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -212,7 +200,7 @@ Pemisahan struktur (HTML) dan presentasi visual (CSS).
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan CSS Variables (`--var-name`) untuk kemudahan penerapan Dark Mode dan palet warna konsisten.
 - Prioritaskan Mobile-First design dengan media queries `@media (min-width: 768px)`.
 

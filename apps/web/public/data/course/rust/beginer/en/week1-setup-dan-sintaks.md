@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **rust-analyzer** (`rust-lang.rust-analyzer`): Official Rust language server with deep type inference and macro expansion
-- **Even Better TOML** (`tamasfe.even-better-toml`): TOML syntax support for Cargo.toml
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension rust-lang.rust-analyzer --install-extension tamasfe.even-better-toml
-```
-
----
-
-### 2. Runtime & Dependency Installation (Rustup (Rust Toolchain Installer))
+### 1. Runtime & Dependency Installation (Rustup (Rust Toolchain Installer))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ cargo 1.8x.x ...
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -77,7 +65,7 @@ cd my-rust-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -103,7 +91,7 @@ Simple Rust program showcasing vectors, iterators, and string formatting.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -118,7 +106,7 @@ Standard Cargo structure for binary applications.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Use `cargo check` during development for lightning-fast compilation verification without building binaries.
 - Run `cargo run --release` to test code under maximum compiler optimizations.
 

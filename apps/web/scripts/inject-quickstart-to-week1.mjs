@@ -43,9 +43,6 @@ function buildMarkdownSection(guide, lang) {
   const fence = LANG_FENCE_MAP[guide.slug] || 'text';
 
   if (isId) {
-    const extList = guide.vscode.recommendedExtensions
-      .map(ext => `- **${ext.name}** (\`${ext.id}\`): ${ext.descriptionId}`)
-      .join('\n');
     const proTips = guide.proTipsId
       .map(tip => `- ${tip}`)
       .join('\n');
@@ -54,18 +51,7 @@ function buildMarkdownSection(guide, lang) {
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-${extList}
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-\`\`\`bash
-${guide.vscode.cliInstallCommand}
-\`\`\`
-
----
-
-### 2. Instalasi Runtime & Dependency (${guide.installRuntime.name})
+### 1. Instalasi Runtime & Dependency (${guide.installRuntime.name})
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -98,7 +84,7 @@ ${guide.installRuntime.expectedOutput}
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 \`\`\`bash
@@ -112,7 +98,7 @@ ${guide.createProject.cdCommand}
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 \`\`\`bash
@@ -130,7 +116,7 @@ ${guide.starterFile.descriptionId}
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 \`\`\`text
@@ -140,12 +126,9 @@ ${guide.projectStructure.summaryId}
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 ${proTips}`;
   } else {
-    const extList = guide.vscode.recommendedExtensions
-      .map(ext => `- **${ext.name}** (\`${ext.id}\`): ${ext.descriptionEn}`)
-      .join('\n');
     const proTips = guide.proTipsEn
       .map(tip => `- ${tip}`)
       .join('\n');
@@ -154,18 +137,7 @@ ${proTips}`;
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-${extList}
-
-Or install all recommended extensions at once via terminal:
-\`\`\`bash
-${guide.vscode.cliInstallCommand}
-\`\`\`
-
----
-
-### 2. Runtime & Dependency Installation (${guide.installRuntime.name})
+### 1. Runtime & Dependency Installation (${guide.installRuntime.name})
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -198,7 +170,7 @@ ${guide.installRuntime.expectedOutput}
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 \`\`\`bash
@@ -212,7 +184,7 @@ ${guide.createProject.cdCommand}
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 \`\`\`bash
@@ -230,7 +202,7 @@ ${guide.starterFile.descriptionEn}
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 \`\`\`text
@@ -240,7 +212,7 @@ ${guide.projectStructure.summaryEn}
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 ${proTips}`;
   }
 }

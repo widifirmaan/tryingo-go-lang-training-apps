@@ -16,18 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **Docker for VS Code** (`ms-azuretools.vscode-docker`): Kelola kontainer, images, volume, dan intellisense Dockerfile langsung di sidebar
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ms-azuretools.vscode-docker
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (Docker Engine / Docker Desktop)
+### 1. Instalasi Runtime & Dependency (Docker Engine / Docker Desktop)
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -61,7 +50,7 @@ Docker Compose version v2.x.x
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -76,7 +65,7 @@ cd my-docker-app
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -113,7 +102,7 @@ Konfigurasi compose.yaml lengkap dengan web server NGINX dan PostgreSQL.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -127,7 +116,7 @@ Pemisahan jelas antara konfigurasi image (Dockerfile) dan orkestrasi runtime (co
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan perintah `docker compose ps` untuk melihat status kontainer yang sedang berjalan.
 - Gunakan `docker compose logs -f` untuk memantau streaming log kontainer secara realtime.
 

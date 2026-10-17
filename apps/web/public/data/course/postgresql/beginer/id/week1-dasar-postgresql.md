@@ -16,18 +16,7 @@
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
-### 1. Persiapan Editor VS Code & Ekstensi Rekomendasi
-Gunakan [Visual Studio Code](https://code.visualstudio.com/) sebagai code editor utama. Pasang ekstensi penting berikut:
-- **PostgreSQL Management** (`ckolkman.vscode-postgres`): Jalankan query SQL, jelajahi tabel, dan kelola database dari VS Code
-
-Atau instal semua ekstensi rekomendasi sekaligus via terminal:
-```bash
-code --install-extension ckolkman.vscode-postgres
-```
-
----
-
-### 2. Instalasi Runtime & Dependency (PostgreSQL 16 (via Docker / Native))
+### 1. Instalasi Runtime & Dependency (PostgreSQL 16 (via Docker / Native))
 Pastikan runtime atau SDK telah terpasang di sistem operasi Anda:
 
 **Windows (PowerShell):**
@@ -60,7 +49,7 @@ PostgreSQL 16.x ...
 
 ---
 
-### 3. Inisialisasi Project Kosong (Scaffolding)
+### 2. Inisialisasi Project Kosong (Scaffolding)
 Buat folder dan kerangka awal project baru dengan perintah resmi:
 
 ```bash
@@ -74,7 +63,7 @@ docker exec -it pg-dev psql -U postgres -d devdb
 
 ---
 
-### 4. Menjalankan Server Lokal & File Titik Masuk Pertama
+### 3. Menjalankan Server Lokal & File Titik Masuk Pertama
 Jalankan server pengembangan lokal:
 
 ```bash
@@ -106,7 +95,7 @@ Skema tabel SQL dengan fitur native JSONB PostgreSQL.
 
 ---
 
-### 5. Struktur Direktori Proyek Baru
+### 4. Struktur Direktori Proyek Baru
 Struktur folder dan file standar yang dihasilkan:
 
 ```text
@@ -122,7 +111,7 @@ Struktur manajemen migrasi skema SQL terstruktur.
 
 ---
 
-### 6. Tips & Best Practice untuk Pemula
+### 5. Tips & Best Practice untuk Pemula
 - Gunakan perintah `\dt` di psql untuk melihat daftar tabel dan `\d nama_tabel` untuk melihat struktur kolom.
 - Gunakan `EXPLAIN ANALYZE SELECT ...` untuk menganalisis performa query dan indeks.
 

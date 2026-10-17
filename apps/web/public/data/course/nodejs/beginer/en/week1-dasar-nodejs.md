@@ -16,19 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **ESLint** (`dbaeumer.vscode-eslint`): Code linting for Node.js
-- **Prettier** (`esbenp.prettier-vscode`): Consistent code formatting
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension dbaeumer.vscode-eslint --install-extension esbenp.prettier-vscode
-```
-
----
-
-### 2. Runtime & Dependency Installation (Node.js LTS (v20+ / v22+))
+### 1. Runtime & Dependency Installation (Node.js LTS (v20+ / v22+))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -62,7 +50,7 @@ v22.x.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -80,7 +68,7 @@ cd my-node-api
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -115,7 +103,7 @@ Simple Express server with health check route.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -130,7 +118,7 @@ Lean and lightweight structure ideal for backend microservices.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Use `tsx` (`npx tsx file.ts`) to execute TypeScript directly without pre-compiling.
 - Leverage the built-in Node test runner via `node --test` for zero-dependency tests.
 

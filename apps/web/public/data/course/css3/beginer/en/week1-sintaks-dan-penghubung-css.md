@@ -93,19 +93,7 @@ Browsers apply built-in user agent stylesheets with inconsistent default margins
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Live Server** (`ritwickdey.liveserver`): Realtime styling preview in browser
-- **HTML CSS Support** (`ecmel.vscode-html-css`): CSS class name autocomplete in HTML
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension ritwickdey.liveserver --install-extension ecmel.vscode-html-css
-```
-
----
-
-### 2. Runtime & Dependency Installation (Web Browser & VS Code)
+### 1. Runtime & Dependency Installation (Web Browser & VS Code)
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -138,7 +126,7 @@ Expected output:
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -153,7 +141,7 @@ cd my-css-project
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -200,7 +188,7 @@ Card layout styling using CSS Custom Properties, Flexbox, and hover transitions.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -212,7 +200,7 @@ Separation of markup structure (HTML) and visual styling (CSS).
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Use CSS Variables (`--var-name`) for frictionless dark mode switching and consistent palettes.
 - Adopt a mobile-first approach using `@media (min-width: 768px)` breakpoints.
 

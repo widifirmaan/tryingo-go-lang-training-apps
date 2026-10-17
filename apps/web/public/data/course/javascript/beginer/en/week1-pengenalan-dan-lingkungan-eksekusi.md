@@ -70,19 +70,7 @@ console.error("Critical error message");
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Live Server** (`ritwickdey.liveserver`): Local development server with live reload
-- **Prettier** (`esbenp.prettier-vscode`): Automated code formatter
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension ritwickdey.liveserver --install-extension esbenp.prettier-vscode
-```
-
----
-
-### 2. Runtime & Dependency Installation (Node.js LTS (Untuk eksekusi terminal))
+### 1. Runtime & Dependency Installation (Node.js LTS (Untuk eksekusi terminal))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -115,7 +103,7 @@ v20.x.x
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -131,7 +119,7 @@ cd my-js-app
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -157,7 +145,7 @@ Foundational function and variable syntax for the application entry point.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -170,7 +158,7 @@ Clean modular structure utilizing standard ES Modules.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Use `const` by default, and switch to `let` only when a variable requires reassignment.
 - Use `console.log()` to inspect data values and debug control flow in the browser console.
 

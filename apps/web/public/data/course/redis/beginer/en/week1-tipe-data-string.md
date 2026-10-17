@@ -16,18 +16,7 @@
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
-### 1. VS Code Setup & Recommended Extensions
-Use [Visual Studio Code](https://code.visualstudio.com/) as your primary code editor. Install these essential extensions:
-- **Redis Client** (`cweijan.vscode-redis-client`): Explore keys, inspect TTL, hashes, and streams in editor
-
-Or install all recommended extensions at once via terminal:
-```bash
-code --install-extension cweijan.vscode-redis-client
-```
-
----
-
-### 2. Runtime & Dependency Installation (Redis 7 (via Docker))
+### 1. Runtime & Dependency Installation (Redis 7 (via Docker))
 Make sure the required runtime or SDK is installed on your machine:
 
 **Windows (PowerShell):**
@@ -60,7 +49,7 @@ PONG
 
 ---
 
-### 3. Initializing a Blank Project (Scaffolding)
+### 2. Initializing a Blank Project (Scaffolding)
 Generate a brand-new project workspace using the official CLI command:
 
 ```bash
@@ -74,7 +63,7 @@ docker exec -it redis-dev redis-cli
 
 ---
 
-### 4. Running the Local Dev Server & First Entry File
+### 3. Running the Local Dev Server & First Entry File
 Start your local development server:
 
 ```bash
@@ -102,7 +91,7 @@ Essential Redis commands: Strings with TTL, Hashes, and Streams.
 
 ---
 
-### 5. New Project Directory Structure
+### 4. New Project Directory Structure
 Standard directory layout and file anatomy created by the scaffolder:
 
 ```text
@@ -114,7 +103,7 @@ Redis in-memory configuration setup.
 
 ---
 
-### 6. Beginner Tips & Best Practices
+### 5. Beginner Tips & Best Practices
 - Always set TTL on cache keys to prevent unconstrained RAM exhaustion.
 - Use `SCAN` instead of `KEYS *` in production to prevent single-threaded server blocking.
 
