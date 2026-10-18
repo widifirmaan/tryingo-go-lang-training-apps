@@ -1,12 +1,20 @@
 export interface StackBlitzProject {
   files: Record<string, string>;
-  template: 'node' | 'javascript' | 'typescript' | 'angular' | 'create-react-app' | 'nextjs' | 'nest' | 'django' | 'spring-boot';
+  template: 'node' | 'angular-cli';
+  mainFile: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   startScript?: string;
 }
 
 export type FrameworkSlug = 'nextjs' | 'nodejs' | 'nestjs' | 'django' | 'laravel' | 'spring' | 'angular';
+
+// Frameworks that run as a real multi-file project on StackBlitz.
+// Django/Spring Boot/Laravel are not supported by StackBlitz WebContainers,
+// so those stacks keep the simulated playground only.
+export type RealRuntimeFramework = 'nodejs' | 'nextjs' | 'nestjs' | 'angular';
+
+export const REAL_RUNTIME_FRAMEWORKS: readonly RealRuntimeFramework[] = ['nodejs', 'nextjs', 'nestjs', 'angular'];
 
 export const FRAMEWORK_LABELS: Record<FrameworkSlug, string> = {
   nextjs: 'Next.js',
@@ -43,7 +51,8 @@ export const FRAMEWORK_MAIN_FILES: Record<FrameworkSlug, string> = {
 // ---------------------------------------------------------------------------
 export function buildNextJsProject(code: string): StackBlitzProject {
   return {
-    template: 'nextjs',
+    template: 'node',
+    mainFile: 'app/page.tsx',
     files: {
       'app/page.tsx': code,
       'app/layout.tsx': `export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -88,12 +97,13 @@ module.exports = nextConfig;`,
           react: '^18.0.0',
           'react-dom': '^18.0.0',
         },
+        devDependencies: {
+          typescript: '^5.2.0',
+          '@types/node': '^20.10.0',
+          '@types/react': '^18.2.0',
+          '@types/react-dom': '^18.2.0',
+        },
       }, null, 2),
-    },
-    dependencies: {
-      next: '^14.0.0',
-      react: '^18.0.0',
-      'react-dom': '^18.0.0',
     },
   };
 }
@@ -104,6 +114,7 @@ module.exports = nextConfig;`,
 export function buildNodeProject(code: string): StackBlitzProject {
   return {
     template: 'node',
+    mainFile: 'index.js',
     files: {
       'index.js': code,
       'package.json': JSON.stringify({
@@ -122,7 +133,8 @@ export function buildNodeProject(code: string): StackBlitzProject {
 // ---------------------------------------------------------------------------
 export function buildNestJsProject(code: string): StackBlitzProject {
   return {
-    template: 'nest',
+    template: 'node',
+    mainFile: 'src/app.controller.ts',
     files: {
       'src/main.ts': `import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -191,162 +203,6 @@ export class AppModule {}`,
         },
       }, null, 2),
     },
-    dependencies: {
-      '@nestjs/common': '^10.0.0',
-      '@nestjs/core': '^10.0.0',
-      '@nestjs/platform-express': '^10.0.0',
-      'reflect-metadata': '^0.1.13',
-      rxjs: '^7.8.1',
-    },
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Django
-// ---------------------------------------------------------------------------
-export function buildDjangoProject(code: string): StackBlitzProject {
-  return {
-    template: 'django',
-    files: {
-      'manage.py': `#!/usr/bin/env python
-import os
-import sys
-
-def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tryngo.settings')
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError as exc:
-        raise ImportError("Couldn't import Django.") from exc
-    execute_from_command_line(sys.argv)
-
-if __name__ == '__main__':
-    main()`,
-      'tryngo/__init__.py': '',
-      'tryngo/settings.py': `import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = 'tryngo-secret-key-for-education'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
-INSTALLED_APPS = ['django.contrib.contenttypes', 'django.contrib.auth', 'app']
-MIDDLEWARE = ['django.middleware.common.CommonMiddleware']
-ROOT_URLCONF = 'tryngo.urls'
-DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': os.path.join(BASE_DIR, 'db.sqlite3')}}
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'`,
-      'tryngo/urls.py': `from django.urls import path
-from app.views import index
-
-urlpatterns = [
-    path('', index),
-]`,
-      'app/__init__.py': '',
-      'app/views.py': code,
-      'app/apps.py': `from django.apps import AppConfig
-
-class AppConfig(AppConfig):
-    name = 'app'`,
-      'requirements.txt': 'Django>=4.2',
-    },
-    startScript: 'python manage.py runserver 0.0.0.0:8000',
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Laravel
-// ---------------------------------------------------------------------------
-export function buildLaravelProject(code: string): StackBlitzProject {
-  return {
-    template: 'node',
-    files: {
-      'routes/web.php': code,
-      'app/Http/Controllers/UserController.php': `<?php
-
-namespace App\\Http\\Controllers;
-
-class UserController
-{
-    public function index()
-    {
-        return 'Hello from UserController!';
-    }
-}`,
-      'composer.json': JSON.stringify({
-        name: 'tryngo/laravel',
-        type: 'project',
-        require: { 'php': '^8.1' },
-        scripts: {
-          'post-root-package-install': ["@php -r \"file_exists('env') || copy('env.example', '.env');\""],
-        },
-      }, null, 2),
-      'artisan': `#!/usr/bin/env php
-<?php
-echo "Laravel CLI - Tryngo Education\\n";
-echo "This is a simulated artisan command.\\n";`,
-    },
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Spring Boot
-// ---------------------------------------------------------------------------
-export function buildSpringProject(code: string): StackBlitzProject {
-  return {
-    template: 'spring-boot',
-    files: {
-      'src/main/java/com/example/demo/DemoApplication.java': `package com.example.demo;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@SpringBootApplication
-@RestController
-public class DemoApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-
-    @GetMapping("/")
-    public String hello() {
-        return "Hello Spring Boot! 🚀";
-    }
-}`,
-      'src/main/java/com/example/demo/DemoController.java': code,
-      'src/main/resources/application.properties': `server.port=8080
-spring.application.name=demo`,
-      'pom.xml': `<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
-    </parent>
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Tryngo Spring Boot Project</description>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-</project>`,
-    },
   };
 }
 
@@ -355,7 +211,8 @@ spring.application.name=demo`,
 // ---------------------------------------------------------------------------
 export function buildAngularProject(code: string): StackBlitzProject {
   return {
-    template: 'angular',
+    template: 'angular-cli',
+    mainFile: 'src/app/app.component.ts',
     files: {
       'src/app/app.component.ts': code,
       'src/app/app.module.ts': `import { NgModule } from '@angular/core';
@@ -397,19 +254,19 @@ platformBrowserDynamic().bootstrapModule(AppModule)
             prefix: 'app',
             architect: {
               build: {
-                builder: '@angular-devkit/build-angular:browser',
+                builder: '@angular-devkit/build-angular:application',
                 options: {
                   outputPath: 'dist/demo',
                   index: 'src/index.html',
-                  main: 'src/main.ts',
+                  browser: 'src/main.ts',
                   polyfills: ['zone.js'],
                   tsConfig: 'tsconfig.app.json',
-                  assets: ['src/favicon.ico', 'src/assets'],
+                  assets: [],
                   styles: ['src/styles.css'],
                 },
               },
               serve: {
-                builder: '@angular-devkit/build-angular:devserver',
+                builder: '@angular-devkit/build-angular:dev-server',
                 options: { buildTarget: 'demo:build' },
               },
             },
@@ -493,15 +350,142 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 // ---------------------------------------------------------------------------
 // Unified builder
 // ---------------------------------------------------------------------------
-export function buildProject(slug: FrameworkSlug, code: string): StackBlitzProject {
+export function buildProject(slug: RealRuntimeFramework, code: string): StackBlitzProject {
   switch (slug) {
     case 'nextjs': return buildNextJsProject(code);
     case 'nodejs': return buildNodeProject(code);
     case 'nestjs': return buildNestJsProject(code);
-    case 'django': return buildDjangoProject(code);
-    case 'laravel': return buildLaravelProject(code);
-    case 'spring': return buildSpringProject(code);
     case 'angular': return buildAngularProject(code);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Django / Spring virtual scaffolds (editor-only, never sent to StackBlitz)
+// ---------------------------------------------------------------------------
+export function buildDjangoScaffold(mainCode: string): Record<string, string> {
+  return {
+    'manage.py': `#!/usr/bin/env python
+import os
+import sys
+
+def main():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tryngo.settings')
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(sys.argv)
+
+if __name__ == '__main__':
+    main()`,
+    'tryngo/__init__.py': '',
+    'tryngo/settings.py': `from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = 'django-insecure-tryngo-demo'
+DEBUG = True
+ALLOWED_HOSTS = []
+
+INSTALLED_APPS = [
+    'django.contrib.contenttypes',
+    'django.contrib.staticfiles',
+    'app',
+]
+
+MIDDLEWARE = [
+    'django.middleware.common.CommonMiddleware',
+]
+
+ROOT_URLCONF = 'tryngo.urls'
+WSGI_APPLICATION = 'tryngo.wsgi.application'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+STATIC_URL = 'static/'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'`,
+    'tryngo/urls.py': `from django.urls import path
+from app import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]`,
+    'tryngo/wsgi.py': `import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tryngo.settings')
+
+application = get_wsgi_application()`,
+    'app/__init__.py': '',
+    'app/models.py': `from django.db import models
+
+# Define your models here`,
+    'app/views.py': mainCode,
+    'requirements.txt': 'Django==4.2',
+  };
+}
+
+export function buildSpringScaffold(mainCode: string): Record<string, string> {
+  return {
+    'pom.xml': `<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.2.0</version>
+    <relativePath/>
+  </parent>
+  <groupId>com.example</groupId>
+  <artifactId>demo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <properties>
+    <java.version>17</java.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+  </dependencies>
+</project>`,
+    'src/main/java/com/example/demo/DemoApplication.java': `package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}`,
+    'src/main/java/com/example/demo/DemoController.java': mainCode,
+    'src/main/resources/application.properties': `spring.application.name=demo
+server.port=8080`,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Virtual multi-file project for the in-browser editor (all playground slugs)
+// ---------------------------------------------------------------------------
+// Real-runtime frameworks reuse the StackBlitz builders so the edited virtual
+// FS is byte-identical to what "Run on StackBlitz" would boot. Django/Spring
+// get editor-only scaffolds (StackBlitz cannot execute them). Laravel never
+// reaches this playground (it uses PhpPlayground), so it falls back to a
+// single main file.
+export function buildVirtualFiles(slug: FrameworkSlug, mainCode: string): Record<string, string> {
+  if ((REAL_RUNTIME_FRAMEWORKS as readonly string[]).includes(slug)) {
+    return buildProject(slug as RealRuntimeFramework, mainCode).files;
+  }
+  switch (slug) {
+    case 'django': return buildDjangoScaffold(mainCode);
+    case 'spring': return buildSpringScaffold(mainCode);
+    default: return { [FRAMEWORK_MAIN_FILES[slug]]: mainCode };
   }
 }
 
