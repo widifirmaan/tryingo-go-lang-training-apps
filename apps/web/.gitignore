@@ -7,4 +7,4 @@ coverage/
 .env*
 !.env.example
 wasm-exec/weeks/*.go
-public/wasm/tiny-wasm_exec.js
+public/wasm/go-exec.wasm

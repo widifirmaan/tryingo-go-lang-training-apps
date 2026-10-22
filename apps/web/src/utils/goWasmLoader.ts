@@ -1,7 +1,17 @@
 let wasmReady = false;
 let tinyWasmReady = false;
-let initAttempted = false;
-let initPromise: Promise<{ yaegi: boolean; tinygo: boolean }> | null = null;
+
+let tinyPromise: Promise<boolean> | null = null;
+let yaegiPromise: Promise<boolean> | null = null;
+
+type InitResult = { yaegi: boolean; tinygo: boolean };
+
+const WASM_URLS = {
+  yaegi: '/wasm/go-exec.wasm',
+  yaegiExec: '/wasm/wasm_exec.js',
+  tiny: '/wasm/tinygo-runner.wasm',
+  tinyExec: '/wasm/tiny-wasm_exec.js',
+};
 
 export function isWasmReady(): boolean {
   return wasmReady;
@@ -11,89 +21,130 @@ export function isTinyGoReady(): boolean {
   return tinyWasmReady;
 }
 
-type InitResult = { yaegi: boolean; tinygo: boolean };
+// Runtime scripts are serialized because both wasm_exec runtimes define window.Go.
+let scriptQueue: Promise<unknown> = Promise.resolve();
 
-export function initGoWasm(): Promise<InitResult> {
-  if (initPromise) return initPromise;
-  if (initAttempted) return Promise.resolve({ yaegi: false, tinygo: false });
+async function loadRuntimeScript(url: string): Promise<boolean> {
+  const task = scriptQueue.then(async () => {
+    const resp = await fetch(url, { cache: 'force-cache' });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
-  initAttempted = true;
-
-  initPromise = new Promise<InitResult>((resolve) => {
-    const yaegiUrl = new URL('/wasm/go-exec.wasm', import.meta.url).href;
-    const wasmExecUrl = new URL('/wasm/wasm_exec.js', import.meta.url).href;
-    const tinyWasmUrl = new URL('/wasm/tinygo-runner.wasm', import.meta.url).href;
-    const tinyWasmExecUrl = new URL('/wasm/tiny-wasm_exec.js', import.meta.url).href;
-
-    let yaegiLoaded = false;
-    let tinygoLoaded = false;
-
-    // ---- TinyGo loader ----
-    const loadTinyGo = () => {
-      fetch(tinyWasmUrl, { method: 'HEAD' }).then(resp => {
-        if (!resp.ok) {
-          finalize();
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = tinyWasmExecUrl;
-        script.onload = async () => {
-          try {
-            const go = new (window as any).Go();
-            const result = await WebAssembly.instantiateStreaming(fetch(tinyWasmUrl), go.importObject);
-            go.run(result.instance);
-            tinygoLoaded = true;
-            tinyWasmReady = true;
-          } catch (err) {
-            console.warn('TinyGo WASM init failed:', err);
-          }
-          finalize();
-        };
-        script.onerror = () => finalize();
-        document.head.appendChild(script);
-      }).catch(() => finalize());
-    };
-
-    // ---- Yaegi loader ----
-    fetch(yaegiUrl, { method: 'HEAD' }).then(resp => {
-      if (!resp.ok) {
-        loadTinyGo();
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = wasmExecUrl;
-      script.onload = async () => {
-        try {
-          const go = new (window as any).Go();
-          const result = await WebAssembly.instantiateStreaming(fetch(yaegiUrl), go.importObject);
-          go.run(result.instance);
-          yaegiLoaded = true;
-          wasmReady = true;
-        } catch (err) {
-          console.warn('Go WASM (Yaegi) init failed:', err);
-        }
-        loadTinyGo();
-      };
-      script.onerror = () => loadTinyGo();
-      document.head.appendChild(script);
-    }).catch(() => {
-      loadTinyGo();
-    });
-
-    // TinyGo's wasm_exec may fire its own onload, but we gate on the script.onload above
-    let finalized = false;
-    function finalize() {
-      if (finalized) return;
-      finalized = true;
-      clearTimeout(safetyTimer);
-      resolve({ yaegi: yaegiLoaded, tinygo: tinygoLoaded });
+    const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+    if (contentType.includes('text/html')) {
+      throw new Error('asset missing (server returned the SPA HTML fallback)');
     }
 
-    // Safety timeout
-    const safetyTimer = setTimeout(() => finalize(), 30000);
+    const source = await resp.text();
+    if (!source.trim()) throw new Error('empty script');
+
+    // Inject from a blob so strict MIME checking never blocks the runtime.
+    const blobUrl = URL.createObjectURL(new Blob([source], { type: 'text/javascript' }));
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = blobUrl;
+        script.onload = () => {
+          script.remove();
+          resolve();
+        };
+        script.onerror = () => {
+          script.remove();
+          reject(new Error('script execution failed'));
+        };
+        document.head.appendChild(script);
+      });
+      return true;
+    } finally {
+      URL.revokeObjectURL(blobUrl);
+    }
   });
 
-  return initPromise;
+  scriptQueue = task.catch(() => false);
+
+  try {
+    return await task;
+  } catch (err) {
+    console.warn(`[Go WASM] Could not load ${url}:`, err);
+    return false;
+  }
+}
+
+async function instantiateWasm(url: string, imports: WebAssembly.Imports): Promise<WebAssembly.Instance> {
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+  const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+  if (contentType.includes('text/html')) {
+    throw new Error('asset missing (server returned the SPA HTML fallback)');
+  }
+
+  if (contentType.includes('application/wasm')) {
+    try {
+      const { instance } = await WebAssembly.instantiateStreaming(resp.clone(), imports);
+      return instance;
+    } catch {
+      // Some hosts mislabel or truncate the stream; compile from the buffer instead.
+    }
+  }
+
+  const buffer = await resp.arrayBuffer();
+  const magic = new Uint8Array(buffer, 0, 4);
+  if (magic[0] !== 0x00 || magic[1] !== 0x61 || magic[2] !== 0x73 || magic[3] !== 0x6d) {
+    throw new Error('asset is not a valid WebAssembly binary');
+  }
+
+  const { instance } = await WebAssembly.instantiate(buffer, imports);
+  return instance;
+}
+
+export function ensureTinyGo(): Promise<boolean> {
+  if (!tinyPromise) {
+    tinyPromise = (async () => {
+      try {
+        if (!(await loadRuntimeScript(WASM_URLS.tinyExec))) return false;
+
+        const Go = (window as unknown as { Go?: new () => { importObject: WebAssembly.Imports; run: (instance: WebAssembly.Instance) => void } }).Go;
+        if (typeof Go !== 'function') throw new Error('Go runtime missing');
+
+        const go = new Go();
+        const instance = await instantiateWasm(WASM_URLS.tiny, go.importObject);
+        go.run(instance);
+        tinyWasmReady = true;
+        return true;
+      } catch (err) {
+        console.warn('[Go WASM] TinyGo runtime unavailable:', err);
+        return false;
+      }
+    })();
+  }
+  return tinyPromise;
+}
+
+export function ensureYaegi(): Promise<boolean> {
+  if (!yaegiPromise) {
+    yaegiPromise = (async () => {
+      try {
+        if (!(await loadRuntimeScript(WASM_URLS.yaegiExec))) return false;
+
+        const Go = (window as unknown as { Go?: new () => { importObject: WebAssembly.Imports; run: (instance: WebAssembly.Instance) => void } }).Go;
+        if (typeof Go !== 'function') throw new Error('Go runtime missing');
+
+        const go = new Go();
+        const instance = await instantiateWasm(WASM_URLS.yaegi, go.importObject);
+        go.run(instance);
+        wasmReady = true;
+        return true;
+      } catch (err) {
+        console.warn('[Go WASM] Yaegi interpreter unavailable:', err);
+        return false;
+      }
+    })();
+  }
+  return yaegiPromise;
+}
+
+export function initGoWasm(): Promise<InitResult> {
+  return Promise.all([ensureTinyGo(), ensureYaegi()]).then(([tinygo, yaegi]) => ({ tinygo, yaegi }));
 }
 
 export type GoExecResult = {
@@ -103,7 +154,7 @@ export type GoExecResult = {
 };
 
 export function runGoCode(code: string): GoExecResult {
-  if (!wasmReady || typeof (window as any).runGoCode !== 'function') {
+  if (!wasmReady || typeof (window as unknown as { runGoCode?: unknown }).runGoCode !== 'function') {
     return {
       success: false,
       output: '',
@@ -112,7 +163,7 @@ export function runGoCode(code: string): GoExecResult {
   }
 
   try {
-    const raw = (window as any).runGoCode(code) as string;
+    const raw = (window as unknown as { runGoCode: (code: string) => string }).runGoCode(code);
     const errorIdx = raw.indexOf('\n--- ERROR ---\n');
     const stderrIdx = raw.indexOf('\n--- STDERR ---\n');
 
@@ -139,7 +190,7 @@ export function runGoCode(code: string): GoExecResult {
 }
 
 export function runTinyGoWeek(week: number): GoExecResult {
-  if (!tinyWasmReady || typeof (window as any).runTinyGoWeek !== 'function') {
+  if (!tinyWasmReady || typeof (window as unknown as { runTinyGoWeek?: unknown }).runTinyGoWeek !== 'function') {
     return {
       success: false,
       output: '',
@@ -148,7 +199,7 @@ export function runTinyGoWeek(week: number): GoExecResult {
   }
 
   try {
-    const result = (window as any).runTinyGoWeek(week) as string;
+    const result = (window as unknown as { runTinyGoWeek: (week: number) => string }).runTinyGoWeek(week);
     return { success: true, output: result, error: '' };
   } catch (err) {
     return {
