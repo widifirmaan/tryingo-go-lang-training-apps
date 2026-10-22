@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; import { faPlay, faSpinner, faRotateLeft, faExpand, faCompress, faTimes, faTriangleExclamation, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Language } from '../utils/translations';
-import { initGoWasm, isWasmReady, isTinyGoReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
+import { ensureTinyGo, ensureYaegi, isWasmReady, isTinyGoReady, runGoCode as wasmRunGoCode, runTinyGoWeek } from '../utils/goWasmLoader';
 
 interface CodePlaygroundProps {
   lang: Language;
@@ -430,7 +430,8 @@ func main() {
         goCode = `${goCode}\n\nfunc main() {}\n`;
       }
 
-      if (isWasmReady()) {
+      const yaegiReady = isWasmReady() || await ensureYaegi();
+      if (yaegiReady) {
         try {
           const result = wasmRunGoCode(goCode);
           if (result.error) setError(result.error);
@@ -530,31 +531,45 @@ func main() {
     }
   };
 
-  // Initialize Go WASM interpreters and auto-run TinyGo examples
+  // Load the WASM runtimes and auto-run the pre-compiled week example
   useEffect(() => {
     if (!isGoLanguage) return;
     let cancelled = false;
     const effId = ++runIdRef.current;
+    const tinyWeek = week && week <= 11 ? week : null;
 
-    initGoWasm().then(({ tinygo, yaegi }) => {
-      if (cancelled || runIdRef.current !== effId) return;
-      if (tinygo && week && week <= 11) {
-        const result = runTinyGoWeek(week);
-        if (runIdRef.current === effId) {
-          if (result.output) setOutput(result.output);
-          if (!result.success) setError(result.error || (isId ? 'Eksekusi otomatis gagal' : 'Auto-run failed'));
+    if (tinyWeek !== null) {
+      // TinyGo is small and fast; load it first and warm up Yaegi in the background.
+      ensureTinyGo().then((ok) => {
+        if (cancelled || !ok || runIdRef.current !== effId || tinyWeek === null) return;
+        const result = runTinyGoWeek(tinyWeek);
+        if (runIdRef.current !== effId) return;
+        if (result.output) setOutput(result.output);
+        if (!result.success) setError(result.error || (isId ? 'Eksekusi otomatis gagal' : 'Auto-run failed'));
+      });
+      void ensureYaegi();
+    } else {
+      if (!initialCode) return;
+      // Weeks 12+ need the full Yaegi interpreter.
+      ensureYaegi().then((ok) => {
+        if (cancelled || runIdRef.current !== effId) return;
+        if (!ok) {
+          setError(
+            isId
+              ? 'Interpreter Go WASM tidak tersedia di server ini.'
+              : 'The Go WASM interpreter is not available on this server.'
+          );
+          return;
         }
-      } else if (yaegi && initialCode) {
         const result = wasmRunGoCode(initialCode);
-        if (runIdRef.current === effId) {
-          if (result.output) setOutput(result.output);
-          if (!result.success) setError(result.error || (isId ? 'Eksekusi otomatis gagal' : 'Auto-run failed'));
-        }
-      }
-    });
+        if (runIdRef.current !== effId) return;
+        if (result.output) setOutput(result.output);
+        if (!result.success) setError(result.error || (isId ? 'Eksekusi otomatis gagal' : 'Auto-run failed'));
+      });
+    }
 
     return () => { cancelled = true; };
-  }, [isGoLanguage, week, initialCode]);
+  }, [isGoLanguage, week, initialCode, isId]);
 
   // Detect container width to switch between horizontal/vertical layout
   useEffect(() => {

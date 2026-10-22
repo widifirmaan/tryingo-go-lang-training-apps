@@ -2,6 +2,7 @@ node_modules/
 .vscode/
 .idea/
 *.wasm
+!apps/web/public/wasm/tinygo-runner.wasm
 public/wasm/
 dist/
 .env
