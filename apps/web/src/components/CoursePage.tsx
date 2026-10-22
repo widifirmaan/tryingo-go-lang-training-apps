@@ -4,13 +4,11 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Sparkles, Award, Play, Rocket } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
-import { CertificateModal } from './CertificateModal';
-import { AiMentorDrawer } from './AiMentorDrawer';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
@@ -412,8 +410,6 @@ export const CoursePage: React.FC<CoursePageProps> = ({ trackId, lang, onBack, o
   const currentWeek = currentLevel?.weeks.find(w => w.week === activeWeek);
 
   const [overrideCode, setOverrideCode] = useState<string | null>(null);
-  const [isMentorOpen, setIsMentorOpen] = useState(false);
-  const [isCertificateOpen, setIsCertificateOpen] = useState(false);
 
   useEffect(() => {
     setOverrideCode(null);
@@ -579,26 +575,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
             </p>
           </div>
         </div>
-
-        {/* Claim Certificate Button */}
-        <button
-          onClick={() => setIsCertificateOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-500 text-zinc-950 font-black shadow-xs transition-all text-xs sm:text-sm shrink-0"
-          title={isId ? 'Klaim Sertifikat Kelulusan' : 'Claim Certificate of Completion'}
-        >
-          <Award className="w-3.5 h-3.5 text-zinc-950" />
-          <span className="hidden sm:inline">{isId ? 'Sertifikat' : 'Certificate'}</span>
-        </button>
-
-        {/* AI Mentor Button */}
-        <button
-          onClick={() => setIsMentorOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-[#2E5B44] text-white shadow-xs hover:brightness-110 transition-all text-xs sm:text-sm font-bold shrink-0"
-          title={isId ? 'Tanya AI Mentor seputar modul ini' : 'Ask AI Mentor about this lesson'}
-        >
-          <Sparkles className="w-3.5 h-3.5 text-white" />
-          <span className="hidden sm:inline">AI Mentor</span>
-        </button>
 
         {/* IDE Button */}
         <button
@@ -816,24 +792,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         )}
       </div>
 
-      {/* Certificate Modal */}
-      <CertificateModal
-        isOpen={isCertificateOpen}
-        onClose={() => setIsCertificateOpen(false)}
-        trackName={track.name}
-        trackSlug={slug}
-        lang={lang}
-      />
-
-      {/* AI Mentor Drawer */}
-      <AiMentorDrawer
-        isOpen={isMentorOpen}
-        onClose={() => setIsMentorOpen(false)}
-        trackName={track.name}
-        topicTitle={currentWeek ? (isId ? currentWeek.titleId : currentWeek.titleEn) : track.name}
-        currentCode={overrideCode || extractCode(content)}
-        lang={lang}
-      />
     </div>
   );
 };

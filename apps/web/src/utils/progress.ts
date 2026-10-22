@@ -82,11 +82,6 @@ export function getTrackProgress(trackSlug: string, totalWeeks: number): {
   };
 }
 
-export function isEligibleForCertificate(trackSlug: string, totalWeeks: number): boolean {
-  const { isFinished } = getTrackProgress(trackSlug, totalWeeks);
-  return isFinished;
-}
-
 export function getTotalStats(): {
   totalCompletedWeeks: number;
   completedTracksCount: number;
