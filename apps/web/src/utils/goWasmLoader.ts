@@ -8,9 +8,16 @@ type InitResult = { yaegi: boolean; tinygo: boolean };
 
 const WASM_URLS = {
   yaegi: '/wasm/go-exec.wasm',
+  yaegiManifest: '/wasm/goexec-manifest.json',
   yaegiExec: '/wasm/wasm_exec.js',
   tiny: '/wasm/tinygo-runner.wasm',
   tinyExec: '/wasm/tiny-wasm_exec.js',
+};
+
+type YaegiManifest = {
+  sha256: string;
+  totalSize: number;
+  parts: string[];
 };
 
 export function isWasmReady(): boolean {
@@ -69,6 +76,28 @@ async function loadRuntimeScript(url: string): Promise<boolean> {
   }
 }
 
+function assertWasmMagic(buffer: ArrayBuffer): void {
+  const magic = new Uint8Array(buffer, 0, Math.min(4, buffer.byteLength));
+  if (
+    magic.length < 4 ||
+    magic[0] !== 0x00 ||
+    magic[1] !== 0x61 ||
+    magic[2] !== 0x73 ||
+    magic[3] !== 0x6d
+  ) {
+    throw new Error('asset is not a valid WebAssembly binary');
+  }
+}
+
+async function compileWasmBuffer(
+  buffer: ArrayBuffer,
+  imports: WebAssembly.Imports
+): Promise<WebAssembly.Instance> {
+  assertWasmMagic(buffer);
+  const { instance } = await WebAssembly.instantiate(buffer, imports);
+  return instance;
+}
+
 async function instantiateWasm(url: string, imports: WebAssembly.Imports): Promise<WebAssembly.Instance> {
   const resp = await fetch(url);
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -87,14 +116,88 @@ async function instantiateWasm(url: string, imports: WebAssembly.Imports): Promi
     }
   }
 
-  const buffer = await resp.arrayBuffer();
-  const magic = new Uint8Array(buffer, 0, 4);
-  if (magic[0] !== 0x00 || magic[1] !== 0x61 || magic[2] !== 0x73 || magic[3] !== 0x6d) {
-    throw new Error('asset is not a valid WebAssembly binary');
+  return compileWasmBuffer(await resp.arrayBuffer(), imports);
+}
+
+async function fetchYaegiManifest(): Promise<YaegiManifest | null> {
+  try {
+    const resp = await fetch(WASM_URLS.yaegiManifest, { cache: 'no-cache' });
+    if (!resp.ok) return null;
+
+    const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+    if (contentType.includes('text/html')) return null;
+
+    const data = (await resp.json()) as Partial<YaegiManifest>;
+    if (
+      !data ||
+      typeof data.sha256 !== 'string' ||
+      typeof data.totalSize !== 'number' ||
+      !Array.isArray(data.parts) ||
+      data.parts.length === 0 ||
+      !data.parts.every((part) => typeof part === 'string' && part.length > 0)
+    ) {
+      return null;
+    }
+
+    return data as YaegiManifest;
+  } catch {
+    return null;
+  }
+}
+
+async function loadYaegiBinary(): Promise<ArrayBuffer> {
+  const manifest = await fetchYaegiManifest();
+
+  if (manifest) {
+    const chunks = await Promise.all(
+      manifest.parts.map(async (part) => {
+        const resp = await fetch(`/wasm/${part}`);
+        if (!resp.ok) throw new Error(`chunk ${part}: HTTP ${resp.status}`);
+
+        const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+        if (contentType.includes('text/html')) {
+          throw new Error(`chunk ${part}: asset missing`);
+        }
+
+        const bytes = new Uint8Array(await resp.arrayBuffer());
+        if (bytes.byteLength === 0) throw new Error(`chunk ${part}: empty`);
+        return bytes;
+      })
+    );
+
+    const totalSize = chunks.reduce((sum, chunk) => sum + chunk.byteLength, 0);
+    if (totalSize !== manifest.totalSize) {
+      throw new Error(`chunk size mismatch (${totalSize} != ${manifest.totalSize})`);
+    }
+
+    const merged = new Uint8Array(totalSize);
+    let offset = 0;
+    for (const chunk of chunks) {
+      merged.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+
+    const buffer = merged.buffer as ArrayBuffer;
+
+    if (typeof crypto !== 'undefined' && crypto.subtle) {
+      const digest = await crypto.subtle.digest('SHA-256', buffer);
+      const hex = Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+      if (hex !== manifest.sha256) throw new Error('chunk checksum mismatch');
+    }
+
+    return buffer;
   }
 
-  const { instance } = await WebAssembly.instantiate(buffer, imports);
-  return instance;
+  // Fallback for local setups that still serve the unsplit binary.
+  const resp = await fetch(WASM_URLS.yaegi);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+  const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+  if (contentType.includes('text/html')) {
+    throw new Error('asset missing (server returned the SPA HTML fallback)');
+  }
+
+  return resp.arrayBuffer();
 }
 
 export function ensureTinyGo(): Promise<boolean> {
@@ -130,7 +233,7 @@ export function ensureYaegi(): Promise<boolean> {
         if (typeof Go !== 'function') throw new Error('Go runtime missing');
 
         const go = new Go();
-        const instance = await instantiateWasm(WASM_URLS.yaegi, go.importObject);
+        const instance = await compileWasmBuffer(await loadYaegiBinary(), go.importObject);
         go.run(instance);
         wasmReady = true;
         return true;
