@@ -10,6 +10,22 @@
 - Learn basic data types: int, float, str, bool, None
 - Use f-strings for modern string formatting
 
+
+## Foundations: Before Writing Code
+
+This section is for readers who are **completely new** to programming. The concepts are identical across every language — learn them once, use them forever.
+
+- **Files & folders = where programs live.** A program is plain text saved in a file (e.g. `lesson.md`). Files have **extensions** that indicate the language: `.md`, `.go`, `.py`, `.html`. A folder holding all of a program's files is called a **project**.
+- **Terminal / command line.** A text window where you type commands: `cd folder` (change folder), `ls` / `dir` (list contents), `go run main.go` (run a program). Programs run from the folder containing their files.
+- **Compiled vs interpreted.** **Compiled** languages (Go, Rust, C#) translate the whole program into machine instructions before running — fast, but require a build step. **Interpreted** languages (Python, PHP, JavaScript) execute line by line directly — great for learning and quick prototypes. The playgrounds on this site execute code **inside your browser**, so no installation is needed.
+- **Statically typed vs dynamically typed.** **Statically typed** languages (Go, Rust, TypeScript) check data types (numbers, text) while you write — errors surface early. **Dynamically typed** languages (Python, PHP, JavaScript) check types while the program runs — more lenient, but errors appear at runtime.
+- **How to read error messages.** Read the last line first: the error type plus a short explanation, then locate the **line number** it mentions. Errors are not tragedies — they are the computer telling you what to fix.
+- **REPL / playground.** A REPL (Read-Eval-Print Loop) is a code "calculator": type one line, see the result instantly. Every code block on this site has a **Try in Playground** button letting you tweak and run the code live — the fastest way to learn: change a little, run, observe the difference.
+
+> **Important note:** the browser playground has limitations — it cannot receive interactive keyboard input (stdin). If a challenge asks for "user input", simply write the value directly into a variable (e.g. `let name = "Budi"`; `rupiah = 250000`) and run.
+
+---
+
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
@@ -191,6 +207,8 @@ No type declaration needed: `x = 5` is auto int. Basic types: `int`, `float`, `s
 ## Challenge
 
 Build a currency converter: input Rupiah, convert to USD, EUR, JPY. Use f-strings and type conversion.
+
+> **Playground tip:** the browser playground cannot receive typed input, so write the value directly into a variable, e.g. `rupiah = 250000`, then perform the conversion. When running locally in a terminal/IDE, feel free to use `int(input())` to ask the user for input.
 
 ---
 

@@ -3,12 +3,13 @@ import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faBookOpen, faChevronDown, faCode, faQuestion, faCopy, faCheck, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { Play } from 'lucide-react';
 import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
+import { isWeekCompleted, toggleWeekCompleted, setPosition } from '../utils/progress';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
@@ -475,6 +476,31 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     return () => loadRef.current?.abort.abort();
   }, [loadContent]);
 
+  // Persist last reading position for the "Lanjutkan Belajar" button
+  useEffect(() => {
+    if (!currentWeek) return;
+    setPosition({
+      slug,
+      level: activeLevel,
+      week: activeWeek,
+      titleId: currentWeek.titleId,
+      titleEn: currentWeek.titleEn,
+      updatedAt: new Date().toISOString(),
+    });
+  }, [slug, activeLevel, activeWeek, currentWeek]);
+
+  // Completed state for the current week (reb-rendered via progress event)
+  const [completionTick, setCompletionTick] = useState(0);
+  const isCurrentWeekCompleted = useMemo(
+    () => isWeekCompleted(slug, activeWeek),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [slug, activeWeek, completionTick]
+  );
+  const handleToggleComplete = useCallback(() => {
+    toggleWeekCompleted(slug, activeWeek);
+    setCompletionTick(t => t + 1);
+  }, [slug, activeWeek]);
+
 
 
   const handleLevelChange = (levelId: string) => {
@@ -638,6 +664,22 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           <span className="hidden sm:inline">{isId ? 'Kuis' : 'Quiz'}</span>
         </button>
 
+        {/* Mark Week Complete */}
+        <button
+          onClick={handleToggleComplete}
+          className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl border shadow-xs transition-all text-xs sm:text-sm font-bold shrink-0 ${
+            isCurrentWeekCompleted
+              ? 'bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700'
+              : 'bg-white/80 dark:bg-zinc-800/80 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
+          }`}
+          title={isId
+            ? (isCurrentWeekCompleted ? 'Materi minggu ini sudah ditandai selesai — klik untuk batal' : 'Tandai minggu ini selesai dipelajari')
+            : (isCurrentWeekCompleted ? 'Week done — click to undo' : 'Mark this week as completed')}
+        >
+          <FontAwesomeIcon icon={faCircleCheck} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <span className="hidden sm:inline">{isCurrentWeekCompleted ? (isId ? 'Selesai ✓' : 'Done ✓') : (isId ? 'Selesai' : 'Done')}</span>
+        </button>
+
         {/* Level Picker */}
         <div className="relative shrink-0">
           <button
@@ -682,6 +724,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
       {/* Week Tabs */}
       <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1 flex-shrink-0 scrollbar-thin">
         {currentLevel?.weeks.map((w) => {
+          const done = isWeekCompleted(slug, w.week) || (w.week === activeWeek && isCurrentWeekCompleted);
           return (
             <button
               key={w.week}
@@ -692,6 +735,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
                   : 'bg-white/60 dark:bg-zinc-800/60 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-700'
               }`}
             >
+              {!done ? null : <FontAwesomeIcon icon={faCircleCheck} className={`w-3 h-3 shrink-0 ${activeWeek === w.week ? 'text-white/90' : 'text-emerald-600 dark:text-emerald-400'}`} aria-hidden="true" />}
               <span className="sm:hidden">W{w.week}</span>
               <span className="hidden sm:inline">{isId ? w.titleId : w.titleEn}</span>
             </button>

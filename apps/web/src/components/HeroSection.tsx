@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart, faRoute, faRocket } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGear, faShareFromSquare, faPlay, faChevronLeft, faBars, faTimes, faBookOpen, faStar, faHome, faQuestion, faLaptopCode, faTerminal, faGlobe, faHeart, faRoute, faRocket, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import ghibliHeroImg from '../assets/images/ghibli_hero_coder_1784795662142.jpg';
 import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum, LEVEL_BADGE_COLORS } from '../data/curriculum';
-import { SLUG_MAP } from '../data/slugMap';
+import { SLUG_MAP, REVERSE_SLUG_MAP } from '../data/slugMap';
+import { getLastPosition, isWeekCompleted, PROGRESS_EVENT, LastPosition } from '../utils/progress';
 
 interface HeroSectionProps {
   onOpenSearch: () => void;
@@ -57,9 +58,21 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
   const [showExitModal, setShowExitModal] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
+  const [lastPosition, setLastPosition] = useState<LastPosition | null>(() => getLastPosition());
+  const [progressTick, setProgressTick] = useState(0);
   const materiRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
+
+  // Keep "Lanjutkan Belajar" + completed ticks in sync with progress writes
+  useEffect(() => {
+    const onUpdate = () => {
+      setLastPosition(getLastPosition());
+      setProgressTick(k => k + 1);
+    };
+    window.addEventListener(PROGRESS_EVENT, onUpdate);
+    return () => window.removeEventListener(PROGRESS_EVENT, onUpdate);
+  }, []);
 
   const openQuiz = (slug: string, level?: string) => {
     onOpenQuiz?.(slug, level);
@@ -148,10 +161,33 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                   </div>
                 </div>
 
-                <hr className="border-white/10 my-1" />
+                <hr className="border-white/10 my-1" data-progress={progressTick} />
 
                 {/* Navigation Options */}
                 <div className="flex flex-col gap-1">
+                  {/* Lanjutkan Belajar (last reading position) */}
+                  {lastPosition && !activeCourseId && (
+                    <motion.button
+                      whileHover={{ scale: 1.02, x: 3 }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => {
+                        const trackId = REVERSE_SLUG_MAP[lastPosition.slug];
+                        if (trackId) {
+                          onNavigateToWeek?.(trackId, lastPosition.level, lastPosition.week);
+                        }
+                      }}
+                      className="w-full px-3.5 py-2.5 rounded-2xl bg-emerald-400/20 hover:bg-emerald-400/30 border border-emerald-400/40 text-emerald-100 text-xs font-bold flex items-center gap-2.5 transition-colors"
+                    >
+                      <FontAwesomeIcon icon={faPlay} className="w-4 h-4 text-emerald-300 shrink-0" />
+                      <span className="min-w-0 text-left">
+                        <span className="block leading-tight">{lang === 'id' ? 'Lanjutkan Belajar' : 'Continue Learning'}</span>
+                        <span className="block text-[9px] font-semibold text-emerald-200/80 truncate">
+                          {TRACKS_COLLECTION.find(tk => tk.id === REVERSE_SLUG_MAP[lastPosition.slug])?.name || lastPosition.slug} · {lang === 'id' ? `Minggu ${lastPosition.week}` : `Week ${lastPosition.week}`}
+                        </span>
+                      </span>
+                    </motion.button>
+                  )}
+
                   {/* Home */}
                   {onBackToHero && (
                     <motion.button
@@ -221,7 +257,10 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                                              className={`w-full pl-6 pr-3 py-1 rounded-lg text-[10px] font-medium text-left flex items-center gap-2.5 transition-colors ${activeCourseId === track.id && activeLevel === level.levelId && activeWeek === week.week ? 'bg-emerald-400/15 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/70'}`}
                                           >
                                             <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
-                                            {lang === 'id' ? week.titleId : week.titleEn}
+                                            <span className="truncate min-w-0">{lang === 'id' ? week.titleId : week.titleEn}</span>
+                                            {isWeekCompleted(SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''), week.week) && (
+                                              <FontAwesomeIcon icon={faCircleCheck} className="w-3 h-3 shrink-0 text-emerald-300" aria-label={lang === 'id' ? 'selesai' : 'done'} />
+                                            )}
                                           </motion.button>
                                         ))}
                                       </div>
@@ -509,6 +548,27 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                       </motion.button>
                     )}
 
+                    {lastPosition && !activeCourseId && (
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => {
+                          const trackId = REVERSE_SLUG_MAP[lastPosition.slug];
+                          setIsMobileMenuOpen(false);
+                          if (trackId) onNavigateToWeek?.(trackId, lastPosition.level, lastPosition.week);
+                        }}
+                        className="w-full px-3 py-2 rounded-xl bg-emerald-400/20 border border-emerald-400/40 text-emerald-100 text-xs font-bold flex items-center gap-2"
+                      >
+                        <FontAwesomeIcon icon={faPlay} className="w-4 h-4 text-emerald-300 shrink-0" />
+                        <span className="min-w-0 text-left">
+                          <span className="block leading-tight">{lang === 'id' ? 'Lanjutkan Belajar' : 'Continue Learning'}</span>
+                          <span className="block text-[9px] font-semibold text-emerald-200/80 truncate">
+                            {TRACKS_COLLECTION.find(tk => tk.id === REVERSE_SLUG_MAP[lastPosition.slug])?.name || lastPosition.slug} · {lang === 'id' ? `Minggu ${lastPosition.week}` : `Week ${lastPosition.week}`}
+                          </span>
+                        </span>
+                      </motion.button>
+                    )}
+
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.97 }}
@@ -549,7 +609,10 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                                           className={`w-full pl-6 pr-3 py-1 rounded-lg text-[10px] font-medium text-left flex items-center gap-2.5 ${activeCourseId === track.id && activeLevel === level.levelId && activeWeek === week.week ? 'bg-emerald-400/15 text-emerald-200' : 'bg-white/5 hover:bg-white/15 text-white/60'}`}
                                         >
                                           <span className="w-1 h-1 rounded-full bg-emerald-400 shrink-0" />
-                                          {lang === 'id' ? week.titleId : week.titleEn}
+                                          <span className="truncate min-w-0">{lang === 'id' ? week.titleId : week.titleEn}</span>
+                                          {isWeekCompleted(SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''), week.week) && (
+                                            <FontAwesomeIcon icon={faCircleCheck} className="w-3 h-3 shrink-0 text-emerald-300" />
+                                          )}
                                         </button>
                                       ))}
                                     </div>
@@ -795,6 +858,18 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                   <p className="max-w-xs sm:max-w-sm lg:max-w-md text-emerald-100 text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide leading-relaxed uppercase">
                     {t.heroSub}
                   </p>
+
+                  {onOpenCareerPaths && (
+                    <button
+                      onClick={onOpenCareerPaths}
+                      className="group inline-flex items-center gap-2 rounded-full border border-[#EEDBB2]/40 bg-white/10 hover:bg-white/20 px-4 py-2 text-[10px] sm:text-xs lg:text-sm font-bold text-[#EEDBB2] transition-colors"
+                      title={lang === 'id' ? 'Lihat jalur belajar yang direkomendasikan' : 'See recommended learning paths'}
+                    >
+                      <FontAwesomeIcon icon={faRoute} className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                      {lang === 'id' ? 'Baru mulai? Ikuti Jalur Karir' : 'Just starting? Follow Career Paths'}
+                      <span aria-hidden="true" className="font-extrabold">→</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
