@@ -540,6 +540,48 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     };
   }, []);
 
+  // Memoized lesson render: ReactMarkdown is expensive to re-reconcile per state
+  // change (divider drag writes leftWidth on every mousemove, running a code
+  // snippet flips overrideCode). Keeping one stable element lets React bail out
+  // of the whole markdown subtree for any state change that doesn't alter it.
+  const lessonBody = useMemo(() => (
+    <motion.div
+      key={activeWeek}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.12 }}
+    >
+      <div className="lesson-body">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            pre: ({ children }) => (
+              <LessonCodeBlock
+                isId={isId}
+                onRunCode={(code, codeLang) => {
+                  const wrapped = wrapSnippetForPlayground(code, codeLang, slug, isId);
+                  setOverrideCode(wrapped);
+                }}
+              >
+                {children}
+              </LessonCodeBlock>
+            ),
+            code: ({ children, className }) => <LessonInlineCode isId={isId} className={className}>{children}</LessonInlineCode>,
+            img: ({ src, alt }) => (
+              <figure className="my-6 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/70 p-4 text-center shadow-xs">
+                <img src={src} alt={alt} className="mx-auto rounded-xl max-h-96 w-auto object-contain" loading="lazy" />
+                {alt && <figcaption className="mt-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium italic">{alt}</figcaption>}
+              </figure>
+            ),
+          }}
+        >
+          {content}
+        </ReactMarkdown>
+      </div>
+    </motion.div>
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [content, isId, slug, activeWeek]);
+
   if (!track) {
     return (
       <div className="flex-1 flex items-center justify-center text-zinc-500">
@@ -671,40 +713,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
               </div>
             </div>
           ) : (
-            <motion.div
-              key={activeWeek}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.12 }}
-            >
-              <div className="lesson-body">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    pre: ({ children }) => (
-                      <LessonCodeBlock
-                        isId={isId}
-                        onRunCode={(code, codeLang) => {
-                          const wrapped = wrapSnippetForPlayground(code, codeLang, slug, isId);
-                          setOverrideCode(wrapped);
-                        }}
-                      >
-                        {children}
-                      </LessonCodeBlock>
-                    ),
-                    code: ({ children, className }) => <LessonInlineCode isId={isId} className={className}>{children}</LessonInlineCode>,
-                    img: ({ src, alt }) => (
-                      <figure className="my-6 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/70 p-4 text-center shadow-xs">
-                        <img src={src} alt={alt} className="mx-auto rounded-xl max-h-96 w-auto object-contain" loading="lazy" />
-                        {alt && <figcaption className="mt-2 text-xs text-zinc-500 dark:text-zinc-400 font-medium italic">{alt}</figcaption>}
-                      </figure>
-                    ),
-                  }}
-                >
-                  {content}
-                </ReactMarkdown>
-              </div>
-            </motion.div>
+            lessonBody
           )}
         </div>
 
