@@ -16,6 +16,25 @@
 
 ```graphql
 # Mutation: tulis/ubah data (POST/PUT/DELETE)
+mutation EmployeeCrudDemo {
+  hireEmployee(
+    name: "Dian Anggraeni"
+    department: "Design"
+    salary: 13000000
+    skills: ["Figma", "Design System"]
+  ) {
+    id
+    name
+    department
+  }
+}
+# Coba juga deaktivasi lalu cek ulang daftarnya:
+# mutation Deactivate { deactivateEmployee(id: "1") { id name active } }
+# mutation QueryUlang { employees { id name active } }
+```
+
+```sdl
+# Mutation: tulis/ubah data (POST/PUT/DELETE)
 
 type Mutation {
   # Auth

@@ -79,6 +79,29 @@ const resolvers = {
 };
 ```
 
+
+## Playground: GraphQL Operations
+
+```graphql
+# Week 7 — Demonstrasi N+1: list + nested fields yang di-batch DataLoader
+query BatchingDemo {
+  employees {
+    id
+    name
+    department
+    skills
+  }
+  orders {
+    id
+    customer
+    items {
+      product
+      qty
+    }
+  }
+}
+```
+
 ---
 
 ## Konsep Kunci

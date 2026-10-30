@@ -79,7 +79,7 @@ Open in browser or terminal: `http://localhost:4000`
 > ℹ️ Open http://localhost:4000 to launch Apollo Sandbox IDE.
 
 **Initial Entry File (`src/index.ts`):**
-```graphql
+```javascript
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
@@ -140,9 +140,25 @@ Clean separation of GraphQL Schema Definition and Resolver functions.
 
 ---
 
-## Program: First GraphQL Schema
+## Playground: GraphQL Operations
 
 ```graphql
+# Week 1 — Introspection: tampilkan semua type yang didefinisikan server
+query AllTypes {
+  __schema {
+    types {
+      name
+      kind
+    }
+  }
+}
+```
+
+---
+
+## Program: First GraphQL Schema
+
+```sdl
 # Schema Definition Language (SDL)
 type Query {
   # Get all products

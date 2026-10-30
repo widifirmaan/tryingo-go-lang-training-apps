@@ -15,6 +15,31 @@
 ## Program: Production-Ready API
 
 ```graphql
+# CAPSTONE: E-Commerce GraphQL API — operasi inti yang dilindungi semua harian
+query CapstoneIntro {
+  products {
+    id
+    name
+    category
+    price
+    inStock
+  }
+  orders {
+    id
+    customer
+    status
+    total
+  }
+}
+# Checkout (auth diperlukan di server asli):
+# mutation CheckoutFlow {
+#   createOrder(customer: "Andi Wijaya", items: [{ product: "USB-C Hub", qty: 2 }]) {
+#     id status total
+#   }
+# }
+```
+
+```sdl
 # CAPSTONE: E-Commerce GraphQL API
 
 # Schema lengkap

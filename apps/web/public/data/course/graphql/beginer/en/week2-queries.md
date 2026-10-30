@@ -17,63 +17,47 @@
 ```graphql
 # Query: baca data (GET)
 
-# Get semua produk
-query GetAllProducts {
-  products {
-    id
-    name
-    price
-    inStock
-  }
-}
-
-# Get produk by ID
-query GetProduct($id: ID!) {
-  product(id: $id) {
-    id
-    name
-    price
-    stock
-    category {
-      name
-      slug
-    }
-  }
-}
-
-# Search produk
-query SearchProducts($keyword: String!) {
-  searchProducts(keyword: $keyword) {
-    id
-    name
-    price
-    inStock
-  }
-}
-
 # Fragment untuk reuse field
 fragment ProductFields on Product {
   id
   name
   price
-  stock
   inStock
 }
 
-query GetProductsWithFragment {
+# Get semua produk (dengan fragment)
+query GetAllProducts {
   products {
     ...ProductFields
-    category {
-      name
-    }
+    category
   }
 }
 
-# Variables
-# {
-#   "id": "1",
-#   "keyword": "laptop"
+# Get satu employee
+query GetEmployee {
+  employee(id: "1") {
+    id
+    name
+    department
+    skills
+  }
+}
+
+# Search produk (argument)
+query SearchProducts {
+  searchProducts(keyword: "keyboard") {
+    id
+    name
+    price
+    inStock
+  }
+}
+
+# Dengan variables (isi panel Variables):
+# query GetProductById($id: ID!) {
+#   product(id: $id) { id name price inStock }
 # }
+# { "id": "1" }
 ```
 
 ---

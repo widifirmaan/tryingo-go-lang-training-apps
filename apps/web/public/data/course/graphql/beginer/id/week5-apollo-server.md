@@ -93,6 +93,23 @@ function ProductList() {
 }
 ```
 
+
+## Playground: GraphQL Operations
+
+```graphql
+# Week 5 — Query pertama terhadap Apollo Server yang aktif
+query ServerBoot {
+  engineering: employeesByDepartment(department: "Engineering") {
+    name
+    salary
+  }
+  completed: ordersByStatus(status: "completed") {
+    id
+    total
+  }
+}
+```
+
 ---
 
 ## Konsep Kunci
