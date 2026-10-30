@@ -79,6 +79,27 @@ class AuthDirective extends SchemaDirectiveVisitor {
 // }
 ```
 
+
+## Playground: GraphQL Operations
+
+```graphql
+# Week 6 — Operasi yang dilindungi auth context (& verifikasi manual)
+mutation AuthenticatedWrite {
+  hireEmployee(
+    name: "Rina Kartika"
+    department: "Engineering"
+    salary: 15000000
+    skills: ["Go", "GraphQL"]
+  ) {
+    id
+    name
+    department
+  }
+}
+# Verifikasi: jalankan ulang query employees — anggota baru muncul
+# query RoleCheck { employees { id name department } }
+```
+
 ---
 
 ## Key Concepts

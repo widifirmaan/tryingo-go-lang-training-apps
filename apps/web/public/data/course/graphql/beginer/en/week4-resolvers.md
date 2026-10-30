@@ -83,6 +83,33 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => console.log(`Server ready at ${url}`));
 ```
 
+
+## Playground: GraphQL Operations
+
+```graphql
+# Week 4 — Resolver operations: Query + Argument + Field resolution + Errors
+# (Nama field diselesaikan oleh field resolver di sisi server)
+query ResolverDemo {
+  employee(id: "1") {
+    id
+    name
+    department
+    skills
+  }
+  products {
+    id
+    name
+    price
+    inStock
+  }
+  searchProducts(keyword: "monitor") {
+    id
+    name
+  }
+}
+# Coba juga ID yang tidak ada -> employee(id: "999") mengembalikan null
+```
+
 ---
 
 ## Key Concepts

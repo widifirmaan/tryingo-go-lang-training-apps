@@ -69,6 +69,25 @@ const resolvers = {
 // }
 ```
 
+
+## Playground: GraphQL Operations
+
+```graphql
+# Week 8 — Mutation mem-trigger event PubSub; subscription mengalirkan hasilnya
+mutation PublishNewOrder {
+  createOrder(
+    customer: "Siti Rahayu"
+    items: [{ product: "Monitor Stand", qty: 1 }]
+  ) {
+    id
+    status
+    total
+  }
+}
+# Setelah mutation ini publish event, subscription yang aktif menerima order baru:
+# subscription OrderCreated { order { id customer total } }
+```
+
 ---
 
 ## Konsep Kunci

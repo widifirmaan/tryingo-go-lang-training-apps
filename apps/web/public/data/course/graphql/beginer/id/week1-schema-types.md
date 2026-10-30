@@ -79,7 +79,7 @@ Akses di browser atau terminal: `http://localhost:4000`
 > ℹ️ Buka http://localhost:4000 untuk mengakses Apollo Sandbox IDE.
 
 **File Titik Masuk Utama (`src/index.ts`):**
-```graphql
+```javascript
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
@@ -140,9 +140,25 @@ Struktur modular pemisahan SDL Schema dan Resolvers.
 
 ---
 
-## Program: GraphQL Schema Pertama
+## Playground: GraphQL Operations
 
 ```graphql
+# Week 1 — Introspection: tampilkan semua type yang didefinisikan server
+query AllTypes {
+  __schema {
+    types {
+      name
+      kind
+    }
+  }
+}
+```
+
+---
+
+## Program: GraphQL Schema Pertama
+
+```sdl
 # Schema Definition Language (SDL)
 type Query {
   # Get all products

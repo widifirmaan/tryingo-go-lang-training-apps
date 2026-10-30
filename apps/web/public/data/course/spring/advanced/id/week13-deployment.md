@@ -15,25 +15,62 @@
 ## Program: Docker & Cloud
 
 ```java
-// File: Dockerfile
-/*
-# Build stage
+// File: src/main/java/com/example/demo/DeploymentController.java
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping
+public class DeploymentController {
+
+    // Endpoint health untuk orkestrasi container & load balancer
+    @GetMapping("/health")
+    public Map<String, Object> health() {
+        return Map.of(
+            "status", "UP",
+            "service", "demo",
+            "profile", "prod"
+        );
+    }
+
+    // Info build untuk dashboard monitoring
+    @GetMapping("/info")
+    public Map<String, Object> info() {
+        return Map.of(
+            "app", "Spring Boot Capstone",
+            "build", "mvn clean package -DskipTests",
+            "run", "docker run -p 8080:8080 myapp"
+        );
+    }
+}
+```
+
+### File Deployment
+
+```dockerfile
+# File: Dockerfile
+# Build stage — kompilasi jar di dalam Maven, bukan di host
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Run stage
+# Run stage — image lebih kecil, hanya JRE
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-*/
+```
 
-// File: docker-compose.yml
-/*
+```yaml
+# File: docker-compose.yml
 version: '3.8'
 services:
   app:
@@ -63,23 +100,24 @@ services:
 
 volumes:
   pgdata:
-*/
+```
 
-// File: application-prod.properties
-/*
+```ini
+# File: application-prod.properties
 spring.datasource.url=${DATABASE_URL}
 spring.datasource.username=${DB_USER}
 spring.datasource.password=${DB_PASSWORD}
 spring.jpa.hibernate.ddl-auto=validate
 server.port=8080
 management.endpoints.web.exposure.include=health
-*/
+```
 
-// Deployment Commands:
-// mvn clean package -DskipTests
-// docker build -t myapp .
-// docker run -p 8080:8080 myapp
-// docker-compose up -d
+```bash
+# Perintah Deployment:
+mvn clean package -DskipTests
+docker build -t myapp .
+docker run -p 8080:8080 myapp
+docker-compose up -d
 ```
 
 ---
