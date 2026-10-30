@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, Suspense, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import { HeroSection } from './components/HeroSection';
 import { TrackCard } from './components/TrackCard';
 import { TRACKS_COLLECTION } from './data/tracksData';
@@ -82,45 +82,45 @@ export default function App() {
     window.location.hash = parts.join('/');
   }, []);
 
-  const handleStartCourse = (trackId: string) => {
+  const handleStartCourse = useCallback((trackId: string) => {
     setActiveCourseId(trackId);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(null);
     setQuizTarget(null);
     updateHash(trackId);
-  };
+  }, [updateHash]);
 
-  const handleNavigateToWeek = (trackId: string, level: string, week: number) => {
+  const handleNavigateToWeek = useCallback((trackId: string, level: string, week: number) => {
     setActiveCourseId(trackId);
     setCourseInitialLevel(level);
     setCourseInitialWeek(week);
     setIdeTarget(null);
     setQuizTarget(null);
     updateHash(trackId, level, week);
-  };
+  }, [updateHash]);
 
-  const handleBackFromCourse = () => {
+  const handleBackFromCourse = useCallback(() => {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(null);
     setQuizTarget(null);
     updateHash(null);
-  };
+  }, [updateHash]);
 
-  const handleOpenPlayground = (code?: string) => {
+  const handleOpenPlayground = useCallback((code?: string) => {
     if (activeCourseId) {
       setPlaygroundLanguage(activeCourseId);
       setPlaygroundCode(code || null);
     }
-  };
+  }, [activeCourseId]);
 
-  const handleClosePlayground = () => {
+  const handleClosePlayground = useCallback(() => {
     setPlaygroundCode(null);
-  };
+  }, []);
 
-  const handleOpenIde = (trackId: string) => {
+  const handleOpenIde = useCallback((trackId: string) => {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
@@ -128,21 +128,26 @@ export default function App() {
     setIdeTarget(trackId);
     const slug = SLUG_MAP[trackId] || trackId.replace('tryngo-lang-', '');
     window.location.hash = `#/ide/${slug}`;
-  };
+  }, [updateHash]);
 
-  const handleOpenQuiz = (slug: string, level?: string) => {
+  const handleOpenQuiz = useCallback((slug: string, level?: string) => {
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
     setCourseInitialWeek(undefined);
     setIdeTarget(null);
     setQuizTarget({ slug, level, sample: slug === '__sample__' });
     window.location.hash = slug === '__sample__' ? '#/quiz/sample' : (level ? `#/quiz/${slug}/${level}` : `#/quiz/${slug}`);
-  };
+  }, [updateHash]);
 
-  const handleCloseQuiz = () => {
+  const handleOpenSearch = useCallback(() => setIsSearchOpen(true), []);
+  const handleOpenSettings = useCallback(() => setIsSettingsOpen(true), []);
+  const handleOpenCareerPaths = useCallback(() => setIsCareerPathsOpen(true), []);
+  const handleOpenDetails = useCallback((item: any) => setSelectedProduct(item), []);
+
+  const handleCloseQuiz = useCallback(() => {
     setQuizTarget(null);
     updateHash(null);
-  };
+  }, [updateHash]);
 
   const t = translations[lang];
 
@@ -335,21 +340,21 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isHeroHovered]);
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = useCallback((item: any) => {
     setCartItems((prev) => [...prev, item]);
     setIsCartOpen(true);
-  };
+  }, []);
 
-  const handleRemoveFromCart = (index: number) => {
+  const handleRemoveFromCart = useCallback((index: number) => {
     setCartItems((prev) => prev.filter((_, i) => i !== index));
-  };
+  }, []);
 
-  const handleOpenCollection = () => {
+  const handleOpenCollection = useCallback(() => {
     // Activate Exploring / Multi-card mode
     setIsExploring(true);
-  };
+  }, []);
 
-  const handleBackToHero = () => {
+  const handleBackToHero = useCallback(() => {
     setIsExploring(false);
     setActiveCourseId(null);
     setCourseInitialLevel(undefined);
@@ -357,7 +362,7 @@ export default function App() {
     setIdeTarget(null);
     setQuizTarget(null);
     updateHash(null);
-  };
+  }, [updateHash]);
 
   const handleResetFilters = () => {
     setSearchQuery('');
@@ -414,6 +419,7 @@ export default function App() {
   const hasActiveFilters = searchQuery || sortBy !== 'default' || selectedCategory !== 'all';
 
   return (
+    <MotionConfig reducedMotion="user">
     <div
       role="application"
       aria-label={t.heroTagline}
@@ -424,17 +430,11 @@ export default function App() {
       {/* Main Container */}
       <div className="w-full flex-1 flex flex-col h-full overflow-hidden">
         
-        {/* Single persistent layout container with FLIP animations */}
-        <motion.div 
-          layout 
-          transition={{ type: "spring", stiffness: 260, damping: 26 }}
-          className="flex flex-col lg:flex-row landscape:flex-row gap-3 sm:gap-4 md:gap-5 h-full w-full items-stretch"
-        >
+        {/* Single persistent layout container (FLIP layout animations removed — too expensive on low-end devices) */}
+        <div className="flex flex-col lg:flex-row landscape:flex-row gap-3 sm:gap-4 md:gap-5 h-full w-full items-stretch">
           
-          {/* Left / Top: Hero Section Container - Resizes smoothly, never disappears */}
-          <motion.div 
-            layout
-            transition={{ type: "spring", stiffness: 220, damping: 26 }}
+          {/* Left / Top: Hero Section Container - Resizes instantly */}
+          <div 
             className={`flex-shrink-0 flex flex-col ${
               isExploring || activeCourseId || ideTarget || quizTarget
                 ? 'w-full lg:w-72 xl:w-80 landscape:w-72 h-auto lg:h-full' 
@@ -444,11 +444,11 @@ export default function App() {
             <HeroSection 
               isExploring={isExploring || !!activeCourseId || !!ideTarget || !!quizTarget}
               onBackToHero={handleBackToHero}
-              onOpenSearch={() => setIsSearchOpen(true)}
-              onOpenFilter={() => setIsSearchOpen(true)}
-              onOpenSettings={() => setIsSettingsOpen(true)}
+              onOpenSearch={handleOpenSearch}
+              onOpenFilter={handleOpenSearch}
+              onOpenSettings={handleOpenSettings}
               onOpenCollection={handleOpenCollection}
-              onOpenCareerPaths={() => setIsCareerPathsOpen(true)}
+              onOpenCareerPaths={handleOpenCareerPaths}
               lang={lang}
               activeCourseId={activeCourseId}
               activeLevel={courseInitialLevel}
@@ -459,14 +459,12 @@ export default function App() {
               activeIdeId={ideTarget}
               activeQuizId={quizTarget ? quizTarget.slug : null}
             />
-          </motion.div>
+          </div>
 
-          {/* Right / Bottom Content Area - Expands or contracts smoothly */}
-          <motion.div 
-            layout
+          {/* Right / Bottom Content Area */}
+          <div 
             role="main"
             aria-label={activeCourseId ? t.courseMateriNav : isExploring ? t.allTracksNav : t.heroTagline}
-            transition={{ type: "spring", stiffness: 260, damping: 26 }}
             className="flex-1 min-w-0 flex flex-col h-full overflow-hidden"
           >
             <AnimatePresence mode="wait">
@@ -474,10 +472,10 @@ export default function App() {
                 /* MODE: QUIZ PAGE VIEW */
                 <motion.div
                   key={`quiz-${quizTarget.slug}-${quizTarget.level || ''}-${quizTarget.sample ? 'sample' : ''}`}
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.15 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
                   <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat kuis. Silakan coba lagi.' : 'Failed to load quiz. Please try again.'}>
@@ -497,10 +495,10 @@ export default function App() {
                 /* MODE D: ONLINE IDE VIEW */
                 <motion.div
                   key={`ide-${ideTarget}`}
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.15 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
                   <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat Online IDE. Silakan coba lagi.' : 'Failed to load Online IDE. Please try again.'}>
@@ -517,10 +515,10 @@ export default function App() {
                 /* MODE C: COURSE MATERIAL VIEW */
                 <motion.div
                   key="course-view"
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.15 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                   className="flex-1 flex flex-col h-full min-w-0 overflow-hidden"
                 >
                   <ErrorBoundary fallbackMessage={lang === 'id' ? 'Gagal memuat modul kursus. Silakan coba modul lain.' : 'Failed to load course module. Please try another.'}>
@@ -544,14 +542,14 @@ export default function App() {
                 /* MODE A: MULTI-CARD TRACKS SCROLL CONTAINER */
                 <motion.div 
                   key="exploring-tracks"
-                  initial={{ opacity: 0, scale: 0.88 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.88 }}
-                  transition={{ duration: 0.15 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                   className={`flex-1 flex flex-col h-full min-w-0 overflow-hidden rounded-[28px] p-3 sm:p-4 md:p-5 border shadow-xs transition-colors ${
                     theme === 'dark' 
-                      ? 'bg-zinc-900/60 border-zinc-800 backdrop-blur-md' 
-                      : 'bg-white/40 border-white/60 backdrop-blur-xs'
+                      ? 'bg-zinc-900/60 border-zinc-800' 
+                      : 'bg-white/40 border-white/60'
                   }`}
                 >
                   
@@ -634,10 +632,10 @@ export default function App() {
                             <TrackCard 
                               track={track}
                               onAddToCart={handleAddToCart}
-                              onOpenDetails={(item) => setSelectedProduct(item)}
-                              onStartCourse={(id) => handleStartCourse(id)}
+                              onOpenDetails={handleOpenDetails}
+                              onStartCourse={handleStartCourse}
                               onOpenPlayground={handleOpenIde}
-                              onOpenQuiz={(slug) => handleOpenQuiz(slug)}
+                              onOpenQuiz={handleOpenQuiz}
                               lang={lang}
                             />
                           </motion.div>
@@ -658,10 +656,10 @@ export default function App() {
                             <TrackCard 
                               track={track}
                               onAddToCart={handleAddToCart}
-                              onOpenDetails={(item) => setSelectedProduct(item)}
-                              onStartCourse={(id) => handleStartCourse(id)}
+                              onOpenDetails={handleOpenDetails}
+                              onStartCourse={handleStartCourse}
                               onOpenPlayground={handleOpenIde}
-                              onOpenQuiz={(slug) => handleOpenQuiz(slug)}
+                              onOpenQuiz={handleOpenQuiz}
                               lang={lang}
                             />
                           </motion.div>
@@ -695,10 +693,10 @@ export default function App() {
                       <TrackCard 
                         track={TRACKS_COLLECTION[idx]}
                         onAddToCart={handleAddToCart}
-                        onOpenDetails={(item) => setSelectedProduct(item)}
-                        onStartCourse={(id) => handleStartCourse(id)}
+                        onOpenDetails={handleOpenDetails}
+                        onStartCourse={handleStartCourse}
                         onOpenPlayground={handleOpenIde}
-                        onOpenQuiz={(slug) => handleOpenQuiz(slug)}
+                        onOpenQuiz={handleOpenQuiz}
                         lang={lang}
                       />
                     </motion.div>
@@ -706,9 +704,9 @@ export default function App() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </div>
 
-        </motion.div>
+        </div>
 
       </div>
 
@@ -781,5 +779,6 @@ export default function App() {
       </AnimatePresence>
 
     </div>
+    </MotionConfig>
   );
 }
