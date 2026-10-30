@@ -31,7 +31,7 @@ interface TrackCardProps {
   lang?: 'id' | 'en';
 }
 
-export const TrackCard: React.FC<TrackCardProps> = ({
+const TrackCardBase: React.FC<TrackCardProps> = ({
   track,
   onAddToCart,
   onOpenDetails,
@@ -112,3 +112,5 @@ export const TrackCard: React.FC<TrackCardProps> = ({
     </div>
   );
 };
+
+export const TrackCard = React.memo(TrackCardBase);

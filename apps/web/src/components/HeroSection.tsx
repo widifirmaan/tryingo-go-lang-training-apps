@@ -27,7 +27,15 @@ interface HeroSectionProps {
   activeQuizId?: string | null;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({
+// Module-level constants — recomputed on every render otherwise
+const QUIZ_ITEMS = TRACKS_COLLECTION.map((track) => ({
+  label: track.name,
+  slug: SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''),
+}));
+
+const IDE_ITEMS = TRACKS_COLLECTION.map((track) => ({ trackId: track.id, name: track.name }));
+
+const HeroSectionBase: React.FC<HeroSectionProps> = ({
   onOpenSearch,
   onOpenFilter,
   onOpenSettings,
@@ -53,17 +61,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
 
-  // Every track has a generated quiz; list them all in the sidebar submenu.
-  const QUIZ_ITEMS = TRACKS_COLLECTION.map((track) => ({
-    label: track.name,
-    slug: SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''),
-  }));
   const openQuiz = (slug: string, level?: string) => {
     onOpenQuiz?.(slug, level);
   };
 
-  // Every track has an online editor/playground; list them all in the IDE submenu.
-  const IDE_ITEMS = TRACKS_COLLECTION.map((track) => ({ trackId: track.id, name: track.name }));
   const openIde = (trackId: string) => {
     onOpenIde?.(trackId);
   };
@@ -100,9 +101,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   }, [activeCourseId, activeIdeId, activeQuizId]);
 
   return (
-    <motion.div 
-      layout
-      transition={{ type: "spring", stiffness: 220, damping: 25 }}
+    <div 
       className="relative w-full h-full bg-[#2E5B44] dark:bg-[#12221A] text-white rounded-[28px] overflow-hidden flex flex-col justify-between p-3 sm:p-4 lg:p-5 shadow-xl border border-[#234735] dark:border-zinc-800 select-none"
     >
       <AnimatePresence>
@@ -863,7 +862,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
+
+export const HeroSection = React.memo(HeroSectionBase);
 
