@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 3:** Functions & Error Handling
 
+## Why This Matters
+
+Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
+
+Week 3 — themed **"Functions & Error Handling"** — centers on the practice program *"Calculator"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Create functions with parameters and return values

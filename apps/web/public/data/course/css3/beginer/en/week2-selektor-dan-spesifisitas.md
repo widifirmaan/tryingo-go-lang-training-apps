@@ -3,6 +3,13 @@
 > **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 2:** Selectors and Specificity
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+CSS controls every pixel of the web you use daily — from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.
+
+Week 2 — themed **"Selectors and Specificity"** — centers on the practice program *"Applying Combinator Selectors and Interactive Buttons"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Master core selector types: element/tag, class (.), and ID (#)

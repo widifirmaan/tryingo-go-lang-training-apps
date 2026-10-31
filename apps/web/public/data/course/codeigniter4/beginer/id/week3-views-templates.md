@@ -2,6 +2,13 @@
 
 > **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 3:** Views & Templates
 
+## Kenapa Materi Ini Penting
+
+CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
+
+Di minggu ke-3 — bertajuk **"Views & Templates"** — program latihan utamanya adalah *"View Layer"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - View: return view() untuk render template

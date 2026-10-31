@@ -2,6 +2,13 @@
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 5:** Stored Procedures & Functions
 
+## Why This Matters
+
+MySQL is the open source relational database behind millions of websites — from WordPress to fintech apps. The SQL you write here is the same language used to interview data at almost every company.
+
+Week 5 — themed **"Stored Procedures & Functions"** — centers on the practice program *"Stored Procedures"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - CREATE PROCEDURE with IN/OUT params

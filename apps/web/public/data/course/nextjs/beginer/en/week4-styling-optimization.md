@@ -2,6 +2,13 @@
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 4:** Styling & Optimization
 
+## Why This Matters
+
+Next.js is React's production-grade framework — routing, server components, caching, SEO are all solved. Companies pick Next for SEO and performance; it is the most requested skill in frontend job posts.
+
+Week 4 — themed **"Styling & Optimization"** — centers on the practice program *"CSS & Images"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - CSS Modules for scoped styling

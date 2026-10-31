@@ -19,6 +19,19 @@ const SearchModal = React.lazy(() => import('./components/Modals').then(m => ({ 
 const DetailModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.DetailModal })));
 const SettingsModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SettingsModal })));
 
+// Deep-link boot: /course/{slug}[/{level}/{week}] (prerendered SEO pages) -> app state
+const BOOT = (() => {
+  const m = window.location.pathname.match(/^\/course\/([a-z0-9-]+)(?:\/(beginer|intermediate|advanced)(?:\/(\d+))?)?\/?$/i);
+  if (!m) return null;
+  const trackId = REVERSE_SLUG_MAP[m[1].toLowerCase()];
+  if (!trackId) return null;
+  return {
+    trackId,
+    level: m[2] as string | undefined,
+    week: m[3] ? parseInt(m[3], 10) : undefined,
+  };
+})();
+
 export default function App() {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
@@ -42,17 +55,17 @@ export default function App() {
   const [sortBy, setSortBy] = useState<string>('default');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  // State for Exploring / Playground mode (triggered by GO button or Search Modal)
-  const [isExploring, setIsExploring] = useState<boolean>(false);
+  // State for Exploring / Playground mode (triggered by GO button or Search Modal or deep link)
+  const [isExploring, setIsExploring] = useState<boolean>(() => !!BOOT);
 
   // Random hero track rotation
   const [heroTrackIds, setHeroTrackIds] = useState<number[]>([0, 1, 2]);
   const [isHeroHovered, setIsHeroHovered] = useState<boolean>(false);
 
   // Active course view state
-  const [activeCourseId, setActiveCourseId] = useState<string | null>(null);
-  const [courseInitialLevel, setCourseInitialLevel] = useState<string | undefined>();
-  const [courseInitialWeek, setCourseInitialWeek] = useState<number | undefined>();
+  const [activeCourseId, setActiveCourseId] = useState<string | null>(() => BOOT?.trackId ?? null);
+  const [courseInitialLevel, setCourseInitialLevel] = useState<string | undefined>(() => BOOT?.level);
+  const [courseInitialWeek, setCourseInitialWeek] = useState<number | undefined>(() => BOOT?.week);
 
   // Playground state
   const [playgroundCode, setPlaygroundCode] = useState<string | null>(null);

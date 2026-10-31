@@ -2,6 +2,13 @@
 
 > **Kategori:** Tailwind CSS | **Level:** Dasar Utility-First & Tipografi | **Minggu 1:** Filosofi Utility-First, Setup & Tipografi
 
+## Kenapa Materi Ini Penting
+
+Tailwind mengubah styling menjadi utility class yang konsisten — desain yang dahulu membutuhkan seratus baris CSS kini cukup beberapa kata. Begitu terbiasa, Anda mendesain UI kompleks rapi dan konsisten tanpa keluar dari JSX/pug-nya.
+
+Di minggu ke-1 — bertajuk **"Filosofi Utility-First, Setup & Tipografi"** — program latihan utamanya adalah *"Pengenalan Utility-First & Tipografi"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami konsep utility-first vs class berbasis komponen (BEM)
@@ -29,6 +36,8 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

@@ -2,6 +2,13 @@
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 1:** Components & Templates
 
+## Why This Matters
+
+Angular powers large internal enterprise applications — banks, insurance, healthcare — because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
+
+Week 1 — themed **"Components & Templates"** — centers on the practice program *"Hello Angular"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Angular as web app platform
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

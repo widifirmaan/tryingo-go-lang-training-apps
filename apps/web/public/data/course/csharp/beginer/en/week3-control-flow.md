@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 3:** Control Flow
 
+## Why This Matters
+
+C# and .NET drive enterprise Windows apps, backend APIs, and Unity games — one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.
+
+Week 3 — themed **"Control Flow"** — centers on the practice program *"Grades & Menu"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - If-else with complex conditions

@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 4:** Spring Data JPA
 
+## Kenapa Materi Ini Penting
+
+Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+
+Di minggu ke-4 — bertajuk **"Spring Data JPA"** — program latihan utamanya adalah *"Database Integration"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - @Entity dan @Table untuk mapping class ke database table

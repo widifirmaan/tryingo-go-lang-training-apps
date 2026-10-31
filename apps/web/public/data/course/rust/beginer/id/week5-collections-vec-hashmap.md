@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 5:** Collections: Vec, HashMap & String
 
+## Kenapa Materi Ini Penting
+
+Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+
+Di minggu ke-5 — bertajuk **"Collections: Vec, HashMap & String"** — program latihan utamanya adalah *"Manajemen Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Vec<T>: dynamic array dengan push, pop, len, capacity

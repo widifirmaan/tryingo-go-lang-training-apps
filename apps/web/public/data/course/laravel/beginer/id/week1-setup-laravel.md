@@ -2,6 +2,13 @@
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 1:** Setup & Instalasi Laravel
 
+## Kenapa Materi Ini Penting
+
+Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel — skill yang langsung dapat dipakai bekerja.
+
+Di minggu ke-1 — bertajuk **"Setup & Instalasi Laravel"** — program latihan utamanya adalah *"Project Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Install Laravel via Composer (Laravel Docs: Installation)
@@ -29,6 +36,8 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

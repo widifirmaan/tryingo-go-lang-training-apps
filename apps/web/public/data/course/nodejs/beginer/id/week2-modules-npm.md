@@ -2,6 +2,13 @@
 
 > **Kategori:** Node.js | **Level:** Pemula | **Minggu 2:** Modules & NPM
 
+## Kenapa Materi Ini Penting
+
+Node.js menjadikan JavaScript jalan di server: event loop berbasis non-blocking menjadikan satu bahasa dipakai dari browser hingga database. Memahami runtime Node = langsung paham streaming, worker, dan API realtime.
+
+Di minggu ke-2 — bertajuk **"Modules & NPM"** — program latihan utamanya adalah *"Sistem Modul"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Mengenal 3 jenis module: core, local, dan npm

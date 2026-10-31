@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 4:** Spring Data JPA
 
+## Why This Matters
+
+Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+
+Week 4 — themed **"Spring Data JPA"** — centers on the practice program *"Database Integration"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - @Entity and @Table for class-to-table mapping

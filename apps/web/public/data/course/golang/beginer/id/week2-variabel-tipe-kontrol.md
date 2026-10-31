@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 2:** Variabel, Tipe & Control Flow
 
+## Kenapa Materi Ini Penting
+
+Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
+
+Di minggu ke-2 — bertajuk **"Variabel, Tipe & Control Flow"** — program latihan utamanya adalah *"Bilangan & Grade"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Mendeklarasikan variabel dengan var dan := (short declaration)

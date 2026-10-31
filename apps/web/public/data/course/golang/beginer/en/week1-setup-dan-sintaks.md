@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 1:** Setup, Toolchain & Basic Syntax
 
+## Why This Matters
+
+Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
+
+Week 1 — themed **"Setup, Toolchain & Basic Syntax"** — centers on the practice program *"Hello, Go!"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Go as a compiled backend language (roadmap.sh phase 1)
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

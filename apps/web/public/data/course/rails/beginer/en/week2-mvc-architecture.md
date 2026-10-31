@@ -2,6 +2,13 @@
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 2:** MVC Architecture
 
+## Why This Matters
+
+Rails pioneered convention-over-configuration: one generator command scaffolds full CRUD. The result is developer productivity — you focus on the product, not the wiring. GitHub, Shopify, and early Airbnb run on it.
+
+Week 2 — themed **"MVC Architecture"** — centers on the practice program *"MVC in Action"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - MVC pattern: Model (data), View (UI), Controller (logic)

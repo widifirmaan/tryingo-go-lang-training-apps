@@ -2,6 +2,13 @@
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 2:** Reactivity & Composition API
 
+## Kenapa Materi Ini Penting
+
+Vue menggabungkan keringkasan template HTML dengan reaktivitas modern — dipakai Alibaba, Xiaomi, dan banyak admin panel. Learning curve-nya landai: svelte siap product rapi untuk pekerja, tetap ramah untuk yang baru belajar.
+
+Di minggu ke-2 — bertajuk **"Reactivity & Composition API"** — program latihan utamanya adalah *"Todo App"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - ref() untuk reactive primitive values

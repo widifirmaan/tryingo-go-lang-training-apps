@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 5:** Sorted Set
 
+## Kenapa Materi Ini Penting
+
+Redis adalah database in-memory secepat kilat — dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
+
+Di minggu ke-5 — bertajuk **"Sorted Set"** — program latihan utamanya adalah *"Operasi Sorted Set"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - ZADD dan ZRANGE

@@ -2,6 +2,13 @@
 
 > **Kategori:** Next.js | **Level:** Pemula | **Minggu 1:** Setup & Konsep Dasar
 
+## Kenapa Materi Ini Penting
+
+Next.js adalah framework React untuk app skala produksi — routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa — keahlian yang paling sering disebut di lowongan frontend.
+
+Di minggu ke-1 — bertajuk **"Setup & Konsep Dasar"** — program latihan utamanya adalah *"App Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami Next.js sebagai React framework (SSR, SSG, routing)
@@ -29,6 +36,8 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

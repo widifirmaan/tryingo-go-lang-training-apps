@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 6:** Form Handling & Validasi
 
+## Kenapa Materi Ini Penting
+
+PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+
+Di minggu ke-6 — bertajuk **"Form Handling & Validasi"** — program latihan utamanya adalah *"Form Registrasi"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Superglobals: $_GET, $_POST, $_SERVER untuk data request

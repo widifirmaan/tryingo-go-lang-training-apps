@@ -2,6 +2,13 @@
 
 > **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 1:** Setup & Instalasi CI4
 
+## Kenapa Materi Ini Penting
+
+CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
+
+Di minggu ke-1 — bertajuk **"Setup & Instalasi CI4"** — program latihan utamanya adalah *"Project Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Install CodeIgniter 4 via Composer (CI4 Docs: Installation)
@@ -29,6 +36,8 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

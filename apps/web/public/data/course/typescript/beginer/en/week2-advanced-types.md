@@ -2,6 +2,13 @@
 
 > **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 2:** Advanced Types
 
+## Why This Matters
+
+TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+
+Week 2 — themed **"Advanced Types"** — centers on the practice program *"Union, Intersection & Literal Types"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Union types: string | number | boolean

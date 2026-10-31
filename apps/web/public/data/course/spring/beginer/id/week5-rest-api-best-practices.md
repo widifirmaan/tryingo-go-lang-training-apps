@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 5:** REST API Best Practices
 
+## Kenapa Materi Ini Penting
+
+Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+
+Di minggu ke-5 — bertajuk **"REST API Best Practices"** — program latihan utamanya adalah *"DTO & Exception Handling"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - DTO (Data Transfer Object) untuk request/response

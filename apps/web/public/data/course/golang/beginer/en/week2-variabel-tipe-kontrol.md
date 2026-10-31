@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Beginner | **Minggu 2:** Variables, Types & Control Flow
 
+## Why This Matters
+
+Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
+
+Week 2 — themed **"Variables, Types & Control Flow"** — centers on the practice program *"Numbers & Grades"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Declare variables with var and := (short declaration)

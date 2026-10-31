@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 1:** Svelte Basics & Template
 
+## Why This Matters
+
+Svelte compiles reactivity at build time — no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
+
+Week 1 — themed **"Svelte Basics & Template"** — centers on the practice program *"Hello Svelte"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Svelte as compiler framework
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

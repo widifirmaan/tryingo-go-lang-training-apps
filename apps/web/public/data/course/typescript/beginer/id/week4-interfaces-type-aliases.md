@@ -2,6 +2,13 @@
 
 > **Kategori:** TypeScript | **Level:** Dasar Tipe & Interface | **Minggu 4:** Interfaces & Type Aliases
 
+## Kenapa Materi Ini Penting
+
+TypeScript adalah JavaScript dengan sistem tipe — kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
+
+Di minggu ke-4 — bertajuk **"Interfaces & Type Aliases"** — program latihan utamanya adalah *"Model Data TypeScript"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Interface: definisi bentuk object

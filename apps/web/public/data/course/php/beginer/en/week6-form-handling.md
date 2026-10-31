@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 6:** Form Handling & Validation
 
+## Why This Matters
+
+PHP runs roughly three quarters of the web — WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.
+
+Week 6 — themed **"Form Handling & Validation"** — centers on the practice program *"Registration Form"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Superglobals: $_GET, $_POST, $_SERVER for request data

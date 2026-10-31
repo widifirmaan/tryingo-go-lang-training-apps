@@ -2,6 +2,13 @@
 
 > **Kategori:** React | **Level:** Beginner | **Minggu 2:** Props & Data Flow
 
+## Why This Matters
+
+React is the most popular UI library in the world — used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
+
+Week 2 — themed **"Props & Data Flow"** — centers on the practice program *"Product Card"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Receive and use props in function components

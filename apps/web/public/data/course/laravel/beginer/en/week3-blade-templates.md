@@ -2,6 +2,13 @@
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 3:** Blade Templates
 
+## Why This Matters
+
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+
+Week 3 — themed **"Blade Templates"** — centers on the practice program *"Template Engine"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Blade syntax: {{ }} for echo, @ for directives

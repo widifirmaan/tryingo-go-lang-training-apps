@@ -3,6 +3,13 @@
 > **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 5:** Colors, Backgrounds, and Borders
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+CSS controls every pixel of the web you use daily — from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.
+
+Week 5 — themed **"Colors, Backgrounds, and Borders"** — centers on the practice program *"Interactive Product Card with Gradients and Multi-Layer Elevation"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Master color representations: Hex, RGB, RGBA (alpha transparency), and HSL

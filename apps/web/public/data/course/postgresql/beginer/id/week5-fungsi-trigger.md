@@ -2,6 +2,13 @@
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 5:** Fungsi & Trigger
 
+## Kenapa Materi Ini Penting
+
+PostgreSQL adalah database open source paling canggih: ACID penuh, JSON, indexing canggih, dan ekstensi luas. Perusahaan besar mengandalkan Postgres; SQL yang Anda pelajari bersifat portabel untuk semua relational databases.
+
+Di minggu ke-5 — bertajuk **"Fungsi & Trigger"** — program latihan utamanya adalah *"PL/pgSQL Dasar"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - CREATE FUNCTION dengan parameter

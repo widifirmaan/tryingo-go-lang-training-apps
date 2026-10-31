@@ -2,6 +2,13 @@
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 2:** Routing & Controllers
 
+## Kenapa Materi Ini Penting
+
+Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel — skill yang langsung dapat dipakai bekerja.
+
+Di minggu ke-2 — bertajuk **"Routing & Controllers"** — program latihan utamanya adalah *"Route & Controller"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Route definition: Route::get, post, put, delete, patch, options

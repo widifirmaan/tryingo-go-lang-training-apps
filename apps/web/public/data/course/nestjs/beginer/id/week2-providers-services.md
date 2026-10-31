@@ -2,6 +2,13 @@
 
 > **Kategori:** NestJS | **Level:** Pemula | **Minggu 2:** Providers & Services
 
+## Kenapa Materi Ini Penting
+
+NestJS mengambil disipli arsitektur dari Angular/Spring dan membawanya ke Node: modul, dependency injection, decorator. Struktur ketatnya membuat aplikasi yang tumbuh besar tetap bisa dirawat oleh tim.
+
+Di minggu ke-2 — bertajuk **"Providers & Services"** — program latihan utamanya adalah *"Service Layer"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami konsep Provider di NestJS

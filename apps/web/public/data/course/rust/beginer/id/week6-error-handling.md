@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 6:** Error Handling
 
+## Kenapa Materi Ini Penting
+
+Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+
+Di minggu ke-6 — bertajuk **"Error Handling"** — program latihan utamanya adalah *"Penanganan Error"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Result<T, E>: Ok(T) untuk sukses, Err(E) untuk error

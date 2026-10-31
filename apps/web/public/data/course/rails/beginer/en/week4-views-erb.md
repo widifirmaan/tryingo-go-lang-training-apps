@@ -2,6 +2,13 @@
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 4:** Views & ERB Templates
 
+## Why This Matters
+
+Rails pioneered convention-over-configuration: one generator command scaffolds full CRUD. The result is developer productivity — you focus on the product, not the wiring. GitHub, Shopify, and early Airbnb run on it.
+
+Week 4 — themed **"Views & ERB Templates"** — centers on the practice program *"Template Engine"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - ERB: <%= %> for output, <% %> for logic

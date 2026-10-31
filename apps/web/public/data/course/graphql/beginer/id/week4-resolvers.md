@@ -2,6 +2,13 @@
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 4:** Resolvers
 
+## Kenapa Materi Ini Penting
+
+GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel — dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
+
+Di minggu ke-4 — bertajuk **"Resolvers"** — program latihan utamanya adalah *"Implementasi Resolver"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Query resolver

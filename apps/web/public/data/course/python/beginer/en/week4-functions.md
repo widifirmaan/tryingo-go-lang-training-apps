@@ -2,6 +2,13 @@
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 4:** Functions & Modules
 
+## Why This Matters
+
+Python is the friendliest first language yet reaches into AI/data science, automation, and backends. It is the one language that appears in nearly every field — the most versatile learning investment.
+
+Week 4 — themed **"Functions & Modules"** — centers on the practice program *"Modular Calculator"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Create functions with def, parameters, and return values

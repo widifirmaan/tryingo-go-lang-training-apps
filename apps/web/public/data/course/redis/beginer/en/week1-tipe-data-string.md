@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 1:** Data Types & Strings
 
+## Why This Matters
+
+Redis is blazing-fast in-memory storage — every large system uses it for cache, leaderboards, sessions, and rate limiting. One small "add a Redis cache" feature often saves more server cost than months of refactoring.
+
+Week 1 — themed **"Data Types & Strings"** — centers on the practice program *"Redis String Operations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - SET and GET
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 4:** Array & Manipulasi
 
+## Kenapa Materi Ini Penting
+
+PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+
+Di minggu ke-4 — bertajuk **"Array & Manipulasi"** — program latihan utamanya adalah *"Manajemen Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Indexed array: array dengan index numerik

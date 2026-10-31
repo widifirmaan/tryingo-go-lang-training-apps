@@ -2,6 +2,13 @@
 
 > **Kategori:** NestJS | **Level:** Pemula | **Minggu 4:** Database & TypeORM
 
+## Kenapa Materi Ini Penting
+
+NestJS mengambil disipli arsitektur dari Angular/Spring dan membawanya ke Node: modul, dependency injection, decorator. Struktur ketatnya membuat aplikasi yang tumbuh besar tetap bisa dirawat oleh tim.
+
+Di minggu ke-4 — bertajuk **"Database & TypeORM"** — program latihan utamanya adalah *"Entity & Repository"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - TypeORM Entity: @Entity, @Column, @PrimaryGeneratedColumn

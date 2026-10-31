@@ -2,6 +2,13 @@
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 4:** Indexes & Query Optimization
 
+## Why This Matters
+
+MySQL is the open source relational database behind millions of websites — from WordPress to fintech apps. The SQL you write here is the same language used to interview data at almost every company.
+
+Week 4 — themed **"Indexes & Query Optimization"** — centers on the practice program *"Database Performance"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - B-tree index in MySQL

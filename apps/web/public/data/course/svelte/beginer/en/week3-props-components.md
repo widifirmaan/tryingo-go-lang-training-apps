@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 3:** Props & Components
 
+## Why This Matters
+
+Svelte compiles reactivity at build time — no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
+
+Week 3 — themed **"Props & Components"** — centers on the practice program *"Product Components"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - export let for prop definition

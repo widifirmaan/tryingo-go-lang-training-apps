@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 3:** Lists
 
+## Why This Matters
+
+Redis is blazing-fast in-memory storage — every large system uses it for cache, leaderboards, sessions, and rate limiting. One small "add a Redis cache" feature often saves more server cost than months of refactoring.
+
+Week 3 — themed **"Lists"** — centers on the practice program *"Redis List Operations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - LPUSH, RPUSH, LPOP, RPOP

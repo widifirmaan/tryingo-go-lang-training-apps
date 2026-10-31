@@ -1,4 +1,3 @@
-# robots.txt for Tryngo Interactive Coding Education Platform
 User-agent: *
 Allow: /
 Disallow: /wasm/

@@ -2,6 +2,13 @@
 
 > **Kategori:** React | **Level:** Pemula | **Minggu 2:** Props & Data Flow
 
+## Kenapa Materi Ini Penting
+
+React adalah library UI terpopuler di dunia — dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
+
+Di minggu ke-2 — bertajuk **"Props & Data Flow"** — program latihan utamanya adalah *"Kartu Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Menerima dan menggunakan props di function component

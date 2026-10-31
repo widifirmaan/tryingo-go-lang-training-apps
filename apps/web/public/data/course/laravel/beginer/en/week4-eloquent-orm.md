@@ -2,6 +2,13 @@
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 4:** Eloquent ORM
 
+## Why This Matters
+
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+
+Week 4 — themed **"Eloquent ORM"** — centers on the practice program *"Database with Eloquent"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Eloquent Model: database table representation as class

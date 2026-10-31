@@ -3,6 +3,13 @@
 > **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 3:** Conditionals and Decision Making
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+JavaScript is the only language that runs in every browser — frontend, backend (Node), even mobile. Learning JS thoroughly opens nearly the entire spectrum of web jobs.
+
+Week 3 — themed **"Conditionals and Decision Making"** — centers on the practice program *"Academic Grading and Access Privilege Evaluator"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Master conditional branching structures: if, else if, and else

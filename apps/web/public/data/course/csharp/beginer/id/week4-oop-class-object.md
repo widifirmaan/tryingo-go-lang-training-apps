@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 4:** OOP: Class & Object
 
+## Kenapa Materi Ini Penting
+
+C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity — salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
+
+Di minggu ke-4 — bertajuk **"OOP: Class & Object"** — program latihan utamanya adalah *"Sistem Toko"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Class dan object: properties, method, constructor

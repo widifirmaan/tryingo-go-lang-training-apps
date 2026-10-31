@@ -2,6 +2,13 @@
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 3:** Directives & Events
 
+## Kenapa Materi Ini Penting
+
+Vue menggabungkan keringkasan template HTML dengan reaktivitas modern — dipakai Alibaba, Xiaomi, dan banyak admin panel. Learning curve-nya landai: svelte siap product rapi untuk pekerja, tetap ramah untuk yang baru belajar.
+
+Di minggu ke-3 — bertajuk **"Directives & Events"** — program latihan utamanya adalah *"Form Interaktif"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - v-model: two-way binding untuk form inputs

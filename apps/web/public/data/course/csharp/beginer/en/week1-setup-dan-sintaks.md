@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 1:** Setup, Toolchain & Basic Syntax
 
+## Why This Matters
+
+C# and .NET drive enterprise Windows apps, backend APIs, and Unity games — one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.
+
+Week 1 — themed **"Setup, Toolchain & Basic Syntax"** — centers on the practice program *"Hello, C#!"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand C# as a modern language for the .NET ecosystem
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

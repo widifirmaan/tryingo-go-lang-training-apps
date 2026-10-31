@@ -3,6 +3,13 @@
 > **Category:** HTML5 | **Level:** HTML Basics | **Week 2:** Head, Text, and Links
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+
+Week 2 — themed **"Head, Text, and Links"** — centers on the practice program *"Services Page with Navigation and Typography Structure"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand <head> configurations: <title>, favicon <link rel="icon">, and <link rel="stylesheet">

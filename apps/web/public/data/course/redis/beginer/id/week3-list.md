@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 3:** List
 
+## Kenapa Materi Ini Penting
+
+Redis adalah database in-memory secepat kilat — dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
+
+Di minggu ke-3 — bertajuk **"List"** — program latihan utamanya adalah *"Operasi List Redis"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - LPUSH, RPUSH, LPOP, RPOP

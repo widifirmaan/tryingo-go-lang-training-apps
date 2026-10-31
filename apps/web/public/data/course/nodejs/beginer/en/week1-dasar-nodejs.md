@@ -2,6 +2,13 @@
 
 > **Kategori:** Node.js | **Level:** Beginner | **Minggu 1:** Node.js Basics & Runtime
 
+## Why This Matters
+
+Node.js puts JavaScript on the server: a non-blocking event loop lets one language span browser to database. Understanding the Node runtime means understanding streams, workers, and real-time APIs.
+
+Week 1 — themed **"Node.js Basics & Runtime"** — centers on the practice program *"Hello Node.js"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand what Node.js is and its role as a JavaScript runtime

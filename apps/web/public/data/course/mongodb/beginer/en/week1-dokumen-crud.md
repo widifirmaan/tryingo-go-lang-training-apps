@@ -2,6 +2,13 @@
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 1:** Documents & Basic CRUD
 
+## Why This Matters
+
+MongoDB stores data as flexible documents — perfect for catalogs, logs, and data whose shape keeps changing. Learning to think in documents expands how you model data, not just how you use tables.
+
+Week 1 — themed **"Documents & Basic CRUD"** — centers on the practice program *"Document Operations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand BSON documents
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

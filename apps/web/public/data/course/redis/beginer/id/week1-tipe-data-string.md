@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 1:** Tipe Data & String
 
+## Kenapa Materi Ini Penting
+
+Redis adalah database in-memory secepat kilat — dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
+
+Di minggu ke-1 — bertajuk **"Tipe Data & String"** — program latihan utamanya adalah *"Operasi String Redis"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - SET dan GET
@@ -29,6 +36,8 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

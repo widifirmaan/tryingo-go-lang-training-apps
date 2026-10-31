@@ -2,6 +2,13 @@
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 1:** Setup & Instalasi Rails
 
+## Kenapa Materi Ini Penting
+
+Rails melegenda konvensi-diatas-konfigurasi: satu perintah generator sudah menghasilkan CRUD lengkap. Marks of productive developer: fokus pada produk, bukan menyiapkan wiring. Dipakai GitHub, Shopify, dan Airbnb dulu.
+
+Di minggu ke-1 — bertajuk **"Setup & Instalasi Rails"** — program latihan utamanya adalah *"Project Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Install Ruby dan Rails (Rails Guides: Getting Started)
@@ -29,6 +36,8 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

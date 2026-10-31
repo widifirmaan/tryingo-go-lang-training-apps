@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 2:** Tipe Data & Variabel
 
+## Kenapa Materi Ini Penting
+
+C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity — salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
+
+Di minggu ke-2 — bertajuk **"Tipe Data & Variabel"** — program latihan utamanya adalah *"Konversi & Validasi"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membedakan value type (int, double, struct) vs reference type (string, class, array)

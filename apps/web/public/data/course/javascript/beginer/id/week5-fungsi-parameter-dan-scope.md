@@ -3,6 +3,13 @@
 > **Kategori:** JavaScript | **Level:** Dasar JavaScript & Logika | **Minggu 5:** Fungsi, Parameter, dan Scope
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
+## Kenapa Materi Ini Penting
+
+JavaScript adalah satu-satunya bahasa yang berjalan di semua browser — sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
+
+Di minggu ke-5 — bertajuk **"Fungsi, Parameter, dan Scope"** — program latihan utamanya adalah *"Pustaka Utilitas Matematika dan Pemformatan Mata Uang Rupiah"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami anatomi Deklarasi Fungsi (function) vs Ekspresi Fungsi vs Arrow Function (=>)

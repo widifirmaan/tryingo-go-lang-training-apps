@@ -2,6 +2,13 @@
 
 > **Kategori:** CodeIgniter 4 | **Level:** Beginner | **Minggu 4:** Models & Database
 
+## Why This Matters
+
+CodeIgniter 4 is a lightweight, fast PHP framework favored by government apps, schools, and small startups across Indonesia. Writing plain PHP first, then CI4, teaches you what frameworks do silently under the hood.
+
+Week 4 — themed **"Models & Database"** — centers on the practice program *"CRUD Model"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - CI4 Model: extends Model with $table, $primaryKey

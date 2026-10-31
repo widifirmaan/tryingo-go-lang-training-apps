@@ -2,6 +2,13 @@
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 3:** JOINs & Table Relations
 
+## Why This Matters
+
+PostgreSQL is the most advanced open source database: full ACID, JSON, sophisticated indexing, rich extensions. Big companies rely on Postgres and the SQL you learn transfers to every relational database.
+
+Week 3 — themed **"JOINs & Table Relations"** — centers on the practice program *"Multi-Table Queries"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - FOREIGN KEY integrity

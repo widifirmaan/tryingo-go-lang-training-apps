@@ -2,6 +2,13 @@
 
 > **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 4:** Interfaces & Type Aliases
 
+## Why This Matters
+
+TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+
+Week 4 — themed **"Interfaces & Type Aliases"** — centers on the practice program *"TypeScript Data Models"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Interfaces: define object shapes

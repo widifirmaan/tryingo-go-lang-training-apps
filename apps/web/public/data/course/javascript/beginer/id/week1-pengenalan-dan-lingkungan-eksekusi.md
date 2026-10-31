@@ -3,6 +3,13 @@
 > **Kategori:** JavaScript | **Level:** Dasar JavaScript & Logika | **Minggu 1:** Pengenalan JavaScript, Console, dan Lingkungan Eksekusi
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
+## Kenapa Materi Ini Penting
+
+JavaScript adalah satu-satunya bahasa yang berjalan di semua browser — sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
+
+Di minggu ke-1 — bertajuk **"Pengenalan JavaScript, Console, dan Lingkungan Eksekusi"** — program latihan utamanya adalah *"Program Logger Konsol dan Antarmuka Runtime Interaktif"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami peran JavaScript sebagai bahasa pemrograman dinamis pada trio web (HTML, CSS, JS)
@@ -85,6 +92,8 @@ console.error("Pesan galat/kesalahan");
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

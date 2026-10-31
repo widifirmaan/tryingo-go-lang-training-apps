@@ -2,6 +2,13 @@
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 3:** Server & Client Components
 
+## Why This Matters
+
+Next.js is React's production-grade framework — routing, server components, caching, SEO are all solved. Companies pick Next for SEO and performance; it is the most requested skill in frontend job posts.
+
+Week 3 — themed **"Server & Client Components"** — centers on the practice program *"Component Combination"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Server Components: default in App Router, render on server

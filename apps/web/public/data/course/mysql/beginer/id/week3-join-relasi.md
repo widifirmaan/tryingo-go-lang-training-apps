@@ -2,6 +2,13 @@
 
 > **Kategori:** MySQL | **Level:** Pemula | **Minggu 3:** JOIN & Relasi Tabel
 
+## Kenapa Materi Ini Penting
+
+MySQL adalah database relasional open source yang dijalankan oleh jutaan website — WordPress sampai aplikasi fintech. SQL yang Anda tulis di sini adalah bahasa yang sama dipakai untuk mewawancarai data di hampir semua perusahaan.
+
+Di minggu ke-3 — bertajuk **"JOIN & Relasi Tabel"** — program latihan utamanya adalah *"Query Multi-Tabel"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - FOREIGN KEY

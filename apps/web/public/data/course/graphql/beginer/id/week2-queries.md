@@ -2,6 +2,13 @@
 
 > **Kategori:** GraphQL | **Level:** Pemula | **Minggu 2:** Queries
 
+## Kenapa Materi Ini Penting
+
+GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel — dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
+
+Di minggu ke-2 — bertajuk **"Queries"** — program latihan utamanya adalah *"Membuat Query"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Query dasar

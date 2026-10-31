@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 1:** Setup, Toolchain & Basic Syntax
 
+## Why This Matters
+
+Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+
+Week 1 — themed **"Setup, Toolchain & Basic Syntax"** — centers on the practice program *"Hello, Rust!"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Rust as a memory-safe systems programming language
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

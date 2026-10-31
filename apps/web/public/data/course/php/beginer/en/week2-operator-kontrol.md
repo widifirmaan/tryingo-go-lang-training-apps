@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Beginner | **Minggu 2:** Operators & Control Flow
 
+## Why This Matters
+
+PHP runs roughly three quarters of the web — WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.
+
+Week 2 — themed **"Operators & Control Flow"** — centers on the practice program *"Grade System"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Arithmetic operators: +, -, *, /, %, ** (power)

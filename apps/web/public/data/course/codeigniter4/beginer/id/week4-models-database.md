@@ -2,6 +2,13 @@
 
 > **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 4:** Models & Database
 
+## Kenapa Materi Ini Penting
+
+CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
+
+Di minggu ke-4 — bertajuk **"Models & Database"** — program latihan utamanya adalah *"CRUD Model"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Model CI4: extends Model dengan $table, $primaryKey

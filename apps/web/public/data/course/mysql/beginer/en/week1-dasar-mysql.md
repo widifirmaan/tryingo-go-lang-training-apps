@@ -2,6 +2,13 @@
 
 > **Kategori:** MySQL | **Level:** Beginner | **Minggu 1:** MySQL Basics & Tables
 
+## Why This Matters
+
+MySQL is the open source relational database behind millions of websites — from WordPress to fintech apps. The SQL you write here is the same language used to interview data at almost every company.
+
+Week 1 — themed **"MySQL Basics & Tables"** — centers on the practice program *"Creating Database & Tables"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand MySQL architecture
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

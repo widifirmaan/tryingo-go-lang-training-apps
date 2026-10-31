@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 5:** Struct & Method
 
+## Kenapa Materi Ini Penting
+
+Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
+
+Di minggu ke-5 — bertajuk **"Struct & Method"** — program latihan utamanya adalah *"Data Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Mendefinisikan struct dengan field dan named types

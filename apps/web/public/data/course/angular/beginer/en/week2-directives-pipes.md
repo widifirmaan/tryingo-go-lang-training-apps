@@ -2,6 +2,13 @@
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 2:** Directives & Pipes
 
+## Why This Matters
+
+Angular powers large internal enterprise applications — banks, insurance, healthcare — because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
+
+Week 2 — themed **"Directives & Pipes"** — centers on the practice program *"List & Format"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Attribute directives: ngClass, ngStyle

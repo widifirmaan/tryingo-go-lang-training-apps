@@ -2,6 +2,13 @@
 
 > **Kategori:** React | **Level:** Beginner | **Minggu 1:** JSX & Basic Components
 
+## Why This Matters
+
+React is the most popular UI library in the world — used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
+
+Week 1 — themed **"JSX & Basic Components"** — centers on the practice program *"Hello React"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand JSX as JavaScript syntax extension (React Docs)
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

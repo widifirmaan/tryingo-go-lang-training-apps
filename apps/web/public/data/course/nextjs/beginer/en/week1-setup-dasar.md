@@ -2,6 +2,13 @@
 
 > **Kategori:** Next.js | **Level:** Beginner | **Minggu 1:** Setup & Core Concepts
 
+## Why This Matters
+
+Next.js is React's production-grade framework — routing, server components, caching, SEO are all solved. Companies pick Next for SEO and performance; it is the most requested skill in frontend job posts.
+
+Week 1 — themed **"Setup & Core Concepts"** — centers on the practice program *"First App"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Next.js as React framework (SSR, SSG, routing)
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
