@@ -12,56 +12,81 @@
 
 ---
 
-## Program: Multi-Page App
+## Program: SvelteKit Routing & Load Functions
+
+File-based routing plus load functions that fetch data before render.
 
 ```svelte
-<!-- SvelteKit = meta-framework untuk Svelte (routing, SSR) -->
-<!-- File-based routing: src/routes/ -->
-<!-- +page.svelte = page component -->
-<!-- +layout.svelte = layout wrapper -->
-<!-- [id].svelte = dynamic route -->
-<!-- +error.svelte = error page -->
-<script>
-  export let data; // dari load function
+<!-- src/routes/products/[id]/+page.svelte -->
+<script lang="ts">
+  import type { PageProps } from './$types';
+  let { data }: PageProps = $props();
 </script>
-<h1>{data.title}</h1>
-<a href="/about">Tentang</a>
-<a href="/products/123">Detail</a>
+
+<h1>{data.product.name}</h1>
+<p>{data.product.description}</p>
+<a href="/products">← back to catalog</a>
+
+<!-- src/routes/products/[id]/+page.ts -->
+export const load = async ({ params, fetch }) => {
+  const res = await fetch('/api/products/' + params.id);
+  if (!res.ok) error(404, 'Product not found');
+  return { product: await res.json() };
+};
+
+<!-- src/routes/products/+page.svelte -->
+<script>
+  import { link } from '@sveltejs/kit';
+</script>
+<nav>
+  <a href="/products">List</a> |
+  <a href="/products/new">New</a>
+</nav>
+
+<!-- Layout with plain <a> triggers client-side navigation -->
+<!-- src/routes/+layout.svelte -->
+<script>
+  let { children } = $props();
+</script>
+{@render children()}
 ```
 
 ---
 
 ## Key Concepts
 
-### File-based Routing
-routes/folder = URL.
+### File-based routing
 
-### Dynamic Routes
-[id] for parameters.
++page.svelte = halaman; [id] = dynamic segment; (group)/grouped routes terlihat lebih lega tanpa menambah URL.
 
-### Load Function
-load() returns data.
+### load functions
 
-### Navigation
-goto for programmatic.
+Data diambil sebelum paint: load di +page.ts merespon params/fetch; relasi load result mengalir sebagai prop data.
+
+### error() & redirects
+
+error(404, msg) merender +error.svelte; redirect(302, '/login') juga bisa dipanggil di dalam load.
+
+### Layout persistence
+
++layout.svelte bertahan sepanjang navigasi antar child routes — tempat ideal untuk sidebar/shell.
 
 ---
 
 ## Experiments
 
-- Create nested routes
-- Implement dynamic route
-- Add layout wrapper
-- Create 404 page
+- Add an [id]/reviews route and render data.reviews.
+- Make load() error(404) for id "999".
+- Wrap +layout.svelte with a persistent <header>.
 
 ---
 
 ## Challenge
 
-Build a blog app with SvelteKit: Home, Posts, Post Detail (/post/[slug]), About.
+Create an admin section using a (group) so the admin layout only applies to pages inside it.
 
 ---
 
 ## Summary
 
-Week 6 of 10: **SvelteKit Routing** (Level: Intermediate). Next week: **Actions & Forms**.
+This week's material has been covered: SvelteKit Routing & Load Functions. Continue to the following week to deepen.

@@ -1,6 +1,6 @@
 # State Modifiers, Pseudo-Classes & Transisi
 
-> **Kategori:** Tailwind CSS | **Level:** Komponen & Proyek Antarmuka | **Minggu 7:** State Modifiers, Pseudo-Classes & Transisi
+> **Kategori:** Tailwind CSS | **Level:** Lanjutan | **Seri:** Komponen & Proyek Antarmuka | **Minggu 7:** State Modifiers, Pseudo-Classes & Transisi
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,6 @@
 # Pseudo-Elemen dan Fitur Modern
 
-> **Kategori:** CSS3 | **Level:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 13:** Pseudo-Elemen dan Fitur Modern
+> **Kategori:** CSS3 | **Level:** Lanjutan | **Seri:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 13:** Pseudo-Elemen dan Fitur Modern
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

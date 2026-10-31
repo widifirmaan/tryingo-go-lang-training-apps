@@ -1,6 +1,6 @@
 # Array dan Metode Manipulasi Data
 
-> **Kategori:** JavaScript | **Level:** Struktur Data & Interaksi DOM | **Minggu 6:** Array dan Metode Manipulasi Data
+> **Kategori:** JavaScript | **Level:** Menengah | **Seri:** Struktur Data & Interaksi DOM | **Minggu 6:** Array dan Metode Manipulasi Data
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

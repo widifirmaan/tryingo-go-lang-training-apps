@@ -1,6 +1,6 @@
 # CSS Introduction and Linking Stylesheets
 
-> **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 1:** CSS Introduction and Linking Stylesheets
+> **Category:** CSS3 | **Level:** Beginner | **Seri:** CSS Basics & Box Model | **Week 1:** CSS Introduction and Linking Stylesheets
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

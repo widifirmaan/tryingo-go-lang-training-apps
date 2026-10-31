@@ -12,62 +12,85 @@
 
 ---
 
-## Program: Theme & Modal
+## Program: Provide/Inject & Teleport
+
+Cross-tree dependency without props drilling, Teleport for portals/modals, and Suspense for async components.
 
 ```vue
-// Provide/Inject = share state tanpa prop drilling
-const { createApp, ref, provide, inject } = Vue;
-const App = {
-  setup() {
-    const theme = ref('light');
-    const user = ref({ name: 'Budi', role: 'admin' });
-    provide('theme', theme);
-    provide('user', user);
-    provide('toggleTheme', () => { theme.value = theme.value === 'light' ? 'dark' : 'light'; });
-    return { theme };
-  },
-};
-const ChildComponent = {
-  setup() {
-    const theme = inject('theme');
-    const user = inject('user');
-    const toggleTheme = inject('toggleTheme');
-    return { theme, user, toggleTheme };
-  },
-};
-console.log('Provide/Inject & Teleport siap digunakan');
+<!-- === provide/inject === -->
+// src/composables/useTheme.ts
+import { provide, inject, InjectionKey } from 'vue';
+
+interface ThemeAPI { theme: 'light' | 'dark'; toggle(): void }
+const Key: InjectionKey<ThemeAPI> = Symbol('theme');
+
+export function provideTheme() {
+  let theme = ref<'light' | 'dark'>('dark');
+  provide(Key, {
+    theme,
+    toggle: () => (theme.value = theme.value === 'dark' ? 'light' : 'dark'),
+  });
+}
+export function useTheme() {
+  const t = inject(Key);
+  if (!t) throw new Error('useTheme must be inside the provider subtree');
+  return t;
+}
+
+<!-- App.vue: provideTheme() in the root setup; ThemeToggle.vue: const t = useTheme() -->
+
+<!-- === Teleport: modal to body === -->
+<template>
+  <Teleport to="body">
+    <div class="overlay" v-if="open" @click.self="open = false">
+      <div class="modal">...</div>
+    </div>
+  </Teleport>
+</template>
+
+<!-- === Suspense: async component loading === -->
+<Suspense>
+  <Dashboard :key="screen" />
+  <template #fallback><div class="skeleton spin">Loading…</div></template>
+</Suspense>
 ```
 
 ---
 
 ## Key Concepts
 
-### Provide/Inject
-Parent provides, child injects.
+### InjectionKey type-safe
 
-### When to Use
-Props for direct, provide/inject for deep.
+Symbol + InjectionKey<ThemeAPI> memberi tipe pada inject — bentuk data injection terjaga di TypeScript.
+
+### Provide at root
+
+provide di root App, konsumsi di subtree mana pun; mirip React Context tetapi built-in penuh di Vue.
 
 ### Teleport
-Render to different DOM location.
+
+Modal/tooltip tak perlu bersarang di DOM parent (z-index bentrok); portal ke body menghindari overflow dan stacking yang terpotong.
+
+### Suspense async boundaries
+
+Membungkus komponen async; fallback skeleton tampil sampai data siap, per bagian dashboard.
 
 ---
 
 ## Experiments
 
-- Create theme switcher with provide/inject
-- Implement modal with Teleport
-- Create card component with named slots
-- Create scoped slot for data table
+- Provide a token with a typed key and consume it in multiple components.
+- Teleport a notification to the header with transitions.
+- Wrap each dashboard widget in its own Suspense.
 
 ---
 
 ## Challenge
 
-Build a UI library: Modal (Teleport), Card (named slots), ThemeProvider (provide/inject).
+Build a modal system: useModal() via inject + Teleport + Transition so stacking stays accessible.
 
 ---
 
 ## Summary
 
-Week 8 of 12: **Provide/Inject & Teleport** (Level: Intermediate). Intermediate phase complete! Next week: **Testing Vue**.
+This week's material has been covered: Provide/Inject & Teleport. Continue to the following week to deepen.

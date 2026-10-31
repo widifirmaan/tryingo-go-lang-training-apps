@@ -1,6 +1,6 @@
 # Flexbox: One-Dimensional Layout
 
-> **Category:** CSS3 | **Level:** Layout & Responsive Design | **Week 7:** Flexbox: One-Dimensional Layout
+> **Category:** CSS3 | **Level:** Intermediate | **Seri:** Layout & Responsive Design | **Week 7:** Flexbox: One-Dimensional Layout
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

@@ -1,6 +1,6 @@
 # Tipografi dan Format Teks
 
-> **Kategori:** CSS3 | **Level:** Dasar CSS & Model Kotak | **Minggu 4:** Tipografi dan Format Teks
+> **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 4:** Tipografi dan Format Teks
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

@@ -1,6 +1,6 @@
 # Final Project: Complete Responsive Website
 
-> **Category:** CSS3 | **Level:** CSS Systems, Animation & Final Project | **Week 14:** Final Project: Complete Responsive Website
+> **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 14:** Final Project: Complete Responsive Website
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

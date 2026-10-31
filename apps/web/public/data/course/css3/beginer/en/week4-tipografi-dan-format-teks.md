@@ -1,6 +1,6 @@
 # Typography and Text Formatting
 
-> **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 4:** Typography and Text Formatting
+> **Category:** CSS3 | **Level:** Beginner | **Seri:** CSS Basics & Box Model | **Week 4:** Typography and Text Formatting
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

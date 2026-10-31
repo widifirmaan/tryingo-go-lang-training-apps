@@ -1,6 +1,6 @@
 # Spacing Scales, Sizing, and Box Model
 
-> **Kategori:** Tailwind CSS | **Level:** Utility-First Basics & Typography | **Minggu 2:** Spacing Scales, Sizing, and Box Model
+> **Kategori:** Tailwind CSS | **Level:** Beginner | **Seri:** Utility-First Basics & Typography | **Minggu 2:** Spacing Scales, Sizing, and Box Model
 
 ## Why This Matters
 

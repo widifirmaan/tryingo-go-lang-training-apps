@@ -1,6 +1,6 @@
 # Pengenalan JavaScript, Console, dan Lingkungan Eksekusi
 
-> **Kategori:** JavaScript | **Level:** Dasar JavaScript & Logika | **Minggu 1:** Pengenalan JavaScript, Console, dan Lingkungan Eksekusi
+> **Kategori:** JavaScript | **Level:** Pemula | **Seri:** Dasar JavaScript & Logika | **Minggu 1:** Pengenalan JavaScript, Console, dan Lingkungan Eksekusi
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

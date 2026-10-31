@@ -1,6 +1,6 @@
 # Classes & OOP
 
-> **Kategori:** TypeScript | **Level:** Generics & Advanced Concepts | **Minggu 6:** Classes & OOP
+> **Kategori:** TypeScript | **Level:** Intermediate | **Seri:** Generics & Advanced Concepts | **Minggu 6:** Classes & OOP
 
 ## Learning Objectives
 

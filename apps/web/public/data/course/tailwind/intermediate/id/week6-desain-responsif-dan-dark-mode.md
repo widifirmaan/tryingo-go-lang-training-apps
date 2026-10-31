@@ -1,6 +1,6 @@
 # Desain Responsif & Arsitektur Dark Mode
 
-> **Kategori:** Tailwind CSS | **Level:** Tata Letak & Responsivitas | **Minggu 6:** Desain Responsif & Arsitektur Dark Mode
+> **Kategori:** Tailwind CSS | **Level:** Menengah | **Seri:** Tata Letak & Responsivitas | **Minggu 6:** Desain Responsif & Arsitektur Dark Mode
 
 ## Tujuan Pembelajaran
 

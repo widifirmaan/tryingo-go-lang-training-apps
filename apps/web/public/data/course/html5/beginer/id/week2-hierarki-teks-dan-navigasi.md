@@ -1,6 +1,6 @@
 # Head, Teks, dan Link
 
-> **Kategori:** HTML5 | **Level:** Dasar HTML | **Minggu 2:** Head, Teks, dan Link
+> **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 2:** Head, Teks, dan Link
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

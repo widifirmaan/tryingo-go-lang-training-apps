@@ -12,53 +12,79 @@
 
 ---
 
-## Program: Platform Kursus
+## Program: Capstone SvelteKit: App Produksi
+
+Capstone menyatukan routing SvelteKit, form actions, load + locals, dan pemilihan adapter deployment.
 
 ```svelte
-<!-- Capstone: SvelteKit Course Platform -->
-<!-- Architecture: SvelteKit + Prisma + SQLite + Tailwind -->
-<!-- src/routes/ -->
-<!--   (app)/dashboard/+page.svelte -->
-<!--   (app)/courses/[id]/+page.svelte -->
-<!--   auth/login/+page.svelte -->
-<!--   api/courses/+server.js -->
-<!-- Features: Auth, Course catalog, Video player, Progress tracking, Admin panel -->
-console.log('SvelteKit Course Platform siap digunakan!');
+<!-- Capstone: dashboard mini e-commerce (3 arsitektur) -->
+<!-- src/routes/dashboard/+page.server.ts -->
+export const load = async ({ locals }) => {
+  const [orders, stats] = await Promise.all([
+    locals.db.orders.latest(5),
+    locals.db.orders.summaries(),
+  ]);
+  return { orders, stats };
+};
+
+<!-- src/routes/dashboard/+page.svelte -->
+<script lang="ts">
+  import { enhance } from '$app/forms';
+  let { data } = $props();
+</script>
+
+<summary>
+  <h1>Revenue: {data.stats.revenue}</h1>
+  <p>Orders: {data.stats.count}</p>
+</summary>
+
+<table>
+  {#each data.orders as o (o.id)}
+    <tr><td>{o.customer}</td><td>{o.total}</td></tr>
+  {/each}
+</table>
+
+<form method="POST" action="?/refresh" use:enhance>
+  <button>Terapkan Refresh</button>
+</form>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Architecture
-SvelteKit + Prisma + SQLite.
+### load + locals
 
-### Routing
-File-based: routes/folder/+page.svelte.
+locals.db dipenuhi di hooks.server.ts — dependency injection pattern untuk koneksi DB per request (connection pool, request user).
 
-### Data Loading
-+page.js: load() return data.
+### Form actions & invalidate
 
-### Production
-vite build -> adapter.
+Form action + invalidateAll menyegarkan data load setelah mutasi — pola server-first sebelum memakai state global.
+
+### Project structure
+
+lib/ untuk service dan komponen reusable; routes/ untuk halaman; hooks.server.ts untuk middleware; alias $lib untuk import rapi.
+
+### Deployment target
+
+Pass up SvelteKit adapter: adapter-auto (Vercel/CF Pages), adapter-node (self-hosted), adapter-static (SSG).
 
 ---
 
 ## Eksperimen
 
-- Tambah payment integration
-- Implementasikan video player
-- Buat comprehensive test suite
-- Deploy ke production
+- Tambah grafik revenue bulanan via chart library.
+- Tampilkan skeleton loading saat fetch.
+- Susun checklist build: pagination, error state, sidebar collapse.
 
 ---
 
 ## Tantangan
 
-Buat course platform lengkap: auth, course catalog, video player, progress tracking, admin panel.
+Ship it: pasang analytics, error tracking, dan lighthouse budget sebelum demo day.
 
 ---
 
 ## Ringkasan
 
-Minggu 10 dari 10: **Capstone: SvelteKit App** (Level: Menengah). Selesai! 🎉
+Materi minggu ini telah dibahas: Capstone SvelteKit: App Produksi. Lanjut ke pekan berikutnya untuk memperdalam.

@@ -1,6 +1,6 @@
 # JavaScript Introduction, Console, and Execution Environments
 
-> **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 1:** JavaScript Introduction, Console, and Execution Environments
+> **Category:** JavaScript | **Level:** Beginner | **Seri:** JavaScript Basics & Logic | **Week 1:** JavaScript Introduction, Console, and Execution Environments
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

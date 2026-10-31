@@ -1,6 +1,6 @@
 # Proyek Akhir: Website Lengkap Responsif
 
-> **Kategori:** CSS3 | **Level:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 14:** Proyek Akhir: Website Lengkap Responsif
+> **Kategori:** CSS3 | **Level:** Lanjutan | **Seri:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 14:** Proyek Akhir: Website Lengkap Responsif
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

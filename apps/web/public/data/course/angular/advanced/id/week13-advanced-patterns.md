@@ -12,46 +12,78 @@
 
 ---
 
-## Program: Architecture
+## Program: Pola Lanjutan: DI, Resolvers & Interceptors
+
+Dependency injection advanced, resolvers, layer interceptor.
 
 ```typescript
-// Advanced Patterns: Smart/Dumb components, Feature Modules
-// Smart: handle logic, data, state
-// Dumb: only display, receive via @Input, emit via @Output
-// @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-console.log('Advanced Patterns siap digunakan');
+import { Injectable, InjectionToken, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+export const API_BASE = new InjectionToken<string>('api_base');
+
+@Injectable({ providedIn: 'root' })
+export class OrdersService {
+  private http = inject(HttpClient);
+  private base = inject(API_BASE);
+
+  get(id: string) { return this.http.get<Order>(`${this.base}/orders/${id}`); }
+  create(payload: Order) { return this.http.post<Order>(`${this.base}/orders`, payload); }
+}
+
+// Resolver-based preloading data
+import { ResolveFn } from '@angular/router';
+export const orderResolver: ResolveFn<Order> = (route, state) =>
+  inject(OrdersService).get(route.paramMap.get('id')!);
+
+// Route configuration with resolve
+{
+  path: 'orders/:id',
+  resolve: { order: orderResolver },
+  loadComponent: () => import('./order-detail.component').then(m => m.OrderDetailComponent),
+}
+
+// Component-in-the construct: inject + signal pattern
+export class OrderDetailComponent {
+  order = inject(ActivatedRoute).snapshot.data['order'];
+}
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Smart/Dumb
-Smart = logic & state. Dumb = display only.
+### InjectionToken DI
 
-### Feature Module
-Setiap fitur = module sendiri.
+Token type-safe: provide(API_BASE, { useValue: env }) — override di tests.
 
-### Shared Module
-Components/directives/pipes yang dipakai banyak module.
+### Resolver pre-render
+
+resolve dijalankan sebelum route aktif; data hidup di route data, komponen tak pernah null.
+
+### Layered concerns
+
+Guard memutus ijin, resolver menyiapkan data, interceptor memoles HTTP — tiga lapis.
+
+### inject() fungsional
+
+inject() langsung di field/konstruktor mengurangi boilerplate dan lebih ramah tree-shake.
 
 ---
 
 ## Eksperimen
 
-- Refactor ke smart/dumb pattern
-- Buat feature module
-- Setup shared module
-- Implementasikan lazy loading
+- Ambil API_BASE dari useFactory sesuai environment.
+- Batalkan fetch stale dengan switchMap.
 
 ---
 
 ## Tantangan
 
-Refactor Angular app ke feature modules: products, cart, auth.
+Catat request pending lewat interceptor lalu lihat di tab network DevTools.
 
 ---
 
 ## Ringkasan
 
-Minggu 13 dari 14: **Advanced Patterns** (Level: Lanjutan). Minggu depan: **Capstone Project**!
+Materi minggu ini telah dibahas: Pola Lanjutan: DI, Resolvers & Interceptors. Lanjut ke pekan berikutnya untuk memperdalam.

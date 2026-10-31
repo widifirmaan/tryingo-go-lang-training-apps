@@ -1,6 +1,6 @@
 # Final Project: Complete Interactive Web Application
 
-> **Category:** JavaScript | **Level:** Asynchronous, Storage & Final Project | **Week 14:** Final Project: Complete Interactive Web Application
+> **Category:** JavaScript | **Level:** Advanced | **Seri:** Asynchronous, Storage & Final Project | **Week 14:** Final Project: Complete Interactive Web Application
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

@@ -1,6 +1,6 @@
 # Forms and Input Validation
 
-> **Category:** HTML5 | **Level:** Forms and Interaction | **Week 5:** Forms and Input Validation
+> **Category:** HTML5 | **Level:** Intermediate | **Seri:** Forms and Interaction | **Week 5:** Forms and Input Validation
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

@@ -1,6 +1,6 @@
 # Advanced Types
 
-> **Kategori:** TypeScript | **Level:** Dasar Tipe & Interface | **Minggu 2:** Advanced Types
+> **Kategori:** TypeScript | **Level:** Pemula | **Seri:** Dasar Tipe & Interface | **Minggu 2:** Advanced Types
 
 ## Kenapa Materi Ini Penting
 

@@ -1,6 +1,6 @@
 # Functions & Signatures
 
-> **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 3:** Functions & Signatures
+> **Kategori:** TypeScript | **Level:** Beginner | **Seri:** Types & Interfaces Foundation | **Minggu 3:** Functions & Signatures
 
 ## Why This Matters
 

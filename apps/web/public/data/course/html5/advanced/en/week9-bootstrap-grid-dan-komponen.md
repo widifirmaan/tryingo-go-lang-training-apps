@@ -1,6 +1,6 @@
 # Bootstrap: Grid System and Components
 
-> **Category:** HTML5 | **Level:** UI Frameworks | **Week 9:** Bootstrap: Grid System and Components
+> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 9:** Bootstrap: Grid System and Components
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

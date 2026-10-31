@@ -1,6 +1,6 @@
 # Sistem Spasi, Ukuran, dan Box Model
 
-> **Kategori:** Tailwind CSS | **Level:** Dasar Utility-First & Tipografi | **Minggu 2:** Sistem Spasi, Ukuran, dan Box Model
+> **Kategori:** Tailwind CSS | **Level:** Pemula | **Seri:** Dasar Utility-First & Tipografi | **Minggu 2:** Sistem Spasi, Ukuran, dan Box Model
 
 ## Kenapa Materi Ini Penting
 

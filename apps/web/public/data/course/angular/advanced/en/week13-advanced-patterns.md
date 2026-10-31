@@ -12,46 +12,77 @@
 
 ---
 
-## Program: Architecture
+## Program: Advanced Patterns: DI, Resolvers & Interceptors
+
+Advanced patterns: DI, resolvers, interceptors.
 
 ```typescript
-// Advanced Patterns: Smart/Dumb components, Feature Modules
-// Smart: handle logic, data, state
-// Dumb: only display, receive via @Input, emit via @Output
-// @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-console.log('Advanced Patterns siap digunakan');
+import { Injectable, InjectionToken, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+export const API_BASE = new InjectionToken<string>('api_base');
+
+@Injectable({ providedIn: 'root' })
+export class OrdersService {
+  private http = inject(HttpClient);
+  private base = inject(API_BASE);
+
+  get(id: string) { return this.http.get<Order>(`${this.base}/orders/${id}`); }
+  create(payload: Order) { return this.http.post<Order>(`${this.base}/orders`, payload); }
+}
+
+// Resolver-based pre-loading
+import { ResolveFn } from '@angular/router';
+export const orderResolver: ResolveFn<Order> = (route) =>
+  inject(OrdersService).get(route.paramMap.get('id')!);
+
+// Route config wiring
+{
+  path: 'orders/:id',
+  resolve: { order: orderResolver },
+  loadComponent: () => import('./order-detail.component').then(m => m.OrderDetailComponent),
+}
+
+export class OrderDetailComponent {
+  order = inject(ActivatedRoute).snapshot.data['order'];
+}
 ```
 
 ---
 
 ## Key Concepts
 
-### Smart/Dumb
-Smart = logic, Dumb = display.
+### InjectionToken DI
 
-### Feature Module
-Each feature = own module.
+Token type-safe: provide(API_BASE, { useValue: env }) — override di tests.
 
-### Shared Module
-Reusable components.
+### Resolver pre-render
+
+resolve dijalankan sebelum route aktif; data hidup di route data, komponen tak pernah null.
+
+### Layered concerns
+
+Guard memutus ijin, resolver menyiapkan data, interceptor memoles HTTP — tiga lapis.
+
+### inject() fungsional
+
+inject() langsung di field/konstruktor mengurangi boilerplate dan lebih ramah tree-shake.
 
 ---
 
 ## Experiments
 
-- Refactor to smart/dumb pattern
-- Create feature module
-- Setup shared module
-- Implement lazy loading
+- Environment-driven API_BASE via useFactory
+- Cancel stale fetches with switchMap.
 
 ---
 
 ## Challenge
 
-Refactor Angular app to feature modules: products, cart, auth.
+Log pending requests via an interceptor and visualize them in DevTools.
 
 ---
 
 ## Summary
 
-Week 13 of 14: **Advanced Patterns** (Level: Advanced). Next week: **Capstone Project**!
+This week's material has been covered: Advanced Patterns: DI, Resolvers & Interceptors. Continue to the following week to deepen.

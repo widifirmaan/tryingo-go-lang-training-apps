@@ -1,6 +1,6 @@
 # Advanced Type Manipulation
 
-> **Kategori:** TypeScript | **Level:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 11:** Advanced Type Manipulation
+> **Kategori:** TypeScript | **Level:** Lanjutan | **Seri:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 11:** Advanced Type Manipulation
 
 ## Tujuan Pembelajaran
 

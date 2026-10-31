@@ -12,47 +12,88 @@
 
 ---
 
-## Program: Multi-Page App
+## Program: Angular Router
+
+Modern standalone routes with functional guards.
 
 ```typescript
-// Angular Router = powerful routing untuk SPA
-// const routes: Routes = [
-//   { path: '', component: HomeComponent },
-//   { path: 'products/:id', component: ProductDetailComponent },
-// ];
-console.log('Angular Router siap digunakan');
+// app.routes.ts — standalone API
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  { path: '', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+  { path: 'products', loadComponent: () => import('./products/list.component').then(m => m.ListComponent) },
+  { path: 'products/:id', loadComponent: () => import('./products/detail.component').then(m => m.DetailComponent) },
+  {
+    path: 'admin',
+    canActivate: [authGuard],
+    loadComponent: () => import('./admin/admin.component').then(m => m.AdminComponent),
+  },
+  { path: '**', redirectTo: '' },
+];
+
+// functional guard (no class-based anymore)
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+export const authGuard: CanActivateFn = (route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return auth.isLogged ? true : router.createUrlTree(['/login'], { queryParams: { redirect: state.url } });
+};
+
+// reading params in a component
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-detail',
+  standalone: true,
+  template: '<h1>Product {{ id() }}</h1>',
+})
+export class DetailComponent {
+  private route = inject(ActivatedRoute);
+  id = this.route.snapshot.paramMap.get('id');
+}
 ```
 
 ---
 
 ## Key Concepts
 
-### Routes
-Array of route objects.
+### CanActivateFn
 
-### RouterLink
-Navigation directive.
+Functional guard berbasis inject(); menggantikan class-based guard lama yang deprecated.
 
-### Guards
-CanActivate protects routes.
+### loadComponent lazy loading
+
+Chunk per komponen: initial bundle kecil, panel admin baru diunduh saat dikunjungi.
+
+### Resolver data
+
+ResolveFn mem-fetch data sebelum route aktif; komponen membaca hasilnya dari route data.
+
+### Navigation events
+
+router.events (stream) untuk progress bar/loading global; filter NavigationStart/End.
 
 ---
 
 ## Experiments
 
-- Create nested routes
-- Implement route guard
-- Add breadcrumb
-- Create 404 page
+- Add a canDeactivate guard prompting on navigation.
+- Match numeric route params with regex.
+- Preload user detail via a resolver.
 
 ---
 
 ## Challenge
 
-Build a blog app with routing: Home, Posts, Post Detail, Admin (protected).
+Implement canonical redirects and smart 404 handling with minimal config.
 
 ---
 
 ## Summary
 
-Week 6 of 14: **Angular Router** (Level: Intermediate). Next week: **Reactive Forms**.
+This week's material has been covered: Angular Router. Continue to the following week to deepen.

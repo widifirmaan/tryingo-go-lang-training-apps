@@ -12,81 +12,86 @@
 
 ---
 
-## Program: Database Security
+## Program: User Management & Access Control
+
+This program builds an access model: roles, granular rights, an audit trail, and least privilege.
 
 ```sql
--- User management
-CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'strong_password';
-CREATE USER 'readonly_user'@'%' IDENTIFIED BY 'readonly_pass';
+-- Role model (real MySQL: CREATE ROLE 'analyst')
+CREATE TABLE roles (
+  role_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  role_name TEXT NOT NULL,
+  can_select TEXT, can_insert TEXT, can_update TEXT, can_delete TEXT
+);
+INSERT INTO roles VALUES
+ (1, 'admin', '*', '*', '*', '*'),
+ (2, 'analyst', 'employees,orders,products', NULL, NULL, NULL),
+ (3, 'app_runtime', 'orders', 'orders', 'orders', NULL);
 
--- Grant privileges
-GRANT SELECT, INSERT, UPDATE ON toko_db.produk TO 'app_user'@'localhost';
-GRANT SELECT ON toko_db.* TO 'readonly_user'@'%';
+-- Users and their role mapping
+CREATE TABLE users (
+  user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL UNIQUE,
+  role_id INTEGER NOT NULL REFERENCES roles(role_id)
+);
+INSERT INTO users (username, role_id) VALUES ('svc_erp', 3), ('budi_analyst', 2);
 
--- Revoke
-REVOKE UPDATE ON toko_db.produk FROM 'app_user'@'localhost';
+-- Audit trail: who did what
+CREATE TABLE audit_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT, action TEXT, table_name TEXT, at TEXT
+);
+INSERT INTO audit_log VALUES (1, 'svc_erp', 'INSERT', 'orders', '2026-01-20 09:00');
+INSERT INTO audit_log VALUES (2, 'budi_analyst', 'SELECT', 'employees', '2026-01-20 09:15');
 
--- Lihat grants
-SHOW GRANTS FOR 'app_user'@'localhost';
+-- Auditor: dangerous activity — deletes by non-admins
+SELECT a.username, a.action, a.table_name
+FROM audit_log a
+JOIN users u ON u.username = a.username
+JOIN roles r ON r.role_id = u.role_id
+WHERE a.action = 'DELETE' AND r.role_name <> 'admin';
 
--- Role (MySQL 8.0+)
-CREATE ROLE 'app_read', 'app_write';
-GRANT SELECT ON toko_db.* TO 'app_read';
-GRANT INSERT, UPDATE ON toko_db.* TO 'app_write';
-GRANT 'app_read', 'app_write' TO 'app_user'@'localhost';
-SET DEFAULT ROLE ALL TO 'app_user'@'localhost';
-
--- SSL/TLS
--- REQUIRE SSL pada user
-ALTER USER 'app_user'@'localhost' REQUIRE SSL;
-
--- Audit: cek login gagal
-SELECT user, host, account_locked
-    FROM mysql.user WHERE account_locked = 'Y';
-
--- Backup
--- mysqldump -u root -p toko_db > backup.sql
-
--- Restore
--- mysql -u root -p toko_db < backup.sql
+-- Activity overview per user
+SELECT a.username, a.action, COUNT(*) AS total
+FROM audit_log a GROUP BY a.username, a.action;
 ```
 
 ---
 
 ## Key Concepts
 
-### User Management
-Create users with specific hosts.
+### GRANT granular
 
-### GRANT & REVOKE
-Grant and revoke privileges.
+Di MySQL: GRANT SELECT, INSERT ON db.orders TO 'app'@'%' — scope bisa dibatasi per tabel, bahkan per kolom. Hindari hak ALL yang luas.
 
-### Roles
-Privilege groups for easy assignment.
+### Least privilege
 
-### SSL
-Encrypted database connections.
+Service account diberi hak minimal untuk jalur aplikasi, bukan admin. Bila akun bocor, dampaknya lebih kecil.
 
-### Backup
-mysqldump for logical backup.
+### Rotasi & audit
+
+GRANT/REVOKE bersama audit_log mencatat: siapa, aksi apa, tabel mana, kapan. Gabungan ini wajib untuk kepatuhan (SOX, PCI-DSS).
+
+### Anti SQL injection
+
+Gunakan parameterized query (? / :param) di aplikasi; buang concatenation string yang membuka injeksi query.
 
 ---
 
 ## Experiments
 
-- Row-level security
-- Audit plugin
-- Encrypted columns
-- Password policy
+- Add a new admin user and verify every grant via the roles JOIN.
+- Log a budi_analyst DELETE action and ensure the detector catches it.
+- Write a report: total actions per username per day.
 
 ---
 
 ## Challenge
 
-Setup security: users, roles, SSL, backup strategy.
+Tighten the model: forbid analysts from querying the `salary` column — add a column-grant table and write its violation detector.
 
 ---
 
 ## Summary
 
-Week 9 of 10: **Security & User Management** (Intermediate).
+This week's material has been covered: User Management & Access Control. Continue to the following week to deepen.

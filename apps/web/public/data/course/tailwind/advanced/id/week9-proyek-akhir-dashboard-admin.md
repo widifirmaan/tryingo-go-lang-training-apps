@@ -1,6 +1,6 @@
 # Proyek Akhir: Dashboard Admin Responsif Lengkap
 
-> **Kategori:** Tailwind CSS | **Level:** Komponen & Proyek Antarmuka | **Minggu 9:** Proyek Akhir: Dashboard Admin Responsif Lengkap
+> **Kategori:** Tailwind CSS | **Level:** Lanjutan | **Seri:** Komponen & Proyek Antarmuka | **Minggu 9:** Proyek Akhir: Dashboard Admin Responsif Lengkap
 
 ## Tujuan Pembelajaran
 

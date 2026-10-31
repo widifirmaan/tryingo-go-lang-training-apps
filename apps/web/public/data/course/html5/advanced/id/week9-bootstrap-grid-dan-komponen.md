@@ -1,6 +1,6 @@
 # Bootstrap: Grid System dan Komponen
 
-> **Kategori:** HTML5 | **Level:** Framework UI | **Minggu 9:** Bootstrap: Grid System dan Komponen
+> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 9:** Bootstrap: Grid System dan Komponen
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

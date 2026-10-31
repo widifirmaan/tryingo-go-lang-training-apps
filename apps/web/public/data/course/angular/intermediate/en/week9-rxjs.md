@@ -12,50 +12,80 @@
 
 ---
 
-## Program: Reactive Programming
+## Program: RxJS Fundamentals
+
+Core operators plus combineLatest and Subjects.
 
 ```typescript
-// RxJS = Reactive Extensions untuk JavaScript
-import { Observable, Subject, BehaviorSubject, of } from 'rxjs';
-import { map, filter, switchMap, debounceTime } from 'rxjs/operators';
-const numbers$ = of(1, 2, 3, 4, 5);
-const doubled$ = numbers$.pipe(map(n => n * 2));
-const searchSubject = new Subject<string>();
-searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe(q => console.log(q));
-const userSubject = new BehaviorSubject<{name: string} | null>(null);
-console.log('RxJS Fundamentals siap digunakan');
+import { fromEvent, interval, Subject, BehaviorSubject, of } from 'rxjs';
+import {
+  map, filter, debounceTime, switchMap, take,
+  catchError, combineLatest,
+} from 'rxjs/operators';
+
+// 1) Typing → search
+const input = document.querySelector('#search') as HTMLInputElement;
+const results$ = fromEvent(input, 'input').pipe(
+  debounceTime(400),
+  map(() => input.value),
+  filter((q) => q.length >= 2),
+  switchMap((q) => fetch('/api/search?q=' + q).then((r) => r.json())
+    .catch(() => of([]))),
+);
+results$.subscribe((items) => console.log('Search:', items));
+
+// 2) Behavior subject: current user
+const user$ = new BehaviorSubject<{ id: number; name: string } | null>(null);
+user$.subscribe((u) => console.log('User:', u));
+user$.next({ id: 1, name: 'Budi' });
+
+// 3) combineLatest: drives the cart summary
+const cart$ = new Subject<{ total: number; count: number }>();
+const discounts$ = interval(5000).pipe(map((i) => 0.1 + i * 0.01), take(3));
+
+combineLatest([cart$, discounts$])
+  .pipe(map(([cart, discount]) => cart.total * (1 - discount)))
+  .subscribe((total) => console.log('Final total', total));
+
+cart$.next({ total: 200000, count: 3 });
 ```
 
 ---
 
 ## Key Concepts
 
-### Observable
-Lazy data stream.
+### Observable contract
 
-### Operators
-Transform streams.
+cold vs hot; subscribe memulai eksekusi; selalu teardown lewat unsubscribe/takeUntil.
 
-### Subject
-Multi-cast observable.
+### Operator inti: map/switchMap/combineLatest
+
+map memetakan nilai; switchMap membatalkan request lama saat request baru datang; combineLatest menggabungkan nilai terkini.
+
+### Subject vs BehaviorSubject
+
+Subject hanya broadcast ke event berikutnya; BehaviorSubject menyimpan nilai terakhir untuk subscriber baru — pas untuk state user.
+
+### take/takeUntil
+
+Batasi langganan: take(1) untuk one-shot, takeUntil(destroy$) saat unmount.
 
 ---
 
 ## Experiments
 
-- Create observable from array
-- Implement search with debounce
-- Use BehaviorSubject for state
-- Create custom operator
+- Debounce a filter with a length limit
+- Merge two data loaders
+- chain and retry with backoff
 
 ---
 
 ## Challenge
 
-Build a search component with RxJS: debounce, distinctUntilChanged, switchMap to API.
+Search as user types, cancel outstanding requests, and render best matches.
 
 ---
 
 ## Summary
 
-Week 9 of 14: **RxJS Fundamentals** (Level: Intermediate). Next week: **State Management**.
+This week's material has been covered: RxJS Fundamentals. Continue to the following week to deepen.

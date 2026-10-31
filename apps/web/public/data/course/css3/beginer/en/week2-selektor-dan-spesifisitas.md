@@ -1,6 +1,6 @@
 # Selectors and Specificity
 
-> **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 2:** Selectors and Specificity
+> **Category:** CSS3 | **Level:** Beginner | **Seri:** CSS Basics & Box Model | **Week 2:** Selectors and Specificity
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

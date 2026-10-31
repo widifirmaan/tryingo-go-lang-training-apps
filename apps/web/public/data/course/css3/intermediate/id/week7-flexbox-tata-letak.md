@@ -1,6 +1,6 @@
 # Flexbox: Tata Letak Satu Dimensi
 
-> **Kategori:** CSS3 | **Level:** Tata Letak & Desain Responsif | **Minggu 7:** Flexbox: Tata Letak Satu Dimensi
+> **Kategori:** CSS3 | **Level:** Menengah | **Seri:** Tata Letak & Desain Responsif | **Minggu 7:** Flexbox: Tata Letak Satu Dimensi
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

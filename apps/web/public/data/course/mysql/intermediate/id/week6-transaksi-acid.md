@@ -12,92 +12,79 @@
 
 ---
 
-## Program: Manajemen Transaksi
+## Program: Simulasi Transaksi Transfer
+
+Program ini mensimulasikan transfer saldo antar rekening lengkap dengan pencatatan mutasi, seperti yang dijalankan aplikasi perbankan sungguhan.
 
 ```sql
--- ACID Transaction
-START TRANSACTION;
+-- Simulasi transfer antar rekening (prinsip ACID)
+-- Playground menjalankan SQLite; di MySQL asli bungkus langkah ini
+-- dengan START TRANSACTION ... COMMIT / ROLLBACK.
 
-UPDATE produk SET stok = stok - 5 WHERE id = 1;
-UPDATE produk SET stok = stok + 5 WHERE id = 2;
+-- Pindahkan 10 juta dari Eko (id=5) ke Dewi (id=4)
+UPDATE employees SET salary = salary - 10000000 WHERE id = 5;
+UPDATE employees SET salary = salary + 10000000 WHERE id = 4;
 
--- Cek hasil
-SELECT id, nama, stok FROM produk WHERE id IN (1, 2);
+-- Tabel mutasi untuk jejak audit
+CREATE TABLE transfers (
+  transfer_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  from_id INTEGER NOT NULL,
+  to_id INTEGER NOT NULL,
+  amount INTEGER NOT NULL,
+  transfer_date TEXT NOT NULL
+);
+INSERT INTO transfers (from_id, to_id, amount, transfer_date)
+VALUES (5, 4, 10000000, '2026-01-20');
 
-COMMIT;
+-- Verifikasi: total payroll tidak boleh berubah
+SELECT SUM(salary) AS total_payroll FROM employees;
 
--- Rollback example
-START TRANSACTION;
-
-UPDATE produk SET harga = harga * 2 WHERE kategori = 'Elektronik';
-
--- Oops, salah! Rollback
-ROLLBACK;
-
-SELECT id, nama, harga FROM produk WHERE kategori = 'Elektronik';
-
--- Savepoint
-START TRANSACTION;
-
-UPDATE produk SET stok = stok - 10 WHERE id = 1;
-SAVEPOINT sebelum_update_harga;
-
-UPDATE produk SET harga = harga * 1.1 WHERE id = 1;
-
--- Rollback ke savepoint
-ROLLBACK TO SAVEPOINT sebelum_update_harga;
-
-COMMIT;
-
--- Isolation Level
-SELECT @@transaction_isolation;
-SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
-
--- Locking
-SELECT * FROM produk WHERE id = 1 FOR UPDATE;
-
-START TRANSACTION;
-SELECT * FROM produk WHERE kategori = 'Elektronik' FOR UPDATE;
--- Proses bisnis...
-COMMIT;
+-- Audit: gabungkan nama pengirim dan penerima
+SELECT t.transfer_id,
+       s.name AS pengirim,
+       r.name AS penerima,
+       t.amount, t.transfer_date
+FROM transfers t
+JOIN employees s ON s.id = t.from_id
+JOIN employees r ON r.id = t.to_id;
 ```
 
 ---
 
 ## Konsep Kunci
 
-### ACID
-Atomicity, Consistency, Isolation, Durability.
+### Atomicity (Atomicitas)
 
-### COMMIT & ROLLBACK
-COMMIT simpan permanen. ROLLBACK batalkan.
+Semua langkah transfer adalah satu unit: jika satu UPDATE gagal, semuanya dibatalkan. Tanpa ini uang bisa "menghilang" di tengah proses.
 
-### SAVEPOINT
-Titik rollback di dalam transaksi.
+### Consistency (Konsistensi)
 
-### Isolation Levels
-READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE.
+Constraint (PRIMARY KEY, NOT NULL) menjaga data tetap valid sebelum dan sesudah transaksi. Total payroll yang tetap adalah sanity check-nya.
 
-### Locking
-FOR UPDATE mengunci baris untuk transaksi lain.
+### Isolation (Isolasi)
+
+Klien bersamaan tidak boleh melihat "setengah transfer". Default MySQL InnoDB = REPEATABLE READ: transaksi membaca snapshot data.
+
+### Durability (Durabilitas)
+
+Setelah COMMIT sukses, data aman walau server mati detik berikutnya — InnoDB menulis ke redo log sebelum mengakui COMMIT.
 
 ---
 
 ## Eksperimen
 
-- Deadlock scenario
-- Gap locking
-- Optimistic locking
-- Transaction log
+- Coba jumlah transfer 5.000.000 lalu bandingkan hasil SUM sebelum & sesudah.
+- Tambah kolom `note TEXT` pada transfers dan isi alasan transfer.
+- Tulis SELECT yang mendeteksi transfer bila saldo pengirim kurang dari amount.
 
 ---
 
 ## Tantangan
 
-Sistem transfer saldo: transaksi aman dengan rollback.
+Buat potongan gaji 10% untuk seluruh karyawan dan catat setiap potongan ke tabel transfers sebagai iuran kas perusahaan.
 
 ---
 
 ## Ringkasan
 
-Minggu 6 dari 10: **Transaksi & ACID** (Menengah).
+Materi minggu ini telah dibahas: Simulasi Transaksi Transfer. Lanjut ke pekan berikutnya untuk memperdalam.

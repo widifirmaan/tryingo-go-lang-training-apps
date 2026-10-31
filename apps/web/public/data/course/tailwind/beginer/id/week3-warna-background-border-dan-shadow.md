@@ -1,6 +1,6 @@
 # Warna, Latar Belakang, Border, dan Shadow
 
-> **Kategori:** Tailwind CSS | **Level:** Dasar Utility-First & Tipografi | **Minggu 3:** Warna, Latar Belakang, Border, dan Shadow
+> **Kategori:** Tailwind CSS | **Level:** Pemula | **Seri:** Dasar Utility-First & Tipografi | **Minggu 3:** Warna, Latar Belakang, Border, dan Shadow
 
 ## Kenapa Materi Ini Penting
 

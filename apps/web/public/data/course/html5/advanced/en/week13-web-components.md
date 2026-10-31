@@ -1,6 +1,6 @@
 # Web Components: Custom Elements and Template
 
-> **Category:** HTML5 | **Level:** UI Frameworks | **Week 13:** Web Components: Custom Elements and Template
+> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 13:** Web Components: Custom Elements and Template
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

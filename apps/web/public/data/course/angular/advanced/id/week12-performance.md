@@ -12,47 +12,78 @@
 
 ---
 
-## Program: Optimasi & SSR
+## Program: Optimizing Angular Performance
+
+Change detection strategy, memoization, dan on-demand loading.
 
 ```typescript
-// Performance: OnPush, trackBy, Lazy Loading, SSR
-// @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-// <li *ngFor='let item of items; trackBy: trackByFn'></li>
-// trackByFn(index: number, item: any) { return item.id; }
-// { path: 'admin', loadChildren: () => import('./admin.module').then(m => m.AdminModule) }
-console.log('Performance Optimization siap digunakan');
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+
+@Component({
+  selector: 'app-products',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,    // check when input changes
+  template: `
+    @for (p of products(); track p.id) {
+      <article class="card">                           <!-- track identity: reconciliation DOM minimal -->
+        <h3>{{ p.name }}</h3>
+        <span>{{ p.price | currency:'IDR' }}</span>
+      </article>
+    }
+  `,
+})
+export class ProductsComponent {
+  products = signal<Product[]>([]);
+  loading = signal(true);
+
+  async ngOnInit() {
+    // deferred loading: chunked paint for long lists
+    const chunks = chunk(allProducts, 50);
+    for (const c of chunks) {
+      this.products.update((prev) => [...prev, ...c]);
+      await nextFrame();
+    }
+    this.loading.set(false);
+  }
+}
 ```
 
 ---
 
 ## Konsep Kunci
 
-### OnPush
-Hanya check saat @Input berubah.
+### OnPush + zoneless
 
-### trackBy
-Identifikasi item untuk hindari re-render semua.
+OnPush skips checking when input unchanged; combined with zoneless apps; world-class UI responsiveness.
 
-### Lazy Loading
-Load module saat dibutuhkan.
+### @for track
+
+Track by identity reduces DOM operations — running browser like recycler.
+
+### Deferred loading
+
+Angular 17 @defer conditionally loads heavy parts (heavy charts) only when scrolled.
+
+### Budget & bundle analyzer
+
+build budgets per route: measure initial, worst-case bytes; tune build.
 
 ---
 
 ## Eksperimen
 
-- Implementasikan OnPush
-- Tambah trackBy ke ngFor
-- Setup lazy loading route
-- Measure bundle size
+- Tambah @defer chart berat saat scroll.
+- Benchmark render dengan track vs tanpa track.
+- Uji network throttle dan rasakan efeknya.
 
 ---
 
 ## Tantangan
 
-Optimasi Angular app: OnPush, trackBy, lazy loading, measure performance.
+Use Angular DevTools profiling: flame graphs in component tree.
 
 ---
 
 ## Ringkasan
 
-Minggu 12 dari 14: **Performance** (Level: Lanjutan). Minggu depan: **Advanced Patterns**.
+Materi minggu ini telah dibahas: Optimizing Angular Performance. Lanjut ke pekan berikutnya untuk memperdalam.

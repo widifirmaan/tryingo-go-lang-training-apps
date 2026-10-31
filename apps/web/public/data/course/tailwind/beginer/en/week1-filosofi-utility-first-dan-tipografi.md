@@ -1,6 +1,6 @@
 # Utility-First Philosophy, Setup & Typography
 
-> **Kategori:** Tailwind CSS | **Level:** Utility-First Basics & Typography | **Minggu 1:** Utility-First Philosophy, Setup & Typography
+> **Kategori:** Tailwind CSS | **Level:** Beginner | **Seri:** Utility-First Basics & Typography | **Minggu 1:** Utility-First Philosophy, Setup & Typography
 
 ## Why This Matters
 

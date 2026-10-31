@@ -12,86 +12,69 @@
 
 ---
 
-## Program: Distributed Redis
+## Program: Redis Cluster & Sharding
 
-```shell
-# Redis Cluster: distribusi data
-# Konfigurasi (redis.conf)
-# cluster-enabled yes
-# cluster-config-file nodes.conf
-# cluster-node-timeout 5000
+Cluster membagi keyspace ke 16384 slot via CRC16 dari nama kunci. Program membangun intuisi slot dan penempatan node.
 
-# Buat cluster (6 nodes: 3 master, 3 replica)
-# redis-cli --cluster create \
-#   127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 \
-#   127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 \
-#   --cluster-replicas 1
+```redis
+# HASH SLOT: CRC16(key) mod 16384 (Redis asli). Simulator ini menyiapkan intuisinya:
 
-# Hash slots: 16384 slots dibagi ke master
-# Master 1: 0-5460
-# Master 2: 5461-10922
-# Master 3: 10923-16383
+# Keyspace lama: semua kunci di satu node
+SET user:42:cart "laptop"
+SET user:42:prefs "dark"
+GET user:42:cart
 
-# Operasi di cluster
-redis-cli -c -p 7000
-SET user:1001 "Budi"  # Auto-redirect ke slot yang benar
-GET user:1001
+# Hash tags: kunci dengan {tag} yang sama mendarat di slot yang sama
+DEL user:{42}:cart user:{42}:prefs
+SET user:{42}:cart "laptop"
+SET user:{42}:prefs "dark"
+GET user:{42}:cart
+GET user:{42}:prefs
 
-# Multi-key operations (harus di slot yang sama)
-# Gunah hash tag untuk memastikan slot sama
-SET {user:1001}:profile "data"
-SET {user:1001}:session "active"
-MGET {user:1001}:profile {user:1001}:session
-
-# Cluster info
-CLUSTER INFO
-CLUSTER NODES
-CLUSTER SLOTS
-CLUSTER KEYSLOT user:1001
-
-# Failover
-CLUSTER FAILOVER
-
-# Resharding
-# redis-cli --cluster reshard 127.0.0.1:7000
+# Di Redis asli:
+#   CLUSTER INFO            # state, slots_assigned
+#   CLUSTER SLOTS           # pemetaan range slot -> node
+#   CLUSTER KEYSLOT user:42 # slot CRC16 untuk satu kunci
+#   CLUSTER MEET <ip> <port>
+# Multi-kunci (MSET/pipeline) hanya legal antar kunci slot yang sama.
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Cluster
-Distribusi data ke multiple node.
+### 16384 slots
 
-### Hash Slots
-16384 slots dibagi ke master nodes.
+Slot mendistribusikan data secara deterministik (CRC16) tanpa koordinator pusat — dengan menambah node, rentang slot dipindahkan, bukan dihitung ulang seluruh keyspace.
 
-### Hash Tags
-{key} untuk memastikan key di slot yang sama.
+### Slot resilience
 
-### Failover
-Replica otomatis jadi master jika master mati.
+Tiap master memiliki rentang slot plus replica. Ketika master hilang, quorum mempromosikan replica-nya menjadi master baru.
 
-### Resharding
-Pindahkan slot antar node.
+### Hash tags
+
+user:{42}:cart dan user:{42}:prefs ibarat bundle sauran sama slot — transaksi/pipeline multi-kunci legal hanya antar kunci dengan tag sama.
+
+### Limitasi
+
+MSET, pipelines, dan script Lua terbatas pada kunci satu slot. Rancang tag pada kunci terlebih dahulu sebelum memasang cluster.
 
 ---
 
 ## Eksperimen
 
-- Cluster dengan Docker
-- Benchmark cluster vs single
-- Slot migration
-- Read replicas
+- Coba predict: apakah user:1 dan user:2 bisa mendarat di slot yang sama? Cari jawaban di Redis asli.
+- Tulis versi dua kunci dengan hash tag berbeda dan amati perbedaannya.
+- Sketsa penghitungan CRC16 sederhana lalu bandingkan dengan CLUSTER KEYSLOT.
 
 ---
 
 ## Tantangan
 
-Setup Redis Cluster: 3 master + 3 replica + monitoring.
+Rancang skema sharding untuk 1M pengguna: buat layout kunci, tags untuk data yang harus co-located, dan rencana resharding saat node ditambah.
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 10: **Redis Cluster** (Menengah).
+Materi minggu ini telah dibahas: Redis Cluster & Sharding. Lanjut ke pekan berikutnya untuk memperdalam.

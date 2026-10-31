@@ -1,6 +1,6 @@
 # Flexbox Layout with Tailwind
 
-> **Kategori:** Tailwind CSS | **Level:** Layout & Responsiveness | **Minggu 4:** Flexbox Layout with Tailwind
+> **Kategori:** Tailwind CSS | **Level:** Intermediate | **Seri:** Layout & Responsiveness | **Minggu 4:** Flexbox Layout with Tailwind
 
 ## Learning Objectives
 

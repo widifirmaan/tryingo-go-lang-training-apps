@@ -1,6 +1,6 @@
 # TypeScript Design Patterns
 
-> **Kategori:** TypeScript | **Level:** Type-Safe Architecture & Final Project | **Minggu 10:** TypeScript Design Patterns
+> **Kategori:** TypeScript | **Level:** Advanced | **Seri:** Type-Safe Architecture & Final Project | **Minggu 10:** TypeScript Design Patterns
 
 ## Learning Objectives
 

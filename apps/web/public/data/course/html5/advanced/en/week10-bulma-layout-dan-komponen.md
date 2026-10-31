@@ -1,6 +1,6 @@
 # Bulma: Column Layout and Components
 
-> **Category:** HTML5 | **Level:** UI Frameworks | **Week 10:** Bulma: Column Layout and Components
+> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 10:** Bulma: Column Layout and Components
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

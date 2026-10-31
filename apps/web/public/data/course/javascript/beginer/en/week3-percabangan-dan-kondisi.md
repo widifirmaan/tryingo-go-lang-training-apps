@@ -1,6 +1,6 @@
 # Conditionals and Decision Making
 
-> **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 3:** Conditionals and Decision Making
+> **Category:** JavaScript | **Level:** Beginner | **Seri:** JavaScript Basics & Logic | **Week 3:** Conditionals and Decision Making
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

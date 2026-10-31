@@ -12,45 +12,86 @@
 
 ---
 
-## Program: ERP System
+## Program: Capstone: Enterprise Resource Planning
+
+Sistemintimeer enterprise: modul orders + clients + deployment.
 
 ```typescript
-// Capstone: Enterprise Resource Planning (ERP) System
-// Architecture: Angular + NgRx + Angular Material + JWT Auth
-// Features: Auth, Dashboard, Product CRUD, Order management, Admin panel
-console.log('Enterprise ERP System siap digunakan!');
+// main.ts — final architecture
+ // lazy feature modules per domain
+
+const routes: Routes = [
+  { path: '', component: LayoutComponent, canActivate: [authGuard],
+    children: [
+      { path: 'orders',  loadChildren: () => import('./orders/orders.routes').then(m => m.routes) },
+      { path: 'reports', loadChildren: () => import('./reports/reports.routes').then(m => m.routes) },
+      { path: 'settings', loadChildren: () => import('./settings/settings.routes').then(m => m.routes) },
+    ] },
+];
+
+// orders.routes.ts
+export const routes: Routes = [
+  { path: '', data: { title: 'Orders list' },
+    loadComponent: () => import('./list.component').then(m => m.ListComponent),
+    resolve: { orders: ordersResolver } },
+  { path: 'new',
+    loadComponent: () => import('./new.component').then(m => m.NewComponent) },
+  { path: ':id',
+    loadComponent: () => import('./detail.component').then(m => m.DetailComponent),
+    resolve: { order: orderResolver } },
+];
+
+// layout.shell with header nav, side menu, main VIEW
+@Component({
+  selector: 'app-layout',
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, MenuComponent],
+  template: `
+    <nav>
+      <a routerLink="/orders" routerLinkActive="active">Orders</a>
+      <a routerLink="/reports" routerLinkActive="active">Reports</a>
+    </nav>
+    <router-outlet></router-outlet>
+  `,
+})
+export class LayoutComponent {}
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Architecture
-Feature modules + NgRx + Angular Material.
+### Domain modules
 
-### State Management
-NgRx: unidirectional data flow.
+Satu feature module per domain (orders/reports/settings) menjaga skala enterprise.
 
-### Auth
-JWT + role-based access + route guards.
+### Resolver pre-loading
+
+Data tersedia tepat saat komponen render: route resolve dulu, spinner tak menyala.
+
+### Design tokens & theming
+
+CSS variables + tema dark/light dari design system.
+
+### Deployment
+
+CDN caching, service worker (NGSW), analytics, dan error tracking.
 
 ---
 
 ## Eksperimen
 
-- Tambah real-time notifications
-- Implementasikan reports
-- Buat comprehensive test suite
-- Deploy ke production
+- Tambah modul SLA berisi screen metrics.
+- Benchmark initial load setelah lazy feature aktif.
 
 ---
 
 ## Tantangan
 
-Buat ERP system lengkap: auth, dashboard, product management, orders, admin panel.
+Tulis README sendiri: diagram arsitektur, setup, run, test, dan SOP deploy.
 
 ---
 
 ## Ringkasan
 
-Minggu 14 dari 14: **Capstone: Enterprise App** (Level: Lanjutan). Selesai! 🎉
+Materi minggu ini telah dibahas: Capstone: Enterprise Resource Planning. Lanjut ke pekan berikutnya untuk memperdalam.

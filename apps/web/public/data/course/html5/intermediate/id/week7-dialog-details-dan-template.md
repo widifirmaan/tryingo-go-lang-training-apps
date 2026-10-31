@@ -1,6 +1,6 @@
 # Dialog, Details, dan Template
 
-> **Kategori:** HTML5 | **Level:** Form dan Interaksi | **Minggu 7:** Dialog, Details, dan Template
+> **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 7:** Dialog, Details, dan Template
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

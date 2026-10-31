@@ -1,6 +1,6 @@
 # Proyek Akhir dengan Framework UI
 
-> **Kategori:** HTML5 | **Level:** Framework UI | **Minggu 14:** Proyek Akhir dengan Framework UI
+> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 14:** Proyek Akhir dengan Framework UI
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

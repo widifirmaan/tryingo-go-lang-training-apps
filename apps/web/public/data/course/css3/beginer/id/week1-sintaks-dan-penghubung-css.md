@@ -1,6 +1,6 @@
 # Pengenalan CSS dan Penghubung Stylesheet
 
-> **Kategori:** CSS3 | **Level:** Dasar CSS & Model Kotak | **Minggu 1:** Pengenalan CSS dan Penghubung Stylesheet
+> **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 1:** Pengenalan CSS dan Penghubung Stylesheet
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

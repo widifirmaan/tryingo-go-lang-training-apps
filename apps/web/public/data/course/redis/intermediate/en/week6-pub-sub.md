@@ -12,85 +12,65 @@
 
 ---
 
-## Program: Redis Messaging
+## Program: Messaging: Pub/Sub & Streams
 
-```shell
-# Pub/Sub: publish-subscribe
-# Subscriber (terminal 1)
-SUBSCRIBE news:tech news:sports
-PSUBSCRIBE news:*
+Two messaging styles: Pub/Sub (fire-and-forget, no persistence) and Streams (durable event log with offsets).
 
-# Publisher (terminal 2)
-PUBLISH news:tech "AI terbaru 2024"
-PUBLISH news:sports "Hasil pertandingan"
+```redis
+# === PUB/SUB: notification channel ===
+PUBLISH channel:order "order:2001"
+SUBSCRIBE channel:order
+# (A message published WITHOUT an active subscriber is lost)
 
-# Unsubscribe
-UNSUBSCRIBE news:tech
+# === STREAMS: a durable log ===
+XADD stream:orders * id 2001 customer "Budi" total 250000
+XADD stream:orders * id 2002 customer "Siti" total 180000
+XADD stream:orders * id 2003 customer "Andi" total 320000
+XLEN stream:orders
+XRANGE stream:orders - +
 
-# Streams: append-only log
-XADD events * type "login" user "budi" ip "10.0.0.1"
-XADD events * type "purchase" user "budi" amount 12500000
-XADD events * type "logout" user "budi"
-
-# Baca stream
-XRANGE events - +
-
-# Baca dari ID tertentu
-XRANGE events 1700000000000-0 +
-
-# Panjang stream
-XLEN events
-
-# Consumer group
-XGROUP CREATE events mygroup 0
-XREADGROUP GROUP mygroup consumer1 STREAMS events >
-
-# ACK message
-XACK events mygroup 1700000000000-0
-
-# Trim stream
-XTRIM events MAXLEN 1000
-
-# Blocking read
-XREAD BLOCK 5000 STREAMS events $
+# === Consumer groups (real Redis — understand the concept here) ===
+# XGROUP CREATE stream:orders group-a 0
+# XREADGROUP GROUP group-a c1 COUNT 1 STREAMS stream:orders >
+# XACK stream:orders group-a <entry-id>
 ```
 
 ---
 
 ## Key Concepts
 
-### Pub/Sub
-Messaging pattern: publisher sends, subscriber receives.
+### Pub/Sub vs Streams
 
-### Patterns
-PSUBSCRIBE with wildcard patterns.
+Pub/Sub = fire-and-forget: tidak ada persistensi, subscriber harus online. Streams = log append-only permanen dengan offset; konsumen bisa baca ulang riwayat.
 
-### Streams
-Append-only log for event sourcing.
+### XADD & ID
 
-### Consumer Groups
-Multiple consumers read same stream.
+ID stream auto-generasi <ms>-<seq> menjamin urutan waktu. XRANGE dan XLEN membaca dari riwayat bila subscriber sempat offline.
 
-### XACK
-Acknowledge processed messages.
+### Consumer groups
+
+XGROUP + XREADGROUP membagi aliran antar consumer, mirip Kafka; XACK menandai pesan selesai; XPENDING menemukan pesan setengah jalan.
+
+### Use cases
+
+Pub/Sub cocok untuk broadcast realtime (chat, notifikasi langsung); Streams cocok untuk audit trail, antrian tugas, dan event sourcing.
 
 ---
 
 ## Experiments
 
-- Chat rooms with pub/sub
-- Event sourcing with streams
-- Stream processing pipelines
-- Consumer group failover
+- Run XLEN after three XADDs and compare against your prediction.
+- Add a fourth XADD then inspect its fields via XRANGE.
+- Try PUBLISH then SUBSCRIBE and contrast how each delivery model behaves.
 
 ---
 
 ## Challenge
 
-Real-time notification system: pub/sub + streams.
+Build mini event-sourcing: XADD every order change, then reason about replaying the stream with XLEN and XRANGE to rebuild state.
 
 ---
 
 ## Summary
 
-Week 6 of 10: **Pub/Sub & Streams** (Intermediate).
+This week's material has been covered: Messaging: Pub/Sub & Streams. Continue to the following week to deepen.

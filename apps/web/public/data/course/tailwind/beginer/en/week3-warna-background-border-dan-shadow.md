@@ -1,6 +1,6 @@
 # Colors, Backgrounds, Borders, and Shadows
 
-> **Kategori:** Tailwind CSS | **Level:** Utility-First Basics & Typography | **Minggu 3:** Colors, Backgrounds, Borders, and Shadows
+> **Kategori:** Tailwind CSS | **Level:** Beginner | **Seri:** Utility-First Basics & Typography | **Minggu 3:** Colors, Backgrounds, Borders, and Shadows
 
 ## Why This Matters
 

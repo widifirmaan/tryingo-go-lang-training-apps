@@ -1,6 +1,6 @@
 # DaisyUI: Utility Components
 
-> **Category:** HTML5 | **Level:** UI Frameworks | **Week 12:** DaisyUI: Utility Components
+> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 12:** DaisyUI: Utility Components
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

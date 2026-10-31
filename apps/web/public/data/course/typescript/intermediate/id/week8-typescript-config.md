@@ -1,6 +1,6 @@
 # TypeScript Config
 
-> **Kategori:** TypeScript | **Level:** Generics & Konsep Lanjutan | **Minggu 8:** TypeScript Config
+> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 8:** TypeScript Config
 
 ## Tujuan Pembelajaran
 
