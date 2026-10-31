@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 3:** Fungsi & Error Handling
 
+## Kenapa Materi Ini Penting
+
+Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
+
+Di minggu ke-3 — bertajuk **"Fungsi & Error Handling"** — program latihan utamanya adalah *"Kalkulator"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat fungsi dengan parameter dan return value

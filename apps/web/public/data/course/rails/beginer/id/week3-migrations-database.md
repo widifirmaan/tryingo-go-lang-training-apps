@@ -2,6 +2,13 @@
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 3:** Migrations & Database
 
+## Kenapa Materi Ini Penting
+
+Rails melegenda konvensi-diatas-konfigurasi: satu perintah generator sudah menghasilkan CRUD lengkap. Marks of productive developer: fokus pada produk, bukan menyiapkan wiring. Dipakai GitHub, Shopify, dan Airbnb dulu.
+
+Di minggu ke-3 — bertajuk **"Migrations & Database"** — program latihan utamanya adalah *"Database Schema"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Migration: create_table, add_column, remove_column

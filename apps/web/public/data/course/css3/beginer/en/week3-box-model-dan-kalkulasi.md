@@ -3,6 +3,13 @@
 > **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 3:** Box Model and Element Calculation
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+CSS controls every pixel of the web you use daily — from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.
+
+Week 3 — themed **"Box Model and Element Calculation"** — centers on the practice program *"Interactive Box Model Layer Visualizer"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand the 4 anatomical layers of CSS Box Model: Content, Padding, Border, Margin

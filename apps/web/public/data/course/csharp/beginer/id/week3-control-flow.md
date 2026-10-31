@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Pemula | **Minggu 3:** Control Flow
 
+## Kenapa Materi Ini Penting
+
+C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity — salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
+
+Di minggu ke-3 — bertajuk **"Control Flow"** — program latihan utamanya adalah *"Grade & Menu"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - If-else dengan kondisi kompleks

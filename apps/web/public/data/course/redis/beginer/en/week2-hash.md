@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Beginner | **Minggu 2:** Hashes
 
+## Why This Matters
+
+Redis is blazing-fast in-memory storage — every large system uses it for cache, leaderboards, sessions, and rate limiting. One small "add a Redis cache" feature often saves more server cost than months of refactoring.
+
+Week 2 — themed **"Hashes"** — centers on the practice program *"Redis Hash Operations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - HSET and HGET

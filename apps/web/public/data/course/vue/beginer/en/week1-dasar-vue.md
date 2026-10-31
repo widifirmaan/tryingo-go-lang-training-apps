@@ -2,6 +2,13 @@
 
 > **Kategori:** Vue | **Level:** Beginner | **Minggu 1:** Vue Basics & Template Syntax
 
+## Why This Matters
+
+Vue combines the simplicity of HTML templates with modern reactivity — used by Alibaba, Xiaomi, and countless admin panels. Its learning curve is gentle: polished enough for work, friendly enough for beginners.
+
+Week 1 — themed **"Vue Basics & Template Syntax"** — centers on the practice program *"Hello Vue"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Vue as a progressive framework
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

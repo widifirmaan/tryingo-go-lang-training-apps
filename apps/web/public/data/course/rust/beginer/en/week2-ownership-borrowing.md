@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 2:** Ownership & Borrowing
 
+## Why This Matters
+
+Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+
+Week 2 — themed **"Ownership & Borrowing"** — centers on the practice program *"Memory Management"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand ownership: each value has one owner

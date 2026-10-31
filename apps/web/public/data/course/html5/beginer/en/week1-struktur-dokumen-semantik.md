@@ -3,6 +3,13 @@
 > **Category:** HTML5 | **Level:** HTML Basics | **Week 1:** HTML Introduction and Document Structure
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+
+Week 1 — themed **"HTML Introduction and Document Structure"** — centers on the practice program *"First Valid HTML Document Structure"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand what HTML is and its role as the foundational skeleton of web pages
@@ -130,6 +137,8 @@ You can inspect the source code of any live webpage:
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 4:** OOP: Classes & Objects
 
+## Why This Matters
+
+C# and .NET drive enterprise Windows apps, backend APIs, and Unity games — one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.
+
+Week 4 — themed **"OOP: Classes & Objects"** — centers on the practice program *"Store System"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Classes and objects: properties, methods, constructors

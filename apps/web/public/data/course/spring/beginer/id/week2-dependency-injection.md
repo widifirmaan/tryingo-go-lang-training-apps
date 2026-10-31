@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 2:** Dependency Injection
 
+## Kenapa Materi Ini Penting
+
+Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+
+Di minggu ke-2 — bertajuk **"Dependency Injection"** — program latihan utamanya adalah *"Service & Repository"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Dependency Injection: inject dependency dari luar

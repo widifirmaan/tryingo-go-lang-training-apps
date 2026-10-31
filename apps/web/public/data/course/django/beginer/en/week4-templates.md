@@ -2,6 +2,13 @@
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 4:** Templates & Template Language
 
+## Why This Matters
+
+Django is used by Instagram, Spotify, and countless startups because it is "batteries included": admin panel, auth, ORM — all provided. Your time goes to features, not to wiring up tooling.
+
+Week 4 — themed **"Templates & Template Language"** — centers on the practice program *"First Template"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Template syntax: {{ }}, {% %}, {{ | }}

@@ -3,6 +3,13 @@
 > **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 4:** Loops and Data Iteration
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+JavaScript is the only language that runs in every browser — frontend, backend (Node), even mobile. Learning JS thoroughly opens nearly the entire spectrum of web jobs.
+
+Week 4 — themed **"Loops and Data Iteration"** — centers on the practice program *"Multiplication Table Generator and Sequence Analyzer"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Master standard for loops (initialization, condition, increment)

@@ -2,6 +2,13 @@
 
 > **Kategori:** NestJS | **Level:** Beginner | **Minggu 3:** Modules & Dependency Injection
 
+## Why This Matters
+
+NestJS brings Angular/Spring-style architectural discipline to Node: modules, dependency injection, decorators. Its strict structure keeps growing applications maintainable for whole teams.
+
+Week 3 — themed **"Modules & Dependency Injection"** — centers on the practice program *"Module Structure"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - @Module decorator: controllers, providers, exports, imports

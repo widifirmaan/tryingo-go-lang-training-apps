@@ -2,6 +2,13 @@
 
 > **Kategori:** NestJS | **Level:** Beginner | **Minggu 4:** Database & TypeORM
 
+## Why This Matters
+
+NestJS brings Angular/Spring-style architectural discipline to Node: modules, dependency injection, decorators. Its strict structure keeps growing applications maintainable for whole teams.
+
+Week 4 — themed **"Database & TypeORM"** — centers on the practice program *"Entity & Repository"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - TypeORM Entity: @Entity, @Column, @PrimaryGeneratedColumn

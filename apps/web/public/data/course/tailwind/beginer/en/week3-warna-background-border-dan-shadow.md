@@ -2,6 +2,13 @@
 
 > **Kategori:** Tailwind CSS | **Level:** Utility-First Basics & Typography | **Minggu 3:** Colors, Backgrounds, Borders, and Shadows
 
+## Why This Matters
+
+Tailwind turns styling into consistent utility classes — designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.
+
+Week 3 — themed **"Colors, Backgrounds, Borders, and Shadows"** — centers on the practice program *"Product Card with Visual Tokens"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Tailwind color palette scales (50 to 950 for each hue)

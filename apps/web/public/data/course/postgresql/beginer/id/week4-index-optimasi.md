@@ -2,6 +2,13 @@
 
 > **Kategori:** PostgreSQL | **Level:** Pemula | **Minggu 4:** Index & Optimasi Query
 
+## Kenapa Materi Ini Penting
+
+PostgreSQL adalah database open source paling canggih: ACID penuh, JSON, indexing canggih, dan ekstensi luas. Perusahaan besar mengandalkan Postgres; SQL yang Anda pelajari bersifat portabel untuk semua relational databases.
+
+Di minggu ke-4 — bertajuk **"Index & Optimasi Query"** — program latihan utamanya adalah *"Performa Database"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - B-tree index

@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 3:** REST Controller
 
+## Kenapa Materi Ini Penting
+
+Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+
+Di minggu ke-3 — bertajuk **"REST Controller"** — program latihan utamanya adalah *"CRUD API"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - @RestController dan @RequestMapping untuk define endpoint

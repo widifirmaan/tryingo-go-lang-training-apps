@@ -2,6 +2,13 @@
 
 > **Kategori:** Docker | **Level:** Beginner | **Minggu 1:** Docker Concepts
 
+## Why This Matters
+
+Docker answers the classic "works on my machine" problem by packaging apps with their entire environment. It is the backbone of modern deployment — CI/CD, Kubernetes, clouds — everything starts here.
+
+Week 1 — themed **"Docker Concepts"** — centers on the practice program *"Hello, Docker!"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Docker concepts: images, containers, registries
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

@@ -3,6 +3,13 @@
 > **Kategori:** JavaScript | **Level:** Dasar JavaScript & Logika | **Minggu 2:** Variabel, Tipe Data, dan Operator
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
+## Kenapa Materi Ini Penting
+
+JavaScript adalah satu-satunya bahasa yang berjalan di semua browser — sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
+
+Di minggu ke-2 — bertajuk **"Variabel, Tipe Data, dan Operator"** — program latihan utamanya adalah *"Kalkulator Kasir Belanja dengan Verifikasi Tipe Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Menguasai perbedaan deklarasi variabel: const (tetap), let (dapat diubah), dan alasan menghindari var

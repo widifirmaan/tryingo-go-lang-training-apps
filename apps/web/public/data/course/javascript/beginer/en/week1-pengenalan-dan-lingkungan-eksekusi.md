@@ -3,6 +3,13 @@
 > **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 1:** JavaScript Introduction, Console, and Execution Environments
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+JavaScript is the only language that runs in every browser — frontend, backend (Node), even mobile. Learning JS thoroughly opens nearly the entire spectrum of web jobs.
+
+Week 1 — themed **"JavaScript Introduction, Console, and Execution Environments"** — centers on the practice program *"Interactive Console Logger and Runtime Interface"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand JavaScript as the dynamic behavior layer within the core web triad (HTML, CSS, JS)
@@ -83,6 +90,8 @@ console.error("Critical error message");
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

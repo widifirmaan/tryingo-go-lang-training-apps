@@ -2,6 +2,13 @@
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 1:** PostgreSQL Basics & Tables
 
+## Why This Matters
+
+PostgreSQL is the most advanced open source database: full ACID, JSON, sophisticated indexing, rich extensions. Big companies rely on Postgres and the SQL you learn transfers to every relational database.
+
+Week 1 — themed **"PostgreSQL Basics & Tables"** — centers on the practice program *"Creating Database & Tables"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand PostgreSQL architecture
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

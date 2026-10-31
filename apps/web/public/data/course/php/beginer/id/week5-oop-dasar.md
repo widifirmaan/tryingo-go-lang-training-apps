@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 5:** Object-Oriented Programming
 
+## Kenapa Materi Ini Penting
+
+PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+
+Di minggu ke-5 — bertajuk **"Object-Oriented Programming"** — program latihan utamanya adalah *"Class & Object"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat class dengan property dan method

@@ -2,6 +2,13 @@
 
 > **Kategori:** GraphQL | **Level:** Beginner | **Minggu 3:** Mutations
 
+## Why This Matters
+
+GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query — used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
+
+Week 3 — themed **"Mutations"** — centers on the practice program *"Creating Mutations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Basic mutations

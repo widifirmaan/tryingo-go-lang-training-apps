@@ -2,6 +2,13 @@
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 2:** Data Types & Operasi
 
+## Kenapa Materi Ini Penting
+
+Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data — investasi belajar yang paling serbaguna.
+
+Di minggu ke-2 — bertajuk **"Data Types & Operasi"** — program latihan utamanya adalah *"Kalkulator Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Operator aritmatika: +, -, *, /, //, %, **

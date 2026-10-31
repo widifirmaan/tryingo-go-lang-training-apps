@@ -2,6 +2,13 @@
 
 > **Kategori:** Tailwind CSS | **Level:** Dasar Utility-First & Tipografi | **Minggu 2:** Sistem Spasi, Ukuran, dan Box Model
 
+## Kenapa Materi Ini Penting
+
+Tailwind mengubah styling menjadi utility class yang konsisten — desain yang dahulu membutuhkan seratus baris CSS kini cukup beberapa kata. Begitu terbiasa, Anda mendesain UI kompleks rapi dan konsisten tanpa keluar dari JSX/pug-nya.
+
+Di minggu ke-2 — bertajuk **"Sistem Spasi, Ukuran, dan Box Model"** — program latihan utamanya adalah *"Penerapan Padding, Margin, Width, dan Height"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami sistem skala angka 4 pada Tailwind (1 unit = 0.25rem = 4px)

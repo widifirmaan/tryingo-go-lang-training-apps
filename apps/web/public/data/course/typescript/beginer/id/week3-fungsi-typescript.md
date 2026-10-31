@@ -2,6 +2,13 @@
 
 > **Kategori:** TypeScript | **Level:** Dasar Tipe & Interface | **Minggu 3:** Functions & Signatures
 
+## Kenapa Materi Ini Penting
+
+TypeScript adalah JavaScript dengan sistem tipe — kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
+
+Di minggu ke-3 — bertajuk **"Functions & Signatures"** — program latihan utamanya adalah *"Typed Functions"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Function dengan parameter dan return type

@@ -3,6 +3,13 @@
 > **Category:** HTML5 | **Level:** HTML Basics | **Week 4:** Tables and First Project
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+
+Week 4 — themed **"Tables and First Project"** — centers on the practice program *"Semantic Services and Pricing Comparison Table"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand that <table> is strictly reserved for tabular data (never for page layout)

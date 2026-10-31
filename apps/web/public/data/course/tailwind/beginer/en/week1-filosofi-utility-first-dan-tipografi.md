@@ -2,6 +2,13 @@
 
 > **Kategori:** Tailwind CSS | **Level:** Utility-First Basics & Typography | **Minggu 1:** Utility-First Philosophy, Setup & Typography
 
+## Why This Matters
+
+Tailwind turns styling into consistent utility classes — designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.
+
+Week 1 — themed **"Utility-First Philosophy, Setup & Typography"** — centers on the practice program *"Utility-First & Typography Introduction"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand utility-first concept vs component-based classes (BEM)
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

@@ -2,6 +2,13 @@
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 1:** Setup & Django Installation
 
+## Why This Matters
+
+Django is used by Instagram, Spotify, and countless startups because it is "batteries included": admin panel, auth, ORM — all provided. Your time goes to features, not to wiring up tooling.
+
+Week 1 — themed **"Setup & Django Installation"** — centers on the practice program *"First Project"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Install Django via pip
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

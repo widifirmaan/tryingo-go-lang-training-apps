@@ -2,6 +2,13 @@
 
 > **Kategori:** CodeIgniter 4 | **Level:** Pemula | **Minggu 2:** Controllers & Routing
 
+## Kenapa Materi Ini Penting
+
+CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
+
+Di minggu ke-2 — bertajuk **"Controllers & Routing"** — program latihan utamanya adalah *"Route & Controller"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat controller dengan extends BaseController

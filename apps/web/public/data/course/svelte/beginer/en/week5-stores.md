@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 5:** Svelte Stores
 
+## Why This Matters
+
+Svelte compiles reactivity at build time — no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
+
+Week 5 — themed **"Svelte Stores"** — centers on the practice program *"State Management"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - writable store for mutable state

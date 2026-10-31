@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 2:** Dependency Injection
 
+## Why This Matters
+
+Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+
+Week 2 — themed **"Dependency Injection"** — centers on the practice program *"Service & Repository"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Dependency Injection: inject dependencies from outside

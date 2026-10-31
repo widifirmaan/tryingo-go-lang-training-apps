@@ -2,6 +2,13 @@
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 5:** Functions & Triggers
 
+## Why This Matters
+
+PostgreSQL is the most advanced open source database: full ACID, JSON, sophisticated indexing, rich extensions. Big companies rely on Postgres and the SQL you learn transfers to every relational database.
+
+Week 5 — themed **"Functions & Triggers"** — centers on the practice program *"PL/pgSQL Basics"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - CREATE FUNCTION

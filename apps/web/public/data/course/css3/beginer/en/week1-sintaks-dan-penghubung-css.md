@@ -3,6 +3,13 @@
 > **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 1:** CSS Introduction and Linking Stylesheets
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+CSS controls every pixel of the web you use daily — from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.
+
+Week 1 — themed **"CSS Introduction and Linking Stylesheets"** — centers on the practice program *"First CSS Project Structure with Reset and Header Banner"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand the role of CSS in separating structure (HTML) from visual presentation
@@ -106,6 +113,8 @@ Browsers apply built-in user agent stylesheets with inconsistent default margins
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

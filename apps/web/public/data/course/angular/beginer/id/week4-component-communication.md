@@ -2,6 +2,13 @@
 
 > **Kategori:** Angular | **Level:** Pemula | **Minggu 4:** Component Communication
 
+## Kenapa Materi Ini Penting
+
+Angular dipakai perusahaan besar untuk aplikasi internal skala enterprise — bank, asuransi, layanan kesehatan — karena strukturnya ketat dan mudah dipelihara puluhan developer. Mengutamakan arsitektur rapi sejak hari pertama berarti Anda terbiasa dengan cara kerja tim engineering sungguhan.
+
+Di minggu ke-4 — bertajuk **"Component Communication"** — program latihan utamanya adalah *"Parent & Child"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - @Input: receive data dari parent

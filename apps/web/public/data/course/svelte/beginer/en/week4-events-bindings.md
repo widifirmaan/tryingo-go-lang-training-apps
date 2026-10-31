@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 4:** Events & Bindings
 
+## Why This Matters
+
+Svelte compiles reactivity at build time — no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
+
+Week 4 — themed **"Events & Bindings"** — centers on the practice program *"Interactive Form"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - on:event for event handling

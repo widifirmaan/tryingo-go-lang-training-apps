@@ -2,6 +2,13 @@
 
 > **Kategori:** C# | **Level:** Beginner | **Minggu 2:** Data Types & Variables
 
+## Why This Matters
+
+C# and .NET drive enterprise Windows apps, backend APIs, and Unity games — one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.
+
+Week 2 — themed **"Data Types & Variables"** — centers on the practice program *"Conversion & Validation"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Distinguish value types (int, double, struct) vs reference types (string, class, array)

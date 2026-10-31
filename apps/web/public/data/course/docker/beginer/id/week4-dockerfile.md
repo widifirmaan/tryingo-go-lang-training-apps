@@ -2,6 +2,13 @@
 
 > **Kategori:** Docker | **Level:** Pemula | **Minggu 4:** Dockerfile
 
+## Kenapa Materi Ini Penting
+
+Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern — CI/CD, Kubernetes, cloud — semuanya berangkat di sini.
+
+Di minggu ke-4 — bertajuk **"Dockerfile"** — program latihan utamanya adalah *"Build Custom Image"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Dockerfile instructions: FROM, RUN, COPY, WORKDIR, CMD

@@ -2,6 +2,13 @@
 
 > **Kategori:** Node.js | **Level:** Pemula | **Minggu 3:** File System & Path
 
+## Kenapa Materi Ini Penting
+
+Node.js menjadikan JavaScript jalan di server: event loop berbasis non-blocking menjadikan satu bahasa dipakai dari browser hingga database. Memahami runtime Node = langsung paham streaming, worker, dan API realtime.
+
+Di minggu ke-3 — bertajuk **"File System & Path"** — program latihan utamanya adalah *"Manajer File"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Path module: join, resolve, basename, dirname, extname

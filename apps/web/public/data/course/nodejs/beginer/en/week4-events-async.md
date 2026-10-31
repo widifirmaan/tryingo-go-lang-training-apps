@@ -2,6 +2,13 @@
 
 > **Kategori:** Node.js | **Level:** Beginner | **Minggu 4:** Events & Async Programming
 
+## Why This Matters
+
+Node.js puts JavaScript on the server: a non-blocking event loop lets one language span browser to database. Understanding the Node runtime means understanding streams, workers, and real-time APIs.
+
+Week 4 — themed **"Events & Async Programming"** — centers on the practice program *"Event Emitter"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - EventEmitter: on, emit, once, removeListener

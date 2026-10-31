@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 3:** Fungsi & Lingkup Variabel
 
+## Kenapa Materi Ini Penting
+
+PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+
+Di minggu ke-3 — bertajuk **"Fungsi & Lingkup Variabel"** — program latihan utamanya adalah *"Kalkulator Fungsi"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat fungsi dengan function keyword, parameter, dan return

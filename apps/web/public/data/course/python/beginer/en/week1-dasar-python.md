@@ -2,6 +2,13 @@
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 1:** Python Basics & Syntax
 
+## Why This Matters
+
+Python is the friendliest first language yet reaches into AI/data science, automation, and backends. It is the one language that appears in nearly every field — the most versatile learning investment.
+
+Week 1 — themed **"Python Basics & Syntax"** — centers on the practice program *"Hello, Python!"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand Python as an interpreted, dynamically typed language (Python.org tutorial)
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

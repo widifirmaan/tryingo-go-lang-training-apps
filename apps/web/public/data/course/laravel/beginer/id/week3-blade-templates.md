@@ -2,6 +2,13 @@
 
 > **Kategori:** Laravel | **Level:** Pemula | **Minggu 3:** Blade Templates
 
+## Kenapa Materi Ini Penting
+
+Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel — skill yang langsung dapat dipakai bekerja.
+
+Di minggu ke-3 — bertajuk **"Blade Templates"** — program latihan utamanya adalah *"Template Engine"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Blade syntax: {{ }} untuk echo, @ untuk directives

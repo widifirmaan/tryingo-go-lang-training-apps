@@ -2,6 +2,13 @@
 
 > **Kategori:** Go | **Level:** Pemula | **Minggu 4:** Koleksi: Slice, Map & String
 
+## Kenapa Materi Ini Penting
+
+Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
+
+Di minggu ke-4 — bertajuk **"Koleksi: Slice, Map & String"** — program latihan utamanya adalah *"Manajemen Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membedakan array fixed-size [N]T vs slice dinamis []T

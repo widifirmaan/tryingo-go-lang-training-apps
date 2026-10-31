@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 3:** Struct & Method
 
+## Kenapa Materi Ini Penting
+
+Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+
+Di minggu ke-3 — bertajuk **"Struct & Method"** — program latihan utamanya adalah *"Data Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Mendefinisikan struct dengan field bertipe

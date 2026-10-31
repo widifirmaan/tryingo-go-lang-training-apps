@@ -2,6 +2,13 @@
 
 > **Kategori:** Angular | **Level:** Beginner | **Minggu 3:** Services & Dependency Injection
 
+## Why This Matters
+
+Angular powers large internal enterprise applications — banks, insurance, healthcare — because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
+
+Week 3 — themed **"Services & Dependency Injection"** — centers on the practice program *"Data Service"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - @Injectable decorator for service

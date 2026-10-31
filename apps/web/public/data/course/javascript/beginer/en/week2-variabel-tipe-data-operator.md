@@ -3,6 +3,13 @@
 > **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 2:** Variables, Data Types, and Operators
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+JavaScript is the only language that runs in every browser — frontend, backend (Node), even mobile. Learning JS thoroughly opens nearly the entire spectrum of web jobs.
+
+Week 2 — themed **"Variables, Data Types, and Operators"** — centers on the practice program *"Retail Cashier Calculator with Runtime Type Verification"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Distinguish variable keywords: const (immutable binding), let (reassignable), and obsolete var

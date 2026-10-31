@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 3:** Props & Components
 
+## Kenapa Materi Ini Penting
+
+Svelte meng-comple reaktivitas saat build time — tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.
+
+Di minggu ke-3 — bertajuk **"Props & Components"** — program latihan utamanya adalah *"Komponen Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - export let untuk definisi props

@@ -2,6 +2,13 @@
 
 > **Kategori:** Python | **Level:** Beginner | **Minggu 2:** Data Types & Operations
 
+## Why This Matters
+
+Python is the friendliest first language yet reaches into AI/data science, automation, and backends. It is the one language that appears in nearly every field — the most versatile learning investment.
+
+Week 2 — themed **"Data Types & Operations"** — centers on the practice program *"Data Calculator"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Arithmetic operators: +, -, *, /, //, %, **

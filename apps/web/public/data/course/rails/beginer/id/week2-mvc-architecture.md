@@ -2,6 +2,13 @@
 
 > **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 2:** MVC Architecture
 
+## Kenapa Materi Ini Penting
+
+Rails melegenda konvensi-diatas-konfigurasi: satu perintah generator sudah menghasilkan CRUD lengkap. Marks of productive developer: fokus pada produk, bukan menyiapkan wiring. Dipakai GitHub, Shopify, dan Airbnb dulu.
+
+Di minggu ke-2 — bertajuk **"MVC Architecture"** — program latihan utamanya adalah *"MVC in Action"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - MVC pattern: Model (data), View (UI), Controller (logic)

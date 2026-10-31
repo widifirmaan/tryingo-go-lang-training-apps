@@ -2,6 +2,13 @@
 
 > **Kategori:** Ruby on Rails | **Level:** Beginner | **Minggu 3:** Migrations & Database
 
+## Why This Matters
+
+Rails pioneered convention-over-configuration: one generator command scaffolds full CRUD. The result is developer productivity — you focus on the product, not the wiring. GitHub, Shopify, and early Airbnb run on it.
+
+Week 3 — themed **"Migrations & Database"** — centers on the practice program *"Database Schema"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Migrations: create_table, add_column, remove_column

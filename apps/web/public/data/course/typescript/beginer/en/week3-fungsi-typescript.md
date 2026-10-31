@@ -2,6 +2,13 @@
 
 > **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 3:** Functions & Signatures
 
+## Why This Matters
+
+TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+
+Week 3 — themed **"Functions & Signatures"** — centers on the practice program *"Typed Functions"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Functions with parameter and return types

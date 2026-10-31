@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Beginner | **Minggu 4:** Enums & Pattern Matching
 
+## Why This Matters
+
+Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+
+Week 4 — themed **"Enums & Pattern Matching"** — centers on the practice program *"Order Status"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Enums with variants and data payloads

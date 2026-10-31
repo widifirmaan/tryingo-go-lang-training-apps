@@ -2,6 +2,13 @@
 
 > **Kategori:** Python | **Level:** Pemula | **Minggu 4:** Functions & Modules
 
+## Kenapa Materi Ini Penting
+
+Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data — investasi belajar yang paling serbaguna.
+
+Di minggu ke-4 — bertajuk **"Functions & Modules"** — program latihan utamanya adalah *"Kalkulator Modular"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat function dengan def, parameter, dan return value

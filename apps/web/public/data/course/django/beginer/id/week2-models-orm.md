@@ -2,6 +2,13 @@
 
 > **Kategori:** Django | **Level:** Pemula | **Minggu 2:** Models & ORM
 
+## Kenapa Materi Ini Penting
+
+Django dipakai Instagram, Spotify, dan banyak startup karena "batteries included": admin panel, autentikasi, database — semuanya tersedia. Sisa waktu Anda bisa dipakai membangun fitur, bukan menyiapkan perkakas.
+
+Di minggu ke-2 — bertajuk **"Models & ORM"** — program latihan utamanya adalah *"Model Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat model dengan field

@@ -3,6 +3,13 @@
 > **Kategori:** CSS3 | **Level:** Dasar CSS & Model Kotak | **Minggu 1:** Pengenalan CSS dan Penghubung Stylesheet
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
+## Kenapa Materi Ini Penting
+
+CSS mengatur seluruh tampilan web yang Anda lihat setiap hari — dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
+
+Di minggu ke-1 — bertajuk **"Pengenalan CSS dan Penghubung Stylesheet"** — program latihan utamanya adalah *"Struktur Proyek CSS Pertama dengan Reset dan Header Banner"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami peran CSS (Cascading Style Sheets) dalam memisahkan struktur (HTML) dari tampilan visual
@@ -106,6 +113,8 @@ Browser bawaan (Chrome, Safari, Firefox) menyertakan stylesheet bawaan (*User Ag
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

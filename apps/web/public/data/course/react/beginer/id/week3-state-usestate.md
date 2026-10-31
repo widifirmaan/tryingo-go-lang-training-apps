@@ -2,6 +2,13 @@
 
 > **Kategori:** React | **Level:** Pemula | **Minggu 3:** State & useState
 
+## Kenapa Materi Ini Penting
+
+React adalah library UI terpopuler di dunia — dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
+
+Di minggu ke-3 — bertajuk **"State & useState"** — program latihan utamanya adalah *"Counter & Form"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami state sebagai data yang bisa berubah dalam komponen

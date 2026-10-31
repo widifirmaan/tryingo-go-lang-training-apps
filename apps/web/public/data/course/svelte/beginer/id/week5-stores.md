@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Pemula | **Minggu 5:** Svelte Stores
 
+## Kenapa Materi Ini Penting
+
+Svelte meng-comple reaktivitas saat build time — tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.
+
+Di minggu ke-5 — bertajuk **"Svelte Stores"** — program latihan utamanya adalah *"State Management"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - writable store untuk mutable state

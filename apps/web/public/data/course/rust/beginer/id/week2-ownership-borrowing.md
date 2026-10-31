@@ -2,6 +2,13 @@
 
 > **Kategori:** Rust | **Level:** Pemula | **Minggu 2:** Ownership & Borrowing
 
+## Kenapa Materi Ini Penting
+
+Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+
+Di minggu ke-2 — bertajuk **"Ownership & Borrowing"** — program latihan utamanya adalah *"Manajemen Memori"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami ownership: setiap value punya satu owner

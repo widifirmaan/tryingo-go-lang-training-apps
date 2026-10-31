@@ -26,30 +26,14 @@ urls.push(`  <url>
     <priority>1.0</priority>
   </url>`);
 
-// 2. Tracks and their modules
+// 2. Tracks and their modules — real (non-hash) paths, prerendered as static meta pages
 for (const slug of tracks) {
   // Track page
   urls.push(`  <url>
-    <loc>${BASE_URL}/#/${slug}</loc>
+    <loc>${BASE_URL}/course/${slug}</loc>
     <lastmod>${TODAY}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-  </url>`);
-
-  // Quiz page
-  urls.push(`  <url>
-    <loc>${BASE_URL}/#/quiz/${slug}</loc>
-    <lastmod>${TODAY}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>`);
-
-  // IDE page
-  urls.push(`  <url>
-    <loc>${BASE_URL}/#/ide/${slug}</loc>
-    <lastmod>${TODAY}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>`);
 
   const slugDir = path.join(COURSE_DIR, slug);
@@ -64,7 +48,7 @@ for (const slug of tracks) {
         if (weekMatch) {
           const week = weekMatch[1];
           urls.push(`  <url>
-    <loc>${BASE_URL}/#/${slug}/${level}/${week}</loc>
+    <loc>${BASE_URL}/course/${slug}/${level}/${week}</loc>
     <lastmod>${TODAY}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

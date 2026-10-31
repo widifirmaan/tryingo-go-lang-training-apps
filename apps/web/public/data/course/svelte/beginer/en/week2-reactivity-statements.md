@@ -2,6 +2,13 @@
 
 > **Kategori:** Svelte | **Level:** Beginner | **Minggu 2:** Reactivity & Statements
 
+## Why This Matters
+
+Svelte compiles reactivity at build time — no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
+
+Week 2 — themed **"Reactivity & Statements"** — centers on the practice program *"Todo App"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Reactive assignments: need reassignment

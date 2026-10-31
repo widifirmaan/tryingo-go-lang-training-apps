@@ -2,6 +2,13 @@
 
 > **Kategori:** Redis | **Level:** Pemula | **Minggu 2:** Hash
 
+## Kenapa Materi Ini Penting
+
+Redis adalah database in-memory secepat kilat — dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
+
+Di minggu ke-2 — bertajuk **"Hash"** — program latihan utamanya adalah *"Operasi Hash Redis"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - HSET dan HGET

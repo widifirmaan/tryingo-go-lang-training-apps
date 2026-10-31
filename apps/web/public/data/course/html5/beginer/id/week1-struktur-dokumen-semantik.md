@@ -3,6 +3,13 @@
 > **Kategori:** HTML5 | **Level:** Dasar HTML | **Minggu 1:** Pengenalan HTML dan Struktur Dokumen
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
+## Kenapa Materi Ini Penting
+
+HTML adalah kerangka setiap halaman web di dunia — tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
+
+Di minggu ke-1 — bertajuk **"Pengenalan HTML dan Struktur Dokumen"** — program latihan utamanya adalah *"Struktur Dasar Dokumen HTML Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami apa itu HTML dan perannya sebagai kerangka dasar halaman web
@@ -131,6 +138,8 @@ Anda dapat melihat kode sumber website apa pun di internet:
 ---
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
+
+> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 

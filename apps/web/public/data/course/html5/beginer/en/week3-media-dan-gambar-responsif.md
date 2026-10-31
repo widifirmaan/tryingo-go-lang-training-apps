@@ -3,6 +3,13 @@
 > **Category:** HTML5 | **Level:** HTML Basics | **Week 3:** Body, Semantic Layout, and Images
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+
+Week 3 — themed **"Body, Semantic Layout, and Images"** — centers on the practice program *"Semantic Home Layout with Embedded Media and Captions"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand semantic layout architecture: <header>, <nav>, <main>, <section>, <article>, <aside>, <footer>

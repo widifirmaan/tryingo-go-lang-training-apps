@@ -2,6 +2,13 @@
 
 > **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 2:** CRUD & Advanced Queries
 
+## Why This Matters
+
+PostgreSQL is the most advanced open source database: full ACID, JSON, sophisticated indexing, rich extensions. Big companies rely on Postgres and the SQL you learn transfers to every relational database.
+
+Week 2 — themed **"CRUD & Advanced Queries"** — centers on the practice program *"Complete Data Operations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - INSERT with RETURNING

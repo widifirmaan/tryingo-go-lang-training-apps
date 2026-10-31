@@ -2,6 +2,13 @@
 
 > **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 3:** REST Controllers
 
+## Why This Matters
+
+Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+
+Week 3 — themed **"REST Controllers"** — centers on the practice program *"CRUD API"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - @RestController and @RequestMapping for endpoint definition

@@ -2,6 +2,13 @@
 
 > **Kategori:** MongoDB | **Level:** Beginner | **Minggu 4:** Aggregation Basics
 
+## Why This Matters
+
+MongoDB stores data as flexible documents — perfect for catalogs, logs, and data whose shape keeps changing. Learning to think in documents expands how you model data, not just how you use tables.
+
+Week 4 — themed **"Aggregation Basics"** — centers on the practice program *"Aggregation Pipeline"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - $match for filtering

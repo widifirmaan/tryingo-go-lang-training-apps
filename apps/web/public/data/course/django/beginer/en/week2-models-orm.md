@@ -2,6 +2,13 @@
 
 > **Kategori:** Django | **Level:** Beginner | **Minggu 2:** Models & ORM
 
+## Why This Matters
+
+Django is used by Instagram, Spotify, and countless startups because it is "batteries included": admin panel, auth, ORM — all provided. Your time goes to features, not to wiring up tooling.
+
+Week 2 — themed **"Models & ORM"** — centers on the practice program *"First Model"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Create models with fields

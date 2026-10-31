@@ -3,6 +3,13 @@
 > **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 4:** Typography and Text Formatting
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
+## Why This Matters
+
+CSS controls every pixel of the web you use daily — from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.
+
+Week 4 — themed **"Typography and Text Formatting"** — centers on the practice program *"Editorial Typography Layout with Clear Modular Scale"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Understand font-family selection and system fallback font stacks

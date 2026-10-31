@@ -3,6 +3,13 @@
 > **Kategori:** HTML5 | **Level:** Dasar HTML | **Minggu 3:** Body, Layout Semantik, dan Gambar
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
+## Kenapa Materi Ini Penting
+
+HTML adalah kerangka setiap halaman web di dunia — tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
+
+Di minggu ke-3 — bertajuk **"Body, Layout Semantik, dan Gambar"** — program latihan utamanya adalah *"Tata Letak Semantik Halaman Beranda dengan Media Gambar"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Memahami arsitektur tag semantik layout: <header>, <nav>, <main>, <section>, <article>, <aside>, dan <footer>

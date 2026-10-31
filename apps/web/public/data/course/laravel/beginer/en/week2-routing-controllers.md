@@ -2,6 +2,13 @@
 
 > **Kategori:** Laravel | **Level:** Beginner | **Minggu 2:** Routing & Controllers
 
+## Why This Matters
+
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+
+Week 2 — themed **"Routing & Controllers"** — centers on the practice program *"Route & Controller"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Route definition: Route::get, post, put, delete, patch, options

@@ -2,6 +2,13 @@
 
 > **Kategori:** Vue | **Level:** Pemula | **Minggu 4:** Components & Props
 
+## Kenapa Materi Ini Penting
+
+Vue menggabungkan keringkasan template HTML dengan reaktivitas modern — dipakai Alibaba, Xiaomi, dan banyak admin panel. Learning curve-nya landai: svelte siap product rapi untuk pekerja, tetap ramah untuk yang baru belajar.
+
+Di minggu ke-4 — bertajuk **"Components & Props"** — program latihan utamanya adalah *"Komponen Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Membuat dan meregister komponen

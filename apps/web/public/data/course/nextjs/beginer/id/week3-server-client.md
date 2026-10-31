@@ -2,6 +2,13 @@
 
 > **Kategori:** Next.js | **Level:** Pemula | **Minggu 3:** Server & Client Components
 
+## Kenapa Materi Ini Penting
+
+Next.js adalah framework React untuk app skala produksi — routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa — keahlian yang paling sering disebut di lowongan frontend.
+
+Di minggu ke-3 — bertajuk **"Server & Client Components"** — program latihan utamanya adalah *"Kombinasi Komponen"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Server Components: default di App Router, render di server

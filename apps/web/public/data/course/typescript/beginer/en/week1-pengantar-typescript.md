@@ -2,6 +2,13 @@
 
 > **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 1:** Introduction to TypeScript
 
+## Why This Matters
+
+TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+
+Week 1 — themed **"Introduction to TypeScript"** — centers on the practice program *"Hello TypeScript"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+
+
 ## Learning Objectives
 
 - Difference between TypeScript and JavaScript: static typing
@@ -29,6 +36,8 @@ This section is for readers who are **completely new** to programming. The conce
 ---
 
 ## Quick Start Guide: Setup & Project Initialization
+
+> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 

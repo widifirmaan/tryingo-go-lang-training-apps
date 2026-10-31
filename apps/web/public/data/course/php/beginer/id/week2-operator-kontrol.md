@@ -2,6 +2,13 @@
 
 > **Kategori:** PHP | **Level:** Pemula | **Minggu 2:** Operator & Control Flow
 
+## Kenapa Materi Ini Penting
+
+PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+
+Di minggu ke-2 — bertajuk **"Operator & Control Flow"** — program latihan utamanya adalah *"Sistem Grade"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+
+
 ## Tujuan Pembelajaran
 
 - Operator aritmatika: +, -, *, /, %, ** (power)
