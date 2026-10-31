@@ -8,3 +8,5 @@ coverage/
 !.env.example
 wasm-exec/weeks/*.go
 public/wasm/go-exec.wasm
+bun.lock
+bun.lockb
