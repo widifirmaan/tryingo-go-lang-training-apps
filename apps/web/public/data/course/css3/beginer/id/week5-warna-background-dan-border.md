@@ -1,6 +1,6 @@
 # Warna, Background, dan Border
 
-> **Kategori:** CSS3 | **Level:** Dasar CSS & Model Kotak | **Minggu 5:** Warna, Background, dan Border
+> **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 5:** Warna, Background, dan Border
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

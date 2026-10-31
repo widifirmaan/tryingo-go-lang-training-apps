@@ -12,53 +12,78 @@
 
 ---
 
-## Program: Hooks & Context
+## Program: Lifecycle & the Context API
+
+The program covers onMount/onDestroy and context (setContext/getContext) for shared services like theming.
 
 ```svelte
-<!-- Lifecycle: onMount, onDestroy, beforeUpdate, afterUpdate -->
-<!-- Context: setContext, getContext -->
-<script>
+<script lang="ts">
   import { onMount, onDestroy, setContext, getContext } from 'svelte';
-  onMount(() => { console.log('Mounted!'); return () => console.log('Cleanup'); });
-  onDestroy(() => { console.log('Destroyed'); });
-  setContext('theme', { dark: false, toggle: () => {} });
+
+  export let sessionId = 'abc-42';
+
+  let data = $state<string[]>([]);
+  onMount(() => {
+    // Browser only! DOM APIs / subscriptions here
+    data = ['initial', 'ready'];
+    console.log('[mounted]', sessionId);
+  });
+  onDestroy(() => {
+    console.log('[teardown] closing socket');
+  });
+
+  // === Context API (theming) ===
+  const themeCtx = $state({ theme: 'dark' });
+  setContext('theme', {
+    get theme() { return themeCtx.theme; },
+    toggle() { themeCtx.theme = themeCtx.theme === 'dark' ? 'light' : 'dark'; }
+  });
+</script>
+
+<!-- ThemeButton.svelte -->
+<script lang="ts">
+  import { getContext } from 'svelte';
   const theme = getContext('theme');
 </script>
+<button onclick={theme.toggle}>Switch theme: {theme.theme}</button>
 ```
 
 ---
 
 ## Key Concepts
 
-### onMount
-Runs after mount, returns cleanup.
+### SSR safety
 
-### onDestroy
-Runs before destroy.
+onMount TIDAK berjalan di server — aman untuk localStorage/WebSocket; kode di <script> sendiri dieksekusi SSR (guard window).
 
-### Context
-setContext in parent, getContext in child.
+### Cleanup pattern
 
-### Tick
-await tick() waits for DOM update.
+onDestroy(ws.close()) mencegah leak saat komponen unmount — tangani juga timer, listener, dan AbortSignal.
+
+### Context API
+
+setContext di parent root, getContext di deep child TANPA mengepos props per lapisan; ideal untuk theme/i18n/service singleton.
+
+### Reactive objects in context
+
+Simpan obyek $state di dalam context supaya perubahan terpropagasi ke seluruh consumer.
 
 ---
 
 ## Experiments
 
-- Create timer with onMount/onDestroy
-- Implement context for theme
-- Use tick after state update
-- Create custom lifecycle hook
+- Attach a window resize listener in onMount, remove it in onDestroy.
+- Persist the theme choice with localStorage on toggle.
+- Add a notifications context with add()/list().
 
 ---
 
 ## Challenge
 
-Build a theme provider with context: setContext theme, useContext in child components.
+Build a "userService" context with cached async fetchers; consume it in both the sidebar and header.
 
 ---
 
 ## Summary
 
-Week 8 of 10: **Lifecycle & Context** (Level: Intermediate). Next week: **Transitions & Animations**.
+This week's material has been covered: Lifecycle & the Context API. Continue to the following week to deepen.

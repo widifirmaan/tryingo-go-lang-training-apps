@@ -1,6 +1,6 @@
 # Functions & Signatures
 
-> **Kategori:** TypeScript | **Level:** Dasar Tipe & Interface | **Minggu 3:** Functions & Signatures
+> **Kategori:** TypeScript | **Level:** Pemula | **Seri:** Dasar Tipe & Interface | **Minggu 3:** Functions & Signatures
 
 ## Kenapa Materi Ini Penting
 

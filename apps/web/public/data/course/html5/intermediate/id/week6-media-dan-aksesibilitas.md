@@ -1,6 +1,6 @@
 # Media, Iframe, dan Aksesibilitas
 
-> **Kategori:** HTML5 | **Level:** Form dan Interaksi | **Minggu 6:** Media, Iframe, dan Aksesibilitas
+> **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 6:** Media, Iframe, dan Aksesibilitas
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

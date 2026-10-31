@@ -1,6 +1,6 @@
 # Komposisi Komponen UI: Card, Button, Form, Modal
 
-> **Kategori:** Tailwind CSS | **Level:** Komponen & Proyek Antarmuka | **Minggu 8:** Komposisi Komponen UI: Card, Button, Form, Modal
+> **Kategori:** Tailwind CSS | **Level:** Lanjutan | **Seri:** Komponen & Proyek Antarmuka | **Minggu 8:** Komposisi Komponen UI: Card, Button, Form, Modal
 
 ## Tujuan Pembelajaran
 

@@ -1,6 +1,6 @@
 # Promises and Async/Await
 
-> **Category:** JavaScript | **Level:** Asynchronous, Storage & Final Project | **Week 11:** Promises and Async/Await
+> **Category:** JavaScript | **Level:** Advanced | **Seri:** Asynchronous, Storage & Final Project | **Week 11:** Promises and Async/Await
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

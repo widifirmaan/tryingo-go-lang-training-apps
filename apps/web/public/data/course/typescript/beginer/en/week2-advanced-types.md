@@ -1,6 +1,6 @@
 # Advanced Types
 
-> **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 2:** Advanced Types
+> **Kategori:** TypeScript | **Level:** Beginner | **Seri:** Types & Interfaces Foundation | **Minggu 2:** Advanced Types
 
 ## Why This Matters
 

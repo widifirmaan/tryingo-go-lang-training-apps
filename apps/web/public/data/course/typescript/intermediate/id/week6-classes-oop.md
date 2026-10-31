@@ -1,6 +1,6 @@
 # Classes & OOP
 
-> **Kategori:** TypeScript | **Level:** Generics & Konsep Lanjutan | **Minggu 6:** Classes & OOP
+> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 6:** Classes & OOP
 
 ## Tujuan Pembelajaran
 

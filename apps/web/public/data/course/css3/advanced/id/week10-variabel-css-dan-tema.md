@@ -1,6 +1,6 @@
 # Variabel CSS dan Sistem Tema
 
-> **Kategori:** CSS3 | **Level:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 10:** Variabel CSS dan Sistem Tema
+> **Kategori:** CSS3 | **Level:** Lanjutan | **Seri:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 10:** Variabel CSS dan Sistem Tema
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

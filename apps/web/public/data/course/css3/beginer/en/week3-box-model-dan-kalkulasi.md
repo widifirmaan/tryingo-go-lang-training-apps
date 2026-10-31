@@ -1,6 +1,6 @@
 # Box Model and Element Calculation
 
-> **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 3:** Box Model and Element Calculation
+> **Category:** CSS3 | **Level:** Beginner | **Seri:** CSS Basics & Box Model | **Week 3:** Box Model and Element Calculation
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

@@ -1,6 +1,6 @@
 # Animasi Keyframes
 
-> **Kategori:** CSS3 | **Level:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 12:** Animasi Keyframes
+> **Kategori:** CSS3 | **Level:** Lanjutan | **Seri:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 12:** Animasi Keyframes
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

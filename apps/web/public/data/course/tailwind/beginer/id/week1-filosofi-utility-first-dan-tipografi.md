@@ -1,6 +1,6 @@
 # Filosofi Utility-First, Setup & Tipografi
 
-> **Kategori:** Tailwind CSS | **Level:** Dasar Utility-First & Tipografi | **Minggu 1:** Filosofi Utility-First, Setup & Tipografi
+> **Kategori:** Tailwind CSS | **Level:** Pemula | **Seri:** Dasar Utility-First & Tipografi | **Minggu 1:** Filosofi Utility-First, Setup & Tipografi
 
 ## Kenapa Materi Ini Penting
 

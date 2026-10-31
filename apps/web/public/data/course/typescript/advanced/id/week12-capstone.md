@@ -1,6 +1,6 @@
 # Capstone: Type-Safe API Client
 
-> **Kategori:** TypeScript | **Level:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 12:** Capstone: Type-Safe API Client
+> **Kategori:** TypeScript | **Level:** Lanjutan | **Seri:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 12:** Capstone: Type-Safe API Client
 
 ## Tujuan Pembelajaran
 

@@ -12,81 +12,86 @@
 
 ---
 
-## Program: Keamanan Database
+## Program: User Management & Access Control
+
+Program ini membangun model akses: peran, hak granular, audit trail, dan prinsip least privilege.
 
 ```sql
--- User management
-CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'strong_password';
-CREATE USER 'readonly_user'@'%' IDENTIFIED BY 'readonly_pass';
+-- Model peran (MySQL asli: CREATE ROLE 'analyst')
+CREATE TABLE roles (
+  role_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  role_name TEXT NOT NULL,
+  can_select TEXT, can_insert TEXT, can_update TEXT, can_delete TEXT
+);
+INSERT INTO roles VALUES
+ (1, 'admin', '*', '*', '*', '*'),
+ (2, 'analyst', 'employees,orders,products', NULL, NULL, NULL),
+ (3, 'app_runtime', 'orders', 'orders', 'orders', NULL);
 
--- Grant privileges
-GRANT SELECT, INSERT, UPDATE ON toko_db.produk TO 'app_user'@'localhost';
-GRANT SELECT ON toko_db.* TO 'readonly_user'@'%';
+-- User & pemetaan perannya
+CREATE TABLE users (
+  user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL UNIQUE,
+  role_id INTEGER NOT NULL REFERENCES roles(role_id)
+);
+INSERT INTO users (username, role_id) VALUES ('svc_erp', 3), ('budi_analyst', 2);
 
--- Revoke
-REVOKE UPDATE ON toko_db.produk FROM 'app_user'@'localhost';
+-- Audit trail: siapa melakukan apa
+CREATE TABLE audit_log (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT, action TEXT, table_name TEXT, at TEXT
+);
+INSERT INTO audit_log VALUES (1, 'svc_erp', 'INSERT', 'orders', '2026-01-20 09:00');
+INSERT INTO audit_log VALUES (2, 'budi_analyst', 'SELECT', 'employees', '2026-01-20 09:15');
 
--- Lihat grants
-SHOW GRANTS FOR 'app_user'@'localhost';
+-- Auditor: aktivitas berbahaya — hapus oleh non-admin
+SELECT a.username, a.action, a.table_name
+FROM audit_log a
+JOIN users u ON u.username = a.username
+JOIN roles r ON r.role_id = u.role_id
+WHERE a.action = 'DELETE' AND r.role_name <> 'admin';
 
--- Role (MySQL 8.0+)
-CREATE ROLE 'app_read', 'app_write';
-GRANT SELECT ON toko_db.* TO 'app_read';
-GRANT INSERT, UPDATE ON toko_db.* TO 'app_write';
-GRANT 'app_read', 'app_write' TO 'app_user'@'localhost';
-SET DEFAULT ROLE ALL TO 'app_user'@'localhost';
-
--- SSL/TLS
--- REQUIRE SSL pada user
-ALTER USER 'app_user'@'localhost' REQUIRE SSL;
-
--- Audit: cek login gagal
-SELECT user, host, account_locked
-    FROM mysql.user WHERE account_locked = 'Y';
-
--- Backup
--- mysqldump -u root -p toko_db > backup.sql
-
--- Restore
--- mysql -u root -p toko_db < backup.sql
+-- Ikhtisar aktivitas per user
+SELECT a.username, a.action, COUNT(*) AS total
+FROM audit_log a GROUP BY a.username, a.action;
 ```
 
 ---
 
 ## Konsep Kunci
 
-### User Management
-Buat user dengan host spesifik.
+### GRANT granular
 
-### GRANT & REVOKE
-Beri dan cabut privileges.
+Di MySQL: GRANT SELECT, INSERT ON db.orders TO 'app'@'%' — scope bisa dibatasi per tabel, bahkan per kolom. Hindari hak ALL yang luas.
 
-### Role
-Kelompok privileges untuk assignment mudah.
+### Least privilege
 
-### SSL
-Koneksi encrypted ke database.
+Service account diberi hak minimal untuk jalur aplikasi, bukan admin. Bila akun bocor, dampaknya lebih kecil.
 
-### Backup
-mysqldump untuk logical backup.
+### Rotasi & audit
+
+GRANT/REVOKE bersama audit_log mencatat: siapa, aksi apa, tabel mana, kapan. Gabungan ini wajib untuk kepatuhan (SOX, PCI-DSS).
+
+### Anti SQL injection
+
+Gunakan parameterized query (? / :param) di aplikasi; buang concatenation string yang membuka injeksi query.
 
 ---
 
 ## Eksperimen
 
-- Row-level security
-- Audit plugin
-- Encrypted columns
-- Password policy
+- Tambah user baru dengan peran admin lalu cek semua aksesnya lewat JOIN roles.
+- Catat aksi DELETE budi_analyst ke audit_log dan pastikan query deteksi menangkapnya.
+- Tulis report: total aksi per username per hari.
 
 ---
 
 ## Tantangan
 
-Setup keamanan: user, role, SSL, backup strategy.
+Perketat model: larang analyst men-query kolom `salary` — tambahkan tabel can_select_column lalu tulis detektor pelanggaran kolomnya.
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 10: **Keamanan & User Management** (Menengah).
+Materi minggu ini telah dibahas: User Management & Access Control. Lanjut ke pekan berikutnya untuk memperdalam.

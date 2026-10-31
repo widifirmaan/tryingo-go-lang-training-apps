@@ -1,6 +1,6 @@
 # Interfaces & Type Aliases
 
-> **Kategori:** TypeScript | **Level:** Dasar Tipe & Interface | **Minggu 4:** Interfaces & Type Aliases
+> **Kategori:** TypeScript | **Level:** Pemula | **Seri:** Dasar Tipe & Interface | **Minggu 4:** Interfaces & Type Aliases
 
 ## Kenapa Materi Ini Penting
 

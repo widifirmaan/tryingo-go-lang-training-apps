@@ -1,6 +1,6 @@
 # Interfaces & Type Aliases
 
-> **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 4:** Interfaces & Type Aliases
+> **Kategori:** TypeScript | **Level:** Beginner | **Seri:** Types & Interfaces Foundation | **Minggu 4:** Interfaces & Type Aliases
 
 ## Why This Matters
 

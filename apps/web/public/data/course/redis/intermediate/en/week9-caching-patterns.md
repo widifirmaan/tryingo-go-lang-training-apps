@@ -12,90 +12,70 @@
 
 ---
 
-## Program: Caching Strategies
+## Program: Cache-Aside, TTL & Anti-Patterns
 
-```shell
-# Cache-Aside Pattern
-# 1. Cek cache
-GET product:123
-# 2. Jika miss, baca dari DB
-# 3. Simpan ke cache
-SET product:123 "{...}" EX 3600
+This program demonstrates the cache-aside pattern end to end: cache miss, writes, TTL, and the stampede pitfall.
 
-# Write-Through Pattern
-# 1. Tulis ke DB
-# 2. Tulis ke cache
-SET product:123 "{...}" EX 3600
+```redis
+# === CACHE-ASIDE READ flow ===
+# 1. Check cache
+GET cache:product:1
+# 2. Miss -> fetch from the DB... then write to cache:
+SET cache:product:1 "Laptop|15000000|25" EX 300
+DEL cache:product:1
 
-# Write-Behind (Write-Back)
-# 1. Tulis ke cache
-# 2. Async flush ke DB
+# === WRITE flow (invalidate on change) ===
+SET cache:product:1 "Laptop|15500000|24" EX 300
+DEL cache:product:1
+# ...new reads repopulate the fresh value
 
-# Cache invalidation
-DEL product:123
-# Atau pattern-based
-EVAL "
-local keys = redis.call('KEYS', ARGV[1])
-for _, key in ipairs(keys) do
-    redis.call('DEL', key)
-end
-return #keys
-" 0 "product:*"
+# === TTL watch ===
+SET session:abc "uid=42" EX 3600
+TTL session:abc
 
-# Cache stampede prevention
-# Gunakan lock untuk regenerate cache
-EVAL "
-if redis.call('SET', KEYS[1], 'regenerating', 'NX', 'EX', 30) then
-    return 'regenerate'
-end
-return 'wait'
-" 1 cache:lock:product:123
-
-# TTL strategy
-# - Short TTL untuk data sering berubah
-# - Long TTL untuk data statis
-# - Random TTL untuk hindari thundering herd
-
-# Cache warming
-# Pre-populate cache sebelum peak traffic
+# === ANTI-PATTERN: cache stampede (thundering herd) ===
+# Key expires EXACTLY when 1000 requests arrive -> they all hit the DB.
+# Fixes: a mutex (SETNX) or early refresh via a background worker:
+SET cache:popular:post "rendered-html" EX 590
+# Refresh BEFORE expiry from a worker, not on the request path
 ```
 
 ---
 
 ## Key Concepts
 
-### Cache-Aside
-App checks cache, if miss reads DB, stores in cache.
+### Cache-aside vs write-through
 
-### Write-Through
-Write to DB and cache simultaneously.
+Cache-aside: aplikasi mengelola cache sendiri (paling umum, paling fleksibel). Write-through: tiap penulisan DB juga menulis cache (konsisten, biaya tulis tinggi).
+
+### TTL & evict
+
+EX memberi masa hidup kunci; kunci mati otomatis setelah TTL. Pengusiran LRU (maxmemory) berlaku bila memori penuh.
+
+### Stampede & mitigasinya
+
+Kunci panas yang expired bersamaan menggantung DB. Mitigasi: mutex SETNX saat recompute, atau jitter/early refresh agar expiry tidak serempak.
 
 ### Invalidation
-Delete cache when data changes.
 
-### Stampede
-Lock to prevent many requests regenerating cache.
-
-### TTL Strategy
-Random TTL to avoid thundering herd.
+DEL saat UPDATE/DELETE (cache-aside klasik), atau bump versi nama kunci (cache busting). Sinkronisasi cache & DB adalah bagian terberat sistem terdistribusi.
 
 ---
 
 ## Experiments
 
-- Cache hit ratio monitoring
-- LRU eviction policy
-- Cache warming scripts
-- Multi-level caches
+- GET a key you never set — inspect the miss response.
+- SET with EX 5 then poll TTL repeatedly until it returns -2 (expired).
+- Pair a SET EX 30 with an immediate TTL — watch the numbers.
 
 ---
 
 ## Challenge
 
-Cache layer: implement cache-aside with stampede prevention.
+Design a caching protocol (GET/SET/DEL/TTL per order) for one business flow, then analyze its failure modes on deploy or DB failover.
 
 ---
 
 ## Summary
 
-Week 9 of 10: **Caching Patterns** (Intermediate).
+This week's material has been covered: Cache-Aside, TTL & Anti-Patterns. Continue to the following week to deepen.

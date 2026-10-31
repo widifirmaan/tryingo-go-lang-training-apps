@@ -1,6 +1,6 @@
 # Manipulasi DOM dan Seleksi Elemen
 
-> **Kategori:** JavaScript | **Level:** Struktur Data & Interaksi DOM | **Minggu 8:** Manipulasi DOM dan Seleksi Elemen
+> **Kategori:** JavaScript | **Level:** Menengah | **Seri:** Struktur Data & Interaksi DOM | **Minggu 8:** Manipulasi DOM dan Seleksi Elemen
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

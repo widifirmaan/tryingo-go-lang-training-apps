@@ -19,28 +19,35 @@ Week 3 — themed **"Props & Components"** — centers on the practice program *
 
 ---
 
-## Program: Product Components
+## Program: Props & Component Composition
+
+The program writes a ProductCard component with props rendered over an {#each} loop.
 
 ```svelte
-<!-- Props = data dari parent ke child -->
-<!-- Child: ProductCard.svelte -->
-<script>
-  export let name;
-  export let price;
-  export let isAvailable = true;
+<!-- ProductCard.svelte -->
+<script lang="ts">
+  let { name, price, emoji = '📦' } = $props();
+  let formatted = $derived(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price));
 </script>
+
 <div class="card">
+  <span class="emoji">{emoji}</span>
   <h3>{name}</h3>
-  <p>Rp {price.toLocaleString("id-ID")}</p>
-  <button disabled={!isAvailable} on:click>Tambah</button>
+  <p class="price">{formatted}</p>
 </div>
-<!-- Parent: App.svelte -->
-<script>
+
+<!-- App.svelte -->
+<script lang="ts">
   import ProductCard from './ProductCard.svelte';
-  let products = [{ name: 'Laptop', price: 15000000, isAvailable: true }];
+  const products = [
+    { name: 'Laptop', price: 1500, emoji: '💻' },
+    { name: 'Mouse', price: 25 },
+    { name: 'Monitor', price: 450, emoji: '🖥️' },
+  ];
 </script>
-{#each products as product}
-  <ProductCard name={product.name} price={product.price} />
+
+{#each products as p (p.name)}
+  <ProductCard name={p.name} price={p.price} emoji={p.emoji} />
 {/each}
 ```
 
@@ -48,32 +55,38 @@ Week 3 — themed **"Props & Components"** — centers on the practice program *
 
 ## Key Concepts
 
-### Props
-export let for prop definition.
+### Rune $props
 
-### Default Values
-export let with default.
+let { name, price } = $props() mendestrukturisasi props; default value juga bisa (emoji='📦').
 
-### Slots
-<slot /> for parent content.
+### Keyed each
+
+{#each items as item (item.id)} memberi identitas: elemen DOM dipakai ulang dengan cerdas saat daftar berubah.
+
+### $derived
+
+Nilai ter-derive otomatis diperbarui ketika input berubah — tanpa watch/effect manual.
+
+### Composition
+
+Komponen kecil reusable = design system; tiap parent bisa memasang banyak instance dengan props berbeda tanpa duplikasi markup.
 
 ---
 
 ## Experiments
 
-- Create component with multiple props
-- Add named slots
-- Implement slot props
-- Create component with events
+- Add a `badge` prop shown when price > 1000.
+- Change the default emoji for Mouse to 🖱️.
+- Add a "checkout" button per card and observe each card's state.
 
 ---
 
 ## Challenge
 
-Build a product catalog: ProductCard, ProductList, CartSummary.
+Create a <StatBadge label value color /> component and use it on three cards to show remaining stock.
 
 ---
 
 ## Summary
 
-Week 3 of 10: **Props & Components** (Level: Beginner). Next week: **Events & Bindings**.
+This week's material has been covered: Props & Component Composition. Continue to the following week to deepen.

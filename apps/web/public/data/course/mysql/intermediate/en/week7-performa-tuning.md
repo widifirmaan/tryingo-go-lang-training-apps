@@ -12,83 +12,73 @@
 
 ---
 
-## Program: MySQL Optimization
+## Program: Analyzing Queries with EXPLAIN
+
+Tuning starts with the execution plan: is an index used, where the full scan happens, then fix it.
 
 ```sql
-EXPLAIN ANALYZE
-    SELECT p.nama, SUM(dp.jumlah * dp.harga_satuan) AS total
-    FROM detail_pesanan dp
-    JOIN pesanan ps ON ps.id = dp.pesanan_id
-    JOIN pelanggan p ON p.id = ps.pelanggan_id
-    WHERE ps.tanggal > DATE_SUB(NOW(), INTERVAL 30 DAY)
-    GROUP BY p.nama ORDER BY total DESC;
+-- Starting query: every January order in Electronics
+SELECT o.customer, p.name, p.price
+FROM orders o
+JOIN products p ON p.id = o.product_id
+WHERE p.category = 'Electronics' AND o.order_date LIKE '2024-01%';
 
--- Query cache & optimizer
-SELECT @@query_cache_type;
-SELECT @@innodb_buffer_pool_size;
+-- Execution plan (SQLite mirrors MySQL EXPLAIN)
+EXPLAIN QUERY PLAN
+SELECT customer FROM orders WHERE order_date LIKE '2024-01%';
 
--- Slow query log
-SET GLOBAL slow_query_log = 'ON';
-SET GLOBAL long_query_time = 1;
+-- Fix 1: index on the filtered column
+CREATE INDEX idx_orders_date ON orders(order_date);
+EXPLAIN QUERY PLAN
+SELECT customer FROM orders WHERE order_date LIKE '2024-01%';
 
--- Cek status
-SHOW STATUS LIKE 'Threads_connected';
-SHOW STATUS LIKE 'Slow_queries';
-SHOW STATUS LIKE 'Innodb_buffer_pool_read%';
+-- Anti-pattern: a function on an indexed column forces a full scan
+EXPLAIN QUERY PLAN
+SELECT customer FROM orders WHERE SUBSTR(order_date, 1, 7) = '2024-01';
 
--- Cek proses aktif
-SHOW PROCESSLIST;
-
--- Optimize table
-OPTIMIZE TABLE produk;
-
--- Analisis tabel
-ANALYZE TABLE produk;
-
--- Konfigurasi penting
--- innodb_buffer_pool_size = 70% RAM
--- innodb_log_file_size = 1GB
--- max_connections = 200
--- query_cache_size = 64M
--- tmp_table_size = 256M
+-- Dashboard-style aggregation
+SELECT department, ROUND(AVG(salary), 0) AS avg_salary
+FROM employees
+GROUP BY department
+ORDER BY avg_salary DESC;
 ```
 
 ---
 
 ## Key Concepts
 
-### EXPLAIN ANALYZE
-Shows execution plan and time.
+### Membaca EXPLAIN
 
-### Slow Query Log
-Log slow queries for analysis.
+SCAN TABLE = membaca seluruh baris (mahal di jutaan data); SEARCH ... USING INDEX berarti index B-tree dipakai. Bandingkan angka estimated rows sebelum dan sesudah.
 
-### InnoDB Buffer Pool
-Cache data and indexes in memory.
+### Aturan SARGable
 
-### Monitoring
-SHOW STATUS for server metrics.
+Tulis filter dengan kolom "telanjang". SUBSTR(order_date,1,7)=... menghancurkan index; LIKE '2024-01%' tetap baik karena prefix.
 
-### OPTIMIZE
-Defragment InnoDB tables.
+### Index punya biaya
+
+Index mempercepat SELECT namun memperlambat INSERT/UPDATE/DELETE dan menambah storage. Beri index hanya pada kolom yang sering dipakai filter/JOIN.
+
+### Ukur, jangan menduga
+
+Gunakan EXPLAIN dan statistik runtime (SHOW PROFILE di MySQL) sebelum berharap optimasi bekerja. Ukur dahulu, baru optimasi.
 
 ---
 
 ## Experiments
 
-- Buffer pool tuning
-- Query cache
-- Partitioning
-- Connection pooling
+- Create a composite index (product_id, order_date) on orders and re-inspect the JOIN plan.
+- Reshape the aggregation: total order value per month, sorted descending.
+- Use HAVING to find departments averaging above 80M, then EXPLAIN it.
 
 ---
 
 ## Challenge
 
-Optimize: identify slow queries, tune config.
+Write your own slow query, EXPLAIN it, add an index that fixes it, and prove it with a new EXPLAIN.
 
 ---
 
 ## Summary
 
-Week 7 of 10: **Performance & Tuning** (Intermediate).
+This week's material has been covered: Analyzing Queries with EXPLAIN. Continue to the following week to deepen.

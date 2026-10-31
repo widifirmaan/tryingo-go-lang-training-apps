@@ -1,6 +1,6 @@
 # Design Patterns TS
 
-> **Kategori:** TypeScript | **Level:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 10:** Design Patterns TS
+> **Kategori:** TypeScript | **Level:** Lanjutan | **Seri:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 10:** Design Patterns TS
 
 ## Tujuan Pembelajaran
 

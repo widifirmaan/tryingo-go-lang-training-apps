@@ -1,6 +1,6 @@
 # Tabel dan Proyek Pertama
 
-> **Kategori:** HTML5 | **Level:** Dasar HTML | **Minggu 4:** Tabel dan Proyek Pertama
+> **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 4:** Tabel dan Proyek Pertama
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

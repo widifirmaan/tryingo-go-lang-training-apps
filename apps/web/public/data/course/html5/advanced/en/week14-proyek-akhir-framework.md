@@ -1,6 +1,6 @@
 # Final Project with UI Framework
 
-> **Category:** HTML5 | **Level:** UI Frameworks | **Week 14:** Final Project with UI Framework
+> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 14:** Final Project with UI Framework
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

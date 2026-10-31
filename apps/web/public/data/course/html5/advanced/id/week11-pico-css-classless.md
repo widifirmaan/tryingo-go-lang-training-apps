@@ -1,6 +1,6 @@
 # Pico CSS: Classless CSS
 
-> **Kategori:** HTML5 | **Level:** Framework UI | **Minggu 11:** Pico CSS: Classless CSS
+> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 11:** Pico CSS: Classless CSS
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

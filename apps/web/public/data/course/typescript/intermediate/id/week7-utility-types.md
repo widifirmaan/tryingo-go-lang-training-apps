@@ -1,6 +1,6 @@
 # Utility Types
 
-> **Kategori:** TypeScript | **Level:** Generics & Konsep Lanjutan | **Minggu 7:** Utility Types
+> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 7:** Utility Types
 
 ## Tujuan Pembelajaran
 

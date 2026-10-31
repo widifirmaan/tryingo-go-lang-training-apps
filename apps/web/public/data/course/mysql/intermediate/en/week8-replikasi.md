@@ -12,88 +12,85 @@
 
 ---
 
-## Program: MySQL Replication
+## Program: Replication Architecture & Lag
+
+Replication copies changes from the primary to replicas. This program simulates the binlog, GTIDs, and lag detection.
 
 ```sql
--- KONFIGURASI MASTER (my.cnf)
--- server-id = 1
--- log-bin = mysql-bin
--- binlog-format = ROW
+-- Minimal binlog table (simulation)
+CREATE TABLE binlog (
+  gtid INTEGER PRIMARY KEY AUTOINCREMENT,
+  event TEXT NOT NULL,           -- INSERT/UPDATE/DELETE
+  payload TEXT NOT NULL,         -- replicated payload
+  logged_at TEXT NOT NULL
+);
 
-CREATE USER 'replicator'@'%' IDENTIFIED BY 'secure_pass';
-GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%';
+-- Primary always logs BEFORE sending to replicas
+INSERT INTO binlog (event, payload, logged_at)
+VALUES ('INSERT', '{"id":6,"name":"Fajar","dept":"QA"}', '2026-01-20T10:00:00Z');
+INSERT INTO binlog (event, payload, logged_at)
+VALUES ('UPDATE', '{"id":3,"salary":100000000}', '2026-01-20T10:05:00Z');
 
-FLUSH TABLES WITH READ LOCK;
-SHOW MASTER STATUS;
--- Catat File dan Position
-UNLOCK TABLES;
+-- Applied position per replica (+ lag)
+CREATE TABLE replica_state (
+  replica_name TEXT PRIMARY KEY,
+  applied_gtid INTEGER NOT NULL,
+  lag_seconds INTEGER NOT NULL
+);
+INSERT INTO replica_state VALUES ('replica-1', 1, 3);
+INSERT INTO replica_state VALUES ('replica-2', 1, 0);
 
--- KONFIGURASI SLAVE (my.cnf)
--- server-id = 2
--- relay-log = mysql-relay-bin
--- read-only = 1
+-- Events not yet applied per replica
+SELECT r.replica_name, ev.gtid, ev.event, ev.payload
+FROM replica_state r
+JOIN binlog ev ON ev.gtid > r.applied_gtid
+ORDER BY r.replica_name, ev.gtid;
 
--- Di slave:
--- CHANGE MASTER TO
---     MASTER_HOST='master_host',
---     MASTER_USER='replicator',
---     MASTER_PASSWORD='secure_pass',
---     MASTER_LOG_FILE='mysql-bin.000001',
---     MASTER_LOG_POS=1234;
-
-START SLAVE;
-
--- Cek status slave
-SHOW SLAVE STATUS\G
-
--- Cek lag
-SELECT
-    Master_Log_File,
-    Read_Master_Log_Pos,
-    Seconds_Behind_Master
-FROM performance_schema.replication_connection_status;
-
--- Group Replication (MySQL 8.0+)
--- SET GLOBAL group_replication_bootstrap_group=ON;
--- START GROUP_REPLICATION;
+-- Replication health: high behind = stale-read risk
+SELECT replica_name,
+       applied_gtid AS applied,
+       (SELECT MAX(gtid) FROM binlog) - applied_gtid AS behind,
+       lag_seconds
+FROM replica_state
+ORDER BY behind DESC;
 ```
 
 ---
 
 ## Key Concepts
 
-### Binary Log
-Log of all data changes for replication.
+### Binlog format ROW vs STATEMENT
 
-### Master-Slave
-Master writes, slave reads replicated data.
+ROW mencatat perubahan per baris (aman, replay deterministik); STATEMENT menyimpan SQL asli (rawan NOW()/LIMIT non-deterministik).
 
-### CHANGE MASTER
-Configure slave connection to master.
+### GTID
 
-### Monitoring
-SHOW SLAVE STATUS for lag and errors.
+Identitas global per transaksi. Failover tidak perlu mencari posisi byte manual — cukup terapkan semua GTID yang belum diterapkan.
 
-### Group Replication
-Multi-master replication MySQL 8.0+.
+### Asinkron & Semi-sync
+
+Default MySQL = asynchronous: primary lanjut tanpa menunggu replica (latensi rendah, lag mungkin). Semi-sync menunggu minimal satu replica menerima event.
+
+### Read scaling
+
+SELECT dikirim ke replica untuk meringankan primary; tulis tetap di primary — dua penulis paralel (split-brain) merusak konsistensi.
 
 ---
 
 ## Experiments
 
-- Docker replication setup
-- Measure lag
-- Manual failover
-- Read/write splitting
+- Append a DELETE event to the binlog; observe which replica lags.
+- Set replica-2 applied_gtid=0 — how many events must it apply?
+- Turn the health query into an alert: only replicas with behind > 2.
 
 ---
 
 ## Challenge
 
-Setup replication: master + slave + monitoring.
+Model failover: write the SQL promoting the replica with the highest applied_gtid to primary and re-slaving the rest.
 
 ---
 
 ## Summary
 
-Week 8 of 10: **Replication & HA** (Intermediate).
+This week's material has been covered: Replication Architecture & Lag. Continue to the following week to deepen.

@@ -1,6 +1,6 @@
 # Keyframe Animations
 
-> **Category:** CSS3 | **Level:** CSS Systems, Animation & Final Project | **Week 12:** Keyframe Animations
+> **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 12:** Keyframe Animations
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

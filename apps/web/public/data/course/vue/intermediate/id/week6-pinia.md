@@ -12,53 +12,85 @@
 
 ---
 
-## Program: Store & Cart
+## Program: Pinia State Management
+
+Store kontributor state global: setup refs, actions async, getters computed, dan persistence.
 
 ```vue
-// Pinia = official state management untuk Vue
-// export const useCartStore = defineStore("cart", () => {
-//   const items = ref([]);
-//   const totalItems = computed(() => items.value.reduce((s, i) => s + i.quantity, 0));
-//   function addItem(product) { ... }
-//   function removeItem(id) { ... }
-//   return { items, totalItems, addItem, removeItem };
-// });
-console.log('Pinia State Management siap digunakan');
+// src/stores/cart.ts
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+
+export const useCartStore = defineStore('cart', () => {
+  // state (ref) — akses di component: store.items
+  const items = ref<{ id: number; name: string; price: number; qty: number }[]>([]);
+
+  // getters (computed)
+  const total = computed(() => items.value.reduce((sum, i) => sum + i.price * i.qty, 0));
+  const count = computed(() => items.value.reduce((n, i) => n + i.qty, 0));
+
+  // actions (fungsi async juga boleh)
+  function add(product: { id: number; name: string; price: number }, qty = 1) {
+    const found = items.value.find((i) => i.id === product.id);
+    if (found) found.qty += qty;
+    else items.value.push({ ...product, qty });
+  }
+  async function checkout() {
+    await api.post('/orders', { items: items.value, total: total.value });
+    items.value = [];
+  }
+
+  return { items, total, count, add, checkout };
+});
+
+<!-- src/components/CartBadge.vue -->
+<script setup lang="ts">
+import { useCartStore } from '@/stores/cart';
+const cart = useCartStore();
+</script>
+<template>
+  <span class="badge" :class="{ shake: cart.count > 5 }">
+    🛒 {{ cart.count }} — {{ cart.total.toLocaleString('id-ID') }}
+  </span>
+</template>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Setup Store
-defineStore("id", () => { ... }) = setup function style.
+### Setup-store vs options
 
-### State
-ref() = reactive. Akses langsung di template.
+Setup store (defineStore('cart', () => { ... })) mengikuti composition API; options store lebih ringkas untuk state kecil. Hasilnya sama persis.
 
-### Getters
-computed() = derived value. Cached.
+### Direct read, mutate via actions
 
-### Actions
-Functions untuk mutate state. Bisa async.
+Komponen boleh membaca state langsung, tetapi kapsulkan mutasi di action — mudah dilacak lewat Pinia devtools.
+
+### State flow
+
+component -> action -> API -> patch state -> computed derive: data mengalir satu arah, debugging mudah.
+
+### Persistence & SSR
+
+pinia-plugin-persistedstate menulis ke localStorage; plugin hydration membawa state server ke client saat SSR.
 
 ---
 
 ## Eksperimen
 
-- Buat multiple stores (cart, user, products)
-- Implementasikan async action
-- Tambah store persistence
-- Buat store dengan modules pattern
+- Persist keranjang (plugin) lalu refresh browser — barang tetap ada.
+- Tambah undo stack untuk checkout terakhir.
+- Catat aksi per user di dalam store.
 
 ---
 
 ## Tantangan
 
-Buat e-commerce dengan Pinia: product store, cart store, user store.
+Tambah action ubah-jumlah per item (increment/decrement + remove) dengan computed untuk total.
 
 ---
 
 ## Ringkasan
 
-Minggu 6 dari 12: **Pinia State Management** (Level: Menengah). Minggu depan: **Lifecycle & Watchers**.
+Materi minggu ini telah dibahas: Pinia State Management. Lanjut ke pekan berikutnya untuk memperdalam.

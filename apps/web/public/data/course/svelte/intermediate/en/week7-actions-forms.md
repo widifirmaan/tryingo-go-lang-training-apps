@@ -12,59 +12,80 @@
 
 ---
 
-## Program: Form & API
+## Program: Actions on +page.server.ts
+
+Progressive enhancement: the form works without JavaScript thanks to server actions.
 
 ```svelte
-<!-- SvelteKit Actions: form submission ke server -->
-<!-- +page.server.js -->
-// export const actions = {
-//   create: async ({ request }) => {
-//     const data = await request.formData();
-//     const name = data.get('name');
-//     return { success: true, message: 'Berhasil' };
-//   }
-// };
-<!-- +page.svelte (Form) -->
+<!-- src/routes/checkout/+page.server.ts -->
+import { fail } from '@sveltejs/kit';
+
+export const actions = {
+  default: async ({ request }) => {
+    const data = await request.formData();
+    const name = data.get('name')?.toString() ?? '';
+    const qty = Number(data.get('qty') ?? 0);
+
+    if (!name) return fail(400, { error: 'Name is required' });
+    if (qty < 1 || qty > 50) return fail(400, { error: 'Qty must be 1-50' });
+
+    // ... store to database ...
+    return { success: true, orderId: 'TR-1201' };
+  },
+};
+
+<!-- src/routes/checkout/+page.svelte -->
 <script>
-  export let form; // hasil dari action
+  let { form } = $props();     // latest action return value
 </script>
-<form method="POST" action="?/create">
-  <input name="name" placeholder="Nama">
-  <button type="submit">Simpan</button>
+
+{#if form?.error}
+  <p class="error">{form.error}</p>
+{/if}
+
+<form method="POST" use:enhance>
+  <input name="name" placeholder="Recipient name" />
+  <input name="qty" type="number" min="1" max="50" value="1" />
+  <button>Submit order</button>
 </form>
-{#if form?.success}<p>{form.message}</p>{/if}
 ```
 
 ---
 
 ## Key Concepts
 
-### Actions
-Server-side form handling.
+### Named vs default actions
 
-### Form Data
-request.formData().
+actions = { default } untuk satu form; `actions = { update, delete }` untuk beberapa form: action="/checkout?/update".
 
-### Progressive Enhancement
-Works without JS.
+### fail() vs redirect
+
+fail(400, { error }) mempertahankan halaman + mengirim data validasi ke `form`; redirect() pergi ke URL lain.
+
+### use:enhance
+
+SvelteKit mengintervensi submit form: tidak reload, mengelola loading state, dan mengirim kembali hasil action variable ke `form`.
+
+### Progressive enhancement
+
+Tanpa JavaScript form tetap berjalan (server action + reload penuh); dengan JS, use:enhance membuatnya halus tanpa reload.
 
 ---
 
 ## Experiments
 
-- Create form with multiple actions
-- Implement server-side validation
-- Add enhance for no-reload
-- Create delete confirmation
+- Add an ?/gift action with a distinct form button.
+- Validate qty against a fake stock (hardoced 999).
+- Disable the submit button while pending.
 
 ---
 
 ## Challenge
 
-Build a CRUD app with SvelteKit actions: create, read, update, delete posts.
+Design a two-step form wizard using a second action ?/step2 with hidden inputs carrying state across steps.
 
 ---
 
 ## Summary
 
-Week 7 of 10: **Actions & Forms** (Level: Intermediate). Next week: **Lifecycle & Context**.
+This week's material has been covered: Actions on +page.server.ts. Continue to the following week to deepen.

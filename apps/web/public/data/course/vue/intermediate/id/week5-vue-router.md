@@ -12,53 +12,82 @@
 
 ---
 
-## Program: Multi-Halaman
+## Program: Vue Router: Rute & Guards
+
+Router dengan rute dinamis, lazy loading, dan navigation guards.
 
 ```vue
-// Vue Router = official routing untuk Vue.js SPA
+// src/router/index.ts
+import { createRouter, createWebHistory } from 'vue-router';
+
 const routes = [
-  { path: '/', name: 'home', component: { template: '<h1>Beranda</h1>' } },
-  { path: '/about', name: 'about', component: { template: '<h1>Tentang</h1>' } },
-  { path: '/user/:id', name: 'user', component: { template: '<h1>User {{ $route.params.id }}</h1>' } },
+  { path: '/', component: () => import('./views/Home.vue') },         // dirender hanya saat dibutuhkan
+  { path: '/products', component: () => import('./views/ProductList.vue') },
+  { path: '/products/:id(\d+)', component: () => import('./views/ProductDetail.vue') },
+  { path: '/admin', component: () => import('./views/Admin.vue'),
+    meta: { requiresAuth: true } },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ];
-// const router = createRouter({ history: createWebHistory(), routes });
-// router.beforeEach((to, from, next) => { ... });
-console.log('Vue Router siap digunakan');
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes,
+  scrollBehavior: () => ({ top: 0 }),
+});
+
+// Global guard
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth && !useAuth().isLogged) {
+    return { path: '/login', query: { redirect: to.fullPath } };
+  }
+});
+
+// src/views/ProductDetail.vue
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router';
+const route = useRoute();            // params, query, hash
+const router = useRouter();          // push, replace, back
+const productId = route.params.id;
+router.replace('/products');
+</script>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Setup
-createRouter + createWebHistory. Register di app.
+### Dynamic segments
 
-### Navigation
-<RouterLink to="/path"> = SPA navigation.
+:id di path; regex juga didukung (:id(\d+)) sebagai constraint; beberapa params bisa digabung dalam satu segmen.
 
-### Dynamic Routes
-/path/:id -> useRoute().params.id.
+### Lazy loading routes
 
-### Guards
-beforeEach = global guard. beforeEnter = per-route guard.
+import() async menempatkan komponen di chunk berbeda; aplikasi berukuran besar tetap kecil di initial bundle.
+
+### Guards: beforeEach/perRoute
+
+Guard bisa async; return false membatalkan navigasi, return object redirect mengarahkan ke rute lain.
+
+### Nested views & components
+
+<router-view> di dalam layout; name untuk outlet sibling — clean UI composition.
 
 ---
 
 ## Eksperimen
 
-- Buat nested routes
-- Implementasikan route guard untuk auth
-- Tambah transition antar route
-- Buat 404 Not Found page
+- Tambah meta.requiresRole lalu cek di guard global.
+- Bungkus router-view dengan <Transition> mode out-in.
+- Pertahankan query saat router.push ke route lain.
 
 ---
 
 ## Tantangan
 
-Buat blog app dengan routing: Home, Posts, Post Detail (/post/:slug), About.
+Buat multi-step (nested) checkout keseluruhan dengan guards per langkah dan state store.
 
 ---
 
 ## Ringkasan
 
-Minggu 5 dari 12: **Vue Router** (Level: Menengah). Minggu depan: **Pinia State Management**.
+Materi minggu ini telah dibahas: Vue Router: Rute & Guards. Lanjut ke pekan berikutnya untuk memperdalam.

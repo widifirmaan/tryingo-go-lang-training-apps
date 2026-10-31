@@ -1,6 +1,6 @@
 # Perulangan dan Iterasi Data
 
-> **Kategori:** JavaScript | **Level:** Dasar JavaScript & Logika | **Minggu 4:** Perulangan dan Iterasi Data
+> **Kategori:** JavaScript | **Level:** Pemula | **Seri:** Dasar JavaScript & Logika | **Minggu 4:** Perulangan dan Iterasi Data
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

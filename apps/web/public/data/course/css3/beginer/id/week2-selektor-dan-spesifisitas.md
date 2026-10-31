@@ -1,6 +1,6 @@
 # Selektor dan Spesifisitas
 
-> **Kategori:** CSS3 | **Level:** Dasar CSS & Model Kotak | **Minggu 2:** Selektor dan Spesifisitas
+> **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 2:** Selektor dan Spesifisitas
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

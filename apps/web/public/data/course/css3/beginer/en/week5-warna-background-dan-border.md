@@ -1,6 +1,6 @@
 # Colors, Backgrounds, and Borders
 
-> **Category:** CSS3 | **Level:** CSS Basics & Box Model | **Week 5:** Colors, Backgrounds, and Borders
+> **Category:** CSS3 | **Level:** Beginner | **Seri:** CSS Basics & Box Model | **Week 5:** Colors, Backgrounds, and Borders
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

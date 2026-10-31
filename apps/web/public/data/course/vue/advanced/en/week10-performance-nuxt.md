@@ -12,47 +12,73 @@
 
 ---
 
-## Program: Optimization & SSR
+## Program: Performance & Nuxt 3
+
+Performance tuning, code splitting, lazy and async components, then Nuxt for SSR/prerendering.
 
 ```vue
-// Performance: lazy loading, keep-alive, v-memo
-// Nuxt = meta-framework untuk Vue (SSR, file-based routing)
-// const Heavy = defineAsyncComponent(() => import("./Heavy.vue"));
-// <keep-alive><router-view /></keep-alive>
-// <div v-memo="[value]">{{ value }}</div>
-console.log('Performance & Nuxt siap digunakan');
+// === Manual code splitting ===
+const HeavyChart = defineAsyncComponent(() => import('./HeavyChart.vue'));
+
+// v-memo: skip re-render when deps unchanged
+<div v-memo="[item.id, item.qty]" class="row">
+  <span>{{ item.name }}</span><span>{{ item.qty }}</span>
+</div>
+
+// === Nuxt 3: server rendering + data ===
+// pages/index.vue
+<script setup>
+const { data: products, refresh } = await useAsyncData('products', () =>
+  $fetch('/api/products')
+);
+</script>
+
+// nuxt.config.ts:
+// defineNuxtConfig({
+//   ssr: true,                    // SEO-ready HTML at first byte
+//   nitro: { static: false },
+//   experimental: { payloadExtraction: true },
+// })
+
+// Route-level: /about prerendered; /dashboard SSR; states via nuxt hooks
 ```
 
 ---
 
 ## Key Concepts
 
-### Lazy Loading
-defineAsyncComponent for on-demand loading.
+### Bundle analysis
 
-### Keep-Alive
-Cache component state.
+Analisa chunk dengan rollup-plugin-visualizer: pecah chunk raksasa lewat lazy import.
 
-### Nuxt
-Meta-framework with SSR, file routing.
+### v-memo & keys
+
+v-memo di tabel panjang melewati re-render saat deps ([item.id, item.qty]) tidak berubah — ukur sebelum dipakai luas.
+
+### Nuxt SSR + hydration
+
+SSR mengirim HTML SEO-ready; hydration menyalakan interaksi di client; waspadai hydration mismatch (angka acak, tanggal lokal).
+
+### Prerender strategy
+
+Halaman statik (landing) di-prerender; dashboard dinamis SSR; shell CSR untuk area login.
 
 ---
 
 ## Experiments
 
-- Implement lazy loading routes
-- Setup keep-alive for tabs
-- Create Nuxt project with pages
-- Implement server API routes
+- Bench: log chunk count before/after lazy import.
+- Benchmark v-memo on a 1000-row table.
+- Run nuxi generate to see prerendered vs SSR pages.
 
 ---
 
 ## Challenge
 
-Build a blog with Nuxt: SSR, file-based routing, server API, layouts, middleware.
+Profile Lighthouse: preload fonts, lazy images, then benchmark lab + field data.
 
 ---
 
 ## Summary
 
-Week 10 of 12: **Performance & Nuxt** (Level: Advanced). Next week: **Animations & Transitions**.
+This week's material has been covered: Performance & Nuxt 3. Continue to the following week to deepen.

@@ -1,6 +1,6 @@
 # DaisyUI: Komponen Utility
 
-> **Kategori:** HTML5 | **Level:** Framework UI | **Minggu 12:** DaisyUI: Komponen Utility
+> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 12:** DaisyUI: Komponen Utility
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

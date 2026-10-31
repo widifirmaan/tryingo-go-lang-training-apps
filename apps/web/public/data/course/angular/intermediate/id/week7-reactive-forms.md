@@ -12,50 +12,89 @@
 
 ---
 
-## Program: Form Dinamis
+## Program: Reactive Forms & Validation
+
+FormControl + validator sync/async arg; typed forms.
 
 ```typescript
-// Reactive Forms: form logic di component class
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-@Component({ selector: 'app-form', template: '<form [formGroup]="form"><input formControlName="name"></form>' })
-export class DynamicFormComponent {
-  form: FormGroup;
-  constructor(private fb: FormBuilder) { this.form = this.fb.group({ name: ['', Validators.required] }); }
+// checkout.component.ts
+import { Component, inject } from '@angular/core';
+import {
+  ReactiveFormsModule, FormBuilder, Validators, AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+
+@Component({
+  selector: 'app-checkout',
+  standalone: true,
+  imports: [ReactiveFormsModule],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input formControlName="name" placeholder="Nama" />
+      @if (form.controls.name.hasError('required')) { <small>Nama wajib</small> }
+      <input formControlName="coupon" />
+      @if (form.controls.coupon.hasError('couponExpired')) { <small>Kupon kedaluwarsa</small> }
+      <button [disabled]="form.pending || form.invalid">Bayar</button>
+    </form>`,
+})
+export class CheckoutComponent {
+  private fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    coupon: ['', [Validators.minLength(6), this.couponActive]],
+  });
+
+  couponActive(control: AbstractControl): ValidationErrors | null {
+    const ok = control.value && !control.value.toUpperCase().includes('EXPIRED');
+    return ok ? null : { couponExpired: true };
+  }
+
+  submit() {
+    if (this.form.valid) {
+      console.log('Order payload', this.form.value);
+    }
+  }
 }
-console.log('Reactive Forms siap digunakan');
 ```
 
 ---
 
 ## Konsep Kunci
 
-### FormControl
-Single form control.
+### Typed FormGroup
 
-### FormGroup
-Group of FormControls.
+fb.group menginferensi tipe sehingga form.controls.name tetap typed di compile time.
 
-### FormBuilder
-Service untuk build form.
+### Sync vs async validators
+
+Validator sinkron dijalankan langsung; validator async (cek kupon ke server) mengembalikan Promise/Observable.
+
+### Control state
+
+touched, dirty, valid, pending, disabled — template mengikat state ke pesan error dan CSS.
+
+### FormArray & nested
+
+FormArray untuk baris item; FormGroup bersarang untuk parent-child.
 
 ---
 
 ## Eksperimen
 
-- Buat custom validator
-- Implementasikan async validator
-- Buat multi-step reactive form
-- Tambah cross-field validation
+- Tambahkan FormArray dinamis item order: tombol push + remove.
+- Buat async validator cek kupon via http (mocked).
+- Gunakan patchValue + reset untuk mengisi draft.
 
 ---
 
 ## Tantangan
 
-Buat dynamic survey form: add/remove questions, validation, submit to API.
+Buat dynamic form builder yang membaca schema JSON lalu merender kontrol dan validator-nya.
 
 ---
 
 ## Ringkasan
 
-Minggu 7 dari 14: **Reactive Forms** (Level: Menengah). Minggu depan: **HTTP Client**.
+Materi minggu ini telah dibahas: Reactive Forms & Validation. Lanjut ke pekan berikutnya untuk memperdalam.

@@ -1,6 +1,6 @@
 # Formulir dan Validasi Input
 
-> **Kategori:** HTML5 | **Level:** Form dan Interaksi | **Minggu 5:** Formulir dan Validasi Input
+> **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 5:** Formulir dan Validasi Input
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran

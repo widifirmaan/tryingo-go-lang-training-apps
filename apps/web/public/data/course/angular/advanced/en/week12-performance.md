@@ -12,47 +12,77 @@
 
 ---
 
-## Program: Optimization & SSR
+## Program: Optimizing Angular Performance
+
+Detection strategy, memoization, and on-demand loading.
 
 ```typescript
-// Performance: OnPush, trackBy, Lazy Loading, SSR
-// @Component({ changeDetection: ChangeDetectionStrategy.OnPush })
-// <li *ngFor='let item of items; trackBy: trackByFn'></li>
-// trackByFn(index: number, item: any) { return item.id; }
-// { path: 'admin', loadChildren: () => import('./admin.module').then(m => m.AdminModule) }
-console.log('Performance Optimization siap digunakan');
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+
+@Component({
+  selector: 'app-products',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @for (p of products(); track p.id) {
+      <article class="card">
+        <h3>{{ p.name }}</h3>
+        <span>{{ p.price | currency }}</span>
+      </article>
+    }
+  `,
+})
+export class ProductsComponent {
+  products = signal<Product[]>([]);
+  loading = signal(true);
+
+  async ngOnInit() {
+    const chunks = chunk(allProducts, 50);
+    for (const c of chunks) {
+      this.products.update((prev) => [...prev, ...c]);
+      await nextFrame();
+    }
+    this.loading.set(false);
+  }
+}
 ```
 
 ---
 
 ## Key Concepts
 
-### OnPush
-Only checks on @Input change.
+### OnPush + zoneless
 
-### trackBy
-Identify items to avoid full re-render.
+OnPush skips checking when input unchanged; combined with zoneless apps; world-class UI responsiveness.
 
-### Lazy Loading
-Load modules on demand.
+### @for track
+
+Track by identity reduces DOM operations — running browser like recycler.
+
+### Deferred loading
+
+Angular 17 @defer conditionally loads heavy parts (heavy charts) only when scrolled.
+
+### Budget & bundle analyzer
+
+build budgets per route: measure initial, worst-case bytes; tune build.
 
 ---
 
 ## Experiments
 
-- Implement OnPush
-- Add trackBy to ngFor
-- Setup lazy loading route
-- Measure bundle size
+- Add @defer on a heavy chart
+- Benchmark track vs untracked rendering
+- Throttle network and experience the difference
 
 ---
 
 ## Challenge
 
-Optimize Angular app: OnPush, trackBy, lazy loading, measure performance.
+Profile with Angular DevTools flame graphs on a real component tree.
 
 ---
 
 ## Summary
 
-Week 12 of 14: **Performance** (Level: Advanced). Next week: **Advanced Patterns**.
+This week's material has been covered: Optimizing Angular Performance. Continue to the following week to deepen.

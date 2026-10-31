@@ -1,6 +1,6 @@
 # Fungsi, Parameter, dan Scope
 
-> **Kategori:** JavaScript | **Level:** Dasar JavaScript & Logika | **Minggu 5:** Fungsi, Parameter, dan Scope
+> **Kategori:** JavaScript | **Level:** Pemula | **Seri:** Dasar JavaScript & Logika | **Minggu 5:** Fungsi, Parameter, dan Scope
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

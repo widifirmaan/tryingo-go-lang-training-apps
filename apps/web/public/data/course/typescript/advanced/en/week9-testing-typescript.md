@@ -1,6 +1,6 @@
 # Testing TypeScript
 
-> **Kategori:** TypeScript | **Level:** Type-Safe Architecture & Final Project | **Minggu 9:** Testing TypeScript
+> **Kategori:** TypeScript | **Level:** Advanced | **Seri:** Type-Safe Architecture & Final Project | **Minggu 9:** Testing TypeScript
 
 ## Learning Objectives
 

@@ -12,69 +12,87 @@
 
 ---
 
-## Program: Basic Web Server
+## Program: HTTP Server From Scratch, Then Express
+
+The program builds a server with the plain http module, then moves to Express for routing, middleware, and error handling.
 
 ```javascript
-const express = require("express");
-const app = express();
-const PORT = 3000;
+// Part 1: a bare http server (simulated so it runs in the browser)
+const routerMap = {
+  '/': () => 'Hello from the Tryngo Node Server!',
+  '/health': () => JSON.stringify({ status: 'ok', uptime: '12h' }),
+};
 
-app.use(express.json());
+function handleRequest(method, url) {
+  console.log(`[router] ${method} ${url}`);
+  const handler = routerMap[url];
+  if (!handler) { console.log('  -> 404 Not Found'); return; }
+  console.log('  -> 200 OK:', handler());
+}
+handleRequest('GET', '/');
+handleRequest('GET', '/health');
+handleRequest('GET', '/missing');
 
-app.get("/", (req, res) => {
-  res.json({ message: "Selamat datang di API!" });
-});
-
-app.get("/users", (req, res) => {
-  const users = [{ id: 1, nama: "Budi" }, { id: 2, nama: "Siti" }];
-  res.json(users);
-});
-
-app.get("/users/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  res.json({ id, nama: "User " + id });
-});
-
-app.post("/users", (req, res) => {
-  const { nama, email } = req.body;
-  res.status(201).json({ id: 3, nama, email });
-});
-
-app.listen(PORT, () => {
-  console.log("Server berjalan di http://localhost:" + PORT);
-});
+// Part 2: Mini-Express — router + middleware + error handling
+const middlewareStack = [
+  (req, next) => { console.log(`[logger] ${req.method} ${req.url}`); return next(); },
+  (req, next) => (req.url === '/admin' ? 'Error: admins only!' : next()),
+  (req, next) => `Data for ${req.url}`,
+];
+function dispatch(req) {
+  let i = 0;
+  const next = () => (i < middlewareStack.length ? middlewareStack[i++](req, next) : '404');
+  try {
+    console.log('[response]', dispatchSafe(req, next));
+  } catch (err) {
+    console.log('[error handler]', err.message);
+  }
+}
+function dispatchSafe(req, next) {
+  const result = next();
+  if (typeof result === 'string' && result.startsWith('Error:')) throw new Error(result);
+  return result;
+}
+dispatch({ method: 'GET', url: '/api/users' });
+dispatch({ method: 'GET', url: '/admin' });
 ```
 
 ---
 
 ## Key Concepts
 
-### Express Setup
-express() and app.listen().
+### Event loop & non-blocking I/O
 
-### Routes
-HTTP method handlers.
+Node single-threaded namun I/O asinkron: beban CPU-berat tetap menghambat; konsumsi memori rendah walau traffic tinggi (inilah daya saingnya terhadap Nginx).
 
-### Middleware
-Global and route-specific middleware with next().
+### Middleware (Express)
+
+Alur req -> [logger, body parser, auth] -> handler -> res. Setiap middleware bisa memanggil next(); tanpa next() rantai berhenti.
+
+### Routing
+
+Express menyederhanakan routing http: app.get('/api/:id', handler) memberi params dan query otomatis, jauh lebih nyaman daripada peta URL manual.
+
+### Error handling
+
+Middleware (err, req, res, next) menangkap exception: tanpa itu respons biner/mentah dizinkan lolos dan server bisa crash. Tambatkan satu sebagai filter terakhir.
 
 ---
 
 ## Experiments
 
-- Add PUT and DELETE routes for users
-- Create custom middleware for request logging
-- Implement route with query string filter
-- Add error handling middleware
+- Add a route returning a small HTML page.
+- Implement a dynamic route: /users/42 with manual URL parsing.
+- Write an error middleware (err, ...) that answers with 500.
 
 ---
 
 ## Challenge
 
-Build a REST API for Task Manager: CRUD tasks with Express, logging middleware, and error handling.
+Upgrade '/health': add memory usage and a version number. Keep the whole middleware chain under 2 ms.
 
 ---
 
 ## Summary
 
-Week 5 of 12: **Express.js & Web Server** (Level: Intermediate). Next week: **REST API Design**.
+This week's material has been covered: HTTP Server From Scratch, Then Express. Continue to the following week to deepen.

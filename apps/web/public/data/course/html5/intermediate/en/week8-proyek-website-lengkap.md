@@ -1,6 +1,6 @@
 # Full Website Project
 
-> **Category:** HTML5 | **Level:** Forms and Interaction | **Week 8:** Full Website Project
+> **Category:** HTML5 | **Level:** Intermediate | **Seri:** Forms and Interaction | **Week 8:** Full Website Project
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives

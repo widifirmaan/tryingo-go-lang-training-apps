@@ -1,6 +1,6 @@
 # Generics
 
-> **Kategori:** TypeScript | **Level:** Generics & Advanced Concepts | **Minggu 5:** Generics
+> **Kategori:** TypeScript | **Level:** Intermediate | **Seri:** Generics & Advanced Concepts | **Minggu 5:** Generics
 
 ## Learning Objectives
 

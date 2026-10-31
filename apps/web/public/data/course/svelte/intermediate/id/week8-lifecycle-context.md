@@ -12,53 +12,80 @@
 
 ---
 
-## Program: Hooks & Context
+## Program: Lifecycle & Context API
+
+Program onMount/onDestroy dan context (setContext/getContext) untuk tema & service ter-share.
 
 ```svelte
-<!-- Lifecycle: onMount, onDestroy, beforeUpdate, afterUpdate -->
-<!-- Context: setContext, getContext -->
-<script>
+<script lang="ts">
   import { onMount, onDestroy, setContext, getContext } from 'svelte';
-  onMount(() => { console.log('Mounted!'); return () => console.log('Cleanup'); });
-  onDestroy(() => { console.log('Destroyed'); });
-  setContext('theme', { dark: false, toggle: () => {} });
+
+  let { sessionId = 'abc-42' } = $props();
+
+  // === Lifecycle: mount/unmount ===
+  let data = $state<string[]>([]);
+  let ws = $state<WebSocket | null>(null);
+  onMount(() => {
+    // Browsers only! API DOM/subscription di sini
+    data = ['initial', 'ready'];
+    console.log('[mounted]', sessionId);
+  });
+  onDestroy(() => {
+    console.log('[teardown] close SSE socket');
+  });
+
+  // === Context: berikan nilai ke subtree (theme toggle) ===
+  const themeCtx = $state({ theme: 'dark' });
+  setContext('theme', {
+    get theme() { return themeCtx.theme; },
+    toggle() { themeCtx.theme = themeCtx.theme === 'dark' ? 'light' : 'dark'; }
+  });
+</script>
+
+<!-- ThemeButton.svelte -->
+<script lang="ts">
+  import { getContext } from 'svelte';
   const theme = getContext('theme');
 </script>
+<button onclick={theme.toggle}>Ganti tema: {theme.theme}</button>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### onMount
-Jalan setelah mount. Return function = cleanup.
+### SSR safety
 
-### onDestroy
-Jalan sebelum destroy.
+onMount TIDAK berjalan di server — aman untuk localStorage/WebSocket; kode di <script> sendiri dieksekusi SSR (guard window).
 
-### Context
-setContext(key, value) di parent. getContext(key) di child.
+### Cleanup pattern
 
-### Tick
-await tick() = tunggu DOM update.
+onDestroy(ws.close()) mencegah leak saat komponen unmount — tangani juga timer, listener, dan AbortSignal.
+
+### Context API
+
+setContext di parent root, getContext di deep child TANPA mengepos props per lapisan; ideal untuk theme/i18n/service singleton.
+
+### Reactive objects in context
+
+Simpan obyek $state di dalam context supaya perubahan terpropagasi ke seluruh consumer.
 
 ---
 
 ## Eksperimen
 
-- Buat timer dengan onMount/onDestroy
-- Implementasikan context untuk theme
-- Gunakan tick setelah state update
-- Buat custom lifecycle hook
+- Pasang listener window resize di onMount lalu lepas di onDestroy.
+- Simpan pilihan tema ke localStorage saat toggle.
+- Buat context 'notifications' dengan add()/list() dipakai dua komponen.
 
 ---
 
 ## Tantangan
 
-Buat theme provider dengan context: setContext theme, useContext di child components.
+Buat context 'userService' berisi fetch async dengan cache per user; konsumsi di sidebar dan header.
 
 ---
 
 ## Ringkasan
 
-Minggu 8 dari 10: **Lifecycle & Context** (Level: Menengah). Minggu depan: **Transitions & Animations**.
+Materi minggu ini telah dibahas: Lifecycle & Context API. Lanjut ke pekan berikutnya untuk memperdalam.

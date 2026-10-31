@@ -1,6 +1,6 @@
 # Loops and Data Iteration
 
-> **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 4:** Loops and Data Iteration
+> **Category:** JavaScript | **Level:** Beginner | **Seri:** JavaScript Basics & Logic | **Week 4:** Loops and Data Iteration
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

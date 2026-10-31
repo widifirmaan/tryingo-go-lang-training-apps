@@ -1,6 +1,6 @@
 # Box Model dan Kalkulasi Elemen
 
-> **Kategori:** CSS3 | **Level:** Dasar CSS & Model Kotak | **Minggu 3:** Box Model dan Kalkulasi Elemen
+> **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 3:** Box Model dan Kalkulasi Elemen
 > ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting

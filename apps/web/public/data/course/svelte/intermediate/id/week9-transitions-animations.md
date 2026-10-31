@@ -12,57 +12,77 @@
 
 ---
 
-## Program: UI Animasi
+## Program: Transitions, Animations & Motion
+
+Transitions built-in (fade, fly), spring & tweened, dan animate flip untuk list reorder.
 
 ```svelte
-<!-- Svelte Transitions: built-in animation directives -->
-<script>
-  import { fade, fly, slide, scale, flip } from 'svelte/transition';
-  let visible = true;
-  let items = [1, 2, 3];
+<script lang="ts">
+  import { fade, fly } from 'svelte/transition';
+  import { spring, tweened, cubicOut } from 'svelte/motion';
+  import { flip } from 'svelte/animate';
+
+  let visible = $state(true);
+  let items = $state(['alpha', 'beta', 'gamma']);
+  let progress = tweened(0, { duration: 400, easing: cubicOut });
+  let pos = spring({ x: 0, y: 0, stiffness: 0.3, damping: 0.8 });
+  progress.set(100);
 </script>
+
 {#if visible}
-  <div transition:fade={{ duration: 300 }}>Fade in/out</div>
-  <div in:fly={{ y: -200 }} out:slide>Fly in, slide out</div>
+  <div transition:fade={{ duration: 200 }}>Menghilang halus</div>
+  <div in:fly={{ y: 20, duration: 300 }}>Masuk dari bawah</div>
 {/if}
-{#each items as item (item)}
-  <div transition:scale>{{ item }}</div>
-{/each}
+<button onclick={() => visible = !visible}>Toggle</button>
+
+<ul>
+  {#each items as item (item)}
+    <li animate:flip={{ duration: 250 }}>{item}</li>
+  {/each}
+</ul>
+<button onclick={() => items = items.slice().reverse()}>
+    Balik urutan (FLIP animation)
+</button>
+
+<progress value={progress} max="100"></progress>
 ```
 
 ---
 
 ## Konsep Kunci
 
-### transition:
-transition:name = same for in/out.
+### In/out/custom transitions
 
-### in:/out:
-Separate transitions.
+transition: == enter+exit BOTH, in:/out: masing-masing arah. Parameters: duration, delay, easing (cubicOut).
 
-### Built-in
-fade, fly, slide, scale, blur, draw.
+### FLIP animate
 
-### animate:flip
-Flip animation untuk reorder list.
+animate:flip bekerja dengan keyed {#each}: Kalau order berubah, bersih rekruten (first last invert) animasi DOM reorder ikut alernative leadership.
+
+### tweened vs spring
+
+tweened menginterpolasi A→B dalam durasi tertentu; spring bergerak dengan fisika (stiffness/damping). Spring untuk drag, tweened untuk progress.
+
+### CSS vs JS animasi
+
+Untuk hover/active state, normal CSS animations & transitions sudah cukup; transitions Svelte untuk enter/exit DOM yang makin kompling.
 
 ---
 
 ## Eksperimen
 
-- Buat page transition
-- Implementasikan modal animation
-- Buat staggered list animation
-- Integrasikan spring motion
+- Ganti fade dengan scale berdurasi 600 ms.
+- Setel stiffness/damping spring lalu rasakan perbedaannya saat toggle.
+- Tambah item baru saat list sedang beranimasi — rasakan smoothnya FLIP.
 
 ---
 
 ## Tantangan
 
-Buat animated dashboard: page transitions, list animations, modal animations.
+Bangun modal dengan transition:fly — buka lewat tombol, tutup saat klik overlay; pastikan koreografi masuk/keluar rapi.
 
 ---
 
 ## Ringkasan
 
-Minggu 9 dari 10: **Transitions & Animations** (Level: Menengah). Minggu depan: **Capstone Project**!
+Materi minggu ini telah dibahas: Transitions, Animations & Motion. Lanjut ke pekan berikutnya untuk memperdalam.

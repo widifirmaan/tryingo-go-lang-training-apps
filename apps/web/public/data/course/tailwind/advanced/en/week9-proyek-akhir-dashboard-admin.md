@@ -1,6 +1,6 @@
 # Final Project: Complete Responsive Admin Dashboard
 
-> **Kategori:** Tailwind CSS | **Level:** Components & Interface Project | **Minggu 9:** Final Project: Complete Responsive Admin Dashboard
+> **Kategori:** Tailwind CSS | **Level:** Advanced | **Seri:** Components & Interface Project | **Minggu 9:** Final Project: Complete Responsive Admin Dashboard
 
 ## Learning Objectives
 

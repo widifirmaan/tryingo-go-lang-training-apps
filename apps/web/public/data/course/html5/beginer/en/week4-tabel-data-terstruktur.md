@@ -1,6 +1,6 @@
 # Tables and First Project
 
-> **Category:** HTML5 | **Level:** HTML Basics | **Week 4:** Tables and First Project
+> **Category:** HTML5 | **Level:** Beginner | **Seri:** HTML Basics | **Week 4:** Tables and First Project
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters

@@ -1,6 +1,6 @@
 # Introduction to TypeScript
 
-> **Kategori:** TypeScript | **Level:** Types & Interfaces Foundation | **Minggu 1:** Introduction to TypeScript
+> **Kategori:** TypeScript | **Level:** Beginner | **Seri:** Types & Interfaces Foundation | **Minggu 1:** Introduction to TypeScript
 
 ## Why This Matters
 

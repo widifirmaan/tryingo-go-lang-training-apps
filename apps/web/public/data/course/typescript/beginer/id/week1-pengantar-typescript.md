@@ -1,6 +1,6 @@
 # Pengantar TypeScript
 
-> **Kategori:** TypeScript | **Level:** Dasar Tipe & Interface | **Minggu 1:** Pengantar TypeScript
+> **Kategori:** TypeScript | **Level:** Pemula | **Seri:** Dasar Tipe & Interface | **Minggu 1:** Pengantar TypeScript
 
 ## Kenapa Materi Ini Penting
 

@@ -19,83 +19,71 @@ Di minggu ke-2 — bertajuk **"Hash"** — program latihan utamanya adalah *"Ope
 
 ---
 
-## Program: Operasi Hash Redis
+## Program: Operasi Hash: Kartu Profil Mahasiswa
 
-```shell
-# Hash: simpan object
-HSET user:1001 nama "Budi" email "budi@mail.com" umur 25 kota "Jakarta"
+Hash menyimpan field-value dalam satu kunci. Program membangun CRUD kartu pelajar penuh, termasuk membaca beberapa field sekaligus.
 
-# Get single field
-HGET user:1001 nama
+```redis
+# === Kartu Mahasiswa sebagai Hash ===
+HSET student:42 nim "2201234" nama "Budi Santoso" ipk 3.75 semester 5
+HMGET student:42 nama ipk
+HGETALL student:42
 
-# Get multiple field
-HMGET user:1001 nama email kota
+# === Inkrement kecil: naikkan semester lewat HINCRBY ===
+HINCRBY student:42 semester 1
+HGET student:42 semester
 
-# Get all fields
-HGETALL user:1001
+# === HSETNX: buat field hanya bila belum ada ===
+HSETNX student:42 status "aktif"
+HGET student:42 status
 
-# Get only keys
-HKEYS user:1001
+# === HDEL dan HLEN ===
+HDEL student:42 nim
+HLEN student:42
+HKEYS student:42
 
-# Get only values
-HVALS user:1001
-
-# Increment field
-HINCRBY user:1001 umur 1
-
-# Set jika tidak ada
-HSETNX user:1001 phone "08123456789"
-HSETNX user:1001 phone "08987654321"  # Gagal
-
-# Cek field exists
-HEXISTS user:1001 email
-
-# Hapus field
-HDEL user:1001 phone
-
-# Panjang hash
-HLEN user:1001
-
-# Scan hash (untuk hash besar)
-HSCAN user:1001 0 COUNT 10
+# === Hash kedua ===
+DEL student:133
+HSET student:133 nama "Siti Rahma" ipk 3.9 semester 3
+HGETALL student:133
 ```
 
 ---
 
 ## Konsep Kunci
 
-### Hash
-Map field-value dalam satu key. Bagus untuk object.
+### Field-level access
 
-### HSET & HGET
-Simpan dan ambil per field.
+HSET/HGET memutasi satu field tanpa membaca seluruh objek — lebih hemat bandwidth ketimbang menaruh kunci per field.
 
-### HGETALL
-Ambil semua field dan value.
+### Incremental semantics
 
-### HINCRBY
-Increment numeric field.
+HINCRBY bekerja untuk nilai integer; HSETNX membuat field hanya bila belum ada (mencegah beberapa worker salin menimpa satu sama lain).
 
-### HSETNX
-Set hanya jika field belum ada.
+### Kelebihan & kelemahan
+
+Hash melayani akses field parsial dengan murah, tetapi HGETALL menyerialisasi seluruh objek: untuk profil yang sangat besar, pecah ke beberapa hash.
+
+### Object caching
+
+Hash + EXPIRE memberi pola cache objek: data panas di Redis (big TTL), source of truth tetap di database.
 
 ---
 
 ## Eksperimen
 
-- Hash untuk shopping cart
-- HINCRBY untuk stats
-- Hash vs String serialized
-- Scan pattern
+- Buat kartu student:43 dengan semester=1 lalu naikkan menjadi 8 langkah demi langkah.
+- Simulasikan kelulusan: HDEL status lalu HSET status "lulus".
+- Tulis HMGET berisi hanya field numerik (ipk, semester) dan baca hasilnya.
 
 ---
 
 ## Tantangan
 
-Profil user: simpan, update, ambil field spesifik.
+Buat hash "leaderboard:kelas" berisi nama dan nilai terbaik tiap kelas (field per kelas): gunakan HGETALL lalu bayangkan cara agregasinya di aplikasi.
 
 ---
 
 ## Ringkasan
 
-Minggu 2 dari 10: **Hash** (Pemula).
+Materi minggu ini telah dibahas: Operasi Hash: Kartu Profil Mahasiswa. Lanjut ke pekan berikutnya untuk memperdalam.

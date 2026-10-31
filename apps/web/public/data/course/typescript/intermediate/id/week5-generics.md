@@ -1,6 +1,6 @@
 # Generics
 
-> **Kategori:** TypeScript | **Level:** Generics & Konsep Lanjutan | **Minggu 5:** Generics
+> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 5:** Generics
 
 ## Tujuan Pembelajaran
 

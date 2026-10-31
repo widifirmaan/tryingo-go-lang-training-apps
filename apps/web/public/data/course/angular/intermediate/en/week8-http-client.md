@@ -12,54 +12,92 @@
 
 ---
 
-## Program: REST API
+## Program: HttpClient & Interceptors
+
+Json fetching, error handling, loading state signals, plus a token interceptor.
 
 ```typescript
-// HttpClient = Angular service untuk HTTP requests
-import { Injectable } from '@angular/core';
+// product.service.ts
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { signal, computed } from '@angular/core';
+
 export interface Product { id: number; name: string; price: number; }
+
 @Injectable({ providedIn: 'root' })
-export class ProductApiService {
-  private apiUrl = 'https://api.example.com/products';
-  constructor(private http: HttpClient) {}
-  getProducts(): Observable<Product[]> { return this.http.get<Product[]>(this.apiUrl); }
-  getProduct(id: number): Observable<Product> { return this.http.get<Product>(this.apiUrl + '/' + id); }
+export class ProductService {
+  private http = inject(HttpClient);
+  products = signal<Product[]>([]);
+  loading = signal(false);
+  error = signal<string | null>(null);
+  total = computed(() => this.products().reduce((s, p) => s + p.price, 0));
+
+  load() {
+    this.loading.set(true);
+    this.http.get<Product[]>('/api/products').subscribe({
+      next: (data) => { this.products.set(data); this.loading.set(false); },
+      error: (err) => { this.error.set(err.message); this.loading.set(false); },
+    });
+  }
 }
-console.log('HTTP Client siap digunakan');
+
+// app.config.ts
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideExperimentalZonelessChangeDetection } from '@angular/core';
+
+export const appConfig = {
+  providers: [
+    provideExperimentalZonelessChangeDetection(),
+    provideHttpClient(withInterceptors([authInterceptor, retryInterceptor])),
+  ],
+};
+
+// interceptors.ts
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = localStorage.getItem('jwt');
+  return next(token ? req.clone({ setHeaders: { Authorization: 'Bearer ' + token } }) : req);
+};
+
+export const retryInterceptor: HttpInterceptorFn = (req, next) =>
+  next(req).pipe(retry({ count: 2, delay: 400 }));
 ```
 
 ---
 
 ## Key Concepts
 
-### HttpClient
-Injectable HTTP service.
+### Observable stream
 
-### Methods
-get, post, put, delete.
+http.get memunculkan observable; gunakan takeUntilDestroyed agar auto-unsubscribe saat komponen hancur.
 
-### Type-safe
-Typed responses with generics.
+### Signals + computed
+
+signal()/computed() memberi state reaktif modern — pas dengan zoneless change detection.
+
+### Functional interceptors
+
+HttpInterceptorFn mudah diuji dan dirantai berurutan (auth -> logging -> retry).
+
+### Error handling
+
+Retry dengan backoff, catchError memetakan ke pesan ramah, tap() untuk state loading.
 
 ---
 
 ## Experiments
 
-- Create API service with CRUD
-- Implement error handling
-- Add request interceptor
-- Create search with debounce
+- Add a skeleton while loading=true
+- Retry 3x with exponential backoff
+- CRUD via post/put/delete calls in the product service.
 
 ---
 
 ## Challenge
 
-Build a product CRUD app: fetch from API, display list, add/edit/delete products.
+Implement optimistic updates: patch UI before the server confirms; roll back on error.
 
 ---
 
 ## Summary
 
-Week 8 of 14: **HTTP Client & APIs** (Level: Intermediate). Next week: **RxJS Fundamentals**.
+This week's material has been covered: HttpClient & Interceptors. Continue to the following week to deepen.

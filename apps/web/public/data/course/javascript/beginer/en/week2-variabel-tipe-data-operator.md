@@ -1,6 +1,6 @@
 # Variables, Data Types, and Operators
 
-> **Category:** JavaScript | **Level:** JavaScript Basics & Logic | **Week 2:** Variables, Data Types, and Operators
+> **Category:** JavaScript | **Level:** Beginner | **Seri:** JavaScript Basics & Logic | **Week 2:** Variables, Data Types, and Operators
 > ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
 
 ## Why This Matters
