@@ -2,6 +2,9 @@
 
 **Tryngo** is a web-based interactive coding education platform that teaches programming from zero to professional. Built as a single-page application with React 19, Vite 6, and Tailwind CSS 4, deployed on Cloudflare Pages.
 
+🌐 **Live Website**: [https://tryngo.widifirmaan.web.id/](https://tryngo.widifirmaan.web.id/)
+
+[![Live Website](https://img.shields.io/badge/Live%20Website-tryngo.widifirmaan.web.id-2E5B44?style=flat&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id/)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-success)](https://github.com/widifirmaan/tryingo-go-lang-training-apps)
 [![React](https://img.shields.io/badge/React-19-blue)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6-purple)](https://vitejs.dev/)
@@ -96,7 +99,8 @@
 </td>
 <td>
 
-—
+![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png)
+**Index Modal Desktop**
 
 </td>
 </tr>
@@ -105,19 +109,6 @@
 
 ![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png)
 **Hamburger Mobile**
-
-</td>
-<td>
-
-—
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png)
-**Index Modal Desktop**
 
 </td>
 <td>
