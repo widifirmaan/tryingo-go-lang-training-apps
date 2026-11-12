@@ -24,32 +24,28 @@
 
 ## 📸 Application Showcase
 
-### 1. Core Learning Experience & Track Discovery
+### 1. Platform Overview & Learning Experience (Desktop)
 
-| Hero Landing & Track Catalog | Curriculum & Multi-Framework Study |
+| Core Hero & Navigation | Track Catalog Directory |
 | :---: | :---: |
 | ![Hero Index](screenshots/Tryngo%20Index%20Desktop.png)<br>**Interactive Neo-Brutalist Hero Landing** | ![Track Grid](screenshots/Tryngo%20Grid%20Desktop.png)<br>**27-Track Curriculum Directory & Category Filters** |
 | ![Course Page](screenshots/Tryngo%20Course%20Desktop.png)<br>**Go Track Deep-Dive Curriculum & Inline Runner** | ![React Course](screenshots/Tryngo%20Course%20React%20Desktop.png)<br>**React & TypeScript Interactive Curriculum** |
-| ![Code Playground](screenshots/Tryngo%20Playground%20Desktop.png)<br>**Monaco Code Playground & Live WASM Execution** | ![Quiz Modal](screenshots/Tryngo%20Quiz%20Desktop.png)<br>**Interactive Practice Quiz & Knowledge Validation** |
-| ![Search Modal](screenshots/Tryngo%20Search%20Desktop.png)<br>**Fuse.js Instant Fuzzy Search Modal** | ![Settings Modal](screenshots/Tryngo%20Settings%20Desktop.png)<br>**Neo-Brutalist Theme & Bilingual Switchers** |
 
----
+### 2. Interactive Execution Sandboxes, Modals & Theme (Desktop)
 
-### 2. Advanced Sandboxes & Aesthetic Modes
-
-| Career Paths & Dark Theme | Mobile Responsive Experience |
+| In-Browser Sandboxes & Validation | System Configuration & Aesthetics |
 | :---: | :---: |
+| ![Code Playground](screenshots/Tryngo%20Playground%20Desktop.png)<br>**Monaco Code Playground & Live WASM Execution** | ![Quiz Modal](screenshots/Tryngo%20Quiz%20Desktop.png)<br>**Interactive Practice Quiz & Knowledge Validation** |
+| ![Search Modal](screenshots/Tryngo%20Search%20Desktop.png)<br>**Fuse.js Instant Fuzzy Search Modal** | ![Settings Modal](screenshots/Tryngo%20Settings%20Desktop.png)<br>**Theme & Bilingual (ID/EN) Localization Settings** |
 | ![Career Paths](screenshots/Tryngo%20Career%20Paths%20Desktop.png)<br>**Structured Career Roadmaps (Frontend, Backend, DevOps)** | ![Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Desktop.png)<br>**High-Contrast Neo-Brutalist Dark Theme** |
+
+### 3. Mobile Responsive Experience (Mobile Viewports)
+
+| Mobile Navigation & Catalog | Mobile Learning & Sandboxes |
+| :---: | :---: |
 | ![Mobile Hero](screenshots/Tryngo%20Index%20Mobile.png)<br>**Mobile View: Hero & Quick Navigation** | ![Mobile Grid](screenshots/Tryngo%20Grid%20Mobile.png)<br>**Mobile View: Filterable Track Grid** |
 | ![Mobile Course](screenshots/Tryngo%20Course%20Mobile.png)<br>**Mobile View: Weekly Course Material Reader** | ![Mobile Playground](screenshots/Tryngo%20Playground%20Mobile.png)<br>**Mobile View: Touch Code Playground** |
 | ![Mobile Quiz](screenshots/Tryngo%20Quiz%20Mobile.png)<br>**Mobile View: Interactive Quiz Challenge** | ![Mobile Drawer](screenshots/Tryngo%20Hamburger%20Mobile.png)<br>**Mobile View: Slide-out Navigation Drawer** |
-
----
-
-### 3. Mobile Responsive Showcase
-
-| Mobile Search & Settings | Mobile Career & Dark Mode |
-| :---: | :---: |
 | ![Mobile Search](screenshots/Tryngo%20Search%20Mobile.png)<br>**Mobile: Real-Time Fuzzy Search** | ![Mobile Settings](screenshots/Tryngo%20Settings%20Mobile.png)<br>**Mobile: Preferences & Localization** |
 | ![Mobile Career Paths](screenshots/Tryngo%20Career%20Paths%20Mobile.png)<br>**Mobile: Career Learning Roadmaps** | ![Mobile Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Mobile.png)<br>**Mobile: High-Contrast Dark Mode** |
 
@@ -57,98 +53,96 @@
 
 ## 🚀 Key Features
 
+### 💻 In-Browser Multi-Language Sandboxes
+- **Client-Side Go WebAssembly (Yaegi)**: Execute authentic Go code directly in the browser via WebAssembly without hitting backend servers or incurring API latency.
+- **Embedded Microsoft Monaco Editor**: Full desktop Visual Studio Code editing experience equipped with syntax highlighting, autocomplete, code folding, and bracket matching.
+- **Multi-Framework Playgrounds**: Interactive sandboxes powered by StackBlitz WebContainers for React, Next.js, Node.js, NestJS, Django, and Angular.
+- **Specialized REPL Runners**: Dedicated in-browser sandboxes for Docker commands, SQL queries (PostgreSQL / MySQL), MongoDB document queries, and Redis in-memory commands.
+
 ### 🎓 27 Comprehensive Tech Tracks
-- **Frontend & UI**: HTML5, CSS3, Tailwind CSS, JavaScript, TypeScript, React, Next.js, Vue, Angular, Svelte.
-- **Backend & Systems**: Go (Golang), Node.js, NestJS, Python, Django, PHP, Laravel, CodeIgniter 4, Ruby on Rails, Rust, C# (.NET), Spring Boot.
-- **Database & Storage**: PostgreSQL, MySQL, MongoDB, Redis, GraphQL.
-- **DevOps & Infrastructure**: Docker, Linux Containers, Cloud Deployments.
+- **From Zero to Production**: Structured curricula spanning Frontend, Backend, DevOps, Systems Programming, Mobile, and Cloud Infrastructure.
+- **Step-by-Step Learning Units**: Each track is partitioned into progressive levels (`Pemula`, `Menengah`, `Lanjutan`, `Profesional`) with weekly actionable exercises.
+- **Instant Code Previews**: Every syllabus item includes pre-loaded boilerplate code that students can run, tweak, and test in real time.
 
-### ⚡ Client-Side WebAssembly & Sandboxes
-- **Yaegi Go WASM Interpreter**: Compiles and executes Go code entirely inside the browser without transmitting code to a backend server.
-- **Monaco Code Editor**: Professional-grade code editor powered by VS Code’s core engine with autocompletion, bracket matching, and theme synchronization.
-- **StackBlitz & WebContainer Bridge**: Runs full Node.js web applications, Vite bundlers, and npm dependencies directly within browser tabs.
+### 🧭 Career Roadmaps & Knowledge Assessment
+- **Curated Career Paths**: Guided learning journeys for aspiring *Fullstack Engineers*, *Go Backend & Systems Engineers*, and *DevOps & Cloud Architects*.
+- **Interactive Practice Quizzes**: 100+ multiple-choice and code evaluation challenges per track to validate concepts before advancing.
+- **Local Progress Tracking**: Automatic persistence of completed weeks, active courses, and quiz scores via `localStorage` with Zero-Login requirement.
 
-### 🌐 Bilingual Curriculum Engine (ID & EN)
-- Every single lesson includes native **Bahasa Indonesia** and **English** explanations, code commentary, and hands-on experiments.
-- Instant language switching across navigation, course readers, and quiz assessments.
-
-### 🔍 Instant Fuzzy Search (Fuse.js)
-- Pre-compiled search index containing thousands of weekly curriculum topics, code snippets, and conceptual tags.
-- Sub-millisecond keystroke fuzzy matching with direct deep-linking to lessons.
-
-### 🎨 Neo-Brutalist Aesthetic & Theming
-- Distinctive high-contrast visual design featuring punchy borders, tactile buttons, and fluid spring physics via `motion` (Framer Motion).
-- Persistent **Light** and **Dark** theme modes saved locally with zero-flash rendering.
-
-### 🗺️ Curated Career Roadmaps
-- Structured learning paths guiding aspiring developers through **Frontend Specialist**, **Backend Architect**, **Fullstack Engineer**, and **Cloud DevOps Engineer** career trajectories.
-
----
-
-## 🏗️ Technical Architecture
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        Tryngo Platform Architecture                    │
-└────────────────────────────────────────────────────────────────────────┘
-
-    Client Layer (React 19 + Vite 6 + Tailwind CSS 4)
-    ├── State-Based View Switcher & Hash Router (#/course/level/week)
-    ├── Dynamic Motion Engine (Framer Motion / Motion 12)
-    ├── Markdown Parser & Syntax Highlighter (React Markdown + Remark GFM)
-    └── UI Modals: Search, Settings, Quiz, Career Paths
-                       │
-         ┌─────────────┼─────────────┐
-         ▼                           ▼                           ▼
-    Search Engine             Code Playgrounds            Course Curriculum
-    ├── Fuse.js               ├── Monaco Editor           ├── 27 Tracks
-    └── Pre-Indexed Data      ├── WebAssembly (Go)        ├── 4 Difficulty Levels
-                              ├── WebContainers (Node)    ├── 16-20 Weeks Each
-                              └── Docker Runner (CLI)     └── Bilingual Markdown
-```
+### ⚡ Smart Search & Personalization
+- **Fuse.js Fuzzy Search**: Instant, typo-tolerant search across all 27 tracks, materials, topics, and framework tags.
+- **Bilingual Localization**: Seamless one-click switching between **Bahasa Indonesia** and **English (US)** across all UI elements and navigation.
+- **Neo-Brutalist Theme Engine**: High-contrast, tactile UI aesthetic supporting smooth switching between Light Mode and Dark Mode.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer | Technology | Details |
-|---|---|---|
-| **Frontend Framework** | React 19.0.1 | Concurrent React features, Suspense-driven code splitting |
-| **Bundler & Build Tool**| Vite 6.2.3 | Lightning-fast HMR and optimized production asset pipeline |
-| **Styling** | Tailwind CSS 4.1.14 | Modern utility-first CSS engine with custom Neo-Brutalist tokens |
+| Layer | Technologies | Description |
+| :--- | :--- | :--- |
+| **Frontend Framework** | React 19.0.1 + Vite 6.2.3 | Modern React with fast Hot Module Replacement (HMR) |
+| **Styling & Design** | Tailwind CSS 4.1.14 | Modern utility-first CSS engine with Neo-Brutalist design tokens |
 | **Language** | TypeScript 5.8 | End-to-end strict typing across curricula, tracks, and UI |
 | **Animations** | Motion 12.23.24 | Fluid micro-interactions and tactile spring physics |
 | **Code Editor** | Monaco Editor 0.56.0 | Embedded Visual Studio Code editing experience |
-| **Go Code Engine** | Yaegi + WebAssembly | Client-side Go runtime executing safely in sandbox |
+| **Go Code Engine** | Yaegi + WebAssembly | Client-side Go runtime executing safely in browser sandbox |
 | **Web Sandbox** | StackBlitz SDK + WebContainers | Browser-based Node.js runtime and full-stack playgrounds |
-| **Fuzzy Search** | Fuse.js 7.5.0 | High-performance client-side full-text search |
-| **Deployment** | Cloudflare Pages | Global low-latency CDN edge delivery |
+| **Fuzzy Search** | Fuse.js 7.5.0 | High-performance client-side full-text search index |
+| **Deployment** | Cloudflare Pages | Global low-latency CDN edge delivery with pre-rendered routes |
 
 ---
 
-## 📚 Curriculum & Tracks Directory
+## 📚 Curriculum & 27 Learning Tracks Directory
 
-| Track | Category | Levels | Weeks | Interactive Sandbox |
+| Track | Category | Levels | Weeks | Execution Runtime |
 |---|---|:---:|:---:|---|
-| **Go (Golang)** | Backend | 3 | 14 | In-Browser WebAssembly (Yaegi) |
-| **React** | Frontend | 4 | 16 | WebContainers / StackBlitz |
-| **Next.js** | Fullstack | 4 | 16 | WebContainers / StackBlitz |
-| **TypeScript** | Language | 4 | 16 | Monaco Editor Sandbox |
-| **JavaScript** | Language | 4 | 16 | Browser JS Sandbox |
-| **Python** | Language | 5 | 18 | Client-side Python WASM |
-| **Django** | Backend | 5 | 18 | Python Runtime Sandbox |
-| **Docker** | DevOps | 3 | 16 | Interactive Docker Terminal |
-| **Node.js** | Backend | 4 | 16 | WebContainers Sandbox |
-| **NestJS** | Backend | 3 | 16 | WebContainers Sandbox |
-| **Rust** | Systems | 3 | 14 | Rust WebAssembly Playground |
-| **Vue** | Frontend | 4 | 16 | WebContainers Sandbox |
-| **Svelte** | Frontend | 4 | 16 | WebContainers Sandbox |
-| **Laravel** | Backend | 5 | 20 | Browser PHP Playground |
-| **PostgreSQL** | Database | 4 | 16 | Client-side SQL Engine |
-| **MySQL** | Database | 4 | 16 | Client-side SQL Engine |
-| **MongoDB** | Database | 4 | 16 | Document Store Sandbox |
-| **Redis** | Database | 3 | 16 | In-Memory CLI Sandbox |
-| **GraphQL** | API | 3 | 16 | Interactive GraphQL Schema Runner |
+| **Go (Golang)** | Backend & Systems | 3 | 14 | In-Browser WebAssembly (Yaegi) |
+| **React** | Frontend Library | 4 | 16 | WebContainers / StackBlitz |
+| **Next.js** | Fullstack Framework | 4 | 16 | WebContainers / StackBlitz |
+| **TypeScript** | Typed Language | 4 | 16 | Monaco Editor Sandbox |
+| **JavaScript** | Language Core | 4 | 16 | Browser JS Runtime |
+| **HTML5** | Web Markup | 3 | 14 | In-Browser HTML Sandbox |
+| **CSS3** | Modern Styling | 3 | 14 | CSS Live Preview |
+| **Tailwind CSS** | Styling Framework | 3 | 9 | Tailwind JIT Engine |
+| **Python** | Language & AI | 5 | 18 | Client-side Python WASM |
+| **Django** | Python Backend | 5 | 18 | Python Runtime Sandbox |
+| **Docker** | Cloud & DevOps | 3 | 16 | Interactive Docker Terminal |
+| **Node.js** | Backend Runtime | 4 | 16 | WebContainers Sandbox |
+| **NestJS** | Enterprise Node | 3 | 16 | WebContainers Sandbox |
+| **Rust** | Systems Programming | 3 | 14 | Rust WebAssembly Playground |
+| **Vue** | Frontend Framework | 4 | 16 | WebContainers Sandbox |
+| **Svelte** | Reactive Frontend | 4 | 16 | WebContainers Sandbox |
+| **Angular** | Enterprise Frontend | 4 | 16 | WebContainers Sandbox |
+| **Laravel** | PHP Framework | 5 | 20 | Browser PHP Playground |
+| **CodeIgniter 4** | PHP Framework | 3 | 12 | Browser PHP Playground |
+| **Spring Boot** | Java Enterprise | 4 | 16 | WebContainers Sandbox |
+| **C# (.NET)** | Backend & Enterprise | 4 | 16 | Monaco C# Sandbox |
+| **Ruby on Rails** | Fullstack Framework | 4 | 16 | Interactive Ruby Sandbox |
+| **PostgreSQL** | Relational Database | 4 | 16 | Client-side SQL Engine |
+| **MySQL** | Relational Database | 4 | 16 | Client-side SQL Engine |
+| **MongoDB** | Document Database | 4 | 16 | Document Store Sandbox |
+| **Redis** | In-Memory Database | 3 | 16 | In-Memory CLI Sandbox |
+| **GraphQL** | API Architecture | 3 | 16 | Interactive GraphQL Runner |
+
+---
+
+## 🧪 Automated Testing & Verification Suite
+
+The repository includes comprehensive automated test suites run directly against the codebase and live environment:
+
+### 1. Vitest Unit Test Suite (`apps/web/tests/`)
+Tests progress storage, localStorage fallback handling, and slug mapping consistency:
+```bash
+cd apps/web && npm test
+```
+*Output: `Test Files: 2 passed (2) | Tests: 15 passed (15) | 100% Success`*
+
+### 2. Headless Screenshot Automation Suite (`scripts/capture_tryngo_screenshots.js`)
+Captures all 20 desktop (1440x900) and mobile (390x844) viewport states directly from live production:
+```bash
+node scripts/capture_tryngo_screenshots.js
+```
+*Built with rendering delays (`4000ms – 7000ms`) ensuring Monaco editor instances, WebAssembly runtimes, and layout transitions settle before capturing.*
 
 ---
 
@@ -157,30 +151,34 @@
 ```bash
 /
 ├── apps/
-│   └── web/                    # Main Web Application
+│   └── web/                      # Main Web Application
 │       ├── public/
-│       │   ├── data/course/    # Course markdown materials (27 tracks x levels x weeks)
+│       │   ├── data/course/      # Course markdown materials (27 tracks x levels x weeks)
 │       │   ├── search-index.json # Pre-compiled Fuse.js search index
-│       │   └── wasm/           # Yaegi WebAssembly execution binaries
-│       ├── scripts/            # Curriculum and sitemap generator scripts
+│       │   ├── quiz-index.json   # Comprehensive quiz question banks
+│       │   └── wasm/             # Yaegi WebAssembly Go execution binaries
+│       ├── scripts/              # Curriculum, WASM build & sitemap generators
 │       ├── src/
-│       │   ├── assets/         # SVG technology logos & brand graphics
-│       │   ├── components/     # Reusable UI, Modals, & Playgrounds
-│       │   │   ├── playgrounds/# Specialised language playground runners
+│       │   ├── assets/           # SVG technology logos & brand graphics
+│       │   ├── components/       # Reusable UI, Modals, & Playgrounds
+│       │   │   ├── playgrounds/  # Specialized language playground runners
 │       │   │   ├── CareerPathsModal.tsx
 │       │   │   ├── CodePlayground.tsx
 │       │   │   ├── CoursePage.tsx
 │       │   │   ├── HeroSection.tsx
+│       │   │   ├── IdeModal.tsx
 │       │   │   ├── Modals.tsx
 │       │   │   ├── QuizModal.tsx
 │       │   │   └── TrackCard.tsx
-│       │   ├── data/           # Curriculum configurations, tracks & slug mappings
-│       │   ├── utils/          # Bilingual translation map & color tokens
-│       │   ├── App.tsx         # Root application & state router
-│       │   └── main.tsx        # React entrypoint
+│       │   ├── data/             # Curriculum configurations, tracks & slug mappings
+│       │   ├── utils/            # Bilingual translations, progress sync, color tokens
+│       │   ├── App.tsx           # Root application & state router
+│       │   └── main.tsx          # React entrypoint
+│       ├── tests/                # Vitest unit test suites
 │       ├── package.json
 │       └── vite.config.ts
-├── screenshots/                # Comprehensive desktop & mobile screenshots
+├── screenshots/                  # High-resolution desktop & mobile showcase images
+├── screenshot/                   # Legacy showcase image sync
 ├── scripts/
 │   └── capture_tryngo_screenshots.js # Automated Puppeteer capture script
 └── README.md
@@ -188,25 +186,13 @@
 
 ---
 
-## 🧪 Automated Screenshot Suite
-
-The repository includes a headless Chromium automation script that captures all desktop and mobile views directly against the live production deployment:
-
-```bash
-node scripts/capture_tryngo_screenshots.js
-```
-
-Built with deliberate render delays (`4000ms – 7000ms`) to ensure Monaco editor instances, WebAssembly runtimes, and Framer Motion layout springs settle before taking each snapshot.
-
----
-
-## 📦 Getting Started & Local Development
+## 🚀 Getting Started & Local Development
 
 ### Prerequisites
 - **Node.js 20+** or **Node.js 22+**
 - **npm**, **pnpm**, or **yarn**
 
-### Installation
+### Installation & Setup
 ```bash
 # 1. Clone repository
 git clone https://github.com/widifirmaan/tryingo-go-lang-training-apps.git
@@ -221,13 +207,17 @@ npm run dev
 ```
 *Access local development server via `http://localhost:3000`*
 
-### Build for Production
+### Run Unit Tests
 ```bash
-npm run build
+npm test
 ```
 
-### Deploy to Cloudflare Pages
+### Production Build & Deployment
 ```bash
+# Build production bundle
+npm run build
+
+# Deploy to Cloudflare Pages
 npm run deploy
 ```
 
