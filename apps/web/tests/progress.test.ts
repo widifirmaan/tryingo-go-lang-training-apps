@@ -2,8 +2,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   getStoredProgress,
   saveProgress,
-  setPosition,
-  getLastPosition,
   isWeekCompleted,
   toggleWeekCompleted,
   getTrackProgress,
@@ -68,21 +66,9 @@ describe('progress.ts', () => {
     expect(data.react!.completedWeeks).toEqual([2]);
   });
 
-  it('last position round-trips and validates', () => {
-    expect(getLastPosition()).toBeNull();
-    const pos = { slug: 'golang', level: 'beginer', week: 2, titleId: 'A', titleEn: 'B', updatedAt: 'now' };
-    setPosition(pos);
-    expect(getLastPosition()).toEqual(pos);
-    store.set('tryngo-last-position', JSON.stringify({ slug: 'x' }));
-
-    expect(getLastPosition()).toBeNull();
-  });
-
   it('does not throw when localStorage is unavailable', () => {
     vi.stubGlobal('localStorage', undefined);
     expect(() => saveProgress({})).not.toThrow();
-    expect(() => getLastPosition()).not.toThrow();
-    expect(getLastPosition()).toBeNull();
   });
 
   it('getTrackProgress computes counts and percent', () => {

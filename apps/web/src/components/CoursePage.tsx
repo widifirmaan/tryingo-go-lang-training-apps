@@ -9,7 +9,7 @@ import { Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum } from '../data/curriculum';
 import { SLUG_MAP } from '../data/slugMap';
-import { isWeekCompleted, toggleWeekCompleted, setPosition } from '../utils/progress';
+import { isWeekCompleted, toggleWeekCompleted } from '../utils/progress';
 import { StackBlitzPlayground } from './playgrounds/StackBlitzPlayground';
 import { DockerPlayground } from './DockerPlayground';
 import { SqlPlayground } from './playgrounds/SqlPlayground';
@@ -475,19 +475,6 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     loadContent();
     return () => loadRef.current?.abort.abort();
   }, [loadContent]);
-
-  // Persist last reading position for the "Lanjutkan Belajar" button
-  useEffect(() => {
-    if (!currentWeek) return;
-    setPosition({
-      slug,
-      level: activeLevel,
-      week: activeWeek,
-      titleId: currentWeek.titleId,
-      titleEn: currentWeek.titleEn,
-      updatedAt: new Date().toISOString(),
-    });
-  }, [slug, activeLevel, activeWeek, currentWeek]);
 
   // Completed state for the current week (reb-rendered via progress event)
   const [completionTick, setCompletionTick] = useState(0);

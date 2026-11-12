@@ -7,7 +7,7 @@ import { translations, Language } from '../utils/translations';
 import { TRACKS_COLLECTION } from '../data/tracksData';
 import { getCurriculum, LEVEL_BADGE_COLORS } from '../data/curriculum';
 import { SLUG_MAP, REVERSE_SLUG_MAP } from '../data/slugMap';
-import { getLastPosition, isWeekCompleted, PROGRESS_EVENT, LastPosition } from '../utils/progress';
+import { isWeekCompleted, PROGRESS_EVENT } from '../utils/progress';
 
 interface HeroSectionProps {
   onOpenSearch: () => void;
@@ -56,16 +56,13 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
   const [showExitModal, setShowExitModal] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
-  const [lastPosition, setLastPosition] = useState<LastPosition | null>(() => getLastPosition());
   const [progressTick, setProgressTick] = useState(0);
   const materiRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
 
-  // Keep "Lanjutkan Belajar" + completed ticks in sync with progress writes
   useEffect(() => {
     const onUpdate = () => {
-      setLastPosition(getLastPosition());
       setProgressTick(k => k + 1);
     };
     window.addEventListener(PROGRESS_EVENT, onUpdate);
@@ -163,29 +160,6 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
 
                 {/* Navigation Options */}
                 <div className="flex flex-col gap-1">
-                  {/* Lanjutkan Belajar (last reading position) */}
-                  {lastPosition && !activeCourseId && (
-                    <motion.button
-                      whileHover={{ scale: 1.02, x: 3 }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => {
-                        const trackId = REVERSE_SLUG_MAP[lastPosition.slug];
-                        if (trackId) {
-                          onNavigateToWeek?.(trackId, lastPosition.level, lastPosition.week);
-                        }
-                      }}
-                      className="w-full px-3.5 py-2.5 rounded-2xl bg-emerald-400/20 hover:bg-emerald-400/30 border border-emerald-400/40 text-emerald-100 text-xs font-bold flex items-center gap-2.5 transition-colors"
-                    >
-                      <FontAwesomeIcon icon={faPlay} className="w-4 h-4 text-emerald-300 shrink-0" />
-                      <span className="min-w-0 text-left">
-                        <span className="block leading-tight">{lang === 'id' ? 'Lanjutkan Belajar' : 'Continue Learning'}</span>
-                        <span className="block text-[9px] font-semibold text-emerald-200/80 truncate">
-                          {TRACKS_COLLECTION.find(tk => tk.id === REVERSE_SLUG_MAP[lastPosition.slug])?.name || lastPosition.slug} · {lang === 'id' ? `Minggu ${lastPosition.week}` : `Week ${lastPosition.week}`}
-                        </span>
-                      </span>
-                    </motion.button>
-                  )}
-
                   {/* Home */}
                   {onBackToHero && (
                     <motion.button
@@ -527,27 +501,6 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                       >
                         <FontAwesomeIcon icon={faHome} className="w-4 h-4 text-[#EEDBB2]" />
                         <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
-                      </motion.button>
-                    )}
-
-                    {lastPosition && !activeCourseId && (
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => {
-                          const trackId = REVERSE_SLUG_MAP[lastPosition.slug];
-                          setIsMobileMenuOpen(false);
-                          if (trackId) onNavigateToWeek?.(trackId, lastPosition.level, lastPosition.week);
-                        }}
-                        className="w-full px-3 py-2 rounded-xl bg-emerald-400/20 border border-emerald-400/40 text-emerald-100 text-xs font-bold flex items-center gap-2"
-                      >
-                        <FontAwesomeIcon icon={faPlay} className="w-4 h-4 text-emerald-300 shrink-0" />
-                        <span className="min-w-0 text-left">
-                          <span className="block leading-tight">{lang === 'id' ? 'Lanjutkan Belajar' : 'Continue Learning'}</span>
-                          <span className="block text-[9px] font-semibold text-emerald-200/80 truncate">
-                            {TRACKS_COLLECTION.find(tk => tk.id === REVERSE_SLUG_MAP[lastPosition.slug])?.name || lastPosition.slug} · {lang === 'id' ? `Minggu ${lastPosition.week}` : `Week ${lastPosition.week}`}
-                          </span>
-                        </span>
                       </motion.button>
                     )}
 

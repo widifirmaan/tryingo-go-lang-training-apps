@@ -13,16 +13,12 @@ export interface ProgressData {
   };
 }
 
-export interface LastPosition {
-  slug: string;
-  level: string;
-  week: number;
-  titleId: string;
-  titleEn: string;
-  updatedAt: string;
-}
-
 export function getStoredProgress(): ProgressData {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('tryngo-last-position');
+    }
+  } catch {}
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return {};
@@ -38,31 +34,6 @@ export function saveProgress(data: ProgressData): void {
     window.dispatchEvent(new CustomEvent(PROGRESS_EVENT));
   } catch (err) {
     console.error('Failed to save progress to localStorage', err);
-  }
-}
-
-// --- Last reading position (powers "Lanjutkan Belajar") ---
-
-const POSITION_KEY = 'tryngo-last-position';
-
-export function setPosition(pos: LastPosition): void {
-  try {
-    localStorage.setItem(POSITION_KEY, JSON.stringify(pos));
-    window.dispatchEvent(new CustomEvent(PROGRESS_EVENT));
-  } catch (err) {
-    console.error('Failed to save last position to localStorage', err);
-  }
-}
-
-export function getLastPosition(): LastPosition | null {
-  try {
-    const raw = localStorage.getItem(POSITION_KEY);
-    if (!raw) return null;
-    const pos = JSON.parse(raw) as LastPosition;
-    if (!pos?.slug || !pos?.level || !pos?.week) return null;
-    return pos;
-  } catch {
-    return null;
   }
 }
 
