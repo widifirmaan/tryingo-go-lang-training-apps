@@ -1,349 +1,239 @@
-﻿# Tryngo — Interactive Coding Education Platform
+﻿# ⚡ Tryngo — Interactive Coding Education Platform & Multi-Language Sandbox
 
-**Tryngo** is a web-based interactive coding education platform that teaches programming from zero to professional. Built as a single-page application with React 19, Vite 6, and Tailwind CSS 4, deployed on Cloudflare Pages.
+**Tryngo** is a modern, enterprise-grade interactive coding education platform and browser-based programming sandbox designed to teach software engineering from beginner to professional. Built as a high-performance single-page application with **React 19**, **Vite 6**, and **Tailwind CSS 4**, deployed globally on **Cloudflare Pages**, Tryngo features 27 comprehensive learning tracks, in-browser **WebAssembly (Yaegi Go)** and **Monaco Editor** execution environments, bilingual curriculum (Indonesian & English), instant fuzzy search, interactive quizzes, and a punchy **Neo-Brutalist** aesthetic with seamless Light/Dark themes.
 
-🌐 **Live Website**: [https://tryngo.widifirmaan.web.id/](https://tryngo.widifirmaan.web.id/)
+[![Live Demo](https://img.shields.io/badge/Demo-Live_Production-10B981?style=for-the-badge&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id)
+[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages_Edge-F38020?style=for-the-badge&logo=cloudflare)](https://tryngo.widifirmaan.web.id)
+[![React 19](https://img.shields.io/badge/React-19.0.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite 6](https://img.shields.io/badge/Vite-6.2.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-4.1.14-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![WebAssembly](https://img.shields.io/badge/WebAssembly-WASM_Go-654FF0?style=for-the-badge&logo=webassembly&logoColor=white)](https://webassembly.org/)
 
-[![Live Website](https://img.shields.io/badge/Live%20Website-tryngo.widifirmaan.web.id-2E5B44?style=flat&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id/)
-[![Status](https://img.shields.io/badge/Status-Active%20Development-success)](https://github.com/widifirmaan/tryingo-go-lang-training-apps)
-[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-6-purple)](https://vitejs.dev/)
-[![Tailwind](https://img.shields.io/badge/Tailwind%20CSS-4-38BDF8)](https://tailwindcss.com/)
-[![Deploy](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-orange)](https://pages.cloudflare.com/)
+---
+
+## 🌐 Live Production
+
+- **URL:** [https://tryngo.widifirmaan.web.id](https://tryngo.widifirmaan.web.id)
+- **Architecture:** Cloudflare Pages (Edge SPA with Prerendered Static SEO Routes)
+- **Client Execution Engine:** In-Browser WebAssembly (Yaegi Go Interpreter) + WebContainers / StackBlitz API
+- **Editor Engine:** Microsoft Monaco Editor with multi-language syntax highlighting and diagnostics
+- **Search System:** Fuse.js Build-Time Pre-Indexed Fuzzy Search Engine
 
 ---
 
 ## 📸 Application Showcase
 
-<table>
-<tr>
-<th width="30%">📱 Mobile</th>
-<th width="70%">🖥 Desktop</th>
-</tr>
-<tr>
-<td>
+### 1. Core Learning Experience & Track Discovery
 
-![Index Mobile](/screenshot/Tryngo%20Index%20Mobile.png)
-**Index Mobile**
-
-</td>
-<td>
-
-![Index Desktop](/screenshot/Tryngo%20Index%20Desktop.png)
-**Index Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Grid Mobile](/screenshot/Tryngo%20Grid%20Mobile.png)
-**Grid Mobile**
-
-</td>
-<td>
-
-![Grid Desktop](/screenshot/Tryngo%20Grid%20Desktop.png)
-**Grid Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Settings Mobile](/screenshot/Tryngo%20Settings%20Mobile.png)
-**Settings Mobile**
-
-</td>
-<td>
-
-![Settings Desktop](/screenshot/Tryngo%20Settings%20Desktop.png)
-**Settings Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Search Mobile](/screenshot/Tryngo%20Search%20Mobile.png)
-**Search Mobile**
-
-</td>
-<td>
-
-![Search Desktop](/screenshot/Tryngo%20Search%20Desktop.png)
-**Search Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Course Mobile](/screenshot/Tryngo%20Course%20Mobile.png)
-**Course Mobile**
-
-</td>
-<td>
-
-![Course Desktop](/screenshot/Tryngo%20Course%20Desktop.png)
-**Course Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Playground Mobile](/screenshot/Tryngo%20Playground%20Mobile.png)
-**Playground Mobile**
-
-</td>
-<td>
-
-![Index Modal Desktop](/screenshot/Tryngo%20Index%20Modal%20Desktop.png)
-**Index Modal Desktop**
-
-</td>
-</tr>
-<tr>
-<td>
-
-![Hamburger Mobile](/screenshot/Tryngo%20Hamburger%20Mobile.png)
-**Hamburger Mobile**
-
-</td>
-<td>
-
-—
-
-</td>
-</tr>
-</table>
+| Hero Landing & Track Catalog | Curriculum & Multi-Framework Study |
+| :---: | :---: |
+| ![Hero Index](screenshots/Tryngo%20Index%20Desktop.png)<br>**Interactive Neo-Brutalist Hero Landing** | ![Track Grid](screenshots/Tryngo%20Grid%20Desktop.png)<br>**27-Track Curriculum Directory & Category Filters** |
+| ![Course Page](screenshots/Tryngo%20Course%20Desktop.png)<br>**Go Track Deep-Dive Curriculum & Inline Runner** | ![React Course](screenshots/Tryngo%20Course%20React%20Desktop.png)<br>**React & TypeScript Interactive Curriculum** |
+| ![Code Playground](screenshots/Tryngo%20Playground%20Desktop.png)<br>**Monaco Code Playground & Live WASM Execution** | ![Quiz Modal](screenshots/Tryngo%20Quiz%20Desktop.png)<br>**Interactive Practice Quiz & Knowledge Validation** |
+| ![Search Modal](screenshots/Tryngo%20Search%20Desktop.png)<br>**Fuse.js Instant Fuzzy Search Modal** | ![Settings Modal](screenshots/Tryngo%20Settings%20Desktop.png)<br>**Neo-Brutalist Theme & Bilingual Switchers** |
 
 ---
 
-## 🚀 Features
+### 2. Advanced Sandboxes & Aesthetic Modes
 
-### Learning
+| Career Paths & Dark Theme | Mobile Responsive Experience |
+| :---: | :---: |
+| ![Career Paths](screenshots/Tryngo%20Career%20Paths%20Desktop.png)<br>**Structured Career Roadmaps (Frontend, Backend, DevOps)** | ![Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Desktop.png)<br>**High-Contrast Neo-Brutalist Dark Theme** |
+| ![Mobile Hero](screenshots/Tryngo%20Index%20Mobile.png)<br>**Mobile View: Hero & Quick Navigation** | ![Mobile Grid](screenshots/Tryngo%20Grid%20Mobile.png)<br>**Mobile View: Filterable Track Grid** |
+| ![Mobile Course](screenshots/Tryngo%20Course%20Mobile.png)<br>**Mobile View: Weekly Course Material Reader** | ![Mobile Playground](screenshots/Tryngo%20Playground%20Mobile.png)<br>**Mobile View: Touch Code Playground** |
+| ![Mobile Quiz](screenshots/Tryngo%20Quiz%20Mobile.png)<br>**Mobile View: Interactive Quiz Challenge** | ![Mobile Drawer](screenshots/Tryngo%20Hamburger%20Mobile.png)<br>**Mobile View: Slide-out Navigation Drawer** |
 
-- **27 Tracks** across multiple programming languages and frameworks
-- **4 Levels** per track (Beginner → Intermediate → Advanced → Professional)
-- **16 Weeks** per track with progressive curriculum
-- **Bilingual Content** — Indonesian and English materials for every lesson
-- **Interactive Code Playground** — Monaco Editor with live preview for web languages
-- **Client-side Go Execution** — Yaegi interpreter compiled to WebAssembly
-- **Full-text Search** — Fuse.js-powered fuzzy search across all course materials
+---
 
-### Tracks
+### 3. Mobile Responsive Showcase
 
-| Track | Language | Levels | Weeks | Playground |
-|-------|----------|--------|-------|------------|
-| HTML5 | HTML | — | 12 | Browser |
-| CSS3 | CSS | — | 14 | Browser |
-| JavaScript | JS | — | 16 | Browser |
-| TypeScript | TS | — | 16 | Browser |
-| Go | Go | 3 | 14 | WASM |
-| React | JS/TS | — | 16 | Browser |
-| Next.js | TS | — | 16 | Browser |
-| Vue | JS/TS | — | 16 | Browser |
-| Angular | TS | 1 | 16 | Browser |
-| Svelte | JS/TS | — | 16 | Browser |
-| Node.js | JS | 4 | 16 | Browser |
-| NestJS | TS | 3 | 16 | Browser |
-| Django | Python | 5 | 18 | WASM |
-| Laravel | PHP | 5 | 20 | Browser |
-| CodeIgniter 4 | PHP | 1 | 16 | Browser |
-| PHP | PHP | 1 | 16 | Browser |
-| Rust | Rust | — | 14 | WASM |
-| Spring Boot | Java | — | 16 | Browser |
-| C# (.NET) | C# | — | 16 | Browser |
-| PostgreSQL | SQL | — | 16 | Browser |
-| MySQL | SQL | — | 16 | Browser |
-| MongoDB | NoSQL | — | 16 | Browser |
-| Redis | NoSQL | — | 16 | Browser |
-| GraphQL | Query | — | 16 | Browser |
-| Docker | DevOps | — | 16 | Browser |
+| Mobile Search & Settings | Mobile Career & Dark Mode |
+| :---: | :---: |
+| ![Mobile Search](screenshots/Tryngo%20Search%20Mobile.png)<br>**Mobile: Real-Time Fuzzy Search** | ![Mobile Settings](screenshots/Tryngo%20Settings%20Mobile.png)<br>**Mobile: Preferences & Localization** |
+| ![Mobile Career Paths](screenshots/Tryngo%20Career%20Paths%20Mobile.png)<br>**Mobile: Career Learning Roadmaps** | ![Mobile Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Mobile.png)<br>**Mobile: High-Contrast Dark Mode** |
 
-### UI/UX
+---
 
-- **Responsive Design** — Desktop, tablet, and mobile layouts
-- **Dark/Light Mode** — Theme toggle with persistent preference
-- **Neo-Brutalist Design** — Distinctive visual language with bold borders and shadows
-- **i18n** — Indonesian + English translations
-- **Accessibility** — ARIA landmarks, lang attribute sync, keyboard navigation, skip-to-content
+## 🚀 Key Features
+
+### 🎓 27 Comprehensive Tech Tracks
+- **Frontend & UI**: HTML5, CSS3, Tailwind CSS, JavaScript, TypeScript, React, Next.js, Vue, Angular, Svelte.
+- **Backend & Systems**: Go (Golang), Node.js, NestJS, Python, Django, PHP, Laravel, CodeIgniter 4, Ruby on Rails, Rust, C# (.NET), Spring Boot.
+- **Database & Storage**: PostgreSQL, MySQL, MongoDB, Redis, GraphQL.
+- **DevOps & Infrastructure**: Docker, Linux Containers, Cloud Deployments.
+
+### ⚡ Client-Side WebAssembly & Sandboxes
+- **Yaegi Go WASM Interpreter**: Compiles and executes Go code entirely inside the browser without transmitting code to a backend server.
+- **Monaco Code Editor**: Professional-grade code editor powered by VS Code’s core engine with autocompletion, bracket matching, and theme synchronization.
+- **StackBlitz & WebContainer Bridge**: Runs full Node.js web applications, Vite bundlers, and npm dependencies directly within browser tabs.
+
+### 🌐 Bilingual Curriculum Engine (ID & EN)
+- Every single lesson includes native **Bahasa Indonesia** and **English** explanations, code commentary, and hands-on experiments.
+- Instant language switching across navigation, course readers, and quiz assessments.
+
+### 🔍 Instant Fuzzy Search (Fuse.js)
+- Pre-compiled search index containing thousands of weekly curriculum topics, code snippets, and conceptual tags.
+- Sub-millisecond keystroke fuzzy matching with direct deep-linking to lessons.
+
+### 🎨 Neo-Brutalist Aesthetic & Theming
+- Distinctive high-contrast visual design featuring punchy borders, tactile buttons, and fluid spring physics via `motion` (Framer Motion).
+- Persistent **Light** and **Dark** theme modes saved locally with zero-flash rendering.
+
+### 🗺️ Curated Career Roadmaps
+- Structured learning paths guiding aspiring developers through **Frontend Specialist**, **Backend Architect**, **Fullstack Engineer**, and **Cloud DevOps Engineer** career trajectories.
+
+---
+
+## 🏗️ Technical Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Tryngo Platform Architecture                    │
+└────────────────────────────────────────────────────────────────────────┘
+
+    Client Layer (React 19 + Vite 6 + Tailwind CSS 4)
+    ├── State-Based View Switcher & Hash Router (#/course/level/week)
+    ├── Dynamic Motion Engine (Framer Motion / Motion 12)
+    ├── Markdown Parser & Syntax Highlighter (React Markdown + Remark GFM)
+    └── UI Modals: Search, Settings, Quiz, Career Paths
+                       │
+         ┌─────────────┼─────────────┐
+         ▼                           ▼                           ▼
+    Search Engine             Code Playgrounds            Course Curriculum
+    ├── Fuse.js               ├── Monaco Editor           ├── 27 Tracks
+    └── Pre-Indexed Data      ├── WebAssembly (Go)        ├── 4 Difficulty Levels
+                              ├── WebContainers (Node)    ├── 16-20 Weeks Each
+                              └── Docker Runner (CLI)     └── Bilingual Markdown
+```
 
 ---
 
 ## 🛠 Tech Stack
 
-### Frontend
+| Layer | Technology | Details |
+|---|---|---|
+| **Frontend Framework** | React 19.0.1 | Concurrent React features, Suspense-driven code splitting |
+| **Bundler & Build Tool**| Vite 6.2.3 | Lightning-fast HMR and optimized production asset pipeline |
+| **Styling** | Tailwind CSS 4.1.14 | Modern utility-first CSS engine with custom Neo-Brutalist tokens |
+| **Language** | TypeScript 5.8 | End-to-end strict typing across curricula, tracks, and UI |
+| **Animations** | Motion 12.23.24 | Fluid micro-interactions and tactile spring physics |
+| **Code Editor** | Monaco Editor 0.56.0 | Embedded Visual Studio Code editing experience |
+| **Go Code Engine** | Yaegi + WebAssembly | Client-side Go runtime executing safely in sandbox |
+| **Web Sandbox** | StackBlitz SDK + WebContainers | Browser-based Node.js runtime and full-stack playgrounds |
+| **Fuzzy Search** | Fuse.js 7.5.0 | High-performance client-side full-text search |
+| **Deployment** | Cloudflare Pages | Global low-latency CDN edge delivery |
 
-- **Framework**: React 19
-- **Build Tool**: Vite 6
-- **Styling**: Tailwind CSS 4
-- **Editor**: Monaco Editor (for interactive code playground)
-- **Routing**: State-based view switching (no router library)
-- **i18n**: Simple string map in utils/translations.ts
+---
 
-### Backend & Infrastructure
+## 📚 Curriculum & Tracks Directory
 
-- **Deployment**: Cloudflare Pages (SPA)
-- **Code Execution**: Fully client-side — WebAssembly (Go) + iframe (web languages) + Rust Playground API (Rust)
-- **Search**: Build-time index with Fuse.js fuzzy search
-- **Go Runtime**: Yaegi interpreter compiled to WASM + TinyGo pre-compiled runner
-
-### Development
-
-- **Language**: TypeScript
-- **Package Manager**: npm
-- **Linting**: TypeScript compiler (tsc --noEmit)
+| Track | Category | Levels | Weeks | Interactive Sandbox |
+|---|---|:---:|:---:|---|
+| **Go (Golang)** | Backend | 3 | 14 | In-Browser WebAssembly (Yaegi) |
+| **React** | Frontend | 4 | 16 | WebContainers / StackBlitz |
+| **Next.js** | Fullstack | 4 | 16 | WebContainers / StackBlitz |
+| **TypeScript** | Language | 4 | 16 | Monaco Editor Sandbox |
+| **JavaScript** | Language | 4 | 16 | Browser JS Sandbox |
+| **Python** | Language | 5 | 18 | Client-side Python WASM |
+| **Django** | Backend | 5 | 18 | Python Runtime Sandbox |
+| **Docker** | DevOps | 3 | 16 | Interactive Docker Terminal |
+| **Node.js** | Backend | 4 | 16 | WebContainers Sandbox |
+| **NestJS** | Backend | 3 | 16 | WebContainers Sandbox |
+| **Rust** | Systems | 3 | 14 | Rust WebAssembly Playground |
+| **Vue** | Frontend | 4 | 16 | WebContainers Sandbox |
+| **Svelte** | Frontend | 4 | 16 | WebContainers Sandbox |
+| **Laravel** | Backend | 5 | 20 | Browser PHP Playground |
+| **PostgreSQL** | Database | 4 | 16 | Client-side SQL Engine |
+| **MySQL** | Database | 4 | 16 | Client-side SQL Engine |
+| **MongoDB** | Database | 4 | 16 | Document Store Sandbox |
+| **Redis** | Database | 3 | 16 | In-Memory CLI Sandbox |
+| **GraphQL** | API | 3 | 16 | Interactive GraphQL Schema Runner |
 
 ---
 
 ## 📂 Project Structure
 
-```
-tryingo-go-lang-training-apps/
+```bash
+/
 ├── apps/
-│   └── web/                    # Main web application
+│   └── web/                    # Main Web Application
 │       ├── public/
-│       │   ├── data/course/    # Course materials (27 tracks x levels x weeks)
-│       │   ├── search-index.json  # Build-time search index
-│       │   └── wasm/           # WebAssembly binaries (Go execution)
-│       ├── scripts/            # Curriculum generators and build scripts
+│       │   ├── data/course/    # Course markdown materials (27 tracks x levels x weeks)
+│       │   ├── search-index.json # Pre-compiled Fuse.js search index
+│       │   └── wasm/           # Yaegi WebAssembly execution binaries
+│       ├── scripts/            # Curriculum and sitemap generator scripts
 │       ├── src/
-│       │   ├── components/     # React components
-│       │   ├── data/           # Curriculum data and track configuration
-│       │   ├── utils/          # Utility functions and translations
-│       │   └── styles/         # Global styles
+│       │   ├── assets/         # SVG technology logos & brand graphics
+│       │   ├── components/     # Reusable UI, Modals, & Playgrounds
+│       │   │   ├── playgrounds/# Specialised language playground runners
+│       │   │   ├── CareerPathsModal.tsx
+│       │   │   ├── CodePlayground.tsx
+│       │   │   ├── CoursePage.tsx
+│       │   │   ├── HeroSection.tsx
+│       │   │   ├── Modals.tsx
+│       │   │   ├── QuizModal.tsx
+│       │   │   └── TrackCard.tsx
+│       │   ├── data/           # Curriculum configurations, tracks & slug mappings
+│       │   ├── utils/          # Bilingual translation map & color tokens
+│       │   ├── App.tsx         # Root application & state router
+│       │   └── main.tsx        # React entrypoint
+│       ├── package.json
 │       └── vite.config.ts
-├── screenshot/                 # Application screenshots
-├── .wrangler/                  # Cloudflare local state
-├── .gitignore
-├── AGENTS.md                   # AI agent guidance
+├── screenshots/                # Comprehensive desktop & mobile screenshots
+├── scripts/
+│   └── capture_tryngo_screenshots.js # Automated Puppeteer capture script
 └── README.md
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🧪 Automated Screenshot Suite
+
+The repository includes a headless Chromium automation script that captures all desktop and mobile views directly against the live production deployment:
+
+```bash
+node scripts/capture_tryngo_screenshots.js
+```
+
+Built with deliberate render delays (`4000ms – 7000ms`) to ensure Monaco editor instances, WebAssembly runtimes, and Framer Motion layout springs settle before taking each snapshot.
+
+---
+
+## 📦 Getting Started & Local Development
 
 ### Prerequisites
-
-- Node.js 18+
-- npm
+- **Node.js 20+** or **Node.js 22+**
+- **npm**, **pnpm**, or **yarn**
 
 ### Installation
-
 ```bash
+# 1. Clone repository
+git clone https://github.com/widifirmaan/tryingo-go-lang-training-apps.git
+cd tryingo-go-lang-training-apps
+
+# 2. Enter web application directory and install dependencies
 cd apps/web
 npm install
+
+# 3. Start local Vite development server
+npm run dev
 ```
+*Access local development server via `http://localhost:3000`*
 
-### Development
-
+### Build for Production
 ```bash
-npm run dev          # Dev server at http://localhost:3000
+npm run build
 ```
 
-### Build
-
+### Deploy to Cloudflare Pages
 ```bash
-npm run build        # Lint + build search index + Vite production build
-```
-
-### Deployment
-
-```bash
-npx wrangler pages deploy dist
+npm run deploy
 ```
 
 ---
 
-## 📝 Adding a New Track
+## 👥 Authors & License
 
-1. Add SVG logo to `apps/web/src/assets/logos/`
-2. Add entry in `apps/web/src/data/tracksData.ts`
-3. Add SLUG_MAP entry in `apps/web/src/data/curriculum.ts`
-4. Add to `CUSTOM_CURRICULA` and `LEVEL_BADGE_COLORS` in curriculum.ts
-5. Register in `build-search-index.mjs` LEVEL_MAP
-6. Register in `CoursePage.tsx` (isStackBlitz, stackBlitzMainFile, stackBlitzTitle)
-7. Register in `CodePlayground.tsx` LANGUAGE_MAP
-8. Write generator script in `scripts/generate-{track}-materials.mjs`
-9. Run generator -> lint -> build -> smoke test
-
----
-
-## 📖 Material Structure
-
-Each lesson markdown file follows this template:
-
-```markdown
-# Title
-
-> Metadata (category, level, week)
-
-## Learning Objectives
-- ...
-
----
-
-## Program: [Name]
-
-\`\`\`language
-// Complete runnable code example
-\`\`\`
-
----
-
-## Explanation
-Key concepts referencing the code above
-
----
-
-## Experiments
-Modification ideas for the playground
-
----
-
-## Challenge
-Build something using the concepts
-
----
-
-## Summary
-Key takeaways + next week preview
-```
-
----
-
-## 🔧 Curriculum Generators
-
-| Script | Track | Output |
-|--------|-------|--------|
-| `generate-go-materials.mjs` | Go | 28 files |
-| `generate-rust-materials.mjs` | Rust | 28 files |
-| `generate-css-materials.mjs` | CSS3 | 28 files |
-| `generate-django-materials.mjs` | Django | 72 files |
-| `generate-laravel-materials.mjs` | Laravel | 40 files |
-| `generate-nodejs-materials.mjs` | Node.js | 64 files |
-| `generate-nestjs-materials.mjs` | NestJS | 64 files |
-| `generate-php-materials.mjs` | PHP | 32 files |
-| `generate-codeigniter4-materials.mjs` | CodeIgniter 4 | 32 files |
-| `generate-angular-materials.mjs` | Angular | 32 files |
-
----
-
-## 👥 Authors
-
-Developed by **Widi Firmansyah**.
-
-## License
-
-MIT
-
-## Resources
-
-[Readme](#readme-ov-file)
-[Activity](https://github.com/widifirmaan/tryingo-go-lang-training-apps/activity)
-[Stars](https://github.com/widifirmaan/tryingo-go-lang-training-apps/stargazers)
-[Issues](https://github.com/widifirmaan/tryingo-go-lang-training-apps/issues)
+Developed with ❤️ by **Widi Firmansyah**.  
+Open-source under the MIT License.
