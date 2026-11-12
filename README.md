@@ -33,11 +33,11 @@
 
 ### 2. Interactive Execution Sandboxes, Modals & Theme (Desktop)
 
-| In-Browser Sandboxes & Validation | System Configuration & Aesthetics |
+| In-Browser Execution & Quizzes | Preferences & High-Contrast Aesthetics |
 | :---: | :---: |
 | ![Code Playground](screenshots/Tryngo%20Playground%20Desktop.png)<br>**Monaco Code Playground & Live WASM Execution** | ![Quiz Modal](screenshots/Tryngo%20Quiz%20Desktop.png)<br>**Interactive Practice Quiz & Knowledge Validation** |
 | ![Search Modal](screenshots/Tryngo%20Search%20Desktop.png)<br>**Fuse.js Instant Fuzzy Search Modal** | ![Settings Modal](screenshots/Tryngo%20Settings%20Desktop.png)<br>**Theme & Bilingual (ID/EN) Localization Settings** |
-| ![Career Paths](screenshots/Tryngo%20Career%20Paths%20Desktop.png)<br>**Structured Career Roadmaps (Frontend, Backend, DevOps)** | ![Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Desktop.png)<br>**High-Contrast Neo-Brutalist Dark Theme** |
+| ![Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Desktop.png)<br>**High-Contrast Neo-Brutalist Dark Theme** | — |
 
 ### 3. Mobile Responsive Experience (Mobile Viewports)
 
@@ -47,7 +47,7 @@
 | ![Mobile Course](screenshots/Tryngo%20Course%20Mobile.png)<br>**Mobile View: Weekly Course Material Reader** | ![Mobile Playground](screenshots/Tryngo%20Playground%20Mobile.png)<br>**Mobile View: Touch Code Playground** |
 | ![Mobile Quiz](screenshots/Tryngo%20Quiz%20Mobile.png)<br>**Mobile View: Interactive Quiz Challenge** | ![Mobile Drawer](screenshots/Tryngo%20Hamburger%20Mobile.png)<br>**Mobile View: Slide-out Navigation Drawer** |
 | ![Mobile Search](screenshots/Tryngo%20Search%20Mobile.png)<br>**Mobile: Real-Time Fuzzy Search** | ![Mobile Settings](screenshots/Tryngo%20Settings%20Mobile.png)<br>**Mobile: Preferences & Localization** |
-| ![Mobile Career Paths](screenshots/Tryngo%20Career%20Paths%20Mobile.png)<br>**Mobile: Career Learning Roadmaps** | ![Mobile Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Mobile.png)<br>**Mobile: High-Contrast Dark Mode** |
+| ![Mobile Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Mobile.png)<br>**Mobile: High-Contrast Dark Mode** | — |
 
 ---
 
@@ -64,10 +64,10 @@
 - **Step-by-Step Learning Units**: Each track is partitioned into progressive levels (`Pemula`, `Menengah`, `Lanjutan`, `Profesional`) with weekly actionable exercises.
 - **Instant Code Previews**: Every syllabus item includes pre-loaded boilerplate code that students can run, tweak, and test in real time.
 
-### 🧭 Career Roadmaps & Knowledge Assessment
-- **Curated Career Paths**: Guided learning journeys for aspiring *Fullstack Engineers*, *Go Backend & Systems Engineers*, and *DevOps & Cloud Architects*.
+### 📝 Knowledge Assessment & Progress Tracking
 - **Interactive Practice Quizzes**: 100+ multiple-choice and code evaluation challenges per track to validate concepts before advancing.
 - **Local Progress Tracking**: Automatic persistence of completed weeks, active courses, and quiz scores via `localStorage` with Zero-Login requirement.
+- **Bilingual Assessment**: Practice questions available in both Indonesian and English.
 
 ### ⚡ Smart Search & Personalization
 - **Fuse.js Fuzzy Search**: Instant, typo-tolerant search across all 27 tracks, materials, topics, and framework tags.
@@ -138,7 +138,7 @@ cd apps/web && npm test
 *Output: `Test Files: 2 passed (2) | Tests: 15 passed (15) | 100% Success`*
 
 ### 2. Headless Screenshot Automation Suite (`scripts/capture_tryngo_screenshots.js`)
-Captures all 20 desktop (1440x900) and mobile (390x844) viewport states directly from live production:
+Captures all desktop (1440x900) and mobile (390x844) viewport states directly from live production:
 ```bash
 node scripts/capture_tryngo_screenshots.js
 ```
@@ -162,7 +162,6 @@ node scripts/capture_tryngo_screenshots.js
 │       │   ├── assets/           # SVG technology logos & brand graphics
 │       │   ├── components/       # Reusable UI, Modals, & Playgrounds
 │       │   │   ├── playgrounds/  # Specialized language playground runners
-│       │   │   ├── CareerPathsModal.tsx
 │       │   │   ├── CodePlayground.tsx
 │       │   │   ├── CoursePage.tsx
 │       │   │   ├── HeroSection.tsx

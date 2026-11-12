@@ -13,7 +13,6 @@ const CoursePage = React.lazy(() => import('./components/CoursePage'));
 const CodePlayground = React.lazy(() => import('./components/CodePlayground'));
 const IdeModal = React.lazy(() => import('./components/IdeModal'));
 const QuizModal = React.lazy(() => import('./components/QuizModal').then(m => ({ default: m.QuizModal })));
-const CareerPathsModal = React.lazy(() => import('./components/CareerPathsModal').then(m => ({ default: m.CareerPathsModal })));
 const CartModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.CartModal })));
 const SearchModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.SearchModal })));
 const DetailModal = React.lazy(() => import('./components/Modals').then(m => ({ default: m.DetailModal })));
@@ -37,7 +36,6 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [isCareerPathsOpen, setIsCareerPathsOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   
   // Website Settings: Language & Theme (persisted in localStorage)
@@ -154,7 +152,6 @@ export default function App() {
 
   const handleOpenSearch = useCallback(() => setIsSearchOpen(true), []);
   const handleOpenSettings = useCallback(() => setIsSettingsOpen(true), []);
-  const handleOpenCareerPaths = useCallback(() => setIsCareerPathsOpen(true), []);
   const handleOpenDetails = useCallback((item: any) => setSelectedProduct(item), []);
 
   const handleCloseQuiz = useCallback(() => {
@@ -461,7 +458,6 @@ export default function App() {
               onOpenFilter={handleOpenSearch}
               onOpenSettings={handleOpenSettings}
               onOpenCollection={handleOpenCollection}
-              onOpenCareerPaths={handleOpenCareerPaths}
               lang={lang}
               activeCourseId={activeCourseId}
               activeLevel={courseInitialLevel}
@@ -762,13 +758,6 @@ export default function App() {
             setLang={setLang}
             theme={theme}
             setTheme={setTheme}
-          />
-
-          <CareerPathsModal
-            isOpen={isCareerPathsOpen}
-            onClose={() => setIsCareerPathsOpen(false)}
-            onSelectTrack={handleStartCourse}
-            lang={lang}
           />
         </Suspense>
       </ErrorBoundary>
