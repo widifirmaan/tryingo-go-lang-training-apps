@@ -1,5 +1,3 @@
-# Body, Layout Semantik, dan Gambar
-
 ## Kenapa Materi Ini Penting
 
 HTML adalah kerangka setiap halaman web di dunia - tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.

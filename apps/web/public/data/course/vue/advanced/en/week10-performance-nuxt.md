@@ -1,5 +1,3 @@
-# Performance & Nuxt
-
 ## Learning Objectives
 
 - defineAsyncComponent for lazy loading

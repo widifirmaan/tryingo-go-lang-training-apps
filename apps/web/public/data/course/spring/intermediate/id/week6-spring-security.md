@@ -1,5 +1,3 @@
-# Spring Security
-
 ## Tujuan Pembelajaran
 
 - Spring Security: authentication dan authorization

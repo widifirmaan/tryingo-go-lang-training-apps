@@ -1,5 +1,3 @@
-# Capstone: Task Management API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: MVC, validation, auth, REST, testing

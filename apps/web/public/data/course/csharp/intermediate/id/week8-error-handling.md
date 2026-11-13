@@ -1,5 +1,3 @@
-# Error Handling
-
 ## Tujuan Pembelajaran
 
 - try-catch-finally untuk handle exception

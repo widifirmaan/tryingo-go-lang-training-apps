@@ -1,5 +1,3 @@
-# Animations & Transitions
-
 ## Tujuan Pembelajaran
 
 - <transition>: enter/leave animations

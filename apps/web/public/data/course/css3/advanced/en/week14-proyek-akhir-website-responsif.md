@@ -1,5 +1,3 @@
-# Final Project: Complete Responsive Website
-
 ## Learning Objectives
 
 - Structure a production multi-layer CSS architecture: Reset, Design Tokens, Typography, Components

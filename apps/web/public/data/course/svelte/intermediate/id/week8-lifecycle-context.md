@@ -1,5 +1,3 @@
-# Lifecycle & Context
-
 ## Tujuan Pembelajaran
 
 - onMount: jalan setelah komponen di-mount

@@ -1,5 +1,3 @@
-# CLI & Automation
-
 ## Learning Objectives
 
 - argparse: ArgumentParser, add_argument, subparsers

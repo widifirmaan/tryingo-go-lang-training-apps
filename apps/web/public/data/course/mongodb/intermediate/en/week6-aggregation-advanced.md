@@ -1,5 +1,3 @@
-# Advanced Aggregation
-
 ## Learning Objectives
 
 - $facet for multi-aggregation

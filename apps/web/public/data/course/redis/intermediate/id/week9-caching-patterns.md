@@ -1,5 +1,3 @@
-# Caching Patterns
-
 ## Tujuan Pembelajaran
 
 - Cache-aside pattern

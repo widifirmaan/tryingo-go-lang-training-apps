@@ -1,5 +1,3 @@
-# Multi-Stage Build
-
 ## Tujuan Pembelajaran
 
 - Multi-stage build: multiple FROM dalam satu Dockerfile

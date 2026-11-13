@@ -1,5 +1,3 @@
-# Deployment & DevOps
-
 ## Tujuan Pembelajaran
 
 - Docker: containerize aplikasi Node.js

@@ -1,5 +1,3 @@
-# Final Project with UI Framework
-
 ## Learning Objectives
 
 - Refactor the Week 8 website project using an industry-standard UI framework (Bootstrap 5)

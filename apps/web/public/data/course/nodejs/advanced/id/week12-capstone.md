@@ -1,5 +1,3 @@
-# Capstone: Full-Stack API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: Express, JWT, Database, Testing

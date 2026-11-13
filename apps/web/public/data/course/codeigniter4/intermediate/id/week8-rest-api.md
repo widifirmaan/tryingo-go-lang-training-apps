@@ -1,5 +1,3 @@
-# REST API Development
-
 ## Tujuan Pembelajaran
 
 - Resource routes: $routes->resource() untuk CRUD API

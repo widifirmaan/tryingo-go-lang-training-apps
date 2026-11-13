@@ -1,5 +1,3 @@
-# Testing dengan PHPUnit
-
 ## Tujuan Pembelajaran
 
 - Unit Test: test class terpisah dari database

@@ -1,5 +1,3 @@
-# Generics
-
 ## Tujuan Pembelajaran
 
 - Generic functions: <T>(value: T): T

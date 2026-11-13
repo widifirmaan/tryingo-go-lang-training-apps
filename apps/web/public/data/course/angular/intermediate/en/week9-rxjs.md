@@ -1,5 +1,3 @@
-# RxJS Fundamentals
-
 ## Learning Objectives
 
 - Observable: stream of data

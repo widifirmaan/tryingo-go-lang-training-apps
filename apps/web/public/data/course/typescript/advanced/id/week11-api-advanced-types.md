@@ -1,5 +1,3 @@
-# Advanced Type Manipulation
-
 ## Tujuan Pembelajaran
 
 - Template literal types untuk string manipulation

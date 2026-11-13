@@ -1,5 +1,3 @@
-# Capstone: SaaS App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: routing, data fetching, server actions, auth

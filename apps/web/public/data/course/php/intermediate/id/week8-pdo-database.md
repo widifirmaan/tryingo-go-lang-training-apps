@@ -1,5 +1,3 @@
-# PDO & Database
-
 ## Tujuan Pembelajaran
 
 - PDO: PHP Data Object untuk akses database universal

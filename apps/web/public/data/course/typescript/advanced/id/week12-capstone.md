@@ -1,5 +1,3 @@
-# Capstone: Type-Safe API Client
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: generics, branded types, conditional types

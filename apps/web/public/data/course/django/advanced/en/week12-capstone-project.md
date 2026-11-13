@@ -1,5 +1,3 @@
-# Capstone: E-Commerce Platform
-
 ## Learning Objectives
 
 - Combine all concepts: MVT, forms, auth, admin, REST

@@ -1,5 +1,3 @@
-# State Modifiers, Pseudo-Classes & Transitions
-
 ## Learning Objectives
 
 - Master pseudo-class state modifiers: hover:, focus:, active:, disabled:

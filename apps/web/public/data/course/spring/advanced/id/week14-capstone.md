@@ -1,5 +1,3 @@
-# Capstone: E-Commerce API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: Security, JPA, REST, Testing, Caching

@@ -1,5 +1,3 @@
-# Context API & useReducer
-
 ## Learning Objectives
 
 - createContext and Provider for global state

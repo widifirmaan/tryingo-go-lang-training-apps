@@ -1,5 +1,3 @@
-# Vue Router
-
 ## Tujuan Pembelajaran
 
 - Setup createRouter dan createWebHistory

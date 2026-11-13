@@ -1,5 +1,3 @@
-# Stdlib: I/O, Time & Encoding
-
 ## Learning Objectives
 
 - io.Reader and io.Writer as fundamental I/O interfaces

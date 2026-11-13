@@ -1,5 +1,3 @@
-# Setup & Core Concepts
-
 ## Why This Matters
 
 Next.js is React's production-grade framework - routing, server components, caching, SEO are all solved. Companies pick Next for SEO and performance; it is the most requested skill in frontend job posts.

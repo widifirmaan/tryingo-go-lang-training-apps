@@ -1,5 +1,3 @@
-# CSS Grid: Tata Letak Dua Dimensi
-
 ## Tujuan Pembelajaran
 
 - Memahami arsitektur dua dimensi CSS Grid (baris dan kolom simultan)

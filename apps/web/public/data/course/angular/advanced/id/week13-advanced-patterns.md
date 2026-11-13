@@ -1,5 +1,3 @@
-# Advanced Patterns
-
 ## Tujuan Pembelajaran
 
 - Smart/Dumb component pattern

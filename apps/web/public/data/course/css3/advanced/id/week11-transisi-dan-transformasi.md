@@ -1,5 +1,3 @@
-# Transisi dan Transformasi
-
 ## Tujuan Pembelajaran
 
 - Memahami 4 sub-properti transisi: property, duration, timing-function, dan delay

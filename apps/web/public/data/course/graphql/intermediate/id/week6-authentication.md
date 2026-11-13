@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Tujuan Pembelajaran
 
 - JWT token generation

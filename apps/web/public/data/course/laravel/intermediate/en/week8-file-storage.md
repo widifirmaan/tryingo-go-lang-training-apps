@@ -1,5 +1,3 @@
-# File Storage & Upload
-
 ## Learning Objectives
 
 - Storage Facade: local, public, S3 disks

@@ -38,9 +38,30 @@ const SLUG_NAME_MAP = {
   vue: 'Vue.js',
 };
 
-function extractTitle(content, slug) {
+const CURRICULA_DIR = join(__dirname, '../src/data/curricula');
+const TITLE_MAP = {};
+if (existsSync(CURRICULA_DIR)) {
+  for (const f of readdirSync(CURRICULA_DIR)) {
+    if (!f.endsWith('.ts')) continue;
+    const slug = f.replace('.ts', '');
+    const content = readFileSync(join(CURRICULA_DIR, f), 'utf-8');
+    const regex = /week:\s*(\d+)[^}]+?titleId:\s*['"]([^'"]+)['"][^}]+?titleEn:\s*['"]([^'"]+)['"]/gs;
+    let m;
+    while ((m = regex.exec(content)) !== null) {
+      TITLE_MAP[`${slug}:${m[1]}:id`] = m[2];
+      TITLE_MAP[`${slug}:${m[1]}:en`] = m[3];
+    }
+  }
+}
+
+function extractTitle(content, slug, weekNum = 0, lang = 'id') {
+  const mapped = TITLE_MAP[`${slug}:${weekNum}:${lang}`];
+  if (mapped) return mapped;
   const titleMatch = content.match(/^#\s+(.+)/m);
-  return titleMatch ? titleMatch[1].trim() : SLUG_NAME_MAP[slug] || slug;
+  if (titleMatch) return titleMatch[1].trim();
+  const h2Match = content.match(/^##\s+(.+)/m);
+  if (h2Match) return h2Match[1].trim();
+  return SLUG_NAME_MAP[slug] || slug;
 }
 
 function extractMeta(content, slug = '', level = '', title = '') {
@@ -111,12 +132,11 @@ async function buildIndex() {
         for (const file of files) {
           const filePath = join(langDir, file);
           const content = readFileSync(filePath, 'utf-8');
-          const title = extractTitle(content, slug);
-          const meta = extractMeta(content, slug, level, title);
-          const plainText = stripMarkdown(content);
-
           const weekMatch = file.match(/week-?(\d+)/i);
           const weekNum = weekMatch ? parseInt(weekMatch[1]) : 0;
+          const title = extractTitle(content, slug, weekNum, lang);
+          const meta = extractMeta(content, slug, level, title);
+          const plainText = stripMarkdown(content);
 
           entries.push({
             slug,

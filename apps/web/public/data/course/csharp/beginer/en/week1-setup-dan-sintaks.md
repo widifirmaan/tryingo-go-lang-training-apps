@@ -1,5 +1,3 @@
-# Setup, Toolchain & Basic Syntax
-
 ## Why This Matters
 
 C# and .NET drive enterprise Windows apps, backend APIs, and Unity games - one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.

@@ -1,5 +1,3 @@
-# Forms & Validation
-
 ## Learning Objectives
 
 - Form class: forms.Form

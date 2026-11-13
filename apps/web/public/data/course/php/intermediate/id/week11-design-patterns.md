@@ -1,5 +1,3 @@
-# Design Patterns
-
 ## Tujuan Pembelajaran
 
 - Strategy Pattern: interface + multiple implementations

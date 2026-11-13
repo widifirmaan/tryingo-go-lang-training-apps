@@ -1,5 +1,3 @@
-# Testing
-
 ## Learning Objectives
 
 - Unit tests with JUnit 5 and Mockito

@@ -1,5 +1,3 @@
-# Testing Angular
-
 ## Tujuan Pembelajaran
 
 - Jasmine + Karma setup

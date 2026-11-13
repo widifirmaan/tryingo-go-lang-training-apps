@@ -1,5 +1,3 @@
-# JSX & Komponen Dasar
-
 ## Kenapa Materi Ini Penting
 
 React adalah library UI terpopuler di dunia - dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.

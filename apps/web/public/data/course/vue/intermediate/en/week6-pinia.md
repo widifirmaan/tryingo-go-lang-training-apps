@@ -1,5 +1,3 @@
-# Pinia State Management
-
 ## Learning Objectives
 
 - defineStore: setup function or options style

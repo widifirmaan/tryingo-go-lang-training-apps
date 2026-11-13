@@ -1,5 +1,3 @@
-# Bootstrap: Grid System dan Komponen
-
 ## Tujuan Pembelajaran
 
 - Memahami fungsi framework UI berbasis komponen untuk mempercepat penataan antarmuka web

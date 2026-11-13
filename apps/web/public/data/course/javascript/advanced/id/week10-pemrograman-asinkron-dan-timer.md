@@ -1,5 +1,3 @@
-# Pemrograman Asinkron dan Timer
-
 ## Tujuan Pembelajaran
 
 - Memahami perbedaan eksekusi sinkron (blocking) dan asinkron (non-blocking)

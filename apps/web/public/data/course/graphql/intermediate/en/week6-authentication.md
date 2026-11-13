@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Learning Objectives
 
 - JWT token generation

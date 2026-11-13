@@ -1,5 +1,3 @@
-# Orchestration
-
 ## Tujuan Pembelajaran
 
 - Kubernetes concepts: Pod, Deployment, Service

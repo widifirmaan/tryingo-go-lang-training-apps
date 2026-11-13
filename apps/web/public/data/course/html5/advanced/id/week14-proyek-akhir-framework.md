@@ -1,5 +1,3 @@
-# Proyek Akhir dengan Framework UI
-
 ## Tujuan Pembelajaran
 
 - Merancang ulang proyek website dari Minggu 8 menggunakan framework UI profesional (Bootstrap 5)

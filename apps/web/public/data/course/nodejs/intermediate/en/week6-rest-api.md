@@ -1,5 +1,3 @@
-# REST API Design
-
 ## Learning Objectives
 
 - Resource-based URLs: /resources, /resources/:id

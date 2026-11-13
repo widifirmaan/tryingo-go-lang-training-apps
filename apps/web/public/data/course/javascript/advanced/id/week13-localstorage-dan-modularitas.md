@@ -1,5 +1,3 @@
-# LocalStorage dan Modularitas ES Modules
-
 ## Tujuan Pembelajaran
 
 - Memahami Web Storage API: perbedaan localStorage (permanen) vs sessionStorage (sementara)

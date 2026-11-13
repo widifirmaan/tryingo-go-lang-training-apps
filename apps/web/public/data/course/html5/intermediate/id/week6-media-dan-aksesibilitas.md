@@ -1,5 +1,3 @@
-# Media, Iframe, dan Aksesibilitas
-
 ## Tujuan Pembelajaran
 
 - Menyematkan pemutar audio dan video native menggunakan tag <audio> dan <video>

@@ -1,5 +1,3 @@
-# Desain Responsif dan Media Queries
-
 ## Tujuan Pembelajaran
 
 - Memahami filosofi pendekatan Mobile-First dalam arsitektur CSS

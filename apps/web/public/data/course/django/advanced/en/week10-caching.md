@@ -1,5 +1,3 @@
-# Caching & Performance
-
 ## Learning Objectives
 
 - Cache backends: LocMem, Redis

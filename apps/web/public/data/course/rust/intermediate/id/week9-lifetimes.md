@@ -1,5 +1,3 @@
-# Lifetimes
-
 ## Tujuan Pembelajaran
 
 - Lifetime annotation: 'a untuk menandai umur reference

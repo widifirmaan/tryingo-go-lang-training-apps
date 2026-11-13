@@ -1,5 +1,3 @@
-# DataLoader & N+1 Problem
-
 ## Tujuan Pembelajaran
 
 - N+1 problem explained

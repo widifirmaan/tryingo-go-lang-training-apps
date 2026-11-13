@@ -1,5 +1,3 @@
-# Pico CSS: Classless CSS
-
 ## Learning Objectives
 
 - Understand "Classless CSS" architecture (styling native HTML elements without custom classes)

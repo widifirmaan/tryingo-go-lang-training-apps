@@ -1,5 +1,3 @@
-# ORM Advanced & Relations
-
 ## Tujuan Pembelajaran
 
 - One-to-Many dan Many-to-One relations

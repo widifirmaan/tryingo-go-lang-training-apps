@@ -1,5 +1,3 @@
-# Authentication dengan Devise
-
 ## Tujuan Pembelajaran
 
 - Devise gem: full authentication solution

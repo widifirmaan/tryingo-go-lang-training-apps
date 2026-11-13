@@ -1,5 +1,3 @@
-# LocalStorage and ES Modules
-
 ## Learning Objectives
 
 - Understand Web Storage API mechanics: persistent localStorage vs ephemeral sessionStorage

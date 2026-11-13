@@ -1,5 +1,3 @@
-# Forms & Validasi
-
 ## Tujuan Pembelajaran
 
 - Controlled form: setiap input punya value + onChange

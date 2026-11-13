@@ -1,5 +1,3 @@
-# Event Handling and Interactive Forms
-
 ## Learning Objectives
 
 - Master event listeners using addEventListener()

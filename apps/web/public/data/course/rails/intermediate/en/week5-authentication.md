@@ -1,5 +1,3 @@
-# Authentication with Devise
-
 ## Learning Objectives
 
 - Devise gem: full authentication solution

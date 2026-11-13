@@ -1,5 +1,3 @@
-# Security & User Management
-
 ## Learning Objectives
 
 - CREATE USER and GRANT

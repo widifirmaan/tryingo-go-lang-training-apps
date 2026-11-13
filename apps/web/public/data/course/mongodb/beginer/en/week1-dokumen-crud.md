@@ -1,5 +1,3 @@
-# Documents & Basic CRUD
-
 ## Why This Matters
 
 MongoDB stores data as flexible documents - perfect for catalogs, logs, and data whose shape keeps changing. Learning to think in documents expands how you model data, not just how you use tables.

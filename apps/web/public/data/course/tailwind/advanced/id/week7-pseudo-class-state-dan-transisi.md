@@ -1,5 +1,3 @@
-# State Modifiers, Pseudo-Classes & Transisi
-
 ## Tujuan Pembelajaran
 
 - Menguasai pseudo-class state: hover:, focus:, active:, disabled:

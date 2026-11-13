@@ -1,5 +1,3 @@
-# Flexbox: Tata Letak Satu Dimensi
-
 ## Tujuan Pembelajaran
 
 - Memahami konsep sumbu utama (Main Axis) dan sumbu silang (Cross Axis) pada Flexbox

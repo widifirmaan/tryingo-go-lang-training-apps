@@ -1,5 +1,3 @@
-# Interface & Generics
-
 ## Tujuan Pembelajaran
 
 - Interface implisit - struct implement tanpa kata kunci implements

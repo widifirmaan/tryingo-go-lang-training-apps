@@ -1,5 +1,3 @@
-# Performance Optimization
-
 ## Tujuan Pembelajaran
 
 - React.memo: skip re-render jika props tidak berubah

@@ -1,5 +1,3 @@
-# Macros
-
 ## Tujuan Pembelajaran
 
 - macro_rules! untuk declarative macro

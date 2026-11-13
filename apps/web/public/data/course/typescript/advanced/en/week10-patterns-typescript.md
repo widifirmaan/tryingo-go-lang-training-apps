@@ -1,5 +1,3 @@
-# TypeScript Design Patterns
-
 ## Learning Objectives
 
 - Singleton pattern with private constructor

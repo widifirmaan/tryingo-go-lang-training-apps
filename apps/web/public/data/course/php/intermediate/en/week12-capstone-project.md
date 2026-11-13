@@ -1,5 +1,3 @@
-# Capstone: Blog Application
-
 ## Learning Objectives
 
 - Combine all concepts: OOP, PDO, Composer, Testing

@@ -1,5 +1,3 @@
-# Replication & High Availability
-
 ## Learning Objectives
 
 - WAL and streaming replication

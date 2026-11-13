@@ -1,5 +1,3 @@
-# Proyek Akhir: Dashboard Admin Responsif Lengkap
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua utilitas: Flexbox, Grid, Responsivitas, Card, Tabel, dan Button

@@ -1,5 +1,3 @@
-# Performa & Tuning
-
 ## Tujuan Pembelajaran
 
 - EXPLAIN dengan BUFFERS

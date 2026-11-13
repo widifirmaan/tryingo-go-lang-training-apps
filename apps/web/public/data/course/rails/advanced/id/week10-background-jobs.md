@@ -1,5 +1,3 @@
-# Background Jobs & Sidekiq
-
 ## Tujuan Pembelajaran
 
 - Active Job: framework-agnostic job interface

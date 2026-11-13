@@ -1,5 +1,3 @@
-# Arrays and Data Manipulation Methods
-
 ## Learning Objectives
 
 - Master Array zero-indexed sequences and dynamic length properties

@@ -1,5 +1,3 @@
-# Classes & OOP
-
 ## Learning Objectives
 
 - Access modifiers: public, protected, private

@@ -1,5 +1,3 @@
-# Pub/Sub & Streams
-
 ## Learning Objectives
 
 - SUBSCRIBE, PUBLISH, UNSUBSCRIBE

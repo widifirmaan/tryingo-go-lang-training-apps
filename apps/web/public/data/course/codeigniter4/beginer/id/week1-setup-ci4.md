@@ -1,5 +1,3 @@
-# Setup & Instalasi CI4
-
 ## Kenapa Materi Ini Penting
 
 CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".

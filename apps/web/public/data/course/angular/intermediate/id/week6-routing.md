@@ -1,5 +1,3 @@
-# Angular Router
-
 ## Tujuan Pembelajaran
 
 - Routes configuration

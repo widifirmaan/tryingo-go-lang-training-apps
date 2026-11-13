@@ -1,5 +1,3 @@
-# RxJS Fundamentals
-
 ## Tujuan Pembelajaran
 
 - Observable: stream of data

@@ -568,6 +568,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           components={{
+            h1: () => null,
             pre: ({ children }) => (
               <LessonCodeBlock
                 isId={isId}

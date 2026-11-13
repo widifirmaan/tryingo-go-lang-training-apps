@@ -1,5 +1,3 @@
-# Caching Patterns
-
 ## Learning Objectives
 
 - Cache-aside pattern

@@ -1,5 +1,3 @@
-# Performance & Security
-
 ## Learning Objectives
 
 - Cluster mode for multi-core

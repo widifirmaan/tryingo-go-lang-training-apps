@@ -1,5 +1,3 @@
-# CI/CD Pipeline
-
 ## Tujuan Pembelajaran
 
 - GitHub Actions workflow untuk Docker CI/CD

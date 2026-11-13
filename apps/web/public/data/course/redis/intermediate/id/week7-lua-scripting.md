@@ -1,5 +1,3 @@
-# Lua Scripting
-
 ## Tujuan Pembelajaran
 
 - EVAL untuk script atomic

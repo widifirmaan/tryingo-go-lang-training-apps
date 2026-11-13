@@ -1,5 +1,3 @@
-# Utility Types
-
 ## Tujuan Pembelajaran
 
 - Partial<T>, Required<T>, Readonly<T>

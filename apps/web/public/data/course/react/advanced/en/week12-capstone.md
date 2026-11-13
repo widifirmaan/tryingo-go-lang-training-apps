@@ -1,5 +1,3 @@
-# Capstone: E-Commerce App
-
 ## Learning Objectives
 
 - Combine routing, context, reducer, hooks in one project

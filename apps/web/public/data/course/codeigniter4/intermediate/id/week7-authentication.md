@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Tujuan Pembelajaran
 
 - Session: set, get, destroy untuk state management

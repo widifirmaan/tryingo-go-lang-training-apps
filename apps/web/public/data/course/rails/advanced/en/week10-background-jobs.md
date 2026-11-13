@@ -1,5 +1,3 @@
-# Background Jobs & Sidekiq
-
 ## Learning Objectives
 
 - Active Job: framework-agnostic job interface

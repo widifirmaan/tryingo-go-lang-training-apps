@@ -1,5 +1,3 @@
-# Object-Oriented Programming
-
 ## Learning Objectives
 
 - Create classes with __init__, self, and instance methods

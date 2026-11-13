@@ -1,5 +1,3 @@
-# Interfaces & Type Aliases
-
 ## Kenapa Materi Ini Penting
 
 TypeScript adalah JavaScript dengan sistem tipe - kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.

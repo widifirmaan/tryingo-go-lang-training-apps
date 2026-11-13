@@ -1,5 +1,3 @@
-# Performance & Tuning
-
 ## Learning Objectives
 
 - EXPLAIN ANALYZE

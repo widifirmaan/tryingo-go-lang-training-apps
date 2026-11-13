@@ -1,5 +1,3 @@
-# Async & Scheduling
-
 ## Tujuan Pembelajaran
 
 - @Scheduled untuk task berjadwal

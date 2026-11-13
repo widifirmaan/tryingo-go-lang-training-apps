@@ -1,5 +1,3 @@
-# Database Relationships
-
 ## Learning Objectives
 
 - One to One: hasOne and belongsTo

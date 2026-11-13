@@ -1,5 +1,3 @@
-# Forms and Input Validation
-
 ## Learning Objectives
 
 - Understand form anatomy: <form action="..." method="..."> and the link between <label for="..."> and <input id="...">

@@ -1,5 +1,3 @@
-# Trait
-
 ## Tujuan Pembelajaran
 
 - Trait: definisi interface/behavior yang bisa diimplement struct

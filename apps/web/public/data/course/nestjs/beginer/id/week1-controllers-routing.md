@@ -1,5 +1,3 @@
-# Controllers & Routing
-
 ## Kenapa Materi Ini Penting
 
 NestJS mengambil disipli arsitektur dari Angular/Spring dan membawanya ke Node: modul, dependency injection, decorator. Struktur ketatnya membuat aplikasi yang tumbuh besar tetap bisa dirawat oleh tim.

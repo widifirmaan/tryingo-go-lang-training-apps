@@ -1,5 +1,3 @@
-# Transitions & Animations
-
 ## Learning Objectives
 
 - transition: for enter/leave

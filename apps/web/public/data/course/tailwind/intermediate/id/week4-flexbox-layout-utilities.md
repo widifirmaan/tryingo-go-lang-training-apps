@@ -1,5 +1,3 @@
-# Tata Letak Flexbox dengan Tailwind
-
 ## Tujuan Pembelajaran
 
 - Mengaktifkan display flex dengan class flex

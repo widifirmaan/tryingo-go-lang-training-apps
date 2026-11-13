@@ -1,5 +1,3 @@
-# Deployment & DevOps
-
 ## Learning Objectives
 
 - Production settings: DEBUG, ALLOWED_HOSTS

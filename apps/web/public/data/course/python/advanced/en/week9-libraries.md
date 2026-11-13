@@ -1,5 +1,3 @@
-# Libraries & Virtual Environments
-
 ## Learning Objectives
 
 - Create and manage virtual environments (venv)

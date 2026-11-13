@@ -1,5 +1,3 @@
-# JSONB & Semi-Structured Data
-
 ## Learning Objectives
 
 - JSONB type

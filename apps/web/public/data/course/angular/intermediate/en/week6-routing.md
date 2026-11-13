@@ -1,5 +1,3 @@
-# Angular Router
-
 ## Learning Objectives
 
 - Routes configuration

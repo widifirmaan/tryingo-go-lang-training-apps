@@ -1,5 +1,3 @@
-# HTTP Client & APIs
-
 ## Learning Objectives
 
 - HttpClient module setup

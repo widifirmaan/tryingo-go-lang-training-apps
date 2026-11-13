@@ -1,5 +1,3 @@
-# Pinia State Management
-
 ## Tujuan Pembelajaran
 
 - defineStore: setup function atau options style

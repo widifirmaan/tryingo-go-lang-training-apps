@@ -1,5 +1,3 @@
-# DaisyUI: Komponen Utility
-
 ## Tujuan Pembelajaran
 
 - Memahami konsep framework komponen berbasis utility (DaisyUI dan ekosistem Tailwind CSS)

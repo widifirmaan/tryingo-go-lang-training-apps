@@ -1,5 +1,3 @@
-# Subscriptions
-
 ## Tujuan Pembelajaran
 
 - PubSub untuk messaging

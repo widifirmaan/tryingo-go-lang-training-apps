@@ -1,5 +1,3 @@
-# Flexbox Layout with Tailwind
-
 ## Learning Objectives
 
 - Enable flexbox display with the flex class

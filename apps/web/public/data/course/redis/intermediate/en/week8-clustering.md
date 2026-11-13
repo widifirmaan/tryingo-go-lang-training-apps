@@ -1,5 +1,3 @@
-# Redis Cluster
-
 ## Learning Objectives
 
 - Cluster setup

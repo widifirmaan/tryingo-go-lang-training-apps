@@ -1,5 +1,3 @@
-# Final Project: Complete Responsive Admin Dashboard
-
 ## Learning Objectives
 
 - Combine all core utilities: Flexbox, Grid, Responsiveness, Cards, Tables, and Buttons

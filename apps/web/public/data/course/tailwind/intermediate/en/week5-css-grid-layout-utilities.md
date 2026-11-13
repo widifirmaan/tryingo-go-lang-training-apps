@@ -1,5 +1,3 @@
-# CSS Grid Layout with Tailwind
-
 ## Learning Objectives
 
 - Activate CSS Grid with the grid class

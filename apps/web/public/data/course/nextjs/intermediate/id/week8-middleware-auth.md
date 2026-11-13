@@ -1,5 +1,3 @@
-# Middleware & Auth Dasar
-
 ## Tujuan Pembelajaran
 
 - Middleware: jalan sebelum request, untuk auth/redirect

@@ -1,5 +1,3 @@
-# Loading & Error UI
-
 ## Tujuan Pembelajaran
 
 - loading.js: skeleton/Spinner saat data loading

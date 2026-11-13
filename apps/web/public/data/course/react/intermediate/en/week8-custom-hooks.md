@@ -1,5 +1,3 @@
-# Custom Hooks & Patterns
-
 ## Learning Objectives
 
 - Create custom hooks with "use" prefix

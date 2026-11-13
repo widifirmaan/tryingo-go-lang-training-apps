@@ -1,5 +1,3 @@
-# Goroutine & Channel
-
 ## Tujuan Pembelajaran
 
 - Menjalankan goroutine dengan go keyword (Go Tour: Concurrency)

@@ -1,5 +1,3 @@
-# Setup, Toolchain & Sintaks Dasar
-
 ## Kenapa Materi Ini Penting
 
 Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.

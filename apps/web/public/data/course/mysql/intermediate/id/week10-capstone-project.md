@@ -1,5 +1,3 @@
-# Capstone: E-Commerce Database
-
 ## Tujuan Pembelajaran
 
 - Schema production-ready

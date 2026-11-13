@@ -1,5 +1,3 @@
-# Proyek Akhir: Website Lengkap Responsif
-
 ## Tujuan Pembelajaran
 
 - Menyusun arsitektur CSS multi-layer dari awal: Reset, Variabel Tema, Tipografi, dan Komponen

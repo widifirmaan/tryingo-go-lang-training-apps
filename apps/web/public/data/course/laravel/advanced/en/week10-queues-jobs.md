@@ -1,5 +1,3 @@
-# Queues & Background Jobs
-
 ## Learning Objectives
 
 - Job class: ShouldQueue interface for background processing

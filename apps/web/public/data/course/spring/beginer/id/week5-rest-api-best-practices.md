@@ -1,5 +1,3 @@
-# REST API Best Practices
-
 ## Kenapa Materi Ini Penting
 
 Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.

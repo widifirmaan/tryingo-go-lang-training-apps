@@ -1,5 +1,3 @@
-# Capstone: REST API + CLI
-
 ## Learning Objectives
 
 - Combine all concepts: structs, interfaces, concurrency, HTTP

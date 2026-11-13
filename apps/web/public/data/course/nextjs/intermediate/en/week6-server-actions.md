@@ -1,5 +1,3 @@
-# Server Actions & Mutations
-
 ## Learning Objectives
 
 - Server Actions: "use server" directive

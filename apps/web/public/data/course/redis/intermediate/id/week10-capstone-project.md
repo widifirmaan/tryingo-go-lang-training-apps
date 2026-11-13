@@ -1,5 +1,3 @@
-# Capstone: Real-time Analytics
-
 ## Tujuan Pembelajaran
 
 - HyperLogLog untuk unique count

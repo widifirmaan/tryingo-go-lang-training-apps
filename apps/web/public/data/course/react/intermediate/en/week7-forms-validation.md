@@ -1,5 +1,3 @@
-# Forms & Validation
-
 ## Learning Objectives
 
 - Controlled forms: each input has value + onChange

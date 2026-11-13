@@ -1,5 +1,3 @@
-# Advanced Patterns
-
 ## Learning Objectives
 
 - Smart/Dumb component pattern

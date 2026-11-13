@@ -1,5 +1,3 @@
-# Data Fetching
-
 ## Learning Objectives
 
 - Fetch data directly in Server Component

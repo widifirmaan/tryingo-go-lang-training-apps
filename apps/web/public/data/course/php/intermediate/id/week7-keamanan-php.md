@@ -1,5 +1,3 @@
-# Keamanan PHP
-
 ## Tujuan Pembelajaran
 
 - XSS Prevention: htmlspecialchars untuk output encoding

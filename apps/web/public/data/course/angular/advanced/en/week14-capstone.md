@@ -1,5 +1,3 @@
-# Capstone: Enterprise App
-
 ## Learning Objectives
 
 - Combine all Angular concepts

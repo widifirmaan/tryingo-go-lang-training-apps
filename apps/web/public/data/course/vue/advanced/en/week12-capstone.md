@@ -1,5 +1,3 @@
-# Capstone: SaaS Dashboard
-
 ## Learning Objectives
 
 - Combine all Vue concepts in one project

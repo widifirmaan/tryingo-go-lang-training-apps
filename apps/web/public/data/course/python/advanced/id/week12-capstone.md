@@ -1,5 +1,3 @@
-# Capstone: Python Application
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: OOP, file I/O, error handling, testing

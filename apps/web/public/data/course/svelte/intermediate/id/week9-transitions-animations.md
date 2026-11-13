@@ -1,5 +1,3 @@
-# Transitions & Animations
-
 ## Tujuan Pembelajaran
 
 - transition: directive untuk enter/leave

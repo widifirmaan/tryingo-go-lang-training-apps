@@ -1,5 +1,3 @@
-# Capstone: SvelteKit App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep Svelte/SvelteKit

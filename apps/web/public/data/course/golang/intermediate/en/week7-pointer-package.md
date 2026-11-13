@@ -1,5 +1,3 @@
-# Pointers, Memory & Packages
-
 ## Learning Objectives
 
 - Understand & (address-of) and * (dereference) operators

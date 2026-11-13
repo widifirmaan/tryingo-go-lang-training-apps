@@ -1,5 +1,3 @@
-# Variabel CSS dan Sistem Tema
-
 ## Tujuan Pembelajaran
 
 - Memahami deklarasi CSS Custom Properties (Variabel CSS) di pseudo-class :root

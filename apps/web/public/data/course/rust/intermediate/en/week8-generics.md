@@ -1,5 +1,3 @@
-# Generics
-
 ## Learning Objectives
 
 - Generic functions: fn name<T>(param: T)

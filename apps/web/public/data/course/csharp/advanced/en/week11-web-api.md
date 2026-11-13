@@ -1,5 +1,3 @@
-# Web API
-
 ## Learning Objectives
 
 - ASP.NET Core Web API: Controllers, Actions, Routing

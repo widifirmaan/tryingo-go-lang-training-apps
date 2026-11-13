@@ -1,5 +1,3 @@
-# Context API & useReducer
-
 ## Tujuan Pembelajaran
 
 - createContext dan Provider untuk state global

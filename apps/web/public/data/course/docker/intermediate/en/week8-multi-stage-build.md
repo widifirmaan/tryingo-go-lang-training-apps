@@ -1,5 +1,3 @@
-# Multi-Stage Builds
-
 ## Learning Objectives
 
 - Multi-stage builds: multiple FROM in one Dockerfile

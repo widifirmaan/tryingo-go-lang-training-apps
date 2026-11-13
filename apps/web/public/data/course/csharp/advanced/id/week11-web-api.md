@@ -1,5 +1,3 @@
-# Web API
-
 ## Tujuan Pembelajaran
 
 - ASP.NET Core Web API: Controller, Action, Routing

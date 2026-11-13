@@ -1,5 +1,3 @@
-# HTTP Server & Middleware
-
 ## Learning Objectives
 
 - net/http: ServeMux, HandleFunc, ListenAndServe

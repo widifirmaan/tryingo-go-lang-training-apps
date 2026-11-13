@@ -1,5 +1,3 @@
-# Bulma: Column Layout and Components
-
 ## Learning Objectives
 
 - Understand Bulma as a 100% pure CSS framework built entirely on Flexbox without JavaScript dependencies

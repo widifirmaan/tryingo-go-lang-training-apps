@@ -1,5 +1,3 @@
-# Objects, Destructuring, and JSON
-
 ## Learning Objectives
 
 - Master Object Literals (key-value pairs) and dot vs bracket access notation

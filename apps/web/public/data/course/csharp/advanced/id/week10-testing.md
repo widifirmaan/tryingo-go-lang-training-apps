@@ -1,5 +1,3 @@
-# Testing
-
 ## Tujuan Pembelajaran
 
 - Unit testing dengan xUnit/NUnit

@@ -1,5 +1,3 @@
-# Testing & CLI Tools
-
 ## Tujuan Pembelajaran
 
 - testing package: func TestXxx(t *testing.T)

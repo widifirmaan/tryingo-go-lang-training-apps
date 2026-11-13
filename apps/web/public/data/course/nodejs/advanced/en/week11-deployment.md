@@ -1,5 +1,3 @@
-# Deployment & DevOps
-
 ## Learning Objectives
 
 - Docker: containerize Node.js applications

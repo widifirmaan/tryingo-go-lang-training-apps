@@ -1,5 +1,3 @@
-# Database & ORM
-
 ## Learning Objectives
 
 - CRUD operations: Create, Read, Update, Delete

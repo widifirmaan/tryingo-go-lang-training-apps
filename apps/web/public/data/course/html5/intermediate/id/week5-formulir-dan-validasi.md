@@ -1,5 +1,3 @@
-# Formulir dan Validasi Input
-
 ## Tujuan Pembelajaran
 
 - Memahami anatomi formulir: <form action="..." method="..."> dan keterkaitan <label for="..."> dengan <input id="...">

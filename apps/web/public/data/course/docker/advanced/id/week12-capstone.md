@@ -1,5 +1,3 @@
-# Capstone: Production Pipeline
-
 ## Tujuan Pembelajaran
 
 - Full production pipeline: build → test → scan → deploy

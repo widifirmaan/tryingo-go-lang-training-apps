@@ -1,5 +1,3 @@
-# UI Component Composition: Cards, Buttons, Forms, Modals
-
 ## Learning Objectives
 
 - Compose structured modal components (header, form body, action footer)

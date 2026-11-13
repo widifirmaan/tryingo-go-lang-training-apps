@@ -1,5 +1,3 @@
-# Dasar PostgreSQL & Tabel
-
 ## Kenapa Materi Ini Penting
 
 PostgreSQL adalah database open source paling canggih: ACID penuh, JSON, indexing canggih, dan ekstensi luas. Perusahaan besar mengandalkan Postgres; SQL yang Anda pelajari bersifat portabel untuk semua relational databases.

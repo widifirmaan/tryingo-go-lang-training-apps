@@ -1,5 +1,3 @@
-# Provide/Inject & Teleport
-
 ## Tujuan Pembelajaran
 
 - provide: share data ke semua descendants

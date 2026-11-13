@@ -1,5 +1,3 @@
-# Queues & Background Jobs
-
 ## Tujuan Pembelajaran
 
 - Job class: ShouldQueue interface untuk background processing

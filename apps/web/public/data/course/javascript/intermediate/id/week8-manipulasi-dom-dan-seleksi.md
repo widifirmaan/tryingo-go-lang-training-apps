@@ -1,5 +1,3 @@
-# Manipulasi DOM dan Seleksi Elemen
-
 ## Tujuan Pembelajaran
 
 - Memahami arsitektur Document Object Model (DOM) sebagai representasi pohon elemen HTML

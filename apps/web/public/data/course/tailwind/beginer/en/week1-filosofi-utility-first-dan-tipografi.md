@@ -1,5 +1,3 @@
-# Utility-First Philosophy, Setup & Typography
-
 ## Why This Matters
 
 Tailwind turns styling into consistent utility classes - designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.

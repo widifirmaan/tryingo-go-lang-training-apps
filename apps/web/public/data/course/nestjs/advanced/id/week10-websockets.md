@@ -1,5 +1,3 @@
-# WebSockets & Real-time
-
 ## Tujuan Pembelajaran
 
 - WebSocketGateway decorator

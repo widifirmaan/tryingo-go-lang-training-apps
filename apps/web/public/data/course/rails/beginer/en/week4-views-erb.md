@@ -1,5 +1,3 @@
-# Views & ERB Templates
-
 ## Why This Matters
 
 Rails pioneered convention-over-configuration: one generator command scaffolds full CRUD. The result is developer productivity - you focus on the product, not the wiring. GitHub, Shopify, and early Airbnb run on it.

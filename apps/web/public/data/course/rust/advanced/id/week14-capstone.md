@@ -1,5 +1,3 @@
-# Capstone: CLI + Library
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: struct, enum, trait, generics, error handling

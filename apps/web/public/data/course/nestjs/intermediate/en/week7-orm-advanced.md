@@ -1,5 +1,3 @@
-# ORM Advanced & Relations
-
 ## Learning Objectives
 
 - One-to-Many and Many-to-One relations

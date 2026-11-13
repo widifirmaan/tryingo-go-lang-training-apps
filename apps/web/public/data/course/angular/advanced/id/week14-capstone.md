@@ -1,5 +1,3 @@
-# Capstone: Enterprise App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep Angular

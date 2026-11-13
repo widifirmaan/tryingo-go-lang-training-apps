@@ -1,5 +1,3 @@
-# Rails API Mode
-
 ## Tujuan Pembelajaran
 
 - API mode: rails new --api untuk skip views

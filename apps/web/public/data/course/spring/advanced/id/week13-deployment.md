@@ -1,5 +1,3 @@
-# Deployment
-
 ## Tujuan Pembelajaran
 
 - Dockerfile untuk containerize Spring Boot app

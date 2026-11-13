@@ -1,5 +1,3 @@
-# Caching
-
 ## Tujuan Pembelajaran
 
 - @EnableCaching untuk aktifkan Spring caching

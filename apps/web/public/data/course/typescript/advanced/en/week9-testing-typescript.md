@@ -1,5 +1,3 @@
-# Testing TypeScript
-
 ## Learning Objectives
 
 - Type-safe test runner and assertions

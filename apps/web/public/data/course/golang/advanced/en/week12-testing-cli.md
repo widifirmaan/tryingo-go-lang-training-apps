@@ -1,5 +1,3 @@
-# Testing & CLI Tools
-
 ## Learning Objectives
 
 - testing package: func TestXxx(t *testing.T)

@@ -1,5 +1,3 @@
-# Komposisi Komponen UI: Card, Button, Form, Modal
-
 ## Tujuan Pembelajaran
 
 - Menyusun komposisi komponen modal terstruktur (header, body form, footer)

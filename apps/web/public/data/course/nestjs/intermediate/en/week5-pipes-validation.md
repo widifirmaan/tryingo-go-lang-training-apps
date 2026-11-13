@@ -1,5 +1,3 @@
-# Pipes & Validation
-
 ## Learning Objectives
 
 - DTO (Data Transfer Object) with class-validator

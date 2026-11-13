@@ -1,5 +1,3 @@
-# Variables, Data Types, and Operators
-
 ## Why This Matters
 
 JavaScript is the only language that runs in every browser - frontend, backend (Node), even mobile. Learning JS thoroughly opens nearly the entire spectrum of web jobs.

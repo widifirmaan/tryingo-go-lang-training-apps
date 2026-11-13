@@ -1,5 +1,3 @@
-# Docker Compose
-
 ## Learning Objectives
 
 - docker-compose.yml: services, volumes, networks

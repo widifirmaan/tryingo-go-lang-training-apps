@@ -1,5 +1,3 @@
-# Design Patterns
-
 ## Learning Objectives
 
 - Strategy Pattern: interchangeable family of algorithms

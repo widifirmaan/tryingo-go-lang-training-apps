@@ -1,5 +1,3 @@
-# Testing with PHPUnit
-
 ## Learning Objectives
 
 - PHPUnit: testing framework for PHP

@@ -1,5 +1,3 @@
-# Capstone: E-Commerce App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan routing, context, reducer, hooks dalam satu proyek

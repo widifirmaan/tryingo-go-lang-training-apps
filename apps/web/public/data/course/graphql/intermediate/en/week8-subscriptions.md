@@ -1,5 +1,3 @@
-# Subscriptions
-
 ## Learning Objectives
 
 - PubSub for messaging

@@ -1,5 +1,3 @@
-# Testing Angular
-
 ## Learning Objectives
 
 - Jasmine + Karma setup

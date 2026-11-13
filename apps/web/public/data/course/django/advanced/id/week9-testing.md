@@ -1,5 +1,3 @@
-# Testing dengan pytest
-
 ## Tujuan Pembelajaran
 
 - TestCase: class untuk test

@@ -1,5 +1,3 @@
-# Design Patterns
-
 ## Tujuan Pembelajaran
 
 - Strategy Pattern: family of algorithms yang bisa ditukar

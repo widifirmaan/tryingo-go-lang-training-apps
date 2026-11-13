@@ -1,5 +1,3 @@
-# Caching
-
 ## Learning Objectives
 
 - @EnableCaching to enable Spring caching

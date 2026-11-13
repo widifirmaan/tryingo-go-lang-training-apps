@@ -1,5 +1,3 @@
-# Generics
-
 ## Tujuan Pembelajaran
 
 - Generic class: class Repository<T> where T : class

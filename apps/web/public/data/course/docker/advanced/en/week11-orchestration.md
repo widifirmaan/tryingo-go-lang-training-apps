@@ -1,5 +1,3 @@
-# Orchestration
-
 ## Learning Objectives
 
 - Kubernetes concepts: Pods, Deployments, Services

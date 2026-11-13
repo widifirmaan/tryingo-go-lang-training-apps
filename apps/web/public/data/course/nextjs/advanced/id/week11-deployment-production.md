@@ -1,5 +1,3 @@
-# Deployment & Production
-
 ## Tujuan Pembelajaran
 
 - Environment variables: .env.local, .env.production

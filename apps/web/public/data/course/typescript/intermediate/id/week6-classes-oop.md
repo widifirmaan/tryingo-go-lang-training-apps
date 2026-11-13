@@ -1,5 +1,3 @@
-# Classes & OOP
-
 ## Tujuan Pembelajaran
 
 - Access modifiers: public, protected, private

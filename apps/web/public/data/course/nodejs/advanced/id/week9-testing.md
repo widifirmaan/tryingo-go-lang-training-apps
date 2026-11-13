@@ -1,5 +1,3 @@
-# Testing & Quality
-
 ## Tujuan Pembelajaran
 
 - Unit testing: test individual functions

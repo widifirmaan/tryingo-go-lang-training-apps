@@ -1,5 +1,3 @@
-# State Management
-
 ## Learning Objectives
 
 - NgRx: Store, Actions, Reducers

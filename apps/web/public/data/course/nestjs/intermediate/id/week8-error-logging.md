@@ -1,5 +1,3 @@
-# Error Handling & Logging
-
 ## Tujuan Pembelajaran
 
 - ExceptionFilter: catch semua exceptions

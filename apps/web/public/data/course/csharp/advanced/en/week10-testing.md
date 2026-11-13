@@ -1,5 +1,3 @@
-# Testing
-
 ## Learning Objectives
 
 - Unit testing with xUnit/NUnit

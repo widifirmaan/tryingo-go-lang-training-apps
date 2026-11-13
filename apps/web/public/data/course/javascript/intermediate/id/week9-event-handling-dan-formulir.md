@@ -1,5 +1,3 @@
-# Event Handling dan Formulir Interaktif
-
 ## Tujuan Pembelajaran
 
 - Menguasai mekanisme penanganan event modern menggunakan addEventListener()

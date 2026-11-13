@@ -1,5 +1,3 @@
-# Database & ORM
-
 ## Tujuan Pembelajaran
 
 - Setup Prisma dengan Next.js

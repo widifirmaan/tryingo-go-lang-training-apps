@@ -1,5 +1,3 @@
-# Lifetimes
-
 ## Learning Objectives
 
 - Lifetime annotations: 'a to mark reference lifetimes

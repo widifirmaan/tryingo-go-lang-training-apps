@@ -1,5 +1,3 @@
-# Deployment & DevOps
-
 ## Tujuan Pembelajaran
 
 - Production settings: DEBUG, ALLOWED_HOSTS

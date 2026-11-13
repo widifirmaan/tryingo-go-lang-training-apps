@@ -1,5 +1,3 @@
-# Proyek Website Lengkap
-
 ## Tujuan Pembelajaran
 
 - Menyatukan seluruh konsep HTML dari Minggu 1 hingga 7 ke dalam satu arsitektur website multi-halaman utuh

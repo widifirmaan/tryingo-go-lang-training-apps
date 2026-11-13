@@ -1,5 +1,3 @@
-# REST API with DRF
-
 ## Learning Objectives
 
 - Install DRF

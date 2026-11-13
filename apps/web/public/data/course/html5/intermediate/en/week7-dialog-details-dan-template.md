@@ -1,5 +1,3 @@
-# Dialog, Details, and Template
-
 ## Learning Objectives
 
 - Build native toggle accordion components (FAQ) without JavaScript using <details> and <summary>

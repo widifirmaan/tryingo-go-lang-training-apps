@@ -1,5 +1,3 @@
-# Fetch API and HTTP Requests
-
 ## Learning Objectives
 
 - Understand HTTP fundamentals and REST APIs: GET methods, endpoint URLs, and JSON responses

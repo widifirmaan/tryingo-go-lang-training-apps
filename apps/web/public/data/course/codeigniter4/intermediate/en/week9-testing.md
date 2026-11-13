@@ -1,5 +1,3 @@
-# Testing with PHPUnit
-
 ## Learning Objectives
 
 - CIUnitTestCase: base class for unit tests

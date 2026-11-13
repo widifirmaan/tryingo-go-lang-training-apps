@@ -1,5 +1,3 @@
-# Responsive Design & Dark Mode Architecture
-
 ## Learning Objectives
 
 - Understand mobile-first design philosophy (unprefixed styles target mobile viewports)

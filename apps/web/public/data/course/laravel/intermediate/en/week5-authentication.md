@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Learning Objectives
 
 - Laravel Breeze: lightweight auth scaffolding

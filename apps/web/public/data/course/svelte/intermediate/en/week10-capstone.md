@@ -1,5 +1,3 @@
-# Capstone: SvelteKit App
-
 ## Learning Objectives
 
 - Combine all Svelte/SvelteKit concepts

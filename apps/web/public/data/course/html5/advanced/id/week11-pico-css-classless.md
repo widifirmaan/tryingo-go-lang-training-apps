@@ -1,5 +1,3 @@
-# Pico CSS: Classless CSS
-
 ## Tujuan Pembelajaran
 
 - Memahami konsep "Classless CSS" (menghias tag native HTML tanpa perlu menulis class kustom)

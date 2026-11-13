@@ -1,5 +1,3 @@
-# Caching & Performance
-
 ## Tujuan Pembelajaran
 
 - Cache backends: LocMem, Redis

@@ -1,5 +1,3 @@
-# Lua Scripting
-
 ## Learning Objectives
 
 - EVAL for atomic scripts

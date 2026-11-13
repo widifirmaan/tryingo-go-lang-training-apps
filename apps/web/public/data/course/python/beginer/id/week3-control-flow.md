@@ -1,5 +1,3 @@
-# Control Flow & Loops
-
 ## Kenapa Materi Ini Penting
 
 Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data - investasi belajar yang paling serbaguna.

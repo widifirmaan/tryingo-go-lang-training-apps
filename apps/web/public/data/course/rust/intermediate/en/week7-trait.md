@@ -1,5 +1,3 @@
-# Traits
-
 ## Learning Objectives
 
 - Traits: define interfaces/behaviors that structs can implement

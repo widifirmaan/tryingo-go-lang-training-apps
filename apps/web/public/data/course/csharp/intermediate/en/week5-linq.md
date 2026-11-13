@@ -1,5 +1,3 @@
-# LINQ
-
 ## Learning Objectives
 
 - LINQ method syntax: Where, OrderBy, Select, GroupBy

@@ -1,5 +1,3 @@
-# Testing & Quality
-
 ## Learning Objectives
 
 - Unit testing: test individual functions

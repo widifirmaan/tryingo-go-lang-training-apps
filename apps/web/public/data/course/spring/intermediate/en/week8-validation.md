@@ -1,5 +1,3 @@
-# Validation
-
 ## Learning Objectives
 
 - Bean Validation with Jakarta annotations

@@ -1,5 +1,3 @@
-# Forms & Validation
-
 ## Tujuan Pembelajaran
 
 - Form class: forms.Form

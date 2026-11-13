@@ -1,5 +1,3 @@
-# Smart Pointers
-
 ## Tujuan Pembelajaran
 
 - Box<T>: heap allocation untuk tipe dinamis dan recursive type

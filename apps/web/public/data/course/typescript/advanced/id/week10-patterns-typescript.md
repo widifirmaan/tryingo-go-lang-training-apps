@@ -1,5 +1,3 @@
-# Design Patterns TS
-
 ## Tujuan Pembelajaran
 
 - Singleton pattern dengan private constructor

@@ -1,5 +1,3 @@
-# Web Components: Custom Elements dan Template
-
 ## Tujuan Pembelajaran
 
 - Memahami standar Web Components sebagai masa depan HTML native tanpa ketergantungan framework besar

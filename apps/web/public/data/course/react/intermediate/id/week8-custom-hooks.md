@@ -1,5 +1,3 @@
-# Custom Hooks & Patterns
-
 ## Tujuan Pembelajaran
 
 - Membuat custom hook dengan prefix "use"

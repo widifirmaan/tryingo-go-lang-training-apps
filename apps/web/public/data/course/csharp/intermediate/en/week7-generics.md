@@ -1,5 +1,3 @@
-# Generics
-
 ## Learning Objectives
 
 - Generic class: class Repository<T> where T : class

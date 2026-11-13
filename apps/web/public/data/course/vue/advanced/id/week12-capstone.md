@@ -1,5 +1,3 @@
-# Capstone: SaaS Dashboard
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep Vue dalam satu proyek

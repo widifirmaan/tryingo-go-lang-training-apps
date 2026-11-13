@@ -1,5 +1,3 @@
-# Capstone: Production Pipeline
-
 ## Learning Objectives
 
 - Full production pipeline: build → test → scan → deploy

@@ -1,5 +1,3 @@
-# Advanced Patterns
-
 ## Learning Objectives
 
 - Higher-Order Component (HOC): function receiving a component

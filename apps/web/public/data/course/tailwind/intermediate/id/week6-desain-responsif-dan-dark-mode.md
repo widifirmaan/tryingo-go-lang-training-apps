@@ -1,5 +1,3 @@
-# Desain Responsif & Arsitektur Dark Mode
-
 ## Tujuan Pembelajaran
 
 - Memahami filosofi mobile-first (gaya default tanpa prefix berlaku untuk HP)

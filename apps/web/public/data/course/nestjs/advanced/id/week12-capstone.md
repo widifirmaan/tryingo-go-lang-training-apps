@@ -1,5 +1,3 @@
-# Capstone: Enterprise API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: Controllers, Services, Modules, DI

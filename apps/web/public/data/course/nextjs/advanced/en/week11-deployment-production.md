@@ -1,5 +1,3 @@
-# Deployment & Production
-
 ## Learning Objectives
 
 - Environment variables: .env.local, .env.production

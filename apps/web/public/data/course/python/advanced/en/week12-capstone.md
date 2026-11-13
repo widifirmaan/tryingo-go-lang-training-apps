@@ -1,5 +1,3 @@
-# Capstone: Python Application
-
 ## Learning Objectives
 
 - Combine all concepts: OOP, file I/O, error handling, testing

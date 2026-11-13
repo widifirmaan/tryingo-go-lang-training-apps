@@ -1,5 +1,3 @@
-# Express.js & Web Server
-
 ## Learning Objectives
 
 - Express.js: setup, routes, and listen on port

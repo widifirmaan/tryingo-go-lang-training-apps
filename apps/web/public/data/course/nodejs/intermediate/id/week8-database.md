@@ -1,5 +1,3 @@
-# Database & ORM
-
 ## Tujuan Pembelajaran
 
 - CRUD operations: Create, Read, Update, Delete

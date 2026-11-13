@@ -1,5 +1,3 @@
-# Asynchronous Programming and Timers
-
 ## Learning Objectives
 
 - Distinguish synchronous blocking execution from asynchronous non-blocking pipelines

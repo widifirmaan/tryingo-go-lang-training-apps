@@ -1,5 +1,3 @@
-# Deployment & DevOps
-
 ## Learning Objectives
 
 - Production checklist: env vars, database, assets

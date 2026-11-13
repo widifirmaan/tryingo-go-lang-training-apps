@@ -1,5 +1,3 @@
-# Testing Vue Components
-
 ## Tujuan Pembelajaran
 
 - Vitest + Vue Test Utils setup

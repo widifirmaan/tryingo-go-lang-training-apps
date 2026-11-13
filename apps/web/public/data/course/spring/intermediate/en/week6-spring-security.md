@@ -1,5 +1,3 @@
-# Spring Security
-
 ## Learning Objectives
 
 - Spring Security: authentication and authorization

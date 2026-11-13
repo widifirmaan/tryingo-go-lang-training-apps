@@ -1,5 +1,3 @@
-# Testing & Quality
-
 ## Learning Objectives
 
 - unittest: TestCase, assertEqual, assertRaises, setUp

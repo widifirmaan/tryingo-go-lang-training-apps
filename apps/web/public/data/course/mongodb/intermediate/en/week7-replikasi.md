@@ -1,5 +1,3 @@
-# Replica Sets & Sharding
-
 ## Learning Objectives
 
 - Replica set setup

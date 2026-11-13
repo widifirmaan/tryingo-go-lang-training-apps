@@ -1,5 +1,3 @@
-# Deployment & DevOps
-
 ## Tujuan Pembelajaran
 
 - Production checklist: env vars, database, assets

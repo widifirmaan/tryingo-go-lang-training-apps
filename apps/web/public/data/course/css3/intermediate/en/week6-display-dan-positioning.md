@@ -1,5 +1,3 @@
-# Display and Positioning
-
 ## Learning Objectives
 
 - Understand 4 foundational display values: block, inline, inline-block, none

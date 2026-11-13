@@ -1,5 +1,3 @@
-# Flexbox: One-Dimensional Layout
-
 ## Learning Objectives
 
 - Understand Main Axis and Cross Axis spatial dynamics in Flexbox

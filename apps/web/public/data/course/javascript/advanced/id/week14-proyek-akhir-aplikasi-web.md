@@ -1,5 +1,3 @@
-# Proyek Akhir: Aplikasi Web Interaktif Lengkap
-
 ## Tujuan Pembelajaran
 
 - Mengintegrasikan seluruh kompetensi 14 minggu ke dalam 1 arsitektur aplikasi modular utuh

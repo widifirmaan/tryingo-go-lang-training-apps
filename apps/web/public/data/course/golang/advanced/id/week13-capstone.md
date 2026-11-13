@@ -1,5 +1,3 @@
-# Capstone: REST API + CLI
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: struct, interface, concurrency, HTTP

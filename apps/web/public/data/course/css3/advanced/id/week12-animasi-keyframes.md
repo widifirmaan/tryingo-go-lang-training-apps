@@ -1,5 +1,3 @@
-# Animasi Keyframes
-
 ## Tujuan Pembelajaran
 
 - Memahami aturan deklarasi @keyframes menggunakan persentase tahapan (0% hingga 100%)

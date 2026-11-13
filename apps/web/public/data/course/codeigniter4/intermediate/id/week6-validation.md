@@ -1,5 +1,3 @@
-# Validation & Form Handling
-
 ## Tujuan Pembelajaran
 
 - Validation rules: required, min_length, max_length, valid_email

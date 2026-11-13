@@ -1,5 +1,3 @@
-# Async/Await
-
 ## Tujuan Pembelajaran
 
 - async/await untuk operasi asynchronous

@@ -1,5 +1,3 @@
-# Provide/Inject & Teleport
-
 ## Learning Objectives
 
 - provide: share data to all descendants

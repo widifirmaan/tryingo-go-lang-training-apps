@@ -1,5 +1,3 @@
-# Lifecycle & Watchers
-
 ## Tujuan Pembelajaran
 
 - onMounted: fetch data setelah komponen muncul

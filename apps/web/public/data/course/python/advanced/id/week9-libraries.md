@@ -1,5 +1,3 @@
-# Libraries & Virtual Environments
-
 ## Tujuan Pembelajaran
 
 - Membuat dan mengelola virtual environment (venv)

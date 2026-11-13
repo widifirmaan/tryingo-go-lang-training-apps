@@ -1,5 +1,3 @@
-# Tata Letak CSS Grid dengan Tailwind
-
 ## Tujuan Pembelajaran
 
 - Mengaktifkan CSS Grid dengan class grid

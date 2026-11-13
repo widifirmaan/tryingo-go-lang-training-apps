@@ -1,5 +1,3 @@
-# Validation
-
 ## Tujuan Pembelajaran
 
 - Bean Validation dengan Jakarta annotations

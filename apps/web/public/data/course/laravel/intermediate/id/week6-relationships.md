@@ -1,5 +1,3 @@
-# Database Relationships
-
 ## Tujuan Pembelajaran
 
 - One to One: hasOne dan belongsTo

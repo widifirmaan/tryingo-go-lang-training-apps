@@ -1,5 +1,3 @@
-# Media, Iframes, and Accessibility
-
 ## Learning Objectives
 
 - Embed native audio and video players using <audio> and <video> tags

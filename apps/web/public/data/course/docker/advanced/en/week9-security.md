@@ -1,5 +1,3 @@
-# Security
-
 ## Learning Objectives
 
 - Non-root users in containers

@@ -1,5 +1,3 @@
-# Full Website Project
-
 ## Learning Objectives
 
 - Synthesize all HTML concepts from Weeks 1 through 7 into a coherent multi-page website project

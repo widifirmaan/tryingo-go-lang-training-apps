@@ -1,5 +1,3 @@
-# Composer & Autoloading
-
 ## Learning Objectives
 
 - Composer: dependency manager for PHP

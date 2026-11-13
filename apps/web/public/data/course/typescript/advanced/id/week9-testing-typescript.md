@@ -1,5 +1,3 @@
-# Testing TypeScript
-
 ## Tujuan Pembelajaran
 
 - Type-safe test runner dan assertions

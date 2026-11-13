@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Tujuan Pembelajaran
 
 - Built-in auth: django.contrib.auth

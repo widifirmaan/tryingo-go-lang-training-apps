@@ -1,5 +1,3 @@
-# Pub/Sub & Streams
-
 ## Tujuan Pembelajaran
 
 - SUBSCRIBE, PUBLISH, UNSUBSCRIBE

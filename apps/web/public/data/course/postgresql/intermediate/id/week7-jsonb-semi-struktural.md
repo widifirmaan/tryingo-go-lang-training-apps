@@ -1,5 +1,3 @@
-# JSONB & Semi-Structured Data
-
 ## Tujuan Pembelajaran
 
 - Tipe JSONB

@@ -1,5 +1,3 @@
-# TypeScript Config
-
 ## Tujuan Pembelajaran
 
 - tsconfig.json: compiler options utama

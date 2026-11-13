@@ -1,5 +1,3 @@
-# Keyframe Animations
-
 ## Learning Objectives
 
 - Understand @keyframes declaration structure using milestone percentages (0% to 100%)

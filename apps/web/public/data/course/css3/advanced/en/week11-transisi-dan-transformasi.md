@@ -1,5 +1,3 @@
-# Transitions and Transforms
-
 ## Learning Objectives
 
 - Master 4 transition sub-properties: property, duration, timing-function, delay

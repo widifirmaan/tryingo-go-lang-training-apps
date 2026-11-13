@@ -1,5 +1,3 @@
-# Testing
-
 ## Learning Objectives
 
 - #[test] attribute to mark test functions

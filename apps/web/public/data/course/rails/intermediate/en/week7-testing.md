@@ -1,5 +1,3 @@
-# Testing with RSpec
-
 ## Learning Objectives
 
 - RSpec: testing framework for Rails

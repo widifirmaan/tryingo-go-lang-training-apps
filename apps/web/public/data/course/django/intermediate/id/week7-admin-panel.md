@@ -1,5 +1,3 @@
-# Admin Panel
-
 ## Tujuan Pembelajaran
 
 - Register model ke admin

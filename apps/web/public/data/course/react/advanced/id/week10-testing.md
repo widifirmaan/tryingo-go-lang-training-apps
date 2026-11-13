@@ -1,5 +1,3 @@
-# Testing React
-
 ## Tujuan Pembelajaran
 
 - React Testing Library: render, screen, fireEvent

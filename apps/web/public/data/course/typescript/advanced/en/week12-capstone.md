@@ -1,5 +1,3 @@
-# Capstone: Type-Safe API Client
-
 ## Learning Objectives
 
 - Combine all concepts: generics, branded types, conditional types

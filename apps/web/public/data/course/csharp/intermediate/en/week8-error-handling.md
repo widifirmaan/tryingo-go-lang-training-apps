@@ -1,5 +1,3 @@
-# Error Handling
-
 ## Learning Objectives
 
 - try-catch-finally for exception handling

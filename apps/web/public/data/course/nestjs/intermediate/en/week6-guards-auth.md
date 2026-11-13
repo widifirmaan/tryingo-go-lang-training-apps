@@ -1,5 +1,3 @@
-# Guards & Authentication
-
 ## Learning Objectives
 
 - Guards: implement CanActivate interface

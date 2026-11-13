@@ -1,5 +1,3 @@
-# Performance Optimization
-
 ## Learning Objectives
 
 - N+1 queries: detect and solve with eager loading

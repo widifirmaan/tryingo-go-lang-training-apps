@@ -1,5 +1,3 @@
-# State Management
-
 ## Tujuan Pembelajaran
 
 - NgRx: Store, Actions, Reducers

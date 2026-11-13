@@ -1,5 +1,3 @@
-# Interfaces & Generics
-
 ## Learning Objectives
 
 - Implicit interfaces - structs implement without implements keyword

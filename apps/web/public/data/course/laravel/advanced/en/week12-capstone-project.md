@@ -1,5 +1,3 @@
-# Capstone: E-Commerce API
-
 ## Learning Objectives
 
 - Combine all concepts: auth, relationships, validation, queues, API

@@ -1,5 +1,3 @@
-# Vue Router
-
 ## Learning Objectives
 
 - Setup createRouter and createWebHistory

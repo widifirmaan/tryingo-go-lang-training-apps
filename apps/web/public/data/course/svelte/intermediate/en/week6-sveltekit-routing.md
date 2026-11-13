@@ -1,5 +1,3 @@
-# SvelteKit Routing
-
 ## Learning Objectives
 
 - File-based routing

@@ -1,5 +1,3 @@
-# Capstone: Task Management API
-
 ## Learning Objectives
 
 - Combine all concepts: MVC, validation, auth, REST, testing

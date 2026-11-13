@@ -1,5 +1,3 @@
-# Testing dengan PHPUnit
-
 ## Tujuan Pembelajaran
 
 - PHPUnit: framework testing untuk PHP

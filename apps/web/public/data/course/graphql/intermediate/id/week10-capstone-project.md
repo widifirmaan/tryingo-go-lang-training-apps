@@ -1,5 +1,3 @@
-# Capstone: E-Commerce GraphQL
-
 ## Tujuan Pembelajaran
 
 - Schema lengkap

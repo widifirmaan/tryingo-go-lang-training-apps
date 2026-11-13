@@ -1,5 +1,3 @@
-# LINQ
-
 ## Tujuan Pembelajaran
 
 - LINQ method syntax: Where, OrderBy, Select, GroupBy

@@ -1,5 +1,3 @@
-# React Router
-
 ## Learning Objectives
 
 - Setup BrowserRouter and Routes/Route for routing

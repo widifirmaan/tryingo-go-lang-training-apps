@@ -1,5 +1,3 @@
-# Capstone: CLI + Library
-
 ## Learning Objectives
 
 - Combine all concepts: structs, enums, traits, generics, error handling

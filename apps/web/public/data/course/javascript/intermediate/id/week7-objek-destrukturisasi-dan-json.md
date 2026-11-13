@@ -1,5 +1,3 @@
-# Objek, Destrukturisasi, dan JSON
-
 ## Tujuan Pembelajaran
 
 - Memahami struktur Objek Literal (key-value pairs) dan akses dot notation vs bracket notation

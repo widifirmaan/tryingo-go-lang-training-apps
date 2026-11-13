@@ -1,5 +1,3 @@
-# Capstone: Real-time Analytics
-
 ## Learning Objectives
 
 - HyperLogLog for unique counts

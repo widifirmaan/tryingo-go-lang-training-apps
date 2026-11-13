@@ -1,5 +1,3 @@
-# Final Project: Complete Interactive Web Application
-
 ## Learning Objectives
 
 - Synthesize 14 weeks of competencies into a unified modular application architecture

@@ -1,5 +1,3 @@
-# Testing & Quality
-
 ## Tujuan Pembelajaran
 
 - unittest: TestCase, assertEqual, assertRaises, setUp

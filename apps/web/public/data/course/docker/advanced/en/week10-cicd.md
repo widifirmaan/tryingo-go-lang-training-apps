@@ -1,5 +1,3 @@
-# CI/CD Pipelines
-
 ## Learning Objectives
 
 - GitHub Actions workflows for Docker CI/CD

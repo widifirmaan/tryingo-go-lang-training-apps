@@ -1,5 +1,3 @@
-# Capstone: E-Commerce GraphQL
-
 ## Learning Objectives
 
 - Complete schema

@@ -1,5 +1,3 @@
-# Capstone: E-Commerce Platform
-
 ## Learning Objectives
 
 - Combine all concepts: MVC, auth, associations, testing, API

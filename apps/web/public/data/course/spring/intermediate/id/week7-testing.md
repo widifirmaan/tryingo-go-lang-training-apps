@@ -1,5 +1,3 @@
-# Testing
-
 ## Tujuan Pembelajaran
 
 - Unit test dengan JUnit 5 dan Mockito

@@ -1,5 +1,3 @@
-# Pseudo-Elements and Modern Features
-
 ## Learning Objectives
 
 - Master decorative pseudo-elements ::before and ::after with mandatory content properties

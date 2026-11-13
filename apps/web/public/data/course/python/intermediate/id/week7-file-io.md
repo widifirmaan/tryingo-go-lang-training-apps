@@ -1,5 +1,3 @@
-# File I/O & Error Handling
-
 ## Tujuan Pembelajaran
 
 - Membaca/menulis file dengan open() dan with statement

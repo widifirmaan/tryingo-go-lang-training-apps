@@ -1,5 +1,3 @@
-# Microservices
-
 ## Learning Objectives
 
 - Microservices architecture in NestJS

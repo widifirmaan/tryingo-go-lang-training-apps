@@ -1,5 +1,3 @@
-# Testing dengan RSpec
-
 ## Tujuan Pembelajaran
 
 - RSpec: testing framework untuk Rails

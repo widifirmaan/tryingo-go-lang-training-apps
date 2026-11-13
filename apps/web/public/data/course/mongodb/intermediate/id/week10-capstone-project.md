@@ -1,5 +1,3 @@
-# Capstone: E-Commerce MongoDB
-
 ## Tujuan Pembelajaran
 
 - Schema validation

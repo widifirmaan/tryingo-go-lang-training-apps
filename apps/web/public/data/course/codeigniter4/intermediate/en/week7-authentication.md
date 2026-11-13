@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Learning Objectives
 
 - Session: set, get, destroy for state management

@@ -1,5 +1,3 @@
-# Validation & Form Requests
-
 ## Tujuan Pembelajaran
 
 - Validator::make dan $request->validate()

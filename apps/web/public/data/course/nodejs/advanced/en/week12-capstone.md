@@ -1,5 +1,3 @@
-# Capstone: Full-Stack API
-
 ## Learning Objectives
 
 - Combine all concepts: Express, JWT, Database, Testing

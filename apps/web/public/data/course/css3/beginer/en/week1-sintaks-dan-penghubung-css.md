@@ -1,5 +1,3 @@
-# CSS Introduction and Linking Stylesheets
-
 ## Why This Matters
 
 CSS controls every pixel of the web you use daily - from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.

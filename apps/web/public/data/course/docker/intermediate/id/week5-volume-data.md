@@ -1,5 +1,3 @@
-# Volume & Data Persistence
-
 ## Tujuan Pembelajaran
 
 - Volume types: named volume, bind mount, tmpfs

@@ -1,5 +1,3 @@
-# File I/O & Error Handling
-
 ## Learning Objectives
 
 - Read/write files with open() and with statement

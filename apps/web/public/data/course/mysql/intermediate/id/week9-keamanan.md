@@ -1,5 +1,3 @@
-# Keamanan & User Management
-
 ## Tujuan Pembelajaran
 
 - CREATE USER dan GRANT

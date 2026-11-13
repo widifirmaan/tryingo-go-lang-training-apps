@@ -1,5 +1,3 @@
-# Bootstrap: Grid System and Components
-
 ## Learning Objectives
 
 - Understand how component UI frameworks accelerate frontend development

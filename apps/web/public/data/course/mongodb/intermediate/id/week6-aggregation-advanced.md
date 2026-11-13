@@ -1,5 +1,3 @@
-# Aggregation Lanjutan
-
 ## Tujuan Pembelajaran
 
 - $facet untuk multi-aggregation

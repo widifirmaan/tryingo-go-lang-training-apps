@@ -1,5 +1,3 @@
-# Advanced Auth & Security
-
 ## Learning Objectives
 
 - NextAuth.js setup with providers (Google, GitHub, Credentials)

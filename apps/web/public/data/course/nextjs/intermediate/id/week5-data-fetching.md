@@ -1,5 +1,3 @@
-# Data Fetching
-
 ## Tujuan Pembelajaran
 
 - Fetch data langsung di Server Component

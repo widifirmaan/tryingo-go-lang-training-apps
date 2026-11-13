@@ -1,5 +1,3 @@
-# REST API dengan DRF
-
 ## Tujuan Pembelajaran
 
 - Install DRF

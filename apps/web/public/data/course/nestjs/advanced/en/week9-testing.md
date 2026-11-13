@@ -1,5 +1,3 @@
-# Testing NestJS
-
 ## Learning Objectives
 
 - Unit testing: Test.createTestingModule

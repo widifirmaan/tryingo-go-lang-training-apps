@@ -1,5 +1,3 @@
-# Pointer, Memory & Package
-
 ## Tujuan Pembelajaran
 
 - Memahami operator & (address-of) dan * (dereference)

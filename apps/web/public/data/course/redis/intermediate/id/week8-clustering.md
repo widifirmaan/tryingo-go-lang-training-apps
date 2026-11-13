@@ -1,5 +1,3 @@
-# Redis Cluster
-
 ## Tujuan Pembelajaran
 
 - Cluster setup

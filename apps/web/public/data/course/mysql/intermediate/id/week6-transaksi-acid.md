@@ -1,5 +1,3 @@
-# Transaksi & ACID
-
 ## Tujuan Pembelajaran
 
 - START TRANSACTION, COMMIT, ROLLBACK

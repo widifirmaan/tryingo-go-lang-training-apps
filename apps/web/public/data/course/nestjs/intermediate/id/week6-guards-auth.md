@@ -1,5 +1,3 @@
-# Guards & Authentication
-
 ## Tujuan Pembelajaran
 
 - Guard: implement CanActivate interface

@@ -1,5 +1,3 @@
-# Performance & Security
-
 ## Tujuan Pembelajaran
 
 - Cluster mode untuk multi-core

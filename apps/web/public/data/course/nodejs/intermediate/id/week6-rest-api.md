@@ -1,5 +1,3 @@
-# REST API Design
-
 ## Tujuan Pembelajaran
 
 - Resource-based URLs: /resources, /resources/:id

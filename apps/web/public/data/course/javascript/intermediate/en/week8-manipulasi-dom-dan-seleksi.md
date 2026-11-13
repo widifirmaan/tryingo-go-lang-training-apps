@@ -1,5 +1,3 @@
-# DOM Manipulation and Element Selection
-
 ## Learning Objectives
 
 - Understand the Document Object Model (DOM) as an in-memory node tree representing HTML

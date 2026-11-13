@@ -1,5 +1,3 @@
-# Capstone: E-Commerce MongoDB
-
 ## Learning Objectives
 
 - Schema validation

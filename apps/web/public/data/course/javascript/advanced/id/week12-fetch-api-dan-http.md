@@ -1,5 +1,3 @@
-# Fetch API dan HTTP Requests
-
 ## Tujuan Pembelajaran
 
 - Memahami konsep protokol HTTP dan REST API: Method GET, Request URL, dan Response JSON

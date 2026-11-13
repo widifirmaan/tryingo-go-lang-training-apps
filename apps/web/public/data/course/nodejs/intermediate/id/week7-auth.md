@@ -1,5 +1,3 @@
-# Authentication & Authorization
-
 ## Tujuan Pembelajaran
 
 - Password hashing dengan bcrypt (salt + hash)

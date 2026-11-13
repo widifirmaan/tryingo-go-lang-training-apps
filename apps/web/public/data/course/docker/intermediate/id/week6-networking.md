@@ -1,5 +1,3 @@
-# Networking
-
 ## Tujuan Pembelajaran
 
 - Network types: bridge, host, none, overlay, macvlan

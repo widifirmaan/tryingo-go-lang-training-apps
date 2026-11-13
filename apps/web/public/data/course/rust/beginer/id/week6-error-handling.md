@@ -1,5 +1,3 @@
-# Error Handling
-
 ## Kenapa Materi Ini Penting
 
 Rust menjamin keamanan memory TANPA garbage collector - dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.

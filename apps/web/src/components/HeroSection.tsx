@@ -773,10 +773,6 @@ const HeroSectionBase: React.FC<HeroSectionProps> = ({
                   <h1 className="font-flpcart text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[96px] leading-none font-black text-white tracking-tight drop-shadow-md">
                     TRYNGO
                   </h1>
-
-                  <p className="max-w-xs sm:max-w-sm lg:max-w-md text-emerald-100 text-[10px] sm:text-xs lg:text-sm font-semibold tracking-wide leading-relaxed uppercase">
-                    {t.heroSub}
-                  </p>
                 </div>
               </div>
             </div>

@@ -1,5 +1,3 @@
-# Bulma: Layout Kolom dan Komponen
-
 ## Tujuan Pembelajaran
 
 - Memahami filosofi Bulma sebagai framework CSS murni berbasis Flexbox tanpa JavaScript

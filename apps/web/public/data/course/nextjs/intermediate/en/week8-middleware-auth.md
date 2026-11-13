@@ -1,5 +1,3 @@
-# Middleware & Basic Auth
-
 ## Learning Objectives
 
 - Middleware: runs before request, for auth/redirect

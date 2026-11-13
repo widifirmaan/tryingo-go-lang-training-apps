@@ -1,5 +1,3 @@
-# Web Components: Custom Elements and Template
-
 ## Learning Objectives
 
 - Understand the Web Components standard as the future of native HTML markup without heavy frameworks

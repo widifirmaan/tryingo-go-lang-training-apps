@@ -1,5 +1,3 @@
-# DaisyUI: Utility Components
-
 ## Learning Objectives
 
 - Understand utility-driven component architectures (DaisyUI and the Tailwind ecosystem)

@@ -1,5 +1,3 @@
-# Messaging
-
 ## Tujuan Pembelajaran
 
 - Spring Events: ApplicationEventPublisher dan @EventListener

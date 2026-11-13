@@ -1,5 +1,3 @@
-# Warna, Background, dan Border
-
 ## Kenapa Materi Ini Penting
 
 CSS mengatur seluruh tampilan web yang Anda lihat setiap hari - dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.

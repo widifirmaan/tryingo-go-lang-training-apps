@@ -1,5 +1,3 @@
-# Performance Optimization
-
 ## Learning Objectives
 
 - OnPush change detection strategy

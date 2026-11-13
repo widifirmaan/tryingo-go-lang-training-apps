@@ -1,5 +1,3 @@
-# REST API Development
-
 ## Tujuan Pembelajaran
 
 - API routes: routes/api.php dan apiResource

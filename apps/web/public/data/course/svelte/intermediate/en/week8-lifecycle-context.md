@@ -1,5 +1,3 @@
-# Lifecycle & Context
-
 ## Learning Objectives
 
 - onMount: runs after mount

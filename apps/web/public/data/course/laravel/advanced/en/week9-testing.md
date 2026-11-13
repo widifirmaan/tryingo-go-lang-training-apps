@@ -1,5 +1,3 @@
-# Testing with PHPUnit
-
 ## Learning Objectives
 
 - Unit Test: test classes separate from database

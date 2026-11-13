@@ -1,5 +1,3 @@
-# Capstone: E-Commerce Database
-
 ## Learning Objectives
 
 - Production-ready schema

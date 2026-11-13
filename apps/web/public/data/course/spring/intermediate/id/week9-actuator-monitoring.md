@@ -1,5 +1,3 @@
-# Actuator & Monitoring
-
 ## Tujuan Pembelajaran
 
 - Spring Boot Actuator untuk monitoring dan management

@@ -1,5 +1,3 @@
-# Rails API Mode
-
 ## Learning Objectives
 
 - API mode: rails new --api to skip views

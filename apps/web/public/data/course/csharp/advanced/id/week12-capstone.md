@@ -1,5 +1,3 @@
-# Capstone: Full Stack App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: OOP, LINQ, async, generics, error handling

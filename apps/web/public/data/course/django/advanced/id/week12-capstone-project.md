@@ -1,5 +1,3 @@
-# Capstone: E-Commerce Platform
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: MVT, forms, auth, admin, REST

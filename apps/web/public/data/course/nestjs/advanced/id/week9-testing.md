@@ -1,5 +1,3 @@
-# Testing NestJS
-
 ## Tujuan Pembelajaran
 
 - Unit testing: Test.createTestingModule

@@ -1,5 +1,3 @@
-# Responsive Design and Media Queries
-
 ## Learning Objectives
 
 - Understand the Mobile-First architectural philosophy in CSS

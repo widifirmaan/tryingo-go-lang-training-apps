@@ -1,5 +1,3 @@
-# Percabangan dan Pengambilan Keputusan
-
 ## Kenapa Materi Ini Penting
 
 JavaScript adalah satu-satunya bahasa yang berjalan di semua browser - sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.

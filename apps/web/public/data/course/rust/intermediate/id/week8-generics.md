@@ -1,5 +1,3 @@
-# Generics
-
 ## Tujuan Pembelajaran
 
 - Generic function: fn name<T>(param: T)

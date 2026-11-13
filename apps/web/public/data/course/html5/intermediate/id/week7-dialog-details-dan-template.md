@@ -1,5 +1,3 @@
-# Dialog, Details, dan Template
-
 ## Tujuan Pembelajaran
 
 - Membuat komponen akordeon buka-tutup (FAQ) native tanpa JavaScript menggunakan <details> dan <summary>

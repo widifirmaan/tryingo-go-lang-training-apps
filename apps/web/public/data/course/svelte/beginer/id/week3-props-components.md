@@ -1,5 +1,3 @@
-# Props & Components
-
 ## Kenapa Materi Ini Penting
 
 Svelte meng-comple reaktivitas saat build time - tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.

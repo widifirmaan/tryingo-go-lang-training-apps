@@ -1,5 +1,3 @@
-# Admin Panel
-
 ## Learning Objectives
 
 - Register models to admin

@@ -1,5 +1,3 @@
-# React Router
-
 ## Tujuan Pembelajaran
 
 - Setup BrowserRouter dan Routes/Route untuk routing

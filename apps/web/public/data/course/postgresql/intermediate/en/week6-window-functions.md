@@ -1,5 +1,3 @@
-# Window Functions
-
 ## Learning Objectives
 
 - ROW_NUMBER, RANK, DENSE_RANK

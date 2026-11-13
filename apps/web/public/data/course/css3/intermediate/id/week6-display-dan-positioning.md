@@ -1,5 +1,3 @@
-# Display dan Positioning
-
 ## Tujuan Pembelajaran
 
 - Memahami 4 nilai display dasar: block, inline, inline-block, dan none

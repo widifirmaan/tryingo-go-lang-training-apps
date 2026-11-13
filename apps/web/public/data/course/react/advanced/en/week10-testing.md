@@ -1,5 +1,3 @@
-# Testing React
-
 ## Learning Objectives
 
 - React Testing Library: render, screen, fireEvent

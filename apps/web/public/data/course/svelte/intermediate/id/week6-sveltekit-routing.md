@@ -1,5 +1,3 @@
-# SvelteKit Routing
-
 ## Tujuan Pembelajaran
 
 - File-based routing: routes/folder

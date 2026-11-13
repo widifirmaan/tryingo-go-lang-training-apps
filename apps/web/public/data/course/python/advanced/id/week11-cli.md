@@ -1,5 +1,3 @@
-# CLI & Automation
-
 ## Tujuan Pembelajaran
 
 - argparse: ArgumentParser, add_argument, subparsers

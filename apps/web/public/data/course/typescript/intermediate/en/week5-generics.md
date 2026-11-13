@@ -1,5 +1,3 @@
-# Generics
-
 ## Learning Objectives
 
 - Generic functions: <T>(value: T): T

@@ -1,5 +1,3 @@
-# Transactions & ACID
-
 ## Learning Objectives
 
 - START TRANSACTION, COMMIT, ROLLBACK

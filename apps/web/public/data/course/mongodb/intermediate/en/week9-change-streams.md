@@ -1,5 +1,3 @@
-# Change Streams & Transactions
-
 ## Learning Objectives
 
 - Change streams for realtime

@@ -1,5 +1,3 @@
-# Collections & Data Structures
-
 ## Learning Objectives
 
 - List: mutable, ordered - append, insert, pop, sort, slice

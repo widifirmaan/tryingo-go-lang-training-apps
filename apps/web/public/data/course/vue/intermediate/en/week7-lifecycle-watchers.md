@@ -1,5 +1,3 @@
-# Lifecycle & Watchers
-
 ## Learning Objectives
 
 - onMounted: fetch data after component appears

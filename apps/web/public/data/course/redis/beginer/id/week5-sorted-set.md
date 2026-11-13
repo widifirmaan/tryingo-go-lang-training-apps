@@ -1,5 +1,3 @@
-# Sorted Set
-
 ## Kenapa Materi Ini Penting
 
 Redis adalah database in-memory secepat kilat - dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.

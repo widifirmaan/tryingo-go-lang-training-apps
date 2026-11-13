@@ -1,5 +1,3 @@
-# Capstone: E-Commerce Platform
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: MVC, auth, associations, testing, API

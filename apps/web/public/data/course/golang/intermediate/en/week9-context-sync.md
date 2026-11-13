@@ -1,5 +1,3 @@
-# Context & Synchronization
-
 ## Learning Objectives
 
 - context.Context for cancellation and timeouts

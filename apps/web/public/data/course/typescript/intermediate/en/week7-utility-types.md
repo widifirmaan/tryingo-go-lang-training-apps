@@ -1,5 +1,3 @@
-# Utility Types
-
 ## Learning Objectives
 
 - Partial<T>, Required<T>, Readonly<T>

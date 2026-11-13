@@ -1,5 +1,3 @@
-# CSS Grid: Two-Dimensional Layout
-
 ## Learning Objectives
 
 - Understand two-dimensional grid layouts coordinating rows and columns simultaneously

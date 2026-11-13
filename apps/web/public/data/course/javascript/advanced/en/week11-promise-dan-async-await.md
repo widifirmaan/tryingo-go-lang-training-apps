@@ -1,5 +1,3 @@
-# Promises and Async/Await
-
 ## Learning Objectives
 
 - Master the Promise lifecycle: 3 states (pending, fulfilled, rejected)

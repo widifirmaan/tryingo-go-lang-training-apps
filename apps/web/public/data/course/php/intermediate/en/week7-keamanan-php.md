@@ -1,5 +1,3 @@
-# PHP Security
-
 ## Learning Objectives
 
 - XSS Prevention: htmlspecialchars for output encoding

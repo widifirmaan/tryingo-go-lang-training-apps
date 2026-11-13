@@ -1,5 +1,3 @@
-# Concurrency
-
 ## Learning Objectives
 
 - thread::spawn to create new threads

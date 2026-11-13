@@ -1,5 +1,3 @@
-# Capstone: Aplikasi Blog
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: OOP, PDO, Composer, Testing

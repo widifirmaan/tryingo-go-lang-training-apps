@@ -1,5 +1,3 @@
-# Actions & Forms
-
 ## Learning Objectives
 
 - Form actions: ?/create, ?/delete

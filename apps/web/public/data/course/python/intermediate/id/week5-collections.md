@@ -1,5 +1,3 @@
-# Collections & Data Structures
-
 ## Tujuan Pembelajaran
 
 - List: mutable, ordered - append, insert, pop, sort, slice

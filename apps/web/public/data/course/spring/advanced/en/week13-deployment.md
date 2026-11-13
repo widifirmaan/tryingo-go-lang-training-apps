@@ -1,5 +1,3 @@
-# Deployment
-
 ## Learning Objectives
 
 - Dockerfile to containerize Spring Boot apps

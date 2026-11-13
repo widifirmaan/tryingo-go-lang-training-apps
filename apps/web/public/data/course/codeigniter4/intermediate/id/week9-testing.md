@@ -1,5 +1,3 @@
-# Testing dengan PHPUnit
-
 ## Tujuan Pembelajaran
 
 - CIUnitTestCase: base class untuk unit test

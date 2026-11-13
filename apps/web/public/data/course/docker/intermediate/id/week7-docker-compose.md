@@ -1,5 +1,3 @@
-# Docker Compose
-
 ## Tujuan Pembelajaran
 
 - docker-compose.yml: services, volumes, networks

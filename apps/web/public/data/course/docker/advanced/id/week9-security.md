@@ -1,5 +1,3 @@
-# Security
-
 ## Tujuan Pembelajaran
 
 - Non-root user di container

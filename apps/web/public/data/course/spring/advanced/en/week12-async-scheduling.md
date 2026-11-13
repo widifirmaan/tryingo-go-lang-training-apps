@@ -1,5 +1,3 @@
-# Async & Scheduling
-
 ## Learning Objectives
 
 - @Scheduled for scheduled tasks

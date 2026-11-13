@@ -1,5 +1,3 @@
-# Change Streams & Transactions
-
 ## Tujuan Pembelajaran
 
 - Change streams untuk realtime

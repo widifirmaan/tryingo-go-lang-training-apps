@@ -1,5 +1,3 @@
-# Volumes & Data Persistence
-
 ## Learning Objectives
 
 - Volume types: named volumes, bind mounts, tmpfs

@@ -1,5 +1,3 @@
-# CSS Variables and Theming Systems
-
 ## Learning Objectives
 
 - Understand CSS Custom Properties (Variables) declaration inside :root

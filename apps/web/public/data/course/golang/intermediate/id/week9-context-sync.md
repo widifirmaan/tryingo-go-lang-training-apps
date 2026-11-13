@@ -1,5 +1,3 @@
-# Context & Sinkronisasi
-
 ## Tujuan Pembelajaran
 
 - context.Context untuk cancellation dan timeout

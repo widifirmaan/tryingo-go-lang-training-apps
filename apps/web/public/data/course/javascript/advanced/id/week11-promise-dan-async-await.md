@@ -1,5 +1,3 @@
-# Promise dan Async/Await
-
 ## Tujuan Pembelajaran
 
 - Memahami anatomi objek Promise: 3 status (pending, fulfilled, rejected)

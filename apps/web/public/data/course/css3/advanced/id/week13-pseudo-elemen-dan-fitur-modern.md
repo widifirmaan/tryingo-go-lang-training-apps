@@ -1,5 +1,3 @@
-# Pseudo-Elemen dan Fitur Modern
-
 ## Tujuan Pembelajaran
 
 - Menguasai pseudo-elemen dekoratif ::before dan ::after serta properti wajib content

@@ -1,5 +1,3 @@
-# Macros
-
 ## Learning Objectives
 
 - macro_rules! for declarative macros

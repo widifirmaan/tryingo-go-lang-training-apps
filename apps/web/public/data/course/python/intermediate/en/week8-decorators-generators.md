@@ -1,5 +1,3 @@
-# Decorators & Generators
-
 ## Learning Objectives
 
 - Create decorators with @functools.wraps

@@ -1,5 +1,3 @@
-# Error Handling & Logging
-
 ## Learning Objectives
 
 - ExceptionFilter: catch all exceptions

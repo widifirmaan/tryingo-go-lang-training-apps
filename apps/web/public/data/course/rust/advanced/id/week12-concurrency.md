@@ -1,5 +1,3 @@
-# Concurrency
-
 ## Tujuan Pembelajaran
 
 - thread::spawn untuk membuat thread baru

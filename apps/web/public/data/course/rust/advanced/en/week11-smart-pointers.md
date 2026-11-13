@@ -1,5 +1,3 @@
-# Smart Pointers
-
 ## Learning Objectives
 
 - Box<T>: heap allocation for dynamic types and recursive types

@@ -1,5 +1,3 @@
-# Performance Optimization
-
 ## Learning Objectives
 
 - React.memo: skip re-render if props unchanged

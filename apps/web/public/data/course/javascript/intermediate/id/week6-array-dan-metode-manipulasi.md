@@ -1,5 +1,3 @@
-# Array dan Metode Manipulasi Data
-
 ## Tujuan Pembelajaran
 
 - Memahami struktur data Array, sistem indeks berbasis 0, dan panjang array (length)

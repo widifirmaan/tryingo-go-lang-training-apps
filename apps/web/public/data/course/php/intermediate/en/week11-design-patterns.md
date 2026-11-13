@@ -1,5 +1,3 @@
-# Design Patterns
-
 ## Learning Objectives
 
 - Strategy Pattern: interface + multiple implementations

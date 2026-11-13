@@ -1,5 +1,3 @@
-# Capstone: E-Commerce API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: auth, relationships, validation, queues, API

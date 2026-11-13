@@ -1,5 +1,3 @@
-# Tables and First Project
-
 ## Why This Matters
 
 HTML is the skeleton of every page on the web - without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.

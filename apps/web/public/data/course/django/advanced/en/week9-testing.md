@@ -1,5 +1,3 @@
-# Testing with pytest
-
 ## Learning Objectives
 
 - TestCase: class for tests

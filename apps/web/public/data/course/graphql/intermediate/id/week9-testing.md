@@ -1,5 +1,3 @@
-# Testing & Error Handling
-
 ## Tujuan Pembelajaran
 
 - Test client setup

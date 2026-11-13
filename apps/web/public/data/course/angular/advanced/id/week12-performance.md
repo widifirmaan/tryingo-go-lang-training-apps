@@ -1,5 +1,3 @@
-# Performance Optimization
-
 ## Tujuan Pembelajaran
 
 - OnPush change detection strategy

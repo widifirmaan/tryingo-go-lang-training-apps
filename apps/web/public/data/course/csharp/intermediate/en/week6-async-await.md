@@ -1,5 +1,3 @@
-# Async/Await
-
 ## Learning Objectives
 
 - async/await for asynchronous operations

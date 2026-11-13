@@ -1,5 +1,3 @@
-# Reactive Forms
-
 ## Learning Objectives
 
 - FormControl, FormGroup, FormArray

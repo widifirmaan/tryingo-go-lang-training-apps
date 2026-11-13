@@ -1,5 +1,3 @@
-# Capstone: Full Stack App
-
 ## Learning Objectives
 
 - Combine all concepts: OOP, LINQ, async, generics, error handling

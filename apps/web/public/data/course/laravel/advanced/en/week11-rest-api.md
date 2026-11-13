@@ -1,5 +1,3 @@
-# REST API Development
-
 ## Learning Objectives
 
 - API routes: routes/api.php and apiResource

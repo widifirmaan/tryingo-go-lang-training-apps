@@ -1,5 +1,3 @@
-# Capstone: Enterprise API
-
 ## Learning Objectives
 
 - Combine all concepts: Controllers, Services, Modules, DI

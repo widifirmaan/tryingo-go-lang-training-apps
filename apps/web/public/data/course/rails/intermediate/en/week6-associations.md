@@ -1,5 +1,3 @@
-# Associations & Relationships
-
 ## Learning Objectives
 
 - belongs_to: model has foreign key

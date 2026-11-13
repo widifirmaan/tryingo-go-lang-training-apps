@@ -1,5 +1,3 @@
-# Testing
-
 ## Tujuan Pembelajaran
 
 - #[test] attribute untuk menandai fungsi test

@@ -1,5 +1,3 @@
-# Testing & Error Handling
-
 ## Learning Objectives
 
 - Test client setup

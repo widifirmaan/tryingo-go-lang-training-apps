@@ -1,5 +1,3 @@
-# REST API Development
-
 ## Learning Objectives
 
 - Resource routes: $routes->resource() for CRUD APIs

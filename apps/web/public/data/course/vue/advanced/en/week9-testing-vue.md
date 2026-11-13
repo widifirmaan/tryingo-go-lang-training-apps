@@ -1,5 +1,3 @@
-# Testing Vue Components
-
 ## Learning Objectives
 
 - Vitest + Vue Test Utils setup

@@ -1,5 +1,3 @@
-# Capstone: SaaS App
-
 ## Learning Objectives
 
 - Combine all concepts: routing, data fetching, server actions, auth

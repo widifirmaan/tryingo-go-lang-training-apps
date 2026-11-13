@@ -1,5 +1,3 @@
-# TypeScript Configuration
-
 ## Learning Objectives
 
 - tsconfig.json: main compiler options

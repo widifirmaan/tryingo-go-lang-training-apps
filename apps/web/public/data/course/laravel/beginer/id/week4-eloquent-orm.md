@@ -1,5 +1,3 @@
-# Eloquent ORM
-
 ## Kenapa Materi Ini Penting
 
 Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel - skill yang langsung dapat dipakai bekerja.

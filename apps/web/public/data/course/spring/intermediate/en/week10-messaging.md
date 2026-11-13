@@ -1,5 +1,3 @@
-# Messaging
-
 ## Learning Objectives
 
 - Spring Events: ApplicationEventPublisher and @EventListener

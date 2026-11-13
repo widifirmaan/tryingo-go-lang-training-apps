@@ -1,5 +1,3 @@
-# Replikasi & High Availability
-
 ## Tujuan Pembelajaran
 
 - WAL dan streaming replication

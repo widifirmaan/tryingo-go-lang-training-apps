@@ -1,5 +1,3 @@
-# Replica Set & Sharding
-
 ## Tujuan Pembelajaran
 
 - Replica set setup
