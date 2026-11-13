@@ -12,7 +12,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 
 ---
 
-## 🌐 Live Production
+## Live Production
 
 - **URL:** [https://tryngo.widifirmaan.web.id](https://tryngo.widifirmaan.web.id)
 - **Architecture:** Cloudflare Pages (Edge SPA with Prerendered Static SEO Routes)
@@ -51,7 +51,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer | Technologies |
 | :--- | :--- |
@@ -67,7 +67,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 
 ---
 
-## 📚 Curriculum
+## Curriculum
 
 | Track | Weeks | Execution Runtime |
 |---|:---:|---|
@@ -102,7 +102,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```bash
 /
@@ -141,7 +141,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 
 ---
 
-## 🚀 Getting Started & Local Development
+## Getting Started & Local Development
 
 ### Prerequisites
 - **Node.js 20+** or **Node.js 22+**
@@ -173,6 +173,6 @@ npm run deploy
 
 ---
 
-## 👥 Author
+## Author
 
-Developed with ❤️ by **Widi Firmansyah**.
+Developed by **Widi Firmansyah**.
