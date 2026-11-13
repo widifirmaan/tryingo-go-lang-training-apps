@@ -645,10 +645,10 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
         {/* Quiz Button */}
         <button
           onClick={() => onOpenQuiz?.(slug, activeLevel)}
-          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#2E5B44] text-white border border-[#2E5B44] shadow-xs hover:bg-[#234735] transition-all text-xs sm:text-sm font-bold shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/80 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 shadow-xs hover:bg-white dark:hover:bg-zinc-700 transition-all text-xs sm:text-sm font-bold shrink-0 text-zinc-700 dark:text-zinc-200"
           title={isId ? 'Kuis semua materi' : 'Quiz all material'}
         >
-          <FontAwesomeIcon icon={faQuestion} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <FontAwesomeIcon icon={faQuestion} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-500 dark:text-zinc-400" />
           <span className="hidden sm:inline">{isId ? 'Kuis' : 'Quiz'}</span>
         </button>
 
