@@ -1,5 +1,5 @@
 /* Tryngo service worker - offline runtime caching (no precache manifest). */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const STATIC_CACHE = `tryngo-static-${VERSION}`;
 const DATA_CACHE = `tryngo-data-${VERSION}`;
 
@@ -29,16 +29,20 @@ async function cacheFirst(request, cacheName) {
   return res;
 }
 
-async function staleWhileRevalidate(request, cacheName) {
-  const cache = await caches.open(cacheName);
-  const hit = await cache.match(request);
-  const refresh = fetch(request)
-    .then((res) => {
-      if (res && res.ok) cache.put(request, res.clone());
-      return res;
-    })
-    .catch(() => hit);
-  return hit || refresh;
+async function networkFirst(request, cacheName) {
+  try {
+    const res = await fetch(request);
+    if (res && res.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, res.clone());
+    }
+    return res;
+  } catch {
+    const cache = await caches.open(cacheName);
+    const hit = await cache.match(request);
+    if (hit) return hit;
+    throw new Error('Offline and not cached');
+  }
 }
 
 async function networkFirstNav(request) {
@@ -82,6 +86,6 @@ self.addEventListener('fetch', (event) => {
     url.pathname === '/' ||
     url.pathname.endsWith('.md')
   ) {
-    event.respondWith(staleWhileRevalidate(request, DATA_CACHE));
+    event.respondWith(networkFirst(request, DATA_CACHE));
   }
 });

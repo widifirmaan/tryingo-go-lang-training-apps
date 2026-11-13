@@ -448,7 +448,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
     const abort = new AbortController();
     loadRef.current = { abort };
     setLoading(true);
-    fetch(path, { signal: abort.signal })
+    fetch(path, { signal: abort.signal, cache: 'no-cache' })
       .then(res => {
         if (!res.ok) throw new Error('Not found');
         return res.text();
