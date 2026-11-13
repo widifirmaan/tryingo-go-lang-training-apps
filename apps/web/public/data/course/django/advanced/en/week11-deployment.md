@@ -1,7 +1,5 @@
 # Deployment & DevOps
 
-> **Kategori:** Django | **Level:** Advanced | **Minggu 11:** Deployment & DevOps
-
 ## Learning Objectives
 
 - Production settings: DEBUG, ALLOWED_HOSTS

@@ -1,7 +1,5 @@
 # Lifetimes
 
-> **Kategori:** Rust | **Level:** Intermediate | **Minggu 9:** Lifetimes
-
 ## Learning Objectives
 
 - Lifetime annotations: 'a to mark reference lifetimes

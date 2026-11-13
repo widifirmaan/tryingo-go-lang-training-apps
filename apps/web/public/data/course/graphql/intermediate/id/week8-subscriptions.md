@@ -1,7 +1,5 @@
 # Subscriptions
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 8:** Subscriptions
-
 ## Tujuan Pembelajaran
 
 - PubSub untuk messaging

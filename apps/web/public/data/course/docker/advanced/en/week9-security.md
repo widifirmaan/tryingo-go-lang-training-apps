@@ -1,7 +1,5 @@
 # Security
 
-> **Kategori:** Docker | **Level:** Advanced | **Minggu 9:** Security
-
 ## Learning Objectives
 
 - Non-root users in containers

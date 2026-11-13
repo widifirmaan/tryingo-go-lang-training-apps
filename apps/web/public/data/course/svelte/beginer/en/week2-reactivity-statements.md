@@ -1,7 +1,5 @@
 # Reactivity & Statements
 
-> **Kategori:** Svelte | **Level:** Beginner | **Minggu 2:** Reactivity & Statements
-
 ## Why This Matters
 
 Svelte compiles reactivity at build time - no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.

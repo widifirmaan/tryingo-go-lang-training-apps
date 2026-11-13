@@ -1,7 +1,5 @@
 # Performance & Tuning
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 7:** Performance & Tuning
-
 ## Learning Objectives
 
 - EXPLAIN ANALYZE

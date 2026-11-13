@@ -1,7 +1,5 @@
 # HTTP Server & Middleware
 
-> **Kategori:** Go | **Level:** Lanjutan | **Minggu 11:** HTTP Server & Middleware
-
 ## Tujuan Pembelajaran
 
 - net/http: ServeMux, HandleFunc, ListenAndServe

@@ -1,7 +1,5 @@
 # Angular Router
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 6:** Angular Router
-
 ## Tujuan Pembelajaran
 
 - Routes configuration

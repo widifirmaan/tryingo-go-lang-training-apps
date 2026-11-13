@@ -1,7 +1,5 @@
 # Performa & Tuning
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 8:** Performa & Tuning
-
 ## Tujuan Pembelajaran
 
 - Explain allPlansExecution

@@ -1,7 +1,5 @@
 # Mutations
 
-> **Kategori:** GraphQL | **Level:** Pemula | **Minggu 3:** Mutations
-
 ## Kenapa Materi Ini Penting
 
 GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel - dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.

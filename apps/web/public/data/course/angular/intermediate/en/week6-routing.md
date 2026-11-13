@@ -1,7 +1,5 @@
 # Angular Router
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 6:** Angular Router
-
 ## Learning Objectives
 
 - Routes configuration

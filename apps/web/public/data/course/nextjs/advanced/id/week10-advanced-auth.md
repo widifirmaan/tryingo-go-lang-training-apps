@@ -1,7 +1,5 @@
 # Advanced Auth & Security
 
-> **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 10:** Advanced Auth & Security
-
 ## Tujuan Pembelajaran
 
 - NextAuth.js setup dengan providers (Google, GitHub, Credentials)

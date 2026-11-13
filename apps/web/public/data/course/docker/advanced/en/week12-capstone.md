@@ -1,7 +1,5 @@
 # Capstone: Production Pipeline
 
-> **Kategori:** Docker | **Level:** Advanced | **Minggu 12:** Capstone: Production Pipeline
-
 ## Learning Objectives
 
 - Full production pipeline: build → test → scan → deploy

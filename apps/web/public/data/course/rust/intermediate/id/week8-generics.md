@@ -1,7 +1,5 @@
 # Generics
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 8:** Generics
-
 ## Tujuan Pembelajaran
 
 - Generic function: fn name<T>(param: T)

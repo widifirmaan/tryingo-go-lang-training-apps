@@ -1,7 +1,5 @@
 # Goroutines & Channels
 
-> **Kategori:** Go | **Level:** Intermediate | **Minggu 8:** Goroutines & Channels
-
 ## Learning Objectives
 
 - Run goroutines with the go keyword (Go Tour: Concurrency)

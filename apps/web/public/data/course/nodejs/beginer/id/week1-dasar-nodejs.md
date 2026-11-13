@@ -1,7 +1,5 @@
 # Dasar Node.js & Runtime
 
-> **Kategori:** Node.js | **Level:** Pemula | **Minggu 1:** Dasar Node.js & Runtime
-
 ## Kenapa Materi Ini Penting
 
 Node.js menjadikan JavaScript jalan di server: event loop berbasis non-blocking menjadikan satu bahasa dipakai dari browser hingga database. Memahami runtime Node = langsung paham streaming, worker, dan API realtime.

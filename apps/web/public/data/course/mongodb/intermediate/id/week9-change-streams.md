@@ -1,7 +1,5 @@
 # Change Streams & Transactions
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 9:** Change Streams & Transactions
-
 ## Tujuan Pembelajaran
 
 - Change streams untuk realtime

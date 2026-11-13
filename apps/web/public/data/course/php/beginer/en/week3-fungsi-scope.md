@@ -1,7 +1,5 @@
 # Functions & Variable Scope
 
-> **Kategori:** PHP | **Level:** Beginner | **Minggu 3:** Functions & Variable Scope
-
 ## Why This Matters
 
 PHP runs roughly three quarters of the web - WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.

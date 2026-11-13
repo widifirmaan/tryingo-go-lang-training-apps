@@ -1,8 +1,5 @@
 # Keyframe Animations
 
-> **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 12:** Keyframe Animations
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Understand @keyframes declaration structure using milestone percentages (0% to 100%)

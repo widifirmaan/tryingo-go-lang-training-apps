@@ -1,7 +1,5 @@
 # React Router
 
-> **Kategori:** React | **Level:** Menengah | **Minggu 5:** React Router
-
 ## Tujuan Pembelajaran
 
 - Setup BrowserRouter dan Routes/Route untuk routing

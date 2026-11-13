@@ -1,7 +1,5 @@
 # Replication & High Availability
 
-> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 9:** Replication & High Availability
-
 ## Learning Objectives
 
 - WAL and streaming replication

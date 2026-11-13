@@ -1,7 +1,5 @@
 # Testing & Error Handling
 
-> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 9:** Testing & Error Handling
-
 ## Learning Objectives
 
 - Test client setup

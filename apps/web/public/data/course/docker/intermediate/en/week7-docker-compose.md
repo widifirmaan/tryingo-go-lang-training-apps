@@ -1,7 +1,5 @@
 # Docker Compose
 
-> **Kategori:** Docker | **Level:** Intermediate | **Minggu 7:** Docker Compose
-
 ## Learning Objectives
 
 - docker-compose.yml: services, volumes, networks

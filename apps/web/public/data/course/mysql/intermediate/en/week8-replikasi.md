@@ -1,7 +1,5 @@
 # Replication & High Availability
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 8:** Replication & High Availability
-
 ## Learning Objectives
 
 - Master-Slave replication

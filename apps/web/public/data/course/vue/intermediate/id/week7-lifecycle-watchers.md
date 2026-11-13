@@ -1,7 +1,5 @@
 # Lifecycle & Watchers
 
-> **Kategori:** Vue | **Level:** Menengah | **Minggu 7:** Lifecycle & Watchers
-
 ## Tujuan Pembelajaran
 
 - onMounted: fetch data setelah komponen muncul

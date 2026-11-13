@@ -1,7 +1,5 @@
 # Dependency Injection
 
-> **Kategori:** Spring Boot | **Level:** Beginner | **Minggu 2:** Dependency Injection
-
 ## Why This Matters
 
 Spring Boot is the standard for enterprise Java backends - banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.

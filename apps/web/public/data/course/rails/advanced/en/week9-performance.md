@@ -1,7 +1,5 @@
 # Performance Optimization
 
-> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 9:** Performance Optimization
-
 ## Learning Objectives
 
 - N+1 queries: detect and solve with eager loading

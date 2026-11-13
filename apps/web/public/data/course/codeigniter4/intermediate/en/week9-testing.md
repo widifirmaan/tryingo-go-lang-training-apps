@@ -1,7 +1,5 @@
 # Testing with PHPUnit
 
-> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 9:** Testing with PHPUnit
-
 ## Learning Objectives
 
 - CIUnitTestCase: base class for unit tests

@@ -1,7 +1,5 @@
 # Capstone: SaaS App
 
-> **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 12:** Capstone: SaaS App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: routing, data fetching, server actions, auth

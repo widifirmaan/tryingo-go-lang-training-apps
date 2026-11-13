@@ -1,7 +1,5 @@
 # Models & ORM
 
-> **Kategori:** Django | **Level:** Pemula | **Minggu 2:** Models & ORM
-
 ## Kenapa Materi Ini Penting
 
 Django dipakai Instagram, Spotify, dan banyak startup karena "batteries included": admin panel, autentikasi, database - semuanya tersedia. Sisa waktu Anda bisa dipakai membangun fitur, bukan menyiapkan perkakas.

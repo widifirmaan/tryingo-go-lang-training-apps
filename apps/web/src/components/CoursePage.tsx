@@ -656,14 +656,14 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
           onClick={handleToggleComplete}
           className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl border shadow-xs transition-all text-xs sm:text-sm font-bold shrink-0 ${
             isCurrentWeekCompleted
-              ? 'bg-emerald-600 border-emerald-600 text-white hover:bg-emerald-700'
-              : 'bg-white/80 dark:bg-zinc-800/80 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
+              ? 'bg-[#2E5B44] text-white border-[#2E5B44] hover:bg-[#234735]'
+              : 'bg-white/80 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200'
           }`}
           title={isId
             ? (isCurrentWeekCompleted ? 'Materi minggu ini sudah ditandai selesai - klik untuk batal' : 'Tandai minggu ini selesai dipelajari')
             : (isCurrentWeekCompleted ? 'Week done - click to undo' : 'Mark this week as completed')}
         >
-          <FontAwesomeIcon icon={faCircleCheck} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <FontAwesomeIcon icon={faCircleCheck} className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isCurrentWeekCompleted ? 'text-white' : 'text-zinc-500 dark:text-zinc-400'}`} />
           <span className="hidden sm:inline">{isCurrentWeekCompleted ? (isId ? 'Selesai ✓' : 'Done ✓') : (isId ? 'Selesai' : 'Done')}</span>
         </button>
 

@@ -1,7 +1,5 @@
 # Testing & Quality
 
-> **Kategori:** Python | **Level:** Advanced | **Minggu 10:** Testing & Quality
-
 ## Learning Objectives
 
 - unittest: TestCase, assertEqual, assertRaises, setUp

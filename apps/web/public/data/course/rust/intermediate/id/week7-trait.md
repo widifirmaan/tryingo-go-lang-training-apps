@@ -1,7 +1,5 @@
 # Trait
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 7:** Trait
-
 ## Tujuan Pembelajaran
 
 - Trait: definisi interface/behavior yang bisa diimplement struct

@@ -1,8 +1,5 @@
 # Bulma: Column Layout and Components
 
-> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 10:** Bulma: Column Layout and Components
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Understand Bulma as a 100% pure CSS framework built entirely on Flexbox without JavaScript dependencies

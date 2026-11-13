@@ -1,7 +1,5 @@
 # Replica Sets & Sharding
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 7:** Replica Sets & Sharding
-
 ## Learning Objectives
 
 - Replica set setup

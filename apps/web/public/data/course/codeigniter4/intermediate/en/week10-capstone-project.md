@@ -1,7 +1,5 @@
 # Capstone: Task Management API
 
-> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 10:** Capstone: Task Management API
-
 ## Learning Objectives
 
 - Combine all concepts: MVC, validation, auth, REST, testing

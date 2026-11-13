@@ -1,8 +1,5 @@
 # Bootstrap: Grid System dan Komponen
 
-> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 9:** Bootstrap: Grid System dan Komponen
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami fungsi framework UI berbasis komponen untuk mempercepat penataan antarmuka web

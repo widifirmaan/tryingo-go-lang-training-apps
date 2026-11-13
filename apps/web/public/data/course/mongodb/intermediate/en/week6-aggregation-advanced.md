@@ -1,7 +1,5 @@
 # Advanced Aggregation
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 6:** Advanced Aggregation
-
 ## Learning Objectives
 
 - $facet for multi-aggregation

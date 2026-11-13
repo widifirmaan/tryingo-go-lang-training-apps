@@ -1,7 +1,5 @@
 # Capstone: E-Commerce GraphQL
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce GraphQL
-
 ## Tujuan Pembelajaran
 
 - Schema lengkap

@@ -1,7 +1,5 @@
 # Capstone: E-Commerce Database
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce Database
-
 ## Tujuan Pembelajaran
 
 - Schema production-ready

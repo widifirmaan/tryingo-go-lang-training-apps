@@ -1,7 +1,5 @@
 # Lifecycle & Watchers
 
-> **Kategori:** Vue | **Level:** Intermediate | **Minggu 7:** Lifecycle & Watchers
-
 ## Learning Objectives
 
 - onMounted: fetch data after component appears

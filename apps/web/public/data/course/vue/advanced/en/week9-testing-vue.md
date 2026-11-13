@@ -1,7 +1,5 @@
 # Testing Vue Components
 
-> **Kategori:** Vue | **Level:** Advanced | **Minggu 9:** Testing Vue Components
-
 ## Learning Objectives
 
 - Vitest + Vue Test Utils setup

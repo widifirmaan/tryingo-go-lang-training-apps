@@ -1,7 +1,5 @@
 # Authentication & Authorization
 
-> **Kategori:** Django | **Level:** Intermediate | **Minggu 6:** Authentication & Authorization
-
 ## Learning Objectives
 
 - Built-in auth: django.contrib.auth

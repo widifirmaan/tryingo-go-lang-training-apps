@@ -1,7 +1,5 @@
 # Context API & useReducer
 
-> **Kategori:** React | **Level:** Menengah | **Minggu 6:** Context API & useReducer
-
 ## Tujuan Pembelajaran
 
 - createContext dan Provider untuk state global

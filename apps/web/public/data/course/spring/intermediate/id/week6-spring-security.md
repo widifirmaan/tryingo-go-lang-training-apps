@@ -1,7 +1,5 @@
 # Spring Security
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 6:** Spring Security
-
 ## Tujuan Pembelajaran
 
 - Spring Security: authentication dan authorization

@@ -1,7 +1,5 @@
 # Control Flow & Loops
 
-> **Kategori:** Python | **Level:** Beginner | **Minggu 3:** Control Flow & Loops
-
 ## Why This Matters
 
 Python is the friendliest first language yet reaches into AI/data science, automation, and backends. It is the one language that appears in nearly every field - the most versatile learning investment.

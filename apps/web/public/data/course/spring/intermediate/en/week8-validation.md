@@ -1,7 +1,5 @@
 # Validation
 
-> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 8:** Validation
-
 ## Learning Objectives
 
 - Bean Validation with Jakarta annotations

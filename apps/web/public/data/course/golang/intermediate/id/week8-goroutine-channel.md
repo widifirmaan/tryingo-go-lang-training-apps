@@ -1,7 +1,5 @@
 # Goroutine & Channel
 
-> **Kategori:** Go | **Level:** Menengah | **Minggu 8:** Goroutine & Channel
-
 ## Tujuan Pembelajaran
 
 - Menjalankan goroutine dengan go keyword (Go Tour: Concurrency)

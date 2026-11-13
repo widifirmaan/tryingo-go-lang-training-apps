@@ -1,7 +1,5 @@
 # Pub/Sub & Streams
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 6:** Pub/Sub & Streams
-
 ## Tujuan Pembelajaran
 
 - SUBSCRIBE, PUBLISH, UNSUBSCRIBE

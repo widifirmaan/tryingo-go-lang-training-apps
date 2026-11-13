@@ -1,7 +1,5 @@
 # Lua Scripting
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 7:** Lua Scripting
-
 ## Learning Objectives
 
 - EVAL for atomic scripts

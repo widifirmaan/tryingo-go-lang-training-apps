@@ -1,8 +1,5 @@
 # Display and Positioning
 
-> **Category:** CSS3 | **Level:** Intermediate | **Seri:** Layout & Responsive Design | **Week 6:** Display and Positioning
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Understand 4 foundational display values: block, inline, inline-block, none

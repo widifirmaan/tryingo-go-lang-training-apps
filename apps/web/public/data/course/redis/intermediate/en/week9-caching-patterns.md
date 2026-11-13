@@ -1,7 +1,5 @@
 # Caching Patterns
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 9:** Caching Patterns
-
 ## Learning Objectives
 
 - Cache-aside pattern

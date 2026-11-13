@@ -1,8 +1,5 @@
 # Selektor dan Spesifisitas
 
-> **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 2:** Selektor dan Spesifisitas
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Kenapa Materi Ini Penting
 
 CSS mengatur seluruh tampilan web yang Anda lihat setiap hari - dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.

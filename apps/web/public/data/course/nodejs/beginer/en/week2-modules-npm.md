@@ -1,7 +1,5 @@
 # Modules & NPM
 
-> **Kategori:** Node.js | **Level:** Beginner | **Minggu 2:** Modules & NPM
-
 ## Why This Matters
 
 Node.js puts JavaScript on the server: a non-blocking event loop lets one language span browser to database. Understanding the Node runtime means understanding streams, workers, and real-time APIs.

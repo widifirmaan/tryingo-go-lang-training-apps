@@ -1,7 +1,5 @@
 # Testing
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 7:** Testing
-
 ## Tujuan Pembelajaran
 
 - Unit test dengan JUnit 5 dan Mockito

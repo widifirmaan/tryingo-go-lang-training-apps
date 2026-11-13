@@ -1,7 +1,5 @@
 # WebSockets & Real-time
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 10:** WebSockets & Real-time
-
 ## Tujuan Pembelajaran
 
 - WebSocketGateway decorator

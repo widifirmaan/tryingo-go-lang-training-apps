@@ -1,7 +1,5 @@
 # LINQ
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 5:** LINQ
-
 ## Tujuan Pembelajaran
 
 - LINQ method syntax: Where, OrderBy, Select, GroupBy

@@ -1,7 +1,5 @@
 # Interfaces & Generics
 
-> **Kategori:** Go | **Level:** Intermediate | **Minggu 6:** Interfaces & Generics
-
 ## Learning Objectives
 
 - Implicit interfaces - structs implement without implements keyword

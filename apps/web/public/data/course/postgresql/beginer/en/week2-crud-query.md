@@ -1,7 +1,5 @@
 # CRUD & Advanced Queries
 
-> **Kategori:** PostgreSQL | **Level:** Beginner | **Minggu 2:** CRUD & Advanced Queries
-
 ## Why This Matters
 
 PostgreSQL is the most advanced open source database: full ACID, JSON, sophisticated indexing, rich extensions. Big companies rely on Postgres and the SQL you learn transfers to every relational database.

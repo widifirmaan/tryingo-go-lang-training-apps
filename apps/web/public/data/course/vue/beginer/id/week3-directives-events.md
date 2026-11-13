@@ -1,7 +1,5 @@
 # Directives & Events
 
-> **Kategori:** Vue | **Level:** Pemula | **Minggu 3:** Directives & Events
-
 ## Kenapa Materi Ini Penting
 
 Vue menggabungkan keringkasan template HTML dengan reaktivitas modern - dipakai Alibaba, Xiaomi, dan banyak admin panel. Learning curve-nya landai: svelte siap product rapi untuk pekerja, tetap ramah untuk yang baru belajar.

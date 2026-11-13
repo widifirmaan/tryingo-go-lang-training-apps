@@ -1,7 +1,5 @@
 # Capstone: E-Commerce App
 
-> **Kategori:** React | **Level:** Advanced | **Minggu 12:** Capstone: E-Commerce App
-
 ## Learning Objectives
 
 - Combine routing, context, reducer, hooks in one project

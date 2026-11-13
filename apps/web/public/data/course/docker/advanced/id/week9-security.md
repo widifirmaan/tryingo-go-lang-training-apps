@@ -1,7 +1,5 @@
 # Security
 
-> **Kategori:** Docker | **Level:** Lanjutan | **Minggu 9:** Security
-
 ## Tujuan Pembelajaran
 
 - Non-root user di container

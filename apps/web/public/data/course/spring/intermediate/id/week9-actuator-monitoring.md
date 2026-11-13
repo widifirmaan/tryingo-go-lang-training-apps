@@ -1,7 +1,5 @@
 # Actuator & Monitoring
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 9:** Actuator & Monitoring
-
 ## Tujuan Pembelajaran
 
 - Spring Boot Actuator untuk monitoring dan management

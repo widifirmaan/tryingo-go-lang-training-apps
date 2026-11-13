@@ -1,7 +1,5 @@
 # Template-driven Forms
 
-> **Kategori:** Angular | **Level:** Beginner | **Minggu 5:** Template-driven Forms
-
 ## Why This Matters
 
 Angular powers large internal enterprise applications - banks, insurance, healthcare - because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.

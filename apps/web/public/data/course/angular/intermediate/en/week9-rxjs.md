@@ -1,7 +1,5 @@
 # RxJS Fundamentals
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 9:** RxJS Fundamentals
-
 ## Learning Objectives
 
 - Observable: stream of data

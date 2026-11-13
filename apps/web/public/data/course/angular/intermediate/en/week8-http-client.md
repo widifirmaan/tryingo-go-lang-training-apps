@@ -1,7 +1,5 @@
 # HTTP Client & APIs
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 8:** HTTP Client & APIs
-
 ## Learning Objectives
 
 - HttpClient module setup

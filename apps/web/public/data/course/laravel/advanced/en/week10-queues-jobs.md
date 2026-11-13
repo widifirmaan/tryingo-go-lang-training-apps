@@ -1,7 +1,5 @@
 # Queues & Background Jobs
 
-> **Kategori:** Laravel | **Level:** Advanced | **Minggu 10:** Queues & Background Jobs
-
 ## Learning Objectives
 
 - Job class: ShouldQueue interface for background processing

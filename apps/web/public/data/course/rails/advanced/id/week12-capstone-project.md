@@ -1,7 +1,5 @@
 # Capstone: E-Commerce Platform
 
-> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce Platform
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: MVC, auth, associations, testing, API

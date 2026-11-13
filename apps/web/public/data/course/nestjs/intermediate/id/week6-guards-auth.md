@@ -1,7 +1,5 @@
 # Guards & Authentication
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 6:** Guards & Authentication
-
 ## Tujuan Pembelajaran
 
 - Guard: implement CanActivate interface

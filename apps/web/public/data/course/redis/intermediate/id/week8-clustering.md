@@ -1,7 +1,5 @@
 # Redis Cluster
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 8:** Redis Cluster
-
 ## Tujuan Pembelajaran
 
 - Cluster setup

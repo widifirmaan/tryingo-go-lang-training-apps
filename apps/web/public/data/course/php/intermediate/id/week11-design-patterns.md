@@ -1,7 +1,5 @@
 # Design Patterns
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 11:** Design Patterns
-
 ## Tujuan Pembelajaran
 
 - Strategy Pattern: interface + multiple implementations

@@ -1,7 +1,5 @@
 # Dependency Injection
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 2:** Dependency Injection
-
 ## Kenapa Materi Ini Penting
 
 Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.

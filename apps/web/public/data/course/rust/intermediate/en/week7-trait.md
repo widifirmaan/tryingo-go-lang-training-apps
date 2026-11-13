@@ -1,7 +1,5 @@
 # Traits
 
-> **Kategori:** Rust | **Level:** Intermediate | **Minggu 7:** Traits
-
 ## Learning Objectives
 
 - Traits: define interfaces/behaviors that structs can implement

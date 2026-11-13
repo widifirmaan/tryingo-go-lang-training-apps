@@ -1,7 +1,5 @@
 # Capstone: SvelteKit App
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 10:** Capstone: SvelteKit App
-
 ## Learning Objectives
 
 - Combine all Svelte/SvelteKit concepts

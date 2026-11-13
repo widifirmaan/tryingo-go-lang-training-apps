@@ -1,7 +1,5 @@
 # Validation & Form Handling
 
-> **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 6:** Validation & Form Handling
-
 ## Tujuan Pembelajaran
 
 - Validation rules: required, min_length, max_length, valid_email

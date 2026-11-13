@@ -1,7 +1,5 @@
 # Decorators & Generators
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 8:** Decorators & Generators
-
 ## Tujuan Pembelajaran
 
 - Membuat decorator dengan @functools.wraps

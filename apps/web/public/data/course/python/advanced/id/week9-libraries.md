@@ -1,7 +1,5 @@
 # Libraries & Virtual Environments
 
-> **Kategori:** Python | **Level:** Lanjutan | **Minggu 9:** Libraries & Virtual Environments
-
 ## Tujuan Pembelajaran
 
 - Membuat dan mengelola virtual environment (venv)

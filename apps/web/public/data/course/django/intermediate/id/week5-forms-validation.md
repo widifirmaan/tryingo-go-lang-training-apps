@@ -1,7 +1,5 @@
 # Forms & Validation
 
-> **Kategori:** Django | **Level:** Menengah | **Minggu 5:** Forms & Validation
-
 ## Tujuan Pembelajaran
 
 - Form class: forms.Form

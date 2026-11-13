@@ -1,7 +1,5 @@
 # Caching
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 11:** Caching
-
 ## Tujuan Pembelajaran
 
 - @EnableCaching untuk aktifkan Spring caching

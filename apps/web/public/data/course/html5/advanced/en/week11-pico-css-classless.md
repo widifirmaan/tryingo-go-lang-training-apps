@@ -1,8 +1,5 @@
 # Pico CSS: Classless CSS
 
-> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 11:** Pico CSS: Classless CSS
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Understand "Classless CSS" architecture (styling native HTML elements without custom classes)

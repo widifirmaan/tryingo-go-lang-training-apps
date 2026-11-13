@@ -1,8 +1,5 @@
 # Final Project with UI Framework
 
-> **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 14:** Final Project with UI Framework
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Refactor the Week 8 website project using an industry-standard UI framework (Bootstrap 5)

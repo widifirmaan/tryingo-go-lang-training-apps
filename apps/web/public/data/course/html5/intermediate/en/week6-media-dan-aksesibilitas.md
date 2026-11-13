@@ -1,8 +1,5 @@
 # Media, Iframes, and Accessibility
 
-> **Category:** HTML5 | **Level:** Intermediate | **Seri:** Forms and Interaction | **Week 6:** Media, Iframes, and Accessibility
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Embed native audio and video players using <audio> and <video> tags

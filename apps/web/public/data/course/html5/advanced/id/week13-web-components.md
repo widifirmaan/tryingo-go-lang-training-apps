@@ -1,8 +1,5 @@
 # Web Components: Custom Elements dan Template
 
-> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 13:** Web Components: Custom Elements dan Template
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami standar Web Components sebagai masa depan HTML native tanpa ketergantungan framework besar

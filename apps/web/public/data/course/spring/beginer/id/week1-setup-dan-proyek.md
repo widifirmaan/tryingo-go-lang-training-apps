@@ -1,7 +1,5 @@
 # Setup & Proyek Pertama
 
-> **Kategori:** Spring Boot | **Level:** Pemula | **Minggu 1:** Setup & Proyek Pertama
-
 ## Kenapa Materi Ini Penting
 
 Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.

@@ -1,7 +1,5 @@
 # Testing dengan RSpec
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 7:** Testing dengan RSpec
-
 ## Tujuan Pembelajaran
 
 - RSpec: testing framework untuk Rails

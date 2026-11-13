@@ -1,7 +1,5 @@
 # Capstone: Enterprise App
 
-> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 14:** Capstone: Enterprise App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep Angular

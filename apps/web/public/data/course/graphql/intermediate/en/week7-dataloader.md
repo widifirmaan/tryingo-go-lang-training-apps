@@ -1,7 +1,5 @@
 # DataLoader & N+1 Problem
 
-> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 7:** DataLoader & N+1 Problem
-
 ## Learning Objectives
 
 - N+1 problem explained

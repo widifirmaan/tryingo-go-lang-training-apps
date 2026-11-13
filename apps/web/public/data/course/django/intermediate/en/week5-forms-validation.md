@@ -1,7 +1,5 @@
 # Forms & Validation
 
-> **Kategori:** Django | **Level:** Intermediate | **Minggu 5:** Forms & Validation
-
 ## Learning Objectives
 
 - Form class: forms.Form

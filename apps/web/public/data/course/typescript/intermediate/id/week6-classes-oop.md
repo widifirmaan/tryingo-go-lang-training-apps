@@ -1,7 +1,5 @@
 # Classes & OOP
 
-> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 6:** Classes & OOP
-
 ## Tujuan Pembelajaran
 
 - Access modifiers: public, protected, private

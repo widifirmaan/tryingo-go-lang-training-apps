@@ -1,7 +1,5 @@
 # Loading & Error UI
 
-> **Kategori:** Next.js | **Level:** Intermediate | **Minggu 7:** Loading & Error UI
-
 ## Learning Objectives
 
 - loading.js: skeleton/spinner during data loading

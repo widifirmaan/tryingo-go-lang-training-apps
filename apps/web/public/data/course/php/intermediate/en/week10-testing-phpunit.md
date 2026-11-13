@@ -1,7 +1,5 @@
 # Testing with PHPUnit
 
-> **Kategori:** PHP | **Level:** Intermediate | **Minggu 10:** Testing with PHPUnit
-
 ## Learning Objectives
 
 - PHPUnit: testing framework for PHP

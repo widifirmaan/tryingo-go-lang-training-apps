@@ -1,7 +1,5 @@
 # Capstone: E-Commerce GraphQL
 
-> **Kategori:** GraphQL | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce GraphQL
-
 ## Learning Objectives
 
 - Complete schema

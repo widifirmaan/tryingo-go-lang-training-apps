@@ -1,7 +1,5 @@
 # Testing & Error Handling
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 9:** Testing & Error Handling
-
 ## Tujuan Pembelajaran
 
 - Test client setup

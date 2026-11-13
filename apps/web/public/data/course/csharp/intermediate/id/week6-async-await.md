@@ -1,7 +1,5 @@
 # Async/Await
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 6:** Async/Await
-
 ## Tujuan Pembelajaran
 
 - async/await untuk operasi asynchronous

@@ -1,7 +1,5 @@
 # Capstone: Enterprise API
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 12:** Capstone: Enterprise API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: Controllers, Services, Modules, DI

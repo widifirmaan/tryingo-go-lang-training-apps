@@ -1,7 +1,5 @@
 # Networking
 
-> **Kategori:** Docker | **Level:** Menengah | **Minggu 6:** Networking
-
 ## Tujuan Pembelajaran
 
 - Network types: bridge, host, none, overlay, macvlan

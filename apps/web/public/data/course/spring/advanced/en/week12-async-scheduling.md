@@ -1,7 +1,5 @@
 # Async & Scheduling
 
-> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 12:** Async & Scheduling
-
 ## Learning Objectives
 
 - @Scheduled for scheduled tasks

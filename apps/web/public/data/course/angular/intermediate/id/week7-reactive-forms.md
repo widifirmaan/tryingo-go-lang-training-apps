@@ -1,7 +1,5 @@
 # Reactive Forms
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 7:** Reactive Forms
-
 ## Tujuan Pembelajaran
 
 - FormControl, FormGroup, FormArray

@@ -1,7 +1,5 @@
 # REST API Design
 
-> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 6:** REST API Design
-
 ## Learning Objectives
 
 - Resource-based URLs: /resources, /resources/:id

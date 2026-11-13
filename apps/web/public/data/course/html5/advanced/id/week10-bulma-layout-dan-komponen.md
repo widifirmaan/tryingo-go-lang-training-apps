@@ -1,8 +1,5 @@
 # Bulma: Layout Kolom dan Komponen
 
-> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 10:** Bulma: Layout Kolom dan Komponen
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami filosofi Bulma sebagai framework CSS murni berbasis Flexbox tanpa JavaScript

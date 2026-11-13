@@ -1,7 +1,5 @@
 # Reactivity & Composition API
 
-> **Kategori:** Vue | **Level:** Beginner | **Minggu 2:** Reactivity & Composition API
-
 ## Why This Matters
 
 Vue combines the simplicity of HTML templates with modern reactivity - used by Alibaba, Xiaomi, and countless admin panels. Its learning curve is gentle: polished enough for work, friendly enough for beginners.

@@ -1,7 +1,5 @@
 # Replica Set & Sharding
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 7:** Replica Set & Sharding
-
 ## Tujuan Pembelajaran
 
 - Replica set setup

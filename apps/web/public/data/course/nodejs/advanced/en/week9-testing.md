@@ -1,7 +1,5 @@
 # Testing & Quality
 
-> **Kategori:** Node.js | **Level:** Advanced | **Minggu 9:** Testing & Quality
-
 ## Learning Objectives
 
 - Unit testing: test individual functions

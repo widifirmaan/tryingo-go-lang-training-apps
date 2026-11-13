@@ -1,7 +1,5 @@
 # Stdlib: I/O, Time & Encoding
 
-> **Kategori:** Go | **Level:** Lanjutan | **Minggu 10:** Stdlib: I/O, Time & Encoding
-
 ## Tujuan Pembelajaran
 
 - io.Reader dan io.Writer sebagai interface fundamental I/O

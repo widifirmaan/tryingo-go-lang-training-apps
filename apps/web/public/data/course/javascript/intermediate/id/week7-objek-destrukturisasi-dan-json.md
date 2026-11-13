@@ -1,8 +1,5 @@
 # Objek, Destrukturisasi, dan JSON
 
-> **Kategori:** JavaScript | **Level:** Menengah | **Seri:** Struktur Data & Interaksi DOM | **Minggu 7:** Objek, Destrukturisasi, dan JSON
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami struktur Objek Literal (key-value pairs) dan akses dot notation vs bracket notation

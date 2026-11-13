@@ -1,7 +1,5 @@
 # Performance & Tuning
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 8:** Performance & Tuning
-
 ## Learning Objectives
 
 - Explain allPlansExecution

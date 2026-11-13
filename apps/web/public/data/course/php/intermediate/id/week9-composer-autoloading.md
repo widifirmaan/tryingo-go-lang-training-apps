@@ -1,7 +1,5 @@
 # Composer & Autoloading
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 9:** Composer & Autoloading
-
 ## Tujuan Pembelajaran
 
 - Composer: dependency manager untuk PHP

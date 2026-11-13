@@ -1,7 +1,5 @@
 # Desain Responsif & Arsitektur Dark Mode
 
-> **Kategori:** Tailwind CSS | **Level:** Menengah | **Seri:** Tata Letak & Responsivitas | **Minggu 6:** Desain Responsif & Arsitektur Dark Mode
-
 ## Tujuan Pembelajaran
 
 - Memahami filosofi mobile-first (gaya default tanpa prefix berlaku untuk HP)

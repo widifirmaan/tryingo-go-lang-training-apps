@@ -1,7 +1,5 @@
 # Capstone: Type-Safe API Client
 
-> **Kategori:** TypeScript | **Level:** Advanced | **Seri:** Type-Safe Architecture & Final Project | **Minggu 12:** Capstone: Type-Safe API Client
-
 ## Learning Objectives
 
 - Combine all concepts: generics, branded types, conditional types

@@ -1,7 +1,5 @@
 # Change Streams & Transactions
 
-> **Kategori:** MongoDB | **Level:** Intermediate | **Minggu 9:** Change Streams & Transactions
-
 ## Learning Objectives
 
 - Change streams for realtime

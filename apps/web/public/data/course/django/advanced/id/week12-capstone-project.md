@@ -1,7 +1,5 @@
 # Capstone: E-Commerce Platform
 
-> **Kategori:** Django | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce Platform
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: MVT, forms, auth, admin, REST

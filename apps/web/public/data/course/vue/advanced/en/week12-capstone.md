@@ -1,7 +1,5 @@
 # Capstone: SaaS Dashboard
 
-> **Kategori:** Vue | **Level:** Advanced | **Minggu 12:** Capstone: SaaS Dashboard
-
 ## Learning Objectives
 
 - Combine all Vue concepts in one project

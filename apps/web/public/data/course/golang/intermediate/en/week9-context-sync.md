@@ -1,7 +1,5 @@
 # Context & Synchronization
 
-> **Kategori:** Go | **Level:** Intermediate | **Minggu 9:** Context & Synchronization
-
 ## Learning Objectives
 
 - context.Context for cancellation and timeouts

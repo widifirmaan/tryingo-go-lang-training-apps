@@ -1,7 +1,5 @@
 # ORM Advanced & Relations
 
-> **Kategori:** NestJS | **Level:** Intermediate | **Minggu 7:** ORM Advanced & Relations
-
 ## Learning Objectives
 
 - One-to-Many and Many-to-One relations

@@ -1,7 +1,5 @@
 # State Management
 
-> **Kategori:** Angular | **Level:** Intermediate | **Minggu 10:** State Management
-
 ## Learning Objectives
 
 - NgRx: Store, Actions, Reducers

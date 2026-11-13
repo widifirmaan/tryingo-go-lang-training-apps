@@ -1,7 +1,5 @@
 # Testing
 
-> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 7:** Testing
-
 ## Learning Objectives
 
 - Unit tests with JUnit 5 and Mockito

@@ -1,7 +1,5 @@
 # State Modifiers, Pseudo-Classes & Transitions
 
-> **Kategori:** Tailwind CSS | **Level:** Advanced | **Seri:** Components & Interface Project | **Minggu 7:** State Modifiers, Pseudo-Classes & Transitions
-
 ## Learning Objectives
 
 - Master pseudo-class state modifiers: hover:, focus:, active:, disabled:

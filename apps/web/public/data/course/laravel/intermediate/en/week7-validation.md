@@ -1,7 +1,5 @@
 # Validation & Form Requests
 
-> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 7:** Validation & Form Requests
-
 ## Learning Objectives
 
 - Validator::make and $request->validate()

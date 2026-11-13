@@ -1,7 +1,5 @@
 # Keamanan & User Management
 
-> **Kategori:** MySQL | **Level:** Menengah | **Minggu 9:** Keamanan & User Management
-
 ## Tujuan Pembelajaran
 
 - CREATE USER dan GRANT

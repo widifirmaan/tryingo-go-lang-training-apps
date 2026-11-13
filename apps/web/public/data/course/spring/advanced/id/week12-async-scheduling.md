@@ -1,7 +1,5 @@
 # Async & Scheduling
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 12:** Async & Scheduling
-
 ## Tujuan Pembelajaran
 
 - @Scheduled untuk task berjadwal

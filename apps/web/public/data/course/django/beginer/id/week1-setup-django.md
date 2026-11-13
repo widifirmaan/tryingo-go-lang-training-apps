@@ -1,7 +1,5 @@
 # Setup & Instalasi Django
 
-> **Kategori:** Django | **Level:** Pemula | **Minggu 1:** Setup & Instalasi Django
-
 ## Kenapa Materi Ini Penting
 
 Django dipakai Instagram, Spotify, dan banyak startup karena "batteries included": admin panel, autentikasi, database - semuanya tersedia. Sisa waktu Anda bisa dipakai membangun fitur, bukan menyiapkan perkakas.

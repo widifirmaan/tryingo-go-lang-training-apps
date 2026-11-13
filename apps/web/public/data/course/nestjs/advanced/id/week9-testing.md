@@ -1,7 +1,5 @@
 # Testing NestJS
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 9:** Testing NestJS
-
 ## Tujuan Pembelajaran
 
 - Unit testing: Test.createTestingModule

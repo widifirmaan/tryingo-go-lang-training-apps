@@ -1,7 +1,5 @@
 # Tata Letak CSS Grid dengan Tailwind
 
-> **Kategori:** Tailwind CSS | **Level:** Menengah | **Seri:** Tata Letak & Responsivitas | **Minggu 5:** Tata Letak CSS Grid dengan Tailwind
-
 ## Tujuan Pembelajaran
 
 - Mengaktifkan CSS Grid dengan class grid

@@ -1,7 +1,5 @@
 # Tata Letak Flexbox dengan Tailwind
 
-> **Kategori:** Tailwind CSS | **Level:** Menengah | **Seri:** Tata Letak & Responsivitas | **Minggu 4:** Tata Letak Flexbox dengan Tailwind
-
 ## Tujuan Pembelajaran
 
 - Mengaktifkan display flex dengan class flex

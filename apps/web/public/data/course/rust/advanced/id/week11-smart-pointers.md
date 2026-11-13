@@ -1,7 +1,5 @@
 # Smart Pointers
 
-> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 11:** Smart Pointers
-
 ## Tujuan Pembelajaran
 
 - Box<T>: heap allocation untuk tipe dinamis dan recursive type

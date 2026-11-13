@@ -1,7 +1,5 @@
 # Window Functions
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 6:** Window Functions
-
 ## Tujuan Pembelajaran
 
 - ROW_NUMBER, RANK, DENSE_RANK

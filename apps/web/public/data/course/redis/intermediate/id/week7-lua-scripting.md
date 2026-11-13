@@ -1,7 +1,5 @@
 # Lua Scripting
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 7:** Lua Scripting
-
 ## Tujuan Pembelajaran
 
 - EVAL untuk script atomic

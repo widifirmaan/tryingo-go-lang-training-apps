@@ -1,8 +1,5 @@
 # Fetch API dan HTTP Requests
 
-> **Kategori:** JavaScript | **Level:** Lanjutan | **Seri:** Asinkron, Storage & Proyek Akhir | **Minggu 12:** Fetch API dan HTTP Requests
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami konsep protokol HTTP dan REST API: Method GET, Request URL, dan Response JSON

@@ -1,8 +1,5 @@
 # Body, Layout Semantik, dan Gambar
 
-> **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 3:** Body, Layout Semantik, dan Gambar
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Kenapa Materi Ini Penting
 
 HTML adalah kerangka setiap halaman web di dunia - tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.

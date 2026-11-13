@@ -1,8 +1,5 @@
 # Pseudo-Elements and Modern Features
 
-> **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 13:** Pseudo-Elements and Modern Features
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Master decorative pseudo-elements ::before and ::after with mandatory content properties

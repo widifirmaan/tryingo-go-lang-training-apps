@@ -1,7 +1,5 @@
 # Design Patterns
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 9:** Design Patterns
-
 ## Tujuan Pembelajaran
 
 - Strategy Pattern: family of algorithms yang bisa ditukar

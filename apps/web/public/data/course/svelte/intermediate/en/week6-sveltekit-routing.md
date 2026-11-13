@@ -1,7 +1,5 @@
 # SvelteKit Routing
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 6:** SvelteKit Routing
-
 ## Learning Objectives
 
 - File-based routing

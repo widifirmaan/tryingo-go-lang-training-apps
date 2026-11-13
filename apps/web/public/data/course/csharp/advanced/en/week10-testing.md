@@ -1,7 +1,5 @@
 # Testing
 
-> **Kategori:** C# | **Level:** Advanced | **Minggu 10:** Testing
-
 ## Learning Objectives
 
 - Unit testing with xUnit/NUnit

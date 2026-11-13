@@ -1,7 +1,5 @@
 # Modules & Dependency Injection
 
-> **Kategori:** NestJS | **Level:** Beginner | **Minggu 3:** Modules & Dependency Injection
-
 ## Why This Matters
 
 NestJS brings Angular/Spring-style architectural discipline to Node: modules, dependency injection, decorators. Its strict structure keeps growing applications maintainable for whole teams.

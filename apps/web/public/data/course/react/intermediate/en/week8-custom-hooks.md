@@ -1,7 +1,5 @@
 # Custom Hooks & Patterns
 
-> **Kategori:** React | **Level:** Intermediate | **Minggu 8:** Custom Hooks & Patterns
-
 ## Learning Objectives
 
 - Create custom hooks with "use" prefix

@@ -1,7 +1,5 @@
 # Advanced Type Manipulation
 
-> **Kategori:** TypeScript | **Level:** Advanced | **Seri:** Type-Safe Architecture & Final Project | **Minggu 11:** Advanced Type Manipulation
-
 ## Learning Objectives
 
 - Template literal types for string manipulation

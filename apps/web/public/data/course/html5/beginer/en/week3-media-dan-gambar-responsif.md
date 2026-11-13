@@ -1,8 +1,5 @@
 # Body, Semantic Layout, and Images
 
-> **Category:** HTML5 | **Level:** Beginner | **Seri:** HTML Basics | **Week 3:** Body, Semantic Layout, and Images
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Why This Matters
 
 HTML is the skeleton of every page on the web - without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.

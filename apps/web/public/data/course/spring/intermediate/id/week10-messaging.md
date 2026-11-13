@@ -1,7 +1,5 @@
 # Messaging
 
-> **Kategori:** Spring Boot | **Level:** Menengah | **Minggu 10:** Messaging
-
 ## Tujuan Pembelajaran
 
 - Spring Events: ApplicationEventPublisher dan @EventListener

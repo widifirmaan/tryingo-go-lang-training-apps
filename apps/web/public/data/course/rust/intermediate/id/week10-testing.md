@@ -1,7 +1,5 @@
 # Testing
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 10:** Testing
-
 ## Tujuan Pembelajaran
 
 - #[test] attribute untuk menandai fungsi test

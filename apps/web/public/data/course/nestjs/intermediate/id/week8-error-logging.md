@@ -1,7 +1,5 @@
 # Error Handling & Logging
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 8:** Error Handling & Logging
-
 ## Tujuan Pembelajaran
 
 - ExceptionFilter: catch semua exceptions

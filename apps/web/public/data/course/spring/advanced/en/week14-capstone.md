@@ -1,7 +1,5 @@
 # Capstone: E-Commerce API
 
-> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 14:** Capstone: E-Commerce API
-
 ## Learning Objectives
 
 - Combine all concepts: Security, JPA, REST, Testing, Caching

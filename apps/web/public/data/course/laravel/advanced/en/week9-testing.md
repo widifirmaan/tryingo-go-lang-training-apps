@@ -1,7 +1,5 @@
 # Testing with PHPUnit
 
-> **Kategori:** Laravel | **Level:** Advanced | **Minggu 9:** Testing with PHPUnit
-
 ## Learning Objectives
 
 - Unit Test: test classes separate from database

@@ -1,7 +1,5 @@
 # Generics
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 7:** Generics
-
 ## Tujuan Pembelajaran
 
 - Generic class: class Repository<T> where T : class

@@ -1,7 +1,5 @@
 # Forms & Validasi
 
-> **Kategori:** React | **Level:** Menengah | **Minggu 7:** Forms & Validasi
-
 ## Tujuan Pembelajaran
 
 - Controlled form: setiap input punya value + onChange

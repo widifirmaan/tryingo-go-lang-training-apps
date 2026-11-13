@@ -1,7 +1,5 @@
 # MVC Architecture
 
-> **Kategori:** Ruby on Rails | **Level:** Pemula | **Minggu 2:** MVC Architecture
-
 ## Kenapa Materi Ini Penting
 
 Rails melegenda konvensi-diatas-konfigurasi: satu perintah generator sudah menghasilkan CRUD lengkap. Marks of productive developer: fokus pada produk, bukan menyiapkan wiring. Dipakai GitHub, Shopify, dan Airbnb dulu.

@@ -1,7 +1,5 @@
 # Authentication & Authorization
 
-> **Kategori:** CodeIgniter 4 | **Level:** Menengah | **Minggu 7:** Authentication & Authorization
-
 ## Tujuan Pembelajaran
 
 - Session: set, get, destroy untuk state management

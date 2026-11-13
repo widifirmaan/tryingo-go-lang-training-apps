@@ -1,7 +1,5 @@
 # Capstone: E-Commerce Database
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 10:** Capstone: E-Commerce Database
-
 ## Learning Objectives
 
 - Production-ready schema

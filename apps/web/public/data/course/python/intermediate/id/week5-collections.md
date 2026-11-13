@@ -1,7 +1,5 @@
 # Collections & Data Structures
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 5:** Collections & Data Structures
-
 ## Tujuan Pembelajaran
 
 - List: mutable, ordered - append, insert, pop, sort, slice

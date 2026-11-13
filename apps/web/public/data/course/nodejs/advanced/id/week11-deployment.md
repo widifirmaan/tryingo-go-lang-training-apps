@@ -1,7 +1,5 @@
 # Deployment & DevOps
 
-> **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 11:** Deployment & DevOps
-
 ## Tujuan Pembelajaran
 
 - Docker: containerize aplikasi Node.js

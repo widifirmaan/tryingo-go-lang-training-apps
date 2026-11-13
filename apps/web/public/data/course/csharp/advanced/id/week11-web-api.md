@@ -1,7 +1,5 @@
 # Web API
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 11:** Web API
-
 ## Tujuan Pembelajaran
 
 - ASP.NET Core Web API: Controller, Action, Routing

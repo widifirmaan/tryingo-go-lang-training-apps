@@ -1,7 +1,5 @@
 # Views & URL Routing
 
-> **Kategori:** Django | **Level:** Beginner | **Minggu 3:** Views & URL Routing
-
 ## Why This Matters
 
 Django is used by Instagram, Spotify, and countless startups because it is "batteries included": admin panel, auth, ORM - all provided. Your time goes to features, not to wiring up tooling.

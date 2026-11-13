@@ -1,7 +1,5 @@
 # Setup & Konsep Dasar
 
-> **Kategori:** Next.js | **Level:** Pemula | **Minggu 1:** Setup & Konsep Dasar
-
 ## Kenapa Materi Ini Penting
 
 Next.js adalah framework React untuk app skala produksi - routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa - keahlian yang paling sering disebut di lowongan frontend.

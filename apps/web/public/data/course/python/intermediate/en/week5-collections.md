@@ -1,7 +1,5 @@
 # Collections & Data Structures
 
-> **Kategori:** Python | **Level:** Intermediate | **Minggu 5:** Collections & Data Structures
-
 ## Learning Objectives
 
 - List: mutable, ordered - append, insert, pop, sort, slice

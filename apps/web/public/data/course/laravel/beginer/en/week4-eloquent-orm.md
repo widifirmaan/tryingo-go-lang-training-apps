@@ -1,7 +1,5 @@
 # Eloquent ORM
 
-> **Kategori:** Laravel | **Level:** Beginner | **Minggu 4:** Eloquent ORM
-
 ## Why This Matters
 
 Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel - a skill you can directly sell.

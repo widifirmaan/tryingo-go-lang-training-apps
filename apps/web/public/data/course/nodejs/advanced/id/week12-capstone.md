@@ -1,7 +1,5 @@
 # Capstone: Full-Stack API
 
-> **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 12:** Capstone: Full-Stack API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: Express, JWT, Database, Testing

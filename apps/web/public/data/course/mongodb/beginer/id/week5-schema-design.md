@@ -1,7 +1,5 @@
 # Schema Design Patterns
 
-> **Kategori:** MongoDB | **Level:** Pemula | **Minggu 5:** Schema Design Patterns
-
 ## Kenapa Materi Ini Penting
 
 MongoDB menyimpan data dalam bentuk dokumen fleksibel - cocok untuk katalog produk, log, dan data yang struktur bentuknya sering berubah. Belajar berpikir dari sisi dokumen memperluas cara Anda mendesain data, tidak semata-mata pakai tabel.

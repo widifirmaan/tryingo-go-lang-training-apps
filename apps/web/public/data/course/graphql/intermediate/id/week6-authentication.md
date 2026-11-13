@@ -1,7 +1,5 @@
 # Authentication & Authorization
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 6:** Authentication & Authorization
-
 ## Tujuan Pembelajaran
 
 - JWT token generation

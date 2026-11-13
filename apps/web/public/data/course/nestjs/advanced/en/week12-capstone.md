@@ -1,7 +1,5 @@
 # Capstone: Enterprise API
 
-> **Kategori:** NestJS | **Level:** Advanced | **Minggu 12:** Capstone: Enterprise API
-
 ## Learning Objectives
 
 - Combine all concepts: Controllers, Services, Modules, DI

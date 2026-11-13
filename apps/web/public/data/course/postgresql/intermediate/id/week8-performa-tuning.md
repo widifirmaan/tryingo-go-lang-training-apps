@@ -1,7 +1,5 @@
 # Performa & Tuning
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 8:** Performa & Tuning
-
 ## Tujuan Pembelajaran
 
 - EXPLAIN dengan BUFFERS

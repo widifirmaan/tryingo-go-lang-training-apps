@@ -1,7 +1,5 @@
 # Object-Oriented Programming
 
-> **Kategori:** PHP | **Level:** Pemula | **Minggu 5:** Object-Oriented Programming
-
 ## Kenapa Materi Ini Penting
 
 PHP menggerakkan sekitar tiga perempat web dunia - WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".

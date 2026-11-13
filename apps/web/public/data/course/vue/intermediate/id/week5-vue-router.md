@@ -1,7 +1,5 @@
 # Vue Router
 
-> **Kategori:** Vue | **Level:** Menengah | **Minggu 5:** Vue Router
-
 ## Tujuan Pembelajaran
 
 - Setup createRouter dan createWebHistory

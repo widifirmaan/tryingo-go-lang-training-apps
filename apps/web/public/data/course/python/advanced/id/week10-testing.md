@@ -1,7 +1,5 @@
 # Testing & Quality
 
-> **Kategori:** Python | **Level:** Lanjutan | **Minggu 10:** Testing & Quality
-
 ## Tujuan Pembelajaran
 
 - unittest: TestCase, assertEqual, assertRaises, setUp

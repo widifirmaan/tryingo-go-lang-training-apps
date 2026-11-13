@@ -1,7 +1,5 @@
 # Provide/Inject & Teleport
 
-> **Kategori:** Vue | **Level:** Intermediate | **Minggu 8:** Provide/Inject & Teleport
-
 ## Learning Objectives
 
 - provide: share data to all descendants

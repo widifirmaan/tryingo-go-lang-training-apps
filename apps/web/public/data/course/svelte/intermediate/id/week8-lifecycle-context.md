@@ -1,7 +1,5 @@
 # Lifecycle & Context
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 8:** Lifecycle & Context
-
 ## Tujuan Pembelajaran
 
 - onMount: jalan setelah komponen di-mount

@@ -1,7 +1,5 @@
 # Animations & Transitions
 
-> **Kategori:** Vue | **Level:** Advanced | **Minggu 11:** Animations & Transitions
-
 ## Learning Objectives
 
 - <transition>: enter/leave animations

@@ -1,7 +1,5 @@
 # Redis Cluster
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 8:** Redis Cluster
-
 ## Learning Objectives
 
 - Cluster setup

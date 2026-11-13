@@ -1,7 +1,5 @@
 # Pipes & Validation
 
-> **Kategori:** NestJS | **Level:** Menengah | **Minggu 5:** Pipes & Validation
-
 ## Tujuan Pembelajaran
 
 - DTO (Data Transfer Object) dengan class-validator

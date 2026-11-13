@@ -1,7 +1,5 @@
 # REST API with DRF
 
-> **Kategori:** Django | **Level:** Intermediate | **Minggu 8:** REST API with DRF
-
 ## Learning Objectives
 
 - Install DRF

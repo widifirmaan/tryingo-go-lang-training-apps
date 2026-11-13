@@ -1,7 +1,5 @@
 # Associations & Relationships
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 6:** Associations & Relationships
-
 ## Tujuan Pembelajaran
 
 - belongs_to: model memiliki foreign key

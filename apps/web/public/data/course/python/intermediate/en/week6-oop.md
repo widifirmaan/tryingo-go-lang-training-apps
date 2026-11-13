@@ -1,7 +1,5 @@
 # Object-Oriented Programming
 
-> **Kategori:** Python | **Level:** Intermediate | **Minggu 6:** Object-Oriented Programming
-
 ## Learning Objectives
 
 - Create classes with __init__, self, and instance methods

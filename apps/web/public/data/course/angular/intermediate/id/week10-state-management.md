@@ -1,7 +1,5 @@
 # State Management
 
-> **Kategori:** Angular | **Level:** Menengah | **Minggu 10:** State Management
-
 ## Tujuan Pembelajaran
 
 - NgRx: Store, Actions, Reducers

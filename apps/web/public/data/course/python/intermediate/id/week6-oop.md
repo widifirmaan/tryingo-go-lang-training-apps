@@ -1,7 +1,5 @@
 # Object-Oriented Programming
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 6:** Object-Oriented Programming
-
 ## Tujuan Pembelajaran
 
 - Membuat class dengan __init__, self, dan instance methods

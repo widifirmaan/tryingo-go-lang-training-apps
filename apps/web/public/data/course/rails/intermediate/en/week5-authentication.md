@@ -1,7 +1,5 @@
 # Authentication with Devise
 
-> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 5:** Authentication with Devise
-
 ## Learning Objectives
 
 - Devise gem: full authentication solution

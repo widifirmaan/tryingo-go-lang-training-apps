@@ -1,7 +1,5 @@
 # Keamanan PHP
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 7:** Keamanan PHP
-
 ## Tujuan Pembelajaran
 
 - XSS Prevention: htmlspecialchars untuk output encoding

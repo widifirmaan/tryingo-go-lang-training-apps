@@ -1,7 +1,5 @@
 # Tipe Data & Variabel
 
-> **Kategori:** C# | **Level:** Pemula | **Minggu 2:** Tipe Data & Variabel
-
 ## Kenapa Materi Ini Penting
 
 C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity - salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.

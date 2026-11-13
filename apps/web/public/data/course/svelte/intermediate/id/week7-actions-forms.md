@@ -1,7 +1,5 @@
 # Actions & Forms
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 7:** Actions & Forms
-
 ## Tujuan Pembelajaran
 
 - Form actions: ?/create, ?/delete

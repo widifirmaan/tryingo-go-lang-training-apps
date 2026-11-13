@@ -1,7 +1,5 @@
 # useEffect & Lifecycle
 
-> **Kategori:** React | **Level:** Beginner | **Minggu 4:** useEffect & Lifecycle
-
 ## Why This Matters
 
 React is the most popular UI library in the world - used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.

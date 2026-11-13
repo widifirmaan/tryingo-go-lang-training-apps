@@ -1,7 +1,5 @@
 # Sistem Spasi, Ukuran, dan Box Model
 
-> **Kategori:** Tailwind CSS | **Level:** Pemula | **Seri:** Dasar Utility-First & Tipografi | **Minggu 2:** Sistem Spasi, Ukuran, dan Box Model
-
 ## Kenapa Materi Ini Penting
 
 Tailwind mengubah styling menjadi utility class yang konsisten - desain yang dahulu membutuhkan seratus baris CSS kini cukup beberapa kata. Begitu terbiasa, Anda mendesain UI kompleks rapi dan konsisten tanpa keluar dari JSX/pug-nya.

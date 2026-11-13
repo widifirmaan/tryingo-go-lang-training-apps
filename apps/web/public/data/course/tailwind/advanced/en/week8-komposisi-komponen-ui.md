@@ -1,7 +1,5 @@
 # UI Component Composition: Cards, Buttons, Forms, Modals
 
-> **Kategori:** Tailwind CSS | **Level:** Advanced | **Seri:** Components & Interface Project | **Minggu 8:** UI Component Composition: Cards, Buttons, Forms, Modals
-
 ## Learning Objectives
 
 - Compose structured modal components (header, form body, action footer)

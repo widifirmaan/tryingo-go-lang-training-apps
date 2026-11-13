@@ -1,7 +1,5 @@
 # Pointer, Memory & Package
 
-> **Kategori:** Go | **Level:** Menengah | **Minggu 7:** Pointer, Memory & Package
-
 ## Tujuan Pembelajaran
 
 - Memahami operator & (address-of) dan * (dereference)

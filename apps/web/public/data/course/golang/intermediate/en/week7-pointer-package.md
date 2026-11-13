@@ -1,7 +1,5 @@
 # Pointers, Memory & Packages
 
-> **Kategori:** Go | **Level:** Intermediate | **Minggu 7:** Pointers, Memory & Packages
-
 ## Learning Objectives
 
 - Understand & (address-of) and * (dereference) operators

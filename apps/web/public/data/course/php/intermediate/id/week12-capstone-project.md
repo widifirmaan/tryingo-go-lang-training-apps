@@ -1,7 +1,5 @@
 # Capstone: Aplikasi Blog
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 12:** Capstone: Aplikasi Blog
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: OOP, PDO, Composer, Testing

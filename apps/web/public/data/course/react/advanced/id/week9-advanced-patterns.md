@@ -1,7 +1,5 @@
 # Advanced Patterns
 
-> **Kategori:** React | **Level:** Lanjutan | **Minggu 9:** Advanced Patterns
-
 ## Tujuan Pembelajaran
 
 - Higher-Order Component (HOC): function yang menerima component

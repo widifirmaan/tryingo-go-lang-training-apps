@@ -1,7 +1,5 @@
 # Enums & Pattern Matching
 
-> **Kategori:** Rust | **Level:** Beginner | **Minggu 4:** Enums & Pattern Matching
-
 ## Why This Matters
 
 Rust guarantees memory safety without a garbage collector - used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.

@@ -1,7 +1,5 @@
 # Spring Security
 
-> **Kategori:** Spring Boot | **Level:** Intermediate | **Minggu 6:** Spring Security
-
 ## Learning Objectives
 
 - Spring Security: authentication and authorization

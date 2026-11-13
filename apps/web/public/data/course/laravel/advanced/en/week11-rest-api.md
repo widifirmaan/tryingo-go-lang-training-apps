@@ -1,7 +1,5 @@
 # REST API Development
 
-> **Kategori:** Laravel | **Level:** Advanced | **Minggu 11:** REST API Development
-
 ## Learning Objectives
 
 - API routes: routes/api.php and apiResource

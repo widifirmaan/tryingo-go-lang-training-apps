@@ -1,7 +1,5 @@
 # Performance Optimization
 
-> **Kategori:** React | **Level:** Advanced | **Minggu 11:** Performance Optimization
-
 ## Learning Objectives
 
 - React.memo: skip re-render if props unchanged

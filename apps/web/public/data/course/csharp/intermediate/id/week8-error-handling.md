@@ -1,7 +1,5 @@
 # Error Handling
 
-> **Kategori:** C# | **Level:** Menengah | **Minggu 8:** Error Handling
-
 ## Tujuan Pembelajaran
 
 - try-catch-finally untuk handle exception

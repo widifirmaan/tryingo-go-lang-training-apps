@@ -1,7 +1,5 @@
 # JSX & Basic Components
 
-> **Kategori:** React | **Level:** Beginner | **Minggu 1:** JSX & Basic Components
-
 ## Why This Matters
 
 React is the most popular UI library in the world - used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.

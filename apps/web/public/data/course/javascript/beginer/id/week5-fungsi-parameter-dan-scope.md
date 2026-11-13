@@ -1,8 +1,5 @@
 # Fungsi, Parameter, dan Scope
 
-> **Kategori:** JavaScript | **Level:** Pemula | **Seri:** Dasar JavaScript & Logika | **Minggu 5:** Fungsi, Parameter, dan Scope
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Kenapa Materi Ini Penting
 
 JavaScript adalah satu-satunya bahasa yang berjalan di semua browser - sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.

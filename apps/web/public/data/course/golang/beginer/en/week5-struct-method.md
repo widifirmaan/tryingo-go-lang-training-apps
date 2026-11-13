@@ -1,7 +1,5 @@
 # Structs & Methods
 
-> **Kategori:** Go | **Level:** Beginner | **Minggu 5:** Structs & Methods
-
 ## Why This Matters
 
 Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.

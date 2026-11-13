@@ -1,7 +1,5 @@
 # Concurrency
 
-> **Kategori:** Rust | **Level:** Lanjutan | **Minggu 12:** Concurrency
-
 ## Tujuan Pembelajaran
 
 - thread::spawn untuk membuat thread baru

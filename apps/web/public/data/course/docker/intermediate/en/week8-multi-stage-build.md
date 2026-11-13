@@ -1,7 +1,5 @@
 # Multi-Stage Builds
 
-> **Kategori:** Docker | **Level:** Intermediate | **Minggu 8:** Multi-Stage Builds
-
 ## Learning Objectives
 
 - Multi-stage builds: multiple FROM in one Dockerfile

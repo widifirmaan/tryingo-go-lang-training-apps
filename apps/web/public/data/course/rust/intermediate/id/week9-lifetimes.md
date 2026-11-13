@@ -1,7 +1,5 @@
 # Lifetimes
 
-> **Kategori:** Rust | **Level:** Menengah | **Minggu 9:** Lifetimes
-
 ## Tujuan Pembelajaran
 
 - Lifetime annotation: 'a untuk menandai umur reference

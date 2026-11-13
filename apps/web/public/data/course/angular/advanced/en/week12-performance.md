@@ -1,7 +1,5 @@
 # Performance Optimization
 
-> **Kategori:** Angular | **Level:** Advanced | **Minggu 12:** Performance Optimization
-
 ## Learning Objectives
 
 - OnPush change detection strategy

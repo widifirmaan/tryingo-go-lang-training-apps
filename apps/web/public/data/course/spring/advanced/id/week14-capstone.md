@@ -1,7 +1,5 @@
 # Capstone: E-Commerce API
 
-> **Kategori:** Spring Boot | **Level:** Lanjutan | **Minggu 14:** Capstone: E-Commerce API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: Security, JPA, REST, Testing, Caching

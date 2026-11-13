@@ -1,7 +1,5 @@
 # Admin Panel
 
-> **Kategori:** Django | **Level:** Intermediate | **Minggu 7:** Admin Panel
-
 ## Learning Objectives
 
 - Register models to admin

@@ -1,7 +1,5 @@
 # Transitions & Animations
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 9:** Transitions & Animations
-
 ## Tujuan Pembelajaran
 
 - transition: directive untuk enter/leave

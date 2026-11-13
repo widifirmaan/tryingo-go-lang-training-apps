@@ -1,7 +1,5 @@
 # Database & ORM
 
-> **Kategori:** Node.js | **Level:** Menengah | **Minggu 8:** Database & ORM
-
 ## Tujuan Pembelajaran
 
 - CRUD operations: Create, Read, Update, Delete

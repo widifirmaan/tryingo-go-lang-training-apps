@@ -1,7 +1,5 @@
 # Capstone: Blog Application
 
-> **Kategori:** PHP | **Level:** Intermediate | **Minggu 12:** Capstone: Blog Application
-
 ## Learning Objectives
 
 - Combine all concepts: OOP, PDO, Composer, Testing

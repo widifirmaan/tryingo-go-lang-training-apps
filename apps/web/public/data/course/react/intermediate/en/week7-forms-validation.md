@@ -1,7 +1,5 @@
 # Forms & Validation
 
-> **Kategori:** React | **Level:** Intermediate | **Minggu 7:** Forms & Validation
-
 ## Learning Objectives
 
 - Controlled forms: each input has value + onChange

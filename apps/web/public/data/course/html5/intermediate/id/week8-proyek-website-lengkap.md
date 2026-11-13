@@ -1,8 +1,5 @@
 # Proyek Website Lengkap
 
-> **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 8:** Proyek Website Lengkap
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Menyatukan seluruh konsep HTML dari Minggu 1 hingga 7 ke dalam satu arsitektur website multi-halaman utuh

@@ -1,7 +1,5 @@
 # Advanced Types
 
-> **Kategori:** TypeScript | **Level:** Beginner | **Seri:** Types & Interfaces Foundation | **Minggu 2:** Advanced Types
-
 ## Why This Matters
 
 TypeScript is JavaScript with a type system - now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.

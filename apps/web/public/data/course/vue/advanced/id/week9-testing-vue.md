@@ -1,7 +1,5 @@
 # Testing Vue Components
 
-> **Kategori:** Vue | **Level:** Lanjutan | **Minggu 9:** Testing Vue Components
-
 ## Tujuan Pembelajaran
 
 - Vitest + Vue Test Utils setup

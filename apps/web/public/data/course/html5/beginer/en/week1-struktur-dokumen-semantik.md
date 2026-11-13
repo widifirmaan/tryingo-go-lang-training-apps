@@ -1,8 +1,5 @@
 # HTML Introduction and Document Structure
 
-> **Category:** HTML5 | **Level:** Beginner | **Seri:** HTML Basics | **Week 1:** HTML Introduction and Document Structure
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Why This Matters
 
 HTML is the skeleton of every page on the web - without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.

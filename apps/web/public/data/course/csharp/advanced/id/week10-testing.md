@@ -1,7 +1,5 @@
 # Testing
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 10:** Testing
-
 ## Tujuan Pembelajaran
 
 - Unit testing dengan xUnit/NUnit

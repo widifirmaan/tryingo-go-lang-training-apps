@@ -1,7 +1,5 @@
 # Performance & Nuxt
 
-> **Kategori:** Vue | **Level:** Advanced | **Minggu 10:** Performance & Nuxt
-
 ## Learning Objectives
 
 - defineAsyncComponent for lazy loading

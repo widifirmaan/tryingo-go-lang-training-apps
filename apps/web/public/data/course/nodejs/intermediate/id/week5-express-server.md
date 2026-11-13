@@ -1,7 +1,5 @@
 # Express.js & Web Server
 
-> **Kategori:** Node.js | **Level:** Menengah | **Minggu 5:** Express.js & Web Server
-
 ## Tujuan Pembelajaran
 
 - Express.js: setup, routes, dan listen di port

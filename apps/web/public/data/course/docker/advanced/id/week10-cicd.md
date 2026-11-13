@@ -1,7 +1,5 @@
 # CI/CD Pipeline
 
-> **Kategori:** Docker | **Level:** Lanjutan | **Minggu 10:** CI/CD Pipeline
-
 ## Tujuan Pembelajaran
 
 - GitHub Actions workflow untuk Docker CI/CD

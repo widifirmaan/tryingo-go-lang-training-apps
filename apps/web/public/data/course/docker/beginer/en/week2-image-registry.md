@@ -1,7 +1,5 @@
 # Images & Registries
 
-> **Kategori:** Docker | **Level:** Beginner | **Minggu 2:** Images & Registries
-
 ## Why This Matters
 
 Docker answers the classic "works on my machine" problem by packaging apps with their entire environment. It is the backbone of modern deployment - CI/CD, Kubernetes, clouds - everything starts here.

@@ -1,7 +1,5 @@
 # Container Management
 
-> **Kategori:** Docker | **Level:** Pemula | **Minggu 3:** Container Management
-
 ## Kenapa Materi Ini Penting
 
 Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern - CI/CD, Kubernetes, cloud - semuanya berangkat di sini.

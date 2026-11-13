@@ -1,7 +1,5 @@
 # Testing with pytest
 
-> **Kategori:** Django | **Level:** Advanced | **Minggu 9:** Testing with pytest
-
 ## Learning Objectives
 
 - TestCase: class for tests

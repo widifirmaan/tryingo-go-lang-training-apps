@@ -1,8 +1,5 @@
 # DOM Manipulation and Element Selection
 
-> **Category:** JavaScript | **Level:** Intermediate | **Seri:** Data Structures & DOM Interaction | **Week 8:** DOM Manipulation and Element Selection
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Understand the Document Object Model (DOM) as an in-memory node tree representing HTML

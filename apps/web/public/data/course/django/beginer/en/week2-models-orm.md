@@ -1,7 +1,5 @@
 # Models & ORM
 
-> **Kategori:** Django | **Level:** Beginner | **Minggu 2:** Models & ORM
-
 ## Why This Matters
 
 Django is used by Instagram, Spotify, and countless startups because it is "batteries included": admin panel, auth, ORM - all provided. Your time goes to features, not to wiring up tooling.

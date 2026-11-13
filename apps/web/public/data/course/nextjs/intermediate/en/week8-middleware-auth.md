@@ -1,7 +1,5 @@
 # Middleware & Basic Auth
 
-> **Kategori:** Next.js | **Level:** Intermediate | **Minggu 8:** Middleware & Basic Auth
-
 ## Learning Objectives
 
 - Middleware: runs before request, for auth/redirect

@@ -1,7 +1,5 @@
 # Performance & Security
 
-> **Kategori:** Node.js | **Level:** Lanjutan | **Minggu 10:** Performance & Security
-
 ## Tujuan Pembelajaran
 
 - Cluster mode untuk multi-core

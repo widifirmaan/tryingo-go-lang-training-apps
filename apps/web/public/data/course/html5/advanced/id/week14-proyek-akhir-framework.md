@@ -1,8 +1,5 @@
 # Proyek Akhir dengan Framework UI
 
-> **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 14:** Proyek Akhir dengan Framework UI
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Merancang ulang proyek website dari Minggu 8 menggunakan framework UI profesional (Bootstrap 5)

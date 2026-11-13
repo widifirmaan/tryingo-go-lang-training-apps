@@ -1,7 +1,5 @@
 # Admin Panel
 
-> **Kategori:** Django | **Level:** Menengah | **Minggu 7:** Admin Panel
-
 ## Tujuan Pembelajaran
 
 - Register model ke admin

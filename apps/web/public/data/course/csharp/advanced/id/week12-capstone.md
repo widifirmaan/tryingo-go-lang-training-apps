@@ -1,7 +1,5 @@
 # Capstone: Full Stack App
 
-> **Kategori:** C# | **Level:** Lanjutan | **Minggu 12:** Capstone: Full Stack App
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: OOP, LINQ, async, generics, error handling

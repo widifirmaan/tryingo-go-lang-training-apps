@@ -1,7 +1,5 @@
 # REST API Development
 
-> **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 11:** REST API Development
-
 ## Tujuan Pembelajaran
 
 - API routes: routes/api.php dan apiResource

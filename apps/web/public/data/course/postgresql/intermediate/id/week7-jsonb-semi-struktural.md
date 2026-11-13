@@ -1,7 +1,5 @@
 # JSONB & Semi-Structured Data
 
-> **Kategori:** PostgreSQL | **Level:** Menengah | **Minggu 7:** JSONB & Semi-Structured Data
-
 ## Tujuan Pembelajaran
 
 - Tipe JSONB

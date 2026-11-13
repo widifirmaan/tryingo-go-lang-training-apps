@@ -1,7 +1,5 @@
 # TypeScript Config
 
-> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 8:** TypeScript Config
-
 ## Tujuan Pembelajaran
 
 - tsconfig.json: compiler options utama

@@ -1,7 +1,5 @@
 # Caching & Performance
 
-> **Kategori:** Django | **Level:** Lanjutan | **Minggu 10:** Caching & Performance
-
 ## Tujuan Pembelajaran
 
 - Cache backends: LocMem, Redis

@@ -1,7 +1,5 @@
 # Concurrency
 
-> **Kategori:** Rust | **Level:** Advanced | **Minggu 12:** Concurrency
-
 ## Learning Objectives
 
 - thread::spawn to create new threads

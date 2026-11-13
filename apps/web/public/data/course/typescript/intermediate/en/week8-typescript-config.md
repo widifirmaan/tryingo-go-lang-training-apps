@@ -1,7 +1,5 @@
 # TypeScript Configuration
 
-> **Kategori:** TypeScript | **Level:** Intermediate | **Seri:** Generics & Advanced Concepts | **Minggu 8:** TypeScript Configuration
-
 ## Learning Objectives
 
 - tsconfig.json: main compiler options

@@ -1,7 +1,5 @@
 # Rails API Mode
 
-> **Kategori:** Ruby on Rails | **Level:** Menengah | **Minggu 8:** Rails API Mode
-
 ## Tujuan Pembelajaran
 
 - API mode: rails new --api untuk skip views

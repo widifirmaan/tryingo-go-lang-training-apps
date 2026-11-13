@@ -1,7 +1,5 @@
 # Capstone: Production Pipeline
 
-> **Kategori:** Docker | **Level:** Lanjutan | **Minggu 12:** Capstone: Production Pipeline
-
 ## Tujuan Pembelajaran
 
 - Full production pipeline: build → test → scan → deploy

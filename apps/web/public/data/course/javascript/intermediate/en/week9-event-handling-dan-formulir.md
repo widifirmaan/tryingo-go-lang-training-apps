@@ -1,8 +1,5 @@
 # Event Handling and Interactive Forms
 
-> **Category:** JavaScript | **Level:** Intermediate | **Seri:** Data Structures & DOM Interaction | **Week 9:** Event Handling and Interactive Forms
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Master event listeners using addEventListener()

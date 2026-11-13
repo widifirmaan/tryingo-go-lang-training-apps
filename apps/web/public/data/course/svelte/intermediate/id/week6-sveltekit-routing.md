@@ -1,7 +1,5 @@
 # SvelteKit Routing
 
-> **Kategori:** Svelte | **Level:** Menengah | **Minggu 6:** SvelteKit Routing
-
 ## Tujuan Pembelajaran
 
 - File-based routing: routes/folder

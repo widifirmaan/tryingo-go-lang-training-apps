@@ -1,7 +1,5 @@
 # Server Actions & Mutations
 
-> **Kategori:** Next.js | **Level:** Menengah | **Minggu 6:** Server Actions & Mutations
-
 ## Tujuan Pembelajaran
 
 - Server Actions: "use server" directive

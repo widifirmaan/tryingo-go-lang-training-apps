@@ -1,7 +1,5 @@
 # Modules & Dependency Injection
 
-> **Kategori:** NestJS | **Level:** Pemula | **Minggu 3:** Modules & Dependency Injection
-
 ## Kenapa Materi Ini Penting
 
 NestJS mengambil disipli arsitektur dari Angular/Spring dan membawanya ke Node: modul, dependency injection, decorator. Struktur ketatnya membuat aplikasi yang tumbuh besar tetap bisa dirawat oleh tim.

@@ -1,7 +1,5 @@
 # File I/O & Error Handling
 
-> **Kategori:** Python | **Level:** Intermediate | **Minggu 7:** File I/O & Error Handling
-
 ## Learning Objectives
 
 - Read/write files with open() and with statement

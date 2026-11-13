@@ -1,7 +1,5 @@
 # Deployment & Production
 
-> **Kategori:** Next.js | **Level:** Lanjutan | **Minggu 11:** Deployment & Production
-
 ## Tujuan Pembelajaran
 
 - Environment variables: .env.local, .env.production

@@ -1,7 +1,5 @@
 # Caching
 
-> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 11:** Caching
-
 ## Learning Objectives
 
 - @EnableCaching to enable Spring caching

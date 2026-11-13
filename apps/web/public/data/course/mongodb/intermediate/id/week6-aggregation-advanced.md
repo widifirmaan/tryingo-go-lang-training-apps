@@ -1,7 +1,5 @@
 # Aggregation Lanjutan
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 6:** Aggregation Lanjutan
-
 ## Tujuan Pembelajaran
 
 - $facet untuk multi-aggregation

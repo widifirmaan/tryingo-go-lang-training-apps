@@ -1,7 +1,5 @@
 # Context & Sinkronisasi
 
-> **Kategori:** Go | **Level:** Menengah | **Minggu 9:** Context & Sinkronisasi
-
 ## Tujuan Pembelajaran
 
 - context.Context untuk cancellation dan timeout

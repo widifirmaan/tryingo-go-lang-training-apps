@@ -1,7 +1,5 @@
 # Testing React
 
-> **Kategori:** React | **Level:** Lanjutan | **Minggu 10:** Testing React
-
 ## Tujuan Pembelajaran
 
 - React Testing Library: render, screen, fireEvent

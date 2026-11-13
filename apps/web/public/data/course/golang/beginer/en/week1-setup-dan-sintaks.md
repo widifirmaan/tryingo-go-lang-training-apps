@@ -1,7 +1,5 @@
 # Setup, Toolchain & Basic Syntax
 
-> **Kategori:** Go | **Level:** Beginner | **Minggu 1:** Setup, Toolchain & Basic Syntax
-
 ## Why This Matters
 
 Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.

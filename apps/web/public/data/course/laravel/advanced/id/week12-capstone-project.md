@@ -1,7 +1,5 @@
 # Capstone: E-Commerce API
 
-> **Kategori:** Laravel | **Level:** Lanjutan | **Minggu 12:** Capstone: E-Commerce API
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: auth, relationships, validation, queues, API

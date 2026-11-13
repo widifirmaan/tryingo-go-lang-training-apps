@@ -1,8 +1,5 @@
 # Display dan Positioning
 
-> **Kategori:** CSS3 | **Level:** Menengah | **Seri:** Tata Letak & Desain Responsif | **Minggu 6:** Display dan Positioning
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami 4 nilai display dasar: block, inline, inline-block, dan none

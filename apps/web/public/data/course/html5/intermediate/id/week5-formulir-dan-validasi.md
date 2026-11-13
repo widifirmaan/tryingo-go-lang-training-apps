@@ -1,8 +1,5 @@
 # Formulir dan Validasi Input
 
-> **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 5:** Formulir dan Validasi Input
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami anatomi formulir: <form action="..." method="..."> dan keterkaitan <label for="..."> dengan <input id="...">

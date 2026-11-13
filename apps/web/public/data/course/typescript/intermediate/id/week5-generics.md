@@ -1,7 +1,5 @@
 # Generics
 
-> **Kategori:** TypeScript | **Level:** Menengah | **Seri:** Generics & Konsep Lanjutan | **Minggu 5:** Generics
-
 ## Tujuan Pembelajaran
 
 - Generic functions: <T>(value: T): T

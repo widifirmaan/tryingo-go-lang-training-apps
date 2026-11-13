@@ -1,7 +1,5 @@
 # Testing Angular
 
-> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 11:** Testing Angular
-
 ## Tujuan Pembelajaran
 
 - Jasmine + Karma setup

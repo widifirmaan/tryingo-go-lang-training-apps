@@ -1,7 +1,5 @@
 # Services & Dependency Injection
 
-> **Kategori:** Angular | **Level:** Pemula | **Minggu 3:** Services & Dependency Injection
-
 ## Kenapa Materi Ini Penting
 
 Angular dipakai perusahaan besar untuk aplikasi internal skala enterprise - bank, asuransi, layanan kesehatan - karena strukturnya ketat dan mudah dipelihara puluhan developer. Mengutamakan arsitektur rapi sejak hari pertama berarti Anda terbiasa dengan cara kerja tim engineering sungguhan.

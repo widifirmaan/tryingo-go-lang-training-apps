@@ -1,8 +1,5 @@
 # Dialog, Details, dan Template
 
-> **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 7:** Dialog, Details, dan Template
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Membuat komponen akordeon buka-tutup (FAQ) native tanpa JavaScript menggunakan <details> dan <summary>

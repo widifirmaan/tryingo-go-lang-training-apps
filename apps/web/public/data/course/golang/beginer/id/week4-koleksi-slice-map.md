@@ -1,7 +1,5 @@
 # Koleksi: Slice, Map & String
 
-> **Kategori:** Go | **Level:** Pemula | **Minggu 4:** Koleksi: Slice, Map & String
-
 ## Kenapa Materi Ini Penting
 
 Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.

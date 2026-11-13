@@ -1,7 +1,5 @@
 # Transitions & Animations
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 9:** Transitions & Animations
-
 ## Learning Objectives
 
 - transition: for enter/leave

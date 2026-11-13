@@ -1,7 +1,5 @@
 # Capstone: REST API + CLI
 
-> **Kategori:** Go | **Level:** Lanjutan | **Minggu 13:** Capstone: REST API + CLI
-
 ## Tujuan Pembelajaran
 
 - Menggabungkan semua konsep: struct, interface, concurrency, HTTP

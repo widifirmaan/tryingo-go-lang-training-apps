@@ -1,7 +1,5 @@
 # Microservices
 
-> **Kategori:** NestJS | **Level:** Lanjutan | **Minggu 11:** Microservices
-
 ## Tujuan Pembelajaran
 
 - Microservices architecture di NestJS

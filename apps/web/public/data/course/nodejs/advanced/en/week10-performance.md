@@ -1,7 +1,5 @@
 # Performance & Security
 
-> **Kategori:** Node.js | **Level:** Advanced | **Minggu 10:** Performance & Security
-
 ## Learning Objectives
 
 - Cluster mode for multi-core

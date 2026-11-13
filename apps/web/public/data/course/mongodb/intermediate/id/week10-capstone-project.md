@@ -1,7 +1,5 @@
 # Capstone: E-Commerce MongoDB
 
-> **Kategori:** MongoDB | **Level:** Menengah | **Minggu 10:** Capstone: E-Commerce MongoDB
-
 ## Tujuan Pembelajaran
 
 - Schema validation

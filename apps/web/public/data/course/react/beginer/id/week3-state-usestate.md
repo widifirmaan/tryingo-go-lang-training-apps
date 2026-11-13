@@ -1,7 +1,5 @@
 # State & useState
 
-> **Kategori:** React | **Level:** Pemula | **Minggu 3:** State & useState
-
 ## Kenapa Materi Ini Penting
 
 React adalah library UI terpopuler di dunia - dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.

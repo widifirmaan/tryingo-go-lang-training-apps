@@ -1,7 +1,5 @@
 # Object-Oriented Programming
 
-> **Kategori:** PHP | **Level:** Beginner | **Minggu 5:** Object-Oriented Programming
-
 ## Why This Matters
 
 PHP runs roughly three quarters of the web - WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.

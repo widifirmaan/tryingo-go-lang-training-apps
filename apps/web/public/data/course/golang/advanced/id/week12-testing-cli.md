@@ -1,7 +1,5 @@
 # Testing & CLI Tools
 
-> **Kategori:** Go | **Level:** Lanjutan | **Minggu 12:** Testing & CLI Tools
-
 ## Tujuan Pembelajaran
 
 - testing package: func TestXxx(t *testing.T)

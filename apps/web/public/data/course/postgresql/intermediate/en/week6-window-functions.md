@@ -1,7 +1,5 @@
 # Window Functions
 
-> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 6:** Window Functions
-
 ## Learning Objectives
 
 - ROW_NUMBER, RANK, DENSE_RANK

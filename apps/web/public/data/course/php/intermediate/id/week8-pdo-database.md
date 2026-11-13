@@ -1,7 +1,5 @@
 # PDO & Database
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 8:** PDO & Database
-
 ## Tujuan Pembelajaran
 
 - PDO: PHP Data Object untuk akses database universal

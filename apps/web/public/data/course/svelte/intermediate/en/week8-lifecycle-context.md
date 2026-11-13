@@ -1,7 +1,5 @@
 # Lifecycle & Context
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 8:** Lifecycle & Context
-
 ## Learning Objectives
 
 - onMount: runs after mount

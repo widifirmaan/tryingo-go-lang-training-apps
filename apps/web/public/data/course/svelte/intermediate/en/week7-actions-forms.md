@@ -1,7 +1,5 @@
 # Actions & Forms
 
-> **Kategori:** Svelte | **Level:** Intermediate | **Minggu 7:** Actions & Forms
-
 ## Learning Objectives
 
 - Form actions: ?/create, ?/delete

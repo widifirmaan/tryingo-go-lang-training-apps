@@ -1,7 +1,5 @@
 # Data Types & Strings
 
-> **Kategori:** Redis | **Level:** Beginner | **Minggu 1:** Data Types & Strings
-
 ## Why This Matters
 
 Redis is blazing-fast in-memory storage - every large system uses it for cache, leaderboards, sessions, and rate limiting. One small "add a Redis cache" feature often saves more server cost than months of refactoring.

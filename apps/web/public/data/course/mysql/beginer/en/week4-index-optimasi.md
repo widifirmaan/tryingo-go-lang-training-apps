@@ -1,7 +1,5 @@
 # Indexes & Query Optimization
 
-> **Kategori:** MySQL | **Level:** Beginner | **Minggu 4:** Indexes & Query Optimization
-
 ## Why This Matters
 
 MySQL is the open source relational database behind millions of websites - from WordPress to fintech apps. The SQL you write here is the same language used to interview data at almost every company.

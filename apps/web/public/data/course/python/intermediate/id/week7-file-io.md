@@ -1,7 +1,5 @@
 # File I/O & Error Handling
 
-> **Kategori:** Python | **Level:** Menengah | **Minggu 7:** File I/O & Error Handling
-
 ## Tujuan Pembelajaran
 
 - Membaca/menulis file dengan open() dan with statement

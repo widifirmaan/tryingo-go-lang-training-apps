@@ -1,7 +1,5 @@
 # Testing TypeScript
 
-> **Kategori:** TypeScript | **Level:** Lanjutan | **Seri:** Arsitektur Type-Safe & Proyek Akhir | **Minggu 9:** Testing TypeScript
-
 ## Tujuan Pembelajaran
 
 - Type-safe test runner dan assertions

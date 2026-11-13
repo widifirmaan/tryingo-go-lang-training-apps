@@ -1,7 +1,5 @@
 # Decorators & Generators
 
-> **Kategori:** Python | **Level:** Intermediate | **Minggu 8:** Decorators & Generators
-
 ## Learning Objectives
 
 - Create decorators with @functools.wraps

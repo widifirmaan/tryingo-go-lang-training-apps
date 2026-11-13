@@ -1,7 +1,5 @@
 # Capstone: CLI + Library
 
-> **Kategori:** Rust | **Level:** Advanced | **Minggu 14:** Capstone: CLI + Library
-
 ## Learning Objectives
 
 - Combine all concepts: structs, enums, traits, generics, error handling

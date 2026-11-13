@@ -1,7 +1,5 @@
 # Utility Types
 
-> **Kategori:** TypeScript | **Level:** Intermediate | **Seri:** Generics & Advanced Concepts | **Minggu 7:** Utility Types
-
 ## Learning Objectives
 
 - Partial<T>, Required<T>, Readonly<T>

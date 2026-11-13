@@ -1,7 +1,5 @@
 # Caching Patterns
 
-> **Kategori:** Redis | **Level:** Menengah | **Minggu 9:** Caching Patterns
-
 ## Tujuan Pembelajaran
 
 - Cache-aside pattern

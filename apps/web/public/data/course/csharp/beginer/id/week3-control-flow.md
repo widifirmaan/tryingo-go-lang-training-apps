@@ -1,7 +1,5 @@
 # Control Flow
 
-> **Kategori:** C# | **Level:** Pemula | **Minggu 3:** Control Flow
-
 ## Kenapa Materi Ini Penting
 
 C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity - salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.

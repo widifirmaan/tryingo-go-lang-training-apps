@@ -1,7 +1,5 @@
 # Advanced Patterns
 
-> **Kategori:** Angular | **Level:** Lanjutan | **Minggu 13:** Advanced Patterns
-
 ## Tujuan Pembelajaran
 
 - Smart/Dumb component pattern

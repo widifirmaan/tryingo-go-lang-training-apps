@@ -1,7 +1,5 @@
 # REST API Development
 
-> **Kategori:** CodeIgniter 4 | **Level:** Intermediate | **Minggu 8:** REST API Development
-
 ## Learning Objectives
 
 - Resource routes: $routes->resource() for CRUD APIs

@@ -1,7 +1,5 @@
 # Database Relationships
 
-> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 6:** Database Relationships
-
 ## Learning Objectives
 
 - One to One: hasOne and belongsTo

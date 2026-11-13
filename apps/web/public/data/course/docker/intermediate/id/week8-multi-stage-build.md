@@ -1,7 +1,5 @@
 # Multi-Stage Build
 
-> **Kategori:** Docker | **Level:** Menengah | **Minggu 8:** Multi-Stage Build
-
 ## Tujuan Pembelajaran
 
 - Multi-stage build: multiple FROM dalam satu Dockerfile

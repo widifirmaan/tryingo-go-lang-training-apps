@@ -1,7 +1,5 @@
 # Testing dengan PHPUnit
 
-> **Kategori:** PHP | **Level:** Menengah | **Minggu 10:** Testing dengan PHPUnit
-
 ## Tujuan Pembelajaran
 
 - PHPUnit: framework testing untuk PHP

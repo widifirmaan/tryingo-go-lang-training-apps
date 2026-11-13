@@ -1,7 +1,5 @@
 # Testing with RSpec
 
-> **Kategori:** Ruby on Rails | **Level:** Intermediate | **Minggu 7:** Testing with RSpec
-
 ## Learning Objectives
 
 - RSpec: testing framework for Rails

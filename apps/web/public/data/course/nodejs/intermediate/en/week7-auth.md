@@ -1,7 +1,5 @@
 # Authentication & Authorization
 
-> **Kategori:** Node.js | **Level:** Intermediate | **Minggu 7:** Authentication & Authorization
-
 ## Learning Objectives
 
 - Password hashing with bcrypt (salt + hash)

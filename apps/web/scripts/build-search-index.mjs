@@ -43,14 +43,15 @@ function extractTitle(content, slug) {
   return titleMatch ? titleMatch[1].trim() : SLUG_NAME_MAP[slug] || slug;
 }
 
-function extractMeta(content) {
+function extractMeta(content, slug = '', level = '', title = '') {
   const category = content.match(/\*\*Kategori:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
-  const level = content.match(/\*\*Level:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
+  const lvl = content.match(/\*\*Level:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
   const week = content.match(/\*\*Minggu\s*\d+:\*\*\s*(.+?)(?:\s*\|\s*\*\*|\s*$)/im);
+  const defaultLevel = level === 'beginer' ? 'Pemula' : level === 'intermediate' ? 'Menengah' : 'Lanjutan';
   return {
-    category: category ? category[1].trim() : '',
-    level: level ? level[1].trim() : '',
-    week: week ? week[1].trim() : '',
+    category: category ? category[1].trim() : (SLUG_NAME_MAP[slug] || slug),
+    level: lvl ? lvl[1].trim() : defaultLevel,
+    week: week ? week[1].trim() : title,
   };
 }
 
@@ -111,7 +112,7 @@ async function buildIndex() {
           const filePath = join(langDir, file);
           const content = readFileSync(filePath, 'utf-8');
           const title = extractTitle(content, slug);
-          const meta = extractMeta(content);
+          const meta = extractMeta(content, slug, level, title);
           const plainText = stripMarkdown(content);
 
           const weekMatch = file.match(/week-?(\d+)/i);

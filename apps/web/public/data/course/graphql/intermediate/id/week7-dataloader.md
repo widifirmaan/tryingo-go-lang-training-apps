@@ -1,7 +1,5 @@
 # DataLoader & N+1 Problem
 
-> **Kategori:** GraphQL | **Level:** Menengah | **Minggu 7:** DataLoader & N+1 Problem
-
 ## Tujuan Pembelajaran
 
 - N+1 problem explained

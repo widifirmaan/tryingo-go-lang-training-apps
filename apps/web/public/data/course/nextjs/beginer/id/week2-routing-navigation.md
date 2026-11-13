@@ -1,7 +1,5 @@
 # Routing & Navigation
 
-> **Kategori:** Next.js | **Level:** Pemula | **Minggu 2:** Routing & Navigation
-
 ## Kenapa Materi Ini Penting
 
 Next.js adalah framework React untuk app skala produksi - routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa - keahlian yang paling sering disebut di lowongan frontend.

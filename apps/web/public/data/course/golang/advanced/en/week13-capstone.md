@@ -1,7 +1,5 @@
 # Capstone: REST API + CLI
 
-> **Kategori:** Go | **Level:** Advanced | **Minggu 13:** Capstone: REST API + CLI
-
 ## Learning Objectives
 
 - Combine all concepts: structs, interfaces, concurrency, HTTP

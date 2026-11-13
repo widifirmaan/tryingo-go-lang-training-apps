@@ -1,7 +1,5 @@
 # Orchestration
 
-> **Kategori:** Docker | **Level:** Advanced | **Minggu 11:** Orchestration
-
 ## Learning Objectives
 
 - Kubernetes concepts: Pods, Deployments, Services

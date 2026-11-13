@@ -1,7 +1,5 @@
 # Interface & Generics
 
-> **Kategori:** Go | **Level:** Menengah | **Minggu 6:** Interface & Generics
-
 ## Tujuan Pembelajaran
 
 - Interface implisit - struct implement tanpa kata kunci implements

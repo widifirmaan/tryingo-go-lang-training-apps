@@ -1,7 +1,5 @@
 # Macros
 
-> **Kategori:** Rust | **Level:** Advanced | **Minggu 13:** Macros
-
 ## Learning Objectives
 
 - macro_rules! for declarative macros

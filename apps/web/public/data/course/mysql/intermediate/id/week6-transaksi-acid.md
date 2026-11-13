@@ -1,7 +1,5 @@
 # Transaksi & ACID
 
-> **Kategori:** MySQL | **Level:** Menengah | **Minggu 6:** Transaksi & ACID
-
 ## Tujuan Pembelajaran
 
 - START TRANSACTION, COMMIT, ROLLBACK

@@ -1,7 +1,5 @@
 # Performance & Tuning
 
-> **Kategori:** PostgreSQL | **Level:** Intermediate | **Minggu 8:** Performance & Tuning
-
 ## Learning Objectives
 
 - EXPLAIN with BUFFERS

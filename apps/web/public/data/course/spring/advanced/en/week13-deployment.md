@@ -1,7 +1,5 @@
 # Deployment
 
-> **Kategori:** Spring Boot | **Level:** Advanced | **Minggu 13:** Deployment
-
 ## Learning Objectives
 
 - Dockerfile to containerize Spring Boot apps

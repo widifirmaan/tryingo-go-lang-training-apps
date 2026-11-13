@@ -1,8 +1,5 @@
 # Objects, Destructuring, and JSON
 
-> **Category:** JavaScript | **Level:** Intermediate | **Seri:** Data Structures & DOM Interaction | **Week 7:** Objects, Destructuring, and JSON
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Master Object Literals (key-value pairs) and dot vs bracket access notation

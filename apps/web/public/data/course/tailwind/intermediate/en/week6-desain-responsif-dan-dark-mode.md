@@ -1,7 +1,5 @@
 # Responsive Design & Dark Mode Architecture
 
-> **Kategori:** Tailwind CSS | **Level:** Intermediate | **Seri:** Layout & Responsiveness | **Minggu 6:** Responsive Design & Dark Mode Architecture
-
 ## Learning Objectives
 
 - Understand mobile-first design philosophy (unprefixed styles target mobile viewports)

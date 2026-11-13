@@ -1,7 +1,5 @@
 # Volume & Data Persistence
 
-> **Kategori:** Docker | **Level:** Menengah | **Minggu 5:** Volume & Data Persistence
-
 ## Tujuan Pembelajaran
 
 - Volume types: named volume, bind mount, tmpfs

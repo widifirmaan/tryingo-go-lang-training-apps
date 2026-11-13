@@ -1,7 +1,5 @@
 # Deployment & DevOps
 
-> **Kategori:** Ruby on Rails | **Level:** Advanced | **Minggu 11:** Deployment & DevOps
-
 ## Learning Objectives
 
 - Production checklist: env vars, database, assets

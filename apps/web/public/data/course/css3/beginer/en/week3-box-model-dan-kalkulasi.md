@@ -1,8 +1,5 @@
 # Box Model and Element Calculation
 
-> **Category:** CSS3 | **Level:** Beginner | **Seri:** CSS Basics & Box Model | **Week 3:** Box Model and Element Calculation
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Why This Matters
 
 CSS controls every pixel of the web you use daily - from button colors to dashboard layouts. The difference between a cheap-looking and a professional-looking website almost always lives in the CSS, not the framework.

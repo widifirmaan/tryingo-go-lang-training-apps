@@ -1,8 +1,5 @@
 # Transitions and Transforms
 
-> **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 11:** Transitions and Transforms
-> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
-
 ## Learning Objectives
 
 - Master 4 transition sub-properties: property, duration, timing-function, delay

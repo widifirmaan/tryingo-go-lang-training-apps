@@ -1,7 +1,5 @@
 # Capstone: Real-time Analytics
 
-> **Kategori:** Redis | **Level:** Intermediate | **Minggu 10:** Capstone: Real-time Analytics
-
 ## Learning Objectives
 
 - HyperLogLog for unique counts

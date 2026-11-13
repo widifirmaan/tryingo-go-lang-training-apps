@@ -1,7 +1,5 @@
 # Security & User Management
 
-> **Kategori:** MySQL | **Level:** Intermediate | **Minggu 9:** Security & User Management
-
 ## Learning Objectives
 
 - CREATE USER and GRANT

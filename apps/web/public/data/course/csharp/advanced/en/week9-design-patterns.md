@@ -1,7 +1,5 @@
 # Design Patterns
 
-> **Kategori:** C# | **Level:** Advanced | **Minggu 9:** Design Patterns
-
 ## Learning Objectives
 
 - Strategy Pattern: interchangeable family of algorithms

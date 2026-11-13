@@ -1,7 +1,5 @@
 # Middleware & Auth Dasar
 
-> **Kategori:** Next.js | **Level:** Menengah | **Minggu 8:** Middleware & Auth Dasar
-
 ## Tujuan Pembelajaran
 
 - Middleware: jalan sebelum request, untuk auth/redirect

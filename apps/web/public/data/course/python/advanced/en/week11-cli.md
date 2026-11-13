@@ -1,7 +1,5 @@
 # CLI & Automation
 
-> **Kategori:** Python | **Level:** Advanced | **Minggu 11:** CLI & Automation
-
 ## Learning Objectives
 
 - argparse: ArgumentParser, add_argument, subparsers

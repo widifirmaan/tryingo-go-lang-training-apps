@@ -1,7 +1,5 @@
 # Libraries & Virtual Environments
 
-> **Kategori:** Python | **Level:** Advanced | **Minggu 9:** Libraries & Virtual Environments
-
 ## Learning Objectives
 
 - Create and manage virtual environments (venv)

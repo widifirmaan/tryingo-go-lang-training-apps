@@ -1,7 +1,5 @@
 # Docker Compose
 
-> **Kategori:** Docker | **Level:** Menengah | **Minggu 7:** Docker Compose
-
 ## Tujuan Pembelajaran
 
 - docker-compose.yml: services, volumes, networks

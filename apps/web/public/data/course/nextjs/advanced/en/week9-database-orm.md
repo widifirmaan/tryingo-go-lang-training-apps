@@ -1,7 +1,5 @@
 # Database & ORM
 
-> **Kategori:** Next.js | **Level:** Advanced | **Minggu 9:** Database & ORM
-
 ## Learning Objectives
 
 - Setup Prisma with Next.js

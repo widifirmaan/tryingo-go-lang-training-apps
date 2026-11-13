@@ -1,7 +1,5 @@
 # Capstone: Full-Stack API
 
-> **Kategori:** Node.js | **Level:** Advanced | **Minggu 12:** Capstone: Full-Stack API
-
 ## Learning Objectives
 
 - Combine all concepts: Express, JWT, Database, Testing

@@ -1,7 +1,5 @@
 # Authentication & Authorization
 
-> **Kategori:** Laravel | **Level:** Intermediate | **Minggu 5:** Authentication & Authorization
-
 ## Learning Objectives
 
 - Laravel Breeze: lightweight auth scaffolding

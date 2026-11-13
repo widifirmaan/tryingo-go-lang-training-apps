@@ -1,7 +1,5 @@
 # CRUD & Query Lanjutan
 
-> **Kategori:** MySQL | **Level:** Pemula | **Minggu 2:** CRUD & Query Lanjutan
-
 ## Kenapa Materi Ini Penting
 
 MySQL adalah database relasional open source yang dijalankan oleh jutaan website - WordPress sampai aplikasi fintech. SQL yang Anda tulis di sini adalah bahasa yang sama dipakai untuk mewawancarai data di hampir semua perusahaan.

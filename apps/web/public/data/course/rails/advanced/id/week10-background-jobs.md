@@ -1,7 +1,5 @@
 # Background Jobs & Sidekiq
 
-> **Kategori:** Ruby on Rails | **Level:** Lanjutan | **Minggu 10:** Background Jobs & Sidekiq
-
 ## Tujuan Pembelajaran
 
 - Active Job: framework-agnostic job interface

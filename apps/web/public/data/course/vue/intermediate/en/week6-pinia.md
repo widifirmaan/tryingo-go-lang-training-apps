@@ -1,7 +1,5 @@
 # Pinia State Management
 
-> **Kategori:** Vue | **Level:** Intermediate | **Minggu 6:** Pinia State Management
-
 ## Learning Objectives
 
 - defineStore: setup function or options style

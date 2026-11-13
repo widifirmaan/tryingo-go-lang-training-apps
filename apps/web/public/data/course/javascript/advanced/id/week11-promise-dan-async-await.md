@@ -1,8 +1,5 @@
 # Promise dan Async/Await
 
-> **Kategori:** JavaScript | **Level:** Lanjutan | **Seri:** Asinkron, Storage & Proyek Akhir | **Minggu 11:** Promise dan Async/Await
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami anatomi objek Promise: 3 status (pending, fulfilled, rejected)

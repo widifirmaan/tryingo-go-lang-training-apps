@@ -1,7 +1,5 @@
 # Capstone: Python Application
 
-> **Kategori:** Python | **Level:** Advanced | **Minggu 12:** Capstone: Python Application
-
 ## Learning Objectives
 
 - Combine all concepts: OOP, file I/O, error handling, testing

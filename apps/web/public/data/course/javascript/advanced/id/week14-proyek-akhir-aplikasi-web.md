@@ -1,8 +1,5 @@
 # Proyek Akhir: Aplikasi Web Interaktif Lengkap
 
-> **Kategori:** JavaScript | **Level:** Lanjutan | **Seri:** Asinkron, Storage & Proyek Akhir | **Minggu 14:** Proyek Akhir: Aplikasi Web Interaktif Lengkap
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Mengintegrasikan seluruh kompetensi 14 minggu ke dalam 1 arsitektur aplikasi modular utuh

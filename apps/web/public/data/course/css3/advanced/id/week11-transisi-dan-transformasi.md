@@ -1,8 +1,5 @@
 # Transisi dan Transformasi
 
-> **Kategori:** CSS3 | **Level:** Lanjutan | **Seri:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 11:** Transisi dan Transformasi
-> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
-
 ## Tujuan Pembelajaran
 
 - Memahami 4 sub-properti transisi: property, duration, timing-function, dan delay

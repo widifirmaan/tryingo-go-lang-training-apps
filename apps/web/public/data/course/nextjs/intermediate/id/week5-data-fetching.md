@@ -1,7 +1,5 @@
 # Data Fetching
 
-> **Kategori:** Next.js | **Level:** Menengah | **Minggu 5:** Data Fetching
-
 ## Tujuan Pembelajaran
 
 - Fetch data langsung di Server Component

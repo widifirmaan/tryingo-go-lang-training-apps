@@ -1,7 +1,5 @@
 # File Storage & Upload
 
-> **Kategori:** Laravel | **Level:** Menengah | **Minggu 8:** File Storage & Upload
-
 ## Tujuan Pembelajaran
 
 - Storage Facade: local, public, S3 disks
