@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+Rust guarantees memory safety without a garbage collector - used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
 
-Week 2 — themed **"Ownership & Borrowing"** — centers on the practice program *"Memory Management"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Memory Management"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -87,7 +87,7 @@ Prevented at compile time.
 
 ## Experiments
 
-- Try println! s1 after move — observe error
+- Try println! s1 after move - observe error
 - Create function that returns ownership
 - Experiment with multiple mutable borrows
 - Create struct with String field and test ownership

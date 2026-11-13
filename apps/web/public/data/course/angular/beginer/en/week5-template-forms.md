@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Angular powers large internal enterprise applications — banks, insurance, healthcare — because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
+Angular powers large internal enterprise applications - banks, insurance, healthcare - because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
 
-Week 5 — themed **"Template-driven Forms"** — centers on the practice program *"Form Validation"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Form Validation"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

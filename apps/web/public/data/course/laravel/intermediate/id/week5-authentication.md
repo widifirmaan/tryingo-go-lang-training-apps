@@ -81,7 +81,7 @@ Scaffolding minimal: login, register, password reset. `php artisan breeze:instal
 `Auth::attempt()` cek credentials, `Auth::login()` manual login, `Auth::user()` current user.
 
 ### Middleware
-`Route::middleware(['auth'])` — redirect ke login jika belum auth.
+`Route::middleware(['auth'])` - redirect ke login jika belum auth.
 
 ### Gates & Policies
 Gate: closure-based authorization. Policy: class-based untuk model.

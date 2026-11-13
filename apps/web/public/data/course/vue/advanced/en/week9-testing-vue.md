@@ -62,11 +62,11 @@ it('cart total sums prices', () => {
 
 ### mount vs shallowMount
 
-mount() merender penuh (termasuk child); shallowMount men-stub child — pilih sesuai isolasi test.
+mount() merender penuh (termasuk child); shallowMount men-stub child - pilih sesuai isolasi test.
 
 ### trigger() selalu async
 
-await wrapper.find('button').trigger('click') — Vue flush update di microtask; tanpa await, assertion melihat DOM lama.
+await wrapper.find('button').trigger('click') - Vue flush update di microtask; tanpa await, assertion melihat DOM lama.
 
 ### Mocking API
 

@@ -1,7 +1,7 @@
 # Arrays and Data Manipulation Methods
 
 > **Category:** JavaScript | **Level:** Intermediate | **Seri:** Data Structures & DOM Interaction | **Week 6:** Arrays and Data Manipulation Methods
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 

@@ -171,4 +171,4 @@ Buat aplikasi capstone lengkap: Web API + Service + Repository + Testing. Pilih 
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Full Stack App** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai C# dari nol hingga production-ready.
+Minggu 12 dari 12: **Capstone: Full Stack App** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum C#.

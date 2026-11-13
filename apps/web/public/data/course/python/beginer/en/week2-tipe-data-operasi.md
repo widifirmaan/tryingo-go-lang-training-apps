@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Python is the friendliest first language yet reaches into AI/data science, automation, and backends. It is the one language that appears in nearly every field — the most versatile learning investment.
+Python is the friendliest first language yet reaches into AI/data science, automation, and backends. It is the one language that appears in nearly every field - the most versatile learning investment.
 
-Week 2 — themed **"Data Types & Operations"** — centers on the practice program *"Data Calculator"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Data Calculator"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -89,7 +89,7 @@ Logical operators and chained comparisons.
 ## Experiments
 
 - Calculate BMI with arithmetic operators
-- Reverse string with slicing — check palindrome
+- Reverse string with slicing - check palindrome
 - Try all string methods on long text
 - Build truth table for and/or/not
 - Experiment with comparison chains

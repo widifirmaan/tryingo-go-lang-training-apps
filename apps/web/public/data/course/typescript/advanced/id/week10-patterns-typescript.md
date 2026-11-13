@@ -130,7 +130,7 @@ Private constructor mencegah instantiation dari luar. Static getInstance().
 Function overloads memberikan type safety berdasarkan parameter type.
 
 ### Type-Safe Observer
-`EventEmitter<T extends Record>` — event types didefinisi di generic. emit() hanya terima valid events.
+`EventEmitter<T extends Record>` - event types didefinisi di generic. emit() hanya terima valid events.
 
 ### Pattern Composition
 Interface + abstract class + concrete class = flexible patterns.

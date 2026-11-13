@@ -17,7 +17,7 @@
 Rute modern berbasis standalone component dengan functional guard.
 
 ```typescript
-// app.routes.ts — standalone API
+// app.routes.ts - standalone API
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [

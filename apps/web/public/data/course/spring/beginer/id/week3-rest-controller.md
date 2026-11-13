@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
 
-Di minggu ke-3 — bertajuk **"REST Controller"** — program latihan utamanya adalah *"CRUD API"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"CRUD API"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -84,12 +84,12 @@ public class ProductController {
 }
 
 // HTTP Status Codes:
-// 200 OK — sukses
-// 201 Created — resource baru dibuat
-// 204 No Content — sukses tanpa body
-// 404 Not Found — resource tidak ditemukan
-// 400 Bad Request — input tidak valid
-// 500 Internal Server Error — error server
+// 200 OK - sukses
+// 201 Created - resource baru dibuat
+// 204 No Content - sukses tanpa body
+// 404 Not Found - resource tidak ditemukan
+// 400 Bad Request - input tidak valid
+// 500 Internal Server Error - error server
 ```
 
 ---
@@ -106,10 +106,10 @@ Gabungan @Controller + @ResponseBody. Return JSON langsung.
 - @DeleteMapping: hapus data
 
 ### @PathVariable
-`@GetMapping("/{id}")` + `@PathVariable Long id` — ambil dari URL.
+`@GetMapping("/{id}")` + `@PathVariable Long id` - ambil dari URL.
 
 ### @RequestBody
-`@RequestBody Product product` — parse JSON body ke object.
+`@RequestBody Product product` - parse JSON body ke object.
 
 ### ResponseEntity
 Kontrol penuh: status code, headers, body.

@@ -84,7 +84,7 @@ Test logic without HTTP/database. Extend `TestCase`.
 Test full HTTP requests: `$this->get()`, `post()`. With `RefreshDatabase`.
 
 ### Acting As
-`$this->actingAs($user)` — authenticate user for tests.
+`$this->actingAs($user)` - authenticate user for tests.
 
 ### Assertions
 `assertStatus()`, `assertViewIs()`, `assertSee()`, `assertDatabaseHas()`.

@@ -1,7 +1,7 @@
 # DaisyUI: Komponen Utility
 
 > **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 12:** DaisyUI: Komponen Utility
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -58,7 +58,7 @@ Pilihan tema populer: `light`, `dark`, `cupcake`, `emerald`, `synthwave`, `fores
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portofolio DaisyUI — Alex Pratama</title>
+  <title>Portofolio DaisyUI - Alex Pratama</title>
   <!-- DaisyUI CSS & Tailwind CDN -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>

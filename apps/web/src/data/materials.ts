@@ -8,5 +8,5 @@ export interface WeekMaterial {
   summary: string;
 }
 
-// Generated materials — each generator creates its own week materials
+// Generated materials - each generator creates its own week materials
 export const BEGINNER_WEEK_1: Record<string, WeekMaterial> = {};

@@ -54,7 +54,7 @@ export class OrderDetailComponent {
 
 ### InjectionToken DI
 
-Token type-safe: provide(API_BASE, { useValue: env }) — override di tests.
+Token type-safe: provide(API_BASE, { useValue: env }) - override di tests.
 
 ### Resolver pre-render
 
@@ -62,7 +62,7 @@ resolve dijalankan sebelum route aktif; data hidup di route data, komponen tak p
 
 ### Layered concerns
 
-Guard memutus ijin, resolver menyiapkan data, interceptor memoles HTTP — tiga lapis.
+Guard memutus ijin, resolver menyiapkan data, interceptor memoles HTTP - tiga lapis.
 
 ### inject() fungsional
 

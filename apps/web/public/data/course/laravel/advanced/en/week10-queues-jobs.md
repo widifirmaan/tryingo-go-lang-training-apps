@@ -51,9 +51,9 @@ echo "php artisan queue:work<br>";
 echo "php artisan queue:work --queue=high,default --tries=3 --timeout=60<br><br>";
 
 echo "=== Failed Jobs ===<br>";
-echo "php artisan queue:failed — List failed jobs<br>";
-echo "php artisan queue:retry 1 — Retry job<br>";
-echo "php artisan queue:flush — Delete all failed<br><br>";
+echo "php artisan queue:failed - List failed jobs<br>";
+echo "php artisan queue:retry 1 - Retry job<br>";
+echo "php artisan queue:flush - Delete all failed<br><br>";
 
 echo "=== Batch Jobs ===<br>";
 echo "Bus::batch([<br>";
@@ -71,7 +71,7 @@ echo "})->dispatch();<br>";
 ## Key Concepts
 
 ### Job Class
-`implements ShouldQueue` — Laravel auto-queues. `handle()` executes.
+`implements ShouldQueue` - Laravel auto-queues. `handle()` executes.
 
 ### Dispatch
 `Job::dispatch()`, `->onQueue()`, `->delay()`.

@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+TypeScript is JavaScript with a type system - now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
 
-Week 4 — themed **"Interfaces & Type Aliases"** — centers on the practice program *"TypeScript Data Models"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"TypeScript Data Models"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -104,10 +104,10 @@ console.log("Interface: extends, declaration merge");
 Define object shapes. `interface User { name: string }`.
 
 ### Extends
-`interface Employee extends User` — add properties.
+`interface Employee extends User` - add properties.
 
 ### Type Aliases
-`type ID = string | number` — alias for any type.
+`type ID = string | number` - alias for any type.
 
 ### Interface vs Type
 Interface: extends, declaration merge. Type: union, intersection, conditional.
@@ -116,7 +116,7 @@ Interface: extends, declaration merge. Type: union, intersection, conditional.
 `readonly id` cannot be changed. `age?` optional.
 
 ### Index Signatures
-`{ [key: string]: type }` — object with dynamic keys.
+`{ [key: string]: type }` - object with dynamic keys.
 
 ---
 
@@ -132,7 +132,7 @@ Interface: extends, declaration merge. Type: union, intersection, conditional.
 
 ## Challenge
 
-Build a type system for e-commerce: User, Product, Order, Cart — with interfaces, types, and relationships.
+Build a type system for e-commerce: User, Product, Order, Cart - with interfaces, types, and relationships.
 
 ---
 

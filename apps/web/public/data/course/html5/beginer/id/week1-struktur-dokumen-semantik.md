@@ -1,13 +1,13 @@
 # Pengenalan HTML dan Struktur Dokumen
 
 > **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 1:** Pengenalan HTML dan Struktur Dokumen
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-HTML adalah kerangka setiap halaman web di dunia — tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
+HTML adalah kerangka setiap halaman web di dunia - tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
 
-Di minggu ke-1 — bertajuk **"Pengenalan HTML dan Struktur Dokumen"** — program latihan utamanya adalah *"Struktur Dasar Dokumen HTML Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Struktur Dasar Dokumen HTML Pertama"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -23,16 +23,16 @@ Di minggu ke-1 — bertajuk **"Pengenalan HTML dan Struktur Dokumen"** — progr
 
 ## Fondasi: Sebelum Menulis Kode
 
-Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama di semua bahasa — dibutuhkan sekali paham, dipakai selamanya.
+Panduan dasar berikut merangkum konsep pemrograman inti yang berlaku universal.
 
 - **File & folder = tempat program tinggal.** Program hanyalah teks biasa yang disimpan dalam file (contoh: `belajar.md`). File punya **ekstensi** yang menunjukkan bahasanya: `.md`, `.go`, `.py`, `.html`. Satu folder berisi semua file program disebut **project**.
 - **Terminal / command line.** Jendela hitam tempat kita mengetik perintah teks: `cd folder` (pindah folder), `ls` / `dir` (lihat isi folder), `go run main.go` (jalankan program). Program dijalankan dari folder tempat file-nya berada.
-- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan — cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung — cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
-- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis — error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan — lebih longgar, error baru muncul saat runtime.
-- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis — itulah cara komputer memberi tahu ada yang perlu diperbaiki.
-- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung — inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
+- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan - cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung - cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
+- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis - error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan - lebih longgar, error baru muncul saat runtime.
+- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis - itulah cara komputer memberi tahu ada yang perlu diperbaiki.
+- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung - inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
 
-> **Catatan penting:** playground di browser memiliki batasan — tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
+> **Catatan penting:** playground di browser memiliki batasan - tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
 
 ---
 
@@ -139,7 +139,7 @@ Anda dapat melihat kode sumber website apa pun di internet:
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
 
-> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
+> **Coba langsung di browser tanpa instalasi.** Semua blok kode dapat dijalankan langsung di Playground.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
@@ -179,7 +179,7 @@ Akses di browser atau terminal: `file:///my-website/index.html`
 </head>
 <body style="font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px;">
   <header>
-    <h1>🌐 Selamat Datang di Web Semantik</h1>
+    <h1>Selamat Datang di Web Semantik</h1>
   </header>
   <main>
     <article>

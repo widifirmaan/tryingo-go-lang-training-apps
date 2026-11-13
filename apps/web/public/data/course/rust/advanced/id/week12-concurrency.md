@@ -98,13 +98,13 @@ fn main() {
 ## Konsep Kunci
 
 ### Thread
-`thread::spawn(|| { ... })` — buat thread baru. `join()` untuk tunggu.
+`thread::spawn(|| { ... })` - buat thread baru. `join()` untuk tunggu.
 
 ### Move Closure
-`move ||` — transfer ownership variabel ke closure/thread.
+`move ||` - transfer ownership variabel ke closure/thread.
 
 ### Channel
-`mpsc::channel()` — multiple producer, single consumer. `send()` dan `recv()`.
+`mpsc::channel()` - multiple producer, single consumer. `send()` dan `recv()`.
 
 ### Arc<Mutex<T>>
 `Arc` untuk shared ownership, `Mutex` untuk mutual exclusion. `lock()` untuk akses.

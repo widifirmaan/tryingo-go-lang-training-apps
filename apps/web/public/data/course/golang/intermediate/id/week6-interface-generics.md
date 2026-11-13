@@ -4,7 +4,7 @@
 
 ## Tujuan Pembelajaran
 
-- Interface implisit — struct implement tanpa kata kunci implements
+- Interface implisit - struct implement tanpa kata kunci implements
 - Interface sebagai parameter polimorfik (Go Tour: Interfaces)
 - Type assertion x.(T) dan type switch untuk cek tipe konkret
 - Generics Go 1.18+: type parameters [T any], constraints
@@ -71,7 +71,7 @@ func main() {
 ## Konsep Kunci
 
 ### Interface Implisit
-Tidak perlu `implement` — struct otomatis memenuhi jika punya methodnya.
+Tidak perlu `implement` - struct otomatis memenuhi jika punya methodnya.
 
 ### Type Assertion & Switch
 `x.(T)` dan `switch v := x.(type)`.
@@ -83,7 +83,7 @@ Tidak perlu `implement` — struct otomatis memenuhi jika punya methodnya.
 
 ## Eksperimen
 
-- Buat interface Shape dengan method Area() — implement Circle, Rectangle
+- Buat interface Shape dengan method Area() - implement Circle, Rectangle
 - Coba type assertion dengan ok idiom: v, ok := x.(T)
 - Buat generic function Min[T constraints.Ordered]
 - Buat generic Map function: Map[T, U]([]T, func(T) U) []U
@@ -98,4 +98,4 @@ Buat sistem pembayaran: interface PaymentMethod (ProcessPayment), implement Cred
 
 ## Ringkasan
 
-Minggu 6 dari 13: **Interface & Generics** (Level: Menengah). Go bukan OOP klasik — ini kekuatan utamanya. Minggu depan: **Pointer, Memory & Package**.
+Minggu 6 dari 13: **Interface & Generics** (Level: Menengah). Go bukan OOP klasik - ini kekuatan utamanya. Minggu depan: **Pointer, Memory & Package**.

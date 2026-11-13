@@ -6,7 +6,7 @@
 
 NestJS mengambil disipli arsitektur dari Angular/Spring dan membawanya ke Node: modul, dependency injection, decorator. Struktur ketatnya membuat aplikasi yang tumbuh besar tetap bisa dirawat oleh tim.
 
-Di minggu ke-4 — bertajuk **"Database & TypeORM"** — program latihan utamanya adalah *"Entity & Repository"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Entity & Repository"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

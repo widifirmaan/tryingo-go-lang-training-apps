@@ -182,7 +182,7 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({
     };
   }, [isTypeScript]);
 
-  // Sync when initialCode changes (week/level switch) — skip first mount
+  // Sync when initialCode changes (week/level switch) - skip first mount
   const prevInitialCode = useRef(initialCode);
   const [editorKey, setEditorKey] = useState(0);
   const runIdRef = useRef(0);
@@ -613,12 +613,12 @@ func main() {
           <div className="flex items-center gap-2">
             <span className="text-[10px] sm:text-xs text-zinc-400 font-medium ml-2 hidden sm:inline">
               {isWebLanguage
-                ? (isId ? '🌐 Bahasa Web — Hasil langsung di preview' : '🌐 Web Language — Live preview')
+                ? (isId ? '🌐 Bahasa Web - Hasil langsung di preview' : '🌐 Web Language - Live preview')
                 : isGoLanguage
-                  ? (isId ? '🐹 Go WASM (TinyGo) — Pre-compiled, instan' : '🐹 Go WASM (TinyGo) — Pre-compiled, instant')
+                  ? (isId ? '🐹 Go WASM (TinyGo) - Pre-compiled, instan' : '🐹 Go WASM (TinyGo) - Pre-compiled, instant')
                 : isRustLanguage
-                  ? (isId ? '🦀 Rust — Eksekusi via Rust Playground API' : '🦀 Rust — Execute via Rust Playground API')
-                  : (isId ? '⚙️ Bahasa Lain — Tidak dieksekusi di browser' : '⚙️ Other Language — Not executed in browser')
+                  ? (isId ? '🦀 Rust - Eksekusi via Rust Playground API' : '🦀 Rust - Execute via Rust Playground API')
+                  : (isId ? '⚙️ Bahasa Lain - Tidak dieksekusi di browser' : '⚙️ Other Language - Not executed in browser')
               }
             </span>
           </div>

@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+TypeScript is JavaScript with a type system - now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
 
-Week 2 — themed **"Advanced Types"** — centers on the practice program *"Union, Intersection & Literal Types"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Union, Intersection & Literal Types"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -97,13 +97,13 @@ if (isString(test)) {
 ## Key Concepts
 
 ### Union Types
-`string | number` — can be either. Narrow with typeof.
+`string | number` - can be either. Narrow with typeof.
 
 ### Literal Types
-`"north" | "south"` — only specific values are valid.
+`"north" | "south"` - only specific values are valid.
 
 ### Intersection
-`TypeA & TypeB` — combine all properties from both types.
+`TypeA & TypeB` - combine all properties from both types.
 
 ### Type Narrowing
 TypeScript auto-infers type based on conditions (typeof, in, instanceof).
@@ -112,7 +112,7 @@ TypeScript auto-infers type based on conditions (typeof, in, instanceof).
 Each variant has a discriminator (kind). TypeScript knows available properties.
 
 ### Type Guards
-`value is string` — function returning boolean that narrows type.
+`value is string` - function returning boolean that narrows type.
 
 ---
 

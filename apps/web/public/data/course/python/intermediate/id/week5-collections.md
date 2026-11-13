@@ -4,10 +4,10 @@
 
 ## Tujuan Pembelajaran
 
-- List: mutable, ordered — append, insert, pop, sort, slice
-- Tuple: immutable, hashable — unpacking dan namedtuple
-- Dictionary: key-value pairs — get, keys, values, items
-- Set: unique elements — union, intersection, difference
+- List: mutable, ordered - append, insert, pop, sort, slice
+- Tuple: immutable, hashable - unpacking dan namedtuple
+- Dictionary: key-value pairs - get, keys, values, items
+- Set: unique elements - union, intersection, difference
 - collections module: Counter, defaultdict, namedtuple, deque
 
 ---

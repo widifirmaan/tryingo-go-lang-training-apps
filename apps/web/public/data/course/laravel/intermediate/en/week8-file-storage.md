@@ -46,7 +46,7 @@ $files = [
 foreach ($files as $file) {
     $status = $file['valid'] ? "OK" : "REJECTED";
     $sizeKB = round($file['size'] / 1024);
-    echo "{$file['name']} ({$sizeKB}KB, {$file['type']}) — $status<br>";
+    echo "{$file['name']} ({$sizeKB}KB, {$file['type']}) - $status<br>";
 }
 
 echo "<br>=== Storage Operations ===<br>";

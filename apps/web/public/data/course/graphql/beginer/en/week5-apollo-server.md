@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query — used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
+GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query - used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
 
-Week 5 — themed **"Apollo Server & Client"** — centers on the practice program *"Setup GraphQL Server"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Setup GraphQL Server"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -104,7 +104,7 @@ function ProductList() {
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 5 — Query pertama terhadap Apollo Server yang aktif
+# Week 5 - Query pertama terhadap Apollo Server yang aktif
 query ServerBoot {
   engineering: employeesByDepartment(department: "Engineering") {
     name

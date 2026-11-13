@@ -153,4 +153,4 @@ Build a complete capstone application: choose domain (URL Shortener, Task Manage
 
 ## Summary
 
-Week 12 of 12: **Capstone: Python Application** (Level: Advanced). Complete! 🎉 You've mastered Python from scratch to production-ready.
+Week 12 of 12: **Capstone: Python Application** (Level: Advanced). Complete! You have finished the entire Python curriculum.

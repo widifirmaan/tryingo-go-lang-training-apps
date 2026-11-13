@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Docker answers the classic "works on my machine" problem by packaging apps with their entire environment. It is the backbone of modern deployment — CI/CD, Kubernetes, clouds — everything starts here.
+Docker answers the classic "works on my machine" problem by packaging apps with their entire environment. It is the backbone of modern deployment - CI/CD, Kubernetes, clouds - everything starts here.
 
-Week 3 — themed **"Container Management"** — centers on the practice program *"Lifecycle & Exec"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Lifecycle & Exec"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -23,7 +23,7 @@ Week 3 — themed **"Container Management"** — centers on the practice program
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# CONTAINER MANAGEMENT — Lifecycle & Operations
+# CONTAINER MANAGEMENT - Lifecycle & Operations
 # ─────────────────────────────────────────────────────────
 
 # Run container dengan berbagai options

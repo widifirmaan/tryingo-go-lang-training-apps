@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Svelte compiles reactivity at build time — no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
+Svelte compiles reactivity at build time - no virtual DOM, tiny bundles, fast runtime. Its "write HTML, get reactivity" philosophy makes it arguably the most delightful framework to learn.
 
-Week 3 — themed **"Props & Components"** — centers on the practice program *"Product Components"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Product Components"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -26,7 +26,7 @@ The program writes a ProductCard component with props rendered over an {#each} l
 ```svelte
 <!-- ProductCard.svelte -->
 <script lang="ts">
-  let { name, price, emoji = '📦' } = $props();
+  let { name, price, category = 'General' } = $props();
   let formatted = $derived(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price));
 </script>
 
@@ -40,9 +40,9 @@ The program writes a ProductCard component with props rendered over an {#each} l
 <script lang="ts">
   import ProductCard from './ProductCard.svelte';
   const products = [
-    { name: 'Laptop', price: 1500, emoji: '💻' },
+    { name: 'Laptop', price: 1500, category: 'Electronics' },
     { name: 'Mouse', price: 25 },
-    { name: 'Monitor', price: 450, emoji: '🖥️' },
+    { name: 'Monitor', price: 450, category: 'Peripherals' },
   ];
 </script>
 
@@ -57,7 +57,7 @@ The program writes a ProductCard component with props rendered over an {#each} l
 
 ### Rune $props
 
-let { name, price } = $props() mendestrukturisasi props; default value juga bisa (emoji='📦').
+let { name, price } = $props() mendestrukturisasi props; default value juga bisa (category='General').
 
 ### Keyed each
 
@@ -65,7 +65,7 @@ let { name, price } = $props() mendestrukturisasi props; default value juga bisa
 
 ### $derived
 
-Nilai ter-derive otomatis diperbarui ketika input berubah — tanpa watch/effect manual.
+Nilai ter-derive otomatis diperbarui ketika input berubah - tanpa watch/effect manual.
 
 ### Composition
 
@@ -76,7 +76,7 @@ Komponen kecil reusable = design system; tiap parent bisa memasang banyak instan
 ## Experiments
 
 - Add a `badge` prop shown when price > 1000.
-- Change the default emoji for Mouse to 🖱️.
+- Change the default category for Mouse to Accessories.
 - Add a "checkout" button per card and observe each card's state.
 
 ---

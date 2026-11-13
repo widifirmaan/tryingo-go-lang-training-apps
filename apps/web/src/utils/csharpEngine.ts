@@ -1,5 +1,5 @@
 // ============================================================================
-// csharpEngine.ts — Procedural C# interpreter for Tryngo.
+// csharpEngine.ts - Procedural C# interpreter for Tryngo.
 // Parses common C# patterns and executes them procedurally.
 // ============================================================================
 
@@ -92,7 +92,7 @@ function runProgram(code: string, output: string[]): string[] {
     // Using statements
     if (line.startsWith('using ')) { i++; continue; }
 
-    // Namespace declaration — skip to opening brace
+    // Namespace declaration - skip to opening brace
     if (line.startsWith('namespace ')) {
       i++;
       let depth = 0;
@@ -943,7 +943,7 @@ function evalWriteContent(
     return content.slice(1, -1);
   }
 
-  // Handle concatenation: "text" + var + "text" — but a pure numeric
+  // Handle concatenation: "text" + var + "text" - but a pure numeric
   // a + b (no string involved) is arithmetic, not concatenation.
   const concatParts = splitConcatenation(content);
   if (concatParts) {
@@ -1021,7 +1021,7 @@ function tryCompositeFormat(content: string, variables: Map<string, Variable>, m
     rest = rest.slice(c + 1).trim();
   }
   return fmt.replace(/\{(\d+)(:.*?)?\}/g, (m, idx) => {
-    if (m.includes(':')) return m; // format spec without args — leave as-is
+    if (m.includes(':')) return m; // format spec without args - leave as-is
     return formatValue(args[Number(idx)]);
   });
 }

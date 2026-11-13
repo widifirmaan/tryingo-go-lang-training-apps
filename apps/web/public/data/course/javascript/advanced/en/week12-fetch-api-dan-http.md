@@ -1,7 +1,7 @@
 # Fetch API and HTTP Requests
 
 > **Category:** JavaScript | **Level:** Advanced | **Seri:** Asynchronous, Storage & Final Project | **Week 12:** Fetch API and HTTP Requests
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 

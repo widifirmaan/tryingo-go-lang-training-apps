@@ -108,19 +108,19 @@ fn main() {
 ## Konsep Kunci
 
 ### Declarative Macro
-`macro_rules!` — pattern matching untuk generate kode.
+`macro_rules!` - pattern matching untuk generate kode.
 
 ### Fragment Specifier
 `$expr:expr` expression, `$ident:ident` identifier, `$ty:ty` type.
 
 ### Repetition
-`$(...),*` — ulangi pattern, dipisahkan koma.
+`$(...),*` - ulangi pattern, dipisahkan koma.
 
 ### Custom Derive
-`#[derive(Debug)]` — auto-generate trait implementation.
+`#[derive(Debug)]` - auto-generate trait implementation.
 
 ### Built-in Macro
-`format!`, `println!`, `vec!`, `include_str!` — macro standar Rust.
+`format!`, `println!`, `vec!`, `include_str!` - macro standar Rust.
 
 ---
 

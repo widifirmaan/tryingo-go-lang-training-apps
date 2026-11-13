@@ -203,12 +203,10 @@ export default function App() {
 
   // Dynamic SEO: Update document.title and meta descriptions dynamically based on active route
   useEffect(() => {
-    let title = lang === 'id' 
-      ? 'Tryngo — Platform Belajar Coding Interaktif dari Nol ke Profesional'
-      : 'Tryngo — Interactive Coding Education Platform from Zero to Professional';
+    let title = 'Tryngo - Code made easy, with playground coding and quiz.';
     let description = lang === 'id'
-      ? 'Kuasai 28 teknologi pemrograman, web development, sistem backend, database & devops dari nol hingga siap kerja dengan interactive code playground.'
-      : 'Master 28 programming languages, web frameworks, backend engines, databases & devops from zero to professional with an in-browser interactive code playground.';
+      ? 'Kuasai 28 teknologi pemrograman, web development, sistem backend, database & devops dengan interactive code playground dan kuis interaktif.'
+      : 'Master 28 programming languages, web frameworks, backend engines, databases & devops with in-browser interactive code playgrounds and quizzes.';
 
     if (activeCourseId) {
       const track = TRACKS_COLLECTION.find((t) => t.id === activeCourseId);
@@ -216,7 +214,7 @@ export default function App() {
         if (courseInitialWeek) {
           title = `${track.name} (${lang === 'id' ? `Minggu ${courseInitialWeek}` : `Week ${courseInitialWeek}`}) | Tryngo`;
         } else {
-          title = `${track.name} — ${lang === 'id' ? 'Belajar dari Nol ke Production' : 'Learn from Zero to Production'} | Tryngo`;
+          title = `${track.name} - ${lang === 'id' ? 'Kurikulum & Playground Interaktif' : 'Interactive Curriculum & Playground'} | Tryngo`;
         }
         description = lang === 'id'
           ? `Pelajari kurikulum ${track.name} interaktif dari konsep dasar, eksperimen playground, hingga proyek capstone skala produksi.`
@@ -256,7 +254,7 @@ export default function App() {
     setMeta('twitter:description', description);
   }, [activeCourseId, courseInitialWeek, quizTarget, quizTrackName, ideTarget, lang]);
 
-  // Hash routing — parse initial hash & listen for changes
+  // Hash routing - parse initial hash & listen for changes
   useEffect(() => {
     const parseHash = () => {
       const hash = window.location.hash.replace(/^#\/?/, '');
@@ -440,7 +438,7 @@ export default function App() {
       {/* Main Container */}
       <div className="w-full flex-1 flex flex-col h-full overflow-hidden">
         
-        {/* Single persistent layout container (FLIP layout animations removed — too expensive on low-end devices) */}
+        {/* Single persistent layout container (FLIP layout animations removed - too expensive on low-end devices) */}
         <div className="flex flex-col lg:flex-row landscape:flex-row gap-3 sm:gap-4 md:gap-5 h-full w-full items-stretch">
           
           {/* Left / Top: Hero Section Container - Resizes instantly */}

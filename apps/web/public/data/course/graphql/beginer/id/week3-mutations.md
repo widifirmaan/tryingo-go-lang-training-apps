@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel — dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
+GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel - dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
 
-Di minggu ke-3 — bertajuk **"Mutations"** — program latihan utamanya adalah *"Membuat Mutation"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Membuat Mutation"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

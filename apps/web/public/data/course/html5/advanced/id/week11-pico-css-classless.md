@@ -1,7 +1,7 @@
 # Pico CSS: Classless CSS
 
 > **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 11:** Pico CSS: Classless CSS
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -44,7 +44,7 @@ Di framework seperti Bootstrap atau Bulma, Anda harus menghafal puluhan nama cla
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dokumentasi Proyek — Pico CSS</title>
+  <title>Dokumentasi Proyek - Pico CSS</title>
   <!-- Pico CSS CDN (Classless CSS) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>

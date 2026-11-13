@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Svelte meng-comple reaktivitas saat build time — tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.
+Svelte meng-comple reaktivitas saat build time - tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.
 
-Di minggu ke-3 — bertajuk **"Props & Components"** — program latihan utamanya adalah *"Komponen Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Komponen Produk"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -26,7 +26,7 @@ Program menulis komponen ProductCard yang menerima props, memakai snippet {#each
 ```svelte
 <!-- ProductCard.svelte -->
 <script lang="ts">
-  let { name, price, emoji = '📦' } = $props();
+  let { name, price, category = 'General' } = $props();
   let formatted = $derived(new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(price));
 </script>
 
@@ -40,9 +40,9 @@ Program menulis komponen ProductCard yang menerima props, memakai snippet {#each
 <script lang="ts">
   import ProductCard from './ProductCard.svelte';
   const products = [
-    { name: 'Laptop', price: 15_000_000, emoji: '💻' },
+    { name: 'Laptop', price: 15_000_000, category: 'Electronics' },
     { name: 'Mouse', price: 250_000 },
-    { name: 'Monitor', price: 4_500_000, emoji: '🖥️' },
+    { name: 'Monitor', price: 4_500_000, category: 'Peripherals' },
   ];
 </script>
 
@@ -57,7 +57,7 @@ Program menulis komponen ProductCard yang menerima props, memakai snippet {#each
 
 ### Rune $props
 
-let { name, price } = $props() mendestrukturisasi props; default value juga bisa (emoji='📦').
+let { name, price } = $props() mendestrukturisasi props; default value juga bisa (category='General').
 
 ### Keyed each
 
@@ -65,7 +65,7 @@ let { name, price } = $props() mendestrukturisasi props; default value juga bisa
 
 ### $derived
 
-Nilai ter-derive otomatis diperbarui ketika input berubah — tanpa watch/effect manual.
+Nilai ter-derive otomatis diperbarui ketika input berubah - tanpa watch/effect manual.
 
 ### Composition
 
@@ -76,7 +76,7 @@ Komponen kecil reusable = design system; tiap parent bisa memasang banyak instan
 ## Eksperimen
 
 - Tambah prop `badge` yang tampil bila price > 10.000.000.
-- Ganti emoji default untuk Mouse jadi 🖱️.
+- Ganti kategori default untuk Mouse jadi Aksesoris.
 - Tambah tombol "checkout" pada kartu dan bandingkan reaksi tiap kartu.
 
 ---

@@ -153,4 +153,4 @@ Buat aplikasi capstone lengkap: pilih domain (URL Shortener, Task Manager, Blog)
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Python Application** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Python dari nol hingga production-ready.
+Minggu 12 dari 12: **Capstone: Python Application** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum Python.

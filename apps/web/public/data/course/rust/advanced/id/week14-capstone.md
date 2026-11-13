@@ -161,4 +161,4 @@ Buat aplikasi capstone lengkap: CLI + library + JSON storage + testing. Pilih do
 
 ## Ringkasan
 
-Minggu 14 dari 14: **Capstone: CLI + Library** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Rust dari nol hingga production-ready.
+Minggu 14 dari 14: **Capstone: CLI + Library** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum Rust.

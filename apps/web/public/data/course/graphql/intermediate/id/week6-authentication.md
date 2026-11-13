@@ -83,7 +83,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 6 — Operasi yang dilindungi auth context (& verifikasi manual)
+# Week 6 - Operasi yang dilindungi auth context (& verifikasi manual)
 mutation AuthenticatedWrite {
   hireEmployee(
     name: "Rina Kartika"
@@ -96,7 +96,7 @@ mutation AuthenticatedWrite {
     department
   }
 }
-# Verifikasi: jalankan ulang query employees — anggota baru muncul
+# Verifikasi: jalankan ulang query employees - anggota baru muncul
 # query RoleCheck { employees { id name department } }
 ```
 

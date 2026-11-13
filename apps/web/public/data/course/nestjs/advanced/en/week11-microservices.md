@@ -22,12 +22,12 @@ console.log('NestJS Microservices:');
 console.log('');
 console.log('=== Transport Layers ===');
 const transports = [
-  'TCP (default) — Transport.TCP',
-  'Redis — Transport.REDIS',
-  'NATS — Transport.NATS',
-  'RabbitMQ — Transport.RMQ',
-  'Kafka — Transport.KAFKA',
-  'gRPC — Transport.GRPC',
+  'TCP (default) - Transport.TCP',
+  'Redis - Transport.REDIS',
+  'NATS - Transport.NATS',
+  'RabbitMQ - Transport.RMQ',
+  'Kafka - Transport.KAFKA',
+  'gRPC - Transport.GRPC',
 ];
 for (const t of transports) console.log('  - ' + t);
 

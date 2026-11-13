@@ -6,7 +6,7 @@
 
 Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
 
-Di minggu ke-1 — bertajuk **"Setup, Toolchain & Sintaks Dasar"** — program latihan utamanya adalah *"Halo, Go!"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Halo, Go!"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -20,16 +20,16 @@ Di minggu ke-1 — bertajuk **"Setup, Toolchain & Sintaks Dasar"** — program l
 
 ## Fondasi: Sebelum Menulis Kode
 
-Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama di semua bahasa — dibutuhkan sekali paham, dipakai selamanya.
+Panduan dasar berikut merangkum konsep pemrograman inti yang berlaku universal.
 
 - **File & folder = tempat program tinggal.** Program hanyalah teks biasa yang disimpan dalam file (contoh: `belajar.md`). File punya **ekstensi** yang menunjukkan bahasanya: `.md`, `.go`, `.py`, `.html`. Satu folder berisi semua file program disebut **project**.
 - **Terminal / command line.** Jendela hitam tempat kita mengetik perintah teks: `cd folder` (pindah folder), `ls` / `dir` (lihat isi folder), `go run main.go` (jalankan program). Program dijalankan dari folder tempat file-nya berada.
-- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan — cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung — cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
-- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis — error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan — lebih longgar, error baru muncul saat runtime.
-- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis — itulah cara komputer memberi tahu ada yang perlu diperbaiki.
-- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung — inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
+- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan - cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung - cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
+- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis - error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan - lebih longgar, error baru muncul saat runtime.
+- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis - itulah cara komputer memberi tahu ada yang perlu diperbaiki.
+- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung - inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
 
-> **Catatan penting:** playground di browser memiliki batasan — tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
+> **Catatan penting:** playground di browser memiliki batasan - tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
 
 ---
 
@@ -37,7 +37,7 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
 
-> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
+> **Coba langsung di browser tanpa instalasi.** Semua blok kode dapat dijalankan langsung di Playground.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
@@ -70,7 +70,7 @@ Output yang diharapkan:
 go version go1.23.x ...
 ```
 
-> 💡 **Tips Prasyarat:** Setelah install, buka terminal baru agar path sistem `go` terdeteksi otomatis.
+> **Tips Prasyarat:** Setelah install, buka terminal baru agar path sistem `go` terdeteksi otomatis.
 
 ---
 
@@ -117,7 +117,7 @@ func main() {
 	})
 
 	port := ":8080"
-	fmt.Printf("🚀 Server Go aktif di http://localhost%s\n", port)
+	fmt.Printf("Server Go aktif di http://localhost%s\n", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
 		fmt.Printf("Error server: %v\n", err)
 	}
@@ -177,7 +177,7 @@ func main() {
 
 ## Konsep Kunci
 
-### Peran Go\nGo adalah bahasa compiled, statically typed yang dikembangkan Google. Berbeda dengan Python/JS yang interpreted, Go dikompilasi langsung ke binary mesin — menghasilkan eksekusi cepat dan distribusi mudah (single binary).\n\n### Toolchain Utama\n- `go run`: jalankan file .go langsung\n- `go build`: kompilasi ke binary\n- `go fmt`: format kode otomatis\n- `go test`: jalankan test\n- `go vet`: analisis potensi bug\n\n### Struktur File Go\nSetiap file .go: `package` declaration, `import`, `func main()` sebagai entry point.\n\n### Format Verb\n`%s` string, `%d` integer, `%f` float, `%t` boolean, `%T` tipe data, `%v` default.
+### Peran Go\nGo adalah bahasa compiled, statically typed yang dikembangkan Google. Berbeda dengan Python/JS yang interpreted, Go dikompilasi langsung ke binary mesin - menghasilkan eksekusi cepat dan distribusi mudah (single binary).\n\n### Toolchain Utama\n- `go run`: jalankan file .go langsung\n- `go build`: kompilasi ke binary\n- `go fmt`: format kode otomatis\n- `go test`: jalankan test\n- `go vet`: analisis potensi bug\n\n### Struktur File Go\nSetiap file .go: `package` declaration, `import`, `func main()` sebagai entry point.\n\n### Format Verb\n`%s` string, `%d` integer, `%f` float, `%t` boolean, `%T` tipe data, `%v` default.
 
 ---
 

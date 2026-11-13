@@ -1,7 +1,7 @@
 # Bulma: Layout Kolom dan Komponen
 
 > **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 10:** Bulma: Layout Kolom dan Komponen
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -58,7 +58,7 @@ Tidak perlu menghitung angka 12 seperti Bootstrap. Cukup gunakan `.columns` dan 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Portofolio Bulma — Alex Pratama</title>
+  <title>Website Portofolio Bulma - Alex Pratama</title>
   <!-- Bulma CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
 </head>

@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity — salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
+C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity - salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
 
-Di minggu ke-3 — bertajuk **"Control Flow"** — program latihan utamanya adalah *"Grade & Menu"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Grade & Menu"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -129,7 +129,7 @@ class Program
 Kondisi boolean. Bisa nested dan dengan logical operators.
 
 ### Switch Expression
-C# 8+: `x switch { >= 90 => "A", _ => "D" }` — lebih concise dari switch statement.
+C# 8+: `x switch { >= 90 => "A", _ => "D" }` - lebih concise dari switch statement.
 
 ### Loop
 - `for`: iterasi dengan counter
@@ -141,7 +141,7 @@ C# 8+: `x switch { >= 90 => "A", _ => "D" }` — lebih concise dari switch state
 `break` keluar loop. `continue` skip ke iterasi berikutnya.
 
 ### Pattern Matching
-`obj is int num` — cek tipe dan assign sekaligus.
+`obj is int num` - cek tipe dan assign sekaligus.
 
 ---
 

@@ -59,7 +59,7 @@ const key = ref(0);
 
 ### mode out-in
 
-Mencegah overlap dua komponen; keluar dulu, baru masuk — koreografi bersih.
+Mencegah overlap dua komponen; keluar dulu, baru masuk - koreografi bersih.
 
 ### CSS classes mapping
 

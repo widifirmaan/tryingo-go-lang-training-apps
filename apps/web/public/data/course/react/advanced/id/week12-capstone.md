@@ -174,4 +174,4 @@ Buat e-commerce app lengkap: product catalog, cart, checkout, order history. Gun
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: E-Commerce App** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai React dari nol hingga production-ready.
+Minggu 12 dari 12: **Capstone: E-Commerce App** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum React.

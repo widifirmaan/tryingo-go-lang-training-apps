@@ -97,7 +97,7 @@ fn main() {
 `#[test]` attribute. `assert_eq!` for equality checks.
 
 ### Test Modules
-`#[cfg(test)] mod tests { ... }` — dedicated test module.
+`#[cfg(test)] mod tests { ... }` - dedicated test module.
 
 ### Doc Tests
 Tests inside documentation comments.

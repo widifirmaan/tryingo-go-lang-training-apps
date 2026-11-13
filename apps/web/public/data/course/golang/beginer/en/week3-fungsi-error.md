@@ -6,7 +6,7 @@
 
 Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
 
-Week 3 — themed **"Functions & Error Handling"** — centers on the practice program *"Calculator"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Calculator"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -92,7 +92,7 @@ Scheduled after function returns (LIFO). Used for cleanup.
 
 - Add new function: power(a, b float64)
 - Create custom error with your own struct
-- Try multiple defers — observe LIFO order
+- Try multiple defers - observe LIFO order
 - Modify rataRata to handle empty slice
 
 ---

@@ -114,16 +114,16 @@ fn main() {
 ## Konsep Kunci
 
 ### Generic Function
-`fn first<T>(items: &[T])` — tipe T ditentukan saat dipanggil.
+`fn first<T>(items: &[T])` - tipe T ditentukan saat dipanggil.
 
 ### Generic Struct
-`struct Stack<T>` — struct dengan tipe parameter.
+`struct Stack<T>` - struct dengan tipe parameter.
 
 ### Trait Bound
-`T: PartialOrd` — T harus mengimplement PartialOrd. Bisa multiple: `T: A + B`.
+`T: PartialOrd` - T harus mengimplement PartialOrd. Bisa multiple: `T: A + B`.
 
 ### Multiple Type Params
-`struct Pair<T, U>` — dua tipe berbeda.
+`struct Pair<T, U>` - dua tipe berbeda.
 
 ### Option & Result
 `Option<T>` dan `Result<T, E>` adalah generic enum standar Rust.

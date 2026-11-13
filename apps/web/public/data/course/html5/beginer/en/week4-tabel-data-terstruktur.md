@@ -1,13 +1,13 @@
 # Tables and First Project
 
 > **Category:** HTML5 | **Level:** Beginner | **Seri:** HTML Basics | **Week 4:** Tables and First Project
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Why This Matters
 
-HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+HTML is the skeleton of every page on the web - without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
 
-Week 4 — themed **"Tables and First Project"** — centers on the practice program *"Semantic Services and Pricing Comparison Table"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Semantic Services and Pricing Comparison Table"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -23,9 +23,9 @@ Week 4 — themed **"Tables and First Project"** — centers on the practice pro
 
 ## 1. Rules for Using HTML Tables
 
-The `<table>` element is designed strictly for presenting **tabular data**—information organized into rows and columns (such as pricing matrices, schedules, financial audits, or timetables).
+The `<table>` element is designed strictly for presenting **tabular data**-information organized into rows and columns (such as pricing matrices, schedules, financial audits, or timetables).
 
-> ⚠️ **Key Rule:** Never use `<table>` to construct web page layouts (such as placing navbars, sidebars, or headers inside table cells). Table-based layouts are obsolete 1990s patterns that severely degrade mobile responsiveness and screen reader accessibility. Use CSS for layout, and reserve `<table>` purely for data.
+> **Key Rule:** Never use `<table>` to construct web page layouts (such as placing navbars, sidebars, or headers inside table cells). Table-based layouts are obsolete 1990s patterns that severely degrade mobile responsiveness and screen reader accessibility. Use CSS for layout, and reserve `<table>` purely for data.
 
 ---
 
@@ -74,7 +74,7 @@ Both files are seamlessly connected using clean relative `<a href="...">` naviga
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paket Layanan — Alex Pratama</title>
+  <title>Paket Layanan - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

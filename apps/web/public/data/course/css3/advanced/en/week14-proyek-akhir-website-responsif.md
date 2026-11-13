@@ -1,7 +1,7 @@
 # Final Project: Complete Responsive Website
 
 > **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 14:** Final Project: Complete Responsive Website
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -53,7 +53,7 @@ This capstone unites:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio Mandiri — Portofolio & Layanan</title>
+  <title>Studio Mandiri - Portofolio & Layanan</title>
   <style>
     /* ── 1. VARIABEL TEMA & TOKEN DESAIN ── */
     :root {

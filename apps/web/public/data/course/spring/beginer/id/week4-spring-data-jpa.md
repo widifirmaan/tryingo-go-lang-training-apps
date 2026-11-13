@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
 
-Di minggu ke-4 — bertajuk **"Spring Data JPA"** — program latihan utamanya adalah *"Database Integration"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Database Integration"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -98,7 +98,7 @@ spring.jpa.hibernate.ddl-auto=update
 ## Konsep Kunci
 
 ### JPA Entity
-`@Entity` — class dipetakan ke table. `@Table` — custom table name.
+`@Entity` - class dipetakan ke table. `@Table` - custom table name.
 
 ### Field Mapping
 `@Id` primary key. `@GeneratedValue` auto-increment. `@Column` column properties.

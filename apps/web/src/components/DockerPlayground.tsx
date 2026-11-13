@@ -131,11 +131,11 @@ export const DockerPlayground: React.FC<DockerPlaygroundProps> = ({ lang, script
   };
 
   const banner = isId
-    ? `Docker CLI Simulator — ketik perintah docker apa pun di sini.
+    ? `Docker CLI Simulator - ketik perintah docker apa pun di sini.
 State (image/container/network/volume) hidup di memori browser, tanpa Docker asli.
 Coba: docker run -d --name web -p 8080:80 nginx:alpine  lalu  docker ps
 Ketik "docker help" untuk daftar perintah.`
-    : `Docker CLI Simulator — type any docker command here.
+    : `Docker CLI Simulator - type any docker command here.
 State (images/containers/networks/volumes) lives in browser memory, no real Docker.
 Try: docker run -d --name web -p 8080:80 nginx:alpine  then  docker ps
 Type "docker help" for the command list.`;
@@ -149,7 +149,7 @@ Type "docker help" for the command list.`;
       <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#12161f] border-b border-zinc-800 shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-[10px] sm:text-xs text-zinc-400 font-mono ml-2 hidden sm:inline">
-            {isId ? '🐳 Docker CLI Simulator — di browser, tanpa instalasi' : '🐳 Docker CLI Simulator — in-browser, no installation'}
+            {isId ? '🐳 Docker CLI Simulator - di browser, tanpa instalasi' : '🐳 Docker CLI Simulator - in-browser, no installation'}
           </span>
         </div>
         <div className="flex items-center gap-1.5">

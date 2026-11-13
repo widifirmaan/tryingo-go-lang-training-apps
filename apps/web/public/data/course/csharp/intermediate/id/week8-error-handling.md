@@ -143,7 +143,7 @@ class Program
 ## Konsep Kunci
 
 ### Try-Catch
-`try { ... } catch (ExceptionType ex) { ... }` — handle error.
+`try { ... } catch (ExceptionType ex) { ... }` - handle error.
 
 ### Multiple Catch
 Catch spesifik dulu, umum di akhir. `finally` selalu dijalankan.
@@ -152,10 +152,10 @@ Catch spesifik dulu, umum di akhir. `finally` selalu dijalankan.
 Inherit dari `Exception`. Tambah properties spesifik.
 
 ### Throw Expression
-`name ?? throw new ArgumentNullException()` — throw inline.
+`name ?? throw new ArgumentNullException()` - throw inline.
 
 ### Using Statement
-`using (var x = new Disposable()) { ... }` — auto dispose saat keluar scope.
+`using (var x = new Disposable()) { ... }` - auto dispose saat keluar scope.
 
 ---
 

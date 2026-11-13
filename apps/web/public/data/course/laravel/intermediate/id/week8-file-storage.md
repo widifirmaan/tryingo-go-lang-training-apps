@@ -46,7 +46,7 @@ $files = [
 foreach ($files as $file) {
     $status = $file['valid'] ? "OK" : "REJECTED";
     $sizeKB = round($file['size'] / 1024);
-    echo "{$file['name']} ({$sizeKB}KB, {$file['type']}) — $status<br>";
+    echo "{$file['name']} ({$sizeKB}KB, {$file['type']}) - $status<br>";
 }
 
 echo "<br>=== Storage Operations ===<br>";
@@ -87,7 +87,7 @@ Abstraction untuk file system. Disk: `local`, `public`, `s3`.
 `Storage::exists()`, `get()`, `delete()`, `url()`, `size()`.
 
 ### Symbolic Link
-`php artisan storage:link` — link `public/storage` ke `storage/app/public`.
+`php artisan storage:link` - link `public/storage` ke `storage/app/public`.
 
 ---
 

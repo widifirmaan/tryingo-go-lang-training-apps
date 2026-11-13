@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-MongoDB menyimpan data dalam bentuk dokumen fleksibel — cocok untuk katalog produk, log, dan data yang struktur bentuknya sering berubah. Belajar berpikir dari sisi dokumen memperluas cara Anda mendesain data, tidak semata-mata pakai tabel.
+MongoDB menyimpan data dalam bentuk dokumen fleksibel - cocok untuk katalog produk, log, dan data yang struktur bentuknya sering berubah. Belajar berpikir dari sisi dokumen memperluas cara Anda mendesain data, tidak semata-mata pakai tabel.
 
-Di minggu ke-2 — bertajuk **"Update & Delete Dokumen"** — program latihan utamanya adalah *"Modifikasi Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Modifikasi Data"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

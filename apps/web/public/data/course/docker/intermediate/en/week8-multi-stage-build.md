@@ -16,7 +16,7 @@
 
 ```dockerfile
 # ─────────────────────────────────────────────────────────
-# MULTI-STAGE BUILD — Optimized Production Image
+# MULTI-STAGE BUILD - Optimized Production Image
 # ─────────────────────────────────────────────────────────
 
 # File: Dockerfile (Node.js App)

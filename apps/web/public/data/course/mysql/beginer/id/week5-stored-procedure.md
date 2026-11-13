@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-MySQL adalah database relasional open source yang dijalankan oleh jutaan website — WordPress sampai aplikasi fintech. SQL yang Anda tulis di sini adalah bahasa yang sama dipakai untuk mewawancarai data di hampir semua perusahaan.
+MySQL adalah database relasional open source yang dijalankan oleh jutaan website - WordPress sampai aplikasi fintech. SQL yang Anda tulis di sini adalah bahasa yang sama dipakai untuk mewawancarai data di hampir semua perusahaan.
 
-Di minggu ke-5 — bertajuk **"Stored Procedure & Function"** — program latihan utamanya adalah *"Prosedur Tersimpan"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Prosedur Tersimpan"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

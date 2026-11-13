@@ -16,7 +16,7 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# DOCKER SECURITY — Best Practices
+# DOCKER SECURITY - Best Practices
 # ─────────────────────────────────────────────────────────
 
 # 1. Non-root user
@@ -86,7 +86,7 @@ docker run --security-opt apparmor=my-profile myapp
 Jalankan container sebagai non-root. Tambah user di Dockerfile.
 
 ### Read-only
-`--read-only` — filesystem read-only. Gunakan `--tmpfs` untuk direktori yang perlu write.
+`--read-only` - filesystem read-only. Gunakan `--tmpfs` untuk direktori yang perlu write.
 
 ### Capabilities
 Linux capabilities. Drop semua, tambah hanya yang perlu.

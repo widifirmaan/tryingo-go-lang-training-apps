@@ -1,7 +1,7 @@
 # Bootstrap: Grid System dan Komponen
 
 > **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 9:** Bootstrap: Grid System dan Komponen
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -67,7 +67,7 @@ Bootstrap membagi lebar halaman menjadi **12 kolom imajiner**:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portofolio Bootstrap 5 — Alex Pratama</title>
+  <title>Portofolio Bootstrap 5 - Alex Pratama</title>
   <!-- Bootstrap 5 CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>

@@ -5,7 +5,7 @@
 ## Tujuan Pembelajaran
 
 - Memahami operator & (address-of) dan * (dereference)
-- Pass by value vs pass by pointer — kapan pakai pointer
+- Pass by value vs pass by pointer - kapan pakai pointer
 - Membuat package sendiri dan struktur folder proyek
 - Visibility: huruf besar = exported, huruf kecil = unexported
 - go.mod: module path, go mod init, go mod tidy
@@ -71,7 +71,7 @@ Huruf besar = exported, kecil = unexported.
 
 ## Eksperimen
 
-- Buat fungsi swap dengan pointer — swap dua variabel
+- Buat fungsi swap dengan pointer - swap dua variabel
 - Coba package dengan multiple files
 - Buat internal package dan coba import dari luar
 - Tambah dependency eksternal dengan go get

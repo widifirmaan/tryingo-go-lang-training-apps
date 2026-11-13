@@ -91,11 +91,11 @@ public class ProductService {
 */
 
 // Caching Annotations:
-// @EnableCaching — aktifkan caching
-// @Cacheable — cache result method
-// @CachePut — update cache
-// @CacheEvict — hapus cache
-// @CacheConfig — shared config di class level
+// @EnableCaching - aktifkan caching
+// @Cacheable - cache result method
+// @CachePut - update cache
+// @CacheEvict - hapus cache
+// @CacheConfig - shared config di class level
 ```
 
 ---

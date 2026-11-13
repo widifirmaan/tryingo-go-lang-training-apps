@@ -6,7 +6,7 @@
 
 - React Testing Library: render, screen, fireEvent
 - Test behavior, not implementation details
-- getBy, queryBy, findBy — when to use each
+- getBy, queryBy, findBy - when to use each
 - Test user interaction: click, type, submit
 - Async testing: waitFor, findBy for async operations
 

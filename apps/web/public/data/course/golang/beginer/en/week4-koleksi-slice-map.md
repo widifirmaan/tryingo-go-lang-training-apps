@@ -6,7 +6,7 @@
 
 Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
 
-Week 4 — themed **"Collections: Slices, Maps & Strings"** — centers on the practice program *"Data Manager"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Data Manager"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

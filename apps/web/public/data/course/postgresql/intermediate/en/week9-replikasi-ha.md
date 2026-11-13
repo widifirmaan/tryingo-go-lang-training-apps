@@ -17,7 +17,7 @@
 This program models PostgreSQL WAL streaming, the LSN position, and primary selection during failover.
 
 ```sql
--- WAL (Write-Ahead Log) — every change is logged first
+-- WAL (Write-Ahead Log) - every change is logged first
 CREATE TABLE wal_archive (
   lsn INTEGER PRIMARY KEY,       -- Log Sequence Number
   record TEXT NOT NULL,          -- change type + payload
@@ -83,7 +83,7 @@ Standby dipromosikan (pg_promote); primary lama harus di-rewind agar tidak punya
 
 ## Challenge
 
-Model RPO: insert wal_archive records for 5 minutes while standby-b is down — how many records would be lost if failover targeted that standby?
+Model RPO: insert wal_archive records for 5 minutes while standby-b is down - how many records would be lost if failover targeted that standby?
 
 ---
 

@@ -139,16 +139,16 @@ echo "Deployment complete!"
 SCRIPT
 
 # Capstone Checklist:
-# ✅ Multi-stage Dockerfile
-# ✅ Non-root user
-# ✅ Health checks
-# ✅ Resource limits
-# ✅ Persistent volumes
-# ✅ CI/CD pipeline
-# ✅ Image scanning
-# ✅ Production compose
-# ✅ Monitoring
-# ✅ Backup strategy
+# Multi-stage Dockerfile
+# Non-root user
+# Health checks
+# Resource limits
+# Persistent volumes
+# CI/CD pipeline
+# Image scanning
+# Production compose
+# Monitoring
+# Backup strategy
 ```
 
 ---
@@ -193,4 +193,4 @@ Build a full production pipeline: Dockerfile → CI/CD → Docker Compose → Mo
 
 ## Summary
 
-Week 12 of 12: **Capstone: Production Pipeline** (Level: Advanced). Complete! 🎉 You've mastered Docker from scratch to production-ready.
+Week 12 of 12: **Capstone: Production Pipeline** (Level: Advanced). Complete! You have finished the entire Docker curriculum.

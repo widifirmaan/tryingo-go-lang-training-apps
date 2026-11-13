@@ -1,5 +1,5 @@
 // ============================================================================
-// redisSim.ts — In-browser Redis command simulator for Tryngo Redis track.
+// redisSim.ts - In-browser Redis command simulator for Tryngo Redis track.
 // Simulates a realistic subset of Redis commands using in-memory JS data
 // structures (Map, Set, objects). No Redis server needed.
 // ============================================================================

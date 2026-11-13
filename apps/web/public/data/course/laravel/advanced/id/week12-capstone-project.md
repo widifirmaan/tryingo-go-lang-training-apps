@@ -44,7 +44,7 @@ $endpoints = [
 ];
 
 foreach ($endpoints as $endpoint => $desc) {
-    echo "  $endpoint — $desc<br>";
+    echo "  $endpoint - $desc<br>";
 }
 
 echo "<br>=== Order Processing ===<br>";
@@ -108,4 +108,4 @@ Buat e-commerce API lengkap: auth, products CRUD, cart, orders, payment webhook,
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: E-Commerce API** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Laravel dari dasar hingga produksi.
+Minggu 12 dari 12: **Capstone: E-Commerce API** (Level: Lanjutan). Selesai! Anda sudah menguasai Laravel dari dasar hingga produksi.

@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+PHP menggerakkan sekitar tiga perempat web dunia - WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
 
-Di minggu ke-4 — bertajuk **"Array & Manipulasi"** — program latihan utamanya adalah *"Manajemen Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Manajemen Data"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -78,7 +78,7 @@ echo "Doubled: " . implode(", ", $doubled) . "<br>";
 Array di dalam array: `[[1,2], [3,4]]` untuk matrix atau data tabel.
 
 ### Foreach
-`foreach ($arr as $key => $value)` — cara utama iterasi array di PHP.
+`foreach ($arr as $key => $value)` - cara utama iterasi array di PHP.
 
 ---
 

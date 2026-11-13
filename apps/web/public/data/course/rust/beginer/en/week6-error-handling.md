@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+Rust guarantees memory safety without a garbage collector - used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
 
-Week 6 — themed **"Error Handling"** — centers on the practice program *"Error Handling"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Error Handling"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

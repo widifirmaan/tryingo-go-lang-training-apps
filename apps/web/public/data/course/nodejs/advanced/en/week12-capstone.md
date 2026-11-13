@@ -105,4 +105,4 @@ Build a complete E-Commerce API: auth, products, cart, orders, tests, Docker. Pr
 
 ## Summary
 
-Week 12 of 12: **Capstone: Full-Stack API** (Level: Advanced). Complete! You've mastered Node.js from scratch to production-ready.
+Week 12 of 12: **Capstone: Full-Stack API** (Level: Advanced). Complete! You have finished the entire Node.js curriculum.

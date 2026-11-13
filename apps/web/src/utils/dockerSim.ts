@@ -1,5 +1,5 @@
 // ============================================================================
-// dockerSim.ts — Browser Docker CLI simulator for the Tryngo Docker track.
+// dockerSim.ts - Browser Docker CLI simulator for the Tryngo Docker track.
 // Simulates a realistic subset of the Docker CLI (engine state lives in memory:
 // images, containers, networks, volumes, compose projects). No Docker needed.
 // ============================================================================
@@ -804,7 +804,7 @@ Ketik 'docker <COMMAND> --help' untuk detail perintah.`;
 
     case 'login':
       loggedIn = true;
-      return `Login Succeeded (${rest[0] || 'pengguna'} — simulasi)`;
+      return `Login Succeeded (${rest[0] || 'pengguna'} - simulasi)`;
 
     case 'logout':
       loggedIn = false;

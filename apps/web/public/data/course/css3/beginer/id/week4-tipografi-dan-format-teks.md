@@ -1,13 +1,13 @@
 # Tipografi dan Format Teks
 
 > **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 4:** Tipografi dan Format Teks
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-CSS mengatur seluruh tampilan web yang Anda lihat setiap hari — dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
+CSS mengatur seluruh tampilan web yang Anda lihat setiap hari - dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
 
-Di minggu ke-4 — bertajuk **"Tipografi dan Format Teks"** — program latihan utamanya adalah *"Tata Letak Tipografi Artikel dengan Skala Hierarki Jelas"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Tata Letak Tipografi Artikel dengan Skala Hierarki Jelas"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

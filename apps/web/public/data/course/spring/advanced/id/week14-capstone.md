@@ -94,16 +94,16 @@ public class OrderController {
 */
 
 // Capstone Checklist:
-// ✅ Spring Security + JWT
-// ✅ CRUD REST API
-// ✅ Validation
-// ✅ Exception Handling
-// ✅ Caching (Redis)
-// ✅ Async + Events
-// ✅ Testing (Unit + Integration)
-// ✅ Docker + Docker Compose
-// ✅ Actuator + Monitoring
-// ✅ Production Config
+// - Spring Security + JWT
+// - CRUD REST API
+// - Validation
+// - Exception Handling
+// - Caching (Redis)
+// - Async + Events
+// - Testing (Unit + Integration)
+// - Docker + Docker Compose
+// - Actuator + Monitoring
+// - Production Config
 ```
 
 ---
@@ -145,4 +145,4 @@ Buat E-Commerce API lengkap: Auth, Products, Orders, Payment, Notifications. Doc
 
 ## Ringkasan
 
-Minggu 14 dari 14: **Capstone: E-Commerce API** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Spring Boot dari nol hingga production-ready.
+Minggu 14 dari 14: **Capstone: E-Commerce API** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum Spring Boot.

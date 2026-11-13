@@ -84,7 +84,7 @@ for req in requirements:
 ## Key Concepts
 
 ### venv
-`python -m venv myenv` — isolated environment.
+`python -m venv myenv` - isolated environment.
 
 ### pip
 Install, freeze, and manage dependencies.

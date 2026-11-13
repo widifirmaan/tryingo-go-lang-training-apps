@@ -16,7 +16,7 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# KUBERNETES ORCHESTRATION — Basics
+# KUBERNETES ORCHESTRATION - Basics
 # ─────────────────────────────────────────────────────────
 
 # Kubernetes Concepts:

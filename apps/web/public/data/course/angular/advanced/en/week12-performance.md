@@ -57,7 +57,7 @@ OnPush skips checking when input unchanged; combined with zoneless apps; world-c
 
 ### @for track
 
-Track by identity reduces DOM operations — running browser like recycler.
+Track by identity reduces DOM operations - running browser like recycler.
 
 ### Deferred loading
 

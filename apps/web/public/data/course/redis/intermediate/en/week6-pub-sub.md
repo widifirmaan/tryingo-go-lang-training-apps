@@ -29,7 +29,7 @@ XADD stream:orders * id 2003 customer "Andi" total 320000
 XLEN stream:orders
 XRANGE stream:orders - +
 
-# === Consumer groups (real Redis — understand the concept here) ===
+# === Consumer groups (real Redis - understand the concept here) ===
 # XGROUP CREATE stream:orders group-a 0
 # XREADGROUP GROUP group-a c1 COUNT 1 STREAMS stream:orders >
 # XACK stream:orders group-a <entry-id>

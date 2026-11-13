@@ -93,10 +93,10 @@ class Program
         Console.WriteLine($"Names: [{string.Join(", ", names)}]");
 
         // Generic constraints
-        // where T : class — harus reference type
-        // where T : struct — harus value type
-        // where T : new() — harus punya parameterless constructor
-        // where T : Product — harus turunan Product
+        // where T : class - harus reference type
+        // where T : struct - harus value type
+        // where T : new() - harus punya parameterless constructor
+        // where T : Product - harus turunan Product
 
         // Nullable reference types
         string? nullable = null;

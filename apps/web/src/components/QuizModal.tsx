@@ -320,7 +320,7 @@ function IntroScreen({
               <StatCard
                 icon={faTrophy}
                 label={isId ? 'Skor Terbaik' : 'Best Score'}
-                value={best ? `${best.score}/${best.total} (${Math.round((best.score / best.total) * 100)}%)` : '—'}
+                value={best ? `${best.score}/${best.total} (${Math.round((best.score / best.total) * 100)}%)` : '-'}
               />
             </div>
 
@@ -329,8 +329,8 @@ function IntroScreen({
                 <FontAwesomeIcon icon={faClockRotateLeft} className="w-4 h-4 shrink-0" />
                 <span>
                   {isId
-                    ? `Kuis belum selesai — terakhir di soal ${savedProgress.idx + 1} dari ${total}.`
-                    : `Unfinished quiz — left at question ${savedProgress.idx + 1} of ${total}.`}
+                    ? `Kuis belum selesai - terakhir di soal ${savedProgress.idx + 1} dari ${total}.`
+                    : `Unfinished quiz - left at question ${savedProgress.idx + 1} of ${total}.`}
                 </span>
               </div>
             )}
@@ -338,15 +338,15 @@ function IntroScreen({
             <p className="text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400 mb-4">
               {sample
                 ? (isId
-                  ? 'Kuis uji coba — beberapa contoh soal dari materi Python, JavaScript, dan Go untuk mengetes fitur kuis dengan cepat.'
-                  : 'Test quiz — a few sample questions from Python, JavaScript, and Go to quickly try the quiz feature.')
+                  ? 'Kuis uji coba - beberapa contoh soal dari materi Python, JavaScript, dan Go untuk mengetes fitur kuis dengan cepat.'
+                  : 'Test quiz - a few sample questions from Python, JavaScript, and Go to quickly try the quiz feature.')
                 : initialLevel
                   ? (isId
-                    ? `Kuis mencakup materi level ${initialLevel} pada ${trackName}. Jumlah soal tiap minggu menyesuaikan isi materinya — minggu dengan lebih banyak konsep punya lebih banyak soal.`
-                    : `This quiz covers the ${initialLevel} level of ${trackName}. Question count per week scales with the material — weeks with more concepts have more questions.`)
+                    ? `Kuis mencakup materi level ${initialLevel} pada ${trackName}. Jumlah soal tiap minggu menyesuaikan isi materinya - minggu dengan lebih banyak konsep punya lebih banyak soal.`
+                    : `This quiz covers the ${initialLevel} level of ${trackName}. Question count per week scales with the material - weeks with more concepts have more questions.`)
                   : (isId
-                    ? `Kuis mencakup seluruh materi ${trackName}, dari level Pemula sampai Profesional. Jumlah soal tiap minggu menyesuaikan isi materinya — minggu dengan lebih banyak konsep punya lebih banyak soal.`
-                    : `This quiz covers all ${trackName} material, from Beginner to Professional. Question count per week scales with the material — weeks with more concepts have more questions.`)}
+                    ? `Kuis mencakup seluruh materi ${trackName}, dari level Pemula sampai Profesional. Jumlah soal tiap minggu menyesuaikan isi materinya - minggu dengan lebih banyak konsep punya lebih banyak soal.`
+                    : `This quiz covers all ${trackName} material, from Beginner to Professional. Question count per week scales with the material - weeks with more concepts have more questions.`)}
             </p>
 
             <div className="flex flex-col gap-2">
@@ -574,12 +574,12 @@ function ResultScreen({
       : pct >= 80 ? 'Sangat bagus! Tingkatkan lagi ke sempurna.'
       : pct >= 60 ? 'Bagus! Pelajari lagi bagian yang salah.'
       : pct >= 40 ? 'Lumayan. Baca ulang materi lalu coba lagi.'
-      : 'Jangan menyerah — baca kembali materi dan ulangi kuisnya.'
+      : 'Jangan menyerah - baca kembali materi dan ulangi kuisnya.'
     : pct === 100 ? 'Perfect! You mastered the entire material.'
       : pct >= 80 ? 'Great job! Push a little more for perfect.'
       : pct >= 60 ? 'Good! Review the parts you got wrong.'
       : pct >= 40 ? 'Not bad. Reread the material and try again.'
-      : 'Don\'t give up — review the material and retry the quiz.';
+      : 'Don\'t give up - review the material and retry the quiz.';
 
   return (
     <div className="flex flex-col h-full">
@@ -688,7 +688,7 @@ function ResultScreen({
 }
 
 function answersToLabel(idx: number, q: QuizQuestion): string {
-  if (idx < 0 || !q.options[idx]) return '—';
+  if (idx < 0 || !q.options[idx]) return '-';
   return q.options[idx];
 }
 

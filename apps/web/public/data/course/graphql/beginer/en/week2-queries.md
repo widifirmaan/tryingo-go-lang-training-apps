@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query — used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
+GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query - used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
 
-Week 2 — themed **"Queries"** — centers on the practice program *"Creating Queries"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Creating Queries"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

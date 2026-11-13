@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+Spring Boot is the standard for enterprise Java backends - banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
 
-Week 4 — themed **"Spring Data JPA"** — centers on the practice program *"Database Integration"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Database Integration"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

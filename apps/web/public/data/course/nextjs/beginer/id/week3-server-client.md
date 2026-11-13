@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Next.js adalah framework React untuk app skala produksi — routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa — keahlian yang paling sering disebut di lowongan frontend.
+Next.js adalah framework React untuk app skala produksi - routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa - keahlian yang paling sering disebut di lowongan frontend.
 
-Di minggu ke-3 — bertajuk **"Server & Client Components"** — program latihan utamanya adalah *"Kombinasi Komponen"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Kombinasi Komponen"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -57,7 +57,7 @@ function ProductList({ products }) {
     <ul>
       {products.map((p) => (
         <li key={p.id}>
-          {p.name} — Rp {p.price.toLocaleString("id-ID")}
+          {p.name} - Rp {p.price.toLocaleString("id-ID")}
         </li>
       ))}
     </ul>

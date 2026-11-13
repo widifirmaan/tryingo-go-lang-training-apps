@@ -71,7 +71,7 @@ const DEFAULT_CURRICULUM: LevelInfo[] = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Generated curricula — each generator creates its own .ts file in curricula/
+// Generated curricula - each generator creates its own .ts file in curricula/
 // ─────────────────────────────────────────────────────────────────────────────
 import { html5Curriculum } from './curricula/html5';
 import { golangCurriculum } from './curricula/golang';
@@ -138,7 +138,7 @@ export function getCurriculum(slug: string): LevelInfo[] {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Level badge colors — auto-generated from track data, not hardcoded
+// Level badge colors - auto-generated from track data, not hardcoded
 // ─────────────────────────────────────────────────────────────────────────────
 export const LEVEL_BADGE_COLORS: Record<string, string> = {
   beginer: 'bg-emerald-500 text-white',

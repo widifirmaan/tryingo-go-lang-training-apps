@@ -1,13 +1,13 @@
 # Head, Teks, dan Link
 
 > **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 2:** Head, Teks, dan Link
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-HTML adalah kerangka setiap halaman web di dunia — tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
+HTML adalah kerangka setiap halaman web di dunia - tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
 
-Di minggu ke-2 — bertajuk **"Head, Teks, dan Link"** — program latihan utamanya adalah *"Halaman Layanan dengan Navigasi dan Tipografi Terstruktur"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Halaman Layanan dengan Navigasi dan Tipografi Terstruktur"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -83,7 +83,7 @@ my-website/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layanan Web — Alex Pratama</title>
+  <title>Layanan Web - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

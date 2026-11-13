@@ -77,13 +77,13 @@ public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotVal
 */
 
 // Validation Annotations:
-// @NotNull — tidak boleh null
-// @NotBlank — tidak boleh null/kosong/whitespace
-// @Size — panjang string/collection
-// @Min, @Max — batas numerik
-// @Email — format email
-// @Pattern — regex pattern
-// @Valid — trigger validation
+// @NotNull - tidak boleh null
+// @NotBlank - tidak boleh null/kosong/whitespace
+// @Size - panjang string/collection
+// @Min, @Max - batas numerik
+// @Email - format email
+// @Pattern - regex pattern
+// @Valid - trigger validation
 ```
 
 ---
@@ -103,10 +103,10 @@ Validasi input dengan annotations. Jakarta Bean Validation 3.0.
 Trigger validation di controller method parameter.
 
 ### Exception Handler
-`MethodArgumentNotValidException` — handle validation errors. Extract field errors.
+`MethodArgumentNotValidException` - handle validation errors. Extract field errors.
 
 ### Custom Message
-`@NotBlank(message = "custom message")` — pesan error custom.
+`@NotBlank(message = "custom message")` - pesan error custom.
 
 ---
 

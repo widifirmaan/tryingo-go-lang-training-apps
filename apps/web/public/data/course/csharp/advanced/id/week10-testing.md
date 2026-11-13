@@ -99,7 +99,7 @@ class Program
 
         service.Delete(1);
         Console.WriteLine(service.GetAll().Count == 1
-            ? "✓ Delete(1) — 1 product left"
+            ? "✓ Delete(1) - 1 product left"
             : "✗ Delete failed");
 
         Console.WriteLine("\n=== Semua test passed! ===");
@@ -121,10 +121,10 @@ class Program
 `Assert.Equal(expected, actual)`, `Assert.True(condition)`, `Assert.Throws<T>()`.
 
 ### Mock
-`Mock<IRepository>()` — buat fake object untuk dependency.
+`Mock<IRepository>()` - buat fake object untuk dependency.
 
 ### Integration Test
-`WebApplicationFactory<T>` — test API end-to-end.
+`WebApplicationFactory<T>` - test API end-to-end.
 
 ### Best Practices
 - Arrange-Act-Assert pattern

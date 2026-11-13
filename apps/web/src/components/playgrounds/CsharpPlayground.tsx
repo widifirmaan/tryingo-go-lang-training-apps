@@ -10,7 +10,7 @@ interface CsharpPlaygroundProps {
   initialCode?: string;
 }
 
-const DEFAULT_CSHARP = `// C# Playground — Tryngo
+const DEFAULT_CSHARP = `// C# Playground - Tryngo
 // Supports: Console.WriteLine, variables, loops, conditionals, methods, classes
 
 using System;

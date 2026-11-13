@@ -45,7 +45,7 @@ GET user:{42}:prefs
 
 ### 16384 slots
 
-Slot mendistribusikan data secara deterministik (CRC16) tanpa koordinator pusat — dengan menambah node, rentang slot dipindahkan, bukan dihitung ulang seluruh keyspace.
+Slot mendistribusikan data secara deterministik (CRC16) tanpa koordinator pusat - dengan menambah node, rentang slot dipindahkan, bukan dihitung ulang seluruh keyspace.
 
 ### Slot resilience
 
@@ -53,7 +53,7 @@ Tiap master memiliki rentang slot plus replica. Ketika master hilang, quorum mem
 
 ### Hash tags
 
-user:{42}:cart dan user:{42}:prefs ibarat bundle sauran sama slot — transaksi/pipeline multi-kunci legal hanya antar kunci dengan tag sama.
+user:{42}:cart dan user:{42}:prefs ibarat bundle sauran sama slot - transaksi/pipeline multi-kunci legal hanya antar kunci dengan tag sama.
 
 ### Limitasi
 

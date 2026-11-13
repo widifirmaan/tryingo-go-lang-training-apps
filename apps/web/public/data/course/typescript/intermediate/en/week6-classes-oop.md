@@ -137,16 +137,16 @@ console.log("\nDistance:", p.distance());
 `public` (default) accessible everywhere. `protected` class + subclass. `private` only in class.
 
 ### Inheritance
-`class Dog extends Animal` — inherit all. `super()` calls parent constructor.
+`class Dog extends Animal` - inherit all. `super()` calls parent constructor.
 
 ### Abstract Classes
 Cannot be instantiated directly. Methods without body must be implemented by subclasses.
 
 ### Implements
-`class X implements Interface` — must provide all interface methods.
+`class X implements Interface` - must provide all interface methods.
 
 ### Parameter Properties
-`constructor(public x: number)` — directly declare and assign field.
+`constructor(public x: number)` - directly declare and assign field.
 
 ---
 

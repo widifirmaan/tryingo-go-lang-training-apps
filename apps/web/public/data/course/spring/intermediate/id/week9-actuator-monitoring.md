@@ -77,12 +77,12 @@ public class OrderMetrics {
 */
 
 // Actuator Endpoints:
-// GET /actuator/health — health check
-// GET /actuator/info — app info
-// GET /actuator/metrics — metrics
-// GET /actuator/env — environment
-// GET /actuator/beans — Spring beans
-// GET /actuator/mappings — URL mappings
+// GET /actuator/health - health check
+// GET /actuator/info - app info
+// GET /actuator/metrics - metrics
+// GET /actuator/env - environment
+// GET /actuator/beans - Spring beans
+// GET /actuator/mappings - URL mappings
 
 // Dependencies:
 /*
@@ -105,13 +105,13 @@ public class OrderMetrics {
 Production-ready features: health, metrics, info, env.
 
 ### Health Check
-`HealthIndicator` — custom health check. Return Health.up() atau Health.down().
+`HealthIndicator` - custom health check. Return Health.up() atau Health.down().
 
 ### Metrics
-Micrometer — metrics facade. Counter, Timer, Gauge, DistributionSummary.
+Micrometer - metrics facade. Counter, Timer, Gauge, DistributionSummary.
 
 ### Prometheus
-`micrometer-registry-prometheus` — export metrics ke Prometheus format.
+`micrometer-registry-prometheus` - export metrics ke Prometheus format.
 
 ### Endpoints
 `/actuator/health`, `/actuator/metrics`, `/actuator/info`.

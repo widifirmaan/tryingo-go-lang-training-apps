@@ -79,10 +79,10 @@ echo "<?php endif ?><br>";
 `required`, `min_length[3]`, `max_length[20]`, `valid_email`, `matches[field]`.
 
 ### Validate
-`$this->validate($rules)` — return false jika gagal. Auto-redirect.
+`$this->validate($rules)` - return false jika gagal. Auto-redirect.
 
 ### Errors
-`$this->validator->getErrors()` — array error messages.
+`$this->validator->getErrors()` - array error messages.
 
 ### Flash Data
 `withInput()` retain input, `with('errors', $errors)` store errors.

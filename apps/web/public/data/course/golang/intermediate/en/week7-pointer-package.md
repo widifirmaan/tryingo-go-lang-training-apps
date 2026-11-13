@@ -5,7 +5,7 @@
 ## Learning Objectives
 
 - Understand & (address-of) and * (dereference) operators
-- Pass by value vs pass by pointer — when to use pointers
+- Pass by value vs pass by pointer - when to use pointers
 - Create your own packages and project folder structure
 - Visibility: uppercase = exported, lowercase = unexported
 - go.mod: module path, go mod init, go mod tidy
@@ -71,7 +71,7 @@ Module management with `go mod init`, `go mod tidy`.
 
 ## Experiments
 
-- Create swap function with pointers — swap two variables
+- Create swap function with pointers - swap two variables
 - Try package with multiple files
 - Create internal package and try importing from outside
 - Add external dependency with go get

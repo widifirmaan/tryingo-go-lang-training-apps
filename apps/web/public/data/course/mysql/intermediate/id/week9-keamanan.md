@@ -44,7 +44,7 @@ CREATE TABLE audit_log (
 INSERT INTO audit_log VALUES (1, 'svc_erp', 'INSERT', 'orders', '2026-01-20 09:00');
 INSERT INTO audit_log VALUES (2, 'budi_analyst', 'SELECT', 'employees', '2026-01-20 09:15');
 
--- Auditor: aktivitas berbahaya — hapus oleh non-admin
+-- Auditor: aktivitas berbahaya - hapus oleh non-admin
 SELECT a.username, a.action, a.table_name
 FROM audit_log a
 JOIN users u ON u.username = a.username
@@ -62,7 +62,7 @@ FROM audit_log a GROUP BY a.username, a.action;
 
 ### GRANT granular
 
-Di MySQL: GRANT SELECT, INSERT ON db.orders TO 'app'@'%' — scope bisa dibatasi per tabel, bahkan per kolom. Hindari hak ALL yang luas.
+Di MySQL: GRANT SELECT, INSERT ON db.orders TO 'app'@'%' - scope bisa dibatasi per tabel, bahkan per kolom. Hindari hak ALL yang luas.
 
 ### Least privilege
 
@@ -88,7 +88,7 @@ Gunakan parameterized query (? / :param) di aplikasi; buang concatenation string
 
 ## Tantangan
 
-Perketat model: larang analyst men-query kolom `salary` — tambahkan tabel can_select_column lalu tulis detektor pelanggaran kolomnya.
+Perketat model: larang analyst men-query kolom `salary` - tambahkan tabel can_select_column lalu tulis detektor pelanggaran kolomnya.
 
 ---
 

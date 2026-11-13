@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Next.js adalah framework React untuk app skala produksi — routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa — keahlian yang paling sering disebut di lowongan frontend.
+Next.js adalah framework React untuk app skala produksi - routing, server components, caching, SEO sudah rapi. Banyak company memilih Next untuk SEO dan performa - keahlian yang paling sering disebut di lowongan frontend.
 
-Di minggu ke-4 — bertajuk **"Styling & Optimasi"** — program latihan utamanya adalah *"CSS & Image"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"CSS & Image"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

@@ -14,7 +14,7 @@
 
 ## Program: REST API with DRF ViewSets
 
-The program stitches serializers, ViewSets, routers, and permissions — ready to serve under /api/orders/.
+The program stitches serializers, ViewSets, routers, and permissions - ready to serve under /api/orders/.
 
 ```python
 """DRF: CRUD over the Order model."""

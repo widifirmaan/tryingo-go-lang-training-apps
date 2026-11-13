@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Angular dipakai perusahaan besar untuk aplikasi internal skala enterprise — bank, asuransi, layanan kesehatan — karena strukturnya ketat dan mudah dipelihara puluhan developer. Mengutamakan arsitektur rapi sejak hari pertama berarti Anda terbiasa dengan cara kerja tim engineering sungguhan.
+Angular dipakai perusahaan besar untuk aplikasi internal skala enterprise - bank, asuransi, layanan kesehatan - karena strukturnya ketat dan mudah dipelihara puluhan developer. Mengutamakan arsitektur rapi sejak hari pertama berarti Anda terbiasa dengan cara kerja tim engineering sungguhan.
 
-Di minggu ke-2 — bertajuk **"Directives & Pipes"** — program latihan utamanya adalah *"List & Format"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"List & Format"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -26,7 +26,7 @@ Di minggu ke-2 — bertajuk **"Directives & Pipes"** — program latihan utamany
 import { Component } from '@angular/core';
 @Component({
   selector: 'app-product-list',
-  template: '<h2>Daftar Produk</h2><ul><li *ngFor="let p of products" [ngClass]="{'in-stock': p.available}">{{ p.name | uppercase }} — {{ p.price | currency:'IDR':'symbol':'1.0-0' }}</li></ul><p>Tanggal: {{ today | date:'fullDate' }}</p>',
+  template: '<h2>Daftar Produk</h2><ul><li *ngFor="let p of products" [ngClass]="{'in-stock': p.available}">{{ p.name | uppercase }} - {{ p.price | currency:'IDR':'symbol':'1.0-0' }}</li></ul><p>Tanggal: {{ today | date:'fullDate' }}</p>',
 })
 export class ProductListComponent {
   today = new Date();

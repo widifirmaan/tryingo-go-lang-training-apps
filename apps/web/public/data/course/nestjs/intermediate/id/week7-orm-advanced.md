@@ -94,7 +94,7 @@ Eager: auto-load relation. Lazy: load on access (returns Promise).
 createQueryBuilder() untuk complex SQL queries.
 
 ### Cascade
-{ cascade: true } — save parent auto-save children.
+{ cascade: true } - save parent auto-save children.
 
 ---
 

@@ -14,7 +14,7 @@
 
 ## Program: REST API dengan DRF ViewSet
 
-Program menyusun serializer, ViewSet, router, dan permissions — siap diekspos ke /api/orders/.
+Program menyusun serializer, ViewSet, router, dan permissions - siap diekspos ke /api/orders/.
 
 ```python
 """DRF: CRUD untuk model Order."""

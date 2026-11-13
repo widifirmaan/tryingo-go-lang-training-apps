@@ -1,7 +1,7 @@
 # Web Components: Custom Elements and Template
 
 > **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 13:** Web Components: Custom Elements and Template
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -63,7 +63,7 @@ Developers can leverage ready-made Web Components such as **Shoelace**:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Components Native — Alex Pratama</title>
+  <title>Web Components Native - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }

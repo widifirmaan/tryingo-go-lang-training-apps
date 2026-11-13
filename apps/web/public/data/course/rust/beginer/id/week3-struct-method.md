@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+Rust menjamin keamanan memory TANPA garbage collector - dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
 
-Di minggu ke-3 — bertajuk **"Struct & Method"** — program latihan utamanya adalah *"Data Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Data Produk"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -90,7 +90,7 @@ Mengelompokkan field. Mirip class tapi tanpa inheritance.
 `impl Product { fn method(&self) }`. `&self` read-only, `&mut self` mutable, `self` consume.
 
 ### Associated Function
-`Product::new()` — tidak punya self, mirip static method.
+`Product::new()` - tidak punya self, mirip static method.
 
 ### Derive
 `#[derive(Debug)]` auto-implement trait. `Debug` untuk `{:?}`, `Clone` untuk `.clone()`.

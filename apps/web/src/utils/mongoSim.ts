@@ -1,5 +1,5 @@
 // ============================================================================
-// mongoSim.ts — In-memory MongoDB command simulator for Tryngo.
+// mongoSim.ts - In-memory MongoDB command simulator for Tryngo.
 // Parses MongoDB-style queries and executes against JS arrays.
 // ============================================================================
 
@@ -393,7 +393,7 @@ const aggregate = (docs: Doc[], pipeline: Doc[]): Doc[] => {
               for (const item of arr) expanded.push({ ...doc, [fieldName]: item });
             }
           } else {
-            // missing / null / non-array — dropped by default unless preserveNullAndEmptyArrays
+            // missing / null / non-array - dropped by default unless preserveNullAndEmptyArrays
             if (preserve) expanded.push({ ...doc });
           }
         }

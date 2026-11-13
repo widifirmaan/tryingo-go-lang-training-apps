@@ -1,7 +1,7 @@
 # Bootstrap: Grid System and Components
 
 > **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 9:** Bootstrap: Grid System and Components
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -67,7 +67,7 @@ Bootstrap partitions layout width into **12 proportional columns**:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portofolio Bootstrap 5 — Alex Pratama</title>
+  <title>Portofolio Bootstrap 5 - Alex Pratama</title>
   <!-- Bootstrap 5 CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>

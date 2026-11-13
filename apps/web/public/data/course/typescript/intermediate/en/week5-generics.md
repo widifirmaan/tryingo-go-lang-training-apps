@@ -106,16 +106,16 @@ console.log("Age:", getProperty(user, "age"));
 ## Key Concepts
 
 ### Generic Functions
-`<T>` — type parameter. Type inferred from argument.
+`<T>` - type parameter. Type inferred from argument.
 
 ### Constraints
-`<T extends HasLength>` — T must have length property.
+`<T extends HasLength>` - T must have length property.
 
 ### Generic Interface/Class
-`interface ApiResponse<T>` — dynamic type for various responses.
+`interface ApiResponse<T>` - dynamic type for various responses.
 
 ### Keyof
-`K extends keyof T` — K must be a key in T. Type-safe property access.
+`K extends keyof T` - K must be a key in T. Type-safe property access.
 
 ### Built-in Generics
 `Partial<T>` all optional. `Required<T>` all required. `Readonly<T>` all readonly.
@@ -134,7 +134,7 @@ console.log("Age:", getProperty(user, "age"));
 
 ## Challenge
 
-Build a generic repository class: find, findById, create, update, delete — with type constraints and conditional types.
+Build a generic repository class: find, findById, create, update, delete - with type constraints and conditional types.
 
 ---
 

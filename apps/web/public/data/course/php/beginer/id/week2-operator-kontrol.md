@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-PHP menggerakkan sekitar tiga perempat web dunia — WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
+PHP menggerakkan sekitar tiga perempat web dunia - WordPress, Wikipedia, dan sekian banyak e-commerce. PHP 8 modern sudah sangat cepat dan rapi; belajar sintaksnya dengan benar menolak mitos "PHP berantakan".
 
-Di minggu ke-2 — bertajuk **"Operator & Control Flow"** — program latihan utamanya adalah *"Sistem Grade"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Sistem Grade"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -92,7 +92,7 @@ echo "Halo, $salam<br>";
 - Ubah nilai dan lihat grade berubah
 - Buat nested if untuk validasi multi-kondisi
 - Coba for loop dengan break dan continue
-- Ganti switch dengan if/else — mana lebih readable?
+- Ganti switch dengan if/else - mana lebih readable?
 - Gunakan null coalescing operator ?? untuk default value
 
 ---

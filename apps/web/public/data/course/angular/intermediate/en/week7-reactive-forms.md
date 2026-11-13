@@ -73,7 +73,7 @@ Validator sinkron dijalankan langsung; validator async (cek kupon ke server) men
 
 ### Control state
 
-touched, dirty, valid, pending, disabled — template mengikat state ke pesan error dan CSS.
+touched, dirty, valid, pending, disabled - template mengikat state ke pesan error dan CSS.
 
 ### FormArray & nested
 

@@ -6,7 +6,7 @@
 
 CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
 
-Di minggu ke-1 — bertajuk **"Setup & Instalasi CI4"** — program latihan utamanya adalah *"Project Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Project Pertama"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -20,16 +20,16 @@ Di minggu ke-1 — bertajuk **"Setup & Instalasi CI4"** — program latihan utam
 
 ## Fondasi: Sebelum Menulis Kode
 
-Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama di semua bahasa — dibutuhkan sekali paham, dipakai selamanya.
+Panduan dasar berikut merangkum konsep pemrograman inti yang berlaku universal.
 
 - **File & folder = tempat program tinggal.** Program hanyalah teks biasa yang disimpan dalam file (contoh: `belajar.md`). File punya **ekstensi** yang menunjukkan bahasanya: `.md`, `.go`, `.py`, `.html`. Satu folder berisi semua file program disebut **project**.
 - **Terminal / command line.** Jendela hitam tempat kita mengetik perintah teks: `cd folder` (pindah folder), `ls` / `dir` (lihat isi folder), `go run main.go` (jalankan program). Program dijalankan dari folder tempat file-nya berada.
-- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan — cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung — cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
-- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis — error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan — lebih longgar, error baru muncul saat runtime.
-- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis — itulah cara komputer memberi tahu ada yang perlu diperbaiki.
-- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung — inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
+- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan - cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung - cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
+- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis - error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan - lebih longgar, error baru muncul saat runtime.
+- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis - itulah cara komputer memberi tahu ada yang perlu diperbaiki.
+- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung - inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
 
-> **Catatan penting:** playground di browser memiliki batasan — tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
+> **Catatan penting:** playground di browser memiliki batasan - tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
 
 ---
 
@@ -37,7 +37,7 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
 
-> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
+> **Coba langsung di browser tanpa instalasi.** Semua blok kode dapat dijalankan langsung di Playground.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
@@ -71,7 +71,7 @@ PHP 8.x
 Composer 2.x
 ```
 
-> 💡 **Tips Prasyarat:** Pastikan ekstensi php-intl dan php-mbstring aktif di php.ini.
+> **Tips Prasyarat:** Pastikan ekstensi php-intl dan php-mbstring aktif di php.ini.
 
 ---
 
@@ -174,21 +174,21 @@ foreach ($dirs as $dir) {
 }
 
 echo "<br>=== Key Files ===<br>";
-echo "app/Config/Routes.php — Route definitions<br>";
-echo "app/Controllers/ — Controllers<br>";
-echo "app/Models/ — Models<br>";
-echo "app/Views/ — View files<br>";
-echo "app/Config/Database.php — DB config<br>";
-echo ".env — Environment config<br>";
+echo "app/Config/Routes.php - Route definitions<br>";
+echo "app/Controllers/ - Controllers<br>";
+echo "app/Models/ - Models<br>";
+echo "app/Views/ - View files<br>";
+echo "app/Config/Database.php - DB config<br>";
+echo ".env - Environment config<br>";
 
 echo "<br>=== spark Commands ===<br>";
-echo "php spark serve — Start dev server<br>";
-echo "php spark make:controller Name — Create controller<br>";
-echo "php spark make:model Name — Create model<br>";
-echo "php spark make:migration Name — Create migration<br>";
-echo "php spark migrate — Run migrations<br>";
-echo "php spark db:seed Name — Run seeder<br>";
-echo "php spark routes — Show all routes<br>";
+echo "php spark serve - Start dev server<br>";
+echo "php spark make:controller Name - Create controller<br>";
+echo "php spark make:model Name - Create model<br>";
+echo "php spark make:migration Name - Create migration<br>";
+echo "php spark migrate - Run migrations<br>";
+echo "php spark db:seed Name - Run seeder<br>";
+echo "php spark routes - Show all routes<br>";
 
 echo "<br>=== Namespace ===<br>";
 echo "namespace App\Controllers;<br>";
@@ -203,10 +203,10 @@ echo "namespace App\Models;<br>";
 `composer create-project codeigniter4/appstarter nama-project`.
 
 ### Struktur Folder
-- `app/` — Application code (Controllers, Models, Config)
-- `public/` — Entry point (index.php)
-- `writable/` — Cache, logs, uploads
-- `tests/` — Test files
+- `app/` - Application code (Controllers, Models, Config)
+- `public/` - Entry point (index.php)
+- `writable/` - Cache, logs, uploads
+- `tests/` - Test files
 
 ### Spark CLI
 Command-line tool CI4. `php spark` untuk list commands.
@@ -215,7 +215,7 @@ Command-line tool CI4. `php spark` untuk list commands.
 CI4 gunakan namespace. Controller: `namespace App\Controllers`.
 
 ### Routes
-`app/Config/Routes.php` — define semua routes di sini.
+`app/Config/Routes.php` - define semua routes di sini.
 
 ---
 

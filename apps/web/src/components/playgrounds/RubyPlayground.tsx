@@ -17,7 +17,7 @@ interface OutputLine {
   kind: 'output' | 'error' | 'info' | 'result';
 }
 
-const DEFAULT_RUBY = `# Ruby Playground — Tryngo
+const DEFAULT_RUBY = `# Ruby Playground - Tryngo
 # Klik "Run" atau tekan Ctrl+Enter untuk menjalankan
 
 puts "Hello, World!"
@@ -192,7 +192,7 @@ async function runRubyWasm(code: string): Promise<{ output: string[]; error: str
   }
 
   if (typeof Worker === 'undefined') {
-    return { output: [], error: 'Web Worker not available — Ruby WASM execution disabled' };
+    return { output: [], error: 'Web Worker not available - Ruby WASM execution disabled' };
   }
 
   try {
@@ -676,7 +676,7 @@ function processLines(lines: string[], state: InterpreterState, depth = 0): numb
         state.lastValue = exprValue;
       }
     } catch {
-      // not a standalone expression — ignore
+      // not a standalone expression - ignore
     }
 
     i++;

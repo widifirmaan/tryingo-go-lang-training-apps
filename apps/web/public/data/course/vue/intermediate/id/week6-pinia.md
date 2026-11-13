@@ -22,7 +22,7 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
 export const useCartStore = defineStore('cart', () => {
-  // state (ref) — akses di component: store.items
+  // state (ref) - akses di component: store.items
   const items = ref<{ id: number; name: string; price: number; qty: number }[]>([]);
 
   // getters (computed)
@@ -50,7 +50,7 @@ const cart = useCartStore();
 </script>
 <template>
   <span class="badge" :class="{ shake: cart.count > 5 }">
-    🛒 {{ cart.count }} — {{ cart.total.toLocaleString('id-ID') }}
+    Cart: {{ cart.count }} - {{ cart.total.toLocaleString('id-ID') }}
   </span>
 </template>
 ```
@@ -65,7 +65,7 @@ Setup store (defineStore('cart', () => { ... })) mengikuti composition API; opti
 
 ### Direct read, mutate via actions
 
-Komponen boleh membaca state langsung, tetapi kapsulkan mutasi di action — mudah dilacak lewat Pinia devtools.
+Komponen boleh membaca state langsung, tetapi kapsulkan mutasi di action - mudah dilacak lewat Pinia devtools.
 
 ### State flow
 
@@ -79,7 +79,7 @@ pinia-plugin-persistedstate menulis ke localStorage; plugin hydration membawa st
 
 ## Eksperimen
 
-- Persist keranjang (plugin) lalu refresh browser — barang tetap ada.
+- Persist keranjang (plugin) lalu refresh browser - barang tetap ada.
 - Tambah undo stack untuk checkout terakhir.
 - Catat aksi per user di dalam store.
 

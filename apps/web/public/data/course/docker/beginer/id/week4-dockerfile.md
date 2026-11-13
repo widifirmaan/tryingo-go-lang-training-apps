@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern — CI/CD, Kubernetes, cloud — semuanya berangkat di sini.
+Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern - CI/CD, Kubernetes, cloud - semuanya berangkat di sini.
 
-Di minggu ke-4 — bertajuk **"Dockerfile"** — program latihan utamanya adalah *"Build Custom Image"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Build Custom Image"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -23,7 +23,7 @@ Di minggu ke-4 — bertajuk **"Dockerfile"** — program latihan utamanya adalah
 
 ```dockerfile
 # ─────────────────────────────────────────────────────────
-# DOCKERFILE — Build Custom Image
+# DOCKERFILE - Build Custom Image
 # ─────────────────────────────────────────────────────────
 
 # File: Dockerfile

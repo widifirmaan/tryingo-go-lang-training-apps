@@ -97,7 +97,7 @@ fn main() {
 `#[test]` attribute. `assert_eq!(a, b)` untuk verifikasi equality.
 
 ### Test Module
-`#[cfg(test)] mod tests { ... }` — module khusus test.
+`#[cfg(test)] mod tests { ... }` - module khusus test.
 
 ### Doc Test
 Test di dalam /// comment. Dijalankan dengan `cargo test --doc`.

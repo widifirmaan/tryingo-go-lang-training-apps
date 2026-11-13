@@ -33,7 +33,7 @@ handleRequest('GET', '/');
 handleRequest('GET', '/health');
 handleRequest('GET', '/missing');
 
-// Part 2: Mini-Express — router + middleware + error handling
+// Part 2: Mini-Express - router + middleware + error handling
 const middlewareStack = [
   (req, next) => { console.log(`[logger] ${req.method} ${req.url}`); return next(); },
   (req, next) => (req.url === '/admin' ? 'Error: admins only!' : next()),

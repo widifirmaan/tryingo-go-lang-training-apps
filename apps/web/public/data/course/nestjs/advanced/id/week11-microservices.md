@@ -22,12 +22,12 @@ console.log('NestJS Microservices:');
 console.log('');
 console.log('=== Transport Layers ===');
 const transports = [
-  'TCP (default) — Transport.TCP',
-  'Redis — Transport.REDIS',
-  'NATS — Transport.NATS',
-  'RabbitMQ — Transport.RMQ',
-  'Kafka — Transport.KAFKA',
-  'gRPC — Transport.GRPC',
+  'TCP (default) - Transport.TCP',
+  'Redis - Transport.REDIS',
+  'NATS - Transport.NATS',
+  'RabbitMQ - Transport.RMQ',
+  'Kafka - Transport.KAFKA',
+  'gRPC - Transport.GRPC',
 ];
 for (const t of transports) console.log('  - ' + t);
 
@@ -68,10 +68,10 @@ console.log('  |-- Message Broker (Redis/NATS)');
 NestJS support multiple transport: TCP, Redis, NATS, RabbitMQ, Kafka.
 
 ### Message Pattern
-@MessagePattern({ cmd: 'action' }) — request-response (await response).
+@MessagePattern({ cmd: 'action' }) - request-response (await response).
 
 ### Event Pattern
-@EventPattern('event') — fire-and-forget (no response).
+@EventPattern('event') - fire-and-forget (no response).
 
 ### Client
 ClientProxyFactory.create() untuk kirim message ke service lain.

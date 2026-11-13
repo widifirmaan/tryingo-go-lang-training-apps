@@ -15,7 +15,7 @@
 ## Program: tsconfig.json & Setup
 
 ```typescript
-// tsconfig.json — konfigurasi TypeScript compiler
+// tsconfig.json - konfigurasi TypeScript compiler
 // File: tsconfig.json
 const tsconfig = {
     "compilerOptions": {
@@ -111,13 +111,13 @@ console.log("6. Use path aliases: @/components → src/components");
 ## Konsep Kunci
 
 ### Strict Mode
-`strict: true` — aktifkan semua strict checks. Wajib untuk project baru.
+`strict: true` - aktifkan semua strict checks. Wajib untuk project baru.
 
 ### noImplicitAny
 Error jika variabel tanpa type annotation. Memaksa explicit typing.
 
 ### Declaration Files
-`.d.ts` — type declarations tanpa implementation. Untuk library types.
+`.d.ts` - type declarations tanpa implementation. Untuk library types.
 
 ### Path Aliases
 `@/components` → `src/components`. Cleaner imports.

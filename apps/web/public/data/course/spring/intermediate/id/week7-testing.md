@@ -126,7 +126,7 @@ public class ProductRepositoryTest {
 Test individual components. Mock dependencies dengan Mockito.
 
 ### @Mock & @InjectMocks
-`@Mock` — buat mock object. `@InjectMocks` — inject mock ke class yang di-test.
+`@Mock` - buat mock object. `@InjectMocks` - inject mock ke class yang di-test.
 
 ### @WebMvcTest
 Test controller layer tanpa start full server. Gunakan MockMvc.

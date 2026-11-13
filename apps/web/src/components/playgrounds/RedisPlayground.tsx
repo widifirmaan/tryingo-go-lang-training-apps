@@ -26,7 +26,7 @@ const splitScript = (script: string): string[] =>
     .map((l) => l.trim())
     .filter((l) => l.length > 0 && !l.startsWith('#'));
 
-const DEFAULT_REDIS_CODE = `# Redis Playground — try these commands:
+const DEFAULT_REDIS_CODE = `# Redis Playground - try these commands:
 SET greeting "Hello, Redis!"
 GET greeting
 SET counter 10
@@ -251,11 +251,11 @@ export const RedisPlayground: React.FC<RedisPlaygroundProps> = ({
   };
 
   const banner = isId
-    ? `Redis Playground — ketik perintah Redis apa pun di sini.
+    ? `Redis Playground - ketik perintah Redis apa pun di sini.
 State hidup di memori browser, tanpa Redis server.
 Coba: SET nama "Budi"  atau  HSET user:1 name "Budi"
 Ketik perintah di editor, lalu tekan Ctrl+Enter untuk menjalankan.`
-    : `Redis Playground — type any Redis command here.
+    : `Redis Playground - type any Redis command here.
 State lives in browser memory, no Redis server needed.
 Try: SET name "Budi"  or  HSET user:1 name "Budi"
 Type commands in the editor, then press Ctrl+Enter to run.`;
@@ -269,7 +269,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
       <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#12161f] border-b border-zinc-800 shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-[10px] sm:text-xs text-zinc-400 font-mono ml-2 hidden sm:inline">
-            {isId ? '🔴 Redis Playground — di browser, tanpa instalasi server' : '🔴 Redis Playground — in-browser, no server installation'}
+            {isId ? '🔴 Redis Playground - di browser, tanpa instalasi server' : '🔴 Redis Playground - in-browser, no server installation'}
           </span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -412,7 +412,7 @@ Type commands in the editor, then press Ctrl+Enter to run.`;
       {/* Footer */}
       <div className="px-3 sm:px-4 py-1.5 bg-[#12161f] border-t border-zinc-800 text-[10px] text-zinc-500 flex items-center justify-between shrink-0">
         <span>
-          {isId ? 'Redis Simulator v7.2.0 — State di memori browser' : 'Redis Simulator v7.2.0 — State in browser memory'}
+          {isId ? 'Redis Simulator v7.2.0 - State di memori browser' : 'Redis Simulator v7.2.0 - State in browser memory'}
         </span>
         <span className="hidden sm:inline">
           DB: {stats.currentDb} | {stats.totalKeys} keys

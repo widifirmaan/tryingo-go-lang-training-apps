@@ -1,7 +1,7 @@
 # Media, Iframe, dan Aksesibilitas
 
 > **Kategori:** HTML5 | **Level:** Menengah | **Seri:** Form dan Interaksi | **Minggu 6:** Media, Iframe, dan Aksesibilitas
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -73,7 +73,7 @@ Website yang baik dapat diakses oleh semua pengguna, termasuk penyandang disabil
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media dan Lokasi — Alex Pratama</title>
+  <title>Media dan Lokasi - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

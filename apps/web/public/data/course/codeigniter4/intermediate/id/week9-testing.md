@@ -66,9 +66,9 @@ echo "$this->dontSeeInDatabase('products', ['name' => 'Deleted']);<br>";
 echo "$this->hasInDatabase('products', ['name' => 'New', 'price' => 50]);<br><br>";
 
 echo "=== Test Helpers ===<br>";
-echo "model('ProductModel') — Get model instance<br>";
-echo "db_connect() — Get database connection<br>";
-echo "$this->seed('ProductSeeder') — Run seeder<br>";
+echo "model('ProductModel') - Get model instance<br>";
+echo "db_connect() - Get database connection<br>";
+echo "$this->seed('ProductSeeder') - Run seeder<br>";
 ```
 
 ---

@@ -82,7 +82,7 @@ echo "<?php endif ?><br>";
 `$this->validate($rules)` returns false on failure.
 
 ### Errors
-`$this->validator->getErrors()` — array of error messages.
+`$this->validator->getErrors()` - array of error messages.
 
 ### Flash Data
 `withInput()` retains input, `with('errors', $errors)` stores errors.

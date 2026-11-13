@@ -1,13 +1,13 @@
 # Body, Layout Semantik, dan Gambar
 
 > **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 3:** Body, Layout Semantik, dan Gambar
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-HTML adalah kerangka setiap halaman web di dunia — tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
+HTML adalah kerangka setiap halaman web di dunia - tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
 
-Di minggu ke-3 — bertajuk **"Body, Layout Semantik, dan Gambar"** — program latihan utamanya adalah *"Tata Letak Semantik Halaman Beranda dengan Media Gambar"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Tata Letak Semantik Halaman Beranda dengan Media Gambar"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -77,7 +77,7 @@ Jika gambar memiliki keterangan foto (*caption*), bungkus dengan `<figure>`:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beranda Portofolio — Alex Pratama</title>
+  <title>Beranda Portofolio - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }

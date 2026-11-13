@@ -108,19 +108,19 @@ console.log("Recursive: deep type transformations");
 ## Key Concepts
 
 ### Template Literal Types
-`type T = \`get\${Capitalize<K>}\`` — generate types from strings.
+`type T = \`get\${Capitalize<K>}\`` - generate types from strings.
 
 ### Conditional Types
-`T extends string ? true : false` — type-level if/else.
+`T extends string ? true : false` - type-level if/else.
 
 ### infer
 Extract type from structure: `T extends (infer E)[] ? E : never`.
 
 ### Key Remapping
-`{ [K in keyof T as NewKey]: T[K] }` — rename keys.
+`{ [K in keyof T as NewKey]: T[K] }` - rename keys.
 
 ### Branded Types
-`type USD = number & { __brand: "USD" }` — nominal typing for primitives.
+`type USD = number & { __brand: "USD" }` - nominal typing for primitives.
 
 ### Recursive Types
 Types that reference themselves: `DeepReadonly<T>`.

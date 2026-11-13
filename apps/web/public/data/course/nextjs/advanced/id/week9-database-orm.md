@@ -60,7 +60,7 @@ export default async function UsersPage() {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            {user.name} ({user.email}) — {user.posts} posts
+            {user.name} ({user.email}) - {user.posts} posts
           </li>
         ))}
       </ul>

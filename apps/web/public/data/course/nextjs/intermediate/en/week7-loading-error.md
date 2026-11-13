@@ -49,7 +49,7 @@ export default function Error({ error, reset }) {
 export default function NotFound() {
   return (
     <div>
-      <h2>404 — Tidak Ditemukan</h2>
+      <h2>404 - Tidak Ditemukan</h2>
       <p>Halaman yang Anda cari tidak ada.</p>
       <a href="/">Kembali ke Beranda</a>
     </div>

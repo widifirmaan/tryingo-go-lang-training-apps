@@ -84,7 +84,7 @@ for req in requirements:
 ## Konsep Kunci
 
 ### venv
-`python -m venv myenv` — isolated environment. Activate: `source myenv/bin/activate` atau `myenv\Scripts\activate`.
+`python -m venv myenv` - isolated environment. Activate: `source myenv/bin/activate` atau `myenv\Scripts\activate`.
 
 ### pip
 `pip install pkg`, `pip freeze > requirements.txt`, `pip install -r requirements.txt`.

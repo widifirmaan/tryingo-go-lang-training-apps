@@ -70,7 +70,7 @@ Guard bisa async; return false membatalkan navigasi, return object redirect meng
 
 ### Nested views & components
 
-<router-view> di dalam layout; name untuk outlet sibling — clean UI composition.
+<router-view> di dalam layout; name untuk outlet sibling - clean UI composition.
 
 ---
 

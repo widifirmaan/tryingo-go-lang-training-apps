@@ -1,13 +1,13 @@
 # Head, Text, and Links
 
 > **Category:** HTML5 | **Level:** Beginner | **Seri:** HTML Basics | **Week 2:** Head, Text, and Links
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Why This Matters
 
-HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+HTML is the skeleton of every page on the web - without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
 
-Week 2 — themed **"Head, Text, and Links"** — centers on the practice program *"Services Page with Navigation and Typography Structure"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Services Page with Navigation and Typography Structure"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -83,7 +83,7 @@ my-website/
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Layanan Web — Alex Pratama</title>
+  <title>Layanan Web - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

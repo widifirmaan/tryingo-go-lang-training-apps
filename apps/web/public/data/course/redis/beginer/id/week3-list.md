@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Redis adalah database in-memory secepat kilat — dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
+Redis adalah database in-memory secepat kilat - dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
 
-Di minggu ke-3 — bertajuk **"List"** — program latihan utamanya adalah *"Operasi List Redis"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Operasi List Redis"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

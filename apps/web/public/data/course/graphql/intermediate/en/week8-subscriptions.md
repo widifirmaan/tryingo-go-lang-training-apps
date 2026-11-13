@@ -73,7 +73,7 @@ const resolvers = {
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 8 — Mutation mem-trigger event PubSub; subscription mengalirkan hasilnya
+# Week 8 - Mutation mem-trigger event PubSub; subscription mengalirkan hasilnya
 mutation PublishNewOrder {
   createOrder(
     customer: "Siti Rahayu"

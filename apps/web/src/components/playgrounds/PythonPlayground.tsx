@@ -17,7 +17,7 @@ interface ExecutionResult {
   image?: string;
 }
 
-const DEFAULT_PYTHON = `# Tryngo Python Playground — Pyodide (WASM)
+const DEFAULT_PYTHON = `# Tryngo Python Playground - Pyodide (WASM)
 # Pre-loaded modules: math, random, json, datetime, collections, itertools
 
 import math
@@ -40,7 +40,7 @@ for student in students:
 // ---------------------------------------------------------------------------
 // Worker-based Pyodide runner.
 //
-// Pyodide's runPythonAsync executes synchronously on the calling thread — an
+// Pyodide's runPythonAsync executes synchronously on the calling thread - an
 // infinite loop in user code would freeze the entire tab with no way to abort.
 // Running Pyodide inside a Web Worker keeps the UI responsive and lets us kill
 // a stuck run by terminating the worker. The worker is kept alive between runs
@@ -121,7 +121,7 @@ self.onmessage = async (e) => {
     pyodide.setStderr({ batched: (t) => stderrLines.push(t) });
     pyodide.setStdin({ stdin: () => '' });
   } catch {
-    // buffers unavailable — continue without capture
+    // buffers unavailable - continue without capture
   }
   const start = performance.now();
   let stdout = '';

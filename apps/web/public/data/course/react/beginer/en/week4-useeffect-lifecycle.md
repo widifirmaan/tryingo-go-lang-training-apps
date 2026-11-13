@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-React is the most popular UI library in the world — used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
+React is the most popular UI library in the world - used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
 
-Week 4 — themed **"useEffect & Lifecycle"** — centers on the practice program *"Fetch Data & Timer"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Fetch Data & Timer"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

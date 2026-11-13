@@ -178,4 +178,4 @@ Buat full API client library: CRUD, interceptors, caching, retry, type-safe endp
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Type-Safe API Client** (Level: TypeScript Lengkap). Selesai! 🎉 Anda sudah menguasai TypeScript hingga production-ready.
+Minggu 12 dari 12: **Capstone: Type-Safe API Client** (Level: TypeScript Lengkap). Selesai! Anda sudah menguasai TypeScript hingga production-ready.

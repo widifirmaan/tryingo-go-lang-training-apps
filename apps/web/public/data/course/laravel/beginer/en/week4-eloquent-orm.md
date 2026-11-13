@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel - a skill you can directly sell.
 
-Week 4 — themed **"Eloquent ORM"** — centers on the practice program *"Database with Eloquent"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Database with Eloquent"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -86,7 +86,7 @@ Each table has a model. Convention: model `Post` → table `posts`.
 `Model::create()`, `Model::find()`, `Model::where()->get()`, `$model->save()`, `$model->delete()`.
 
 ### Mass Assignment
-`$fillable` — fields allowed for mass assignment. `$guarded` — fields protected.
+`$fillable` - fields allowed for mass assignment. `$guarded` - fields protected.
 
 ### Query Builder
 Chain methods: `where()`, `orderBy()`, `limit()`, `get()`, `first()`.

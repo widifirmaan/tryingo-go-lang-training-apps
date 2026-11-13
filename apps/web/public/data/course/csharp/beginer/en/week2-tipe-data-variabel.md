@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-C# and .NET drive enterprise Windows apps, backend APIs, and Unity games — one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.
+C# and .NET drive enterprise Windows apps, backend APIs, and Unity games - one of the biggest backend job ecosystems in the world. And it is friendlier than it looks: the compiler helps you, it is not out to judge you.
 
-Week 2 — themed **"Data Types & Variables"** — centers on the practice program *"Conversion & Validation"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Conversion & Validation"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -106,7 +106,7 @@ Date/time manipulation and formatting.
 
 ## Experiments
 
-- Try double to int conversion — observe rounding
+- Try double to int conversion - observe rounding
 - Experiment with TryParse on invalid input
 - Create enum with custom values
 - Try DateTime: AddMonths, AddYears, TimeSpan

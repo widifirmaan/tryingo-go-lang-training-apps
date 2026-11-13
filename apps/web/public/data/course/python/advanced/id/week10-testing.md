@@ -121,7 +121,7 @@ Built-in testing framework. `TestCase` class, `assertEqual`, `assertRaises`, `se
 Lebih powerful: `fixture`, `@pytest.mark.parametrize`, `conftest.py` shared fixtures.
 
 ### Coverage
-`pytest --cov=src --cov-report=html` — ukur berapa % kode yang ditest.
+`pytest --cov=src --cov-report=html` - ukur berapa % kode yang ditest.
 
 ### Type Hints
 `def f(x: int) -> str:`. `mypy` static checker. Tidak enforce saat runtime.

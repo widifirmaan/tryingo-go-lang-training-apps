@@ -49,7 +49,7 @@ $endpoints = [
 ];
 
 foreach ($endpoints as $endpoint => $desc) {
-    echo "  $endpoint — $desc<br>";
+    echo "  $endpoint - $desc<br>";
 }
 
 echo "<br>=== Task Flow ===<br>";
@@ -107,4 +107,4 @@ Buat task management API lengkap: auth, CRUD tasks, categories, filtering, testi
 
 ## Ringkasan
 
-Minggu 10 dari 10: **Capstone: Task Management API** (Level: Menengah). Selesai! 🎉 Anda sudah menguasai CodeIgniter 4 dari dasar hingga produksi.
+Minggu 10 dari 10: **Capstone: Task Management API** (Level: Menengah). Selesai! Anda sudah menguasai CodeIgniter 4 dari dasar hingga produksi.

@@ -12,7 +12,7 @@
 
 ---
 
-## Program: HTTP Server Dari Nol Lalu Express
+## Program: HTTP Server Native Lalu Express
 
 Program membangun server dengan modul http murni lalu bermigrasi ke Express agar routing, middleware, dan error handling rapi.
 
@@ -33,7 +33,7 @@ handleRequest('GET', '/');
 handleRequest('GET', '/health');
 handleRequest('GET', '/tidak-ada');
 
-// Bagian 2: Mini-Express — router + middleware + error handling
+// Bagian 2: Mini-Express - router + middleware + error handling
 const middlewareStack = [
   (req, next) => { console.log(`[logger] ${req.method} ${req.url}`); return next(); },
   (req, next) => (req.url === '/admin' ? 'Error: hanya admin!' : next()),
@@ -95,4 +95,4 @@ Upgrade '/health': tambahkan penggunaan memori dan nomor versi. Jaga agar seluru
 
 ## Ringkasan
 
-Materi minggu ini telah dibahas: HTTP Server Dari Nol Lalu Express. Lanjut ke pekan berikutnya untuk memperdalam.
+Materi minggu ini telah dibahas: HTTP Server Native Lalu Express. Lanjut ke pekan berikutnya untuk memperdalam.

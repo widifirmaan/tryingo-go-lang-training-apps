@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-TypeScript adalah JavaScript dengan sistem tipe — kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
+TypeScript adalah JavaScript dengan sistem tipe - kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
 
-Di minggu ke-4 — bertajuk **"Interfaces & Type Aliases"** — program latihan utamanya adalah *"Model Data TypeScript"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Model Data TypeScript"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -104,10 +104,10 @@ console.log("Interface: extends, declaration merge");
 Definisi bentuk object. `interface User { name: string }`.
 
 ### Extends
-`interface Employee extends User` — tambah property.
+`interface Employee extends User` - tambah property.
 
 ### Type Alias
-`type ID = string | number` — alias untuk type apapun.
+`type ID = string | number` - alias untuk type apapun.
 
 ### Interface vs Type
 Interface: extends, declaration merge. Type: union, intersection, conditional.
@@ -116,7 +116,7 @@ Interface: extends, declaration merge. Type: union, intersection, conditional.
 `readonly id` tidak bisa diubah. `age?` optional.
 
 ### Index Signature
-`{ [key: string]: type }` — object dengan dynamic keys.
+`{ [key: string]: type }` - object dengan dynamic keys.
 
 ---
 
@@ -132,7 +132,7 @@ Interface: extends, declaration merge. Type: union, intersection, conditional.
 
 ## Tantangan
 
-Buat type system untuk e-commerce: User, Product, Order, Cart — dengan interfaces, types, dan relationships.
+Buat type system untuk e-commerce: User, Product, Order, Cart - dengan interfaces, types, dan relationships.
 
 ---
 

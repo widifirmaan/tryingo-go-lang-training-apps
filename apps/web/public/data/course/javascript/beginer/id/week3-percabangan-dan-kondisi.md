@@ -1,13 +1,13 @@
 # Percabangan dan Pengambilan Keputusan
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Seri:** Dasar JavaScript & Logika | **Minggu 3:** Percabangan dan Pengambilan Keputusan
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-JavaScript adalah satu-satunya bahasa yang berjalan di semua browser — sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
+JavaScript adalah satu-satunya bahasa yang berjalan di semua browser - sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
 
-Di minggu ke-3 — bertajuk **"Percabangan dan Pengambilan Keputusan"** — program latihan utamanya adalah *"Sistem Penilaian Kelulusan dan Evaluasi Hak Akses"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Sistem Penilaian Kelulusan dan Evaluasi Hak Akses"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

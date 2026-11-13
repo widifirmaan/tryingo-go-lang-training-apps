@@ -6,7 +6,7 @@
 
 - Box<T>: heap allocation untuk tipe dinamis dan recursive type
 - Rc<T>: reference counting untuk multiple ownership
-- RefCell<T>: interior mutability — mutable borrow saat immutable
+- RefCell<T>: interior mutability - mutable borrow saat immutable
 - Arc<T>: atomic reference counting untuk thread-safe sharing
 - Deref dan Drop trait untuk custom smart pointer
 
@@ -19,7 +19,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use std::sync::Arc;
 
-// Box<T> — heap allocation
+// Box<T> - heap allocation
 fn box_example() {
     let b = Box::new(42);
     println!("Box: {}", b);
@@ -35,7 +35,7 @@ fn box_example() {
     println!("List: {:?}", list);
 }
 
-// Rc<T> — reference counting
+// Rc<T> - reference counting
 fn rc_example() {
     let a = Rc::new(42);
     let b = Rc::clone(&a);
@@ -45,7 +45,7 @@ fn rc_example() {
     println!("Reference count: {}", Rc::strong_count(&a));
 }
 
-// RefCell<T> — interior mutability
+// RefCell<T> - interior mutability
 fn refcell_example() {
     let data = RefCell::new(42);
 
@@ -57,7 +57,7 @@ fn refcell_example() {
     println!("data after mutation = {}", data.borrow());
 }
 
-// Arc<T> — atomic reference counting (thread-safe)
+// Arc<T> - atomic reference counting (thread-safe)
 fn arc_example() {
     let val = Arc::new(42);
     let val2 = Arc::clone(&val);
@@ -119,7 +119,7 @@ Reference counting. Multiple owner, single-thread. `Rc::clone()` increment count
 Interior mutability. Borrow rules dijalankan saat runtime, bukan compile time.
 
 ### Arc<T>
-Atomic Rc — thread-safe. Dipakai bersama Mutex untuk shared mutable state.
+Atomic Rc - thread-safe. Dipakai bersama Mutex untuk shared mutable state.
 
 ### Deref & Drop
 `Deref` untuk `*x`. `Drop` untuk cleanup saat keluar scope.
@@ -130,7 +130,7 @@ Atomic Rc — thread-safe. Dipakai bersama Mutex untuk shared mutable state.
 
 - Buat linked list dengan Box<Cons>
 - Eksperimen dengan Rc<RefCell<T>>
-- Coba RefCell borrow saat sudah borrowed — lihat panic
+- Coba RefCell borrow saat sudah borrowed - lihat panic
 - Buat custom smart pointer dengan Drop
 - Eksperimen dengan Weak<T> untuk break cycle
 

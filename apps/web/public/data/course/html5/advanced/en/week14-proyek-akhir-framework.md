@@ -1,7 +1,7 @@
 # Final Project with UI Framework
 
 > **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 14:** Final Project with UI Framework
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -51,7 +51,7 @@ Once `index.html` passes local validation:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Studio — Alex Pratama</title>
+  <title>Portal Studio - Alex Pratama</title>
   <!-- Bootstrap 5 CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>

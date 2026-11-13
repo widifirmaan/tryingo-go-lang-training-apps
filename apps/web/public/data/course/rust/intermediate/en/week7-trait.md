@@ -130,7 +130,7 @@ Traits can provide default implementations.
 
 ## Experiments
 
-- Create Shape trait with area() — implement Circle, Rectangle
+- Create Shape trait with area() - implement Circle, Rectangle
 - Try multiple trait bounds: T: Trait1 + Trait2
 - Create trait with associated types
 - Experiment with trait objects in Vec

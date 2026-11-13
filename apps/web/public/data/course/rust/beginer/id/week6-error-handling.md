@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+Rust menjamin keamanan memory TANPA garbage collector - dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
 
-Di minggu ke-6 — bertajuk **"Error Handling"** — program latihan utamanya adalah *"Penanganan Error"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Penanganan Error"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -113,13 +113,13 @@ fn main() {
 Enum dengan variant. Implement `Debug` dan `Display`.
 
 ### ? Operator
-`let x = func()?;` — jika Err, return langsung. Jika Ok, unwrap.
+`let x = func()?;` - jika Err, return langsung. Jika Ok, unwrap.
 
 ### unwrap_or
-`opt.unwrap_or(default)` — nilai default jika None.
+`opt.unwrap_or(default)` - nilai default jika None.
 
 ### ok_or
-`opt.ok_or("msg")` — konversi Option ke Result.
+`opt.ok_or("msg")` - konversi Option ke Result.
 
 ---
 

@@ -59,11 +59,11 @@ console.log('}');
 console.log('');
 console.log('=== Built-in Pipes ===');
 const pipes = [
-  'ValidationPipe — validate request body',
-  'ParseIntPipe — convert string to int',
-  'ParseBoolPipe — convert string to bool',
-  'ParseUUIDPipe — validate UUID format',
-  'DefaultValuePipe — set default value',
+  'ValidationPipe - validate request body',
+  'ParseIntPipe - convert string to int',
+  'ParseBoolPipe - convert string to bool',
+  'ParseUUIDPipe - validate UUID format',
+  'DefaultValuePipe - set default value',
 ];
 for (const p of pipes) console.log('  - ' + p);
 

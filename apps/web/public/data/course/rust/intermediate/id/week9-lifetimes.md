@@ -82,10 +82,10 @@ Compiler bisa infer lifetime jika: 1 param input, atau 1 param + &self.
 Struct yang punya reference field perlu lifetime annotation.
 
 ### Static Lifetime
-`'static` — hidup selama program berjalan. String literal selalu 'static.
+`'static` - hidup selama program berjalan. String literal selalu 'static.
 
 ### Multiple Lifetimes
-`fn mix<'a, 'b>(x: &'a str, y: &'b str)` — dua lifetime berbeda.
+`fn mix<'a, 'b>(x: &'a str, y: &'b str)` - dua lifetime berbeda.
 
 ---
 

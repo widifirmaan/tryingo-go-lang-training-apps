@@ -20,11 +20,11 @@
 # ─────────────────────────────────────────────────────────
 
 # Network types:
-# 1. Bridge — default, internal network
-# 2. Host — share host network stack
-# 3. None — no network
-# 4. Overlay — multi-host (Swarm)
-# 5. Macvlan — assign MAC address
+# 1. Bridge - default, internal network
+# 2. Host - share host network stack
+# 3. None - no network
+# 4. Overlay - multi-host (Swarm)
+# 5. Macvlan - assign MAC address
 
 # Lihat networks
 docker network ls

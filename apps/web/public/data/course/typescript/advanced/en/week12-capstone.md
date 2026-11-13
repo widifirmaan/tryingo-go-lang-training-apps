@@ -178,4 +178,4 @@ Build a full API client library: CRUD, interceptors, caching, retry, type-safe e
 
 ## Summary
 
-Week 12 of 12: **Capstone: Type-Safe API Client** (Level: Complete TypeScript). Complete! 🎉 You've mastered TypeScript from scratch to expert.
+Week 12 of 12: **Capstone: Type-Safe API Client** (Level: Complete TypeScript). Complete! You have finished the entire TypeScript curriculum.

@@ -16,13 +16,13 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# DOCKER VOLUMES — Data Persistence
+# DOCKER VOLUMES - Data Persistence
 # ─────────────────────────────────────────────────────────
 
 # Volume types:
-# 1. Named Volume — dikelola Docker
-# 2. Bind Mount — path di host
-# 3. tmpfs Mount — in-memory (Linux)
+# 1. Named Volume - dikelola Docker
+# 2. Bind Mount - path di host
+# 3. tmpfs Mount - in-memory (Linux)
 
 # Named Volume
 docker volume create my-data

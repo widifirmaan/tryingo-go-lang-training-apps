@@ -6,7 +6,7 @@
 
 - React Testing Library: render, screen, fireEvent
 - Test behavior, bukan implementation details
-- getBy, queryBy, findBy — kapan pakai masing-masing
+- getBy, queryBy, findBy - kapan pakai masing-masing
 - Test user interaction: click, type, submit
 - Async testing: waitFor, findBy untuk async operations
 

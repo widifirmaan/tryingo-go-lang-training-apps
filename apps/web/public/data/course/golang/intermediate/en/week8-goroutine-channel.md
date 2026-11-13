@@ -80,7 +80,7 @@ func main() {
 ## Key Concepts
 
 ### Goroutines
-`go f()` — lightweight concurrent functions.
+`go f()` - lightweight concurrent functions.
 
 ### Channels
 Unbuffered (sync) vs buffered (async).

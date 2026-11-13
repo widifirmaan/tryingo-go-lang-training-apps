@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+Rust menjamin keamanan memory TANPA garbage collector - dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
 
-Di minggu ke-2 — bertajuk **"Ownership & Borrowing"** — program latihan utamanya adalah *"Manajemen Memori"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Manajemen Memori"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -87,7 +87,7 @@ Rust mencegah dangling reference di compile time.
 
 ## Eksperimen
 
-- Coba println! s1 setelah move — lihat error
+- Coba println! s1 setelah move - lihat error
 - Buat fungsi yang return ownership
 - Eksperimen dengan multiple mutable borrow
 - Buat struct dengan String field dan test ownership

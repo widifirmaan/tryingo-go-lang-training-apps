@@ -93,10 +93,10 @@ class Program
         Console.WriteLine($"Names: [{string.Join(", ", names)}]");
 
         // Generic constraints
-        // where T : class — harus reference type
-        // where T : struct — harus value type
-        // where T : new() — harus punya parameterless constructor
-        // where T : Product — harus turunan Product
+        // where T : class - harus reference type
+        // where T : struct - harus value type
+        // where T : new() - harus punya parameterless constructor
+        // where T : Product - harus turunan Product
 
         // Nullable reference types
         string? nullable = null;
@@ -112,22 +112,22 @@ class Program
 ## Konsep Kunci
 
 ### Generic Class
-`class Repository<T>` — class dengan type parameter. Bisa dipakai untuk tipe apapun.
+`class Repository<T>` - class dengan type parameter. Bisa dipakai untuk tipe apapun.
 
 ### Generic Method
-`static T FirstOrDefault<T>()` — method dengan type parameter sendiri.
+`static T FirstOrDefault<T>()` - method dengan type parameter sendiri.
 
 ### Generic Interface
-`interface IRepository<T>` — interface generik.
+`interface IRepository<T>` - interface generik.
 
 ### Constraints
-- `where T : class` — reference type
-- `where T : struct` — value type
-- `where T : new()` — punya parameterless constructor
-- `where T : Product` — turunan Product
+- `where T : class` - reference type
+- `where T : struct` - value type
+- `where T : new()` - punya parameterless constructor
+- `where T : Product` - turunan Product
 
 ### Nullable Reference Types
-`string?` — reference type yang bisa null. Di-enable di C# 8+.
+`string?` - reference type yang bisa null. Di-enable di C# 8+.
 
 ---
 

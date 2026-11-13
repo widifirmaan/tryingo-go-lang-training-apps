@@ -27,7 +27,7 @@ interface HeroSectionProps {
   activeQuizId?: string | null;
 }
 
-// Module-level constants — recomputed on every render otherwise
+// Module-level constants - recomputed on every render otherwise
 const QUIZ_ITEMS = TRACKS_COLLECTION.map((track) => ({
   label: track.name,
   slug: SLUG_MAP[track.id] || track.id.replace('tryngo-lang-', ''),

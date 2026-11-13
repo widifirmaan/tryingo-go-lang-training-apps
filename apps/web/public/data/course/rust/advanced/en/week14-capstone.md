@@ -161,4 +161,4 @@ Build a complete capstone application: CLI + library + JSON storage + testing. C
 
 ## Summary
 
-Week 14 of 14: **Capstone: CLI + Library** (Level: Advanced). Complete! 🎉 You've mastered Rust from scratch to production-ready.
+Week 14 of 14: **Capstone: CLI + Library** (Level: Advanced). Complete! You have finished the entire Rust curriculum.

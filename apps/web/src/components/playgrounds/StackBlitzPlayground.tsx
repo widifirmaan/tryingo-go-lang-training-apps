@@ -285,7 +285,7 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
     if (!blitzProject) return;
     const sdk = (await import('@stackblitz/sdk')).default;
     sdk.openProject(
-      { title: `Tryngo — ${FRAMEWORK_LABELS[slug]}`, template: blitzProject.template, files: blitzProject.files },
+      { title: `Tryngo - ${FRAMEWORK_LABELS[slug]}`, template: blitzProject.template, files: blitzProject.files },
       { newWindow: true, openFile: blitzProject.mainFile, showSidebar: true }
     );
   }, [blitzProject, slug]);
@@ -337,7 +337,7 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
       <div className="flex flex-col bg-[#1e1e1e] rounded-[28px] overflow-hidden border border-zinc-700/50 w-full h-full">
         <div className="flex items-center justify-between gap-2 px-3 py-1 bg-[#1e1e1e] border-b border-zinc-800 shrink-0">
           <span className="text-[10px] text-zinc-500 font-mono truncate">
-            {FRAMEWORK_LABELS[slug]} — {isId ? 'proyek multi-file' : 'multi-file project'}
+            {FRAMEWORK_LABELS[slug]} - {isId ? 'proyek multi-file' : 'multi-file project'}
           </span>
           <div className="flex items-center gap-1.5 shrink-0">
             <button
@@ -366,7 +366,7 @@ export const StackBlitzPlayground: React.FC<StackBlitzPlaygroundProps> = ({ lang
               </div>
             }
           >
-            <StackBlitzEmbed lang={lang} project={blitzProject} title={`Tryngo — ${FRAMEWORK_LABELS[slug]}`} />
+            <StackBlitzEmbed lang={lang} project={blitzProject} title={`Tryngo - ${FRAMEWORK_LABELS[slug]}`} />
           </Suspense>
         </div>
       </div>

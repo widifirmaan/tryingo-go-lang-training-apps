@@ -6,7 +6,7 @@
 
 Node.js puts JavaScript on the server: a non-blocking event loop lets one language span browser to database. Understanding the Node runtime means understanding streams, workers, and real-time APIs.
 
-Week 3 — themed **"File System & Path"** — centers on the practice program *"File Manager"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"File Manager"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

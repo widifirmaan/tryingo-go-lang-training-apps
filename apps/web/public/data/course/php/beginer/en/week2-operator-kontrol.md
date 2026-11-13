@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-PHP runs roughly three quarters of the web — WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.
+PHP runs roughly three quarters of the web - WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.
 
-Week 2 — themed **"Operators & Control Flow"** — centers on the practice program *"Grade System"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Grade System"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -92,7 +92,7 @@ echo "Halo, $salam<br>";
 - Change values and observe grade changes
 - Create nested if for multi-condition validation
 - Try for loop with break and continue
-- Replace switch with if/else — which is more readable?
+- Replace switch with if/else - which is more readable?
 - Use null coalescing operator ?? for default values
 
 ---

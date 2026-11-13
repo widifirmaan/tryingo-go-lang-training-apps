@@ -6,7 +6,7 @@
 
 CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
 
-Di minggu ke-4 — bertajuk **"Models & Database"** — program latihan utamanya adalah *"CRUD Model"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"CRUD Model"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -91,13 +91,13 @@ echo "protected $updatedField = 'updated_at';<br>";
 `findAll()`, `find($id)`, `where()->findAll()`, `insert($data)`, `update($id, $data)`, `delete($id)`.
 
 ### Allowed Fields
-`$allowedFields` — field yang boleh diisi mass. Proteksi dari mass assignment.
+`$allowedFields` - field yang boleh diisi mass. Proteksi dari mass assignment.
 
 ### Timestamps
-`$useTimestamps = true` — auto manage `created_at` dan `updated_at`.
+`$useTimestamps = true` - auto manage `created_at` dan `updated_at`.
 
 ### Query Builder
-`$builder->where()->orderBy()->get()` — chain methods.
+`$builder->where()->orderBy()->get()` - chain methods.
 
 ---
 

@@ -93,7 +93,7 @@ class Program
 ## Konsep Kunci
 
 ### Async/Await
-`async Task Method()` — method asynchronous. `await` — tunggu hasil tanpa block thread.
+`async Task Method()` - method asynchronous. `await` - tunggu hasil tanpa block thread.
 
 ### Task
 `Task` = operasi async tanpa return. `Task<T>` = operasi async dengan return value.

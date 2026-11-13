@@ -67,7 +67,7 @@ Klien bersamaan tidak boleh melihat "setengah transfer". Default MySQL InnoDB = 
 
 ### Durability (Durabilitas)
 
-Setelah COMMIT sukses, data aman walau server mati detik berikutnya — InnoDB menulis ke redo log sebelum mengakui COMMIT.
+Setelah COMMIT sukses, data aman walau server mati detik berikutnya - InnoDB menulis ke redo log sebelum mengakui COMMIT.
 
 ---
 

@@ -80,9 +80,9 @@ public class ReportService {
 
 // Cron Expression Format:
 // second minute hour day month weekday
-// "0 0 * * * *" — setiap jam
-// "0 0 0 * * *" — setiap hari tengah malam
-// "0 */5 * * * *" — setiap 5 menit
+// "0 0 * * * *" - setiap jam
+// "0 0 0 * * *" - setiap hari tengah malam
+// "0 */5 * * * *" - setiap 5 menit
 ```
 
 ---

@@ -113,7 +113,7 @@ Framework untuk authentication dan authorization. Filter chain pattern.
 Konfigurasi security: CSRF, session, authorization rules.
 
 ### JWT
-Token-based auth. Stateless — server tidak simpan session.
+Token-based auth. Stateless - server tidak simpan session.
 
 ### Flow
 1. Client login → server return JWT
@@ -122,7 +122,7 @@ Token-based auth. Stateless — server tidak simpan session.
 4. Grant/deny access
 
 ### Role-Based
-`@PreAuthorize("hasRole('ADMIN')")` — restrict by role.
+`@PreAuthorize("hasRole('ADMIN')")` - restrict by role.
 
 ---
 

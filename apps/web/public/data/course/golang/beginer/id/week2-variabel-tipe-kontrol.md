@@ -6,7 +6,7 @@
 
 Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
 
-Di minggu ke-2 — bertajuk **"Variabel, Tipe & Control Flow"** — program latihan utamanya adalah *"Bilangan & Grade"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Bilangan & Grade"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -15,7 +15,7 @@ Di minggu ke-2 — bertajuk **"Variabel, Tipe & Control Flow"** — program lati
 - Mengenal tipe dasar: int, float64, string, bool, rune
 - Memahami zero values dan type inference (Go Tour: Zero Values)
 - Menerapkan if/else dengan short statement dan for loop 3 bentuk
-- Menggunakan switch tanpa break — case berhenti otomatis (Effective Go)
+- Menggunakan switch tanpa break - case berhenti otomatis (Effective Go)
 
 ---
 
@@ -87,7 +87,7 @@ func main() {
 ### Control Flow
 - if dengan short statement: `if x := 10; x > 5 {}`
 - for 3 bentuk: classic, while-style, infinite
-- switch tanpa break — case otomatis berhenti
+- switch tanpa break - case otomatis berhenti
 - tagless switch untuk kondisi kompleks
 
 ---
@@ -97,7 +97,7 @@ func main() {
 - Ubah nilai score dan lihat grade berubah
 - Tambah nested if untuk validasi
 - Buat for loop dengan break pada kondisi tertentu
-- Ganti switch dengan if/else — mana yang lebih readable?
+- Ganti switch dengan if/else - mana yang lebih readable?
 
 ---
 

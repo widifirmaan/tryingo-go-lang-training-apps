@@ -134,4 +134,4 @@ Buat aplikasi blog lengkap: CRUD posts, kategori, komentar, search, pagination. 
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Aplikasi Blog** (Level: Menengah). Selesai! 🎉 Anda sudah menguasai PHP dari dasar hingga produksi.
+Minggu 12 dari 12: **Capstone: Aplikasi Blog** (Level: Menengah). Selesai! Anda sudah menguasai PHP dari dasar hingga produksi.

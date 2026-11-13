@@ -1,7 +1,7 @@
 # Full Website Project
 
 > **Category:** HTML5 | **Level:** Intermediate | **Seri:** Forms and Interaction | **Week 8:** Full Website Project
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -53,7 +53,7 @@ This project stands as a complete portfolio demonstration of native HTML mastery
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Studio — Alex Pratama</title>
+  <title>Portal Studio - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }

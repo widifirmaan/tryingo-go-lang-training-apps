@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel — skill yang langsung dapat dipakai bekerja.
+Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel - skill yang langsung dapat dipakai bekerja.
 
-Di minggu ke-1 — bertajuk **"Setup & Instalasi Laravel"** — program latihan utamanya adalah *"Project Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Project Pertama"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -20,16 +20,16 @@ Di minggu ke-1 — bertajuk **"Setup & Instalasi Laravel"** — program latihan 
 
 ## Fondasi: Sebelum Menulis Kode
 
-Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama di semua bahasa — dibutuhkan sekali paham, dipakai selamanya.
+Panduan dasar berikut merangkum konsep pemrograman inti yang berlaku universal.
 
 - **File & folder = tempat program tinggal.** Program hanyalah teks biasa yang disimpan dalam file (contoh: `belajar.md`). File punya **ekstensi** yang menunjukkan bahasanya: `.md`, `.go`, `.py`, `.html`. Satu folder berisi semua file program disebut **project**.
 - **Terminal / command line.** Jendela hitam tempat kita mengetik perintah teks: `cd folder` (pindah folder), `ls` / `dir` (lihat isi folder), `go run main.go` (jalankan program). Program dijalankan dari folder tempat file-nya berada.
-- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan — cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung — cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
-- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis — error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan — lebih longgar, error baru muncul saat runtime.
-- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis — itulah cara komputer memberi tahu ada yang perlu diperbaiki.
-- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung — inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
+- **Compiled vs interpreted.** Bahasa **compiled** (Go, Rust, C#) diterjemahkan dulu seluruh program menjadi instruksi mesin sebelum jalan - cepat, tapi harus "di-build" dulu. Bahasa **interpreted** (Python, PHP, JavaScript) dieksekusi baris per baris langsung - cocok untuk belajar & prototipe cepat. Playground di website ini mengeksekusi kode **di browser**, jadi Anda bisa mencoba materi tanpa install apa pun.
+- **Statically typed vs dynamically typed.** Bahasa **statically typed** (Go, Rust, TypeScript) mewajibkan/mengecek tipe data (angka, teks) saat ditulis - error tertangkap lebih awal. Bahasa **dynamically typed** (Python, PHP, JavaScript) cek tipe saat program berjalan - lebih longgar, error baru muncul saat runtime.
+- **Cara membaca pesan error.** Baca baris paling bawah dulu: jenis error + penjelasan singkatnya, lalu cari **nomor baris** yang disebut. Error bukan tragis - itulah cara komputer memberi tahu ada yang perlu diperbaiki.
+- **REPL / playground.** REPL (Read-Eval-Print Loop) = "kalkulator" kode: ketik satu baris, langsung terlihat hasilnya. Tombol **Coba di Playground** di setiap blok kode memungkinkan Anda mengubah kode dan menjalankannya langsung - inilah cara tercepat belajar: ubah sedikit, jalankan, lihat bedanya.
 
-> **Catatan penting:** playground di browser memiliki batasan — tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
+> **Catatan penting:** playground di browser memiliki batasan - tidak menerima input keyboard interaktif (stdin). Jika sebuah tantangan meminta "input dari pengguna", cukup tulis nilainya langsung ke variabel (contoh: `let nama = "Budi"`; `rupiah = 250000`), lalu jalankan.
 
 ---
 
@@ -37,7 +37,7 @@ Bagian ini untuk Anda yang **benar-benar baru** belajar coding. Konsepnya sama d
 
 ## Panduan Mulai Cepat (Quick Start): Setup & Inisialisasi Project
 
-> **⚡ Coba dulu di browser — tanpa install!** Semua blok kode di materi ini punya tombol **Coba di Playground** dan bisa langsung dijalankan di tab ini. Langkah instalasi lokal di bawah ini opsional — lakukan nanti saat Anda sudah siap ngoding di editor sendiri (VS Code/IDE) atau mengerjakan proyek nyata.
+> **Coba langsung di browser tanpa instalasi.** Semua blok kode dapat dijalankan langsung di Playground.
 
 Sebelum mulai mendalami materi dan praktik kode di bawah, siapkan lingkungan pengembangan lokal Anda di komputer dengan langkah-langkah praktis berikut:
 
@@ -71,7 +71,7 @@ PHP 8.x
 Composer 2.x
 ```
 
-> 💡 **Tips Prasyarat:** Laravel membutuhkan ekstensi php-curl, php-mbstring, dan php-xml aktif.
+> **Tips Prasyarat:** Laravel membutuhkan ekstensi php-curl, php-mbstring, dan php-xml aktif.
 
 ---
 
@@ -180,19 +180,19 @@ foreach ($dirs as $dir) {
 }
 
 echo "<br>=== Key Files ===<br>";
-echo "routes/web.php — Web routes<br>";
-echo "app/Http/Controllers/ — Controllers<br>";
-echo "app/Models/ — Eloquent models<br>";
-echo "resources/views/ — Blade templates<br>";
-echo "database/migrations/ — Database schema<br>";
-echo ".env — Environment config<br>";
+echo "routes/web.php - Web routes<br>";
+echo "app/Http/Controllers/ - Controllers<br>";
+echo "app/Models/ - Eloquent models<br>";
+echo "resources/views/ - Blade templates<br>";
+echo "database/migrations/ - Database schema<br>";
+echo ".env - Environment config<br>";
 
 echo "<br>=== artisan Commands ===<br>";
-echo "php artisan serve — Start dev server<br>";
-echo "php artisan make:controller Name — Create controller<br>";
-echo "php artisan make:model Name — Create model<br>";
-echo "php artisan migrate — Run migrations<br>";
-echo "php artisan route:list — Show all routes<br>";
+echo "php artisan serve - Start dev server<br>";
+echo "php artisan make:controller Name - Create controller<br>";
+echo "php artisan make:model Name - Create model<br>";
+echo "php artisan migrate - Run migrations<br>";
+echo "php artisan route:list - Show all routes<br>";
 ```
 
 ---
@@ -203,11 +203,11 @@ echo "php artisan route:list — Show all routes<br>";
 `composer create-project laravel/laravel nama-project`. Alternatif: `laravel new`.
 
 ### Struktur Folder
-- `app/` — Business logic (Controllers, Models, Middleware)
-- `routes/` — Route definitions
-- `resources/views/` — Blade templates
-- `database/migrations/` — Schema versioning
-- `public/` — Entry point (index.php)
+- `app/` - Business logic (Controllers, Models, Middleware)
+- `routes/` - Route definitions
+- `resources/views/` - Blade templates
+- `database/migrations/` - Schema versioning
+- `public/` - Entry point (index.php)
 
 ### Artisan CLI
 Command-line tool untuk scaffolding, migration, testing, dan banyak lagi.

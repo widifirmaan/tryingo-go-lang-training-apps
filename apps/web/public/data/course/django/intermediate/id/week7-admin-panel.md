@@ -57,7 +57,7 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = (OrderItemInline,)
 
 # Terhubung di urls.py: path('admin/', admin.site.urls)
-print('Admin aktif: /admin/ — login dengan akun superuser dari createsuperuser')
+print('Admin aktif: /admin/ - login dengan akun superuser dari createsuperuser')
 ```
 
 ---
@@ -74,7 +74,7 @@ list_display menentukan kolom tabel; search_fields menjalankan LIKE di kolom ter
 
 ### Inline
 
-TabularInline menampilkan OrderItem dalam form Order — parent dan children diedit pada satu layar.
+TabularInline menampilkan OrderItem dalam form Order - parent dan children diedit pada satu layar.
 
 ### on_delete
 
@@ -92,7 +92,7 @@ PROTECT mencegah penghapusan Product yang masih dipakai; CASCADE memusnahkan ite
 
 ## Tantangan
 
-Tambahkan model Category + relasi M2M ke product — lalu saring pakai list_filter=('category__name',).
+Tambahkan model Category + relasi M2M ke product - lalu saring pakai list_filter=('category__name',).
 
 ---
 

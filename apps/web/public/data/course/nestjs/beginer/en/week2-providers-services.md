@@ -6,7 +6,7 @@
 
 NestJS brings Angular/Spring-style architectural discipline to Node: modules, dependency injection, decorators. Its strict structure keeps growing applications maintainable for whole teams.
 
-Week 2 — themed **"Providers & Services"** — centers on the practice program *"Service Layer"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Service Layer"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

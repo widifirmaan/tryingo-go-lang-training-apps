@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data — investasi belajar yang paling serbaguna.
+Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data - investasi belajar yang paling serbaguna.
 
-Di minggu ke-4 — bertajuk **"Functions & Modules"** — program latihan utamanya adalah *"Kalkulator Modular"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Kalkulator Modular"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -109,7 +109,7 @@ print(f"Hasil: {hasil}")
 `*args` = tuple positional args. `**kwargs` = dict keyword args. Default: `def f(x=10)`.
 
 ### Lambda
-`lambda x: x**2` — function anonymous satu baris. Cocok untuk callback.
+`lambda x: x**2` - function anonymous satu baris. Cocok untuk callback.
 
 ### Built-in Functions
 `map(func, list)`, `filter(func, list)`, `sorted(list)`, `sum()`, `enumerate()`, `zip()`.

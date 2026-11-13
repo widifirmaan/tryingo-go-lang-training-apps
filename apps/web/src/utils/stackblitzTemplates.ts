@@ -536,7 +536,7 @@ export class AppComponent {}`,
 // Simulated execution output
 // ---------------------------------------------------------------------------
 // Safe Node.js simulation: run user code inside a Web Worker (no DOM/window
-// access), capturing console output — no execution in the page context.
+// access), capturing console output - no execution in the page context.
 export function simulateNode(code: string): Promise<{ output: string; error: string | null }> {
   const capture = `
     self.onmessage = function(ev) {
@@ -567,7 +567,7 @@ export function simulateNode(code: string): Promise<{ output: string; error: str
     `globalThis.process = globalThis.process || { version: 'v20 (simulasi)', argv: ['node', 'app.js'], platform: 'browser', env: {} };\n` +
     `globalThis.__dirname = globalThis.__dirname || '/';\n` +
     `globalThis.__filename = globalThis.__filename || '/app.js';\n` +
-    `globalThis.require = globalThis.require || function (m) { throw new Error("require('" + m + "') tak tersedia di simulasi browser — jalankan di terminal: node app.js"); };\n` +
+    `globalThis.require = globalThis.require || function (m) { throw new Error("require('" + m + "') tak tersedia di simulasi browser - jalankan di terminal: node app.js"); };\n` +
     code;
   return new Promise((resolve) => {
     let settled = false;
@@ -588,7 +588,7 @@ export function simulateNode(code: string): Promise<{ output: string; error: str
         worker.terminate();
         URL.revokeObjectURL(url);
         resolve({
-          output: logs.join('\n') || '(no output — code executed successfully)',
+          output: logs.join('\n') || '(no output - code executed successfully)',
           error: null,
         });
       };

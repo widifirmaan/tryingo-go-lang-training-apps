@@ -64,9 +64,9 @@ DEL saat UPDATE/DELETE (cache-aside klasik), atau bump versi nama kunci (cache b
 
 ## Eksperimen
 
-- GET kunci yang belum pernah di-set — amati jawabannya (miss).
+- GET kunci yang belum pernah di-set - amati jawabannya (miss).
 - SET dengan EX 5 lalu jalankan TTL berulang sampai nilainya -2 (expired).
-- Pasangkan SET EX 30 dengan TTL langsung — perhatikan angkanya.
+- Pasangkan SET EX 30 dengan TTL langsung - perhatikan angkanya.
 
 ---
 

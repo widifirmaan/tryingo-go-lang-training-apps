@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern — CI/CD, Kubernetes, cloud — semuanya berangkat di sini.
+Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern - CI/CD, Kubernetes, cloud - semuanya berangkat di sini.
 
-Di minggu ke-2 — bertajuk **"Image & Registry"** — program latihan utamanya adalah *"Build & Push Image"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Build & Push Image"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -35,7 +35,7 @@ docker pull nginx:1.25
 docker pull ubuntu:22.04
 docker pull node:20-alpine
 
-# Image layers — setiap command di Dockerfile adalah layer
+# Image layers - setiap command di Dockerfile adalah layer
 docker history nginx
 
 # Inspect image
@@ -89,7 +89,7 @@ Setiap instruction di Dockerfile membuat layer. Layer di-cache untuk build lebih
 Docker Hub = default registry. Bisa buat private registry.
 
 ### Tag
-`docker tag source target` — rename/reversion image.
+`docker tag source target` - rename/reversion image.
 
 ### Push Flow
 1. `docker login`

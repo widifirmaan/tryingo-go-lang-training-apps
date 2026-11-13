@@ -64,7 +64,7 @@ map memetakan nilai; switchMap membatalkan request lama saat request baru datang
 
 ### Subject vs BehaviorSubject
 
-Subject hanya broadcast ke event berikutnya; BehaviorSubject menyimpan nilai terakhir untuk subscriber baru — pas untuk state user.
+Subject hanya broadcast ke event berikutnya; BehaviorSubject menyimpan nilai terakhir untuk subscriber baru - pas untuk state user.
 
 ### take/takeUntil
 

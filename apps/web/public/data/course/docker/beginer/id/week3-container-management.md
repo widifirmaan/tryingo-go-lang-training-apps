@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern — CI/CD, Kubernetes, cloud — semuanya berangkat di sini.
+Docker menjawab masalah klasik "works on my machine" dengan mengemas aplikasi beserta seluruh lingkungannya. Skill ini adalah tulang punggung deployment modern - CI/CD, Kubernetes, cloud - semuanya berangkat di sini.
 
-Di minggu ke-3 — bertajuk **"Container Management"** — program latihan utamanya adalah *"Lifecycle & Exec"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Lifecycle & Exec"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -23,7 +23,7 @@ Di minggu ke-3 — bertajuk **"Container Management"** — program latihan utama
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# CONTAINER MANAGEMENT — Lifecycle & Operations
+# CONTAINER MANAGEMENT - Lifecycle & Operations
 # ─────────────────────────────────────────────────────────
 
 # Run container dengan berbagai options

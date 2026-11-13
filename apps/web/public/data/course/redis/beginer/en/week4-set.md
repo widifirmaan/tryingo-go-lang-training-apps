@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Redis is blazing-fast in-memory storage — every large system uses it for cache, leaderboards, sessions, and rate limiting. One small "add a Redis cache" feature often saves more server cost than months of refactoring.
+Redis is blazing-fast in-memory storage - every large system uses it for cache, leaderboards, sessions, and rate limiting. One small "add a Redis cache" feature often saves more server cost than months of refactoring.
 
-Week 4 — themed **"Sets"** — centers on the practice program *"Redis Set Operations"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Redis Set Operations"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

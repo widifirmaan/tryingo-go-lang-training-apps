@@ -39,19 +39,19 @@
       <!-- Menu Items -->
       <nav class="space-y-1 text-sm font-medium">
         <a href="#" class="flex items-center gap-3 px-3 py-2 bg-indigo-600 text-white rounded-lg">
-          <span>📊</span>
+          <span>[Stats]</span>
           <span>Ringkasan</span>
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded-lg transition">
-          <span>📦</span>
+          <span>[Items]</span>
           <span>Produk & Stok</span>
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded-lg transition">
-          <span>👥</span>
+          <span>[Users]</span>
           <span>Pelanggan</span>
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded-lg transition">
-          <span>⚙️</span>
+          <span>[Settings]</span>
           <span>Pengaturan</span>
         </a>
       </nav>
@@ -191,4 +191,4 @@ Add table pagination below the orders table (Previous, 1, 2, 3, Next) with neat 
 
 ## Summary
 
-Week 9 of 9: **Final Project: Complete Responsive Admin Dashboard**. Congratulations! 🎉 You have completed the Tailwind CSS curriculum from utility-first fundamentals to a complete working inventory management dashboard.
+Week 9 of 9: **Final Project: Complete Responsive Admin Dashboard**. Congratulations! You have completed the Tailwind CSS curriculum from utility-first fundamentals to a complete working inventory management dashboard.

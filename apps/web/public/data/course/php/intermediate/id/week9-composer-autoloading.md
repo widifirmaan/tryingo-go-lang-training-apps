@@ -71,9 +71,9 @@ namespace {
     echo $user->greet() . "<br>";
 
     echo "<br>=== Composer Commands ===<br>";
-    echo "composer init — buat composer.json<br>";
-    echo "composer install — install dependencies<br>";
-    echo "composer dump-autoload — regenerate autoload<br>";
+    echo "composer init - buat composer.json<br>";
+    echo "composer install - install dependencies<br>";
+    echo "composer dump-autoload - regenerate autoload<br>";
 }
 ```
 

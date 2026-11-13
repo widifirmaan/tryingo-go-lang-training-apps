@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel — skill yang langsung dapat dipakai bekerja.
+Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel - skill yang langsung dapat dipakai bekerja.
 
-Di minggu ke-4 — bertajuk **"Eloquent ORM"** — program latihan utamanya adalah *"Database dengan Eloquent"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Database dengan Eloquent"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -86,7 +86,7 @@ Setiap tabel punya model. Convention: model `Post` → tabel `posts`.
 `Model::create($data)`, `Model::find($id)`, `Model::where()->get()`, `$model->save()`, `$model->delete()`.
 
 ### Mass Assignment
-`$fillable` — field yang boleh diisi mass. `$guarded` — field yang dilarang.
+`$fillable` - field yang boleh diisi mass. `$guarded` - field yang dilarang.
 
 ### Query Builder
 Chain methods: `where()`, `orderBy()`, `limit()`, `get()`, `first()`, `count()`.

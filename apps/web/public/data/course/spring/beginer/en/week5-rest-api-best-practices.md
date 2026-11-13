@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+Spring Boot is the standard for enterprise Java backends - banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
 
-Week 5 — themed **"REST API Best Practices"** — centers on the practice program *"DTO & Exception Handling"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"DTO & Exception Handling"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

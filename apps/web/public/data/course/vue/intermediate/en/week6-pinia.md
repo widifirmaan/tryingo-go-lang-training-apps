@@ -50,7 +50,7 @@ const cart = useCartStore();
 </script>
 <template>
   <span class="badge" :class="{ shake: cart.count > 5 }">
-    🛒 {{ cart.count }} — {{ cart.total.toLocaleString() }}
+    Cart: {{ cart.count }} - {{ cart.total.toLocaleString() }}
   </span>
 </template>
 ```
@@ -65,7 +65,7 @@ Setup store (defineStore('cart', () => { ... })) mengikuti composition API; opti
 
 ### Direct read, mutate via actions
 
-Komponen boleh membaca state langsung, tetapi kapsulkan mutasi di action — mudah dilacak lewat Pinia devtools.
+Komponen boleh membaca state langsung, tetapi kapsulkan mutasi di action - mudah dilacak lewat Pinia devtools.
 
 ### State flow
 
@@ -79,7 +79,7 @@ pinia-plugin-persistedstate menulis ke localStorage; plugin hydration membawa st
 
 ## Experiments
 
-- Persist the cart and refresh — items remain.
+- Persist the cart and refresh - items remain.
 - Add an undo stack for the last checkout.
 - Track user-specific actions inside the store.
 

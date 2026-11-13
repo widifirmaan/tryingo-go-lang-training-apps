@@ -1,7 +1,7 @@
 # Objek, Destrukturisasi, dan JSON
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Seri:** Struktur Data & Interaksi DOM | **Minggu 7:** Objek, Destrukturisasi, dan JSON
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 

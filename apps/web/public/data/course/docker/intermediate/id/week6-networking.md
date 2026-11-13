@@ -20,11 +20,11 @@
 # ─────────────────────────────────────────────────────────
 
 # Network types:
-# 1. Bridge — default, internal network
-# 2. Host — share host network stack
-# 3. None — no network
-# 4. Overlay — multi-host (Swarm)
-# 5. Macvlan — assign MAC address
+# 1. Bridge - default, internal network
+# 2. Host - share host network stack
+# 3. None - no network
+# 4. Overlay - multi-host (Swarm)
+# 5. Macvlan - assign MAC address
 
 # Lihat networks
 docker network ls
@@ -90,13 +90,13 @@ docker run -d --name app \
 Container di network yang sama bisa communicate via container name (DNS).
 
 ### Port Publishing
-`-p 8080:80` — port 8080 di host forward ke port 80 di container.
+`-p 8080:80` - port 8080 di host forward ke port 80 di container.
 
 ### DNS
 Docker embedded DNS server. Container resolve nama container lain di network yang sama.
 
 ### Aliases
-`--network-alias` — nama tambahan untuk resolve.
+`--network-alias` - nama tambahan untuk resolve.
 
 ---
 

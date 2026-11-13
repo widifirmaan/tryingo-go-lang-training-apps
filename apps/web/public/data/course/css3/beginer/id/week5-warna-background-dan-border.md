@@ -1,13 +1,13 @@
 # Warna, Background, dan Border
 
 > **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 5:** Warna, Background, dan Border
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-CSS mengatur seluruh tampilan web yang Anda lihat setiap hari — dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
+CSS mengatur seluruh tampilan web yang Anda lihat setiap hari - dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
 
-Di minggu ke-5 — bertajuk **"Warna, Background, dan Border"** — program latihan utamanya adalah *"Kartu Produk Interaktif dengan Gradasi dan Bayangan Bertingkat"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Kartu Produk Interaktif dengan Gradasi dan Bayangan Bertingkat"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

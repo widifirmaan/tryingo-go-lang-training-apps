@@ -80,7 +80,7 @@ func main() {
 ## Konsep Kunci
 
 ### Goroutine
-`go f()` — concurrent, ringan, dijadwalkan Go runtime.
+`go f()` - concurrent, ringan, dijadwalkan Go runtime.
 
 ### Channel
 Unbuffered (sinkron) vs buffered (async). `ch <- v` kirim, `<-ch` terima.

@@ -4,16 +4,16 @@
 
 ## Kenapa Materi Ini Penting
 
-React adalah library UI terpopuler di dunia — dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
+React adalah library UI terpopuler di dunia - dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
 
-Di minggu ke-2 — bertajuk **"Props & Data Flow"** — program latihan utamanya adalah *"Kartu Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Kartu Produk"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
 
 - Menerima dan menggunakan props di function component
 - Destructuring props: { name, price } langsung di parameter
-- Props read-only — tidak bisa diubah oleh child component
+- Props read-only - tidak bisa diubah oleh child component
 - Mengirim props: string, number, boolean, array, object, function
 - Rendering list dengan map() dan key prop untuk performa
 

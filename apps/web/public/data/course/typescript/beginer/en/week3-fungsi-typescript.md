@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-TypeScript is JavaScript with a type system — now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
+TypeScript is JavaScript with a type system - now the de facto standard in modern frontend and backend projects. Catching bugs at compile time instead of during the demo is what earns you trust to build large systems.
 
-Week 3 — themed **"Functions & Signatures"** — centers on the practice program *"Typed Functions"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Typed Functions"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -86,22 +86,22 @@ console.log("Identity array:", identity([1, 2, 3]));
 ## Key Concepts
 
 ### Function Types
-`function add(a: number, b: number): number` — explicit all types.
+`function add(a: number, b: number): number` - explicit all types.
 
 ### Optional Params
-`param?: type` — can be undefined. Use default value or check.
+`param?: type` - can be undefined. Use default value or check.
 
 ### Rest Params
-`...args: number[]` — collect all arguments to array.
+`...args: number[]` - collect all arguments to array.
 
 ### Function Type
-`type Fn = (a: number) => string` — function type definition.
+`type Fn = (a: number) => string` - function type definition.
 
 ### Overloads
 Multiple signatures for one function. TypeScript picks the matching one.
 
 ### Generic Function
-`<T>(value: T): T` — dynamic type that is preserved.
+`<T>(value: T): T` - dynamic type that is preserved.
 
 ---
 

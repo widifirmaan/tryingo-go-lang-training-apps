@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-PHP runs roughly three quarters of the web — WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.
+PHP runs roughly three quarters of the web - WordPress, Wikipedia, and endless e-commerce. Modern PHP 8 is fast and clean; learning its syntax properly kills the "PHP is messy" myth.
 
-Week 4 — themed **"Arrays & Manipulation"** — centers on the practice program *"Data Manager"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Data Manager"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -78,7 +78,7 @@ echo "Doubled: " . implode(", ", $doubled) . "<br>";
 Arrays within arrays for matrices/tables.
 
 ### Foreach
-`foreach ($arr as $key => $value)` — primary array iteration.
+`foreach ($arr as $key => $value)` - primary array iteration.
 
 ---
 

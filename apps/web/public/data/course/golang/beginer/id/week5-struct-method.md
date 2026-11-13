@@ -6,7 +6,7 @@
 
 Go dipakai Docker, Kubernetes, dan banyak backend high-traffic (Gojek, Tokopedia punya service Go). Bahasanya kecil dan jujur: sedikit keyword, penekanan pada konkurensi, dan hasilnya program cepat yang mudah di-deploy.
 
-Di minggu ke-5 — bertajuk **"Struct & Method"** — program latihan utamanya adalah *"Data Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Data Produk"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -87,7 +87,7 @@ Komposisi bukan inheritance. Struct otomatis punya method parent.
 ## Eksperimen
 
 - Tambah method Discount untuk Electronics
-- Coba ubah value receiver ke pointer — apa efeknya?
+- Coba ubah value receiver ke pointer - apa efeknya?
 - Buat struct baru dengan embedded Product
 - Tambah struct tag `json:"price"` dan coba Marshal
 

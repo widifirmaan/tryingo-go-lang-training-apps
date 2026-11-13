@@ -6,7 +6,7 @@
 
 Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
 
-Week 2 — themed **"Variables, Types & Control Flow"** — centers on the practice program *"Numbers & Grades"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Numbers & Grades"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -15,7 +15,7 @@ Week 2 — themed **"Variables, Types & Control Flow"** — centers on the pract
 - Learn basic types: int, float64, string, bool, rune
 - Understand zero values and type inference (Go Tour: Zero Values)
 - Apply if/else with short statement and for loop 3 forms
-- Use switch without break — cases stop automatically (Effective Go)
+- Use switch without break - cases stop automatically (Effective Go)
 
 ---
 
@@ -94,7 +94,7 @@ if short statement, for 3 forms, switch no-break, tagless switch.
 - Change score values and observe grade changes
 - Add nested if for validation
 - Create for loop with break on condition
-- Replace switch with if/else — which is more readable?
+- Replace switch with if/else - which is more readable?
 
 ---
 

@@ -15,7 +15,7 @@
 ## Program: Built-in Utilities
 
 ```typescript
-// Partial<T> — semua property optional
+// Partial<T> - semua property optional
 interface User {
     id: string;
     name: string;
@@ -31,23 +31,23 @@ const user: User = { id: "1", name: "Budi", email: "budi@mail.com", age: 25 };
 const updated = updateUser(user, { age: 26 });
 console.log("Updated:", updated);
 
-// Required<T> — semua property required
+// Required<T> - semua property required
 type PartialUser = Partial<User>;
 type FullUser = Required<PartialUser>;
 
-// Readonly<T> — semua property readonly
+// Readonly<T> - semua property readonly
 const readonlyUser: Readonly<User> = user;
 // readonlyUser.name = "Siti"; // Error!
 
-// Pick<T, K> — pilih property tertentu
+// Pick<T, K> - pilih property tertentu
 type UserPreview = Pick<User, "id" | "name">;
 const preview: UserPreview = { id: "1", name: "Budi" };
 
-// Omit<T, K> — hapus property tertentu
+// Omit<T, K> - hapus property tertentu
 type UserWithoutAge = Omit<User, "age">;
 const noAge: UserWithoutAge = { id: "2", name: "Siti", email: "siti@mail.com" };
 
-// Record<K, T> — object dengan key dan value type
+// Record<K, T> - object dengan key dan value type
 type UserRoles = Record<string, "admin" | "user" | "guest">;
 const roles: UserRoles = {
     budi: "admin",
@@ -56,24 +56,24 @@ const roles: UserRoles = {
 };
 console.log("\nRoles:", roles);
 
-// Exclude<T, U> — hapus types dari union
+// Exclude<T, U> - hapus types dari union
 type AllStatus = "active" | "inactive" | "deleted" | "banned";
 type ActiveStatus = Exclude<AllStatus, "deleted" | "banned">;
 
-// Extract<T, U> — ambil types yang ada di kedua union
+// Extract<T, U> - ambil types yang ada di kedua union
 type SuccessStatus = Extract<AllStatus, "active" | "pending">; // "active"
 
-// NonNullable<T> — hapus null dan undefined
+// NonNullable<T> - hapus null dan undefined
 type MaybeString = string | null | undefined;
 type DefiniteString = NonNullable<MaybeString>;
 
-// ReturnType<T> — ambil return type dari function
+// ReturnType<T> - ambil return type dari function
 function createUser() {
     return { id: "1", name: "Budi", type: "admin" as const };
 }
 type NewUser = ReturnType<typeof createUser>;
 
-// Parameters<T> — ambil parameter types dari function
+// Parameters<T> - ambil parameter types dari function
 function signup(name: string, email: string, age: number) {}
 type SignupParams = Parameters<typeof signup>;
 
@@ -105,16 +105,16 @@ console.log("Omit:", noAge);
 Semua property jadi optional. Cocok untuk update functions.
 
 ### Pick & Omit
-`Pick<T, "name" | "email">` — ambil sebagian. `Omit<T, "age">` — hapus sebagian.
+`Pick<T, "name" | "email">` - ambil sebagian. `Omit<T, "age">` - hapus sebagian.
 
 ### Record<K, V>
-`Record<string, User>` — object dengan string key dan User value.
+`Record<string, User>` - object dengan string key dan User value.
 
 ### Exclude & Extract
 `Exclude<"a" | "b", "a">` = "b". `Extract<"a" | "b", "a" | "c">` = "a".
 
 ### ReturnType & Parameters
-`ReturnType<typeof fn>` — return type dari function. `Parameters<typeof fn>` — tuple parameter types.
+`ReturnType<typeof fn>` - return type dari function. `Parameters<typeof fn>` - tuple parameter types.
 
 ### Custom Utilities
 Bisa buat utility type sendiri dengan mapped types dan conditional types.

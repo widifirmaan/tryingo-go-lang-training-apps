@@ -1,7 +1,7 @@
 # CSS Grid: Tata Letak Dua Dimensi
 
 > **Kategori:** CSS3 | **Level:** Menengah | **Seri:** Tata Letak & Desain Responsif | **Minggu 8:** CSS Grid: Tata Letak Dua Dimensi
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 

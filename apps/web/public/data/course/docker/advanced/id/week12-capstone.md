@@ -139,16 +139,16 @@ echo "Deployment complete!"
 SCRIPT
 
 # Capstone Checklist:
-# ✅ Multi-stage Dockerfile
-# ✅ Non-root user
-# ✅ Health checks
-# ✅ Resource limits
-# ✅ Persistent volumes
-# ✅ CI/CD pipeline
-# ✅ Image scanning
-# ✅ Production compose
-# ✅ Monitoring
-# ✅ Backup strategy
+# Multi-stage Dockerfile
+# Non-root user
+# Health checks
+# Resource limits
+# Persistent volumes
+# CI/CD pipeline
+# Image scanning
+# Production compose
+# Monitoring
+# Backup strategy
 ```
 
 ---
@@ -193,4 +193,4 @@ Buat full production pipeline: Dockerfile → CI/CD → Docker Compose → Monit
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Production Pipeline** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Docker dari nol hingga production-ready.
+Minggu 12 dari 12: **Capstone: Production Pipeline** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum Docker.

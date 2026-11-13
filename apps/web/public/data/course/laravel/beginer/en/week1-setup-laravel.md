@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel - a skill you can directly sell.
 
-Week 1 — themed **"Setup & Laravel Installation"** — centers on the practice program *"First Project"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"First Project"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -20,16 +20,16 @@ Week 1 — themed **"Setup & Laravel Installation"** — centers on the practice
 
 ## Foundations: Before Writing Code
 
-This section is for readers who are **completely new** to programming. The concepts are identical across every language — learn them once, use them forever.
+This section is for readers who are **completely new** to programming. The concepts are identical across every language - learn them once, use them forever.
 
 - **Files & folders = where programs live.** A program is plain text saved in a file (e.g. `lesson.md`). Files have **extensions** that indicate the language: `.md`, `.go`, `.py`, `.html`. A folder holding all of a program's files is called a **project**.
 - **Terminal / command line.** A text window where you type commands: `cd folder` (change folder), `ls` / `dir` (list contents), `go run main.go` (run a program). Programs run from the folder containing their files.
-- **Compiled vs interpreted.** **Compiled** languages (Go, Rust, C#) translate the whole program into machine instructions before running — fast, but require a build step. **Interpreted** languages (Python, PHP, JavaScript) execute line by line directly — great for learning and quick prototypes. The playgrounds on this site execute code **inside your browser**, so no installation is needed.
-- **Statically typed vs dynamically typed.** **Statically typed** languages (Go, Rust, TypeScript) check data types (numbers, text) while you write — errors surface early. **Dynamically typed** languages (Python, PHP, JavaScript) check types while the program runs — more lenient, but errors appear at runtime.
-- **How to read error messages.** Read the last line first: the error type plus a short explanation, then locate the **line number** it mentions. Errors are not tragedies — they are the computer telling you what to fix.
-- **REPL / playground.** A REPL (Read-Eval-Print Loop) is a code "calculator": type one line, see the result instantly. Every code block on this site has a **Try in Playground** button letting you tweak and run the code live — the fastest way to learn: change a little, run, observe the difference.
+- **Compiled vs interpreted.** **Compiled** languages (Go, Rust, C#) translate the whole program into machine instructions before running - fast, but require a build step. **Interpreted** languages (Python, PHP, JavaScript) execute line by line directly - great for learning and quick prototypes. The playgrounds on this site execute code **inside your browser**, so no installation is needed.
+- **Statically typed vs dynamically typed.** **Statically typed** languages (Go, Rust, TypeScript) check data types (numbers, text) while you write - errors surface early. **Dynamically typed** languages (Python, PHP, JavaScript) check types while the program runs - more lenient, but errors appear at runtime.
+- **How to read error messages.** Read the last line first: the error type plus a short explanation, then locate the **line number** it mentions. Errors are not tragedies - they are the computer telling you what to fix.
+- **REPL / playground.** A REPL (Read-Eval-Print Loop) is a code "calculator": type one line, see the result instantly. Every code block on this site has a **Try in Playground** button letting you tweak and run the code live - the fastest way to learn: change a little, run, observe the difference.
 
-> **Important note:** the browser playground has limitations — it cannot receive interactive keyboard input (stdin). If a challenge asks for "user input", simply write the value directly into a variable (e.g. `let name = "Budi"`; `rupiah = 250000`) and run.
+> **Important note:** the browser playground has limitations - it cannot receive interactive keyboard input (stdin). If a challenge asks for "user input", simply write the value directly into a variable (e.g. `let name = "Budi"`; `rupiah = 250000`) and run.
 
 ---
 
@@ -37,7 +37,7 @@ This section is for readers who are **completely new** to programming. The conce
 
 ## Quick Start Guide: Setup & Project Initialization
 
-> **⚡ Try it in the browser first — no install required!** Every code block in this lesson has a **Try in Playground** button and runs right in this tab. The local installation steps below are optional — follow them later, once you are ready to code in your own editor (VS Code/IDE) or build real projects.
+> **Try it directly in the browser without local setup.** All code blocks can run directly in the Playground.
 
 Before exploring the lesson theory and code examples below, set up your local development environment with these step-by-step instructions:
 
@@ -71,7 +71,7 @@ PHP 8.x
 Composer 2.x
 ```
 
-> 💡 **Prerequisite Note:** Ensure php-curl, mbstring, and xml extensions are enabled.
+> **Prerequisite Note:** Ensure php-curl, mbstring, and xml extensions are enabled.
 
 ---
 
@@ -180,19 +180,19 @@ foreach ($dirs as $dir) {
 }
 
 echo "<br>=== Key Files ===<br>";
-echo "routes/web.php — Web routes<br>";
-echo "app/Http/Controllers/ — Controllers<br>";
-echo "app/Models/ — Eloquent models<br>";
-echo "resources/views/ — Blade templates<br>";
-echo "database/migrations/ — Database schema<br>";
-echo ".env — Environment config<br>";
+echo "routes/web.php - Web routes<br>";
+echo "app/Http/Controllers/ - Controllers<br>";
+echo "app/Models/ - Eloquent models<br>";
+echo "resources/views/ - Blade templates<br>";
+echo "database/migrations/ - Database schema<br>";
+echo ".env - Environment config<br>";
 
 echo "<br>=== artisan Commands ===<br>";
-echo "php artisan serve — Start dev server<br>";
-echo "php artisan make:controller Name — Create controller<br>";
-echo "php artisan make:model Name — Create model<br>";
-echo "php artisan migrate — Run migrations<br>";
-echo "php artisan route:list — Show all routes<br>";
+echo "php artisan serve - Start dev server<br>";
+echo "php artisan make:controller Name - Create controller<br>";
+echo "php artisan make:model Name - Create model<br>";
+echo "php artisan migrate - Run migrations<br>";
+echo "php artisan route:list - Show all routes<br>";
 ```
 
 ---
@@ -203,11 +203,11 @@ echo "php artisan route:list — Show all routes<br>";
 `composer create-project laravel/laravel name`. Alternative: `laravel new`.
 
 ### Folder Structure
-- `app/` — Business logic
-- `routes/` — Route definitions
-- `resources/views/` — Blade templates
-- `database/migrations/` — Schema versioning
-- `public/` — Entry point
+- `app/` - Business logic
+- `routes/` - Route definitions
+- `resources/views/` - Blade templates
+- `database/migrations/` - Schema versioning
+- `public/` - Entry point
 
 ### Artisan CLI
 CLI tool for scaffolding, migrations, testing.

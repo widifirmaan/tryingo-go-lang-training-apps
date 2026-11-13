@@ -137,16 +137,16 @@ console.log("\nDistance:", p.distance());
 `public` (default) accessible everywhere. `protected` class + subclass. `private` hanya di class.
 
 ### Inheritance
-`class Dog extends Animal` — warisi semua. `super()` panggil parent constructor.
+`class Dog extends Animal` - warisi semua. `super()` panggil parent constructor.
 
 ### Abstract Class
 Tidak bisa diinstantiate langsung. Method tanpa body harus diimplementasikan subclass.
 
 ### Implements
-`class X implements Interface` — harus sediakan semua method interface.
+`class X implements Interface` - harus sediakan semua method interface.
 
 ### Parameter Properties
-`constructor(public x: number)` — langsung deklarasikan dan assign field.
+`constructor(public x: number)` - langsung deklarasikan dan assign field.
 
 ---
 

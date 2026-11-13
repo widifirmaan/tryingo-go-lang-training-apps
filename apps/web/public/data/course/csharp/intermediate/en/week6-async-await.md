@@ -93,7 +93,7 @@ class Program
 ## Key Concepts
 
 ### Async/Await
-`async Task Method()` — async method. `await` — wait without blocking thread.
+`async Task Method()` - async method. `await` - wait without blocking thread.
 
 ### Task
 `Task` for void async, `Task<T>` for async with return value.

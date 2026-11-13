@@ -83,7 +83,7 @@ const resolvers = {
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 7 — Demonstrasi N+1: list + nested fields yang di-batch DataLoader
+# Week 7 - Demonstrasi N+1: list + nested fields yang di-batch DataLoader
 query BatchingDemo {
   employees {
     id

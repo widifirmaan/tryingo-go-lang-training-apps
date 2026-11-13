@@ -106,4 +106,4 @@ Buat Task Management API lengkap: auth, projects, tasks, notifications, tests, D
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Enterprise API** (Level: Lanjutan). Selesai! Anda sudah menguasai NestJS dari nol hingga production-ready.
+Minggu 12 dari 12: **Capstone: Enterprise API** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum NestJS.

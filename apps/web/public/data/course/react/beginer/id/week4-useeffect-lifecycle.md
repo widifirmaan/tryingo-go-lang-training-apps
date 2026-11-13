@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-React adalah library UI terpopuler di dunia — dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
+React adalah library UI terpopuler di dunia - dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
 
-Di minggu ke-4 — bertajuk **"useEffect & Lifecycle"** — program latihan utamanya adalah *"Fetch Data & Timer"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Fetch Data & Timer"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

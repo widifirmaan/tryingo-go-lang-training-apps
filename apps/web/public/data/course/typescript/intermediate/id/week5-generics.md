@@ -106,16 +106,16 @@ console.log("Age:", getProperty(user, "age"));
 ## Konsep Kunci
 
 ### Generic Function
-`<T>` — type parameter. Tipe diinfer dari argumen.
+`<T>` - type parameter. Tipe diinfer dari argumen.
 
 ### Constraints
-`<T extends HasLength>` — T harus punya property length.
+`<T extends HasLength>` - T harus punya property length.
 
 ### Generic Interface/Class
-`interface ApiResponse<T>` — tipe dinamis untuk berbagai response.
+`interface ApiResponse<T>` - tipe dinamis untuk berbagai response.
 
 ### Keyof
-`K extends keyof T` — K harus key yang ada di T. Type-safe property access.
+`K extends keyof T` - K harus key yang ada di T. Type-safe property access.
 
 ### Built-in Generics
 `Partial<T>` semua optional. `Required<T>` semua required. `Readonly<T>` semua readonly.
@@ -134,7 +134,7 @@ console.log("Age:", getProperty(user, "age"));
 
 ## Tantangan
 
-Buat generic repository class: find, findById, create, update, delete — dengan type constraints dan conditional types.
+Buat generic repository class: find, findById, create, update, delete - dengan type constraints dan conditional types.
 
 ---
 

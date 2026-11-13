@@ -6,7 +6,7 @@
 
 CodeIgniter 4 is a lightweight, fast PHP framework favored by government apps, schools, and small startups across Indonesia. Writing plain PHP first, then CI4, teaches you what frameworks do silently under the hood.
 
-Week 3 — themed **"Views & Templates"** — centers on the practice program *"View Layer"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"View Layer"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -88,7 +88,7 @@ echo "<?= view_cell('Blog::recentPosts') ?><br>";
 `$this->extend('layouts/main')` inherits template. `$this->section('content')` injects content.
 
 ### View Cells
-`view_cell('Class::method')` — reusable components.
+`view_cell('Class::method')` - reusable components.
 
 ### Render
 `renderSection()` where content appears. `endSection()` closes section.

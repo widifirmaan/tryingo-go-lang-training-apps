@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel — dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
+GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel - dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
 
-Di minggu ke-4 — bertajuk **"Resolvers"** — program latihan utamanya adalah *"Implementasi Resolver"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Implementasi Resolver"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -94,7 +94,7 @@ server.listen().then(({ url }) => console.log(`Server ready at ${url}`));
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 4 — Resolver operations: Query + Argument + Field resolution + Errors
+# Week 4 - Resolver operations: Query + Argument + Field resolution + Errors
 # (Nama field diselesaikan oleh field resolver di sisi server)
 query ResolverDemo {
   employee(id: "1") {

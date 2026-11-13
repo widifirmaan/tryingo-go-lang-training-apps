@@ -59,7 +59,7 @@ WSGI sinkron: gunicorn menuntut request dalam form handler(function, response). 
 
 ### 12-factor app
 
-Config via environment (DEBUG, SECRET_KEY) — bukan file settings lokal; 12-factor memungkinkan container dibangun/dirombak bebas.
+Config via environment (DEBUG, SECRET_KEY) - bukan file settings lokal; 12-factor memungkinkan container dibangun/dirombak bebas.
 
 ### Static & media
 

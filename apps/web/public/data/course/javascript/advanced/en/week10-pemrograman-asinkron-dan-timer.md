@@ -1,7 +1,7 @@
 # Asynchronous Programming and Timers
 
 > **Category:** JavaScript | **Level:** Advanced | **Seri:** Asynchronous, Storage & Final Project | **Week 10:** Asynchronous Programming and Timers
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 

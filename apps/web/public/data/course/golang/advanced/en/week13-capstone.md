@@ -141,4 +141,4 @@ Build a complete capstone application: REST API + CLI + JSON storage + testing. 
 
 ## Summary
 
-Week 13 of 13: **Capstone: REST API + CLI** (Level: Advanced). Complete! 🎉 You've mastered Go from scratch to production-ready.
+Week 13 of 13: **Capstone: REST API + CLI** (Level: Advanced). Complete! You have finished the entire Go curriculum.

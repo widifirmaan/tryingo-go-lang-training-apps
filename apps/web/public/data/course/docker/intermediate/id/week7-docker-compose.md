@@ -16,7 +16,7 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# DOCKER COMPOSE — Multi-Container Orchestration
+# DOCKER COMPOSE - Multi-Container Orchestration
 # ─────────────────────────────────────────────────────────
 
 # File: docker-compose.yml
@@ -109,7 +109,7 @@ Tool untuk define dan run multi-container applications.
 Setiap service = satu container. Bisa build dari Dockerfile atau pakai image.
 
 ### depends_on
-`condition: service_healthy` — tunggu health check passed.
+`condition: service_healthy` - tunggu health check passed.
 
 ### Volumes & Networks
 Define di top-level. Shared antar services.
@@ -121,7 +121,7 @@ Define di top-level. Shared antar services.
 - `exec`: jalankan command di container
 
 ### Scale
-`--scale api=3` — jalankan 3 instance api.
+`--scale api=3` - jalankan 3 instance api.
 
 ---
 

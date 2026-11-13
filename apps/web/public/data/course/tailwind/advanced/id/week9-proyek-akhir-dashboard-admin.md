@@ -39,19 +39,19 @@
       <!-- Menu Items -->
       <nav class="space-y-1 text-sm font-medium">
         <a href="#" class="flex items-center gap-3 px-3 py-2 bg-indigo-600 text-white rounded-lg">
-          <span>📊</span>
+          <span>[Stats]</span>
           <span>Ringkasan</span>
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded-lg transition">
-          <span>📦</span>
+          <span>[Items]</span>
           <span>Produk & Stok</span>
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded-lg transition">
-          <span>👥</span>
+          <span>[Users]</span>
           <span>Pelanggan</span>
         </a>
         <a href="#" class="flex items-center gap-3 px-3 py-2 hover:bg-slate-800 rounded-lg transition">
-          <span>⚙️</span>
+          <span>[Settings]</span>
           <span>Pengaturan</span>
         </a>
       </nav>
@@ -193,4 +193,4 @@ Tambahkan pagination di bawah tabel pesanan (Sebelumnya, 1, 2, 3, Selanjutnya) d
 
 ## Ringkasan
 
-Minggu 9 dari 9: **Proyek Akhir: Dashboard Admin Responsif Lengkap**. Selamat! 🎉 Anda telah menyelesaikan kurikulum Tailwind CSS dari fondasi utility-first hingga dashboard manajemen inventaris lengkap.
+Minggu 9 dari 9: **Proyek Akhir: Dashboard Admin Responsif Lengkap**. Selamat! Anda telah menyelesaikan kurikulum Tailwind CSS dari fondasi utility-first hingga dashboard manajemen inventaris lengkap.

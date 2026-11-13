@@ -53,7 +53,7 @@ Analisa chunk dengan rollup-plugin-visualizer: pecah chunk raksasa lewat lazy im
 
 ### v-memo & keys
 
-v-memo di tabel panjang melewati re-render saat deps ([item.id, item.qty]) tidak berubah — ukur sebelum dipakai luas.
+v-memo di tabel panjang melewati re-render saat deps ([item.id, item.qty]) tidak berubah - ukur sebelum dipakai luas.
 
 ### Nuxt SSR + hydration
 

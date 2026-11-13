@@ -1,13 +1,13 @@
 # Body, Semantic Layout, and Images
 
 > **Category:** HTML5 | **Level:** Beginner | **Seri:** HTML Basics | **Week 3:** Body, Semantic Layout, and Images
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Why This Matters
 
-HTML is the skeleton of every page on the web — without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
+HTML is the skeleton of every page on the web - without it, CSS has nothing to style and JS nothing to make interactive. Habits of correct semantic markup formed early save you hours of debugging later.
 
-Week 3 — themed **"Body, Semantic Layout, and Images"** — centers on the practice program *"Semantic Home Layout with Embedded Media and Captions"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Semantic Home Layout with Embedded Media and Captions"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -77,7 +77,7 @@ When an image includes an accompanying caption, wrap both inside `<figure>`:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beranda Portofolio — Alex Pratama</title>
+  <title>Beranda Portofolio - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }

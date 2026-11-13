@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Tailwind turns styling into consistent utility classes — designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.
+Tailwind turns styling into consistent utility classes - designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.
 
-Week 3 — themed **"Colors, Backgrounds, Borders, and Shadows"** — centers on the practice program *"Product Card with Visual Tokens"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Product Card with Visual Tokens"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

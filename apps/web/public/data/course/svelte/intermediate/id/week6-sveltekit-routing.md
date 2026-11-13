@@ -69,7 +69,7 @@ error(404, msg) merender +error.svelte; redirect(302, '/login') juga bisa dipang
 
 ### Layout persistence
 
-+layout.svelte bertahan sepanjang navigasi antar child routes — tempat ideal untuk sidebar/shell.
++layout.svelte bertahan sepanjang navigasi antar child routes - tempat ideal untuk sidebar/shell.
 
 ---
 

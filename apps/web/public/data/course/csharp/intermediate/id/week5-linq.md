@@ -105,22 +105,22 @@ class Program
 ## Konsep Kunci
 
 ### LINQ
-Language Integrated Query — query data langsung di C#.
+Language Integrated Query - query data langsung di C#.
 
 ### Method Syntax
-`products.Where(p => p.Price > 100).OrderBy(p => p.Name)` — chain methods.
+`products.Where(p => p.Price > 100).OrderBy(p => p.Name)` - chain methods.
 
 ### Query Syntax
-`from p in products where p.Price > 100 select p` — mirip SQL.
+`from p in products where p.Price > 100 select p` - mirip SQL.
 
 ### Aggregate
-`Sum`, `Average`, `Count`, `Min`, `Max` — operasi agregasi.
+`Sum`, `Average`, `Count`, `Min`, `Max` - operasi agregasi.
 
 ### Filtering
-`First`, `Single`, `Any`, `All` — query dengan kondisi.
+`First`, `Single`, `Any`, `All` - query dengan kondisi.
 
 ### Projection
-`Select(p => new { p.Name, p.Price })` — transform ke bentuk baru.
+`Select(p => new { p.Name, p.Price })` - transform ke bentuk baru.
 
 ---
 
@@ -129,7 +129,7 @@ Language Integrated Query — query data langsung di C#.
 - Buat query LINQ dengan multiple Where
 - Eksperimen dengan GroupBy + Aggregate
 - Coba Select dengan anonymous type
-- Buat query syntax vs method syntax — bandingkan
+- Buat query syntax vs method syntax - bandingkan
 - Eksperimen dengan Skip dan Take untuk pagination
 
 ---

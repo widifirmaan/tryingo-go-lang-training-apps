@@ -4,16 +4,16 @@
 
 ## Kenapa Materi Ini Penting
 
-React adalah library UI terpopuler di dunia — dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
+React adalah library UI terpopuler di dunia - dipakai Facebook, Netflix, dan ribuan produk lain. Memahami cara berpikir React (komponen, state, props) adalah pintu masuk seluruh ekosistem modern frontend.
 
-Di minggu ke-3 — bertajuk **"State & useState"** — program latihan utamanya adalah *"Counter & Form"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Counter & Form"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
 
 - Memahami state sebagai data yang bisa berubah dalam komponen
 - useState hook: const [value, setValue] = useState(initial)
-- State trigger re-render — UI update otomatis saat state berubah
+- State trigger re-render - UI update otomatis saat state berubah
 - Controlled component: form input yang dikontrol React
 - Event handling: onChange, onClick, onSubmit
 

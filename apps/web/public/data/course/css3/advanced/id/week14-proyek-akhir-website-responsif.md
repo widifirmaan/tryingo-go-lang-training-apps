@@ -1,7 +1,7 @@
 # Proyek Akhir: Website Lengkap Responsif
 
 > **Kategori:** CSS3 | **Level:** Lanjutan | **Seri:** Sistem CSS, Animasi & Proyek Akhir | **Minggu 14:** Proyek Akhir: Website Lengkap Responsif
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -15,7 +15,7 @@
 
 ## 1. Arsitektur Proyek Akhir CSS3
 
-Dalam minggu penutup ini, seluruh kompetensi yang dipelajari selama 14 minggu disatukan untuk membangun website portal studio lengkap dari nol:
+Dalam minggu penutup ini, seluruh kompetensi yang dipelajari selama 14 minggu disatukan untuk membangun website portal studio lengkap:
 
 ```text
 final-css-project/
@@ -53,7 +53,7 @@ Proyek akhir ini menyatukan:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio Mandiri — Portofolio & Layanan</title>
+  <title>Studio Mandiri - Portofolio & Layanan</title>
   <style>
     /* ── 1. VARIABEL TEMA & TOKEN DESAIN ── */
     :root {

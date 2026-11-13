@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-TypeScript adalah JavaScript dengan sistem tipe — kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
+TypeScript adalah JavaScript dengan sistem tipe - kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
 
-Di minggu ke-3 — bertajuk **"Functions & Signatures"** — program latihan utamanya adalah *"Typed Functions"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Typed Functions"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -86,22 +86,22 @@ console.log("Identity array:", identity([1, 2, 3]));
 ## Konsep Kunci
 
 ### Function Types
-`function add(a: number, b: number): number` — explicit semua tipe.
+`function add(a: number, b: number): number` - explicit semua tipe.
 
 ### Optional Params
-`param?: type` — bisa undefined. Gunakan default value atau cek.
+`param?: type` - bisa undefined. Gunakan default value atau cek.
 
 ### Rest Params
-`...args: number[]` — kumpulkan semua argumen ke array.
+`...args: number[]` - kumpulkan semua argumen ke array.
 
 ### Function Type
-`type Fn = (a: number) => string` — definisi tipe fungsi.
+`type Fn = (a: number) => string` - definisi tipe fungsi.
 
 ### Overloads
 Multiple signatures untuk satu function. TypeScript pilih yang sesuai.
 
 ### Generic Function
-`<T>(value: T): T` — tipe dinamis yang preserved.
+`<T>(value: T): T` - tipe dinamis yang preserved.
 
 ---
 

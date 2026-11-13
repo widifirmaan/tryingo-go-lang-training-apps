@@ -6,7 +6,7 @@
 
 CodeIgniter 4 is a lightweight, fast PHP framework favored by government apps, schools, and small startups across Indonesia. Writing plain PHP first, then CI4, teaches you what frameworks do silently under the hood.
 
-Week 4 — themed **"Models & Database"** — centers on the practice program *"CRUD Model"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"CRUD Model"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -91,7 +91,7 @@ echo "protected $updatedField = 'updated_at';<br>";
 `findAll()`, `find($id)`, `insert()`, `update()`, `delete()`.
 
 ### Allowed Fields
-`$allowedFields` — fields allowed for mass assignment.
+`$allowedFields` - fields allowed for mass assignment.
 
 ### Timestamps
 `$useTimestamps = true` auto-manages `created_at`/`updated_at`.

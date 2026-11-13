@@ -1,7 +1,7 @@
 # CSS Grid: Two-Dimensional Layout
 
 > **Category:** CSS3 | **Level:** Intermediate | **Seri:** Layout & Responsive Design | **Week 8:** CSS Grid: Two-Dimensional Layout
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 

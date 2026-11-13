@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+Rust guarantees memory safety without a garbage collector - used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
 
-Week 5 — themed **"Collections: Vec, HashMap & String"** — centers on the practice program *"Data Manager"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Data Manager"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -25,7 +25,7 @@ Week 5 — themed **"Collections: Vec, HashMap & String"** — centers on the pr
 use std::collections::HashMap;
 
 fn main() {
-    // Vec<T> — dynamic array
+    // Vec<T> - dynamic array
     let mut fruits: Vec<String> = Vec::new();
     fruits.push("apel".to_string());
     fruits.push("mangga".to_string());
@@ -88,7 +88,7 @@ fn main() {
 Dynamic array with push, pop, len, capacity.
 
 ### Slices
-`&vec[a..b]` — reference to sub-array.
+`&vec[a..b]` - reference to sub-array.
 
 ### HashMap
 Key-value store with insert, get (returns Option), entry API.

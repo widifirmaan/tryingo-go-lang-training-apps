@@ -11,7 +11,7 @@ interface PhpPlaygroundProps {
 }
 
 const DEFAULT_PHP = `<?php
-// Tryngo PHP Playground — PHP di browser via php-wasm
+// Tryngo PHP Playground - PHP di browser via php-wasm
 
 $nama = "Tryngo";
 $tahun = 2026;

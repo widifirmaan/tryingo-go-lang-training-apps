@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
 
-Di minggu ke-5 — bertajuk **"REST API Best Practices"** — program latihan utamanya adalah *"DTO & Exception Handling"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"DTO & Exception Handling"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -120,7 +120,7 @@ Extend RuntimeException. Throw di service layer.
 Format konsisten: timestamp, status, error, message.
 
 ### API Versioning
-`/api/v1/products` — versioning untuk backward compatibility.
+`/api/v1/products` - versioning untuk backward compatibility.
 
 ---
 

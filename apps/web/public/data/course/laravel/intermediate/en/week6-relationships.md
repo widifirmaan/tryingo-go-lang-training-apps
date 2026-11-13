@@ -71,19 +71,19 @@ echo "Post::whereHas('comments', fn($q) => $q->where('approved', true))->get();<
 ## Key Concepts
 
 ### One to One
-`hasOne()` — user has one profile. `belongsTo()` — profile belongs to user.
+`hasOne()` - user has one profile. `belongsTo()` - profile belongs to user.
 
 ### One to Many
-`hasMany()` — post has many comments. `belongsTo()` — comment belongs to post.
+`hasMany()` - post has many comments. `belongsTo()` - comment belongs to post.
 
 ### Many to Many
-`belongsToMany()` — user has many roles via pivot table.
+`belongsToMany()` - user has many roles via pivot table.
 
 ### Eager Loading
 `with('user')` loads relation in 1 query. Without = N+1 problem.
 
 ### Polymorphic
-`morphTo()` — comment can belong to post OR video.
+`morphTo()` - comment can belong to post OR video.
 
 ---
 

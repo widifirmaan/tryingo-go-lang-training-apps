@@ -1,13 +1,13 @@
 # Selektor dan Spesifisitas
 
 > **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 2:** Selektor dan Spesifisitas
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-CSS mengatur seluruh tampilan web yang Anda lihat setiap hari — dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
+CSS mengatur seluruh tampilan web yang Anda lihat setiap hari - dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
 
-Di minggu ke-2 — bertajuk **"Selektor dan Spesifisitas"** — program latihan utamanya adalah *"Penerapan Selektor Kombinasi dan Tombol Interaktif"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Penerapan Selektor Kombinasi dan Tombol Interaktif"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

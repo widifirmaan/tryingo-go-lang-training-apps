@@ -6,7 +6,7 @@
 
 - Box<T>: heap allocation for dynamic types and recursive types
 - Rc<T>: reference counting for multiple ownership
-- RefCell<T>: interior mutability — mutable borrow while immutable
+- RefCell<T>: interior mutability - mutable borrow while immutable
 - Arc<T>: atomic reference counting for thread-safe sharing
 - Deref and Drop traits for custom smart pointers
 
@@ -19,7 +19,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use std::sync::Arc;
 
-// Box<T> — heap allocation
+// Box<T> - heap allocation
 fn box_example() {
     let b = Box::new(42);
     println!("Box: {}", b);
@@ -35,7 +35,7 @@ fn box_example() {
     println!("List: {:?}", list);
 }
 
-// Rc<T> — reference counting
+// Rc<T> - reference counting
 fn rc_example() {
     let a = Rc::new(42);
     let b = Rc::clone(&a);
@@ -45,7 +45,7 @@ fn rc_example() {
     println!("Reference count: {}", Rc::strong_count(&a));
 }
 
-// RefCell<T> — interior mutability
+// RefCell<T> - interior mutability
 fn refcell_example() {
     let data = RefCell::new(42);
 
@@ -57,7 +57,7 @@ fn refcell_example() {
     println!("data after mutation = {}", data.borrow());
 }
 
-// Arc<T> — atomic reference counting (thread-safe)
+// Arc<T> - atomic reference counting (thread-safe)
 fn arc_example() {
     let val = Arc::new(42);
     let val2 = Arc::clone(&val);
@@ -130,7 +130,7 @@ Deref for dereference operator, Drop for cleanup.
 
 - Create linked list with Box<Cons>
 - Experiment with Rc<RefCell<T>>
-- Try RefCell borrow while already borrowed — observe panic
+- Try RefCell borrow while already borrowed - observe panic
 - Create custom smart pointer with Drop
 - Experiment with Weak<T> to break cycles
 

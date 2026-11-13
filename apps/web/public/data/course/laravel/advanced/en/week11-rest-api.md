@@ -72,7 +72,7 @@ echo "60 requests per minute<br>";
 ## Key Concepts
 
 ### API Routes
-`routes/api.php` — auto `/api` prefix. `apiResource()` generates 5 routes.
+`routes/api.php` - auto `/api` prefix. `apiResource()` generates 5 routes.
 
 ### API Resources
 `JsonResource` transforms models to JSON. `collection()` for lists.
@@ -84,7 +84,7 @@ Token-based auth. `createToken()` generates tokens.
 200 OK, 201 Created, 204 No Content, 404 Not Found.
 
 ### Rate Limiting
-`throttle:60,1` — 60 requests per minute.
+`throttle:60,1` - 60 requests per minute.
 
 ---
 

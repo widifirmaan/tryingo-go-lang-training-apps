@@ -1,7 +1,7 @@
 # Proyek Akhir: Aplikasi Web Interaktif Lengkap
 
 > **Kategori:** JavaScript | **Level:** Lanjutan | **Seri:** Asinkron, Storage & Proyek Akhir | **Minggu 14:** Proyek Akhir: Aplikasi Web Interaktif Lengkap
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -60,7 +60,7 @@ Dengan memisahkan state data dari elemen HTML di layar, kode menjadi sangat muda
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Tugas Mandiri — Proyek Akhir</title>
+  <title>Portal Tugas Mandiri - Proyek Akhir</title>
   <style>
     * {
       margin: 0;

@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Svelte meng-comple reaktivitas saat build time — tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.
+Svelte meng-comple reaktivitas saat build time - tanpa virtual DOM, hasilnya bundle super kecil dan runtime cepat. Filosofi "it looks like writing HTML" membuatnya bahasa framework paling menyenangkan untuk dipelajari.
 
-Di minggu ke-5 — bertajuk **"Svelte Stores"** — program latihan utamanya adalah *"State Management"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"State Management"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

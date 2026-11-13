@@ -172,4 +172,4 @@ Build a complete e-commerce app: product catalog, cart, checkout, order history.
 
 ## Summary
 
-Week 12 of 12: **Capstone: E-Commerce App** (Level: Advanced). Complete! 🎉 You've mastered React from scratch to production-ready.
+Week 12 of 12: **Capstone: E-Commerce App** (Level: Advanced). Complete! You have finished the entire React curriculum.

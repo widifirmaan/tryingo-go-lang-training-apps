@@ -72,7 +72,7 @@ echo "public $allowedHeaders = ['Content-Type', 'Authorization'];<br>";
 ## Konsep Kunci
 
 ### Resource Routes
-`$routes->resource('products')` — generate 5 RESTful routes.
+`$routes->resource('products')` - generate 5 RESTful routes.
 
 ### JSON Response
 `$this->respond($data)`, `$this->respondCreated($data)`, `setJSON()`.
@@ -81,10 +81,10 @@ echo "public $allowedHeaders = ['Content-Type', 'Authorization'];<br>";
 Pre-built CRUD: `index`, `show`, `create`, `store`, `edit`, `update`, `delete`.
 
 ### getJSON
-`$this->request->getJSON(true)` — parse body JSON ke array.
+`$this->request->getJSON(true)` - parse body JSON ke array.
 
 ### CORS
-`app/Config/Cors.php` — configure allowed origins, methods, headers.
+`app/Config/Cors.php` - configure allowed origins, methods, headers.
 
 ---
 

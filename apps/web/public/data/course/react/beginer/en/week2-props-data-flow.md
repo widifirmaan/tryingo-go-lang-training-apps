@@ -4,16 +4,16 @@
 
 ## Why This Matters
 
-React is the most popular UI library in the world — used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
+React is the most popular UI library in the world - used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
 
-Week 2 — themed **"Props & Data Flow"** — centers on the practice program *"Product Card"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Product Card"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
 
 - Receive and use props in function components
 - Destructure props: { name, price } directly in parameters
-- Props are read-only — cannot be changed by child components
+- Props are read-only - cannot be changed by child components
 - Pass props: strings, numbers, booleans, arrays, objects, functions
 - Render lists with map() and key prop for performance
 

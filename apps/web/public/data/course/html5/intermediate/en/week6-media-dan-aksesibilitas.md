@@ -1,7 +1,7 @@
 # Media, Iframes, and Accessibility
 
 > **Category:** HTML5 | **Level:** Intermediate | **Seri:** Forms and Interaction | **Week 6:** Media, Iframes, and Accessibility
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -73,7 +73,7 @@ Accessible websites ensure full compatibility for users using screen readers:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media dan Lokasi — Alex Pratama</title>
+  <title>Media dan Lokasi - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

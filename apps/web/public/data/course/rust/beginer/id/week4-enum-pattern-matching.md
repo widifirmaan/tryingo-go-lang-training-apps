@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+Rust menjamin keamanan memory TANPA garbage collector - dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
 
-Di minggu ke-4 — bertajuk **"Enum & Pattern Matching"** — program latihan utamanya adalah *"Status Pesanan"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Status Pesanan"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -97,16 +97,16 @@ fn main() {
 Variant bisa membawa data: `Processing { started_at: String }`.
 
 ### Match
-Exhaustive — harus handle semua variant. `_` untuk catch-all.
+Exhaustive - harus handle semua variant. `_` untuk catch-all.
 
 ### Destructuring
-`OrderStatus::Shipped { tracking_number }` — ekstrak field.
+`OrderStatus::Shipped { tracking_number }` - ekstrak field.
 
 ### Option<T>
 `Some(T)` atau `None`. Tidak ada null di Rust.
 
 ### if let & matches!
-`if let Some(v) = opt` — match satu pattern. `matches!(x, Pattern)` — boolean check.
+`if let Some(v) = opt` - match satu pattern. `matches!(x, Pattern)` - boolean check.
 
 ---
 

@@ -6,7 +6,7 @@
 
 NestJS mengambil disipli arsitektur dari Angular/Spring dan membawanya ke Node: modul, dependency injection, decorator. Struktur ketatnya membuat aplikasi yang tumbuh besar tetap bisa dirawat oleh tim.
 
-Di minggu ke-3 — bertajuk **"Modules & Dependency Injection"** — program latihan utamanya adalah *"Struktur Modul"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Struktur Modul"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -71,7 +71,7 @@ console.log('4. Singleton scope (default)');
 Decorator untuk organize application. controllers, providers, exports, imports.
 
 ### DI
-constructor(private service: Service) — NestJS auto-instantiate.
+constructor(private service: Service) - NestJS auto-instantiate.
 
 ### Scopes
 Singleton (default), Request (per-request), Transient (new each inject).

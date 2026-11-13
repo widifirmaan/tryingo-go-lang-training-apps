@@ -27,7 +27,7 @@ const Key: InjectionKey<ThemeAPI> = Symbol('theme');
 export function provideTheme() {
   let theme = ref<'light' | 'dark'>('dark');
   provide(Key, {
-    theme,                       // reactive ref — di-inject langsung
+    theme,                       // reactive ref - di-inject langsung
     toggle: () => (theme.value = theme.value === 'dark' ? 'light' : 'dark'),
   });
 }
@@ -61,7 +61,7 @@ export function useTheme() {
 
 ### InjectionKey type-safe
 
-Symbol + InjectionKey<ThemeAPI> memberi tipe pada inject — bentuk data injection terjaga di TypeScript.
+Symbol + InjectionKey<ThemeAPI> memberi tipe pada inject - bentuk data injection terjaga di TypeScript.
 
 ### Provide at root
 

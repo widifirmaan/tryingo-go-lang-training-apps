@@ -1,7 +1,7 @@
 # Transitions and Transforms
 
 > **Category:** CSS3 | **Level:** Advanced | **Seri:** CSS Systems, Animation & Final Project | **Week 11:** Transitions and Transforms
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -162,14 +162,14 @@ These properties bypass browser layout reflow calculations, executing directly o
 <body>
 
   <div class="interactive-card">
-    <div class="icon-box">✦</div>
+    <div class="icon-box">+</div>
     <h3>Transformasi 2D</h3>
     <p>Arahkan kursor untuk melihat animasi pengangkatan kartu dan rotasi ikon secara mulus.</p>
     <a href="#" class="btn-tactile">Klik Tombol</a>
   </div>
 
   <div class="interactive-card">
-    <div class="icon-box">⚡</div>
+    <div class="icon-box">#</div>
     <h3>Umpan Balik Taktil</h3>
     <p>Klik tombol di bawah untuk merasakan efek penekanan fisik menggunakan transform scale.</p>
     <a href="#" class="btn-tactile">Tekan Sekarang</a>

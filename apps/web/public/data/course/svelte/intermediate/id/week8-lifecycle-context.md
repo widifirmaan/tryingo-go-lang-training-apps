@@ -56,11 +56,11 @@ Program onMount/onDestroy dan context (setContext/getContext) untuk tema & servi
 
 ### SSR safety
 
-onMount TIDAK berjalan di server — aman untuk localStorage/WebSocket; kode di <script> sendiri dieksekusi SSR (guard window).
+onMount TIDAK berjalan di server - aman untuk localStorage/WebSocket; kode di <script> sendiri dieksekusi SSR (guard window).
 
 ### Cleanup pattern
 
-onDestroy(ws.close()) mencegah leak saat komponen unmount — tangani juga timer, listener, dan AbortSignal.
+onDestroy(ws.close()) mencegah leak saat komponen unmount - tangani juga timer, listener, dan AbortSignal.
 
 ### Context API
 

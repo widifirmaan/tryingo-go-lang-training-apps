@@ -85,7 +85,7 @@ const resolvers = {
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 9 — Edge-case assertions: null, kosong, dan error path
+# Week 9 - Edge-case assertions: null, kosong, dan error path
 query TestAssertions {
   employee(id: "999") {
     name

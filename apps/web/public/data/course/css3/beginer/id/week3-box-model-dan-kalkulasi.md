@@ -1,13 +1,13 @@
 # Box Model dan Kalkulasi Elemen
 
 > **Kategori:** CSS3 | **Level:** Pemula | **Seri:** Dasar CSS & Model Kotak | **Minggu 3:** Box Model dan Kalkulasi Elemen
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-CSS mengatur seluruh tampilan web yang Anda lihat setiap hari — dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
+CSS mengatur seluruh tampilan web yang Anda lihat setiap hari - dari warna tombol sampai layout dashboard. Bedanya website terlihat murah dan profesional nyaris selalu ada di CSS, bukan di framework.
 
-Di minggu ke-3 — bertajuk **"Box Model dan Kalkulasi Elemen"** — program latihan utamanya adalah *"Visualisasi Interaktif Lapisan Box Model"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Visualisasi Interaktif Lapisan Box Model"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

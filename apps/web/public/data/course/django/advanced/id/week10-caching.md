@@ -59,7 +59,7 @@ Ada beberapa tingkat: query cache, view cache (hasil GET penuh), template fragme
 
 ### Cache key design
 
-stats:overview vs stats:overview:v1 — prefix versi memudahkan invalidasi massal (naikkan versi saat deploy).
+stats:overview vs stats:overview:v1 - prefix versi memudahkan invalidasi massal (naikkan versi saat deploy).
 
 ### Decorator vs TTL manual
 

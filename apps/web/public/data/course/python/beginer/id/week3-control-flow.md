@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data — investasi belajar yang paling serbaguna.
+Python adalah bahasa paling ramah untuk pemula namun mengalir ke AI/data science, automation, dan backend. Satu-satunya bahasa yang muncul di nyaris semua bidang kecerdasan data - investasi belajar yang paling serbaguna.
 
-Di minggu ke-3 — bertajuk **"Control Flow & Loops"** — program latihan utamanya adalah *"Grade & Bilangan"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Grade & Bilangan"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -104,7 +104,7 @@ Indentasi (4 spasi) menentukan blok. Tidak perlu kurung kurawal atau parentheses
 `break` keluar loop, `continue` skip ke iterasi berikutnya, `pass` dummy statement.
 
 ### List Comprehension
-`[x**2 for x in range(5)]` — ringkas, cepat, Pythonic.
+`[x**2 for x in range(5)]` - ringkas, cepat, Pythonic.
 
 ### Ternary
 `value_if_true if condition else value_if_false`.

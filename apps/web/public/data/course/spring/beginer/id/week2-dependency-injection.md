@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Spring Boot adalah standar backend enterprise Java — dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
+Spring Boot adalah standar backend enterprise Java - dipakai perusahaan perbankan, telco, pemerintahan. Ekosistemnya menawarkan solusi matang untuk hampir semua masalah: database, security, messaging, observability.
 
-Di minggu ke-2 — bertajuk **"Dependency Injection"** — program latihan utamanya adalah *"Service & Repository"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Service & Repository"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -114,11 +114,11 @@ public class ProductService {
 }
 
 // Anotasi DI:
-// @Component — generic stereotype
-// @Service — business logic
-// @Repository — data access
-// @Controller / @RestController — web layer
-// @Autowired — inject dependency
+// @Component - generic stereotype
+// @Service - business logic
+// @Repository - data access
+// @Controller / @RestController - web layer
+// @Autowired - inject dependency
 ```
 
 ---

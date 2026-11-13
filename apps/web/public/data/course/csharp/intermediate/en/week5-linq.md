@@ -105,7 +105,7 @@ class Program
 ## Key Concepts
 
 ### LINQ
-Language Integrated Query — query data directly in C#.
+Language Integrated Query - query data directly in C#.
 
 ### Method Syntax
 Chain extension methods for queries.

@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel - a skill you can directly sell.
 
-Week 3 — themed **"Blade Templates"** — centers on the practice program *"Template Engine"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Template Engine"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -26,10 +26,10 @@ Week 3 — themed **"Blade Templates"** — centers on the practice program *"Te
 echo "=== Blade Templates ===<br><br>";
 
 echo "=== Syntax Dasar ===<br>";
-echo "{{ $variable }}  — Echo escaped<br>";
-echo "{{{ $variable }}}  — Echo raw (deprecated, use !!})<br>";
-echo "{{ !! $html !!}}  — Echo unescaped<br>";
-echo "@{{ not parsed }}  — Escape blade<br><br>";
+echo "{{ $variable }}  - Echo escaped<br>";
+echo "{{{ $variable }}}  - Echo raw (deprecated, use !!})<br>";
+echo "{{ !! $html !!}}  - Echo unescaped<br>";
+echo "@{{ not parsed }}  - Escape blade<br><br>";
 
 echo "=== Control Structures ===<br>";
 echo "@if($condition) ... @endif<br>";
@@ -69,8 +69,8 @@ echo "    No posts found<br>";
 echo "@endforelse<br><br>";
 
 echo "=== CSRF & Method ===<br>";
-echo "@csrf  — CSRF token field<br>";
-echo "@method('DELETE')  — Spoof HTTP method<br>";
+echo "@csrf  - CSRF token field<br>";
+echo "@method('DELETE')  - Spoof HTTP method<br>";
 ```
 
 ---

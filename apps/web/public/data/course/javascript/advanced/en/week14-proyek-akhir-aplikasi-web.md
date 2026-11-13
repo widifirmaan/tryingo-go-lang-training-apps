@@ -1,7 +1,7 @@
 # Final Project: Complete Interactive Web Application
 
 > **Category:** JavaScript | **Level:** Advanced | **Seri:** Asynchronous, Storage & Final Project | **Week 14:** Final Project: Complete Interactive Web Application
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -60,7 +60,7 @@ Separating raw data state from DOM elements creates modular, maintainable applic
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Tugas Mandiri — Proyek Akhir</title>
+  <title>Portal Tugas Mandiri - Proyek Akhir</title>
   <style>
     * {
       margin: 0;

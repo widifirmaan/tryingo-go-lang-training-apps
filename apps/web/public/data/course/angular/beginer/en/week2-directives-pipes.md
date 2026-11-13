@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Angular powers large internal enterprise applications — banks, insurance, healthcare — because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
+Angular powers large internal enterprise applications - banks, insurance, healthcare - because its strict structure survives teams of dozens of developers. Thinking in clean architecture from day one means you already work the way real engineering teams do.
 
-Week 2 — themed **"Directives & Pipes"** — centers on the practice program *"List & Format"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"List & Format"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -26,7 +26,7 @@ Week 2 — themed **"Directives & Pipes"** — centers on the practice program *
 import { Component } from '@angular/core';
 @Component({
   selector: 'app-product-list',
-  template: '<h2>Daftar Produk</h2><ul><li *ngFor="let p of products" [ngClass]="{'in-stock': p.available}">{{ p.name | uppercase }} — {{ p.price | currency:'IDR':'symbol':'1.0-0' }}</li></ul><p>Tanggal: {{ today | date:'fullDate' }}</p>',
+  template: '<h2>Daftar Produk</h2><ul><li *ngFor="let p of products" [ngClass]="{'in-stock': p.available}">{{ p.name | uppercase }} - {{ p.price | currency:'IDR':'symbol':'1.0-0' }}</li></ul><p>Tanggal: {{ today | date:'fullDate' }}</p>',
 })
 export class ProductListComponent {
   today = new Date();

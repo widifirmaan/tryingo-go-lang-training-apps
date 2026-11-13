@@ -65,7 +65,7 @@ ROW mencatat perubahan per baris (aman, replay deterministik); STATEMENT menyimp
 
 ### GTID
 
-Identitas global per transaksi. Failover tidak perlu mencari posisi byte manual — cukup terapkan semua GTID yang belum diterapkan.
+Identitas global per transaksi. Failover tidak perlu mencari posisi byte manual - cukup terapkan semua GTID yang belum diterapkan.
 
 ### Asinkron & Semi-sync
 
@@ -73,14 +73,14 @@ Default MySQL = asynchronous: primary lanjut tanpa menunggu replica (latensi ren
 
 ### Read scaling
 
-SELECT dikirim ke replica untuk meringankan primary; tulis tetap di primary — dua penulis paralel (split-brain) merusak konsistensi.
+SELECT dikirim ke replica untuk meringankan primary; tulis tetap di primary - dua penulis paralel (split-brain) merusak konsistensi.
 
 ---
 
 ## Eksperimen
 
 - Tambahkan event DELETE ke binlog; lihat replica mana yang tertinggal.
-- Set applied_gtid=0 untuk replica-2 — berapa event harus diterapkan?
+- Set applied_gtid=0 untuk replica-2 - berapa event harus diterapkan?
 - Ubah query kesehatan jadi alert: hanya tampilkan replica dengan behind > 2.
 
 ---

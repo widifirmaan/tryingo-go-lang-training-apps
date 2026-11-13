@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Next.js is React's production-grade framework — routing, server components, caching, SEO are all solved. Companies pick Next for SEO and performance; it is the most requested skill in frontend job posts.
+Next.js is React's production-grade framework - routing, server components, caching, SEO are all solved. Companies pick Next for SEO and performance; it is the most requested skill in frontend job posts.
 
-Week 3 — themed **"Server & Client Components"** — centers on the practice program *"Component Combination"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Component Combination"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -57,7 +57,7 @@ function ProductList({ products }) {
     <ul>
       {products.map((p) => (
         <li key={p.id}>
-          {p.name} — Rp {p.price.toLocaleString("id-ID")}
+          {p.name} - Rp {p.price.toLocaleString("id-ID")}
         </li>
       ))}
     </ul>

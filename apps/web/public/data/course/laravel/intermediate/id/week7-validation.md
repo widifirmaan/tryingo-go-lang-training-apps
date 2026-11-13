@@ -93,7 +93,7 @@ echo "Rule::password()->min(8)->mixedCase()->numbers();<br>";
 ## Konsep Kunci
 
 ### Validator
-`$request->validate($rules)` — auto-redirect dengan errors jika gagal.
+`$request->validate($rules)` - auto-redirect dengan errors jika gagal.
 
 ### Rules
 `required`, `string`, `email`, `max:255`, `min:8`, `unique:table,column`, `confirmed`.

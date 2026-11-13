@@ -6,7 +6,7 @@
 
 CodeIgniter 4 adalah framework PHP yang ringan dan cepat, favorit untuk aplikasi instansi, sekolah, dan startup kecil di Indonesia. Menulis kode PHP murni dulu lalu CI4 membuat Anda paham apa yang framework "kerjakan diam-diam".
 
-Di minggu ke-3 — bertajuk **"Views & Templates"** — program latihan utamanya adalah *"View Layer"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"View Layer"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -79,16 +79,16 @@ echo "<?= view_cell('Blog::recentPosts') ?><br>";
 ## Konsep Kunci
 
 ### View
-`return view('home')` — render `app/Views/home.php`.
+`return view('home')` - render `app/Views/home.php`.
 
 ### Data
-`return view('home', $data)` — extract $data ke variabel di view.
+`return view('home', $data)` - extract $data ke variabel di view.
 
 ### Layout
 `$this->extend('layouts/main')` inherit template. `$this->section('content')` inject content.
 
 ### View Cells
-`view_cell('Class::method')` — reusable component dengan logic.
+`view_cell('Class::method')` - reusable component dengan logic.
 
 ### Render
 `renderSection()` tempat content muncul. `endSection()` tutup section.

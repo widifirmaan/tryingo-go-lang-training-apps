@@ -16,7 +16,7 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# DOCKER SECURITY — Best Practices
+# DOCKER SECURITY - Best Practices
 # ─────────────────────────────────────────────────────────
 
 # 1. Non-root user

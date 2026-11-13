@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Docker answers the classic "works on my machine" problem by packaging apps with their entire environment. It is the backbone of modern deployment — CI/CD, Kubernetes, clouds — everything starts here.
+Docker answers the classic "works on my machine" problem by packaging apps with their entire environment. It is the backbone of modern deployment - CI/CD, Kubernetes, clouds - everything starts here.
 
-Week 2 — themed **"Images & Registries"** — centers on the practice program *"Build & Push Images"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Build & Push Images"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -35,7 +35,7 @@ docker pull nginx:1.25
 docker pull ubuntu:22.04
 docker pull node:20-alpine
 
-# Image layers — setiap command di Dockerfile adalah layer
+# Image layers - setiap command di Dockerfile adalah layer
 docker history nginx
 
 # Inspect image

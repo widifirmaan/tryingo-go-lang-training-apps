@@ -1,7 +1,7 @@
 # Web Components: Custom Elements dan Template
 
 > **Kategori:** HTML5 | **Level:** Lanjutan | **Seri:** Framework UI | **Minggu 13:** Web Components: Custom Elements dan Template
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 
@@ -47,7 +47,7 @@ Setelah didaftarkan, Anda dapat menggunakan tag tersebut langsung di file HTML:
 ---
 
 ## 3. Web Components Siap Pakai: Shoelace
-Anda tidak selalu harus menulis Web Components dari nol. Ada pustaka Web Components siap pakai bernama **Shoelace**:
+Anda tidak selalu harus menulis Web Components secara manual dari awal. Ada pustaka Web Components siap pakai bernama **Shoelace**:
 ```html
 <sl-button variant="primary">Tombol Shoelace</sl-button>
 <sl-dialog label="Dialog Kustom">...</sl-dialog>
@@ -63,7 +63,7 @@ Anda tidak selalu harus menulis Web Components dari nol. Ada pustaka Web Compone
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Components Native — Alex Pratama</title>
+  <title>Web Components Native - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     header { border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 24px; }

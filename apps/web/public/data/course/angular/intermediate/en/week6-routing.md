@@ -17,7 +17,7 @@
 Modern standalone routes with functional guards.
 
 ```typescript
-// app.routes.ts — standalone API
+// app.routes.ts - standalone API
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [

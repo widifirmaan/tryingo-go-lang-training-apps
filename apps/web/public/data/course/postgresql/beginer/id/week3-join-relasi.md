@@ -6,7 +6,7 @@
 
 PostgreSQL adalah database open source paling canggih: ACID penuh, JSON, indexing canggih, dan ekstensi luas. Perusahaan besar mengandalkan Postgres; SQL yang Anda pelajari bersifat portabel untuk semua relational databases.
 
-Di minggu ke-3 — bertajuk **"JOIN & Relasi Tabel"** — program latihan utamanya adalah *"Query Multi-Tabel"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Query Multi-Tabel"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

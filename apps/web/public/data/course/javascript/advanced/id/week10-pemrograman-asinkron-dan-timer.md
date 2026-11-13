@@ -1,7 +1,7 @@
 # Pemrograman Asinkron dan Timer
 
 > **Kategori:** JavaScript | **Level:** Lanjutan | **Seri:** Asinkron, Storage & Proyek Akhir | **Minggu 10:** Pemrograman Asinkron dan Timer
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 

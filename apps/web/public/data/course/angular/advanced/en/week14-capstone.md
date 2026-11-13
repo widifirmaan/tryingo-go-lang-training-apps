@@ -17,7 +17,7 @@
 An enterprise system: orders + clients + deployment.
 
 ```typescript
-// main.ts — final architecture with lazy features
+// main.ts - final architecture with lazy features
 
 const routes: Routes = [
   { path: '', component: LayoutComponent, canActivate: [authGuard],

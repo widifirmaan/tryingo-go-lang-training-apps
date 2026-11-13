@@ -23,7 +23,7 @@ const DEFAULT_SVELTE = `<script>
 </div>
 `;
 
-// NOTE: pinned to 5.31.0 — newer 5.5x +esm bundles on jsDelivr are broken
+// NOTE: pinned to 5.31.0 - newer 5.5x +esm bundles on jsDelivr are broken
 // (sourcemap-codec export mismatch), which bricks the playground compiler.
 const SVELTE_CDN = 'https://cdn.jsdelivr.net/npm/svelte@5.31.0';
 // Runtime MUST come from one shared esm.sh graph: jsDelivr +esm bundles the

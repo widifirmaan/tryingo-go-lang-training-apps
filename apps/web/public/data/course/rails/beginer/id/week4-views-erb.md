@@ -6,7 +6,7 @@
 
 Rails melegenda konvensi-diatas-konfigurasi: satu perintah generator sudah menghasilkan CRUD lengkap. Marks of productive developer: fokus pada produk, bukan menyiapkan wiring. Dipakai GitHub, Shopify, dan Airbnb dulu.
 
-Di minggu ke-4 — bertajuk **"Views & ERB Templates"** — program latihan utamanya adalah *"Template Engine"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Template Engine"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

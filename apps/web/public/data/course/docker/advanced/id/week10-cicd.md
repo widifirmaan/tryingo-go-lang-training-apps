@@ -16,7 +16,7 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# DOCKER CI/CD — GitHub Actions Pipeline
+# DOCKER CI/CD - GitHub Actions Pipeline
 # ─────────────────────────────────────────────────────────
 
 # File: .github/workflows/docker.yml

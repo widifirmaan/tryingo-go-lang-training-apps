@@ -14,7 +14,7 @@
 
 ## Program: Angular State Management
 
-Signalized stores and computed kernels — modern state.
+Signalized stores and computed kernels - modern state.
 
 ```typescript
 import { Injectable, computed, signal, inject } from '@angular/core';
@@ -50,7 +50,7 @@ export class CartSignalStore {
   selector: 'app-cart-badge',
   standalone: true,
   template: `
-    <span class="badge">{{ store.count() }} items — {{ store.totalWithCoupon() | currency }}</span>`,
+    <span class="badge">{{ store.count() }} items - {{ store.totalWithCoupon() | currency }}</span>`,
 })
 export class CartBadgeComponent {
   protected store = inject(CartSignalStore);
@@ -63,7 +63,7 @@ export class CartBadgeComponent {
 
 ### Signal semantics
 
-signal().set/update butir halus; computed untuk derivasi; efek bisa dibroadcast — seirama zoneless.
+signal().set/update butir halus; computed untuk derivasi; efek bisa dibroadcast - seirama zoneless.
 
 ### Service + DI
 

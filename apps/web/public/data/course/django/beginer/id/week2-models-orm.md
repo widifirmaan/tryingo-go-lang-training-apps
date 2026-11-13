@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Django dipakai Instagram, Spotify, dan banyak startup karena "batteries included": admin panel, autentikasi, database — semuanya tersedia. Sisa waktu Anda bisa dipakai membangun fitur, bukan menyiapkan perkakas.
+Django dipakai Instagram, Spotify, dan banyak startup karena "batteries included": admin panel, autentikasi, database - semuanya tersedia. Sisa waktu Anda bisa dipakai membangun fitur, bukan menyiapkan perkakas.
 
-Di minggu ke-2 — bertajuk **"Models & ORM"** — program latihan utamanya adalah *"Model Pertama"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Model Pertama"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

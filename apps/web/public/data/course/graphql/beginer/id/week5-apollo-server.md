@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel — dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
+GraphQL menggantikan pola "satu endpoint satu bentuk data" REST dengan satu query fleksibel - dipakai GitHub, Shopify, dan banyak aplikasi mobile hemat payload. Bagus untuk project yang frontend-nya sering berubah bentuk data.
 
-Di minggu ke-5 — bertajuk **"Apollo Server & Client"** — program latihan utamanya adalah *"Setup Server GraphQL"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Setup Server GraphQL"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -104,7 +104,7 @@ function ProductList() {
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 5 — Query pertama terhadap Apollo Server yang aktif
+# Week 5 - Query pertama terhadap Apollo Server yang aktif
 query ServerBoot {
   engineering: employeesByDepartment(department: "Engineering") {
     name

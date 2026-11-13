@@ -1,5 +1,5 @@
 // ============================================================================
-// sqlEngine.ts — Browser SQL playground engine powered by sql.js (SQLite WASM).
+// sqlEngine.ts - Browser SQL playground engine powered by sql.js (SQLite WASM).
 // Lazily loads sql.js from CDN, initializes an in-memory SQLite database,
 // pre-loads sample datasets, and provides a clean execute/reset/schema API.
 // ============================================================================

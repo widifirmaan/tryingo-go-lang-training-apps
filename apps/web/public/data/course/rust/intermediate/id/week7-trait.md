@@ -115,13 +115,13 @@ fn main() {
 Definisi method yang harus diimplement struct. Mirip interface di bahasa lain.
 
 ### impl Trait
-`impl Speak for Dog { fn speak(&self) }` — implement trait untuk tipe.
+`impl Speak for Dog { fn speak(&self) }` - implement trait untuk tipe.
 
 ### Trait Bound
-`fn announce<T: Speak>(item: &T)` — generic dengan constraint.
+`fn announce<T: Speak>(item: &T)` - generic dengan constraint.
 
 ### Dynamic Dispatch
-`&dyn Speak` — runtime polymorphism. `Box<dyn Speak>` — heap allocation.
+`&dyn Speak` - runtime polymorphism. `Box<dyn Speak>` - heap allocation.
 
 ### Default Method
 Trait bisa punya default implementation. Struct bisa override.
@@ -130,7 +130,7 @@ Trait bisa punya default implementation. Struct bisa override.
 
 ## Eksperimen
 
-- Buat trait Shape dengan method area() — implement Circle, Rectangle
+- Buat trait Shape dengan method area() - implement Circle, Rectangle
 - Coba multiple trait bounds: T: Speak + Clone
 - Buat trait dengan associated type
 - Eksperimen dengan trait object di Vec

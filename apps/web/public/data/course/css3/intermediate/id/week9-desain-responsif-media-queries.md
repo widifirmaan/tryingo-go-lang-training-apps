@@ -1,7 +1,7 @@
 # Desain Responsif dan Media Queries
 
 > **Kategori:** CSS3 | **Level:** Menengah | **Seri:** Tata Letak & Desain Responsif | **Minggu 9:** Desain Responsif dan Media Queries
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 

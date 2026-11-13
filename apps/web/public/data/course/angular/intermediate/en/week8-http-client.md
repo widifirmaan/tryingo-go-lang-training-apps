@@ -72,7 +72,7 @@ http.get memunculkan observable; gunakan takeUntilDestroyed agar auto-unsubscrib
 
 ### Signals + computed
 
-signal()/computed() memberi state reaktif modern — pas dengan zoneless change detection.
+signal()/computed() memberi state reaktif modern - pas dengan zoneless change detection.
 
 ### Functional interceptors
 

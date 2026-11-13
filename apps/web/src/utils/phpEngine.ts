@@ -1,5 +1,5 @@
 // ============================================================================
-// phpEngine.ts — Browser PHP playground engine.
+// phpEngine.ts - Browser PHP playground engine.
 // Attempts to load php-wasm from CDN; falls back to a lightweight procedural
 // PHP interpreter for common constructs (echo, print, variables, arrays,
 // loops, functions, string concatenation).
@@ -12,7 +12,7 @@ export interface PhpResult {
 }
 
 // ---------------------------------------------------------------------------
-// WASM loader (php-wasm from CDN — ESM build)
+// WASM loader (php-wasm from CDN - ESM build)
 // ---------------------------------------------------------------------------
 let wasmModule: any = null;
 let wasmPromise: Promise<any> | null = null;
@@ -534,7 +534,7 @@ class PhpInterpreter {
         if (tokens[pos] === 'if') {
           pos++;
         } else {
-          // plain else — block or single statement
+          // plain else - block or single statement
           if (tokens[pos] === '{') {
             let bd = 1;
             const bs = pos + 1;
@@ -1089,7 +1089,7 @@ async function runOnWasm(php: any, code: string): Promise<PhpResult> {
         typeof php.exit === 'function' && php.exit();
         typeof php.close === 'function' && php.close();
       } catch {
-        // ignore — we discard the reference below regardless
+        // ignore - we discard the reference below regardless
       }
       wasmModule = null;
       wasmPromise = null;
@@ -1105,7 +1105,7 @@ export async function executePhp(code: string): Promise<PhpResult> {
 
   // Serialize executions: acquire the instance INSIDE the chain so a previous
   // run that timed out (and flagged phpNeedsReset) is rebuilt before this run
-  // starts — otherwise this run would capture the stuck instance's output.
+  // starts - otherwise this run would capture the stuck instance's output.
   const run = execChain.then(async () => {
     let php: any = null;
     try {

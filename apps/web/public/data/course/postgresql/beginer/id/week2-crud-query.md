@@ -6,7 +6,7 @@
 
 PostgreSQL adalah database open source paling canggih: ACID penuh, JSON, indexing canggih, dan ekstensi luas. Perusahaan besar mengandalkan Postgres; SQL yang Anda pelajari bersifat portabel untuk semua relational databases.
 
-Di minggu ke-2 — bertajuk **"CRUD & Query Lanjutan"** — program latihan utamanya adalah *"Operasi Data Lengkap"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Operasi Data Lengkap"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

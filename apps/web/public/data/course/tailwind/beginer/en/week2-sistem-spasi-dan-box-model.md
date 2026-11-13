@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Tailwind turns styling into consistent utility classes — designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.
+Tailwind turns styling into consistent utility classes - designs that once took a hundred CSS lines now take a few words. Once fluent, you ship polished, consistent UI without leaving your markup.
 
-Week 2 — themed **"Spacing Scales, Sizing, and Box Model"** — centers on the practice program *"Applying Padding, Margin, Width, and Height"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Applying Padding, Margin, Width, and Height"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

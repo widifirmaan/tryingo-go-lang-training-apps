@@ -55,11 +55,11 @@ export const load = async ({ locals }) => {
 
 ### load + locals
 
-locals.db dipenuhi di hooks.server.ts — dependency injection pattern untuk koneksi DB per request (connection pool, request user).
+locals.db dipenuhi di hooks.server.ts - dependency injection pattern untuk koneksi DB per request (connection pool, request user).
 
 ### Form actions & invalidate
 
-Form action + invalidateAll menyegarkan data load setelah mutasi — pola server-first sebelum memakai state global.
+Form action + invalidateAll menyegarkan data load setelah mutasi - pola server-first sebelum memakai state global.
 
 ### Project structure
 

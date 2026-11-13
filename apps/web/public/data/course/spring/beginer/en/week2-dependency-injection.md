@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+Spring Boot is the standard for enterprise Java backends - banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
 
-Week 2 — themed **"Dependency Injection"** — centers on the practice program *"Service & Repository"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Service & Repository"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -114,11 +114,11 @@ public class ProductService {
 }
 
 // Anotasi DI:
-// @Component — generic stereotype
-// @Service — business logic
-// @Repository — data access
-// @Controller / @RestController — web layer
-// @Autowired — inject dependency
+// @Component - generic stereotype
+// @Service - business logic
+// @Repository - data access
+// @Controller / @RestController - web layer
+// @Autowired - inject dependency
 ```
 
 ---

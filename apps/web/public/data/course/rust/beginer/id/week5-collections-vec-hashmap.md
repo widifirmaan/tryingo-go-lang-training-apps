@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Rust menjamin keamanan memory TANPA garbage collector — dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
+Rust menjamin keamanan memory TANPA garbage collector - dipakai di kernel Linux, blockchain, engine game, dan tools performa tinggi. Compiler-nya ketat tapi bersahabat: ia menjadi guru terbaik Anda soal ownership.
 
-Di minggu ke-5 — bertajuk **"Collections: Vec, HashMap & String"** — program latihan utamanya adalah *"Manajemen Data"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Manajemen Data"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -25,7 +25,7 @@ Di minggu ke-5 — bertajuk **"Collections: Vec, HashMap & String"** — program
 use std::collections::HashMap;
 
 fn main() {
-    // Vec<T> — dynamic array
+    // Vec<T> - dynamic array
     let mut fruits: Vec<String> = Vec::new();
     fruits.push("apel".to_string());
     fruits.push("mangga".to_string());
@@ -88,7 +88,7 @@ fn main() {
 Dynamic array. `push`, `pop`, `len`, `capacity`. Auto-grow saat penuh.
 
 ### Slice
-`&vec[1..3]` — reference ke sub-array. Tidak punya ownership.
+`&vec[1..3]` - reference ke sub-array. Tidak punya ownership.
 
 ### HashMap
 `HashMap::new()`, `insert`, `get` returns `Option<&V>`. `entry().or_insert()` untuk upsert.

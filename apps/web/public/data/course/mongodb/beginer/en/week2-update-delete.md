@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-MongoDB stores data as flexible documents — perfect for catalogs, logs, and data whose shape keeps changing. Learning to think in documents expands how you model data, not just how you use tables.
+MongoDB stores data as flexible documents - perfect for catalogs, logs, and data whose shape keeps changing. Learning to think in documents expands how you model data, not just how you use tables.
 
-Week 2 — themed **"Update & Delete Documents"** — centers on the practice program *"Data Modification"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Data Modification"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

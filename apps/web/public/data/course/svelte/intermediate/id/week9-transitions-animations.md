@@ -73,13 +73,13 @@ Untuk hover/active state, normal CSS animations & transitions sudah cukup; trans
 
 - Ganti fade dengan scale berdurasi 600 ms.
 - Setel stiffness/damping spring lalu rasakan perbedaannya saat toggle.
-- Tambah item baru saat list sedang beranimasi — rasakan smoothnya FLIP.
+- Tambah item baru saat list sedang beranimasi - rasakan smoothnya FLIP.
 
 ---
 
 ## Tantangan
 
-Bangun modal dengan transition:fly — buka lewat tombol, tutup saat klik overlay; pastikan koreografi masuk/keluar rapi.
+Bangun modal dengan transition:fly - buka lewat tombol, tutup saat klik overlay; pastikan koreografi masuk/keluar rapi.
 
 ---
 

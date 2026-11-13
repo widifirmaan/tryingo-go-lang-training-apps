@@ -46,10 +46,10 @@ app.mount('#app');
 
 <!-- Feature slice pattern -->
 <!-- src/features/orders/ -->
-// api.ts       — /api/orders endpoints
-// store.ts     — defineStore('orders', () => {...})
-// components/  — OrdersTable.vue, OrderRow.vue
-// views/       — OrdersList.vue (route-loaded)
+// api.ts       - /api/orders endpoints
+// store.ts     - defineStore('orders', () => {...})
+// components/  - OrdersTable.vue, OrderRow.vue
+// views/       - OrdersList.vue (route-loaded)
 // Router: lazy per feature: () => import('@/features/orders/views/OrdersList.vue')
 ```
 
@@ -63,7 +63,7 @@ features/ per domain (orders, products) memisahkan tanggung jawab dan menghasilk
 
 ### DI & config
 
-main.ts: provide apiBase, konsumsi di API clients — konfigurasi tanpa duplikasi.
+main.ts: provide apiBase, konsumsi di API clients - konfigurasi tanpa duplikasi.
 
 ### Route lazy-loading
 

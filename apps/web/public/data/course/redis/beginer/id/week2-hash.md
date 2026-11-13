@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Redis adalah database in-memory secepat kilat — dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
+Redis adalah database in-memory secepat kilat - dipakai semua sistem besar untuk cache, leaderboard, session, dan rate limit. Satu fitur kecil "tambah cache Redis" sering menghemat biaya server lebih banyak dari refactor berbulan-bulan.
 
-Di minggu ke-2 — bertajuk **"Hash"** — program latihan utamanya adalah *"Operasi Hash Redis"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Operasi Hash Redis"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -54,7 +54,7 @@ HGETALL student:133
 
 ### Field-level access
 
-HSET/HGET memutasi satu field tanpa membaca seluruh objek — lebih hemat bandwidth ketimbang menaruh kunci per field.
+HSET/HGET memutasi satu field tanpa membaca seluruh objek - lebih hemat bandwidth ketimbang menaruh kunci per field.
 
 ### Incremental semantics
 

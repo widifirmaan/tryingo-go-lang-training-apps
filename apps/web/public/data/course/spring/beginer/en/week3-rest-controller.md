@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Spring Boot is the standard for enterprise Java backends — banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
+Spring Boot is the standard for enterprise Java backends - banking, telco, government. Its ecosystem has mature solutions for nearly every problem: databases, security, messaging, observability.
 
-Week 3 — themed **"REST Controllers"** — centers on the practice program *"CRUD API"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"CRUD API"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -84,12 +84,12 @@ public class ProductController {
 }
 
 // HTTP Status Codes:
-// 200 OK — sukses
-// 201 Created — resource baru dibuat
-// 204 No Content — sukses tanpa body
-// 404 Not Found — resource tidak ditemukan
-// 400 Bad Request — input tidak valid
-// 500 Internal Server Error — error server
+// 200 OK - sukses
+// 201 Created - resource baru dibuat
+// 204 No Content - sukses tanpa body
+// 404 Not Found - resource tidak ditemukan
+// 400 Bad Request - input tidak valid
+// 500 Internal Server Error - error server
 ```
 
 ---

@@ -120,7 +120,7 @@ Nested function: `decorator(arg)` -> `decorator(func)` -> `wrapper(*args, **kwar
 `yield` pause dan return value. Resume saat next() dipanggil. Memory-efficient.
 
 ### Generator Expression
-`(x**2 for x in range(1000000))` — lazy, tidak langsung di-memory.
+`(x**2 for x in range(1000000))` - lazy, tidak langsung di-memory.
 
 ### yield from
 Delegate ke sub-generator: `yield from iterable`.

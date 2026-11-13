@@ -64,9 +64,9 @@ DEL saat UPDATE/DELETE (cache-aside klasik), atau bump versi nama kunci (cache b
 
 ## Experiments
 
-- GET a key you never set — inspect the miss response.
+- GET a key you never set - inspect the miss response.
 - SET with EX 5 then poll TTL repeatedly until it returns -2 (expired).
-- Pair a SET EX 30 with an immediate TTL — watch the numbers.
+- Pair a SET EX 30 with an immediate TTL - watch the numbers.
 
 ---
 

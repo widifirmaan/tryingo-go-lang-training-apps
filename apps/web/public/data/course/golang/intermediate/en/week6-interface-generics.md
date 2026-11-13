@@ -4,7 +4,7 @@
 
 ## Learning Objectives
 
-- Implicit interfaces — structs implement without implements keyword
+- Implicit interfaces - structs implement without implements keyword
 - Interfaces as polymorphic parameters (Go Tour: Interfaces)
 - Type assertion x.(T) and type switch for concrete type checks
 - Generics Go 1.18+: type parameters [T any], constraints
@@ -83,7 +83,7 @@ No `implement` keyword needed.
 
 ## Experiments
 
-- Create Shape interface with Area() — implement Circle, Rectangle
+- Create Shape interface with Area() - implement Circle, Rectangle
 - Try type assertion with ok idiom: v, ok := x.(T)
 - Create generic Min[T constraints.Ordered]
 - Create generic Map function: Map[T, U]([]T, func(T) U) []U
@@ -98,4 +98,4 @@ Build a payment system: interface PaymentMethod (ProcessPayment), implement Cred
 
 ## Summary
 
-Week 6 of 13: **Interfaces & Generics** (Level: Intermediate). Go isn't classic OOP — this is its strength. Next week: **Pointers, Memory & Packages**.
+Week 6 of 13: **Interfaces & Generics** (Level: Intermediate). Go isn't classic OOP - this is its strength. Next week: **Pointers, Memory & Packages**.

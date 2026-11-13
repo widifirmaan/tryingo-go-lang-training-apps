@@ -18,7 +18,7 @@ interface Line {
   kind: 'cmd' | 'out' | 'err' | 'info';
 }
 
-const DEFAULT_CODE = `// MongoDB Playground — Tryngo
+const DEFAULT_CODE = `// MongoDB Playground - Tryngo
 // Ketik perintah MongoDB di sini, lalu klik "Run" atau Ctrl+Enter
 
 // 1. Tampilkan semua koleksi

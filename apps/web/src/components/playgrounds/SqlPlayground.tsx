@@ -10,7 +10,7 @@ interface SqlPlaygroundProps {
   initialCode?: string;
 }
 
-const DEFAULT_SQL = `-- Tryngo SQL Playground — SQLite via sql.js (WASM)
+const DEFAULT_SQL = `-- Tryngo SQL Playground - SQLite via sql.js (WASM)
 -- Sample tables: employees, products, orders
 -- Try running a query:
 
@@ -396,7 +396,7 @@ export const SqlPlayground: React.FC<SqlPlaygroundProps> = ({ lang, initialCode 
                             <span>✓</span>
                             <span>
                               {isId ? 'Berhasil' : 'Success'}
-                              {result.affectedRows !== undefined && ` — ${result.affectedRows} ${isId ? 'baris terpengaruh' : 'rows affected'}`}
+                              {result.affectedRows !== undefined && ` - ${result.affectedRows} ${isId ? 'baris terpengaruh' : 'rows affected'}`}
                             </span>
                           </div>
                         </div>

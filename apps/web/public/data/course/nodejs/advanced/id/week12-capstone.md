@@ -105,4 +105,4 @@ Buat E-Commerce API lengkap: auth, products, cart, orders, tests, Docker. Produc
 
 ## Ringkasan
 
-Minggu 12 dari 12: **Capstone: Full-Stack API** (Level: Lanjutan). Selesai! Anda sudah menguasai Node.js dari nol hingga production-ready.
+Minggu 12 dari 12: **Capstone: Full-Stack API** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum Node.js.

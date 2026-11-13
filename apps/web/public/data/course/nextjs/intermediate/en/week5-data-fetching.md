@@ -30,7 +30,7 @@ export default async function PostsPage() {
         {posts.map((post) => (
           <li key={post.id}>
             <a href={"/posts/" + post.id}>{post.title}</a>
-            <span> — {post.date}</span>
+            <span> - {post.date}</span>
           </li>
         ))}
       </ul>

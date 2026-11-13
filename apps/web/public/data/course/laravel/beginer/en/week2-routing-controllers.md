@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel — a skill you can directly sell.
+Laravel is the most popular PHP framework in the world with a complete ecosystem: Eloquent ORM, queues, real-time, billing. Many agencies and studios bill projects in Laravel - a skill you can directly sell.
 
-Week 2 — themed **"Routing & Controllers"** — centers on the practice program *"Route & Controller"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Route & Controller"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

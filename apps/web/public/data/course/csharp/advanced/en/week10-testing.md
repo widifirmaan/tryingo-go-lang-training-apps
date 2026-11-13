@@ -99,7 +99,7 @@ class Program
 
         service.Delete(1);
         Console.WriteLine(service.GetAll().Count == 1
-            ? "✓ Delete(1) — 1 product left"
+            ? "✓ Delete(1) - 1 product left"
             : "✗ Delete failed");
 
         Console.WriteLine("\n=== Semua test passed! ===");

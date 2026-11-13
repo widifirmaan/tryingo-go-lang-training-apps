@@ -1,13 +1,13 @@
 # Perulangan dan Iterasi Data
 
 > **Kategori:** JavaScript | **Level:** Pemula | **Seri:** Dasar JavaScript & Logika | **Minggu 4:** Perulangan dan Iterasi Data
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-JavaScript adalah satu-satunya bahasa yang berjalan di semua browser — sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
+JavaScript adalah satu-satunya bahasa yang berjalan di semua browser - sisi frontend, backend (Node) bahkan mobile. Belajar JS secara utuh membuka hampir seluruh spektrum pekerjaan web.
 
-Di minggu ke-4 — bertajuk **"Perulangan dan Iterasi Data"** — program latihan utamanya adalah *"Generator Tabel Perkalian dan Analisis Deret Angka"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Generator Tabel Perkalian dan Analisis Deret Angka"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

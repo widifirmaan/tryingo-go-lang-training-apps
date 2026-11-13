@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+Rust guarantees memory safety without a garbage collector - used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
 
-Week 3 — themed **"Structs & Methods"** — centers on the practice program *"Product Data"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Product Data"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -90,7 +90,7 @@ Group fields. Like classes but without inheritance.
 `impl Block { fn method(&self) }`. `&self` read-only, `&mut self` mutable, `self` consume.
 
 ### Associated Functions
-`Struct::new()` — no self parameter, like static methods.
+`Struct::new()` - no self parameter, like static methods.
 
 ### Derive
 Auto-implement traits. `Debug` for `{:?}`, `Clone` for `.clone()`.

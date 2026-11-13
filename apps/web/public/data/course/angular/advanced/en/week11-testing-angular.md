@@ -75,7 +75,7 @@ Zona klasik: dipanggil manual; dengan zoneless/signals, scheduling otomatis.
 
 ### E2E checklist
 
-Auth flow, navigasi, baseline a11y — semua harus hijau di jalur utama.
+Auth flow, navigasi, baseline a11y - semua harus hijau di jalur utama.
 
 ---
 

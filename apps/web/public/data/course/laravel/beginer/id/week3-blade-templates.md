@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel — skill yang langsung dapat dipakai bekerja.
+Laravel adalah framework PHP paling populer di dunia dengan ekosistem lengkap: ORM Eloquent, antrean, realtime, billing. Banyak jasa/agency membangun proyek dengan Laravel - skill yang langsung dapat dipakai bekerja.
 
-Di minggu ke-3 — bertajuk **"Blade Templates"** — program latihan utamanya adalah *"Template Engine"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Template Engine"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -26,10 +26,10 @@ Di minggu ke-3 — bertajuk **"Blade Templates"** — program latihan utamanya a
 echo "=== Blade Templates ===<br><br>";
 
 echo "=== Syntax Dasar ===<br>";
-echo "{{ $variable }}  — Echo escaped<br>";
-echo "{{{ $variable }}}  — Echo raw (deprecated, use !!})<br>";
-echo "{{ !! $html !!}}  — Echo unescaped<br>";
-echo "@{{ not parsed }}  — Escape blade<br><br>";
+echo "{{ $variable }}  - Echo escaped<br>";
+echo "{{{ $variable }}}  - Echo raw (deprecated, use !!})<br>";
+echo "{{ !! $html !!}}  - Echo unescaped<br>";
+echo "@{{ not parsed }}  - Escape blade<br><br>";
 
 echo "=== Control Structures ===<br>";
 echo "@if($condition) ... @endif<br>";
@@ -69,8 +69,8 @@ echo "    No posts found<br>";
 echo "@endforelse<br><br>";
 
 echo "=== CSRF & Method ===<br>";
-echo "@csrf  — CSRF token field<br>";
-echo "@method('DELETE')  — Spoof HTTP method<br>";
+echo "@csrf  - CSRF token field<br>";
+echo "@method('DELETE')  - Spoof HTTP method<br>";
 ```
 
 ---

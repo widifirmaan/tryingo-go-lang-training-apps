@@ -106,4 +106,4 @@ Build complete Task Management API: auth, projects, tasks, notifications, tests,
 
 ## Summary
 
-Week 12 of 12: **Capstone: Enterprise API** (Level: Advanced). Complete! You've mastered NestJS from scratch to production-ready.
+Week 12 of 12: **Capstone: Enterprise API** (Level: Advanced). Complete! You have finished the entire NestJS curriculum.

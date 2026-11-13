@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Vue menggabungkan keringkasan template HTML dengan reaktivitas modern — dipakai Alibaba, Xiaomi, dan banyak admin panel. Learning curve-nya landai: svelte siap product rapi untuk pekerja, tetap ramah untuk yang baru belajar.
+Vue menggabungkan keringkasan template HTML dengan reaktivitas modern - dipakai Alibaba, Xiaomi, dan banyak admin panel. Learning curve-nya landai: svelte siap product rapi untuk pekerja, tetap ramah untuk yang baru belajar.
 
-Di minggu ke-4 — bertajuk **"Components & Props"** — program latihan utamanya adalah *"Komponen Produk"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Komponen Produk"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

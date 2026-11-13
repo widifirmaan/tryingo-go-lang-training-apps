@@ -119,7 +119,7 @@ const LessonCodeBlock: React.FC<{
 const LessonInlineCode: React.FC<{ children?: React.ReactNode; className?: string; isId: boolean }> = ({ children, className, isId }) => {
   const [copied, setCopied] = useState(false);
   if (className?.includes('language-')) {
-    // block-level code inside <pre> — the block header already handles copy
+    // block-level code inside <pre> - the block header already handles copy
     return <code className={className}>{children}</code>;
   }
   return (
@@ -149,7 +149,7 @@ const extractCode = (markdown: string, preferred: string[] = []): string => {
     blocks.push({ lang: (match[1] || '').toLowerCase(), code: match[2].trim() });
   }
   if (!blocks.length) return '';
-  // 1) Hit in the playground's language(s) — earliest preferred language wins, largest block wins
+  // 1) Hit in the playground's language(s) - earliest preferred language wins, largest block wins
   if (preferred.length) {
     const rank = new Map(preferred.map((l, i) => [l.toLowerCase(), i]));
     const hits = blocks
@@ -660,8 +660,8 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
               : 'bg-white/80 dark:bg-zinc-800/80 border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40'
           }`}
           title={isId
-            ? (isCurrentWeekCompleted ? 'Materi minggu ini sudah ditandai selesai — klik untuk batal' : 'Tandai minggu ini selesai dipelajari')
-            : (isCurrentWeekCompleted ? 'Week done — click to undo' : 'Mark this week as completed')}
+            ? (isCurrentWeekCompleted ? 'Materi minggu ini sudah ditandai selesai - klik untuk batal' : 'Tandai minggu ini selesai dipelajari')
+            : (isCurrentWeekCompleted ? 'Week done - click to undo' : 'Mark this week as completed')}
         >
           <FontAwesomeIcon icon={faCircleCheck} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span className="hidden sm:inline">{isCurrentWeekCompleted ? (isId ? 'Selesai ✓' : 'Done ✓') : (isId ? 'Selesai' : 'Done')}</span>

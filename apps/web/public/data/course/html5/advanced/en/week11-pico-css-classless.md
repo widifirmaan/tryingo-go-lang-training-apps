@@ -1,7 +1,7 @@
 # Pico CSS: Classless CSS
 
 > **Category:** HTML5 | **Level:** Advanced | **Seri:** UI Frameworks | **Week 11:** Pico CSS: Classless CSS
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -44,7 +44,7 @@ Traditional frameworks require memorizing dozens of class names (`.card`, `.btn`
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dokumentasi Proyek — Pico CSS</title>
+  <title>Dokumentasi Proyek - Pico CSS</title>
   <!-- Pico CSS CDN (Classless CSS) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>

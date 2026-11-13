@@ -77,12 +77,12 @@ public class OrderMetrics {
 */
 
 // Actuator Endpoints:
-// GET /actuator/health — health check
-// GET /actuator/info — app info
-// GET /actuator/metrics — metrics
-// GET /actuator/env — environment
-// GET /actuator/beans — Spring beans
-// GET /actuator/mappings — URL mappings
+// GET /actuator/health - health check
+// GET /actuator/info - app info
+// GET /actuator/metrics - metrics
+// GET /actuator/env - environment
+// GET /actuator/beans - Spring beans
+// GET /actuator/mappings - URL mappings
 
 // Dependencies:
 /*

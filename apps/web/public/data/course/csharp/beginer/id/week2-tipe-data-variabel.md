@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity — salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
+C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity - salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
 
-Di minggu ke-2 — bertajuk **"Tipe Data & Variabel"** — program latihan utamanya adalah *"Konversi & Validasi"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Konversi & Validasi"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -93,14 +93,14 @@ Value type disimpan di stack (int, double, bool, struct). Reference type di heap
 ### Konversi Tipe
 - Implicit: `double d = i;` (aman, tidak kehilangan data)
 - Explicit: `int j = (int)d;` (cast, bisa kehilangan data)
-- Parse: `int.Parse("123")` — throw exception jika gagal
-- TryParse: `int.TryParse("123", out result)` — return bool
+- Parse: `int.Parse("123")` - throw exception jika gagal
+- TryParse: `int.TryParse("123", out result)` - return bool
 
 ### Constants
-`const double PI = 3.14;` — compile-time constant.
+`const double PI = 3.14;` - compile-time constant.
 
 ### Enum
-`enum Hari { Senin, Selasa }` — kumpulan nilai integer bernama.
+`enum Hari { Senin, Selasa }` - kumpulan nilai integer bernama.
 
 ### DateTime
 `DateTime.Now`, `AddDays`, format string `yyyy-MM-dd`.
@@ -109,7 +109,7 @@ Value type disimpan di stack (int, double, bool, struct). Reference type di heap
 
 ## Eksperimen
 
-- Coba konversi double ke int — perhatikan pembulatan
+- Coba konversi double ke int - perhatikan pembulatan
 - Eksperimen dengan TryParse pada input invalid
 - Buat enum dengan nilai custom
 - Coba DateTime: AddMonths, AddYears, TimeSpan

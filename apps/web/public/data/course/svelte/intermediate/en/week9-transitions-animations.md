@@ -73,7 +73,7 @@ Untuk hover/active state, normal CSS animations & transitions sudah cukup; trans
 
 - Replace fade with scale at 600ms duration.
 - Tweak spring stiffness/damping and compare the settle behavior.
-- Add an item to the list while it animates — measure smoothness.
+- Add an item to the list while it animates - measure smoothness.
 
 ---
 

@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity — salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
+C# dan .NET menggerakkan aplikasi enterprise Windows, backend API, dan game Unity - salah satu ekosistem backend paling lapangan kerjanya di dunia. Lebih mudah dari tampilannya: compiler membantu Anda, bukan menghakimi.
 
-Di minggu ke-4 — bertajuk **"OOP: Class & Object"** — program latihan utamanya adalah *"Sistem Toko"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Sistem Toko"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -133,16 +133,16 @@ Class adalah blueprint. Object adalah instance. Properties dengan get/set.
 Method khusus untuk inisialisasi object. Bisa multiple (overloading).
 
 ### Inheritance
-`class Electronics : Product` — warisi semua member. `base()` untuk panggil parent constructor.
+`class Electronics : Product` - warisi semua member. `base()` untuk panggil parent constructor.
 
 ### Interface
-`interface IDiscountable { void ApplyDiscount(); }` — kontrak yang harus diimplement.
+`interface IDiscountable { void ApplyDiscount(); }` - kontrak yang harus diimplement.
 
 ### List<T>
 Generic collection. `Add`, `Remove`, `foreach`.
 
 ### Object Initializer
-`new Product { Id = 1, Name = "X" }` — set property saat buat object.
+`new Product { Id = 1, Name = "X" }` - set property saat buat object.
 
 ---
 

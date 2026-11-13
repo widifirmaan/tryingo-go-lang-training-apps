@@ -17,7 +17,7 @@
 Sistemintimeer enterprise: modul orders + clients + deployment.
 
 ```typescript
-// main.ts — final architecture
+// main.ts - final architecture
  // lazy feature modules per domain
 
 const routes: Routes = [

@@ -82,7 +82,7 @@ Compiler infers lifetimes for simple cases.
 Structs with reference fields need lifetime annotations.
 
 ### Static Lifetime
-`'static` — lives for entire program duration.
+`'static` - lives for entire program duration.
 
 ### Multiple Lifetimes
 Different lifetimes for different references.

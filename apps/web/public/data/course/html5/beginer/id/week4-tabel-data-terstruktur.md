@@ -1,13 +1,13 @@
 # Tabel dan Proyek Pertama
 
 > **Kategori:** HTML5 | **Level:** Pemula | **Seri:** Dasar HTML | **Minggu 4:** Tabel dan Proyek Pertama
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Kenapa Materi Ini Penting
 
-HTML adalah kerangka setiap halaman web di dunia — tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
+HTML adalah kerangka setiap halaman web di dunia - tanpa HTML tidak ada yang bisa distyling dijadikan CSS atau dibuat interaktif oleh JS. Kebiasaan menulis markup semantik yang benar sejak awal akan menghemat banyak jam debugging.
 
-Di minggu ke-4 — bertajuk **"Tabel dan Proyek Pertama"** — program latihan utamanya adalah *"Tabel Perbandingan Paket Layanan Semantik"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Tabel Perbandingan Paket Layanan Semantik"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -23,9 +23,9 @@ Di minggu ke-4 — bertajuk **"Tabel dan Proyek Pertama"** — program latihan u
 
 ## 1. Aturan Baku Penggunaan Tabel HTML
 
-Elemen `<table>` adalah tag HTML yang khusus digunakan untuk menampilkan **data tabular**—yaitu data yang tersusun dalam bentuk baris dan kolom (seperti spreadsheet, daftar harga, jadwal, atau laporan statistik).
+Elemen `<table>` adalah tag HTML yang khusus digunakan untuk menampilkan **data tabular**-yaitu data yang tersusun dalam bentuk baris dan kolom (seperti spreadsheet, daftar harga, jadwal, atau laporan statistik).
 
-> ⚠️ **Aturan Penting:** Jangan pernah menggunakan `<table>` untuk mengatur tata letak (*layout*) halaman website (seperti header di atas, konten di kiri, footer di bawah). Penggunaan tabel untuk layout adalah praktik lama tahun 1990-an yang merusak aksesibilitas pembaca layar dan responsivitas seluler. Gunakan CSS untuk layout, dan gunakan `<table>` murni untuk data.
+> **Aturan Penting:** Jangan pernah menggunakan `<table>` untuk mengatur tata letak (*layout*) halaman website (seperti header di atas, konten di kiri, footer di bawah). Penggunaan tabel untuk layout adalah praktik lama tahun 1990-an yang merusak aksesibilitas pembaca layar dan responsivitas seluler. Gunakan CSS untuk layout, dan gunakan `<table>` murni untuk data.
 
 ---
 
@@ -74,7 +74,7 @@ Kedua halaman saling terhubung dengan navigasi link `<a href="...">` yang rapi.
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paket Layanan — Alex Pratama</title>
+  <title>Paket Layanan - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

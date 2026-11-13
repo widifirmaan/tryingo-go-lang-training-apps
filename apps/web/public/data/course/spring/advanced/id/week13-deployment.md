@@ -54,14 +54,14 @@ public class DeploymentController {
 
 ```dockerfile
 # File: Dockerfile
-# Build stage — kompilasi jar di dalam Maven, bukan di host
+# Build stage - kompilasi jar di dalam Maven, bukan di host
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Run stage — image lebih kecil, hanya JRE
+# Run stage - image lebih kecil, hanya JRE
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
@@ -137,7 +137,7 @@ Orchestrasi multiple container: app, database, redis.
 Config via env vars. Different values untuk dev/staging/prod.
 
 ### Production
-`ddl-auto=validate` — tidak auto-create table. Health check untuk monitoring.
+`ddl-auto=validate` - tidak auto-create table. Health check untuk monitoring.
 
 ---
 

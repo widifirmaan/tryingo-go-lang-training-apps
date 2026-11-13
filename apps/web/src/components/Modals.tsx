@@ -236,21 +236,28 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             className="relative z-10 w-full max-w-2xl bg-[#FBF9F5] rounded-3xl p-5 sm:p-6 shadow-2xl space-y-4 border border-[#2E5B44]/20 my-auto max-h-[88vh] flex flex-col"
           >
             {/* Header */}
-            <div className="flex justify-between items-center shrink-0 border-b border-zinc-200/80 pb-3">
-              <div className="flex items-center gap-2 text-[#2E5B44]">
-                <div className="w-8 h-8 rounded-full bg-[#2E5B44]/10 flex items-center justify-center">
-                  <FontAwesomeIcon icon={faStar} className="w-4 h-4 text-[#2E5B44]" />
-                </div>
-                <div>
-                  <h3 className="font-flpcart font-bold text-base sm:text-lg text-zinc-900 leading-none">
-                    {lang === 'id' ? 'Pencarian & Filter' : 'Search & Filter'}
-                  </h3>
-                  <p className="text-[11px] text-zinc-500 font-medium">
-                    {lang === 'id'
-                      ? 'Cari modul atau materi kursus sesuai kebutuhan Anda'
-                      : 'Find modules or course materials matching your needs'}
-                  </p>
-                </div>
+            <div className="flex justify-between items-center shrink-0 pb-1">
+              <div className="flex gap-1 shrink-0 bg-zinc-100 rounded-xl p-1">
+                <button
+                  onClick={() => setSearchTab('tracks')}
+                  className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all ${
+                    searchTab === 'tracks'
+                      ? 'bg-white text-zinc-900 shadow-xs'
+                      : 'text-zinc-500 hover:text-zinc-700'
+                  }`}
+                >
+                  {t.searchTabTracks}
+                </button>
+                <button
+                  onClick={() => setSearchTab('content')}
+                  className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all ${
+                    searchTab === 'content'
+                      ? 'bg-white text-zinc-900 shadow-xs'
+                      : 'text-zinc-500 hover:text-zinc-700'
+                  }`}
+                >
+                  {t.searchTabContent}
+                </button>
               </div>
 
               <div className="flex items-center gap-2">
@@ -259,7 +266,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     onClick={resetAllFilters}
                     className="text-xs font-bold text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-full transition-colors"
                   >
-                    {lang === 'id' ? 'Reset Filter' : 'Reset Filter'}
+                    Reset
                   </button>
                 )}
                 <button 
@@ -271,30 +278,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               </div>
             </div>
 
-            {/* Tab Switcher: Tracks vs Content */}
-            <div className="flex gap-1 shrink-0 bg-zinc-100 rounded-2xl p-1">
-              <button
-                onClick={() => setSearchTab('tracks')}
-                className={`flex-1 text-xs font-bold px-3 py-2 rounded-xl transition-all ${
-                  searchTab === 'tracks'
-                    ? 'bg-white text-zinc-900 shadow-xs'
-                    : 'text-zinc-500 hover:text-zinc-700'
-                }`}
-              >
-                {t.searchTabTracks}
-              </button>
-              <button
-                onClick={() => setSearchTab('content')}
-                className={`flex-1 text-xs font-bold px-3 py-2 rounded-xl transition-all ${
-                  searchTab === 'content'
-                    ? 'bg-white text-zinc-900 shadow-xs'
-                    : 'text-zinc-500 hover:text-zinc-700'
-                }`}
-              >
-                {t.searchTabContent}
-              </button>
-            </div>
-
             {/* Input Search Field */}
             <div className="relative shrink-0">
               <FontAwesomeIcon icon={faSearch} className="w-5 h-5 text-[#2E5B44] absolute left-4 top-3.5" />
@@ -302,7 +285,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={lang === 'id' ? 'Cari contoh: React, Golang, Python, CSS, Docker...' : 'Search e.g. React, Golang, Python, CSS, Docker...'}
+                placeholder="Search"
                 className="w-full pl-12 pr-10 py-3 bg-white rounded-2xl border border-zinc-200 focus:border-[#2E5B44] text-zinc-900 text-sm focus:outline-none transition-all shadow-2xs font-medium"
                 autoFocus
               />
@@ -355,9 +338,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between shrink-0 pt-2">
-                  <span className="text-xs font-bold text-zinc-600">
-                    {lang === 'id' ? 'Menampilkan' : 'Showing'} <span className="text-[#2E5B44] font-black">{tracks.length}</span> {lang === 'id' ? 'modul ditemukan' : 'modules found'}
+                <div className="flex items-center justify-between shrink-0 pt-1">
+                  <span className="text-xs font-medium text-zinc-500">
+                    <span className="text-[#2E5B44] font-bold">{tracks.length}</span> {lang === 'id' ? 'tersedia' : 'available'}
                   </span>
                   <button
                     onClick={() => {
@@ -367,7 +350,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     className="bg-[#2E5B44] hover:bg-[#234735] text-white text-xs px-4 py-2 rounded-xl font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5"
                   >
                     <FontAwesomeIcon icon={faSearch} className="w-3.5 h-3.5" />
-                    <span>{lang === 'id' ? 'Cari' : 'Search'}</span>
+                    <span>Search</span>
                   </button>
                 </div>
               </>
@@ -385,16 +368,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             )}
 
             {/* Live Search Results List */}
-            <div className="flex-1 min-h-0 overflow-y-auto space-y-2 pr-1 border-t border-zinc-200/80 pt-3">
+            <div className="flex-1 min-h-0 overflow-y-auto space-y-1 pr-1 border-t border-zinc-200/80 pt-2">
               {/* TRACKS results */}
               {searchTab === 'tracks' && tracks.length === 0 && (
                 <div className="text-center py-8 text-zinc-500">
                   <FontAwesomeIcon icon={faCode} className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#2E5B44]" />
                   <p className="font-bold text-xs text-zinc-800">
-                    {lang === 'id' ? 'Tidak ada modul yang cocok.' : 'No matching modules.'}
-                  </p>
-                  <p className="text-[11px] text-zinc-500 mt-0.5">
-                    {lang === 'id' ? 'Coba gunakan kata kunci atau kategori yang berbeda.' : 'Try different keywords or categories.'}
+                    {lang === 'id' ? 'Tidak ada hasil.' : 'No matching results.'}
                   </p>
                 </div>
               )}
@@ -411,33 +391,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onClose();
                     }
                   }}
-                  className="flex items-center justify-between p-3 bg-white hover:bg-zinc-50/90 rounded-2xl border border-zinc-200/80 shadow-2xs cursor-pointer transition-all hover:scale-[1.01] group"
+                  className="flex items-center justify-between py-2 px-3 hover:bg-zinc-100 rounded-xl cursor-pointer transition-colors group"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`w-12 h-12 rounded-xl border ${track.borderColor} ${track.bgClass} flex items-center justify-center p-2 shrink-0`}>
-                      <img 
-                        src={track.image} 
-                        alt={track.name} 
-                        className="track-logo-img w-full h-full object-contain filter drop-shadow-2xs"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <span className="text-[9px] font-black uppercase text-[#2E5B44] tracking-wider block">
-                        {track.category}
-                      </span>
-                      <h4 className="text-xs sm:text-sm font-bold text-zinc-900 group-hover:text-[#2E5B44] transition-colors truncate">
-                        {track.name}
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 line-clamp-1">
-                        {track.description}
-                      </p>
-                    </div>
+                    <img 
+                      src={track.image} 
+                      alt={track.name} 
+                      className="track-logo-img w-6 h-6 object-contain shrink-0"
+                      referrerPolicy="no-referrer"
+                    />
+                    <span className="text-sm font-semibold text-zinc-800 group-hover:text-[#2E5B44] transition-colors truncate">
+                      {track.name}
+                    </span>
                   </div>
 
-                  <div className="flex items-center gap-3 shrink-0 pl-2">
-                    <FontAwesomeIcon icon={faArrowRight} className="w-4 h-4 text-zinc-400 group-hover:text-[#2E5B44] group-hover:translate-x-0.5 transition-all" />
-                  </div>
+                  <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#2E5B44] group-hover:translate-x-0.5 transition-all shrink-0" />
                 </div>
               ))}
 
@@ -457,9 +425,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   <p className="font-bold text-xs text-zinc-800">
                     {lang === 'id' ? 'Tidak ada hasil untuk' : 'No results for'} "{searchQuery}"
                   </p>
-                  <p className="text-[11px] text-zinc-500 mt-0.5">
-                    {lang === 'id' ? 'Coba gunakan kata kunci yang berbeda.' : 'Try different keywords.'}
-                  </p>
                 </div>
               )}
 
@@ -473,34 +438,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onClose();
                     }
                   }}
-                  className="flex items-start gap-3 p-3 bg-white hover:bg-zinc-50/90 rounded-2xl border border-zinc-200/80 shadow-2xs cursor-pointer transition-all hover:scale-[1.01] group"
+                  className="flex items-center justify-between py-2 px-3 hover:bg-zinc-100 rounded-xl cursor-pointer transition-colors group"
                 >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[9px] font-black uppercase text-[#2E5B44] tracking-wider">
-                        {entry.trackName}
-                      </span>
-                      <span className="text-[9px] text-zinc-400">·</span>
-                      <span className="text-[9px] font-semibold text-zinc-500 uppercase">
-                        {entry.levelName}
-                      </span>
-                      <span className="text-[9px] text-zinc-400">·</span>
-                      <span className="text-[9px] font-semibold text-zinc-500">
-                        {lang === 'id' ? 'Minggu' : 'Week'} {entry.week}
-                      </span>
-                    </div>
-                    <h4 className="text-xs sm:text-sm font-bold text-zinc-900 group-hover:text-[#2E5B44] transition-colors mt-0.5 leading-tight">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="text-[10px] font-black uppercase text-[#2E5B44] bg-[#2E5B44]/10 px-1.5 py-0.5 rounded shrink-0">
+                      {entry.trackName}
+                    </span>
+                    <span className="text-xs font-semibold text-zinc-800 group-hover:text-[#2E5B44] transition-colors truncate">
                       {entry.title}
-                    </h4>
-                    <p className="text-[10px] text-zinc-500 line-clamp-2 mt-0.5">
-                      {entry.excerpt}
-                    </p>
-                  </div>
-                  <div className="shrink-0 flex items-center">
-                    <span className="text-[10px] font-bold text-[#2E5B44] bg-[#2E5B44]/10 px-2.5 py-1 rounded-full group-hover:bg-[#2E5B44] group-hover:text-white transition-all whitespace-nowrap">
-                      {t.searchJumpToCourse}
                     </span>
                   </div>
+                  <FontAwesomeIcon icon={faArrowRight} className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#2E5B44] group-hover:translate-x-0.5 transition-all shrink-0" />
                 </div>
               ))}
             </div>

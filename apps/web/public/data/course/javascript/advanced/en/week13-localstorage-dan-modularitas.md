@@ -1,7 +1,7 @@
 # LocalStorage and ES Modules
 
 > **Category:** JavaScript | **Level:** Advanced | **Seri:** Asynchronous, Storage & Final Project | **Week 13:** LocalStorage and ES Modules
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 

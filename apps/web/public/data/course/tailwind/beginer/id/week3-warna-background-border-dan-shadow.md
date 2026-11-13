@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-Tailwind mengubah styling menjadi utility class yang konsisten — desain yang dahulu membutuhkan seratus baris CSS kini cukup beberapa kata. Begitu terbiasa, Anda mendesain UI kompleks rapi dan konsisten tanpa keluar dari JSX/pug-nya.
+Tailwind mengubah styling menjadi utility class yang konsisten - desain yang dahulu membutuhkan seratus baris CSS kini cukup beberapa kata. Begitu terbiasa, Anda mendesain UI kompleks rapi dan konsisten tanpa keluar dari JSX/pug-nya.
 
-Di minggu ke-3 — bertajuk **"Warna, Latar Belakang, Border, dan Shadow"** — program latihan utamanya adalah *"Kartu Produk dengan Visual Tokens"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Kartu Produk dengan Visual Tokens"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran

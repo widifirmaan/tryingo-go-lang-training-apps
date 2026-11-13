@@ -6,7 +6,7 @@
 
 Go powers Docker, Kubernetes, and many high-traffic backends (Gojek, Tokopedia ship Go services). The language is small and honest: few keywords, strong focus on concurrency, and fast programs that deploy as a single binary.
 
-Week 5 — themed **"Structs & Methods"** — centers on the practice program *"Product Data"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Product Data"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -87,7 +87,7 @@ Composition over inheritance.
 ## Experiments
 
 - Add Discount method for Electronics
-- Try changing value receiver to pointer — what's the effect?
+- Try changing value receiver to pointer - what's the effect?
 - Create new struct with embedded Product
 - Add struct tag `json:"price"` and try Marshal
 

@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Vue combines the simplicity of HTML templates with modern reactivity — used by Alibaba, Xiaomi, and countless admin panels. Its learning curve is gentle: polished enough for work, friendly enough for beginners.
+Vue combines the simplicity of HTML templates with modern reactivity - used by Alibaba, Xiaomi, and countless admin panels. Its learning curve is gentle: polished enough for work, friendly enough for beginners.
 
-Week 4 — themed **"Components & Props"** — centers on the practice program *"Product Components"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Product Components"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives

@@ -140,13 +140,13 @@ Assertions dengan generic type. TypeScript pastikan expected dan actual sama tip
 `async/await` di test function. Framework handle otomatis.
 
 ### Error Testing
-`expect(() => fn()).toThrow()` — pastikan function throw error.
+`expect(() => fn()).toThrow()` - pastikan function throw error.
 
 ### AAA Pattern
 Arrange: setup data. Act: execute function. Assert: verify result.
 
 ### Type-Level Tests
-`expectTypeOf(x).toEqualTypeOf<string>()` — cek tipe di compile-time.
+`expectTypeOf(x).toEqualTypeOf<string>()` - cek tipe di compile-time.
 
 ### Frameworks
 Vitest: fast, Vite-native. Jest: mature. Ambience: node/jsdom.

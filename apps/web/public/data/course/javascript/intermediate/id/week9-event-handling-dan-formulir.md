@@ -1,7 +1,7 @@
 # Event Handling dan Formulir Interaktif
 
 > **Kategori:** JavaScript | **Level:** Menengah | **Seri:** Struktur Data & Interaksi DOM | **Minggu 9:** Event Handling dan Formulir Interaktif
-> ⏱️ **Estimasi Belajar:** 45 Menit | 🔗 **Tingkat:** Terstruktur (Step-by-step)
+> **Estimasi Belajar:** 45 Menit | **Tingkat:** Terstruktur (Step-by-step)
 
 ## Tujuan Pembelajaran
 

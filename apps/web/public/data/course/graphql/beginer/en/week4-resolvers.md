@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query — used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
+GraphQL replaces REST's "one endpoint, one data shape" with a single flexible query - used by GitHub, Shopify, and many payload-sensitive mobile apps. Great for products where the frontend keeps changing what data it needs.
 
-Week 4 — themed **"Resolvers"** — centers on the practice program *"Resolver Implementation"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Resolver Implementation"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -94,7 +94,7 @@ server.listen().then(({ url }) => console.log(`Server ready at ${url}`));
 ## Playground: GraphQL Operations
 
 ```graphql
-# Week 4 — Resolver operations: Query + Argument + Field resolution + Errors
+# Week 4 - Resolver operations: Query + Argument + Field resolution + Errors
 # (Nama field diselesaikan oleh field resolver di sisi server)
 query ResolverDemo {
   employee(id: "1") {

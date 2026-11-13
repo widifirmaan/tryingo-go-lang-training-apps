@@ -51,7 +51,7 @@ export default function LandingPage() {
   return (
     <div>
       <section className="hero">
-        <h1>Tryngo — Belajar Coding dari Nol</h1>
+        <h1>Tryngo - Code Made Easy</h1>
         <p>Platform pembelajaran coding interaktif</p>
         <a href="/courses">Mulai Belajar</a>
       </section>
@@ -116,4 +116,4 @@ Build a complete SaaS app: course platform with auth, payments, admin panel, pro
 
 ## Summary
 
-Week 12 of 12: **Capstone: SaaS App** (Level: Advanced). Complete! 🎉 You've mastered Next.js from scratch to production-ready.
+Week 12 of 12: **Capstone: SaaS App** (Level: Advanced). Complete! You have finished the entire Next.js curriculum.

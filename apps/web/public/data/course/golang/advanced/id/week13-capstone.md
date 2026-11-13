@@ -141,4 +141,4 @@ Buat aplikasi capstone lengkap: REST API + CLI + JSON storage + testing. Pilih d
 
 ## Ringkasan
 
-Minggu 13 dari 13: **Capstone: REST API + CLI** (Level: Lanjutan). Selesai! 🎉 Anda sudah menguasai Go dari nol hingga production-ready.
+Minggu 13 dari 13: **Capstone: REST API + CLI** (Level: Lanjutan). Selesai! Anda telah menyelesaikan seluruh kurikulum Go.

@@ -1,7 +1,7 @@
 # Dialog, Details, and Template
 
 > **Category:** HTML5 | **Level:** Intermediate | **Seri:** Forms and Interaction | **Week 7:** Dialog, Details, and Template
-> ⏱️ **Estimated Study:** 45 Minutes | 🔗 **Pace:** Structured (Step-by-step)
+> **Estimated Study:** 45 Minutes | **Pace:** Structured (Step-by-step)
 
 ## Learning Objectives
 
@@ -58,7 +58,7 @@ To display the dialog with an automatic dimming backdrop, trigger the native bro
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ dan Informasi — Alex Pratama</title>
+  <title>FAQ dan Informasi - Alex Pratama</title>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 680px; margin: 30px auto; padding: 0 16px; line-height: 1.6; background-color: #ffffff; color: #1e293b; }
     nav { background: #f1f5f9; padding: 10px 16px; border-radius: 6px; margin-bottom: 24px; }

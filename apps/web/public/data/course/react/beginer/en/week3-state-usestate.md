@@ -4,16 +4,16 @@
 
 ## Why This Matters
 
-React is the most popular UI library in the world — used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
+React is the most popular UI library in the world - used by Facebook, Netflix, and thousands of products. Learning to think in React (components, state, props) is the gateway to the entire modern frontend ecosystem.
 
-Week 3 — themed **"State & useState"** — centers on the practice program *"Counter & Form"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Counter & Form"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
 
 - Understand state as changeable data within components
 - useState hook: const [value, setValue] = useState(initial)
-- State triggers re-render — UI updates automatically when state changes
+- State triggers re-render - UI updates automatically when state changes
 - Controlled components: form inputs controlled by React
 - Event handling: onChange, onClick, onSubmit
 

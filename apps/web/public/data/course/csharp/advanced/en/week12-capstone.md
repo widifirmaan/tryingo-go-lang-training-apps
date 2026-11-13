@@ -169,4 +169,4 @@ Build a complete capstone application: Web API + Service + Repository + Testing.
 
 ## Summary
 
-Week 12 of 12: **Capstone: Full Stack App** (Level: Advanced). Complete! 🎉 You've mastered C# from scratch to production-ready.
+Week 12 of 12: **Capstone: Full Stack App** (Level: Advanced). Complete! You have finished the entire C# curriculum.

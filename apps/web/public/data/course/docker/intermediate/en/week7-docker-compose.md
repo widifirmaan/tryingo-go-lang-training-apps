@@ -16,7 +16,7 @@
 
 ```bash
 # ─────────────────────────────────────────────────────────
-# DOCKER COMPOSE — Multi-Container Orchestration
+# DOCKER COMPOSE - Multi-Container Orchestration
 # ─────────────────────────────────────────────────────────
 
 # File: docker-compose.yml

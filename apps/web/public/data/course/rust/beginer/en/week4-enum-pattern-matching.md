@@ -4,9 +4,9 @@
 
 ## Why This Matters
 
-Rust guarantees memory safety without a garbage collector — used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
+Rust guarantees memory safety without a garbage collector - used in the Linux kernel, blockchain, game engines, and high-performance tooling. Its compiler is strict but friendly: it is the best teacher you will have on ownership.
 
-Week 4 — themed **"Enums & Pattern Matching"** — centers on the practice program *"Order Status"*. Run the program in the Playground first, tweak it little by little, then read through the key concepts.
+Practice program: *"Order Status"*. Run the code in the Playground to examine how it works.
 
 
 ## Learning Objectives
@@ -97,7 +97,7 @@ fn main() {
 Variants can carry data: `Processing { field: Type }`.
 
 ### Match
-Exhaustive — must handle all variants. `_` for catch-all.
+Exhaustive - must handle all variants. `_` for catch-all.
 
 ### Destructuring
 Extract fields from enum variants.

@@ -4,9 +4,9 @@
 
 ## Kenapa Materi Ini Penting
 
-TypeScript adalah JavaScript dengan sistem tipe — kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
+TypeScript adalah JavaScript dengan sistem tipe - kini standar de facto di proyek frontend maupun backend modern. Menangkap bug waktu compile, bukan waktu demo, adalah skill yang membuat Anda dipercaya menyelesaikan proyek besar.
 
-Di minggu ke-2 — bertajuk **"Advanced Types"** — program latihan utamanya adalah *"Union, Intersection & Literal"*. Kerjakan programnya di Playground dulu, ubah sedikit demi sedikit, lalu baca penjelasan konsepnya.
+Program latihan: *"Union, Intersection & Literal"*. Jalankan kode di Playground untuk mempelajari alur kerjanya.
 
 
 ## Tujuan Pembelajaran
@@ -97,13 +97,13 @@ if (isString(test)) {
 ## Konsep Kunci
 
 ### Union Types
-`string | number` — bisa salah satu. Bisa narrow dengan typeof.
+`string | number` - bisa salah satu. Bisa narrow dengan typeof.
 
 ### Literal Types
-`"north" | "south"` — hanya value tertentu yang valid.
+`"north" | "south"` - hanya value tertentu yang valid.
 
 ### Intersection
-`TypeA & TypeB` — gabung semua property dari kedua type.
+`TypeA & TypeB` - gabung semua property dari kedua type.
 
 ### Type Narrowing
 TypeScript otosisasi tipe berdasarkan kondisi (typeof, in, instanceof).
@@ -112,7 +112,7 @@ TypeScript otosisasi tipe berdasarkan kondisi (typeof, in, instanceof).
 Setiap variant punya discriminator (kind). TypeScript tahu property yang tersedia.
 
 ### Type Guard
-`value is string` — function yang return boolean dan narrow tipe.
+`value is string` - function yang return boolean dan narrow tipe.
 
 ---
 

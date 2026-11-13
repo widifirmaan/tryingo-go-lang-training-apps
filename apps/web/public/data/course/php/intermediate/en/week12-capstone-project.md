@@ -134,4 +134,4 @@ Build a complete blog application: CRUD posts, categories, comments, search, pag
 
 ## Summary
 
-Week 12 of 12: **Capstone: Blog Application** (Level: Intermediate). Complete! 🎉 You've mastered PHP from basics to production.
+Week 12 of 12: **Capstone: Blog Application** (Level: Intermediate). Complete! You've mastered PHP from basics to production.

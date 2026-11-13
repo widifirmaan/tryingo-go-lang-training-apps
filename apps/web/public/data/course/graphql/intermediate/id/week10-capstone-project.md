@@ -15,7 +15,7 @@
 ## Program: API Production-Ready
 
 ```graphql
-# CAPSTONE: E-Commerce GraphQL API — operasi inti yang dilindungi semua harian
+# CAPSTONE: E-Commerce GraphQL API - operasi inti yang dilindungi semua harian
 query CapstoneIntro {
   products {
     id
