@@ -1,24 +1,22 @@
-# Tryngo - Code made easy, with playground coding and quiz.
+# Tryngo
 
-Tryngo is an interactive web platform built to make learning to code straightforward, from beginner to professional levels. Developed with React 19, Vite 6, and Tailwind CSS 4, it offers 27 learning tracks across programming languages, frameworks, and databases in both Indonesian and English. Users can write and run code directly in the browser using Monaco Editor and WebAssembly, search topics instantly, and test their knowledge through interactive quizzes.
+> Code made easy, with in-browser playgrounds and interactive quizzes.
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live_Production-10B981?style=for-the-badge&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id)
-[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages_Edge-F38020?style=for-the-badge&logo=cloudflare)](https://tryngo.widifirmaan.web.id)
-[![React 19](https://img.shields.io/badge/React-19.0.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite 6](https://img.shields.io/badge/Vite-6.2.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-4.1.14-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+Tryngo is an open-source, client-side interactive learning platform offering 28 structured curricula across programming languages, web frameworks, and databases in Indonesian and English with zero login required.
+
+[![Live Demo](https://img.shields.io/badge/Demo-tryngo.widifirmaan.web.id-10B981?style=for-the-badge&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![WebAssembly](https://img.shields.io/badge/WebAssembly-WASM_Go-654FF0?style=for-the-badge&logo=webassembly&logoColor=white)](https://webassembly.org/)
+[![Vite 6](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind-v4-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Monaco Editor](https://img.shields.io/badge/Editor-Monaco-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://microsoft.github.io/monaco-editor/)
 
 ---
 
 ## Live Production
 
 - **URL:** [https://tryngo.widifirmaan.web.id](https://tryngo.widifirmaan.web.id)
-- **Architecture:** Cloudflare Pages (Edge SPA with Prerendered Static SEO Routes)
-- **Client Execution Engine:** In-Browser WebAssembly (Yaegi Go Interpreter) + WebContainers / StackBlitz API
-- **Editor Engine:** Microsoft Monaco Editor with multi-language syntax highlighting and diagnostics
-- **Search System:** Fuse.js Build-Time Pre-Indexed Fuzzy Search Engine
+- **Deployment:** Cloudflare Pages (Edge delivery with prerendered static routes)
 
 ---
 
@@ -27,7 +25,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 | Desktop | Mobile |
 | :---: | :---: |
 | **Homepage Desktop**<br>![Homepage Desktop](screenshots/Tryngo%20Index%20Desktop.png) | **Homepage Mobile**<br>![Homepage Mobile](screenshots/Tryngo%20Index%20Mobile.png) |
-| **Stack Grid Desktop**<br>![Stack Grid Desktop](screenshots/Tryngo%20Grid%20Desktop.png) | **Stack Grid Mobile with Expanded Hamburger**<br>![Stack Grid Mobile with Expanded Hamburger](screenshots/Tryngo%20Hamburger%20Mobile.png) |
+| **Stack Grid Desktop**<br>![Stack Grid Desktop](screenshots/Tryngo%20Grid%20Desktop.png) | **Mobile Navigation Menu**<br>![Mobile Navigation Menu](screenshots/Tryngo%20Hamburger%20Mobile.png) |
 | **Lesson Section Desktop**<br>![Lesson Section Desktop](screenshots/Tryngo%20Course%20Desktop.png) | **Lesson Section Mobile**<br>![Lesson Section Mobile](screenshots/Tryngo%20Course%20Mobile.png) |
 | **Playground Desktop**<br>![Playground Desktop](screenshots/Tryngo%20Playground%20Desktop.png) | **Playground Mobile**<br>![Playground Mobile](screenshots/Tryngo%20Playground%20Mobile.png) |
 | **Quiz Desktop**<br>![Quiz Desktop](screenshots/Tryngo%20Quiz%20Desktop.png) | **Quiz Mobile**<br>![Quiz Mobile](screenshots/Tryngo%20Quiz%20Mobile.png) |
@@ -39,7 +37,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 
 ## Features
 
-- **27 Stack**: Comprehensive learning tracks covering Frontend, Backend, Systems, Mobile, DevOps, and Databases.
+- **28 Stack**: Comprehensive learning tracks covering Frontend, Backend, Systems, Mobile, DevOps, and Databases.
 - **Playground Every Stack**: Interactive in-browser coding environments (Embed StackBlitz WebContainers, Client-Side WebAssembly, Dedicated REPL, and Live Previews).
 - **Step by Step Learning**: Structured roadmap from Beginner to Advanced with weekly modules and hands-on exercises.
 - **7,000+ Quiz Questions**: Practice quizzes across every stack with instant scoring, feedback, and progress retention.
@@ -84,7 +82,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 | **Docker** | 16 | Interactive Docker Terminal |
 | **Node.js** | 16 | WebContainers Sandbox |
 | **NestJS** | 16 | WebContainers Sandbox |
-| **Rust** | 14 | Rust WebAssembly Playground |
+| **Rust** | 14 | Rust Playground API |
 | **Vue** | 16 | WebContainers Sandbox |
 | **Svelte** | 16 | WebContainers Sandbox |
 | **Angular** | 16 | WebContainers Sandbox |
@@ -109,7 +107,7 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 ├── apps/
 │   └── web/                      # Main Web Application
 │       ├── public/
-│       │   ├── data/course/      # Course markdown materials (27 tracks x levels x weeks)
+│       │   ├── data/course/      # Course markdown materials (28 tracks x levels x weeks)
 │       │   ├── search-index.json # Pre-compiled Fuse.js search index
 │       │   ├── quiz-index.json   # Comprehensive quiz question banks
 │       │   └── wasm/             # Yaegi WebAssembly Go execution binaries
@@ -133,9 +131,6 @@ Tryngo is an interactive web platform built to make learning to code straightfor
 │       ├── package.json
 │       └── vite.config.ts
 ├── screenshots/                  # High-resolution desktop & mobile showcase images
-├── screenshot/                   # Legacy showcase image sync
-├── scripts/
-│   └── capture_tryngo_screenshots.js # Automated Puppeteer capture script
 └── README.md
 ```
 
@@ -162,13 +157,10 @@ npm run dev
 ```
 *Access local development server via `http://localhost:3000`*
 
-### Production Build & Deployment
+### Production Build
 ```bash
 # Build production bundle
 npm run build
-
-# Deploy to Cloudflare Pages
-npm run deploy
 ```
 
 ---
