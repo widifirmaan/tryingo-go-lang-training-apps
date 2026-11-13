@@ -1,6 +1,6 @@
-﻿# ⚡ Tryngo — Interactive Coding Education Platform & Multi-Language Sandbox
+# Tryngo - Code made easy, with playground coding and quiz.
 
-**Tryngo** is a modern, enterprise-grade interactive coding education platform and browser-based programming sandbox designed to teach software engineering from beginner to professional. Built as a high-performance single-page application with **React 19**, **Vite 6**, and **Tailwind CSS 4**, deployed globally on **Cloudflare Pages**, Tryngo features 27 comprehensive learning tracks, in-browser **WebAssembly (Yaegi Go)** and **Monaco Editor** execution environments, bilingual curriculum (Indonesian & English), instant fuzzy search, interactive quizzes, and a punchy **Neo-Brutalist** aesthetic with seamless Light/Dark themes.
+Tryngo is an interactive web platform built to make learning to code straightforward, from beginner to professional levels. Developed with React 19, Vite 6, and Tailwind CSS 4, it offers 27 learning tracks across programming languages, frameworks, and databases in both Indonesian and English. Users can write and run code directly in the browser using Monaco Editor and WebAssembly, search topics instantly, and test their knowledge through interactive quizzes.
 
 [![Live Demo](https://img.shields.io/badge/Demo-Live_Production-10B981?style=for-the-badge&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages_Edge-F38020?style=for-the-badge&logo=cloudflare)](https://tryngo.widifirmaan.web.id)
@@ -22,32 +22,18 @@
 
 ---
 
-## 📸 Application Showcase
+## Showcase
 
-### 1. Platform Overview & Learning Experience (Desktop)
-
-| Core Hero & Navigation | Track Catalog Directory |
+| Desktop | Mobile |
 | :---: | :---: |
-| ![Hero Index](screenshots/Tryngo%20Index%20Desktop.png)<br>**Interactive Neo-Brutalist Hero Landing** | ![Track Grid](screenshots/Tryngo%20Grid%20Desktop.png)<br>**27-Track Curriculum Directory & Category Filters** |
-| ![Course Page](screenshots/Tryngo%20Course%20Desktop.png)<br>**Go Track Deep-Dive Curriculum & Inline Runner** | ![React Course](screenshots/Tryngo%20Course%20React%20Desktop.png)<br>**React & TypeScript Interactive Curriculum** |
-
-### 2. Interactive Execution Sandboxes, Modals & Theme (Desktop)
-
-| In-Browser Execution & Quizzes | Preferences & High-Contrast Aesthetics |
-| :---: | :---: |
-| ![Code Playground](screenshots/Tryngo%20Playground%20Desktop.png)<br>**Monaco Code Playground & Live WASM Execution** | ![Quiz Modal](screenshots/Tryngo%20Quiz%20Desktop.png)<br>**Interactive Practice Quiz & Knowledge Validation** |
-| ![Search Modal](screenshots/Tryngo%20Search%20Desktop.png)<br>**Fuse.js Instant Fuzzy Search Modal** | ![Settings Modal](screenshots/Tryngo%20Settings%20Desktop.png)<br>**Theme & Bilingual (ID/EN) Localization Settings** |
-| ![Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Desktop.png)<br>**High-Contrast Neo-Brutalist Dark Theme** | — |
-
-### 3. Mobile Responsive Experience (Mobile Viewports)
-
-| Mobile Navigation & Catalog | Mobile Learning & Sandboxes |
-| :---: | :---: |
-| ![Mobile Hero](screenshots/Tryngo%20Index%20Mobile.png)<br>**Mobile View: Hero & Quick Navigation** | ![Mobile Grid](screenshots/Tryngo%20Grid%20Mobile.png)<br>**Mobile View: Filterable Track Grid** |
-| ![Mobile Course](screenshots/Tryngo%20Course%20Mobile.png)<br>**Mobile View: Weekly Course Material Reader** | ![Mobile Playground](screenshots/Tryngo%20Playground%20Mobile.png)<br>**Mobile View: Touch Code Playground** |
-| ![Mobile Quiz](screenshots/Tryngo%20Quiz%20Mobile.png)<br>**Mobile View: Interactive Quiz Challenge** | ![Mobile Drawer](screenshots/Tryngo%20Hamburger%20Mobile.png)<br>**Mobile View: Slide-out Navigation Drawer** |
-| ![Mobile Search](screenshots/Tryngo%20Search%20Mobile.png)<br>**Mobile: Real-Time Fuzzy Search** | ![Mobile Settings](screenshots/Tryngo%20Settings%20Mobile.png)<br>**Mobile: Preferences & Localization** |
-| ![Mobile Dark Mode](screenshots/Tryngo%20Dark%20Mode%20Mobile.png)<br>**Mobile: High-Contrast Dark Mode** | — |
+| **Homepage Desktop**<br>![Homepage Desktop](screenshots/Tryngo%20Index%20Desktop.png) | **Homepage Mobile**<br>![Homepage Mobile](screenshots/Tryngo%20Index%20Mobile.png) |
+| **Stack Grid Desktop**<br>![Stack Grid Desktop](screenshots/Tryngo%20Grid%20Desktop.png) | **Stack Grid Mobile with Expanded Hamburger**<br>![Stack Grid Mobile with Expanded Hamburger](screenshots/Tryngo%20Hamburger%20Mobile.png) |
+| **Lesson Section Desktop**<br>![Lesson Section Desktop](screenshots/Tryngo%20Course%20Desktop.png) | **Lesson Section Mobile**<br>![Lesson Section Mobile](screenshots/Tryngo%20Course%20Mobile.png) |
+| **Playground Desktop**<br>![Playground Desktop](screenshots/Tryngo%20Playground%20Desktop.png) | **Playground Mobile**<br>![Playground Mobile](screenshots/Tryngo%20Playground%20Mobile.png) |
+| **Quiz Desktop**<br>![Quiz Desktop](screenshots/Tryngo%20Quiz%20Desktop.png) | **Quiz Mobile**<br>![Quiz Mobile](screenshots/Tryngo%20Quiz%20Mobile.png) |
+| **Quiz Question Desktop**<br>![Quiz Question Desktop](screenshots/Tryngo%20Quiz%20Question%20Desktop.png) | **Quiz Question Mobile**<br>![Quiz Question Mobile](screenshots/Tryngo%20Quiz%20Question%20Mobile.png) |
+| **Search Modal Desktop**<br>![Search Modal Desktop](screenshots/Tryngo%20Search%20Desktop.png) | **Search Modal Mobile**<br>![Search Modal Mobile](screenshots/Tryngo%20Search%20Mobile.png) |
+| **Settings Modal Desktop**<br>![Settings Modal Desktop](screenshots/Tryngo%20Settings%20Desktop.png) | **Settings Modal Mobile**<br>![Settings Modal Mobile](screenshots/Tryngo%20Settings%20Mobile.png) |
 
 ---
 
@@ -69,7 +55,7 @@
 - **Local Progress Tracking**: Automatic persistence of completed weeks, active courses, and quiz scores via `localStorage` with Zero-Login requirement.
 - **Bilingual Assessment**: Practice questions available in both Indonesian and English.
 
-### ⚡ Smart Search & Personalization
+### 🔍 Smart Search & Personalization
 - **Fuse.js Fuzzy Search**: Instant, typo-tolerant search across all 27 tracks, materials, topics, and framework tags.
 - **Bilingual Localization**: Seamless one-click switching between **Bahasa Indonesia** and **English (US)** across all UI elements and navigation.
 - **Neo-Brutalist Theme Engine**: High-contrast, tactile UI aesthetic supporting smooth switching between Light Mode and Dark Mode.
