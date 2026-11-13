@@ -58,7 +58,7 @@ $posts = [
 
 echo "@foreach($posts as $post)<br>";
 foreach ($posts as $post) {
-    echo "    {{ $post['title'] }} by {{ $post['author'] }}<br>";
+    echo "    {{ {$post['title']} }} by {{ {$post['author']} }}<br>";
 }
 echo "@endforeach<br><br>";
 
@@ -71,7 +71,6 @@ echo "@endforelse<br><br>";
 echo "=== CSRF & Method ===<br>";
 echo "@csrf  — CSRF token field<br>";
 echo "@method('DELETE')  — Spoof HTTP method<br>";
->
 ```
 
 ---

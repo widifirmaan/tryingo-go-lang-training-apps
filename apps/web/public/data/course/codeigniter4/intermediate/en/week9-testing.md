@@ -69,7 +69,6 @@ echo "=== Test Helpers ===<br>";
 echo "model('ProductModel') — Get model instance<br>";
 echo "db_connect() — Get database connection<br>";
 echo "$this->seed('ProductSeeder') — Run seeder<br>";
->
 ```
 
 ---

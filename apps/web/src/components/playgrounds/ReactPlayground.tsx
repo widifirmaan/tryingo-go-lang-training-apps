@@ -227,7 +227,112 @@ export const ReactPlayground: React.FC<ReactPlaygroundProps> = ({ lang, initialC
   <\/script>
   <script type="module">
     try {
-      const { useState, useEffect, useRef, useCallback, useMemo, useContext, useReducer, createContext } = React;
+      const { useState, useEffect, useRef, useCallback, useMemo, useContext, useReducer, createContext, memo, lazy, Suspense } = React;
+
+      // Built-in Lightweight React Router for Playground
+      const RouterContext = createContext({ path: '/', navigate: () => {}, params: {} });
+      function BrowserRouter({ children }) {
+        const [path, setPath] = useState('/');
+        const navigate = useCallback((to) => setPath(to), []);
+        return React.createElement(RouterContext.Provider, { value: { path, navigate, params: {} } }, children);
+      }
+      function MemoryRouter({ children }) {
+        return React.createElement(BrowserRouter, null, children);
+      }
+      function HashRouter({ children }) {
+        return React.createElement(BrowserRouter, null, children);
+      }
+      function Link({ to, children, ...props }) {
+        const { navigate } = useContext(RouterContext);
+        return React.createElement('a', {
+          href: '#' + to,
+          onClick: (e) => { e.preventDefault(); navigate(to); },
+          ...props
+        }, children);
+      }
+      function NavLink(props) {
+        return React.createElement(Link, props);
+      }
+      function Routes({ children }) {
+        const { path } = useContext(RouterContext);
+        const childArray = React.Children.toArray(children);
+        for (const child of childArray) {
+          if (!React.isValidElement(child)) continue;
+          const routePath = child.props.path;
+          if (routePath === '*' || routePath === path) {
+            return child;
+          }
+          if (routePath && routePath.includes(':')) {
+            const rParts = routePath.split('/');
+            const pParts = path.split('/');
+            if (rParts.length === pParts.length) {
+              const params = {};
+              let match = true;
+              for (let i = 0; i < rParts.length; i++) {
+                if (rParts[i].startsWith(':')) {
+                  params[rParts[i].slice(1)] = pParts[i];
+                } else if (rParts[i] !== pParts[i]) {
+                  match = false;
+                  break;
+                }
+              }
+              if (match) {
+                return React.createElement(RouterContext.Provider, {
+                  value: { path, navigate: () => {}, params }
+                }, child);
+              }
+            }
+          }
+        }
+        return null;
+      }
+      function Route({ element, children }) {
+        return element || children || null;
+      }
+      function Outlet() {
+        return null;
+      }
+      function useNavigate() {
+        const { navigate } = useContext(RouterContext);
+        return navigate;
+      }
+      function useParams() {
+        const { params } = useContext(RouterContext);
+        return params || {};
+      }
+      function useLocation() {
+        const { path } = useContext(RouterContext);
+        return { pathname: path, search: '', hash: '' };
+      }
+
+      // Testing library stubs for playground
+      const describe = (desc, fn) => { try { fn(); } catch(e) { console.error(e); } };
+      const test = (name, fn) => { try { fn(); console.log('✓ ' + name); } catch(e) { console.error('✗ ' + name + ': ' + e.message); } };
+      const it = test;
+      const expect = (actual) => ({
+        toBe: (exp) => { if (actual !== exp) throw new Error('Expected ' + exp + ' but got ' + actual); },
+        toEqual: (exp) => { if (JSON.stringify(actual) !== JSON.stringify(exp)) throw new Error('Expected ' + JSON.stringify(exp) + ' but got ' + JSON.stringify(actual)); },
+        toHaveTextContent: (text) => { const c = actual ? actual.textContent : ''; if (!c.includes(text)) throw new Error('Expected to have text ' + text); },
+        toBeInTheDocument: () => { if (!actual) throw new Error('Expected element to be in document'); }
+      });
+      const render = (comp) => {
+        const root = document.getElementById('root');
+        if (root && React.isValidElement(comp)) {
+          const r = ReactDOM.createRoot(root);
+          r.render(comp);
+        }
+      };
+      const screen = {
+        getByText: (txt) => Array.from(document.querySelectorAll('*')).find(el => el.textContent && el.textContent.includes(txt)) || document.body,
+        getByTestId: (id) => document.querySelector('[data-testid="' + id + '"]') || document.body,
+        queryByText: (txt) => Array.from(document.querySelectorAll('*')).find(el => el.textContent && el.textContent.includes(txt)) || null,
+        queryByTestId: (id) => document.querySelector('[data-testid="' + id + '"]') || null,
+      };
+      const fireEvent = {
+        click: (el) => el && el.click && el.click(),
+        change: (el, opts) => { if (el) { Object.assign(el, opts?.target || {}); el.dispatchEvent(new Event('change', { bubbles: true })); } }
+      };
+
       ${runnableCode}
 
       let ComponentToRender = typeof App !== 'undefined' ? App : null;

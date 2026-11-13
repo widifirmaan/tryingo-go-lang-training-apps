@@ -36,13 +36,13 @@ echo "}<br><br>";
 
 echo "=== Routing ===<br>";
 echo "// app/Config/Routes.php<br>";
-echo "$routes->get('/', 'Home::index');<br>";
-echo "$routes->get('/about', 'Page::about');<br>";
-echo "$routes->get('/users', 'User::index');<br>";
-echo "$routes->get('/users/(:num)', 'User::show/$1');<br>";
-echo "$routes->post('/users', 'User::store');<br>";
-echo "$routes->put('/users/(:num)', 'User::update/$1');<br>";
-echo "$routes->delete('/users/(:num)', 'User::delete/$1');<br><br>";
+echo '$routes->get(\'/\', \'Home::index\');<br>';
+echo '$routes->get(\'/about\', \'Page::about\');<br>';
+echo '$routes->get(\'/users\', \'User::index\');<br>';
+echo '$routes->get(\'/users/(:num)\', \'User::show/$1\');<br>';
+echo '$routes->post(\'/users\', \'User::store\');<br>';
+echo '$routes->put(\'/users/(:num)\', \'User::update/$1\');<br>';
+echo '$routes->delete(\'/users/(:num)\', \'User::delete/$1\');<br><br>';
 
 echo "=== Route Simulation ===<br>";
 $routes = [
@@ -58,16 +58,15 @@ foreach ($routes as [$method, $uri, $action]) {
 }
 
 echo "<br>=== Controller with Parameters ===<br>";
-echo "public function show($id) {<br>";
-echo "    $data['user'] = $this->userModel->find($id);<br>";
-echo "    return view('user/show', $data);<br>";
-echo "}<br><br>";
+echo 'public function show($id) {<br>';
+echo '    $data[\'user\'] = $this->userModel->find($id);<br>';
+echo '    return view(\'user/show\', $data);<br>';
+echo '}<br><br>';
 
 echo "=== Redirect & Named Routes ===<br>";
 echo "return redirect()->to('/home');<br>";
-echo "$routes->add('login', 'Auth::login', ['as' => 'login']);<br>";
+echo '$routes->add(\'login\', \'Auth::login\', [\'as\' => \'login\']);<br>';
 echo "return redirect()->route('login');<br>";
->
 ```
 
 ---

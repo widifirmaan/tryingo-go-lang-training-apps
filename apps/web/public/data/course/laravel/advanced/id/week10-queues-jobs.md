@@ -64,7 +64,6 @@ echo "    // All jobs completed<br>";
 echo "})->catch(function (Batch $batch, Throwable $e) {<br>";
 echo "    // First batch failure<br>";
 echo "})->dispatch();<br>";
->
 ```
 
 ---

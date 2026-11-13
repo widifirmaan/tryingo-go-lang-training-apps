@@ -67,7 +67,6 @@ echo "✓ Validation (Form Requests)<br>";
 echo "✓ Testing (Feature + Unit)<br>";
 echo "✓ Rate limiting<br>";
 echo "✓ Search & filter products<br>";
->
 ```
 
 ---

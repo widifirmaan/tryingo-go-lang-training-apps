@@ -78,7 +78,6 @@ echo "=== Timestamps ===<br>";
 echo "protected $useTimestamps = true;<br>";
 echo "protected $createdField = 'created_at';<br>";
 echo "protected $updatedField = 'updated_at';<br>";
->
 ```
 
 ---

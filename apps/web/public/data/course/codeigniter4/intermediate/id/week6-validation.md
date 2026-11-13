@@ -69,7 +69,6 @@ echo "    <?php foreach (session('errors') as $error) : ?><br>";
 echo "        <p><?= esc($error) ?></p><br>";
 echo "    <?php endforeach ?><br>";
 echo "<?php endif ?><br>";
->
 ```
 
 ---

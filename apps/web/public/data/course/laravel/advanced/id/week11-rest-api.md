@@ -65,7 +65,6 @@ foreach ($endpoints as $endpoint => $resp) {
 echo "<br>=== Rate Limiting ===<br>";
 echo "Route::middleware('throttle:60,1')->group(...);<br>";
 echo "60 requests per minute<br>";
->
 ```
 
 ---

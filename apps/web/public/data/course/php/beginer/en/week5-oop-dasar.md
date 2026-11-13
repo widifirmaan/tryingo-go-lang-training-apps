@@ -67,7 +67,6 @@ echo $laptop->info() . "<br>";
 
 echo "Class: " . get_class($laptop) . "<br>";
 echo "Instanceof: " . ($laptop instanceof Elektronik ? "Ya" : "Tidak") . "<br>";
->
 ```
 
 ---

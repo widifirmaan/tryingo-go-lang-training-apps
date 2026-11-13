@@ -64,7 +64,6 @@ echo "=== Eager Loading ===<br>";
 echo "Post::with('user', 'comments')->get();<br>";
 echo "Post::withCount('comments')->get();<br>";
 echo "Post::whereHas('comments', fn($q) => $q->where('approved', true))->get();<br>";
->
 ```
 
 ---

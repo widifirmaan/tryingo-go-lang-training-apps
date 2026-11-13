@@ -31,10 +31,10 @@ macro_rules! create_function {
 }
 
 macro_rules! calculate {
-    ($a:expr + $b:expr) => {
+    (add $a:expr, $b:expr) => {
         $a + $b
     };
-    ($a:expr * $b:expr) => {
+    (mul $a:expr, $b:expr) => {
         $a * $b
     };
 }
@@ -72,8 +72,8 @@ fn main() {
     foo();
 
     // Calculate macro
-    let sum = calculate!(5 + 3);
-    let product = calculate!(4 * 7);
+    let sum = calculate!(add 5, 3);
+    let product = calculate!(mul 4, 7);
     println!("5 + 3 = {}", sum);
     println!("4 * 7 = {}", product);
 

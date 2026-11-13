@@ -62,7 +62,6 @@ echo "<br>Genap: " . implode(", ", $genap) . "<br>";
 
 $doubled = array_map(fn($n) => $n * 2, $nilai);
 echo "Doubled: " . implode(", ", $doubled) . "<br>";
->
 ```
 
 ---

@@ -86,7 +86,6 @@ echo "<br>=== Custom Rules ===<br>";
 echo "Rule::unique('users')->ignore($user->id);<br>";
 echo "Rule::in(['admin', 'user', 'moderator']);<br>";
 echo "Rule::password()->min(8)->mixedCase()->numbers();<br>";
->
 ```
 
 ---

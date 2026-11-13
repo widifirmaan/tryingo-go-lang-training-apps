@@ -57,22 +57,21 @@ if (!$authenticated) {
 
 echo "<br>=== Filters ===<br>";
 echo "// app/Config/Filters.php<br>";
-echo "public $aliases = [<br>";
-echo "    'auth' => \App\Filters\AuthFilter::class,<br>";
+echo 'public $aliases = [<br>';
+echo "    'auth' => \\App\\Filters\\AuthFilter::class,<br>";
 echo "];<br>";
-echo "public $globals = [<br>";
-echo '    "before' => ["auth"],<br>';
+echo 'public $globals = [<br>';
+echo "    'before' => ['auth'],<br>";
 echo "];<br><br>";
 
 echo "=== Auth Filter ===<br>";
 echo "class AuthFilter implements FilterInterface {<br>";
-echo "    public function before(RequestInterface $request) {<br>";
+echo '    public function before(RequestInterface $request) {<br>';
 echo "        if (!session('logged_in')) {<br>";
 echo "            return redirect()->to('/login');<br>";
 echo "        }<br>";
 echo "    }<br>";
 echo "}<br>";
->
 ```
 
 ---

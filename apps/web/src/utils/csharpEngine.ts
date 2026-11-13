@@ -65,6 +65,21 @@ function runProgram(code: string, output: string[]): string[] {
     records.set(recName, fields);
   }
 
+  // Pre-scan classes for property names: e.g. class Product { public int Id { get; set; } ... }
+  const classMatches = code.matchAll(/(?:public\s+)?class\s+(\w+)[\s\S]*?\{([\s\S]*?)\}/g);
+  for (const cm of classMatches) {
+    const className = cm[1];
+    const body = cm[2];
+    const propMatches = body.matchAll(/(?:public|private|protected)?\s*\w+\s+(\w+)\s*\{\s*get;\s*set;\s*\}/g);
+    const propFields: string[] = [];
+    for (const pm of propMatches) {
+      propFields.push(pm[1]);
+    }
+    if (propFields.length > 0 && !records.has(className)) {
+      records.set(className, propFields);
+    }
+  }
+
   const stripped = stripComments(code);
   const lines = stripped.split('\n');
 
@@ -152,7 +167,7 @@ function runProgram(code: string, output: string[]): string[] {
   // Entry point: invoke Main after all methods/classes are registered
   const mainMethod = methods.get('Main');
   if (mainMethod) {
-    invokeMethod('Main', [], methods, variables, classes);
+    invokeMethod('Main', [], methods, variables, classes, records);
   }
 
   return output;
@@ -812,10 +827,14 @@ function executeForeach(
   const directVar = variables.get(collExpr);
   if (directVar && directVar.type === 'array' && Array.isArray(directVar.value)) {
     arrValue = directVar.value;
+  } else if (directVar && directVar.value && typeof directVar.value === 'object' && Array.isArray(directVar.value.items)) {
+    arrValue = directVar.value.items;
   } else {
     const evaluated = evalExpr(collExpr, variables, methods, classes, records);
     if (Array.isArray(evaluated)) {
       arrValue = evaluated;
+    } else if (evaluated && typeof evaluated === 'object' && Array.isArray(evaluated.items)) {
+      arrValue = evaluated.items;
     } else if (directVar && Array.isArray(directVar.value)) {
       arrValue = directVar.value;
     } else {
@@ -828,26 +847,40 @@ function executeForeach(
   let i = currentIdx + 1;
   let depth = 0;
 
-  if (maskStrings(line).includes('{')) depth = 1;
+  if (maskStrings(line).includes('{')) {
+    depth = 1;
+  } else {
+    let nextNonEmpty = i;
+    while (nextNonEmpty < allLines.length && !allLines[nextNonEmpty].trim()) nextNonEmpty++;
+    if (nextNonEmpty < allLines.length && allLines[nextNonEmpty].trim().startsWith('{')) {
+      depth = 1;
+      i = nextNonEmpty + 1;
+    } else if (nextNonEmpty < allLines.length) {
+      body.push({ line: allLines[nextNonEmpty].trim(), idx: nextNonEmpty });
+      i = nextNonEmpty + 1;
+    }
+  }
 
-  while (i < allLines.length) {
-    const l = allLines[i].trim();
-    const masked = maskStrings(l);
-    const { opens, closes } = countBraces(masked);
+  if (depth > 0) {
+    while (i < allLines.length) {
+      const l = allLines[i].trim();
+      const masked = maskStrings(l);
+      const { opens, closes } = countBraces(masked);
 
-    if (closes > opens) {
-      depth -= closes - opens;
-      if (depth <= 0) { i++; break; }
+      if (closes > opens) {
+        depth -= closes - opens;
+        if (depth <= 0) { i++; break; }
+        i++;
+        continue;
+      }
+
+      if (opens > closes) depth += opens - closes;
+
+      if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
+        body.push({ line: l, idx: i });
+      }
       i++;
-      continue;
     }
-
-    if (opens > closes) depth += opens - closes;
-
-    if (depth >= 1 && l && !(opens > closes && isBareBrace(l))) {
-      body.push({ line: l, idx: i });
-    }
-    i++;
   }
 
   for (const item of arrValue) {
@@ -855,13 +888,23 @@ function executeForeach(
       type: typeof item === 'object' && item !== null ? 'object' : inferType(item),
       value: item,
     });
-    for (const { line: stmt, idx } of body) {
+    let bIdx = 0;
+    while (bIdx < body.length) {
+      const { line: stmt, idx } = body[bIdx];
       const result = executeStatement(stmt, variables, methods, classes, allLines, idx, records);
       if (result.output) output.push(...result.output);
       if (result.control === 'break') return { output, nextIdx: i };
       if (result.control === 'continue') break;
       if (result.returnValue !== undefined) {
         return { output, nextIdx: i, returnValue: result.returnValue };
+      }
+      if (result.nextIdx !== undefined && result.nextIdx > idx) {
+        const advanceTo = result.nextIdx;
+        while (bIdx < body.length && body[bIdx].idx < advanceTo) {
+          bIdx++;
+        }
+      } else {
+        bIdx++;
       }
     }
   }
@@ -1002,7 +1045,7 @@ function evalInterpolatedString(
       spec = e.slice(colonIdx + 1).trim();
       exprBody = e.slice(0, colonIdx).trim();
     }
-    const commaIdx = exprBody.indexOf(',');
+    const commaIdx = findTopLevelComma(exprBody);
     if (commaIdx !== -1) {
       align = parseInt(exprBody.slice(commaIdx + 1).trim(), 10) || 0;
       exprBody = exprBody.slice(0, commaIdx).trim();
@@ -1153,6 +1196,12 @@ function evalSelectorExpr(expr: string, group: any): any {
       return group.items.reduce((s: number, it: any) => s + (Number(it[prop]) || 0), 0);
     }
   }
+
+  const propMatch = trimmed.match(/^(?:\w+\.)?(\w+)$/);
+  if (propMatch && group && typeof group === 'object' && propMatch[1] in group) {
+    return group[propMatch[1]];
+  }
+
   return trimmed;
 }
 
@@ -1165,12 +1214,44 @@ function evalWhereCondition(condExpr: string, item: any): boolean {
   if (cond.includes('&&')) {
     return cond.split('&&').every(c => evalWhereCondition(param ? `${param} => ${c.trim()}` : c.trim(), item));
   }
+  if (cond.includes('||')) {
+    return cond.split('||').some(c => evalWhereCondition(param ? `${param} => ${c.trim()}` : c.trim(), item));
+  }
+
+  // Equality: p.Category == "Elektronik" or p.Category == 'Elektronik'
+  const eqMatch = cond.match(/(?:\w+\.)?(\w+)\s*==\s*([\s\S]+)/);
+  if (eqMatch) {
+    const prop = eqMatch[1].trim();
+    let valStr = eqMatch[2].trim();
+    if ((valStr.startsWith('"') && valStr.endsWith('"')) || (valStr.startsWith("'") && valStr.endsWith("'"))) {
+      return String(item?.[prop]) === valStr.slice(1, -1);
+    }
+    return item?.[prop] == valStr;
+  }
+
+  // Inequality: p.Category != "Elektronik"
+  const neqMatch = cond.match(/(?:\w+\.)?(\w+)\s*!=\s*([\s\S]+)/);
+  if (neqMatch) {
+    const prop = neqMatch[1].trim();
+    let valStr = neqMatch[2].trim();
+    if ((valStr.startsWith('"') && valStr.endsWith('"')) || (valStr.startsWith("'") && valStr.endsWith("'"))) {
+      return String(item?.[prop]) !== valStr.slice(1, -1);
+    }
+    return item?.[prop] != valStr;
+  }
   
   const gtMatch = cond.match(/(?:\w+\.)?(\w+)\s*>\s*(\d+)/);
   if (gtMatch) {
     const prop = gtMatch[1];
     const val = Number(gtMatch[2]);
     return (Number(item[prop]) || 0) > val;
+  }
+
+  const ltMatch = cond.match(/(?:\w+\.)?(\w+)\s*<\s*(\d+)/);
+  if (ltMatch) {
+    const prop = ltMatch[1];
+    const val = Number(ltMatch[2]);
+    return (Number(item[prop]) || 0) < val;
   }
   
   const boolMatch = cond.match(/(?:\w+\.)?(\w+)$/);
@@ -1191,6 +1272,9 @@ function evalLinqPipeline(
   if (!chain || chain.calls.length === 0) return null;
 
   let cur = evalExpr(chain.base, variables, methods, classes, records);
+  if (cur && typeof cur === 'object' && Array.isArray(cur.items)) {
+    cur = cur.items;
+  }
   if (!Array.isArray(cur) && chain.calls[0].method !== 'Where' && chain.calls[0].method !== 'GroupBy') {
     return null;
   }
@@ -1250,6 +1334,46 @@ function evalLinqPipeline(
     } else if (method === 'Take') {
       const count = parseInt(arg, 10);
       if (!isNaN(count)) cur = cur.slice(0, count);
+    } else if (method === 'Sum') {
+      const propMatch = arg.match(/=>\s*(?:\w+\.)?(\w+)/);
+      if (propMatch) {
+        const p = propMatch[1];
+        return cur.reduce((acc: number, it: any) => acc + (Number(it?.[p]) || 0), 0);
+      }
+      return cur.reduce((acc: number, it: any) => acc + (Number(it) || 0), 0);
+    } else if (method === 'Average') {
+      const propMatch = arg.match(/=>\s*(?:\w+\.)?(\w+)/);
+      if (cur.length === 0) return 0;
+      if (propMatch) {
+        const p = propMatch[1];
+        return cur.reduce((acc: number, it: any) => acc + (Number(it?.[p]) || 0), 0) / cur.length;
+      }
+      return cur.reduce((acc: number, it: any) => acc + (Number(it) || 0), 0) / cur.length;
+    } else if (method === 'Count') {
+      if (arg) {
+        return cur.filter((item: any) => evalWhereCondition(arg, item)).length;
+      }
+      return cur.length;
+    } else if (method === 'First') {
+      if (arg) {
+        return cur.find((item: any) => evalWhereCondition(arg, item)) || null;
+      }
+      return cur[0] || null;
+    } else if (method === 'Single') {
+      if (arg) {
+        return cur.find((item: any) => evalWhereCondition(arg, item)) || null;
+      }
+      return cur[0] || null;
+    } else if (method === 'Any') {
+      if (arg) {
+        return cur.some((item: any) => evalWhereCondition(arg, item));
+      }
+      return cur.length > 0;
+    } else if (method === 'All') {
+      if (arg) {
+        return cur.every((item: any) => evalWhereCondition(arg, item));
+      }
+      return true;
     }
   }
   return cur;
@@ -1268,6 +1392,24 @@ function parseListItems(
   for (const chunk of itemChunks) {
     const t = chunk.trim();
     if (!t) continue;
+
+    // Object initializer: new Product { Id = 1, Name = "Laptop", ... }
+    const objInitMatch = t.match(/^new(?:\s+\w+)?\s*\{([\s\S]*)\}$/);
+    if (objInitMatch) {
+      const fieldPairs = splitTopLevelCommas(objInitMatch[1]);
+      const obj: Record<string, any> = {};
+      for (const pair of fieldPairs) {
+        const eqIdx = pair.indexOf('=');
+        if (eqIdx !== -1) {
+          const k = pair.slice(0, eqIdx).trim();
+          const v = evalExpr(pair.slice(eqIdx + 1).trim(), variables, methods, classes, records);
+          obj[k] = v;
+        }
+      }
+      result.push(obj);
+      continue;
+    }
+
     const newMatch = t.match(/^new(?:\s+\w+)?\s*\(([\s\S]*)\)$/);
     if (newMatch) {
       const argStrings = splitTopLevelCommas(newMatch[1]);
@@ -1330,8 +1472,69 @@ function evalExpr(
     return parseListItems(itemsRaw, fields, variables, methods, classes, records);
   }
 
+  // string.Join(sep, arr)
+  const joinMatch = trimmed.match(/^string\.Join\s*\(([\s\S]*)\)$/);
+  if (joinMatch) {
+    const parts = splitTopLevelCommas(joinMatch[1]);
+    if (parts.length >= 2) {
+      const sep = evalExpr(parts[0], variables, methods, classes, records);
+      const arr = evalExpr(parts[1], variables, methods, classes, records);
+      if (Array.isArray(arr)) return arr.map(String).join(String(sep));
+    }
+  }
+
+  // LINQ query syntax: from p in products where ... orderby ... select ...
+  const querySyntaxMatch = trimmed.match(/^from\s+(\w+)\s+in\s+(\w+)\s+([\s\S]+)$/);
+  if (querySyntaxMatch) {
+    const param = querySyntaxMatch[1];
+    const srcName = querySyntaxMatch[2];
+    const rest = querySyntaxMatch[3];
+    let src = evalExpr(srcName, variables, methods, classes, records);
+    if (Array.isArray(src)) {
+      let cur = [...src];
+      const whereM = rest.match(/where\s+([\s\S]+?)(?=\s+(?:orderby|select))/);
+      if (whereM) {
+        cur = cur.filter(item => evalWhereCondition(`${param} => ${whereM[1].trim()}`, item));
+      }
+      const orderM = rest.match(/orderby\s+([\s\S]+?)(?=\s+select)/);
+      if (orderM) {
+        const oExpr = orderM[1].trim();
+        const desc = oExpr.endsWith('descending');
+        const cleanO = oExpr.replace(/\s+(?:ascending|descending)$/, '').trim();
+        const prop = cleanO.replace(new RegExp(`^(?:${param}\\.)?`), '');
+        cur.sort((a, b) => {
+          const va = a?.[prop], vb = b?.[prop];
+          return desc ? (Number(vb) || 0) - (Number(va) || 0) : (Number(va) || 0) - (Number(vb) || 0);
+        });
+      }
+      const selectM = rest.match(/select\s+([\s\S]+)$/);
+      if (selectM) {
+        const sExpr = selectM[1].trim();
+        const anonM = sExpr.match(/new\s*\{([\s\S]*)\}/);
+        if (anonM) {
+          const fieldDefs = splitTopLevelCommas(anonM[1]);
+          cur = cur.map(item => {
+            const projected: Record<string, any> = {};
+            for (const f of fieldDefs) {
+              const fTrim = f.trim();
+              if (fTrim.includes('=')) {
+                const [k, v] = fTrim.split('=').map(x => x.trim());
+                projected[k] = evalSelectorExpr(v, item);
+              } else {
+                const prop = fTrim.replace(new RegExp(`^(?:${param}\\.)?`), '');
+                projected[prop] = item?.[prop];
+              }
+            }
+            return projected;
+          });
+        }
+      }
+      return cur;
+    }
+  }
+
   // LINQ method chaining: e.g. inventory.GroupBy(...)... or fifoQueue.Take(3)
-  if (/\.(?:GroupBy|Select|Where|OrderBy|OrderByDescending|Take|ToList)\s*\(/.test(trimmed)) {
+  if (/\.(?:GroupBy|Select|Where|OrderBy|OrderByDescending|Take|ToList|Sum|Average|Count|First|Single|Any|All)\s*\(/.test(trimmed)) {
     const linqResult = evalLinqPipeline(trimmed, variables, methods, classes, records);
     if (linqResult !== null) return linqResult;
   }
@@ -1352,7 +1555,7 @@ function evalExpr(
     const methodName = methodCall[1];
     const argsStr = methodCall[2];
     const args = argsStr ? argsStr.split(',').map((a) => evalExpr(a.trim(), variables, methods, classes, records)) : [];
-    return invokeMethod(methodName, args, methods, variables, classes);
+    return invokeMethod(methodName, args, methods, variables, classes, records);
   }
 
   // Member access: obj.Prop
@@ -1465,7 +1668,8 @@ function invokeMethod(
   args: any[],
   methods: Map<string, MethodDef>,
   variables: Map<string, Variable>,
-  classes: Map<string, ClassDef>
+  classes: Map<string, ClassDef>,
+  records?: Map<string, string[]>
 ): any {
   const method = methods.get(name);
   if (!method) {
@@ -1487,8 +1691,33 @@ function invokeMethod(
 
   let i = 0;
   while (i < method.body.length) {
-    const stmt = method.body[i];
-    const result = executeStatement(stmt, localVars, methods, classes, method.body, i);
+    let stmt = method.body[i].trim();
+    if (!stmt || stmt === '{' || stmt === '}') { i++; continue; }
+
+    const isControl = /^(?:if|while|for|foreach)\s*\(/.test(stmt);
+    if (!isControl && !stmt.endsWith(';') && !stmt.endsWith('{')) {
+      let assembled = stmt;
+      let j = i + 1;
+      let depth = 0;
+      for (const ch of stmt) { if (ch === '{' || ch === '(') depth++; else if (ch === '}' || ch === ')') depth--; }
+      while (j < method.body.length) {
+        const nextL = method.body[j].trim();
+        if (nextL) {
+          assembled += ' ' + nextL;
+          for (const ch of nextL) { if (ch === '{' || ch === '(') depth++; else if (ch === '}' || ch === ')') depth--; }
+        }
+        j++;
+        if ((nextL.endsWith(';') || assembled.endsWith(';')) && depth <= 0) break;
+      }
+      stmt = assembled;
+      const result = executeStatement(stmt, localVars, methods, classes, method.body, i, records);
+      if (result.output && activeOutput) activeOutput.push(...result.output);
+      if (result.returnValue !== undefined) return result.returnValue;
+      i = j;
+      continue;
+    }
+
+    const result = executeStatement(stmt, localVars, methods, classes, method.body, i, records);
     if (result.output && activeOutput) activeOutput.push(...result.output);
     if (result.returnValue !== undefined) {
       return result.returnValue;

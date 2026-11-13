@@ -57,7 +57,6 @@ echo "Creates: index, create, store, show, edit, update, destroy<br><br>";
 
 echo "=== Controller Example ===<br>";
 echo "php artisan make:controller PostController --resource<br>";
->
 ```
 
 ---

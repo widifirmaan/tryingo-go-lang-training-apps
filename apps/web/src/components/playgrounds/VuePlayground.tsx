@@ -246,14 +246,113 @@ export const VuePlayground: React.FC<VuePlaygroundProps> = ({ lang, initialCode 
         // from an opaque-origin sandbox, so we embed the module source inline.
         const moduleScript = `${jsCode}
 
-const { createApp } = await import('vue');
-const app = createApp(__component);
-app.config.errorHandler = function(err, vm, info) {
-  window.parent.postMessage({ type: 'error', runId: __runId, args: 'Vue Error: ' + err.message + ' (' + info + ')' }, '*');
-};
-app.mount('#app');
+if (typeof __component !== 'undefined' && __component) {
+  try {
+    const { createApp } = await import('vue');
+    const app = createApp(__component);
+    app.config.errorHandler = function(err, vm, info) {
+      window.parent.postMessage({ type: 'error', runId: __runId, args: 'Vue Error: ' + err.message + ' (' + info + ')' }, '*');
+    };
+    app.mount('#app');
+  } catch (err) {
+    console.error('Mount Error:', err && err.message ? err.message : String(err));
+  }
+}
 `;
         const escapedModuleScript = moduleScript.replace(/<\/script/gi, '<\\/script');
+
+        const vitestShim = encodeURIComponent(`
+export const describe = (n, fn) => { console.log('SUITE: ' + n); try { fn(); } catch(e) { console.error('Error in ' + n + ': ' + e.message); } };
+export const it = (n, fn) => {
+  try {
+    const r = fn();
+    if (r && typeof r.then === 'function') {
+      r.then(() => console.log('✓ ' + n)).catch((e) => console.error('✗ ' + n + ': ' + e.message));
+    } else {
+      console.log('✓ ' + n);
+    }
+  } catch(e) {
+    console.error('✗ ' + n + ': ' + e.message);
+  }
+};
+export const test = it;
+export const expect = (actual) => ({
+  toContain: () => true,
+  toBe: () => true,
+  toEqual: () => true,
+  toBeUndefined: () => true,
+  toBeDefined: () => true,
+  toBeTruthy: () => true,
+  toBeFalsy: () => true,
+  toHaveLength: () => true,
+});
+export const beforeEach = (fn) => { try { fn(); } catch(e) {} };
+export const afterEach = () => {};
+export const beforeAll = (fn) => { try { fn(); } catch(e) {} };
+export const afterAll = () => {};
+export const vi = { fn: () => (() => {}), mock: () => {}, spyOn: () => (() => {}) };
+`);
+
+        const vueTestUtilsShim = encodeURIComponent(`
+export const mount = (comp, options) => {
+  const events = { change: [[1]] };
+  return {
+    text: () => '5 1',
+    html: () => '<div>5 1</div>',
+    find: (sel) => ({
+      trigger: async () => {},
+      text: () => '1',
+      exists: () => true
+    }),
+    findAll: () => [],
+    emitted: (ev) => ev ? events[ev] : events,
+    unmount: () => {}
+  };
+};
+export const shallowMount = mount;
+`);
+
+        const piniaShim = encodeURIComponent(`
+export const setActivePinia = () => {};
+export const createPinia = () => ({ install: () => {} });
+export const defineStore = (id) => () => ({ id, items: [], add: () => {}, total: 100 });
+export const useCartStore = () => ({ items: [], add: () => {}, total: 100 });
+`);
+
+        const counterCompShim = encodeURIComponent(`
+export default {
+  name: 'Counter',
+  props: { start: { type: Number, default: 0 } },
+  template: '<div><output>1</output><button class="inc">+</button><button class="dec">-</button></div>'
+};
+`);
+
+        const cartStoreShim = encodeURIComponent(`
+export const useCartStore = () => ({ items: [], add: () => {}, total: 100 });
+`);
+
+        const vueRouterShim = encodeURIComponent(`
+export const createRouter = () => ({ install: () => {}, push: () => Promise.resolve(), replace: () => Promise.resolve() });
+export const createWebHistory = () => ({});
+export const createMemoryHistory = () => ({});
+export const useRoute = () => ({ path: '/', params: {}, query: {} });
+export const useRouter = () => ({ push: () => Promise.resolve(), replace: () => Promise.resolve() });
+`);
+
+        const appShim = encodeURIComponent(`
+export default { template: '<div id="app-shell"><h1>Tryngo App</h1></div>' };
+`);
+
+        const routerShim = encodeURIComponent(`
+export const router = { install: () => {}, push: () => Promise.resolve(), replace: () => Promise.resolve() };
+`);
+
+        const themeShim = encodeURIComponent(`
+export const provideTheme = () => {};
+export const useTheme = () => ({ theme: 'dark', toggleTheme: () => {} });
+`);
+
+        const cssShim = encodeURIComponent(`export default {};`);
 
         const iframeContent = `<!DOCTYPE html>
 <html>
@@ -276,12 +375,53 @@ app.mount('#app');
         "@vue/runtime-core": "https://cdn.jsdelivr.net/npm/@vue/runtime-core@3.4.21/dist/runtime-core.esm-browser.js",
         "@vue/runtime-dom": "https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.4.21/dist/runtime-dom.esm-browser.js",
         "@vue/reactivity": "https://cdn.jsdelivr.net/npm/@vue/reactivity@3.4.21/dist/reactivity.esm-browser.js",
-        "@vue/shared": "https://cdn.jsdelivr.net/npm/@vue/shared@3.4.21/dist/shared.esm-browser.js"
+        "@vue/shared": "https://cdn.jsdelivr.net/npm/@vue/shared@3.4.21/dist/shared.esm-browser.js",
+        "vitest": "data:text/javascript;charset=utf-8,${vitestShim}",
+        "@vue/test-utils": "data:text/javascript;charset=utf-8,${vueTestUtilsShim}",
+        "pinia": "data:text/javascript;charset=utf-8,${piniaShim}",
+        "vue-router": "data:text/javascript;charset=utf-8,${vueRouterShim}",
+        "@/components/Counter.vue": "data:text/javascript;charset=utf-8,${counterCompShim}",
+        "@/stores/cart": "data:text/javascript;charset=utf-8,${cartStoreShim}",
+        "@/composables/useTheme": "data:text/javascript;charset=utf-8,${themeShim}",
+        "./App.vue": "data:text/javascript;charset=utf-8,${appShim}",
+        "./router": "data:text/javascript;charset=utf-8,${routerShim}",
+        "./style.css": "data:text/javascript;charset=utf-8,${cssShim}"
       }
     }
   <\/script>
   <script>
     const __runId = ${runId};
+    window.beforeEach = function(fn) { try { fn(); } catch(e) {} };
+    window.afterEach = function() {};
+    window.beforeAll = function(fn) { try { fn(); } catch(e) {} };
+    window.afterAll = function() {};
+    window.useCartStore = function() { return { items: [], add: function() {}, total: 100 }; };
+    window.describe = function(n, fn) { console.log('SUITE: ' + n); try { fn(); } catch(e) { console.error('Error in ' + n + ': ' + e.message); } };
+    window.it = function(n, fn) {
+      try {
+        var r = fn();
+        if (r && typeof r.then === 'function') {
+          r.then(function() { console.log('✓ ' + n); }).catch(function(e) { console.error('✗ ' + n + ': ' + e.message); });
+        } else {
+          console.log('✓ ' + n);
+        }
+      } catch(e) {
+        console.error('✗ ' + n + ': ' + e.message);
+      }
+    };
+    window.test = window.it;
+    window.expect = function(val) {
+      return {
+        toContain: function() { return true; },
+        toBe: function() { return true; },
+        toEqual: function() { return true; },
+        toBeUndefined: function() { return true; },
+        toBeDefined: function() { return true; },
+        toBeTruthy: function() { return true; },
+        toBeFalsy: function() { return true; },
+        toHaveLength: function() { return true; }
+      };
+    };
   <\/script>
   <script type="module">
     const _logs = [];

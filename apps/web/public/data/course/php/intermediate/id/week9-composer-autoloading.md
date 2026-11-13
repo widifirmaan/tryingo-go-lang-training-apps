@@ -16,22 +16,24 @@
 
 ```php
 <?php
-echo "=== Composer Autoload Simulation ===<br><br>";
+namespace {
+    echo "=== Composer Autoload Simulation ===<br><br>";
 
-spl_autoload_register(function ($class) {
-    $prefix = "App\\";
-    $baseDir = __DIR__ . "/src/";
+    spl_autoload_register(function ($class) {
+        $prefix = "App\\";
+        $baseDir = __DIR__ . "/src/";
 
-    if (strpos($class, $prefix) === 0) {
-        $relative = str_replace("\\", "/", substr($class, strlen($prefix)));
-        $file = $baseDir . $relative . ".php";
-        echo "Loading: $class -> $file<br>";
-    }
-});
+        if (strpos($class, $prefix) === 0) {
+            $relative = str_replace("\\", "/", substr($class, strlen($prefix)));
+            $file = $baseDir . $relative . ".php";
+            echo "Loading: $class -> $file<br>";
+        }
+    });
 
-echo "Autoload registered for App\\ namespace<br><br>";
+    echo "Autoload registered for App\\ namespace<br><br>";
 
-echo "=== Namespace Simulation ===<br>";
+    echo "=== Namespace Simulation ===<br>";
+}
 
 namespace App\Models {
     class User {
@@ -73,7 +75,6 @@ namespace {
     echo "composer install — install dependencies<br>";
     echo "composer dump-autoload — regenerate autoload<br>";
 }
->
 ```
 
 ---

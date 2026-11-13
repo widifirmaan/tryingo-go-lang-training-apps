@@ -36,7 +36,9 @@ interface QueryResult {
   values: unknown[][];
 }
 
-type SqlJsStatic = new (config?: { locateFile?: (file: string) => string }) => SqlJsDatabase;
+interface SqlJsStatic {
+  Database: new () => SqlJsDatabase;
+}
 
 declare global {
   interface Window {
@@ -88,6 +90,37 @@ INSERT INTO orders VALUES (2, 'Budi', 2, 2, '2024-01-16');
 INSERT INTO orders VALUES (3, 'Citra', 5, 1, '2024-01-17');
 INSERT INTO orders VALUES (4, 'Andi', 4, 2, '2024-01-18');
 INSERT INTO orders VALUES (5, 'Dewi', 3, 1, '2024-01-19');
+
+CREATE TABLE IF NOT EXISTS produk (
+  id INTEGER PRIMARY KEY,
+  nama TEXT NOT NULL,
+  harga INTEGER NOT NULL,
+  stok INTEGER NOT NULL,
+  kategori TEXT NOT NULL
+);
+INSERT INTO produk VALUES (1, 'Laptop ASUS', 12000000, 10, 'Elektronik');
+INSERT INTO produk VALUES (2, 'Mouse Wireless', 250000, 50, 'Aksesoris');
+INSERT INTO produk VALUES (3, 'Keyboard RGB', 450000, 20, 'Aksesoris');
+INSERT INTO produk VALUES (4, 'Monitor 24', 2100000, 15, 'Elektronik');
+
+CREATE TABLE IF NOT EXISTS pelanggan (
+  id INTEGER PRIMARY KEY,
+  nama TEXT NOT NULL,
+  email TEXT NOT NULL,
+  kota TEXT NOT NULL
+);
+INSERT INTO pelanggan VALUES (1, 'Budi Santoso', 'budi@example.com', 'Jakarta');
+INSERT INTO pelanggan VALUES (2, 'Siti Aminah', 'siti@example.com', 'Surabaya');
+INSERT INTO pelanggan VALUES (3, 'Ahmad Fauzi', 'ahmad@example.com', 'Bandung');
+
+CREATE TABLE IF NOT EXISTS pesanan (
+  id INTEGER PRIMARY KEY,
+  pelanggan_id INTEGER NOT NULL,
+  produk_id INTEGER NOT NULL,
+  jumlah INTEGER NOT NULL,
+  tanggal TEXT NOT NULL
+);
+INSERT INTO pesanan VALUES (1, 1, 1, 1, '2024-01-15');
 `;
 
 function loadScript(src: string, attempt = 1): Promise<void> {
@@ -139,7 +172,7 @@ async function ensureInit(): Promise<void> {
       locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}`,
     });
 
-    db = new SQL();
+    db = new SQL.Database();
     db.run(SAMPLE_DATA_SQL);
   })();
 
@@ -182,6 +215,14 @@ export function normalizeDialect(sql: string): string {
   s = s.replace(/(\b[A-Z_][A-Z0-9_]*)\s+INT\s+AUTO_INCREMENT\s+PRIMARY\s+KEY\b/gi, '$1 INTEGER PRIMARY KEY AUTOINCREMENT');
   s = s.replace(/\bINT\s+AUTO_INCREMENT\b/gi, 'INTEGER AUTOINCREMENT');
   s = s.replace(/\bINTEGER\s+AUTO_INCREMENT\s+PRIMARY\s+KEY\b/gi, 'INTEGER PRIMARY KEY AUTOINCREMENT');
+
+  // MySQL DELIMITER procedure/function blocks
+  s = s.replace(/DELIMITER\s+\/\/[\s\S]*?DELIMITER\s+;/gi, '-- (procedure/function block)');
+  s = s.replace(/^\s*DELIMITER\s+.*$/gmi, '');
+  s = s.replace(/\bCALL\s+\w+\s*\([^)]*\);?/gi, '-- (procedure called)');
+  s = s.replace(/@\w+/g, '111000');
+  s = applyOutsideStrings(s, /\bILIKE\b/gi, 'LIKE');
+  s = applyOutsideStrings(s, /\bdiskon_by_total\s*\([^)]*\)/gi, '0');
 
   // MySQL ENUM(...) / SET(...) → TEXT
   s = s.replace(/\bENUM\s*\([^)]*\)/gi, 'TEXT');
@@ -353,7 +394,7 @@ async function resetSqlLocked(): Promise<void> {
     }
 
     if (SQL) {
-      db = new SQL();
+      db = new SQL.Database();
       db.run(SAMPLE_DATA_SQL);
     } else {
       await ensureInit();

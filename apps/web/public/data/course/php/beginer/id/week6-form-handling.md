@@ -66,7 +66,6 @@ $password = "rahasia123";
 $hashed = password_hash($password, PASSWORD_DEFAULT);
 echo "<br>Password hash: " . substr($hashed, 0, 20) . "...<br>";
 echo "Verify: " . (password_verify($password, $hashed ? "Valid" : "Invalid")) . "<br>";
->
 ```
 
 ---

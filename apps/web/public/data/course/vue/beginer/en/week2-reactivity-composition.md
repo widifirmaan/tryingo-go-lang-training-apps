@@ -25,6 +25,14 @@ Week 2 — themed **"Reactivity & Composition API"** — centers on the practice
 // Composition API = cara modern menulis komponen Vue 3
 const { createApp, ref, reactive, computed, watch } = Vue;
 const app = createApp({
+  template: `
+    <div style="font-family: system-ui; padding: 20px">
+      <h2>{{ greeting }}</h2>
+      <p>Count: {{ count }} (Doubled: {{ doubled }})</p>
+      <button @click="increment" style="padding: 6px 12px; margin-right: 8px">Increment</button>
+      <button @click="updateName('Jane')" style="padding: 6px 12px">Change Name</button>
+    </div>
+  `,
   setup() {
     const count = ref(0);
     const message = ref('Halo Vue!');

@@ -68,7 +68,6 @@ echo "=== Blade Auth ===<br>";
 echo "@auth ... @endauth<br>";
 echo "@guest ... @endguest<br>";
 echo "@can('edit-post', $post) ... @endcan<br>";
->
 ```
 
 ---

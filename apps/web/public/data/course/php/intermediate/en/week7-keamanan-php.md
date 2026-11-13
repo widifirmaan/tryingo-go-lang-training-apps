@@ -51,7 +51,6 @@ $password = "user_password";
 $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 echo "Bcrypt: " . substr($hash, 0, 20) . "...<br>";
 echo "Verify: " . (password_verify($password, $hash) ? "Valid" : "Invalid") . "<br>";
->
 ```
 
 ---

@@ -72,7 +72,6 @@ echo "<?php $this->endSection() ?><br><br>";
 
 echo "=== View Cells ===<br>";
 echo "<?= view_cell('Blog::recentPosts') ?><br>";
->
 ```
 
 ---

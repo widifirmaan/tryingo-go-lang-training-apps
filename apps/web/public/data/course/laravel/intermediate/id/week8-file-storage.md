@@ -68,7 +68,6 @@ echo "    'local' => ['driver' => 'local', 'root' => storage_path('app')],<br>";
 echo "    'public' => ['driver' => 'local', 'root' => storage_path('app/public')],<br>";
 echo "    's3' => ['driver' => 's3', ...],<br>";
 echo "],<br>";
->
 ```
 
 ---

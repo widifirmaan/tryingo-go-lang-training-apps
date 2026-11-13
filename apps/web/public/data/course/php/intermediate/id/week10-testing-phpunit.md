@@ -64,7 +64,6 @@ try {
 echo "<br>=== Results ===<br>";
 echo "Passed: $passed, Failed: $failed<br>";
 echo "Total: " . ($passed + $failed) . " tests<br>";
->
 ```
 
 ---

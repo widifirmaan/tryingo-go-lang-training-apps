@@ -193,7 +193,6 @@ echo "php artisan make:controller Name — Create controller<br>";
 echo "php artisan make:model Name — Create model<br>";
 echo "php artisan migrate — Run migrations<br>";
 echo "php artisan route:list — Show all routes<br>";
->
 ```
 
 ---

@@ -96,7 +96,6 @@ foreach ($results as $post) {
     echo "- {$post->title}<br>";
 }
 echo "<br>Found: " . count($results) . " posts<br>";
->
 ```
 
 ---

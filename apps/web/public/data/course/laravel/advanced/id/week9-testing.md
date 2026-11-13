@@ -71,7 +71,6 @@ foreach ($tests as [$name, $result]) {
     echo "  $result: $name<br>";
 }
 echo "<br>All 5 tests passed!<br>";
->
 ```
 
 ---

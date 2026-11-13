@@ -67,7 +67,6 @@ echo "php spark db:seed UserSeeder<br><br>";
 
 echo "=== Foreign Keys ===<br>";
 echo "$this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');<br>";
->
 ```
 
 ---

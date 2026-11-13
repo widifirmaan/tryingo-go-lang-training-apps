@@ -57,7 +57,6 @@ $dsn = "mysql:host=localhost;dbname=myapp;charset=utf8mb4";
 echo "DSN: $dsn<br>";
 echo "Options: PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION<br>";
 echo "Options: PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC<br>";
->
 ```
 
 ---

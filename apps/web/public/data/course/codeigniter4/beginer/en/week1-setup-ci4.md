@@ -193,7 +193,6 @@ echo "php spark routes — Show all routes<br>";
 echo "<br>=== Namespace ===<br>";
 echo "namespace App\Controllers;<br>";
 echo "namespace App\Models;<br>";
->
 ```
 
 ---

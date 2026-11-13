@@ -159,7 +159,6 @@ echo "Umur: $umur<br>";
 echo "Tinggi: $tinggi<br>";
 echo "Aktif: " . ($aktif ? "Ya" : "Tidak") . "<br>";
 echo "Tipe: " . gettype($nama) . ", " . gettype($umur) . "<br>";
->
 ```
 
 ---

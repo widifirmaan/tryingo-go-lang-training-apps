@@ -65,7 +65,6 @@ echo "// app/Config/Cors.php<br>";
 echo "public $allowedOrigins = ['http://localhost:3000'];<br>";
 echo "public $allowedMethods = ['GET', 'POST', 'PUT', 'DELETE'];<br>";
 echo "public $allowedHeaders = ['Content-Type', 'Authorization'];<br>";
->
 ```
 
 ---

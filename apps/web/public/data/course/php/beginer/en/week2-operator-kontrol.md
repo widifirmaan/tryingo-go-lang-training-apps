@@ -67,7 +67,6 @@ echo "Status: $hasil<br>";
 $nama = null;
 $salam = $nama ?? "Tamu";
 echo "Halo, $salam<br>";
->
 ```
 
 ---

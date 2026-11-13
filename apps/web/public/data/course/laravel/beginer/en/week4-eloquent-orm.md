@@ -73,7 +73,6 @@ echo "=== Timestamps ===<br>";
 echo "public $timestamps = true;  // created_at & updated_at<br>";
 echo "const CREATED_AT = 'created_at';<br>";
 echo "const UPDATED_AT = 'updated_at';<br>";
->
 ```
 
 ---

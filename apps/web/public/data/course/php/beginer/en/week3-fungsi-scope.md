@@ -67,7 +67,6 @@ echo "Faktorial 5: " . $faktorial(5) . "<br>";
 $angka = [3, 1, 4, 1, 5];
 $doubled = array_map(fn($n) => $n * 2, $angka);
 echo "Doubled: " . implode(", ", $doubled) . "<br>";
->
 ```
 
 ---

@@ -87,7 +87,6 @@ class App {
 
 $app = new App(new FileLogger());
 $app->run();
->
 ```
 
 ---

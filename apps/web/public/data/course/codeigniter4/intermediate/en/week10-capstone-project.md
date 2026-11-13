@@ -66,7 +66,6 @@ echo "✓ Auth: register, login, logout<br>";
 echo "✓ Tasks: CRUD, validation errors<br>";
 echo "✓ Filter: unauthorized access<br>";
 echo "✓ Database: insert, update, delete<br>";
->
 ```
 
 ---
