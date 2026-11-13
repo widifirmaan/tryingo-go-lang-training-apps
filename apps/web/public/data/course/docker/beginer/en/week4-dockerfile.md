@@ -22,9 +22,9 @@ Practice program: *"Building Custom Images"*. Run the code in the Playground to 
 ## Program: Building Custom Images
 
 ```dockerfile
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKERFILE - Build Custom Image
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # File: Dockerfile
 FROM node:20-alpine
@@ -64,9 +64,9 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 # Start command
 CMD ["node", "server.js"]
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # Build & Run
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Build image
 # docker build -t my-node-app:1.0 .
@@ -75,9 +75,9 @@ CMD ["node", "server.js"]
 # Run container dari image
 # docker run -d -p 3000:3000 --name app my-node-app:1.0
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # Dockerfile Instructions:
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # FROM      : base image
 # RUN       : execute command saat build
 # COPY      : copy file dari host ke image
@@ -93,9 +93,9 @@ CMD ["node", "server.js"]
 # HEALTHCHECK: health check
 # VOLUME    : mount point
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # .dockerignore
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # node_modules
 # .git
 # .env

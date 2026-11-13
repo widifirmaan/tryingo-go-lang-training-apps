@@ -22,9 +22,9 @@ Practice program: *"Build & Push Images"*. Run the code in the Playground to exa
 ## Program: Build & Push Images
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER IMAGES & REGISTRIES
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Lihat semua image lokal
 docker images

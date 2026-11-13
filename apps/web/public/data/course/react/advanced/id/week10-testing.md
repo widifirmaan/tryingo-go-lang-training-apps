@@ -21,7 +21,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useState } from "react";
 
-// ── Component to Test ──
+// Component to Test
 function Counter({ initial = 0 }) {
   const [count, setCount] = useState(initial);
   return (
@@ -38,7 +38,7 @@ function Greeting({ name }) {
   return <p>Hello, {name}!</p>;
 }
 
-// ── Tests ──
+// Tests
 describe("Counter", () => {
   test("renders with initial value", () => {
     render(<Counter initial={5} />);

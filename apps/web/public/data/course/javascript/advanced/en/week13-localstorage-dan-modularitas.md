@@ -216,7 +216,7 @@ In multi-file ES Module setups, use `export`/`import` syntax with `<script type=
   </div>
 
   <script>
-    // ── MODUL PENYIMPANAN DATA (STORAGE HELPER) ──
+    // MODUL PENYIMPANAN DATA (STORAGE HELPER)
     const STORAGE_KEY = "tryngo_user_notes";
 
     function ambilSemuaDariStorage() {
@@ -228,7 +228,7 @@ In multi-file ES Module setups, use `export`/`import` syntax with `<script type=
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataArray));
     }
 
-    // ── KONTROLER APLIKASI UTAMA ──
+    // KONTROLER APLIKASI UTAMA
     let daftarCatatan = ambilSemuaDariStorage();
 
     function renderCatatan() {

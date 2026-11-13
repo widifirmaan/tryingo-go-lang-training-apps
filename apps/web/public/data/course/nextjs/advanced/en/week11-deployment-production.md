@@ -18,13 +18,13 @@
 // Deployment Next.js: Vercel, Docker, self-hosted
 // CI/CD, environment variables, monitoring
 
-// ── Environment Variables ──
+// Environment Variables
 // .env.local (development, gitignored)
 // DATABASE_URL=postgresql://...
 // NEXTAUTH_SECRET=your-secret
 // NEXT_PUBLIC_API_URL=https://api.example.com
 
-// ── next.config.js ──
+// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Image domains untuk next/image
@@ -53,7 +53,7 @@ const nextConfig = {
 
 export default nextConfig;
 
-// ── Dockerfile ──
+// Dockerfile
 // FROM node:18-alpine AS builder
 // WORKDIR /app
 // COPY package*.json ./
@@ -68,13 +68,13 @@ export default nextConfig;
 // EXPOSE 3000
 // CMD ["npm", "start"]
 
-// ── Vercel Deployment ──
+// Vercel Deployment
 // 1. Push ke GitHub
 // 2. Import project di vercel.com
 // 3. Set environment variables
 // 4. Deploy otomatis setiap push
 
-// ── Monitoring ──
+// Monitoring
 // Vercel Analytics, Sentry untuk error tracking
 
 console.log("Deployment & Production siap digunakan");

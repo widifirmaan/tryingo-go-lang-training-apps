@@ -20,7 +20,7 @@
 
 import { useState, useMemo, useCallback, memo, lazy, Suspense } from "react";
 
-// ── React.memo: skip re-render jika props sama ──
+// React.memo: skip re-render jika props sama
 const ExpensiveList = memo(function ExpensiveList({ items }) {
   console.log("Rendering ExpensiveList");
   return (
@@ -32,7 +32,7 @@ const ExpensiveList = memo(function ExpensiveList({ items }) {
   );
 });
 
-// ── useMemo: cache expensive computation ──
+// useMemo: cache expensive computation
 function FilteredList({ items, query }) {
   const filtered = useMemo(() => {
     console.log("Filtering...");
@@ -44,7 +44,7 @@ function FilteredList({ items, query }) {
   return <ExpensiveList items={filtered} />;
 }
 
-// ── useCallback: stable function reference ──
+// useCallback: stable function reference
 function TodoApp() {
   const [todos, setTodos] = useState([
     { id: 1, name: "Belajar React", done: false },
@@ -65,7 +65,7 @@ function TodoApp() {
   );
 }
 
-// ── Code Splitting: lazy + Suspense ──
+// Code Splitting: lazy + Suspense
 const HeavyComponent = lazy(() => import("./HeavyComponent"));
 
 function App() {

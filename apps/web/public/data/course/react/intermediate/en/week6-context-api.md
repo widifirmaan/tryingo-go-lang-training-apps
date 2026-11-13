@@ -20,10 +20,10 @@
 
 import { createContext, useContext, useReducer } from "react";
 
-// ── Context Setup ──
+// Context Setup
 const ThemeContext = createContext(null);
 
-// ── Reducer ──
+// Reducer
 function themeReducer(state, action) {
   switch (action.type) {
     case "TOGGLE":

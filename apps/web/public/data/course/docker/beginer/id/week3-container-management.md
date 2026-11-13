@@ -22,9 +22,9 @@ Program latihan: *"Lifecycle & Exec"*. Jalankan kode di Playground untuk mempela
 ## Program: Lifecycle & Exec
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # CONTAINER MANAGEMENT - Lifecycle & Operations
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Run container dengan berbagai options
 docker run -d \

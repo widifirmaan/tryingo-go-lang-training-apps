@@ -155,7 +155,7 @@ The src/app directory uses file-system based routing where each folder maps to a
 // Next.js = React framework dengan SSR, routing, dan optimasi built-in
 // create-next-app = boilerplate untuk mulai proyek
 
-// ── Struktur Folder Next.js (App Router) ──
+// Struktur Folder Next.js (App Router)
 // app/
 //   layout.js      = Layout wrapper (html, body)
 //   page.js        = Halaman utama (/)
@@ -168,7 +168,7 @@ The src/app directory uses file-system based routing where each folder maps to a
 //     [slug]/
 //       page.js    = Dynamic route /blog/:slug
 
-// ── app/layout.js (Root Layout) ──
+// app/layout.js (Root Layout)
 export const metadata = {
   title: "Tryngo App",
   description: "Platform pembelajaran Next.js",
@@ -186,7 +186,7 @@ export default function RootLayout({ children }) {
   );
 }
 
-// ── app/page.js (Home Page) ──
+// app/page.js (Home Page)
 export default function HomePage() {
   return (
     <div>
@@ -197,7 +197,7 @@ export default function HomePage() {
   );
 }
 
-// ── app/about/page.js ──
+// app/about/page.js
 export default function AboutPage() {
   return (
     <div>

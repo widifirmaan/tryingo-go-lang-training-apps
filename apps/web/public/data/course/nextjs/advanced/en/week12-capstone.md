@@ -18,7 +18,7 @@
 // Capstone: SaaS Course Platform
 // Menggabungkan semua konsep Next.js
 
-// ── Architecture ──
+// Architecture
 // - Next.js App Router
 // - Prisma + PostgreSQL
 // - NextAuth (Google + Credentials)
@@ -26,13 +26,13 @@
 // - Stripe untuk payments (simulasi)
 // - Vercel deployment
 
-// ── Database Schema ──
+// Database Schema
 // model User { id, email, name, role, courses[] }
 // model Course { id, title, description, price, lessons[] }
 // model Lesson { id, title, content, courseId, order }
 // model Enrollment { id, userId, courseId, progress }
 
-// ── Routes ──
+// Routes
 // / = Landing page
 // /courses = Course catalog
 // /courses/[id] = Course detail
@@ -40,7 +40,7 @@
 // /dashboard = User dashboard
 // /admin = Admin panel (role-based)
 
-// ── app/page.js (Landing) ──
+// app/page.js (Landing)
 export default function LandingPage() {
   const features = [
     { title: "Interactive Learning", desc: "Belajar dengan coding langsung" },
@@ -67,7 +67,7 @@ export default function LandingPage() {
   );
 }
 
-// ── Server Action: Enroll Course ──
+// Server Action: Enroll Course
 // "use server";
 // export async function enrollCourse(courseId) {
 //   const session = await getServerSession();

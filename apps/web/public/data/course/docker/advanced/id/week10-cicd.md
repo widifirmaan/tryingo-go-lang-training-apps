@@ -15,9 +15,9 @@
 ## Program: GitHub Actions
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER CI/CD - GitHub Actions Pipeline
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # File: .github/workflows/docker.yml
 cat << 'EOF' > docker-ci.yml
@@ -75,9 +75,9 @@ jobs:
           ssh user@server "docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest && docker compose up -d"
 EOF
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # GitLab CI Example
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # stages: [test, build, deploy]
 # build:
 #   stage: build
@@ -85,9 +85,9 @@ EOF
 #     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
 #     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # Jenkins Pipeline
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # pipeline {
 #   agent any
 #   stages {

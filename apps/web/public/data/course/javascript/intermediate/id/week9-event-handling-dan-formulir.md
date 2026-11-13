@@ -56,7 +56,7 @@ formulir.addEventListener("submit", function(e) {
 Ketika sebuah tombol di dalam kartu diklik, event tersebut naik ke atas menelusuri elemen induknya seperti gelembung udara:
 
 ```text
-  Button clicked ──► Card parent ──► Grid container ──► Document
+  Button clicked -> Card parent -> Grid container -> Document
 ```
 
 **Event Delegation**: Alih-alih memasang 100 listener pada 100 item daftar, pasang **1 listener saja** pada kontainer induknya:

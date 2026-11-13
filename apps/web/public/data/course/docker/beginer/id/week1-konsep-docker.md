@@ -150,9 +150,9 @@ Pemisahan jelas antara konfigurasi image (Dockerfile) dan orkestrasi runtime (co
 ## Program: Halo, Docker!
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER CONCEPTS - Fundamental Commands
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Check Docker installation
 docker --version

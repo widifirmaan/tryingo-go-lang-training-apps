@@ -18,9 +18,9 @@
 Promise adalah objek yang mewakili hasil akhir dari suatu operasi asinkron yang belum selesai saat ini:
 
 ```text
-                 ┌───► Fulfilled (Sukses: resolve(data)) ──► .then() / await
+                 ┌-> Fulfilled (Sukses: resolve(data)) -> .then() / await
 [ PENDING ] ─────┤
- (Sedang Proses) └───► Rejected (Gagal: reject(error))  ──► .catch() / try-catch
+ (Sedang Proses) └-> Rejected (Gagal: reject(error))  -> .catch() / try-catch
 ```
 
 1. **Pending**: Operasi sedang berlangsung di latar belakang.

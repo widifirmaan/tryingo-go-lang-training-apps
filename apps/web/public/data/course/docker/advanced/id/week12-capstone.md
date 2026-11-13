@@ -15,9 +15,9 @@
 ## Program: Full DevOps Pipeline
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # CAPSTONE: Full Docker Production Pipeline
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Project Structure:
 # my-project/
@@ -34,9 +34,9 @@
 #     ├── deploy.sh
 #     └── backup.sh
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # 1. Multi-Stage Dockerfile
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 cat << 'DOCKERFILE' > Dockerfile.prod
 FROM node:20-alpine AS builder
 WORKDIR /app
@@ -58,9 +58,9 @@ HEALTHCHECK --interval=30s CMD wget --spider http://localhost:3000/health || exi
 CMD ["node", "dist/server.js"]
 DOCKERFILE
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # 2. Docker Compose Production
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 cat << 'COMPOSE' > docker-compose.prod.yml
 version: "3.8"
 services:
@@ -113,9 +113,9 @@ volumes:
   pgdata:
 COMPOSE
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # 3. Deploy Script
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 cat << 'SCRIPT' > scripts/deploy.sh
 #!/bin/bash
 set -e

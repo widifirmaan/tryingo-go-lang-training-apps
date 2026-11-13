@@ -55,7 +55,7 @@ Proyek akhir ini menyatukan:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Studio Mandiri - Portofolio & Layanan</title>
   <style>
-    /* ── 1. VARIABEL TEMA & TOKEN DESAIN ── */
+    /* 1. VARIABEL TEMA & TOKEN DESAIN */
     :root {
       --bg-page: #F8FAF9;
       --bg-surface: #FFFFFF;
@@ -80,7 +80,7 @@ Proyek akhir ini menyatukan:
       --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
 
-    /* ── 2. CSS RESET ── */
+    /* 2. CSS RESET */
     * {
       margin: 0;
       padding: 0;
@@ -95,7 +95,7 @@ Proyek akhir ini menyatukan:
       transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    /* ── 3. NAVBAR STICKY (FLEXBOX) ── */
+    /* 3. NAVBAR STICKY (FLEXBOX) */
     .site-nav {
       position: sticky;
       top: 0;
@@ -137,7 +137,7 @@ Proyek akhir ini menyatukan:
       color: #FFFFFF;
     }
 
-    /* ── 4. HERO SECTION ── */
+    /* 4. HERO SECTION */
     .hero {
       text-align: center;
       padding: clamp(40px, 8vw, 80px) 20px;
@@ -169,7 +169,7 @@ Proyek akhir ini menyatukan:
       margin-bottom: 24px;
     }
 
-    /* ── 5. SERVICES GRID (CSS GRID AUTO-FIT) ── */
+    /* 5. SERVICES GRID (CSS GRID AUTO-FIT) */
     .main-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -208,7 +208,7 @@ Proyek akhir ini menyatukan:
       color: var(--text-muted);
     }
 
-    /* ── 6. PRICING & CONTACT ── */
+    /* 6. PRICING & CONTACT */
     .contact-box {
       background: var(--bg-surface);
       border: 1px solid var(--border-color);
@@ -240,7 +240,7 @@ Proyek akhir ini menyatukan:
       transform: scale(0.98);
     }
 
-    /* ── 7. FOOTER ── */
+    /* 7. FOOTER */
     footer {
       border-top: 1px solid var(--border-color);
       padding: 24px;

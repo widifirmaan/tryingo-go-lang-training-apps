@@ -19,7 +19,7 @@ Flexbox dirancang untuk mendistribusikan ruang dan menyejajarkan item di sepanja
 
 ```text
                   MAIN AXIS (Sumbu Utama: justify-content)
-            ─────────────────────────────────────────────────────►
+            ->
         ┌───┬─────────────────────────────────────────────────┐
         │   │  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐  │
 CROSS   │   │  │  Flex Item 1  │ │  Flex Item 2  │ │  Flex Item 3  │  │

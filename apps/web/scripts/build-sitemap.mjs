@@ -26,7 +26,7 @@ urls.push(`  <url>
     <priority>1.0</priority>
   </url>`);
 
-// 2. Tracks and their modules — real (non-hash) paths, prerendered as static meta pages
+// 2. Tracks and their modules - real (non-hash) paths, prerendered as static meta pages
 for (const slug of tracks) {
   // Track page
   urls.push(`  <url>

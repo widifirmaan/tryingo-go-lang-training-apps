@@ -25,7 +25,7 @@ JavaScript runs on a **Single-Threaded execution model**:
 
 ```text
 ┌─────────────────┐       ┌──────────────────────┐
-│   CALL STACK    │  ──►  │       WEB APIs       │
+│   CALL STACK    │  ->  │       WEB APIs       │
 │ (Active frames) │       │ (Timers, Network)    │
 └────────┬────────┘       └──────────┬───────────┘
          │                           │

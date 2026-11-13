@@ -98,7 +98,7 @@ Berbeda dari transisi yang membutuhkan pemicu interaksi pengguna (seperti `:hove
       justify-content: space-between;
     }
 
-    /* ── 1. ANIMASI SPINNER BERPUTAR ── */
+    /* 1. ANIMASI SPINNER BERPUTAR */
     @keyframes spinCircle {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -113,7 +113,7 @@ Berbeda dari transisi yang membutuhkan pemicu interaksi pengguna (seperti `:hove
       animation: spinCircle 0.8s linear infinite;
     }
 
-    /* ── 2. ANIMASI DENYUT SINYAL (PULSE) ── */
+    /* 2. ANIMASI DENYUT SINYAL (PULSE) */
     @keyframes pulseLive {
       0% {
         transform: scale(0.95);
@@ -146,7 +146,7 @@ Berbeda dari transisi yang membutuhkan pemicu interaksi pengguna (seperti `:hove
       animation: pulseLive 1.8s infinite;
     }
 
-    /* ── 3. ANIMASI MELUNCUR MASUK (SLIDE-IN) ── */
+    /* 3. ANIMASI MELUNCUR MASUK (SLIDE-IN) */
     @keyframes slideInUp {
       0% {
         opacity: 0;

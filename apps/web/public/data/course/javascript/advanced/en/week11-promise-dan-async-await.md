@@ -18,9 +18,9 @@
 A Promise represents the eventual completion or failure of an asynchronous operation:
 
 ```text
-                 ┌───► Fulfilled (Success: resolve(data)) ──► .then() / await
+                 ┌-> Fulfilled (Success: resolve(data)) -> .then() / await
 [ PENDING ] ─────┤
- (Processing)    └───► Rejected (Error: reject(error))   ──► .catch() / try-catch
+ (Processing)    └-> Rejected (Error: reject(error))   -> .catch() / try-catch
 ```
 
 ---

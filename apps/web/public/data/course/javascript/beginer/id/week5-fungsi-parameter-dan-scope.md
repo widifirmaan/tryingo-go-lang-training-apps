@@ -210,7 +210,7 @@ Scope menentukan area kode di mana suatu variabel dapat diakses:
   </div>
 
   <script>
-    // ── PUSTAKA FUNGSI UTILITY (MODULAR & REUSABLE) ──
+    // PUSTAKA FUNGSI UTILITY (MODULAR & REUSABLE)
 
     // 1. Fungsi Arrow: Format Rupiah
     const formatRupiah = (angka) => {
@@ -229,7 +229,7 @@ Scope menentukan area kode di mana suatu variabel dapat diakses:
     // 4. Fungsi Arrow: Hitung Keliling
     const hitungKeliling = (p, l) => 2 * (p + l);
 
-    // ── EKSEKUSI INTEGRASI ──
+    // EKSEKUSI INTEGRASI
     function jalankanKalkulasi() {
       const harga = Number(document.getElementById("input-harga").value);
       const diskon = Number(document.getElementById("input-diskon").value);

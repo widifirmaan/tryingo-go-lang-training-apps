@@ -22,9 +22,9 @@ Program latihan: *"Build & Push Image"*. Jalankan kode di Playground untuk mempe
 ## Program: Build & Push Image
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER IMAGES & REGISTRIES
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Lihat semua image lokal
 docker images

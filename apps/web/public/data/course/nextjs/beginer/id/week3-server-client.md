@@ -25,11 +25,11 @@ Program latihan: *"Kombinasi Komponen"*. Jalankan kode di Playground untuk mempe
 // Next.js App Router: Server Components (default) & Client Components
 // "use client" directive untuk interactive components
 
-// ── Server Component (default) ──
+// Server Component (default)
 // Bisa: fetch data, akses filesystem, API keys (aman)
 // Tidak bisa: useState, useEffect, onClick, browser APIs
 
-// ── app/products/page.js (Server Component) ──
+// app/products/page.js (Server Component)
 export default async function ProductsPage() {
   // Fetch langsung di server component (aman, cepat)
   const products = await fetchProducts();
@@ -51,7 +51,7 @@ async function fetchProducts() {
   ];
 }
 
-// ── components/ProductList.jsx (Server Component) ──
+// components/ProductList.jsx (Server Component)
 function ProductList({ products }) {
   return (
     <ul>
@@ -64,7 +64,7 @@ function ProductList({ products }) {
   );
 }
 
-// ── components/SearchBar.jsx (Client Component) ──
+// components/SearchBar.jsx (Client Component)
 "use client";
 
 import { useState } from "react";

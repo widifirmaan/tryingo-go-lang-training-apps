@@ -560,145 +560,105 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   theme,
   setTheme,
 }) => {
-  const t = translations[lang];
-
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-xs"
+            className="absolute inset-0 bg-black/50 backdrop-blur-xs"
           />
 
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0, y: 10 }}
+            initial={{ scale: 0.95, opacity: 0, y: 10 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 10 }}
+            exit={{ scale: 0.95, opacity: 0, y: 10 }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}
-            className={`relative z-10 w-full max-w-md rounded-3xl p-6 shadow-2xl border transition-colors ${
+            className={`relative z-10 w-full max-w-sm rounded-2xl p-5 shadow-2xl border transition-colors ${
               theme === 'dark' 
                 ? 'bg-[#1E2228] text-white border-zinc-700' 
                 : 'bg-[#FBF9F5] text-zinc-900 border-[#2E5B44]/20'
             }`}
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b pb-4 mb-5 border-zinc-200 dark:border-zinc-700">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#2E5B44] text-white flex items-center justify-center shadow-xs">
-                  <FontAwesomeIcon icon={faGear} className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold font-flpcart leading-tight">
-                    {t.settingsTitle}
-                  </h2>
-                </div>
-              </div>
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-zinc-200 dark:border-zinc-700">
+              <h3 className="text-sm font-bold tracking-tight">
+                {lang === 'id' ? 'Pengaturan' : 'Settings'}
+              </h3>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-zinc-200/60 dark:hover:bg-zinc-700 rounded-full text-zinc-500 dark:text-zinc-400 transition-colors"
+                className="p-1 hover:bg-zinc-200/60 dark:hover:bg-zinc-700 rounded-full text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors"
               >
-                <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
+                <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* 1. Language Option */}
               <div>
-                <label className="text-xs font-black uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2.5 flex items-center gap-1.5">
-                  <FontAwesomeIcon icon={faGlobe} className="w-4 h-4 text-[#2E5B44]" />
-                  <span>{t.languageLabel}</span>
-                </label>
+                <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider block mb-1.5">
+                  {lang === 'id' ? 'Bahasa' : 'Language'}
+                </span>
                 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-1.5 bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl">
                   <button
                     onClick={() => setLang('id')}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between text-left font-bold text-xs ${
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center ${
                       lang === 'id'
-                        ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-md ring-2 ring-[#2E5B44]/30'
-                        : theme === 'dark'
-                          ? 'bg-zinc-800/80 text-zinc-200 border-zinc-700 hover:bg-zinc-800'
-                          : 'bg-white text-zinc-800 border-zinc-200 hover:bg-zinc-50'
+                        ? 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">🇮🇩</span>
-                      <span>Bahasa Indonesia</span>
-                    </div>
-                    {lang === 'id' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
+                    <span>Bahasa Indonesia</span>
                   </button>
 
                   <button
                     onClick={() => setLang('en')}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between text-left font-bold text-xs ${
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center ${
                       lang === 'en'
-                        ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-md ring-2 ring-[#2E5B44]/30'
-                        : theme === 'dark'
-                          ? 'bg-zinc-800/80 text-zinc-200 border-zinc-700 hover:bg-zinc-800'
-                          : 'bg-white text-zinc-800 border-zinc-200 hover:bg-zinc-50'
+                        ? 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">🇺🇸</span>
-                      <span>English (US)</span>
-                    </div>
-                    {lang === 'en' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
+                    <span>English</span>
                   </button>
                 </div>
               </div>
 
               {/* 2. Theme Option */}
               <div>
-                <label className="text-xs font-black uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2.5 flex items-center gap-1.5">
-                  <FontAwesomeIcon icon={faSun} className="w-4 h-4 text-[#2E5B44]" />
-                  <span>{t.themeLabel}</span>
-                </label>
+                <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider block mb-1.5">
+                  {lang === 'id' ? 'Tema' : 'Theme'}
+                </span>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-1.5 bg-zinc-100 dark:bg-zinc-800/80 p-1 rounded-xl">
                   <button
                     onClick={() => setTheme('light')}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between text-left font-bold text-xs ${
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
                       theme === 'light'
-                        ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-md ring-2 ring-[#2E5B44]/30'
-                        : 'bg-zinc-800/80 text-zinc-200 border-zinc-700 hover:bg-zinc-800'
+                        ? 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <FontAwesomeIcon icon={faSun} className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>{t.lightMode}</span>
-                    </div>
-                    {theme === 'light' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
+                    <FontAwesomeIcon icon={faSun} className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Light</span>
                   </button>
 
                   <button
                     onClick={() => setTheme('dark')}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between text-left font-bold text-xs ${
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 ${
                       theme === 'dark'
-                        ? 'bg-[#2E5B44] text-white border-[#2E5B44] shadow-md ring-2 ring-[#2E5B44]/30'
-                        : 'bg-white text-zinc-800 border-zinc-200 hover:bg-zinc-50'
+                        ? 'bg-white dark:bg-zinc-700 text-zinc-900 dark:text-white shadow-xs'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <FontAwesomeIcon icon={faMoon} className="w-4 h-4 text-indigo-400 shrink-0" />
-                      <span>{t.darkMode}</span>
-                    </div>
-                    {theme === 'dark' && <FontAwesomeIcon icon={faCheck} className="w-4 h-4 text-white shrink-0" />}
+                    <FontAwesomeIcon icon={faMoon} className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>Dark</span>
                   </button>
                 </div>
-              </div>
-
-              {/* Close / Apply button */}
-              <div className="pt-2">
-                <button
-                  onClick={onClose}
-                  className="w-full bg-[#2E5B44] hover:bg-[#234735] text-white py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg transition-all active:scale-98"
-                >
-                  <FontAwesomeIcon icon={faCheck} className="w-4 h-4" />
-                  <span>{t.saveSettings}</span>
-                </button>
               </div>
             </div>
           </motion.div>

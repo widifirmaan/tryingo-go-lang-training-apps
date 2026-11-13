@@ -20,7 +20,7 @@
 
 import { useState } from "react";
 
-// ── Higher-Order Component (HOC) ──
+// Higher-Order Component (HOC)
 function withAuth(Component) {
   return function AuthenticatedComponent(props) {
     const isAuthenticated = true; // simulasi
@@ -29,7 +29,7 @@ function withAuth(Component) {
   };
 }
 
-// ── Render Props ──
+// Render Props
 function MouseTracker({ render }) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   return (
@@ -40,7 +40,7 @@ function MouseTracker({ render }) {
   );
 }
 
-// ── Compound Components ──
+// Compound Components
 function Select({ children, value, onChange }) {
   return (
     <div className="select" onClick={() => onChange(value)}>
@@ -52,7 +52,7 @@ Select.Option = function Option({ value, children }) {
   return <div className="option">{children}</div>;
 };
 
-// ── Usage ──
+// Usage
 const ProtectedDashboard = withAuth(function Dashboard() {
   return <h1>Dashboard (Protected)</h1>;
 });

@@ -101,7 +101,7 @@ function extractObjectives(raw) {
 }
 
 // Extract `### SubTopic` blocks from the Key Concepts section.
-// Some generated files embed literal \n inside a single line — normalize those.
+// Some generated files embed literal \n inside a single line - normalize those.
 function extractConcepts(raw) {
   if (!raw) return [];
   const text = raw.replace(/\\n/g, '\n');
@@ -157,7 +157,7 @@ function pickCleanDistractor(snippet, distractors) {
   }) || null;
 }
 
-// Least-leaky single sentence (may still mention the title) — usable only
+// Least-leaky single sentence (may still mention the title) - usable only
 // as a FALSE statement about a different concept (tests discrimination).
 function makeFallbackSentence(sub) {
   const sents = splitSentences(sub.body);
@@ -473,7 +473,7 @@ async function buildQuiz() {
           for (const c of concepts) allConceptTitles[lang].push({ level, week, title: c.title });
           // Alternate-angle prose (analogy, how-it-works, why-it-matters) for
           // concepts whose own definition gives the answer away. Only
-          // explanation sections — never Tantangan/Ringkasan/objectives,
+          // explanation sections - never Tantangan/Ringkasan/objectives,
           // whose link-up/checklist lines would leak quiz scaffolding.
           const altSections = Object.entries(sections)
             .filter(([k]) => /penjelasan|pemula|beginner|analogi|analogy|cara|kenapa|why|how|read|membaca/i.test(k))
@@ -530,7 +530,7 @@ async function buildQuiz() {
             const distractors = pool.slice(0, 3);
 
             // A definition that only describes itself can't form a fair
-            // true-question from its own words — but the same concept told
+            // true-question from its own words - but the same concept told
             // from ANOTHER angle (analogy, how-it-works) can. Otherwise it
             // still works as a FALSE statement about a different concept.
             if (!sub.snippet || sub.snippet.length < 4) {

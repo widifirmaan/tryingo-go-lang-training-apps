@@ -18,7 +18,7 @@
 // Next.js + Database: Prisma ORM
 // Setup, schema, migrations, CRUD operations
 
-// ── prisma/schema.prisma ──
+// prisma/schema.prisma
 // generator client {
 //   provider = "prisma-client-js"
 // }
@@ -42,12 +42,12 @@
 //   authorId  Int
 // }
 
-// ── lib/prisma.js ──
+// lib/prisma.js
 // import { PrismaClient } from "@prisma/client";
 // const prisma = new PrismaClient();
 // export default prisma;
 
-// ── Server Component dengan Prisma ──
+// Server Component dengan Prisma
 // import prisma from "@/lib/prisma";
 
 export default async function UsersPage() {
@@ -76,7 +76,7 @@ async function getUsers() {
   ];
 }
 
-// ── Server Action: Create User ──
+// Server Action: Create User
 // "use server";
 // export async function createUser(formData) {
 //   const name = formData.get("name");

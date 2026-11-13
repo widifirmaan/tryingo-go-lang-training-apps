@@ -15,9 +15,9 @@
 ## Program: Persistent Storage
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER VOLUMES - Data Persistence
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Volume types:
 # 1. Named Volume - dikelola Docker

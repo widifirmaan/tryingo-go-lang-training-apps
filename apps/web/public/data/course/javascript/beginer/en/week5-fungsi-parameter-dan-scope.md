@@ -208,7 +208,7 @@ console.log("Price 100,000 (custom 20% discount)  : $" + applyDiscount(100000, 0
   </div>
 
   <script>
-    // ── PUSTAKA FUNGSI UTILITY (MODULAR & REUSABLE) ──
+    // PUSTAKA FUNGSI UTILITY (MODULAR & REUSABLE)
 
     // 1. Fungsi Arrow: Format Rupiah
     const formatRupiah = (angka) => {
@@ -227,7 +227,7 @@ console.log("Price 100,000 (custom 20% discount)  : $" + applyDiscount(100000, 0
     // 4. Fungsi Arrow: Hitung Keliling
     const hitungKeliling = (p, l) => 2 * (p + l);
 
-    // ── EKSEKUSI INTEGRASI ──
+    // EKSEKUSI INTEGRASI
     function jalankanKalkulasi() {
       const harga = Number(document.getElementById("input-harga").value);
       const diskon = Number(document.getElementById("input-diskon").value);

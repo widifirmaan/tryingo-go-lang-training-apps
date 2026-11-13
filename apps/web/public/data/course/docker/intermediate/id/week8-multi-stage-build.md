@@ -15,9 +15,9 @@
 ## Program: Optimized Image
 
 ```dockerfile
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # MULTI-STAGE BUILD - Optimized Production Image
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # File: Dockerfile (Node.js App)
 # Stage 1: Build
@@ -46,9 +46,9 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s CMD wget --spider http://localhost:3000/health || exit 1
 CMD ["node", "dist/server.js"]
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # File: Dockerfile (Go App)
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # Stage 1: Build
 FROM golang:1.22-alpine AS builder
 WORKDIR /app
@@ -64,9 +64,9 @@ EXPOSE 8080
 USER nonroot:nonroot
 ENTRYPOINT ["/server"]
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # File: Dockerfile (Python App)
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # Stage 1: Build
 FROM python:3.12-slim AS builder
 WORKDIR /app
@@ -84,9 +84,9 @@ USER appuser
 EXPOSE 8000
 CMD ["python", "app.py"]
 
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # Build & Compare
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # docker build -t myapp:single -f Dockerfile.single .
 # docker build -t myapp:multi -f Dockerfile .
 # docker images | grep myapp

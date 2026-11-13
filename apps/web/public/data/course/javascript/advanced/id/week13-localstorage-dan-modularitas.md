@@ -216,7 +216,7 @@ Di proyek ES Modules multi-file, gunakan sintaks `export`/`import` dengan `<scri
   </div>
 
   <script>
-    // ── MODUL PENYIMPANAN DATA (STORAGE HELPER) ──
+    // MODUL PENYIMPANAN DATA (STORAGE HELPER)
     const STORAGE_KEY = "tryngo_user_notes";
 
     function ambilSemuaDariStorage() {
@@ -228,7 +228,7 @@ Di proyek ES Modules multi-file, gunakan sintaks `export`/`import` dengan `<scri
       localStorage.setItem(STORAGE_KEY, JSON.stringify(dataArray));
     }
 
-    // ── KONTROLER APLIKASI UTAMA ──
+    // KONTROLER APLIKASI UTAMA
     let daftarCatatan = ambilSemuaDariStorage();
 
     function renderCatatan() {

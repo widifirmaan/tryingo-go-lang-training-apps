@@ -18,7 +18,7 @@
 // Next.js Middleware = jalan sebelum request selesai
 // Untuk auth, redirect, rewrite, headers
 
-// ── middleware.js (root) ──
+// middleware.js (root)
 // import { NextResponse } from "next/server";
 // import { cookies } from "next/headers";
 
@@ -41,7 +41,7 @@
 //   matcher: ["/dashboard/:path*", "/profile/:path*", "/login"],
 // };
 
-// ── Auth Context (Client) ──
+// Auth Context (Client)
 "use client";
 
 import { createContext, useContext, useState } from "react";
@@ -71,7 +71,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-// ── Protected Component ──
+// Protected Component
 function ProtectedPage() {
   const { user } = useAuth();
 

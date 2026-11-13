@@ -18,7 +18,7 @@
 // Advanced Auth: NextAuth.js (Auth.js), OAuth, Sessions
 // Security: CSRF, XSS, rate limiting
 
-// ── Setup NextAuth (app/api/auth/[...nextauth]/route.js) ──
+// Setup NextAuth (app/api/auth/[...nextauth]/route.js)
 // import NextAuth from "next-auth";
 // import GoogleProvider from "next-auth/providers/google";
 // import CredentialsProvider from "next-auth/providers/credentials";
@@ -45,14 +45,14 @@
 // });
 // export { handler as GET, handler as POST };
 
-// ── Auth Provider ──
+// Auth Provider
 // "use client";
 // import { SessionProvider } from "next-auth/react";
 // export function Providers({ children }) {
 //   return <SessionProvider>{children}</SessionProvider>;
 // }
 
-// ── Protected Server Component ──
+// Protected Server Component
 // import { getServerSession } from "next-auth";
 // import { redirect } from "next/navigation";
 
@@ -72,7 +72,7 @@ export default async function Dashboard() {
   );
 }
 
-// ── Security Headers (next.config.js) ──
+// Security Headers (next.config.js)
 // const securityHeaders = [
 //   { key: "X-Frame-Options", value: "DENY" },
 //   { key: "X-Content-Type-Options", value: "nosniff" },

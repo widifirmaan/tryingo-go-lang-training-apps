@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Code-verified quiz questions (v2): trace-output + find-the-bug for JS/Python.
 // Every emitted question is VERIFIED BY EXECUTION at build time. Anything that
-// fails verification is silently skipped — never emit an unverified question.
+// fails verification is silently skipped - never emit an unverified question.
 // Deterministic: shuffling uses the caller's seeded rng.
 // ─────────────────────────────────────────────────────────────────────────────
 import { execSync } from 'child_process';

@@ -25,12 +25,12 @@ Practice program: *"CSS & Images"*. Run the code in the Playground to examine ho
 // Next.js: styling dan optimasi built-in
 // CSS Modules, Tailwind, Image optimization, Font optimization
 
-// ── CSS Modules (ProductCard.module.css) ──
+// CSS Modules (ProductCard.module.css)
 // .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; }
 // .title { font-size: 1.25rem; font-weight: bold; }
 // .price { color: #2E5B44; font-weight: 600; }
 
-// ── components/ProductCard.jsx ──
+// components/ProductCard.jsx
 // import styles from "./ProductCard.module.css";
 
 function ProductCard({ product }) {
@@ -46,7 +46,7 @@ function ProductCard({ product }) {
   );
 }
 
-// ── app/products/page.js ──
+// app/products/page.js
 export default function ProductsPage() {
   const products = [
     { id: 1, name: "Laptop", price: 15000000 },
@@ -66,7 +66,7 @@ export default function ProductsPage() {
   );
 }
 
-// ── Font Optimization (app/layout.js) ──
+// Font Optimization (app/layout.js)
 // import { Inter } from "next/font/google";
 // const inter = Inter({ subsets: ["latin"] });
 // <body className={inter.className}>

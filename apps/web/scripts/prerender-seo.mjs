@@ -8,7 +8,7 @@ const COURSE_DIR = path.join(__dirname, '../public/data/course');
 const CANON = 'https://tryngo.widifirmaan.web.id';
 
 const META = {
-  html5: ['HTML5 Semantic Web', 'Belajar HTML5 dari nol: markup semantik, aksesibilitas, dan membangun Corporate Web Portal yang SEO-friendly.'],
+  html5: ['HTML5 Semantic Web', 'Panduan HTML5: markup semantik, aksesibilitas, dan membangun Corporate Web Portal yang SEO-friendly.'],
   css3: ['Modern CSS3 & Design Systems', 'Kuasai Flexbox, CSS Grid, Custom Properties, dan responsive E-Commerce Design System.'],
   tailwind: ['Tailwind CSS Modern Styling', 'Utility-first styling untuk membangun SaaS Landing Page dan Analytics Dashboard modern.'],
   javascript: ['JavaScript Deep Dive', 'Fondasi JavaScript ES6+, DOM manipulation, async event loop, dan build Interactive Kanban Board.'],
@@ -63,7 +63,7 @@ function writePage(urlPath, html) {
 let count = 0;
 for (const [slug, [name, desc]] of Object.entries(META)) {
   const trackMeta = renderPage({
-    title: `Belajar ${name} — Kurikulum Interaktif + Playground | Tryngo`,
+    title: `Belajar ${name} - Kurikulum Interaktif + Playground | Tryngo`,
     desc,
     urlPath: `/course/${slug}`,
   });

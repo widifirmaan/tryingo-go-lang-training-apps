@@ -15,9 +15,9 @@
 ## Program: Kubernetes Basics
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # KUBERNETES ORCHESTRATION - Basics
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Kubernetes Concepts:
 # Pod = smallest unit (1+ containers)

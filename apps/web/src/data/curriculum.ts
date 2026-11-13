@@ -20,7 +20,7 @@ const DEFAULT_CURRICULUM: LevelInfo[] = [
     levelId: 'beginer',
     nameId: 'Pemula',
     nameEn: 'Beginner',
-    descId: 'Tidak perlu pengalaman coding. Mulai dari nol.',
+    descId: 'Tidak perlu pengalaman coding. Mulai dari dasar.',
     descEn: 'No coding experience needed. Start from zero.',
     weeks: [
       { week: 1, topicId: 'pengenalan', titleId: 'Pengenalan & Persiapan Lingkungan', titleEn: 'Introduction & Environment Setup' },

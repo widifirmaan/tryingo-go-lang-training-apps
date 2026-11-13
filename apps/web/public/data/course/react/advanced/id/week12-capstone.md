@@ -21,11 +21,11 @@
 import { useState, useReducer, createContext, useContext, useMemo } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-// ── Types ──
+// Types
 // Product: { id, name, price, image, category }
 // CartItem: { product, quantity }
 
-// ── Cart Context ──
+// Cart Context
 const CartContext = createContext(null);
 
 function cartReducer(state, action) {
@@ -67,7 +67,7 @@ function useCart() {
   return useContext(CartContext);
 }
 
-// ── Components ──
+// Components
 function ProductCard({ product }) {
   const { dispatch } = useCart();
   return (

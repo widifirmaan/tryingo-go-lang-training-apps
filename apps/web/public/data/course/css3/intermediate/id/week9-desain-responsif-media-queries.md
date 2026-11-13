@@ -20,7 +20,7 @@ Pendekatan **Mobile-First** berarti menulis CSS dasar di luar media query untuk 
 ```text
 Alur Mobile-First:
 ┌─────────────────┐       ┌───────────────────────┐       ┌────────────────────────────────┐
-│ Layar Ponsel    │  ──►  │ Tablet (@media 768px) │  ──►  │ Layar Desktop (@media 1024px) │
+│ Layar Ponsel    │  ->  │ Tablet (@media 768px) │  ->  │ Layar Desktop (@media 1024px) │
 │ 1 Kolom Ringkas │       │ 2 Kolom Berdampingan  │       │ 3-4 Kolom Penuh                │
 └─────────────────┘       └───────────────────────┘       └────────────────────────────────┘
 ```

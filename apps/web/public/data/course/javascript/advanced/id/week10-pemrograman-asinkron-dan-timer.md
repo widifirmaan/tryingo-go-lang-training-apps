@@ -25,7 +25,7 @@ Secara default, JavaScript berjalan pada **satu thread tunggal (Single-Threaded)
 
 ```text
 ┌─────────────────┐       ┌──────────────────────┐
-│   CALL STACK    │  ──►  │       WEB APIs       │
+│   CALL STACK    │  ->  │       WEB APIs       │
 │ (Eksekusi Kode) │       │ (Timer, Fetch, Event)│
 └────────┬────────┘       └──────────┬───────────┘
          │                           │

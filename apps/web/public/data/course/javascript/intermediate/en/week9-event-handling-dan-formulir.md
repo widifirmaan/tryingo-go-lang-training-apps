@@ -54,7 +54,7 @@ form.addEventListener("submit", (e) => {
 Events trigger on child elements then propagate upward through parent ancestor nodes:
 
 ```text
-  Button click ──► Card parent ──► Grid container ──► Document
+  Button click -> Card parent -> Grid container -> Document
 ```
 
 **Event Delegation**: Attach **a single listener** to the parent container rather than binding hundreds of redundant listeners to child items:

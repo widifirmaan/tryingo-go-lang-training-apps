@@ -41,7 +41,7 @@ Proyek ini menyatukan seluruh pilar JavaScript:
 ## 3. Alur Data Satu Arah (Unidirectional Data Flow)
 
 ```text
-[ User Action / Event ] ──► [ Update State (Array Objek) ]
+[ User Action / Event ] -> [ Update State (Array Objek) ]
                                       │
                ┌──────────────────────┴──────────────────────┐
                ▼                                             ▼
@@ -260,7 +260,7 @@ Dengan memisahkan state data dari elemen HTML di layar, kode menjadi sangat muda
   </div>
 
   <script>
-    // ── 1. MODUL STORAGE PERSISTENSI ──
+    // 1. MODUL STORAGE PERSISTENSI
     const KEY_STORAGE = "tryngo_capstone_tasks";
 
     function loadState() {
@@ -280,10 +280,10 @@ Dengan memisahkan state data dari elemen HTML di layar, kode menjadi sangat muda
       localStorage.setItem(KEY_STORAGE, JSON.stringify(data));
     }
 
-    // ── 2. SINGLE SOURCE OF TRUTH (STATE) ──
+    // 2. SINGLE SOURCE OF TRUTH (STATE)
     let appState = loadState();
 
-    // ── 3. RENDER FUNCTION (UNIDIRECTIONAL UI) ──
+    // 3. RENDER FUNCTION (UNIDIRECTIONAL UI)
     function renderApp() {
       const listView = document.getElementById("task-list-view");
       const searchQuery = document.getElementById("search-input").value.toLowerCase();
@@ -318,7 +318,7 @@ Dengan memisahkan state data dari elemen HTML di layar, kode menjadi sangat muda
       `).join("");
     }
 
-    // ── 4. AKSI PENGUBAH STATE (MUTATORS) ──
+    // 4. AKSI PENGUBAH STATE (MUTATORS)
     document.getElementById("add-form").addEventListener("submit", function(e) {
       e.preventDefault();
       const titleInput = document.getElementById("title-input");

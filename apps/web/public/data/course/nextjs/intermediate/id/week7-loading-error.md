@@ -18,7 +18,7 @@
 // Next.js: Loading UI, Error Handling, Not Found
 // File conventions: loading.js, error.js, not-found.js
 
-// ── app/products/loading.js ──
+// app/products/loading.js
 // Tampil saat halaman/products loading
 export default function Loading() {
   return (
@@ -30,7 +30,7 @@ export default function Loading() {
   );
 }
 
-// ── app/products/error.js ──
+// app/products/error.js
 // "use client"; // error.js harus Client Component
 // Error boundary untuk halaman
 "use client";
@@ -45,7 +45,7 @@ export default function Error({ error, reset }) {
   );
 }
 
-// ── app/products/not-found.js ──
+// app/products/not-found.js
 export default function NotFound() {
   return (
     <div>
@@ -56,7 +56,7 @@ export default function NotFound() {
   );
 }
 
-// ── app/products/[id]/page.js ──
+// app/products/[id]/page.js
 import { notFound } from "next/navigation";
 
 export default async function ProductDetail({ params }) {

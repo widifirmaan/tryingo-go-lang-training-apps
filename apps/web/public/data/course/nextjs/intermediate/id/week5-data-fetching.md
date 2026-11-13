@@ -18,7 +18,7 @@
 // Next.js Data Fetching: fetch di Server Component
 // Caching, Revalidation, dan Suspense
 
-// ── app/posts/page.js ──
+// app/posts/page.js
 export default async function PostsPage() {
   // Fetch langsung di Server Component (auto cached)
   const posts = await fetchPosts();
@@ -52,7 +52,7 @@ async function fetchPosts() {
   ];
 }
 
-// ── Fetch dengan revalidate ──
+// Fetch dengan revalidate
 async function fetchProducts() {
   const res = await fetch("https://api.example.com/products", {
     next: { revalidate: 60 }, // revalidate setiap 60 detik
@@ -60,7 +60,7 @@ async function fetchProducts() {
   return res.json();
 }
 
-// ── Fetch tanpa cache ──
+// Fetch tanpa cache
 async function fetchLiveData() {
   const res = await fetch("https://api.example.com/live", {
     cache: "no-store",
@@ -68,7 +68,7 @@ async function fetchLiveData() {
   return res.json();
 }
 
-// ── Parallel Data Fetching ──
+// Parallel Data Fetching
 export default async function Dashboard() {
   const [users, products] = await Promise.all([
     fetchUsers(),

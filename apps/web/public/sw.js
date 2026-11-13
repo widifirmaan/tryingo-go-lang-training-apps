@@ -1,4 +1,4 @@
-/* Tryngo service worker — offline runtime caching (no precache manifest). */
+/* Tryngo service worker - offline runtime caching (no precache manifest). */
 const VERSION = 'v1';
 const STATIC_CACHE = `tryngo-static-${VERSION}`;
 const DATA_CACHE = `tryngo-data-${VERSION}`;
@@ -65,7 +65,7 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith('/wasm/')) return; // 38 MB — don't cache
+  if (url.pathname.startsWith('/wasm/')) return; // 38 MB - don't cache
 
   if (request.mode === 'navigate') {
     event.respondWith(networkFirstNav(request));

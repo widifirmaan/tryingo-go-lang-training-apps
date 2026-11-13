@@ -20,7 +20,7 @@ The **Mobile-First** approach dictates defining baseline CSS outside media queri
 ```text
 Mobile-First Flow:
 ┌─────────────────┐       ┌───────────────────────┐       ┌────────────────────────────────┐
-│ Mobile Screen   │  ──►  │ Tablet (@media 768px) │  ──►  │ Desktop Viewport (@media 1024px│
+│ Mobile Screen   │  ->  │ Tablet (@media 768px) │  ->  │ Desktop Viewport (@media 1024px│
 │ 1-Column Stack  │       │ 2-Column Split        │       │ 3-4 Column Matrix              │
 └─────────────────┘       └───────────────────────┘       └────────────────────────────────┘
 ```

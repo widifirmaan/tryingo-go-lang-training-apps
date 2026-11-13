@@ -128,7 +128,7 @@ Captures all desktop (1440x900) and mobile (390x844) viewport states directly fr
 ```bash
 node scripts/capture_tryngo_screenshots.js
 ```
-*Built with rendering delays (`4000ms – 7000ms`) ensuring Monaco editor instances, WebAssembly runtimes, and layout transitions settle before capturing.*
+*Built with rendering delays (`4000ms - 7000ms`) ensuring Monaco editor instances, WebAssembly runtimes, and layout transitions settle before capturing.*
 
 ---
 

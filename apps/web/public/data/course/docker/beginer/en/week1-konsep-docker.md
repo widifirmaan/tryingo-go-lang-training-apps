@@ -150,9 +150,9 @@ Clean separation between image recipes (Dockerfile) and runtime topology (compos
 ## Program: Hello, Docker!
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER CONCEPTS - Fundamental Commands
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # Check Docker installation
 docker --version

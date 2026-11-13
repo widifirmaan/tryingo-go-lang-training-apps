@@ -18,7 +18,7 @@
 // Server Actions = async functions yang jalan di server
 // Untuk form submission, mutations, database operations
 
-// ── Server Action (dalam Server Component) ──
+// Server Action (dalam Server Component)
 // "use server";
 // async function createPost(formData) {
 //   const title = formData.get("title");
@@ -26,7 +26,7 @@
 //   revalidatePath("/posts");
 // }
 
-// ── app/posts/create/page.js ──
+// app/posts/create/page.js
 export default function CreatePostPage() {
   return (
     <div>
@@ -40,7 +40,7 @@ export default function CreatePostPage() {
   );
 }
 
-// ── Client Component dengan Server Action ──
+// Client Component dengan Server Action
 // "use client";
 // import { useFormStatus } from "react-dom";
 // import { createPost } from "./actions";
@@ -50,7 +50,7 @@ export default function CreatePostPage() {
 //   return <button disabled={pending}>{pending ? "Menyimpan..." : "Simpan"}</button>;
 // }
 
-// ── Actions (app/posts/actions.js) ──
+// Actions (app/posts/actions.js)
 // "use server";
 // import { revalidatePath } from "next/cache";
 // import { redirect } from "next/navigation";
@@ -62,7 +62,7 @@ export default function CreatePostPage() {
 //   redirect("/posts");
 // }
 
-// ── Optimistic Update ──
+// Optimistic Update
 // "use client";
 // import { useOptimistic } from "react";
 // function Messages({ messages }) {

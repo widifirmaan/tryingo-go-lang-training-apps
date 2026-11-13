@@ -7,7 +7,7 @@ export const golangCurriculum: LevelInfo[] = [
     levelId: 'beginer',
     nameId: 'Pemula',
     nameEn: 'Beginner',
-    descId: 'Dari nol: toolchain, sintaks, tipe data, fungsi, koleksi, struct - urutan resmi Go Tour.',
+    descId: 'Toolchain, sintaks, tipe data, fungsi, koleksi, struct - urutan resmi Go Tour.',
     descEn: 'From scratch: toolchain, syntax, types, functions, collections, structs - official Go Tour order.',
     weeks: [
       { week: 1, topicId: 'setup-dan-sintaks', titleId: 'Setup, Toolchain & Sintaks Dasar', titleEn: 'Setup, Toolchain & Basic Syntax' },

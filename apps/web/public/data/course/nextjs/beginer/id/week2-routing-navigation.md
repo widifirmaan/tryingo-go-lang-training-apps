@@ -25,7 +25,7 @@ Program latihan: *"Multi-Halaman"*. Jalankan kode di Playground untuk mempelajar
 // Next.js App Router = file-based routing
 // Link component untuk client-side navigation
 
-// ── app/layout.js ──
+// app/layout.js
 export default function RootLayout({ children }) {
   return (
     <html lang="id">
@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
   );
 }
 
-// ── app/products/page.js ──
+// app/products/page.js
 export default function ProductsPage() {
   const products = [
     { id: 1, name: "Laptop", price: 15000000 },
@@ -65,7 +65,7 @@ export default function ProductsPage() {
   );
 }
 
-// ── app/products/[id]/page.js ──
+// app/products/[id]/page.js
 export default function ProductDetail({ params }) {
   const { id } = params;
   const products = {

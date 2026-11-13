@@ -19,7 +19,7 @@ Flexbox distributes spatial allocations along **one single dimension** (either a
 
 ```text
                   MAIN AXIS (Direction: justify-content)
-            ─────────────────────────────────────────────────────►
+            ->
         ┌───┬─────────────────────────────────────────────────┐
         │   │  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐  │
 CROSS   │   │  │  Flex Item 1  │ │  Flex Item 2  │ │  Flex Item 3  │  │

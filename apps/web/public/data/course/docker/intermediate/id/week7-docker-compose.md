@@ -15,9 +15,9 @@
 ## Program: Multi-Container App
 
 ```bash
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 # DOCKER COMPOSE - Multi-Container Orchestration
-# ─────────────────────────────────────────────────────────
+# ----------------------------─
 
 # File: docker-compose.yml
 cat << 'EOF' > docker-compose.yml
