@@ -589,7 +589,7 @@ ${isId ? 'Konten untuk modul ini belum tersedia.' : 'Content for this module is 
             ),
           }}
         >
-          {content}
+          {content?.trim()}
         </ReactMarkdown>
       </div>
     </motion.div>

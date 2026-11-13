@@ -70,6 +70,15 @@
   color: #e2e8f0;
 }
 
+/* Ensure no excess top margin on the very first element in lesson */
+.lesson-body > :first-child,
+.lesson-body h2:first-child,
+.lesson-body h3:first-child,
+.lesson-body p:first-child,
+.lesson-body blockquote:first-child {
+  margin-top: 0 !important;
+}
+
 /* Headings */
 .lesson-body h2 {
   font-size: 1.5rem;
