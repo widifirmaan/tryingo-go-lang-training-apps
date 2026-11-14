@@ -45,7 +45,7 @@ Tryngo is an open-source, client-side interactive learning platform offering 28 
 - **Instant Fuzzy Search**: Typo-tolerant search across all tracks, materials, and concepts powered by Fuse.js.
 - **Bilingual Support**: Instant toggle between Bahasa Indonesia and English.
 - **Local Progress Tracking**: Auto-saved progress for completed weeks and quiz results (zero-login required).
-- **Responsive Neo-Brutalist Design**: Tactile interface optimized for desktop and mobile with dark and light mode.
+- **Responsive Modern UI**: Clean interface optimized for desktop and mobile with dark and light mode.
 
 ---
 
