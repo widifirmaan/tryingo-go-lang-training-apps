@@ -2,7 +2,7 @@
 
 > Code made easy, with in-browser playgrounds and interactive quizzes.
 
-Tryngo is an open-source, client-side interactive learning platform offering 28 structured curricula across programming languages, web frameworks, and databases in Indonesian and English with zero login required.
+Tryngo is an open-source, 100% client-side interactive learning platform featuring 28 structured curricula (332 weekly modules) across modern frontend, backend, database, and DevOps technologies with in-browser WebAssembly runtimes, 7,332 quiz questions, and zero login required.
 
 [![Live Demo](https://img.shields.io/badge/Demo-tryngo.widifirmaan.web.id-10B981?style=for-the-badge&logo=cloudflare&logoColor=white)](https://tryngo.widifirmaan.web.id)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -37,31 +37,32 @@ Tryngo is an open-source, client-side interactive learning platform offering 28 
 
 ## Features
 
-- **28 Stack**: Comprehensive learning tracks covering Frontend, Backend, Systems, Mobile, DevOps, and Databases.
-- **Playground Every Stack**: Interactive in-browser coding environments (Embed StackBlitz WebContainers, Client-Side WebAssembly, Dedicated REPL, and Live Previews).
-- **Step by Step Learning**: Structured roadmap from Beginner to Advanced with weekly modules and hands-on exercises.
-- **7,000+ Quiz Questions**: Practice quizzes across every stack with instant scoring, feedback, and progress retention.
-- **Embedded Monaco Editor**: Visual Studio Code editing experience in the browser with syntax highlighting, autocomplete, and code folding.
-- **Instant Fuzzy Search**: Typo-tolerant search across all tracks, materials, and concepts powered by Fuse.js.
-- **Bilingual Support**: Instant toggle between Bahasa Indonesia and English.
-- **Local Progress Tracking**: Auto-saved progress for completed weeks and quiz results (zero-login required).
-- **Responsive Modern UI**: Clean interface optimized for desktop and mobile with dark and light mode.
+- **28 Learning Tracks (332 Modules)**: Structured roadmaps spanning Frontend, Backend, Databases, and DevOps divided into Beginner, Intermediate, and Advanced tiers.
+- **Dedicated In-Browser Runtimes**: Zero-setup interactive coding environments powered by WebAssembly (Yaegi & TinyGo for Go, Pyodide for Python, php-wasm for PHP, ruby-wasm for Ruby, sql.js for SQL), StackBlitz WebContainers (Node, Next, Nest, Angular, Django, Spring Boot), and live HTML/CSS previews.
+- **7,332 Interactive Quiz Questions**: Comprehensive knowledge checks across all 332 modules with instant scoring, answer explanations, and progress retention.
+- **Embedded Monaco Editor**: Full VS Code-grade editing experience directly in the browser with syntax highlighting, line numbers, autocomplete, and code folding.
+- **Resizable Split-Screen Workspace**: Smooth desktop split-pane interface allowing learners to adjust the width between lesson reading material and live code playground.
+- **Fullscreen IDE Modal**: Standalone coding workspace modal for distraction-free coding, experimentation, and testing.
+- **Full Bilingual Content (ID & EN)**: Instant toggle between Bahasa Indonesia and English across all 332 lesson modules, quizzes, and UI elements (664 indexed markdown files).
+- **Instant Typo-Tolerant Search (`Cmd/Ctrl + K`)**: Lightning-fast fuzzy search indexing 664 lesson files powered by Fuse.js with global keyboard shortcut navigation.
+- **100% Client-Side & Zero Login**: All progress tracking, quiz scores, and settings persist securely in the browser's `localStorage`—no account creation, no tracking, and no external server dependency.
+- **Dark & Light Theme**: Polished interface with smooth transitions and persistent theme preferences.
 
 ---
 
 ## Tech Stack
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend Framework** | React 19 + Vite 6 |
-| **Styling & Design** | Tailwind CSS 4 |
-| **Language** | TypeScript 5.8 |
-| **Animations** | Motion |
-| **Code Editor** | Monaco Editor |
-| **Go Code Engine** | Yaegi + WebAssembly |
-| **Web Sandbox** | StackBlitz SDK + WebContainers |
-| **Fuzzy Search** | Fuse.js |
-| **Deployment** | Cloudflare Pages |
+| Category | Technologies | Purpose |
+| :--- | :--- | :--- |
+| **Core Framework** | React 19, TypeScript 5.8, Vite 6 | Modern SPA foundation with fast HMR and type safety |
+| **Styling & Motion** | Tailwind CSS v4, Motion (Framer Motion v12) | Utility-first responsive design, dark mode & fluid animations |
+| **Code Editor & UI** | Monaco Editor (`@monaco-editor/react`), Lucide React, FontAwesome SVG | VS Code web editing experience and crisp vector icons |
+| **WebAssembly Engines** | Yaegi + TinyGo (Go), Pyodide (Python), php-wasm (PHP), ruby-head-wasm (Ruby), sql.js (SQLite) | Real language execution 100% inside the browser |
+| **Full-Stack Sandboxes** | StackBlitz SDK + WebContainers | In-browser Node.js runtime for Next.js, NestJS, Angular, Django & Spring Boot |
+| **Query & Content** | GraphQL.js, React-Markdown, Remark GFM | In-browser GraphQL AST execution and GitHub Flavored Markdown rendering |
+| **Search & Indexing** | Fuse.js (664 documents pre-indexed) | Client-side fuzzy search with typo tolerance |
+| **Testing & Quality** | Vitest (100% pass unit test suite), TypeScript compiler (`tsc --noEmit`) | Test-driven reliability and type validation |
+| **Deployment & SEO** | Cloudflare Pages + Custom Prerender Generator | Fast global edge delivery with static HTML route prerendering |
 
 ---
 
@@ -69,34 +70,34 @@ Tryngo is an open-source, client-side interactive learning platform offering 28 
 
 | Track | Weeks | Execution Runtime |
 |---|:---:|---|
-| **Go (Golang)** | 13 | In-Browser WebAssembly (Yaegi) |
-| **HTML5** | 14 | In-Browser HTML Sandbox |
-| **CSS3** | 14 | CSS Live Preview |
-| **JavaScript** | 14 | Browser JS Runtime |
-| **Angular** | 14 | WebContainers / StackBlitz |
-| **Rust** | 14 | Rust Playground API |
-| **Spring Boot** | 14 | Interactive Spring Sandbox |
-| **React** | 12 | Client-Side React/Babel Runner |
-| **Next.js** | 12 | WebContainers / StackBlitz |
-| **TypeScript** | 12 | Monaco Editor Sandbox |
-| **Python** | 12 | Client-Side Python Sandbox |
-| **Django** | 12 | Python Web Framework Sandbox |
-| **Docker** | 12 | Interactive Docker Terminal |
-| **Node.js** | 12 | WebContainers / StackBlitz |
-| **NestJS** | 12 | WebContainers / StackBlitz |
-| **Vue** | 12 | Client-Side Vue 3 Runner |
-| **PHP** | 12 | In-Browser PHP Playground |
-| **Laravel** | 12 | In-Browser PHP Playground |
-| **C# (.NET)** | 12 | Monaco C# Sandbox |
-| **Ruby on Rails** | 12 | In-Browser Ruby Sandbox |
-| **Svelte** | 10 | Client-Side Svelte Runner |
-| **CodeIgniter 4** | 10 | In-Browser PHP Playground |
-| **PostgreSQL** | 10 | Client-Side SQL Engine |
-| **MySQL** | 10 | Client-Side SQL Engine |
-| **MongoDB** | 10 | Document Store Sandbox |
-| **Redis** | 10 | In-Memory CLI Sandbox |
-| **GraphQL** | 10 | Interactive GraphQL Runner |
-| **Tailwind CSS** | 9 | Tailwind JIT Engine |
+| **Go (Golang)** | 13 | In-Browser WebAssembly (Yaegi & TinyGo) |
+| **HTML5** | 14 | In-Browser Live HTML Preview |
+| **CSS3** | 14 | In-Browser Live CSS Preview |
+| **JavaScript** | 14 | Browser JS V8 Runtime |
+| **Angular** | 14 | StackBlitz WebContainers |
+| **Rust** | 14 | Rust Playground Official API |
+| **Spring Boot** | 14 | StackBlitz WebContainers (Maven & Java Starter) |
+| **React** | 12 | Client-Side React / Babel Runner |
+| **Next.js** | 12 | StackBlitz WebContainers |
+| **TypeScript** | 12 | Monaco Editor TypeScript Engine |
+| **Python** | 12 | Pyodide WebAssembly (Wasm) |
+| **Django** | 12 | StackBlitz WebContainers |
+| **Docker** | 12 | Interactive Client-Side CLI Simulator |
+| **Node.js** | 12 | StackBlitz WebContainers |
+| **NestJS** | 12 | StackBlitz WebContainers |
+| **Vue** | 12 | Client-Side Vue 3 SFC Runner |
+| **PHP** | 12 | php-wasm WebAssembly (Wasm) |
+| **Laravel** | 12 | php-wasm WebAssembly (Wasm) |
+| **C# (.NET)** | 12 | Procedural C# AST Interpreter |
+| **Ruby on Rails** | 12 | ruby-wasm WebAssembly (Wasm) |
+| **Svelte** | 10 | Client-Side Svelte 5 Runner |
+| **CodeIgniter 4** | 10 | php-wasm WebAssembly (Wasm) |
+| **PostgreSQL** | 10 | sql.js WebAssembly (SQLite Relational Schema) |
+| **MySQL** | 10 | sql.js WebAssembly (SQLite Relational Schema) |
+| **MongoDB** | 10 | In-Memory Document Store Engine |
+| **Redis** | 10 | In-Memory CLI Command Parser |
+| **GraphQL** | 10 | GraphQL.js Client-Side AST Executor |
+| **Tailwind CSS** | 9 | Tailwind Play / JIT Engine |
 
 ---
 
