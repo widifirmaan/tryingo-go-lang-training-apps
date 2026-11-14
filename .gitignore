@@ -11,3 +11,13 @@ dist/
 .DS_Store
 Thumbs.db
 .wrangler/
+
+# AI artifacts & scratch files
+AI_GUIDANCE.md
+AGENTS.md
+task.md
+CHECKLIST_*.md
+.agents/
+.gemini/
+.claude/
+.cursor/
