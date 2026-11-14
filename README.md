@@ -69,34 +69,34 @@ Tryngo is an open-source, client-side interactive learning platform offering 28 
 
 | Track | Weeks | Execution Runtime |
 |---|:---:|---|
-| **Go (Golang)** | 14 | In-Browser WebAssembly (Yaegi) |
-| **React** | 16 | WebContainers / StackBlitz |
-| **Next.js** | 16 | WebContainers / StackBlitz |
-| **TypeScript** | 16 | Monaco Editor Sandbox |
-| **JavaScript** | 16 | Browser JS Runtime |
+| **Go (Golang)** | 13 | In-Browser WebAssembly (Yaegi) |
 | **HTML5** | 14 | In-Browser HTML Sandbox |
 | **CSS3** | 14 | CSS Live Preview |
-| **Tailwind CSS** | 9 | Tailwind JIT Engine |
-| **Python** | 18 | Client-side Python WASM |
-| **Django** | 18 | Python Runtime Sandbox |
-| **Docker** | 16 | Interactive Docker Terminal |
-| **Node.js** | 16 | WebContainers Sandbox |
-| **NestJS** | 16 | WebContainers Sandbox |
+| **JavaScript** | 14 | Browser JS Runtime |
+| **Angular** | 14 | WebContainers / StackBlitz |
 | **Rust** | 14 | Rust Playground API |
-| **Vue** | 16 | WebContainers Sandbox |
-| **Svelte** | 16 | WebContainers Sandbox |
-| **Angular** | 16 | WebContainers Sandbox |
-| **PHP** | 16 | Browser PHP Playground |
-| **Laravel** | 20 | Browser PHP Playground |
-| **CodeIgniter 4** | 12 | Browser PHP Playground |
-| **Spring Boot** | 16 | WebContainers Sandbox |
-| **C# (.NET)** | 16 | Monaco C# Sandbox |
-| **Ruby on Rails** | 16 | Interactive Ruby Sandbox |
-| **PostgreSQL** | 16 | Client-side SQL Engine |
-| **MySQL** | 16 | Client-side SQL Engine |
-| **MongoDB** | 16 | Document Store Sandbox |
-| **Redis** | 16 | In-Memory CLI Sandbox |
-| **GraphQL** | 16 | Interactive GraphQL Runner |
+| **Spring Boot** | 14 | Interactive Spring Sandbox |
+| **React** | 12 | Client-Side React/Babel Runner |
+| **Next.js** | 12 | WebContainers / StackBlitz |
+| **TypeScript** | 12 | Monaco Editor Sandbox |
+| **Python** | 12 | Client-Side Python Sandbox |
+| **Django** | 12 | Python Web Framework Sandbox |
+| **Docker** | 12 | Interactive Docker Terminal |
+| **Node.js** | 12 | WebContainers / StackBlitz |
+| **NestJS** | 12 | WebContainers / StackBlitz |
+| **Vue** | 12 | Client-Side Vue 3 Runner |
+| **PHP** | 12 | In-Browser PHP Playground |
+| **Laravel** | 12 | In-Browser PHP Playground |
+| **C# (.NET)** | 12 | Monaco C# Sandbox |
+| **Ruby on Rails** | 12 | In-Browser Ruby Sandbox |
+| **Svelte** | 10 | Client-Side Svelte Runner |
+| **CodeIgniter 4** | 10 | In-Browser PHP Playground |
+| **PostgreSQL** | 10 | Client-Side SQL Engine |
+| **MySQL** | 10 | Client-Side SQL Engine |
+| **MongoDB** | 10 | Document Store Sandbox |
+| **Redis** | 10 | In-Memory CLI Sandbox |
+| **GraphQL** | 10 | Interactive GraphQL Runner |
+| **Tailwind CSS** | 9 | Tailwind JIT Engine |
 
 ---
 
@@ -143,6 +143,9 @@ Tryngo is an open-source, client-side interactive learning platform offering 28 
 - **npm**, **pnpm**, or **yarn**
 
 ### Installation & Setup
+
+> **Environment Variables:** No `.env` file or API keys are required. All curriculum parsing, search indexing, and code execution sandboxes run 100% client-side in the browser.
+
 ```bash
 # 1. Clone repository
 git clone https://github.com/widifirmaan/tryingo-go-lang-training-apps.git
